@@ -1,0 +1,377 @@
+NOIMPFP  La opción de DOMICILIACIÓN del ingreso en CCC es INCOMPATIBLE con la presentación en PAPEL.
+EP1REP   Existen registros repetidos para la página 1.
+E2COMS2  Página complementaria sin página original.
+ECOMPL1  La Página no puede ser complementaria
+ECOMPL2  La Página es complementaria sin existir la que complementa
+PCOMPL1  La Página no puede ser complementaria
+ENOCO01  La página 1 no admite complementarias
+PCOMPL2  La Página es complementaria sin existir la que complementa
+EDOSLIN  El fichero no puede tener más de una línea.
+EFIC01   El fichero de errores es igual al de flag.
+EFIC02   El fichero de entrada es igual al de flag.
+EFIC03   El fichero de flag es igual al de errores con extensión RST.
+EFLRST	 El fichero de resultados es igual al de flag.
+EMALPAG  Número de página erróneo.
+EREGDUP  Existen registros duplicados.
+EMALMOD  Modelo incorrecto.
+EMODNOS  Los modelos 130 y 131 no están soportados en esta versión.
+EMOD303  El modelo 303 deberá presentarse telemáticamente.
+E303INI  Constante de inicio incorrecta, debe ser "<T30301>".
+ERRIMP   Impresora no preparada o nombre de impresora incorrecto.
+EMALCOM  Carácter indicador de página complementaria debe ser ' ' o 'C'.
+EMALANA  Anagrama erróneo.
+EMALNOM  Apellidos y Nombre del Sujeto Pasivo no se ajustan al formato.
+EMALFIC  No se puede abrir el fichero de entrada.
+EMALDEC  Tipo de declaración debe ser 'N' ó Blanco
+EMALFIE  Fichero de entrada con caracteres extraños
+ETAM01   Tamaño del registro de página 1 erróneo.
+ETAM123  Modelo 123, Tamaño del registro de página 1 erróneo. Compruebe que el diseño de registro se corresponde con el modelo de BOE 29-11-2007.
+EERRRST  Error en el nombre del fichero de errores: no puede tener la extensión RST.
+EENTRST  Coinciden los ficheros de entrada y resultado.
+EFLRST	 Coinciden los ficheros de flag y resultado.
+EMALRST  Error, No se puede crear el fichero de Resultados.
+NOABRO   NO SE PUEDE ABRIR EL FICHERO DE ENTRADA
+WIN001   Nombre de la impresora incorrecto. 
+WIN026   Debe seleccionar Tipo de Papel A4.
+WIN027   Su impresora debe poseer una resolución mínima de 300 puntos por pulgada.
+WIN038   Cambie la orientación del papel para imprimir.
+WIN039   Debe seleccionar la impresión por una sóla cara.
+90018    Sintaxis del comando incorrecta.
+EMALEOL  ERROR, los registros tienen que terminar en CRLF.
+EMERCAN  Sociedades de naturaleza mercantil que tengan la forma de sociedad anónima o sociedad limitada deberán presentar telemáticamente la declaración de forma obligatoria.
+E110051  Código de Delegación debe estar contenido en DELEG.TAB.
+E110052  Código de Delegación-Administración debe estar contenido en ADMON.TAB.
+E110061  Nif del declarante incorrecto
+E110081  Primer Apellido  del declarante incorrecto
+E110082  Primer Apellido  del declarante sin contenido
+E110083  Para personas físicas no se admiten números en el campo apellidos.
+E110091  Nombre del declarante incorrecto
+E110092  Nombre del declarante sin contenido
+E110101  Devengo (2) Ejercicio incorrecto
+E110111  Devengo (2) Periodo incorrecto 
+E110412  Declaración negativa con importe distinto de cero.
+E110413  Declaración no negativa con importe cero.
+E110421  El importe de la casilla 30 no coincide con el de la casilla I.
+E110441  Forma de pago en efectivo es incompatible con adeudo en cuenta/domiciliación.
+E110442  El importe no es negativo y no hay Forma de pago.
+E110443  No es negativa y no hay Forma de pago.
+E110444  El importe es cero y hay Forma de pago.
+E110481  Ingreso (4) - Código cuenta cliente erróneo
+E110482  Ingreso (4) - Código cuenta cliente no tiene contenido habiendo elegido la opción adeudo en cuenta/domiciliación
+E110483  Ingreso (4) - Código cuenta cliente con contenido habiendo elegido la opción en efectivo.
+E110501  Numero de Justificante sin contenido siendo una declaración complementaria
+E115051  Código de Delegación debe estar contenido en DELEG.TAB.
+E115052  Código de Delegación-Administración debe estar contenido en ADMON.TAB.
+E115061  Nif del declarante incorrecto
+E115081  Apellidos o Razón Social incorrecto
+E115082  Primer Apellido  del declarante sin contenido
+E115083  Para personas físicas no se admiten números en el campo apellidos.
+E115091  Nombre del declarante incorrecto
+E115092  Nombre del declarante sin contenido
+E115201  Devengo (2) Ejercicio incorrecto 
+E115211  Devengo (2) Periodo incorrecto
+E115281  Numero de Justificante sin contenido siendo una declaración complementaria
+E115341  El importe de la casilla 5 no coincide con el de la casilla I.
+E115262  Declaración negativa con importe distinto de cero.
+E115263  Declaración no negativa con importe cero.
+E115331  Forma de pago en efectivo es incompatible con adeudo en cuenta/domiciliación.
+E115332  El importe no es negativo y no hay Forma de pago.
+E115333  El importe es cero y hay Forma de pago.
+E115381  Ingreso (5) - Código cuenta cliente erróneo
+E115382  Ingreso (5) - Código cuenta cliente no tiene contenido habiendo elegido la opción adeudo en cuenta/domiciliación
+E115383  Código cuenta cliente con contenido habiendo elegido la opción en efectivo.
+E123051  Código de Delegación debe estar contenido en DELEG.TAB.
+E123052  Código de Delegación-Administración debe estar contenido en ADMON.TAB.
+E123061  Nif del declarante incorrecto
+E123081  Apellidos o Razón Social incorrecto
+E123082  Primer Apellido  del declarante sin contenido
+E123083  Para personas físicas no se admiten números en el campo apellidos.
+E123091  Nombre del declarante incorrecto
+E123092  Nombre del declarante sin contenido
+E123101  Devengo (2) Ejercicio incorrecto
+E123111  Devengo (2) Periodo incorrecto
+E123112  Devengo (2) Periodo incorrecto. El modelo 123 de BOE 29-11-2007 entrará en vigor a partir de Abril de 2008. Debe utilizar el modelo anterior.
+E123192  Declaración negativa con importe distinto de cero.
+E123193  Declaración no negativa con importe cero.
+E123201  El importe de la casilla 8 no coincide con el de la casilla I.
+E123202  Declaración negativa con importe distinto de cero.
+E123203  Declaración no negativa con importe cero.
+E123211  La Forma de pago debe ser "0" (No consta), "1" (En Efectivo), "2" (Adeudo en Cuenta) ó "3" (Domiciliación: sólo presentación telemática)
+E123212  El importe no es negativo y no hay Forma de pago.
+E123213  No es negativa y no hay Forma de pago.
+E123214  El importe es cero y hay Forma de pago.
+E123251  Código cuenta cliente INCORRECTO.
+E123252  Código cuenta cliente no tiene contenido habiendo elegido la opción adeudo en cuenta/domiciliación
+E123253  Código cuenta cliente con contenido habiendo elegido la opción en efectivo.
+E127051  Código de Delegación debe estar contenido en DELEG.TAB.
+E127052  Código de Delegación-Administración debe estar contenido en ADMON.TAB.
+E127061  Nif del declarante incorrecto
+E127081  Apellidos o Razón Social incorrecto
+E127082  Primer Apellido  del declarante sin contenido
+E127083  Para personas físicas no se admiten números en el campo apellidos.
+E127091  Nombre del declarante incorrecto
+E127092  Nombre del declarante sin contenido
+E127201  Devengo (2) Ejercicio incorrecto
+E127211  Devengo (2) Periodo incorrecto
+E127361  El importe de la casilla 6 no coincide con el de la casilla I.
+E127272  Declaración negativa con importe distinto de cero.
+E127273  Declaración no negativa con importe cero.
+E127351  Forma de pago en efectivo es incompatible con adeudo en cuenta.
+E127352  El importe no es negativo y no hay Forma de pago.
+E127353  El importe es cero y hay Forma de pago.
+E127402  Código cuenta cliente no tiene contenido habiendo elegido la opción adeudo en cuenta
+E127401  Código cuenta cliente INCORRECTO.
+E127403  Código cuenta cliente con contenido habiendo elegido la opción en efectivo.
+E1301051 Código de Delegación debe estar contenido en DELEG.TAB.
+E1301052 Código de Delegación-Administración debe estar contenido en ADMON.TAB.
+E1301061 Nif del declarante incorrecto
+E1301081 Primer Apellido  del declarante incorrecto
+E1301082 Primer Apellido  del declarante sin contenido
+E1301083 Para personas físicas no se admiten números en el campo apellidos.
+E1301091 Nombre del declarante incorrecto
+E1301092 Nombre del declarante sin contenido	 
+E1301101 Devengo (2) Ejercicio incorrecto	 
+E1301111 Devengo (2) Periodo incorrecto
+E1301261 El importe de la casilla 14 no coincide con el de la casilla I.
+E1301252 Declaración negativa con importe distinto de cero.
+E1301253 Declaración no negativa con importe cero.
+E1301271 La Forma de pago debe ser "0" (No consta), "1" (En Efectivo), "2" (Adeudo en Cuenta) ó "3" (Domiciliación: sólo presentación telemática)
+E1301272 Si la casilla I tiene contenido la forma de pago es OBLIGATORIA
+E1301273 No es negativa y no hay Forma de pago.
+E1301274 El importe es cero y hay Forma de pago.
+E1301311 Ingreso (4) - Código cuenta cliente erróneo
+E1301312 Ingreso (4) - Código cuenta cliente no tiene contenido habiendo elegido la opción adeudo en cuenta/domiciliación
+E1301313 Ingreso (4) - Código cuenta cliente con contenido habiendo elegido la opción en efectivo.
+E1301331 Numero de Justificante sin contenido siendo una declaración complementaria
+E130061  Nif del declarante incorrecto
+E130081  Primer Apellido  del declarante incorrecto
+E130082  Primer Apellido  del declarante sin contenido
+E130083  Para personas físicas no se admiten números en el campo apellidos.
+E130091  Nombre del declarante incorrecto
+E130092  Nombre del declarante sin contenido	 
+E130101  Devengo (2) Ejercicio incorrecto	 
+E130111  Devengo (2) Periodo incorrecto
+E130241  La minoración por aplicación de la deducción del art.80 no puede ser superior a 200 para el 2º Trimestre
+E130242  La minoración por aplicación de la deducción del art.80 no puede ser superior a 100 para el 3º y 4º Trimestre
+E130291  Declaración negativa con importe positivo (4º trimestre).
+E130292  Declaración negativa con importe distinto de cero.
+E130293  Declaración no negativa con importe cero.
+E130294  Declaración no negativa con importe negativo (4º trimestre).
+E130301  El importe de la casilla 18 no coincide con el de la casilla I.
+E130302  Si el importe de la casilla 18 es negativo la casilla I no puede tener contenido.
+E130311  La Forma de pago debe ser "0" (No consta), "1" (En Efectivo), "2" (Adeudo en Cuenta) ó "3" (Domiciliación: sólo presentación telemática)
+E130312  Si la casilla I tiene contenido la forma de pago es OBLIGATORIA
+E130313  Si el Resultado de la declaración es POSITIVO, se debe consignar la Forma de pago.
+E130314  Si el Resultado de la declaración NO es POSITIVO, no se debe consignar la Forma de pago.
+E130351  Ingreso (4) - Código cuenta cliente erróneo
+E130352  Ingreso (4) - Código cuenta cliente no tiene contenido habiendo elegido la opción adeudo en cuenta/domiciliación
+E130353  Ingreso (4) - Código cuenta cliente con contenido habiendo elegido la opción en efectivo.
+E130361  A deducir (5) - Si la casilla 18 es menor que 0, debe marcarse la casilla "Declaración con resultado a deducir en los siguientes pagos fraccionados".
+E130362  A deducir (5) - Si la casilla 18 es mayor o igual a 0, NO debe marcarse la casilla "Declaración con resultado a deducir en los siguientes pagos fraccionados".
+E130371  Numero de Justificante sin contenido siendo una declaración complementaria
+E1311051 Código de Delegación debe estar contenido en DELEG.TAB.
+E1311052 Código de Delegación-Administración debe estar contenido en ADMON.TAB.
+E1311061 Nif del declarante incorrecto
+E1311081 Primer Apellido  del declarante incorrecto
+E1311082 Primer Apellido  del declarante sin contenido
+E1311083 Para personas físicas no se admiten números en el campo apellidos.
+E1311091 Nombre del declarante incorrecto
+E1311092 Nombre del declarante sin contenido	  
+E1311101 Devengo (2) Ejercicio incorrecto	  
+E1311111 Devengo (2) Periodo incorrecto
+E1311432 Declaración negativa con importe distinto de cero.
+E1311433 Declaración no negativa con importe cero.
+E1311441 El importe de la casilla 12 no coincide con el de la casilla I.
+E1311442 Si el importe de la casilla 12 es menor que 0 la casilla I no puede tener contenido.
+E1311451 La Forma de pago debe ser "0" (No consta), "1" (En Efectivo), "2" (Adeudo en Cuenta) ó "3" (Domiciliación: sólo presentación telemática)
+E1311452 Si la casilla I tiene contenido la forma de pago es OBLIGATORIA
+E1311453 Si el Resultado de la declaración es POSITIVO, se debe consignar la Forma de pago.
+E1311454 Si el Resultado de la declaración NO es POSITIVO, no se debe consignar la Forma de pago.
+E1311491 Ingreso (4) - Código cuenta cliente erróneo.
+E1311492 Ingreso (4) - Código cuenta cliente no tiene contenido habiendo elegido la opción adeudo en cuenta/domiciliación
+E1311493 Ingreso (4) - Código cuenta cliente con contenido habiendo elegido la opción en efectivo.
+E1311501 A deducir (5) - Si la casilla 12 es menor que 0, debe marcarse la casilla "Declaración con resultado a deducir en los siguientes pagos fraccionados".
+E1311502 A deducir (5) - Si la casilla 12 es mayor o igual a 0, NO debe marcarse la casilla "Declaración con resultado a deducir en los siguientes pagos fraccionados".
+E1311521 Numero de Justificante sin contenido siendo una declaración complementaria.
+E131061  Nif del declarante incorrecto
+E131081  Primer Apellido  del declarante incorrecto
+E131082  Primer Apellido  del declarante sin contenido
+E131083  Para personas físicas no se admiten números en el campo apellidos.
+E131091  Nombre del declarante incorrecto
+E131092  Nombre del declarante sin contenido	  
+E131101  Devengo (2) Ejercicio incorrecto	  
+E131111  Devengo (2) Periodo incorrecto
+E131391  La minoración por aplicación de la deducción del art.80 no puede ser superior a 200 para el 2º Trimestre
+E131392  La minoración por aplicación de la deducción del art.80 no puede ser superior a 100 para el 3º y 4º Trimestre
+E131441  Declaración negativa con importe positivo (4º trimestre).
+E131442  Declaración negativa con importe distinto de cero.
+E131443  Declaración no negativa con importe cero.
+E131444  Declaración no negativa con importe negativo (4º trimestre).
+E131451  El importe de la casilla 13 no coincide con el de la casilla I.
+E131452  Si el importe de la casilla 13 es menor que 0 la casilla I no puede tener contenido.
+E131461  La Forma de pago debe ser "0" (No consta), "1" (En Efectivo), "2" (Adeudo en Cuenta) ó "3" (Domiciliación: sólo presentación telemática)
+E131462  Si la casilla I tiene contenido la forma de pago es OBLIGATORIA
+E131463  Si el Resultado de la declaración es POSITIVO, se debe consignar la Forma de pago.
+E131464  Si el Resultado de la declaración NO es POSITIVO, no se debe consignar la Forma de pago.
+E131501  Ingreso (4) - Código cuenta cliente erróneo.
+E131502  Ingreso (4) - Código cuenta cliente no tiene contenido habiendo elegido la opción adeudo en cuenta/domiciliación
+E131503  Ingreso (4) - Código cuenta cliente con contenido habiendo elegido la opción en efectivo.
+E131511  A deducir (5) - Si la casilla 13 es menor que 0, debe marcarse la casilla "Declaración con resultado a deducir en los siguientes pagos fraccionados".
+E131512  A deducir (5) - Si la casilla 13 es mayor o igual a 0, NO debe marcarse la casilla "Declaración con resultado a deducir en los siguientes pagos fraccionados".
+E131521  Numero de Justificante sin contenido siendo una declaración complementaria.
+E202051  Código de Delegación debe estar contenido en DELEG.TAB.
+E202052  Código de Delegación-Administración debe estar contenido en ADMON.TAB.
+E202061  Nif del declarante incorrecto
+E202081  Primer Apellido  del declarante incorrecto
+E202082  Primer Apellido  del declarante sin contenido
+E202083  Para personas físicas no se admiten números en el campo apellidos.
+E202091  Nombre del declarante incorrecto
+E202092  Nombre del declarante sin contenido	
+E202201  Devengo (2) Ejercicio incorrecto
+E202211  Devengo (2) Periodo incorrecto
+E202431  Las casillas 20 y 03 no pueden tener contenido simultaneamente.
+E202451  Numero de Justificante sin contenido siendo una declaración complementaria
+E202511  El importe de la casilla 20 ó 03 no coincide con el de la casilla I.
+E202501  Forma de pago en efectivo es incompatible con adeudo en cuenta/domiciliación.
+E202502  El importe no es negativo y no hay Forma de pago.
+E202503  El importe es cero y hay Forma de pago.
+E202551  Ingreso (6) - Código cuenta cliente erróneo	
+E202552  Ingreso (6) - Código cuenta cliente no tiene contenido habiendo elegido la opción adeudo en cuenta/domiciliación
+E202553  Ingreso (6) - Código cuenta cliente con contenido habiendo elegido la opción en efectivo.
+E303071  Nif del declarante incorrecto 
+E303081  Primer Apellido  del declarante incorrecto
+E303082  Primer Apellido  del declarante sin contenido
+E303083  Para personas físicas no se admiten números en el campo apellidos.
+E303091  Nombre del declarante incorrecto
+E303092  Nombre del declarante sin contenido	
+E303101  Inscrito en el Registro de devolución mensual debe ser "1" ó "2".
+E303102  Si está inscrito en el Registro de devolución mensual es obligatoria la presentación telemática.
+E303111  Devengo (2) Ejercicio incorrecto	
+E303121  Devengo (2) Periodo incorrecto	
+E303122  El periodo no puede ser trimestral si está inscrito en el Registro de devolución mensual.	
+E303123  Si el periodo es mensual es obligatoria la presentación telemática.	
+E303511  Atribuible a la Administración del Estado no puede ser superior a 100.
+E303601  Contenido incorrecto en la casilla de resultado.
+E303611  No coincide la casilla de resultado con la de compensación.
+E303621  Marca sin actividad debe ser "0" ó "1".
+E303622  Marca sin actividad no puede ser "0" si el resultado de la liquidación es "0".
+E303623  Marca sin actividad no puede ser "1" si el resultado de la liquidación es distinto "0".
+E303631  Solo el cuarto trimestre puede ser devolución.
+E303633  Si el resultado es negativo ha de ser igual a devolución o compensación.
+E303632  Devolución y compensación con contenido simultaneamente.
+E303634  Si el periodo es mensual y es una devolución, Inscrito en el Registro de devolución mensual no puede ser "2".
+E303671  Devolución (6) - Código cuenta cliente erróneo.
+E303672  Devolución (6) - Código cuenta cliente con contenido sin importe de devolución.
+E303673  Devolución (6) - Código cuenta cliente sin contenido.
+E303691  No coincide la casilla de resultado con la de ingreso.
+E303692  El resultado no coincide con la compensación, el ingreso o la devolución.
+E303693  Ingreso y compensación con contenido simultaneamente.
+E303694  Ingreso y devolución con contenido simultaneamente.
+E303695  El importe no es negativo y no hay Forma de pago.
+E303696  No es negativa y no hay Forma de pago.
+E303697  El importe es cero y hay Forma de pago.
+E303681  La Forma de pago debe ser "0" (No consta), "1" (En Efectivo), "2" (Adeudo en Cuenta) ó "3" (Domiciliación: sólo presentación telemática)
+E303732  Ingreso (7) - Código cuenta cliente no tiene contenido habiendo elegido la opción adeudo en cuenta/domiciliación
+E303731  Ingreso (7) - Código cuenta cliente erróneo
+E303733  Ingreso (7) - Código cuenta cliente con contenido habiendo elegido la opción en efectivo.
+E303734  Las cuentas de ingreso y devolución no pueden tener contenido simultaneamente. 
+E303735  Si el tipo de declaración es Domiciliación debe consignar una cuenta de ingreso. 
+E303736  Ingreso (7) - Código cuenta cliente con contenido siendo el importe cero.
+E303741  Indicador Autoliquidación complementaria debe ser "0" ó "1".
+E303751  El número de justificante de la declaración anterior debe comenzar por "302" ó "303".
+E303752  Si la declaración no es complementaria el número de justificante de la declaración anterior no puede tener contenido.
+E303811  Indicador de Fin de registro debe ser "</T30301>".
+E310051  Código de Delegación debe estar contenido en DELEG.TAB.
+E310052  Código de Delegación-Administración debe estar contenido en ADMON.TAB.
+E310061  Nif del declarante incorrecto
+E310081  Primer Apellido  del declarante incorrecto
+E310082  Primer Apellido  del declarante sin contenido
+E310083  Para personas físicas no se admiten números en el campo apellidos.
+E310091  Nombre del declarante incorrecto
+E310092  Nombre del declarante sin contenido	
+E310101  Devengo (2) Ejercicio incorrecto	
+E310111  Devengo (2) Periodo incorrecto 
+E310421  El importe de la casilla 12 no coincide con el de la casilla C.
+E310441  Numero de Justificante sin contenido siendo una declaración complementaria
+E310481  El importe de la casilla 12 no coincide con el de la casilla I.
+E310482  La casilla C y la casilla I no pueden tener contenido simultaneamente.
+E310483  Si tipo de declaración es "N" el resultado de la declaración debe ser cero.
+E310491  La Forma de pago debe ser "0" (No consta), "1" (En Efectivo), "2" (Adeudo en Cuenta) ó "3" (Domiciliación: sólo presentación telemática)
+E310492  El importe no es negativo y no hay Forma de pago.
+E310493  El importe es cero y hay Forma de pago.
+E310531  Ingreso (6) - Código cuenta cliente erróneo
+E310532  Ingreso (6) -Código cuenta cliente no tiene contenido habiendo elegido la opción adeudo en cuenta/domiciliación
+E310533  Ingreso (6) - Código cuenta cliente con contenido habiendo elegido la opción en efectivo.
+E311051  Código de Delegación debe estar contenido en DELEG.TAB.
+E311052  Código de Delegación-Administración debe estar contenido en ADMON.TAB.
+E311061  Nif del declarante incorrecto
+E311081  Primer Apellido  del declarante incorrecto
+E311082  Primer Apellido  del declarante sin contenido 
+E311083  Para personas físicas no se admiten números en el campo apellidos.
+E311091  Nombre del declarante incorrecto
+E311092  Nombre del declarante sin contenido							   
+E311201  Devengo (2) Ejercicio incorrecto
+E311211  Devengo (2) Periodo incorrecto
+E311481  Contenido incorrecto en la casilla de resultado[16].
+E311503  No coincide la casilla de resultado con la de devolucion ni con la de compensación.
+E311502  Compensación y devolución con contenido simultaneamente.
+E311564  ingreso y devolución con contenido simultaneamente.
+E311563  Compensación e ingreso con contenido simultaneamente.
+E311562  El resultado es cero y el ingreso, la devolución o la compensación no.
+E311561  No coincide la casilla de resultado con la de importe.	 
+E311565  El importe no es negativo y no hay Forma de pago.
+E311566  No es negativa y no hay Forma de pago.
+E311567  El importe es cero y hay Forma de pago.
+E311551  La Forma de pago debe ser "0" (No consta), "1" (En Efectivo), "2" (Adeudo en Cuenta) ó "3" (Domiciliación: sólo presentación telemática)
+E311541  Devolución (6) - Código cuenta cliente erróneo
+E311543  Devolución (6) - Código cuenta cliente sin contenido
+E311542  Devolución (6) - Código cuenta cliente con contenido sin importe de devolución
+E311601  Ingreso (7) - Código cuenta cliente erróneo
+E311602  Ingreso (7) - Código cuenta cliente no tiene contenido habiendo elegido la opción adeudo en cuenta/domiciliación
+E311603  Ingreso (7) - Código cuenta cliente con contenido habiendo elegido la opción en efectivo.
+E311604  Las cuentas de ingreso y devolución no pueden tener contenido simultaneamente. 
+E311621  Numero de Justificante sin contenido siendo una declaración complementaria
+/*
+E110071  !! Segundo Apellido del declarante incorrecto
+E110072  !! Segundo Apellido del declarante sin contenido
+E110462  !! Para cuota a ingresar mayor que cero > 0, debe consignarse la forma de pago
+E110482  !! Si la declaración es positiva forma de pago en efectivo y adeudo en cuenta tienen que tener contenido
+E115071  !!Segundo Apellido del declarante incorrecto
+E115072  !!Segundo Apellido del declarante sin contenido
+E115181  !!Importe del ingreso debe tener contenido si cuota a ingresar es mayor que cero 
+E115202  !!Para cuota a ingresar mayor que cero > 0, debe consignarse la forma de pago
+E115591  !!Si la declaración es positiva forma de pago en efectivo y adeudo en cuenta tienen que tener contenido	
+E130071  !!Segundo Apellido del declarante incorrecto
+E130072  !!Segundo Apellido del declarante sin contenido
+E130181  !!Importe del ingreso debe tener contenido si cuota a ingresar es mayor que cero 
+E130202  !!Para cuota a ingresar mayor que cero > 0, debe consignarse la forma de pago
+E130591  !!Si la declaración es positiva forma de pago en efectivo y adeudo en cuenta tienen que tener contenido
+E131071  !!Segundo Apellido del declarante incorrecto
+E131072  !!Segundo Apellido del declarante sin contenido
+E131181  !!Importe del ingreso debe tener contenido si cuota a ingresar es mayor que cero 
+E131202  !!Para cuota a ingresar mayor que cero > 0, debe consignarse la forma de pago	  
+E131591  !!Si la declaración es positiva forma de pago en efectivo y adeudo en cuenta tienen que tener contenido
+E202071  !!Segundo Apellido del declarante incorrecto
+E202072  !!Segundo Apellido del declarante sin contenido
+E202181  !!Importe del ingreso debe tener contenido si cuota a ingresar es mayor que cero 
+E202202  !!Para cuota a ingresar mayor que cero > 0, debe consignarse la forma de pago
+E202591  !!Si la declaración es positiva forma de pago en efectivo y adeudo en cuenta tienen que tener contenido
+E300071  !!Segundo Apellido del declarante incorrecto
+E300072  !!Segundo Apellido del declarante sin contenido
+E300181  !!Importe del ingreso debe tener contenido si cuota a ingresar es mayor que cero 
+E300202  !!Para cuota a ingresar mayor que cero > 0, debe consignarse la forma de pago
+E300591  !!Si la declaración es positiva forma de pago en efectivo y adeudo en cuenta tienen que tener contenido
+E300701  !!Numero de Justificante sin contenido siendo una declaración complementaria
+E310071  !!Segundo Apellido del declarante incorrecto
+E310512  !!Declaración negativa con importe distinto de cero.
+E310513  !!Declaración no negativa con importe cero.
+E310072  !!Segundo Apellido del declarante sin contenido
+E310181  !!Importe del ingreso debe tener contenido si cuota a ingresar es mayor que cero 
+E310202  !!Para cuota a ingresar mayor que cero > 0, debe consignarse la forma de pago
+E310591  !!Si la declaración es positiva forma de pago en efectivo y adeudo en cuenta tienen que tener contenido
+E311071  !!Segundo Apellido del declarante incorrecto
+E311072  !!Segundo Apellido del declarante sin contenido
+E311181  !!Importe del ingreso debe tener contenido si cuota a ingresar es mayor que cero 
+E311202  !!Para cuota a ingresar mayor que cero > 0, debe consignarse la forma de pago
+E311591  !!Si la declaración es positiva forma de pago en efectivo y adeudo en cuenta tienen que tener contenido
+*/

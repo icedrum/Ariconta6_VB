@@ -1,0 +1,870 @@
+{\rtf1\ansi\ansicpg1252\uc1 \deff0\deflang1033\deflangfe3082{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f1\fswiss\fcharset0\fprq2{\*\panose 020b0604020202020204}Arial;}
+{\f2\fmodern\fcharset0\fprq1{\*\panose 02070309020205020404}Courier New;}{\f3\froman\fcharset2\fprq2{\*\panose 05050102010706020507}Symbol;}{\f4\froman\fcharset0\fprq2{\*\panose 00000000000000000000}Times;}
+{\f5\fswiss\fcharset0\fprq2{\*\panose 00000000000000000000}Helvetica;}{\f6\fmodern\fcharset0\fprq1{\*\panose 00000000000000000000}Courier;}{\f7\fswiss\fcharset0\fprq2{\*\panose 00000000000000000000}Geneva;}
+{\f8\froman\fcharset0\fprq2{\*\panose 00000000000000000000}Tms Rmn;}{\f9\fswiss\fcharset0\fprq2{\*\panose 00000000000000000000}Helv;}{\f10\froman\fcharset0\fprq2{\*\panose 00000000000000000000}MS Serif;}
+{\f11\fswiss\fcharset0\fprq2{\*\panose 00000000000000000000}MS Sans Serif;}{\f12\froman\fcharset0\fprq2{\*\panose 00000000000000000000}New York;}{\f13\fswiss\fcharset0\fprq2{\*\panose 00000000000000000000}System;}
+{\f14\fnil\fcharset2\fprq2{\*\panose 05000000000000000000}Wingdings;}{\f15\fswiss\fcharset0\fprq3{\*\panose 020b0604030504040204}Tahoma;}{\f16\froman\fcharset238\fprq2 Times New Roman CE;}{\f17\froman\fcharset204\fprq2 Times New Roman Cyr;}
+{\f19\froman\fcharset161\fprq2 Times New Roman Greek;}{\f20\froman\fcharset162\fprq2 Times New Roman Tur;}{\f21\froman\fcharset186\fprq2 Times New Roman Baltic;}{\f22\fswiss\fcharset238\fprq2 Arial CE;}{\f23\fswiss\fcharset204\fprq2 Arial Cyr;}
+{\f25\fswiss\fcharset161\fprq2 Arial Greek;}{\f26\fswiss\fcharset162\fprq2 Arial Tur;}{\f27\fswiss\fcharset186\fprq2 Arial Baltic;}}{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;
+\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;\red192\green192\blue192;}
+{\stylesheet{\nowidctlpar\widctlpar\adjustright \fs20\lang3082\cgrid \snext0 Normal;}{\*\cs10 \additive Default Paragraph Font;}}{\*\listtable{\list\listtemplateid1063393928\listsimple{\listlevel\levelnfc23\leveljc0\levelfollow0\levelstartat4\levelspace0
+\levelindent0{\leveltext\'01-;}{\levelnumbers;}\f0\fbias0 \fi-360\li360\jclisttab\tx360 }{\listname ;}\listid74740622}{\list\listtemplateid1063393928\listsimple{\listlevel\levelnfc23\leveljc0\levelfollow0\levelstartat4\levelspace0\levelindent0{\leveltext
+\'01-;}{\levelnumbers;}\f0\fbias0 \fi-360\li360\jclisttab\tx360 }{\listname ;}\listid432287206}{\list\listtemplateid1063393928\listsimple{\listlevel\levelnfc23\leveljc0\levelfollow0\levelstartat4\levelspace0\levelindent0{\leveltext\'01-;}{\levelnumbers;}
+\f0\fbias0 \fi-360\li360\jclisttab\tx360 }{\listname ;}\listid772435518}{\list\listtemplateid1063393928\listsimple{\listlevel\levelnfc23\leveljc0\levelfollow0\levelstartat4\levelspace0\levelindent0{\leveltext\'01-;}{\levelnumbers;}\f0\fbias0 \fi-360\li360
+\jclisttab\tx360 }{\listname ;}\listid1370912773}{\list\listtemplateid-1258271698\listsimple{\listlevel\levelnfc3\leveljc0\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\'02\'00);}{\levelnumbers\'01;}\fbias0 \fi-360\li360\jclisttab\tx360 }
+{\listname ;}\listid1390497252}{\list\listtemplateid-1589446256\listsimple{\listlevel\levelnfc23\leveljc0\levelfollow0\levelstartat0\levelspace0\levelindent0{\leveltext\'01-;}{\levelnumbers;}\f0\fbias0 \fi-360\li360\jclisttab\tx360 }{\listname 
+;}\listid1946691304}}{\*\listoverridetable{\listoverride\listid772435518\listoverridecount0\ls1}{\listoverride\listid1946691304\listoverridecount0\ls2}{\listoverride\listid1370912773\listoverridecount0\ls3}{\listoverride\listid432287206
+\listoverridecount0\ls4}{\listoverride\listid74740622\listoverridecount0\ls5}{\listoverride\listid1390497252\listoverridecount0\ls6}}{\info{\title MEMORIA ANUAL EJERCICIO DE 2001}{\author Emilio Garcia}{\operator david}
+{\creatim\yr2003\mo12\dy4\hr17\min33}{\revtim\yr2004\mo5\dy24\hr10\min51}{\version3}{\edmins0}{\nofpages1}{\nofwords5615}{\nofchars32011}{\*\company Grupo SP}{\nofcharsws39311}{\vern73}}\paperw11907\paperh16840\margl1701\margr1701\margt1418\margb1418 
+\widowctrl\ftnbj\aenddoc\hyphhotz425\noxlattoyen\expshrtn\noultrlspc\dntblnsbdb\nospaceforul\hyphcaps0\viewkind4\viewscale100 \fet0\sectd \psz9\linex0\headery709\footery709\colsx709\sectdefaultcl {\*\pnseclvl1\pnucrm\pnstart1\pnindent720\pnhang
+{\pntxta .}}{\*\pnseclvl2\pnucltr\pnstart1\pnindent720\pnhang{\pntxta .}}{\*\pnseclvl3\pndec\pnstart1\pnindent720\pnhang{\pntxta .}}{\*\pnseclvl4\pnlcltr\pnstart1\pnindent720\pnhang{\pntxta )}}{\*\pnseclvl5\pndec\pnstart1\pnindent720\pnhang{\pntxtb (}
+{\pntxta )}}{\*\pnseclvl6\pnlcltr\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}{\*\pnseclvl7\pnlcrm\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}{\*\pnseclvl8\pnlcltr\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}{\*\pnseclvl9
+\pnlcrm\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}\pard\plain \fi-720\li720\nowidctlpar\adjustright \fs20\lang3082\cgrid {\f1\lang1034\cgrid0 
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par }{\f1\fs36\ul\lang1034\cgrid0 MEMORIA ANUAL EJERCICIO DE 2002
+\par }{\f1\lang1034\cgrid0 
+\par 
+\par Que presenta David Gandul Castells a la Junta General ordinaria, en aplicaci\'f3n del Cap\'edtulo VII del T.R.L.S.A., VI de la Ley de Sociedades Limitadas y III del R.R.M, el pr\'f3ximo d\'eda 30 de Julio de 2002
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA  1 -----------.
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\fs24\lang1034\cgrid0 ACTIVIDAD DE LA EMPRESA.
+\par }{\f1\lang1034\cgrid0 
+\par 
+\par El objeto social de la compa\'f1\'eda es:
+\par 
+\par \tab 1.-  .............................................................
+\par   \tab       .............................................................
+\par     \tab       .............................................................
+\par 
+\par \tab 2.-  .............................................................
+\par      \tab       .............................................................
+\par       \tab       .............................................................
+\par 
+\par \tab 3.-  .............................................................
+\par       \tab       .............................................................
+\par                    ............................................................. 
+\par 
+\par 
+\par La actividad fundamental de la Sociedad, dentro de su objeto social es: ............................................................................................................................................
+\par ............................................................................................................................................
+\par 
+\par El domicilio social es: ............................................................ El n\'famero de Identificaci\'f3n Fiscal de la Empresa Ariadna Software, S.L. es................
+\par La Sociedad est\'e1 inscrita en el Registro Mercantil de ..................el d\'eda ... de ............... de ...., Tomo ........., Folio ...........Secci\'f3n ..........., Hoja .............
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA  2 -----------
+\par 
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 BASES DE PRESENTACION DE LAS CUENTAS ANUALES
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 \tab }{\b\f1\ul\lang1034\cgrid0 A.- IMAGEN FIEL:
+\par }{\f1\lang1034\cgrid0 
+\par No ha habido razones excepcionales que afecten a la imagen fiel de la Sociedad, no se han aplicado disposiciones legales en materia contable e influencia de tal proceder sobre el patrimonio, la situaci\'f3n financiera y los resultados de la Empresa.
+
+\par 
+\par Las cuentas anuales adjuntas se encuentran pendientes de aprobaci\'f3n, se han extra\'eddo de los registros auxiliares, ya que los libros oficiales est\'e1n pendientes de legalizaci\'f3n. ( fecha l\'edmite 30 de Abril ).
+\par 
+\par 
+\par 
+\par \tab }{\b\f1\ul\lang1034\cgrid0 B.- PRINCIPIOS CONTABLES:
+\par }{\f1\lang1034\cgrid0 
+\par 
+\par Para mostrar la imagen fiel, no ha habido razones excepcionales que justifiquen la falta de aplicaci\'f3n de alg\'fan principio contable obligatorio.
+\par 
+\par No se han aplicado otros principios contables no obligatorios, para mostrar la imagen fiel.
+\par 
+\par 
+\par 
+\par \tab }{\b\f1\ul\lang1034\cgrid0 C.- COMPARACION DE LA INFORMACION:}{\f1\lang1034\cgrid0 
+\par 
+\par 
+\par No se ha modificado la estructura del Balance y Cuenta de P\'e9rdidas y Ganancias del Ejercicio 2002 para poder comparar la informaci\'f3n de los dos ejercicios objeto de an\'e1lisis.
+\par 
+\par No hay causas que impidan la comparaci\'f3n de las Cuentas Anuales del Ejercicio con las del precedente.
+\par 
+\par 
+\par \tab 
+\par \tab }{\b\f1\ul\lang1034\cgrid0 D.- AGRUPACION DE PARTIDAS:
+\par }{\f1\lang1034\cgrid0 
+\par 
+\par No hay desglose de partidas precedidas de n\'fameros \'e1rabes que hayan sido objeto de agrupaci\'f3n en el Balance o en la Cuenta de P\'e9rdidas y Ganancias.
+\par 
+\par 
+\par 
+\par \tab }{\b\f1\ul\lang1034\cgrid0 E.- ELEMENTOS RECOGIDOS EN VARIAS PARTIDAS:}{\f1\lang1034\cgrid0 
+\par 
+\par 
+\par No hay elementos patrimoniales que con su importe, est\'e9n registrados en dos o m\'e1s partidas del Balance.
+\par 
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA  3 -----------
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 DISTRIBUCION DE RESULTADOS}{\f1\lang1034\cgrid0 .
+\par 
+\par De acuerdo con lo previsto en los art\'edculos 171, 213 y 218 del T.R.L.S.A. de aplicaci\'f3n a las S.A. y S.L. ( seg\'fan art. 26 de su Ley ), se formula la siguiente propuesta de aplicaci\'f3n de los Resultados del ejercicio de 2002
+, a la Junta General ordinaria:
+\par 
+\par 
+\par 
+\par }{\b\f1\lang2070\cgrid0 BASES DE REPARTO:
+\par }{\f1\lang2070\cgrid0 
+\par }{\f1\lang1034\cgrid0 PERDIDAS Y GANANCIAS  ............... \tab \tab \tab 0,00
+\par REMANENTE...................................... \tab \tab \tab ...................
+\par RESERVAS VOLUNTARIAS..............\tab \tab \tab ...................
+\par RESERVAS.........................................\tab \tab \tab ...................
+\par \tab \tab \tab \tab \tab \tab \tab -------------------
+\par }\pard \fi720\nowidctlpar\adjustright {\f1\lang1034\cgrid0 TOTAL....................................\tab \tab \tab ....................
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0                                       
+\par 
+\par 
+\par }{\b\f1\lang1034\cgrid0 
+\par APLICACION DE RESULTADOS:
+\par }{\f1\lang1034\cgrid0 
+\par A RESERVA LEGAL........................... \tab \tab \tab ...............
+\par A RESERVAS ESPECIALES..............\tab \tab \tab ...............
+\par A RESERVAS VOLUNTARIAS........... \tab \tab \tab ...............
+\par A .........................................................\tab \tab \tab ...............
+\par A DIVIDENDOS............................\tab \tab \tab ...............
+\par }{\f1\lang2070\cgrid0 A .........................................................\tab \tab \tab ...............
+\par A COMP. }{\f1\lang1034\cgrid0 DE PERDIDAS DE EJ.ANTERIORES.... \tab ...............
+\par \tab \tab \tab \tab \tab \tab \tab ---------------
+\par }\pard \fi720\nowidctlpar\adjustright {\f1\lang1034\cgrid0 SUMA.....................................\tab \tab \tab ...............
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par 
+\par El resultado del Ejercicio es neto de impuestos.
+\par El impuesto devengado del ejercicio es de -394,36 euros.
+\par Los dividendos a cuenta durante el ejercicio de 2002 han sido de 0,00 euros.
+\par 
+\par 
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA  4 -----------
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 CRITERIOS Y NORMAS DE VALORACION.
+\par }{\f1\lang1034\cgrid0 
+\par Los aceptados por la Empresa, que de ser de aplicaci\'f3n, se han utilizado, cuenta por cuenta, son los siguientes:
+\par 
+\par }{\b\f1\lang1034\cgrid0 \tab 4.1.- Gastos de Constituci\'f3n  y ampliaci\'f3n de Capital
+\par }{\f1\lang1034\cgrid0 
+\par Los Gastos de Constituci\'f3n y ampliaci\'f3n de Capital se presentan valorados a su coste hist\'f3rico, neto de las amortizaciones practicadas hasta la fecha.
+\par 
+\par Los gastos recogidos en este apartado, entre otros son los siguientes:
+\par 
+\par \tab * Honorarios de profesionales, notario, asesores, Registro Mercantil.
+\par }\pard \li720\nowidctlpar\adjustright {\f1\lang1034\cgrid0 * Impuestos de transmisiones patrimoniales y Actos jur\'eddicos documentados: el 1% de la cifra de Capital Social.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par Para las cuentas incluidas en este apartado:
+\par 
+\par \tab 200 Gastos de Constituci\'f3n.
+\par \tab 201 Gastos de Primer Establecimiento.
+\par \tab 202 Gastos de Ampliaci\'f3n de Capital.
+\par \tab 270 Gastos de Formalizaci\'f3n de deudas.
+\par \tab 271 Gastos por intereses diferidos de valores negociables.
+\par \tab 272 Gastos por intereses diferidos.
+\par 
+\par Los gastos de formalizaci\'f3n de deudas se valoran a su coste hist\'f3rico neto de las amortizaciones hasta la fecha y la imputaci\'f3n se hace en funci\'f3n del capital vivo en cada momento y con el l\'edmite de amortizaci\'f3n de cinco a\'f1os.
+\par 
+\par Se aplica el criterio de capitalizar aquellos importes cuya recuperaci\'f3n se producir\'e1 en varios ejercicios: los servicios adquiridos en el exterior por precio de adquisici\'f3
+n, y los generados en el seno de las propia Empresa, por su coste de producci\'f3n.
+\par 
+\par La amortizaci\'f3n con cargo a resultados del ejercicio 2002 asciende a 0,00 euros.
+\par La amortizaci\'f3n m\'e1xima aplicada es de cinco a\'f1os.
+\par 
+\par Ante circunstancias favorables, se proceder\'e1 a un saneamiento acelerado de estos Gastos.
+\par 
+\par 
+\par 
+\par }{\b\f1\lang1034\cgrid0 \tab 4.2.- Inmovilizado inmaterial
+\par }{\f1\lang1034\cgrid0 
+\par Los elementos patrimoniales aqu\'ed contenidos son de car\'e1cter intangible y se valoran a su precio de adquisici\'f3n, si se han comprado al exterior, o por su coste de producci\'f3n, si han sido fabricados en el seno de la propia Empresa.
+\par 
+\par Las eventuales adquisiciones a t\'edtulo gratuito, se activan a su valor venal.
+\par 
+\par Se deducen las depreciaciones duraderas irreversibles debidas al uso del inmovilizado inmaterial, aplicando amortizaciones, con criterio sistem\'e1tico, y seg\'fan el ciclo de vida \'fatil del producto, atendiendo a la depreciaci\'f3n que sufran
+ por funcionamiento, uso u obsolescencia.
+\par 
+\par Para posibles depreciaciones duraderas pero no irreversibles, se efect\'faan las correspondientes dotaciones a las cuentas de provisiones.
+\par 
+\par Las partidas que hayan perdido, de forma irreversible, todo su valor, se sanean completamente, haci\'e9ndolas desaparecer del activo.
+\par 
+\par Propiedad Industrial: recoge los gastos de I+D realizados por la empresa o los satisfechos a empresas independientes para la obtenci\'f3n de una Patente. La amortizaci\'f3n es lineal en cinco a\'f1os.
+\par 
+\par Aplicaciones Inform\'e1ticas: Programas inform\'e1ticos propios o comprados a empresas independientes a su coste de compra o coste de producci\'f3n. La amortizaci\'f3n es de car\'e1cter lineal en 4 a\'f1os.
+\par 
+\par }{\b\f1\lang1034\cgrid0 \tab BIENES EN REGIMEN DE ARRENDAMIENTO FINANCIERO (LEASING)
+\par }{\f1\lang1034\cgrid0 
+\par Se contabilizan como activos por su valor de contado, reflejando en el pasivo la deuda total m\'e1s el importe de la opci\'f3
+n de compra. La diferencia entre unos y otros, es el gasto financiero de las operaciones, que se contabiliza como gasto a distribuir en varios ejercicios con un criterio financiero.
+\par 
+\par Los derechos registrados como activos se amortizan atendiendo a su vida \'fatil.
+\par 
+\par Durante el ejercicio de 2002, la sociedad ha realizado amortizaciones de inmovilizado inmaterial en 491,95 euros, y provisiones de inmovilizado inmaterial por importe de 0,00 euros.
+\par 
+\par La provisi\'f3n por depreciaci\'f3n del inmovilizado inmaterial se utiliza para corregir los valores contables a las circunstancias de mercado, al cierre del ejercicio econ\'f3mico incluidas las amortizaciones acumuladas ha
+sta la fecha. Las provisiones van rebajando los saldos en funci\'f3n de las circunstancias que las motivaron hasta hacerlas desaparecer.
+\par 
+\par 
+\par \tab }{\b\f1\lang1034\cgrid0 4.3.- Inmovilizado material
+\par 
+\par }{\f1\lang1034\cgrid0 Capitalizaci\'f3n de intereses y diferencias de cambio, amortizaci\'f3n y dotaci\'f3n de provisiones, costos de ampliaci\'f3n, modernizaci\'f3
+n y mejoras adquiridas o efectuadas por la sociedad, actualizaciones amparadas en una Ley de actualizaci\'f3n de valores.
+\par 
+\par 1.- Se aplica el criterio de amortizar de forma lineal a todo lo largo de la vida \'fatil del producto. Si se producen p\'e9rdidas reversibles se dota la Provisi\'f3n correspondiente, que se aplica si la p\'e9rdida reversible desaparece.
+\par 
+\par La amortizaci\'f3n aplicada durante 2002 para la totalidad de los elementos del activo inmovilizado material ha sido de -22.941,79 euros.
+\par 
+\par 2.- Los intereses devengados hasta el momento de la puesta en marcha de inmovilizado material, de haberse producido, se incluyen en el coste de este, registr\'e1ndose como gastos financieros los devengados con posterioridad.
+\par 
+\par Las posibles diferencias de cambio positivas en adquisiciones a cr\'e9dito se contabilizan hasta tanto las facturas no est\'e1
+n pagadas, en la cuenta 136, trasladando su posible saldo al cancelar las deudas, a la Cuenta 768 (Diferencias positivas de cambio).
+\par 
+\par Las posibles diferencias de cambio negativas en adquisiciones a cr\'e9dito, se registran directamente en la Cuenta 668 (Diferencias Negativas de Cambio).
+\par 
+\par 3.- Los costes de ampliaci\'f3n, modernizaci\'f3n y mejoras del inmovilizado se agregan al mismo. Los adquiridos al exterior se contabilizan por su precio de adquisici\'f3n, por su valor venal.
+\par 
+\par 4.- Los costos del inmovilizado producidos en el seno de la propia empresa, por su coste de producci\'f3n, compuesto por las materias primas valoradas a su precio de adquisici\'f3n, los costes directos de las ampliaciones, modernizaci\'f3n y mejoras, as
+\'ed como el % proporcional de los costes y gastos indirectos.
+\par 
+\par 5.- Las Actualizaciones de valores practicadas al amparo de la LEY en el ejercicio, no existen, en el Balance.
+\par 
+\par 6.- La empresa tiene el criterio de aplicar al inmovilizado material los coeficientes legales de regularizaci\'f3n, si procede, compens\'e1ndolo por un aumento en las amortizaciones, aplicando a las efectuadas cada a\'f1o el coeficiente de regularizaci
+\'f3n correspondiente, y contabilizando el
+\par diferencial en la Cuenta 111 (Reservas de Revalorizaci\'f3n).
+\par  
+\par La p\'e9rdidas de valor experimentada por los elementos del inmovilizado material es corregida mediante las cuentas de Amortizaciones. Se dota anualmente en funci\'f3n de los a\'f1os de vida \'fatil seg\'fan m\'e9todo lineal.
+\par 
+\par Si por alguna circunstancia, se observa una baja importante en el valor del bien a coste hist\'f3rico y el valor de mercado en el momento de cierre del ejercicio se dota la oportuna PROVISION.
+\par 
+\par 
+\par }{\f1\ul\lang1034\cgrid0 ELEMENTO DE INMOVILIZADO MATERIAL}{\f1\lang1034\cgrid0    \tab \tab }{\f1\ul\lang1034\cgrid0 A\'d1OS DE VIDA UTIL}{\f1\lang1034\cgrid0 
+\par 
+\par CONSTRUCCIONES..................................          \tab \tab 25
+\par INSTALACIONES TECNICAS....................          \tab \tab 10
+\par MAQUINARIA.............................................       \tab \tab \tab 10
+\par UTILLAJE................................................... \tab \tab \tab   5
+\par OTRAS INSTALACIONES.........................          \tab \tab \tab 10
+\par MOBILIARIO.............................................. \tab \tab \tab 10
+\par EQUIPOS PROCESO INFORMACION......                   \tab \tab   4
+\par ELEMENTOS DE TRANSPORTE.............                   \tab \tab   6
+\par OTRO INMOVILIZADO MATERIAL..........                  \tab \tab 10
+\par 
+\par 
+\par 
+\par }\pard \fi720\nowidctlpar\adjustright {\b\f1\lang1034\cgrid0 4.4.- Inversiones financieras a corto y a largo plazo.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par Se incluyen como inversiones financieras aquellas inversiones que no se piensan enajenar antes de un a\'f1o y aquellas cuyo vencimiento final exceda de un a\'f1o, siendo las dem\'e1s de corto plazo.
+\par 
+\par Para los valores y otras inversiones mobiliarias, tanto a corto como a largo plazo, se valoran por el precio de adquisici\'f3n, incluyendo derechos preferentes de Suscripci\'f3
+n y otros Gastos inherentes. No se incluyen los dividendos devengados ni los intereses devengados y no vencidos.
+\par 
+\par Las inversiones financieras a 31 de Diciembre de cada a\'f1o se ajustan a los valores de mercado si son menores al precio de compra.
+\par 
+\par Esta correcci\'f3n valorativa se hace mediante las cuentas de "Provisi\'f3n por depreciaci\'f3n de valores mobiliarios". Se toma como referencia el valor medio del \'faltimo trimestre del a\'f1o (Octubre, Noviembre y Diciembre) y el d\'ed
+a 31 de Diciembre, y la menor de las dos se compara con el precio de adquisici\'f3n, si \'e9ste fuese menor, se provisionar\'e1 por la diferencia.
+\par 
+\par 
+\par }\pard \fi720\nowidctlpar\adjustright {\b\f1\lang1034\cgrid0 4.5.- Cr\'e9ditos no comerciales.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par Se registran por el importe entregado. La diferencia entre dicho importe y el nominal de los cr\'e9ditos se considera como un ingreso por intereses en el ejercicio en que se devengan.
+\par 
+\par Los cr\'e9ditos por venta de inmovilizado se valoran por su precio de venta excluyendo los intereses incorporados al nominal, que se registran de acuerdo con los criterios anteriores.
+\par 
+\par Las provisiones contra resultados se dotan en funci\'f3n del riesgo de su recuperaci\'f3n.
+\par 
+\par 
+\par 
+\par }\pard \fi720\nowidctlpar\adjustright {\b\f1\lang1034\cgrid0 4.6- Existencias.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par Se valoran por su coste de adquisici\'f3n o coste de producci\'f3n. Cuando el valor de mercado es inferior a su coste adquisici\'f3n o su coste de producci\'f3n se dota la correspondiente provisi\'f3n con cargo a la cuenta de resultados del ejercicio.
+
+\par 
+\par \tab }{\b\f1\lang1034\cgrid0 4.7.- Acciones propias en poder de la sociedad
+\par }{\f1\lang1034\cgrid0 
+\par 
+\par }\pard \fi720\nowidctlpar\adjustright {\b\f1\lang1034\cgrid0 4.8.- Subvenciones en capital.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par Las subvenciones de capital no reintegrables se valoran por el importe concedido y se imputan a resultados en proporci\'f3n a la depreciaci\'f3n de los activos financiados por tales subvenciones. En caso de activos no depreciables la subvenci\'f3
+n se imputa al resultado del ejercicio en que se
+\par produzca la enajenaci\'f3n o baja de los mismos.
+\par 
+\par 
+\par }\pard \fi720\nowidctlpar\adjustright {\b\f1\lang1034\cgrid0 4.9.- Provisiones para pensiones y sobre similares.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par Los fondos necesarios para cubrir las obligaciones legales o contractuales referentes al personal de la empresa con motivo de su jubilaci\'f3n o atenciones de car\'e1
+cter social: viudedad, orfandad, etc. se contabilizan teniendo en cuenta las estimaciones realizadas de acuerdo con c\'e1lculos actuariales.
+\par 
+\par 
+\par }\pard \fi720\nowidctlpar\adjustright {\b\f1\lang1034\cgrid0 4.10.- Otras provisiones para responsabilidades.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par Las responsabilidades probables o ciertas de cualquier naturaleza, con origen en litigios en curso, reclamaciones, avales, garant\'edas, indemnizaciones y obligaciones pendientes de cuant\'ed
+a indeterminada, se provisionan contra los resultados del ejercicio, de acuerdo con una
+\par estimaci\'f3n razonable de su cuant\'eda.
+\par 
+\par 
+\par }\pard \fi720\nowidctlpar\adjustright {\b\f1\lang1034\cgrid0 4.11.- Cr\'e9ditos no comerciales a corto y a largo plazo.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par Para los cr\'e9ditos no comerciales, tanto a corto como a largo plazo, se anotan por su importe, efectu\'e1ndose las oportunas Provisiones para Insolvencias caso de considerar dudoso el cobro.
+\par 
+\par Los intereses no se periodifican en el tiempo que se van generando, utilizando para los casos de cobro anticipado o diferido, las Cuentas de Ajustes por Periodificaci\'f3n y al vencimiento su imputaci\'f3n a resultados.
+\par 
+\par 
+\par }\pard \fi720\nowidctlpar\adjustright {\b\f1\lang1034\cgrid0 4.12.- Impuesto sobre beneficios.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par Una vez determinado el Beneficio antes de Impuestos, se efect\'faan los ajustes, tanto temporales como permanentes, para convertir el Beneficio Contable en Beneficio Fiscal. A continuaci\'f3n se aplican las Deducciones y Bo
+nificaciones a que la Empresa tenga derecho.
+\par 
+\par Caso de ser el Resultado negativo, se inventar\'eda, para compensar con los beneficios de los 5 a\'f1os siguientes, seg\'fan establece la Ley del Impuesto sobre Sociedades.
+\par 
+\par 
+\par }\pard \fi720\nowidctlpar\adjustright {\b\f1\lang1034\cgrid0 4.13.- Transacci\'f3n en moneda extranjera.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par 1.- Los saldos de deudores, acreedores, clientes y proveedores, contra\'eddos en moneda extranjera y no cancelados, se contabilizan por el contravalor en euros, seg\'fan cotizaci\'f3n al cierre de ejercicio, salvo que seg\'fa
+n el principio de importancia relativa, no merezca variar el valor contable, o exista seguro de cambio.
+\par 
+\par 2.- Contravalor en euros en el momento de la incorporaci\'f3n al patrimonio. Se aplica el del Coste real al d\'eda de la liquidaci\'f3n de la operaci\'f3n.
+\par 
+\par 3.- Si son positivas, hasta tanto la deuda no haya sido cancelada, se anota en la Cuenta 136 (Diferencias positivas en Moneda Extranjera), traslad\'e1ndose al liquidarse los cr\'e9ditos o d\'e9
+bitos, a la Cuenta 7681 (Diferencias Positivas de Cambio), ello si por el principio de importancia relativa justifica variar el importe inicial, antes del vencimiento o cobro.
+\par 
+\par Las diferencias negativas de cambio no realizadas al cierre del ejercicio se imputan a los resultados del ejercicio.
+\par 
+\par 
+\par }\pard \fi720\nowidctlpar\adjustright {\b\f1\lang1034\cgrid0 4.14.- Ingresos y gastos.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par En las Cuentas de Compras, se anota el importe propiamente devengado, con exclusi\'f3n de descuentos comerciales en factura, incrementado en todos los costos y gastos de instalaci\'f3n, transportes e impuestos no recuperables a cargo de la empresa, etc.
+
+\par 
+\par En la Cuenta de Ventas o Ingresos, se registran por el importe neto, es decir deduciendo las bonificaciones y descuentos comerciales en factura.
+\par 
+\par En general, todos los Ingresos y Gastos, as\'ed como los intereses por ellos generados, se contabilizan en el momento de su devengo. 
+\par 
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA  5 -----------
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 GASTOS DE ESTABLECIMIENTO.
+\par }{\f1\lang1034\cgrid0 
+\par 
+\par An\'e1lisis del movimiento de los gastos de establecimiento:
+\par 
+\par 
+\par ---------------- GASTOS DE CONSTITUCION --------------------------
+\par Saldo 1 ENERO 2002.........................................\tab \tab 0,00
+\par Adiciones (+) / Amortizaciones (-)...................\tab \tab 0,00
+\par Saldo 31/12/2002................................................\tab \tab 0,00
+\par 
+\par ---------------- PRIMER ESTABLECIMIENTO ---------------------------
+\par Saldo 1 ENERO 2002.........................................\tab \tab 0,00
+\par Adiciones (+) / Amortizaciones (-).................. \tab \tab 0,00
+\par Saldo 31/12/2002............................................... \tab \tab 0,00
+\par 
+\par ---------------- AMPLIACION DE CAPITAL -------------------------------
+\par Saldo 1 ENERO 2002........................................\tab \tab 0,00
+\par Adiciones (+) / Amortizaciones (-)................. \tab \tab 0,00
+\par Saldo 31/12/2002.............................................. \tab \tab 0,00
+\par 
+\par ---------------- TOTAL ACUMULADO --------------------------------------
+\par Saldo 1 ENERO 2002...................................... \tab \tab 0,00
+\par Adiciones (+) / Amortizaciones (-)............... \tab \tab 0,00
+\par Saldo 31/12/2002............................................\tab \tab 0,00
+\par 
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA  6 -----------
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 INMOVILIZADO INMATERIAL.
+\par }{\f1\lang1034\cgrid0 
+\par 
+\par La composici\'f3n de este ep\'edgrafe y el movimiento habido durante el ejercicio 2002 en las diferentes partidas que lo componen es el siguiente:
+\par 
+\par 
+\par ---------------- INMOVILIZADO INMATERIAL ----------------------------------------
+\par Saldo 1 ENERO 2002..................................................\tab \tab 3.357,42
+\par Entradas/Adiciones(+) / Salidas/Retiros(-).............\tab \tab 89,06
+\par Saldo 31/12/2002......................................................... \tab \tab 3.446,48
+\par 
+\par 
+\par Los movimientos de amortizaciones sobre bienes del inmovilizado inmaterial son:
+\par Saldo 1 ENERO 2002..................................................\tab \tab  -2.429,47
+\par Entradas/Dotaciones(+) / Salidas/Bajas(-)..............\tab \tab  -491,95
+\par Saldo 31/12/2002........................................................\tab \tab  -2.921,42
+\par 
+\par 
+\par Los movimientos en la cuenta de provisiones son:
+\par Saldo 1 ENERO 2002.................................................\tab \tab  0,00
+\par Entradas/Dotaciones(+) / Salidas/Retiros(-)...........\tab \tab  0,00
+\par Saldo 31/12/2002........................................................ \tab \tab  0,00
+\par 
+\par 
+\par Los datos relativos a los bienes adquiridos en R\'e9gimen de Arrendamiento financiero son los siguientes:
+\par Coste del bien en origen...........................................\tab \tab ...............
+\par Valor de la Opci\'f3n de Compra..................................\tab \tab ...............
+\par A\'f1os de duraci\'f3n del contrato.................................. \tab \tab ...............
+\par A\'f1os transcurridos.................................................... \tab \tab ...............
+\par Cuotas pendientes.................................................... \tab \tab ...............
+\par Cuotas satisfechas................................................... \tab \tab ...............
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA  7 -----------
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 INMOVILIZADO MATERIAL.
+\par }{\f1\lang1034\cgrid0 
+\par 
+\par El ep\'edgrafe de inmovilizado material comprende las siguientes partidas:
+\par 
+\par 
+\par \tab \tab \tab \tab \tab \tab Adicc. / Entr. (+)
+\par \tab \tab \tab 1 de Enero 2002\tab Bajas / Retir. (-)\tab \tab 31 Diciembre 2002\tab 
+\par Terrenos y Bienes Nat. \tab \tab }{\f1\lang2057\cgrid0 0,00\tab \tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par }{\f1\lang1034\cgrid0 Construcciones         \tab \tab 0,00\tab \tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Instalaciones T\'e9cnicas\tab \tab 0,00\tab \tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Maquinaria\tab \tab \tab 0,00\tab \tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Utillaje\tab \tab \tab \tab 0,00\tab \tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Otras instalaciones\tab \tab 1.171,97\tab \tab \tab 0,00\tab \tab \tab 1.171,97\tab 
+\par Mobiliario\tab \tab \tab 9.987,77\tab \tab \tab 0,00\tab \tab \tab 9.987,77\tab 
+\par Ep. procesos de inform.\tab \tab }{\f1\lang2057\cgrid0 15.628,44\tab \tab \tab 986,56\tab \tab \tab 16.615,00\tab 
+\par }{\f1\lang1034\cgrid0 Elementos de Transpo.\tab \tab }{\f1\lang2057\cgrid0 0,00\tab \tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par }{\f1\lang1034\cgrid0 Otro Inm. material\tab \tab 0,00\tab \tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par S U M A   T O T A L\tab \tab 26.788,18\tab \tab \tab 986,56\tab \tab \tab 27.774,74\tab 
+\par 
+\par 
+\par 
+\par }{\b\f1\lang1034\cgrid0 Amortizaci\'f3n Acumulada Inmovilizado Material:
+\par }{\f1\lang1034\cgrid0 Saldo 1 ENERO 2002............................... \tab \tab  -18.689,85
+\par Dotaciones(+) / Retiros (-)....................\tab \tab \tab  -4.251,94
+\par Saldo 31/12/2002................................... \tab \tab  \tab  -22.941,79
+\par 
+\par 
+\par }{\b\f1\lang1034\cgrid0 Provisiones Por Depreciaci\'f3n:
+\par }{\f1\lang1034\cgrid0 Saldo 1 ENERO 2002............................ \tab \tab \tab  0,00
+\par Dotaciones(+) / Retiros/Bajas(-)............ \tab \tab \tab  0,00
+\par Saldo 31/12/2002................................... \tab \tab \tab  0,00
+\par 
+\par 
+\par 
+\par Al 31 de Diciembre la sociedad Ariadna Software, S.L., ten\'eda adquiridos compromisos en firme de compra de inmovilizado material.
+\par 
+\par ( En caso de Tenerlos Justificar, Este texto ser\'e1 Borrado. )
+\par ( Referencia a la cuenta 239 ).............................................................................................. ..............................................................
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA  8 -----------
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 INVERSIONES FINANCIERAS.
+\par }{\f1\lang1034\cgrid0 
+\par Los movimientos habidos durante el ejercicio en las diversas cuentas de "inmovilizaciones financieras" y de "Inversiones financieras temporales", as\'ed como sus correspondientes cuentas de provisiones, han sido las siguientes;
+\par 
+\par 
+\par \tab \tab \tab \tab \tab Largo Plazo    \tab \tab Corto Plazo\tab 
+\par Pr\'e9stamos Empresas del Grupo   \tab 0,00\tab \tab \tab 0,00\tab 
+\par Cr\'e9ditos Empresa del Grupo     \tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Pr\'e9stamos Empresas Asociadas   \tab 0,00\tab \tab \tab 0,00\tab 
+\par Cr\'e9ditos Empresas Asociadas   \tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Cartera Valores a Corto Pl.    \tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Otros Cr\'e9ditos                 \tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Dep\'f3sitos y Fianzas            \tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Provisiones                    \tab \tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par }\pard \nowidctlpar\tx4253\tx6521\adjustright {\f1\lang1034\cgrid0 
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par (Informaci\'f3n a rellenar solo si se utiliza el cuadro anterior )
+\par 
+\par Informaci\'f3n sobre empresas del grupo y asociadas:
+\par }{\f1\fs16\lang1034\cgrid0 1.-  Denominaci\'f3n Social:.............................................................................................................................................
+\par 2.-  Domicilio Social:.....................................................................................................................................................
+\par 3.-  Actividad que ejercen:............................................................................................................................................
+\par 4.-  Fracci\'f3n de capital que se posee directa :..............................................................................................................
+\par 5.-  Importe del capital, reservas y resultado del ultimo ejercicio, desglosando los resultados extraordinarios:.............
+\par 6.-  Valor seg\'fan los libros de la participaci\'f3n:................................................................................................................
+\par 7.-  Dividendos recibidos seg\'fan la participaci\'f3n: ...........................................................................................................
+\par 8.-  Las acciones no en Bolsa.........................................................................................................................................
+\par 9.-  Informaci\'f3n sobre los cr\'e9ditos otorgados a la sociedad:..........................................................................................
+\par 10.- Importe de los intereses devengados y no cobrados:...............................................................................................
+\par 11.- Compromisos firmes de compra de valores negociables y de otras inversiones financieras an\'e1logas:...................
+\par 12.- Garant\'edas recibidas en relaci\'f3n con los cr\'e9ditos otorgados por la empresa:............................................................
+\par 
+\par }{\f1\lang1034\cgrid0 
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA  9 -----------
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 EXISTENCIAS.
+\par }{\f1\lang1034\cgrid0 
+\par La composici\'f3n de las existencias de la sociedad al 31 de diciembre
+\par de 2002 y 2001 es el siguiente:
+\par 
+\par .                                      \tab \tab \tab  2002        \tab              2001\tab 
+\par 300 EXISTENCIAS............. \tab \tab \tab 11.205,29  \tab \tab \tab 0,00\tab 
+\par 310 MATERIAS PRIMAS......... \tab \tab \tab 0,00 \tab \tab \tab 0,00\tab 
+\par 320 MAT.AUXILIARES Y SUM.... \tab \tab 0,00  \tab \tab \tab 0,00\tab 
+\par 340 PRODUCTOS SEMITERMINADOS            0,00  \tab \tab            0,00\tab 
+\par 330 PRODUCTOS EN CURSO...... \tab \tab 0,00  \tab \tab \tab 0,00\tab 
+\par 350 PRODUCTOS TERMINADOS.... \tab \tab 0,00 \tab \tab  \tab 0,00\tab 
+\par 360 SUBPRODUCTOS............ \tab \tab \tab 0,00  \tab \tab \tab 0,00\tab 
+\par 407 ANTICIPOS............... \tab \tab            0,00  \tab                         0,00\tab 
+\par }{\b\f1\lang1034\cgrid0 T O T A L  .......................\tab \tab \tab 11.205,29  \tab \tab            0,00\tab 
+\par }{\f1\lang1034\cgrid0 
+\par El saldo de existencias al 31 de diciembre de 2002 que muestra en balance de situaci\'f3n adjunto, neto despu\'e9s de deducir las correspondientes provisiones, que son:
+\par 
+\par }{\f1\ul\lang1034\cgrid0 .                                                      \tab \tab \tab \tab \tab \tab     EUROS
+\par }{\f1\lang1034\cgrid0 390 PROVISION POR DEPRECIACION DE MERCADERIAS......... \tab \tab     0,00
+\par 391 PROVISION POR DEPRECIACION DE MATERIAS PRIMAS..... \tab \tab     0,00
+\par 392 PROVISION POR DEPRECIACION DE APROVISIONAMIENTOS.. \tab \tab     0,00
+\par 393 PROVISION POR DEPRECIACION DE PRODUCTOS EN CURSO.. \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab     0,00
+\par 394 PROV. POR DEPRECIACION DE PRODUCTOS SEMITERMINADOS \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab     0,00
+\par 395 PROV.POR DEPRECIACION DE PRODUCTOS TERMINADOS..... \tab \tab     0,00
+\par 396 PROV.POR DEP. DE SUBP. RESIDUOS Y MAT. RECUPERADOS........\tab     0,00
+\par \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab ---------------
+\par \tab \tab \tab \tab \tab \tab \tab \tab \tab \tab     <$108>
+\par 
+\par Al 31 de diciembre de 2002, la sociedad, tiene compromisos firmes de compra, aprovisionamientos, etc., por importe de .......................- euros.
+\par 
+\par ...(Si / No )... hay limitaci\'f3n a las disponibilidades de existencias por garant\'edas, pignoraciones o fianzas.
+\par 
+\par ( en caso de haber limitaci\'f3n, justificar. Texto a borrar )
+\par 
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA 10 -----------
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 FONDOS PROPIOS:
+\par }{\f1\lang1034\cgrid0 
+\par El movimiento habido en las cuentas de "Fondos Propios", durante el ejercicio 2002, ha sido el siguiente:
+\par 
+\par }\pard \nowidctlpar\tx2835\adjustright {\f1\lang1034\cgrid0 
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 .                     \tab             \tab \tab \tab \tab Aumen./Ampl.(+)\tab \tab 
+\par .                     \tab \tab          1 ENERO 2002      Bajas/Trans.(-)\tab      31 DICIEMBRE 2002
+\par 
+\par Capital Suscrito       \tab \tab -3.305,50\tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Prima de Emisi\'f3n       \tab \tab 0,00\tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Reservas Revalorizables\tab 0,00\tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Reservas Legales       \tab \tab -2.075,89\tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Reservas Acciones Prop.\tab }{\f1\lang2057\cgrid0 0,00\tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par }{\f1\lang1034\cgrid0 Reserva Estatutaria    \tab \tab 0,00\tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Otras Reservas         \tab \tab 0,00\tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Rtdo. Ejerc. Anterior  \tab \tab 0,00\tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par Rtdo. Ejercicio        \tab \tab 0,00\tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par SUMAS                  \tab \tab 0,00\tab \tab 0,00\tab \tab \tab 0,00\tab 
+\par }\pard \nowidctlpar\tx4253\adjustright {\f1\lang1034\cgrid0 
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 Reserva Legal.
+\par }{\f1\lang1034\cgrid0 
+\par El 10% de los beneficios deben destinarse a la constituci\'f3n de la reserva legal hasta que dicha reserva alcance el 20% del capital social. El \'fanico destino posible de la reserva legal es la compensaci\'f3n de p\'e9rdidas o la ampliaci\'f3
+n de capital por la parte que exceda del 10% del capital ya aumentado.
+\par 
+\par }{\b\f1\lang1034\cgrid0 Acciones propias.
+\par }{\f1\lang1034\cgrid0 
+\par Deben constituirse una reserva indisponible equivalente al importe de las acciones propias o de la sociedad dominante, que deber\'e1 mantenerse en tanto las acciones no sean enajenadas o amortizadas.
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA 11 -----------
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 SUBVENCIONES.
+\par }{\f1\lang1034\cgrid0 
+\par Las subvenciones recibidas, por un total de .......- Euros, son: 
+\par 
+\par ( Texto a modificar, Texto de borrado posterior )
+\par                     
+\par 
+\par * Las caracter\'edsticas de las subvenciones recibidas, por un total de............- Euros, de ......................, como resultado de la creaci\'f3n de empleo de ... puestos de trabajo durante el a\'f1o 2002.
+\par 
+\par 
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA 12 -----------
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 PROVISIONES PARA PENSIONES.
+\par }{\f1\lang1034\cgrid0 
+\par La Empresa ...(Si / No )... realiza provisi\'f3n alguna para pensiones; ni atenciones sociales con sus trabajadores, ya que no est\'e1 obligada a ello.
+\par 
+\par ( Rellenar solo si su empresa presenta Provisiones para pensiones, en caso afirmativo, justificar. Texto de borrado posterior )
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA 13 -----------
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 PROVISIONES PARA RIESGOS Y GASTOS.
+\par }{\f1\lang1034\cgrid0 
+\par El Fondo de Reversi\'f3n tiene por objeto cubrir los gastos estimados como necesarios al final de la reversi\'f3n, para devolver los siguientes activos en las condiciones pactadas que se citan a continuaci\'f3n: (descripci\'f3n de las circunstancias).
+
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA 14 -----------
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 DEUDAS NO COMERCIALES.
+\par }{\f1\lang1034\cgrid0 
+\par Figuran por su valor de reembolso, siendo la diferencia entre dicho valor y la cantidad recibida se imputar\'e1 anualmente a resultados de acuerdo con un criterio financiero.
+\par 
+\par 
+\par 
+\par .                      \tab                \tab \tab \tab  Aumentos    (+)\tab                \tab 
+\par .                      \tab \tab         1 ENERO 2002    \tab  Reducciones (-)\tab  31 DICIEMBRE 2002\tab 
+\par Acreedores Largo Plazo \tab      0,00\tab \tab 0,00\tab \tab \tab       0,00
+\par Acreedores Corto Plazo \tab      0,00\tab \tab 0,00\tab \tab \tab       0,00
+\par Saldo Final            \tab \tab      0,00\tab \tab 0,00\tab \tab \tab       0,00\tab 
+\par }\pard \nowidctlpar\tx4253\adjustright {\f1\lang1034\cgrid0 
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par 
+\par 
+\par }{\b\f1\lang1034\cgrid0 14.1. Otras deudas
+\par }{\f1\lang1034\cgrid0 
+\par ( Texto a Rellenar si Existen, Borrado Posterior ).
+\par 
+\par 
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA 15 -----------
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 SITUACION FISCAL.
+\par }{\f1\lang1034\cgrid0 
+\par La Sociedad Ariadna Software, S.L. tiene abiertos todos los ejercicios econ\'f3micos transcurridos desde la constituci\'f3n de la misma hasta el d\'eda de hoy, ya que las declaraciones no pueden considerarse definitivas hasta su prescripci\'f3
+n su aceptaci\'f3n por las Autoridades Fiscales, y con independencia de que la Legislaci\'f3n Fiscal es susceptible a interpretaciones , Los Administradores estiman que en caso de una eventual inspecci\'f3n de Hacienda, \'e9sta no tendr\'ed
+a efecto excesivo o relevante sobre las cuentas anuales en su conjunto.
+\par 
+\par Resultado contable del ejercicio.........................
+\par 
+\par }{\f1\ul\lang1034\cgrid0 .                                         \tab \tab \tab \tab Aumentos.       Disminuciones.
+\par }{\f1\lang1034\cgrid0 Impuesto Sobre Sociedades................ \tab \tab \tab .............. \tab ..............
+\par 
+\par Diferencias Permanentes................... \tab \tab \tab .............. \tab ..............
+\par 
+\par Diferencias Temporales:
+\par \tab - Con origen en el ejercicio............. \tab \tab ..............\tab ..............
+\par \tab - Con origen en ejercicios anteriores.... \tab \tab .............. \tab ..............
+\par 
+\par Compensaci\'f3n de bases imponibles negativas
+\par \tab de ejercicios anteriores.................\tab \tab .............. \tab ..............
+\par 
+\par Base imponible ( Resultado Fiscal )...... \tab \tab \tab .............. \tab ..............
+\par 
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA 16 -----------
+\par }{\f1\lang1034\cgrid0 
+\par }{\b\f1\lang1034\cgrid0 GARANTIAS, COMPROMISOS Y CONTINGENCIAS
+\par }{\f1\lang1034\cgrid0 
+\par * Las garant\'edas y compromisos con terceros ascienden a ..................... euros.
+\par 
+\par * Incluidas en el pasivo del balance .............................
+\par * No incluidas en el pasivo del balance ........................
+\par 
+\par 
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA 17 -----------
+\par }{\f1\lang1034\cgrid0  
+\par }{\b\f1\lang1034\cgrid0 INGRESOS Y GASTOS
+\par }{\f1\lang1034\cgrid0 
+\par 
+\par }{\b\f1\lang1034\cgrid0 A. Consumos de Mercader\'edas, materias primas y otros materiales consumibles:
+\par }{\f1\lang1034\cgrid0 
+\par * Compra de Mercader\'edas.................... \tab \tab 82.603,14
+\par * Compra de Materias Primas................ \tab \tab 0,00
+\par * Compra de Otros Aprovisionamientos....... \tab 205,51
+\par * Devoluciones de compras.................. \tab \tab 0,00
+\par * Rappels por Compras......................\tab \tab 0,00
+\par * Variaci\'f3n Existencias.................... \tab \tab }{\f1\lang2057\cgrid0 -4.994,95
+\par \tab \tab \tab \tab \tab \tab ---------------
+\par }{\b\f1\ul\lang2057\cgrid0 Total...................................... \tab \tab \tab 77.813,70
+\par }{\f1\lang2057\cgrid0  
+\par 
+\par 
+\par }{\b\f1\lang1034\cgrid0 B. Cargas Sociales:
+\par }{\f1\lang1034\cgrid0 
+\par * Sueldos y Salarios....................... \tab \tab 166.907,94
+\par * Seguridad Social a cargos de la Empresa.. \tab 44.277,79
+\par * Aportaciones a sistemas complementarios
+\par . de pensiones ............................ \tab \tab 0,00
+\par * Otros gastos sociales.................... \tab \tab }{\f1\lang2057\cgrid0 839,22
+\par \tab \tab \tab \tab \tab \tab ---------------
+\par }{\b\f1\ul\lang2057\cgrid0 Total...................................... \tab \tab \tab 212.024,95
+\par }{\f1\lang2057\cgrid0 
+\par 
+\par 
+\par }{\b\f1\lang1034\cgrid0 C. Variaciones de provisiones y p\'e9rdidas de cr\'e9ditos incobrables.
+\par }{\f1\lang1034\cgrid0 
+\par 
+\par * P\'e9rdidas de cr\'e9ditos comerciales
+\par . incobrables.............................. \tab \tab \tab 0,00
+\par 
+\par * Dotaci\'f3n a la provisi\'f3n para
+\par . insolvencia de tr\'e1fico................... \tab \tab 0,00
+\par 
+\par * Provisi\'f3n para insolvencia de tr\'e1fico 
+\par . aplicada.................................\tab \tab \tab 0,00
+\par \tab \tab \tab \tab \tab \tab ---------------
+\par }{\b\f1\ul\lang1034\cgrid0 Total \tab \tab                                       \tab \tab 0,00
+\par }{\f1\lang1034\cgrid0 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA 18 -----------
+\par }{\b\f1\lang1034\cgrid0 OTRA INFORMACI\'d3N
+\par }{\f1\lang1034\cgrid0 
+\par {\pntext\pard\plain\fs20\lang1034 \hich\af0\dbch\af0\loch\f0 -\tab}}\pard \fi-360\li360\nowidctlpar\jclisttab\tx360{\*\pn \pnlvlblt\ilvl0\ls2\pnrnot0\pnindent360\pnhang{\pntxtb -}}\ls2\adjustright {\f1\lang1034\cgrid0 
+Importe de los sueldos, dietas y remuneraciones de cualquier clase devengados en el curso del ejercicio por los miembros del \'f3rgano de administraci\'f3n, cualquiera que sea su causa. Esta informaci\'f3n se dar\'e1
+ de forma global por conceptos retributivos.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par {\pntext\pard\plain\fs20\lang1034 \hich\af0\dbch\af0\loch\f0 -\tab}}\pard \fi-360\li360\nowidctlpar\jclisttab\tx360{\*\pn \pnlvlblt\ilvl0\ls4\pnrnot0\pnstart4\pnindent360\pnhang{\pntxtb -}}\ls4\adjustright {\f1\lang1034\cgrid0 Se deber\'e1
+ desglosar el importe de los anticipos y cr\'e9ditos concedidos al conjunto de miembros del \'f3rgano de administraci\'f3n, indicando el tipo de inter\'e9s, caracter\'edsticas esenciales e importes devueltos, as\'ed
+ como las obligaciones asumidas por cuenta de ellos a t\'edtulo de garant\'eda.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par {\pntext\pard\plain\fs20\lang1034 \hich\af0\dbch\af0\loch\f0 -\tab}}\pard \fi-360\li360\nowidctlpar\jclisttab\tx360{\*\pn \pnlvlblt\ilvl0\ls5\pnrnot0\pnstart4\pnindent360\pnhang{\pntxtb -}}\ls5\adjustright {\f1\lang1034\cgrid0 
+Importe de las obligaciones en las que exista alg\'fan tipo de garant\'eda, indicando los activos afectos a las mismas, incluso cuando se trate de disponibilidades l\'edquidas, se\'f1alando en este caso las limitaciones de disponibilidad existentes.
+
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par IMPORTANTE: Este ep\'edgrafe no est\'e1 normalizado. Se deber\'e1 consignar en una hoja aparte e intercalar en el apartado que corresponda de la Memoria.
+\par 
+\par 
+\par }{\b\f1\fs32\lang1034\cgrid0 ----------- NOTA 19 -----------
+\par }{\b\f1\lang1034\cgrid0 ACONTECIMIENTOS POSTERIORES AL CIERRE
+\par }{\f1\lang1034\cgrid0 
+\par {\pntext\pard\plain\fs20\lang1034 \hich\af0\dbch\af0\loch\f0 -\tab}}\pard \fi-360\li360\nowidctlpar\jclisttab\tx360{\*\pn \pnlvlblt\ilvl0\ls1\pnrnot0\pnstart4\pnindent360\pnhang{\pntxtb -}}\ls1\adjustright {\f1\lang1034\cgrid0 Informaci\'f3
+n complementaria sobre hechos acaecidos con posterioridad al cierre que no afecten a las cuentas anuales a dicha fecha, pero cuyo conocimiento sea \'fatil para el usuario de los estados financieros.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par {\pntext\pard\plain\fs20\lang1034 \hich\af0\dbch\af0\loch\f0 -\tab}}\pard \fi-360\li360\nowidctlpar\jclisttab\tx360{\*\pn \pnlvlblt\ilvl0\ls3\pnrnot0\pnstart4\pnindent360\pnhang{\pntxtb -}}\ls3\adjustright {\f1\lang1034\cgrid0 Informaci\'f3
+n complementaria sobre hechos acaecidos con posterioridad al cierre de las cuentas anuales que afecten a la aplicaci\'f3n del principio de empresa en funcionamiento.
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par 
+\par 
+\par Valencia
+\par }\pard \qc\nowidctlpar\adjustright {\b\f1\fs32\lang1034\cgrid0 
+\par INFORME DE GESTION}{\b\f1\lang1034\cgrid0 
+\par }\pard \nowidctlpar\adjustright {\f1\lang1034\cgrid0 
+\par 
+\par 
+\par }{\b\f1\fs24\lang1034\cgrid0 1.- EVOLUCION DE LA SOCIEDAD.
+\par }{\f1\lang1034\cgrid0 
+\par La Sociedad Ariadna Software, S.L. se haya en pleno desarrollo de sus actividades econ\'f3micas, cuyas circunstancias se observa a trav\'e9s de un detenido an\'e1lisis de las cuentas de P\'e9rdidas y Ganancias de los \'faltimos a\'f1
+os, ya en conocimiento de los accionistas a lo largo de los a\'f1os.
+\par 
+\par A modo de peque\'f1o resumen, podemos analizar la evoluci\'f3n de la empresa seg\'fan sus estructuras econom\'edas y financieras.
+\par 
+\par 
+\par }{\b\f1\fs24\lang1034\cgrid0 2.- INFORME DE GESTION ECONOMICA.
+\par }{\f1\lang1034\cgrid0 
+\par De acuerdo con el art\'edculo 202 del Texto Refundido de la Ley de Sociedades An\'f3nimas, el \'d3rgano de Administraci\'f3n presenta el informe de gesti\'f3n adjunto, el cual contiene una exposici\'f3n fiel sobre la evoluci\'f3n del negocio, y la situaci
+\'f3n de la Sociedad.
+\par 
+\par La evoluci\'f3n de los negocios de Ariadna Software, S.L. durante el ejercicio econ\'f3mico de 2002 (1 de Enero - 31 de Diciembre), ha sido la prevista en funci\'f3n de las expectativas que se hab\'edan programado por el \'f3rgano de Administraci\'f3n.
+
+\par 
+\par 
+\par .                             \tab A\'f1o 2002         \tab  A\'f1o 2001         \tab  %     \tab 
+\par Ventas.............. \tab -348.917,69 \tab 0,00 \tab \tab 
+\par Costo de Ventas..... \tab 0,00 \tab 0,00\tab \tab 
+\par Margen Bruto         \tab 0,00 \tab 0,00 \tab \tab 
+\par 
+\par 
+\par 
+\par El Margen Bruto que representa un ........( % ) sobre el volumen de ventas ha sido superior al del a\'f1o precedente; mostrando claramente la buena evoluci\'f3n del negocio.
+\par 
+\par El resultado de explotaci\'f3n nos permite llegar a conocer el CASH FLOW generados por la sociedad en el a\'f1o 2002 que es:
+\par 
+\par 
+\par Beneficio Explotaci\'f3n \tab \tab 0,00
+\par Amortizaciones 68     \tab \tab 5.010,12
+\par Provisiones 69       \tab \tab 0,00
+\par \tab \tab \tab \tab }{\f1\lang2057\cgrid0 -----------
+\par }{\b\f1\ul\lang2057\cgrid0 SALDO CASH FLOW       \tab 0,00
+\par }{\f1\lang2057\cgrid0 
+\par 
+\par }{\f1\lang1034\cgrid0 Que permite acometer con cierta holgura las expectativas de negocio del \'d3rgano de Administraci\'f3n.
+\par 
+\par Los gastos de explotaci\'f3n del ejercicio soportados han aumentado seg\'fan el siguiente cuadro:
+\par 
+\par .                             \tab \tab \tab  A\'f1o 2002           A\'f1o 2001          \tab %     
+\par \tab \tab \tab \tab \tab ---------------\tab  --------------- \tab ---------------
+\par Servicios Exteriores \tab \tab \tab       53.980,84 \tab        0,00 \tab ...............
+\par Tributos             \tab \tab \tab       -189,67 \tab        0,00 \tab ...............
+\par Gastos de Personal   \tab \tab \tab       212.024,95 \tab        0,00 \tab ...............
+\par Otros Gastos de G.   \tab \tab \tab       0,00 \tab        0,00 \tab ...............
+\par Gastos Financieros   \tab \tab \tab       460,88 \tab       0,00\tab ...............
+\par \tab \tab \tab \tab \tab --------------- \tab --------------- \tab ---------------
+\par }{\b\f1\lang1034\cgrid0 TOTAL GASTOS         \tab \tab \tab       266.277,00 \tab       0,00 \tab ...............
+\par }{\f1\lang1034\cgrid0 
+\par 
+\par 
+\par La estructura econ\'f3mica y financiera de la Sociedad Ariadna Software, S.L. es la siguiente:
+\par 
+\par }{\b\f1\ul\lang1034\cgrid0 A C T I V O                           \tab \tab \tab \tab S A L D O           \tab %       
+\par }{\f1\lang1034\cgrid0 
+\par A) ACCIONISTAS POR DESEMBOLSOS 
+\par .  NO EXIGIDOS .........................................\tab \tab       0,00 \tab ...............
+\par 
+\par B) INMOVILIZADO.......................................\tab \tab       0,00 \tab ...............
+\par 
+\par C) GASTOS A DISTRIBUIR EN VARIOS
+\par .  EJERCICIOS.............................................\tab \tab       0,00 \tab ...............
+\par 
+\par D) ACTIVO CIRCULANTE...........................\tab \tab       0,00 \tab ...............
+\par \tab \tab \tab \tab \tab \tab \tab  ---------------\tab ---------------
+\par }{\b\f1\ul\lang1034\cgrid0 TOTAL ACTIVO (A+B+C+D)..........................\tab \tab       }{\b\f1\ul\lang2057\cgrid0 0,00 \tab ...............
+\par }{\f1\lang2057\cgrid0 
+\par 
+\par 
+\par }{\b\f1\ul\lang2057\cgrid0 P A S I V O                          \tab \tab \tab \tab  S A L D O           \tab %       
+\par }{\f1\lang2057\cgrid0 \tab \tab \tab \tab \tab \tab \tab 
+\par }{\f1\lang1034\cgrid0 A) FONDOS PROPIOS................. \tab \tab \tab        0,00 \tab ...............
+\par 
+\par B) INGRESOS A DISTRIBUIR EN VARIOS
+\par .  EJERCICIOS..................... \tab \tab \tab \tab        0,00 \tab ...............
+\par 
+\par C) PROVISIONES RIESGOS Y GASTOS... \tab \tab        0,00 \tab ...............
+\par 
+\par D) ACREEDORES A LARGO PLAZO....... \tab \tab        0,00 \tab ...............
+\par 
+\par E) ACREEDORES A PLAZO CORTO.......\tab \tab        0,00 \tab ...............
+\par \tab \tab \tab \tab \tab \tab \tab   --------------- \tab ---------------
+\par }{\b\f1\ul\lang1034\cgrid0 TOTAL PASIVO (A+B+C+D+E).......... \tab \tab \tab        0,00 \tab ...............
+\par }{\f1\lang1034\cgrid0 
+\par 
+\par Los fondos propios representan un ........  % sobre el total del pasivo de Ariadna Software, S.L., as\'ed como el nivel de endeudamiento de la Sociedad asciende a ............. (corto) .............. (largo) respectivamente.
+\par 
+\par Los fondos propios de la sociedad cubren los activos materializados, quedando un amplio remanente incluido en activos circulantes.
+\par 
+\par 
+\par 
+\par }{\b\f1\fs24\lang1034\cgrid0 3.- EVOLUCION PREVISIBLE DE LA EMPRESA Ariadna Software, S.L.
+\par }{\f1\lang1034\cgrid0 
+\par El futuro inmediato de la Sociedad, dada la actual estructura del mercado en el que nos desenvolvemos se presenta dif\'edcil y con amplio car\'e1cter restrictivo, si al sector, le a\'f1
+adimos el elevado precio de la divisas, el alto precio de los intereses en que nos desenvolvemos, el alto precio de las tarifas a\'e9reas, las altas tasas de paro, nos abocan a pensar que en el 
+\par pr\'f3ximo ejercicio econ\'f3mico y quiz\'e1s tambi\'e9n en le siguiente, los resultados se van a ir reduciendo paulatinamente, lo que nos hace pensar que debemos de buscar nuevas v\'edas de negocio a plazo medio.
+\par 
+\par La previsible recesi\'f3n de la actividad de la compa\'f1\'eda, no hace prever que se haga amortizaci\'f3n de puestos de trabajo a corto plazo, permaneciendo el n\'famero de trabajadores fijo.
+\par 
+\par 
+\par 
+\par }{\b\f1\fs24\lang1034\cgrid0 4.- ACONTECIMIENTOS IMPORTANTES OCURRIDOS DESPUES DEL CIERRE DEL EJERCICIO.
+\par }{\f1\lang1034\cgrid0 
+\par No se han producido acontecimientos importantes posteriores al cierre del ejercicio, que sean de destacar en \'e9ste informe de gesti\'f3n, y que adem\'e1s fueran a afectar a las cuentas anuales cerradas el 31 de diciembre.
+\par 
+\par 
+\par 
+\par }{\b\f1\fs24\lang1034\cgrid0 5.- INFORMES SOBRE LAS ACTIVIDADES EN I+D.
+\par }{\f1\lang1034\cgrid0 
+\par La sociedad Ariadna Software, S.L. no desarrolla inversi\'f3n alguna en gastos de I+D, como consecuencia del sector de mercad
+o que ocupa, eminentemente de servicios, y a corto plazo los Administradores de la Sociedad no hemos previsto dirigir nuestro esfuerzo por esa v\'eda.
+\par 
+\par 
+\par 
+\par }{\b\f1\fs24\lang1034\cgrid0 6.- ACCIONES PROPIAS.
+\par }{\f1\lang1034\cgrid0 
+\par La sociedad Ariadna Software, S.L. no ha adquirido acciones propias ni acciones de sociedad dominante.
+\par }{\lang1034\cgrid0 
+\par }}

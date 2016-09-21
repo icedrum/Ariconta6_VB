@@ -1,0 +1,7 @@
+*.exe
+*.zip
+*.log
+*.OBJ
+/Exportar/*.*
+/Temp/*.*
+No-git/**/*

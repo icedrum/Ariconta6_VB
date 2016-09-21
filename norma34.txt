@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
+<CstmrCdtTrfInitn>
+   <GrpHdr>
+      <MsgId>TRANPAG000011F20160908T115318</MsgId>
+      <CreDtTm>2016-09-08T11:53:18</CreDtTm>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>121.00</CtrlSum>
+      <InitgPty>
+         <Nm>PRUEBASSSSSS</Nm>
+         <Id>
+           <OrgId>
+               <Othr>
+                  <Id>B96470190000</Id>
+               </Othr>
+           </OrgId>
+         </Id>
+      </InitgPty>
+   </GrpHdr>
+   <PmtInf>
+      <PmtInfId>20160908115318B96470190</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <ReqdExctnDt>2016-09-08</ReqdExctnDt>
+      <Dbtr>
+         <Nm>PRUEBASSSSSS</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+            <AdrLine>Pasaje Ventura Feliu 13  Valencia</AdrLine>
+         </PstlAdr>
+         <Id>
+            <OrgId>
+               <Othr>
+                  <Id>B96470190000</Id>
+               </Othr>
+            </OrgId>
+         </Id>
+    </Dbtr>
+    <DbtrAcct>
+       <Id>
+          <IBAN>ES7421001864910200094745</IBAN>
+       </Id>
+       <Ccy>EUR</Ccy>
+    </DbtrAcct>
+    <DbtrAgt>
+       <FinInstnId>
+          <BIC>CAIXESBBXXX</BIC>
+       </FinInstnId>
+    </DbtrAgt>
+   <CdtTrfTxInf>
+      <PmtId>
+         <EndToEndId>151515    20160908001</EndToEndId>
+      </PmtId>
+      <PmtTpInf>
+          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
+          <CtgyPurp><Cd>SALA</Cd></CtgyPurp>
+       </PmtTpInf>
+       <Amt>
+          <InstdAmt Ccy="EUR">121.00</InstdAmt>
+       </Amt>
+       <CdtrAgt>
+          <FinInstnId>
+             <BIC>CAHMESMMXXX</BIC>
+          </FinInstnId>
+       </CdtrAgt>
+       <Cdtr>
+          <Nm>PC COMPONENTES Y MULTIMEDIA, S.L.</Nm>
+           <Id>
+               <OrgId>
+                  <Othr>
+                     <Id>B73347494</Id>
+                  </Othr>
+               </OrgId>
+           </Id>
+        </Cdtr>
+        <CdtrAcct>
+           <Id>
+              <IBAN>ES4420384545858552525600</IBAN>
+           </Id>
+        </CdtrAcct>
+      <Purp>
+         <Cd>SALA</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>Factura 151515 de Fecha 08/09/2016</Ustrd>
+      </RmtInf>
+   </CdtTrfTxInf>
+   </PmtInf>
+</CstmrCdtTrfInitn></Document>

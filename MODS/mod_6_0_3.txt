@@ -1,0 +1,33 @@
+# talones y pagares
+alter table `ariconta1`.`talones_facturas` 
+	change `id` `codigo` int (11)  DEFAULT '0' NOT NULL , 
+	change `numfaccl` `numfactu` int (11)  DEFAULT '0' NOT NULL , 
+	change `fecfaccl` `fecfactu` date  DEFAULT '0000-00-00' NOT NULL , 
+	change `numvenci` `numorden` smallint (6)  DEFAULT '0' NOT NULL 
+;
+
+alter table `ariconta1`.`talones_facturas` 
+	add foreign key `FK_talones_facturas`(`codigo`) references `talones` (`codigo`) on delete restrict  on update cascade 
+;
+
+#impresion de documentos
+insert into `ariconta1`.`scryst` (`codigo`,`descripcion`,`informe`) values ( '0611-00','Informe Recepcion Documentos','TalonPag.rpt')
+;
+insert into `ariconta1`.`scryst` (`codigo`,`descripcion`,`informe`) values ( '0611-01','Justificante Recepcion Documentos','TalonPagConfRec.rpt')
+;
+
+#en las transferencias se añade el anyo en la primaria
+alter table `ariconta1`.`transferencias` 
+	add column `anyotrans` int (7)   NOT NULL  after `codigo`,
+	drop primary key,  
+	add primary key (`tipotrans`, `codigo`, `anyotrans` )
+;
+alter table `ariconta1`.`transferencias` 
+	change `situacion` `situacion` tinyint (3) UNSIGNED  DEFAULT '0' NOT NULL  COMMENT '0=ABIERTA 1= GENERADO FICHERO 2=CONTABILIZADA '
+;
+alter table `ariconta1`.`transferencias` change `anyotrans` `anyo` int (7)   NOT NULL 
+;
+alter table `ariconta1`.`transferencias` change `situacion` `situacion` char (1)   NOT NULL 
+;
+#Impresion de abono transferencias
+insert into ariconta1.`scryst` (`codigo`,`descripcion`,`informe`) values ( '0614-00','Informe Transferencias de Abono','Transferencias.rpt')

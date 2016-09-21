@@ -1,0 +1,245 @@
+'/////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+'///////////////////////ERRORES DEL MODULO DE IMPRESIÓN\\\\\\\\\\\\\\\\\\\\\
+'\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//////////////////////////////////////
+
+'Cuando no se comprende el formato del parámetro, debe seguir el formato /X:XXXXXX
+ERR00000 FORMATO INCORRECTO PARAMETRO
+
+'Cuando el parámetro no está en la lista de disponibles (Parámetro desconocido)
+ERR00001 SINTAXIS DEL COMANDO INCORRECTA
+
+'Cuando ambos parámetros son iguales
+ERR00002 EL FICHERO DE ENTRADA Y EL DE ERRORES DEBEN SER DISTINTOS
+
+'Cuando no se especifica el fichero de entrada
+ERR00003 NO SE HA ESPECIFICADO FICHERO DE ENTRADA
+
+'Error en la impresora
+ERR00004 LA IMPRESORA NO ESTÁ PREPARADA
+
+'Error al especificar moneda
+ERR00005 NO HA ESPECIFICADO MONEDA O MONEDA INCORRECTA
+
+'Error de validación de número de registros
+ERR00006 EN EL MÓDULO DE IMPRESIÓN NO SE ACEPTAN DECLARACIONES INDIVIDUALES CON MAS DE 25 REGISTROS ENTRE INMUEBLES Y DECLARADOS
+
+'Existe presentador y no debería
+ERR00007 EN EL MÓDULO DE IMPRESIÓN NO SE ACEPTAN DECLARACIONES COLECTIVAS
+
+'No se puede abrir el fichero de errores indicado ni el Errores.txt, es posible que estén abiertos o protegidos contra escritura
+ERR00008 NO SE PUEDE ABRIR EL FICHERO DE ERRORES INDICADO EN EL COMANDO NI EL ESTANDAR
+
+'El fichero de entrada indicado no se encuentra, si tiene espacios en blanco especifique el nombre así : /E:"C:\Archivos de programa\Datos.txt"
+ERR00009 FICHERO DE ENTRADA NO EXISTE
+
+'Cuando el fichero de entrada está en un disquete y éste está protegido contra escritura
+ERR00010 NO SE PUEDE ABRIR EL FICHERO DE ENTRADA ASEGURESE QUE EL DISCO NO ESTE PROTEGIDO CONTRA ESCRITURA
+
+'Cuando es imposible abrir el fichero de entrada, posiblemente este en uso
+ERR00012 NO SE PUEDE ABRIR EL FICHERO DE ENTRADA INDICADO EN EL COMANDO
+
+'El fichero de entrada indicado no se encuentra, si tiene espacios en blanco especifique el nombre así : /A:"C:\Archivos de programa\Adjuntos.txt"
+ERR00013 EL FICHERO DE DATOS ADICIONALES NO EXISTE
+
+'El fichero de datos adicionales no se puede abrir aún existiendo
+ERR00014 NO SE PUEDE ABRIR EL FICHERO DE DATOS ADICIONALES INDICADO EN EL COMANDO
+
+'No se puede crear el fichero flag, asegúrese que no está protegido contra escritura, en uso o en un disquete con la protección antiescritura
+ERR00015 NO SE PUEDE CREAR EL FICHERO DE FLAG
+
+'Inconsistencia en su configuración regional, viene la explicación a continuación entre paréntesis
+ERR00016 INCONSISTENCIA CONFIGURACIÓN REGIONAL
+
+'Cuando no se puede cargar alguna de las tablas auxiliares, se indica el fichero al final
+ERR00017 AL CARGAR FICHERO AUXILIAR
+
+'No tiene registros el fichero de entrada
+ERR00018 FICHERO DE ENTRADA VACÍO
+
+'Error al generar Sello Electrónico
+ERR00019 ERROR AL GENERAR SELLO ELECTRÓNICO
+
+'Descripcion de trabajos en la impresora incorrecto
+ERR00020 PARAMETRO DE DESCRIPCIÓN TRABAJOS INCORRECTO
+
+'Error en la impresora, a continuación muestra el error
+ERR00021 LA IMPRESORA GENERÓ UN ERROR
+
+'Error el fichero de datos (el número de justificante) tiene una moneda distinta a la emitida en línea de comandos
+ERR00022 EL FICHERO DE DATOS TIENE UNA MONEDA DISTINTA A LA EMITIDA EN LINEA DE COMANDOS
+
+'En el modulo de impresión no se admite la delegación 850 ni la 950
+ERR00023 NO SE ADMITE LA IMPRESIÓN NI CON CODIGO ADMINISTRACIÓN 850 NI CON 950
+
+'No tiene registros el fichero de datos adicionales
+ERR00024 FICHERO DE DATOS ADICIONALES VACÍO
+
+'Errores que se producen con el fichero de resultados de extensión .rst
+ERR00025 EL FICHERO DE RESULTADOS 'nombre del fichero' ESTÁ PROTEGIDO CONTRA ESCRITURA
+ERR00026 ERROR EN EL NOMBRE DEL FICHERO DE ERRORES,NO PUEDE TENER LA EXTENSION .rst
+ERR00027 ERROR EN EL NOMBRE DE ALGUN FICHERO PARAMETRIZABLE
+ERR00028 No se pudo generar el fichero de resultados
+
+'Error en la línea de comandos cuando el parámetro de copia adicional es incorrecto
+ERR00029 PARÁMETRO IMPRESIÓN COPIA ADICIONAL ERRÓNEO
+
+'Cuando se pasa mal el parámetro 'H' (Modo de impresión)
+ERR00030 PARAMETRO DE MODO DE IMPRESIÓN INCORRECTO
+
+'Descripcion de trabajos en la impresora incorrecto
+ERR00031 PARAMETRO DE DESCRIPCIÓN TRABAJOS INCORRECTO
+
+'No existe el fichero DVUZ32.DLL 
+ERR00032 FALTA COMPONENTE DVUZ32.DLL
+
+'No existe el fichero PDFENC32.DLL 
+ERR00033 FALTA COMPONENTE PDFENC32.DLL
+
+'Error capturado, cuya descripción y origen se indican en el error
+ERR99999 ERROR INESPERADO
+
+Errores en validación de los Declarantes:
+10201  Contenido incorrecto en Modelo.
+10301  Contenido incorrecto en Ejercicio.
+10401C Caracteres no válidos en N.I.F. Declarante.
+10403  Falta contenido en N.I.F. Declarante.
+10401  Contenido incorrecto en N.I.F. Declarante.
+10501C Caracteres no válidos en Denominación del declarante.
+10501  Contenido incorrecto en Denominación del declarante.
+10601  Contenido incorrecto en Tipo de Soporte.
+10701A Contenido no numérico en Teléfono contacto.
+10701C Caracteres no válidos en Apellidos y Nombre persona de contacto.
+10701  Contenido incorrecto en Apellidos y Nombre persona de contacto.
+10901  Contenido incorrecto en Declaración complementaria.
+11002  Contenido improcedente en Declaración sustitutiva.
+11001  Contenido incorrecto en Declaración sustitutiva.
+10803  Falta contenido en Número justificante.
+10801A Contenido no numérico en Número justificante.
+10801  Contenido incorrecto en Número justificante.
+11102  Contenido improcedente en Número justicante de la declaración anterior.
+11101A Contenido no numérico en Número justicante de la declaración anterior.
+11101  Contenido incorrecto en Número justicante de la declaración anterior.
+11201A Contenido no numérico en Total declarados.
+11203  Falta contenido en Total declarados.
+11301A Contenido no numérico en Total operaciones.
+11303  Falta contenido en Total operaciones.
+11401A Contenido no numérico en Total inmuebles.
+11501A Contenido no numérico en Total operaciones inmuebles.
+19001C Caracteres no válidos en campo 'Blancos'.
+11601C Caracteres no válidos en Sello electrónico.
+
+Errores en validación de Declarados: 
+20201  Contenido incorrecto en Modelo.
+20301  Contenido incorrecto en Ejercicio.
+20401C Caracteres no válidos en N.I.F. Declarante.
+20403  Falta contenido en N.I.F. Declarante.
+20401  Contenido incorrecto en N.I.F. Declarante.
+20412  No coincide NIF Decl. registro tipo 2 con tipo 1 . N.I.F. Declarante.
+20501C Caracteres no válidos en N.I.F. Declarado.
+20501  Contenido incorrecto en N.I.F. Declarado.
+20602  Contenido improcedente en N.I.F. Representante.
+20601C Caracteres no válidos en N.I.F. Representante.
+20601  Contenido incorrecto en N.I.F. Representante.
+20701B Contenido no alfabético en Apellidos y nombre declarado.
+20701  Contenido incorrecto en Apellidos y nombre declarado.
+20701C Caracteres no válidos en Apellidos y nombre declarado.
+20901A Contenido no numérico en Código provincia.
+20901  Contenido incorrecto en Código provincia.
+21001  Contenido incorrecto en Código pais.
+21101B Contenido no alfabético en Clave.
+21101C Caracteres no válidos en Clave.
+21101  Contenido incorrecto en Clave.
+21201A Contenido no numérico en Importe operación.
+21202  Contenido improcedente en Importe operación.
+21301  Contenido incorrecto en Operación seguro.
+21301C Caracteres no válidos en Operación seguro.
+21401  Contenido incorrecto en Arrendamiento local.
+21401C Caracteres no válidos en Arrendamiento local.
+21402  Contenido improcedente en Arrendamiento local.
+29001C Caracteres no válidos en campo 'Blancos'.
+
+Errores en validación de los Inmuebles:
+20201  Contenido incorrecto en Modelo.
+20301  Contenido incorrecto en Ejercicio.
+20401C Caracteres no válidos en N.I.F. Declarante.
+20403  Falta contenido en N.I.F. Declarante.
+20401  Contenido incorrecto en N.I.F. Declarante.
+20529  No coincide NIF Inmu. registro tipo 2 con tipo 1 . N.I.F. Inmuebles.
+20501C Caracteres no válidos en N.I.F. Inmuebles.
+20501  Contenido incorrecto en N.I.F. Inmuebles.
+20402  Contenido improcedente en N.I.F. Representante Inmuebles.
+20401C Caracteres no válidos en N.I.F. Representante Inmuebles.
+20401  Contenido incorrecto en N.I.F. Representante Inmuebles.
+20701B Contenido no alfabético en Apellidos y nombre Inmuebles.
+20701  Contenido incorrecto en Apellidos y nombre Inmuebles.
+20701C Caracteres no válidos en Apellidos y nombre Inmuebles.
+21501A Contenido no numérico en Importe operación.
+21503  Falta contenido en Importe operación.
+21601C Caracteres no válidos en Referencia catastral.
+21603  Falta contenido en Referencia catastral.
+21701A Contenido no numérico en Código Provincia.
+21701  Contenido incorrecto en Código Provincia.
+21801C Caracteres no válidos en Municipio.
+21803  Falta contenido en Municipio.
+21901  Contenido incorrecto en Sigla.
+22001B Contenido no alfabético en Via.
+22003  Falta contenido en Via.
+22101A Contenido no numérico en Numero.
+22201C Caracteres no válidos en Escalera.
+22301C Caracteres no válidos en Piso.
+22401C Caracteres no válidos en Puerta.
+29001C Caracteres no válidos en campo 'Blancos'.
+
+Errores al tratar el fichero
+10001  Contenido incorrecto en Tipo registro.
+11209  El número de registros de tipo 2 procesados es superior al Total declarados.
+11210  El número de registros de tipo 2 procesados es inferior al Total declarados.
+11311  Descuadre entre suma importes reg. tipo 2 y Total operaciones.
+11409  El número de registros de tipo 2 procesados es superior al Total inmuebles.
+11410  El número de registros de tipo 2 procesados es inferior al Total inmuebles.
+11511  Descuadre entre suma importes reg. tipo 2 y Total operaciones inmuebles.
+10013  Presentación individual sin registro de tipo 0 .
+10134  Declarante sin declarados. 
+10015  Presentación individiual con más de un registro de tipo 1 .
+10001E Declarante repetido .
+20802  Contenido improcedente en Tipo hoja.
+20018  Error en la secuencia de los tipos de registro .
+20026  Tipo de registro desconocido .
+20026  Tipo de registro desconocido .
+20036  Presentación individual sin registros de tipo 2 .
+10018  Error en la secuencia de los tipos de registro .
+00037  Debido al error anterior, se rechaza el resto del fichero .
+
+
+
+Errores al validar el registro 1 del fichero auxiliar:
+90201  Contenido incorrecto en Modelo.
+90301  Contenido incorrecto en Ejercicio.
+90401C Caracteres no válidos en N.I.F. Declarante.
+90401  Contenido incorrecto en N.I.F. Declarante.
+90501  Contenido incorrecto en Delegación.
+90601  Contenido incorrecto en Administración.
+90701  Contenido incorrecto en S.G..
+90801C Caracteres no válidos en Vía Pública.
+90801B Contenido no alfabético en Vía Pública.
+90901A Contenido no numérico en Número.
+91001C Caracteres no válidos en Municipio.
+91001B Contenido no alfabético en Municipio.
+91101A Contenido no numérico en Provincia.
+91101  Contenido incorrecto en Provincia.
+91201  Contenido incorrecto en Código Postal.
+91301A Contenido no numérico en Fecha(Formato AAAAMMDD).
+91301  Contenido incorrecto en Fecha(Formato AAAAMMDD).
+91301C Caracteres no válidos en Fecha(Formato AAAAMMDD).
+91401  Contenido incorrecto en Firmante.
+91501  Contenido incorrecto en Cargo.
+91601C Caracteres no válidos en Identificación Cliente.
+
+Errores al comprobar fichero auxiliares:
+90115  Presentación individiual con más de un registro de tipo 1. 
+90401E Declarante repetido 
+90418  Error en la secuencia de los tipos de registro. 
+90118  Error en la secuencia de los tipos de registro. 
+90101  Contenido incorrecto en Tipo registro.
+90131  Numero de registros tipo 1 distinto en ficheros 
+ 

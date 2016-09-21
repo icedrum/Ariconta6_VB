@@ -1,0 +1,49 @@
+#cuentas
+
+update `ariconta1`.`cuentas`
+set iban = concat("ESXX" ,right(concat('0000',entidad),4),right(concat('0000',oficina),4),right(concat('00',control),2),right(concat('0000000000',cuentaba),10))
+where entidad <> 0 and ( iban is null or length(iban) <> 24)
+;
+
+alter table `ariconta1`.`cuentas` drop column `entidad`, drop column `oficina`, drop column `control`, drop column `cuentaba`
+;
+
+#bancos
+
+update `ariconta1`.bancos
+set iban = concat("ESXX" ,right(concat('0000',entidad),4),right(concat('0000',oficina),4),right(concat('00',control),2),right(concat('0000000000',cuentaba),10))
+where entidad <> 0 and ( iban is null or length(iban) <> 24)
+;
+
+alter table `ariconta1`.`bancos` drop column `entidad`, drop column `oficina`, drop column `control`, drop column `cuentaba`
+;
+
+
+#cobros
+
+update `ariconta1`.cobros
+set iban = concat("ESXX" ,right(concat('0000',entidad),4),right(concat('0000',oficina),4),right(concat('00',control),2),right(concat('0000000000',cuentaba),10))
+where entidad <> 0 and ( iban is null or length(iban) <> 24)
+;
+
+alter table `ariconta1`.`cobros` drop column `entidad`, drop column `oficina`, drop column `control`, drop column `cuentaba`
+;
+
+
+#pagos 
+
+update `ariconta1`.pagos
+set iban = concat("ESXX" ,right(concat('0000',entidad),4),right(concat('0000',oficina),4),right(concat('00',control),2),right(concat('0000000000',cuentaba),10))
+where entidad <> 0 and ( iban is null or length(iban) <> 24)
+;
+
+alter table `ariconta1`.`pagos` drop column `entidad`, drop column `oficina`, drop column `control`, drop column `cuentaba`
+;
+
+#Referenciales
+alter table `ariconta1`.`hlinapu` change `numasien` `numasien` int (10) UNSIGNED  DEFAULT '0' NOT NULL
+;
+
+alter table `ariconta1`.`hlinapu` add foreign key `FK_hlinapu`(`numdiari`,`fechaent`,`numasien`) references `hcabapu` (`numdiari`,`fechaent`,`numasien`) on delete restrict  on update cascade 
+;
+
