@@ -2,14 +2,14 @@ Attribute VB_Name = "bus"
 Option Explicit
 
 
-Global I&, J&, k&                             ' Contadores
+Global i&, J&, k&                             ' Contadores
 Global Msg$, MsgErr$, NumErr&                 ' Variables de control de error
 Global CONT%, Opc%, Skn$, SknDir$             ' Otros contadores
 Public Tmp%, m_hMod&
 
 ' añadido por la insercion de documentos en las lineas de asientos
 Public Declare Function ShellExecute Lib "shell32.dll" Alias _
-    "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, _
+    "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, _
     ByVal lpFile As String, ByVal lpParameters As String, _
     ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
@@ -134,66 +134,33 @@ Dim cad As String
 Dim NF As Integer
 
 Dim Sql As String
-Dim PrimeraBD As String
+
 
 
        Load frmIdentifica
        CadenaDesdeOtroForm = ""
 
        'Necesitaremos el archivo arifon.dat
-       'MsgBox "Antes identifca.show"
+       
+       Set vEmpresa = Nothing
        frmIdentifica.Show vbModal
         
-       If CadenaDesdeOtroForm = "" Then
-            'NO se ha identificado
-            Set Conn = Nothing
-            End
-       End If
-       
-       '++
-       CadenaDesdeOtroForm = vControl.UltEmpre 'ultima empresa
-       vUsu.CadenaConexion = vControl.UltEmpre
-       '++
-       
-       If CadenaDesdeOtroForm = "" Then
-            'No ha seleccionado nonguna empresa
-            Set Conn = Nothing
-            End
-            Exit Sub
-        End If
-        Screen.MousePointer = vbHourglass
-
-        ' antes de cerrar la conexion cojo de usuarios.empresasariconta la primera que encuentre
-        Sql = "select min(conta) from usuarios.empresasariconta  "
-        PrimeraBD = DevuelveValor(Sql)
-
-
-        'Cerramos la conexion
-        Conn.Close
-        
-        If AbrirConexion(CadenaDesdeOtroForm, True) = False Then
-            CadenaDesdeOtroForm = PrimeraBD
-            If AbrirConexion(CadenaDesdeOtroForm) = False Then
-                End
-            End If
-        End If
-        
-        Screen.MousePointer = vbHourglass
-        LeerEmpresaParametros
-        
-
-        RevisarIntroduccion = 0
+       If vEmpresa Is Nothing Then Exit Sub
         
         'Otras acciones
         Screen.MousePointer = vbHourglass
         
-        OtrasAcciones
+        
         
         '--
         'Load frmPpal
-        frmPpal.UnaVez = True
-        frmPpal.nomempre = vEmpresa.nomempre
-        frmPpal.Show
+        'frmPpal.UnaVez = True
+        'frmPpal.nomempre = vEmpresa.nomempre
+        
+        'En el frmIDENTIFICA, esta el LOAD
+        
+        
+        frmppal.Show
         
         Screen.MousePointer = vbHourglass
 End Sub
@@ -281,39 +248,7 @@ End If
 End Function
 
 
-Private Sub OtrasAcciones()
-On Error Resume Next
 
-    FormatoFecha = "yyyy-mm-dd"
-    FormatoImporte = "#,###,###,##0.00"
-    FormatoPrecio = "#,###0.000"
-    FormatoDec10d2 = "##,###,##0.00"
-    FormatoPorcen = "##0.00"
-    
-    '++
-    teclaBuscar = 43
-
-    DireccionAyuda = "http://help-ariconta.ariadnasw.com/"
-
-    'Borramos uno de los archivos temporales
-    If Dir(App.Path & "\ErrActua.txt") <> "" Then Kill App.Path & "\ErrActua.txt"
-    
-    
-    'Borramos tmp bloqueos
-    'Borramos temporal
-    CadenaDesdeOtroForm = OtrosPCsContraContabiliad(True)
-    NumRegElim = Len(CadenaDesdeOtroForm)
-    If NumRegElim = 0 Then
-        CadenaDesdeOtroForm = ""
-    Else
-        CadenaDesdeOtroForm = " WHERE codusu = " & vUsu.Codigo
-    End If
-    Conn.Execute "Delete from zBloqueos " & CadenaDesdeOtroForm
-    CadenaDesdeOtroForm = ""
-    NumRegElim = 0
-    
-    
-End Sub
 
 
 'Usuario As String, Pass As String --> Directamente el usuario
@@ -380,13 +315,13 @@ End Sub
 'Cambia los puntos de los numeros decimales
 'por comas
 Public Function TransformaPuntosComas(CADENA As String) As String
-    Dim I As Integer
+    Dim i As Integer
     Do
-        I = InStr(1, CADENA, ".")
-        If I > 0 Then
-            CADENA = Mid(CADENA, 1, I - 1) & "," & Mid(CADENA, I + 1)
+        i = InStr(1, CADENA, ".")
+        If i > 0 Then
+            CADENA = Mid(CADENA, 1, i - 1) & "," & Mid(CADENA, i + 1)
         End If
-        Loop Until I = 0
+        Loop Until i = 0
     TransformaPuntosComas = CADENA
 End Function
 
@@ -394,13 +329,13 @@ End Function
 'Cambia los puntos de los numeros decimales
 'por comas
 Public Function TransformaComasPuntos(CADENA As String) As String
-    Dim I As Integer
+    Dim i As Integer
     Do
-        I = InStr(1, CADENA, ",")
-        If I > 0 Then
-            CADENA = Mid(CADENA, 1, I - 1) & "." & Mid(CADENA, I + 1)
+        i = InStr(1, CADENA, ",")
+        If i > 0 Then
+            CADENA = Mid(CADENA, 1, i - 1) & "." & Mid(CADENA, i + 1)
         End If
-        Loop Until I = 0
+        Loop Until i = 0
     TransformaComasPuntos = CADENA
 End Function
 
@@ -409,13 +344,13 @@ End Function
 'Cambia los puntos de los numeros decimales
 'por comas
 Public Function TransformaPuntosHoras(CADENA As String) As String
-    Dim I As Integer
+    Dim i As Integer
     Do
-        I = InStr(1, CADENA, ".")
-        If I > 0 Then
-            CADENA = Mid(CADENA, 1, I - 1) & ":" & Mid(CADENA, I + 1)
+        i = InStr(1, CADENA, ".")
+        If i > 0 Then
+            CADENA = Mid(CADENA, 1, i - 1) & ":" & Mid(CADENA, i + 1)
         End If
-    Loop Until I = 0
+    Loop Until i = 0
     TransformaPuntosHoras = CADENA
 End Function
 
@@ -535,6 +470,26 @@ Dim Mens As String
     End If
 End Function
 
+
+
+Public Function UltimoDiaPeriodoLiquidado() As Date
+Dim Mes As Integer
+Dim Dias As Integer
+    'Primero pondremos la fecha a año p
+    If vParam.periodos = 0 Then
+        'Trimestral
+        Mes = vParam.perfactu * 3
+    Else
+        Mes = vParam.perfactu
+    End If
+    Dias = DiasMes(CByte(Mes), vParam.anofactu)
+    
+    UltimoDiaPeriodoLiquidado = CDate(Dias & "/" & Format(Mes, "00") & "/" & vParam.anofactu)
+End Function
+
+
+
+
 Public Sub MuestraError(numero As Long, Optional CADENA As String, Optional Desc As String)
     Dim cad As String
     Dim Aux As String
@@ -569,33 +524,33 @@ End Function
 
 
 Public Function RellenaCodigoCuenta(vCodigo As String) As String
-    Dim I As Integer
+    Dim i As Integer
     Dim J As Integer
     Dim CONT As Integer
     Dim cad As String
     
     RellenaCodigoCuenta = vCodigo
     If Len(vCodigo) > vEmpresa.DigitosUltimoNivel Then Exit Function
-    I = 0: CONT = 0
+    i = 0: CONT = 0
     Do
-        I = I + 1
-        I = InStr(I, vCodigo, ".")
-        If I > 0 Then
+        i = i + 1
+        i = InStr(i, vCodigo, ".")
+        If i > 0 Then
             If CONT > 0 Then CONT = 1000
-            CONT = CONT + I
+            CONT = CONT + i
         End If
-    Loop Until I = 0
+    Loop Until i = 0
     
     'Habia mas de un punto
     If CONT > 1000 Or CONT = 0 Then Exit Function
     
     'Cambiamos el punto por 0's  .-Utilizo la variable maximocaracteres, para no tener k definir mas
-    I = Len(vCodigo) - 1 'el punto lo quito
-    J = vEmpresa.DigitosUltimoNivel - I
+    i = Len(vCodigo) - 1 'el punto lo quito
+    J = vEmpresa.DigitosUltimoNivel - i
     cad = ""
-    For I = 1 To J
+    For i = 1 To J
         cad = cad & "0"
-    Next I
+    Next i
     
     cad = Mid(vCodigo, 1, CONT - 1) & cad
     cad = cad & Mid(vCodigo, CONT + 1)
@@ -876,32 +831,32 @@ End Function
 Public Function NivelCuenta(CodigoCuenta As String) As Integer
 Dim lon As Integer
 Dim niv As Integer
-Dim I As Integer
+Dim i As Integer
     NivelCuenta = -1
     lon = Len(CodigoCuenta)
-    I = 0
+    i = 0
     Do
-       I = I + 1
-       niv = DigitosNivel(I)
+       i = i + 1
+       niv = DigitosNivel(i)
        If niv > 0 Then
             If niv = lon Then
-                NivelCuenta = I
-                I = 11 'para salir del bucle
+                NivelCuenta = i
+                i = 11 'para salir del bucle
             End If
         Else
-            I = 11 'salimos pq ya no hay nveles para las cuentas de longitud lon
+            i = 11 'salimos pq ya no hay nveles para las cuentas de longitud lon
         End If
-    Loop Until I > 10
+    Loop Until i > 10
 End Function
 
 
 Public Function ExistenSubcuentas(ByRef Cuenta As String, Nivel As Integer) As Boolean
-Dim I As Integer
+Dim i As Integer
 Dim B As Boolean
 Dim cad As String
     
-    I = DigitosNivel(Nivel)
-    cad = Mid(Cuenta, 1, I)
+    i = DigitosNivel(Nivel)
+    cad = Mid(Cuenta, 1, i)
     cad = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", cad, "T")
     If cad = "" Then
         'NO existe la subcuenta de nivel N
@@ -918,15 +873,15 @@ End Function
 
 
 Public Function CreaSubcuentas(ByRef Cuenta, HastaNivel As Integer, TEXTO As String) As Boolean
-Dim I As Integer
+Dim i As Integer
 Dim J As Integer
 Dim cad As String
 Dim Cta As String
 
 On Error GoTo ECreaSubcuentas
 CreaSubcuentas = False
-For I = 1 To HastaNivel
-    J = DigitosNivel(I)
+For i = 1 To HastaNivel
+    J = DigitosNivel(i)
     Cta = Mid(Cuenta, 1, J)
     cad = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cta, "T")
     If cad = "" Then
@@ -940,7 +895,7 @@ For I = 1 To HastaNivel
         cad = cad & "'N', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"
         Conn.Execute cad
     End If
-Next I
+Next i
 CreaSubcuentas = True
 Exit Function
 ECreaSubcuentas:
@@ -951,7 +906,7 @@ End Function
 
 
 Public Function CambiarBarrasPATH(ParaGuardarBD As Boolean, CADENA) As String
-Dim I As Integer
+Dim i As Integer
 Dim Ch As String
 Dim Ch2 As String
 
@@ -962,23 +917,23 @@ Else
     Ch = "/"
     Ch2 = "\"
 End If
-I = 0
+i = 0
 Do
-    I = I + 1
-    I = InStr(1, CADENA, Ch)
-    If I > 0 Then CADENA = Mid(CADENA, 1, I - 1) & Ch2 & Mid(CADENA, I + 1)
-Loop Until I = 0
+    i = i + 1
+    i = InStr(1, CADENA, Ch)
+    If i > 0 Then CADENA = Mid(CADENA, 1, i - 1) & Ch2 & Mid(CADENA, i + 1)
+Loop Until i = 0
 CambiarBarrasPATH = CADENA
 End Function
 
 
 Public Function ImporteSinFormato(CADENA As String) As String
-Dim I As Integer
+Dim i As Integer
 'Quitamos puntos
 Do
-    I = InStr(1, CADENA, ".")
-    If I > 0 Then CADENA = Mid(CADENA, 1, I - 1) & Mid(CADENA, I + 1)
-Loop Until I = 0
+    i = InStr(1, CADENA, ".")
+    If i > 0 Then CADENA = Mid(CADENA, 1, i - 1) & Mid(CADENA, i + 1)
+Loop Until i = 0
 ImporteSinFormato = TransformaPuntosComas(CADENA)
 End Function
 
@@ -1050,10 +1005,10 @@ End Sub
 'que 800x600 lo pone en el 400
 Public Sub AjustarPantalla(ByRef formulario As Form)
     If Screen.Width > 13000 Then
-        formulario.Top = 400
+        formulario.top = 400
         formulario.Left = 400
     Else
-        formulario.Top = 0
+        formulario.top = 0
         formulario.Left = 0
     End If
     formulario.Width = 12000
@@ -1066,16 +1021,16 @@ End Sub
 '   Cogemos un numero formateado: 1.256.256,98  y deevolvemos 1256256.98
 '   Tiene que venir numérico
 Public Function ImporteFormateado(Importe As String) As Currency
-Dim I As Integer
+Dim i As Integer
 
 If Importe = "" Then
     ImporteFormateado = 0
     Else
         'Primero quitamos los puntos
         Do
-            I = InStr(1, Importe, ".")
-            If I > 0 Then Importe = Mid(Importe, 1, I - 1) & Mid(Importe, I + 1)
-        Loop Until I = 0
+            i = InStr(1, Importe, ".")
+            If i > 0 Then Importe = Mid(Importe, 1, i - 1) & Mid(Importe, i + 1)
+        Loop Until i = 0
         ImporteFormateado = Importe
 End If
 End Function
@@ -1163,22 +1118,22 @@ End Function
 
 
 Private Function Servidor() As String
-Dim I As Integer
+Dim i As Integer
 Dim cad As String
 
     On Error GoTo eServidor
 
     Servidor = ""
 
-    I = InStr(1, Conn.ConnectionString, "SERVER=")
+    i = InStr(1, Conn.ConnectionString, "SERVER=")
     
-    If I = 0 Then Exit Function
+    If i = 0 Then Exit Function
     
-    cad = Mid(Conn.ConnectionString, I, Len(Conn.ConnectionString) - I)
+    cad = Mid(Conn.ConnectionString, i, Len(Conn.ConnectionString) - i)
     
-    I = InStr(1, cad, ";")
+    i = InStr(1, cad, ";")
     
-    Servidor = Mid(cad, 8, I - 8)  '8 es la longitud de "SERVER="
+    Servidor = Mid(cad, 8, i - 8)  '8 es la longitud de "SERVER="
     Exit Function
     
 eServidor:
@@ -1263,7 +1218,7 @@ End Function
 
 
 Public Function EsNumerico(TEXTO As String) As Boolean
-Dim I As Integer
+Dim i As Integer
 Dim C As Integer
 Dim L As Integer
 Dim cad As String
@@ -1277,24 +1232,24 @@ Dim cad As String
         C = 0
         L = 1
         Do
-            I = InStr(L, TEXTO, ".")
-            If I > 0 Then
-                L = I + 1
+            i = InStr(L, TEXTO, ".")
+            If i > 0 Then
+                L = i + 1
                 C = C + 1
             End If
-        Loop Until I = 0
+        Loop Until i = 0
         If C > 1 Then cad = "Numero de puntos incorrecto"
         
         'Si ha puesto mas de una coma y no tiene puntos
         If C = 0 Then
             L = 1
             Do
-                I = InStr(L, TEXTO, ",")
-                If I > 0 Then
-                    L = I + 1
+                i = InStr(L, TEXTO, ",")
+                If i > 0 Then
+                    L = i + 1
                     C = C + 1
                 End If
-            Loop Until I = 0
+            Loop Until i = 0
             If C > 1 Then cad = "Numero incorrecto"
         End If
         
@@ -1355,32 +1310,32 @@ End Function
 'Para los nombre que pueden tener ' . Para las comillas habra que hacer dentro otro INSTR
 Public Sub NombreSQL(ByRef CADENA As String)
 Dim J As Integer
-Dim I As Integer
+Dim i As Integer
 Dim Aux As String
     J = 1
     Do
-        I = InStr(J, CADENA, "'")
-        If I > 0 Then
-            Aux = Mid(CADENA, 1, I - 1) & "\"
-            CADENA = Aux & Mid(CADENA, I)
-            J = I + 2
+        i = InStr(J, CADENA, "'")
+        If i > 0 Then
+            Aux = Mid(CADENA, 1, i - 1) & "\"
+            CADENA = Aux & Mid(CADENA, i)
+            J = i + 2
         End If
-    Loop Until I = 0
+    Loop Until i = 0
 End Sub
 
 Public Function DevNombreSQL(CADENA As String) As String
 Dim J As Integer
-Dim I As Integer
+Dim i As Integer
 Dim Aux As String
     J = 1
     Do
-        I = InStr(J, CADENA, "'")
-        If I > 0 Then
-            Aux = Mid(CADENA, 1, I - 1) & "\"
-            CADENA = Aux & Mid(CADENA, I)
-            J = I + 2
+        i = InStr(J, CADENA, "'")
+        If i > 0 Then
+            Aux = Mid(CADENA, 1, i - 1) & "\"
+            CADENA = Aux & Mid(CADENA, i)
+            J = i + 2
         End If
-    Loop Until I = 0
+    Loop Until i = 0
     DevNombreSQL = CADENA
 End Function
 
@@ -1390,16 +1345,16 @@ End Function
 Public Function FechaInicioIGUALinicioEjerecicio(FecIni As Date, EjerciciosCerrados1 As Boolean) As Byte
 Dim Fecha As Date
 Dim Salir As Boolean
-Dim I As Integer
+Dim i As Integer
 On Error GoTo EfechaInicioIGUALinicioEjerecicio
 
     FechaInicioIGUALinicioEjerecicio = 1
     If EjerciciosCerrados1 Then
-        I = -1 'En ejercicios cerrados empèzamos mirando un año por debajo fecini
+        i = -1 'En ejercicios cerrados empèzamos mirando un año por debajo fecini
     Else
-        I = 1
+        i = 1
     End If
-    Fecha = DateAdd("yyyy", I, vParam.fechaini)
+    Fecha = DateAdd("yyyy", i, vParam.fechaini)
     Salir = False
     While Not Salir
         If FecIni = Fecha Then
@@ -1454,14 +1409,14 @@ End Function
 ' Los numeros vendran formateados o sin formatear, pero siempre viene texto
 '
 Public Function CadenaCurrency(TEXTO As String, ByRef Importe As Currency) As Boolean
-Dim I As Integer
+Dim i As Integer
 
     On Error GoTo ECadenaCurrency
     Importe = 0
     CadenaCurrency = False
     If Not IsNumeric(TEXTO) Then Exit Function
-    I = InStr(1, TEXTO, ",")
-    If I = 0 Then
+    i = InStr(1, TEXTO, ",")
+    If i = 0 Then
         'Significa k el numero no esta  formateado y como mucho tiene punto
         Importe = CCur(TransformaPuntosComas(TEXTO))
     Else
@@ -1477,7 +1432,7 @@ End Function
 
 
 Public Function UsuariosConectados(vMens As String, Optional DejarContinuar As Boolean) As Boolean
-Dim I As Integer
+Dim i As Integer
 Dim cad As String
 Dim metag As String
 Dim Sql As String
@@ -1485,16 +1440,16 @@ cad = OtrosPCsContraContabiliad(False)
 UsuariosConectados = False
 If cad <> "" Then
     UsuariosConectados = True
-    I = 1
+    i = 1
     metag = vMens
     If vMens <> "" Then metag = metag & vbCrLf
     metag = metag & vbCrLf & "Los siguientes PC's están conectados a: " & vEmpresa.nomempre & " (" & vUsu.CadenaConexion & ")" & vbCrLf & vbCrLf
     
     Do
-        Sql = RecuperaValor(cad, I)
+        Sql = RecuperaValor(cad, i)
         If Sql <> "" Then
             metag = metag & "    - " & Sql & vbCrLf
-            I = I + 1
+            i = i + 1
         End If
     Loop Until Sql = ""
     If DejarContinuar Then
@@ -1561,14 +1516,14 @@ End Function
 
 
 Public Function EstaLaCuentaBloqueada(ByRef codmacta As String, Fecha As Date) As Boolean
-Dim I As Integer
+Dim i As Integer
 
         EstaLaCuentaBloqueada = False
         If vParam.CuentasBloqueadas <> "" Then
-            I = InStr(1, vParam.CuentasBloqueadas, codmacta & ":")
-            If I > 0 Then
+            i = InStr(1, vParam.CuentasBloqueadas, codmacta & ":")
+            If i > 0 Then
                 'La cuenta esta con fecha de bloqueo
-                If Fecha >= CDate(Mid(vParam.CuentasBloqueadas, I + Len(codmacta) + 1, 10)) Then EstaLaCuentaBloqueada = True
+                If Fecha >= CDate(Mid(vParam.CuentasBloqueadas, i + Len(codmacta) + 1, 10)) Then EstaLaCuentaBloqueada = True
             End If
         End If
 End Function
@@ -1593,7 +1548,7 @@ End Sub
 
 
 Public Function EsEntero(TEXTO As String) As Boolean
-Dim I As Integer
+Dim i As Integer
 Dim C As Integer
 Dim L As Integer
 Dim res As Boolean
@@ -1608,24 +1563,24 @@ Dim res As Boolean
         C = 0
         L = 1
         Do
-            I = InStr(L, TEXTO, ".")
-            If I > 0 Then
-                L = I + 1
+            i = InStr(L, TEXTO, ".")
+            If i > 0 Then
+                L = i + 1
                 C = C + 1
             End If
-        Loop Until I = 0
+        Loop Until i = 0
         If C > 1 Then res = False
         
         'Si ha puesto mas de una coma y no tiene puntos
         If C = 0 Then
             L = 1
             Do
-                I = InStr(L, TEXTO, ",")
-                If I > 0 Then
-                    L = I + 1
+                i = InStr(L, TEXTO, ",")
+                If i > 0 Then
+                    L = i + 1
                     C = C + 1
                 End If
-            Loop Until I = 0
+            Loop Until i = 0
             If C > 1 Then res = False
         End If
         
@@ -1655,22 +1610,22 @@ End Function
 '                           2.- Fecha
 '                           3.- Ayuda
 Public Sub CargaImagenesAyudas(ByRef Colec, Tipo As Byte, Optional ToolTipText_ As String)
-Dim I As Image
+Dim i As Image
 
     
 
-    For Each I In Colec
-            I.Picture = frmPpal.imgIcoForms.ListImages(Tipo).Picture
-            If I.ToolTipText = "" Then
+    For Each i In Colec
+            i.Picture = frmppal.imgIcoForms.ListImages(Tipo).Picture
+            If i.ToolTipText = "" Then
                 If ToolTipText_ <> "" Then
-                    I.ToolTipText = ToolTipText_
+                    i.ToolTipText = ToolTipText_
                 Else
                     If Tipo = 3 Then
-                        I.ToolTipText = "Ayuda"
+                        i.ToolTipText = "Ayuda"
                     ElseIf Tipo = 2 Then
-                        I.ToolTipText = "Buscar fecha"
+                        i.ToolTipText = "Buscar fecha"
                     Else
-                        I.ToolTipText = "Buscar"
+                        i.ToolTipText = "Buscar"
                     End If
                 End If
             End If
@@ -1934,14 +1889,14 @@ End Sub
 '-------------------------------------------------------------------------
 'CCargar LISTVIEW con las mempresas de tesoreria
 Private Function DevuelveProhibidas() As String
-Dim I As Integer
+Dim i As Integer
 
 
     On Error GoTo EDevuelveProhibidas
     DevuelveProhibidas = ""
 
-    I = vUsu.Codigo Mod 100
-    miRsAux.Open "Select * from usuarios.usuarioempresasariconta WHERE codusu =" & I, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    i = vUsu.Codigo Mod 100
+    miRsAux.Open "Select * from usuarios.usuarioempresasariconta WHERE codusu =" & i, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     DevuelveProhibidas = ""
     While Not miRsAux.EOF
         DevuelveProhibidas = DevuelveProhibidas & miRsAux.Fields(1) & "|"
@@ -2022,16 +1977,16 @@ Dim C As String
 End Function
 
 Public Function TextoAimporte(Importe As String) As Currency
-Dim I As Integer
+Dim i As Integer
     If Importe = "" Then
         TextoAimporte = 0
     Else
         If InStr(1, Importe, ",") > 0 Then
             'Primero quitamos los puntos
             Do
-                I = InStr(1, Importe, ".")
-                If I > 0 Then Importe = Mid(Importe, 1, I - 1) & Mid(Importe, I + 1)
-            Loop Until I = 0
+                i = InStr(1, Importe, ".")
+                If i > 0 Then Importe = Mid(Importe, 1, i - 1) & Mid(Importe, i + 1)
+            Loop Until i = 0
             TextoAimporte = Importe
         
         

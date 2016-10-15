@@ -12,7 +12,6 @@ Begin VB.Form frmIdentifica
    MinButton       =   0   'False
    ScaleHeight     =   5640
    ScaleWidth      =   9705
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin VB.TextBox Text1 
       Alignment       =   2  'Center
@@ -177,6 +176,7 @@ Option Explicit
 Dim PrimeraVez As Boolean
 Dim T1 As Single
 Dim CodPC As Long
+Dim UsuarioOK As String
 
 Private Sub Combo1_KeyPress(KeyAscii As Integer)
     KEYpress KeyAscii
@@ -276,6 +276,7 @@ End Sub
 
 Private Sub Form_Load()
     Screen.MousePointer = vbHourglass
+    UsuarioOK = ""
     PonerVisible False
     T1 = Timer
     Text1(0).Text = ""
@@ -310,8 +311,13 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
 '    NumeroEmpresaMemorizar False
-    vControl.UltUsu = Combo1.Text 'Text1(0).Text
-    vControl.Grabar
+    If UsuarioOK <> "" Then
+            If vControl.UltUsu <> UsuarioOK Then
+                vControl.UltUsu = UsuarioOK 'Text1(0).Text
+                vControl.Grabar
+            End If
+        
+    End If
 End Sub
 
 
@@ -338,11 +344,12 @@ Private Sub Text1_LostFocus(Index As Integer)
         
     
 End Sub
-Private Sub PLabel(TEXTO As String)
+
+Public Sub pLabel(TEXTO As String)
 
     Me.Label1(2).Caption = TEXTO
     Label1(2).Refresh
-    espera 0.8
+    espera 0.3
 End Sub
 
 
@@ -351,7 +358,7 @@ Dim NuevoUsu As Usuario
 Dim Ok As Byte
 
     'Validaremos el usuario y despues el password
-    PLabel "Creando"
+    pLabel "Creando"
     Set vUsu = New Usuario
     
     
@@ -387,25 +394,92 @@ Dim Ok As Byte
         End If
     Else
         'OK
+        If vEmpresa Is Nothing Then
+            UsuarioCorrecto
+            Unload Me
+        End If
+    End If
+
+End Sub
+
+
+Private Sub UsuarioCorrecto()
+Dim Sql As String
+Dim PrimeraBD As String
         Screen.MousePointer = vbHourglass
         CadenaDesdeOtroForm = "OK"
         Label1(2).Caption = "Leyendo ."  'Si tarda pondremos texto aquin
+        UsuarioOK = Text1(0).Text
         PonerVisible False
         Me.Refresh
         espera 0.1
         Me.Refresh
-        espera 0.2
+
         Screen.MousePointer = vbHourglass
         
         
-        PLabel "Acciones BD"
+        pLabel "Conectando BD"
         HacerAccionesBD
-        PLabel "Cerrando"
-        Unload Me
         
-    End If
 
+
+
+       
+       '++
+       CadenaDesdeOtroForm = vControl.UltEmpre 'ultima empresa
+       vUsu.CadenaConexion = vControl.UltEmpre
+       '++
+       
+       If CadenaDesdeOtroForm = "" Then
+            'No ha seleccionado nonguna empresa
+            Set Conn = Nothing
+            End
+            Exit Sub
+        End If
+        Screen.MousePointer = vbHourglass
+
+        
+
+        ' antes de cerrar la conexion cojo de usuarios.empresasariconta la primera que encuentre
+        Sql = "select min(conta) from usuarios.empresasariconta  "
+        PrimeraBD = DevuelveValor(Sql)
+
+
+        'Cerramos la conexion
+        Conn.Close
+        pLabel "Abriendo " & CadenaDesdeOtroForm
+        
+        If AbrirConexion(CadenaDesdeOtroForm, True) = False Then
+            CadenaDesdeOtroForm = PrimeraBD
+            If AbrirConexion(CadenaDesdeOtroForm) = False Then
+                End
+            End If
+        End If
+        
+        Screen.MousePointer = vbHourglass
+        pLabel "Leyendo parametros"
+        LeerEmpresaParametros
+        
+
+        RevisarIntroduccion = 0
+
+
+
+
+
+
+
+
+
+        OtrasAcciones
+
+
+        'La madre de todas las batallas
+        pLabel "Cargando principal"
+
+        Load frmppal
 End Sub
+
 
 Private Sub HacerAccionesBD()
 Dim Sql As String
@@ -413,14 +487,20 @@ Dim Sql As String
     T1 = Timer
     
     'Limpiamos datos blanace
-
+    CadenaDesdeOtroForm = " WHERE codusu = " & vUsu.Codigo
+    Conn.Execute "Delete from zBloqueos " & CadenaDesdeOtroForm
+    Conn.Execute "Delete from tmpconextcab " & CadenaDesdeOtroForm
+    Conn.Execute "Delete from tmpactualizar " & CadenaDesdeOtroForm
+    Conn.Execute "Delete from usuarios.ztesoreriacomun  " & CadenaDesdeOtroForm
+    Conn.Execute "Delete from usuarios.ztmpfaclin " & CadenaDesdeOtroForm
+      
+    CadenaDesdeOtroForm = ""
 
     Me.Refresh
     T1 = Timer - T1
-    If T1 < 1 Then espera 0.7
+    If T1 < 1 Then espera 0.4
     
-    Label1(2).Caption = ""
-    Me.Refresh
+    DoEvents
     espera 0.2
 End Sub
 
@@ -548,3 +628,40 @@ Dim miRsAux As ADODB.Recordset
     
 End Sub
 
+
+
+
+
+Private Sub OtrasAcciones()
+On Error Resume Next
+
+    FormatoFecha = "yyyy-mm-dd"
+    FormatoImporte = "#,###,###,##0.00"
+    FormatoPrecio = "#,###0.000"
+    FormatoDec10d2 = "##,###,##0.00"
+    FormatoPorcen = "##0.00"
+    
+    '++
+    teclaBuscar = 43
+
+    DireccionAyuda = "http://help-ariconta.ariadnasw.com/"
+
+    'Borramos uno de los archivos temporales
+    If Dir(App.Path & "\ErrActua.txt") <> "" Then Kill App.Path & "\ErrActua.txt"
+    
+    
+    'Borramos tmp bloqueos
+    'Borramos temporal
+    CadenaDesdeOtroForm = OtrosPCsContraContabiliad(True)
+    NumRegElim = Len(CadenaDesdeOtroForm)
+    If NumRegElim = 0 Then
+        CadenaDesdeOtroForm = ""
+    Else
+        CadenaDesdeOtroForm = " WHERE codusu = " & vUsu.Codigo
+    End If
+    Conn.Execute "Delete from zBloqueos " & CadenaDesdeOtroForm
+    CadenaDesdeOtroForm = ""
+    NumRegElim = 0
+    
+    
+End Sub

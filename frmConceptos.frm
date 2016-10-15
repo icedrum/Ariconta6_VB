@@ -536,7 +536,7 @@ Dim Modo As Byte
 
 Private Sub PonerModo(vModo)
 Dim B As Boolean
-Dim I As Integer
+Dim i As Integer
 
     Modo = vModo
 
@@ -554,9 +554,9 @@ Dim I As Integer
     Combo1.Visible = Not B
     Combo2.Visible = Not B
     
-    For I = 0 To txtAux.Count - 1
-        txtAux(I).BackColor = vbWhite
-    Next I
+    For i = 0 To txtAux.Count - 1
+        txtAux(i).BackColor = vbWhite
+    Next i
     Combo1.BackColor = vbWhite
     Combo2.BackColor = vbWhite
     
@@ -607,9 +607,9 @@ Private Sub BotonAnyadir()
     End If
     
     If DataGrid1.Row < 0 Then
-        anc = DataGrid1.Top + 260
+        anc = DataGrid1.top + 260
     Else
-        anc = DataGrid1.RowTop(DataGrid1.Row) + DataGrid1.Top
+        anc = DataGrid1.RowTop(DataGrid1.Row) + DataGrid1.top
     End If
     
     txtAux(0).Text = NumF
@@ -635,7 +635,7 @@ Private Sub BotonBuscar()
     'Buscar
     txtAux(0).Text = ""
     txtAux(1).Text = ""
-    LLamaLineas DataGrid1.Top + 250, 1
+    LLamaLineas DataGrid1.top + 250, 1
     PonFoco txtAux(0)
 End Sub
 
@@ -645,7 +645,7 @@ Private Sub BotonModificar()
     '----------
     Dim cad As String
     Dim anc As Single
-    Dim I As Integer
+    Dim i As Integer
     If adodc1.Recordset.EOF Then Exit Sub
     If adodc1.Recordset.RecordCount < 1 Then Exit Sub
 
@@ -658,22 +658,22 @@ Private Sub BotonModificar()
     Me.lblIndicador.Caption = "MODIFICAR"
     DeseleccionaGrid
     If DataGrid1.Bookmark < DataGrid1.FirstRow Or DataGrid1.Bookmark > (DataGrid1.FirstRow + DataGrid1.VisibleRows - 1) Then
-        I = DataGrid1.Bookmark - DataGrid1.FirstRow
-        DataGrid1.Scroll 0, I
+        i = DataGrid1.Bookmark - DataGrid1.FirstRow
+        DataGrid1.Scroll 0, i
         DataGrid1.Refresh
     End If
     
     If DataGrid1.Row < 0 Then
         anc = 320
         Else
-        anc = DataGrid1.RowTop(DataGrid1.Row) + DataGrid1.Top
+        anc = DataGrid1.RowTop(DataGrid1.Row) + DataGrid1.top
     End If
 
     'Llamamos al form
     txtAux(0).Text = DataGrid1.Columns(0).Text
     txtAux(1).Text = DataGrid1.Columns(1).Text
-    I = adodc1.Recordset!TipoConce
-    Combo1.ListIndex = I - 1
+    i = adodc1.Recordset!TipoConce
+    Combo1.ListIndex = i - 1
     If DBLet(adodc1.Recordset!EsEfectivo340, "T") = "" Then
         Combo2.ListIndex = 0
     Else
@@ -691,10 +691,10 @@ End Sub
 Private Sub LLamaLineas(alto As Single, xModo As Byte)
 PonerModo xModo
 'Fijamos el ancho
-txtAux(0).Top = alto
-txtAux(1).Top = alto
-Combo1.Top = alto - 15
-Combo2.Top = alto - 15
+txtAux(0).top = alto
+txtAux(1).top = alto
+Combo1.top = alto - 15
+Combo2.top = alto - 15
 
 End Sub
 
@@ -736,7 +736,7 @@ End Sub
 
 
 Private Sub cmdAceptar_Click()
-Dim I As Integer
+Dim i As Integer
 Dim CadB As String
     Select Case Modo
     Case 1
@@ -762,10 +762,10 @@ Dim CadB As String
                 '-----------------------------------------
                 'Hacemos insertar
                 If ModificaDesdeFormulario(Me) Then
-                    I = adodc1.Recordset.Fields(0)
+                    i = adodc1.Recordset.Fields(0)
                     PonerModo 0
                     CargaGrid
-                    adodc1.Recordset.Find (adodc1.Recordset.Fields(0).Name & " =" & I)
+                    adodc1.Recordset.Find (adodc1.Recordset.Fields(0).Name & " =" & i)
                 End If
             End If
     End Select
@@ -865,13 +865,13 @@ End Sub
 '++
 Private Sub Form_Load()
 
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
 
     ' Botonera Principal
     With Me.Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.imgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 3
         .Buttons(2).Image = 4
         .Buttons(3).Image = 5
@@ -882,9 +882,9 @@ Private Sub Form_Load()
 
     ' desplazamiento
     With Me.Toolbar2
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.imgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 6
         .Buttons(2).Image = 7
         .Buttons(3).Image = 8
@@ -893,7 +893,7 @@ Private Sub Form_Load()
     
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
 
@@ -1012,7 +1012,7 @@ End Sub
 Private Sub CargaGrid(Optional Sql As String)
     Dim J As Integer
     Dim TotalAncho As Integer
-    Dim I As Integer
+    Dim i As Integer
     
     adodc1.ConnectionString = Conn
     If Sql <> "" Then
@@ -1031,29 +1031,29 @@ Private Sub CargaGrid(Optional Sql As String)
     
     
     'Nombre producto
-    I = 0
-        DataGrid1.Columns(I).Caption = "Cod."
-        DataGrid1.Columns(I).Width = 600
-        DataGrid1.Columns(I).NumberFormat = "000"
+    i = 0
+        DataGrid1.Columns(i).Caption = "Cod."
+        DataGrid1.Columns(i).Width = 600
+        DataGrid1.Columns(i).NumberFormat = "000"
         
     
     'Leemos del vector en 2
-    I = 1
-        DataGrid1.Columns(I).Caption = "Denominación"
-        DataGrid1.Columns(I).Width = 3000
-        TotalAncho = TotalAncho + DataGrid1.Columns(I).Width
+    i = 1
+        DataGrid1.Columns(i).Caption = "Denominación"
+        DataGrid1.Columns(i).Width = 3000
+        TotalAncho = TotalAncho + DataGrid1.Columns(i).Width
     
     'El importe es campo calculado
-    I = 2
-        DataGrid1.Columns(I).Visible = False
+    i = 2
+        DataGrid1.Columns(i).Visible = False
         
-    I = 3
-        DataGrid1.Columns(I).Caption = "Tipo concepto"
-        DataGrid1.Columns(I).Width = 1830
+    i = 3
+        DataGrid1.Columns(i).Caption = "Tipo concepto"
+        DataGrid1.Columns(i).Width = 1830
         
-    I = 4
-        DataGrid1.Columns(I).Caption = "Efectivo"
-        DataGrid1.Columns(I).Width = 870
+    i = 4
+        DataGrid1.Columns(i).Caption = "Efectivo"
+        DataGrid1.Columns(i).Width = 870
         
         'Fiajamos el cadancho
     If Not CadAncho Then
@@ -1080,7 +1080,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
