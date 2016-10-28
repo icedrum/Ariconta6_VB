@@ -4,7 +4,7 @@ Option Explicit
 Public Function CargarCobrosTemporal(Forpa As String, FecFactu As String, TotalFac As Currency) As Boolean
 Dim Sql As String
 Dim CadValues As String
-Dim rsVenci As ADODB.Recordset
+Dim Rsvenci As ADODB.Recordset
 Dim FecVenci As String
 Dim ImpVenci As Currency
 
@@ -14,46 +14,46 @@ Dim ImpVenci As Currency
 
     Sql = "SELECT numerove, primerve, restoven FROM formapago WHERE codforpa=" & DBSet(Forpa, "N")
     
-    Set rsVenci = New ADODB.Recordset
-    rsVenci.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Set Rsvenci = New ADODB.Recordset
+    Rsvenci.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     CadValues = ""
     
-    If Not rsVenci.EOF Then
-        If rsVenci.Fields(0).Value > 0 Then
+    If Not Rsvenci.EOF Then
+        If Rsvenci.Fields(0).Value > 0 Then
             '-------- Primer Vencimiento
             i = 1
             'FECHA VTO
             FecVenci = CDate(FecFactu)
-            FecVenci = DateAdd("d", DBLet(rsVenci!primerve, "N"), FecVenci)
+            FecVenci = DateAdd("d", DBLet(Rsvenci!primerve, "N"), FecVenci)
             '===
             
             'IMPORTE del Vencimiento
-            If rsVenci!numerove = 1 Then
+            If Rsvenci!numerove = 1 Then
                 ImpVenci = TotalFac
             Else
-                ImpVenci = Round(TotalFac / rsVenci.Fields(0).Value, 2)
+                ImpVenci = Round(TotalFac / Rsvenci.Fields(0).Value, 2)
                 'Comprobar que la suma de los vencimientos cuadra con el total de la factura
-                If ImpVenci * rsVenci!numerove <> TotalFac Then
-                    ImpVenci = Round(ImpVenci + (TotalFac - ImpVenci * rsVenci.Fields(0).Value), 2)
+                If ImpVenci * Rsvenci!numerove <> TotalFac Then
+                    ImpVenci = Round(ImpVenci + (TotalFac - ImpVenci * Rsvenci.Fields(0).Value), 2)
                 End If
             End If
             CadValues = "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
             
             'Resto Vencimientos
             '--------------------------------------------------------------------
-            For i = 2 To rsVenci!numerove
-                FecVenci = DateAdd("d", DBLet(rsVenci!restoven, "N"), FecVenci)
+            For i = 2 To Rsvenci!numerove
+                FecVenci = DateAdd("d", DBLet(Rsvenci!restoven, "N"), FecVenci)
                     
                 'IMPORTE Resto de Vendimientos
-                ImpVenci = Round(TotalFac / rsVenci.Fields(0).Value, 2)
+                ImpVenci = Round(TotalFac / Rsvenci.Fields(0).Value, 2)
                 
                 CadValues = CadValues & "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
             Next i
         End If
     End If
     
-    Set rsVenci = Nothing
+    Set Rsvenci = Nothing
     
     If CadValues <> "" Then
         Sql = "INSERT INTO tmpcobros (codusu, numorden, fecvenci, impvenci)"
@@ -67,6 +67,87 @@ Dim ImpVenci As Currency
 eCargarCobros:
     MuestraError Err.Number, "Cargar Cobros en Temporal", Err.Description
 End Function
+
+
+'Cargara sobre un collection los cobros.
+'Cada linea el SQL
+'       insert into cobros(numserie,numfactu,fecfactu,codmacta,codforpa,ctabanc1,iban,text33csb,numorden,fecvenci,impvenci)
+'    Para ello enviaremos TODO el sql menos y numorden fecvenci e impvenci
+Public Function CargarCobrosSobreCollectionConSQLInsert(ByRef ColCobros As Collection, Forpa As String, FecFactu As String, TotalFac As Currency, PartFijaSQL As String) As Boolean
+Dim Sql As String
+Dim Rsvenci As ADODB.Recordset
+Dim FecVenci As String
+Dim ImpVenci As Currency
+
+    On Error GoTo eCargarCobros
+
+    CargarCobrosSobreCollectionConSQLInsert = False
+
+    Set ColCobros = New Collection
+    
+    Sql = "SELECT numerove, primerve, restoven FROM formapago WHERE codforpa=" & DBSet(Forpa, "N")
+    
+    Set Rsvenci = New ADODB.Recordset
+    Rsvenci.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    
+
+    
+    If Not Rsvenci.EOF Then
+        If Rsvenci.Fields(0).Value > 0 Then
+            '-------- Primer Vencimiento
+            
+            'FECHA VTO
+            FecVenci = CDate(FecFactu)
+            FecVenci = DateAdd("d", DBLet(Rsvenci!primerve, "N"), FecVenci)
+            '===
+            
+            'IMPORTE del Vencimiento
+            If Rsvenci!numerove = 1 Then
+                ImpVenci = TotalFac
+            Else
+                ImpVenci = Round(TotalFac / Rsvenci.Fields(0).Value, 2)
+                'Comprobar que la suma de los vencimientos cuadra con el total de la factura
+                If ImpVenci * Rsvenci!numerove <> TotalFac Then
+                    ImpVenci = Round(ImpVenci + (TotalFac - ImpVenci * Rsvenci.Fields(0).Value), 2)
+                End If
+            End If
+            'CadValues = "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
+            ColCobros.Add PartFijaSQL & "1," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & ")"
+            
+            
+            'Resto Vencimientos
+            '--------------------------------------------------------------------
+            For i = 2 To Rsvenci!numerove
+                FecVenci = DateAdd("d", DBLet(Rsvenci!restoven, "N"), FecVenci)
+                    
+                'IMPORTE Resto de Vendimientos
+                ImpVenci = Round(TotalFac / Rsvenci.Fields(0).Value, 2)
+                
+                'CadValues = CadValues & "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
+                ColCobros.Add PartFijaSQL & i & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & ")"
+            Next i
+        End If
+    End If
+    
+    Set Rsvenci = Nothing
+    
+    
+    
+    CargarCobrosSobreCollectionConSQLInsert = True
+    Exit Function
+
+eCargarCobros:
+    MuestraError Err.Number, "Cargar Cobros auxiliar", Err.Description
+End Function
+
+
+
+
+
+
+
+
+
 
 
 Public Function BancoPropio() As String

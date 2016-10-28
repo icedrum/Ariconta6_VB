@@ -1070,7 +1070,7 @@ End Sub
 Private Sub CommandBars_Update(ByVal Control As XtremeCommandBars.ICommandBarControl)
     
     On Error Resume Next
-    Debug.Print Control.Name
+    'Debug.Print Control.Name
     
     Select Case Control.Id
         Case ID_VIEW_STATUSBAR:     Control.Checked = CommandBars.StatusBar.Visible
@@ -1411,7 +1411,7 @@ Private Sub LoadIcons()
     
     'Pequeños
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\mail_16x16.bmp", _
-            Array(1, 1, ID_ConceptosInm, ID_ConceptosInm, ID_EstadísticaInmovilizado, ID_SimulaciónAmortización, ID_DeshacerAmortización, 1, 1, ID_VentaBajainmovilizado), xtpImageNormal
+            Array(1, 1, 1, 1, ID_EstadísticaInmovilizado, ID_SimulaciónAmortización, ID_DeshacerAmortización, 1, 1, ID_VentaBajainmovilizado), xtpImageNormal
         
     'Pequeños diario
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\quickstepsgallery.png", _
@@ -1433,7 +1433,7 @@ Private Sub LoadIcons()
         ID_RelaciónClientesporcuenta, ID_RelacionProveedoresporcuenta, 1, 1, 1, ID_RealizarCobro, ID_RealizarPago, 1, ID_Elementos, 1, 1, 1, 1, 1, ID_Punteoextractobancario, _
         1, ID_InformePagospendientes, 1, 1, ID_Empresa, ID_ParametrosContabilidad, 1, ID_Contadores, ID_Extractos, ID_CarteradePagos, 1, 1, 1, ID_Punteo, 1, _
         1, ID_PlanContable, 1, 1, 1, ID_Informes, 1, ID_Usuarios, 1, 1, 1, 1, ID_Nuevaempresa, ID_ConfigurarBalances, 1, _
-        1, ID_Compensaciones, 1, 1, 1, 1, 1, 1, 1, ID_GenerarAmortización, ID_Reclamaciones, 1, 1, 1, 1, _
+        1, ID_Compensaciones, 1, 1, 1, 1, ID_ConceptosInm, 1, 1, ID_GenerarAmortización, ID_Reclamaciones, 1, 1, 1, 1, _
         ID_ImportarFacturasCliente, 1, 1, ID_Compensarcliente, ID_SumasySaldos, ID_CuentadeExplotación, ID_BalancedeSituación, ID_PérdidasyGanancias, 1, 1, 1, 1, 1, ID_CarteradeCobros, ID_InformeCobrosPendientes, _
         ID_Renumeracióndeasientos, ID_CierredeEjercicio, ID_Deshacercierre, ID_DiarioOficial, ID_PresentaciónTelemáticadeLibros, ID_Traspasodecuentasenapuntes, ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, 1, 1, 1, 1, 1, _
         ID_Traspasodecuentasenapuntes, ID_Aumentardígitoscontables, 1, 1, 1, 1, 1, ID_LibroFacturasEmitidas, 1, 1, ID_Remesas, 1, 1, 1, 1, _

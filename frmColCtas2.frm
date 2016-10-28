@@ -908,6 +908,15 @@ Private Sub DataGrid1_DblClick()
 End Sub
 
 
+Private Sub DataGrid1_KeyDown(KeyCode As Integer, Shift As Integer)
+    
+    If Modo = 0 Or Modo = 2 Then
+        Form_KeyDown KeyCode, Shift
+        KeyCode = 0
+    End If
+    
+End Sub
+
 Private Sub DataGrid1_KeyPress(KeyAscii As Integer)
     KEYpress KeyAscii
 End Sub
@@ -971,7 +980,7 @@ End Sub
 
 Private Sub Form_Load()
     
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
 
     Screen.MousePointer = vbHourglass
     '## A mano
@@ -980,9 +989,9 @@ Private Sub Form_Load()
      
     ' Botonera Principal
     With Me.Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.ImgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 3
         .Buttons(2).Image = 4
         .Buttons(3).Image = 5
@@ -993,9 +1002,9 @@ Private Sub Form_Load()
 
     ' Botonera Principal 2
     With Me.Toolbar2
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.ImgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 24
         .Buttons(2).Image = 47
         .Buttons(4).Image = 19
@@ -1005,7 +1014,7 @@ Private Sub Form_Load()
 
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.ImgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
 
@@ -1171,11 +1180,11 @@ End Sub
 
 
 Private Sub DespalzamientoVisible(bol As Boolean)
-    Dim I
-    For I = 16 To 19
-        Toolbar1.Buttons(I).Enabled = bol
-        Toolbar1.Buttons(I).Visible = bol
-    Next I
+    Dim i
+    For i = 16 To 19
+        Toolbar1.Buttons(i).Enabled = bol
+        Toolbar1.Buttons(i).Visible = bol
+    Next i
 End Sub
 
 
@@ -1202,7 +1211,7 @@ End Sub
 Private Sub CargaGrid2()
     Dim J As Integer
     Dim TotalAncho As Integer
-    Dim I As Integer
+    Dim i As Integer
     Dim Sql As String
     Dim B As Boolean
     adodc1.ConnectionString = Conn
@@ -1249,13 +1258,13 @@ Private Sub CargaGrid2()
         If Not CadAncho Then
             txtAux(0).Left = DataGrid1.Columns(0).Left + 150
             txtAux(0).Width = DataGrid1.Columns(0).Width - 30
-            txtAux(0).Top = DataGrid1.Top + 260 ' 235
+            txtAux(0).top = DataGrid1.top + 260 ' 235
             txtAux(1).Left = DataGrid1.Columns(1).Left + 150
             txtAux(1).Width = DataGrid1.Columns(1).Width - 30
             txtAux(2).Left = DataGrid1.Columns(3).Left + 150
             txtAux(2).Width = DataGrid1.Columns(3).Width - 30
-            txtAux(1).Top = txtAux(0).Top
-            txtAux(2).Top = txtAux(0).Top
+            txtAux(1).top = txtAux(0).top
+            txtAux(2).top = txtAux(0).top
             txtAux(0).Height = DataGrid1.RowHeight - 15
             txtAux(1).Height = txtAux(0).Height
             txtAux(2).Height = txtAux(0).Height
@@ -1283,7 +1292,7 @@ End Sub
 '1 Solo enables
 '2 todo
 Private Sub PonerOptionsVisibles(Opcion As Byte)
-Dim I As Integer
+Dim i As Integer
 Dim J As Integer
 Dim cad As String
 
@@ -1292,7 +1301,7 @@ End Sub
 
 
 Private Function GeneraSQL(Busqueda As String) As String
-Dim I As Integer
+Dim i As Integer
 Dim Sql As String
 Dim nexo As String
 Dim J As Integer
@@ -1343,7 +1352,7 @@ End Function
 
 Private Function SepuedeEliminarCuenta(Cuenta As String) As Boolean
 Dim NivelCta As Integer
-Dim I, J As Integer
+Dim i, J As Integer
 Dim cad As String
 
     SepuedeEliminarCuenta = False
@@ -1373,8 +1382,8 @@ Dim cad As String
         End If
         
         'Ctas agrupadas
-        I = DigitosNivel(NivelCta)
-        If I = 3 Then
+        i = DigitosNivel(NivelCta)
+        If i = 3 Then
             cad = DevuelveDesdeBD("codmacta", "ctaagrupadas", "codmacta", Cuenta, "T")
             If cad <> "" Then
                 MsgBox "El subnivel pertenece a agrupacion de cuentas en balance"
@@ -1383,8 +1392,8 @@ Dim cad As String
         End If
         For J = NivelCta + 1 To vEmpresa.numnivel
             cad = Cuenta & "__________"
-            I = DigitosNivel(J)
-            cad = Mid(cad, 1, I)
+            i = DigitosNivel(J)
+            cad = Mid(cad, 1, i)
             If TieneEnBD(cad) Then
                 MsgBox "Tiene cuentas en niveles superiores (" & J & ")", vbExclamation
                 Exit Function
@@ -1444,7 +1453,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -1464,7 +1473,7 @@ End Sub
 Private Sub ComprobarCuentas()
 Dim cad As String
 Dim N As Integer
-Dim I As Integer
+Dim i As Integer
 Dim Col As Collection
 Dim C1 As String
 
@@ -1497,18 +1506,18 @@ On Error GoTo EComprobarCuentas
     lblComprobar(0).Refresh
     Set Col = New Collection
     'Hasta 2 pq el uno no tiene subniveles
-    For I = vEmpresa.numnivel To 2 Step -1
-        N = DigitosNivel(I)
-        lblComprobar(0).Caption = "Nivel: " & I
+    For i = vEmpresa.numnivel To 2 Step -1
+        N = DigitosNivel(i)
+        lblComprobar(0).Caption = "Nivel: " & i
         lblComprobar(0).Refresh
         Do
-            If ObtenerCuenta(cad, I, N) Then
+            If ObtenerCuenta(cad, i, N) Then
                 lblComprobar(1).Caption = cad
                 lblComprobar(1).Refresh
-                ComprobarCuenta cad, I, Col
+                ComprobarCuenta cad, i, Col
             End If
         Loop Until cad = ""
-    Next I
+    Next i
     
     
     'Otras comprobaciones de las cuentas
@@ -1601,9 +1610,9 @@ End Function
 
 
 Private Function DigitosNivelAnterior(Cuenta As String) As Integer
-Dim I As Integer
-    I = Len(Cuenta)
-    Select Case I
+Dim i As Integer
+    i = Len(Cuenta)
+    Select Case i
     Case vEmpresa.numdigi7
         DigitosNivelAnterior = vEmpresa.numdigi6
         
@@ -1763,19 +1772,19 @@ End Sub
 
 
 Private Sub CargarNiveles(Opcion As Byte)
-Dim I As Integer
+Dim i As Integer
 
     
     If Opcion <> 1 Then
         cboNiveles.Clear
-        For I = 1 To vEmpresa.numnivel - 1
-            J = DigitosNivel(I)
+        For i = 1 To vEmpresa.numnivel - 1
+            J = DigitosNivel(i)
             If J > 0 Then
-                cboNiveles.AddItem "Digitos " & I
-                cboNiveles.ItemData(cboNiveles.NewIndex) = I
+                cboNiveles.AddItem "Digitos " & i
+                cboNiveles.ItemData(cboNiveles.NewIndex) = i
             Else
             End If
-        Next I
+        Next i
         'Ultimo nivel
         cboNiveles.AddItem "Ultimo nivel"
         cboNiveles.ItemData(cboNiveles.NewIndex) = 9
@@ -1786,25 +1795,25 @@ Dim I As Integer
         Select Case ConfigurarBalances
         Case 1
             cboNiveles.Clear
-            For I = 1 To vEmpresa.numnivel - 1
-                J = DigitosNivel(I)
+            For i = 1 To vEmpresa.numnivel - 1
+                J = DigitosNivel(i)
                 If J < 5 Then  'A balances van ctas de 4 digitos
-                    cboNiveles.AddItem "Digitos " & I
-                    cboNiveles.ItemData(cboNiveles.NewIndex) = I
+                    cboNiveles.AddItem "Digitos " & i
+                    cboNiveles.ItemData(cboNiveles.NewIndex) = i
                 Else
                 End If
-            Next I
+            Next i
         Case 2
             cboNiveles.Clear
 
             'Agrupar ctas digitos . Realmete agrupamos al nivel de cuentas -1
             J = DevuelveDigitosNivelAnterior
-            For I = 0 To 9
-                If I = J Then
-                    cboNiveles.AddItem "Digitos " & I
-                    cboNiveles.ItemData(cboNiveles.NewIndex) = I
+            For i = 0 To 9
+                If i = J Then
+                    cboNiveles.AddItem "Digitos " & i
+                    cboNiveles.ItemData(cboNiveles.NewIndex) = i
                 End If
-            Next I
+            Next i
     
         Case 6
             cboNiveles.Clear
@@ -1812,12 +1821,12 @@ Dim I As Integer
             'Todos los niveles menos el ultimo
             'Agrupar ctas digitos . Realmete agrupamos al nivel de cuentas -1
             J = DevuelveDigitosNivelAnterior
-            For I = 0 To 9
-                If I < J And I > 0 Then
-                    cboNiveles.AddItem "Digitos " & I
-                    cboNiveles.ItemData(cboNiveles.NewIndex) = I
+            For i = 0 To 9
+                If i < J And i > 0 Then
+                    cboNiveles.AddItem "Digitos " & i
+                    cboNiveles.ItemData(cboNiveles.NewIndex) = i
                 End If
-            Next I
+            Next i
         End Select
     End If
     
@@ -1825,7 +1834,7 @@ Dim I As Integer
 End Sub
 
 Private Sub CargarOrden()
-Dim I As Integer
+Dim i As Integer
 
     cboOrden.Clear
     

@@ -1325,8 +1325,10 @@ Begin VB.Form frmMensajes
          _ExtentX        =   22992
          _ExtentY        =   8652
          View            =   3
+         LabelEdit       =   1
          LabelWrap       =   -1  'True
          HideSelection   =   -1  'True
+         FullRowSelect   =   -1  'True
          _Version        =   393217
          ForeColor       =   -2147483640
          BackColor       =   -2147483643
@@ -4569,9 +4571,11 @@ Dim Equipo As String
         IT.SubItems(1) = DBLet(Rs.Fields(1))
         IT.SubItems(2) = DBLet(Rs.Fields(2))
         IT.SubItems(3) = Format(DBLet(Rs.Fields(3)), "###,###,##0.00")
-        IT.SubItems(4) = Format(DBLet(Rs.Fields(4)), "###,###,##0.00")
-        IT.SubItems(5) = DBLet(Rs.Fields(5))
-        IT.SubItems(6) = Format(DBLet(Rs.Fields(6)), "###,###,##0.00")
+        
+        
+        IT.SubItems(4) = " " & Format(DBLet(Rs.Fields(4)), "###,###,##0.00")
+        IT.SubItems(5) = " " & DBLet(Rs.Fields(5))
+        IT.SubItems(6) = " " & Format(DBLet(Rs.Fields(6)), "###,###,##0.00")
         IT.SubItems(7) = Format(DBLet(Rs.Fields(7)), "###,###,##0.00")
         
         'Siguiente
