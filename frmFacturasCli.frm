@@ -2915,7 +2915,7 @@ Private Sub chkAux_LostFocus(Index As Integer)
 End Sub
 
 Private Sub cmdAceptar_Click()
-    Dim cad As String
+     Dim cad As String
     Dim i As Integer
     Dim Limp As Boolean
     Dim Mc As Contadores
@@ -4685,6 +4685,12 @@ Private Function BorrarFactura() As Boolean
     Conn.Execute AntiguoText1
     
     ComprobarContador Data1.Recordset!NUmSerie, CDate(Text1(1).Text), Data1.Recordset!NumFactu
+    
+    
+    
+        
+    
+    
     
 EBorrar:
     If Err.Number = 0 Then

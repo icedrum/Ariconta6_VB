@@ -6,7 +6,7 @@ Public Sub arregla(ByRef tots As String, ByRef grid As DataGrid, ByRef formu As 
     Dim camp As String
     Dim Mens As String
     Dim difer As Integer
-    Dim I As Integer
+    Dim i As Integer
     Dim k As Integer
     Dim posi As Integer
     Dim posi2 As Integer
@@ -306,9 +306,9 @@ Public Sub arregla(ByRef tots As String, ByRef grid As DataGrid, ByRef formu As 
     Wend
 
     'No permitir canviar tamany de columnes
-    For I = 0 To grid.Columns.Count - 1
-         grid.Columns(I).AllowSizing = False
-    Next I
+    For i = 0 To grid.Columns.Count - 1
+         grid.Columns(i).AllowSizing = False
+    Next i
 
 '    If grid.Width - TotalAncho <> difer Then
 '        mens = "Es recomana que el total d'amples de les columnes per a este DataGrid siga de "
@@ -534,14 +534,14 @@ Public Function ContieneCaracterBusqueda(CADENA As String) As Boolean
 ' >,>,>=,: , ....
 'si encuentra algun caracter de busqueda devuelve TRUE y sale
 Dim B As Boolean
-Dim I As Integer
+Dim i As Integer
 Dim Ch As String
 
     'For i = 1 To Len(cadena)
-    I = 1
+    i = 1
     B = False
     Do
-        Ch = Mid(CADENA, I, 1)
+        Ch = Mid(CADENA, i, 1)
         Select Case Ch
             Case "<", ">", ":", "="
                 B = True
@@ -551,8 +551,8 @@ Dim Ch As String
                 B = False
         End Select
     'Next i
-        I = I + 1
-    Loop Until (B = True) Or (I > Len(CADENA))
+        i = i + 1
+    Loop Until (B = True) Or (i > Len(CADENA))
     ContieneCaracterBusqueda = B
 End Function
 
@@ -637,6 +637,11 @@ Public Sub AyudaTPago(frmBas As frmBasico, Optional CodActual As String, Optiona
 End Sub
 
 
+
+
+
+
+
 Public Sub AyudaCartas(frmBas As frmBasico, Optional CodActual As String, Optional cWhere As String)
 
     frmBas.CadenaTots = "S|txtAux(0)|T|Código|870|;S|txtAux(1)|T|Descripción|5230|;"
@@ -688,6 +693,37 @@ Public Sub AyudaBanco(frmBas As frmBasico2, Optional CodActual As String, Option
     frmBas.Show vbModal
     
 End Sub
+
+
+Public Sub AyudaRemesa(frmBas As frmBasico2, Optional CodActual As String, Optional cWhere As String)
+
+ 
+    frmBas.CadenaTots = "S|txtAux(0)|T|Código|1405|;S|txtAux(1)|T|Año|1000|;S|txtAux(2)|T|Fecha     Banco|4100|;"
+    frmBas.CadenaConsulta = "select codigo,anyo,concat( DATE_FORMAT(fecremesa,'%Y-%m-%d'),'     '  ,nommacta)"
+    frmBas.CadenaConsulta = frmBas.CadenaConsulta & " from remesas left join cuentas on remesas.codmacta=cuentas.codmacta "
+    frmBas.CadenaConsulta = frmBas.CadenaConsulta & " WHERE situacion='Q'  and tipo=0 and fecremesa>=DATE_ADD(now(), INTERVAL -1 YEAR)"
+    
+    If cWhere <> "" Then frmBas.CadenaConsulta = frmBas.CadenaConsulta & " and " & cWhere
+    frmBas.Tag1 = "Codigo|N|N|||remesas|codigo|000|S|"
+    frmBas.Tag2 = "Año|N|S|||remesas|anyo|0000|S|"
+    frmBas.Tag3 = "Fecha      Banco|T|N|||cuentas|nommacta|||"
+    
+    frmBas.Maxlen1 = 10
+    frmBas.Maxlen2 = 10
+    frmBas.Maxlen3 = 80
+    
+    frmBas.tabla = "remesas"
+    frmBas.CampoCP = "codigo"
+    frmBas.Caption = "Remesas"
+    frmBas.DeConsulta = True
+    frmBas.DatosADevolverBusqueda = "0|1|"
+    frmBas.CodigoActual = 0
+    If CodActual <> "" Then frmBas.CodigoActual = CodActual
+    frmBas.Show vbModal
+    
+End Sub
+
+
 
 
 

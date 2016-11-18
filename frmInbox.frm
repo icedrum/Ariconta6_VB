@@ -326,7 +326,7 @@ Private Sub wndCalendarControl_ContextMenu(ByVal X As Single, ByVal Y As Single)
     Dim Control As CommandBarControl
     Dim ChildControl As CommandBarControl
     
-    Set Popup = frmPpal.CommandBars.Add("Popup", xtpBarPopup)
+    Set Popup = frmppal.CommandBars.Add("Popup", xtpBarPopup)
         
         Dim HitTest As CalendarHitTestInfo
         Set HitTest = wndCalendarControl.ActiveView.HitTest
@@ -428,10 +428,10 @@ End Sub
 
 Private Sub wndCalendarControl_SelectionChanged(ByVal SelType As XtremeCalendarControl.CalendarSelectionChanged)
     If SelType = xtpCalendarSelectionDays Then
-        Debug.Print "SelectionChanged. Day(s)."
+        'Debug.Print "SelectionChanged. Day(s)."
     End If
     If SelType = xtpCalendarSelectionEvents Then
-        Debug.Print "SelectionChanged. Event(s)."
+        'Debug.Print "SelectionChanged. Event(s)."
         
         Dim HitTest As CalendarHitTestInfo
         Set HitTest = wndCalendarControl.ActiveView.HitTest
@@ -531,9 +531,9 @@ Private Sub ModifyEvent(ModEvent As CalendarEvent, ShowInPane As Boolean)
     
     If (ShowInPane) Then
         Dim Pane As Pane
-        Set Pane = frmPpal.DockingPaneManager.FindPane(PANE_READING_PANE)
+        Set Pane = frmppal.DockingPaneManager.FindPane(PANE_READING_PANE)
         If Not Pane Is Nothing Then
-            frmPpal.DockingPaneManager.DestroyPane Pane
+            frmppal.DockingPaneManager.DestroyPane Pane
         End If
     Else
         frmEditEvent.BorderStyle = 3

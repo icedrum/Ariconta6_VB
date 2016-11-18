@@ -135,8 +135,8 @@ Begin VB.Form frmppal
       _Version        =   393216
    End
    Begin MSComctlLib.ImageList imgListComun_OM 
-      Left            =   1440
-      Top             =   960
+      Left            =   3240
+      Top             =   2520
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
@@ -144,8 +144,8 @@ Begin VB.Form frmppal
       _Version        =   393216
    End
    Begin MSComctlLib.ImageList imgListComun_BN 
-      Left            =   1680
-      Top             =   2880
+      Left            =   2280
+      Top             =   2520
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
@@ -171,8 +171,8 @@ Begin VB.Form frmppal
       _Version        =   393216
    End
    Begin MSComctlLib.ImageList ImageListPpal16 
-      Left            =   360
-      Top             =   2760
+      Left            =   720
+      Top             =   1800
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
@@ -180,8 +180,8 @@ Begin VB.Form frmppal
       _Version        =   393216
    End
    Begin MSComctlLib.ImageList ImgListComun 
-      Left            =   1920
-      Top             =   1800
+      Left            =   1560
+      Top             =   2640
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
@@ -461,8 +461,8 @@ Begin VB.Form frmppal
       EndProperty
    End
    Begin MSComctlLib.ImageList ImgListviews 
-      Left            =   2880
-      Top             =   3120
+      Left            =   5640
+      Top             =   2280
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
@@ -832,7 +832,7 @@ Public Sub CommandBars_Execute(ByVal Control As XtremeCommandBars.ICommandBarCon
 Dim AbiertoFormulario  As Boolean
     AbiertoFormulario = False
     
-    Debug.Print Control.Id
+    
     
     Select Case Control.Id
         Case XTPCommandBarsSpecialCommands.XTP_ID_RIBBONCONTROLTAB:
@@ -1195,6 +1195,8 @@ Private Sub Form_Load()
     frmIdentifica.pLabel "Carga DLL"
     CargaIconosDlls
    
+    
+   
     CommandBarsGlobalSettings.App = App
             
     frmIdentifica.pLabel "Leyendo menus usuario"
@@ -1248,6 +1250,7 @@ End Sub
 
 
 Private Sub CargaIconosDlls()
+Dim TamanyoImgComun As Integer
 
     ImageList1.ImageHeight = 48
     ImageList1.ImageWidth = 48
@@ -1267,21 +1270,29 @@ Private Sub CargaIconosDlls()
     ImageListPpal16.ImageWidth = 16
     GetIconsFromLibrary App.Path & "\styles\icoconppal2.dll", 9, 16
 
-'    Me.Icon = Me.ImageListPpal16.ListImages(2).Picture
-
-
-    ImgListComun.ImageHeight = 24
-    ImgListComun.ImageWidth = 24
-    GetIconsFromLibrary App.Path & "\styles\iconosconta.dll", 2, 24 'antes icolistcon
     
-    '++
-    imgListComun_BN.ImageHeight = 24
-    imgListComun_BN.ImageWidth = 24
-    GetIconsFromLibrary App.Path & "\styles\iconosconta_BN.dll", 3, 24
     
-    imgListComun_OM.ImageHeight = 24
-    imgListComun_OM.ImageWidth = 24
-    GetIconsFromLibrary App.Path & "\styles\iconosconta_OM.dll", 4, 24
+    ImgListComun.ListImages.Clear
+    imgListComun_BN.ListImages.Clear
+    imgListComun_OM.ListImages.Clear
+    
+        TamanyoImgComun = 24
+        
+        ImgListComun.ImageHeight = TamanyoImgComun
+        ImgListComun.ImageWidth = TamanyoImgComun
+        GetIconsFromLibrary App.Path & "\styles\iconosconta.dll", 2, TamanyoImgComun  'antes icolistcon
+    
+        
+        
+        '++
+        imgListComun_BN.ImageHeight = TamanyoImgComun
+        imgListComun_BN.ImageWidth = TamanyoImgComun
+        GetIconsFromLibrary App.Path & "\styles\iconosconta_BN.dll", 3, TamanyoImgComun
+      
+        imgListComun_OM.ImageHeight = TamanyoImgComun
+        imgListComun_OM.ImageWidth = TamanyoImgComun
+        GetIconsFromLibrary App.Path & "\styles\iconosconta_OM.dll", 4, TamanyoImgComun
+        
     
     imgListComun16.ImageHeight = 16
     imgListComun16.ImageWidth = 16
@@ -1300,7 +1311,7 @@ Public Sub GetIconsFromLibrary(ByVal sLibraryFilePath As String, ByVal op As Int
     opcio = op
     tamany = tam
     ghmodule = LoadLibraryEx(sLibraryFilePath, 0, DONT_RESOLVE_DLL_REFERENCES)
-
+   
     If ghmodule = 0 Then
         MsgBox "Invalid library file.", vbCritical
         Exit Sub

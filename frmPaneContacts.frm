@@ -25,6 +25,15 @@ Begin VB.Form frmPaneContacts2
       _ExtentY        =   7435
       _StockProps     =   77
       ForeColor       =   -2147483640
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Verdana"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Appearance      =   6
       IconSize        =   16
       ShowBorder      =   0   'False
@@ -63,7 +72,7 @@ Begin VB.Form frmPaneContacts2
       _StockProps     =   14
       Caption         =   "Empresas sistema"
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Tahoma"
+         Name            =   "Verdana"
          Size            =   8.25
          Charset         =   204
          Weight          =   400
@@ -90,7 +99,7 @@ Dim cad As String
     Set tree.Icons = frmShortBar.wndShortcutBar.Icons
     tree.IconSize = 16
     
-    tree.Font.Size = 10
+    tree.Font.SIZE = 10
     
      
     
@@ -240,7 +249,7 @@ End Sub
 
 
 Private Sub MainCaption_ExpandButtonClicked()
-    Call frmPpal.ExpandButtonClicked
+    Call frmppal.ExpandButtonClicked
 End Sub
 
 
@@ -267,7 +276,7 @@ Dim cad  As String
     If MsgBox(cad, vbQuestion + vbYesNo) = vbYes Then
         'Volver a poner el nodo seleccionado el que esta
         Screen.MousePointer = vbHourglass
-        frmPpal.CambiarEmpresa CInt(Mid(Node.Key, 2))
+        frmppal.CambiarEmpresa CInt(Mid(Node.Key, 2))
         espera 0.5
         Screen.MousePointer = vbDefault
     

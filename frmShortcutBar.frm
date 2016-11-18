@@ -104,7 +104,7 @@ Dim TabNuevo As RibbonTab
     
     frmInbox.Form_Resize
     
-    Debug.Print Item.IconHandle
+   ' Debug.Print Item.IconHandle
 End Sub
 
 

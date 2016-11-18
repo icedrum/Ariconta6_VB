@@ -15,6 +15,199 @@ Begin VB.Form frmTESVarios
    ScaleWidth      =   14385
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame FrameAgregarCuentas 
+      Height          =   6015
+      Left            =   0
+      TabIndex        =   0
+      Top             =   0
+      Width           =   6015
+      Begin VB.CommandButton cmdInsertaCta 
+         Caption         =   "+"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   315
+         Left            =   5400
+         TabIndex        =   4
+         Top             =   1080
+         Width           =   315
+      End
+      Begin VB.TextBox txtDCtaNormal 
+         BackColor       =   &H80000018&
+         Enabled         =   0   'False
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   5
+         Left            =   1560
+         TabIndex        =   5
+         Text            =   "Text9"
+         Top             =   1080
+         Width           =   3735
+      End
+      Begin VB.TextBox txtCtaNormal 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   5
+         Left            =   120
+         TabIndex        =   3
+         Text            =   "Text9"
+         Top             =   1080
+         Width           =   1365
+      End
+      Begin VB.CommandButton cmdAceptarCtas 
+         Caption         =   "&Aceptar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Left            =   3360
+         TabIndex        =   6
+         Top             =   5400
+         Width           =   1095
+      End
+      Begin VB.CommandButton cmdCancelar 
+         Caption         =   "Cancelar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   21
+         Left            =   4680
+         TabIndex        =   8
+         Top             =   5400
+         Width           =   1095
+      End
+      Begin VB.ListBox List1 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   3420
+         Left            =   120
+         Sorted          =   -1  'True
+         TabIndex        =   2
+         Top             =   1560
+         Width           =   5655
+      End
+      Begin VB.Image imgCtaNorma 
+         Height          =   240
+         Index           =   6
+         Left            =   1230
+         ToolTipText     =   "Cuentas agrupadas"
+         Top             =   720
+         Width           =   240
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Eliminar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Index           =   23
+         Left            =   600
+         TabIndex        =   9
+         Top             =   5400
+         Width           =   1470
+      End
+      Begin VB.Image imgEliminarCta 
+         Height          =   240
+         Left            =   240
+         Top             =   5400
+         Width           =   240
+      End
+      Begin VB.Label Label2 
+         Caption         =   "Cuenta "
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Index           =   25
+         Left            =   120
+         TabIndex        =   7
+         Top             =   720
+         Width           =   735
+      End
+      Begin VB.Image imgCtaNorma 
+         Height          =   240
+         Index           =   5
+         Left            =   870
+         ToolTipText     =   "Cuentas individuales"
+         Top             =   720
+         Width           =   240
+      End
+      Begin VB.Label Label4 
+         Alignment       =   2  'Center
+         Caption         =   "AGREGAR CUENTAS"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   13.5
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   375
+         Index           =   15
+         Left            =   480
+         TabIndex        =   1
+         Top             =   240
+         Width           =   4935
+      End
+   End
    Begin MSComDlg.CommonDialog cd1 
       Left            =   6240
       Top             =   4800
@@ -376,199 +569,6 @@ Begin VB.Form frmTESVarios
          Width           =   4935
       End
    End
-   Begin VB.Frame FrameAgregarCuentas 
-      Height          =   6015
-      Left            =   0
-      TabIndex        =   0
-      Top             =   0
-      Width           =   6015
-      Begin VB.CommandButton cmdInsertaCta 
-         Caption         =   "+"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   315
-         Left            =   5400
-         TabIndex        =   4
-         Top             =   1080
-         Width           =   315
-      End
-      Begin VB.TextBox txtDCtaNormal 
-         BackColor       =   &H80000018&
-         Enabled         =   0   'False
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   5
-         Left            =   1560
-         TabIndex        =   5
-         Text            =   "Text9"
-         Top             =   1080
-         Width           =   3735
-      End
-      Begin VB.TextBox txtCtaNormal 
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   5
-         Left            =   120
-         TabIndex        =   3
-         Text            =   "Text9"
-         Top             =   1080
-         Width           =   1365
-      End
-      Begin VB.CommandButton cmdAceptarCtas 
-         Caption         =   "&Aceptar"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Left            =   3360
-         TabIndex        =   6
-         Top             =   5400
-         Width           =   1095
-      End
-      Begin VB.CommandButton cmdCancelar 
-         Caption         =   "Cancelar"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Index           =   21
-         Left            =   4680
-         TabIndex        =   8
-         Top             =   5400
-         Width           =   1095
-      End
-      Begin VB.ListBox List1 
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   3420
-         Left            =   120
-         Sorted          =   -1  'True
-         TabIndex        =   2
-         Top             =   1560
-         Width           =   5655
-      End
-      Begin VB.Image imgCtaNorma 
-         Height          =   240
-         Index           =   6
-         Left            =   1230
-         ToolTipText     =   "Cuentas agrupadas"
-         Top             =   720
-         Width           =   240
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Eliminar"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   195
-         Index           =   23
-         Left            =   600
-         TabIndex        =   9
-         Top             =   5400
-         Width           =   1470
-      End
-      Begin VB.Image imgEliminarCta 
-         Height          =   240
-         Left            =   240
-         Top             =   5400
-         Width           =   240
-      End
-      Begin VB.Label Label2 
-         Caption         =   "Cuenta "
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   255
-         Index           =   25
-         Left            =   120
-         TabIndex        =   7
-         Top             =   720
-         Width           =   735
-      End
-      Begin VB.Image imgCtaNorma 
-         Height          =   240
-         Index           =   5
-         Left            =   870
-         ToolTipText     =   "Cuentas individuales"
-         Top             =   720
-         Width           =   240
-      End
-      Begin VB.Label Label4 
-         Alignment       =   2  'Center
-         Caption         =   "AGREGAR CUENTAS"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   13.5
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   375
-         Index           =   15
-         Left            =   480
-         TabIndex        =   1
-         Top             =   240
-         Width           =   4935
-      End
-   End
 End
 Attribute VB_Name = "frmTESVarios"
 Attribute VB_GlobalNameSpace = False
@@ -669,7 +669,7 @@ Attribute frmP.VB_VarHelpID = -1
 
 Dim Rs As ADODB.Recordset
 Dim Sql As String
-Dim I As Integer
+Dim i As Integer
 Dim IT As ListItem  'Comun
 Dim PrimeraVez As Boolean
 Dim Cancelado As Boolean
@@ -692,9 +692,9 @@ Private Sub cmdAceptarCtas_Click()
     
     'Cargo en CadenaDesdeOtroForm las cuentas empipadas
     CuentasCC = ""
-    For I = 0 To List1.ListCount - 1
-        CuentasCC = CuentasCC & Mid(List1.List(I), 1, vEmpresa.DigitosUltimoNivel) & "|"
-    Next I
+    For i = 0 To List1.ListCount - 1
+        CuentasCC = CuentasCC & Mid(List1.List(i), 1, vEmpresa.DigitosUltimoNivel) & "|"
+    Next i
 
     CadenaDesdeOtroForm = CuentasCC
     Unload Me
@@ -719,21 +719,21 @@ End Sub
 
 Private Sub cmdEliminarReclama_Click()
     Sql = ""
-    For I = 1 To Me.ListView6.ListItems.Count
-        If Me.ListView6.ListItems(I).Checked Then Sql = Sql & "X"
+    For i = 1 To Me.ListView6.ListItems.Count
+        If Me.ListView6.ListItems(i).Checked Then Sql = Sql & "X"
     Next
     
     If Sql = "" Then Exit Sub
     Sql = "Desea quitar de la reclamacion las cuentas seleccionadas(" & Len(Sql) & ") ?"
     If MsgBox(Sql, vbQuestion + vbYesNo) = vbYes Then
         Sql = "DELETE FROM  tmpentrefechas WHERE codUsu = " & vUsu.Codigo & " AND fechaadq = '"
-        For I = Me.ListView6.ListItems.Count To 1 Step -1
-            If ListView6.ListItems(I).Checked Then
-                CuentasCC = Sql & ListView6.ListItems(I).Text & "'"
+        For i = Me.ListView6.ListItems.Count To 1 Step -1
+            If ListView6.ListItems(i).Checked Then
+                CuentasCC = Sql & ListView6.ListItems(i).Text & "'"
                 Conn.Execute CuentasCC
-                ListView6.ListItems.Remove I
+                ListView6.ListItems.Remove i
             End If
-        Next I
+        Next i
     End If
 End Sub
 
@@ -854,7 +854,7 @@ Dim H As Integer
 Dim W As Integer
     Limpiar Me
     PrimeraVez = True
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
     
     
     'Cago los iconos
@@ -865,7 +865,7 @@ Dim W As Integer
 
 '    CargaImagenesAyudas ImageAyuda, 3
 
-    Me.imgEliminarCta.Picture = frmPpal.ImaListBotoneras32.ListImages(5).Picture
+    Me.imgEliminarCta.Picture = frmppal.ImaListBotoneras32.ListImages(5).Picture
     
     
     
@@ -882,7 +882,7 @@ Dim W As Integer
         FrameAgregarCuentas.Visible = True
         W = Me.FrameAgregarCuentas.Width
         H = Me.FrameAgregarCuentas.Height + 200
-        
+        imgCtaNorma(6).Visible = False
     Case 25
         Caption = "Remesas"
         FrameModiRemeTal.Visible = True
@@ -944,9 +944,9 @@ End Sub
 
 
 Private Sub frmBa_DatoSeleccionado(CadenaSeleccion As String)
-    I = CInt(imgCuentas(0).Tag)
-    Me.txtCta(I).Text = RecuperaValor(CadenaSeleccion, 1)
-    Me.txtDescCta(I).Text = RecuperaValor(CadenaSeleccion, 2)
+    i = CInt(imgCuentas(0).Tag)
+    Me.txtCta(i).Text = RecuperaValor(CadenaSeleccion, 1)
+    Me.txtDescCta(i).Text = RecuperaValor(CadenaSeleccion, 2)
 End Sub
 
 Private Sub frmC_Selec(vFecha As Date)
@@ -996,8 +996,8 @@ Private Sub imgCheck_Click(Index As Integer)
         'Reclamaciones
         If Me.optReclama(1).Value Then
             'Solo en correctos, los incorrectos se iran tooodos
-            For I = 1 To Me.ListView6.ListItems.Count
-                Me.ListView6.ListItems(I).Checked = Index = 5
+            For i = 1 To Me.ListView6.ListItems.Count
+                Me.ListView6.ListItems(i).Checked = Index = 5
             Next
         End If
     End If
@@ -1054,18 +1054,18 @@ Private Sub imgEliminarCta_Click()
     If List1.SelCount = 0 Then Exit Sub
     
     Sql = "Desea quitar la(s) cuenta(s): " & vbCrLf
-    For I = 0 To List1.ListCount - 1
-        If List1.Selected(I) Then Sql = Sql & List1.List(I) & vbCrLf
-    Next I
+    For i = 0 To List1.ListCount - 1
+        If List1.Selected(i) Then Sql = Sql & List1.List(i) & vbCrLf
+    Next i
     If MsgBox(Sql, vbQuestion + vbYesNoCancel) = vbYes Then
-        For I = List1.ListCount - 1 To 0 Step -1
-            If List1.Selected(I) Then
-                Sql = Trim(Mid(List1.List(I), 1, vEmpresa.DigitosUltimoNivel + 2))
+        For i = List1.ListCount - 1 To 0 Step -1
+            If List1.Selected(i) Then
+                Sql = Trim(Mid(List1.List(i), 1, vEmpresa.DigitosUltimoNivel + 2))
                 NumRegElim = InStr(1, CuentasCC, Sql)
                 If NumRegElim > 0 Then CuentasCC = Mid(CuentasCC, 1, NumRegElim - 1) & Mid(CuentasCC, NumRegElim + vEmpresa.DigitosUltimoNivel + 1) 'para que quite el pipe final
-                List1.RemoveItem I
+                List1.RemoveItem i
             End If
-        Next I
+        Next i
     
     End If
     NumRegElim = 0
@@ -1129,7 +1129,7 @@ Dim DevfrmCCtas As String
 
         txtCta(Index).Text = Trim(txtCta(Index).Text)
         DevfrmCCtas = txtCta(Index).Text
-        I = 0
+        i = 0
         If DevfrmCCtas <> "" Then
             If CuentaCorrectaUltimoNivel(DevfrmCCtas, Sql) Then
                 DevfrmCCtas = DevuelveDesdeBD("codmacta", "bancos", "codmacta", DevfrmCCtas, "T")
@@ -1142,7 +1142,7 @@ Dim DevfrmCCtas As String
                 DevfrmCCtas = ""
                 Sql = ""
             End If
-            I = 1
+            i = 1
         Else
             Sql = ""
         End If
@@ -1150,7 +1150,7 @@ Dim DevfrmCCtas As String
         
         txtCta(Index).Text = DevfrmCCtas
         txtDescCta(Index).Text = Sql
-        If DevfrmCCtas = "" And I = 1 Then
+        If DevfrmCCtas = "" And i = 1 Then
 
             PonerFoco txtCta(Index)
         End If
@@ -1202,7 +1202,7 @@ Private Sub txtCtaNormal_LostFocus(Index As Integer)
 Dim DevfrmCCtas As String
        
         DevfrmCCtas = Trim(txtCtaNormal(Index).Text)
-        I = 0
+        i = 0
         If DevfrmCCtas <> "" Then
             If CuentaCorrectaUltimoNivel(DevfrmCCtas, Sql) Then
                 
@@ -1213,7 +1213,7 @@ Dim DevfrmCCtas As String
                     Sql = ""
                 End If
             End If
-            I = 1
+            i = 1
         Else
             Sql = ""
         End If
@@ -1221,7 +1221,7 @@ Dim DevfrmCCtas As String
         
         txtCtaNormal(Index).Text = DevfrmCCtas
         txtDCtaNormal(Index).Text = Sql
-        If DevfrmCCtas = "" And I = 1 Then
+        If DevfrmCCtas = "" And i = 1 Then
             PonerFoco txtCtaNormal(Index)
         End If
         VisibleCC
@@ -1274,7 +1274,7 @@ Dim B As Boolean
                 If InStr(1, CuentasCC, Sql) > 0 Then B = True
         End If
     End If
-    Label1(14).Visible = B
+   ' Label1(14).Visible = B
 End Sub
 
 
@@ -1282,23 +1282,23 @@ Private Sub CargalistaCuentas()
     List1.Clear
     If CadenaDesdeOtroForm <> "" Then
         Do
-            I = InStr(1, CadenaDesdeOtroForm, "|")
-            If I > 0 Then
-                Sql = Mid(CadenaDesdeOtroForm, 1, I - 1)
-                CadenaDesdeOtroForm = Mid(CadenaDesdeOtroForm, I + 1)
+            i = InStr(1, CadenaDesdeOtroForm, "|")
+            If i > 0 Then
+                Sql = Mid(CadenaDesdeOtroForm, 1, i - 1)
+                CadenaDesdeOtroForm = Mid(CadenaDesdeOtroForm, i + 1)
                 CuentaCorrectaUltimoNivel Sql, CuentasCC
                 Sql = Sql & "      " & CuentasCC
                 List1.AddItem Sql
             End If
-        Loop Until I = 0
+        Loop Until i = 0
         CadenaDesdeOtroForm = ""
         
         'Genero Cuentas CC  (por no declarar mas variables vamos)
         CuentasCC = ""
-        For I = 0 To List1.ListCount - 1
-            Sql = Mid(List1.List(I), 1, vEmpresa.DigitosUltimoNivel)
+        For i = 0 To List1.ListCount - 1
+            Sql = Mid(List1.List(i), 1, vEmpresa.DigitosUltimoNivel)
             CuentasCC = CuentasCC & Sql & "|"
-        Next I
+        Next i
     Else
         CuentasCC = ""
     End If
@@ -1311,11 +1311,11 @@ Private Sub CargaGrupo()
     
     Sql = "Select codmacta,nommacta FROM cuentas where grupotesoreria ='" & DevNombreSQL(Sql) & "'"
     miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    I = 0
+    i = 0
     While Not miRsAux.EOF
         Sql = miRsAux!codmacta
         If InStr(1, CuentasCC, Sql & "|") > 0 Then
-            I = 1
+            i = 1
         Else
             CuentasCC = CuentasCC & Sql & "|"
             Sql = Sql & "      " & miRsAux!Nommacta
@@ -1324,7 +1324,7 @@ Private Sub CargaGrupo()
         miRsAux.MoveNext
     Wend
     miRsAux.Close
-    If I > 0 Then MsgBox "Algunas cuentas YA habian sido insertadas", vbExclamation
+    If i > 0 Then MsgBox "Algunas cuentas YA habian sido insertadas", vbExclamation
     Exit Sub
 ECargaGrupo:
     MuestraError Err.Number, "CargaGrupo"
@@ -1349,15 +1349,15 @@ On Error GoTo EEliminarEnRecepcionDocumentos
         CuentasCC = ""
         CualesEliminar = ""
         J = 0
-        For I = 0 To 1
+        For i = 0 To 1
             ' contatalonpte
             Sql = "pagarecta"
-            If I = 1 Then Sql = "contatalonpte"
+            If i = 1 Then Sql = "contatalonpte"
             CtaPte = (DevuelveDesdeBD(Sql, "paramtesor", "codigo", "1") = "1")
             
             'Repetiremos el proceso dos veces
             Sql = "Select * from scarecepdoc where fechavto<='" & Format(Text1(17).Text, FormatoFecha) & "'"
-            Sql = Sql & " AND   talon = " & I
+            Sql = Sql & " AND   talon = " & i
             Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             While Not Rs.EOF
                     'Si lleva cta puente habra que ver si esta contbilizada
@@ -1394,7 +1394,7 @@ On Error GoTo EEliminarEnRecepcionDocumentos
             
             
             
-        Next I
+        Next i
         
         
 
@@ -1416,12 +1416,12 @@ On Error GoTo EEliminarEnRecepcionDocumentos
         J = 1
         Sql = "X"
         Do
-            I = InStr(J, CualesEliminar, ",")
-            If I > 0 Then
-                J = I + 1
+            i = InStr(J, CualesEliminar, ",")
+            If i > 0 Then
+                J = i + 1
                 Sql = Sql & "X"
             End If
-        Loop Until I = 0
+        Loop Until i = 0
         
         Sql = "Va a eliminar " & Len(Sql) & " registros de la recepcion de documentos." & vbCrLf & vbCrLf & vbCrLf
         If CuentasCC <> "" Then CuentasCC = "No se puede eliminar de la recepcion de documentos los siguientes registros: " & vbCrLf & vbCrLf & CuentasCC
@@ -1482,15 +1482,15 @@ End Sub
 Private Sub LeerGuardarBancoDefectoEntidad(Leer As Boolean)
 On Error GoTo eLeerGuardarBancoDefectoEntidad
 
-    I = -1
+    i = -1
     Sql = App.Path & "\BancRemEn.xdf"
     If Leer Then
         txtCta(3).Text = ""
         If Dir(Sql, vbArchive) <> "" Then
-            I = FreeFile
-            Open Sql For Input As #I
-            If Not EOF(I) Then
-                Line Input #I, Sql
+            i = FreeFile
+            Open Sql For Input As #i
+            If Not EOF(i) Then
+                Line Input #i, Sql
                 txtCta(3).Text = Sql
                 txtCta(3).Tag = Sql
             End If
@@ -1501,16 +1501,16 @@ On Error GoTo eLeerGuardarBancoDefectoEntidad
         If Me.txtCta(3).Text = "" Then
             If Dir(Sql, vbArchive) <> "" Then Kill Sql
         Else
-            I = FreeFile
-            Open Sql For Output As #I
-            Print #I, txtCta(3).Text
+            i = FreeFile
+            Open Sql For Output As #i
+            Print #i, txtCta(3).Text
             
         End If
         
         
     End If
     
-    If I >= 0 Then Close #I
+    If i >= 0 Then Close #i
     Exit Sub
 eLeerGuardarBancoDefectoEntidad:
     Err.Clear

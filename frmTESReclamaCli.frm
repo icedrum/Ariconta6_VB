@@ -24,210 +24,6 @@ Begin VB.Form frmTESReclamaCli
       _ExtentY        =   847
       _Version        =   393216
    End
-   Begin VB.Frame Frame1 
-      BorderStyle     =   0  'None
-      Height          =   6885
-      Left            =   90
-      TabIndex        =   12
-      Top             =   -30
-      Visible         =   0   'False
-      Width           =   12735
-      Begin VB.Frame FrameBotonGnral2 
-         Height          =   705
-         Left            =   4020
-         TabIndex        =   26
-         Top             =   180
-         Width           =   1095
-         Begin MSComctlLib.Toolbar Toolbar2 
-            Height          =   330
-            Left            =   210
-            TabIndex        =   27
-            Top             =   240
-            Width           =   675
-            _ExtentX        =   1191
-            _ExtentY        =   582
-            ButtonWidth     =   609
-            ButtonHeight    =   582
-            AllowCustomize  =   0   'False
-            Style           =   1
-            _Version        =   393216
-            BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-               NumButtons      =   1
-               BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Efectuar reclamacion "
-               EndProperty
-            EndProperty
-         End
-      End
-      Begin VB.CommandButton cmdCancelar 
-         Caption         =   "&Cancelar"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Index           =   1
-         Left            =   11550
-         TabIndex        =   15
-         Top             =   6300
-         Width           =   975
-      End
-      Begin VB.Frame Frame2 
-         Height          =   705
-         Left            =   240
-         TabIndex        =   13
-         Top             =   180
-         Width           =   3585
-         Begin MSComctlLib.Toolbar Toolbar1 
-            Height          =   330
-            Left            =   180
-            TabIndex        =   16
-            Top             =   240
-            Width           =   3135
-            _ExtentX        =   5530
-            _ExtentY        =   582
-            ButtonWidth     =   609
-            ButtonHeight    =   582
-            AllowCustomize  =   0   'False
-            Style           =   1
-            _Version        =   393216
-            BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-               NumButtons      =   10
-               BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Nuevo"
-                  Object.Tag             =   "2"
-               EndProperty
-               BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Modificar"
-                  Object.Tag             =   "2"
-               EndProperty
-               BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Eliminar"
-                  Object.Tag             =   "2"
-                  Object.Width           =   1e-4
-               EndProperty
-               BeginProperty Button4 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Style           =   3
-               EndProperty
-               BeginProperty Button5 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Buscar"
-               EndProperty
-               BeginProperty Button6 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Ver Todos"
-                  Object.Tag             =   "0"
-               EndProperty
-               BeginProperty Button7 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Style           =   3
-               EndProperty
-               BeginProperty Button8 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Imprimir"
-               EndProperty
-               BeginProperty Button9 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Enabled         =   0   'False
-                  Object.Visible         =   0   'False
-                  Object.ToolTipText     =   "Salir"
-               EndProperty
-               BeginProperty Button10 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Enabled         =   0   'False
-                  Object.Visible         =   0   'False
-                  Style           =   3
-               EndProperty
-            EndProperty
-         End
-      End
-      Begin MSComctlLib.ListView lw1 
-         Height          =   5085
-         Left            =   240
-         TabIndex        =   14
-         Top             =   990
-         Width           =   12315
-         _ExtentX        =   21722
-         _ExtentY        =   8969
-         View            =   3
-         LabelEdit       =   1
-         LabelWrap       =   -1  'True
-         HideSelection   =   -1  'True
-         FullRowSelect   =   -1  'True
-         _Version        =   393217
-         ForeColor       =   -2147483640
-         BackColor       =   -2147483643
-         BorderStyle     =   1
-         Appearance      =   1
-         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         NumItems        =   8
-         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Text            =   "Fecha"
-            Object.Width           =   2647
-         EndProperty
-         BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            SubItemIndex    =   1
-            Text            =   "Cuenta"
-            Object.Width           =   2734
-         EndProperty
-         BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            SubItemIndex    =   2
-            Text            =   "Nombre"
-            Object.Width           =   5468
-         EndProperty
-         BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            SubItemIndex    =   3
-            Text            =   "Envio"
-            Object.Width           =   1658
-         EndProperty
-         BeginProperty ColumnHeader(5) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Alignment       =   1
-            SubItemIndex    =   4
-            Text            =   "Importe"
-            Object.Width           =   3422
-         EndProperty
-         BeginProperty ColumnHeader(6) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            SubItemIndex    =   5
-            Text            =   "Observac"
-            Object.Width           =   4304
-         EndProperty
-         BeginProperty ColumnHeader(7) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            SubItemIndex    =   6
-            Text            =   "Codigo"
-            Object.Width           =   0
-         EndProperty
-         BeginProperty ColumnHeader(8) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            SubItemIndex    =   7
-            Text            =   "Carta"
-            Object.Width           =   0
-         EndProperty
-      End
-      Begin MSComctlLib.Toolbar ToolbarAyuda 
-         Height          =   390
-         Left            =   12060
-         TabIndex        =   17
-         Top             =   210
-         Width           =   405
-         _ExtentX        =   714
-         _ExtentY        =   688
-         ButtonWidth     =   609
-         ButtonHeight    =   582
-         _Version        =   393216
-         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-            NumButtons      =   1
-            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Object.ToolTipText     =   "Ayuda"
-            EndProperty
-         EndProperty
-      End
-   End
    Begin VB.Frame FrameReclamacionesCliente 
       BorderStyle     =   0  'None
       Height          =   7005
@@ -710,6 +506,210 @@ Begin VB.Form frmTESReclamaCli
          Width           =   240
       End
    End
+   Begin VB.Frame Frame1 
+      BorderStyle     =   0  'None
+      Height          =   6885
+      Left            =   90
+      TabIndex        =   12
+      Top             =   -30
+      Visible         =   0   'False
+      Width           =   12735
+      Begin VB.Frame FrameBotonGnral2 
+         Height          =   705
+         Left            =   4020
+         TabIndex        =   26
+         Top             =   180
+         Width           =   1095
+         Begin MSComctlLib.Toolbar Toolbar2 
+            Height          =   330
+            Left            =   210
+            TabIndex        =   27
+            Top             =   240
+            Width           =   675
+            _ExtentX        =   1191
+            _ExtentY        =   582
+            ButtonWidth     =   609
+            ButtonHeight    =   582
+            AllowCustomize  =   0   'False
+            Style           =   1
+            _Version        =   393216
+            BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+               NumButtons      =   1
+               BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Efectuar reclamacion "
+               EndProperty
+            EndProperty
+         End
+      End
+      Begin VB.CommandButton cmdCancelar 
+         Caption         =   "&Cancelar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   1
+         Left            =   11550
+         TabIndex        =   15
+         Top             =   6300
+         Width           =   975
+      End
+      Begin VB.Frame Frame2 
+         Height          =   705
+         Left            =   240
+         TabIndex        =   13
+         Top             =   180
+         Width           =   3585
+         Begin MSComctlLib.Toolbar Toolbar1 
+            Height          =   330
+            Left            =   180
+            TabIndex        =   16
+            Top             =   240
+            Width           =   3135
+            _ExtentX        =   5530
+            _ExtentY        =   582
+            ButtonWidth     =   609
+            ButtonHeight    =   582
+            AllowCustomize  =   0   'False
+            Style           =   1
+            _Version        =   393216
+            BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+               NumButtons      =   10
+               BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Nuevo"
+                  Object.Tag             =   "2"
+               EndProperty
+               BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Modificar"
+                  Object.Tag             =   "2"
+               EndProperty
+               BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Eliminar"
+                  Object.Tag             =   "2"
+                  Object.Width           =   1e-4
+               EndProperty
+               BeginProperty Button4 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Style           =   3
+               EndProperty
+               BeginProperty Button5 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Buscar"
+               EndProperty
+               BeginProperty Button6 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Ver Todos"
+                  Object.Tag             =   "0"
+               EndProperty
+               BeginProperty Button7 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Style           =   3
+               EndProperty
+               BeginProperty Button8 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Imprimir"
+               EndProperty
+               BeginProperty Button9 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Enabled         =   0   'False
+                  Object.Visible         =   0   'False
+                  Object.ToolTipText     =   "Salir"
+               EndProperty
+               BeginProperty Button10 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Enabled         =   0   'False
+                  Object.Visible         =   0   'False
+                  Style           =   3
+               EndProperty
+            EndProperty
+         End
+      End
+      Begin MSComctlLib.ListView lw1 
+         Height          =   5085
+         Left            =   240
+         TabIndex        =   14
+         Top             =   990
+         Width           =   12315
+         _ExtentX        =   21722
+         _ExtentY        =   8969
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483643
+         BorderStyle     =   1
+         Appearance      =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         NumItems        =   8
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Text            =   "Fecha"
+            Object.Width           =   2647
+         EndProperty
+         BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   1
+            Text            =   "Cuenta"
+            Object.Width           =   2734
+         EndProperty
+         BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   2
+            Text            =   "Nombre"
+            Object.Width           =   5468
+         EndProperty
+         BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   3
+            Text            =   "Envio"
+            Object.Width           =   1658
+         EndProperty
+         BeginProperty ColumnHeader(5) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Alignment       =   1
+            SubItemIndex    =   4
+            Text            =   "Importe"
+            Object.Width           =   3422
+         EndProperty
+         BeginProperty ColumnHeader(6) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   5
+            Text            =   "Observac"
+            Object.Width           =   4304
+         EndProperty
+         BeginProperty ColumnHeader(7) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   6
+            Text            =   "Codigo"
+            Object.Width           =   0
+         EndProperty
+         BeginProperty ColumnHeader(8) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   7
+            Text            =   "Carta"
+            Object.Width           =   0
+         EndProperty
+      End
+      Begin MSComctlLib.Toolbar ToolbarAyuda 
+         Height          =   390
+         Left            =   12060
+         TabIndex        =   17
+         Top             =   210
+         Width           =   405
+         _ExtentX        =   714
+         _ExtentY        =   688
+         ButtonWidth     =   609
+         ButtonHeight    =   582
+         _Version        =   393216
+         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+            NumButtons      =   1
+            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Ayuda"
+            EndProperty
+         EndProperty
+      End
+   End
 End
 Attribute VB_Name = "frmTESReclamaCli"
 Attribute VB_GlobalNameSpace = False
@@ -735,14 +735,14 @@ Attribute frmF.VB_VarHelpID = -1
 Private frmMens As frmMensajes
 Attribute frmMens.VB_VarHelpID = -1
 
-Dim SQL As String
+Dim Sql As String
 Dim RC As String
-Dim RS As Recordset
+Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
 Dim cad As String
 Dim CONT As Long
-Dim I As Integer
+Dim i As Integer
 Dim TotalRegistros As Long
 
 Dim Importe As Currency
@@ -854,7 +854,7 @@ eInsertar:
 End Sub
 
 Private Function InsertarLineas() As Boolean
-Dim RS As ADODB.Recordset
+Dim Rs As ADODB.Recordset
 Dim CadValues As String
 Dim CadInsert As String
 
@@ -865,13 +865,13 @@ Dim CadInsert As String
     CadInsert = "insert into reclama_facturas (codigo,numlinea,numserie,numfactu,fecfactu,numorden,impvenci) values "
 
     CadValues = ""
-    For I = 1 To lwReclamCli.ListItems.Count
+    For i = 1 To lwReclamCli.ListItems.Count
         If lwReclamCli.SelectedItem.Checked Then
-            CadValues = CadValues & "(" & DBSet(Text1(5).Text, "N") & "," & DBSet(I, "N") & "," & DBSet(lwReclamCli.ListItems(I).Text, "T") & ","
-            CadValues = CadValues & DBSet(lwReclamCli.ListItems(I).SubItems(1), "N") & "," & DBSet(lwReclamCli.ListItems(I).SubItems(2), "F") & ","
-            CadValues = CadValues & DBSet(lwReclamCli.ListItems(I).SubItems(3), "N") & "," & DBSet(lwReclamCli.ListItems(I).SubItems(6), "N") & "),"
+            CadValues = CadValues & "(" & DBSet(Text1(5).Text, "N") & "," & DBSet(i, "N") & "," & DBSet(lwReclamCli.ListItems(i).Text, "T") & ","
+            CadValues = CadValues & DBSet(lwReclamCli.ListItems(i).SubItems(1), "N") & "," & DBSet(lwReclamCli.ListItems(i).SubItems(2), "F") & ","
+            CadValues = CadValues & DBSet(lwReclamCli.ListItems(i).SubItems(3), "N") & "," & DBSet(lwReclamCli.ListItems(i).SubItems(6), "N") & "),"
         End If
-    Next I
+    Next i
     
     If CadValues <> "" Then
         CadValues = Mid(CadValues, 1, Len(CadValues) - 1)
@@ -892,25 +892,25 @@ Private Sub cmdVtoDestino(Index As Integer)
         If Not Me.lwReclamCli.SelectedItem Is Nothing Then TotalRegistros = Me.lwReclamCli.SelectedItem.Index
     
     
-        For I = 1 To Me.lwReclamCli.ListItems.Count
-            If Me.lwReclamCli.ListItems(I).Bold Then
-                Me.lwReclamCli.ListItems(I).Bold = False
-                Me.lwReclamCli.ListItems(I).ForeColor = vbBlack
+        For i = 1 To Me.lwReclamCli.ListItems.Count
+            If Me.lwReclamCli.ListItems(i).Bold Then
+                Me.lwReclamCli.ListItems(i).Bold = False
+                Me.lwReclamCli.ListItems(i).ForeColor = vbBlack
                 For CONT = 1 To Me.lwReclamCli.ColumnHeaders.Count - 1
-                    Me.lwReclamCli.ListItems(I).ListSubItems(CONT).ForeColor = vbBlack
-                    Me.lwReclamCli.ListItems(I).ListSubItems(CONT).Bold = False
+                    Me.lwReclamCli.ListItems(i).ListSubItems(CONT).ForeColor = vbBlack
+                    Me.lwReclamCli.ListItems(i).ListSubItems(CONT).Bold = False
                 Next
             End If
         Next
         Me.Refresh
         
         If TotalRegistros > 0 Then
-            I = TotalRegistros
-            Me.lwReclamCli.ListItems(I).Bold = True
-            Me.lwReclamCli.ListItems(I).ForeColor = vbRed
+            i = TotalRegistros
+            Me.lwReclamCli.ListItems(i).Bold = True
+            Me.lwReclamCli.ListItems(i).ForeColor = vbRed
             For CONT = 1 To Me.lwReclamCli.ColumnHeaders.Count - 1
-                Me.lwReclamCli.ListItems(I).ListSubItems(CONT).ForeColor = vbRed
-                Me.lwReclamCli.ListItems(I).ListSubItems(CONT).Bold = True
+                Me.lwReclamCli.ListItems(i).ListSubItems(CONT).ForeColor = vbRed
+                Me.lwReclamCli.ListItems(i).ListSubItems(CONT).Bold = True
             Next
         End If
         lwReclamCli.Refresh
@@ -950,14 +950,14 @@ Dim Img As Image
 
 
     Limpiar Me
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
     CargaImagenesAyudas Me.Image3, 1, "Cuenta contable"
     
     ' Botonera Principal
     With Me.Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.imgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 3
         .Buttons(2).Image = 4
         .Buttons(3).Image = 5
@@ -968,9 +968,9 @@ Dim Img As Image
     
     ' Botonera Principal 2
     With Me.Toolbar2
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.imgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 47
     End With
     
@@ -979,7 +979,7 @@ Dim Img As Image
     
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
     
@@ -1024,7 +1024,7 @@ Private Sub Image3_Click(Index As Integer)
             Screen.MousePointer = vbHourglass
             
             Set frmCta = New frmColCtas
-            RC = Index
+            RC = Index + 1
             frmCta.DatosADevolverBusqueda = "0|1"
             frmCta.ConfigurarBalances = 3
             frmCta.Show vbModal
@@ -1048,13 +1048,13 @@ End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
 Dim IT
-Dim I As Integer
-    For I = 1 To Me.lwReclamCli.ListItems.Count
-        Set IT = lwReclamCli.ListItems(I)
-        lwReclamCli.ListItems(I).Checked = (Index = 1)
+Dim i As Integer
+    For i = 1 To Me.lwReclamCli.ListItems.Count
+        Set IT = lwReclamCli.ListItems(i)
+        lwReclamCli.ListItems(i).Checked = (Index = 1)
         lwReclamCli_ItemCheck (IT)
         Set IT = Nothing
-    Next I
+    Next i
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
@@ -1116,9 +1116,9 @@ Dim Cobro As Boolean
     C = Item.Tag
     
     Importe = 0
-    For I = 1 To lwReclamCli.ListItems.Count
-        If lwReclamCli.ListItems(I).Checked Then Importe = Importe + lwReclamCli.ListItems(I).SubItems(6)
-    Next I
+    For i = 1 To lwReclamCli.ListItems.Count
+        If lwReclamCli.ListItems(i).Checked Then Importe = Importe + lwReclamCli.ListItems(i).SubItems(6)
+    Next i
     Text1(4).Text = Format(Importe, "###,###,##0.00")
     
     If ComprobarCero(Text1(4).Text) = 0 Then Text1(4).Text = ""
@@ -1146,7 +1146,7 @@ Private Sub HacerToolBar(Boton As Integer)
 End Sub
 
 Private Sub BotonEliminar()
-Dim SQL As String
+Dim Sql As String
 Dim temp As Boolean
 
     On Error GoTo Error2
@@ -1154,20 +1154,20 @@ Dim temp As Boolean
     If Me.lw1.SelectedItem = "" Then Exit Sub
         
     '*************** canviar els noms i el DELETE **********************************
-    SQL = "¿Seguro que desea eliminar la Reclamación?"
-    SQL = SQL & vbCrLf & "Código: " & lw1.SelectedItem.SubItems(6)
-    SQL = SQL & vbCrLf & " de fecha: " & lw1.SelectedItem.Text
-    SQL = SQL & vbCrLf & " de " & lw1.SelectedItem.SubItems(1) & "-" & lw1.SelectedItem.SubItems(2)
+    Sql = "¿Seguro que desea eliminar la Reclamación?"
+    Sql = Sql & vbCrLf & "Código: " & lw1.SelectedItem.SubItems(6)
+    Sql = Sql & vbCrLf & " de fecha: " & lw1.SelectedItem.Text
+    Sql = Sql & vbCrLf & " de " & lw1.SelectedItem.SubItems(1) & "-" & lw1.SelectedItem.SubItems(2)
     
-    If MsgBox(SQL, vbQuestion + vbYesNo) = vbYes Then
+    If MsgBox(Sql, vbQuestion + vbYesNo) = vbYes Then
         'Hay que eliminar
         NumRegElim = lw1.SelectedItem.SubItems(6)
         
-        SQL = "Delete from reclama_facturas where codigo=" & lw1.SelectedItem.SubItems(6)
-        Conn.Execute SQL
+        Sql = "Delete from reclama_facturas where codigo=" & lw1.SelectedItem.SubItems(6)
+        Conn.Execute Sql
         
-        SQL = "Delete from reclama where codigo=" & lw1.SelectedItem.SubItems(6)
-        Conn.Execute SQL
+        Sql = "Delete from reclama where codigo=" & lw1.SelectedItem.SubItems(6)
+        Conn.Execute Sql
         
         
         lw1.ListItems.Remove (lw1.SelectedItem.Index)
@@ -1234,7 +1234,7 @@ Private Sub BotonAnyadir()
 End Sub
 
 Private Sub LimpiarCampos()
-Dim I As Integer
+Dim i As Integer
 
     On Error Resume Next
     
@@ -1313,7 +1313,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -1363,13 +1363,13 @@ Dim B As Byte
             Case Else
                 'DE ULTIMO NIVEL
                 Cta = (Text1(Index).Text)
-                If CuentaCorrectaUltimoNivel(Cta, SQL) Then
+                If CuentaCorrectaUltimoNivel(Cta, Sql) Then
                     Text1(Index).Text = Cta
-                    Text1(3).Text = SQL
+                    Text1(3).Text = Sql
                     
                     
                 Else
-                    MsgBox SQL, vbExclamation
+                    MsgBox Sql, vbExclamation
                     Text1(Index).Text = ""
                     Text1(3).Text = ""
                     Text1(Index).SetFocus
@@ -1475,7 +1475,7 @@ Dim ImporteTot As Currency
     ImporteTot = 0
     
     If Me.Text1(2).Text = "" Then Exit Sub
-    Set Me.lwReclamCli.SmallIcons = frmPpal.ImgListviews
+    Set Me.lwReclamCli.SmallIcons = frmppal.ImgListviews
     Set miRsAux = New ADODB.Recordset
     
     If Modificar Then
@@ -1537,23 +1537,23 @@ End Sub
 
 Private Sub SQLVtosSeleccionadosCompensacion(ByRef RegistroDestino As Long, SinDestino As Boolean)
 Dim Insertar As Boolean
-    SQL = ""
-    For I = 1 To Me.lwReclamCli.ListItems.Count
-        If Me.lwReclamCli.ListItems(I).Checked Then
+    Sql = ""
+    For i = 1 To Me.lwReclamCli.ListItems.Count
+        If Me.lwReclamCli.ListItems(i).Checked Then
         
             Insertar = True
-            If Me.lwReclamCli.ListItems(I).Bold Then
-                RegistroDestino = I
+            If Me.lwReclamCli.ListItems(i).Bold Then
+                RegistroDestino = i
                 If SinDestino Then Insertar = False
             End If
             If Insertar Then
-                SQL = SQL & ", ('" & lwReclamCli.ListItems(I).Text & "'," & lwReclamCli.ListItems(I).SubItems(1)
-                SQL = SQL & ",'" & Format(lwReclamCli.ListItems(I).SubItems(2), FormatoFecha) & "'," & lwReclamCli.ListItems(I).SubItems(3) & ")"
+                Sql = Sql & ", ('" & lwReclamCli.ListItems(i).Text & "'," & lwReclamCli.ListItems(i).SubItems(1)
+                Sql = Sql & ",'" & Format(lwReclamCli.ListItems(i).SubItems(2), FormatoFecha) & "'," & lwReclamCli.ListItems(i).SubItems(3) & ")"
             End If
             
         End If
     Next
-    SQL = Mid(SQL, 2)
+    Sql = Mid(Sql, 2)
             
 End Sub
 
@@ -1567,7 +1567,7 @@ End Sub
 
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
-Dim RS As ADODB.Recordset
+Dim Rs As ADODB.Recordset
 Dim cad As String
     
     On Error Resume Next
@@ -1575,25 +1575,25 @@ Dim cad As String
     cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
     cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
-    Set RS = New ADODB.Recordset
-    RS.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Set Rs = New ADODB.Recordset
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
-    If Not RS.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(RS!creareliminar, "N")
-        Toolbar1.Buttons(2).Enabled = DBLet(RS!Modificar, "N") And (Modo = 2)
-        Toolbar1.Buttons(3).Enabled = DBLet(RS!creareliminar, "N") And (Modo = 2)
+    If Not Rs.EOF Then
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N")
+        Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 2)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2)
         
         Toolbar1.Buttons(5).Enabled = False 'DBLet(RS!Ver, "N") And (Modo = 0 Or Modo = 2) And DesdeNorma43 = 0
-        Toolbar1.Buttons(6).Enabled = DBLet(RS!Ver, "N")
+        Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N")
         
-        Toolbar1.Buttons(8).Enabled = DBLet(RS!Imprimir, "N") And Modo = 2
+        Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N") And Modo = 2
     
-        Toolbar2.Buttons(1).Enabled = DBLet(RS!especial, "N")
+        Toolbar2.Buttons(1).Enabled = DBLet(Rs!especial, "N")
         
     End If
     
-    RS.Close
-    Set RS = Nothing
+    Rs.Close
+    Set Rs = Nothing
     
 End Sub
 
@@ -1603,7 +1603,7 @@ Private Sub CargaList()
 Dim IT
 
     lw1.ListItems.Clear
-    Set Me.lw1.SmallIcons = frmPpal.ImgListviews
+    Set Me.lw1.SmallIcons = frmppal.ImgListviews
     Set miRsAux = New ADODB.Recordset
     
     cad = "Select codigo,fecreclama,codmacta,nommacta,carta,CASE carta WHEN 0 THEN 'Carta' WHEN 1 THEN 'EMail' WHEN 2 THEN 'Teléfono' END as TCarta,importes,observaciones from reclama "

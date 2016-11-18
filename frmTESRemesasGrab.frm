@@ -638,9 +638,9 @@ Private WithEvents frmP As frmFormaPago
 Attribute frmP.VB_VarHelpID = -1
 
 
-Dim RS As ADODB.Recordset
-Dim SQL As String
-Dim I As Integer
+Dim Rs As ADODB.Recordset
+Dim Sql As String
+Dim i As Integer
 Dim IT As ListItem  'Comun
 Dim PrimeraVez As Boolean
 Dim Cancelado As Boolean
@@ -695,14 +695,18 @@ Dim FCobro As String
         
         If Trim(Text7(0).Text) = "" Then Text7(0).Text = UCase(vEmpresa.nomempre)
         
+        If optSepaXML(0).Value Then MsgBox "Ha seleccionado fecha de cobro digitada: " & Text1(9).Text, vbInformation
+        
+        
+        
         B = False
         If cboTipoRemesa.ListIndex = 0 Or cboTipoRemesa.ListIndex = 3 Then
             FCobro = Text1(9).Text
             If optSepaXML(1).Value Then FCobro = ""  'Ha selccionado por vencimiento
         
-            SQL = Mid(Text7(1).Text & "   ", 1, 3) & "|" & Mid(Text7(0).Text & Space(40), 1, 40) & "|"
-            If GrabarDisketteNorma19(App.Path & "\tmpRem.ari", Text3(0).Text & "|" & Text3(1).Text & "|", Text1(18).Text, SQL, Me.cmbReferencia.ListIndex, FCobro, True, chkSEPA_GraboNIF(0).Value = 1, chkSEPA_GraboNIF(1).Value = 1, cboTipoRemesa.ListIndex = 0, chkAnticipoCredito.Value = 1) Then
-                SQL = App.Path & "\tmpRem.ari"
+            Sql = Mid(Text7(1).Text & "   ", 1, 3) & "|" & Mid(Text7(0).Text & Space(40), 1, 40) & "|"
+            If GrabarDisketteNorma19(App.Path & "\tmpRem.ari", Text3(0).Text & "|" & Text3(1).Text & "|", Text1(18).Text, Sql, Me.cmbReferencia.ListIndex, FCobro, True, chkSEPA_GraboNIF(0).Value = 1, chkSEPA_GraboNIF(1).Value = 1, cboTipoRemesa.ListIndex = 0, chkAnticipoCredito.Value = 1) Then
+                Sql = App.Path & "\tmpRem.ari"
                 'Copio el disquete
                 B = CopiarArchivo
             End If
@@ -714,11 +718,11 @@ Dim FCobro As String
             MsgBox "Fichero creado con exito", vbInformation
             If Text3(2).Text = "A" Or Text3(2).Text = "B" Then
                 'Cambio la situacion de la remesa
-                SQL = "UPDATE Remesas SET fecremesa = '" & Format(Text1(9).Text, FormatoFecha)
-                SQL = SQL & "' , tipo = " & cboTipoRemesa.ListIndex & ", Situacion = 'B'"
-                SQL = SQL & " WHERE codigo=" & Text3(0).Text
-                SQL = SQL & " AND anyo =" & Text3(1).Text
-                If Ejecuta(SQL) Then CadenaDesdeOtroForm = "OK"
+                Sql = "UPDATE Remesas SET fecremesa = '" & Format(Text1(9).Text, FormatoFecha)
+                Sql = Sql & "' , tipo = " & cboTipoRemesa.ListIndex & ", Situacion = 'B'"
+                Sql = Sql & " WHERE codigo=" & Text3(0).Text
+                Sql = Sql & " AND anyo =" & Text3(1).Text
+                If Ejecuta(Sql) Then CadenaDesdeOtroForm = "OK"
                 
                 
                 
@@ -745,29 +749,29 @@ Dim Im As Currency
     On Error GoTo EUpdatearCobrosRemesa
     UpdatearCobrosRemesa = False
     
-    SQL = "Select * from cobros WHERE codrem=" & Text3(0).Text
-    SQL = SQL & " AND anyorem =" & Text3(1).Text
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = "Select * from cobros WHERE codrem=" & Text3(0).Text
+    Sql = Sql & " AND anyorem =" & Text3(1).Text
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not miRsAux.EOF Then
             While Not miRsAux.EOF
-                SQL = "UPDATE cobros SET fecultco = '" & Format(Text1(9).Text, FormatoFecha) & "', impcobro = "
+                Sql = "UPDATE cobros SET fecultco = '" & Format(Text1(9).Text, FormatoFecha) & "', impcobro = "
                 Im = miRsAux!ImpVenci
                 If Not IsNull(miRsAux!Gastos) Then Im = Im + miRsAux!Gastos
-                SQL = SQL & TransformaComasPuntos(CStr(Im))
+                Sql = Sql & TransformaComasPuntos(CStr(Im))
                 
-                SQL = SQL & " ,siturem = 'B'"
+                Sql = Sql & " ,siturem = 'B'"
                 
                 
                 'WHERE
-                SQL = SQL & " WHERE numserie='" & miRsAux!NUmSerie
-                SQL = SQL & "' AND  numfactu =  " & miRsAux!NumFactu
-                SQL = SQL & "  AND  fecfactu =  '" & Format(miRsAux!FecFactu, FormatoFecha)
-                SQL = SQL & "' AND  numorden =  " & miRsAux!numorden
+                Sql = Sql & " WHERE numserie='" & miRsAux!NUmSerie
+                Sql = Sql & "' AND  numfactu =  " & miRsAux!NumFactu
+                Sql = Sql & "  AND  fecfactu =  '" & Format(miRsAux!FecFactu, FormatoFecha)
+                Sql = Sql & "' AND  numorden =  " & miRsAux!numorden
                 'Muevo siguiente
                 miRsAux.MoveNext
                 
                 'Ejecuto SQL
-                If Not Ejecuta(SQL) Then MsgBox "Error: " & SQL, vbExclamation
+                If Not Ejecuta(Sql) Then MsgBox "Error: " & Sql, vbExclamation
             Wend
     End If
     miRsAux.Close
@@ -810,7 +814,7 @@ Dim H As Integer
 Dim W As Integer
     Limpiar Me
     PrimeraVez = True
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
     
     
     'Cago los iconos
@@ -849,8 +853,8 @@ Dim W As Integer
         If vParamT.NuevasNormasSEPA Then
             chkSEPA_GraboNIF(0).Visible = True
             chkSEPA_GraboNIF(1).Visible = True
-            SQL = CheckValueLeer("FCob")
-            If SQL = "1" Then
+            Sql = CheckValueLeer("FCob")
+            If Sql = "1" Then
                 Me.optSepaXML(1).Value = True
             Else
                 Me.optSepaXML(0).Value = True
@@ -876,9 +880,9 @@ Dim W As Integer
     Text7(0).Text = UCase(vEmpresa.nomempre)
     
     Set miRsAux = New ADODB.Recordset
-    SQL = RecuperaValor(CadenaDesdeOtroForm, 5)
-    SQL = "Select N1914GrabaNifDeudor,sufijoem from bancos where codmacta = '" & SQL & "'"
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = RecuperaValor(CadenaDesdeOtroForm, 5)
+    Sql = "Select N1914GrabaNifDeudor,sufijoem from bancos where codmacta = '" & Sql & "'"
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Text7(1).Text = DBLet(miRsAux!sufijoem, "T")
     If vParamT.NuevasNormasSEPA Then chkSEPA_GraboNIF(0).Value = DBLet(miRsAux!N1914GrabaNifDeudor, "N")
     miRsAux.Close
@@ -899,7 +903,7 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
 
-    Set RS = Nothing
+    Set Rs = Nothing
     Set miRsAux = Nothing
     If Opcion = 7 Then
         'La seleccion cobro o vencimiento
@@ -915,7 +919,7 @@ Private Sub frmC_Selec(vFecha As Date)
 End Sub
 
 Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = RecuperaValor(CadenaSeleccion, 1)
+    Sql = RecuperaValor(CadenaSeleccion, 1)
 End Sub
 
 Private Sub Image1_Click(Index As Integer)
@@ -953,17 +957,17 @@ Private Sub ImageAyuda_Click(Index As Integer)
     Case 0
         If vParamT.NuevasNormasSEPA Then
 
-            SQL = "Adeudos directos SEPA" & vbCrLf & vbCrLf & vbCrLf
-            SQL = SQL & " Según la fecha seleccionada girará los vencimientos de la remesa:"
+            Sql = "Adeudos directos SEPA" & vbCrLf & vbCrLf & vbCrLf
+            Sql = Sql & " Según la fecha seleccionada girará los vencimientos de la remesa:"
             
-            SQL = SQL & vbCrLf & " Cobro.  Todos los vencimientos a esa fecha"
-            SQL = SQL & vbCrLf & " Vencimiento.  Cada uno con su fecha"
+            Sql = Sql & vbCrLf & " Cobro.  Todos los vencimientos a esa fecha"
+            Sql = Sql & vbCrLf & " Vencimiento.  Cada uno con su fecha"
 
         Else
-            SQL = "Generacion antigua N19"
+            Sql = "Generacion antigua N19"
         End If
     End Select
-    MsgBox ImageAyuda(Index).ToolTipText & vbCrLf & SQL, vbInformation
+    MsgBox ImageAyuda(Index).ToolTipText & vbCrLf & Sql, vbInformation
 End Sub
 
 
@@ -1033,7 +1037,7 @@ On Error GoTo ECopiarArchivo
             Kill cd1.FileName
         End If
         'Hacemos la copia
-        FileCopy SQL, cd1.FileName
+        FileCopy Sql, cd1.FileName
         CopiarArchivo = True
     End If
     
@@ -1058,52 +1062,52 @@ On Error GoTo EEliminarEnRecepcionDocumentos
         CuentasCC = ""
         CualesEliminar = ""
         J = 0
-        For I = 0 To 1
+        For i = 0 To 1
             ' contatalonpte
-            SQL = "pagarecta"
-            If I = 1 Then SQL = "contatalonpte"
-            CtaPte = (DevuelveDesdeBD(SQL, "paramtesor", "codigo", "1") = "1")
+            Sql = "pagarecta"
+            If i = 1 Then Sql = "contatalonpte"
+            CtaPte = (DevuelveDesdeBD(Sql, "paramtesor", "codigo", "1") = "1")
             
             'Repetiremos el proceso dos veces
-            SQL = "Select * from scarecepdoc where fechavto<='" & Format(Text1(17).Text, FormatoFecha) & "'"
-            SQL = SQL & " AND   talon = " & I
-            RS.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-            While Not RS.EOF
+            Sql = "Select * from scarecepdoc where fechavto<='" & Format(Text1(17).Text, FormatoFecha) & "'"
+            Sql = Sql & " AND   talon = " & i
+            Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            While Not Rs.EOF
                     'Si lleva cta puente habra que ver si esta contbilizada
                     J = 0
                     If CtaPte Then
-                        If Val(RS!Contabilizada) = 0 Then
+                        If Val(Rs!Contabilizada) = 0 Then
                             'Veo si tiene lineas. S
-                            SQL = DevuelveDesdeBD("count(*)", "slirecepdoc", "id", CStr(RS!Codigo))
-                            If SQL = "" Then SQL = "0"
-                            If Val(SQL) > 0 Then
-                                CuentasCC = CuentasCC & RS!Codigo & " - No contabilizada" & vbCrLf
+                            Sql = DevuelveDesdeBD("count(*)", "slirecepdoc", "id", CStr(Rs!Codigo))
+                            If Sql = "" Then Sql = "0"
+                            If Val(Sql) > 0 Then
+                                CuentasCC = CuentasCC & Rs!Codigo & " - No contabilizada" & vbCrLf
                                 J = 1
                             End If
                         End If
                     End If
                     If J = 0 Then
                         'Si va benee
-                        If Val(DBLet(RS!llevadobanco, "N")) = 0 Then
-                            SQL = DevuelveDesdeBD("count(*)", "slirecepdoc", "id", CStr(RS!Codigo))
-                            If SQL = "" Then SQL = "0"
-                            If Val(SQL) > 0 Then
-                                CuentasCC = CuentasCC & RS!Codigo & " - Sin llevar a banco" & vbCrLf
+                        If Val(DBLet(Rs!llevadobanco, "N")) = 0 Then
+                            Sql = DevuelveDesdeBD("count(*)", "slirecepdoc", "id", CStr(Rs!Codigo))
+                            If Sql = "" Then Sql = "0"
+                            If Val(Sql) > 0 Then
+                                CuentasCC = CuentasCC & Rs!Codigo & " - Sin llevar a banco" & vbCrLf
                                 J = 1
                             End If
                     
                         End If
                     End If
                     'Esta la borraremos
-                    If J = 0 Then CualesEliminar = CualesEliminar & ", " & RS!Codigo
+                    If J = 0 Then CualesEliminar = CualesEliminar & ", " & Rs!Codigo
                     
-                    RS.MoveNext
+                    Rs.MoveNext
             Wend
-            RS.Close
+            Rs.Close
             
             
             
-        Next I
+        Next i
         
         
 
@@ -1123,24 +1127,24 @@ On Error GoTo EEliminarEnRecepcionDocumentos
         'Si k hay para borrar
         CualesEliminar = Mid(CualesEliminar, 2)
         J = 1
-        SQL = "X"
+        Sql = "X"
         Do
-            I = InStr(J, CualesEliminar, ",")
-            If I > 0 Then
-                J = I + 1
-                SQL = SQL & "X"
+            i = InStr(J, CualesEliminar, ",")
+            If i > 0 Then
+                J = i + 1
+                Sql = Sql & "X"
             End If
-        Loop Until I = 0
+        Loop Until i = 0
         
-        SQL = "Va a eliminar " & Len(SQL) & " registros de la recepcion de documentos." & vbCrLf & vbCrLf & vbCrLf
+        Sql = "Va a eliminar " & Len(Sql) & " registros de la recepcion de documentos." & vbCrLf & vbCrLf & vbCrLf
         If CuentasCC <> "" Then CuentasCC = "No se puede eliminar de la recepcion de documentos los siguientes registros: " & vbCrLf & vbCrLf & CuentasCC
-        SQL = SQL & vbCrLf & CuentasCC
-        If MsgBox(SQL, vbQuestion + vbYesNo) = vbYes Then
-            SQL = "DELETE from slirecepdoc where id in (" & CualesEliminar & ")"
-            Conn.Execute SQL
+        Sql = Sql & vbCrLf & CuentasCC
+        If MsgBox(Sql, vbQuestion + vbYesNo) = vbYes Then
+            Sql = "DELETE from slirecepdoc where id in (" & CualesEliminar & ")"
+            Conn.Execute Sql
             
-            SQL = "DELETE from scarecepdoc where codigo in (" & CualesEliminar & ")"
-            Conn.Execute SQL
+            Sql = "DELETE from scarecepdoc where codigo in (" & CualesEliminar & ")"
+            Conn.Execute Sql
     
         End If
 
@@ -1155,30 +1159,30 @@ Dim NF As Integer
     
     On Error GoTo eSituarComboReferencia
     
-    SQL = App.Path & "\cboremref.dat"
+    Sql = App.Path & "\cboremref.dat"
     If Leer Then
-        I = 2
-        If Dir(SQL, vbArchive) <> "" Then
+        i = 2
+        If Dir(Sql, vbArchive) <> "" Then
             NF = FreeFile
-            Open SQL For Input As #NF
+            Open Sql For Input As #NF
             If Not EOF(NF) Then
-                Line Input #NF, SQL
-                If SQL <> "" Then
-                    If IsNumeric(SQL) Then
-                        If Val(SQL) > 0 And Val(SQL) < 3 Then I = Val(SQL)
+                Line Input #NF, Sql
+                If Sql <> "" Then
+                    If IsNumeric(Sql) Then
+                        If Val(Sql) > 0 And Val(Sql) < 3 Then i = Val(Sql)
                     End If
                 End If
             End If
             Close #NF
             
         End If
-        Me.cmbReferencia.ListIndex = I
+        Me.cmbReferencia.ListIndex = i
     Else
         'GUARDAR
         If Me.cmbReferencia.ListIndex = 2 Then
-            If Dir(SQL, vbArchive) <> "" Then Kill SQL
+            If Dir(Sql, vbArchive) <> "" Then Kill Sql
         Else
-            Open SQL For Output As #NF
+            Open Sql For Output As #NF
             Print #NF, Me.cmbReferencia.ListIndex
             Close #NF
         End If

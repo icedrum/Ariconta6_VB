@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
 Begin VB.Form frmempresa 
@@ -213,88 +213,49 @@ Begin VB.Form frmempresa
       TabCaption(1)   =   "Otros datos"
       TabPicture(1)   =   "frmempresa.frx":0028
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label1(18)"
-      Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "Label1(6)"
-      Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "Label1(5)"
-      Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "Label1(3)"
-      Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "Label1(2)"
-      Tab(1).Control(4).Enabled=   0   'False
-      Tab(1).Control(5)=   "Label1(19)"
-      Tab(1).Control(5).Enabled=   0   'False
-      Tab(1).Control(6)=   "Label1(21)"
-      Tab(1).Control(6).Enabled=   0   'False
-      Tab(1).Control(7)=   "Label1(22)"
-      Tab(1).Control(7).Enabled=   0   'False
-      Tab(1).Control(8)=   "Label1(23)"
-      Tab(1).Control(8).Enabled=   0   'False
-      Tab(1).Control(9)=   "Label1(24)"
-      Tab(1).Control(9).Enabled=   0   'False
-      Tab(1).Control(10)=   "Label1(25)"
-      Tab(1).Control(10).Enabled=   0   'False
-      Tab(1).Control(11)=   "Label1(26)"
-      Tab(1).Control(11).Enabled=   0   'False
-      Tab(1).Control(12)=   "Label1(28)"
-      Tab(1).Control(12).Enabled=   0   'False
-      Tab(1).Control(13)=   "Label1(30)"
-      Tab(1).Control(13).Enabled=   0   'False
-      Tab(1).Control(14)=   "Label1(20)"
-      Tab(1).Control(14).Enabled=   0   'False
+      Tab(1).Control(0)=   "Text1(33)"
+      Tab(1).Control(1)=   "Text1(32)"
+      Tab(1).Control(2)=   "Text1(31)"
+      Tab(1).Control(3)=   "Text1(20)"
+      Tab(1).Control(4)=   "Text1(26)"
+      Tab(1).Control(5)=   "Text1(25)"
+      Tab(1).Control(6)=   "Text1(24)"
+      Tab(1).Control(7)=   "Text1(23)"
+      Tab(1).Control(8)=   "Text1(22)"
+      Tab(1).Control(9)=   "Text1(21)"
+      Tab(1).Control(10)=   "Text1(19)"
+      Tab(1).Control(11)=   "Text1(3)"
+      Tab(1).Control(12)=   "Text1(4)"
+      Tab(1).Control(13)=   "Text1(5)"
+      Tab(1).Control(14)=   "Text1(6)"
       Tab(1).Control(15)=   "Text1(18)"
-      Tab(1).Control(15).Enabled=   0   'False
-      Tab(1).Control(16)=   "Text1(6)"
-      Tab(1).Control(16).Enabled=   0   'False
-      Tab(1).Control(17)=   "Text1(5)"
-      Tab(1).Control(17).Enabled=   0   'False
-      Tab(1).Control(18)=   "Text1(4)"
-      Tab(1).Control(18).Enabled=   0   'False
-      Tab(1).Control(19)=   "Text1(3)"
-      Tab(1).Control(19).Enabled=   0   'False
-      Tab(1).Control(20)=   "Text1(19)"
-      Tab(1).Control(20).Enabled=   0   'False
-      Tab(1).Control(21)=   "Text1(21)"
-      Tab(1).Control(21).Enabled=   0   'False
-      Tab(1).Control(22)=   "Text1(22)"
-      Tab(1).Control(22).Enabled=   0   'False
-      Tab(1).Control(23)=   "Text1(23)"
-      Tab(1).Control(23).Enabled=   0   'False
-      Tab(1).Control(24)=   "Text1(24)"
-      Tab(1).Control(24).Enabled=   0   'False
-      Tab(1).Control(25)=   "Text1(25)"
-      Tab(1).Control(25).Enabled=   0   'False
-      Tab(1).Control(26)=   "Text1(26)"
-      Tab(1).Control(26).Enabled=   0   'False
-      Tab(1).Control(27)=   "Text1(20)"
-      Tab(1).Control(27).Enabled=   0   'False
-      Tab(1).Control(28)=   "Text1(31)"
-      Tab(1).Control(28).Enabled=   0   'False
-      Tab(1).Control(29)=   "Text1(32)"
-      Tab(1).Control(29).Enabled=   0   'False
-      Tab(1).Control(30)=   "Text1(33)"
-      Tab(1).Control(30).Enabled=   0   'False
+      Tab(1).Control(16)=   "Label1(20)"
+      Tab(1).Control(17)=   "Label1(30)"
+      Tab(1).Control(18)=   "Label1(28)"
+      Tab(1).Control(19)=   "Label1(26)"
+      Tab(1).Control(20)=   "Label1(25)"
+      Tab(1).Control(21)=   "Label1(24)"
+      Tab(1).Control(22)=   "Label1(23)"
+      Tab(1).Control(23)=   "Label1(22)"
+      Tab(1).Control(24)=   "Label1(21)"
+      Tab(1).Control(25)=   "Label1(19)"
+      Tab(1).Control(26)=   "Label1(2)"
+      Tab(1).Control(27)=   "Label1(3)"
+      Tab(1).Control(28)=   "Label1(5)"
+      Tab(1).Control(29)=   "Label1(6)"
+      Tab(1).Control(30)=   "Label1(18)"
       Tab(1).ControlCount=   31
       TabCaption(2)   =   "Presentación IVA"
       TabPicture(2)   =   "frmempresa.frx":0044
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "Label1(27)"
-      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "Label4(0)"
-      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "Label4(1)"
-      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).Control(3)=   "Label1(29)"
-      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).Control(4)=   "Text1(27)"
-      Tab(2).Control(4).Enabled=   0   'False
       Tab(2).Control(5)=   "Text1(28)"
-      Tab(2).Control(5).Enabled=   0   'False
       Tab(2).Control(6)=   "Text1(29)"
-      Tab(2).Control(6).Enabled=   0   'False
       Tab(2).Control(7)=   "Text1(30)"
-      Tab(2).Control(7).Enabled=   0   'False
       Tab(2).ControlCount=   8
       Begin VB.TextBox Text1 
          BeginProperty Font 
@@ -1726,7 +1687,7 @@ Private Sub cmdAceptar_Click()
                 InsertarModificarEmpresa False
                 '-----------------------------------------
                 'Hacemos insertar
-                If Adodc1.Recordset.EOF Then
+                If adodc1.Recordset.EOF Then
                     i = InsertarDesdeForm(Me)
                 Else
                     i = ModificaDesdeFormulario(Me)
@@ -1786,17 +1747,17 @@ End Sub
 
 Private Sub Form_Load()
 
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
 
-    Me.Top = 200
+    Me.top = 200
     Me.Left = 400
     Limpiar Me
     'Lista imagen
     ' ICONITOS DE LA BARRA
     With Me.Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.imgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(2).Image = 4
     End With
     
@@ -1805,15 +1766,15 @@ Private Sub Form_Load()
     
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
     
     
     
-    Adodc1.ConnectionString = Conn
-    Adodc1.RecordSource = "Select * from empresa2"
-    Adodc1.Refresh
+    adodc1.ConnectionString = Conn
+    adodc1.RecordSource = "Select * from empresa2"
+    adodc1.Refresh
     
     If vEmpresa Is Nothing Then
         'No hay datos
@@ -1836,7 +1797,7 @@ Private Sub Form_Load()
         PonerCampos
         PonerModo 0
     End If
-    If Adodc1.Recordset.EOF Then Text1(38).Text = "1"  'Codigo para la tabla 2 de empresa
+    If adodc1.Recordset.EOF Then Text1(38).Text = "1"  'Codigo para la tabla 2 de empresa
     If Toolbar1.Buttons(1).Enabled Then _
         Toolbar1.Buttons(1).Enabled = (vUsu.Nivel <= 1)
     cmdAceptar.Enabled = (vUsu.Nivel <= 1)
@@ -1952,8 +1913,8 @@ Private Sub PonerCampos()
     Else
         Limpiar Me
     End If
-    If Adodc1.Recordset.EOF Then Exit Sub
-    PonerCamposForma Me, Adodc1
+    If adodc1.Recordset.EOF Then Exit Sub
+    PonerCamposForma Me, adodc1
 End Sub
 
 Private Function PonTextoNivel(Nivel As Integer) As String
@@ -2055,7 +2016,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 

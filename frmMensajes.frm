@@ -1690,9 +1690,9 @@ Begin VB.Form frmMensajes
          Strikethrough   =   0   'False
       EndProperty
       Height          =   5535
-      Left            =   90
+      Left            =   0
       TabIndex        =   142
-      Top             =   90
+      Top             =   0
       Visible         =   0   'False
       Width           =   9795
       Begin VB.CommandButton Command1 
@@ -3542,6 +3542,8 @@ Dim W, H
         CampoOrden = "fecfactu"
     
     Case 51 ' facturas de remesas
+        FrameReclamaciones.top = 0
+        FrameReclamaciones.Left = 0
         Me.Caption = "Facturas de Remesa"
         Me.Label30.Caption = "Remesa " & RecuperaValor(Parametros, 1) & " / " & RecuperaValor(Parametros, 2)
         Me.FrameReclamaciones.Visible = True

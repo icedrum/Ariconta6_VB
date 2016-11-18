@@ -492,7 +492,7 @@ Dim Sql As String
     Conn.Execute "Delete from tmpconextcab " & CadenaDesdeOtroForm
     Conn.Execute "Delete from tmpactualizar " & CadenaDesdeOtroForm
     Conn.Execute "Delete from usuarios.ztesoreriacomun  " & CadenaDesdeOtroForm
-    Conn.Execute "Delete from usuarios.ztmpfaclin " & CadenaDesdeOtroForm
+
       
     CadenaDesdeOtroForm = ""
 

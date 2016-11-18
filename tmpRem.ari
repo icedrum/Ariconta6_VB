@@ -2,12 +2,12 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02">
 <CstmrDrctDbtInitn>
 <GrpHdr>
-<MsgId>PRE2016091213141455470RE10000522016</MsgId>
-   <CreDtTm>2016-09-12T13:14:14</CreDtTm>
-   <NbOfTxs>1</NbOfTxs>
-   <CtrlSum>121.00</CtrlSum>
+<MsgId>PRE2016111118144396090RE10000592016</MsgId>
+   <CreDtTm>2016-11-11T18:14:43</CreDtTm>
+   <NbOfTxs>2</NbOfTxs>
+   <CtrlSum>499.13</CtrlSum>
    <InitgPty>
-     <Nm>PRUEBASSSSSS</Nm>
+     <Nm>Base DATOS lasta level</Nm>
      <Id>
         <OrgId>
            <Othr>
@@ -18,7 +18,7 @@
    </InitgPty>
 </GrpHdr>
 <PmtInf>
-   <PmtInfId>RE000522016 12/09/16B96470190</PmtInfId>
+   <PmtInfId>RE000592016 11/11/16B96470190</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -33,9 +33,9 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2016-09-12</ReqdColltnDt>
+   <ReqdColltnDt>2016-10-10</ReqdColltnDt>
    <Cdtr>
-      <Nm>PRUEBASSSSSS</Nm>
+      <Nm>Base DATOS lasta level</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
           <AdrLine>Pasaje Ventura Feliu 13 I. En 2</AdrLine>
@@ -63,45 +63,90 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>430000001 A  0000001020160912001   </EndToEndId>
+          <EndToEndId>430000237 A  0360027020160915001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">121.00</InstdAmt>
+      <InstdAmt Ccy="EUR">232.93</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>072710000069</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
+            <MndtId>B46036083</MndtId>
+            <DtOfSgntr>2014-02-27</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>CCRIES2AXXX</BIC>
+            <BIC>CAHMESMMXXX</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>VIT. DE LA POBLA DEL DUC, COOP</Nm>
+         <Nm>JOSE MORALES, S.L.</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>Daniel Sanjuan, 11</AdrLine>
-              <AdrLine>POBLA DEL DUC   46840     VALENCIA</AdrLine>
+              <AdrLine>C.C-3320,km. 29,6 - Pol. Ind. Cotes</AdrLine>
+              <AdrLine>ALGEMESI   46680     VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>072710000069</Id>
+                   <Id>B46036083</Id>
+                   <Issr>NIF</Issr>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES2230582267072710000069</IBAN>
+            <IBAN>ES4320388715766800001567</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>Factura A-0000010 de Fecha 12/09/2016</Ustrd>
+         <Ustrd>FACTURA  A-3600270 de Fecha 15 sep 2016</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>430000147 M  0360041220160901001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">266.20</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>B46155719</MndtId>
+            <DtOfSgntr>2014-01-22</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CAHMESMMXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>TEINSA, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>Carrer Les Moreres Parcela 48-A</AdrLine>
+              <AdrLine>XIRIVELLA   46950     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>B46155719</Id>
+                   <Issr>NIF</Issr>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES6520385825216000651183</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  M-3600412 de Fecha 01 sep 2016</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>
