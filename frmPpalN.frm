@@ -1216,7 +1216,7 @@ Private Sub Form_Load()
         
     Dim A As Pane, B As Pane, C As Pane, d As Pane
     
-    frmIdentifica.pLabel "Creando peneles"
+    frmIdentifica.pLabel "Creando paneles"
     Set A = DockingPaneManager.CreatePane(PANE_SHORTCUTBAR, 170, 120, DockLeftOf, Nothing)
     A.Tag = PANE_SHORTCUTBAR
     A.MinTrackSize.Width = MinimizedShortcutBarWidth

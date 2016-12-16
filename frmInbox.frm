@@ -94,7 +94,7 @@ Private nToolTips_Mode As Long
 'Public frmPreviewPane As frmPreviewPane
 
 Private Sub Form_Load()
-
+    
     
     CreateCalendar
     
@@ -114,14 +114,19 @@ Private Sub CreateCalendar()
     EnableScrollV_WeekView = True
     EnableScrollV_MonthView = True
          
-   Dim ConnectionString As String
+
+Dim C As String
+
+    C = Conn.ConnectionString
     
-    ConnectionString = "Provider=XML;Data Source=" & App.Path & "\SampleEvents.xtp_cal"
-    wndCalendarControl.SetDataProvider ConnectionString
+    C = "Provider=MSDASQL.1;Extended Properties=""DATABASE=Usuarios;DSN=vAriges;OPTION=0;PWD=" & vControl.PassworBD & ";;UID=" & vControl.UsuarioBD & """"
+    OpenProvider cjCalendarData_MySQL, C, False
+
     
-    If Not wndCalendarControl.DataProvider.Open Then
-        wndCalendarControl.DataProvider.Create
-    End If
+    
+'    If Not wndCalendarControl.DataProvider.Open Then
+'        wndCalendarControl.DataProvider.Create
+'    End If
 
     wndCalendarControl.Options.WorkWeekMask = xtpCalendarDayMo_Fr
     wndCalendarControl.Options.FirstDayOfTheWeek = 1
@@ -275,32 +280,6 @@ Public Sub GetDate(ByVal Item As ReportRecordItem, Optional Week = -1, Optional 
     Item.Value = WeekDay & " " & Month & "/" & Day & "/" & Year & " " & Hour & ":" & Minute & " " & TimeOfDay
 End Sub
 
-Private Sub wndReportControl_BeforeDrawRow(ByVal Row As XtremeReportControl.IReportRow, ByVal Item As XtremeReportControl.IReportRecordItem, ByVal Metrics As XtremeReportControl.IReportRecordItemMetrics)
-
-    On Error Resume Next:
-
-    If Row.GroupRow Then
-        Exit Sub
-    End If
-
-   
-    'Debug.Print "Drawing Row = " & Row.Index
-    Dim RecordItem As ReportRecordItem
-    
-    'Determine if the record is "Read" by comparing the mail icon of the record in Item(1).
-    'If "Unread"
-    If (Row.Record.Item(1).Icon = RECORD_UNREAD_MAIL_ICON) Then
-        'The record is "Unread" so display the attachment icon in bold if an attachment is present
-        Row.Record.Item(2).Icon = IIf(Row.Record.Item(2).Checked, COLUMN_ATTACHMENT_ICON, -1)
-        'Change the text of the item in the record to bold font
-        Set Metrics.Font = fntBold
-    'If "Read"
-    ElseIf (Row.Record.Item(1).Icon = RECORD_READ_MAIL_ICON) Then
-        'The record is "Read" so display the normal attachment icon if an attachment is present
-        Row.Record.Item(2).Icon = IIf(Row.Record.Item(2).Checked, COLUMN_ATTACHMENT_NORMAL_ICON, -1)
-    End If
-    
-End Sub
 
 
 
@@ -332,24 +311,24 @@ Private Sub wndCalendarControl_ContextMenu(ByVal X As Single, ByVal Y As Single)
         Set HitTest = wndCalendarControl.ActiveView.HitTest
         
         If Not HitTest.ViewEvent Is Nothing Then
-           ' Set ContextEvent = HitTest.ViewEvent.Event
-           ' Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_OPEN, "&Open")
-           ' Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_DELETE, "&Delete")
-           ' Popup.ShowPopup
-           ' Set ContextEvent = Nothing
+            Set ContextEvent = HitTest.ViewEvent.Event
+            Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_OPEN, "&Open")
+            Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_DELETE, "&Delete")
+            Popup.ShowPopup
+            Set ContextEvent = Nothing
         ElseIf (HitTest.HitCode = xtpCalendarHitTestDayViewTimeScale) Then
-            'Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_NEW, "&New Event")
-            'Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_CHANGE_TIMEZONE, "Change Time Zone")
-            'Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_60, "6&0 Minutes")
-            'Control.BeginGroup = True
-            'Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_30, "&30 Minutes")
-            'Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_15, "&15 Minutes")
-            'Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_10, "10 &Minutes")
-            'Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_5, "&5 Minutes")
-            'Popup.ShowPopup
+           Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_NEW, "&New Event")
+           Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_CHANGE_TIMEZONE, "Change Time Zone")
+           Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_60, "6&0 Minutes")
+           Control.BeginGroup = True
+           Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_30, "&30 Minutes")
+           Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_15, "&15 Minutes")
+           Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_10, "10 &Minutes")
+           Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_5, "&5 Minutes")
+           Popup.ShowPopup
         Else
-            'Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_NEW, "&New Event")
-            'Popup.ShowPopup
+           Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_NEW, "&New Event")
+           Popup.ShowPopup
         End If
 End Sub
 
@@ -551,5 +530,47 @@ Function GetMonday(dtDate As Date) As Date
     End If
         
 End Function
+
+
+
+
+Public Sub OpenProvider(ByVal eDataProviderType, ByVal strConnectionString As String, vHacerGetDSN As Boolean)
+    
+    'Set m_pCustomDataHandler = Nothing
+    
+    ' SQL Server provider.   Abria que traer el modulo de clase que lo gestiona
+    'If eDataProviderType = cjCalendarData_SQLServer Then
+    '    Set m_pCustomDataHandler = New providerSQLServer
+        '' Create DSN "Calendar_SQLServer" to connect to SQL Server Calendar DB
+    '    m_pCustomDataHandler.OpenDB strConnectionString
+        
+    '    m_pCustomDataHandler.SetCalend<ar CalendarControl
+    'End If
+    
+    ' MySQL provider
+    If eDataProviderType = cjCalendarData_MySQL Then
+        'Set m_pCustomDataHandler = New providerMySQL
+        'm_pCustomDataHandler.OpenDB strConnectionString, vHacerGetDSN
+    
+       ' m_pCustomDataHandler.SetCalendar CalendarControl
+    End If
+                
+    
+    'Si pongo PROVIDER=Custom funciona bien, aunque en el connection string le haya dicho la empresa que es
+    wndCalendarControl.SetDataProvider strConnectionString
+    wndCalendarControl.SetDataProvider "Provider=Custom;DSN=vAriconta"
+    wndCalendarControl.DataProvider.CacheMode = xtpCalendarDPCacheModeOnRepeat
+
+    
+    If Not wndCalendarControl.DataProvider.Open Then
+        wndCalendarControl.DataProvider.Create
+    End If
+    
+    'm_eActiveDataProvider = eDataProviderType
+        
+    wndCalendarControl.Populate
+    'wndDatePicker.RedrawControl
+
+End Sub
 
 
