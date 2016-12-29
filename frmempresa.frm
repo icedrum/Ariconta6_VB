@@ -138,6 +138,7 @@ Begin VB.Form frmempresa
       _ExtentX        =   15796
       _ExtentY        =   8070
       _Version        =   393216
+      Tab             =   1
       TabHeight       =   520
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Verdana"
@@ -150,7 +151,7 @@ Begin VB.Form frmempresa
       EndProperty
       TabCaption(0)   =   "Datos básicos"
       TabPicture(0)   =   "frmempresa.frx":000C
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "Label1(0)"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Label1(1)"
@@ -212,50 +213,81 @@ Begin VB.Form frmempresa
       Tab(0).ControlCount=   29
       TabCaption(1)   =   "Otros datos"
       TabPicture(1)   =   "frmempresa.frx":0028
-      Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Text1(33)"
-      Tab(1).Control(1)=   "Text1(32)"
-      Tab(1).Control(2)=   "Text1(31)"
-      Tab(1).Control(3)=   "Text1(20)"
-      Tab(1).Control(4)=   "Text1(26)"
-      Tab(1).Control(5)=   "Text1(25)"
-      Tab(1).Control(6)=   "Text1(24)"
-      Tab(1).Control(7)=   "Text1(23)"
-      Tab(1).Control(8)=   "Text1(22)"
-      Tab(1).Control(9)=   "Text1(21)"
-      Tab(1).Control(10)=   "Text1(19)"
-      Tab(1).Control(11)=   "Text1(3)"
-      Tab(1).Control(12)=   "Text1(4)"
-      Tab(1).Control(13)=   "Text1(5)"
-      Tab(1).Control(14)=   "Text1(6)"
+      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).Control(0)=   "Label1(18)"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "Label1(6)"
+      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(2)=   "Label1(5)"
+      Tab(1).Control(2).Enabled=   0   'False
+      Tab(1).Control(3)=   "Label1(3)"
+      Tab(1).Control(3).Enabled=   0   'False
+      Tab(1).Control(4)=   "Label1(2)"
+      Tab(1).Control(4).Enabled=   0   'False
+      Tab(1).Control(5)=   "Label1(19)"
+      Tab(1).Control(5).Enabled=   0   'False
+      Tab(1).Control(6)=   "Label1(21)"
+      Tab(1).Control(6).Enabled=   0   'False
+      Tab(1).Control(7)=   "Label1(22)"
+      Tab(1).Control(7).Enabled=   0   'False
+      Tab(1).Control(8)=   "Label1(23)"
+      Tab(1).Control(8).Enabled=   0   'False
+      Tab(1).Control(9)=   "Label1(24)"
+      Tab(1).Control(9).Enabled=   0   'False
+      Tab(1).Control(10)=   "Label1(25)"
+      Tab(1).Control(10).Enabled=   0   'False
+      Tab(1).Control(11)=   "Label1(26)"
+      Tab(1).Control(11).Enabled=   0   'False
+      Tab(1).Control(12)=   "Label1(28)"
+      Tab(1).Control(12).Enabled=   0   'False
+      Tab(1).Control(13)=   "Label1(30)"
+      Tab(1).Control(13).Enabled=   0   'False
+      Tab(1).Control(14)=   "Label1(20)"
+      Tab(1).Control(14).Enabled=   0   'False
       Tab(1).Control(15)=   "Text1(18)"
-      Tab(1).Control(16)=   "Label1(20)"
-      Tab(1).Control(17)=   "Label1(30)"
-      Tab(1).Control(18)=   "Label1(28)"
-      Tab(1).Control(19)=   "Label1(26)"
-      Tab(1).Control(20)=   "Label1(25)"
-      Tab(1).Control(21)=   "Label1(24)"
-      Tab(1).Control(22)=   "Label1(23)"
-      Tab(1).Control(23)=   "Label1(22)"
-      Tab(1).Control(24)=   "Label1(21)"
-      Tab(1).Control(25)=   "Label1(19)"
-      Tab(1).Control(26)=   "Label1(2)"
-      Tab(1).Control(27)=   "Label1(3)"
-      Tab(1).Control(28)=   "Label1(5)"
-      Tab(1).Control(29)=   "Label1(6)"
-      Tab(1).Control(30)=   "Label1(18)"
+      Tab(1).Control(15).Enabled=   0   'False
+      Tab(1).Control(16)=   "Text1(6)"
+      Tab(1).Control(16).Enabled=   0   'False
+      Tab(1).Control(17)=   "Text1(5)"
+      Tab(1).Control(17).Enabled=   0   'False
+      Tab(1).Control(18)=   "Text1(4)"
+      Tab(1).Control(18).Enabled=   0   'False
+      Tab(1).Control(19)=   "Text1(3)"
+      Tab(1).Control(19).Enabled=   0   'False
+      Tab(1).Control(20)=   "Text1(19)"
+      Tab(1).Control(20).Enabled=   0   'False
+      Tab(1).Control(21)=   "Text1(21)"
+      Tab(1).Control(21).Enabled=   0   'False
+      Tab(1).Control(22)=   "Text1(22)"
+      Tab(1).Control(22).Enabled=   0   'False
+      Tab(1).Control(23)=   "Text1(23)"
+      Tab(1).Control(23).Enabled=   0   'False
+      Tab(1).Control(24)=   "Text1(24)"
+      Tab(1).Control(24).Enabled=   0   'False
+      Tab(1).Control(25)=   "Text1(25)"
+      Tab(1).Control(25).Enabled=   0   'False
+      Tab(1).Control(26)=   "Text1(26)"
+      Tab(1).Control(26).Enabled=   0   'False
+      Tab(1).Control(27)=   "Text1(20)"
+      Tab(1).Control(27).Enabled=   0   'False
+      Tab(1).Control(28)=   "Text1(31)"
+      Tab(1).Control(28).Enabled=   0   'False
+      Tab(1).Control(29)=   "Text1(32)"
+      Tab(1).Control(29).Enabled=   0   'False
+      Tab(1).Control(30)=   "Text1(33)"
+      Tab(1).Control(30).Enabled=   0   'False
       Tab(1).ControlCount=   31
       TabCaption(2)   =   "Presentación IVA"
       TabPicture(2)   =   "frmempresa.frx":0044
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Label1(27)"
-      Tab(2).Control(1)=   "Label4(0)"
-      Tab(2).Control(2)=   "Label4(1)"
-      Tab(2).Control(3)=   "Label1(29)"
-      Tab(2).Control(4)=   "Text1(27)"
-      Tab(2).Control(5)=   "Text1(28)"
-      Tab(2).Control(6)=   "Text1(29)"
-      Tab(2).Control(7)=   "Text1(30)"
+      Tab(2).Control(0)=   "Text1(30)"
+      Tab(2).Control(1)=   "Text1(29)"
+      Tab(2).Control(2)=   "Text1(28)"
+      Tab(2).Control(3)=   "Text1(27)"
+      Tab(2).Control(4)=   "Label1(29)"
+      Tab(2).Control(5)=   "Label4(1)"
+      Tab(2).Control(6)=   "Label4(0)"
+      Tab(2).Control(7)=   "Label1(27)"
       Tab(2).ControlCount=   8
       Begin VB.TextBox Text1 
          BeginProperty Font 
@@ -310,7 +342,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   33
-         Left            =   -74760
+         Left            =   240
          MaxLength       =   2
          TabIndex        =   14
          Tag             =   "NIF|T|S|||empresa2|siglaempre|||"
@@ -330,7 +362,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   17
-         Left            =   7140
+         Left            =   -67860
          MaxLength       =   8
          TabIndex        =   13
          Tag             =   "Digitos 10º nivel|N|S|||||||"
@@ -350,7 +382,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   16
-         Left            =   7140
+         Left            =   -67860
          MaxLength       =   8
          TabIndex        =   12
          Tag             =   "Digitos 9º nivel|N|S|||||||"
@@ -370,7 +402,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   15
-         Left            =   7140
+         Left            =   -67860
          MaxLength       =   8
          TabIndex        =   11
          Tag             =   "Digitos 8º nivel|N|S|||||||"
@@ -390,7 +422,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   14
-         Left            =   7140
+         Left            =   -67860
          MaxLength       =   8
          TabIndex        =   10
          Tag             =   "Digitos 7º nivel|N|S|||||||"
@@ -410,7 +442,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   13
-         Left            =   7140
+         Left            =   -67860
          MaxLength       =   8
          TabIndex        =   9
          Tag             =   "Digitos 6º nivel|N|S|||||||"
@@ -430,7 +462,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   12
-         Left            =   4800
+         Left            =   -70200
          MaxLength       =   8
          TabIndex        =   8
          Tag             =   "Digitos 5º nivel|N|S|||||||"
@@ -450,7 +482,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   11
-         Left            =   4800
+         Left            =   -70200
          MaxLength       =   8
          TabIndex        =   7
          Tag             =   "Digitos 4º nivel|N|S|||||||"
@@ -470,7 +502,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   10
-         Left            =   4800
+         Left            =   -70200
          MaxLength       =   8
          TabIndex        =   6
          Tag             =   "Digitos 3er nivel|N|S|||||||"
@@ -490,7 +522,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   9
-         Left            =   4800
+         Left            =   -70200
          MaxLength       =   8
          TabIndex        =   5
          Tag             =   "Digitos 2º nivel|N|S|||||||"
@@ -510,7 +542,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   8
-         Left            =   4800
+         Left            =   -70200
          MaxLength       =   2
          TabIndex        =   4
          Tag             =   "Digitos 1er nivel|N|N|||||||"
@@ -530,7 +562,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   7
-         Left            =   1800
+         Left            =   -73200
          MaxLength       =   1
          TabIndex        =   3
          Tag             =   "Numero niveles|N|N|||||||"
@@ -550,7 +582,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   2
-         Left            =   6195
+         Left            =   -68805
          TabIndex        =   2
          Text            =   "Text1"
          Top             =   840
@@ -568,7 +600,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   1695
+         Left            =   -73305
          MaxLength       =   40
          TabIndex        =   1
          Text            =   "Text1"
@@ -587,7 +619,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   360
+         Left            =   -74640
          MaxLength       =   8
          TabIndex        =   0
          Text            =   "Text1"
@@ -607,7 +639,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   32
-         Left            =   -68640
+         Left            =   6360
          TabIndex        =   54
          Tag             =   "NIF|T|S|||empresa2|codigo||S|"
          Text            =   "CODIGO"
@@ -647,7 +679,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   31
-         Left            =   -68130
+         Left            =   6870
          MaxLength       =   9
          TabIndex        =   17
          Tag             =   "Código postal|T|S|||empresa2|telefono|||"
@@ -668,7 +700,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   20
-         Left            =   -74040
+         Left            =   960
          TabIndex        =   15
          Tag             =   "NIF|T|S|||empresa2|nifempre|||"
          Text            =   "Text1"
@@ -707,7 +739,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   26
-         Left            =   -68130
+         Left            =   6870
          MaxLength       =   9
          TabIndex        =   19
          Tag             =   "Tfno|T|S|||empresa2|tfnocontacto|||"
@@ -727,7 +759,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   25
-         Left            =   -66960
+         Left            =   8040
          MaxLength       =   2
          TabIndex        =   25
          Tag             =   "pta|T|S|||empresa2|puerta|||"
@@ -747,7 +779,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   24
-         Left            =   -67560
+         Left            =   7440
          MaxLength       =   2
          TabIndex        =   24
          Tag             =   "Piso|T|S|||empresa2|piso|||"
@@ -767,7 +799,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   23
-         Left            =   -68160
+         Left            =   6840
          MaxLength       =   2
          TabIndex        =   23
          Tag             =   "Esca|T|S|||empresa2|escalera|||"
@@ -787,7 +819,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   22
-         Left            =   -68880
+         Left            =   6120
          MaxLength       =   5
          TabIndex        =   22
          Tag             =   "Numero|T|S|||empresa2|numero|||"
@@ -807,7 +839,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   21
-         Left            =   -74760
+         Left            =   240
          MaxLength       =   2
          TabIndex        =   20
          Tag             =   "Via|T|S|||empresa2|siglasvia|||"
@@ -827,7 +859,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   19
-         Left            =   -74760
+         Left            =   240
          MaxLength       =   30
          TabIndex        =   18
          Tag             =   "Contacto|T|S|||empresa2|contacto|||"
@@ -847,7 +879,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   3
-         Left            =   -74160
+         Left            =   840
          MaxLength       =   30
          TabIndex        =   21
          Tag             =   "Dirección|T|S|||empresa2|direccion|||"
@@ -867,7 +899,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   4
-         Left            =   -70185
+         Left            =   4815
          TabIndex        =   27
          Tag             =   "Código postal|T|S|||empresa2|codpos|||"
          Text            =   "Text1"
@@ -886,7 +918,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   5
-         Left            =   -74760
+         Left            =   240
          MaxLength       =   30
          TabIndex        =   26
          Tag             =   "Población|T|S|||empresa2|poblacion|||"
@@ -906,7 +938,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   6
-         Left            =   -68895
+         Left            =   6105
          MaxLength       =   30
          TabIndex        =   28
          Tag             =   "Provincia|T|S|||empresa2|provincia|||"
@@ -926,7 +958,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   18
-         Left            =   -74745
+         Left            =   255
          MaxLength       =   30
          TabIndex        =   16
          Tag             =   "Apoderado|T|S|||empresa2|apoderado|||"
@@ -947,7 +979,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   20
-         Left            =   -74040
+         Left            =   960
          TabIndex        =   51
          Top             =   600
          Width           =   1335
@@ -965,7 +997,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   30
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   70
          Top             =   600
          Width           =   645
@@ -982,7 +1014,7 @@ Begin VB.Form frmempresa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   285
-         Left            =   2535
+         Left            =   -72465
          TabIndex        =   69
          Top             =   2160
          Width           =   975
@@ -1000,7 +1032,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   17
-         Left            =   6150
+         Left            =   -68850
          TabIndex        =   68
          Top             =   3945
          Width           =   915
@@ -1018,7 +1050,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   16
-         Left            =   6180
+         Left            =   -68820
          TabIndex        =   67
          Top             =   3510
          Width           =   945
@@ -1036,7 +1068,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   15
-         Left            =   6180
+         Left            =   -68820
          TabIndex        =   66
          Top             =   3060
          Width           =   885
@@ -1054,7 +1086,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   14
-         Left            =   6150
+         Left            =   -68850
          TabIndex        =   65
          Top             =   2655
          Width           =   855
@@ -1072,7 +1104,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   13
-         Left            =   6150
+         Left            =   -68850
          TabIndex        =   64
          Top             =   2190
          Width           =   945
@@ -1090,7 +1122,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   12
-         Left            =   3750
+         Left            =   -71250
          TabIndex        =   63
          Top             =   3960
          Width           =   885
@@ -1108,7 +1140,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   11
-         Left            =   3750
+         Left            =   -71250
          TabIndex        =   62
          Top             =   3510
          Width           =   1005
@@ -1126,7 +1158,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   10
-         Left            =   3750
+         Left            =   -71250
          TabIndex        =   61
          Top             =   3075
          Width           =   960
@@ -1144,7 +1176,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   9
-         Left            =   3750
+         Left            =   -71250
          TabIndex        =   60
          Top             =   2655
          Width           =   915
@@ -1162,7 +1194,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   8
-         Left            =   3750
+         Left            =   -71250
          TabIndex        =   59
          Top             =   2190
          Width           =   960
@@ -1180,7 +1212,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   7
-         Left            =   405
+         Left            =   -74595
          TabIndex        =   58
          Top             =   2160
          Width           =   1410
@@ -1198,7 +1230,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   4
-         Left            =   6195
+         Left            =   -68805
          TabIndex        =   57
          Top             =   600
          Width           =   1215
@@ -1216,7 +1248,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   1
-         Left            =   1695
+         Left            =   -73305
          TabIndex        =   56
          Top             =   600
          Width           =   2655
@@ -1234,7 +1266,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   0
-         Left            =   375
+         Left            =   -74625
          TabIndex        =   55
          Top             =   600
          Width           =   1215
@@ -1270,7 +1302,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   28
-         Left            =   -68130
+         Left            =   6870
          TabIndex        =   52
          Top             =   1320
          Width           =   1320
@@ -1342,7 +1374,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   26
-         Left            =   -68160
+         Left            =   6840
          TabIndex        =   47
          Top             =   2040
          Width           =   1650
@@ -1360,7 +1392,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   25
-         Left            =   -66930
+         Left            =   8070
          TabIndex        =   46
          Top             =   2880
          Width           =   375
@@ -1378,7 +1410,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   24
-         Left            =   -67530
+         Left            =   7470
          TabIndex        =   45
          Top             =   2880
          Width           =   525
@@ -1396,7 +1428,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   23
-         Left            =   -68130
+         Left            =   6870
          TabIndex        =   44
          Top             =   2880
          Width           =   615
@@ -1414,7 +1446,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   22
-         Left            =   -68850
+         Left            =   6150
          TabIndex        =   43
          Top             =   2880
          Width           =   585
@@ -1432,7 +1464,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   21
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   42
          Top             =   2880
          Width           =   375
@@ -1450,7 +1482,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   240
          Index           =   19
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   41
          Top             =   2040
          Width           =   2445
@@ -1468,9 +1500,9 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   2
-         Left            =   -74160
+         Left            =   840
          TabIndex        =   40
-         Top             =   2925
+         Top             =   2880
          Width           =   1095
       End
       Begin VB.Label Label1 
@@ -1484,11 +1516,11 @@ Begin VB.Form frmempresa
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   255
+         Height          =   240
          Index           =   3
-         Left            =   -70185
+         Left            =   4815
          TabIndex        =   39
-         Top             =   3735
+         Top             =   3750
          Width           =   885
       End
       Begin VB.Label Label1 
@@ -1502,9 +1534,9 @@ Begin VB.Form frmempresa
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   255
+         Height          =   240
          Index           =   5
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   38
          Top             =   3750
          Width           =   1305
@@ -1522,7 +1554,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   240
          Index           =   6
-         Left            =   -68895
+         Left            =   6105
          TabIndex        =   37
          Top             =   3750
          Width           =   1035
@@ -1540,7 +1572,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   240
          Index           =   18
-         Left            =   -74745
+         Left            =   255
          TabIndex        =   36
          Top             =   1320
          Width           =   1575
@@ -1663,7 +1695,7 @@ Dim Rs As ADODB.Recordset
 Dim Modo As Byte
 
 Private Sub cmdAceptar_Click()
-    Dim cad As String
+    Dim Cad As String
     Dim i As Integer
     
     Screen.MousePointer = vbHourglass
@@ -2025,15 +2057,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 0 Or Modo = 2)

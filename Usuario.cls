@@ -40,6 +40,10 @@ Private mvarFiltroGastosFijos As Integer 'filtro de gastos fijos
 
 Private mvarFormulariosConPermisosEspeciales As String
 
+
+Private mvarTabPorDefecto As Integer   'Guadara el TAB que tiene seleccionado por defecto
+
+
 Private Rs As ADODB.Recordset
 Private Sql As String
 Private Mens As String
@@ -294,7 +298,18 @@ Public Property Get FiltroGastosFijos() As Integer
     FiltroGastosFijos = mvarFiltroGastosFijos
 End Property
 
+Public Property Let TabPorDefecto(ByVal vData As Integer)
+'se usa cuando se asigna un valor a una propiedad, en el lado izquierdo de la asignación.
+'Syntax: X.Nivel = 5
+    mvarTabPorDefecto = vData
+End Property
 
+
+Public Property Get TabPorDefecto() As Integer
+'se usa cuando se asigna un valor a una propiedad, en el lado derecho de la asignación.
+'Syntax: Debug.Print X.Nivel
+    TabPorDefecto = mvarTabPorDefecto
+End Property
 
 
 Public Function Leer(ByVal vlogin As String) As Byte
@@ -319,6 +334,11 @@ Dim i As Long
         mvarId = Val(DBLet(Rs!codusu))
         mvarSkin = DBLet(Rs!Skin)
         
+              
+        
+        'Pondra la tb ppal
+        LeerTabPorDefecto
+            
         
         Leer = 0
     End If
@@ -330,6 +350,27 @@ Err1:
     Rs.Close
     Leer = 1
 End Function
+
+
+Public Sub LeerTabPorDefecto()
+    'Las tabs estan en mysql,menus, desde el 1 hasta el 14
+    If mvarTabPorDefecto = 0 Then mvarTabPorDefecto = 2
+    
+    Sql = " codigo<=14 and aplicacion = 'ariconta' and filtro =1 and codusu "
+    Sql = DevuelveDesdeBD("codigo", "menus_usuarios", Sql, CStr(mvarId))
+    If Sql <> "" Then
+        If Val(Sql) > 0 Then mvarTabPorDefecto = CInt(Sql)
+    End If
+    
+End Sub
+
+Public Sub GuardarTabPorDefecto()
+    
+    Sql = "UPDATE menus_usuarios SET filtro=if(codigo=" & vUsu.TabPorDefecto & ",1,0) WHERE codusu = " & vUsu.Id
+    Sql = Sql & " AND aplicacion = 'ariconta' AND codigo <=14"
+    Conn.Execute Sql
+End Sub
+
 
 Public Sub LeerFiltros(aplicacion As String, idPrg As Integer)
 Dim Rs As ADODB.Recordset
@@ -347,6 +388,7 @@ Dim Rs As ADODB.Recordset
     mvarFiltroPagos = 0
     mvarFiltroGastosFijos = 0
     
+   
     
     Sql = "SELECT codigo, filtro FROM menus_usuarios WHERE aplicacion = " & DBSet(aplicacion, "T") & " and codusu = " & DBSet(mvarId, "N")
     Sql = Sql & " and codigo = " & DBSet(idPrg, "N")
@@ -370,6 +412,8 @@ Dim Rs As ADODB.Recordset
                 mvarFiltroPagos = DBLet(Rs!FILTRO, "N")
             Case 807
                 mvarFiltroGastosFijos = DBLet(Rs!FILTRO, "N")
+            Case 1 To 14
+                Stop
         End Select
     End If
     

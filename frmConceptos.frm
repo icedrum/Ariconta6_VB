@@ -643,7 +643,7 @@ Private Sub BotonModificar()
     '---------
     'MODIFICAR
     '----------
-    Dim cad As String
+    Dim Cad As String
     Dim anc As Single
     Dim i As Integer
     If adodc1.Recordset.EOF Then Exit Sub
@@ -789,7 +789,7 @@ Private Sub cmdCancelar_Click()
 End Sub
 
 Private Sub cmdRegresar_Click()
-Dim cad As String
+Dim Cad As String
 
     If adodc1.Recordset.EOF Then
         MsgBox "Ningún registro a devolver.", vbExclamation
@@ -802,14 +802,14 @@ Dim cad As String
             MsgBox "Los conceptos superiores a 900 se los reserva la aplicación.", vbExclamation
             Exit Sub
         Else
-            cad = "Los conceptos superiores a 900 son de la aplicación y no deberia utilizarlis. ¿Desea continuar de igual modo?"
-            If MsgBox(cad, vbQuestion + vbYesNo) <> vbYes Then Exit Sub
+            Cad = "Los conceptos superiores a 900 son de la aplicación y no deberia utilizarlis. ¿Desea continuar de igual modo?"
+            If MsgBox(Cad, vbQuestion + vbYesNo) <> vbYes Then Exit Sub
         End If
     End If
-    cad = adodc1.Recordset.Fields(0) & "|"
-    cad = cad & adodc1.Recordset.Fields(1) & "|"
-    cad = cad & adodc1.Recordset.Fields(2) & "|"
-    RaiseEvent DatoSeleccionado(cad)
+    Cad = adodc1.Recordset.Fields(0) & "|"
+    Cad = Cad & adodc1.Recordset.Fields(1) & "|"
+    Cad = Cad & adodc1.Recordset.Fields(2) & "|"
+    RaiseEvent DatoSeleccionado(Cad)
     Unload Me
 End Sub
 
@@ -856,6 +856,13 @@ End Sub
 
 Private Sub Form_Activate()
     Screen.MousePointer = vbDefault
+End Sub
+' ### [DavidV] 23/12/2016: Activar/desactivar la rueda del ratón.
+Private Sub DataGrid1_GotFocus()
+  WheelHook DataGrid1
+End Sub
+Private Sub DataGrid1_LostFocus()
+  WheelUnHook
 End Sub
 
 '++
@@ -1214,15 +1221,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)

@@ -15,32 +15,6 @@ Begin VB.Form frmConExtr
    ScaleHeight     =   9330
    ScaleWidth      =   17445
    StartUpPosition =   2  'CenterScreen
-   Begin MSComctlLib.ImageList ImageList1 
-      Left            =   4920
-      Top             =   240
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      BackColor       =   -2147483643
-      ImageWidth      =   24
-      ImageHeight     =   24
-      MaskColor       =   12632256
-      _Version        =   393216
-      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   3
-         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmConExtr.frx":000C
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmConExtr.frx":686E
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmConExtr.frx":D0D0
-            Key             =   ""
-         EndProperty
-      EndProperty
-   End
    Begin VB.Frame Frame3 
       BorderStyle     =   0  'None
       Caption         =   "Frame1"
@@ -412,7 +386,7 @@ Begin VB.Form frmConExtr
          Height          =   240
          Index           =   1
          Left            =   12270
-         Picture         =   "frmConExtr.frx":13932
+         Picture         =   "frmConExtr.frx":000C
          Top             =   120
          Width           =   240
       End
@@ -420,7 +394,7 @@ Begin VB.Form frmConExtr
          Height          =   240
          Index           =   0
          Left            =   9120
-         Picture         =   "frmConExtr.frx":139BD
+         Picture         =   "frmConExtr.frx":0097
          Top             =   120
          Width           =   240
       End
@@ -1155,21 +1129,14 @@ Dim i As Integer
     
     
     With Toolbar1
-        '.HotImageList = frmppal.imgListComun_OM
-        '.DisabledImageList = frmppal.imgListComun_BN
-        '.ImageList = frmppal.ImgListComun
-        '.Buttons(1).Image = 18
-        '.Buttons(2).Image = 16
-        '.Buttons(3).Image = 30
-        '.Buttons(5).Image = 7
-        '.Buttons(6).Image = 8
-        
-        .ImageList = Me.ImageList1
-        .Buttons(1).Image = 1
-        .Buttons(2).Image = 2
-        .Buttons(3).Image = 3
-        .Buttons(5).Image = 1
-        .Buttons(6).Image = 2
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
+        .Buttons(1).Image = 18
+        .Buttons(2).Image = 16
+        .Buttons(3).Image = 30
+        .Buttons(5).Image = 7
+        .Buttons(6).Image = 8
         
     End With
     
@@ -1440,7 +1407,7 @@ Dim Pinta As Boolean
 
 Dim NumAto As Long  'el numero de asiento por si viene de los asientos
 
-Dim cad As String
+Dim Cad As String
 Dim miRsAux As ADODB.Recordset
 
     Me.ListView1.ListItems.Clear
@@ -1455,23 +1422,23 @@ Dim miRsAux As ADODB.Recordset
        
     
     
-    cad = " numasien,fechaent,cta codmacta,nomdocum numdocum,ampconce,timporteD impdebe,timporteH imphaber,ccost codccost"
-    cad = cad & ",if(punteada='',' ','*') punteada,nommacta,contra ctacontr,linliapu numlinea, numdiari "
+    Cad = " numasien,fechaent,cta codmacta,nomdocum numdocum,ampconce,timporteD impdebe,timporteH imphaber,ccost codccost"
+    Cad = Cad & ",if(punteada='',' ','*') punteada,nommacta,contra ctacontr,linliapu numlinea, numdiari "
     If Text3(2).Text <> "" Then
-        cad = "Select " & cad & " from tmpConExt left join cuentas on tmpConExt.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
+        Cad = "Select " & Cad & " from tmpConExt left join cuentas on tmpConExt.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
         If Me.chkPunteo.Value = 1 Then
-            cad = cad & " and punteada = 0"
+            Cad = Cad & " and punteada = 0"
         End If
     Else
-        cad = "Select " & cad & " from tmpConExt left join cuentas on tmpConExt.contra=cuentas.codmacta  where codusu = " & vUsu.Codigo
+        Cad = "Select " & Cad & " from tmpConExt left join cuentas on tmpConExt.contra=cuentas.codmacta  where codusu = " & vUsu.Codigo
         If Me.chkPunteo.Value = 1 Then
-            cad = cad & " and punteada = 0"
+            Cad = Cad & " and punteada = 0"
         End If
     End If
-    cad = cad & " AND cta = '" & Text3(2).Text & "' ORDER BY fechaent,numasien,linliapu  " ' ORDER BY POS"
+    Cad = Cad & " AND cta = '" & Text3(2).Text & "' ORDER BY fechaent,numasien,linliapu  " ' ORDER BY POS"
     
     
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If miRsAux.EOF Then
     
@@ -1560,12 +1527,12 @@ Dim miRsAux As ADODB.Recordset
     miRsAux.Close
         
     Dim Rs As ADODB.Recordset
-    cad = "SELECT codmacta, sum(coalesce(timporteD,0)) impdebe,sum(coalesce(timporteH,0)) imphaber"
-    cad = cad & " from hlinapu "
-    cad = cad & " where hlinapu.codmacta=" & DBSet(Text3(2).Text, "T") & " AND fechaent>=" & DBSet(vParam.fechaini, "F") '& " and fechaent <= " & DBSet(F2, "F")  '2013-01-01'"
-    cad = cad & " group by 1 "
+    Cad = "SELECT codmacta, sum(coalesce(timporteD,0)) impdebe,sum(coalesce(timporteH,0)) imphaber"
+    Cad = Cad & " from hlinapu "
+    Cad = Cad & " where hlinapu.codmacta=" & DBSet(Text3(2).Text, "T") & " AND fechaent>=" & DBSet(vParam.fechaini, "F") '& " and fechaent <= " & DBSet(F2, "F")  '2013-01-01'"
+    Cad = Cad & " group by 1 "
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Me.Text6(6).Text = Format(DBLet(Rs!impdebe, "N"), FormatoImporte)
@@ -1631,16 +1598,16 @@ End Sub
 
 Private Sub CargarColumnas()
 Dim i As Integer
-Dim cad As String
+Dim Cad As String
 
     
-    cad = "1300|1150|2005|3714|1500|820|1950|1950|1950|350|"  '0|0|0|"
+    Cad = "1300|1150|2005|3714|1500|820|1950|1950|1950|350|"  '0|0|0|"
     'tieneanalitica
     Me.LabelCab(5).Visible = (vParam.autocoste)
     
     
     For i = 1 To Me.ListView1.ColumnHeaders.Count
-        ListView1.ColumnHeaders.Item(i).Width = RecuperaValor(cad, i)
+        ListView1.ColumnHeaders.Item(i).Width = RecuperaValor(Cad, i)
         If i > 6 Then Me.LabelCab(i - 1).Width = ListView1.ColumnHeaders(i).Width
 
         Me.LabelCab(i - 1).Left = ListView1.ColumnHeaders.Item(i).Left + 120
@@ -1845,15 +1812,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 0 Or Modo = 2)

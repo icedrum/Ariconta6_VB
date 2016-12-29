@@ -30,15 +30,15 @@ Begin VB.Form frmTESCompensaciones
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   735
-         Left            =   7590
+         Height          =   615
+         Left            =   6120
          Locked          =   -1  'True
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   13
          Text            =   "frmTESCompensaciones.frx":0000
-         Top             =   240
-         Width           =   5235
+         Top             =   480
+         Width           =   7275
       End
       Begin VB.TextBox Text1 
          BeginProperty Font 
@@ -171,14 +171,14 @@ Begin VB.Form frmTESCompensaciones
          Width           =   1095
       End
       Begin MSComctlLib.ListView lw1 
-         Height          =   5295
+         Height          =   5175
          Index           =   1
          Left            =   6030
          TabIndex        =   8
-         Top             =   1080
-         Width           =   7300
+         Top             =   1200
+         Width           =   7305
          _ExtentX        =   12885
-         _ExtentY        =   9340
+         _ExtentY        =   9128
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -237,14 +237,14 @@ Begin VB.Form frmTESCompensaciones
          EndProperty
       End
       Begin MSComctlLib.ListView lw1 
-         Height          =   5295
+         Height          =   5175
          Index           =   0
          Left            =   120
          TabIndex        =   11
-         Top             =   1080
-         Width           =   5855
+         Top             =   1200
+         Width           =   5850
          _ExtentX        =   10319
-         _ExtentY        =   9340
+         _ExtentY        =   9128
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -299,9 +299,9 @@ Begin VB.Form frmTESCompensaciones
       End
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
-         Left            =   12960
+         Left            =   13080
          TabIndex        =   14
-         Top             =   210
+         Top             =   120
          Width           =   405
          _ExtentX        =   714
          _ExtentY        =   688
@@ -376,9 +376,9 @@ Begin VB.Form frmTESCompensaciones
          ForeColor       =   &H00000080&
          Height          =   255
          Index           =   1
-         Left            =   6090
+         Left            =   6120
          TabIndex        =   9
-         Top             =   240
+         Top             =   210
          Width           =   1095
       End
       Begin VB.Image imgCuentas 
@@ -654,18 +654,18 @@ Dim ModificarVto As Boolean  'No pone el impcobrado, pone vto el total que queda
                 SqlLog = "Cliente      : " & Text1(0) & " " & Text2(0)
                 SqlLog = SqlLog & vbCrLf & "Proveedores  : " & Text4
                 SqlLog = SqlLog & vbCrLf & "Fras Cliente : "
-                For I = 1 To Me.lw1(0).ListItems.Count
-                    If lw1(0).ListItems(I).Checked Then
-                        SqlLog = SqlLog & vbCrLf & lw1(0).ListItems(I).Text & " " & lw1(0).ListItems(I).SubItems(1) & " " & lw1(0).ListItems(I).SubItems(2) & " " & lw1(0).ListItems(I).SubItems(3) & " " & lw1(0).ListItems(I).SubItems(4) & " "
+                For i = 1 To Me.lw1(0).ListItems.Count
+                    If lw1(0).ListItems(i).Checked Then
+                        SqlLog = SqlLog & vbCrLf & lw1(0).ListItems(i).Text & " " & lw1(0).ListItems(i).SubItems(1) & " " & lw1(0).ListItems(i).SubItems(2) & " " & lw1(0).ListItems(i).SubItems(3) & " " & lw1(0).ListItems(i).SubItems(4) & " "
                     End If
-                Next I
+                Next i
                 
                 SqlLog = SqlLog & vbCrLf & "Fras Proveedor : "
-                For I = 1 To Me.lw1(1).ListItems.Count
-                    If lw1(1).ListItems(I).Checked Then
-                        SqlLog = SqlLog & vbCrLf & lw1(1).ListItems(I).Text & " " & lw1(1).ListItems(I).SubItems(6) & " " & lw1(1).ListItems(I).SubItems(1) & " " & lw1(1).ListItems(I).SubItems(2) & " " & lw1(1).ListItems(I).SubItems(3) & " " & lw1(1).ListItems(I).SubItems(4) & " "
+                For i = 1 To Me.lw1(1).ListItems.Count
+                    If lw1(1).ListItems(i).Checked Then
+                        SqlLog = SqlLog & vbCrLf & lw1(1).ListItems(i).Text & " " & lw1(1).ListItems(i).SubItems(6) & " " & lw1(1).ListItems(i).SubItems(1) & " " & lw1(1).ListItems(i).SubItems(2) & " " & lw1(1).ListItems(i).SubItems(3) & " " & lw1(1).ListItems(i).SubItems(4) & " "
                     End If
-                Next I
+                Next i
                 vLog.Insertar 26, vUsu, SqlLog
                 
                 
@@ -688,13 +688,13 @@ Dim ModificarVto As Boolean  'No pone el impcobrado, pone vto el total que queda
 End Sub
 
 Private Sub Form_Load()
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
     Limpiar Me
     Text3(0).Tag = 0:    Text3(1).Tag = 0:    Text3(2).Tag = 0
     
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.ImgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
     
@@ -1514,6 +1514,6 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub

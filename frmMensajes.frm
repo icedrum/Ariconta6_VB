@@ -389,7 +389,7 @@ Begin VB.Form frmMensajes
       Height          =   5535
       Left            =   0
       TabIndex        =   138
-      Top             =   90
+      Top             =   30
       Width           =   8865
       Begin VB.CommandButton Command1 
          Caption         =   "&Salir"

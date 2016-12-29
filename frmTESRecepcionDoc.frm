@@ -1087,7 +1087,7 @@ Private kCampo As Integer
 '-------------------------------------------------------------------------
 Private HaDevueltoDatos As Boolean
 Private Sql As String
-Dim I As Integer
+Dim i As Integer
 Dim Ancho As Integer
 'Dim colMes As Integer
 
@@ -1359,17 +1359,17 @@ Dim Ok As Boolean
         'Esta realizado el apunte. Hay que deshacer
         Sql = DevuelveDesdeBD("sum(importe)", "talones_facturas", "codigo", Text1(4).Text)
         If Sql = "" Then Sql = "0"
-        I = 0
+        i = 0
         If CCur(Sql) <> ImporteFormateado(Text1(5).Text) Then
             Sql = CStr(CCur(Sql) - ImporteFormateado(Text1(5).Text))
             If CCur(Sql) > 0 Then
-                I = -1   'Mayor las lineas que el importe del talon
+                i = -1   'Mayor las lineas que el importe del talon
             Else
-                I = 1   'Mayor el total que la suma de las lineas
+                i = 1   'Mayor el total que la suma de las lineas
             End If
         End If
         
-        If Not HacerDES_Contabilizacion_(I) Then Exit Sub
+        If Not HacerDES_Contabilizacion_(i) Then Exit Sub
     Else
         'NO ha hecho nada, se borra directamente
         If MsgBox("¿Desea eliminar el documento recibido?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
@@ -1379,7 +1379,7 @@ Dim Ok As Boolean
     Conn.BeginTrans
     NumRegElim = Data1.Recordset.AbsolutePosition
     
-        I = 0
+        i = 0
         If Not adodc1.Recordset Is Nothing Then
             If Not adodc1.Recordset.EOF Then
                adodc1.Recordset.MoveFirst
@@ -1393,14 +1393,14 @@ Dim Ok As Boolean
                    Importe = CCur(Sql)
                    If Importe <> adodc1.Recordset!Importe Then
                        'TODO EL IMPORTE estaba en la linea. Fecultco a NULL
-                       I = 1
+                       i = 1
                        Importe = Importe - adodc1.Recordset!Importe
                    Else
-                       I = 0
+                       i = 0
                    End If
                
                    Sql = "UPDATE cobros SET recedocu=0"
-                   If I = 0 Then
+                   If i = 0 Then
                        Sql = Sql & ", impcobro = NULL, fecultco = NULL"
                    Else
                        Sql = Sql & ", impcobro = " & TransformaComasPuntos(CStr(Importe))  'NO somos capace sde ver cual fue la utlima fecha de amortizacion
@@ -1410,7 +1410,7 @@ Dim Ok As Boolean
                    
                    If Not EjecutarSQL(Sql) Then
                        MsgBox "Error actualizadno cobros", vbExclamation
-                       I = 100
+                       i = 100
                        adodc1.Recordset.MoveLast
                    End If
                    
@@ -1418,7 +1418,7 @@ Dim Ok As Boolean
                Wend
             End If
         End If
-        If I = 100 Then
+        If i = 100 Then
             Ok = False
         Else
             Ok = Eliminar
@@ -1437,9 +1437,9 @@ Dim Ok As Boolean
             Data1.Recordset.MoveFirst
             NumRegElim = NumRegElim - 1
             If NumRegElim > 1 Then
-                For I = 1 To NumRegElim - 1
+                For i = 1 To NumRegElim - 1
                     Data1.Recordset.MoveNext
-                Next I
+                Next i
             End If
             PonerCampos
         End If
@@ -1452,8 +1452,8 @@ Dim Ok As Boolean
 End Sub
 
 Private Sub cmdRegresar_Click()
-Dim cad As String
-Dim I As Integer
+Dim Cad As String
+Dim i As Integer
 Dim J As Integer
 Dim Aux As String
 
@@ -1479,7 +1479,7 @@ End Sub
 
 
 Private Sub Form_Load()
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
     LimpiarCampos
     PrimeraVez = True
     CadAncho = False
@@ -1487,9 +1487,9 @@ Private Sub Form_Load()
 
     ' Botonera Principal
     With Me.Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.ImgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 3
         .Buttons(2).Image = 4
         .Buttons(3).Image = 5
@@ -1500,17 +1500,17 @@ Private Sub Form_Load()
 
     ' Botonera Principal 2
     With Me.Toolbar2
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.ImgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 42
     End With
 
     ' desplazamiento
     With Me.ToolbarDes
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.ImgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 6
         .Buttons(2).Image = 7
         .Buttons(3).Image = 8
@@ -1518,9 +1518,9 @@ Private Sub Form_Load()
     End With
    
     With Me.ToolbarAux
-        .HotImageList = frmPpal.imgListComun_OM16
-        .DisabledImageList = frmPpal.imgListComun_BN16
-        .ImageList = frmPpal.imgListComun16
+        .HotImageList = frmppal.imgListComun_OM16
+        .DisabledImageList = frmppal.imgListComun_BN16
+        .ImageList = frmppal.imgListComun16
         .Buttons(1).Image = 3
         .Buttons(2).Image = 4
         .Buttons(3).Image = 5
@@ -1529,7 +1529,7 @@ Private Sub Form_Load()
     
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.ImgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
     
@@ -1559,7 +1559,7 @@ End Sub
 Private Sub LimpiarCampos()
     Limpiar Me   'Metodo general
     Me.Combo1.ListIndex = -1
-    Me.Check1.Value = 0
+    Me.check1.Value = 0
     Me.Check2.Value = 0
     txtSuma.Text = ""
     lblIndicador.Caption = ""
@@ -1603,7 +1603,7 @@ Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    Text1(I).Text = Format(vFecha, "dd/mm/yyyy")
+    Text1(i).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgppal_Click(Index As Integer)
@@ -1613,13 +1613,13 @@ Private Sub imgppal_Click(Index As Integer)
     Case 0, 1
         'FECHA
         If Index = 0 Then
-            I = 1
+            i = 1
         Else
-            I = 6
+            i = 6
         End If
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If Text1(I).Text <> "" Then frmF.Fecha = CDate(Text1(I).Text)
+        If Text1(i).Text <> "" Then frmF.Fecha = CDate(Text1(i).Text)
         frmF.Show vbModal
         Set frmF = Nothing
     
@@ -1881,8 +1881,8 @@ Private Sub PonerModo(Kmodo As Integer)
     Text1(2).Enabled = (Modo = 3 Or Modo = 1) 'Solo insertar
     B = (Modo = 3) Or (Modo = 4) Or (Modo = 1)
     
-    Me.Check1.Enabled = (Modo = 1) Or (B And vUsu.Nivel = 0)
-    Me.Check2.Enabled = Me.Check1.Enabled
+    Me.check1.Enabled = (Modo = 1) Or (B And vUsu.Nivel = 0)
+    Me.Check2.Enabled = Me.check1.Enabled
     Combo1.Enabled = B
     
     Text1(0).Enabled = B
@@ -1893,7 +1893,7 @@ Private Sub PonerModo(Kmodo As Integer)
     
     If Modo = 4 Then
         'Esta contabilizada
-        If Me.Check1.Value = 1 Then
+        If Me.check1.Value = 1 Then
             ' no dejaremos cambiar el importe tampoc
             Text1(5).Enabled = False
             Combo1.Enabled = False
@@ -1982,14 +1982,14 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
     
         Case 1 '        'Contabilizar
 
-            I = 1
+            i = 1
             If Combo1.ListIndex = 0 Then
                 'PAGARE. Ver si tiene cta puente pagare
-                If vParamT.PagaresCtaPuente Then I = 0
+                If vParamT.PagaresCtaPuente Then i = 0
             Else
-                If vParamT.TalonesCtaPuente Then I = 0
+                If vParamT.TalonesCtaPuente Then i = 0
             End If
-            If I = 1 Then
+            If i = 1 Then
                 MsgBox "Falta configurar en parametros", vbExclamation
                 Exit Sub
             End If
@@ -2007,13 +2007,13 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
             'Los importes
             Sql = DevuelveDesdeBD("sum(importe)", "talones_facturas", "codigo", Text1(4).Text)
             If Sql = "" Then Sql = "0"
-            I = 0
+            i = 0
             If CCur(Sql) <> ImporteFormateado(Text1(5).Text) Then
                 Sql = CStr(CCur(Sql) - ImporteFormateado(Text1(5).Text))
                 If CCur(Sql) > 0 Then
-                    I = -1   'Mayor las lineas que el importe del talon
+                    i = -1   'Mayor las lineas que el importe del talon
                 Else
-                    I = 1   'Mayor el total que la suma de las lineas
+                    i = 1   'Mayor el total que la suma de las lineas
                 End If
     
                 Sql = "Suma de importes distintos del importe del talon: " & Sql
@@ -2028,7 +2028,7 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
     
     
             'Hacemos contabilizacion
-            HacerContabilizacion I
+            HacerContabilizacion i
 
     End Select
 
@@ -2064,7 +2064,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -2143,9 +2143,9 @@ Private Sub CargaGrid2(Enlaza As Boolean)
         CadAncho = True
     End If
         
-    For I = 0 To DataGrid1.Columns.Count - 1
-            DataGrid1.Columns(I).AllowSizing = False
-    Next I
+    For i = 0 To DataGrid1.Columns.Count - 1
+            DataGrid1.Columns(i).AllowSizing = False
+    Next i
     
     DataGrid1.Tag = "Calculando"
 
@@ -2239,22 +2239,22 @@ Private Sub LLamaLineas(alto As Single, xModo As Byte, Limpiar As Boolean)
 End Sub
 
 Private Sub CamposAux(Visible As Boolean, Altura As Single, Limpiar As Boolean)
-    Dim I As Integer
+    Dim i As Integer
     
     
     DataGrid1.Enabled = Not Visible
 
-    For I = 0 To txtAux.Count - 1
-        txtAux(I).Visible = Visible
-        txtAux(I).Top = Altura
-    Next I
+    For i = 0 To txtAux.Count - 1
+        txtAux(i).Visible = Visible
+        txtAux(i).top = Altura
+    Next i
     
     cmdAux(0).Visible = Visible
-    cmdAux(0).Top = Altura
+    cmdAux(0).top = Altura
     If Limpiar Then
-        For I = 0 To txtAux.Count - 1
-            txtAux(I).Text = ""
-        Next I
+        For i = 0 To txtAux.Count - 1
+            txtAux(i).Text = ""
+        Next i
     End If
     
 End Sub
@@ -2426,24 +2426,24 @@ End Sub
 
 
 Private Sub PonerCamposVencimiento(DesdeElButon As Boolean)
-Dim cad As String
+Dim Cad As String
 Dim Importe As Currency
 
         'Veresmos si existe un unico vto para esta factura
-        cad = "Select numserie,numfactu,fecfactu,numorden,impvenci,impcobro,tipforpa,Gastos from cobros,formapago"
-        cad = cad & "  WHERE cobros.codforpa=formapa.codforpa"
-        cad = cad & " AND codmacta ='" & Text1(2).Text & "'"
+        Cad = "Select numserie,numfactu,fecfactu,numorden,impvenci,impcobro,tipforpa,Gastos from cobros,formapago"
+        Cad = Cad & "  WHERE cobros.codforpa=formapa.codforpa"
+        Cad = Cad & " AND codmacta ='" & Text1(2).Text & "'"
         
         'Numero de serie y numfac
         If Not DesdeElButon Then
-            cad = cad & " AND numserie ='" & txtAux(0).Text & "' AND numfactu = " & txtAux(1).Text
+            Cad = Cad & " AND numserie ='" & txtAux(0).Text & "' AND numfactu = " & txtAux(1).Text
         Else
-            cad = cad & Sql  'SQL traera los datos del venciemietno
+            Cad = Cad & Sql  'SQL traera los datos del venciemietno
         End If
             
         Set miRsAux = New ADODB.Recordset
-        miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        I = 0
+        miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        i = 0
         Sql = ""
         While Not miRsAux.EOF
             Importe = miRsAux!ImpVenci + DBLet(miRsAux!Gastos, "N")
@@ -2452,11 +2452,11 @@ Dim Importe As Currency
             If Importe = 0 Then
                 
                     If IsNull(miRsAux!impcobro) Then
-                        cad = "Importe es cero"
+                        Cad = "Importe es cero"
                     Else
-                        cad = "Totalmente cobrado"
+                        Cad = "Totalmente cobrado"
                     End If
-                    MsgBox cad, vbExclamation
+                    MsgBox Cad, vbExclamation
                 
             Else
                 NumRegElim = vbTalon
@@ -2468,7 +2468,7 @@ Dim Importe As Currency
                 Sql = Sql & Importe & "|" 'Importe
                 'si la forma de pago corresponde al documento que estamos procesando
                 Sql = Sql & Abs((miRsAux!TipForpa = NumRegElim)) & "|:"
-                I = I + 1
+                i = i + 1
                 
             End If
             
@@ -2479,9 +2479,9 @@ Dim Importe As Currency
         Set miRsAux = Nothing
         
         
-        If I > 0 Then
+        If i > 0 Then
             'HAY DATOS
-            If I = 1 Then
+            If i = 1 Then
                 'SOLO HAY UNO
                 Sql = Mid(Sql, 1, Len(Sql) - 1) 'Le quito los dos puntos
                 
@@ -2499,12 +2499,12 @@ End Sub
 
 Private Function AuxOK_() As Boolean
 Dim Importe As Currency
-Dim cad As String
+Dim Cad As String
     AuxOK_ = False
-    For I = 0 To txtAux.Count - 1
-        If txtAux(I).Text = "" Then
+    For i = 0 To txtAux.Count - 1
+        If txtAux(i).Text = "" Then
             MsgBox "Campo obligatorio", vbExclamation
-            PonerFoco txtAux(I)
+            PonerFoco txtAux(i)
             Exit Function
         End If
     Next
@@ -2528,18 +2528,18 @@ Dim cad As String
 
     
         'Ahora veremos si esta introduciendo un VTO sin el importe total....
-        cad = "Select impvenci,impcobro,Gastos from cobros"
-        cad = cad & "  WHERE numserie ='" & txtAux(0).Text & "' AND numfactu = " & txtAux(1).Text
-        cad = cad & "  AND fecfactu='" & Format(txtAux(2).Text, FormatoFecha) & "' AND numorden = " & txtAux(3).Text
+        Cad = "Select impvenci,impcobro,Gastos from cobros"
+        Cad = Cad & "  WHERE numserie ='" & txtAux(0).Text & "' AND numfactu = " & txtAux(1).Text
+        Cad = Cad & "  AND fecfactu='" & Format(txtAux(2).Text, FormatoFecha) & "' AND numorden = " & txtAux(3).Text
         Set miRsAux = New ADODB.Recordset
-        miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not miRsAux.EOF Then
                 Importe = miRsAux!ImpVenci + DBLet(miRsAux!Gastos, "N") - DBLet(miRsAux!impcobro, "N")
                 Importe = Importe - ImporteFormateado(txtAux(4).Text)
                 If Importe > 0 Then
-                    cad = "Deberia dividir el vencimiento si no lo va a remesar por el total pendiente."
-                    cad = cad & vbCrLf & vbCrLf & "¿Continuar?"
-                    If MsgBox(cad, vbQuestion + vbYesNo + vbMsgBoxRight) = vbYes Then AuxOK_ = True
+                    Cad = "Deberia dividir el vencimiento si no lo va a remesar por el total pendiente."
+                    Cad = Cad & vbCrLf & vbCrLf & "¿Continuar?"
+                    If MsgBox(Cad, vbQuestion + vbYesNo + vbMsgBoxRight) = vbYes Then AuxOK_ = True
                 Else
                     AuxOK_ = True
                 End If
@@ -2608,14 +2608,14 @@ Dim Importe As Currency
     Sql = Sql & ", obs = '" & DevNombreSQL(Text1(3).Text) & "'"
     'Si no era forma de pago talon/pagare la pongo
     If Me.Combo1.ListIndex = 0 Then
-        I = vbPagare
+        i = vbPagare
     Else
-        I = vbTalon
+        i = vbTalon
     End If
-    If miRsAux!TipForpa <> I Then
+    If miRsAux!TipForpa <> i Then
         'AQUI BUSCARE una forma de pago
-        I = Val(DevuelveDesdeBD("codforpa", "formapago", "tipforpa", CStr(I)))
-        If I > 0 Then Sql = Sql & ", codforpa = " & I
+        i = Val(DevuelveDesdeBD("codforpa", "formapago", "tipforpa", CStr(i)))
+        If i > 0 Then Sql = Sql & ", codforpa = " & i
         
     End If
     Sql = Sql & " WHERE " & MontaSQLDelVto(True)
@@ -2919,7 +2919,7 @@ Dim TieneCtaPte As Boolean
         Else
             TieneCtaPte = vParamT.PagaresCtaPuente
         End If
-        If Check1.Value = 0 And TieneCtaPte Then
+        If check1.Value = 0 And TieneCtaPte Then
             'Hay un error y no esta marcada como contabilziada
             MsgBox "Falta actualizar datos", vbExclamation
             PonerModo 0
@@ -2995,16 +2995,16 @@ End Function
 
 
 Private Sub NuevoTalonPagareDefecto(Leer As Boolean)
-Dim I As Integer
+Dim i As Integer
     On Error GoTo ENuevoTalonPagareDefecto
     If Leer Then
-        I = CheckValueLeer("talpag")
-        Me.Combo1.ListIndex = I
+        i = CheckValueLeer("talpag")
+        Me.Combo1.ListIndex = i
         
     Else
         'Escribir
-        I = Combo1.ListIndex
-        CheckValueGuardar "talpag", CByte(I)
+        i = Combo1.ListIndex
+        CheckValueGuardar "talpag", CByte(i)
     End If
     Exit Sub
 ENuevoTalonPagareDefecto:
@@ -3084,15 +3084,15 @@ End Function
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
