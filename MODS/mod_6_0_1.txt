@@ -1,2 +1,0 @@
-alter table `ariconta1`.`cobros` add column `codusu` int (7)   NULL  after `situacion`;
-alter table `ariconta1`.`pagos` add column `codusu` int (7)   NULL  after `situacion`;

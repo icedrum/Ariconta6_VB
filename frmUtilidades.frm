@@ -16,136 +16,12 @@ Begin VB.Form frmUtilidades
    ScaleWidth      =   10515
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
-   Begin VB.CommandButton CmdEliminar 
-      Caption         =   "Eliminar"
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Left            =   8940
-      TabIndex        =   49
-      Top             =   6390
-      Width           =   1365
-   End
-   Begin VB.CommandButton cmdBus 
-      Caption         =   "Buscar"
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Left            =   7530
-      TabIndex        =   30
-      Top             =   5940
-      Width           =   1365
-   End
-   Begin VB.CommandButton cmdCancel 
-      Cancel          =   -1  'True
-      Caption         =   "Can"
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Left            =   8940
-      TabIndex        =   31
-      Top             =   5940
-      Width           =   1365
-   End
-   Begin MSComctlLib.ListView ListView1 
-      Height          =   4755
-      Left            =   90
-      TabIndex        =   1
-      Top             =   600
-      Width           =   10215
-      _ExtentX        =   18018
-      _ExtentY        =   8387
-      View            =   3
-      LabelEdit       =   1
-      LabelWrap       =   -1  'True
-      HideSelection   =   0   'False
-      FullRowSelect   =   -1  'True
-      _Version        =   393217
-      ForeColor       =   -2147483640
-      BackColor       =   -2147483643
-      BorderStyle     =   1
-      Appearance      =   1
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Verdana"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      NumItems        =   0
-   End
    Begin VB.Frame frameCLI 
       Height          =   1455
       Left            =   105
       TabIndex        =   21
       Top             =   5400
       Width           =   7275
-      Begin VB.Frame FrameProgresoFac 
-         Height          =   1215
-         Left            =   90
-         TabIndex        =   35
-         Top             =   150
-         Width           =   6945
-         Begin VB.Label Label7 
-            Caption         =   "Label7"
-            BeginProperty Font 
-               Name            =   "Verdana"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   255
-            Index           =   1
-            Left            =   1680
-            TabIndex        =   37
-            Top             =   510
-            Width           =   4395
-         End
-         Begin VB.Label Label7 
-            Caption         =   "Label7"
-            BeginProperty Font 
-               Name            =   "Verdana"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   255
-            Index           =   0
-            Left            =   120
-            TabIndex        =   36
-            Top             =   510
-            Width           =   1455
-         End
-      End
       Begin VB.TextBox txtCLI2 
          BackColor       =   &H80000018&
          Enabled         =   0   'False
@@ -255,6 +131,49 @@ Begin VB.Form frmUtilidades
          Top             =   420
          Width           =   525
       End
+      Begin VB.Frame FrameProgresoFac 
+         Height          =   1215
+         Left            =   90
+         TabIndex        =   35
+         Top             =   150
+         Width           =   6945
+         Begin VB.Label Label7 
+            Caption         =   "Label7"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Index           =   1
+            Left            =   1680
+            TabIndex        =   37
+            Top             =   510
+            Width           =   4395
+         End
+         Begin VB.Label Label7 
+            Caption         =   "Label7"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Index           =   0
+            Left            =   120
+            TabIndex        =   36
+            Top             =   510
+            Width           =   1455
+         End
+      End
       Begin VB.Image imgppal 
          Height          =   240
          Index           =   1
@@ -331,6 +250,87 @@ Begin VB.Form frmUtilidades
          Top             =   180
          Width           =   615
       End
+   End
+   Begin VB.CommandButton CmdEliminar 
+      Caption         =   "Eliminar"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   8940
+      TabIndex        =   49
+      Top             =   6390
+      Width           =   1365
+   End
+   Begin VB.CommandButton cmdBus 
+      Caption         =   "Buscar"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   7530
+      TabIndex        =   30
+      Top             =   5940
+      Width           =   1365
+   End
+   Begin VB.CommandButton cmdCancel 
+      Cancel          =   -1  'True
+      Caption         =   "Can"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   8940
+      TabIndex        =   31
+      Top             =   5940
+      Width           =   1365
+   End
+   Begin MSComctlLib.ListView ListView1 
+      Height          =   4755
+      Left            =   90
+      TabIndex        =   1
+      Top             =   600
+      Width           =   10215
+      _ExtentX        =   18018
+      _ExtentY        =   8387
+      View            =   3
+      LabelEdit       =   1
+      LabelWrap       =   -1  'True
+      HideSelection   =   0   'False
+      FullRowSelect   =   -1  'True
+      _Version        =   393217
+      ForeColor       =   -2147483640
+      BackColor       =   -2147483643
+      BorderStyle     =   1
+      Appearance      =   1
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      NumItems        =   0
    End
    Begin VB.Frame FrameSaldos 
       Caption         =   "Control de Cuadre"
@@ -691,6 +691,37 @@ Begin VB.Form frmUtilidades
       Top             =   5340
       Width           =   7275
    End
+   Begin VB.Frame FrameAccionesCtas 
+      Height          =   1515
+      Left            =   90
+      TabIndex        =   4
+      Top             =   5340
+      Width           =   7275
+      Begin MSComctlLib.Toolbar Toolbar1 
+         Height          =   330
+         Left            =   300
+         TabIndex        =   38
+         Top             =   300
+         Width           =   1065
+         _ExtentX        =   1879
+         _ExtentY        =   582
+         ButtonWidth     =   609
+         ButtonHeight    =   582
+         Style           =   1
+         _Version        =   393216
+         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+            NumButtons      =   2
+            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Eliminar"
+               Object.Tag             =   "2"
+               Object.Width           =   1e-4
+            EndProperty
+            BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Nueva búsqueda"
+            EndProperty
+         EndProperty
+      End
+   End
    Begin VB.Frame FrameDescuadre 
       Caption         =   "Intervalo búsqueda"
       BeginProperty Font 
@@ -796,37 +827,6 @@ Begin VB.Form frmUtilidades
          Width           =   555
       End
    End
-   Begin VB.Frame FrameAccionesCtas 
-      Height          =   1515
-      Left            =   90
-      TabIndex        =   4
-      Top             =   5340
-      Width           =   7275
-      Begin MSComctlLib.Toolbar Toolbar1 
-         Height          =   330
-         Left            =   300
-         TabIndex        =   38
-         Top             =   300
-         Width           =   1065
-         _ExtentX        =   1879
-         _ExtentY        =   582
-         ButtonWidth     =   609
-         ButtonHeight    =   582
-         Style           =   1
-         _Version        =   393216
-         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-            NumButtons      =   2
-            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Object.ToolTipText     =   "Eliminar"
-               Object.Tag             =   "2"
-               Object.Width           =   1e-4
-            EndProperty
-            BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Object.ToolTipText     =   "Nueva búsqueda"
-            EndProperty
-         EndProperty
-      End
-   End
    Begin VB.Image imgCheck 
       Height          =   240
       Index           =   0
@@ -925,7 +925,7 @@ Private Estado As Byte
 Dim Sql As String
 Dim Rs As Recordset
 Dim NumCuentas As Long
-Dim I As Long
+Dim i As Long
 Dim ItmX As ListItem
 Dim HanPulsadoCancelar As Boolean
 Dim PrimeraVez As Boolean
@@ -966,9 +966,9 @@ Private Sub HacerBusqueda()
             
             'Si tiene tesoreria comprobar que no esta en tablas de tesoreria
             If vEmpresa.TieneTesoreria Then
-                For I = 23 To 25
-                    QuitarHlinApu CByte(I)
-                Next I
+                For i = 23 To 25
+                    QuitarHlinApu CByte(i)
+                Next i
             End If
             
             
@@ -1144,12 +1144,12 @@ End Sub
 
 Private Sub CmdEliminar_Click()
     Sql = ""
-    For I = 1 To ListView1.ListItems.Count
-        If ListView1.ListItems(I).Checked Then
+    For i = 1 To ListView1.ListItems.Count
+        If ListView1.ListItems(i).Checked Then
             Sql = "SI"
             Exit For
         End If
-    Next I
+    Next i
     If Sql = "" Then
         MsgBox "Seleccione alguna cuenta a eliminar", vbExclamation
         Exit Sub
@@ -1175,9 +1175,9 @@ Private Sub Command1_Click()
 End Sub
 
 Private Sub Checkear(SiNo As Boolean)
-    For I = 1 To ListView1.ListItems.Count
-        ListView1.ListItems(I).Checked = SiNo
-    Next I
+    For i = 1 To ListView1.ListItems.Count
+        ListView1.ListItems(i).Checked = SiNo
+    Next i
 End Sub
 
 
@@ -1230,13 +1230,13 @@ End Sub
 
 Private Sub Form_Load()
     
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
 
     PrimeraVez = True
     SePuedeCErrar = False
     If Opcion <> 0 Then
-        Me.ListView1.Icons = frmPpal.ImageList1
-        Me.ListView1.SmallIcons = frmPpal.ImageList2
+        Me.ListView1.Icons = frmppal.ImageList1
+        Me.ListView1.SmallIcons = frmppal.ImageList2
     End If
     CargaEncabezado Opcion
     PonerCampos 0
@@ -1258,9 +1258,9 @@ Private Sub Form_Load()
     
     
     With Me.Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.ImgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 5
         .Buttons(2).Image = 1
     End With
@@ -1296,7 +1296,7 @@ Private Sub Form_Load()
             Label1.Caption = "Nº Facturas PROVEEDORES incorrectos"
         End If
         
-        imgppal(1).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
+        imgppal(1).Picture = frmppal.imgIcoForms.ListImages(1).Picture
         
         
     End Select
@@ -1442,13 +1442,13 @@ Dim clmX As ColumnHeader
             Set clmX = ListView1.ColumnHeaders.Add()
             clmX.Text = "Serie"
             clmX.Width = 900
-            I = 3900
+            i = 3900
             Sql = "Codigo"
         Else
             Set clmX = ListView1.ColumnHeaders.Add()
             clmX.Text = "Serie"
             clmX.Width = 900
-            I = 3900
+            i = 3900
             'i = 4500
             Sql = "Registro"
         End If
@@ -1461,7 +1461,7 @@ Dim clmX As ColumnHeader
         'Clave2 ...
         Set clmX = ListView1.ColumnHeaders.Add()
         clmX.Text = "Comentario"
-        clmX.Width = I + 2000
+        clmX.Width = i + 2000
        
        
     Case 100
@@ -1615,7 +1615,7 @@ Private Sub RecordsetRestantes()
     Sql = "Select count(*) from tmpbussinmov"
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NumCuentas = 0
-    I = 0
+    i = 0
     If Not Rs.EOF Then
         NumCuentas = DBLet(Rs.Fields(0), "N")
     End If
@@ -1640,9 +1640,9 @@ Dim ExisteReferencia As Boolean
         
         Label2.Caption = Rs.Fields(0) & " - " & Rs.Fields(1)
         Label2.Refresh
-        I = I + 1
+        i = i + 1
         
-        pb1.Value = Int(((I / NumCuentas)) * 1000)
+        pb1.Value = Int(((i / NumCuentas)) * 1000)
         
         'Comprobamos en Facturas
         Sql = DevuelveDesdeBD("codmacta", "factcli", "codmacta", Rs.Fields(0), "T")
@@ -1756,19 +1756,19 @@ End Sub
 
 
 Private Sub Eliminar()
-Dim cad As String
+Dim Cad As String
     Sql = "DELETE FROM cuentas where codmacta = '"
-    For I = ListView1.ListItems.Count To 1 Step -1
-        If ListView1.ListItems(I).Checked Then
-            cad = BorrarCuenta(ListView1.ListItems(I).Text, Me.Label2)
-            If cad = "" Then
-                If EliminaCuenta(ListView1.ListItems(I).Text) Then ListView1.ListItems.Remove I
+    For i = ListView1.ListItems.Count To 1 Step -1
+        If ListView1.ListItems(i).Checked Then
+            Cad = BorrarCuenta(ListView1.ListItems(i).Text, Me.Label2)
+            If Cad = "" Then
+                If EliminaCuenta(ListView1.ListItems(i).Text) Then ListView1.ListItems.Remove i
             Else
-                cad = ListView1.ListItems(I).Text & " - " & ListView1.ListItems(I).SubItems(1) & vbCrLf & cad & vbCrLf
-                MsgBox cad, vbExclamation
+                Cad = ListView1.ListItems(i).Text & " - " & ListView1.ListItems(i).SubItems(1) & vbCrLf & Cad & vbCrLf
+                MsgBox Cad, vbExclamation
             End If
         End If
-    Next I
+    Next i
 End Sub
 
 
@@ -1803,13 +1803,13 @@ Private Sub MontaSQLBuscaAsien()
     
     Rs.Open Sql, Conn, adOpenKeyset, adLockPessimistic, adCmdText
     NumCuentas = 0
-    I = 0
+    i = 0
     While Not Rs.EOF
-        I = I + 1
+        i = i + 1
         Rs.MoveNext
     Wend
-    NumCuentas = I
-    I = 0
+    NumCuentas = i
+    i = 0
     If NumCuentas = 0 Then
         Rs.Close
         Exit Sub
@@ -1831,8 +1831,8 @@ Private Sub RecorriendoRecordsetDescuadres()
         Label2.Caption = Rs.Fields(0) & " - " & Rs.Fields(2)
         Label2.Refresh
         
-        pb1.Value = Int(((I / NumCuentas)) * 1000)
-        I = I + 1
+        pb1.Value = Int(((i / NumCuentas)) * 1000)
+        i = i + 1
         
         ObtenerSumas
         
@@ -1966,15 +1966,15 @@ Private Sub frmConta_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    Text1(I).Text = Format(vFecha, "dd/mm/yyyy")
+    Text1(i).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imfech_Click(Index As Integer)
-    I = Index
+    i = Index
     Set frmF = New frmCal
     Sql = Now
-    If Text1(I).Text <> "" Then
-        If IsDate(Text1(I).Text) Then Sql = Text1(I).Text
+    If Text1(i).Text <> "" Then
+        If IsDate(Text1(i).Text) Then Sql = Text1(i).Text
     End If
     frmF.Fecha = CDate(Sql)
     frmF.Show vbModal
@@ -1983,12 +1983,12 @@ End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
 Dim B As Boolean
-Dim I As Long
+Dim i As Long
     B = Index = 1
-    For I = 1 To ListView1.ListItems.Count
-        ListView1.ListItems(I).Checked = B
-        If (I Mod 50) = 0 Then DoEvents
-    Next I
+    For i = 1 To ListView1.ListItems.Count
+        ListView1.ListItems(i).Checked = B
+        If (i Mod 50) = 0 Then DoEvents
+    Next i
 End Sub
 
 
@@ -2065,16 +2065,16 @@ End Sub
 
 Private Sub PonerDigitosPenultimoNivel()
     'Veremos cual es el ultimo nivel
-    I = vEmpresa.numnivel
-    If I < 2 Then
+    i = vEmpresa.numnivel
+    If i < 2 Then
         MsgBox "Empresa mal configurada", vbExclamation
         Exit Sub
     End If
-    NumCuentas = I - 1
-    I = DigitosNivel(CInt(NumCuentas))
-    lblHuecoCta.Caption = "Dígitos del nivel " & NumCuentas & ":    " & I
-    lblHuecoCta.Tag = I
-    Me.txtHuecoCta.MaxLength = I
+    NumCuentas = i - 1
+    i = DigitosNivel(CInt(NumCuentas))
+    lblHuecoCta.Caption = "Dígitos del nivel " & NumCuentas & ":    " & i
+    lblHuecoCta.Tag = i
+    Me.txtHuecoCta.MaxLength = i
 End Sub
 
 
@@ -2112,12 +2112,12 @@ Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
         Case 1 'eliminar
 
             Sql = ""
-            For I = 1 To ListView1.ListItems.Count
-                If ListView1.ListItems(I).Checked Then
+            For i = 1 To ListView1.ListItems.Count
+                If ListView1.ListItems(i).Checked Then
                     Sql = "SI"
                     Exit For
                 End If
-            Next I
+            Next i
             If Sql = "" Then
                 MsgBox "Seleccione alguna cuenta a eliminar", vbExclamation
                 Exit Sub
@@ -2195,16 +2195,16 @@ End Sub
 
 
 Private Sub CargarRecordSetCtasLibres()
-Dim cad As String
+Dim Cad As String
 Dim J As Long
 Dim Multiplicador As Long
 Dim vFormato As String
 
-    I = vEmpresa.DigitosUltimoNivel - lblHuecoCta.Tag
-    vFormato = Mid("00000000000", 1, I)
-    Multiplicador = I
-    cad = Me.txtHuecoCta.Text & Mid("0000000000", 1, I)
-    I = 1   'Primer Numero de cuenta
+    i = vEmpresa.DigitosUltimoNivel - lblHuecoCta.Tag
+    vFormato = Mid("00000000000", 1, i)
+    Multiplicador = i
+    Cad = Me.txtHuecoCta.Text & Mid("0000000000", 1, i)
+    i = 1   'Primer Numero de cuenta
     
     Set Rs = New ADODB.Recordset
     Sql = "DELETE FROM tmpbussinmov"
@@ -2218,27 +2218,27 @@ Dim vFormato As String
     If Rs.EOF Then
         'Estan todas libres
         
-        InsertaCtasLibres Format(I, vFormato), "TODAS LIBRES"
+        InsertaCtasLibres Format(i, vFormato), "TODAS LIBRES"
         Rs.Close
     Else
         
         While Not Rs.EOF
             NumCuentas = CLng(Right(CStr(Rs.Fields(0)), Multiplicador))
-            If NumCuentas > I Then
-                For J = I To NumCuentas - 1
+            If NumCuentas > i Then
+                For J = i To NumCuentas - 1
                     InsertaCtasLibres Format(J, vFormato), "SALTO"
                 Next J
             End If
-            I = NumCuentas + 1
+            i = NumCuentas + 1
             Rs.MoveNext
         Wend
         Rs.Close
         'Cojemos desde la ultima
-        I = vEmpresa.DigitosUltimoNivel - lblHuecoCta.Tag
-        cad = Mid("999999999", 1, I)
-        I = Val(cad) 'Utlima cta del subgrupo
+        i = vEmpresa.DigitosUltimoNivel - lblHuecoCta.Tag
+        Cad = Mid("999999999", 1, i)
+        i = Val(Cad) 'Utlima cta del subgrupo
         
-        If NumCuentas < I Then
+        If NumCuentas < i Then
             NumCuentas = NumCuentas + 1
             InsertaCtasLibres Format(NumCuentas, vFormato), "Desde aqui LIBRES"
         End If
@@ -2260,10 +2260,10 @@ End Sub
 
 
 Private Sub InsertaCtasLibres(Cta As String, Descripcion As String)
-Dim cad As String
-        cad = Me.txtHuecoCta.Text & Cta
-        cad = cad & "','" & Descripcion & "')"
-        Conn.Execute Sql & cad
+Dim Cad As String
+        Cad = Me.txtHuecoCta.Text & Cta
+        Cad = Cad & "','" & Descripcion & "')"
+        Conn.Execute Sql & Cad
 End Sub
 
 
@@ -2307,7 +2307,7 @@ End Sub
 
 
 Private Sub BuscarFacturasSaltos()
-Dim cad As String
+Dim Cad As String
 Dim Aux As String
 Dim Anyo As Integer
 Dim J As Integer
@@ -2318,11 +2318,11 @@ Dim J As Integer
     
     If Opcion = 5 Then
         Sql = "numserie,anofactu as ano,numfactu as codigo"
-        cad = "fecfactu"
+        Cad = "fecfactu"
         Sql = Sql & " FROM factcli"
     Else
         Sql = "numserie, anofactu as ano,numregis as codigo"
-        cad = "fecharec"
+        Cad = "fecharec"
         Sql = Sql & " FROM factpro"
     End If
     
@@ -2333,11 +2333,11 @@ Dim J As Integer
         Exit Sub
     End If
     Aux = ""
-    Aux = cad & " >= '" & Format(Text1(3).Text, FormatoFecha) & "'"
+    Aux = Cad & " >= '" & Format(Text1(3).Text, FormatoFecha) & "'"
     
     
     Aux = Aux & " AND "
-    Aux = Aux & cad & " <= '" & Format(Text1(2).Text, FormatoFecha) & "'"
+    Aux = Aux & Cad & " <= '" & Format(Text1(2).Text, FormatoFecha) & "'"
     
     
     
@@ -2373,44 +2373,44 @@ Dim J As Integer
             'Nueva SERIE
             Aux = Rs!NUmSerie
             Anyo = Rs!Ano
-            I = FacturaMinimo(Aux, CDate(Text1(3).Text), CDate(Text1(2).Text), Anyo)
+            i = FacturaMinimo(Aux, CDate(Text1(3).Text), CDate(Text1(2).Text), Anyo)
         End If
         If Anyo <> Rs!Ano Then
             'AÑO DISTINTO
             Anyo = Rs!Ano
-            I = FacturaMinimo(Aux, CDate(Text1(3).Text), CDate(Text1(2).Text), Anyo)
+            i = FacturaMinimo(Aux, CDate(Text1(3).Text), CDate(Text1(2).Text), Anyo)
         End If
         
         'Para cada numero de factura
-        If I = Rs!Codigo Then
-            I = I + 1
+        If i = Rs!Codigo Then
+            i = i + 1
             'no hacemos nada mas
         Else
             'Si si que es mayor. Hay salto o hueco
             
             
-            If Rs!Codigo - I >= 2 Then
+            If Rs!Codigo - i >= 2 Then
                 'SALTO
-                cad = Format(Rs!Codigo - 1, "000000000")
+                Cad = Format(Rs!Codigo - 1, "000000000")
 '                If opcion = 5 Then
                     Set ItmX = ListView1.ListItems.Add(, , Rs!NUmSerie)
-                    ItmX.SubItems(1) = cad
+                    ItmX.SubItems(1) = Cad
                     J = 2
 '                Else
 '                    Set ItmX = ListView1.ListItems.Add(, , Cad)
 '                    J = 1
 '                End If
                 ItmX.SubItems(J) = Anyo
-                ItmX.SubItems(J + 1) = "Salto desde codigo: " & Format(I, "00000000")
+                ItmX.SubItems(J + 1) = "Salto desde codigo: " & Format(i, "00000000")
                 
                     
                 
             Else
                 'HUECO
-                cad = Format(I, "000000000")
+                Cad = Format(i, "000000000")
 '                If opcion = 5 Then
                     Set ItmX = ListView1.ListItems.Add(, , Rs!NUmSerie)
-                    ItmX.SubItems(1) = cad
+                    ItmX.SubItems(1) = Cad
                     J = 2
 '                Else
 '                    Set ItmX = ListView1.ListItems.Add(, , Cad)
@@ -2421,7 +2421,7 @@ Dim J As Integer
                 'i = RS!Codigo + 1
             End If
             ItmX.SmallIcon = 1
-             I = Rs!Codigo + 1
+             i = Rs!Codigo + 1
         End If
         'Movemos siguiente
         Rs.MoveNext
@@ -2540,17 +2540,17 @@ Private Sub FacturasContabilizadas()
 
     
         'Recorremos las facturas
-        I = 0
+        i = 0
         While Not Rs.EOF
             'Label7(1).Caption = RS!C & " - " & RS!F
-            Label7(1).Caption = I & " de " & NumRegElim
+            Label7(1).Caption = i & " de " & NumRegElim
             Label7(1).Refresh
             If Not EstaEnMirsaux Then
                 InsertaItemsFacturasContabilizadas True
             End If
             Rs.MoveNext
-            I = I + 1
-            If (I Mod 50) = 0 Then
+            i = i + 1
+            If (i Mod 50) = 0 Then
                 Me.Refresh
                 DoEvents
             End If
@@ -2599,10 +2599,10 @@ Private Sub FacturasNoContabilizadas()
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     'Recorremos las facturas
-    I = 0
+    i = 0
     While Not Rs.EOF
         'Label7(1).Caption = RS!C & " - " & RS!F
-        Label7(1).Caption = I & " de " & NumRegElim
+        Label7(1).Caption = i & " de " & NumRegElim
         Label7(1).Refresh
         
         
@@ -2626,8 +2626,8 @@ Private Sub FacturasNoContabilizadas()
         
         
         Rs.MoveNext
-        I = I + 1
-        If (I Mod 50) = 0 Then
+        i = i + 1
+        If (i Mod 50) = 0 Then
             Me.Refresh
             DoEvents
         End If
@@ -2747,18 +2747,18 @@ Private Sub ApuntesSinFactura()
 
 
         'Recorremos las facturas
-        I = 0
+        i = 0
         While Not Rs.EOF
             'Label7(1).Caption = RS!Numasien & " " & RS!fechaent
-            Label7(1).Caption = I & " de " & NumRegElim
+            Label7(1).Caption = i & " de " & NumRegElim
             Label7(1).Refresh
             If Not EstaEnMirsaux Then
 
                 InsertaItemsFacturasContabilizadas False
             End If
             Rs.MoveNext
-            I = I + 1
-            If (I Mod 50) = 0 Then
+            i = i + 1
+            If (i Mod 50) = 0 Then
                 Me.Refresh
                 DoEvents
             End If
@@ -2797,14 +2797,13 @@ Private Sub ApuntesSinFacturaNew()
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
 
     While Not Rs.EOF
-        Label7(1).Caption = I & " de " & NumRegElim
+        Label7(1).Caption = i & " de " & NumRegElim
         Label7(1).Refresh
     
     
         If Opcion = 5 Then
             Sql = "Select numasien,numdiari,fechaent "
             Sql = Sql & " FROM factcli"
-            If Opcion = 6 Then Sql = Sql & "prov"
             Sql = Sql & " WHERE numasien= " & DBSet(Rs!NumAsien, "N")
             Sql = Sql & " and fechaent = " & DBSet(Rs!FechaEnt, "F")
             Sql = Sql & " and numdiari = " & DBSet(Rs!NumDiari, "N")
@@ -2819,8 +2818,8 @@ Private Sub ApuntesSinFacturaNew()
              InsertaItemsFacturasContabilizadas False
         End If
         Rs.MoveNext
-        I = I + 1
-        If (I Mod 50) = 0 Then
+        i = i + 1
+        If (i Mod 50) = 0 Then
             Me.Refresh
             DoEvents
         End If
@@ -2831,7 +2830,7 @@ End Sub
 
 
 Private Sub QuitarOtrasCuentas()
-Dim I As Integer
+Dim i As Integer
     Set Rs = New ADODB.Recordset
     
     'pRIMERO DE LAS CUENTAS BANCARIAS
@@ -2842,10 +2841,10 @@ Dim I As Integer
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Sql = "|"
     While Not Rs.EOF
-        For I = 0 To 3
-            If Not IsNull(Rs.Fields(I)) Then
-                If Rs.Fields(I) <> "" Then
-                    If InStr(1, Sql, "|" & Rs.Fields(I) & "|") = 0 Then Sql = Sql & Rs.Fields(I) & "|"
+        For i = 0 To 3
+            If Not IsNull(Rs.Fields(i)) Then
+                If Rs.Fields(i) <> "" Then
+                    If InStr(1, Sql, "|" & Rs.Fields(i) & "|") = 0 Then Sql = Sql & Rs.Fields(i) & "|"
                 End If
             End If
         Next
@@ -2855,9 +2854,9 @@ Dim I As Integer
     
     Sql = Mid(Sql, 2)
     While Sql <> ""
-        I = InStr(1, Sql, "|")
+        i = InStr(1, Sql, "|")
         Conn.Execute "Delete from tmpbussinmov where codmacta ='" & RecuperaValor(Sql, 1) & "';"
-        Sql = Mid(Sql, I + 1)
+        Sql = Mid(Sql, i + 1)
     Wend
     
     'PARAMETROS
@@ -2869,15 +2868,15 @@ Dim I As Integer
         Sql = "SELECT ctabenbanc  ,par_pen_apli,RemesaCancelacion,RemesaConfirmacion,taloncta,pagarectaPRO,talonctaPRO,ctaefectcomerciales from paramtesor"
         Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not Rs.EOF Then
-            For I = 0 To Rs.Fields.Count - 1
-                Sql = DBLet(Rs.Fields(I), "T")
+            For i = 0 To Rs.Fields.Count - 1
+                Sql = DBLet(Rs.Fields(i), "T")
                 If Sql <> "" Then
                     If Len(Sql) = vEmpresa.DigitosUltimoNivel Then
                         Sql = "Delete from tmpbussinmov where codmacta ='" & Sql & "';"
                         Conn.Execute Sql
                     End If
                 End If
-            Next I
+            Next i
         End If
         Rs.Close
     End If
@@ -2888,10 +2887,10 @@ Dim I As Integer
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Sql = "|"
     While Not Rs.EOF
-        For I = 0 To 4
-            If Not IsNull(Rs.Fields(I)) Then
-                If Rs.Fields(I) <> "" Then
-                    If InStr(1, Sql, "|" & Rs.Fields(I) & "|") = 0 Then Sql = Sql & Rs.Fields(I) & "|"
+        For i = 0 To 4
+            If Not IsNull(Rs.Fields(i)) Then
+                If Rs.Fields(i) <> "" Then
+                    If InStr(1, Sql, "|" & Rs.Fields(i) & "|") = 0 Then Sql = Sql & Rs.Fields(i) & "|"
                 End If
             End If
         Next
@@ -2901,9 +2900,9 @@ Dim I As Integer
     
     Sql = Mid(Sql, 2)
     While Sql <> ""
-        I = InStr(1, Sql, "|")
+        i = InStr(1, Sql, "|")
         Conn.Execute "Delete from tmpbussinmov where codmacta ='" & RecuperaValor(Sql, 1) & "';"
-        Sql = Mid(Sql, I + 1)
+        Sql = Mid(Sql, i + 1)
     Wend
     Set Rs = Nothing
     

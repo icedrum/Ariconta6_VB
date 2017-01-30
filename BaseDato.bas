@@ -86,31 +86,31 @@ End Sub
 
 
 Public Function SeparaCampoBusqueda(Tipo As String, Campo As String, CADENA As String, ByRef DevSQL As String) As Byte
-Dim cad As String
+Dim Cad As String
 Dim Aux As String
 Dim Ch As String
 Dim Fin As Boolean
-Dim I, J As String
+Dim i, J As String
 
 On Error GoTo ErrSepara
 SeparaCampoBusqueda = 1
 DevSQL = ""
-cad = ""
+Cad = ""
 Select Case Tipo
 Case "N"
     '----------------  NUMERICO  ---------------------
-    I = CararacteresCorrectos(CADENA, "N")
-    If I > 0 Then Exit Function  'Ha habido un error y salimos
+    i = CararacteresCorrectos(CADENA, "N")
+    If i > 0 Then Exit Function  'Ha habido un error y salimos
     'Comprobamos si hay intervalo ':'
-    I = InStr(1, CADENA, ":")
-    If I > 0 Then
+    i = InStr(1, CADENA, ":")
+    If i > 0 Then
         'Intervalo numerico
-        cad = Mid(CADENA, 1, I - 1)
-        Aux = Mid(CADENA, I + 1)
-        If Not IsNumeric(cad) Or Not IsNumeric(Aux) Then Exit Function  'No son numeros
+        Cad = Mid(CADENA, 1, i - 1)
+        Aux = Mid(CADENA, i + 1)
+        If Not IsNumeric(Cad) Or Not IsNumeric(Aux) Then Exit Function  'No son numeros
         'Intervalo correcto
         'Construimos la cadena
-        DevSQL = Campo & " >= " & cad & " AND " & Campo & " <= " & Aux
+        DevSQL = Campo & " >= " & Cad & " AND " & Campo & " <= " & Aux
         '----
         'ELSE
         Else
@@ -120,45 +120,45 @@ Case "N"
                 DevSQL = "1=1"
              Else
                     Fin = False
-                    I = 1
-                    cad = ""
+                    i = 1
+                    Cad = ""
                     Aux = "NO ES NUMERO"
                     While Not Fin
-                        Ch = Mid(CADENA, I, 1)
+                        Ch = Mid(CADENA, i, 1)
                         If Ch = ">" Or Ch = "<" Or Ch = "=" Then
-                            cad = cad & Ch
+                            Cad = Cad & Ch
                             Else
-                                Aux = Mid(CADENA, I)
+                                Aux = Mid(CADENA, i)
                                 Fin = True
                         End If
-                        I = I + 1
-                        If I > Len(CADENA) Then Fin = True
+                        i = i + 1
+                        If i > Len(CADENA) Then Fin = True
                     Wend
                     'En aux debemos tener el numero
                     If Not IsNumeric(Aux) Then Exit Function
                     'Si que es numero. Entonces, si Cad="" entronces le ponemos =
-                    If cad = "" Then cad = " = "
-                    DevSQL = Campo & " " & cad & " " & Aux
+                    If Cad = "" Then Cad = " = "
+                    DevSQL = Campo & " " & Cad & " " & Aux
             End If
         End If
 Case "F"
      '---------------- FECHAS ------------------
-    I = CararacteresCorrectos(CADENA, "F")
-    If I = 1 Then Exit Function
+    i = CararacteresCorrectos(CADENA, "F")
+    If i = 1 Then Exit Function
     'Comprobamos si hay intervalo ':'
-    I = InStr(1, CADENA, ":")
-    If I > 0 Then
+    i = InStr(1, CADENA, ":")
+    If i > 0 Then
         'Intervalo de fechas
-        cad = Mid(CADENA, 1, I - 1)
-        Aux = Mid(CADENA, I + 1)
-        If Not EsFechaOKString(cad) Or Not EsFechaOKString(Aux) Then Exit Function  'Fechas incorrectas
+        Cad = Mid(CADENA, 1, i - 1)
+        Aux = Mid(CADENA, i + 1)
+        If Not EsFechaOKString(Cad) Or Not EsFechaOKString(Aux) Then Exit Function  'Fechas incorrectas
         'Intervalo correcto
         'Construimos la cadena
-        cad = Format(cad, FormatoFecha)
+        Cad = Format(Cad, FormatoFecha)
         Aux = Format(Aux, FormatoFecha)
         'En my sql es la ' no el #
         'DevSQL = Campo & " >=#" & Cad & "# AND " & Campo & " <= #" & AUX & "#"
-        DevSQL = Campo & " >='" & cad & "' AND " & Campo & " <= '" & Aux & "'"
+        DevSQL = Campo & " >='" & Cad & "' AND " & Campo & " <= '" & Aux & "'"
         '----
         'ELSE
         Else
@@ -167,26 +167,26 @@ Case "F"
                   DevSQL = "1=1"
             Else
                 Fin = False
-                I = 1
-                cad = ""
+                i = 1
+                Cad = ""
                 Aux = "NO ES FECHA"
                 While Not Fin
-                    Ch = Mid(CADENA, I, 1)
+                    Ch = Mid(CADENA, i, 1)
                     If Ch = ">" Or Ch = "<" Or Ch = "=" Then
-                        cad = cad & Ch
+                        Cad = Cad & Ch
                         Else
-                            Aux = Mid(CADENA, I)
+                            Aux = Mid(CADENA, i)
                             Fin = True
                     End If
-                    I = I + 1
-                    If I > Len(CADENA) Then Fin = True
+                    i = i + 1
+                    If i > Len(CADENA) Then Fin = True
                 Wend
                 'En aux debemos tener el numero
                 If Not EsFechaOKString(Aux) Then Exit Function
                 'Si que es numero. Entonces, si Cad="" entronces le ponemos =
                 Aux = "'" & Format(Aux, FormatoFecha) & "'"
-                If cad = "" Then cad = " = "
-                DevSQL = Campo & " " & cad & " " & Aux
+                If Cad = "" Then Cad = " = "
+                DevSQL = Campo & " " & Cad & " " & Aux
             End If
         End If
     
@@ -195,8 +195,8 @@ Case "F"
     
 Case "T"
     '---------------- TEXTO ------------------
-    I = CararacteresCorrectos(CADENA, "T")
-    If I = 1 Then Exit Function
+    i = CararacteresCorrectos(CADENA, "T")
+    If i = 1 Then Exit Function
     
     'Comprobamos que no es el mayor
      If CADENA = ">>" Or CADENA = "<<" Then
@@ -205,26 +205,26 @@ Case "T"
     End If
     
     
-    I = InStr(1, CADENA, ":")
-    If I > 0 Then
+    i = InStr(1, CADENA, ":")
+    If i > 0 Then
         'Intervalo numerico
 
-        cad = Mid(CADENA, 1, I - 1)
-        Aux = Mid(CADENA, I + 1)
+        Cad = Mid(CADENA, 1, i - 1)
+        Aux = Mid(CADENA, i + 1)
         
         'Intervalo correcto
         'Construimos la cadena
-        cad = DevNombreSQL(cad)
+        Cad = DevNombreSQL(Cad)
         Aux = DevNombreSQL(Aux)
         'En my sql es la ' no el #
         'DevSQL = Campo & " >=#" & Cad & "# AND " & Campo & " <= #" & AUX & "#"
-        DevSQL = Campo & " >='" & cad & "' AND " & Campo & " <= '" & Aux & "'"
+        DevSQL = Campo & " >='" & Cad & "' AND " & Campo & " <= '" & Aux & "'"
     
     
     Else
     
         'Cambiamos el * por % puesto que en ADO es el caraacter para like
-        I = 1
+        i = 1
         Aux = CADENA
         
         '++
@@ -236,18 +236,18 @@ Case "T"
         '++
         
         
-        While I <> 0
-            I = InStr(1, Aux, "*")
-            If I > 0 Then Aux = Mid(Aux, 1, I - 1) & "%" & Mid(Aux, I + 1)
+        While i <> 0
+            i = InStr(1, Aux, "*")
+            If i > 0 Then Aux = Mid(Aux, 1, i - 1) & "%" & Mid(Aux, i + 1)
         Wend
         'Cambiamos el ? por la _ pue es su omonimo
-        I = 1
-        While I <> 0
-            I = InStr(1, Aux, "?")
-            If I > 0 Then Aux = Mid(Aux, 1, I - 1) & "_" & Mid(Aux, I + 1)
+        i = 1
+        While i <> 0
+            i = InStr(1, Aux, "?")
+            If i > 0 Then Aux = Mid(Aux, 1, i - 1) & "_" & Mid(Aux, i + 1)
         Wend
-        cad = Mid(CADENA, 1, 2)
-        If cad = "<>" Then
+        Cad = Mid(CADENA, 1, 2)
+        If Cad = "<>" Then
             Aux = Mid(CADENA, 3)
             DevSQL = Campo & " LIKE '!" & Aux & "'"
             Else
@@ -264,23 +264,23 @@ Case "B"
     'Los booleanos. Valores buenos son
     'Verdadero , Falso, True, False, = , <>
     'Igual o distinto
-    I = InStr(1, CADENA, "<>")
-    If I = 0 Then
+    i = InStr(1, CADENA, "<>")
+    If i = 0 Then
         'IGUAL A valor
-        cad = " = "
+        Cad = " = "
         Else
             'Distinto a valor
-        cad = " <> "
+        Cad = " <> "
     End If
     'Verdadero o falso
-    I = InStr(1, CADENA, "V")
-    If I > 0 Then
+    i = InStr(1, CADENA, "V")
+    If i > 0 Then
             Aux = "True"
             Else
             Aux = "False"
     End If
     'Ponemos la cadena
-    DevSQL = Campo & " " & cad & " " & Aux
+    DevSQL = Campo & " " & Cad & " " & Aux
     
 Case Else
     'No hacemos nada
@@ -293,7 +293,7 @@ End Function
 
 
 Private Function CararacteresCorrectos(vCad As String, Tipo As String) As Byte
-Dim I As Integer
+Dim i As Integer
 Dim Ch As String
 Dim Error As Boolean
 
@@ -302,8 +302,8 @@ Error = False
 Select Case Tipo
 Case "N"
     'Numero. Aceptamos numeros, >,< = :
-    For I = 1 To Len(vCad)
-        Ch = Mid(vCad, I, 1)
+    For i = 1 To Len(vCad)
+        Ch = Mid(vCad, i, 1)
         Select Case Ch
             Case "0" To "9"
             Case "<", ">", ":", "=", ".", " ", "-"
@@ -311,11 +311,11 @@ Case "N"
                 Error = True
                 Exit For
         End Select
-    Next I
+    Next i
 Case "T"
     'Texto aceptamos numeros, letras y el interrogante y el asterisco
-    For I = 1 To Len(vCad)
-        Ch = Mid(vCad, I, 1)
+    For i = 1 To Len(vCad)
+        Ch = Mid(vCad, i, 1)
         Select Case Ch
             Case "a" To "z"
             Case "è", "é", "í" 'Añade Laura: 16/03/06
@@ -333,11 +333,11 @@ Case "T"
                 Exit For
                 
         End Select
-    Next I
+    Next i
 Case "F"
     'Numeros , "/" ,":"
-    For I = 1 To Len(vCad)
-        Ch = Mid(vCad, I, 1)
+    For i = 1 To Len(vCad)
+        Ch = Mid(vCad, i, 1)
         Select Case Ch
             Case "0" To "9"
             Case "<", ">", ":", "/", "="
@@ -345,11 +345,11 @@ Case "F"
                 Error = True
                 Exit For
         End Select
-    Next I
+    Next i
 Case "B"
     'Numeros , "/" ,":"
-    For I = 1 To Len(vCad)
-        Ch = Mid(vCad, I, 1)
+    For i = 1 To Len(vCad)
+        Ch = Mid(vCad, i, 1)
         Select Case Ch
             Case "0" To "9"
             Case "<", ">", ":", "/", "=", " "
@@ -357,7 +357,7 @@ Case "B"
                 Error = True
                 Exit For
         End Select
-    Next I
+    Next i
 End Select
 'Si no ha habido error cambiamos el retorno
 If Not Error Then CararacteresCorrectos = 0
@@ -910,9 +910,15 @@ Dim CalcularImporteAnterior As Boolean
     Contabilidad = vContabili
     NombreSQL NomCuenta
     
+    NuloAper = True
     miSQL = "INSERT INTO tmpbalancesumas (codusu,"
-    miSQL = miSQL & "cta, nomcta, aperturaD, aperturaH, acumAntD, acumAntH, acumPerD, acumPerH, TotalD, TotalH) VALUES (" & vUsu.Codigo
+    miSQL = miSQL & "cta, nomcta, aperturaD, aperturaH, acumAntD, acumAntH, acumPerD, acumPerH, TotalD, TotalH) VALUES "
+    miSQL = miSQL & " (" & vUsu.Codigo
     miSQL = miSQL & ",'" & vCta & "','" & NomCuenta & "',"
+    
+        
+        
+        
     NuloAper = True
     If ConApertura Then
         ObtenerApertura EjerciCerrados, F_Ini, F_Fin, NuloAper
@@ -1060,6 +1066,7 @@ Dim CalcularImporteAnterior As Boolean
         ImpH = ImpH - ImpD
         miSQL = miSQL & "NULL," & TransformaComasPuntos(CStr(ImpH)) & ")"
     End If
+    
     
     Conn.Execute miSQL
 End Sub
@@ -3007,7 +3014,7 @@ End Sub
 'En nombres iran empipaditos nommacta y nomccost
 Public Sub Cta_por_CC(ByRef vCuenta As String, vCCos As String, Nombres As String)
 Dim miSQL As String
-Dim cad As String
+Dim Cad As String
     vCta = vCuenta
     Codigo = vCCos
     Set RT = New ADODB.Recordset
@@ -3057,8 +3064,8 @@ Dim cad As String
     miSQL = Sql & "'" & Codigo & "','" & vCta & "',"
     While Not RT.EOF
         A1 = A1 + 1
-        cad = A1 & ",'" & DevNombreSQL(DBLet(RT!Numdocum)) & "','"
-        cad = cad & Format(RT!FechaEnt, FormatoFecha) & "','" & DevNombreSQL(DBLet(RT!Ampconce)) & "',"
+        Cad = A1 & ",'" & DevNombreSQL(DBLet(RT!Numdocum)) & "','"
+        Cad = Cad & Format(RT!FechaEnt, FormatoFecha) & "','" & DevNombreSQL(DBLet(RT!Ampconce)) & "',"
         If IsNull(RT!timported) Then
             ImpD = 0
             d = "NULL"
@@ -3075,7 +3082,7 @@ Dim cad As String
             ImpH = RT!timporteH
             H = TransformaComasPuntos(CStr(RT!timporteH))
         End If
-        cad = cad & d & "," & H & ","
+        Cad = Cad & d & "," & H & ","
         
         ImPerD = ImPerD + ImpD
         ImPerH = ImPerH + ImpH
@@ -3084,20 +3091,20 @@ Dim cad As String
         ImCierrH = ImpD - ImpH
         ImCierrD = ImCierrD + ImCierrH
         H = TransformaComasPuntos(CStr(ImCierrD))
-        cad = cad & H
+        Cad = Cad & H
         
         
         'Ctra partida
         If IsNull(RT!ctacontr) Then
-            cad = cad & ",'',''"
+            Cad = Cad & ",'',''"
         Else
-            cad = cad & ",'" & RT!ctacontr & "','" & DevNombreSQL(DBLet(RT!Nommacta)) & "'"
+            Cad = Cad & ",'" & RT!ctacontr & "','" & DevNombreSQL(DBLet(RT!Nommacta)) & "'"
         End If
         
         
-        cad = cad & ")"
+        Cad = Cad & ")"
         'Ejecutamos
-        Conn.Execute miSQL & cad
+        Conn.Execute miSQL & Cad
     
         'Sig
         RT.MoveNext
@@ -3109,17 +3116,17 @@ Dim cad As String
     'La cabecera
     '->INSERT INTO zcabccexplo (codusu, codccost, codmacta, nommacta, nomccost,
     '-->acumD, acumH, acumS, totD, totH, totS) VALUES (
-    cad = "'" & Codigo & "','" & vCta & "','" & DevNombreSQL(RecuperaValor(Nombres, 1))
-    cad = cad & "','" & DevNombreSQL(RecuperaValor(Nombres, 2)) & "',"
+    Cad = "'" & Codigo & "','" & vCta & "','" & DevNombreSQL(RecuperaValor(Nombres, 1))
+    Cad = Cad & "','" & DevNombreSQL(RecuperaValor(Nombres, 2)) & "',"
     
     '-----------------------------------------
     'Acumulado anterior
     If ImAcD = 0 And ImAcH = 0 Then
-        cad = cad & """"""
+        Cad = Cad & """"""
     Else
-        cad = cad & """S"""
+        Cad = Cad & """S"""
     End If
-    cad = cad & ","
+    Cad = Cad & ","
     If ImAcH = 0 Then
         H = "NULL"
     Else
@@ -3131,7 +3138,7 @@ Dim cad As String
     Else
         d = TransformaComasPuntos(CStr(ImAcD))
     End If
-    cad = cad & d & "," & H
+    Cad = Cad & d & "," & H
     
     
         
@@ -3144,18 +3151,18 @@ Dim cad As String
     Else
         H = TransformaComasPuntos(CStr(ImAcD))
     End If
-    cad = cad & "," & H
+    Cad = Cad & "," & H
 
     '--------------------- TOTALES
     d = TransformaComasPuntos(CStr(ImPerD))
     H = TransformaComasPuntos(CStr(ImPerH))
-    cad = cad & "," & d & "," & H
+    Cad = Cad & "," & d & "," & H
     
     'Saldo final
     d = TransformaComasPuntos(CStr(ImCierrD))
-    cad = cad & "," & d & ")"
+    Cad = Cad & "," & d & ")"
     
-    Conn.Execute Aux & cad
+    Conn.Execute Aux & Cad
     
 End Sub
 
@@ -3978,12 +3985,19 @@ Dim B1 As Byte
     Else
         B1 = 0  'Si no tengo que quitar saldos pòngo un cero
     End If
+    
+    
+
+    
     While Not RC.EOF
+                                                                                                                  
+         Stop
+         'FALTA REVISAR
                                                                                                                   'QUITAMOS si fecha incio menor k ultima fecha traspasada
         'CargaBalanceNuevo RC!codmacta, "", False, Month(F1), mess1, Year(F1), anyos1, False, F1, F2, EjerciciosCerrados, B1, Contabilidad, True, True, False
         CargaBalanceNuevo RC!codmacta, "", False, F1, F2, F1, F2, EjerciciosCerrados, B1, Contabilidad, True, True, False
         
-
+        
         
         'Balance de situacion. Tratar cta perdidas y ganancias
         If Not EsBalancePerdidas_y_ganancias And RC!codmacta = Mid(vParam.ctaperga, 1, 3) Then
@@ -4075,12 +4089,12 @@ End Function
 'Obteiene la diferencia de la 6y7 para pintarla en el balnace de situacion
 
 Private Sub OntenerPyGActual(ByRef fec1 As Date, ByRef fec2 As Date)
-Dim cad As String
+Dim Cad As String
 Dim RT As ADODB.Recordset
     Set RT = New ADODB.Recordset
-    cad = "select sum(if(timported is null,0,timported)),sum(if(timporteh is null,0,timporteh)  )"
-    cad = cad & " from hlinapu where substring(codmacta,1,1) IN ('6','7') and fechaent >=" & DBSet(fec1, "F") & " and fechaent <=" & DBSet(fec2, "F")
-    RT.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "select sum(if(timported is null,0,timported)),sum(if(timporteh is null,0,timporteh)  )"
+    Cad = Cad & " from hlinapu where substring(codmacta,1,1) IN ('6','7') and fechaent >=" & DBSet(fec1, "F") & " and fechaent <=" & DBSet(fec2, "F")
+    RT.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not RT.EOF Then
         ImCierrH = DBLet(RT.Fields(0), "N")
         ImCierrD = DBLet(RT.Fields(1), "N")

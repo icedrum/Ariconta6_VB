@@ -479,7 +479,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Left            =   2520
          Locked          =   -1  'True
          TabIndex        =   53
-         Top             =   3480
+         Top             =   3450
          Width           =   4155
       End
       Begin VB.TextBox txtFecha 
@@ -535,10 +535,10 @@ Begin VB.Form frmTESCobrosPdtesList
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   2550
+         Left            =   2520
          Locked          =   -1  'True
          TabIndex        =   48
-         Top             =   2340
+         Top             =   2310
          Width           =   4155
       End
       Begin VB.TextBox txtNCuentas 
@@ -554,7 +554,7 @@ Begin VB.Form frmTESCobrosPdtesList
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   2550
+         Left            =   2520
          Locked          =   -1  'True
          TabIndex        =   47
          Top             =   1920
@@ -573,10 +573,10 @@ Begin VB.Form frmTESCobrosPdtesList
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   2040
+         Left            =   2010
          Locked          =   -1  'True
          TabIndex        =   46
-         Top             =   5700
+         Top             =   5670
          Width           =   4665
       End
       Begin VB.TextBox txtNSerie 
@@ -592,7 +592,7 @@ Begin VB.Form frmTESCobrosPdtesList
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   2040
+         Left            =   2010
          Locked          =   -1  'True
          TabIndex        =   45
          Top             =   5280
@@ -614,7 +614,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Left            =   1230
          TabIndex        =   5
          Tag             =   "imgConcepto"
-         Top             =   2340
+         Top             =   2310
          Width           =   1275
       End
       Begin VB.TextBox txtCuentas 
@@ -671,7 +671,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Left            =   1230
          TabIndex        =   11
          Tag             =   "imgConcepto"
-         Top             =   5700
+         Top             =   5670
          Width           =   765
       End
       Begin VB.TextBox txtDpto 
@@ -757,15 +757,15 @@ Begin VB.Form frmTESCobrosPdtesList
       Begin VB.Image imgAgente 
          Height          =   255
          Index           =   0
-         Left            =   900
+         Left            =   930
          Top             =   4140
          Width           =   255
       End
       Begin VB.Image imgAgente 
          Height          =   255
          Index           =   1
-         Left            =   900
-         Top             =   4590
+         Left            =   930
+         Top             =   4530
          Width           =   255
       End
       Begin VB.Label Label3 
@@ -808,7 +808,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Enabled         =   0   'False
          Height          =   255
          Index           =   0
-         Left            =   900
+         Left            =   930
          Top             =   3060
          Width           =   255
       End
@@ -816,8 +816,8 @@ Begin VB.Form frmTESCobrosPdtesList
          Enabled         =   0   'False
          Height          =   255
          Index           =   1
-         Left            =   900
-         Top             =   3510
+         Left            =   930
+         Top             =   3480
          Width           =   255
       End
       Begin VB.Label Label3 
@@ -853,7 +853,7 @@ Begin VB.Form frmTESCobrosPdtesList
          ForeColor       =   &H00800000&
          Height          =   195
          Index           =   18
-         Left            =   270
+         Left            =   210
          TabIndex        =   51
          Top             =   510
          Width           =   2280
@@ -871,9 +871,9 @@ Begin VB.Form frmTESCobrosPdtesList
          EndProperty
          Height          =   195
          Index           =   17
-         Left            =   270
+         Left            =   240
          TabIndex        =   50
-         Top             =   870
+         Top             =   840
          Width           =   690
       End
       Begin VB.Label Label3 
@@ -889,7 +889,7 @@ Begin VB.Form frmTESCobrosPdtesList
          EndProperty
          Height          =   195
          Index           =   16
-         Left            =   270
+         Left            =   240
          TabIndex        =   49
          Top             =   1230
          Width           =   615
@@ -897,14 +897,14 @@ Begin VB.Form frmTESCobrosPdtesList
       Begin VB.Image ImgFec 
          Height          =   240
          Index           =   2
-         Left            =   960
-         Top             =   840
+         Left            =   945
+         Top             =   810
          Width           =   240
       End
       Begin VB.Image ImgFec 
          Height          =   240
          Index           =   3
-         Left            =   960
+         Left            =   945
          Top             =   1230
          Width           =   240
       End
@@ -960,21 +960,21 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   9
          Left            =   240
          TabIndex        =   35
-         Top             =   2310
+         Top             =   2340
          Width           =   615
       End
       Begin VB.Image imgCuentas 
          Height          =   255
          Index           =   1
          Left            =   930
-         Top             =   2370
+         Top             =   2340
          Width           =   255
       End
       Begin VB.Image imgCuentas 
          Height          =   255
          Index           =   0
          Left            =   930
-         Top             =   1920
+         Top             =   1950
          Width           =   255
       End
       Begin VB.Label lblNumFactu 
@@ -1022,7 +1022,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   240
          Index           =   0
          Left            =   3990
-         Top             =   870
+         Top             =   840
          Width           =   240
       End
       Begin VB.Label Label3 
@@ -1183,7 +1183,7 @@ Begin VB.Form frmTESCobrosPdtesList
          ForeColor       =   &H00800000&
          Height          =   195
          Index           =   6
-         Left            =   210
+         Left            =   270
          TabIndex        =   24
          Top             =   4980
          Width           =   960
@@ -1215,7 +1215,7 @@ Begin VB.Form frmTESCobrosPdtesList
          EndProperty
          Height          =   195
          Index           =   1
-         Left            =   210
+         Left            =   240
          TabIndex        =   23
          Top             =   5700
          Width           =   735
@@ -1233,7 +1233,7 @@ Begin VB.Form frmTESCobrosPdtesList
          EndProperty
          Height          =   195
          Index           =   0
-         Left            =   210
+         Left            =   240
          TabIndex        =   22
          Top             =   5280
          Width           =   780
@@ -1552,10 +1552,10 @@ Attribute frmDpto.VB_VarHelpID = -1
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private SQL As String
-Dim cad As String
+Private Sql As String
+Dim Cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim tabla As String
 
@@ -1584,18 +1584,18 @@ End Sub
 Private Sub Check1_Click(Index As Integer)
     Select Case Index
         Case 0
-            If Check1(0).Value = 1 Then
-                Check1(2).Value = 1
+            If check1(0).Value = 1 Then
+                check1(2).Value = 1
                 Check1_Click (2)
             End If
         Case 1
-            If Check1(1).Value = 1 Then
-                Check1(2).Value = 0
-                Check1(0).Value = 0
+            If check1(1).Value = 1 Then
+                check1(2).Value = 0
+                check1(0).Value = 0
             End If
         Case 2
-            If Check1(2).Value = 1 Then
-                Check1(1).Value = 0
+            If check1(2).Value = 1 Then
+                check1(1).Value = 0
             End If
     End Select
 End Sub
@@ -1675,25 +1675,25 @@ End Sub
 
 Private Sub Form_Load()
     PrimeraVez = True
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Listado de Cobros Pendientes Clientes"
 
-    For I = 0 To 1
-        Me.imgSerie(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-        Me.imgCuentas(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-        Me.imgDpto(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-        Me.imgAgente(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To 1
+        Me.imgSerie(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+        Me.imgDpto(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+        Me.imgAgente(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
     
-    For I = 0 To 3
-        Me.imgFec(I).Picture = frmPpal.imgIcoForms.ListImages(2).Picture
-    Next I
+    For i = 0 To 3
+        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+    Next i
      
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
      
@@ -1740,7 +1740,7 @@ Private Sub frmConta_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub frmDpto_DatoSeleccionado(CadenaSeleccion As String)
@@ -1755,7 +1755,7 @@ Private Sub frmF_Selec(vFecha As Date)
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
-Dim I As Integer
+Dim i As Integer
 Dim TotalCant As Currency
 Dim TotalImporte As Currency
 
@@ -1764,13 +1764,13 @@ Dim TotalImporte As Currency
     Select Case Index
         ' tipos de forma de pago
         Case 0
-            For I = 1 To ListView1(1).ListItems.Count
-                ListView1(1).ListItems(I).Checked = False
-            Next I
+            For i = 1 To ListView1(1).ListItems.Count
+                ListView1(1).ListItems(i).Checked = False
+            Next i
         Case 1
-            For I = 1 To ListView1(1).ListItems.Count
-                ListView1(1).ListItems(I).Checked = True
-            Next I
+            For i = 1 To ListView1(1).ListItems.Count
+                ListView1(1).ListItems(i).Checked = True
+            Next i
     End Select
     
     Screen.MousePointer = vbDefault
@@ -1834,15 +1834,15 @@ Private Sub imgFec_Click(Index As Integer)
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
-    SQL = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     Set frmCtas = New frmColCtas
     frmCtas.DatosADevolverBusqueda = True
     frmCtas.Show vbModal
     Set frmCtas = Nothing
-    If SQL <> "" Then
-        Me.txtCuentas(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNCuentas(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtCuentas(Index)
     End If
@@ -1869,24 +1869,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -1894,7 +1894,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -1918,10 +1918,10 @@ Private Sub txtCuentas_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuentas_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
@@ -1947,18 +1947,18 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
     Select Case Index
         Case 0, 1 'cuentas
             Cta = (txtCuentas(Index).Text)
-            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
             If B = 0 Then
                 MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
             Else
                 txtCuentas(Index).Text = Cta
-                txtNCuentas(Index).Text = SQL
+                txtNCuentas(Index).Text = Sql
                 If B = 1 Then
                     txtNCuentas(Index).Tag = ""
                 Else
-                    txtNCuentas(Index).Tag = SQL
+                    txtNCuentas(Index).Tag = Sql
                 End If
                 Hasta = -1
                 If Index = 6 Then
@@ -2032,10 +2032,10 @@ Private Sub txtSerie_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtSerie_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtSerie(Index).Text = UCase(Trim(txtSerie(Index).Text))
@@ -2073,10 +2073,10 @@ Private Sub txtDpto_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtDpto_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer
 
     txtDpto(Index).Text = Trim(txtDpto(Index).Text)
@@ -2112,10 +2112,10 @@ Private Sub txtAgente_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtAgente_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String
+Dim Cad As String, cadTipo As String
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer
 
     txtAgente(Index).Text = Trim(txtAgente(Index).Text)
@@ -2134,53 +2134,53 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
-    SQL = "Select cobros.codmacta Cliente, cobros.nomclien Nombre, cobros.fecfactu FFactura, cobros.fecvenci FVenci, "
-    SQL = SQL & " cobros.numorden Orden, cobros.gastos Gastos, cobros.impcobro Cobrado, cobros.impvenci ImpVenci, "
-    SQL = SQL & " concat(cobros.numserie,' ', concat('0000000',cobros.numfactu)) Factura , cobros.codforpa FPago, "
-    SQL = SQL & " formapago.nomforpa Descripcion, cobros.referencia Referenciasa, tipofpago.descformapago Tipo "
+    Sql = "Select cobros.codmacta Cliente, cobros.nomclien Nombre, cobros.fecfactu FFactura, cobros.fecvenci FVenci, "
+    Sql = Sql & " cobros.numorden Orden, cobros.gastos Gastos, cobros.impcobro Cobrado, cobros.impvenci ImpVenci, "
+    Sql = Sql & " concat(cobros.numserie,' ', concat('0000000',cobros.numfactu)) Factura , cobros.codforpa FPago, "
+    Sql = Sql & " formapago.nomforpa Descripcion, cobros.referencia Referenciasa, tipofpago.descformapago Tipo "
     
     If optVarios(0).Value Or optVarios(1).Value Then
-        SQL = SQL & ", cobros.noremesar NoRemesar, cobros.situacionjuri SitJuridica, cobros.Devuelto Devuelto, cobros.recedocu Recepcion, cobros.observa Observaciones "
+        Sql = Sql & ", cobros.noremesar NoRemesar, cobros.situacionjuri SitJuridica, cobros.Devuelto Devuelto, cobros.recedocu Recepcion, cobros.observa Observaciones "
     End If
     
-    SQL = SQL & " FROM (cobros inner join formapago on cobros.codforpa = formapago.codforpa) "
-    SQL = SQL & " inner join tipofpago on formapago.tipforpa = tipofpago.tipoformapago "
-    SQL = SQL & " WHERE cobros.situacion = 0 and (cobros.impvenci + coalesce(cobros.gastos,0) - coalesce(cobros.impcobro,0)) <> 0 "
-    If cadselect <> "" Then SQL = SQL & " AND " & cadselect
+    Sql = Sql & " FROM (cobros inner join formapago on cobros.codforpa = formapago.codforpa) "
+    Sql = Sql & " inner join tipofpago on formapago.tipforpa = tipofpago.tipoformapago "
+    Sql = Sql & " WHERE cobros.situacion = 0 and (cobros.impvenci + coalesce(cobros.gastos,0) - coalesce(cobros.impcobro,0)) <> 0 "
+    If cadselect <> "" Then Sql = Sql & " AND " & cadselect
             
-    SQL2 = ""
+    Sql2 = ""
             
     If optVarios(0).Value Then
-        If optVarios(3).Value Then SQL2 = SQL2 & " cobros.codmacta"
-        If optVarios(4).Value Then SQL2 = SQL2 & " cobros.nomclien"
+        If optVarios(3).Value Then Sql2 = Sql2 & " cobros.codmacta"
+        If optVarios(4).Value Then Sql2 = Sql2 & " cobros.nomclien"
     End If
     
     If optVarios(1).Value Then
-        SQL2 = SQL2 & " cobros.FecVenci"
+        Sql2 = Sql2 & " cobros.FecVenci"
         
-        If optVarios(3).Value Then SQL2 = SQL2 & ",cobros.codmacta"
-        If optVarios(4).Value Then SQL2 = SQL2 & ",cobros.nomclien"
+        If optVarios(3).Value Then Sql2 = Sql2 & ",cobros.codmacta"
+        If optVarios(4).Value Then Sql2 = Sql2 & ",cobros.nomclien"
     End If
 
     If optVarios(2).Value Then
-        SQL2 = SQL2 & " tipofpago.descformapago"
+        Sql2 = Sql2 & " tipofpago.descformapago"
         
-        If optVarios(3).Value Then SQL2 = SQL2 & ",cobros.codmacta"
-        If optVarios(4).Value Then SQL2 = SQL2 & ",cobros.nomclien"
+        If optVarios(3).Value Then Sql2 = Sql2 & ",cobros.codmacta"
+        If optVarios(4).Value Then Sql2 = Sql2 & ",cobros.nomclien"
     End If
 
 
 
 
 
-    SQL = SQL & " ORDER BY " & SQL2
+    Sql = Sql & " ORDER BY " & Sql2
 
             
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -2205,7 +2205,7 @@ Dim nomDocu As String
         cadParam = cadParam & "pTipo=1|"
         numParam = numParam + 1
         
-        If Check1(1).Value Then cadParam = cadParam & "pResumen=1|"
+        If check1(1).Value Then cadParam = cadParam & "pResumen=1|"
         numParam = numParam + 1
         
          cadParam = cadParam & "pOrden={cobros.fecvenci}|"
@@ -2224,7 +2224,7 @@ Dim nomDocu As String
         cadParam = cadParam & "pTipo=2|"
         numParam = numParam + 1
     
-        If Check1(1).Value Then
+        If check1(1).Value Then
             cadParam = cadParam & "pResumen=1|"
             numParam = numParam + 1
         End If
@@ -2237,13 +2237,13 @@ Dim nomDocu As String
         If optVarios(4).Value Then cadParam = cadParam & "pOrden={cobros.nomclien}|"
         numParam = numParam + 2
     
-        If Check1(1).Value Then
+        If check1(1).Value Then
             cadParam = cadParam & "pResumen=1|"
             numParam = numParam + 1
         End If
     End If
 
-    If Check1(0).Value Then
+    If check1(0).Value Then
         cadParam = cadParam & "pObserva=1|"
         numParam = numParam + 1
     End If
@@ -2251,11 +2251,11 @@ Dim nomDocu As String
 
     If optVarios(0).Value Or optVarios(1).Value Then
         'formato extendido
-        If Check1(2).Value Then indRPT = "0602-01"
+        If check1(2).Value Then indRPT = "0602-01"
     End If
     If optVarios(2).Value Then
         indRPT = "0602-02"
-        If Check1(2).Value Then indRPT = "0602-03"
+        If check1(2).Value Then indRPT = "0602-03"
     End If
     
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
@@ -2277,24 +2277,24 @@ Dim nomDocu As String
 End Sub
 
 Private Function CargarTemporal() As Boolean
-Dim SQL As String
+Dim Sql As String
 
     On Error GoTo eCargarTemporal
 
     CargarTemporal = False
     
-    SQL = "delete from tmpfaclin where codusu = " & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "delete from tmpfaclin where codusu = " & vUsu.Codigo
+    Conn.Execute Sql
     
-    SQL = "insert into tmpfaclin (codusu, codigo, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
-    SQL = SQL & " recargo, tipoopera, tipoformapago) "
-    SQL = SQL & " select distinct " & vUsu.Codigo & ",0, factcli.numserie, contadores.nomregis, factcli.numfactu, factcli.fecfactu, factcli.codmacta, "
-    SQL = SQL & " factcli.nommacta, factcli.nifdatos, factcli.totbases, factcli.totivas, factcli.totfaccl, factcli.trefaccl, "
-    SQL = SQL & " factcli.totrecargo, tipofpago.descformapago , aa.denominacion"
-    SQL = SQL & " from " & tabla
-    SQL = SQL & " where " & cadselect
+    Sql = "insert into tmpfaclin (codusu, codigo, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
+    Sql = Sql & " recargo, tipoopera, tipoformapago) "
+    Sql = Sql & " select distinct " & vUsu.Codigo & ",0, factcli.numserie, contadores.nomregis, factcli.numfactu, factcli.fecfactu, factcli.codmacta, "
+    Sql = Sql & " factcli.nommacta, factcli.nifdatos, factcli.totbases, factcli.totivas, factcli.totfaccl, factcli.trefaccl, "
+    Sql = Sql & " factcli.totrecargo, tipofpago.descformapago , aa.denominacion"
+    Sql = Sql & " from " & tabla
+    Sql = Sql & " where " & cadselect
     
-    Conn.Execute SQL
+    Conn.Execute Sql
     
     CargarTemporal = True
     Exit Function
@@ -2304,11 +2304,11 @@ eCargarTemporal:
 End Function
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
-Dim I As Integer
+Dim i As Integer
 
 
     MontaSQL = False
@@ -2320,19 +2320,19 @@ Dim I As Integer
     If Not PonerDesdeHasta("cobros.agente", "AGE", Me.txtAgente(0), Me.txtNAgente(0), Me.txtAgente(1), Me.txtNAgente(1), "pDHAgente=""") Then Exit Function
     If Not PonerDesdeHasta("cobros.departamento", "DPTO", Me.txtDpto(0), Me.txtNDpto(0), Me.txtDpto(1), Me.txtNDpto(1), "pDHDpto=""") Then Exit Function
             
-    SQL = ""
-    For I = 1 To Me.ListView1(1).ListItems.Count
-        If Me.ListView1(1).ListItems(I).Checked Then
-            SQL = SQL & Me.ListView1(1).ListItems(I).SubItems(2) & ","
+    Sql = ""
+    For i = 1 To Me.ListView1(1).ListItems.Count
+        If Me.ListView1(1).ListItems(i).Checked Then
+            Sql = Sql & Me.ListView1(1).ListItems(i).SubItems(2) & ","
         End If
-    Next I
+    Next i
     
-    If SQL <> "" Then
+    If Sql <> "" Then
         ' quitamos la ultima coma
-        SQL = Mid(SQL, 1, Len(SQL) - 1)
+        Sql = Mid(Sql, 1, Len(Sql) - 1)
         
-        If Not AnyadirAFormula(cadselect, "formapago.tipforpa in (" & SQL & ")") Then Exit Function
-        If Not AnyadirAFormula(cadFormula, "{formapago.tipforpa} in [" & SQL & "]") Then Exit Function
+        If Not AnyadirAFormula(cadselect, "formapago.tipforpa in (" & Sql & ")") Then Exit Function
+        If Not AnyadirAFormula(cadFormula, "{formapago.tipforpa} in [" & Sql & "]") Then Exit Function
     Else
         If Not AnyadirAFormula(cadselect, "formapago.tipforpa is null") Then Exit Function
         If Not AnyadirAFormula(cadFormula, "isnull({formapago.tipforpa})") Then Exit Function
@@ -2395,9 +2395,9 @@ Private Sub txtTipoSalida_KeyDown(Index As Integer, KeyCode As Integer, Shift As
 End Sub
 
 Private Sub CargarListView(Index As Integer)
-Dim RS As ADODB.Recordset
+Dim Rs As ADODB.Recordset
 Dim ItmX As ListItem
-Dim SQL As String
+Dim Sql As String
 
     On Error GoTo ECargarList
  
@@ -2408,22 +2408,22 @@ Dim SQL As String
     ListView1(Index).ColumnHeaders.Add , , "Descripción", 3200
     ListView1(Index).ColumnHeaders.Add , , " ", 0
     
-    SQL = "Select * from tipofpago order by 1" 'descformapago"
+    Sql = "Select * from tipofpago order by 1" 'descformapago"
     
-    Set RS = New ADODB.Recordset
-    RS.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Set Rs = New ADODB.Recordset
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
-    While Not RS.EOF
+    While Not Rs.EOF
         Set ItmX = ListView1(Index).ListItems.Add
         
         ItmX.Checked = True
         ItmX.Text = " " ' Rs.Fields(0).Value
-        ItmX.SubItems(1) = RS.Fields(1).Value
-        ItmX.SubItems(2) = RS.Fields(0).Value
-        RS.MoveNext
+        ItmX.SubItems(1) = Rs.Fields(1).Value
+        ItmX.SubItems(2) = Rs.Fields(0).Value
+        Rs.MoveNext
     Wend
-    RS.Close
-    Set RS = Nothing
+    Rs.Close
+    Set Rs = Nothing
 
 ECargarList:
     If Err.Number <> 0 Then

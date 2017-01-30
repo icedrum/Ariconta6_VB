@@ -24,6 +24,282 @@ Begin VB.Form frmMantenusu
    ScaleWidth      =   9420
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame FrameUsuario 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   6855
+      Left            =   60
+      TabIndex        =   15
+      Top             =   30
+      Width           =   9255
+      Begin VB.CheckBox ChkSoloTesoreria 
+         Caption         =   "Sólo tesorería"
+         Height          =   255
+         Left            =   3480
+         TabIndex        =   57
+         Top             =   5790
+         Width           =   1755
+      End
+      Begin VB.ComboBox Combo6 
+         Height          =   360
+         ItemData        =   "frmMantenusu.frx":000C
+         Left            =   630
+         List            =   "frmMantenusu.frx":0019
+         Style           =   2  'Dropdown List
+         TabIndex        =   54
+         Top             =   5730
+         Width           =   2415
+      End
+      Begin VB.ComboBox Combo4 
+         Height          =   360
+         ItemData        =   "frmMantenusu.frx":003E
+         Left            =   630
+         List            =   "frmMantenusu.frx":004B
+         Style           =   2  'Dropdown List
+         TabIndex        =   19
+         Top             =   2820
+         Width           =   2115
+      End
+      Begin VB.TextBox Text2 
+         Height          =   360
+         IMEMode         =   3  'DISABLE
+         Index           =   7
+         Left            =   6720
+         MaxLength       =   17
+         PasswordChar    =   "*"
+         TabIndex        =   25
+         Text            =   "123456789012345"
+         Top             =   4980
+         Width           =   1575
+      End
+      Begin VB.TextBox Text2 
+         Height          =   360
+         IMEMode         =   3  'DISABLE
+         Index           =   6
+         Left            =   630
+         TabIndex        =   24
+         Text            =   "Text1"
+         Top             =   4980
+         Width           =   3615
+      End
+      Begin VB.TextBox Text2 
+         Height          =   360
+         IMEMode         =   3  'DISABLE
+         Index           =   5
+         Left            =   630
+         TabIndex        =   23
+         Text            =   "Text1"
+         Top             =   4260
+         Width           =   7695
+      End
+      Begin VB.TextBox Text2 
+         Height          =   360
+         IMEMode         =   3  'DISABLE
+         Index           =   4
+         Left            =   630
+         TabIndex        =   22
+         Text            =   "Text1"
+         Top             =   3540
+         Width           =   7695
+      End
+      Begin VB.TextBox Text2 
+         Height          =   360
+         IMEMode         =   3  'DISABLE
+         Index           =   3
+         Left            =   6480
+         PasswordChar    =   "*"
+         TabIndex        =   21
+         Text            =   "Text1"
+         Top             =   2670
+         Width           =   1575
+      End
+      Begin VB.CommandButton cmdFrameUsu 
+         Cancel          =   -1  'True
+         Caption         =   "Cancelar"
+         Height          =   375
+         Index           =   1
+         Left            =   7080
+         TabIndex        =   27
+         Top             =   5940
+         Width           =   1215
+      End
+      Begin VB.CommandButton cmdFrameUsu 
+         Caption         =   "Aceptar"
+         Height          =   375
+         Index           =   0
+         Left            =   5670
+         TabIndex        =   26
+         Top             =   5940
+         Width           =   1215
+      End
+      Begin VB.TextBox Text2 
+         Height          =   360
+         IMEMode         =   3  'DISABLE
+         Index           =   2
+         Left            =   6480
+         PasswordChar    =   "*"
+         TabIndex        =   20
+         Text            =   "Text1"
+         Top             =   2190
+         Width           =   1575
+      End
+      Begin VB.TextBox Text2 
+         Height          =   360
+         IMEMode         =   3  'DISABLE
+         Index           =   1
+         Left            =   630
+         TabIndex        =   17
+         Text            =   "Text1"
+         Top             =   1410
+         Width           =   7725
+      End
+      Begin VB.ComboBox Combo2 
+         Height          =   360
+         ItemData        =   "frmMantenusu.frx":0070
+         Left            =   630
+         List            =   "frmMantenusu.frx":0072
+         Style           =   2  'Dropdown List
+         TabIndex        =   18
+         Top             =   2130
+         Width           =   2115
+      End
+      Begin VB.TextBox Text2 
+         Height          =   360
+         Index           =   0
+         Left            =   630
+         TabIndex        =   16
+         Text            =   "Text1"
+         Top             =   690
+         Width           =   1365
+      End
+      Begin VB.Label Label10 
+         Caption         =   "Traer menús del usuario"
+         Height          =   255
+         Left            =   630
+         TabIndex        =   55
+         Top             =   5490
+         Width           =   2655
+      End
+      Begin VB.Label Label9 
+         Caption         =   "Skin"
+         Height          =   255
+         Left            =   630
+         TabIndex        =   52
+         Top             =   2580
+         Width           =   2295
+      End
+      Begin VB.Label Label4 
+         Caption         =   "mail-password"
+         Height          =   255
+         Index           =   7
+         Left            =   6810
+         TabIndex        =   43
+         Top             =   4740
+         Width           =   1575
+      End
+      Begin VB.Label Label4 
+         Caption         =   "mail-user"
+         Height          =   255
+         Index           =   6
+         Left            =   630
+         TabIndex        =   42
+         Top             =   4740
+         Width           =   1575
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Servidor SMTP"
+         Height          =   255
+         Index           =   5
+         Left            =   630
+         TabIndex        =   41
+         Top             =   4020
+         Width           =   1575
+      End
+      Begin VB.Label Label4 
+         Caption         =   "e-mail"
+         Height          =   255
+         Index           =   4
+         Left            =   630
+         TabIndex        =   40
+         Top             =   3300
+         Width           =   1575
+      End
+      Begin VB.Label Label6 
+         Alignment       =   1  'Right Justify
+         Caption         =   "NUEVO"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   24
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   735
+         Left            =   5190
+         TabIndex        =   33
+         Top             =   240
+         Width           =   3345
+      End
+      Begin VB.Shape Shape1 
+         Height          =   1065
+         Left            =   4770
+         Top             =   2070
+         Width           =   3525
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Confirma Pass."
+         Height          =   360
+         Index           =   3
+         Left            =   5010
+         TabIndex        =   32
+         Top             =   2670
+         Width           =   1605
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Password"
+         Height          =   360
+         Index           =   2
+         Left            =   5040
+         TabIndex        =   31
+         Top             =   2220
+         Width           =   1095
+      End
+      Begin VB.Label Label5 
+         Caption         =   "Nivel"
+         Height          =   255
+         Left            =   630
+         TabIndex        =   30
+         Top             =   1890
+         Width           =   2295
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Nombre completo"
+         Height          =   255
+         Index           =   1
+         Left            =   630
+         TabIndex        =   29
+         Top             =   1170
+         Width           =   2295
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Login"
+         Height          =   255
+         Index           =   0
+         Left            =   630
+         TabIndex        =   28
+         Top             =   450
+         Width           =   2295
+      End
+   End
    Begin VB.Frame FrameNormal 
       BorderStyle     =   0  'None
       BeginProperty Font 
@@ -110,9 +386,9 @@ Begin VB.Form frmMantenusu
       Begin VB.ComboBox Combo3 
          Height          =   360
          Index           =   1
-         ItemData        =   "frmMantenusu.frx":000C
+         ItemData        =   "frmMantenusu.frx":0074
          Left            =   7470
-         List            =   "frmMantenusu.frx":0019
+         List            =   "frmMantenusu.frx":0081
          Style           =   2  'Dropdown List
          TabIndex        =   45
          TabStop         =   0   'False
@@ -133,7 +409,7 @@ Begin VB.Form frmMantenusu
          Height          =   375
          Index           =   3
          Left            =   5640
-         Picture         =   "frmMantenusu.frx":003C
+         Picture         =   "frmMantenusu.frx":00A4
          Style           =   1  'Graphical
          TabIndex        =   44
          ToolTipText     =   "Prohibir acceso"
@@ -166,9 +442,9 @@ Begin VB.Form frmMantenusu
          Width           =   5655
          Begin VB.ComboBox Combo5 
             Height          =   360
-            ItemData        =   "frmMantenusu.frx":688E
+            ItemData        =   "frmMantenusu.frx":68F6
             Left            =   960
-            List            =   "frmMantenusu.frx":6890
+            List            =   "frmMantenusu.frx":68F8
             Locked          =   -1  'True
             Style           =   2  'Dropdown List
             TabIndex        =   50
@@ -186,9 +462,9 @@ Begin VB.Form frmMantenusu
          End
          Begin VB.ComboBox Combo1 
             Height          =   360
-            ItemData        =   "frmMantenusu.frx":6892
+            ItemData        =   "frmMantenusu.frx":68FA
             Left            =   960
-            List            =   "frmMantenusu.frx":68A2
+            List            =   "frmMantenusu.frx":690A
             Locked          =   -1  'True
             Style           =   2  'Dropdown List
             TabIndex        =   7
@@ -236,7 +512,7 @@ Begin VB.Form frmMantenusu
          Height          =   375
          Index           =   0
          Left            =   3960
-         Picture         =   "frmMantenusu.frx":68D5
+         Picture         =   "frmMantenusu.frx":693D
          Style           =   1  'Graphical
          TabIndex        =   4
          ToolTipText     =   "Nuevo usuario"
@@ -258,7 +534,7 @@ Begin VB.Form frmMantenusu
          Height          =   375
          Index           =   1
          Left            =   4440
-         Picture         =   "frmMantenusu.frx":D127
+         Picture         =   "frmMantenusu.frx":D18F
          Style           =   1  'Graphical
          TabIndex        =   3
          ToolTipText     =   "Modificar usuario"
@@ -280,7 +556,7 @@ Begin VB.Form frmMantenusu
          Height          =   375
          Index           =   2
          Left            =   4920
-         Picture         =   "frmMantenusu.frx":13979
+         Picture         =   "frmMantenusu.frx":139E1
          Style           =   1  'Graphical
          TabIndex        =   2
          ToolTipText     =   "Eliminar usuario"
@@ -292,7 +568,7 @@ Begin VB.Form frmMantenusu
          Height          =   3015
          Left            =   3480
          TabIndex        =   5
-         Tag             =   $"frmMantenusu.frx":1A1CB
+         Tag             =   $"frmMantenusu.frx":1A233
          Top             =   3150
          Width           =   5655
          _ExtentX        =   9975
@@ -485,26 +761,34 @@ Begin VB.Form frmMantenusu
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   5
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMantenusu.frx":1A26C
+            Picture         =   "frmMantenusu.frx":1A2D4
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMantenusu.frx":20ACE
+            Picture         =   "frmMantenusu.frx":20B36
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMantenusu.frx":214E0
+            Picture         =   "frmMantenusu.frx":21548
             Key             =   ""
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMantenusu.frx":27D42
+            Picture         =   "frmMantenusu.frx":27DAA
             Key             =   ""
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmMantenusu.frx":2E5A4
+            Picture         =   "frmMantenusu.frx":2E60C
             Key             =   ""
          EndProperty
       EndProperty
+   End
+   Begin VB.CommandButton Command1 
+      Caption         =   "Salir"
+      Height          =   375
+      Left            =   7380
+      TabIndex        =   0
+      Top             =   5970
+      Width           =   975
    End
    Begin VB.Frame FrameEditorMenus 
       BeginProperty Font 
@@ -579,282 +863,6 @@ Begin VB.Form frmMantenusu
          Top             =   6360
          Width           =   5055
       End
-   End
-   Begin VB.Frame FrameUsuario 
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   6855
-      Left            =   60
-      TabIndex        =   15
-      Top             =   30
-      Width           =   9255
-      Begin VB.ComboBox Combo6 
-         Height          =   360
-         ItemData        =   "frmMantenusu.frx":34E06
-         Left            =   630
-         List            =   "frmMantenusu.frx":34E13
-         Style           =   2  'Dropdown List
-         TabIndex        =   54
-         Top             =   5730
-         Width           =   2415
-      End
-      Begin VB.ComboBox Combo4 
-         Height          =   360
-         ItemData        =   "frmMantenusu.frx":34E38
-         Left            =   630
-         List            =   "frmMantenusu.frx":34E45
-         Style           =   2  'Dropdown List
-         TabIndex        =   19
-         Top             =   2820
-         Width           =   2115
-      End
-      Begin VB.TextBox Text2 
-         Height          =   360
-         IMEMode         =   3  'DISABLE
-         Index           =   7
-         Left            =   6720
-         MaxLength       =   17
-         PasswordChar    =   "*"
-         TabIndex        =   25
-         Text            =   "123456789012345"
-         Top             =   4980
-         Width           =   1575
-      End
-      Begin VB.TextBox Text2 
-         Height          =   360
-         IMEMode         =   3  'DISABLE
-         Index           =   6
-         Left            =   630
-         TabIndex        =   24
-         Text            =   "Text1"
-         Top             =   4980
-         Width           =   3615
-      End
-      Begin VB.TextBox Text2 
-         Height          =   360
-         IMEMode         =   3  'DISABLE
-         Index           =   5
-         Left            =   630
-         TabIndex        =   23
-         Text            =   "Text1"
-         Top             =   4260
-         Width           =   7695
-      End
-      Begin VB.TextBox Text2 
-         Height          =   360
-         IMEMode         =   3  'DISABLE
-         Index           =   4
-         Left            =   630
-         TabIndex        =   22
-         Text            =   "Text1"
-         Top             =   3540
-         Width           =   7695
-      End
-      Begin VB.TextBox Text2 
-         Height          =   360
-         IMEMode         =   3  'DISABLE
-         Index           =   3
-         Left            =   6480
-         PasswordChar    =   "*"
-         TabIndex        =   21
-         Text            =   "Text1"
-         Top             =   2670
-         Width           =   1575
-      End
-      Begin VB.CommandButton cmdFrameUsu 
-         Cancel          =   -1  'True
-         Caption         =   "Cancelar"
-         Height          =   375
-         Index           =   1
-         Left            =   7080
-         TabIndex        =   27
-         Top             =   5940
-         Width           =   1215
-      End
-      Begin VB.CommandButton cmdFrameUsu 
-         Caption         =   "Aceptar"
-         Height          =   375
-         Index           =   0
-         Left            =   5670
-         TabIndex        =   26
-         Top             =   5940
-         Width           =   1215
-      End
-      Begin VB.TextBox Text2 
-         Height          =   360
-         IMEMode         =   3  'DISABLE
-         Index           =   2
-         Left            =   6480
-         PasswordChar    =   "*"
-         TabIndex        =   20
-         Text            =   "Text1"
-         Top             =   2190
-         Width           =   1575
-      End
-      Begin VB.TextBox Text2 
-         Height          =   360
-         IMEMode         =   3  'DISABLE
-         Index           =   1
-         Left            =   630
-         TabIndex        =   17
-         Text            =   "Text1"
-         Top             =   1410
-         Width           =   7725
-      End
-      Begin VB.ComboBox Combo2 
-         Height          =   360
-         ItemData        =   "frmMantenusu.frx":34E6A
-         Left            =   630
-         List            =   "frmMantenusu.frx":34E6C
-         Style           =   2  'Dropdown List
-         TabIndex        =   18
-         Top             =   2130
-         Width           =   2115
-      End
-      Begin VB.TextBox Text2 
-         Height          =   360
-         Index           =   0
-         Left            =   630
-         TabIndex        =   16
-         Text            =   "Text1"
-         Top             =   690
-         Width           =   1365
-      End
-      Begin VB.Label Label10 
-         Caption         =   "Traer menús del usuario"
-         Height          =   255
-         Left            =   630
-         TabIndex        =   55
-         Top             =   5490
-         Width           =   2655
-      End
-      Begin VB.Label Label9 
-         Caption         =   "Skin"
-         Height          =   255
-         Left            =   630
-         TabIndex        =   52
-         Top             =   2580
-         Width           =   2295
-      End
-      Begin VB.Label Label4 
-         Caption         =   "mail-password"
-         Height          =   255
-         Index           =   7
-         Left            =   6810
-         TabIndex        =   43
-         Top             =   4740
-         Width           =   1575
-      End
-      Begin VB.Label Label4 
-         Caption         =   "mail-user"
-         Height          =   255
-         Index           =   6
-         Left            =   630
-         TabIndex        =   42
-         Top             =   4740
-         Width           =   1575
-      End
-      Begin VB.Label Label4 
-         Caption         =   "Servidor SMTP"
-         Height          =   255
-         Index           =   5
-         Left            =   630
-         TabIndex        =   41
-         Top             =   4020
-         Width           =   1575
-      End
-      Begin VB.Label Label4 
-         Caption         =   "e-mail"
-         Height          =   255
-         Index           =   4
-         Left            =   630
-         TabIndex        =   40
-         Top             =   3300
-         Width           =   1575
-      End
-      Begin VB.Label Label6 
-         Alignment       =   1  'Right Justify
-         Caption         =   "NUEVO"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   24
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   735
-         Left            =   5190
-         TabIndex        =   33
-         Top             =   240
-         Width           =   3345
-      End
-      Begin VB.Shape Shape1 
-         Height          =   1065
-         Left            =   4770
-         Top             =   2070
-         Width           =   3525
-      End
-      Begin VB.Label Label4 
-         Caption         =   "Confirma Pass."
-         Height          =   360
-         Index           =   3
-         Left            =   5010
-         TabIndex        =   32
-         Top             =   2670
-         Width           =   1605
-      End
-      Begin VB.Label Label4 
-         Caption         =   "Password"
-         Height          =   360
-         Index           =   2
-         Left            =   5040
-         TabIndex        =   31
-         Top             =   2220
-         Width           =   1095
-      End
-      Begin VB.Label Label5 
-         Caption         =   "Nivel"
-         Height          =   255
-         Left            =   630
-         TabIndex        =   30
-         Top             =   1890
-         Width           =   2295
-      End
-      Begin VB.Label Label4 
-         Caption         =   "Nombre completo"
-         Height          =   255
-         Index           =   1
-         Left            =   630
-         TabIndex        =   29
-         Top             =   1170
-         Width           =   2295
-      End
-      Begin VB.Label Label4 
-         Caption         =   "Login"
-         Height          =   255
-         Index           =   0
-         Left            =   630
-         TabIndex        =   28
-         Top             =   450
-         Width           =   2295
-      End
-   End
-   Begin VB.CommandButton Command1 
-      Caption         =   "Salir"
-      Height          =   375
-      Left            =   7380
-      TabIndex        =   0
-      Top             =   5970
-      Width           =   975
    End
 End
 Attribute VB_Name = "frmMantenusu"
@@ -1061,7 +1069,7 @@ On Error GoTo EInsertarModificar
         miRsAux.Close
 
         
-        Sql = "INSERT INTO Usuarios.usuarios (codusu, nomusu,  nivelusu, login, passwordpropio,dirfich,skin) VALUES ("
+        Sql = "INSERT INTO Usuarios.usuarios (codusu, nomusu,  nivelusu, login, passwordpropio,dirfich,skin, solotesoreria) VALUES ("
         Sql = Sql & i
         Sql = Sql & ",'" & Text2(1).Text & "',"
         'Combo
@@ -1080,7 +1088,8 @@ On Error GoTo EInsertarModificar
         End If
         Sql = Sql & CadenaDesdeOtroForm
         
-        Sql = Sql & "," & Combo5.ItemData(Combo5.ListIndex) & ")"
+        Sql = Sql & "," & Combo5.ItemData(Combo5.ListIndex) & ","
+        Sql = Sql & ChkSoloTesoreria.Value & ")"
         
         
         
@@ -1179,6 +1188,8 @@ On Error GoTo EInsertarModificar
         
         
         Sql = Sql & " ,skin = " & Combo4.ListIndex
+        
+        Sql = Sql & " ,solotesoreria = " & ChkSoloTesoreria.Value
         
         'aqui, en lugar del selecteditem tengo k pasarle el codigo de usuario
         'ya que cuando es nuevo usario y cojo los datos desde otra aplicacion entonces
@@ -1310,6 +1321,8 @@ Dim k As Integer
         Me.FrameEditorMenus.Visible = False
         Me.FrameEditorMenus.Enabled = False
         
+        If Not vEmpresa.TieneTesoreria Then Me.ChkSoloTesoreria.Value = 0
+        
         Text2(i).SetFocus
         
     Case 2, 3
@@ -1406,6 +1419,8 @@ Private Sub PonerDatosUsuario()
              Text2(3 + i).Text = RecuperaValor(Sql, i)
          Next i
      End If
+     
+     Me.ChkSoloTesoreria.Value = DBLet(miRsAux!solotesoreria)
 
 End Sub
 
@@ -1471,6 +1486,10 @@ Private Sub Form_Load()
     End With
     
     CargaCombo
+    
+    
+    Me.ChkSoloTesoreria.Visible = vEmpresa.TieneTesoreria
+    Me.ChkSoloTesoreria.Enabled = vEmpresa.TieneTesoreria
     
     Me.ListView1.SmallIcons = ImageList1
     Me.ListView2.SmallIcons = ImageList1

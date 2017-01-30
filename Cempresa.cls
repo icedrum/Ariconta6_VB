@@ -446,30 +446,30 @@ End Function
 
 
 Private Sub FijaLongitudMaxima()
-Dim I As Byte
+Dim i As Byte
         Select Case mvarnumnivel
         Case 1
-                I = mvarnumdigi1
+                i = mvarnumdigi1
         Case 2
-                I = mvarnumdigi2
+                i = mvarnumdigi2
         Case 3
-                I = mvarnumdigi3
+                i = mvarnumdigi3
         Case 4
-                I = mvarnumdigi4
+                i = mvarnumdigi4
         Case 5
-                I = mvarnumdigi5
+                i = mvarnumdigi5
         Case 6
-                I = mvarnumdigi6
+                i = mvarnumdigi6
         Case 7
-                I = mvarnumdigi7
+                i = mvarnumdigi7
         Case 8
-                I = mvarnumdigi8
+                i = mvarnumdigi8
         Case 9
-                I = mvarnumdigi9
+                i = mvarnumdigi9
         Case 10
-                I = mvarnumdigi10
+                i = mvarnumdigi10
         End Select
-        mvarDigitosUltimoNivel = I
+        mvarDigitosUltimoNivel = i
 End Sub
 
 
@@ -516,4 +516,17 @@ ELeerGranEmpresa:
     If Err.Number <> 0 Then Err.Clear
     Set Rs = Nothing
     
+End Sub
+
+Public Sub SoloTesoreria()
+
+On Error GoTo eSoloTesoreria
+
+    mvarTieneTesoreria = True
+    mvarTieneContabilidad = False
+
+eSoloTesoreria:
+    If Err.Number <> 0 Then Err.Clear
+    Set Rs = Nothing
+
 End Sub

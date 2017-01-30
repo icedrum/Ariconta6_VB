@@ -93,7 +93,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
-Dim cad As String
+Dim Cad As String
 
 
     Set tree.Icons = frmShortBar.wndShortcutBar.Icons
@@ -116,7 +116,7 @@ Private Sub BuscaEmpresas()
 Dim Prohibidas As String
 Dim Rs As ADODB.Recordset
 Dim Rs2 As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
 Dim Sql As String
 
 Dim N
@@ -131,9 +131,9 @@ Set Rs = New ADODB.Recordset
 Rs.Open "Select * from usuarios.empresasariconta where conta like 'ariconta%' ORDER BY Codempre", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
 
 While Not Rs.EOF
-    cad = "|" & Rs!codempre & "|"
-    If InStr(1, Prohibidas, cad) = 0 Then
-        cad = Rs!nomempre
+    Cad = "|" & Rs!codempre & "|"
+    If InStr(1, Prohibidas, Cad) = 0 Then
+        Cad = Rs!nomempre
         Set N = tree.Nodes.Add(, , CStr("N" & Rs!codempre), Rs!nomempre)
         
         
@@ -150,7 +150,7 @@ While Not Rs.EOF
         'Set Rs2 = Nothing
         
             
-        cad = Rs!CONTA & "|" & Rs!nomresum '& "|" & Rs!Usuario & "|" & Rs!Pass & "|"
+        Cad = Rs!CONTA & "|" & Rs!nomresum '& "|" & Rs!Usuario & "|" & Rs!Pass & "|"
         
         If Rs!codempre = vEmpresa.codempre Then
             N.Bold = True
@@ -182,21 +182,21 @@ End Sub
 
 Private Function DevuelveProhibidas() As String
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
 Dim i As Integer
     On Error GoTo EDevuelveProhibidas
     DevuelveProhibidas = ""
     Set Rs = New ADODB.Recordset
     i = vUsu.Codigo Mod 1000
     Rs.Open "Select * from usuarios.usuarioempresasariconta WHERE codusu =" & i, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    cad = ""
+    Cad = ""
     While Not Rs.EOF
-        cad = cad & Rs.Fields(1) & "|"
+        Cad = Cad & Rs.Fields(1) & "|"
         Rs.MoveNext
     Wend
-    If cad <> "" Then cad = "|" & cad
+    If Cad <> "" Then Cad = "|" & Cad
     Rs.Close
-    DevuelveProhibidas = cad
+    DevuelveProhibidas = Cad
 EDevuelveProhibidas:
     Err.Clear
     Set Rs = Nothing
@@ -229,6 +229,7 @@ End Sub
 Private Sub Form_Resize()
     ItemCaption.Width = Me.ScaleWidth
     MainCaption.Left = Me.ScaleWidth - MainCaption.Width
+    If Me.Height - tree.top > 100 Then Me.tree.Height = Me.Height - tree.top
 End Sub
 
 
@@ -267,13 +268,13 @@ End Sub
 
 
 Private Sub tree_NodeClick(ByVal Node As XtremeSuiteControls.TreeViewNode)
-Dim cad  As String
+Dim Cad  As String
    
     
     If Val(Mid(Node.Key, 2)) = vEmpresa.codempre Then Exit Sub
     
-    cad = "Desea cambiar a la empresa: " & Node.Text & "?"
-    If MsgBox(cad, vbQuestion + vbYesNo) = vbYes Then
+    Cad = "Desea cambiar a la empresa: " & Node.Text & "?"
+    If MsgBox(Cad, vbQuestion + vbYesNo) = vbYes Then
         'Volver a poner el nodo seleccionado el que esta
         Screen.MousePointer = vbHourglass
         frmppal.CambiarEmpresa CInt(Mid(Node.Key, 2))

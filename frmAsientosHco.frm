@@ -2807,14 +2807,14 @@ Private Sub frmCC_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
-Dim RC As Byte
+Dim Rc As Byte
     'Concepto
     txtAux(7).Text = RecuperaValor(CadenaSeleccion, 1)
     Text3(4).Text = RecuperaValor(CadenaSeleccion, 2)
     txtAux(8).Text = RecuperaValor(CadenaSeleccion, 2) & " "
     'Habilitamos importes
-    RC = CByte(Val(RecuperaValor(CadenaSeleccion, 3)))
-    HabilitarImportes RC
+    Rc = CByte(Val(RecuperaValor(CadenaSeleccion, 3)))
+    HabilitarImportes Rc
 End Sub
 
 
@@ -3402,7 +3402,7 @@ End Sub
 Private Sub Text1_LostFocus(Index As Integer)
 Dim cadMen As String
 Dim Nuevo As Boolean
-Dim RC As Byte
+Dim Rc As Byte
 
     If Not PerderFocoGnral(Text1(Index), Modo) Then Exit Sub
 
@@ -3421,14 +3421,14 @@ Dim RC As Byte
                 MsgBox "Fecha incorrecta. (dd/mm/yyyy)", vbExclamation
                 Sql = "mal"
             Else
-                RC = FechaCorrecta2(CDate(Text1(1).Text))
+                Rc = FechaCorrecta2(CDate(Text1(1).Text))
                 Sql = ""
-                If RC > 1 Then
-                    If RC = 2 Then
+                If Rc > 1 Then
+                    If Rc = 2 Then
                         Sql = varTxtFec
                     
                     Else
-                        If RC = 3 Then
+                        If Rc = 3 Then
                             Sql = "El ejercicio al que pertenece la fecha: " & Text1(Index).Text & " está cerrado."
                         Else
                             Sql = "Ejercicio para: " & Text1(Index).Text & " todavía no activo"
@@ -3834,12 +3834,17 @@ Dim i As Integer
                         PonFoco txtAux(5)
                     End If
             End Select
-
+            '[Monica]16/01/2017: añadido
+            HabilitarImportes 0
     End Select
 End Sub
 
 
 Private Sub BotonModificarLinea(Index As Integer)
+Dim Rc As String
+Dim Sql As String
+
+
     Dim anc As Single
     Dim i As Integer
     Dim J As Integer
@@ -3895,7 +3900,25 @@ Private Sub BotonModificarLinea(Index As Integer)
             CtaAnt = txtAux(4).Text
             DebeAnt = txtAux(9).Text
             HaberAnt = txtAux(10).Text
+            
     End Select
+
+    '[Monica]16/01/2017: añadido
+    If txtAux(7).Text <> "" Then
+        Rc = "tipoconce"
+        Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", txtAux(7).Text, "N", Rc)
+        If Sql = "" And Rc = "tipoconce" Then
+            MsgBox "Concepto NO encontrado: " & txtAux(7).Text, vbExclamation
+            txtAux(7).Text = ""
+            Rc = "0"
+        End If
+        HabilitarImportes CByte(Val(Rc))
+    Else
+        HabilitarImportes 0
+    End If
+
+
+
 
     LLamaLineas Index, ModoLineas, anc
     
@@ -4498,7 +4521,7 @@ Private Sub txtaux_KeyUp(Index As Integer, KeyCode As Integer, Shift As Integer)
 End Sub
 
 Private Sub txtAux_LostFocus(Index As Integer)
-    Dim RC As String
+    Dim Rc As String
     Dim Importe As Currency
         
         If Not PerderFocoGnral(txtAux(Index), Modo) Then Exit Sub
@@ -4515,24 +4538,25 @@ Private Sub txtAux_LostFocus(Index As Integer)
                 txtAux(1).Text = ""
             Case 6
                 Text3(5).Text = ""
-            Case 9
-                HabilitarImportes 0
+'[Monica]16/01/2017: quitado
+'            Case 9
+'                HabilitarImportes 0
             End Select
             Exit Sub
         End If
         
         Select Case Index
         Case 4
-            RC = txtAux(4).Text
-            If CuentaCorrectaUltimoNivel(RC, Sql) Then
-                txtAux(4).Text = RC
+            Rc = txtAux(4).Text
+            If CuentaCorrectaUltimoNivel(Rc, Sql) Then
+                txtAux(4).Text = Rc
                 If Modo = 1 Then Exit Sub
-                If EstaLaCuentaBloqueada(RC, CDate(Text1(1).Text)) Then
-                    MsgBox "Cuenta bloqueada: " & RC, vbExclamation
+                If EstaLaCuentaBloqueada(Rc, CDate(Text1(1).Text)) Then
+                    MsgBox "Cuenta bloqueada: " & Rc, vbExclamation
                     txtAux(4).Text = ""
                 Else
                     txtAux2(4).Text = Sql
-                    RC = ""
+                    Rc = ""
                 End If
             Else
                 If InStr(1, Sql, "No existe la cuenta :") > 0 Then
@@ -4540,14 +4564,14 @@ Private Sub txtAux_LostFocus(Index As Integer)
                         'NO EXISTE LA CUENTA
                         Sql = Sql & " ¿Desea crearla?"
                         If MsgBox(Sql, vbQuestion + vbYesNoCancel + vbDefaultButton2) = vbYes Then
-                            CadenaDesdeOtroForm = RC
+                            CadenaDesdeOtroForm = Rc
                             cmdAux(0).Tag = Index
                             Set frmC = New frmColCtas
                             frmC.DatosADevolverBusqueda = "0|1|"
                             frmC.ConfigurarBalances = 4   ' .- Nueva opcion de insertar cuenta
                             frmC.Show vbModal
                             Set frmC = Nothing
-                            If txtAux(4).Text = RC Then Sql = "" 'Para k no los borre
+                            If txtAux(4).Text = Rc Then Sql = "" 'Para k no los borre
                         End If
                     Else
                         MsgBox Sql, vbExclamation
@@ -4559,11 +4583,11 @@ Private Sub txtAux_LostFocus(Index As Integer)
                 If Sql <> "" Then
                   txtAux(4).Text = ""
                   txtAux2(4).Text = ""
-                  RC = "NO"
+                  Rc = "NO"
                 End If
             End If
             HabilitarCentroCoste
-            If RC <> "" Then PonFoco txtAux(4)
+            If Rc <> "" Then PonFoco txtAux(4)
                 
             If Modo = 5 And ModoLineas = 1 Then MostrarObservaciones txtAux(Index)
             
@@ -4571,9 +4595,9 @@ Private Sub txtAux_LostFocus(Index As Integer)
         
             'Contrapartida
         
-            RC = txtAux(6).Text
-            If CuentaCorrectaUltimoNivel(RC, Sql) Then
-                txtAux(6).Text = RC
+            Rc = txtAux(6).Text
+            If CuentaCorrectaUltimoNivel(Rc, Sql) Then
+                txtAux(6).Text = Rc
                 Text3(5).Text = Sql
             Else
             
@@ -4581,14 +4605,14 @@ Private Sub txtAux_LostFocus(Index As Integer)
                     'NO EXISTE LA CUENTA
                     Sql = Sql & " ¿Desea crearla?"
                     If MsgBox(Sql, vbQuestion + vbYesNoCancel) = vbYes Then
-                        CadenaDesdeOtroForm = RC
+                        CadenaDesdeOtroForm = Rc
                         cmdAux(0).Tag = Index
                         Set frmC = New frmColCtas
                         frmC.DatosADevolverBusqueda = "0|1|"
                         frmC.ConfigurarBalances = 4   ' .- Nueva opcion de insertar cuenta
                         frmC.Show vbModal
                         Set frmC = Nothing
-                        If txtAux(6).Text = RC Then Sql = "" 'Para k no los borre
+                        If txtAux(6).Text = Rc Then Sql = "" 'Para k no los borre
                     End If
                 Else
                     MsgBox Sql, vbExclamation
@@ -4630,19 +4654,19 @@ Private Sub txtAux_LostFocus(Index As Integer)
                     If InStr(1, txtAux(8).Text, Text3(4).Text) > 0 Then CadenaAmpliacion = Trim(Mid(txtAux(8).Text, Len(Text3(4).Text) + 1))
                 End If
                 
-                RC = "tipoconce"
-                Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", txtAux(7).Text, "N", RC)
-                If Sql = "" And RC = "tipoconce" Then
+                Rc = "tipoconce"
+                Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", txtAux(7).Text, "N", Rc)
+                If Sql = "" And Rc = "tipoconce" Then
                     MsgBox "Concepto NO encontrado: " & txtAux(7).Text, vbExclamation
                     txtAux(7).Text = ""
-                    RC = "0"
+                    Rc = "0"
                 End If
-                HabilitarImportes CByte(Val(RC))
+                HabilitarImportes CByte(Val(Rc))
                 Text3(4).Text = Sql
                 txtAux(8).Text = Sql
                 If txtAux(8).Text <> "" Then txtAux(8).Text = txtAux(8).Text & " "
                 txtAux(8).Text = txtAux(8).Text & CadenaAmpliacion
-                If RC = "0" Then PonFoco txtAux(7)
+                If Rc = "0" Then PonFoco txtAux(7)
                 
         Case 9, 10
                 'LOS IMPORTES

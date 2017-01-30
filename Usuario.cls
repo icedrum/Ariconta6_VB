@@ -43,6 +43,9 @@ Private mvarFormulariosConPermisosEspeciales As String
 
 Private mvarTabPorDefecto As Integer   'Guadara el TAB que tiene seleccionado por defecto
 
+Private mvarSoloTesoreria As Byte
+
+
 
 Private Rs As ADODB.Recordset
 Private Sql As String
@@ -311,6 +314,21 @@ Public Property Get TabPorDefecto() As Integer
     TabPorDefecto = mvarTabPorDefecto
 End Property
 
+Public Property Let SoloTesoreria(ByVal vData As Byte)
+'se usa cuando se asigna un valor a una propiedad, en el lado izquierdo de la asignación.
+'Syntax: X.Nombre= 5
+    mvarSoloTesoreria = vData
+End Property
+
+
+Public Property Get SoloTesoreria() As Byte
+'se usa cuando se asigna un valor a una propiedad, en el lado derecho de la asignación.
+'Syntax: Debug.Print X.Nombre
+    SoloTesoreria = mvarSoloTesoreria
+End Property
+
+
+
 
 Public Function Leer(ByVal vlogin As String) As Byte
 Attribute Leer.VB_Description = "Lee un grupo de formas de cobro en función del código que se le ha pasado. Si devuelve 0 se ha conseguido leer el dato."
@@ -334,7 +352,7 @@ Dim i As Long
         mvarId = Val(DBLet(Rs!codusu))
         mvarSkin = DBLet(Rs!Skin)
         
-              
+        mvarSoloTesoreria = DBLet(Rs!SoloTesoreria, "N")
         
         'Pondra la tb ppal
         LeerTabPorDefecto
@@ -543,6 +561,12 @@ End Sub
 
 Public Sub ActualizarSkin()
     Sql = "UPDATE usuarios.usuarios SET skin=" & mvarSkin & " WHERE codusu = " & vUsu.Id
+    
+    EjecutarSQL Sql
+End Sub
+
+Public Sub ActualizarSoloTesoreria()
+    Sql = "UPDATE usuarios.usuarios SET solotesoreria=" & mvarSoloTesoreria & " WHERE codusu = " & vUsu.Id
     
     EjecutarSQL Sql
 End Sub

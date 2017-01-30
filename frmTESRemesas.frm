@@ -24,6 +24,179 @@ Begin VB.Form frmTESRemesas
       _ExtentY        =   847
       _Version        =   393216
    End
+   Begin VB.Frame Frame1 
+      BorderStyle     =   0  'None
+      Height          =   9015
+      Left            =   30
+      TabIndex        =   20
+      Top             =   30
+      Visible         =   0   'False
+      Width           =   15915
+      Begin VB.Frame FrameBotonGnral2 
+         Height          =   705
+         Left            =   4020
+         TabIndex        =   28
+         Top             =   180
+         Width           =   2355
+         Begin MSComctlLib.Toolbar Toolbar2 
+            Height          =   330
+            Left            =   210
+            TabIndex        =   29
+            Top             =   210
+            Width           =   1935
+            _ExtentX        =   3413
+            _ExtentY        =   582
+            ButtonWidth     =   609
+            ButtonHeight    =   582
+            AllowCustomize  =   0   'False
+            Style           =   1
+            _Version        =   393216
+            BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+               NumButtons      =   4
+               BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Grabación Fichero"
+               EndProperty
+               BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Abono Remesa"
+               EndProperty
+               BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Devolución"
+               EndProperty
+               BeginProperty Button4 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Eliminar remesa y Vencimientos"
+               EndProperty
+            EndProperty
+         End
+      End
+      Begin VB.Frame Frame2 
+         Height          =   705
+         Left            =   240
+         TabIndex        =   21
+         Top             =   180
+         Width           =   3585
+         Begin MSComctlLib.Toolbar Toolbar1 
+            Height          =   330
+            Left            =   180
+            TabIndex        =   1
+            Top             =   210
+            Width           =   3135
+            _ExtentX        =   5530
+            _ExtentY        =   582
+            ButtonWidth     =   609
+            ButtonHeight    =   582
+            AllowCustomize  =   0   'False
+            Style           =   1
+            _Version        =   393216
+            BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+               NumButtons      =   10
+               BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Nuevo"
+                  Object.Tag             =   "2"
+               EndProperty
+               BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Modificar"
+                  Object.Tag             =   "2"
+               EndProperty
+               BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Eliminar"
+                  Object.Tag             =   "2"
+                  Object.Width           =   1e-4
+               EndProperty
+               BeginProperty Button4 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Style           =   3
+               EndProperty
+               BeginProperty Button5 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Buscar"
+               EndProperty
+               BeginProperty Button6 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Ver Todos"
+                  Object.Tag             =   "0"
+               EndProperty
+               BeginProperty Button7 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Style           =   3
+               EndProperty
+               BeginProperty Button8 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Imprimir"
+               EndProperty
+               BeginProperty Button9 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Enabled         =   0   'False
+                  Object.Visible         =   0   'False
+                  Object.ToolTipText     =   "Salir"
+               EndProperty
+               BeginProperty Button10 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Enabled         =   0   'False
+                  Object.Visible         =   0   'False
+                  Style           =   3
+               EndProperty
+            EndProperty
+         End
+      End
+      Begin MSComctlLib.ListView lw1 
+         Height          =   7305
+         Left            =   240
+         TabIndex        =   22
+         Top             =   990
+         Width           =   15525
+         _ExtentX        =   27384
+         _ExtentY        =   12885
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483643
+         BorderStyle     =   1
+         Appearance      =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         NumItems        =   0
+      End
+      Begin MSComctlLib.Toolbar ToolbarAyuda 
+         Height          =   390
+         Left            =   15270
+         TabIndex        =   23
+         Top             =   210
+         Width           =   405
+         _ExtentX        =   714
+         _ExtentY        =   688
+         ButtonWidth     =   609
+         ButtonHeight    =   582
+         _Version        =   393216
+         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+            NumButtons      =   1
+            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Ayuda"
+            EndProperty
+         EndProperty
+      End
+      Begin VB.CommandButton cmdCancelar 
+         Caption         =   "&Cancelar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   1
+         Left            =   14670
+         TabIndex        =   0
+         Top             =   7860
+         Width           =   975
+      End
+   End
    Begin VB.Frame FrameCreacionRemesa 
       BorderStyle     =   0  'None
       Height          =   9045
@@ -256,203 +429,6 @@ Begin VB.Form frmTESRemesas
             Strikethrough   =   0   'False
          EndProperty
          _Version        =   393216
-      End
-      Begin VB.Frame FrameModRem 
-         Caption         =   "Datos Remesa"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   11.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   3735
-         Left            =   120
-         TabIndex        =   62
-         Top             =   60
-         Width           =   15645
-         Begin VB.TextBox txtFecha 
-            Alignment       =   2  'Center
-            BeginProperty Font 
-               Name            =   "Verdana"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   360
-            Index           =   5
-            Left            =   5370
-            TabIndex        =   64
-            Tag             =   "Fecha Reclamación|F|N|||reclama|fecreclama|dd/mm/yyyy||"
-            Text            =   "99/99/9999"
-            Top             =   2130
-            Width           =   1245
-         End
-         Begin VB.TextBox Text2 
-            BeginProperty Font 
-               Name            =   "Verdana"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   360
-            Left            =   6690
-            MaxLength       =   50
-            TabIndex        =   65
-            Tag             =   "Descripción|T|N|||remesas|descripción|||"
-            Top             =   2130
-            Width           =   5025
-         End
-         Begin VB.TextBox txtNCuentas 
-            BackColor       =   &H80000018&
-            Enabled         =   0   'False
-            BeginProperty Font 
-               Name            =   "Verdana"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   360
-            Index           =   3
-            Left            =   1740
-            TabIndex        =   66
-            Text            =   "Text2"
-            Top             =   2130
-            Width           =   3525
-         End
-         Begin VB.TextBox txtCuentas 
-            BeginProperty Font 
-               Name            =   "Verdana"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   360
-            Index           =   3
-            Left            =   360
-            TabIndex        =   63
-            Text            =   "Text2"
-            Top             =   2130
-            Width           =   1335
-         End
-         Begin VB.Label Label3 
-            Caption         =   "Remesa"
-            BeginProperty Font 
-               Name            =   "Verdana"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   -1  'True
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00800000&
-            Height          =   375
-            Index           =   12
-            Left            =   360
-            TabIndex        =   71
-            Top             =   750
-            Width           =   8940
-         End
-         Begin VB.Label lblFecha1 
-            BeginProperty Font 
-               Name            =   "Verdana"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   255
-            Index           =   0
-            Left            =   2580
-            TabIndex        =   70
-            Top             =   3990
-            Width           =   4095
-         End
-         Begin VB.Label Label1 
-            Caption         =   "Fecha"
-            BeginProperty Font 
-               Name            =   "Verdana"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   225
-            Index           =   4
-            Left            =   5370
-            TabIndex        =   69
-            Top             =   1860
-            Width           =   795
-         End
-         Begin VB.Image imgFec 
-            Height          =   240
-            Index           =   5
-            Left            =   6330
-            Top             =   1860
-            Width           =   240
-         End
-         Begin VB.Label Label1 
-            Caption         =   "Descripción"
-            BeginProperty Font 
-               Name            =   "Verdana"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   255
-            Index           =   3
-            Left            =   6690
-            TabIndex        =   68
-            Top             =   1860
-            Width           =   1245
-         End
-         Begin VB.Image imgCuentas 
-            Height          =   240
-            Index           =   3
-            Left            =   1320
-            Top             =   1860
-            Width           =   240
-         End
-         Begin VB.Label Label1 
-            Caption         =   "Banco"
-            BeginProperty Font 
-               Name            =   "Verdana"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Index           =   2
-            Left            =   360
-            TabIndex        =   67
-            Top             =   1860
-            Width           =   1845
-         End
       End
       Begin VB.Frame FrameCreaRem 
          Caption         =   "Selección"
@@ -711,7 +687,7 @@ Begin VB.Form frmTESRemesas
             EndProperty
             Height          =   360
             Index           =   0
-            Left            =   6150
+            Left            =   6210
             TabIndex        =   12
             Tag             =   "imgConcepto"
             Top             =   1950
@@ -730,7 +706,7 @@ Begin VB.Form frmTESRemesas
             EndProperty
             Height          =   360
             Index           =   1
-            Left            =   6150
+            Left            =   6210
             TabIndex        =   13
             Tag             =   "imgConcepto"
             Top             =   2370
@@ -787,11 +763,11 @@ Begin VB.Form frmTESRemesas
             EndProperty
             Height          =   360
             Index           =   0
-            Left            =   7470
+            Left            =   7530
             Locked          =   -1  'True
             TabIndex        =   32
             Top             =   1950
-            Width           =   4185
+            Width           =   4125
          End
          Begin VB.TextBox txtNCuentas 
             BackColor       =   &H80000018&
@@ -806,11 +782,11 @@ Begin VB.Form frmTESRemesas
             EndProperty
             Height          =   360
             Index           =   1
-            Left            =   7470
+            Left            =   7530
             Locked          =   -1  'True
             TabIndex        =   31
             Top             =   2370
-            Width           =   4185
+            Width           =   4125
          End
          Begin VB.TextBox txtFecha 
             Alignment       =   1  'Right Justify
@@ -906,13 +882,13 @@ Begin VB.Form frmTESRemesas
             Left            =   240
             TabIndex        =   59
             Top             =   2880
-            Width           =   1845
+            Width           =   825
          End
          Begin VB.Image imgCuentas 
             Height          =   240
             Index           =   2
-            Left            =   2220
-            Top             =   2880
+            Left            =   1320
+            Top             =   2850
             Width           =   240
          End
          Begin VB.Label Label1 
@@ -1362,6 +1338,203 @@ Begin VB.Form frmTESRemesas
             Width           =   690
          End
       End
+      Begin VB.Frame FrameModRem 
+         Caption         =   "Datos Remesa"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   11.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   3735
+         Left            =   120
+         TabIndex        =   62
+         Top             =   60
+         Width           =   15645
+         Begin VB.TextBox txtFecha 
+            Alignment       =   2  'Center
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   360
+            Index           =   5
+            Left            =   5370
+            TabIndex        =   64
+            Tag             =   "Fecha Reclamación|F|N|||reclama|fecreclama|dd/mm/yyyy||"
+            Text            =   "99/99/9999"
+            Top             =   2130
+            Width           =   1245
+         End
+         Begin VB.TextBox Text2 
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   360
+            Left            =   6690
+            MaxLength       =   50
+            TabIndex        =   65
+            Tag             =   "Descripción|T|N|||remesas|descripción|||"
+            Top             =   2130
+            Width           =   5025
+         End
+         Begin VB.TextBox txtNCuentas 
+            BackColor       =   &H80000018&
+            Enabled         =   0   'False
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   360
+            Index           =   3
+            Left            =   1740
+            TabIndex        =   66
+            Text            =   "Text2"
+            Top             =   2130
+            Width           =   3525
+         End
+         Begin VB.TextBox txtCuentas 
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   360
+            Index           =   3
+            Left            =   360
+            TabIndex        =   63
+            Text            =   "Text2"
+            Top             =   2130
+            Width           =   1335
+         End
+         Begin VB.Label Label3 
+            Caption         =   "Remesa"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   -1  'True
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00800000&
+            Height          =   375
+            Index           =   12
+            Left            =   360
+            TabIndex        =   71
+            Top             =   750
+            Width           =   8940
+         End
+         Begin VB.Label lblFecha1 
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Index           =   0
+            Left            =   2580
+            TabIndex        =   70
+            Top             =   3990
+            Width           =   4095
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Fecha"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   225
+            Index           =   4
+            Left            =   5370
+            TabIndex        =   69
+            Top             =   1860
+            Width           =   795
+         End
+         Begin VB.Image imgFec 
+            Height          =   240
+            Index           =   5
+            Left            =   6330
+            Top             =   1860
+            Width           =   240
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Descripción"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Index           =   3
+            Left            =   6690
+            TabIndex        =   68
+            Top             =   1860
+            Width           =   1245
+         End
+         Begin VB.Image imgCuentas 
+            Height          =   240
+            Index           =   3
+            Left            =   1320
+            Top             =   1860
+            Width           =   240
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Banco"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   195
+            Index           =   2
+            Left            =   360
+            TabIndex        =   67
+            Top             =   1860
+            Width           =   1845
+         End
+      End
       Begin VB.Label Label2 
          Alignment       =   2  'Center
          Caption         =   "Label2"
@@ -1399,179 +1572,6 @@ Begin VB.Form frmTESRemesas
          TabIndex        =   61
          Top             =   3900
          Width           =   1575
-      End
-   End
-   Begin VB.Frame Frame1 
-      BorderStyle     =   0  'None
-      Height          =   9015
-      Left            =   30
-      TabIndex        =   20
-      Top             =   30
-      Visible         =   0   'False
-      Width           =   15915
-      Begin VB.Frame FrameBotonGnral2 
-         Height          =   705
-         Left            =   4020
-         TabIndex        =   28
-         Top             =   180
-         Width           =   2355
-         Begin MSComctlLib.Toolbar Toolbar2 
-            Height          =   330
-            Left            =   210
-            TabIndex        =   29
-            Top             =   240
-            Width           =   1935
-            _ExtentX        =   3413
-            _ExtentY        =   582
-            ButtonWidth     =   609
-            ButtonHeight    =   582
-            AllowCustomize  =   0   'False
-            Style           =   1
-            _Version        =   393216
-            BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-               NumButtons      =   4
-               BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Grabación Fichero"
-               EndProperty
-               BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Abono Remesa"
-               EndProperty
-               BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Devolución"
-               EndProperty
-               BeginProperty Button4 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Eliminar remesa y Vencimientos"
-               EndProperty
-            EndProperty
-         End
-      End
-      Begin VB.Frame Frame2 
-         Height          =   705
-         Left            =   240
-         TabIndex        =   21
-         Top             =   180
-         Width           =   3585
-         Begin MSComctlLib.Toolbar Toolbar1 
-            Height          =   330
-            Left            =   180
-            TabIndex        =   1
-            Top             =   240
-            Width           =   3135
-            _ExtentX        =   5530
-            _ExtentY        =   582
-            ButtonWidth     =   609
-            ButtonHeight    =   582
-            AllowCustomize  =   0   'False
-            Style           =   1
-            _Version        =   393216
-            BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-               NumButtons      =   10
-               BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Nuevo"
-                  Object.Tag             =   "2"
-               EndProperty
-               BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Modificar"
-                  Object.Tag             =   "2"
-               EndProperty
-               BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Eliminar"
-                  Object.Tag             =   "2"
-                  Object.Width           =   1e-4
-               EndProperty
-               BeginProperty Button4 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Style           =   3
-               EndProperty
-               BeginProperty Button5 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Buscar"
-               EndProperty
-               BeginProperty Button6 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Ver Todos"
-                  Object.Tag             =   "0"
-               EndProperty
-               BeginProperty Button7 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Style           =   3
-               EndProperty
-               BeginProperty Button8 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Imprimir"
-               EndProperty
-               BeginProperty Button9 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Enabled         =   0   'False
-                  Object.Visible         =   0   'False
-                  Object.ToolTipText     =   "Salir"
-               EndProperty
-               BeginProperty Button10 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Enabled         =   0   'False
-                  Object.Visible         =   0   'False
-                  Style           =   3
-               EndProperty
-            EndProperty
-         End
-      End
-      Begin MSComctlLib.ListView lw1 
-         Height          =   7305
-         Left            =   240
-         TabIndex        =   22
-         Top             =   990
-         Width           =   15525
-         _ExtentX        =   27384
-         _ExtentY        =   12885
-         View            =   3
-         LabelEdit       =   1
-         LabelWrap       =   -1  'True
-         HideSelection   =   -1  'True
-         FullRowSelect   =   -1  'True
-         _Version        =   393217
-         ForeColor       =   -2147483640
-         BackColor       =   -2147483643
-         BorderStyle     =   1
-         Appearance      =   1
-         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         NumItems        =   0
-      End
-      Begin MSComctlLib.Toolbar ToolbarAyuda 
-         Height          =   390
-         Left            =   15270
-         TabIndex        =   23
-         Top             =   210
-         Width           =   405
-         _ExtentX        =   714
-         _ExtentY        =   688
-         ButtonWidth     =   609
-         ButtonHeight    =   582
-         _Version        =   393216
-         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-            NumButtons      =   1
-            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Object.ToolTipText     =   "Ayuda"
-            EndProperty
-         EndProperty
-      End
-      Begin VB.CommandButton cmdCancelar 
-         Caption         =   "&Cancelar"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Index           =   1
-         Left            =   14670
-         TabIndex        =   0
-         Top             =   7860
-         Width           =   975
       End
    End
 End
@@ -2915,7 +2915,7 @@ Dim Cad As String
         Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2)
         
         Toolbar1.Buttons(5).Enabled = False 'DBLet(RS!Ver, "N") And (Modo = 0 Or Modo = 2) And DesdeNorma43 = 0
-        Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N")
+        Toolbar1.Buttons(6).Enabled = False 'DBLet(Rs!Ver, "N")
         
         Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N")
     
@@ -2935,6 +2935,7 @@ Private Sub CargaList()
 Dim IT
 
     lw1.ListItems.Clear
+    
     Set Me.lw1.SmallIcons = frmppal.ImgListviews
     Set miRsAux = New ADODB.Recordset
     

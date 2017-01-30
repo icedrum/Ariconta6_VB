@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
-Object = "{FE0065C0-1B7B-11CF-9D53-00AA003C9CB6}#1.1#0"; "COMCT232.OCX"
+Object = "{FE0065C0-1B7B-11CF-9D53-00AA003C9CB6}#1.1#0"; "comct232.ocx"
 Begin VB.Form frmActualizar 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Actualizar diario"
@@ -538,7 +538,7 @@ Dim Importe0 As Boolean
 Dim PrimeraContrapartida As String
     
     Dim SqlIva As String
-    Dim RsIvas As ADODB.Recordset
+    Dim RsIvas As Adodb.Recordset
 
     IntegraLaFactura = False
     'Sabemos que
@@ -550,7 +550,7 @@ Dim PrimeraContrapartida As String
     
     'Obtenemos los datos de la factura
     A_Donde = "Leyendo datos factura"
-    Set RF = New ADODB.Recordset
+    Set RF = New Adodb.Recordset
     Sql = "SELECT * FROM factcli"
     Sql = Sql & " WHERE numserie='" & NUmSerie
     Sql = Sql & "' AND numfactu= " & NumFac
@@ -670,17 +670,17 @@ Dim PrimeraContrapartida As String
     SqlIva = SqlIva & " AND anofactu=" & NumDiari
     SqlIva = SqlIva & " order by numlinea "
     
-    Set RsIvas = New ADODB.Recordset
+    Set RsIvas = New Adodb.Recordset
     RsIvas.Open SqlIva, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not RsIvas.EOF
         Cad3 = "cuentarr"
-        Cad2 = DevuelveDesdeBD("cuentare", "tiposiva", "codigiva", RsIvas!codigiva, "N", Cad3)
+        Cad2 = DevuelveDesdeBD("cuentare", "tiposiva", "codigiva", DBLet(RsIvas!codigiva, "N"), "N", Cad3)
         If Cad2 <> "" Then
         
             Sql = Mes & ",'" & Cad2 & "'," & DocConcAmp
-            Cad2 = CadenaImporte(False, RsIvas!Impoiva, Importe0)
+            Cad2 = CadenaImporte(False, DBLet(RsIvas!Impoiva, "N"), Importe0)
             Sql = Sql & "," & Cad2 & ","
-            Sql = Sql & "NULL,'" & RF!codmacta & "','FRACLI',0)"
+            Sql = Sql & "NULL,'" & DBLet(RF!codmacta, "T") & "','FRACLI',0)"
             'dependiendo de si ContabilizarAptIva0 = 1 se contabiliza o no el iva
             If Importe0 Then
                 If vParam.ContabApteIva0 Then
@@ -696,16 +696,16 @@ Dim PrimeraContrapartida As String
             If Not IsNull(RsIvas!ImpoRec) Then
                      Sql = Mes & "," & Cad3 & "," & DocConcAmp
                     'Importes, atencion importes negativos
-                    Cad2 = CadenaImporte(False, RsIvas!ImpoRec, Importe0)
+                    Cad2 = CadenaImporte(False, DBLet(RsIvas!ImpoRec, "N"), Importe0)
                     Sql = Sql & "," & Cad2 & ","
-                    Sql = Sql & "NULL,'" & RF!codmacta & "','FRACLI',0)"
+                    Sql = Sql & "NULL,'" & DBLet(RF!codmacta, "T") & "','FRACLI',0)"
                     If Not Importe0 Then
                         Conn.Execute Cad & Sql
                         Mes = Mes + 1
                     End If
             End If
         Else
-            MsgBox "Error leyendo TIPO de IVA: " & RsIvas!codigiva, vbExclamation
+            MsgBox "Error leyendo TIPO de IVA: " & DBLet(RsIvas!codigiva, "N"), vbExclamation
             RF.Close
             Exit Function
         End If
@@ -718,9 +718,9 @@ Dim PrimeraContrapartida As String
     ' RETENCION
     A_Donde = "Retencion"
     If Not IsNull(RF!cuereten) Then
-        Sql = Mes & ",'" & RF!cuereten & "'," & DocConcAmp
+        Sql = Mes & ",'" & DBLet(RF!cuereten, "T") & "'," & DocConcAmp
         'Importes, atencion importes negativos
-        Cad2 = CadenaImporte(True, RF!trefaccl, Importe0)
+        Cad2 = CadenaImporte(True, DBLet(RF!trefaccl, "T"), Importe0)
         Sql = Sql & "," & Cad2 & ","
         Sql = Sql & "NULL,NULL,'FRACLI',0)"
        
@@ -759,8 +759,8 @@ Dim PrimeraContrapartida As String
     While Not RF.EOF
         'Importes, atencion importes negativos
         If Cad2 = "" Then PrimeraContrapartida = RF!codmacta
-        Sql = Mes & ",'" & RF!codmacta & "'," & DocConcAmp
-        Cad2 = CadenaImporte(False, RF!Baseimpo, Importe0)
+        Sql = Mes & ",'" & DBLet(RF!codmacta, "T") & "'," & DocConcAmp
+        Cad2 = CadenaImporte(False, DBLet(RF!Baseimpo, "N"), Importe0)
         Sql = Sql & "," & Cad2 & ","
         If IsNull(RF!codccost) Then
             Cad2 = "NULL"
@@ -768,7 +768,7 @@ Dim PrimeraContrapartida As String
             Cad2 = "'" & RF!codccost & "'"
         End If
         
-        Sql = Sql & Cad2 & ",'" & Cuenta & "','FRACLI',0)"
+        Sql = Sql & Cad2 & ",'" & DBLet(Cuenta, "T") & "','FRACLI',0)"
     
         Conn.Execute Cad & Sql
         Mes = Mes + 1 'Es el contador de lineaapunteshco
@@ -840,7 +840,7 @@ Dim ColumnaIVA As String
 Dim TipoDIva As Byte
     
     Dim SqlIva As String
-    Dim RsIvas As ADODB.Recordset
+    Dim RsIvas As Adodb.Recordset
 
     IntegraLaFacturaProv = False
     
@@ -852,10 +852,11 @@ Dim TipoDIva As Byte
     
     'Obtenemos los datos de la factura
     A_Donde = "Leyendo datos factura"
-    Set RF = New ADODB.Recordset
+    Set RF = New Adodb.Recordset
     Sql = "SELECT * FROM factpro"
     Sql = Sql & " WHERE numregis = " & NumFac
     Sql = Sql & " AND anofactu=" & NumDiari
+    Sql = Sql & " AND numserie=" & DBSet(NUmSerie, "T")
     RF.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If RF.EOF Then
         MsgBox "No se encuentra la factura: " & vbCrLf & Sql, vbExclamation
@@ -991,7 +992,7 @@ Dim TipoDIva As Byte
     EsImportacion = (DBLet(RF!codopera, "N") = 2)
     EsSujetoPasivo = ((DBLet(RF!codopera, "N") = 1) Or (DBLet(RF!codopera, "N") = 4))
     
-    Set RsIvas = New ADODB.Recordset
+    Set RsIvas = New Adodb.Recordset
     RsIvas.Open SqlIva, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     While Not RsIvas.EOF
@@ -1085,7 +1086,7 @@ Dim TipoDIva As Byte
     If Not IsNull(RF!cuereten) Then
         Sql = Mes & ",'" & RF!cuereten & "'," & DocConcAmp
         'Importes, atencion importes negativos
-        Cad2 = CadenaImporte(False, RF!trefacpr, Importe0)
+        Cad2 = CadenaImporte(False, DBLet(RF!trefacpr, "N"), Importe0)
         Sql = Sql & "," & Cad2 & ","
         Sql = Sql & "NULL,NULL,'FRAPRO',0)"
        
@@ -1179,7 +1180,7 @@ Private Function AsientoExiste() As Boolean
     Sql = Sql & " WHERE numdiari =" & NumDiari
     Sql = Sql & " AND fechaent='" & Fecha & "'"
     Sql = Sql & " AND numasien=" & NumAsiento
-    Set Rs = New ADODB.Recordset
+    Set Rs = New Adodb.Recordset
     Rs.Open Sql, Conn, adOpenKeyset, adLockOptimistic, adCmdText
     If Rs.EOF Then AsientoExiste = False
     Rs.Close
@@ -1370,7 +1371,7 @@ End Function
 
 Private Function DesvincularFactura(Clientes As Boolean) As Boolean
 On Error Resume Next
-    Set Rs = New ADODB.Recordset
+    Set Rs = New Adodb.Recordset
     If Clientes Then
         CCost = "factcli"
     Else
@@ -1390,7 +1391,7 @@ On Error Resume Next
             Sql = Sql & " AND numserie = '" & Rs!NUmSerie & "'"
         Else
             'proveedores
-            Sql = Sql & " WHERE numregis = " & Rs!NumRegis
+            Sql = Sql & " WHERE numregis = " & Rs!Numregis
             Sql = Sql & " AND anofactu =" & Rs!anofactu
         End If
         Conn.Execute Sql
@@ -1425,7 +1426,7 @@ End Sub
 
 
 Private Function DevuelveCentroCosteFactura(Cliente As Boolean, LaPrimeraContrapartida As String) As String
-Dim R As ADODB.Recordset
+Dim R As Adodb.Recordset
 Dim Sql As String
     DevuelveCentroCosteFactura = ""
     If Cliente Then
@@ -1446,7 +1447,7 @@ Dim Sql As String
     End If
     
     
-    Set R = New ADODB.Recordset
+    Set R = New Adodb.Recordset
     R.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not R.EOF Then
         If Not IsNull(R.Fields(0)) Then DevuelveCentroCosteFactura = R.Fields(0)

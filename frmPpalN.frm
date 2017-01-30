@@ -1127,6 +1127,16 @@ Private Sub CargaDatosMenusDemas()
     CreateRibbon
     CreateBackstage
     CreateRibbonOptions
+    
+    If vEmpresa.TieneTesoreria And vUsu.SoloTesoreria = 1 Then
+        vEmpresa.SoloTesoreria
+    Else
+        vEmpresa.Leer vEmpresa.codempre
+    End If
+    'vEmpresa.TieneContabilidad = False
+    '??????
+    '0=solo contabilidad / 1=todo / 2=solo tesoreria
+    
     CargaMenu
     CreateStatusBar
     PonerCaption

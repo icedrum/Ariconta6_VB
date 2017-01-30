@@ -49,7 +49,10 @@ Option Explicit
 '       26.- Compensaciones
 '       27.- Eliminar remesa y vtos
 
-Private Const AccionesRegistradas = 28
+'       28.- Generar Asiento contabilizacion de factura cliente
+'       29.- Generar Asiento contabilizacion de factura proveedor
+
+Private Const AccionesRegistradas = 29
 Private mvarDatosDescripcion As String
 
 Dim Sql As String
@@ -153,6 +156,10 @@ Dim C As String
                 C = "Compensaciones"
             Case 27
                 C = "Eliminar remesa y vtos"
+            Case 28
+                C = "Generar asiento Fra.Cliente"
+            Case 29
+                C = "Generar asiento Fra.Proveedor"
         End Select
         
     End If
@@ -180,7 +187,7 @@ End Function
 
 Public Sub VolcarAFichero2()
 Dim F As Date
-Dim Rs As ADODB.Recordset
+Dim Rs As Adodb.Recordset
 
 
 
@@ -189,7 +196,7 @@ Dim Rs As ADODB.Recordset
 
     
 
-    Set Rs = New ADODB.Recordset
+    Set Rs = New Adodb.Recordset
     F = Now   'Por si acaso esta el reloj mal
     Rs.Open "select curdate()", Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then F = DBLet(Rs.Fields(0), "F")

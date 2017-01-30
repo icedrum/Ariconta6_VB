@@ -458,7 +458,7 @@ Begin VB.Form frmTESCobros
          Height          =   3435
          Left            =   270
          TabIndex        =   125
-         Top             =   1110
+         Top             =   1140
          Visible         =   0   'False
          Width           =   9375
          Begin VB.TextBox Text2 
@@ -2045,9 +2045,9 @@ Begin VB.Form frmTESCobros
          Caption         =   "Frame3"
          Enabled         =   0   'False
          Height          =   1335
-         Left            =   9690
+         Left            =   9660
          TabIndex        =   60
-         Top             =   3330
+         Top             =   3270
          Width           =   5715
          Begin VB.TextBox Text1 
             BeginProperty Font 
@@ -2059,9 +2059,9 @@ Begin VB.Form frmTESCobros
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   360
+            Height          =   370
             Index           =   27
-            Left            =   4140
+            Left            =   4170
             MaxLength       =   10
             TabIndex        =   29
             Tag             =   "Transferencia|N|S|0||cobros|transfer|0000000000||"
@@ -2086,7 +2086,7 @@ Begin VB.Form frmTESCobros
             Style           =   2  'Dropdown List
             TabIndex        =   28
             Top             =   840
-            Width           =   2805
+            Width           =   2835
          End
          Begin VB.ComboBox cboTipoRem 
             BeginProperty Font 
@@ -2106,7 +2106,7 @@ Begin VB.Form frmTESCobros
             TabIndex        =   25
             Tag             =   "Remesa|N|S|0||cobros|tiporem|||"
             Top             =   240
-            Width           =   1485
+            Width           =   1455
          End
          Begin VB.TextBox Text1 
             BeginProperty Font 
@@ -2139,7 +2139,7 @@ Begin VB.Form frmTESCobros
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   360
+            Height          =   370
             Index           =   14
             Left            =   4170
             MaxLength       =   4
@@ -2147,7 +2147,7 @@ Begin VB.Form frmTESCobros
             Tag             =   "Año remesa|N|S|0||cobros|anyorem|||"
             Text            =   "Text"
             Top             =   240
-            Width           =   1395
+            Width           =   1425
          End
          Begin VB.TextBox Text1 
             BeginProperty Font 
@@ -2159,15 +2159,15 @@ Begin VB.Form frmTESCobros
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   360
+            Height          =   370
             Index           =   35
-            Left            =   2850
+            Left            =   2820
             MaxLength       =   30
             TabIndex        =   26
             Tag             =   "Remesa|N|S|0||cobros|codrem|||"
             Text            =   "Text1"
             Top             =   240
-            Width           =   1185
+            Width           =   1275
          End
          Begin VB.TextBox Text1 
             Alignment       =   1  'Right Justify
@@ -2202,7 +2202,7 @@ Begin VB.Form frmTESCobros
             EndProperty
             Height          =   195
             Index           =   19
-            Left            =   4140
+            Left            =   4170
             TabIndex        =   149
             Top             =   600
             Width           =   1380
@@ -2255,7 +2255,7 @@ Begin VB.Form frmTESCobros
             EndProperty
             Height          =   195
             Index           =   16
-            Left            =   4200
+            Left            =   4170
             TabIndex        =   62
             Top             =   0
             Width           =   540
@@ -2273,9 +2273,9 @@ Begin VB.Form frmTESCobros
             EndProperty
             Height          =   195
             Index           =   15
-            Left            =   2880
+            Left            =   2850
             TabIndex        =   61
-            Top             =   30
+            Top             =   0
             Width           =   1170
          End
       End
@@ -3805,8 +3805,8 @@ End Sub
 
 
 Private Sub cmdAceptar_Click()
-    Dim cad As String
-    Dim I As Integer
+    Dim Cad As String
+    Dim i As Integer
     
     Screen.MousePointer = vbHourglass
     On Error GoTo Error1
@@ -3835,10 +3835,10 @@ Private Sub cmdAceptar_Click()
                 If SituarData Then
                 
                     Text1_LostFocus 0
-                    cad = vTipForpa 'para que no pierda el valor
+                    Cad = vTipForpa 'para que no pierda el valor
                     PonerModo 2
-                    vTipForpa = cad
-                    cad = ""
+                    vTipForpa = Cad
+                    Cad = ""
                     PonPendiente
                     '-- Esto permanece para saber donde estamos
                     lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
@@ -4108,8 +4108,8 @@ Dim N As Byte
 End Sub
 
 Private Sub BotonEliminar()
-    Dim cad As String
-    Dim I As Integer
+    Dim Cad As String
+    Dim i As Integer
     Dim Sql As String
     Dim SqlLog As String
     
@@ -4118,15 +4118,15 @@ Private Sub BotonEliminar()
     If Data1.Recordset.EOF Then Exit Sub
     
     'Comprobamos si se puede eliminar
-    I = SePuedeEliminar2
-    If I < 3 Then Exit Sub
+    i = SePuedeEliminar2
+    If i < 3 Then Exit Sub
     '### a mano
-    cad = "Seguro que desea eliminar de la BD el registro actual:"
-    cad = cad & vbCrLf & Data1.Recordset.Fields(0) & "  " & Data1.Recordset.Fields(1) & " "
-    cad = cad & Data1.Recordset.Fields(2) & "  " & Data1.Recordset.Fields(3)
-    I = MsgBox(cad, vbQuestion + vbYesNoCancel + vbDefaultButton2)
+    Cad = "Seguro que desea eliminar de la BD el registro actual:"
+    Cad = Cad & vbCrLf & Data1.Recordset.Fields(0) & "  " & Data1.Recordset.Fields(1) & " "
+    Cad = Cad & Data1.Recordset.Fields(2) & "  " & Data1.Recordset.Fields(3)
+    i = MsgBox(Cad, vbQuestion + vbYesNoCancel + vbDefaultButton2)
     'Borramos
-    If I = vbYes Then
+    If i = vbYes Then
         'Borro el elemento
         Sql = "Delete from cobros  WHERE numserie = '" & Data1.Recordset!NUmSerie & "' AND numfactu = " & Data1.Recordset!NumFactu
         Sql = Sql & " AND fecfactu = " & DBSet(Data1.Recordset!FecFactu, "F") & " AND numorden =" & Data1.Recordset!numorden
@@ -4155,9 +4155,9 @@ Private Sub BotonEliminar()
                 Data1.Recordset.MoveFirst
                 NumRegElim = NumRegElim - 1
                 If NumRegElim > 1 Then
-                    For I = 1 To NumRegElim - 1
+                    For i = 1 To NumRegElim - 1
                         Data1.Recordset.MoveNext
-                    Next I
+                    Next i
                 End If
                 PonerCampos
                 DataGridAux(1).Enabled = True
@@ -4170,7 +4170,7 @@ Error2:
 End Sub
 
 Private Sub cmdRegresar_Click()
-Dim cad As String
+Dim Cad As String
 Dim impo As Currency
     
     If Data1.Recordset.EOF Then
@@ -4202,14 +4202,14 @@ Dim impo As Currency
     
     'Devolvera muuuuchas cosas
     'serie factura fecfac numvto
-    cad = Text1(13).Text & "|" & Format(Text1(1).Text, "0000000") & "|" & Text1(2).Text & "|" & Text1(3).Text & "|"
+    Cad = Text1(13).Text & "|" & Format(Text1(1).Text, "0000000") & "|" & Text1(2).Text & "|" & Text1(3).Text & "|"
     'Codmacta nommacta codforpa   nomforpa   importe
-    cad = cad & Text1(4).Text & "|" & Text2(0).Text & "|" & Text1(0).Text & "|" & Text2(1).Text & "|" & CStr(impo) & "|"
+    Cad = Cad & Text1(4).Text & "|" & Text2(0).Text & "|" & Text1(0).Text & "|" & Text2(1).Text & "|" & CStr(impo) & "|"
     'Lo que lleva cobrado
-    cad = cad & Text1(8).Text & "|"
+    Cad = Cad & Text1(8).Text & "|"
     
     
-    RaiseEvent DatoSeleccionado(cad)
+    RaiseEvent DatoSeleccionado(Cad)
     Unload Me
 End Sub
 
@@ -4237,16 +4237,16 @@ Private Sub Form_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub Form_Load()
-Dim I As Integer
+Dim i As Integer
 
 
     PrimeraVez = True
     
     ' Botonera Principal
     With Me.Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.ImgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 3
         .Buttons(2).Image = 4
         .Buttons(3).Image = 5
@@ -4257,9 +4257,9 @@ Dim I As Integer
 
     ' Botonera Principal 2
     With Me.Toolbar2
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.ImgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 47
         .Buttons(2).Image = 44
         .Buttons(3).Image = 37
@@ -4268,9 +4268,9 @@ Dim I As Integer
 
     ' desplazamiento
     With Me.ToolbarDes
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.ImgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 6
         .Buttons(2).Image = 7
         .Buttons(3).Image = 8
@@ -4280,22 +4280,22 @@ Dim I As Integer
     
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.ImgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
     
     With Me.ToolbarAux
-        .HotImageList = frmPpal.imgListComun_OM16
-        .DisabledImageList = frmPpal.imgListComun_BN16
-        .ImageList = frmPpal.imgListComun16
+        .HotImageList = frmppal.imgListComun_OM16
+        .DisabledImageList = frmppal.imgListComun_BN16
+        .ImageList = frmppal.imgListComun16
         .Buttons(1).Image = 1
         .Buttons(2).Image = 16
     End With
     
     With Me.ToolbarAux1
-        .HotImageList = frmPpal.imgListComun_OM16
-        .DisabledImageList = frmPpal.imgListComun_BN16
-        .ImageList = frmPpal.imgListComun16
+        .HotImageList = frmppal.imgListComun_OM16
+        .DisabledImageList = frmppal.imgListComun_BN16
+        .ImageList = frmppal.imgListComun16
         .Buttons(1).Image = 4
     End With
     
@@ -4308,20 +4308,20 @@ Dim I As Integer
     CargarCombo
     
     'Cargo los iconos
-    For I = 0 To imgCuentas.Count - 1
-        imgCuentas(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To imgCuentas.Count - 1
+        imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
     
-    For I = 0 To imgppal.Count - 1
-        imgppal(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To imgppal.Count - 1
+        imgppal(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
     
-    imgSerie.Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    imgDepart.Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    imgAgente.Picture = frmPpal.imgIcoForms.ListImages(1).Picture
+    imgSerie.Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    imgDepart.Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    imgAgente.Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
     Me.SSTab1.Tab = 0
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
     LimpiarCampos
     Me.SSTab2.TabEnabled(2) = vParamT.TieneOperacionesAseguradas
     
@@ -4384,7 +4384,7 @@ Private Sub frmA_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmB_Selecionado(CadenaDevuelta As String)
-Dim cad As String
+Dim Cad As String
 
     If CadenaDevuelta <> "" Then
         If DevfrmCCtas <> "" Then
@@ -4398,14 +4398,14 @@ Dim cad As String
             'Sabemos que campos son los que nos devuelve
             'Creamos una cadena consulta y ponemos los datos
             DevfrmCCtas = ValorDevueltoFormGrid(Text1(4), CadenaDevuelta, 1)
-            cad = DevfrmCCtas
+            Cad = DevfrmCCtas
             DevfrmCCtas = ValorDevueltoFormGrid(Text1(1), CadenaDevuelta, 2)
-            cad = cad & " AND " & DevfrmCCtas
+            Cad = Cad & " AND " & DevfrmCCtas
             DevfrmCCtas = ValorDevueltoFormGrid(Text1(2), CadenaDevuelta, 3)
-            cad = cad & " AND " & DevfrmCCtas
+            Cad = Cad & " AND " & DevfrmCCtas
             DevfrmCCtas = ValorDevueltoFormGrid(Text1(3), CadenaDevuelta, 4)
-            cad = cad & " AND " & DevfrmCCtas
-            DevfrmCCtas = cad
+            Cad = Cad & " AND " & DevfrmCCtas
+            DevfrmCCtas = Cad
             If DevfrmCCtas = "" Then Exit Sub
             '   Como la clave principal es unica, con poner el sql apuntando
             '   al valor devuelto sobre la clave ppal es suficiente
@@ -4420,16 +4420,16 @@ Dim cad As String
 End Sub
 
 Private Sub PonerDatoDevuelto(CadenaDevuelta As String)
-Dim cad As String
+Dim Cad As String
     DevfrmCCtas = ValorDevueltoFormGrid(Text1(13), CadenaDevuelta, 1)
-    cad = DevfrmCCtas
+    Cad = DevfrmCCtas
     DevfrmCCtas = ValorDevueltoFormGrid(Text1(1), CadenaDevuelta, 2)
-    cad = cad & " AND " & DevfrmCCtas
+    Cad = Cad & " AND " & DevfrmCCtas
     DevfrmCCtas = ValorDevueltoFormGrid(Text1(2), CadenaDevuelta, 3)
-    cad = cad & " AND " & DevfrmCCtas
+    Cad = Cad & " AND " & DevfrmCCtas
     DevfrmCCtas = ValorDevueltoFormGrid(Text1(3), CadenaDevuelta, 4)
-    cad = cad & " AND " & DevfrmCCtas
-    DevfrmCCtas = cad
+    Cad = Cad & " AND " & DevfrmCCtas
+    DevfrmCCtas = Cad
     If DevfrmCCtas = "" Then Exit Sub
     'Se muestran en el mismo form
     CadenaConsulta = "select * from " & NombreTabla & " WHERE " & DevfrmCCtas & " " & Ordenacion
@@ -4496,7 +4496,7 @@ Private Sub ImgAgente_Click()
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
-Dim cad As String
+Dim Cad As String
 Dim Z
     Screen.MousePointer = vbHourglass
     If Index = 1 Then
@@ -4668,7 +4668,7 @@ End Sub
 '----------------------------------------------------------------
 '----------------------------------------------------------------
 Private Sub Text1_LostFocus(Index As Integer)
-    Dim I As Integer
+    Dim i As Integer
     Dim Sql As String
     Dim Valor
     
@@ -4684,11 +4684,11 @@ Private Sub Text1_LostFocus(Index As Integer)
     Case 4, 9
             'Cuentas          'Cuentas
             'Cuentas          'Cuentas
-        I = DevuelveText2Relacionado(Index)
+        i = DevuelveText2Relacionado(Index)
         DevfrmCCtas = Text1(Index).Text
         If CuentaCorrectaUltimoNivel(DevfrmCCtas, Sql) Then
             Text1(Index).Text = DevfrmCCtas
-            If Modo >= 2 Then Text2(I).Text = Sql
+            If Modo >= 2 Then Text2(i).Text = Sql
         Else
             If Modo >= 2 Then
                 MsgBox Sql, vbExclamation
@@ -4696,7 +4696,7 @@ Private Sub Text1_LostFocus(Index As Integer)
                 PonerFoco Text1(Index)
             End If
             
-            Text2(I).Text = ""
+            Text2(i).Text = ""
         End If
         
         'Poner la cuenta bancaria a partir de la cuenta
@@ -4853,33 +4853,33 @@ Private Sub Text1_LostFocus(Index As Integer)
         
         If Not IsNumeric(Text1(Index).Text) Then
             MsgBox "Departamento debe ser numérico: " & Text1(Index).Text, vbExclamation
-            I = 0
+            i = 0
         Else
-            I = 1
+            i = 1
             PonerDepartamenteo
-            If Text2(4).Text = "" Then I = 0
+            If Text2(4).Text = "" Then i = 0
         End If
-        If I = 0 Then
+        If i = 0 Then
             Text1(Index).Text = ""
             PonerFoco Text1(Index)
             Text2(4).Text = ""
         End If
         
     Case 34
-        I = 0
+        i = 0
         If Text1(34).Text <> "" Then
             Sql = DevuelveDesdeBD("nombre", "agentes", "codigo", Text1(Index).Text, "N")
             If Sql = "" Then
                 MsgBox "No existe el agente: " & Text1(34).Text, vbExclamation
-                I = 2
+                i = 2
             Else
-                I = 1
+                i = 1
             End If
         Else
             Sql = ""
         End If
         Text2(5).Text = Sql
-        If I = 2 Then PonerFoco Text1(34)
+        If i = 2 Then PonerFoco Text1(34)
             
     Case 19
         Text1(Index).Text = UCase(Text1(Index).Text)
@@ -4916,7 +4916,7 @@ End Function
 
 
 Private Sub HacerBusqueda()
-Dim cad As String
+Dim Cad As String
 
     CadB = ObtenerBusqueda2(Me, BuscaChekc, 1)
     
@@ -5065,7 +5065,7 @@ EEPonerBusq:
 End Sub
 
 Private Sub PonerCampos()
-    Dim I As Integer
+    Dim i As Integer
     Dim mTag As CTag
     Dim Sql As String
 
@@ -5169,16 +5169,16 @@ End Sub
 '   formulario en funcion del modo en k vayamos a trabajar
 '
 Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
-    Dim I As Integer
+    Dim i As Integer
     Dim B As Boolean
     
     BuscaChekc = ""
     If Modo = 1 Then
         'Ponemos todos a fondo blanco
         '### a mano
-        For I = 0 To Text1.Count - 1
+        For i = 0 To Text1.Count - 1
             Text1(0).BackColor = &H80000018
-        Next I
+        Next i
         Text1(28).MaxLength = 4
         Text1(29).MaxLength = 4
     ElseIf Modo = 4 Then
@@ -5227,12 +5227,12 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
     
     B = Modo = 2 Or Modo = 0 Or Modo = 5
     
-    For I = 0 To Text1.Count - 1
-        Text1(I).Locked = B
+    For i = 0 To Text1.Count - 1
+        Text1(i).Locked = B
         If Modo <> 1 Then
-            Text1(I).BackColor = vbWhite
+            Text1(i).BackColor = vbWhite
         End If
-    Next I
+    Next i
     
     'Empieza siempre a false
     Toolbar2.Buttons(2).Enabled = False
@@ -5247,16 +5247,16 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
     ' Es decir, si estamos en modo busqueda, insercion o modificacion estaran enables
     ' si no  disable. la variable b nos devuelve esas opciones
     B = (Modo = 2) Or Modo = 0
-    For I = 0 To Text1.Count - 1
-        Text1(I).Locked = B
-    Next I
+    For i = 0 To Text1.Count - 1
+        Text1(i).Locked = B
+    Next i
     
     frameContene.Enabled = Not B
     
-    For I = 0 To 6
-        If I < 4 And I <> 3 Then imgCuentas(I).Visible = Not B
-        Me.imgFecha(I).Visible = Not B
-    Next I
+    For i = 0 To 6
+        If i < 4 And i <> 3 Then imgCuentas(i).Visible = Not B
+        Me.imgFecha(i).Visible = Not B
+    Next i
     
     Me.imgSerie.Visible = Not B
     Me.imgDepart.Visible = Not B
@@ -5270,7 +5270,7 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
     
     'lineas de cobros_realizados
     Dim anc As Single
-    anc = DataGridAux(1).Top
+    anc = DataGridAux(1).top
     If DataGridAux(1).Row < 0 Then
         anc = anc + 230
     Else
@@ -5282,9 +5282,9 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
         LLamaLineas 1, 3, anc
     End If
 
-    For I = 0 To txtaux1.Count - 1
-        If I <> 8 Then txtaux1(I).BackColor = vbWhite
-    Next I
+    For i = 0 To txtaux1.Count - 1
+        If i <> 8 Then txtaux1(i).BackColor = vbWhite
+    Next i
     
     Check1(2).Enabled = (Modo = 1)
     Check1(4).Enabled = (Modo = 1)
@@ -5706,6 +5706,7 @@ Dim Im As Currency
         Else
             DevfrmCCtas = ""
             PonerCampos
+            PonerModo 2
         End If
     End If
     
@@ -5748,27 +5749,27 @@ End Sub
 
 Private Sub CargaList(Index As Integer, Enlaza As Boolean)
 Dim IT
-Dim cad As String
+Dim Cad As String
 
     lwCobros.ListItems.Clear
-    Set Me.lwCobros.SmallIcons = frmPpal.imgListComun16 'imgListComun 'ImgListviews
+    Set Me.lwCobros.SmallIcons = frmppal.imgListComun16 'imgListComun 'ImgListviews
     Set miRsAux = New ADODB.Recordset
     
-    cad = "SELECT  hlinapu.numdiari, hlinapu.fechaent, "
-    cad = cad & " hlinapu.numasien, hlinapu.ctacontr, "
-    cad = cad & " hcabapu.usucreacion, hcabapu.feccreacion, tipofpago.siglas, "
-    cad = cad & " hlinapu.reftalonpag, hlinapu.bancotalonpag, "
-    cad = cad & " (coalesce(hlinapu.timporteh,0) - coalesce(hlinapu.timported,0)) impcobro, hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden,  hlinapu.codrem "
-    cad = cad & " FROM (hlinapu INNER JOIN tipofpago ON hlinapu.tipforpa = tipofpago.tipoformapago)  INNER JOIN hcabapu ON hlinapu.numdiari = hcabapu.numdiari and hlinapu.fechaent = hcabapu.fechaent and hlinapu.numasien = hcabapu.numasien  "
+    Cad = "SELECT  hlinapu.numdiari, hlinapu.fechaent, "
+    Cad = Cad & " hlinapu.numasien, hlinapu.ctacontr, "
+    Cad = Cad & " hcabapu.usucreacion, hcabapu.feccreacion, tipofpago.siglas, "
+    Cad = Cad & " hlinapu.reftalonpag, hlinapu.bancotalonpag, "
+    Cad = Cad & " (coalesce(hlinapu.timporteh,0) - coalesce(hlinapu.timported,0)) impcobro, hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden,  hlinapu.codrem "
+    Cad = Cad & " FROM (hlinapu INNER JOIN tipofpago ON hlinapu.tipforpa = tipofpago.tipoformapago)  INNER JOIN hcabapu ON hlinapu.numdiari = hcabapu.numdiari and hlinapu.fechaent = hcabapu.fechaent and hlinapu.numasien = hcabapu.numasien  "
     If Enlaza Then
-        cad = cad & Replace(Replace(ObtenerWhereCab(True), "cobros", "hlinapu"), "numfactu", "numfaccl")
+        Cad = Cad & Replace(Replace(ObtenerWhereCab(True), "cobros", "hlinapu"), "numfactu", "numfaccl")
     Else
-        cad = cad & " WHERE hlinapu.codmacta is null"
+        Cad = Cad & " WHERE hlinapu.codmacta is null"
     End If
-    cad = cad & " ORDER BY hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden, hlinapu.fechaent, hlinapu.numasien "
+    Cad = Cad & " ORDER BY hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden, hlinapu.fechaent, hlinapu.numasien "
     
     
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         Set IT = lwCobros.ListItems.Add()
         IT.Text = DBLet(miRsAux!NumDiari, "N")
@@ -5806,7 +5807,7 @@ End Sub
 
 Private Sub CargaGrid(Index As Integer, Enlaza As Boolean)
 Dim B As Boolean
-Dim I As Byte
+Dim i As Byte
 Dim tots As String
 
     tots = MontaSQLCarga(Index, Enlaza)
@@ -5896,12 +5897,12 @@ Dim vWhere As String
 End Function
 
 Private Sub PosicionarData()
-Dim cad As String, Indicador As String
+Dim Cad As String, Indicador As String
 
-    cad = "(numserie=" & DBSet(Text1(13).Text, "T") & " and numfactu = " & DBSet(Text1(1).Text, "N") & " and fecfactu = " & DBSet(Text1(2).Text, "F") & " and numorden = " & DBSet(Text1(3).Text, "N") & ") "
+    Cad = "(numserie=" & DBSet(Text1(13).Text, "T") & " and numfactu = " & DBSet(Text1(1).Text, "N") & " and fecfactu = " & DBSet(Text1(2).Text, "F") & " and numorden = " & DBSet(Text1(3).Text, "N") & ") "
     
     ' *** gastar SituarData o SituarDataMULTI depenent de si la PK es simple o composta ***
-    If SituarDataMULTI(Data1, cad, Indicador) Then
+    If SituarDataMULTI(Data1, Cad, Indicador) Then
         If ModoLineas <> 1 Then PonerModo 2
         lblIndicador.Caption = Indicador
     Else
@@ -5913,15 +5914,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
@@ -5966,27 +5967,27 @@ Dim B As Boolean
         Case 0 'hlinapu
             For jj = 5 To txtaux.Count - 1
                 txtaux(jj).Visible = B
-                txtaux(jj).Top = alto
+                txtaux(jj).top = alto
             Next jj
         
         Case 1 'lineas de factura
             txtaux1(6).Visible = B
-            txtaux1(6).Top = alto
+            txtaux1(6).top = alto
             txtaux1(8).Visible = B
-            txtaux1(8).Top = alto
+            txtaux1(8).top = alto
             txtaux1(8).Locked = True
             Me.cmdAux(2).Visible = B
-            Me.cmdAux(2).Top = alto
+            Me.cmdAux(2).top = alto
             
             
             txtaux1(5).Visible = B And (Modo = 1)
-            txtaux1(5).Top = alto
+            txtaux1(5).top = alto
             txtaux1(9).Visible = B And (Modo = 1)
-            txtaux1(9).Top = alto
+            txtaux1(9).top = alto
             txtaux1(10).Visible = B And (Modo = 1)
-            txtaux1(10).Top = alto
+            txtaux1(10).top = alto
             txtaux1(11).Visible = B And (Modo = 1)
-            txtaux1(11).Top = alto
+            txtaux1(11).top = alto
             
     End Select
 
@@ -6028,7 +6029,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -6052,11 +6053,11 @@ Dim J As Long
     Set Rs = New ADODB.Recordset
     Sql = "SELECT * FROM usuarios.wtiposituacionrem ORDER BY situacio"
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    I = 0
+    i = 0
     While Not Rs.EOF
         cboSituRem.AddItem Rs!descsituacion
         cboSituRem.ItemData(cboSituRem.NewIndex) = Asc(Rs!situacio)
-        I = I + 1
+        i = i + 1
         Rs.MoveNext
     Wend
     Rs.Close
@@ -6266,7 +6267,7 @@ Private Sub BotonAnyadirLinea(Index As Integer, Limpia As Boolean)
 Dim NumF As String
 Dim vWhere As String, vTabla As String
 Dim anc As Single
-Dim I As Integer
+Dim i As Integer
 
     ModoLineas = 1 'Posem Modo Afegir Llínia
 
@@ -6300,7 +6301,7 @@ Dim I As Integer
 
             AnyadirLinea DataGridAux(Index), AdoAux(Index)
 
-            anc = DataGridAux(Index).Top
+            anc = DataGridAux(Index).top
             If DataGridAux(Index).Row < 0 Then
                 anc = anc + 230 '248
             Else
@@ -6313,9 +6314,9 @@ Dim I As Integer
                 ' *** valor per defecte a l'insertar i formateig de tots els camps ***
                 Case 0 'lineas de cobros realizados
                     If Limpia Then
-                        For I = 0 To txtaux.Count - 1
-                            txtaux(I).Text = ""
-                        Next I
+                        For i = 0 To txtaux.Count - 1
+                            txtaux(i).Text = ""
+                        Next i
                     End If
                     txtaux(0).Text = Text1(13).Text 'serie
                     txtaux(1).Text = Text1(1).Text 'numfactu
@@ -6334,7 +6335,7 @@ End Sub
 
 Private Sub BotonModificarLinea(Index As Integer)
     Dim anc As Single
-    Dim I As Integer
+    Dim i As Integer
     Dim J As Integer
 
     If AdoAux(Index).Recordset.EOF Then Exit Sub
@@ -6354,12 +6355,12 @@ Private Sub BotonModificarLinea(Index As Integer)
     Select Case Index
         Case 1 ' *** pose els index de llínies que tenen datagrid (en o sense tab) ***
             If DataGridAux(Index).Bookmark < DataGridAux(Index).FirstRow Or DataGridAux(Index).Bookmark > (DataGridAux(Index).FirstRow + DataGridAux(Index).VisibleRows - 1) Then
-                I = DataGridAux(Index).Bookmark - DataGridAux(Index).FirstRow
-                DataGridAux(Index).Scroll 0, I
+                i = DataGridAux(Index).Bookmark - DataGridAux(Index).FirstRow
+                DataGridAux(Index).Scroll 0, i
                 DataGridAux(Index).Refresh
             End If
 
-            anc = DataGridAux(Index).Top
+            anc = DataGridAux(Index).top
             If DataGridAux(Index).Row < 0 Then
                 anc = anc + 210
             Else
@@ -6407,7 +6408,7 @@ Private Function RecalcularTotalesCobros() As Boolean
 Dim Sql As String
 Dim SqlInsert As String
 Dim SqlValues As String
-Dim I As Long
+Dim i As Long
 Dim Rs As ADODB.Recordset
 
 Dim Baseimpo As Currency
@@ -6445,7 +6446,7 @@ Private Sub InsertarLinea()
 Dim nomframe As String
 Dim B As Boolean
 Dim Limp As Boolean
-Dim cad As String
+Dim Cad As String
 
 
 
@@ -6487,9 +6488,9 @@ Dim cad As String
                     Limp = True
 
                     If Limp Then
-                        For I = 0 To txtaux.Count - 1
-                            txtaux(I).Text = ""
-                        Next I
+                        For i = 0 To txtaux.Count - 1
+                            txtaux(i).Text = ""
+                        Next i
                     End If
                     ModoLineas = 0
                     If B Then
@@ -6507,7 +6508,7 @@ Private Sub ModificarLinea()
 'Modifica registre en les taules de Llínies
 Dim nomframe As String
 Dim v As Integer
-Dim cad As String
+Dim Cad As String
 Dim B As Boolean
 
     On Error Resume Next
@@ -6689,9 +6690,9 @@ Dim Sql As String
     Text1(0).Text = ""
     Text2(1).Text = ""
     
-    For I = 36 To 42
-        Text1(I).Text = ""
-    Next I
+    For i = 36 To 42
+        Text1(i).Text = ""
+    Next i
     
     If Not Rs.EOF Then
         Text1(0).Text = DBLet(Rs!Forpa, "N")

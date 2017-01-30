@@ -142,7 +142,7 @@ End Function
 
 
 Public Function GenerarFicheroIVA_303_2014(ByRef CadenaImportes As String, Importe As Currency, vFecha As Date, vPeriodo As String, EsACompensar As Byte, CadRegistroAdicional03 As String) As Boolean
-Dim AUx As String
+Dim Aux As String
 Dim k As Integer
 On Error GoTo Salida '
 
@@ -161,16 +161,16 @@ On Error GoTo Salida '
     
     'Blancos
     Linea = Linea & Space(70)  'reservado admon
-    AUx = "    "
-    AUx = Mid(App.Minor & "." & App.Revision & "   ", 1, 4)  'Version programa
-    Linea = Linea & AUx
+    Aux = "    "
+    Aux = Mid(App.Minor & "." & App.Revision & "   ", 1, 4)  'Version programa
+    Linea = Linea & Aux
     
     
     Linea = Linea & "    "  'Nº campo: 10
     
     'Nif empresa desarrollo
-    AUx = "B96470190"
-    Linea = Linea & AUx
+    Aux = "B96470190"
+    Linea = Linea & Aux
     
     'Campo 12
     Linea = Linea & Space(213)
@@ -357,16 +357,16 @@ End Function
 
 
 Private Function DatosTexto(Datos As String, Espacios As Integer) As String
-Dim AUx As String
+Dim Aux As String
 Dim i As Integer
     Datos = UCase(Datos)
-    AUx = Trim(Datos)
-    i = Espacios - Len(AUx)
+    Aux = Trim(Datos)
+    i = Espacios - Len(Aux)
     If i = 0 Then
-        DatosTexto = AUx
+        DatosTexto = Aux
     Else
         If i > 0 Then
-            DatosTexto = AUx & Space(i)
+            DatosTexto = Aux & Space(i)
         Else
             DatosTexto = Mid(Datos, 1, Espacios)
         End If
@@ -376,16 +376,16 @@ End Function
 
 'Quitamos el datos texto 2
 Private Function DatosTexto3(Datos As Currency, Espacios As Integer) As String
-Dim AUx As String
+Dim Aux As String
 
-    AUx = "000000000000000000" & Datos
-    DatosTexto3 = Right(AUx, Espacios)
+    Aux = "000000000000000000" & Datos
+    DatosTexto3 = Right(Aux, Espacios)
      
 End Function
 
 
 Private Function DatosNumeroDec(Dato As Currency, Espacios As Integer) As String
-Dim AUx As String
+Dim Aux As String
 Dim Num As String
 Dim i As Integer
 Dim Fmat As String
@@ -399,9 +399,9 @@ Dim Fmat As String
         DatosNumeroDec = "0"
     End If
     
-    AUx = CStr(Abs(Dato))
-    i = Len(AUx)
-    If InStr(1, AUx, ",") > 1 Then i = i - 1
+    Aux = CStr(Abs(Dato))
+    i = Len(Aux)
+    If InStr(1, Aux, ",") > 1 Then i = i - 1
     If i = Espacios Then
         'Caso especial. La longitud son 13
         If Dato < 0 Then
@@ -431,7 +431,7 @@ End Function
 
 'Es la misma funcion solo que si no es negativo NO pinta Cero, sino un espacio en blanco
 Private Function DatosNumeroDec340(Dato As Currency, Espacios As Integer) As String
-Dim AUx As String
+Dim Aux As String
 Dim Num As String
 Dim i As Integer
 Dim Fmat As String
@@ -445,9 +445,9 @@ Dim Fmat As String
         DatosNumeroDec340 = " "
     End If
     
-    AUx = CStr(Abs(Dato))
-    i = Len(AUx)
-    If InStr(1, AUx, ",") > 1 Then i = i - 1
+    Aux = CStr(Abs(Dato))
+    i = Len(Aux)
+    If InStr(1, Aux, ",") > 1 Then i = i - 1
     If i = Espacios Then
         'Caso especial. La longitud son 13
         If Dato < 0 Then
@@ -1103,7 +1103,7 @@ Public Function ComprobarNifs347() As Boolean
     On Error GoTo EComprobarNifs347
     ComprobarNifs347 = False
     
-    Linea = "select nif,cliprov,razosoci,dirdatos, importe from tmp347 where codusu =  " & vUsu.Codigo
+    Linea = "select nif,cliprov,razosoci,dirdatos, importe from tmp347tot where codusu =  " & vUsu.Codigo
     Linea = Linea & " group by nif"
     Set Rs = New ADODB.Recordset
     Rs.Open Linea, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -1697,7 +1697,7 @@ Dim SqlNew As String
 '            End If
             '`nifdeclarado`,`nifrepresante`,`razosoci`,
             Linea = DBLet(Rs!razosoci, "T")
-            If Linea = "" Then Linea = Rs!nommacta 'por si acaso no tiene razon social
+            If Linea = "" Then Linea = Rs!Nommacta 'por si acaso no tiene razon social
             
             Linea = Devnombresql340(Linea)
             
@@ -1727,7 +1727,7 @@ Dim SqlNew As String
 '            NF = 1
 '            If Not IsNull(Rs!tp2faccl) Then NF = NF + 1
 '            If Not IsNull(Rs!tp3faccl) Then NF = NF + 1
-            SqlNew = "select count(*) from factcli_totales where numserie = " & DBSet(Rs!NumSerie, "T")
+            SqlNew = "select count(*) from factcli_totales where numserie = " & DBSet(Rs!NUmSerie, "T")
             SqlNew = SqlNew & " and numfactu = " & DBSet(Rs!NumFactu, "N")
             SqlNew = SqlNew & " and anofactu = " & DBSet(Rs!anofactu, "N")
             
@@ -1753,8 +1753,8 @@ Dim SqlNew As String
             Linea = Linea & PAIS & "," & PAIS   'fechaexp y fechaop
            
            
-            If Rs!NumSerie <> SerieAnt Then
-                 SerieAnt = Rs!NumSerie
+            If Rs!NUmSerie <> SerieAnt Then
+                 SerieAnt = Rs!NUmSerie
                  PAIS = DevuelveDesdeBD("facliajena", "ariconta" & NumeroEmpresa & ".contadores", "tiporegi", SerieAnt, "T")
                  EsPorCtaAjena = PAIS = "1"
             End If
@@ -1763,13 +1763,13 @@ Dim SqlNew As String
                 'COJE LO QUE HAYA EN confaccl
                 PAIS = DBLet(Rs!observa, "T") ' antes confaccl
                 If PAIS = "" Then
-                    PAIS = Rs!NumSerie & Format(Rs!NumFactu, "00000000")
+                    PAIS = Rs!NUmSerie & Format(Rs!NumFactu, "00000000")
                     ErroresCtaAjena = ErroresCtaAjena & "   - " & PAIS & vbCrLf
                 End If
                     
             Else
                 'LO NORMAL, es decir codfaccl
-                PAIS = Rs!NumSerie & Format(Rs!NumFactu, "00000000")
+                PAIS = Rs!NUmSerie & Format(Rs!NumFactu, "00000000")
                 
             End If
             Linea = Linea & ",'" & PAIS & "',"
@@ -1918,7 +1918,7 @@ Dim SqlNew As String
                         
             '`nifdeclarado`,`nifrepresante`,`razosoci`,
             Linea = DBLet(Rs!razosoci, "T")
-            If Linea = "" Then Linea = Rs!nommacta 'por si acaso no tiene razon social
+            If Linea = "" Then Linea = Rs!Nommacta 'por si acaso no tiene razon social
             
             Linea = Devnombresql340(Linea)
             
@@ -1944,7 +1944,7 @@ Dim SqlNew As String
 '            If Not IsNull(Rs!tp2facpr) Then NF = NF + 1
 '            If Not IsNull(Rs!tp3facpr) Then NF = NF + 1
 
-            SqlNew = "select count(*) from factpro_totales where numserie = " & DBSet(Rs!NumSerie, "T")
+            SqlNew = "select count(*) from factpro_totales where numserie = " & DBSet(Rs!NUmSerie, "T")
             SqlNew = SqlNew & " and numregis = " & DBSet(Rs!NumRegis, "N")
             SqlNew = SqlNew & " and anofactu = " & DBSet(Rs!anofactu, "N")
             
@@ -2138,7 +2138,7 @@ Dim SqlNew As String
                         
             '`nifdeclarado`,`nifrepresante`,`razosoci`,
             Linea = DBLet(Rs!razosoci, "T")
-            If Linea = "" Then Linea = Rs!nommacta 'por si acaso no tiene razon social
+            If Linea = "" Then Linea = Rs!Nommacta 'por si acaso no tiene razon social
             
             Linea = Devnombresql340(Linea)
             
@@ -2163,7 +2163,7 @@ Dim SqlNew As String
 '            NF = 1
 '            If Not IsNull(Rs!tp2facpr) Then NF = NF + 1
 '            If Not IsNull(Rs!tp3facpr) Then NF = NF + 1
-            SqlNew = "select count(*) from factpro_totales where numserie = " & DBSet(Rs!NumSerie, "T")
+            SqlNew = "select count(*) from factpro_totales where numserie = " & DBSet(Rs!NUmSerie, "T")
             SqlNew = SqlNew & " and numregis = " & DBSet(Rs!NumRegis, "N")
             SqlNew = SqlNew & " and anofactu = " & DBSet(Rs!anofactu, "N")
             
@@ -2337,10 +2337,10 @@ Private Function Devnombresql340(CADENA As String) As String
     'Ejmplo: ª º
     
     Dim i As Integer
-    Dim AUx As String
+    Dim Aux As String
     Dim C As String
     
-    AUx = ""
+    Aux = ""
     For i = 1 To Len(CADENA)
         C = Mid(CADENA, i, 1)
         
@@ -2353,10 +2353,10 @@ Private Function Devnombresql340(CADENA As String) As String
                 C = Chr(199)
             End If
         End If
-        AUx = AUx & C
+        Aux = Aux & C
     Next i
     
-    Devnombresql340 = AUx
+    Devnombresql340 = Aux
 
 End Function
 
@@ -2693,10 +2693,10 @@ End Function
 
 
 
-Private Function DevFacturasTmp340DeEseNIF(vNif As String) As String
+Private Function DevFacturasTmp340DeEseNIF(vNIF As String) As String
 Dim C As String
 Dim RT As ADODB.Recordset
-    C = "select clavelibro,idfactura,fechaexp from tmp340 where nifdeclarado='" & vNif & "'"
+    C = "select clavelibro,idfactura,fechaexp from tmp340 where nifdeclarado='" & vNIF & "'"
     C = C & " AND codusu = " & vUsu.Codigo
     Set RT = New ADODB.Recordset
     RT.Open C, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -2880,13 +2880,13 @@ End Sub
 
 
 Private Sub CadenaInsertDeclaracionesEfectivo(ByRef R As ADODB.Recordset, ImporAnt As Currency, ImporPer As Currency, FechaUltimo As Date)
-Dim AUx As String
+Dim Aux As String
     
     
             
             '`nifdeclarado`,`nifrepresante`,`razosoci`,
             Linea = DBLet(R!razosoci, "T")
-            If Linea = "" Then Linea = R!nommacta 'por si acaso no tiene razon social
+            If Linea = "" Then Linea = R!Nommacta 'por si acaso no tiene razon social
             
             Linea = Devnombresql340(Linea)
             
@@ -2896,14 +2896,14 @@ Dim AUx As String
            
                 
             '`codpais`,`idenpais`,`nifresidencia`
-            AUx = UCase(DBLet(R!PAIS, "T"))
-            If AUx = "" Then AUx = "ESPAÑA"
+            Aux = UCase(DBLet(R!PAIS, "T"))
+            If Aux = "" Then Aux = "ESPAÑA"
             
-            If AUx = "ESPAÑA" Then
+            If Aux = "ESPAÑA" Then
                 Linea = Linea & "'ES','1',NULL"
             Else
                 'ESTRANJERO o INTRACOM
-                Linea = Linea & "'" & Mid(AUx, 1, 2) & "','2','"
+                Linea = Linea & "'" & Mid(Aux, 1, 2) & "','2','"
                 Linea = Linea & DBLet(R!nifdatos, "T") & "'"
             End If
             
@@ -2915,8 +2915,8 @@ Dim AUx As String
             
             '`fechaexp`,`fechaop`,   '28 Enero 2013 Paso la ultima fecha con variable
             'Aux = ",'" & Format(RS!ultimafecha, FormatoFecha) & "'"
-            AUx = ",'" & Format(FechaUltimo, FormatoFecha) & "'"
-            Linea = Linea & AUx & AUx
+            Aux = ",'" & Format(FechaUltimo, FormatoFecha) & "'"
+            Linea = Linea & Aux & Aux
            
                
             Linea = Linea & ",'',NULL"

@@ -335,7 +335,7 @@ Begin VB.Form frmCierre
             TabIndex        =   74
             Text            =   "Text1"
             Top             =   930
-            Width           =   1125
+            Width           =   1275
          End
          Begin VB.TextBox Text1 
             Enabled         =   0   'False
@@ -392,7 +392,7 @@ Begin VB.Form frmCierre
             TabIndex        =   71
             Text            =   "Text1"
             Top             =   1470
-            Width           =   1125
+            Width           =   1275
          End
          Begin VB.Image Image1 
             Height          =   240
@@ -522,7 +522,7 @@ Begin VB.Form frmCierre
             EndProperty
             Height          =   360
             Index           =   3
-            Left            =   1200
+            Left            =   1230
             TabIndex        =   63
             Top             =   450
             Width           =   1005
@@ -661,9 +661,9 @@ Begin VB.Form frmCierre
          Begin VB.Image Image1 
             Height          =   240
             Index           =   3
-            Left            =   930
+            Left            =   870
             Picture         =   "frmCierre.frx":0A0E
-            Top             =   420
+            Top             =   450
             Width           =   240
          End
          Begin VB.Label Label5 
@@ -771,7 +771,7 @@ Begin VB.Form frmCierre
             Left            =   2400
             TabIndex        =   51
             Top             =   360
-            Width           =   4215
+            Width           =   4365
          End
          Begin VB.TextBox Text1 
             Enabled         =   0   'False
@@ -790,7 +790,7 @@ Begin VB.Form frmCierre
             TabIndex        =   50
             Text            =   "Text1"
             Top             =   840
-            Width           =   1125
+            Width           =   1275
          End
          Begin VB.TextBox Text1 
             Enabled         =   0   'False
@@ -828,7 +828,7 @@ Begin VB.Form frmCierre
             Left            =   2400
             TabIndex        =   48
             Top             =   1860
-            Width           =   4245
+            Width           =   4365
          End
          Begin VB.TextBox Text1 
             Enabled         =   0   'False
@@ -847,7 +847,7 @@ Begin VB.Form frmCierre
             TabIndex        =   47
             Text            =   "Text1"
             Top             =   1380
-            Width           =   1125
+            Width           =   1275
          End
          Begin VB.Label Label5 
             Caption         =   "Número de asiento"
@@ -958,7 +958,7 @@ Begin VB.Form frmCierre
             EndProperty
             Height          =   360
             Index           =   0
-            Left            =   1170
+            Left            =   1320
             TabIndex        =   39
             Top             =   420
             Width           =   1005
@@ -977,7 +977,7 @@ Begin VB.Form frmCierre
             EndProperty
             Height          =   360
             Index           =   0
-            Left            =   2250
+            Left            =   2430
             TabIndex        =   38
             Top             =   420
             Width           =   4335
@@ -995,10 +995,10 @@ Begin VB.Form frmCierre
             EndProperty
             Height          =   360
             Index           =   0
-            Left            =   2460
+            Left            =   2430
             TabIndex        =   37
             Text            =   "Text1"
-            Top             =   960
+            Top             =   930
             Width           =   1275
          End
          Begin VB.TextBox Text1 
@@ -1037,7 +1037,7 @@ Begin VB.Form frmCierre
             Left            =   1590
             TabIndex        =   35
             Top             =   2160
-            Width           =   5025
+            Width           =   5175
          End
          Begin VB.TextBox Text1 
             Enabled         =   0   'False
@@ -1075,7 +1075,7 @@ Begin VB.Form frmCierre
             Left            =   1380
             TabIndex        =   33
             Top             =   2880
-            Width           =   5235
+            Width           =   5385
          End
          Begin VB.TextBox Text1 
             Enabled         =   0   'False
@@ -1090,10 +1090,10 @@ Begin VB.Form frmCierre
             EndProperty
             Height          =   360
             Index           =   3
-            Left            =   5670
+            Left            =   2430
             TabIndex        =   32
             Text            =   "Text1"
-            Top             =   960
+            Top             =   1440
             Width           =   885
          End
          Begin VB.TextBox Text1 
@@ -1109,18 +1109,18 @@ Begin VB.Form frmCierre
             EndProperty
             Height          =   360
             Index           =   10
-            Left            =   1920
+            Left            =   5490
             TabIndex        =   31
             Text            =   "Text1"
-            Top             =   1440
-            Width           =   1125
+            Top             =   930
+            Width           =   1275
          End
          Begin VB.Image Image1 
             Height          =   240
             Index           =   0
-            Left            =   870
+            Left            =   900
             Picture         =   "frmCierre.frx":1E12
-            Top             =   390
+            Top             =   420
             Width           =   240
          End
          Begin VB.Label Label5 
@@ -1196,7 +1196,7 @@ Begin VB.Form frmCierre
             Width           =   1545
          End
          Begin VB.Label Label5 
-            Caption         =   "Nº asiento"
+            Caption         =   "Número de asiento"
             BeginProperty Font 
                Name            =   "Verdana"
                Size            =   9.75
@@ -1208,10 +1208,10 @@ Begin VB.Form frmCierre
             EndProperty
             Height          =   195
             Index           =   4
-            Left            =   4560
+            Left            =   180
             TabIndex        =   41
-            Top             =   960
-            Width           =   1365
+            Top             =   1440
+            Width           =   2115
          End
          Begin VB.Label Label5 
             Caption         =   "Grupo excepción"
@@ -1226,9 +1226,9 @@ Begin VB.Form frmCierre
             EndProperty
             Height          =   315
             Index           =   13
-            Left            =   180
+            Left            =   3810
             TabIndex        =   40
-            Top             =   1440
+            Top             =   960
             Width           =   1755
          End
       End
@@ -1545,6 +1545,122 @@ Begin VB.Form frmCierre
          Width           =   6750
       End
    End
+   Begin VB.Frame frameDescierre 
+      BorderStyle     =   0  'None
+      Caption         =   $"frmCierre.frx":2814
+      Height          =   3975
+      Left            =   30
+      TabIndex        =   21
+      Top             =   -30
+      Width           =   5565
+      Begin VB.TextBox Text3 
+         Enabled         =   0   'False
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Left            =   180
+         TabIndex        =   25
+         Text            =   "Text3"
+         Top             =   1920
+         Width           =   5085
+      End
+      Begin VB.CommandButton cmdCancel 
+         Caption         =   "&Cancelar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   5
+         Left            =   4290
+         TabIndex        =   23
+         Top             =   3270
+         Width           =   1035
+      End
+      Begin VB.CommandButton cmdDescerrar 
+         Caption         =   "&Aceptar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Left            =   3030
+         TabIndex        =   22
+         Top             =   3270
+         Width           =   1125
+      End
+      Begin MSComctlLib.Toolbar ToolbarAyuda 
+         Height          =   390
+         Index           =   2
+         Left            =   4890
+         TabIndex        =   95
+         Top             =   90
+         Width           =   405
+         _ExtentX        =   714
+         _ExtentY        =   688
+         ButtonWidth     =   609
+         ButtonHeight    =   582
+         _Version        =   393216
+         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+            NumButtons      =   1
+            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Ayuda"
+            EndProperty
+         EndProperty
+      End
+      Begin VB.Label Label18 
+         Alignment       =   2  'Center
+         Caption         =   "No debe haber nadie más trabajando contra esta contabilidad"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   11.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   855
+         Left            =   210
+         TabIndex        =   96
+         Top             =   720
+         Width           =   4875
+      End
+      Begin VB.Label Label19 
+         Caption         =   "Trabajar nadie en esta contabilidad"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   210
+         TabIndex        =   24
+         Top             =   2490
+         Width           =   5070
+      End
+   End
    Begin VB.Frame fRenumeracion 
       BorderStyle     =   0  'None
       Height          =   4245
@@ -1689,122 +1805,6 @@ Begin VB.Form frmCierre
          Width           =   4875
       End
    End
-   Begin VB.Frame frameDescierre 
-      BorderStyle     =   0  'None
-      Caption         =   $"frmCierre.frx":2814
-      Height          =   3975
-      Left            =   30
-      TabIndex        =   21
-      Top             =   -30
-      Width           =   5565
-      Begin VB.TextBox Text3 
-         Enabled         =   0   'False
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Left            =   180
-         TabIndex        =   25
-         Text            =   "Text3"
-         Top             =   1920
-         Width           =   5085
-      End
-      Begin VB.CommandButton cmdCancel 
-         Caption         =   "&Cancelar"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Index           =   5
-         Left            =   4290
-         TabIndex        =   23
-         Top             =   3270
-         Width           =   1035
-      End
-      Begin VB.CommandButton cmdDescerrar 
-         Caption         =   "&Aceptar"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Left            =   3030
-         TabIndex        =   22
-         Top             =   3270
-         Width           =   1125
-      End
-      Begin MSComctlLib.Toolbar ToolbarAyuda 
-         Height          =   390
-         Index           =   2
-         Left            =   4890
-         TabIndex        =   95
-         Top             =   90
-         Width           =   405
-         _ExtentX        =   714
-         _ExtentY        =   688
-         ButtonWidth     =   609
-         ButtonHeight    =   582
-         _Version        =   393216
-         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-            NumButtons      =   1
-            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Object.ToolTipText     =   "Ayuda"
-            EndProperty
-         EndProperty
-      End
-      Begin VB.Label Label18 
-         Alignment       =   2  'Center
-         Caption         =   "No debe haber nadie más trabajando contra esta contabilidad"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   11.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   855
-         Left            =   210
-         TabIndex        =   96
-         Top             =   720
-         Width           =   4875
-      End
-      Begin VB.Label Label19 
-         Caption         =   "Trabajar nadie en esta contabilidad"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Left            =   210
-         TabIndex        =   24
-         Top             =   2490
-         Width           =   5070
-      End
-   End
 End
 Attribute VB_Name = "frmCierre"
 Attribute VB_GlobalNameSpace = False
@@ -1835,11 +1835,11 @@ Private IdPrograma As Long
     '1303- CIERRE DE EJERCICIO
     
 Private PrimeraVez As Boolean
-Dim cad As String
+Dim Cad As String
 Dim Sql As String
 Dim Rs As Recordset
 
-Dim I As Integer
+Dim i As Integer
 Dim NumeroRegistros As Long
 Dim MaxAsiento As Long
 Dim ImporteTotal As Currency
@@ -1880,15 +1880,15 @@ Dim Ok As Boolean
     End If
     
 '    Ok = True
-    For I = 0 To 3
-        If txtDiario(I).Text = "" Then
-           If I < 2 Or (I = 3 And vParam.GranEmpresa And vParam.NuevoPlanContable) Then
+    For i = 0 To 3
+        If txtDiario(i).Text = "" Then
+           If i < 2 Or (i = 3 And vParam.GranEmpresa And vParam.NuevoPlanContable) Then
                 MsgBox "Seleccione el diario.", vbExclamation
                 Ok = False
                 Exit For
             End If
         End If
-    Next I
+    Next i
     If Not Ok Then Exit Sub
     
     
@@ -2158,9 +2158,9 @@ On Error GoTo EDescierre
     End If
    
     'pASSSWORD MOMENTANEO
-    cad = InputBox("Escriba password de seguridad", "CLAVE")
-    If UCase(cad) <> "ARIADNA" Then
-        If cad <> "" Then MsgBox "Clave incorrecta", vbExclamation
+    Cad = InputBox("Escriba password de seguridad", "CLAVE")
+    If UCase(Cad) <> "ARIADNA" Then
+        If Cad <> "" Then MsgBox "Clave incorrecta", vbExclamation
         Exit Sub
     End If
     
@@ -2176,7 +2176,7 @@ On Error GoTo EDescierre
     Screen.MousePointer = vbHourglass
     
     cmdDescerrar.Enabled = False
-    CmdCancel(5).Enabled = False
+    cmdCancel(5).Enabled = False
     Me.Refresh
     
     Me.Refresh
@@ -2201,7 +2201,7 @@ On Error GoTo EDescierre
         Unload Me
     Else
         cmdDescerrar.Enabled = False
-        CmdCancel(5).Enabled = False
+        cmdCancel(5).Enabled = False
     End If
     
     Screen.MousePointer = vbDefault
@@ -2256,7 +2256,7 @@ Dim Ok As Boolean
         Label2.Caption = ""
         'Ocultanmos el del fondo , para que no pegue pantallazos
         Me.Hide
-        frmPpal.Hide
+        frmppal.Hide
         Me.Show
         
         
@@ -2265,7 +2265,7 @@ Dim Ok As Boolean
         
         'Volvemos a mostrar
         Me.Hide
-        frmPpal.Show
+        frmppal.Show
         
         
         
@@ -2299,15 +2299,15 @@ Dim Ok As Boolean
     End If
     If Not Ok Then Exit Sub
 
-    For I = 0 To 3
-        If txtDiario(I).Text = "" Then
-           If I < 2 Or (I = 3 And vParam.GranEmpresa) Then
+    For i = 0 To 3
+        If txtDiario(i).Text = "" Then
+           If i < 2 Or (i = 3 And vParam.GranEmpresa) Then
                 MsgBox "Seleccione el diario.", vbExclamation
                 Ok = False
                 Exit For
             End If
         End If
-    Next I
+    Next i
     If Not Ok Then Exit Sub
     
     If vParam.NuevoPlanContable And vParam.GranEmpresa Then
@@ -2470,7 +2470,7 @@ Private Sub Form_Activate()
 If PrimeraVez Then
     PrimeraVez = False
     DoEvents
-    CmdCancel(Opcion).Cancel = True
+    cmdCancel(Opcion).Cancel = True
     Select Case Opcion
     Case 1, 4
         PonerDatosPyG
@@ -2486,7 +2486,7 @@ Private Sub Form_Load()
 Dim H As Integer
 Dim W As Integer
 
-Me.Icon = frmPpal.Icon
+Me.Icon = frmppal.Icon
 
 Limpiar Me
 PrimeraVez = True
@@ -2507,7 +2507,7 @@ Case 0
     IdPrograma = 1301
     ' La Ayuda
     With Me.ToolbarAyuda(0)
-        .ImageList = frmPpal.ImgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
     
@@ -2527,7 +2527,7 @@ Case 1, 4
     IdPrograma = 1303
     ' La Ayuda
     With Me.ToolbarAyuda(1)
-        .ImageList = frmPpal.ImgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
         
@@ -2543,7 +2543,7 @@ Case 5
     IdPrograma = 1304
     ' La Ayuda
     With Me.ToolbarAyuda(2)
-        .ImageList = frmPpal.ImgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
 
@@ -2564,10 +2564,10 @@ Dim Sql As String
         Sql = Sql & "fechaent <='" & Format(vParam.fechafin, FormatoFecha) & "'"
     Else
         'SIGUIENTE
-        cad = Format(DateAdd("yyyy", 1, vParam.fechaini), FormatoFecha)
-        Sql = "fechaent >='" & cad & "' AND "
-        cad = Format(DateAdd("yyyy", 1, vParam.fechafin), FormatoFecha)
-        Sql = Sql & "fechaent <='" & cad & "'"
+        Cad = Format(DateAdd("yyyy", 1, vParam.fechaini), FormatoFecha)
+        Sql = "fechaent >='" & Cad & "' AND "
+        Cad = Format(DateAdd("yyyy", 1, vParam.fechafin), FormatoFecha)
+        Sql = Sql & "fechaent <='" & Cad & "'"
     End If
     CadenaFechasActuralSiguiente = Sql
 End Function
@@ -2583,8 +2583,8 @@ Dim RA As Recordset
     
    
     'obtner el maximo
-    cad = CadenaFechasActuralSiguiente(Option1(0).Value)
-    Sql = "Select max(numasien) from hcabapu where " & cad
+    Cad = CadenaFechasActuralSiguiente(Option1(0).Value)
+    Sql = "Select max(numasien) from hcabapu where " & Cad
     RA.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     MaxAsiento = 0
     If Not RA.EOF Then
@@ -2593,17 +2593,14 @@ Dim RA As Recordset
     RA.Close
 
 
-    
-
     'Obtener contador
-    Sql = "Select count(numasien) from hcabapu where " & cad
+    Sql = "Select count(numasien) from hcabapu where " & Cad
     RA.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     ContAsientos = 0
     If Not RA.EOF Then
         ContAsientos = DBLet(RA.Fields(0), "N")
     End If
     RA.Close
-
 
     
     If MaxAsiento + ContAsientos > 99999999 Then
@@ -2612,6 +2609,8 @@ Dim RA As Recordset
     End If
 
     
+    '[Monica]19/01/2017
+    Conn.BeginTrans
     
     
     'Para la progresbar
@@ -2627,7 +2626,11 @@ Dim RA As Recordset
     
     'actualizamos todas las tablas sumandole maxasiento al numero de asiento donode proceda
     'es decir en el ejercicio y si tiene asiento
-    PreparacionAsientos MaxAsiento
+    If Not PreparacionAsientos(MaxAsiento) Then
+        Conn.RollbackTrans
+        Exit Sub
+    End If
+    
 
     
     DoEvents
@@ -2638,8 +2641,8 @@ Dim RA As Recordset
     ' Ahora iremos cogiendo cada registro y los iremos actualizando con
     ' los nuevos valores de numasien, tb para las tblas relacionadas
     ' Solo cambia NUMASIEN
-    cad = CadenaFechasActuralSiguiente(Option1(0).Value)
-    Sql = "Select numasien,fechaent,numdiari from hcabapu where " & cad
+    Cad = CadenaFechasActuralSiguiente(Option1(0).Value)
+    Sql = "Select numasien,fechaent,numdiari from hcabapu where " & Cad
     Sql = Sql & " ORDER BY fechaent,numasien"
     RA.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
@@ -2654,37 +2657,37 @@ Dim RA As Recordset
     End If
 
     While Not RA.EOF
-           NumeroAntiguo = RA.Fields(0)
-           Fec = "'" & Format(RA.Fields(1), FormatoFecha) & "'"
-           If Not CambiaNumeroAsiento(NumeroAntiguo, MaxAsiento, Fec, RA!NumDiari) Then
-                MsgBox "Error muy grave. Se ha producido un error en la renumeracion del asiento: " & vbCrLf & NumeroAntiguo & "  --> " & MaxAsiento & " // Fecha: " & Fec, vbExclamation
-                End
+          NumeroAntiguo = RA.Fields(0)
+          Fec = "'" & Format(RA.Fields(1), FormatoFecha) & "'"
+          If Not CambiaNumeroAsiento(NumeroAntiguo, MaxAsiento, Fec, RA!NumDiari) Then
+               MsgBox "Error muy grave. Se ha producido un error en la renumeracion del asiento: " & vbCrLf & NumeroAntiguo & "  --> " & MaxAsiento & " // Fecha: " & Fec, vbExclamation
+               Conn.RollbackTrans
+               End
+          End If
+          
+          
+          'progressbar
+          Label2.Caption = NumeroAntiguo & " / " & RA.Fields(1)
+          Label2.Refresh
+          i = Int((MaxAsiento / NumeroRegistros) * pb1.Max)
+          pb1.Value = i
+          DoEvents
+          
+        
+          'Siguiente
+          MaxAsiento = MaxAsiento + 1
+          ContAsientos = ContAsientos + 1
+          RA.MoveNext
+          
+          If (MaxAsiento Mod 50) = 0 Then
+               DoEvents
+               Me.Refresh
+               espera 0.01
            End If
-           
-           
-           'progressbar
-           Label2.Caption = NumeroAntiguo & " / " & RA.Fields(1)
-           Label2.Refresh
-           I = Int((MaxAsiento / NumeroRegistros) * pb1.Max)
-           pb1.Value = I
-           DoEvents
-           
-         
-           'Siguiente
-           MaxAsiento = MaxAsiento + 1
-           ContAsientos = ContAsientos + 1
-           RA.MoveNext
-           
-           If (MaxAsiento Mod 50) = 0 Then
-                DoEvents
-                Me.Refresh
-                espera 0.01
-            End If
            
     Wend
     RA.Close
     Set RA = Nothing
-    
     
     
     'En contadores ponemos el contador al numero k le toca
@@ -2699,6 +2702,12 @@ Dim RA As Recordset
     Sql = Sql & " WHERE TipoRegi = '0'"
     Conn.Execute Sql
 
+    Conn.CommitTrans
+    Exit Sub
+
+eRenumerarAsientos:
+    MuestraError Err.Number, "Renumerar Asientos", Err.Description
+    Conn.RollbackTrans
 End Sub
 
 
@@ -2709,34 +2718,39 @@ On Error GoTo ECambia
     CambiaNumeroAsiento = False
     
     'AUX
-    cad = " SET numasien = " & Nuevo & " WHERE numasien = " & Antiguo
-    cad = cad & " AND fechaent = " & Fecha & " AND numdiari = " & NuDi
+    Cad = " SET numasien = " & Nuevo & " WHERE numasien = " & Antiguo
+    Cad = Cad & " AND fechaent = " & Fecha & " AND numdiari = " & NuDi
     
    
+    Conn.Execute "set foreign_key_checks = 0"
+   
     'Actualizamos el registro de facturas
-    Sql = "UPDATE factcli" & cad
+    Sql = "UPDATE factcli" & Cad
     Conn.Execute Sql
     
     
     'Actualizamos el registro de facturas
-    Sql = "UPDATE factpro" & cad
+    Sql = "UPDATE factpro" & Cad
     Conn.Execute Sql
     
     'lineas
-    Sql = "UPDATE hlinapu" & cad
+    Sql = "UPDATE hlinapu" & Cad
     Conn.Execute Sql
     
     'lineas de ficheros
-    Sql = "UPDATE hcabapu_fichdocs" & cad
+    Sql = "UPDATE hcabapu_fichdocs" & Cad
     Conn.Execute Sql
     
     'cabeceras
-    Sql = "UPDATE hcabapu" & cad
+    Sql = "UPDATE hcabapu" & Cad
     Conn.Execute Sql
     
     'hco de liquidaciones
-    Sql = "UPDATE liqiva" & cad
+    Sql = "UPDATE liqiva" & Cad
     Conn.Execute Sql
+    
+    Conn.Execute "set foreign_key_checks = 1"
+    
     
     CambiaNumeroAsiento = True
     Exit Function
@@ -2746,12 +2760,16 @@ ECambia:
 End Function
 
 
-Private Sub PreparacionAsientos(Suma As Long)
+Private Function PreparacionAsientos(Suma As Long) As Boolean
+
 On Error GoTo EPreparacionAsientos
 
+
+    PreparacionAsientos = False
+
     Sql = CadenaFechasActuralSiguiente(Option1(0).Value)
-    cad = " Set NumASien = NumASien + " & Suma
-    cad = cad & " WHERE numasien>0 AND " & Sql
+    Cad = " Set NumASien = NumASien + " & Suma
+    Cad = Cad & " WHERE numasien>0 AND " & Sql
     
     pb1.Max = 6
     
@@ -2759,15 +2777,18 @@ On Error GoTo EPreparacionAsientos
     Label2.Caption = "Facturas clientes"
     Label2.Refresh
     pb1.Value = 1
-    Sql = "UPDATE factcli" & cad
+    Sql = "UPDATE factcli" & Cad
     Conn.Execute Sql
     
     'Facturas proveedores
     Label2.Caption = "Facturas proveedores"
     Label2.Refresh
     pb1.Value = 2
-    Sql = "UPDATE factpro" & cad
+    Sql = "UPDATE factpro" & Cad
     Conn.Execute Sql
+    
+    Conn.Execute "set foreign_key_checks = 0"
+    
     
     'Lineas hco asiento
     Label2.Caption = "Lineas asientos"
@@ -2779,42 +2800,44 @@ On Error GoTo EPreparacionAsientos
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     Sql = CadenaFechasActuralSiguiente(Option1(0).Value)
-    cad = " Set NumASien = NumASien + " & Suma
-    cad = cad & " WHERE numasien>0 AND " & Sql
+    Cad = " Set NumASien = NumASien + " & Suma
+    Cad = Cad & " WHERE numasien>0 AND " & Sql
     
     'Ejecutaremos esto
-    Sql = "UPDATE hlinapu " & cad
+    Sql = "UPDATE hlinapu " & Cad
     Conn.Execute Sql
     
     'ASientos
     Label2.Caption = "Cabeceras asientos"
     Label2.Refresh
     pb1.Value = 4
-    Sql = "UPDATE hcabapu " & cad
+    Sql = "UPDATE hcabapu " & Cad
     Conn.Execute Sql
     
     'asientos ficheros
     Label2.Caption = "Líneas asientos ficheros"
     Label2.Refresh
     pb1.Value = 5
-    Sql = "UPDATE hcabapu_fichdocs " & cad
+    Sql = "UPDATE hcabapu_fichdocs " & Cad
     Conn.Execute Sql
     
     'Liquidaciones de Iva
     Label2.Caption = "Liquidaciones IVA"
     Label2.Refresh
     pb1.Value = 6
-    Sql = "UPDATE liqiva " & cad
+    Sql = "UPDATE liqiva " & Cad
     Conn.Execute Sql
     
-
+    Conn.Execute "set foreign_key_checks = 1"
+    
     pb1.Max = 1000
-    Exit Sub
+    PreparacionAsientos = True
+    Exit Function
+
 EPreparacionAsientos:
-    MuestraError Err.Number
     MsgBox "Error grave. Soporte técnico", vbExclamation
     Set Rs = Nothing
-End Sub
+End Function
 
 
 
@@ -2837,12 +2860,12 @@ Private Sub PonerDatosPyG()
     If vParam.GranEmpresa Then Text1(11).Text = Val(Text1(3).Text) + 1
     
     'PyG
-    Sql = CuentaCorrectaUltimoNivel(vParam.ctaperga, cad)
+    Sql = CuentaCorrectaUltimoNivel(vParam.ctaperga, Cad)
     If Sql = "" Then
         MsgBox "Error en la cuenta de pérdidas y ganancias de parametros.", vbExclamation
     Else
         Text1(1).Text = vParam.ctaperga
-        Text2(0).Text = cad
+        Text2(0).Text = Cad
     End If
     
     'Concepto  --> Siempre sera nuestro 960
@@ -2864,7 +2887,6 @@ Private Sub PonerDatosPyG()
             Text2(4).Text = Sql
         End If
     End If
-    
 
     
     'Simulacion nos salimos ya
@@ -2955,10 +2977,10 @@ Dim Ok As Boolean
         Set Rs = New ADODB.Recordset
         Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not Rs.EOF Then
-            For I = 0 To 3
-                txtDescDiario(I).Text = Rs.Fields(1)
-                txtDiario(I).Text = Rs.Fields(0)
-            Next I
+            For i = 0 To 3
+                txtDescDiario(i).Text = Rs.Fields(1)
+                txtDiario(i).Text = Rs.Fields(0)
+            Next i
         End If
         Rs.Close
         Set Rs = Nothing
@@ -2973,9 +2995,9 @@ Dim Ok As Boolean
     
     
     'Si ya hay un 980 y/o 970 en hcabapu, con esa fecha entonces es k ya esta hecho el cierre
-    cad = CadenaFechasActuralSiguiente(True)
+    Cad = CadenaFechasActuralSiguiente(True)
     Sql = "Select numasien from hlinapu WHERE codconce=980"
-    Sql = Sql & " AND " & cad
+    Sql = Sql & " AND " & Cad
     Set Rs = New ADODB.Recordset
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
@@ -2988,9 +3010,9 @@ Dim Ok As Boolean
     
     'Apertura
     If Ok Then
-            cad = CadenaFechasActuralSiguiente(False)
+            Cad = CadenaFechasActuralSiguiente(False)
             Sql = "Select numasien from hlinapu WHERE codconce=980"
-            Sql = Sql & " AND " & cad
+            Sql = Sql & " AND " & Cad
             Set Rs = New ADODB.Recordset
             Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             If Not Rs.EOF Then
@@ -3006,12 +3028,12 @@ Dim Ok As Boolean
 End Sub
 
 Private Sub frmD_DatoSeleccionado(CadenaSeleccion As String)
-    txtDiario(I).Text = RecuperaValor(CadenaSeleccion, 1)
-    txtDescDiario(I).Text = RecuperaValor(CadenaSeleccion, 2)
+    txtDiario(i).Text = RecuperaValor(CadenaSeleccion, 1)
+    txtDescDiario(i).Text = RecuperaValor(CadenaSeleccion, 2)
 End Sub
 
 Private Sub Image1_Click(Index As Integer)
-    I = Index
+    i = Index
     Set frmD = New frmTiposDiario
     frmD.DatosADevolverBusqueda = "0|1|"
     frmD.Show vbModal
@@ -3029,9 +3051,9 @@ Dim vFecha As String
 
     cmdSimula(0).Visible = (Opcion = 4)
     cmdSimula(1).Visible = (Opcion = 4)
-    Me.CmdCancel(4).Visible = (Opcion = 4)
+    Me.cmdCancel(4).Visible = (Opcion = 4)
     Me.cmdCierreEjercicio.Visible = (Opcion = 1)
-    Me.CmdCancel(1).Visible = (Opcion = 1)
+    Me.cmdCancel(1).Visible = (Opcion = 1)
     Label6.Visible = (Opcion = 4)
     Label4.Visible = Not Label6.Visible
     If Opcion = 1 Then
@@ -3053,19 +3075,19 @@ Dim vFecha As String
     PonerGrandesEmpresas
         
     If Opcion = 1 Then
-        For I = 0 To txtDiario.Count - 1
-            txtDiario(I).Text = ""
-        Next I
+        For i = 0 To txtDiario.Count - 1
+            txtDiario(i).Text = ""
+        Next i
         
         Sql = "select numdiari, desdiari from tiposdiario "
         If TotalRegistrosConsulta(Sql) = 1 Then
             Set Rs = New ADODB.Recordset
             Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             If Not Rs.EOF Then
-                For I = 0 To txtDiario.Count - 1
-                    txtDiario(I).Text = DBLet(Rs.Fields(0), "N")
-                    txtDescDiario(I).Text = DBLet(Rs.Fields(1), "T")
-                Next I
+                For i = 0 To txtDiario.Count - 1
+                    txtDiario(i).Text = DBLet(Rs.Fields(0), "N")
+                    txtDescDiario(i).Text = DBLet(Rs.Fields(1), "T")
+                Next i
             End If
             Set Rs = Nothing
         End If
@@ -3099,7 +3121,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(Index As Integer, ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -3166,15 +3188,15 @@ Dim Cuantos As Long
     'Generamos los  apuntes, sobre hcabapu, y luego los actualizamos
     If Opcion <> 4 Then
         Sql = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari,feccreacion,usucreacion,desdeaplicacion) VALUES (" & txtDiario(0).Text
-        cad = Sql & ",'" & Format(vParam.fechafin, FormatoFecha) & "'," & Text1(3).Text & ",NULL," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Asiento Pérdidas y Ganancias')"
+        Cad = Sql & ",'" & Format(vParam.fechafin, FormatoFecha) & "'," & Text1(3).Text & ",NULL," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Asiento Pérdidas y Ganancias')"
         
     Else
         'Estamo simulando
         'Borramos los datos de tmp
-        cad = "Delete from tmphistoapu where codusu = " & vUsu.Codigo
+        Cad = "Delete from tmphistoapu where codusu = " & vUsu.Codigo
     End If
         
-    Conn.Execute cad
+    Conn.Execute Cad
     Ok = Cuentas6y7
     
     If Ok Then
@@ -3225,8 +3247,8 @@ Dim Cuantos As Long
             Sql = Sql & " AND fechaent ='" & Format(vParam.fechafin, FormatoFecha) & "' AND numasien = " & Text1(3).Text & ""
     
             'Borramos por si acaso ha insertado lineas
-            cad = "Delete FROM hcabapu" & Sql
-            Conn.Execute cad
+            Cad = "Delete FROM hcabapu" & Sql
+            Conn.Execute Cad
         End If
     End If
     
@@ -3242,12 +3264,12 @@ Dim Cuantos As Long
         Sql = Sql & " AND fechaent ='" & Format(vParam.fechafin, FormatoFecha) & "' AND numasien = " & Text1(3).Text & ""
         
         'Borramos por si acaso ha insertado lineas
-        cad = "Delete FROM hlinapu" & Sql
-        Conn.Execute cad
+        Cad = "Delete FROM hlinapu" & Sql
+        Conn.Execute Cad
     
         'Borramos la cabcecera del apunte
-        cad = "DELETE FROM hcabapu" & Sql
-        Conn.Execute cad
+        Cad = "DELETE FROM hcabapu" & Sql
+        Conn.Execute Cad
         
         Label3.Caption = ""
         Exit Function
@@ -3320,15 +3342,15 @@ Dim vCta As String
 
     Subgrupo = False
     'ATENCION AÑOS PARTIDOS
-    cad = Mid("__________", 1, vEmpresa.DigitosUltimoNivel - 1)
-    AUX3 = Primera & cad
-    cad = " from hlinapu" ' antes hsaldos
+    Cad = Mid("__________", 1, vEmpresa.DigitosUltimoNivel - 1)
+    AUX3 = Primera & Cad
+    Cad = " from hlinapu" ' antes hsaldos
     
     'Necesito sbaer tb nombre cta
-    If Opcion = 4 Then cad = cad & ",cuentas"
+    If Opcion = 4 Then Cad = Cad & ",cuentas"
     
-    cad = cad & " WHERE "
-    If Opcion = 4 Then cad = cad & " cuentas.codmacta = hlinapu.codmacta AND "
+    Cad = Cad & " WHERE "
+    If Opcion = 4 Then Cad = Cad & " cuentas.codmacta = hlinapu.codmacta AND "
     'Por la ambiguedad del nombre
     vCta = " ("
     If Opcion = 4 Then vCta = vCta & " cuentas."
@@ -3341,19 +3363,19 @@ Dim vCta As String
     End If
     
     
-    cad = cad & vCta
+    Cad = Cad & vCta
     
     
-    cad = cad & " and fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
+    Cad = Cad & " and fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
     
     If Opcion = 4 Then
-        cad = "cuentas.codmacta,nommacta " & cad & " GROUP BY cuentas.codmacta ORDER BY cuentas.codmacta"
+        Cad = "cuentas.codmacta,nommacta " & Cad & " GROUP BY cuentas.codmacta ORDER BY cuentas.codmacta"
     Else
-        cad = " codmacta " & cad & " GROUP BY codmacta ORDER BY codmacta"
+        Cad = " codmacta " & Cad & " GROUP BY codmacta ORDER BY codmacta"
     End If
     
     'Contador
-    Sql = "Select sum(coalesce(timported,0))-sum(coalesce(timporteh,0)), " & cad
+    Sql = "Select sum(coalesce(timported,0))-sum(coalesce(timporteh,0)), " & Cad
     Rs.Open Sql, Conn, adOpenKeyset, adLockOptimistic, adCmdText
     NumeroRegistros = 0
     If Rs.EOF Then
@@ -3380,14 +3402,14 @@ Dim vCta As String
     
         Label3.Caption = Rs.Fields(1)
         Label3.Refresh
-        I = Int((CONT / NumeroRegistros) * pb1.Max)
-        pb1.Value = I
+        i = Int((CONT / NumeroRegistros) * pb1.Max)
+        pb1.Value = i
         Importe = Rs.Fields(0)
         If Importe <> 0 Then
             If Opcion = 4 Then
-                cad = Sql & "," & MaxAsiento + CONT & ",'" & Rs.Fields(1) & "','" & DevNombreSQL(Rs.Fields(2)) & "','1','" & Text2(1).Text & "',"
+                Cad = Sql & "," & MaxAsiento + CONT & ",'" & Rs.Fields(1) & "','" & DevNombreSQL(Rs.Fields(2)) & "','1','" & Text2(1).Text & "',"
             Else
-                cad = Sql & "," & MaxAsiento + CONT & ",'" & Rs.Fields(1) & "','',960,'" & Text2(1).Text & "',"
+                Cad = Sql & "," & MaxAsiento + CONT & ",'" & Rs.Fields(1) & "','',960,'" & Text2(1).Text & "',"
             End If
             InsertarLineasDeAsientos Importe, AUX3
         End If
@@ -3438,12 +3460,12 @@ Dim Aux As String
         '                       contrapartida
         If Opcion = 4 Then
             
-            cad = cad & Aux & ")"
+            Cad = Cad & Aux & ")"
         Else
-            cad = cad & Aux & "," & Ctrapar & ",'CONTAB',0)"
+            Cad = Cad & Aux & "," & Ctrapar & ",'CONTAB',0)"
         End If
         'Ejecutamos
-        Conn.Execute cad
+        Conn.Execute Cad
     
 End Function
 
@@ -3474,7 +3496,7 @@ On Error GoTo ECua
         
         If Importe <> 0 Then
             CadenaLINAPU txtDiario(0).Text, vParam.fechafin, Text1(3).Text
-            cad = Sql & "," & MaxAsiento + 1 & ",'" & Text1(1).Text & "','',960,'" & Text2(1).Text & "',"
+            Cad = Sql & "," & MaxAsiento + 1 & ",'" & Text1(1).Text & "','',960,'" & Text2(1).Text & "',"
             InsertarLineasDeAsientos Importe, "NULL"
         End If
     Else
@@ -3484,10 +3506,10 @@ On Error GoTo ECua
         ImporteTotal = ImporteTotal * -1 'Para k cuadre
         ImportePyG = ImporteTotal
         CadenaLINAPU txtDiario(0).Text, vParam.fechafin, Text1(3).Text
-        cad = Sql & "," & MaxAsiento + 1 & ",'" & Text1(1).Text & "','"
+        Cad = Sql & "," & MaxAsiento + 1 & ",'" & Text1(1).Text & "','"
         ' lo meto en el uno, NO en maxasiento
-        cad = Sql & ",1,'" & Text1(1).Text & "','"
-        cad = cad & Text2(0).Text & "','1','" & Text2(1).Text & "',"
+        Cad = Sql & ",1,'" & Text1(1).Text & "','"
+        Cad = Cad & Text2(0).Text & "','1','" & Text2(1).Text & "',"
         InsertarLineasDeAsientos ImporteTotal, ""
     End If
     CuadrarAsiento = True
@@ -3548,17 +3570,17 @@ On Error GoTo EHacerElCierre
         Me.cmdCierreEjercicio.Enabled = False
         
         'Ahora, en parametros cambias ciertas cosas tales como fechas ejercicio
-        cad = Format(DateAdd("yyyy", 1, vParam.fechaini), FormatoFecha)
-        Sql = "UPDATE parametros SET fechaini= '" & cad
+        Cad = Format(DateAdd("yyyy", 1, vParam.fechaini), FormatoFecha)
+        Sql = "UPDATE parametros SET fechaini= '" & Cad
         
         vParam.fechafin = DateAdd("yyyy", 1, vParam.fechafin)
         vParam.FechaActiva = DateAdd("yyyy", 1, vParam.FechaActiva)
         If vParam.FechaActiva >= vParam.fechafin Then vParam.FechaActiva = vParam.fechaini
         If vParam.FechaActiva < DateAdd("yyyy", 1, vParam.fechaini) Then vParam.FechaActiva = DateAdd("yyyy", 1, vParam.fechaini)
-        cad = Format(vParam.fechafin, FormatoFecha)
-        Sql = Sql & "' , fechafin='" & cad & "'"
-        cad = Format(vParam.FechaActiva, FormatoFecha)
-        Sql = Sql & " , fechaactiva='" & cad & "'"
+        Cad = Format(vParam.fechafin, FormatoFecha)
+        Sql = Sql & "' , fechafin='" & Cad & "'"
+        Cad = Format(vParam.FechaActiva, FormatoFecha)
+        Sql = Sql & " , fechaactiva='" & Cad & "'"
         
         Sql = Sql & " WHERE fechaini='" & Format(vParam.fechaini, FormatoFecha) & "'"
         
@@ -3642,13 +3664,13 @@ On Error GoTo EGeneraTmpCierre
 
     GeneraTmpCierre = False
     
-    cad = vSql & " fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
-    cad = " from hlinapu where " & cad & " GROUP BY codmacta ORDER BY codmacta"
+    Cad = vSql & " fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
+    Cad = " from hlinapu where " & Cad & " GROUP BY codmacta ORDER BY codmacta"
     
     
     
     'Contador
-    Sql = "Select -1 * (sum(coalesce(timported,0))-sum(coalesce(timporteh,0))),codmacta " & cad
+    Sql = "Select -1 * (sum(coalesce(timported,0))-sum(coalesce(timporteh,0))),codmacta " & Cad
 
     Sql = "INSERT INTO tmpCierre " & Sql
     Conn.Execute Sql
@@ -3727,10 +3749,10 @@ On Error GoTo EGeneraTmpCierre
             miRsAux.Close
             
             'Ahora ya tengo todas las cuentas a actualizar/crear
-            For I = 1 To L.Count
-                cad = RecuperaValor(L.Item(I), 1)
-                ImporteTotal = CCur(RecuperaValor(L.Item(I), 2))
-                Sql = "Select importe from tmpcierre where cta ='" & cad & "'"
+            For i = 1 To L.Count
+                Cad = RecuperaValor(L.Item(i), 1)
+                ImporteTotal = CCur(RecuperaValor(L.Item(i), 2))
+                Sql = "Select importe from tmpcierre where cta ='" & Cad & "'"
                 miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
                 Sql = ""
                 Importe = 0
@@ -3745,13 +3767,13 @@ On Error GoTo EGeneraTmpCierre
                 
                 If Sql = "" Then
                     'Metemos a la cta 129 de perdias y gancias las perdidas y gancias generadas
-                    Sql = "INSERT INTO tmpcierre (cta,importe) values ('" & cad & "'," & TransformaComasPuntos(CStr(ImportePyG)) & ")"
+                    Sql = "INSERT INTO tmpcierre (cta,importe) values ('" & Cad & "'," & TransformaComasPuntos(CStr(ImportePyG)) & ")"
                 Else
                     ImporteTotal = ImporteTotal + Importe
-                    Sql = "UPDATE tmpcierre SET Importe= " & TransformaComasPuntos(CStr(ImporteTotal)) & " WHERE cta='" & cad & "'"
+                    Sql = "UPDATE tmpcierre SET Importe= " & TransformaComasPuntos(CStr(ImporteTotal)) & " WHERE cta='" & Cad & "'"
                 End If
                 Conn.Execute Sql
-            Next I
+            Next i
         End If  'granempresa
         
         Set miRsAux = Nothing
@@ -3774,8 +3796,8 @@ Private Function GeneraAsientoCierre() As Boolean
     GeneraAsientoCierre = False
 
     Sql = "INSERT INTO hcabapu (numdiari, fechaent, numasien,  obsdiari,feccreacion,usucreacion,desdeaplicacion) VALUES (" & txtDiario(1).Text
-    cad = Sql & ",'" & Format(vParam.fechafin, FormatoFecha) & "'," & Text1(4).Text & ",NULL," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Generación Asiento Cierre')"
-    Conn.Execute cad
+    Cad = Sql & ",'" & Format(vParam.fechafin, FormatoFecha) & "'," & Text1(4).Text & ",NULL," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Generación Asiento Cierre')"
+    Conn.Execute Cad
 
     
     CadenaLINAPU txtDiario(1).Text, vParam.fechafin, Text1(4).Text
@@ -3804,20 +3826,20 @@ Dim Aux As String
     
     
     While Not Rs.EOF
-        cad = Sql & "," & CONT & ",'" & Rs.Fields(1) & "','',980,'" & Text2(2).Text & "',"
+        Cad = Sql & "," & CONT & ",'" & Rs.Fields(1) & "','',980,'" & Text2(2).Text & "',"
         Importe = Rs.Fields(0)
         If Importe < 0 Then
             Aux = "NULL,NULL," & TransformaComasPuntos(CStr(Abs(Importe)))
         Else
             Aux = TransformaComasPuntos(CStr(Importe)) & ",NULL,NULL"
         End If
-        cad = cad & Aux
-        cad = cad & ",NULL,'contab',0)"
+        Cad = Cad & Aux
+        Cad = Cad & ",NULL,'contab',0)"
         
-        I = Int(((CONT + MaxAsiento) / NumeroRegistros) * pb3.Max)
-        pb3.Value = I
+        i = Int(((CONT + MaxAsiento) / NumeroRegistros) * pb3.Max)
+        pb3.Value = i
         
-        Conn.Execute cad
+        Conn.Execute Cad
         
         'Siguiente
         CONT = CONT + 1
@@ -3839,8 +3861,8 @@ Private Function GeneraAsientoApertura() As Boolean
     GeneraAsientoApertura = False
 
     Sql = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari,feccreacion,usucreacion,desdeaplicacion) VALUES (" & txtDiario(2).Text
-    cad = Sql & ",'" & Format(Text1(9).Text, FormatoFecha) & "'," & Text1(6).Text & ",NULL," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Generación Asiento Apertura')"
-    Conn.Execute cad
+    Cad = Sql & ",'" & Format(Text1(9).Text, FormatoFecha) & "'," & Text1(6).Text & ",NULL," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Generación Asiento Apertura')"
+    Conn.Execute Cad
     
     CadenaLINAPU txtDiario(2).Text, CDate(Text1(9).Text), Text1(6).Text
     If Not GeneraLineasApertura Then Exit Function
@@ -3867,7 +3889,7 @@ Dim Aux As String
     
     
     While Not Rs.EOF
-        cad = Sql & "," & CONT & ",'" & Rs.Fields(1) & "','',970,'" & Text2(3).Text & "',"
+        Cad = Sql & "," & CONT & ",'" & Rs.Fields(1) & "','',970,'" & Text2(3).Text & "',"
         Importe = Rs.Fields(0)
         Importe = Importe * -1
         If Importe < 0 Then
@@ -3875,13 +3897,13 @@ Dim Aux As String
         Else
             Aux = TransformaComasPuntos(CStr(Importe)) & ",NULL,NULL"
         End If
-        cad = cad & Aux
-        cad = cad & ",NULL,'contab',0)"
+        Cad = Cad & Aux
+        Cad = Cad & ",NULL,'contab',0)"
         
-        I = Int(((CONT + MaxAsiento) / NumeroRegistros) * pb3.Max)
-        pb3.Value = I
+        i = Int(((CONT + MaxAsiento) / NumeroRegistros) * pb3.Max)
+        pb3.Value = i
         
-        Conn.Execute cad
+        Conn.Execute Cad
         
         'Siguiente
         CONT = CONT + 1
@@ -3944,9 +3966,9 @@ Dim Importe As Currency
 Dim Aux As String
     On Error GoTo EGeneraLineasSimulacionCierre
     GeneraLineasSimulacionCierre = False
-    cad = "select tmpcierre.*,nommacta from tmpcierre,cuentas where tmpcierre.cta=cuentas.codmacta"
-    cad = cad & " AND importe <>0 ORDER By Cta"
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Cad = "select tmpcierre.*,nommacta from tmpcierre,cuentas where tmpcierre.cta=cuentas.codmacta"
+    Cad = Cad & " AND importe <>0 ORDER By Cta"
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     
     'Cont = 1
     CONT = 2
@@ -3957,9 +3979,9 @@ Dim Aux As String
         
         Importe = Rs.Fields(0)
         If EsCierre Then
-            cad = Sql & "," & CONT & ",'" & Rs.Fields(1) & "','" & DevNombreSQL(Rs!Nommacta) & "','3','" & Text2(2).Text & "',"
+            Cad = Sql & "," & CONT & ",'" & Rs.Fields(1) & "','" & DevNombreSQL(Rs!Nommacta) & "','3','" & Text2(2).Text & "',"
         Else
-            cad = Sql & "," & CONT & ",'" & Rs.Fields(1) & "','" & DevNombreSQL(Rs!Nommacta) & "','4','" & Text2(3).Text & "',"
+            Cad = Sql & "," & CONT & ",'" & Rs.Fields(1) & "','" & DevNombreSQL(Rs!Nommacta) & "','4','" & Text2(3).Text & "',"
             Importe = Importe * -1
         End If
         
@@ -3968,12 +3990,12 @@ Dim Aux As String
         Else
             Aux = TransformaComasPuntos(CStr(Importe)) & ",NULL,NULL"
         End If
-        cad = cad & Aux & ")"
+        Cad = Cad & Aux & ")"
     
-        I = Int(((CONT + MaxAsiento) / (NumeroRegistros + 3)) * pb3.Max)
-        pb3.Value = I
+        i = Int(((CONT + MaxAsiento) / (NumeroRegistros + 3)) * pb3.Max)
+        pb3.Value = i
         
-        Conn.Execute cad
+        Conn.Execute Cad
         
         'Siguiente
         CONT = CONT + 1
@@ -3992,9 +4014,9 @@ End Function
 Private Function ExisteAsientosDescerrar() As Boolean
 
 'Tiene k existe el asiento de apertura del año siguient
-    cad = CadenaFechasActuralSiguiente(True)
+    Cad = CadenaFechasActuralSiguiente(True)
     Sql = "Select numasien from hlinapu WHERE codconce=970"
-    Sql = Sql & " AND " & cad
+    Sql = Sql & " AND " & Cad
     Set Rs = New ADODB.Recordset
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
@@ -4060,23 +4082,23 @@ On Error GoTo EHacerDescierre
     ' cabecera
     Sql = "DELETE FROM hcabapu where (numdiari, fechaent, numasien) in ("
     Sql = Sql & "select numdiari, fechaent, numasien from hlinapu WHERE codconce=960 "
-    cad = CStr(DateAdd("yyyy", -1, vParam.fechaini))
-    cad = Format(cad, FormatoFecha)
-    Sql = Sql & " AND fechaent >='" & cad & "'"
-    cad = CStr(DateAdd("yyyy", -1, vParam.fechafin))
-    cad = Format(cad, FormatoFecha)
-    Sql = Sql & " AND fechaent <='" & cad & "'"
+    Cad = CStr(DateAdd("yyyy", -1, vParam.fechaini))
+    Cad = Format(Cad, FormatoFecha)
+    Sql = Sql & " AND fechaent >='" & Cad & "'"
+    Cad = CStr(DateAdd("yyyy", -1, vParam.fechafin))
+    Cad = Format(Cad, FormatoFecha)
+    Sql = Sql & " AND fechaent <='" & Cad & "'"
     Sql = Sql & ")"
     Conn.Execute Sql
 
     ' lineas
     Sql = "DELETE FROM hlinapu WHERE codconce=960 "
-    cad = CStr(DateAdd("yyyy", -1, vParam.fechaini))
-    cad = Format(cad, FormatoFecha)
-    Sql = Sql & " AND fechaent >='" & cad & "'"
-    cad = CStr(DateAdd("yyyy", -1, vParam.fechafin))
-    cad = Format(cad, FormatoFecha)
-    Sql = Sql & " AND fechaent <='" & cad & "'"
+    Cad = CStr(DateAdd("yyyy", -1, vParam.fechaini))
+    Cad = Format(Cad, FormatoFecha)
+    Sql = Sql & " AND fechaent >='" & Cad & "'"
+    Cad = CStr(DateAdd("yyyy", -1, vParam.fechafin))
+    Cad = Format(Cad, FormatoFecha)
+    Sql = Sql & " AND fechaent <='" & Cad & "'"
 
     Conn.Execute Sql
 
@@ -4094,24 +4116,24 @@ On Error GoTo EHacerDescierre
     ' cabecera
     Sql = "DELETE FROM hcabapu where (numdiari, fechaent, numasien) in ("
     Sql = Sql & " select numdiari, fechaent, numasien FROM hlinapu WHERE codconce=961 "
-    cad = CStr(DateAdd("yyyy", -1, vParam.fechaini))
-    cad = Format(cad, FormatoFecha)
-    Sql = Sql & " AND fechaent >='" & cad & "'"
-    cad = CStr(DateAdd("yyyy", -1, vParam.fechafin))
-    cad = Format(cad, FormatoFecha)
-    Sql = Sql & " AND fechaent <='" & cad & "'"
+    Cad = CStr(DateAdd("yyyy", -1, vParam.fechaini))
+    Cad = Format(Cad, FormatoFecha)
+    Sql = Sql & " AND fechaent >='" & Cad & "'"
+    Cad = CStr(DateAdd("yyyy", -1, vParam.fechafin))
+    Cad = Format(Cad, FormatoFecha)
+    Sql = Sql & " AND fechaent <='" & Cad & "'"
     Sql = Sql & ") "
     
     Conn.Execute Sql
     
     ' lineas
     Sql = "DELETE FROM hlinapu WHERE codconce=961 "
-    cad = CStr(DateAdd("yyyy", -1, vParam.fechaini))
-    cad = Format(cad, FormatoFecha)
-    Sql = Sql & " AND fechaent >='" & cad & "'"
-    cad = CStr(DateAdd("yyyy", -1, vParam.fechafin))
-    cad = Format(cad, FormatoFecha)
-    Sql = Sql & " AND fechaent <='" & cad & "'"
+    Cad = CStr(DateAdd("yyyy", -1, vParam.fechaini))
+    Cad = Format(Cad, FormatoFecha)
+    Sql = Sql & " AND fechaent >='" & Cad & "'"
+    Cad = CStr(DateAdd("yyyy", -1, vParam.fechafin))
+    Cad = Format(Cad, FormatoFecha)
+    Sql = Sql & " AND fechaent <='" & Cad & "'"
     
     Conn.Execute Sql
     
@@ -4129,24 +4151,24 @@ On Error GoTo EHacerDescierre
     ' cabecera
     Sql = "DELETE FROM hcabapu where (numdiari, fechaent, numasien) in ("
     Sql = Sql & "SELECT numdiari, fechaent, numasien from hlinapu WHERE codconce=980"
-    cad = CStr(DateAdd("yyyy", -1, vParam.fechaini))
-    cad = Format(cad, FormatoFecha)
-    Sql = Sql & " AND fechaent >='" & cad & "'"
-    cad = CStr(DateAdd("yyyy", -1, vParam.fechafin))
-    cad = Format(cad, FormatoFecha)
-    Sql = Sql & " AND fechaent <='" & cad & "'"
+    Cad = CStr(DateAdd("yyyy", -1, vParam.fechaini))
+    Cad = Format(Cad, FormatoFecha)
+    Sql = Sql & " AND fechaent >='" & Cad & "'"
+    Cad = CStr(DateAdd("yyyy", -1, vParam.fechafin))
+    Cad = Format(Cad, FormatoFecha)
+    Sql = Sql & " AND fechaent <='" & Cad & "'"
     Sql = Sql & ")"
     Conn.Execute Sql
 
 
     ' lineas
     Sql = "DELETE FROM hlinapu WHERE codconce=980"
-    cad = CStr(DateAdd("yyyy", -1, vParam.fechaini))
-    cad = Format(cad, FormatoFecha)
-    Sql = Sql & " AND fechaent >='" & cad & "'"
-    cad = CStr(DateAdd("yyyy", -1, vParam.fechafin))
-    cad = Format(cad, FormatoFecha)
-    Sql = Sql & " AND fechaent <='" & cad & "'"
+    Cad = CStr(DateAdd("yyyy", -1, vParam.fechaini))
+    Cad = Format(Cad, FormatoFecha)
+    Sql = Sql & " AND fechaent >='" & Cad & "'"
+    Cad = CStr(DateAdd("yyyy", -1, vParam.fechafin))
+    Cad = Format(Cad, FormatoFecha)
+    Sql = Sql & " AND fechaent <='" & Cad & "'"
 
     Conn.Execute Sql
 
@@ -4161,19 +4183,19 @@ On Error GoTo EHacerDescierre
     'cabecera
     Sql = "DELETE FROM hcabapu WHERE (numdiari, fechaent, numasien) in ("
     Sql = Sql & "SELECT numdiari, fechaent, numasien FROM hlinapu WHERE codconce=970"
-    cad = Format(vParam.fechaini, FormatoFecha)
-    Sql = Sql & " AND fechaent >='" & cad & "'"
-    cad = Format(vParam.fechafin, FormatoFecha)
-    Sql = Sql & " AND fechaent <='" & cad & "'"
+    Cad = Format(vParam.fechaini, FormatoFecha)
+    Sql = Sql & " AND fechaent >='" & Cad & "'"
+    Cad = Format(vParam.fechafin, FormatoFecha)
+    Sql = Sql & " AND fechaent <='" & Cad & "'"
     Sql = Sql & ")"
     Conn.Execute Sql
     
     'lineas
     Sql = "DELETE FROM hlinapu WHERE codconce=970"
-    cad = Format(vParam.fechaini, FormatoFecha)
-    Sql = Sql & " AND fechaent >='" & cad & "'"
-    cad = Format(vParam.fechafin, FormatoFecha)
-    Sql = Sql & " AND fechaent <='" & cad & "'"
+    Cad = Format(vParam.fechaini, FormatoFecha)
+    Sql = Sql & " AND fechaent >='" & Cad & "'"
+    Cad = Format(vParam.fechafin, FormatoFecha)
+    Sql = Sql & " AND fechaent <='" & Cad & "'"
     
     Conn.Execute Sql
     
@@ -4188,22 +4210,22 @@ On Error GoTo EHacerDescierre
     'Ahora, en parametros cambias ciertas cosas tales como fechas ejercicio
     Label19.Caption = "Contadores"
     Label19.Refresh
-    I = -1
-    cad = Format(DateAdd("yyyy", I, vParam.fechaini), FormatoFecha)
-    Sql = "UPDATE parametros SET fechaini= '" & cad
-    cad = Format(DateAdd("yyyy", I, vParam.fechafin), FormatoFecha)
-    Sql = Sql & "' , fechafin='" & cad & "'"
+    i = -1
+    Cad = Format(DateAdd("yyyy", i, vParam.fechaini), FormatoFecha)
+    Sql = "UPDATE parametros SET fechaini= '" & Cad
+    Cad = Format(DateAdd("yyyy", i, vParam.fechafin), FormatoFecha)
+    Sql = Sql & "' , fechafin='" & Cad & "'"
     'Fechaactiva
-    cad = Format(DateAdd("yyyy", I, vParam.FechaActiva), FormatoFecha)
-    Sql = Sql & " , FechaActiva='" & cad & "'"
+    Cad = Format(DateAdd("yyyy", i, vParam.FechaActiva), FormatoFecha)
+    Sql = Sql & " , FechaActiva='" & Cad & "'"
     
     Sql = Sql & " WHERE fechaini='" & Format(vParam.fechaini, FormatoFecha) & "'"
     Conn.Execute Sql
     
-    vParam.fechaini = DateAdd("yyyy", I, vParam.fechaini)
-    vParam.fechafin = DateAdd("yyyy", I, vParam.fechafin)
+    vParam.fechaini = DateAdd("yyyy", i, vParam.fechaini)
+    vParam.fechafin = DateAdd("yyyy", i, vParam.fechafin)
     'Fecha activa
-    vParam.FechaActiva = DateAdd("yyyy", I, vParam.FechaActiva)
+    vParam.FechaActiva = DateAdd("yyyy", i, vParam.FechaActiva)
 
 
     Set Rs = New ADODB.Recordset
@@ -4320,33 +4342,33 @@ Private Function ComprobarCierreCuentas8y9() As Boolean
 
     Set Rs = New ADODB.Recordset
     
-    cad = "select " & vUsu.Codigo & ",codmacta,'T',sum(coalesce(timported,0))-sum(coalesce(timporteh,0)) from hlinapu"
-    cad = cad & " WHERE mid(codmacta,1,1) in ('8','9') AND "
-    cad = cad & "  fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
+    Cad = "select " & vUsu.Codigo & ",codmacta,'T',sum(coalesce(timported,0))-sum(coalesce(timporteh,0)) from hlinapu"
+    Cad = Cad & " WHERE mid(codmacta,1,1) in ('8','9') AND "
+    Cad = Cad & "  fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
     
     
     
-    cad = cad & " GROUP BY codmacta"
+    Cad = Cad & " GROUP BY codmacta"
     'Insertamos en tmpcierre
-    cad = "INSERT INTO TMPCIERRE1 " & cad
-    Conn.Execute cad
+    Cad = "INSERT INTO TMPCIERRE1 " & Cad
+    Conn.Execute Cad
     
     'COJEREMOS TODAS LAS CUENTAS 8 y 9 a tres digitos y comprobaremos que en
     'la configuracion tienen puesto en el campo cuentaba
     '
     'Cruzamos tmpcierr1 con codusu = vusu y left join con cuentas
     'Veremos si hay null con lo cual esta mal y si no, updatearemos tmpcierre
-    cad = "select cta,nommacta,mid(iban, 15,10) cuentaba from tmpcierre1,cuentas where codusu = " & vUsu.Codigo & " and cta = codmacta"
+    Cad = "select cta,nommacta,mid(iban, 15,10) cuentaba from tmpcierre1,cuentas where codusu = " & vUsu.Codigo & " and cta = codmacta"
   
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    cad = ""
-    I = 0
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = ""
+    i = 0
     While Not Rs.EOF
         If DBLet(Rs!cuentaba, "T") = "" Then
             
-            I = I + 1
-            cad = cad & "     " & Rs!Cta
-            If (I Mod 5) = 0 Then cad = cad & vbCrLf
+            i = i + 1
+            Cad = Cad & "     " & Rs!Cta
+            If (i Mod 5) = 0 Then Cad = Cad & vbCrLf
         
         Else
         
@@ -4358,34 +4380,34 @@ Private Function ComprobarCierreCuentas8y9() As Boolean
     Wend
     Rs.Close
     
-    If I > 0 Then
-        cad = "Cuentas sin configurar el cierre: " & vbCrLf & vbCrLf & cad
-        MsgBox cad, vbExclamation
+    If i > 0 Then
+        Cad = "Cuentas sin configurar el cierre: " & vbCrLf & vbCrLf & Cad
+        MsgBox Cad, vbExclamation
         Set Rs = Nothing
         Exit Function
     End If
     
     
     'OK tiene todas las cuentas configuradas
-    cad = "Select tmpcierre1.nomcta, cuentas.codmacta from tmpcierre1 left join cuentas on nomcta = cuentas.codmacta where tmpcierre1.codusu=" & vUsu.Codigo
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    cad = ""
-    I = 0
+    Cad = "Select tmpcierre1.nomcta, cuentas.codmacta from tmpcierre1 left join cuentas on nomcta = cuentas.codmacta where tmpcierre1.codusu=" & vUsu.Codigo
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = ""
+    i = 0
     While Not Rs.EOF
         
         If IsNull(Rs!codmacta) Then
-            I = I + 1
-            cad = "    " & Rs!nomcta
-            If (I Mod 5) = 0 Then cad = cad & vbCrLf
+            i = i + 1
+            Cad = "    " & Rs!nomcta
+            If (i Mod 5) = 0 Then Cad = Cad & vbCrLf
         End If
         Rs.MoveNext
     Wend
     Rs.Close
     
     
-    If I > 0 Then
-        cad = "Cuentas de cierre configurada, pero no existen: " & vbCrLf & vbCrLf & cad
-        MsgBox cad, vbExclamation
+    If i > 0 Then
+        Cad = "Cuentas de cierre configurada, pero no existen: " & vbCrLf & vbCrLf & Cad
+        MsgBox Cad, vbExclamation
         Set Rs = Nothing
         Exit Function
     End If
@@ -4439,12 +4461,12 @@ Dim Ok As Byte
         Sql = Sql & " AND fechaent ='" & Format(vParam.fechafin, FormatoFecha) & "' AND numasien = " & Text1(11).Text & ""
         
         'Borramos por si acaso ha insertado lineas
-        cad = "Delete FROM hlinapu" & Sql
-        Conn.Execute cad
+        Cad = "Delete FROM hlinapu" & Sql
+        Conn.Execute Cad
     
         'Borramos la cabcecera del apunte
-        cad = "DELETE FROM hcabapu" & Sql
-        Conn.Execute cad
+        Cad = "DELETE FROM hcabapu" & Sql
+        Conn.Execute Cad
         
         Label3.Caption = ""
     
@@ -4500,9 +4522,9 @@ Dim CONT As Long
     
     If Opcion <> 4 Then
         Sql = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari,feccreacion,usucreacion,desdeaplicacion) VALUES (" & txtDiario(3).Text
-        cad = Sql & ",'" & Format(vParam.fechafin, FormatoFecha) & "'," & Text1(11).Text & ",NULL," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Generación Asiento 8 y 9')"
+        Cad = Sql & ",'" & Format(vParam.fechafin, FormatoFecha) & "'," & Text1(11).Text & ",NULL," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Generación Asiento 8 y 9')"
         
-        Conn.Execute cad
+        Conn.Execute Cad
     End If
     
     
@@ -4539,30 +4561,30 @@ Dim CONT As Long
         Label3.Caption = Rs!Cta & " - " & Rs!nomcta
         Label3.Refresh
         CONT = CONT + 1
-        I = Int((CONT / NumeroRegistros) * pb1.Max)
-        pb1.Value = I
+        i = Int((CONT / NumeroRegistros) * pb1.Max)
+        pb1.Value = i
         
         
         
         '$$$
-        cad = Mid(Rs!Cta & "__________", 1, vEmpresa.DigitosUltimoNivel)
-        cad = " WHERE hlinapu.codmacta=cuentas.codmacta AND hlinapu.codmacta like '" & cad & "' AND "
-        cad = "select hlinapu.codmacta,sum(coalesce(timported,0))-sum(coalesce(timporteh,0)) as miImporte,nommacta from hlinapu,cuentas" & cad
-        cad = cad & " fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
+        Cad = Mid(Rs!Cta & "__________", 1, vEmpresa.DigitosUltimoNivel)
+        Cad = " WHERE hlinapu.codmacta=cuentas.codmacta AND hlinapu.codmacta like '" & Cad & "' AND "
+        Cad = "select hlinapu.codmacta,sum(coalesce(timported,0))-sum(coalesce(timporteh,0)) as miImporte,nommacta from hlinapu,cuentas" & Cad
+        Cad = Cad & " fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
         
-        cad = cad & " GROUP BY codmacta"
+        Cad = Cad & " GROUP BY codmacta"
         
         ImpComprobacion = 0
-        RT.Open cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+        RT.Open Cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
         While Not RT.EOF
             Importe = RT!miImporte  'importe
             
             If Importe <> 0 Then
                 If Opcion = 4 Then
                     ' "linliapu, codmacta, nommacta, numdocum, ampconce "
-                    cad = Sql & "," & MaxAsiento & ",'" & RT!codmacta & "','" & DevNombreSQL(RT!Nommacta) & "','2','" & Text2(4).Text & "',"
+                    Cad = Sql & "," & MaxAsiento & ",'" & RT!codmacta & "','" & DevNombreSQL(RT!Nommacta) & "','2','" & Text2(4).Text & "',"
                 Else
-                    cad = Sql & "," & MaxAsiento & ",'" & RT!codmacta & "','',961,'" & Text2(4).Text & "',"
+                    Cad = Sql & "," & MaxAsiento & ",'" & RT!codmacta & "','',961,'" & Text2(4).Text & "',"
                 End If
                 InsertarLineasDeAsientos Importe, "NULL"
             End If
@@ -4578,10 +4600,10 @@ Dim CONT As Long
         Importe = Rs!acumPerD   'Para combrobar que a ultimo nivel suma igual que a 3 digitos
         
         If ImpComprobacion <> Importe Then
-            cad = "Error obteniendo saldos. " & vbCrLf & "Subgrupo: " & Rs!Cta & vbCrLf
-            cad = cad & "Imp 3 digitos: " & Importe & vbCrLf & "Ultimo nivel: " & ImpComprobacion
-            If Opcion <> 4 Then cad = cad & vbCrLf & vbCrLf & " No puede continuar con el cierre"
-            MsgBox cad, vbExclamation
+            Cad = "Error obteniendo saldos. " & vbCrLf & "Subgrupo: " & Rs!Cta & vbCrLf
+            Cad = Cad & "Imp 3 digitos: " & Importe & vbCrLf & "Ultimo nivel: " & ImpComprobacion
+            If Opcion <> 4 Then Cad = Cad & vbCrLf & vbCrLf & " No puede continuar con el cierre"
+            MsgBox Cad, vbExclamation
             If Opcion <> 4 Then
                 Rs.Close
                 Exit Function
@@ -4615,9 +4637,9 @@ Dim C As String
         If Opcion = 4 Then
             C = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", LaCuenta, "T")
             ' "linliapu, codmacta, nommacta, numdocum, ampconce "
-            cad = Sql & "," & MaxAsiento & ",'" & LaCuenta & "','" & DevNombreSQL(C) & "','2','" & Text2(4).Text & "',"
+            Cad = Sql & "," & MaxAsiento & ",'" & LaCuenta & "','" & DevNombreSQL(C) & "','2','" & Text2(4).Text & "',"
         Else
-            cad = Sql & "," & MaxAsiento & ",'" & LaCuenta & "','',961,'" & Text2(4).Text & "',"
+            Cad = Sql & "," & MaxAsiento & ",'" & LaCuenta & "','',961,'" & Text2(4).Text & "',"
         End If
         InsertarLineasDeAsientos ImporteTotal, "NULL"
         MaxAsiento = MaxAsiento + 1

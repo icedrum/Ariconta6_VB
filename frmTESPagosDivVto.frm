@@ -237,7 +237,7 @@ Begin VB.Form frmTESPagosDivVto
          Index           =   62
          Left            =   3660
          TabIndex        =   9
-         Top             =   1770
+         Top             =   1800
          Width           =   630
       End
       Begin VB.Label Label4 
@@ -302,14 +302,14 @@ Attribute frmA.VB_VarHelpID = -1
 Private WithEvents frmP As frmFormaPago
 Attribute frmP.VB_VarHelpID = -1
 
-Dim SQL As String
+Dim Sql As String
 Dim RC As String
-Dim RS As Recordset
+Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
-Dim cad As String
+Dim Cad As String
 Dim CONT As Long
-Dim I As Integer
+Dim i As Integer
 Dim TotalRegistros As Long
 
 Dim Importe As Currency
@@ -428,35 +428,35 @@ Dim Dias As Integer
     
     Conn.BeginTrans
     
-    SQL = ""
-    If SQL = "" Then
-        Set RS = New ADODB.Recordset
+    Sql = ""
+    If Sql = "" Then
+        Set Rs = New ADODB.Recordset
         
         
         'CadenaDesdeOtroForm. Pipes
         '           1.- cadenaSQL numfac,numsere,fecfac
         '           2.- Numero vto
         '           3.- Importe maximo
-        I = -1
+        i = -1
         RC = "Select max(numorden) from pagos WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
-        RS.Open RC, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        If RS.EOF Then
-            SQL = "Error. Vencimiento NO encontrado: " & CadenaDesdeOtroForm
+        Rs.Open RC, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        If Rs.EOF Then
+            Sql = "Error. Vencimiento NO encontrado: " & CadenaDesdeOtroForm
         Else
-            I = RS.Fields(0) '+ 1
+            i = Rs.Fields(0) '+ 1
         End If
-        RS.Close
-        Set RS = Nothing
+        Rs.Close
+        Set Rs = Nothing
     End If
     
-    If SQL <> "" Then
-        MsgBox SQL, vbExclamation
+    If Sql <> "" Then
+        MsgBox Sql, vbExclamation
         PonFoco txtCodigo(1)
         Exit Sub
         
     Else
-        SQL = "¿Desea desdoblar el vencimiento en los indicados?" 'uno de : " & Im & " euros?"
-        If MsgBox(SQL, vbQuestion + vbYesNo) = vbNo Then Exit Sub
+        Sql = "¿Desea desdoblar el vencimiento en los indicados?" 'uno de : " & Im & " euros?"
+        If MsgBox(Sql, vbQuestion + vbYesNo) = vbNo Then Exit Sub
     End If
     
     Dias = txtCodigo(3).Text
@@ -466,7 +466,7 @@ Dim Dias As Integer
     vFecVenci = FecVenci
     'OK.  a desdoblar
     vTotal = 0
-    k = I + 1
+    k = i + 1
     For J = 1 To vVtos - 1
     
         vTotal = vTotal + vImpvto
@@ -474,23 +474,23 @@ Dim Dias As Integer
         vFecVenci = DateAdd("d", DBLet(Dias, "N"), vFecVenci)
         
     
-        SQL = "INSERT INTO pagos (numorden,impefect,fecultpa,imppagad,emitdocum,"
-        SQL = SQL & "numserie,numfactu,fecfactu,codmacta,codforpa,fecefect,ctabanc1,"
-        SQL = SQL & "text1csb,text2csb,"
-        SQL = SQL & "observa,nomprove,domprove,pobprove,cpprove,proprove,codpais,nifprove,iban,codusu) "
+        Sql = "INSERT INTO pagos (numorden,impefect,fecultpa,imppagad,emitdocum,"
+        Sql = Sql & "numserie,numfactu,fecfactu,codmacta,codforpa,fecefect,ctabanc1,"
+        Sql = Sql & "text1csb,text2csb,"
+        Sql = Sql & "observa,nomprove,domprove,pobprove,cpprove,proprove,codpais,nifprove,iban,codusu) "
         'Valores
-        SQL = SQL & " SELECT " & k & "," & TransformaComasPuntos(CStr(vImpvto)) & ",NULL,NULL,0,"
-        SQL = SQL & "numserie,numfactu,fecfactu,codmacta,codforpa,"
-        SQL = SQL & DBSet(vFecVenci, "F") & ","
-        SQL = SQL & "ctabanc1,text1csb,text2csb,"
+        Sql = Sql & " SELECT " & k & "," & TransformaComasPuntos(CStr(vImpvto)) & ",NULL,NULL,0,"
+        Sql = Sql & "numserie,numfactu,fecfactu,codmacta,codforpa,"
+        Sql = Sql & DBSet(vFecVenci, "F") & ","
+        Sql = Sql & "ctabanc1,text1csb,text2csb,"
         'text83csb`,
-        SQL = SQL & "observa,nomprove,domprove,pobprove,cpprove,proprove,codpais,nifprove,iban "
-        SQL = SQL & "," & DBSet(vUsu.Id, "N")
-        SQL = SQL & " FROM pagos WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
-        SQL = SQL & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
-        SQL = SQL & " and codmacta = "
+        Sql = Sql & "observa,nomprove,domprove,pobprove,cpprove,proprove,codpais,nifprove,iban "
+        Sql = Sql & "," & DBSet(vUsu.Id, "N")
+        Sql = Sql & " FROM pagos WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
+        Sql = Sql & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
+'        Sql = Sql & " and codmacta = "
     
-        Conn.Execute SQL
+        Conn.Execute Sql
     
         k = k + 1
     
@@ -500,22 +500,22 @@ Dim Dias As Integer
     ' actualizamos el primer vencimiento
     vTotal = vTotal + vImpvto
         
-    SQL = "update pagos set impefect = coalesce(impefect,0) + " & DBSet(vImpvto, "N")
-    SQL = SQL & ", fecefect = " & DBSet(FecVenci, "F")
+    Sql = "update pagos set impefect = coalesce(imppagad,0) + " & DBSet(vImpvto, "N")
+    Sql = Sql & ", fecefect = " & DBSet(FecVenci, "F")
     
-    SQL = SQL & " WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
-    SQL = SQL & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
+    Sql = Sql & " WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
+    Sql = Sql & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
     
-    Conn.Execute SQL
+    Conn.Execute Sql
     
     ' en el ultimo dejamos la diferencia
     If vTotal <> Importe Then
-        SQL = "update pagos set impefect = impefect + " & DBSet(Importe - vTotal, "N")
+        Sql = "update pagos set impefect = impefect + " & DBSet(Importe - vTotal, "N")
         
-        SQL = SQL & " WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
-        SQL = SQL & " AND numorden = " & DBSet(k - 1, "N")
+        Sql = Sql & " WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
+        Sql = Sql & " AND numorden = " & DBSet(k - 1, "N")
         
-        Conn.Execute SQL
+        Conn.Execute Sql
     End If
     
     'Insertamos el LOG
@@ -559,7 +559,7 @@ Dim Img As Image
 
 
     Limpiar Me
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
     
     'Limpiamos el tag
     PrimeraVez = True
@@ -583,11 +583,11 @@ Dim Img As Image
     Me.Width = W + 300
     Me.Height = H + 400
     
-    I = Opcion
-    If Opcion = 13 Or I = 43 Or I = 44 Then I = 11
+    i = Opcion
+    If Opcion = 13 Or i = 43 Or i = 44 Then i = 11
     
     'Aseguradas
-    Me.cmdCancelar(I).Cancel = True
+    Me.cmdCancelar(i).Cancel = True
     
 End Sub
 
@@ -625,7 +625,7 @@ Dim cerrar As Boolean
 End Sub
 
 Private Sub txtcodigo_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim B As Boolean
 
     'Quitar espacios en blanco por los lados
@@ -641,7 +641,7 @@ Dim B As Boolean
             PonerFormatoEntero txtCodigo(Index)
             
             If txtCodigo(0).Text <> "" Then
-                txtCodigo(1).Text = Format(Round(ImporteSinFormato(txtCodigo(1).Text) / txtCodigo(0), 2), "###,###,##0.00")
+                txtCodigo(1).Text = Format(Round(ImporteSinFormato(ComprobarCero(txtCodigo(1).Text)) / txtCodigo(0), 2), "###,###,##0.00")
             End If
             
         Case 2 'FECHAS
