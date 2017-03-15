@@ -624,6 +624,24 @@ Dim miRsAux As ADODB.Recordset
         miRsAux.MoveNext
     Wend
     miRsAux.Close
+    
+    'Aprovecho aqui para leer unas para el calendario
+    TextosLabelEspanol = "select texto from usuarios.calendaretiquetas order by id"
+    miRsAux.Open TextosLabelEspanol, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    TextosLabelEspanol = ""
+    While Not miRsAux.EOF
+        TextosLabelEspanol = TextosLabelEspanol & miRsAux!TEXTO & "|"
+        miRsAux.MoveNext
+    Wend
+    miRsAux.Close
+        
+    If TextosLabelEspanol = "" Then
+        TextosLabelEspanol = "Ninguna|Importante|Negocios|Personal|Vacaciones|Atender|Viaje|"
+        TextosLabelEspanol = TextosLabelEspanol & "Preparar|Cumpleaños|Aniversario|Llamada|"
+    End If
+
+    
+    
     Set miRsAux = Nothing
     
 End Sub

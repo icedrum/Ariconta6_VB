@@ -4112,7 +4112,7 @@ Dim vFe As String
     If cmdAux(0).Tag = 0 Then
         'Cuenta normal
         txtAux(5).Text = RecuperaValor(CadenaSeleccion, 1)
-        txtaux2(5).Text = RecuperaValor(CadenaSeleccion, 2)
+        txtAux2(5).Text = RecuperaValor(CadenaSeleccion, 2)
         
         'Habilitaremos el ccoste
         HabilitarCentroCoste
@@ -4127,7 +4127,7 @@ End Sub
 Private Sub frmCC_DatoSeleccionado(CadenaSeleccion As String)
     'Centro de coste
     txtAux(12).Text = RecuperaValor(CadenaSeleccion, 1)
-    txtaux2(12).Text = RecuperaValor(CadenaSeleccion, 2)
+    txtAux2(12).Text = RecuperaValor(CadenaSeleccion, 2)
 End Sub
 
 
@@ -5387,7 +5387,7 @@ Dim SqlLog As String
         
         While Not Rs.EOF
             vCadena = vCadena & "Fra. " & DBLet(Rs!NUmSerie) & " " & Format(DBLet(Rs!NumFactu), "0000000") & " " & DBLet(Rs!FecFactu, "F")
-            vCadena2 = vCadena2 & "(" & DBSet(Rs!NUmSerie, "T") & "," & DBSet(NumFactu, "N") & "," & Year(DBLet(Rs!FecFactu, "F")) & "),"
+            vCadena2 = vCadena2 & "(" & DBSet(Rs!NUmSerie, "T") & "," & DBSet(Rs!NumFactu, "N") & "," & Year(DBLet(Rs!FecFactu, "F")) & "),"
             
             If (Nregs Mod 2) = 0 Then
                 vCadena = vCadena & vbCrLf
@@ -5461,7 +5461,7 @@ Dim SqlLog As String
         
         End If
         
-        CadB = "(factcli.numserie,factcli.numfactu,factcli.anofactu) in (" & Mid(vCadena2, 1, Len(vcaden2) - 1) & ")"
+        CadB = "(factcli.numserie,factcli.numfactu,factcli.anofactu) in (" & Mid(vCadena2, 1, Len(vCadena2) - 1) & ")"
         HacerBusqueda2
         
         Set Rs = Nothing
@@ -5726,8 +5726,8 @@ Dim i As Integer
                     
                     
                     If Limpia Then
-                        txtaux2(5).Text = ""
-                        txtaux2(12).Text = ""
+                        txtAux2(5).Text = ""
+                        txtAux2(12).Text = ""
                     End If
                     
                     ' antes si hay retencion se marca como que hay que aplicarle retencion
@@ -5848,7 +5848,7 @@ Private Sub BotonModificarLinea(Index As Integer)
             txtAux(4).Text = DataGridAux(Index).Columns(4).Text
             
             txtAux(5).Text = DataGridAux(Index).Columns(5).Text 'cuenta
-            txtaux2(5).Text = DataGridAux(Index).Columns(6).Text 'denominacion
+            txtAux2(5).Text = DataGridAux(Index).Columns(6).Text 'denominacion
             txtAux(6).Text = DataGridAux(Index).Columns(7).Text 'baseimpo
             txtAux(7).Text = DataGridAux(Index).Columns(8).Text 'codigiva
             txtAux(8).Text = DataGridAux(Index).Columns(9).Text '%iva
@@ -5861,7 +5861,7 @@ Private Sub BotonModificarLinea(Index As Integer)
                 chkAux(0).Value = 0
             End If
             txtAux(12).Text = DataGridAux(Index).Columns(15).Text 'centro de coste
-            txtaux2(12).Text = DataGridAux(Index).Columns(16).Text 'nombre centro de coste
+            txtAux2(12).Text = DataGridAux(Index).Columns(16).Text 'nombre centro de coste
             
             
     End Select
@@ -5891,10 +5891,10 @@ Dim B As Boolean
                 txtAux(jj).top = alto
             Next jj
             
-            txtaux2(5).Visible = B
-            txtaux2(5).top = alto
-            txtaux2(12).Visible = B
-            txtaux2(12).top = alto
+            txtAux2(5).Visible = B
+            txtAux2(5).top = alto
+            txtAux2(12).Visible = B
+            txtAux2(12).top = alto
             
             chkAux(0).Visible = B
             chkAux(0).top = alto
@@ -5910,8 +5910,8 @@ Dim B As Boolean
                 cmdAux(2).Enabled = False
                 txtAux(12).Visible = False
                 txtAux(12).Enabled = False
-                txtaux2(12).Visible = False
-                txtaux2(12).Enabled = False
+                txtAux2(12).Visible = False
+                txtAux2(12).Enabled = False
             End If
             
     End Select
@@ -6130,8 +6130,8 @@ Dim tots As String
                 For i = 0 To 4
                     txtAux(i).Text = ""
                 Next i
-                txtaux2(5).Text = ""
-                txtaux2(12).Text = ""
+                txtAux2(5).Text = ""
+                txtAux2(12).Text = ""
             End If
     End Select
     DataGridAux(Index).ScrollBars = dbgAutomatic
@@ -6206,8 +6206,8 @@ Dim Cad As String
 
                     txtAux(11).Text = ""
                     If Limp Then
-                        txtaux2(5).Text = ""
-                        txtaux2(12).Text = ""
+                        txtAux2(5).Text = ""
+                        txtAux2(12).Text = ""
                         For i = 0 To 11
                             txtAux(i).Text = ""
                         Next i
@@ -6425,7 +6425,7 @@ Private Sub txtAux_LostFocus(Index As Integer)
                     MsgBox "Cuenta bloqueada: " & RC, vbExclamation
                     txtAux(5).Text = ""
                 Else
-                    txtaux2(5).Text = Sql
+                    txtAux2(5).Text = Sql
                     ' traemos el tipo de iva de la cuenta
                     txtAux(7).Text = DevuelveDesdeBD("codigiva", "cuentas", "codmacta", txtAux(5).Text, "N")
                     IvaCuenta = txtAux(7)
@@ -6462,7 +6462,7 @@ Private Sub txtAux_LostFocus(Index As Integer)
                     
                 If Sql <> "" Then
                   txtAux(5).Text = ""
-                  txtaux2(5).Text = ""
+                  txtAux2(5).Text = ""
                   RC = "NO"
                 End If
             End If
@@ -6499,14 +6499,14 @@ Private Sub txtAux_LostFocus(Index As Integer)
             
             txtAux(12).Text = UCase(txtAux(12).Text)
             Sql = DevuelveDesdeBD("nomccost", "ccoste", "codccost", txtAux(12).Text, "T")
-            txtaux2(12).Text = ""
+            txtAux2(12).Text = ""
             If Sql = "" Then
                 MsgBox "Concepto NO encontrado: " & txtAux(12).Text, vbExclamation
                 txtAux(12).Text = ""
                 PonFoco txtAux(12)
                 Exit Sub
             Else
-                txtaux2(12).Text = Sql
+                txtAux2(12).Text = Sql
             End If
             
             cmdAceptar.SetFocus
@@ -6862,7 +6862,7 @@ Dim C As String
         txtAux(4).Text = RsF6!codmacta
         
         txtAux(4).Text = RsF6!codmacta
-        txtaux2(4).Text = RsF6!Nommacta
+        txtAux2(4).Text = RsF6!Nommacta
         txtAux(5).Text = DBLet(RsF6!Numdocum, "T")
         txtAux(6).Text = DBLet(RsF6!ctacontr, "T")
         txtAux(7).Text = RsF6!codconce
@@ -6882,8 +6882,8 @@ Dim C As String
         txtAux(11).Text = DBLet(RsF6!codccost, "T")
         HabilitarImportes 3
         HabilitarCentroCoste
-        txtaux2(5).Text = DBLet(RsF6!Nommacta, "T")
-        txtaux2(12).Text = DBLet(RsF6!centrocoste, "T")
+        txtAux2(5).Text = DBLet(RsF6!Nommacta, "T")
+        txtAux2(12).Text = DBLet(RsF6!centrocoste, "T")
         
     End If
     RsF6.Close
@@ -6907,7 +6907,7 @@ Private Function AuxOK() As String
         Exit Function
     End If
     
-    If txtaux2(4).Text = NO Then
+    If txtAux2(4).Text = NO Then
         AuxOK = "La cuenta debe estar dada de alta en el sistema"
         Exit Function
     End If

@@ -1366,7 +1366,8 @@ Dim J As Integer
     cmbFecha(2).Clear
     cmbFecha(3).Clear
     
-    For i = 1 To 50
+    J = Year(vParam.fechafin) + 1 - 2000
+    For i = 1 To J
         cmbFecha(2).AddItem "20" & Format(i, "00")
         cmbFecha(3).AddItem "20" & Format(i, "00")
     Next i

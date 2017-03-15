@@ -414,7 +414,7 @@ Dim impo As Currency
 Dim riesgo As Currency
 
 Dim ImpSeleccionado As Currency
-Dim I As Integer
+Dim i As Integer
 Private PrimeraVez As Boolean
 Private SeVeRiesgo As Boolean
 Dim RiesTalPag As Currency
@@ -495,10 +495,10 @@ Private Sub Form_Load()
 
     PrimeraVez = True
     Limpiar Me
-    Me.Icon = frmPpal.Icon
-    For I = 1 To imgFecha.Count - 1
-        Me.imgFecha(I).Picture = frmPpal.imgIcoForms.ListImages(2).Picture
-    Next I
+    Me.Icon = frmppal.Icon
+    For i = 1 To imgFecha.Count - 1
+        Me.imgFecha(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+    Next i
     
     
     CargaIconoListview Me.ListView1
@@ -524,10 +524,10 @@ Private Sub Form_Load()
     End If
     
     
-    I = 0
-    If Cobros And (Tipo = 2 Or Tipo = 3) Then I = 1
-    Me.mnBarra1.Visible = I = 1
-    Me.mnNumero.Visible = I = 1
+    i = 0
+    If Cobros And (Tipo = 2 Or Tipo = 3) Then i = 1
+    Me.mnBarra1.Visible = i = 1
+    Me.mnNumero.Visible = i = 1
     'Efectuar cobros
     Me.cmdRegresar.Visible = Regresar
     ListView1.SmallIcons = Me.ImageList1
@@ -546,7 +546,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub Form_Resize()
-Dim I As Integer
+Dim i As Integer
 Dim H As Integer
     If Me.WindowState = 1 Then Exit Sub  'Minimizar
     If Me.Height < 2700 Then Me.Height = 2700
@@ -555,24 +555,24 @@ Dim H As Integer
     'Situamos el frame y demas
     Me.frame.Width = Me.Width - 120
     Me.Frame1.Left = Me.Width - 120 - Me.Frame1.Width
-    Me.Frame1.Top = Me.Height - Frame1.Height - 540 '360
+    Me.Frame1.top = Me.Height - Frame1.Height - 540 '360
     
-    Me.ListView1.Top = Me.frame.Height + 60
-    Me.ListView1.Height = Me.Frame1.Top - Me.ListView1.Top - 60
+    Me.ListView1.top = Me.frame.Height + 60
+    Me.ListView1.Height = Me.Frame1.top - Me.ListView1.top - 60
     Me.ListView1.Width = Me.frame.Width
     
     'Las columnas
     H = ListView1.Tag
     ListView1.Tag = ListView1.Width - ListView1.Tag - 320 'Del margen
-    For I = 1 To Me.ListView1.ColumnHeaders.Count
-        If InStr(1, ListView1.ColumnHeaders(I).Tag, "%") Then
-            cad = (Val(ListView1.ColumnHeaders(I).Tag) * (Val(ListView1.Tag)) / 100)
+    For i = 1 To Me.ListView1.ColumnHeaders.Count
+        If InStr(1, ListView1.ColumnHeaders(i).Tag, "%") Then
+            cad = (Val(ListView1.ColumnHeaders(i).Tag) * (Val(ListView1.Tag)) / 100)
         Else
             'Si no es de % es valor fijo
-            cad = Val(ListView1.ColumnHeaders(I).Tag)
+            cad = Val(ListView1.ColumnHeaders(i).Tag)
         End If
-        Me.ListView1.ColumnHeaders(I).Width = Val(cad)
-    Next I
+        Me.ListView1.ColumnHeaders(i).Width = Val(cad)
+    Next i
     ListView1.Tag = H
 End Sub
 
@@ -583,7 +583,7 @@ Dim Columnas As String
 Dim Ancho As String
 Dim ALIGN As String
 Dim NCols As Integer
-Dim I As Integer
+Dim i As Integer
 
     ListView1.ColumnHeaders.Clear
    If Cobros Then
@@ -610,16 +610,16 @@ Dim I As Integer
         ListView1.Tag = 1600  'La suma de los valores fijos. Para k ajuste los campos k pueden crecer
     End If
         
-   For I = 1 To NCols
-        cad = RecuperaValor(Columnas, I)
+   For i = 1 To NCols
+        cad = RecuperaValor(Columnas, i)
         If cad <> "" Then
             Set ColX = ListView1.ColumnHeaders.Add()
             ColX.Text = cad
             'ANCHO
-            cad = RecuperaValor(Ancho, I)
+            cad = RecuperaValor(Ancho, i)
             ColX.Tag = cad
             'align
-            cad = Mid(ALIGN, I, 1)
+            cad = Mid(ALIGN, i, 1)
             If cad = "L" Then
                 'NADA. Es valor x defecto
             Else
@@ -631,7 +631,7 @@ Dim I As Integer
                 End If
             End If
         End If
-    Next I
+    Next i
 
 End Sub
 
@@ -839,7 +839,7 @@ Private Function DevSQL() As String
 Dim cad As String
 
     If Not Cobros Then
-        cad = "SELECT pagos.*, pagos.nomprove nommacta, tipofpago.siglas,pagos.codmacta FROM"
+        cad = "SELECT pagos.*, pagos.nomprove nommacta, tipofpago.siglas,pagos.codmacta,ImpEfect-coalesce(imppagad,0) as imppdte  FROM"
         cad = cad & " pagos, formapago, tipofpago"
         cad = cad & " Where formapago.tipforpa = tipofpago.tipoformapago"
         cad = cad & " AND pagos.codforpa = formapago.codforpa"
@@ -1043,16 +1043,16 @@ Private Sub ListView1_DblClick()
 End Sub
 
 Private Sub ListView1_ItemCheck(ByVal Item As MSComctlLib.ListItem)
-    I = ColD(0)
-    impo = ImporteFormateado(Item.SubItems(I))
+    i = ColD(0)
+    impo = ImporteFormateado(Item.SubItems(i))
     
     If Item.Checked Then
         Set ListView1.SelectedItem = Item
-        I = 1
+        i = 1
     Else
-        I = -1
+        i = -1
     End If
-    ImpSeleccionado = ImpSeleccionado + (I * impo)
+    ImpSeleccionado = ImpSeleccionado + (i * impo)
     Text2(2).Text = Format(ImpSeleccionado, FormatoImporte)
     
 End Sub
@@ -1067,11 +1067,11 @@ Private Sub SeleccionarTodos(Seleccionar As Boolean)
 Dim J As Integer
     J = ColD(0)
     ImpSeleccionado = 0
-    For I = 1 To Me.ListView1.ListItems.Count
-        ListView1.ListItems(I).Checked = Seleccionar
-        impo = ImporteFormateado(ListView1.ListItems(I).SubItems(J))
+    For i = 1 To Me.ListView1.ListItems.Count
+        ListView1.ListItems(i).Checked = Seleccionar
+        impo = ImporteFormateado(ListView1.ListItems(i).SubItems(J))
         ImpSeleccionado = ImpSeleccionado + impo
-    Next I
+    Next i
     If Not Seleccionar Then ImpSeleccionado = 0
     Text2(2).Text = Format(ImpSeleccionado, FormatoImporte)
 End Sub

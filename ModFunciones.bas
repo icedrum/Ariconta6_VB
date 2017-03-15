@@ -1515,6 +1515,111 @@ EModificaDesdeFormulario:
     MuestraError Err.Number, "Modificar. " & Err.Description
 End Function
 
+'Este será el bueno
+Public Function ModificaDesdeFormularioClaves2(ByRef formulario As Form, opcio As Integer, nom_frame As String, Clave As String) As Boolean
+Dim Control As Object
+Dim mTag As CTag
+Dim Aux As String
+Dim cadUPDATE As String
+
+On Error GoTo EModificaDesdeFormulario
+    ModificaDesdeFormularioClaves2 = False
+    Set mTag = New CTag
+    Aux = ""
+    
+    For Each Control In formulario.Controls
+        'Si es texto monta esta parte de sql
+        If TypeOf Control Is TextBox Then
+            If Control.Tag <> "" Then
+                If (opcio = 0) Or ((opcio = 1) And (InStr(1, Control.Container.Name, "FrameAux")) = 0) Or ((opcio = 2) And (Control.Container.Name = nom_frame)) Then
+                    mTag.Cargar Control
+                    If mTag.Cargado Then
+                        If mTag.Columna <> "" Then
+                            'Sea para el where o para el update esto lo necesito
+                            Aux = ValorParaSQL(Control.Text, mTag)
+                            'Si es campo clave NO se puede modificar y se utiliza como busqueda
+                            
+                            If cadUPDATE <> "" Then cadUPDATE = cadUPDATE & " , "
+                            cadUPDATE = cadUPDATE & "" & mTag.Columna & " = " & Aux
+                        
+                        End If
+                    End If
+                End If
+            End If
+        'CheckBOX
+        ElseIf TypeOf Control Is CheckBox Then
+            'Partimos de la base que un booleano no es nunca clave primaria
+            If Control.Tag <> "" Then
+                If (opcio = 0) Or ((opcio = 1) And (InStr(1, Control.Container.Name, "FrameAux")) = 0) Or ((opcio = 2) And (Control.Container.Name = nom_frame)) Then
+                    mTag.Cargar Control
+                    If Control.Value = 1 Then
+                        Aux = "TRUE"
+                    Else
+                        Aux = "FALSE"
+                    End If
+                    If mTag.TipoDato = "N" Then Aux = Abs(CBool(Aux))
+                    If cadUPDATE <> "" Then cadUPDATE = cadUPDATE & " , "
+                    'Esta es para access
+                    'cadUPDATE = cadUPDATE & "[" & mTag.Columna & "] = " & aux
+                    cadUPDATE = cadUPDATE & "" & mTag.Columna & " = " & Aux
+                End If
+            End If
+
+        ElseIf TypeOf Control Is ComboBox Then
+            If Control.Tag <> "" Then
+                If (opcio = 0) Or ((opcio = 1) And (InStr(1, Control.Container.Name, "FrameAux")) = 0) Or ((opcio = 2) And (Control.Container.Name = nom_frame)) Then
+                    mTag.Cargar Control
+                    If mTag.Cargado Then
+                        If Control.ListIndex = -1 Then
+                            Aux = ValorNulo
+                        ElseIf mTag.TipoDato = "N" Then
+                            Aux = Control.ItemData(Control.ListIndex)
+                        Else
+                            Aux = ValorParaSQL(Control.List(Control.ListIndex), mTag)
+                        End If
+                        
+                        
+                            If cadUPDATE <> "" Then cadUPDATE = cadUPDATE & " , "
+                            cadUPDATE = cadUPDATE & "" & mTag.Columna & " = " & Aux
+                        
+                    End If
+                End If
+            End If
+            
+        ElseIf TypeOf Control Is OptionButton Then
+            If Control.Tag <> "" Then
+                If (opcio = 0) Or ((opcio = 1) And (InStr(1, Control.Container.Name, "FrameAux")) = 0) Then
+                    mTag.Cargar Control
+                    If mTag.Cargado Then
+                        If Control.Value Then
+                            Aux = Control.Index
+                            If cadUPDATE <> "" Then cadUPDATE = cadUPDATE & " , "
+                            cadUPDATE = cadUPDATE & "" & mTag.Columna & " = " & Aux
+                        End If
+                    End If
+                End If
+            End If
+            
+        End If
+    Next Control
+  
+    Aux = "UPDATE " & mTag.tabla
+    Aux = Aux & " SET " & cadUPDATE & " WHERE " & Clave
+    Conn.Execute Aux, , adCmdText
+
+
+    CadenaCambio = cadUPDATE
+
+    ModificaDesdeFormularioClaves2 = True
+    Exit Function
+    
+EModificaDesdeFormulario:
+    MuestraError Err.Number, "Modificar 2 claves. " & Err.Description
+End Function
+
+
+
+
 
 
 
@@ -1758,6 +1863,16 @@ On Error Resume Next
     T.SetFocus
     If Err.Number <> 0 Then Err.Clear
 End Sub
+
+Public Sub BloqueaTXT(ByRef T As TextBox, bloquear As Boolean)
+On Error Resume Next
+    
+    T.Locked = bloquear
+    T.BackColor = IIf(bloquear, &H80000018, &H80000005)
+    If Err.Number <> 0 Then Err.Clear
+End Sub
+
+
 
 
 Public Sub PonerFocoGrid(ByRef DGrid As DataGrid)

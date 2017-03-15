@@ -713,6 +713,7 @@ Begin VB.Form frmTESRemesasDev
          End
       End
       Begin VB.CommandButton cmdCancelar 
+         Cancel          =   -1  'True
          Caption         =   "Cancelar"
          BeginProperty Font 
             Name            =   "Verdana"
@@ -1169,8 +1170,8 @@ Dim Aux As String
     
     If Not RealizarDevolucion Then Exit Sub
 
-    Unload Me
-
+    'Unload Me
+    MsgBox "Proceso realizado correctamente", vbInformation
 End Sub
 
 Private Function RealizarDevolucion() As Boolean
@@ -1290,11 +1291,11 @@ Dim CtaBan As String
     
     Select Case Opcion
         Case 9
-            vRemesa = vRemesa & "Remesa: " & Text3(5).Text & "/" & Text3(6).Text
+            vRemesa = vRemesa & "Dev. remesa: " & Text3(5).Text & "/" & Text3(6).Text
         Case 28
-            vRemesa = vRemesa & "Remesas de Cta : " & txtCtaNormal(11).Text
+            vRemesa = vRemesa & "Dev remesas de Cta : " & txtCtaNormal(11).Text
         Case 16
-            vRemesa = vRemesa & "Fichero: " & Text8.Text
+            vRemesa = vRemesa & "Dev fichero: " & Text8.Text
     End Select
     vRemesa = vRemesa & "|1|"
     
@@ -1304,8 +1305,15 @@ Dim CtaBan As String
     
     If RealizarDevolucionRemesa(CDate(Text1(11)), jj > 0, CtaBan, vRemesa, ValoresDevolucionRemesa) Then
         RealizarDevolucion = True
+        
+        For jj = lwCobros.ListItems.Count To 1 Step -1
+            If lwCobros.ListItems(jj).Checked Then lwCobros.ListItems.Remove jj
+        Next jj
+        
         Screen.MousePointer = vbHourglass
         Screen.MousePointer = vbDefault
+        
+        
     End If
 End Function
 
@@ -1375,7 +1383,7 @@ Dim W As Integer
     If NumeroDocumento <> "" Then
         Text3(5).Text = RecuperaValor(NumeroDocumento, 1)
         Text3(6).Text = RecuperaValor(NumeroDocumento, 2)
-        Text3_LostFocus (5)
+        'Text3_LostFocus (5)  --> Si no lo hace dos veces
     End If
     
     CargaCombo
@@ -1397,27 +1405,29 @@ Private Sub CargaCabecera()
     lwCobros.ColumnHeaders.Clear
     
     If Opcion = 9 Or Opcion = 28 Then
-        lwCobros.ColumnHeaders.Add , , "Serie", 720
+        lwCobros.ColumnHeaders.Add , , "Serie", 820
         lwCobros.ColumnHeaders.Add , , "Factura", 1140
         lwCobros.ColumnHeaders.Add , , "Vto", 650
         lwCobros.ColumnHeaders.Add , , "Cuenta", 1500
-        lwCobros.ColumnHeaders.Add , , "Cliente", 3800
-        lwCobros.ColumnHeaders.Add , , "Importe", 1950, 1
-        lwCobros.ColumnHeaders.Add , , "FechaOrden", 0
+        lwCobros.ColumnHeaders.Add , , "Cliente", 4200
+        lwCobros.ColumnHeaders.Add , , "Importe", 1450, 1
+        lwCobros.ColumnHeaders.Add , , "FraOrden", 0
         lwCobros.ColumnHeaders.Add , , "ImporteOrden", 0
         lwCobros.ColumnHeaders.Add , , "Remesa", 1000, 1
         lwCobros.ColumnHeaders.Add , , "Año", 800
         lwCobros.ColumnHeaders.Add , , "Banco", 1500
+        
+        i = 10 'para elegir la ultima columna, la que llevara ser-fac como ordenacion
     Else
         ' en el caso de devolucion desde fichero mostramos el codigo de devolucion
-        lwCobros.ColumnHeaders.Add , , "Serie", 720
+        lwCobros.ColumnHeaders.Add , , "Serie", 820
         lwCobros.ColumnHeaders.Add , , "Factura", 1140
         lwCobros.ColumnHeaders.Add , , "Vto", 650
         lwCobros.ColumnHeaders.Add , , "Cuenta", 1500
-        lwCobros.ColumnHeaders.Add , , "Cliente", 3800
-        lwCobros.ColumnHeaders.Add , , "Importe", 1950, 1
+        lwCobros.ColumnHeaders.Add , , "Cliente", 4200
+        lwCobros.ColumnHeaders.Add , , "Importe", 1450, 1
         
-        lwCobros.ColumnHeaders.Add , , "FechaOrden", 0
+        lwCobros.ColumnHeaders.Add , , "FraOrden", 0
         lwCobros.ColumnHeaders.Add , , "ImporteOrden", 0
         lwCobros.ColumnHeaders.Add , , "Remesa", 0, 1
         lwCobros.ColumnHeaders.Add , , "Año", 0
@@ -1425,9 +1435,14 @@ Private Sub CargaCabecera()
         
         lwCobros.ColumnHeaders.Add , , "Devolución", 4000, 0
         
-    
+        
     End If
 
+    
+    lwCobros.SortKey = 8
+    lwCobros.SortOrder = lvwAscending
+    lwCobros.Sorted = True
+    
     OpcionAnt = Opcion
 
 End Sub
@@ -1589,6 +1604,30 @@ Private Sub imgRem_Click(Index As Integer)
     End If
     
     
+End Sub
+
+Private Sub lwCobros_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
+    'Reordenar
+    
+        
+        i = ColumnHeader.Index
+        If ColumnHeader.Index = 1 Then i = 7
+        If ColumnHeader.Index = 6 Then i = 8
+        i = i - 1
+    
+    
+    
+    If lwCobros.SortKey = i Then
+        If lwCobros.SortOrder = lvwAscending Then
+            lwCobros.SortOrder = lvwDescending
+        Else
+            lwCobros.SortOrder = lvwAscending
+        End If
+    Else
+        
+        lwCobros.SortOrder = lvwAscending
+        lwCobros.SortKey = i
+    End If
 End Sub
 
 Private Sub lwCobros_ItemCheck(ByVal Item As MSComctlLib.ListItem)
@@ -1958,10 +1997,18 @@ Dim TipoFicheroDevolucion As Byte
         
         Case 28
             vSql = " and (codrem,anyorem) in (select codrem, anyorem from cobros where codmacta = " & DBSet(txtCtaNormal(11).Text, "T") & " and siturem ='Q' and not codrem is null) "
+            vSql = " AND codmacta = " & DBSet(txtCtaNormal(11).Text, "T") & vSql
     End Select
     
-    
+    '#####################
+    ' Pasa por aqui..... DOS VECES!!!!!!!!!!!
+    ' y eso antes del load!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ' nooooooooooooooooooooooooooooooooooooooo
     If Opcion <> 16 Then
+    
+        
+    
+    
         vSql = "Select cobros.* from cobros where (1=1)" & vSql
         
         vSql = vSql & " ORDER BY numserie,numfactu"
@@ -1987,8 +2034,8 @@ Dim TipoFicheroDevolucion As Byte
             Itm.SubItems(5) = Format(ImporteQueda, FormatoImporte)
             
             'Para la ordenacion
-            'Por si ordena por fecha
-            'ItmX.SubItems(6) = Format(RS!fecfaccl, "yyyymmdd")
+            'Por si ordena por ser-fac
+            Itm.SubItems(6) = Mid(miRsAux!NUmSerie & "   ", 1, 3) & Itm.SubItems(1)
             'Por si ordena por importe
             Itm.SubItems(7) = Format(miRsAux!ImpVenci * 100, "0000000000")
             
@@ -2031,64 +2078,64 @@ Private Sub RecorreBuscandoRecibo(ByRef Recibos As Collection, EsMensajeNoEncont
     End If
 End Sub
 
-
-
-Private Sub PonerVtosRemesa(vSql As String, Modificar As Boolean)
-Dim IT
-Dim ImporteTot As Currency
-Dim cad As String
-Dim Importe As Currency
-
-
-    lwCobros.ListItems.Clear
-    If Not Modificar Then Text1(4).Text = ""
-    
-    ImporteTot = 0
-    
-'    Set Me.lwCobros.SmallIcons = frmPpal.ImgListviews
-    Set lwCobros.SmallIcons = frmppal.imgListComun16
-    Set miRsAux = New ADODB.Recordset
-    
-    cad = "Select cobros.*,nomforpa " & vSql
-    cad = cad & " ORDER BY fecvenci"
-    
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    While Not miRsAux.EOF
-        Set IT = lwCobros.ListItems.Add()
-        IT.Text = miRsAux!NUmSerie
-        IT.SubItems(1) = Format(miRsAux!NumFactu, "0000000")
-        IT.SubItems(2) = Format(miRsAux!FecFactu, "dd/mm/yyyy")
-        IT.SubItems(3) = miRsAux!numorden
-        IT.SubItems(4) = miRsAux!FecVenci
-        IT.SubItems(5) = miRsAux!nomforpa
-    
-        IT.Checked = False
-    
-        Importe = DBLet(miRsAux!Gastos, "N")
-        Importe = Importe + miRsAux!ImpVenci
-        
-        'Si ya he cobrado algo
-        If Not IsNull(miRsAux!impcobro) Then Importe = Importe - miRsAux!impcobro
-        
-        IT.SubItems(6) = Format(Importe, FormatoImporte)
-        
-        ImporteTot = ImporteTot + Importe
-
-        IT.Tag = Abs(Importe)  'siempre valor absoluto
-            
-        If DBLet(miRsAux!Devuelto, "N") = 1 Then
-            IT.SmallIcon = 42
-        End If
-            
-        miRsAux.MoveNext
-    Wend
-    miRsAux.Close
-    Set miRsAux = Nothing
-    
-    Text1(4).Text = Format(ImporteTot, "###,###,##0.00")
-    
-
-End Sub
+'
+'
+'Private Sub PonerVtosRemesa(vSql As String, Modificar As Boolean)
+'Dim IT
+'Dim ImporteTot As Currency
+'Dim cad As String
+'Dim Importe As Currency
+'
+'
+'    lwCobros.ListItems.Clear
+'    If Not Modificar Then Text1(4).Text = ""
+'
+'    ImporteTot = 0
+'
+''    Set Me.lwCobros.SmallIcons = frmPpal.ImgListviews
+'    Set lwCobros.SmallIcons = frmppal.imgListComun16
+'    Set miRsAux = New ADODB.Recordset
+'
+'    cad = "Select cobros.*,nomforpa " & vSql
+'    cad = cad & " ORDER BY fecvenci"
+'
+'    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+'    While Not miRsAux.EOF
+'        Set IT = lwCobros.ListItems.Add()
+'        IT.Text = miRsAux!NUmSerie
+'        IT.SubItems(1) = Format(miRsAux!NumFactu, "0000000")
+'        IT.SubItems(2) = Format(miRsAux!FecFactu, "dd/mm/yyyy")
+'        IT.SubItems(3) = miRsAux!numorden
+'        IT.SubItems(4) = miRsAux!FecVenci
+'        IT.SubItems(5) = miRsAux!nomforpa
+'
+'        IT.Checked = False
+'
+'        Importe = DBLet(miRsAux!Gastos, "N")
+'        Importe = Importe + miRsAux!ImpVenci
+'
+'        'Si ya he cobrado algo
+'        If Not IsNull(miRsAux!impcobro) Then Importe = Importe - miRsAux!impcobro
+'
+'        IT.SubItems(6) = Format(Importe, FormatoImporte)
+'
+'        ImporteTot = ImporteTot + Importe
+'
+'        IT.Tag = Abs(Importe)  'siempre valor absoluto
+'
+'        If DBLet(miRsAux!Devuelto, "N") = 1 Then
+'            IT.SmallIcon = 42
+'        End If
+'
+'        miRsAux.MoveNext
+'    Wend
+'    miRsAux.Close
+'    Set miRsAux = Nothing
+'
+'    Text1(4).Text = Format(ImporteTot, "###,###,##0.00")
+'
+'
+'End Sub
 
 Private Sub Text8_LostFocus()
     If Text8.Text <> "" Then

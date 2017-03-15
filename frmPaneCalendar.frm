@@ -94,7 +94,7 @@ Private Sub Form_Load()
    
    ' tree.Nodes.Add , , , "Calendario", SHORTCUT_CALENDAR
     
-   ' DatePicker.AttachToCalendar frmInbox.wndCalendarControl
+   ' DatePicker.AttachToCalendar frmInbox.CalendarControl
    DatePicker.FirstDayOfWeek = 2
    AsignarCalendar
     
@@ -115,9 +115,9 @@ Public Sub AsignarCalendar()
     
     If Not frmInbox Is Nothing Then
     
-        DatePicker.AttachToCalendar frmInbox.wndCalendarControl
+        DatePicker.AttachToCalendar frmInbox.CalendarControl
         DatePicker.FirstDayOfWeek = 2
-         frmInbox.wndCalendarControl.DayView.ShowDay DateTime.Now, True
+         frmInbox.CalendarControl.DayView.ShowDay DateTime.Now, True
     End If
     
     Err.Clear
@@ -158,5 +158,5 @@ Sub UpdateLayout()
 End Sub
 
 Private Sub MainCaption_ExpandButtonClicked()
-    Call frmPpal.ExpandButtonClicked
+    Call frmppal.ExpandButtonClicked
 End Sub

@@ -851,10 +851,10 @@ Attribute frmDia.VB_VarHelpID = -1
 Private WithEvents frmC As frmColCtas
 Attribute frmC.VB_VarHelpID = -1
 
-Private SQL As String
-Dim cad As String
+Private Sql As String
+Dim Cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim PrimeraVez As String
 
@@ -932,7 +932,7 @@ Private Sub Form_Activate()
             
             chkTotalAsiento.Value = False
             chkMovim.Value = False
-            Me.Check1.Value = False
+            Me.check1.Value = False
             
             cmdAccion_Click (1)
         End If
@@ -954,14 +954,14 @@ End Sub
 Private Sub Form_Load()
     PrimeraVez = True
 
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Extracto de Cuentas"
 
-    For I = 0 To 1
-        Me.imgCuentas(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To 1
+        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
     
     PrimeraVez = True
      
@@ -1052,24 +1052,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -1088,18 +1088,18 @@ Private Sub txtCuentas_KeyDown(Index As Integer, KeyCode As Integer, Shift As In
 End Sub
 
 
-Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
+Private Sub LanzaFormAyuda(Nombre As String, indice As Integer)
     Select Case Nombre
     Case "imgCuentas"
-        imgCuentas_Click Indice
+        imgCuentas_Click indice
     Case "imgFecha"
-        imgFec_Click Indice
+        imgFec_Click indice
     End Select
     
 End Sub
 
 Private Sub txtCuentas_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim RC As String
 Dim Hasta As Integer
 
@@ -1129,11 +1129,11 @@ Dim Hasta As Integer
             'lblCuentas(Index).Caption = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", txtCuentas(Index), "T")
             
             RC = txtCuentas(Index).Text
-            If CuentaCorrectaUltimoNivelSIN(RC, SQL) Then
+            If CuentaCorrectaUltimoNivelSIN(RC, Sql) Then
                 txtCuentas(Index) = RC
-                txtNCuentas(Index).Text = SQL
+                txtNCuentas(Index).Text = Sql
             Else
-                MsgBox SQL, vbExclamation
+                MsgBox Sql, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
                 PonFoco txtCuentas(Index)
@@ -1150,23 +1150,23 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
-    SQL = "Select hlinapu.codmacta as Código, cuentas.nommacta Denominación, hlinapu.fechaent Fecha, hlinapu.numasien Asiento, hlinapu.numdocum Documento, hlinapu.codconce Concepto, "
-    SQL = SQL & " hlinapu.ampconce Ampliación, hlinapu.ctacontr Contrapartida, hlinapu.codccost CC, hlinapu.timported Debe, hlinapu.timporteh Haber, "
-    SQL = SQL & "if (@cuenta=hlinapu.codmacta, @saldo:= @saldo + (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)), @saldo:= (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) ) as Saldo "
+    Sql = "Select hlinapu.codmacta as Código, cuentas.nommacta Denominación, hlinapu.fechaent Fecha, hlinapu.numasien Asiento, hlinapu.numdocum Documento, hlinapu.codconce Concepto, "
+    Sql = Sql & " hlinapu.ampconce Ampliación, hlinapu.ctacontr Contrapartida, hlinapu.codccost CC, hlinapu.timported Debe, hlinapu.timporteh Haber, "
+    Sql = Sql & "if (@cuenta=hlinapu.codmacta, @saldo:= @saldo + (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)), @saldo:= (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) ) as Saldo "
     
-    If Combo1.ListIndex <> 1 Then SQL = SQL & ",if(punteada=1,'SI','') Punteada "
+    If Combo1.ListIndex <> 1 Then Sql = Sql & ",if(punteada=1,'SI','') Punteada "
     
-    SQL = SQL & ", if(@cuenta:=hlinapu.codmacta, '','')  as '' " ' hacemos la asignacion de la variable pero no queremos mostrarla
-    SQL = SQL & " FROM (hlinapu  INNER JOIN tmpconextcab ON hlinapu.codmacta = tmpconextcab.cta and tmpconextcab.codusu = " & vUsu.Codigo & ") INNER JOIN cuentas ON hlinapu.codmacta = cuentas.codmacta, (select @saldo:=0, @cuenta:=null) r "
-    SQL = SQL & " where " & cadselect
+    Sql = Sql & ", if(@cuenta:=hlinapu.codmacta, '','')  as '' " ' hacemos la asignacion de la variable pero no queremos mostrarla
+    Sql = Sql & " FROM (hlinapu  INNER JOIN tmpconextcab ON hlinapu.codmacta = tmpconextcab.cta and tmpconextcab.codusu = " & vUsu.Codigo & ") INNER JOIN cuentas ON hlinapu.codmacta = cuentas.codmacta, (select @saldo:=0, @cuenta:=null) r "
+    Sql = Sql & " where " & cadselect
     
-    SQL = SQL & " ORDER BY 1,3,4   "
+    Sql = Sql & " ORDER BY 1,3,4   "
         
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1209,7 +1209,7 @@ Dim nomDocu As String
     numParam = numParam + 6
     
     
-    If Check1.Value = 1 Then
+    If check1.Value = 1 Then
         indRPT = "0303-01" '"ConsExtracExt.rpt"
     Else
         indRPT = "0303-00" '"ConsExtrac.rpt"
@@ -1236,8 +1236,8 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
 
@@ -1261,10 +1261,10 @@ Dim RC2 As String
 End Function
 
 Private Function CargaTemporal2() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim Sql3 As String
-Dim RS As ADODB.Recordset
+Dim Rs As ADODB.Recordset
 Dim Rs2 As ADODB.Recordset
 Dim Rs3 As ADODB.Recordset
 Dim B As Boolean
@@ -1274,53 +1274,54 @@ Dim B As Boolean
     CargaTemporal2 = False
 
     ' Tabla auxiliar en donde vamos a guardar las cuentas a mostrar
-    SQL = "delete from tmpconextcab where codusu = " & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "delete from tmpconextcab where codusu = " & vUsu.Codigo
+    Conn.Execute Sql
             
     ' Tabla auxiliar en donde vamos a guardar las lineas de apuntes
-    SQL = "delete from tmpconext where codusu = " & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "delete from tmpconext where codusu = " & vUsu.Codigo
+    Conn.Execute Sql
 
-    SQL = "select hlinapu.codmacta, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)), "
-    SQL = SQL & "cuentas.nommacta from hlinapu inner join cuentas on hlinapu.codmacta = cuentas.codmacta where (1=1) "
+    Sql = "select hlinapu.codmacta, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)), "
+    Sql = Sql & "cuentas.nommacta from hlinapu inner join cuentas on hlinapu.codmacta = cuentas.codmacta where (1=1) "
             
     If txtNIF.Text <> "" Then
-        SQL = SQL & " and cuentas.nifdatos = " & DBSet(txtNIF, "T")
+        Sql = Sql & " and cuentas.nifdatos = " & DBSet(txtNIF, "T")
     End If
             
-    If cadselect <> "" Then SQL = SQL & " and " & cadselect
+    If cadselect <> "" Then Sql = Sql & " and " & cadselect
     
     ' si esta marcada solo cuentas con movimientos en el ejercicio actual
     If chkMovim.Value = 1 Then
-        SQL = SQL & " and hlinapu.codmacta in (select distinct codmacta from hlinapu where fechaent >= " & DBSet(vParam.fechaini, "F") & " and codconce < 900) "
+        Sql = Sql & " and hlinapu.codmacta in (select distinct codmacta from hlinapu where fechaent >= " & DBSet(vParam.fechaini, "F") & " and codconce < 900) "
     End If
             
-    SQL = SQL & " group by 1,4 "
+    Sql = Sql & " group by 1,4 "
             
     Select Case Combo2.ListIndex
         Case 0 'Todas
         
         Case 1 'saldo <> 0
-            SQL = SQL & " having sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) <> 0"
+            Sql = Sql & " having sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) <> 0"
         Case 2 'saldo = 0
-            SQL = SQL & " having sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) = 0"
+            Sql = Sql & " having sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) = 0"
     End Select
 
     B = True
 
-    Set RS = New ADODB.Recordset
-    RS.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    While Not RS.EOF And B
+    Set Rs = New ADODB.Recordset
+    Screen.MousePointer = vbHourglass
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    While Not Rs.EOF And B
     
-        B = (CargaDatosConExt(RS!codmacta, txtFecha(0).Text, txtFecha(1).Text, cadselect, RS.Fields(3).Value) = 0)
+        B = (CargaDatosConExt(Rs!codmacta, txtFecha(0).Text, txtFecha(1).Text, cadselect, Rs.Fields(3).Value) = 0)
    
-        RS.MoveNext
+        Rs.MoveNext
     Wend
     
-    Set RS = Nothing
+    Set Rs = Nothing
     
     CargaTemporal2 = B
-    
+    Screen.MousePointer = vbDefault
     Exit Function
     
 eCargaTemporal:
@@ -1329,10 +1330,10 @@ End Function
 
 
 Private Function CargaTemporal() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim Sql3 As String
-Dim RS As ADODB.Recordset
+Dim Rs As ADODB.Recordset
 Dim Rs2 As ADODB.Recordset
 Dim Rs3 As ADODB.Recordset
 
@@ -1341,88 +1342,88 @@ Dim Rs3 As ADODB.Recordset
     CargaTemporal = False
     
     ' Tabla auxiliar en donde vamos a guardar las cuentas a mostrar
-    SQL = "delete from tmpconextcab where codusu = " & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "delete from tmpconextcab where codusu = " & vUsu.Codigo
+    Conn.Execute Sql
             
     ' Tabla auxiliar en donde vamos a guardar las lineas de apuntes
-    SQL = "delete from tmpconext where codusu = " & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "delete from tmpconext where codusu = " & vUsu.Codigo
+    Conn.Execute Sql
             
             
-    SQL = "insert into tmpconextcab (codusu, cta, acumperD, acumperH, cuenta) select " & vUsu.Codigo & ", hlinapu.codmacta, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)), "
-    SQL = SQL & "concat(hlinapu.codmacta, ' - ', cuentas.nommacta) from hlinapu inner join cuentas on hlinapu.codmacta = cuentas.codmacta where (1=1) "
+    Sql = "insert into tmpconextcab (codusu, cta, acumperD, acumperH, cuenta) select " & vUsu.Codigo & ", hlinapu.codmacta, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)), "
+    Sql = Sql & "concat(hlinapu.codmacta, ' - ', cuentas.nommacta) from hlinapu inner join cuentas on hlinapu.codmacta = cuentas.codmacta where (1=1) "
             
     If txtNIF.Text <> "" Then
-        SQL = SQL & " and hlinapu.nifdatos = " & DBSet(txtNIF, "T")
+        Sql = Sql & " and hlinapu.nifdatos = " & DBSet(txtNIF, "T")
     End If
             
-    If cadselect <> "" Then SQL = SQL & " and " & cadselect
+    If cadselect <> "" Then Sql = Sql & " and " & cadselect
             
-    SQL = SQL & " group by 1,2, 5 "
+    Sql = Sql & " group by 1,2, 5 "
             
     Select Case Combo2.ListIndex
         Case 0 'Todas
         
         Case 1 'saldo <> 0
-            SQL = SQL & " having sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) <> 0"
+            Sql = Sql & " having sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) <> 0"
         Case 2 'saldo = 0
-            SQL = SQL & " having sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) = 0"
+            Sql = Sql & " having sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) = 0"
     End Select
             
-    Conn.Execute SQL
+    Conn.Execute Sql
     
     ' Solo para el caso de que no sea salida a csv cargamos las lineas y acumulados que necesitemos
     If optTipoSal(1).Value = 0 Then
         ' ACUMULADOS
-        SQL = "select cta from tmpconextcab where codusu = " & vUsu.Codigo
+        Sql = "select cta from tmpconextcab where codusu = " & vUsu.Codigo
         
-        Set RS = New ADODB.Recordset
-        RS.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Set Rs = New ADODB.Recordset
+        Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         
-        While Not RS.EOF
+        While Not Rs.EOF
             'Acumulados anteriores al periodo
-            SQL2 = "select sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) from hlinapu where codmacta = " & DBSet(RS!Cta, "T")
-            SQL2 = SQL2 & " and fechaent >= " & DBSet(vParam.fechaini, "F") & " and fechaent < " & DBSet(txtFecha(0).Text, "F")
+            Sql2 = "select sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) from hlinapu where codmacta = " & DBSet(Rs!Cta, "T")
+            Sql2 = Sql2 & " and fechaent >= " & DBSet(vParam.fechaini, "F") & " and fechaent < " & DBSet(txtFecha(0).Text, "F")
             
             Set Rs2 = New ADODB.Recordset
-            Rs2.Open SQL2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            Rs2.Open Sql2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             
             'Acumulados totales
-            Sql3 = "select sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) from hlinapu where codmacta = " & DBSet(RS!Cta, "T")
+            Sql3 = "select sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) from hlinapu where codmacta = " & DBSet(Rs!Cta, "T")
             Sql3 = Sql3 & " and fechaent >= " & DBSet(vParam.fechaini, "F") & " and fechaent <= " & DBSet(vParam.fechafin, "F")
             
             Set Rs3 = New ADODB.Recordset
             Rs3.Open Sql3, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             
-            SQL2 = "update tmpconextcab set acumantD = " & DBSet(Rs2.Fields(0).Value, "N")
-            SQL2 = SQL2 & " , acumantH = " & DBSet(Rs2.Fields(1).Value, "N")
-            SQL2 = SQL2 & " , acumantT = " & DBSet(DBLet(Rs2.Fields(0).Value, "N") - DBLet(Rs2.Fields(1).Value, "N"), "N")
-            SQL2 = SQL2 & " , acumtotD = " & DBSet(Rs3.Fields(0).Value, "N")
-            SQL2 = SQL2 & " , acumtotH = " & DBSet(Rs3.Fields(1).Value, "N")
-            SQL2 = SQL2 & " , acumtotT = " & DBSet(DBLet(Rs3.Fields(0).Value, "N") - DBLet(Rs3.Fields(1).Value, "N"), "N")
-            SQL2 = SQL2 & " where codusu = " & DBSet(vUsu.Codigo, "N") & " and cuenta = " & DBSet(RS!Cta, "T")
+            Sql2 = "update tmpconextcab set acumantD = " & DBSet(Rs2.Fields(0).Value, "N")
+            Sql2 = Sql2 & " , acumantH = " & DBSet(Rs2.Fields(1).Value, "N")
+            Sql2 = Sql2 & " , acumantT = " & DBSet(DBLet(Rs2.Fields(0).Value, "N") - DBLet(Rs2.Fields(1).Value, "N"), "N")
+            Sql2 = Sql2 & " , acumtotD = " & DBSet(Rs3.Fields(0).Value, "N")
+            Sql2 = Sql2 & " , acumtotH = " & DBSet(Rs3.Fields(1).Value, "N")
+            Sql2 = Sql2 & " , acumtotT = " & DBSet(DBLet(Rs3.Fields(0).Value, "N") - DBLet(Rs3.Fields(1).Value, "N"), "N")
+            Sql2 = Sql2 & " where codusu = " & DBSet(vUsu.Codigo, "N") & " and cuenta = " & DBSet(Rs!Cta, "T")
             
-            Conn.Execute SQL2
+            Conn.Execute Sql2
             
             'Lineas de apuntes
-            SQL2 = "insert into tmpconext (codusu,cta,numdiari,Pos,fechaent,numasien,linliapu,nomdocum,ampconce,timporteD,timporteH,saldo,Punteada,contra,ccost) "
-            SQL2 = SQL2 & " select " & vUsu.Codigo & ",codmacta, numdiari, @Pos:=@Pos + 1, fechaent, numasien, linliapu, numdocum, ampconce, timported, timporteh, "
-            SQL2 = SQL2 & " @saldo:= @saldo + (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) s1, "
-            SQL2 = SQL2 & " if(punteada=1,'SI','') punteada, ctacontr, codccost "
-            SQL2 = SQL2 & " from hlinapu, (select @saldo:=" & DBSet(DBLet(Rs2.Fields(0).Value, "N") - DBLet(Rs2.Fields(1).Value, "N"), "N") & ") r, (select @Pos:=0) p "
-            SQL2 = SQL2 & " where codmacta = " & DBSet(RS!Cta, "T")
-            If cadselect <> "" Then SQL2 = SQL2 & " and " & cadselect
+            Sql2 = "insert into tmpconext (codusu,cta,numdiari,Pos,fechaent,numasien,linliapu,nomdocum,ampconce,timporteD,timporteH,saldo,Punteada,contra,ccost) "
+            Sql2 = Sql2 & " select " & vUsu.Codigo & ",codmacta, numdiari, @Pos:=@Pos + 1, fechaent, numasien, linliapu, numdocum, ampconce, timported, timporteh, "
+            Sql2 = Sql2 & " @saldo:= @saldo + (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) s1, "
+            Sql2 = Sql2 & " if(punteada=1,'SI','') punteada, ctacontr, codccost "
+            Sql2 = Sql2 & " from hlinapu, (select @saldo:=" & DBSet(DBLet(Rs2.Fields(0).Value, "N") - DBLet(Rs2.Fields(1).Value, "N"), "N") & ") r, (select @Pos:=0) p "
+            Sql2 = Sql2 & " where codmacta = " & DBSet(Rs!Cta, "T")
+            If cadselect <> "" Then Sql2 = Sql2 & " and " & cadselect
             
             Select Case Combo1.ListIndex
                 Case 2 ' solo punteada
-                    SQL2 = SQL2 & " and punteada = 1 "
+                    Sql2 = Sql2 & " and punteada = 1 "
                 Case 3 ' solo pendiente
-                    SQL2 = SQL2 & " and punteada = 0 "
+                    Sql2 = Sql2 & " and punteada = 0 "
             End Select
             
-            SQL2 = SQL2 & " order by 1,codmacta,fechaent,numdiari,numasien,linliapu "
+            Sql2 = Sql2 & " order by 1,codmacta,fechaent,numdiari,numasien,linliapu "
             
-            Conn.Execute SQL2
+            Conn.Execute Sql2
             
             
             Set Rs2 = Nothing
@@ -1430,9 +1431,9 @@ Dim Rs3 As ADODB.Recordset
             
             
             
-            RS.MoveNext
+            Rs.MoveNext
         Wend
-        Set RS = Nothing
+        Set Rs = Nothing
     End If
 
     

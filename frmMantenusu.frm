@@ -1187,7 +1187,7 @@ On Error GoTo EInsertarModificar
         Sql = Sql & " ,dirfich = " & CadenaDesdeOtroForm
         
         
-        Sql = Sql & " ,skin = " & Combo4.ListIndex
+        Sql = Sql & " ,skin = " & Combo4.ItemData(Combo4.ListIndex)
         
         Sql = Sql & " ,solotesoreria = " & ChkSoloTesoreria.Value
         
@@ -1410,7 +1410,7 @@ Private Sub PonerDatosUsuario()
 
     Combo2.ListIndex = i
     
-     Combo4.ListIndex = miRsAux!Skin
+    PosicionarCombo Combo4, miRsAux!Skin
      
      'Cargamos los datos del correo e-mail
      Sql = Trim(DBLet(miRsAux!Dirfich, "T"))
@@ -1420,7 +1420,7 @@ Private Sub PonerDatosUsuario()
          Next i
      End If
      
-     Me.ChkSoloTesoreria.Value = DBLet(miRsAux!solotesoreria)
+     Me.ChkSoloTesoreria.Value = DBLet(miRsAux!SoloTesoreria)
 
 End Sub
 
@@ -1597,7 +1597,9 @@ On Error GoTo EDatosUsu
         Combo1.ListIndex = 0
     End Select
     
-    Combo5.ListIndex = DevuelveValor("select skin from usuarios.usuarios where codusu = " & ListView1.SelectedItem.Text)
+    
+    Sql = DevuelveValor("select skin from usuarios.usuarios where codusu = " & ListView1.SelectedItem.Text)
+    PosicionarCombo Combo5, CInt(Val(Sql))
     
     
     Sql = "select empresasariconta.codempre,nomempre,nomresum,usuarioempresasariconta.codempre bloqueada from usuarios.empresasariconta left join usuarios.usuarioempresasariconta on "
@@ -1950,35 +1952,36 @@ Private Sub CargaCombo()
     Combo2.AddItem "Superusuario"
     Combo2.ItemData(Combo2.NewIndex) = 0
 
+
+    '3 ID_OPTIONS_STYLEBLACK2010
+    '2 S_STYLESILVER2010
+    '1ID_OPTIONS_STYLEBLUE2010
+
     'skin
     Combo5.Clear
     
-    Combo5.AddItem "Windows Luna"
-    Combo5.ItemData(Combo5.NewIndex) = 0
-    
-    Combo5.AddItem "Windows Royale"
+    Combo5.AddItem "Office 2010 Blue"
     Combo5.ItemData(Combo5.NewIndex) = 1
     
-    Combo5.AddItem "Office 2007"
+    Combo5.AddItem "Office 2010 Silver"
     Combo5.ItemData(Combo5.NewIndex) = 2
     
-    Combo5.AddItem "Windows Vista"
+    Combo5.AddItem "Office 2010 Black"
     Combo5.ItemData(Combo5.NewIndex) = 3
+    
     
     'skin
     Combo4.Clear
     
-    Combo4.AddItem "Windows Luna"
-    Combo4.ItemData(Combo4.NewIndex) = 0
-    
-    Combo4.AddItem "Windows Royale"
+    Combo4.AddItem "Office 2010 Blue"
     Combo4.ItemData(Combo4.NewIndex) = 1
     
-    Combo4.AddItem "Office 2007"
+    Combo4.AddItem "Office 2010 Silver"
     Combo4.ItemData(Combo4.NewIndex) = 2
     
-    Combo4.AddItem "Windows Vista"
+    Combo4.AddItem "Office 2010 Black"
     Combo4.ItemData(Combo4.NewIndex) = 3
+
     
 End Sub
 

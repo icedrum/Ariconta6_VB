@@ -1691,7 +1691,7 @@ Dim J As Integer
     cmb.Clear
     
     'Y ademas deshabilitamos los niveles no utilizados por la aplicacion
-    For J = 1900 To 2100
+    For J = 2000 To Year(vParam.fechafin) + 1
         cmb.AddItem J
         cmb.ItemData(cmb.NewIndex) = J
     Next J

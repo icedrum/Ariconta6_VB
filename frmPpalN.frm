@@ -30,87 +30,87 @@ Begin VB.Form frmppal
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   17
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":EB6A
+            Picture         =   "frmPpalN.frx":7532
             Key             =   "New"
             Object.Tag             =   "100"
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":EBC8
+            Picture         =   "frmPpalN.frx":7590
             Key             =   "Open"
             Object.Tag             =   "101"
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":EC26
+            Picture         =   "frmPpalN.frx":75EE
             Key             =   "Save"
             Object.Tag             =   "103"
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":EC84
+            Picture         =   "frmPpalN.frx":764C
             Key             =   "Print"
             Object.Tag             =   "113"
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":ECE2
+            Picture         =   "frmPpalN.frx":76AA
             Key             =   "Cut"
             Object.Tag             =   "108"
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":ED40
+            Picture         =   "frmPpalN.frx":7708
             Key             =   "Copy"
             Object.Tag             =   "106"
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":ED9E
+            Picture         =   "frmPpalN.frx":7766
             Key             =   "Paste"
             Object.Tag             =   "107"
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":EDFC
+            Picture         =   "frmPpalN.frx":77C4
             Key             =   "Bold"
             Object.Tag             =   "120"
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":EE5A
+            Picture         =   "frmPpalN.frx":7822
             Key             =   "Italic"
             Object.Tag             =   "121"
          EndProperty
          BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":EEB8
+            Picture         =   "frmPpalN.frx":7880
             Key             =   "Underline"
             Object.Tag             =   "122"
          EndProperty
          BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":EF16
+            Picture         =   "frmPpalN.frx":78DE
             Key             =   "Align Left"
             Object.Tag             =   "123"
          EndProperty
          BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":EF74
+            Picture         =   "frmPpalN.frx":793C
             Key             =   "Center"
             Object.Tag             =   "124"
          EndProperty
          BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":EFD2
+            Picture         =   "frmPpalN.frx":799A
             Key             =   "Align Right"
             Object.Tag             =   "125"
          EndProperty
          BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":F030
+            Picture         =   "frmPpalN.frx":79F8
             Key             =   "About"
             Object.Tag             =   "112"
          EndProperty
          BeginProperty ListImage15 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":F08E
+            Picture         =   "frmPpalN.frx":7A56
             Key             =   ""
             Object.Tag             =   "166"
          EndProperty
          BeginProperty ListImage16 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":F0EC
+            Picture         =   "frmPpalN.frx":7AB4
             Key             =   ""
             Object.Tag             =   "168"
          EndProperty
          BeginProperty ListImage17 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":F14A
+            Picture         =   "frmPpalN.frx":7B12
             Key             =   ""
             Object.Tag             =   "165"
          EndProperty
@@ -208,31 +208,31 @@ Begin VB.Form frmppal
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   7
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":F1A8
+            Picture         =   "frmPpalN.frx":7B70
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":15A0A
+            Picture         =   "frmPpalN.frx":E3D2
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":1C26C
+            Picture         =   "frmPpalN.frx":14C34
             Key             =   ""
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":22ACE
+            Picture         =   "frmPpalN.frx":1B496
             Key             =   ""
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":29330
+            Picture         =   "frmPpalN.frx":21CF8
             Key             =   ""
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":2FB92
+            Picture         =   "frmPpalN.frx":2855A
             Key             =   ""
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":363F4
+            Picture         =   "frmPpalN.frx":2EDBC
             Key             =   ""
          EndProperty
       EndProperty
@@ -250,35 +250,35 @@ Begin VB.Form frmppal
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   8
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":3CC56
+            Picture         =   "frmPpalN.frx":3561E
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":434B8
+            Picture         =   "frmPpalN.frx":3BE80
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":49D1A
+            Picture         =   "frmPpalN.frx":426E2
             Key             =   ""
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":5057C
+            Picture         =   "frmPpalN.frx":48F44
             Key             =   ""
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":56DDE
+            Picture         =   "frmPpalN.frx":4F7A6
             Key             =   ""
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":5D640
+            Picture         =   "frmPpalN.frx":56008
             Key             =   ""
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":63EA2
+            Picture         =   "frmPpalN.frx":5C86A
             Key             =   ""
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":6A704
+            Picture         =   "frmPpalN.frx":630CC
             Key             =   ""
          EndProperty
       EndProperty
@@ -296,43 +296,43 @@ Begin VB.Form frmppal
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   10
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":6B116
+            Picture         =   "frmPpalN.frx":63ADE
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":71978
+            Picture         =   "frmPpalN.frx":6A340
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":781DA
+            Picture         =   "frmPpalN.frx":70BA2
             Key             =   ""
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":7EA3C
+            Picture         =   "frmPpalN.frx":77404
             Key             =   ""
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":8529E
+            Picture         =   "frmPpalN.frx":7DC66
             Key             =   ""
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":8BB00
+            Picture         =   "frmPpalN.frx":844C8
             Key             =   ""
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":92362
+            Picture         =   "frmPpalN.frx":8AD2A
             Key             =   ""
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":98BC4
+            Picture         =   "frmPpalN.frx":9158C
             Key             =   ""
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":9F426
+            Picture         =   "frmPpalN.frx":97DEE
             Key             =   ""
          EndProperty
          BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":A5C88
+            Picture         =   "frmPpalN.frx":9E650
             Key             =   ""
          EndProperty
       EndProperty
@@ -350,15 +350,15 @@ Begin VB.Form frmppal
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":A669A
+            Picture         =   "frmPpalN.frx":9F062
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":ACEFC
+            Picture         =   "frmPpalN.frx":A58C4
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":AF6AE
+            Picture         =   "frmPpalN.frx":A8076
             Key             =   ""
          EndProperty
       EndProperty
@@ -376,43 +376,43 @@ Begin VB.Form frmppal
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   10
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":B5F10
+            Picture         =   "frmPpalN.frx":AE8D8
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":B7192
+            Picture         =   "frmPpalN.frx":AFB5A
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":B9944
+            Picture         =   "frmPpalN.frx":B230C
             Key             =   ""
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":BBA7E
+            Picture         =   "frmPpalN.frx":B4446
             Key             =   ""
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":BBD98
+            Picture         =   "frmPpalN.frx":B4760
             Key             =   ""
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":BF18A
+            Picture         =   "frmPpalN.frx":B7B52
             Key             =   ""
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":C0D9C
+            Picture         =   "frmPpalN.frx":B9764
             Key             =   ""
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":C1B79
+            Picture         =   "frmPpalN.frx":BA541
             Key             =   ""
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":C2AE8
+            Picture         =   "frmPpalN.frx":BB4B0
             Key             =   ""
          EndProperty
          BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":C3A60
+            Picture         =   "frmPpalN.frx":BC428
             Key             =   ""
          EndProperty
       EndProperty
@@ -431,31 +431,31 @@ Begin VB.Form frmppal
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   7
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":C49FD
+            Picture         =   "frmPpalN.frx":BD3C5
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":CB25F
+            Picture         =   "frmPpalN.frx":C3C27
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":D1AC1
+            Picture         =   "frmPpalN.frx":CA489
             Key             =   ""
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":D8323
+            Picture         =   "frmPpalN.frx":D0CEB
             Key             =   ""
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":DEB85
+            Picture         =   "frmPpalN.frx":D754D
             Key             =   ""
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":E53E7
+            Picture         =   "frmPpalN.frx":DDDAF
             Key             =   ""
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":EBC49
+            Picture         =   "frmPpalN.frx":E4611
             Key             =   ""
          EndProperty
       EndProperty
@@ -473,19 +473,19 @@ Begin VB.Form frmppal
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   4
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":F24AB
+            Picture         =   "frmPpalN.frx":EAE73
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":F8D0D
+            Picture         =   "frmPpalN.frx":F16D5
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":FB4BF
+            Picture         =   "frmPpalN.frx":F3E87
             Key             =   ""
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":1010E1
+            Picture         =   "frmPpalN.frx":F9AA9
             Key             =   ""
          EndProperty
       EndProperty
@@ -503,15 +503,15 @@ Begin VB.Form frmppal
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":107943
+            Picture         =   "frmPpalN.frx":10030B
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":108355
+            Picture         =   "frmPpalN.frx":100D1D
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":1083F0
+            Picture         =   "frmPpalN.frx":100DB8
             Key             =   ""
          EndProperty
       EndProperty
@@ -540,7 +540,7 @@ Begin VB.Form frmppal
       _ExtentX        =   635
       _ExtentY        =   635
       _StockProps     =   0
-      Icons           =   "frmPpalN.frx":108E02
+      Icons           =   "frmPpalN.frx":1017CA
    End
    Begin XtremeCommandBars.CommandBars CommandBars 
       Left            =   3840
@@ -567,7 +567,7 @@ Begin VB.Form frmppal
       _ExtentX        =   635
       _ExtentY        =   635
       _StockProps     =   0
-      Icons           =   "frmPpalN.frx":108E1C
+      Icons           =   "frmPpalN.frx":1017E4
    End
 End
 Attribute VB_Name = "frmppal"
@@ -592,7 +592,7 @@ Attribute StatusBar.VB_VarHelpID = -1
 Dim FontSizes(4) As Integer
 Dim RibbonSeHaCreado As Boolean
 Dim Pane As Pane
-Dim Cad As String
+Dim cad As String
 
 'Variables comunes para todos los procedimientos de carga menus en el ribbon
 'Codejock
@@ -614,7 +614,7 @@ End Function
 Sub LoadResources(DllName As String, IniFileName As String)
 Dim elpath As String
     
-      elpath = App.Path & "\Styles\"
+    elpath = App.Path & "\Styles\"
     CommandBarsGlobalSettings.ResourceImages.LoadFromFile elpath & DllName, IniFileName
     ShortcutBarGlobalSettings.ResourceImages.LoadFromFile elpath & DllName, IniFileName
     SuiteControlsGlobalSettings.ResourceImages.LoadFromFile elpath & DllName, IniFileName
@@ -866,7 +866,7 @@ Dim AbiertoFormulario  As Boolean
             CommandBars.VisualTheme = xtpThemeRibbon
             DockingPaneManager.VisualTheme = ThemeResource
             frmShortBar.wndShortcutBar.VisualTheme = xtpShortcutThemeResource
-            frmInbox.wndCalendarControl.VisualTheme = xtpCalendarThemeResource
+            frmInbox.CalendarControl.VisualTheme = xtpCalendarThemeResource
             frmInbox.ScrollBarCalendar.Appearance = xtpAppearanceResource
             
             OnThemeChanged ID_OPTIONS_STYLEBLUE2010
@@ -878,7 +878,7 @@ Dim AbiertoFormulario  As Boolean
             CommandBars.VisualTheme = xtpThemeRibbon
             DockingPaneManager.VisualTheme = ThemeResource
             frmShortBar.wndShortcutBar.VisualTheme = xtpShortcutThemeResource
-            frmInbox.wndCalendarControl.VisualTheme = xtpCalendarThemeResource
+            frmInbox.CalendarControl.VisualTheme = xtpCalendarThemeResource
             frmInbox.ScrollBarCalendar.Appearance = xtpAppearanceResource
             
             OnThemeChanged ID_OPTIONS_STYLESILVER2010
@@ -888,7 +888,7 @@ Dim AbiertoFormulario  As Boolean
             CommandBars.VisualTheme = xtpThemeRibbon
             DockingPaneManager.VisualTheme = ThemeResource
             frmShortBar.wndShortcutBar.VisualTheme = xtpShortcutThemeResource
-            frmInbox.wndCalendarControl.VisualTheme = xtpCalendarThemeResource
+            frmInbox.CalendarControl.VisualTheme = xtpCalendarThemeResource
             frmInbox.ScrollBarCalendar.Appearance = xtpAppearanceResource
             
             OnThemeChanged ID_OPTIONS_STYLEBLACK2010
@@ -899,40 +899,40 @@ Dim AbiertoFormulario  As Boolean
     
             
         Case ID_GROUP_GOTO_TODAY:
-            Select Case frmInbox.wndCalendarControl.ViewType
+            Select Case frmInbox.CalendarControl.ViewType
                 Case xtpCalendarDayView:
-                    frmInbox.wndCalendarControl.DayView.ShowDay DateTime.Now, True
+                    frmInbox.CalendarControl.DayView.ShowDay DateTime.Now, True
             
                 Case xtpCalendarWorkWeekView:
-                    frmInbox.wndCalendarControl.DayView.SetSelection DateTime.Now, DateTime.Now, True
-                    frmInbox.wndCalendarControl.RedrawControl
+                    frmInbox.CalendarControl.DayView.SetSelection DateTime.Now, DateTime.Now, True
+                    frmInbox.CalendarControl.RedrawControl
             
                 Case xtpCalendarWeekView:
-                    frmInbox.wndCalendarControl.WeekView.SetSelection DateTime.Now, DateTime.Now, True
+                    frmInbox.CalendarControl.WeekView.SetSelection DateTime.Now, DateTime.Now, True
             
                 Case xtpCalendarMonthView:
-                    frmInbox.wndCalendarControl.MonthView.SetSelection DateTime.Now, DateTime.Now, True
+                    frmInbox.CalendarControl.MonthView.SetSelection DateTime.Now, DateTime.Now, True
             End Select
             
         Case ID_GROUP_GOTO_NEXT7DAYS:
             Dim lastDate As Date
-            lastDate = frmInbox.wndCalendarControl.DayView.Days(frmInbox.wndCalendarControl.DayView.DaysCount - 1).Date
-            frmInbox.wndCalendarControl.ViewType = xtpCalendarDayView
-            frmInbox.wndCalendarControl.DayView.ShowDays lastDate + 1, lastDate + 7
+            lastDate = frmInbox.CalendarControl.DayView.Days(frmInbox.CalendarControl.DayView.DaysCount - 1).Date
+            frmInbox.CalendarControl.ViewType = xtpCalendarDayView
+            frmInbox.CalendarControl.DayView.ShowDays lastDate + 1, lastDate + 7
             
         Case ID_GROUP_ARRANGE_DAY:
-            frmInbox.wndCalendarControl.ViewType = xtpCalendarDayView
+            frmInbox.CalendarControl.ViewType = xtpCalendarDayView
             
         Case ID_GROUP_ARRANGE_WORK_WEEK:
-            frmInbox.wndCalendarControl.ViewType = xtpCalendarWorkWeekView
+            frmInbox.CalendarControl.ViewType = xtpCalendarWorkWeekView
             
         Case ID_GROUP_ARRANGE_WEEK:
-            frmInbox.wndCalendarControl.UseMultiColumnWeekMode = True
-            frmInbox.wndCalendarControl.ViewType = xtpCalendarWeekView
+            frmInbox.CalendarControl.UseMultiColumnWeekMode = True
+            frmInbox.CalendarControl.ViewType = xtpCalendarWeekView
 
         Case ID_GROUP_ARRANGE_MONTH, ID_GROUP_ARRANGE_MONTH_LOW, _
              ID_GROUP_ARRANGE_MONTH_MEDIUM, ID_GROUP_ARRANGE_MONTH_HIGH:
-            frmInbox.wndCalendarControl.ViewType = xtpCalendarMonthView
+            frmInbox.CalendarControl.ViewType = xtpCalendarMonthView
             
         Case ID_CALENDAREVENT_OPEN:
             frmInbox.mnuOpenEvent
@@ -943,18 +943,18 @@ Dim AbiertoFormulario  As Boolean
         Case ID_CALENDAREVENT_NEW, ID_GROUP_NEW_APPOINTMENT:
             'falta### frmEditEvent.AllDayOverride = False
             frmInbox.mnuNewEvent
-            frmInbox.wndCalendarControl.Options.DayViewCurrentTimeMarkVisible = True
+            frmInbox.CalendarControl.Options.DayViewCurrentTimeMarkVisible = True
             
         Case ID_GROUP_NEW_MEETING:
             'falta### frmEditEvent.AllDayOverride = False
             'falta### frmEditEvent.chkMeeting.Value = 1
             frmInbox.mnuNewEvent
-            frmInbox.wndCalendarControl.Options.DayViewCurrentTimeMarkVisible = True
+            frmInbox.CalendarControl.Options.DayViewCurrentTimeMarkVisible = True
             
         Case ID_GROUP_NEW_ALLDAY:
             'falta### frmEditEvent.AllDayOverride = True
             frmInbox.mnuNewEvent
-            frmInbox.wndCalendarControl.Options.DayViewCurrentTimeMarkVisible = True
+            frmInbox.CalendarControl.Options.DayViewCurrentTimeMarkVisible = True
             
         Case ID_CALENDAREVENT_CHANGE_TIMEZONE:
             frmInbox.mnuChangeTimeZone
@@ -1067,13 +1067,13 @@ Private Sub CommandBars_Update(ByVal Control As XtremeCommandBars.ICommandBarCon
         
             
         Case ID_GROUP_ARRANGE_WORK_WEEK:
-            Control.Checked = IIf(frmInbox.wndCalendarControl.ViewType = xtpCalendarWorkWeekView, True, False)
+            Control.Checked = IIf(frmInbox.CalendarControl.ViewType = xtpCalendarWorkWeekView, True, False)
             
         Case ID_GROUP_ARRANGE_WEEK:
-            Control.Checked = IIf(frmInbox.wndCalendarControl.ViewType = xtpCalendarWeekView, True, False)
+            Control.Checked = IIf(frmInbox.CalendarControl.ViewType = xtpCalendarWeekView, True, False)
             
         Case ID_GROUP_ARRANGE_MONTH:
-            Control.Checked = IIf(frmInbox.wndCalendarControl.ViewType = xtpCalendarMonthView, True, False)
+            Control.Checked = IIf(frmInbox.CalendarControl.ViewType = xtpCalendarMonthView, True, False)
         
         Case ID_OPTIONS_ANIMATION:
             Control.Checked = CommandBars.ActiveMenuBar.EnableAnimation
@@ -1092,7 +1092,7 @@ Private Sub CommandBars_Update(ByVal Control As XtremeCommandBars.ICommandBarCon
         Case ID_RIBBON_MINIMIZE:
             Control.Visible = Not RibbonBar.Minimized
     End Select
-   
+    If Err.Number <> 0 Then Err.Clear
 End Sub
 
 Private Sub DockingPaneManager_Action(ByVal Action As XtremeDockingPane.DockingPaneAction, ByVal Pane As XtremeDockingPane.IPane, ByVal Container As XtremeDockingPane.IPaneActionContainer, Cancel As Boolean)
@@ -1123,7 +1123,12 @@ End Sub
 
 
 Private Sub CargaDatosMenusDemas()
+Dim AntiguoTab As Integer
     
+    AntiguoTab = -1
+    If RibbonSeHaCreado Then
+        If Not RibbonBar.SelectedTab Is Nothing Then AntiguoTab = RibbonBar.SelectedTab.Id
+    End If
     CreateRibbon
     CreateBackstage
     CreateRibbonOptions
@@ -1137,7 +1142,7 @@ Private Sub CargaDatosMenusDemas()
     '??????
     '0=solo contabilidad / 1=todo / 2=solo tesoreria
     
-    CargaMenu
+    CargaMenu AntiguoTab
     CreateStatusBar
     PonerCaption
     CreateCalendarTabOriginal
@@ -1174,11 +1179,13 @@ Dim RB As RibbonBar
     
     PonerCaption
     
+    Screen.MousePointer = vbHourglass
    CargaDatosMenusDemas
    frmPaneContacts.SeleccionarNodoEmpresa vEmpresa.codempre
    pageBackstageHelp.Label9.Caption = vEmpresa.nomempre
    pageBackstageHelp.tabPage(0).Visible = False
    pageBackstageHelp.tabPage(1).Visible = False
+   frmInbox.OpenProvider
    Set RB = RibbonBar
    RB.Minimized = False
    RB.RedrawBar
@@ -1189,7 +1196,7 @@ Dim RB As RibbonBar
     vControl.UltEmpre = vUsu.CadenaConexion
     
     vControl.Grabar
-    
+    Screen.MousePointer = vbDefault
 End Sub
 
 
@@ -1230,7 +1237,8 @@ Private Sub Form_Load()
     B.Tag = PANE_REPORT_CONTROL
    
     DockingPaneManager.Options.HideClient = True
-        
+    PonerTabPorDefecto -1
+    
     Set CommandBars.Icons = CommandBarsGlobalSettings.Icons
     LoadIcons
     
@@ -1241,16 +1249,17 @@ Private Sub Form_Load()
     'En funcion
     ' ID_OPTIONS_STYLEBLUE2010  ID_OPTIONS_STYLESILVER2010    ID_OPTIONS_STYLEBLACK2010
     frmIdentifica.pLabel "Carga skin"
+    Screen.MousePointer = vbHourglass
     If vUsu.Skin = 3 Then
-        Cad = ID_OPTIONS_STYLEBLACK2010
+        cad = ID_OPTIONS_STYLEBLACK2010
     Else
         If vUsu.Skin = 2 Then
-            Cad = ID_OPTIONS_STYLESILVER2010
+            cad = ID_OPTIONS_STYLESILVER2010
         Else
-            Cad = ID_OPTIONS_STYLEBLUE2010
+            cad = ID_OPTIONS_STYLEBLUE2010
         End If
     End If
-    CommandBars.FindControl(, Cad, , True).Execute
+    CommandBars.FindControl(, cad, , True).Execute
 End Sub
 
 
@@ -1386,7 +1395,8 @@ End Sub
 
 
 Private Sub GuardarDatosUltimaTab()
-    i = RibbonBar.SelectedTab.Index + 1
+    i = RibbonBar.SelectedTab.Id
+    If i = ID_TAB_CALENDAR_HOME Then Exit Sub 'no guardo este tab
     If i <> vUsu.TabPorDefecto Then
         vUsu.TabPorDefecto = i
         vUsu.GuardarTabPorDefecto
@@ -1446,7 +1456,7 @@ Private Sub LoadIcons()
         
     'Pequeños diario
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\quickstepsgallery.png", _
-            Array(ID_TiposdeDiario, ID_TiposdePago, ID_ModelosdeCartas, ID_BicSwift, ID_AsientosPredefinidos, ID_Agentes), xtpImageNormal
+            Array(ID_TiposdeDiario, ID_TiposdePago, ID_ModelosdeCartas, ID_BicSwift, 1, ID_Agentes), xtpImageNormal
       
          '      ID_AsientosPredefinidos
      
@@ -1468,7 +1478,7 @@ Private Sub LoadIcons()
         ID_ImportarFacturasCliente, 1, 1, ID_Compensarcliente, ID_SumasySaldos, ID_CuentadeExplotación, ID_BalancedeSituación, ID_PérdidasyGanancias, 1, 1, 1, 1, 1, ID_CarteradeCobros, ID_InformeCobrosPendientes, _
         ID_Renumeracióndeasientos, ID_CierredeEjercicio, ID_Deshacercierre, ID_DiarioOficial, ID_PresentaciónTelemáticadeLibros, ID_Traspasodecuentasenapuntes, ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, 1, 1, 1, 1, 1, _
         ID_Traspasodecuentasenapuntes, ID_Aumentardígitoscontables, 1, 1, 1, 1, 1, ID_LibroFacturasEmitidas, 1, 1, ID_Remesas, 1, 1, 1, 1, _
-        ID_RecepcionTalónPagare, ID_RemesasTalenPagare, ID_Accionesrealizadas, 1, ID_LiquidacionIVA, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, _
+        ID_RecepcionTalónPagare, ID_RemesasTalenPagare, ID_Accionesrealizadas, 1, ID_LiquidacionIVA, 1, 1, 1, ID_AsientosPredefinidos, 1, 1, 1, 1, 1, 1, _
         ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, 1, 1, ID_Asientos, 1)
     
      
@@ -1687,7 +1697,9 @@ Private Sub CreateCalendarTabOriginal()
     Set GroupNew = TabCalendarHome.Groups.AddGroup("&Nueva", ID_GROUP_NEW)
         
     Set Control = GroupNew.Add(xtpControlButton, ID_GROUP_NEW_APPOINTMENT, "&Evento")
+    Control.Enabled = False
     Set Control = GroupNew.Add(xtpControlButton, ID_GROUP_NEW_MEETING, "&Cita")
+    Control.Enabled = False
     
     '------------------------------------
     'Set ControlNew_NewItems = GroupNew.Add(xtpControlButtonPopup, ID_GROUP_NEW_ITEMS, "New &Items")
@@ -1819,7 +1831,7 @@ End Sub
 
 
 
-Public Sub CargaMenu()
+Public Sub CargaMenu(AntiguoTab As Integer)
 Dim RN As ADODB.Recordset
 
 
@@ -1832,8 +1844,8 @@ Dim RN As ADODB.Recordset
 
     If RibbonSeHaCreado Then RibbonBar.RemoveAllTabs
     
-    Cad = "Select * from menus where aplicacion = 'ariconta' and padre =0 ORDER BY padre,orden "
-    RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    cad = "Select * from menus where aplicacion = 'ariconta' and padre =0 ORDER BY padre,orden "
+    RN.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not RN.EOF
     
         
@@ -1912,21 +1924,11 @@ Dim RN As ADODB.Recordset
     Wend
     RN.Close
                         
-    For i = 0 To RibbonBar.TabCount
-        
-        If i = vUsu.TabPorDefecto Then
-            RibbonBar.Tab(i).Visible = True
-            RibbonBar.Tab(i).Selected = True
-            Set RibbonBar.SelectedTab = RibbonBar.Tab(i)
-            Exit For
-        End If
-    Next
-          
-    
-    
+    PonerTabPorDefecto AntiguoTab
     
 eCargaMenu:
     If Err.Number <> 0 Then MsgBox Err.Description, vbExclamation
+    
     Set TabNuevo = Nothing
     Set GroupNew = Nothing
     Set Control = Nothing
@@ -1934,7 +1936,40 @@ eCargaMenu:
     Set Rn2 = Nothing
 End Sub
 
+Private Sub PonerTabPorDefecto(AntiguoTabSeleccionado As Integer)
+Dim Anterior As Integer
 
+    On Error Resume Next
+    
+    If AntiguoTabSeleccionado < 0 Then
+        Anterior = vUsu.TabPorDefecto
+    Else
+        Anterior = AntiguoTabSeleccionado
+    End If
+    
+    cad = ""
+    For i = 0 To RibbonBar.TabCount - 1
+        J = RibbonBar.Tab(i).Id
+        'Debug.Print J & " " & RibbonBar.Tab(i).Caption
+        If J = Anterior Then
+            
+            RibbonBar.Tab(i).Visible = True
+            RibbonBar.Tab(i).Selected = True
+            Set RibbonBar.SelectedTab = RibbonBar.Tab(i)
+            cad = "OK"
+            Exit For
+        End If
+    Next
+    If cad = "" Then
+        
+        For J = RibbonBar.TabCount To 1 Step -1
+            RibbonBar.Tab(J - 1).Visible = True
+            RibbonBar.Tab(J - 1).Selected = True
+        Next J
+    End If
+
+    Err.Clear
+End Sub
 
 Private Sub CargaMenuConfiguracion(IdMenu As Integer)
 
@@ -1946,9 +1981,9 @@ Private Sub CargaMenuConfiguracion(IdMenu As Integer)
        
         
         'todos los hijos que cuelgan en la tab
-        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        Cad = ""
+        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        cad = ""
         While Not Rn2.EOF
          
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -1986,14 +2021,14 @@ Dim SegundoGrupo As RibbonGroup
         
         
         'En este llevaremos dos solapas, tesoreria y contabilidad (no le ponemos nombres)
-        Cad = CStr(IdMenu * 100000)
-        If vEmpresa.TieneContabilidad Then Set GroupNew = TabNuevo.Groups.AddGroup("", Cad & "0")
-        If vEmpresa.TieneTesoreria Then Set SegundoGrupo = TabNuevo.Groups.AddGroup("", Cad & "1")
+        cad = CStr(IdMenu * 100000)
+        If vEmpresa.TieneContabilidad Then Set GroupNew = TabNuevo.Groups.AddGroup("", cad & "0")
+        If vEmpresa.TieneTesoreria Then Set SegundoGrupo = TabNuevo.Groups.AddGroup("", cad & "1")
         
         'todos los hijos que cuelgan en la tab
-        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        Cad = ""
+        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        cad = ""
         While Not Rn2.EOF
          
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2040,16 +2075,16 @@ Dim GrOtro As RibbonGroup
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Diario")
         TabNuevo.Id = CLng(IdMenu)
         
-        Cad = CStr(IdMenu * 100000)
-        Set GroupNew = TabNuevo.Groups.AddGroup("ASIENTOS", Cad & "0")
-        Set GrupSald = TabNuevo.Groups.AddGroup("BALANCES", Cad & "1")
-        Set GrOtro = TabNuevo.Groups.AddGroup("", Cad & "2")
+        cad = CStr(IdMenu * 100000)
+        Set GroupNew = TabNuevo.Groups.AddGroup("ASIENTOS", cad & "0")
+        Set GrupSald = TabNuevo.Groups.AddGroup("BALANCES", cad & "1")
+        Set GrOtro = TabNuevo.Groups.AddGroup("", cad & "2")
     
         
         'todos los hijos que cuelgan en la tab
-        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        Cad = ""
+        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        cad = ""
         While Not Rn2.EOF
         
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2064,7 +2099,7 @@ Dim GrOtro As RibbonGroup
 
                 
                 Select Case Rn2!Codigo
-                Case 301, 303, 304, 314
+                Case 301, 303, 304, 314, 211
                     Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
                 Case 306, 307, 308, 309
                     Set Control = GrupSald.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
@@ -2099,10 +2134,10 @@ Dim GrupPag As RibbonGroup
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Facturas")
         TabNuevo.Id = CLng(IdMenu)
         
-        Cad = CStr(IdMenu * 100000)
-        Set GropCli = TabNuevo.Groups.AddGroup("EMITIDAS", Cad & "0")
-        Set GrupPag = TabNuevo.Groups.AddGroup("RECIBIDAS", Cad & "1")
-        Set GroupNew = TabNuevo.Groups.AddGroup("I.V.A.", Cad & "2")
+        cad = CStr(IdMenu * 100000)
+        Set GropCli = TabNuevo.Groups.AddGroup("EMITIDAS", cad & "0")
+        Set GrupPag = TabNuevo.Groups.AddGroup("RECIBIDAS", cad & "1")
+        Set GroupNew = TabNuevo.Groups.AddGroup("I.V.A.", cad & "2")
     
 
 '
@@ -2120,9 +2155,9 @@ Dim GrupPag As RibbonGroup
 '
         
         'todos los hijos que cuelgan en la tab
-        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        Cad = ""
+        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        cad = ""
         While Not Rn2.EOF
         
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2146,7 +2181,7 @@ Dim GrupPag As RibbonGroup
             End Select
             
             
-            Cad = "NO"
+            cad = "NO"
             Control.Enabled = Habilitado
            ' ControlNew_NewItems.KeyboardTip = "V"
          
@@ -2169,9 +2204,9 @@ Private Sub CargaMenuInmovilizado(IdMenu As Integer)
         
         
         'todos los hijos que cuelgan en la tab
-        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        Cad = ""
+        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        cad = ""
         While Not Rn2.EOF
         
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2184,8 +2219,8 @@ Private Sub CargaMenuInmovilizado(IdMenu As Integer)
                 End If
             End If
             
-            If Cad = "" Then Set GroupNew = TabNuevo.Groups.AddGroup("", CStr(IdMenu * 100000) & "0")
-            Cad = "NO"
+            If cad = "" Then Set GroupNew = TabNuevo.Groups.AddGroup("", CStr(IdMenu * 100000) & "0")
+            cad = "NO"
             'Set Control = GroupNew.Add(xtpControlButton, ID_GROUP_NEW_APPOINTMENT, "&New Appointment")
             Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
             Control.Enabled = Habilitado
@@ -2234,16 +2269,16 @@ Dim GrupRem As RibbonGroup
         
         
         'todos los hijos que cuelgan en la tab
-        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        Cad = ""
+        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        cad = ""
         
         
         'Creamos los tres grupos
-        Cad = CStr(IdMenu * 100000)
-        Set GrupCob = TabNuevo.Groups.AddGroup("COBROS", Cad & "0")
-        Set GrupRem = TabNuevo.Groups.AddGroup("REMESAS", Cad & "1")
-        Set GroupNew = TabNuevo.Groups.AddGroup("", Cad & "2")
+        cad = CStr(IdMenu * 100000)
+        Set GrupCob = TabNuevo.Groups.AddGroup("COBROS", cad & "0")
+        Set GrupRem = TabNuevo.Groups.AddGroup("REMESAS", cad & "1")
+        Set GroupNew = TabNuevo.Groups.AddGroup("", cad & "2")
         
         
         While Not Rn2.EOF
@@ -2301,9 +2336,9 @@ Private Sub CargaMenuTesoreriaPagos(IdMenu As Integer)
         
         
         'todos los hijos que cuelgan en la tab
-        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        Cad = ""
+        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        cad = ""
         
         
         'Los pagos se gargan sobre la solapa de TESORERIA
@@ -2355,12 +2390,12 @@ Private Sub CargaMenuTesoreriaInformes(IdMenu As Integer)
         
         
         'todos los hijos que cuelgan en la tab
-        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu
+        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu
         'De momento NO cargamos el 904
-        Cad = Cad & " AND codigo <>904  ORDER BY padre,orden"
+        cad = cad & " AND codigo <>904  ORDER BY padre,orden"
             
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        Cad = ""
+        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        cad = ""
         
         
         'Los informes se gargan sobre la solapa de TESORERIA
@@ -2408,9 +2443,9 @@ Private Sub CargaMenuAnaliticaPResupuestaria(IdMenu As Integer)
         
         
         'todos los hijos que cuelgan en la tab
-        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        Cad = ""
+        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        cad = ""
         
         
         'Los pagos se gargan sobre la solapa de diario
@@ -2424,8 +2459,8 @@ Private Sub CargaMenuAnaliticaPResupuestaria(IdMenu As Integer)
                 
             End If
         End If
-        Cad = CStr(IdMenu * 100000) & "0"
-        Set GroupNew = TabNuevo.Groups.AddGroup(IIf(IdMenu = 10, "ANALITICA", "PRESUPUESTOS"), Cad)
+        cad = CStr(IdMenu * 100000) & "0"
+        Set GroupNew = TabNuevo.Groups.AddGroup(IIf(IdMenu = 10, "ANALITICA", "PRESUPUESTOS"), cad)
         
         
         While Not Rn2.EOF
@@ -2484,9 +2519,9 @@ Dim GrupPag As RibbonGroup
     
 
         'todos los hijos que cuelgan en la tab
-        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        Cad = ""
+        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        cad = ""
         While Not Rn2.EOF
         
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2545,9 +2580,9 @@ Dim Col As Collection
         
         
         'todos los hijos que cuelgan en la tab
-        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        Cad = ""
+        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        cad = ""
         Set Col = New Collection
         While Not Rn2.EOF
            i = i + 1
@@ -2562,7 +2597,7 @@ Dim Col As Collection
             End If
             
             Col.Add Abs(Habilitado) & "|" & Rn2!Codigo & "|" & Rn2!Descripcion & "|"
-            If Habilitado Then Cad = "S"
+            If Habilitado Then cad = "S"
             
             Rn2.MoveNext
         Wend
@@ -2576,7 +2611,7 @@ Dim Col As Collection
             '1413    Importar fras cliente
             
         'Ya puedo utilizar numregelim
-        If Cad <> "" Then
+        If cad <> "" Then
             'OK creamos solapa y demas
             'Creamos la TAB
             Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Utilidades")
@@ -2610,9 +2645,6 @@ End Sub
 '**************************************************************************************************************
 Private Sub AbrirFormularios(Accion As Long)
 
-
-'    frmInbox.AbrirFormulariosDesdeInbox Accion
-'    Exit Sub
 
     Select Case Accion
         Case 101 ' empresa
@@ -2953,6 +2985,14 @@ Private Sub AbrirFormularios(Accion As Long)
   
     End Select
      
+     
+     
+   If Timer - UltimaLecturaReminders > 300 Then
+        frmReminders.OnReminders xtpCalendarRemindersFire, Nothing
+        frmReminders.Show vbModal, Me
+        UltimaLecturaReminders = Timer
+    End If
+     
 End Sub
 
 
@@ -3002,13 +3042,13 @@ Public Sub EstablecerSkin(QueSkin As Integer)
     Me.SkinFramework1.ApplyWindow frmppal.hwnd
     Me.SkinFramework1.ApplyOptions = Me.SkinFramework1.ApplyOptions Or xtpSkinApplyMetrics
     
-  
+
 
     
 End Sub
 
 Private Function FijaSkin(numero)
-
+    Me.SkinFramework1.ExcludeModule "crviewer9.dll"
 
   Select Case (numero)
  

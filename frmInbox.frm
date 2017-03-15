@@ -30,7 +30,7 @@ Begin VB.Form frmInbox
       UseVisualStyle  =   0   'False
       Appearance      =   6
    End
-   Begin XtremeCalendarControl.CalendarControl wndCalendarControl 
+   Begin XtremeCalendarControl.CalendarControl CalendarControl 
       Height          =   6135
       Left            =   6720
       TabIndex        =   1
@@ -91,6 +91,29 @@ Public EnableScrollV_WeekView As Boolean
 Public EnableScrollV_MonthView As Boolean
 Private nToolTips_Mode As Long
 
+
+Dim m_pCustomDataHandler As Object
+
+Private Sub CalendarControl_OnReminders(ByVal Action As XtremeCalendarControl.CalendarRemindersAction, ByVal Reminder As XtremeCalendarControl.CalendarReminder)
+       
+On Error Resume Next
+
+    frmReminders.OnReminders Action, Reminder
+    
+    If Action = xtpCalendarRemindersFire Then
+        frmReminders.Show vbModal, Me
+        If Err.Number <> 0 Then Err.Clear
+               
+        
+        
+        UltimaLecturaReminders = Timer
+    End If
+    
+End Sub
+
+
+
+
 'Public frmPreviewPane As frmPreviewPane
 
 Private Sub Form_Load()
@@ -99,13 +122,13 @@ Private Sub Form_Load()
     CreateCalendar
     
     
-    wndCalendarControl.SetScrollBars 0, ScrollBarCalendar.hwnd
+    CalendarControl.SetScrollBars 0, ScrollBarCalendar.hwnd
     
 End Sub
 
 Private Sub CreateCalendar()
 
-    wndCalendarControl.ShowCaptionBarSwitchViewButtons = False
+    CalendarControl.ShowCaptionBarSwitchViewButtons = False
     
     DisableDragging_ForRecurrenceEvents = False
     DisableInPlaceCreateEvents_ForSaSu = False
@@ -115,37 +138,30 @@ Private Sub CreateCalendar()
     EnableScrollV_MonthView = True
          
 
-Dim C As String
 
-    C = Conn.ConnectionString
-    
-    C = "Provider=MSDASQL.1;Extended Properties=""DATABASE=Usuarios;DSN=vAriges;OPTION=0;PWD=" & vControl.PassworBD & ";;UID=" & vControl.UsuarioBD & """"
-    OpenProvider cjCalendarData_MySQL, C, False
 
-    
-    
-'    If Not wndCalendarControl.DataProvider.Open Then
-'        wndCalendarControl.DataProvider.Create
-'    End If
+    OpenProvider  'cjCalendarData_MySQL, C
 
-    wndCalendarControl.Options.WorkWeekMask = xtpCalendarDayMo_Fr
-    wndCalendarControl.Options.FirstDayOfTheWeek = 1
+    CalendarControl.Populate
+    
+    CalendarControl.Options.WorkWeekMask = xtpCalendarDayMo_Fr
+    CalendarControl.Options.FirstDayOfTheWeek = 1
     
     Dim Today As Date
     Today = Now
-    wndCalendarControl.ViewType = xtpCalendarDayView
-    'wndCalendarControl.DayView.ShowDays Today - 2, Today + 2
+    CalendarControl.ViewType = xtpCalendarDayView
+    'CalendarControl.DayView.ShowDays Today - 2, Today + 2
     Dim DateMin As Date, DateMax As Date
     DateMin = DateAdd("m", -1, Today)
     DateMin = DateAdd("m", 3, Today)
 
     
-    wndCalendarControl.DayView.ShowDays DateMin, DateMax
+    CalendarControl.DayView.ShowDays DateMin, DateMax
        
-    wndCalendarControl.DayView.ScrollToWorkDayBegin
+    CalendarControl.DayView.ScrollToWorkDayBegin
     
-    wndCalendarControl.Options.DayViewScale2Visible = False
-    wndCalendarControl.Options.DayViewScaleLabel = ""
+    CalendarControl.Options.DayViewScale2Visible = False
+    CalendarControl.Options.DayViewScaleLabel = ""
     
 End Sub
 
@@ -158,10 +174,10 @@ Public Sub Form_Resize()
    
     Image1.Left = Me.Width - 900
     Image1.top = Me.Height - 1000
-    If wndCalendarControl.Visible Then
-        wndCalendarControl.Move 1, 4, ScaleWidth - ScrollBarCalendar.Width - 7, ScaleHeight - 11
+    If CalendarControl.Visible Then
+        CalendarControl.Move 1, 4, ScaleWidth - ScrollBarCalendar.Width - 7, ScaleHeight - 11
         
-        ScrollBarCalendar.Move wndCalendarControl.Width, wndCalendarControl.top + 44, ScrollBarCalendar.Width, wndCalendarControl.Height - 44
+        ScrollBarCalendar.Move CalendarControl.Width, CalendarControl.top + 44, ScrollBarCalendar.Width, CalendarControl.Height - 44
 
     End If
 
@@ -294,12 +310,14 @@ End Property
 Public Property Let ToolTips_Mode(ByRef nMode As Long)
 
    nToolTips_Mode = nMode
-   wndCalendarControl.EnableToolTips (nMode = 0)
+   CalendarControl.EnableToolTips (nMode = 0)
 End Property
 
-Private Sub wndCalendarControl_ContextMenu(ByVal X As Single, ByVal Y As Single)
+Private Sub CalendarControl_ContextMenu(ByVal X As Single, ByVal Y As Single)
 
     Debug.Print "On context menu"
+       
+    Exit Sub
        
     Dim Popup As CommandBar
     Dim Control As CommandBarControl
@@ -308,7 +326,7 @@ Private Sub wndCalendarControl_ContextMenu(ByVal X As Single, ByVal Y As Single)
     Set Popup = frmppal.CommandBars.Add("Popup", xtpBarPopup)
         
         Dim HitTest As CalendarHitTestInfo
-        Set HitTest = wndCalendarControl.ActiveView.HitTest
+        Set HitTest = CalendarControl.ActiveView.HitTest
         
         If Not HitTest.ViewEvent Is Nothing Then
             Set ContextEvent = HitTest.ViewEvent.Event
@@ -332,13 +350,17 @@ Private Sub wndCalendarControl_ContextMenu(ByVal X As Single, ByVal Y As Single)
         End If
 End Sub
 
-Private Sub wndCalendarControl_DblClick()
+Private Sub CalendarControl_DblClick()
+
+    'Exit Sub
+
+
     Dim HitTest As CalendarHitTestInfo
-    Set HitTest = wndCalendarControl.ActiveView.HitTest
+    Set HitTest = CalendarControl.ActiveView.HitTest
     
     Dim Events As CalendarEvents
     If Not HitTest.HitCode = xtpCalendarHitTestUnknown Then
-     '   Set Events = wndCalendarControl.DataProvider.RetrieveDayEvents(HitTest.ViewDay.Date)
+     '   Set Events = CalendarControl.DataProvider.RetrieveDayEvents(HitTest.ViewDay.Date)
     End If
     
     If HitTest.ViewEvent Is Nothing Then
@@ -348,43 +370,43 @@ Private Sub wndCalendarControl_DblClick()
     End If
 End Sub
 
-Private Sub wndCalendarControl_EventChanged(ByVal EventID As Long)
+Private Sub CalendarControl_EventChanged(ByVal EventID As Long)
     Dim pEvent As CalendarEvent
-    Set pEvent = wndCalendarControl.DataProvider.GetEvent(EventID)
+    Set pEvent = CalendarControl.DataProvider.GetEvent(EventID)
     
     ' pEvent Is Nothing for recurrence Ocurrence and Exception.
-    ' See wndCalendarControl_PatternChanged for recurrence events changes.
+    ' See CalendarControl_PatternChanged for recurrence events changes.
     If Not pEvent Is Nothing Then
         
     End If
 End Sub
 
-Private Sub wndCalendarControl_KeyDown(KeyCode As Integer, Shift As Integer)
+Private Sub CalendarControl_KeyDown(KeyCode As Integer, Shift As Integer)
 
     Debug.Print "KeyDown"
     Dim BeginSelection As Date, EndSelection As Date, AllDay As Boolean
 
-    If wndCalendarControl.ActiveView.getSelection(BeginSelection, EndSelection, AllDay) Then
+    If CalendarControl.ActiveView.getSelection(BeginSelection, EndSelection, AllDay) Then
         Debug.Print "Selection: "; BeginSelection; " - "; EndSelection
     End If
 
 End Sub
 
-Private Sub wndCalendarControl_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub CalendarControl_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Dim HitTest As CalendarHitTestInfo
-    Set HitTest = wndCalendarControl.ActiveView.HitTest
+    Set HitTest = CalendarControl.ActiveView.HitTest
     
     If (Not HitTest.ViewEvent Is Nothing) Then
-       Debug.Print "MouseMove. HitTest = "; HitTest.ViewEvent.Event.Subject
+      ' Debug.Print "MouseMove. HitTest = "; HitTest.ViewEvent.Event.Subject
        
        If ToolTips_Mode = 1 Then
-           wndCalendarControl.ToolTipText = "[" & HitTest.ViewEvent.Event.Id & "]  " & HitTest.ViewEvent.Event.Subject
+           CalendarControl.ToolTipText = "[" & HitTest.ViewEvent.Event.Id & "]  " & HitTest.ViewEvent.Event.Subject
        Else
-           wndCalendarControl.ToolTipText = ""
+           CalendarControl.ToolTipText = ""
            Me.Refresh
        End If
     Else
-        wndCalendarControl.ToolTipText = ""
+        CalendarControl.ToolTipText = ""
         Me.Refresh
     End If
     
@@ -405,7 +427,19 @@ Private Sub wndCalendarControl_MouseMove(Button As Integer, Shift As Integer, X 
     'End If
 End Sub
 
-Private Sub wndCalendarControl_SelectionChanged(ByVal SelType As XtremeCalendarControl.CalendarSelectionChanged)
+Private Sub CalendarControl_PrePopulate(ByVal ViewGroup As XtremeCalendarControl.CalendarViewGroup, ByVal Events As XtremeCalendarControl.CalendarEvents)
+    Dim pEvent As CalendarEvent
+    Dim strData As String
+    
+    For Each pEvent In Events
+        
+        pEvent.CustomIcons.RemoveAll
+                
+       
+    Next
+End Sub
+    
+Private Sub CalendarControl_SelectionChanged(ByVal SelType As XtremeCalendarControl.CalendarSelectionChanged)
     If SelType = xtpCalendarSelectionDays Then
         'Debug.Print "SelectionChanged. Day(s)."
     End If
@@ -413,7 +447,7 @@ Private Sub wndCalendarControl_SelectionChanged(ByVal SelType As XtremeCalendarC
         'Debug.Print "SelectionChanged. Event(s)."
         
         Dim HitTest As CalendarHitTestInfo
-        Set HitTest = wndCalendarControl.ActiveView.HitTest
+        Set HitTest = CalendarControl.ActiveView.HitTest
         If Not HitTest.ViewEvent Is Nothing Then
             'ModifyEvent HitTest.ViewEvent.Event, True
         End If
@@ -423,8 +457,8 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
   On Error Resume Next
-    wndCalendarControl.DataProvider.Save
-    wndCalendarControl.DataProvider.Close
+    CalendarControl.DataProvider.Save
+    CalendarControl.DataProvider.Close
 End Sub
 
 Public Sub mnuChangeTimeZone()
@@ -448,17 +482,17 @@ Public Sub mnuDeleteEvent()
             Exit Sub
         ElseIf Not frmOccurrenceSeriesChooser.m_bOcurrence Then
             ' Series
-            wndCalendarControl.DataProvider.DeleteEvent ContextEvent.RecurrencePattern.MasterEvent
+            CalendarControl.DataProvider.DeleteEvent ContextEvent.RecurrencePattern.MasterEvent
             bDeleted = True
         End If
     End If
         
     If Not bDeleted Then
-        wndCalendarControl.DataProvider.DeleteEvent ContextEvent
+        CalendarControl.DataProvider.DeleteEvent ContextEvent
     End If
     
-    wndCalendarControl.Populate
-    wndCalendarControl.RedrawControl
+    CalendarControl.Populate
+    CalendarControl.RedrawControl
 End Sub
 
 Public Sub mnuNewEvent()
@@ -480,7 +514,7 @@ End Sub
 
 
 Public Sub mnuTimeScale(newTimeMinutes As Integer)
-    wndCalendarControl.DayView.TimeScale = newTimeMinutes
+    CalendarControl.DayView.TimeScale = newTimeMinutes
 End Sub
 
 Private Sub ModifyEvent(ModEvent As CalendarEvent, ShowInPane As Boolean)
@@ -534,42 +568,40 @@ End Function
 
 
 
-Public Sub OpenProvider(ByVal eDataProviderType, ByVal strConnectionString As String, vHacerGetDSN As Boolean)
+Public Sub OpenProvider()
+  Dim strConnectionString As String
     
-    'Set m_pCustomDataHandler = Nothing
     
-    ' SQL Server provider.   Abria que traer el modulo de clase que lo gestiona
-    'If eDataProviderType = cjCalendarData_SQLServer Then
-    '    Set m_pCustomDataHandler = New providerSQLServer
-        '' Create DSN "Calendar_SQLServer" to connect to SQL Server Calendar DB
-    '    m_pCustomDataHandler.OpenDB strConnectionString
-        
-    '    m_pCustomDataHandler.SetCalend<ar CalendarControl
-    'End If
+    Set m_pCustomDataHandler = Nothing
+    If CalendarControl.DataProvider.IsOpen Then
+        CalendarControl.DataProvider.ClearCache
+        CalendarControl.DataProvider.Close
+    End If
+    
     
     ' MySQL provider
-    If eDataProviderType = cjCalendarData_MySQL Then
-        'Set m_pCustomDataHandler = New providerMySQL
-        'm_pCustomDataHandler.OpenDB strConnectionString, vHacerGetDSN
     
-       ' m_pCustomDataHandler.SetCalendar CalendarControl
-    End If
+    Set m_pCustomDataHandler = New providerMySQL
+    '
+    strConnectionString = "Provider=Custom;DSN=vUsuarios"
+    m_pCustomDataHandler.OpenDB strConnectionString
+    m_pCustomDataHandler.SetCalendar CalendarControl
+
                 
     
     'Si pongo PROVIDER=Custom funciona bien, aunque en el connection string le haya dicho la empresa que es
-    wndCalendarControl.SetDataProvider strConnectionString
-    wndCalendarControl.SetDataProvider "Provider=Custom;DSN=vAriconta"
-    wndCalendarControl.DataProvider.CacheMode = xtpCalendarDPCacheModeOnRepeat
+    CalendarControl.SetDataProvider strConnectionString
+   ' CalendarControl.SetDataProvider "Provider=Custom;DSN=vAriconta"
+    CalendarControl.DataProvider.CacheMode = xtpCalendarDPCacheModeOnRepeat
 
+    CalendarControl.DataProvider.Open
+
+    CalendarControl.Populate
+    CalendarControl.EnableReminders True
+  ' wndDatePicker.RedrawControl
     
-    If Not wndCalendarControl.DataProvider.Open Then
-        wndCalendarControl.DataProvider.Create
-    End If
     
-    'm_eActiveDataProvider = eDataProviderType
-        
-    wndCalendarControl.Populate
-    'wndDatePicker.RedrawControl
+    
 
 End Sub
 

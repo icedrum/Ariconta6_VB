@@ -2865,7 +2865,7 @@ End Sub
 
 Private Sub chkAux_LostFocus(Index As Integer)
     If Not vParam.autocoste Then
-        cmdAceptar.SetFocus
+        PonleFoco cmdAceptar
     End If
 End Sub
 
@@ -3011,15 +3011,61 @@ End Sub
 Private Sub PagosTesoreria()
 Dim Sql As String
 Dim Rs As ADODB.Recordset
+Dim Actualizar As Boolean
+Dim Aux As String
 
-    
+
     On Error GoTo ePagosTesoreria
 
     If Not vEmpresa.TieneTesoreria Then Exit Sub
     
-    ' si me cambian el nro de fra la cambio ya
-    If Trim(Text1(25).Text) <> Trim(NumFactuAnt) Then
+    
+    
+    
+    ' si me cambian el nro de fra la cambio ya, SIEMPRE que no haayan pagos parciales
+    
+    Actualizar = False
+    If Trim(Text1(25).Text) <> Trim(NumFactuAnt) Then Actualizar = True
+    If Text1(4).Text <> CodmactaAnt Then Actualizar = True
+    If Actualizar Then
+    
+        Sql = "numserie = " & DBSet(Text1(2).Text, "T")
+        Sql = Sql & " and codmacta = " & DBSet(CodmactaAnt, "T") & " and numfactu = " & DBSet(NumFactuAnt, "T")
+        Sql = Sql & " and fecfactu = " & DBSet(FecFactuAnt, "F") & " AND 1"
+        Sql = DevuelveDesdeBD("imppagad", "pagos", Sql, "1")
+        If Sql <> "" Then
+            'Tiene pagos parciales efectuados. Debera ir a tesoreria
+            MsgBox "Tiene pagos parciales realizados. Revise tesorería", vbExclamation
+            Exit Sub
+        End If
         Sql = "update pagos set numfactu = " & DBSet(Text1(25).Text, "T")
+        Sql = Sql & ", codmacta = " & DBSet(Text1(4).Text, "T")
+        
+        'Datos fiscales
+        If Text1(4).Text <> CodmactaAnt Then
+            Set Rs = New ADODB.Recordset
+            
+            Aux = "Select Nommacta, dirdatos ,codposta ,desPobla, desProvi, nifdatos, codPAIS FROM cuentas where codmacta =" & DBSet(Text1(4).Text, "T")
+            Rs.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            'NO PUEDE SER EOG
+            If Rs.EOF Then
+                MsgBox "Cuenta proveedor incorrecta. ", vbCritical
+            Else
+                'nomprove  domprove   pobprove  cpprove nifprove codpais
+                
+                Sql = Sql & ", nomprove =" & DBSet(Rs!Nommacta, "T")
+                Sql = Sql & ",domprove =" & DBSet(Rs!dirdatos, "T")
+                Sql = Sql & ", cpprove=" & DBSet(Rs!codposta, "T")
+                Sql = Sql & ", pobprove=" & DBSet(Rs!desPobla, "T")
+                Sql = Sql & ", proprove=" & DBSet(Rs!desProvi, "T")
+                Sql = Sql & ", nifprove=" & DBSet(Rs!nifdatos, "T")
+                Sql = Sql & ", codPAIS=" & DBSet(Rs!codPAIS, "T")
+                    
+            End If
+            Rs.Close
+            Set Rs = Nothing
+                        
+        End If
         Sql = Sql & " where numserie = " & DBSet(Text1(2).Text, "T")
         Sql = Sql & " and codmacta = " & DBSet(CodmactaAnt, "T") & " and numfactu = " & DBSet(NumFactuAnt, "T")
         Sql = Sql & " and fecfactu = " & DBSet(FecFactuAnt, "F")
@@ -3097,7 +3143,7 @@ Dim Rs As ADODB.Recordset
             Dim Nregs As Long
             Dim Nregs2 As Long
             Nregs = TotalRegistros("select count(*) from tmppagos where codusu = " & vUsu.Codigo)
-            Nregs2 = TotalRegistros("select count(*) from pagos where numserie = " & DBSet(Text1(2).Text, "T") & " and numfactu = " & DBSet(Text1(25).Text, "T") & " and fecfactu = " & DBSet(FecFactuAnt, "F")) & " and codmacta = " & DBSet(Text1(4).Text, "T")
+            Nregs2 = TotalRegistros("select count(*) from pagos where numserie = " & DBSet(Text1(2).Text, "T") & " and numfactu = " & DBSet(Text1(25).Text, "T") & " and fecfactu = " & DBSet(FecFactuAnt, "F") & " and codmacta = " & DBSet(Text1(4).Text, "T"))
 
             If Nregs = Nregs2 Then
                 CargarPagos
@@ -3218,10 +3264,11 @@ Dim Sql As String
 
     While Not Rs.EOF And B
         Sql = "update pagos set codmacta = " & DBSet(Text1(4).Text, "T")
+        
         Sql = Sql & ", codforpa = " & DBSet(Text1(5).Text, "N")
         Sql = Sql & ", fecefect = " & DBSet(RS1!FecVenci, "F")
         Sql = Sql & ", impefect = " & DBSet(RS1!ImpVenci, "N")
-        Sql = Sql & ", ctabanc1 = " & DBSet(CtaBanco, "T", "S")
+        If Modo <> 4 Then Sql = Sql & ", ctabanc1 = " & DBSet(CtaBanco, "T", "S")
         Sql = Sql & ", fecfactu = " & DBSet(Text1(26).Text, "F")
         
         If Pagado Then
@@ -4303,7 +4350,7 @@ Dim vFe As String
     If cmdAux(0).Tag = 5 Then
         'Cuenta normal
         txtAux(5).Text = RecuperaValor(CadenaSeleccion, 1)
-        txtaux2(5).Text = RecuperaValor(CadenaSeleccion, 2)
+        txtAux2(5).Text = RecuperaValor(CadenaSeleccion, 2)
         
         'Habilitaremos el ccoste
         HabilitarCentroCoste
@@ -4311,7 +4358,7 @@ Dim vFe As String
     Else
         'contrapartida
         txtAux(5).Text = RecuperaValor(CadenaSeleccion, 1)
-        txtaux2(5).Text = RecuperaValor(CadenaSeleccion, 2)
+        txtAux2(5).Text = RecuperaValor(CadenaSeleccion, 2)
     End If
 
 End Sub
@@ -4319,7 +4366,7 @@ End Sub
 Private Sub frmCC_DatoSeleccionado(CadenaSeleccion As String)
     'Centro de coste
     txtAux(12).Text = RecuperaValor(CadenaSeleccion, 1)
-    txtaux2(12).Text = RecuperaValor(CadenaSeleccion, 2)
+    txtAux2(12).Text = RecuperaValor(CadenaSeleccion, 2)
 End Sub
 
 
@@ -5182,6 +5229,10 @@ Dim Cad As String
     End If
     
 
+
+
+
+
     DatosOK = B
 
 EDatosOK:
@@ -5890,12 +5941,14 @@ Dim i As Integer
                     
                     
                     If Limpia Then
-                        txtaux2(5).Text = ""
-                        txtaux2(12).Text = ""
+                        txtAux2(5).Text = ""
+                        txtAux2(12).Text = ""
                     End If
-
-                    chkAux(0).Value = 1
                     
+                    
+                    
+                    chkAux(0).Value = IIf(Combo1(2).ListIndex > 0, 1, 0)
+                                    
                     If Limpia Then
                         PonFoco txtAux(5)
                     Else
@@ -6008,7 +6061,7 @@ Private Sub BotonModificarLinea(Index As Integer)
             txtAux(4).Text = DataGridAux(Index).Columns(4).Text
             
             txtAux(5).Text = DataGridAux(Index).Columns(5).Text 'cuenta
-            txtaux2(5).Text = DataGridAux(Index).Columns(6).Text 'denominacion
+            txtAux2(5).Text = DataGridAux(Index).Columns(6).Text 'denominacion
             txtAux(6).Text = DataGridAux(Index).Columns(7).Text 'baseimpo
             txtAux(7).Text = DataGridAux(Index).Columns(8).Text 'codigiva
             txtAux(8).Text = DataGridAux(Index).Columns(9).Text '%iva
@@ -6021,7 +6074,7 @@ Private Sub BotonModificarLinea(Index As Integer)
                 chkAux(0).Value = 0
             End If
             txtAux(12).Text = DataGridAux(Index).Columns(15).Text 'centro de coste
-            txtaux2(12).Text = DataGridAux(Index).Columns(16).Text 'nombre centro de coste
+            txtAux2(12).Text = DataGridAux(Index).Columns(16).Text 'nombre centro de coste
             
             
     End Select
@@ -6051,10 +6104,10 @@ Dim B As Boolean
                 txtAux(jj).top = alto
             Next jj
             
-            txtaux2(5).Visible = B
-            txtaux2(5).top = alto
-            txtaux2(12).Visible = B
-            txtaux2(12).top = alto
+            txtAux2(5).Visible = B
+            txtAux2(5).top = alto
+            txtAux2(12).Visible = B
+            txtAux2(12).top = alto
             
             
             chkAux(0).Visible = B
@@ -6071,8 +6124,8 @@ Dim B As Boolean
                 cmdAux(2).Enabled = False
                 txtAux(12).Visible = False
                 txtAux(12).Enabled = False
-                txtaux2(12).Visible = False
-                txtaux2(12).Enabled = False
+                txtAux2(12).Visible = False
+                txtAux2(12).Enabled = False
             End If
             
     End Select
@@ -6303,8 +6356,8 @@ Dim tots As String
                 For i = 0 To 4
                     txtAux(i).Text = ""
                 Next i
-                txtaux2(5).Text = ""
-                txtaux2(12).Text = ""
+                txtAux2(5).Text = ""
+                txtAux2(12).Text = ""
             End If
     End Select
     DataGridAux(Index).ScrollBars = dbgAutomatic
@@ -6379,8 +6432,8 @@ Dim Cad As String
 
                     txtAux(11).Text = ""
                     If Limp Then
-                        txtaux2(5).Text = ""
-                        txtaux2(12).Text = ""
+                        txtAux2(5).Text = ""
+                        txtAux2(12).Text = ""
                         For i = 0 To 11
                             txtAux(i).Text = ""
                         Next i
@@ -6600,7 +6653,7 @@ Private Sub txtAux_LostFocus(Index As Integer)
                     MsgBox "Cuenta bloqueada: " & RC, vbExclamation
                     txtAux(5).Text = ""
                 Else
-                    txtaux2(5).Text = Sql
+                    txtAux2(5).Text = Sql
                     ' traemos el tipo de iva de la cuenta
                     txtAux(7).Text = DevuelveDesdeBD("codigiva", "cuentas", "codmacta", txtAux(5).Text, "N")
                     IvaCuenta = txtAux(7)
@@ -6610,7 +6663,7 @@ Private Sub txtAux_LostFocus(Index As Integer)
             Else
                 If InStr(1, Sql, "No existe la cuenta :") > 0 Then
                     txtAux(5).Text = RC
-                    txtaux2(5).Text = ""
+                    txtAux2(5).Text = ""
                     'NO EXISTE LA CUENTA, añado que debe de tener permiso de creacion de cuentas
                     If vUsu.PermiteOpcion("ariconta", 201, vbOpcionCrearEliminar) Then
                         Sql = Sql & " ¿Desea crearla?"
@@ -6632,7 +6685,7 @@ Private Sub txtAux_LostFocus(Index As Integer)
                             
                             
                                 'AHORA. Si el elemento es de inmvoilizado, entonces crearemos el elmento
-                                If txtaux2(5).Text <> "" Then CrearElementoInmovilizado RC
+                                If txtAux2(5).Text <> "" Then CrearElementoInmovilizado RC
                             
                             End If
                         End If
@@ -6645,7 +6698,7 @@ Private Sub txtAux_LostFocus(Index As Integer)
                     
                 If Sql <> "" Then
                   txtAux(5).Text = ""
-                  txtaux2(5).Text = ""
+                  txtAux2(5).Text = ""
                   RC = "NO"
                 End If
             End If
@@ -6680,12 +6733,12 @@ Private Sub txtAux_LostFocus(Index As Integer)
         Case 12
             txtAux(12).Text = UCase(txtAux(12).Text)
             Sql = DevuelveDesdeBD("nomccost", "ccoste", "codccost", txtAux(12).Text, "T")
-            txtaux2(12).Text = ""
+            txtAux2(12).Text = ""
             If Sql = "" Then
                 MsgBox "Concepto NO encontrado: " & txtAux(12).Text, vbExclamation
                 txtAux(12).Text = ""
             Else
-                txtaux2(12).Text = Sql
+                txtAux2(12).Text = Sql
             End If
             
             cmdAceptar.SetFocus
@@ -6937,7 +6990,7 @@ Private Function AuxOK() As String
         Exit Function
     End If
     
-    If txtaux2(4).Text = NO Then
+    If txtAux2(4).Text = NO Then
         AuxOK = "La cuenta debe estar dada de alta en el sistema"
         Exit Function
     End If
@@ -7958,7 +8011,7 @@ Private Sub CrearElementoInmovilizado(CTA_Inmovilizado As String)
                 'codprove    nombre    numfac     fecha adq     importe     Cuenta    Des. cuenta
                 CadenaDesdeOtroForm = Text1(4).Text & "|" & Me.Text4(4).Text & "|"
                 CadenaDesdeOtroForm = CadenaDesdeOtroForm & Text1(25).Text & "|" & Text1(1).Text & "||"
-                CadenaDesdeOtroForm = CadenaDesdeOtroForm & txtAux(5).Text & "|" & txtaux2(5).Text & "|"
+                CadenaDesdeOtroForm = CadenaDesdeOtroForm & txtAux(5).Text & "|" & txtAux2(5).Text & "|"
                 
                 frmInmoElto.Nuevo = CadenaDesdeOtroForm
                 CadenaDesdeOtroForm = ""

@@ -61,11 +61,11 @@ Begin VB.Form frmTESListado
             EndProperty
             Height          =   360
             Index           =   8
-            Left            =   3360
+            Left            =   3000
             TabIndex        =   28
             Text            =   "Text1"
             Top             =   240
-            Width           =   4335
+            Width           =   4695
          End
          Begin VB.TextBox txtFPago 
             BeginProperty Font 
@@ -83,7 +83,7 @@ Begin VB.Form frmTESListado
             TabIndex        =   9
             Text            =   "Text1"
             Top             =   240
-            Width           =   1095
+            Width           =   735
          End
          Begin VB.Label Label4 
             AutoSize        =   -1  'True
@@ -332,7 +332,7 @@ Begin VB.Form frmTESListado
          Left            =   2370
          TabIndex        =   6
          Top             =   840
-         Width           =   1125
+         Width           =   1485
       End
       Begin VB.Image ImageAyudaImpcta 
          Height          =   240
@@ -1121,9 +1121,9 @@ Dim RC As String
 Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
-Dim cad As String
+Dim Cad As String
 Dim CONT As Long
-Dim I As Integer
+Dim i As Integer
 Dim TotalRegistros As Long
 
 Dim Importe As Currency
@@ -1261,11 +1261,11 @@ Private Sub cmdRecepDocu_Click()
     
     
     
-    I = 0
+    i = 0
     If Me.chkAgruparCtaPuente(0).Visible Then
-        If Me.chkAgruparCtaPuente(0).Value Then I = 1
+        If Me.chkAgruparCtaPuente(0).Value Then i = 1
     End If
-    CadenaDesdeOtroForm = txtDiario(1).Text & "|" & Me.txtConcepto(2).Text & "|" & txtConcepto(3).Text & "|" & I & "|"
+    CadenaDesdeOtroForm = txtDiario(1).Text & "|" & Me.txtConcepto(2).Text & "|" & txtConcepto(3).Text & "|" & i & "|"
     CadenaDesdeOtroForm = CadenaDesdeOtroForm & txtCta(14).Text & "|" & txtCCost(0).Text & "|"
     
     Unload Me
@@ -1280,9 +1280,9 @@ Private Sub Form_Activate()
         Case 22
             'Contabi efectos
             If CONT > 0 Then
-                For I = 1 To Me.cboCompensaVto.ListCount
-                    If Me.cboCompensaVto.ItemData(I) = CONT Then
-                        CONT = I
+                For i = 1 To Me.cboCompensaVto.ListCount
+                    If Me.cboCompensaVto.ItemData(i) = CONT Then
+                        CONT = i
                         Exit For
                     End If
                 Next
@@ -1308,7 +1308,7 @@ Dim Img As Image
 
 
     Limpiar Me
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
     CargaImagenesAyudas Me.imgCtaBanc, 1, "Cuenta contable bancaria"
     CargaImagenesAyudas Image2, 2
     CargaImagenesAyudas Me.imgFP, 1, "Forma de pago"
@@ -1379,24 +1379,24 @@ Dim Img As Image
         'Si el total del talon es el total de las lineas entonces no mostrara los
         'datos del total. 0: igual   1  Mayor     2 Menor
         Sql = RecuperaValor(CadenaDesdeOtroForm, 2)
-        I = CInt(Sql)
+        i = CInt(Sql)
 '        If CInt(SQL) > 0 Then
 '            I = 1
 '        Else
 '            I = -1
 '        End If
         
-        Label4(55).Visible = I <> 0
-        Image3(14).Visible = I <> 0
-        txtCta(14).Visible = I <> 0
-        DtxtCta(14).Visible = I <> 0
-        Label6(28).Visible = I <> 0
+        Label4(55).Visible = i <> 0
+        Image3(14).Visible = i <> 0
+        txtCta(14).Visible = i <> 0
+        DtxtCta(14).Visible = i <> 0
+        Label6(28).Visible = i <> 0
         
         
         
         
         
-        If I > 0 Then
+        If i > 0 Then
             Sql = "Beneficios"
         Else
             Sql = "Pérdidas"
@@ -1409,14 +1409,14 @@ Dim Img As Image
 
 
         '   No lleva ANALITICA
-        If I <> 0 Then
-            If Not vParam.autocoste Then I = 0
+        If i <> 0 Then
+            If Not vParam.autocoste Then i = 0
         End If
      
-        Me.imgCCoste(0).Visible = I <> 0
-        Me.txtCCost(0).Visible = I <> 0
-        Label6(29).Visible = I <> 0
-        Me.txtDescCCoste(0).Visible = I <> 0
+        Me.imgCCoste(0).Visible = i <> 0
+        Me.txtCCost(0).Visible = i <> 0
+        Label6(29).Visible = i <> 0
+        Me.txtDescCCoste(0).Visible = i <> 0
      
         
         
@@ -1427,8 +1427,8 @@ Dim Img As Image
         
         
         Sql = RecuperaValor(CadenaDesdeOtroForm, 1)
-        I = CInt(Sql)
-        If FP.Leer(I) = 0 Then
+        i = CInt(Sql)
+        If FP.Leer(i) = 0 Then
             If Opcion = 23 Then
                 'Normal
                 txtDiario(1).Text = FP.diaricli
@@ -1453,7 +1453,7 @@ Dim Img As Image
         
         
         H = 0
-        If I = vbTalon Then
+        If i = vbTalon Then
             Sql = "taloncta"
         Else
             Sql = "pagarecta"
@@ -1477,13 +1477,13 @@ Dim Img As Image
         
         If Label4(55).Visible Then '5055
             FrameRecepcionDocumentos.Height = 4815
-            I = 4320
+            i = 4320
         Else
             FrameRecepcionDocumentos.Height = 3135
-            I = 2640
+            i = 2640
         End If
-        cmdRecepDocu.Top = I
-        cmdCancelar(23).Top = I
+        cmdRecepDocu.top = i
+        cmdCancelar(23).top = i
         H = FrameRecepcionDocumentos.Height + 120
         W = FrameRecepcionDocumentos.Width
         FrameRecepcionDocumentos.Visible = True
@@ -1500,22 +1500,22 @@ Dim Img As Image
     Me.Width = W + 300
     Me.Height = H + 400
     
-    I = Opcion
-    If Opcion = 13 Or I = 43 Or I = 44 Then I = 11
+    i = Opcion
+    If Opcion = 13 Or i = 43 Or i = 44 Then i = 11
     
     'Aseguradas
-    If Opcion >= 15 And Opcion <= 18 Then I = 15  'aseguradoas
-    If Opcion = 33 Then I = 15 'aseguradoas
-    If Opcion = 34 Then I = 23 'Eliminar recepcion documento
-    If Opcion = 40 Then I = 39
-    Me.cmdCancelar(I).Cancel = True
+    If Opcion >= 15 And Opcion <= 18 Then i = 15  'aseguradoas
+    If Opcion = 33 Then i = 15 'aseguradoas
+    If Opcion = 34 Then i = 23 'Eliminar recepcion documento
+    If Opcion = 40 Then i = 39
+    Me.cmdCancelar(i).Cancel = True
     
     PonerFrameProgreso
 
 End Sub
 
 Private Sub PonerFrameProgreso()
-Dim I As Integer
+Dim i As Integer
 
     'Ponemos el frame al pricnipio de todo
     FrameProgreso.Visible = False
@@ -1523,21 +1523,21 @@ Dim I As Integer
     
     'lo ubicamos
     'Posicion horizintal WIDTH
-    I = Me.Width - FrameProgreso.Width
-    If I > 100 Then
-        I = I \ 2
+    i = Me.Width - FrameProgreso.Width
+    If i > 100 Then
+        i = i \ 2
     Else
-        I = 0
+        i = 0
     End If
-    FrameProgreso.Left = I
+    FrameProgreso.Left = i
     'Posicion  VERTICAL HEIGHT
-    I = Me.Height - FrameProgreso.Height
-    If I > 100 Then
-        I = I \ 2
+    i = Me.Height - FrameProgreso.Height
+    If i > 100 Then
+        i = i \ 2
     Else
-        I = 0
+        i = 0
     End If
-    FrameProgreso.Top = I
+    FrameProgreso.top = i
 End Sub
 
 Private Sub frmBa_DatoSeleccionado(CadenaSeleccion As String)
@@ -1713,7 +1713,7 @@ Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
 End Sub
 
 Private Sub txtConcepto_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 
     txtConcepto(Index).Text = Trim(txtConcepto(Index).Text)
     
@@ -1795,24 +1795,24 @@ Private Sub txtCtaBanc_LostFocus(Index As Integer)
         Exit Sub
     End If
     
-    cad = txtCtaBanc(Index).Text
-    I = CuentaCorrectaUltimoNivelSIN(cad, Sql)
-    If I = 0 Then
+    Cad = txtCtaBanc(Index).Text
+    i = CuentaCorrectaUltimoNivelSIN(Cad, Sql)
+    If i = 0 Then
         MsgBox "NO existe la cuenta: " & txtCtaBanc(Index).Text, vbExclamation
         Sql = ""
-        cad = ""
+        Cad = ""
     Else
-        cad = DevuelveDesdeBD("codmacta", "bancos", "codmacta", cad, "T")
-        If cad = "" Then
+        Cad = DevuelveDesdeBD("codmacta", "bancos", "codmacta", Cad, "T")
+        If Cad = "" Then
             MsgBox "Cuenta no asoaciada a ningun banco", vbExclamation
             Sql = ""
-            I = 0
+            i = 0
         End If
     End If
     
-    txtCtaBanc(Index).Text = cad
+    txtCtaBanc(Index).Text = Cad
     Me.txtDescBanc(Index).Text = Sql
-    If I = 0 Then PonFoco txtCtaBanc(Index)
+    If i = 0 Then PonFoco txtCtaBanc(Index)
     
 End Sub
 

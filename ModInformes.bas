@@ -23,7 +23,7 @@ Public SoloImprimir As Boolean
 Dim Rs As Recordset
 Dim cad As String
 Dim Sql As String
-Dim I As Integer
+Dim i As Integer
 
 
 'Esto sera para el pb general
@@ -123,10 +123,10 @@ On Error GoTo EListadoEstadisticas
     'Empezamos
     Set Rs = New ADODB.Recordset
     Rs.Open vSql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    I = 1
+    i = 1
     While Not Rs.EOF
         
-        Sql = I & ParaBD(Rs!codconam, 1) & ParaBD(Rs!nomconam)
+        Sql = i & ParaBD(Rs!codconam, 1) & ParaBD(Rs!nomconam)
         Sql = Sql & ParaBD(Rs!Codinmov) & ",'" & DevNombreSQL(Rs!nominmov) & "'"
         
         Sql = Sql & ParaBD(Rs!tipoamor) & ParaBD(Rs!coeficie) & ParaBD(Rs!codprove)
@@ -137,7 +137,7 @@ On Error GoTo EListadoEstadisticas
         
         'Sig
         Rs.MoveNext
-        I = I + 1
+        i = i + 1
     Wend
     ListadoEstadisticas = True
 EListadoEstadisticas:
@@ -160,11 +160,11 @@ On Error GoTo Err1
     'Empezamos
     Set Rs = New ADODB.Recordset
     Rs.Open vSql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    I = 1
+    i = 1
     While Not Rs.EOF
         Sql = Rs!nominmov
         NombreSQL Sql
-        Sql = I & ParaBD(Rs!Codinmov) & ",'" & Sql & "'"
+        Sql = i & ParaBD(Rs!Codinmov) & ",'" & Sql & "'"
         Sql = Sql & ParaBD(Rs!fechaadq, 2) & ParaBD(Rs!valoradq, 1) & ParaBD(Rs!fechainm, 2)
         Sql = Sql & ParaBD(Rs!imporinm, 1) & ParaBD(Rs!porcinm, 1)
         Sql = Sql & ")"
@@ -172,10 +172,10 @@ On Error GoTo Err1
         
         'Sig
         Rs.MoveNext
-        I = I + 1
+        i = i + 1
     Wend
     Rs.Close
-    If I > 1 Then
+    If i > 1 Then
         ListadoFichaInmo = True
     Else
         MsgBox "Ningún registro con esos valores", vbExclamation
@@ -277,15 +277,15 @@ On Error GoTo EGen
     cad = "Select count(*) from Usuarios.ztotalctaconce WHERE codusu =" & vUsu.Codigo
     Set Rs = New ADODB.Recordset
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    I = 0
+    i = 0
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then
-            If Rs.Fields(0) > 0 Then I = 1
+            If Rs.Fields(0) > 0 Then i = 1
         End If
     End If
     Rs.Close
     Set Rs = Nothing
-    If I > 0 Then
+    If i > 0 Then
         ITotalesCtaConcepto = True
     Else
         MsgBox "Ningún registro con esos valores.", vbExclamation
@@ -563,7 +563,7 @@ End Function
 
 Public Function GeneraFicheroCSV(cadSQL As String, Salida As String) As Boolean
 Dim NF As Integer
-Dim I  As Integer
+Dim i  As Integer
 
     On Error GoTo eGeneraFicheroCSV
     GeneraFicheroCSV = False
@@ -579,18 +579,18 @@ Dim I  As Integer
         Open App.Path & "\docum.csv" For Output As #NF
         'Cabecera
         cadSQL = ""
-        For I = 0 To miRsAux.Fields.Count - 1
-            cadSQL = cadSQL & ";""" & miRsAux.Fields(I).Name & """"
-        Next I
+        For i = 0 To miRsAux.Fields.Count - 1
+            cadSQL = cadSQL & ";""" & miRsAux.Fields(i).Name & """"
+        Next i
         Print #NF, Mid(cadSQL, 2)
     
     
         'Lineas
         While Not miRsAux.EOF
             cadSQL = ""
-            For I = 0 To miRsAux.Fields.Count - 1
-                cadSQL = cadSQL & ";""" & DBLet(miRsAux.Fields(I).Value, "T") & """"
-            Next I
+            For i = 0 To miRsAux.Fields.Count - 1
+                cadSQL = cadSQL & ";""" & DBLet(miRsAux.Fields(i).Value, "T") & """"
+            Next i
             Print #NF, Mid(cadSQL, 2)
             
             
@@ -636,11 +636,13 @@ Public Function ImprimeGeneral() As Boolean
     Screen.MousePointer = vbHourglass
 
 
-    'Prueba DAVID
-'    frmPpal.SkinFramework.AutoApplyNewWindows = False
-   ' frmPpal.SkinFramework.AutoApplyNewThreads = False
 
+    
 
+    frmppal.SkinFramework1.AutoApplyNewWindows = False
+    frmppal.SkinFramework1.AutoApplyNewThreads = False
+
+  
     HaPulsadoImprimir = False
     cadPDFrpt = cadNomRPT
     With frmVisReport
@@ -663,6 +665,7 @@ Public Function ImprimeGeneral() As Boolean
         .SoloImprimir = SoloImprimir
         .ExportarPDF = ExportarPDF
         .MostrarTree = vMostrarTree
+        
         .Show vbModal
         HaPulsadoImprimir = .EstaImpreso
         
@@ -670,20 +673,20 @@ Public Function ImprimeGeneral() As Boolean
     
     
      'DAVID
-'    frmPpal.SkinFramework.AutoApplyNewWindows = True
-'    frmPpal.SkinFramework.AutoApplyNewThreads = True
+     frmppal.SkinFramework1.AutoApplyNewWindows = True
+     frmppal.SkinFramework1.AutoApplyNewThreads = True
     
 End Function
 
 
 
 Public Sub QuitarPulsacionMas(ByRef T As TextBox)
-Dim I As Integer
+Dim i As Integer
 
     Do
-        I = InStr(1, T.Text, "+")
-        If I > 0 Then T.Text = Mid(T.Text, 1, I - 1) & Mid(T.Text, I + 1)
-    Loop Until I = 0
+        i = InStr(1, T.Text, "+")
+        If i > 0 Then T.Text = Mid(T.Text, 1, i - 1) & Mid(T.Text, i + 1)
+    Loop Until i = 0
         
 End Sub
 

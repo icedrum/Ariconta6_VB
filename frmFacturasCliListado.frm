@@ -1708,7 +1708,7 @@ Dim Sql2 As String
     Sql = Sql & " factcli_totales.baseimpo BaseImp,factcli_totales.codigiva IVA,factcli_totales.porciva PorcIva,factcli_totales.porcrec PorcRec,factcli_totales.impoiva ImpIva,factcli_totales.imporec ImpRec "
     Sql = Sql & " FROM (factcli inner join factcli_totales on factcli.numserie = factcli_totales.numserie and factcli.numfactu = factcli_totales.numfactu and factcli.fecfactu = factcli_totales.fecfactu) "
     Sql = Sql & " inner join tmpfaclin ON factcli.numserie=tmpfaclin.numserie AND factcli.numfactu=tmpfaclin.Numfac and factcli.fecfactu=tmpfaclin.Fecha "
-    Sql = Sql & " WHERE  tmpfaclin.codusu = 22000 "
+    Sql = Sql & " WHERE  tmpfaclin.codusu = " & vUsu.Codigo
     Sql = Sql & " ORDER BY factcli.codmacta, factcli.nommacta, factcli_totales.numlinea "
             
     'LLamos a la funcion
@@ -1750,7 +1750,7 @@ Dim nomDocu As String
         cadParam = cadParam & "pFecHas=Date(" & Year(txtFecha(1).Text) & "," & Month(txtFecha(1).Text) & "," & Day(txtFecha(1).Text) & ")|"
         numParam = numParam + 1
     End If
-    
+    vMostrarTree = optVarios(1).Value
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
@@ -1772,7 +1772,7 @@ Dim Sql As String
     Conn.Execute Sql
     
     Sql = "insert into tmpfaclin (codusu, codigo, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
-    Sql = Sql & " recargo, tipoopera, tipoformapago) "
+    Sql = Sql & " recargo,  tipoformapago,tipoopera) "
     Sql = Sql & " select distinct " & vUsu.Codigo & ",0, factcli.numserie, contadores.nomregis, factcli.numfactu, factcli.fecfactu, factcli.codmacta, "
     Sql = Sql & " factcli.nommacta, factcli.nifdatos, factcli.totbases, factcli.totivas, factcli.totfaccl, factcli.trefaccl, "
     Sql = Sql & " factcli.totrecargo, tipofpago.descformapago , aa.denominacion"
@@ -1804,7 +1804,7 @@ Dim i As Integer
     If Not PonerDesdeHasta("factcli.codmacta", "CTA", Me.txtCuentas(0), Me.txtNCuentas(0), Me.txtCuentas(1), Me.txtNCuentas(1), "pDHCuentas=""") Then Exit Function
             
     If txtNIF.Text <> "" Then
-        If Not AnyadirAFormula(cadselect, "factcli.nifdatos = "" & txtnif.text & """) Then Exit Function
+        If Not AnyadirAFormula(cadselect, "factcli.nifdatos = " & DBSet(txtNIF.Text, "T")) Then Exit Function
         If Not AnyadirAFormula(cadFormula, "{factcli.nifdatos} = "" & txtnif.text & """) Then Exit Function
     End If
             

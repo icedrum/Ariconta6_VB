@@ -2647,6 +2647,7 @@ End Sub
 Private Sub cmdAceptar_Click()
     Dim Cad As String
     Dim i As Integer
+    Dim Clave As String
     
     Screen.MousePointer = vbHourglass
     On Error GoTo Error1
@@ -2668,7 +2669,12 @@ Private Sub cmdAceptar_Click()
     Case 4
         'Modificar
         If DatosOK Then
-             If ModificaDesdeFormulario2(Me, 1) Then
+            Clave = "numserie = " & DBSet(Data1.Recordset!NUmSerie, "T") & " AND codmacta =" & DBSet(Data1.Recordset!codmacta, "T") ' codmacta numfactu
+            Clave = Clave & " AND fecfactu = " & DBSet(Data1.Recordset!FecFactu, "F") & " AND numorden =" & DBSet(Data1.Recordset!numorden, "N")  ' codmacta numfactu fecfactu numorden
+            Clave = Clave & " AND numfactu = " & DBSet(Data1.Recordset!NumFactu, "T")
+            
+            '       If ModificaDesdeFormulario2(Me, 1) Then
+            If ModificaDesdeFormularioClaves2(Me, 1, "", Clave) Then
                 'TerminaBloquear
                 DesBloqueaRegistroForm Me.Text1(0)
                 lblIndicador.Caption = ""
@@ -2710,7 +2716,7 @@ Private Sub cmdAux_Click(Index As Integer)
             frmDia.Show vbModal
             Set frmDia = Nothing
             
-            PonFoco txtaux(5)
+            PonFoco txtAux(5)
             
             
     End Select
@@ -2847,6 +2853,7 @@ End Sub
 
 Private Sub BotonModificar()
 Dim N As Byte
+Dim BloquearClave As Boolean
 
     N = SePuedeEliminar()
     If N = 0 Then Exit Sub
@@ -2860,6 +2867,27 @@ Dim N As Byte
     
     'Si se puede modificar entonces habilito todooos los campos
     PonerModo 4
+    
+    'Si tiene algun pago hehco, NO puede modiciar ningun campo de la clave ppal
+    BloquearClave = False
+    If DBLet(Data1.Recordset!imppagad, "N") <> 0 Then BloquearClave = True
+        'Tiene importes pagados. NO dejo cambiar la clave
+        'numserie codmacta numfactu fecfactu numorden
+    
+    '13 1 2 3 4
+    BloqueaTXT Me.Text1(1), BloquearClave
+    BloqueaTXT Me.Text1(2), BloquearClave
+    BloqueaTXT Me.Text1(3), BloquearClave
+    BloqueaTXT Me.Text1(4), BloquearClave
+    BloqueaTXT Me.Text1(13), BloquearClave
+        
+        
+        
+        
+        
+    
+    
+    
     If N < 3 Then
         'Se puede modifcar la CC
         Dim T As TextBox
@@ -3143,7 +3171,7 @@ End Sub
 Private Sub LimpiarCampos()
     Limpiar Me   'Metodo general
     txtPendiente.Text = ""
-    Check1(0).Value = 0
+    check1(0).Value = 0
     Combo1.ListIndex = -1
     Text2(3).Text = ""
     lblIndicador.Caption = ""
@@ -3219,7 +3247,7 @@ Private Sub frmC_Selec(vFecha As Date)
 End Sub
 
 Private Sub frmC1_Selec(vFecha As Date)
-    txtaux(CInt(cmdAux(1).Tag)).Text = Format(vFecha, "dd/mm/yyyy")
+    txtAux(CInt(cmdAux(1).Tag)).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
@@ -3279,6 +3307,10 @@ Dim Z
     
     Else
         'Cuentas
+        If Index = 0 And Me.Text1(4).Locked Then
+            Screen.MousePointer = vbDefault
+            Exit Sub
+        End If
         imgFecha(0).Tag = Index
         Set frmCCtas = New frmColCtas
         DevfrmCCtas = ""
@@ -3315,6 +3347,9 @@ Private Sub imgDepart_Click()
 End Sub
 
 Private Sub imgFecha_Click(Index As Integer)
+
+    If Index = 0 And Me.Text1(2).Locked Then Exit Sub
+
     'En tag pongo el txtfecha asociado
     Select Case Index
     Case 0
@@ -3371,7 +3406,7 @@ End Sub
 
 
 Private Sub imgSerie_Click()
-    
+        If Me.Text1(1).Locked Then Exit Sub
         Set frmConta = New frmBasico
         AyudaContadores frmConta, Text1(13).Text, "tiporegi REGEXP '^[0-9]+$' <> 0 and cast(tiporegi as unsigned) > 0"
         Set frmConta = Nothing
@@ -4037,7 +4072,7 @@ Dim Tipo As Integer
         If DBLet(Me.Data1.Recordset!emitdocum, "N") = 1 Then
             'Tiene la marca de documento emitido
             'Veremos si se la ha quitado
-            If Me.Check1(0).Value = 0 Then
+            If Me.check1(0).Value = 0 Then
                 DevfrmCCtas = "Seguro que desea quitarle la marca de documento emitido?"
                 If MsgBox(DevfrmCCtas, vbQuestion + vbYesNo) = vbNo Then Exit Function
             End If
@@ -4747,7 +4782,7 @@ EDatosOKLlin:
 End Function
 
 Private Sub txtaux_GotFocus(Index As Integer)
-    ConseguirFoco txtaux(Index), Modo
+    ConseguirFoco txtAux(Index), Modo
 End Sub
 
 
@@ -4780,41 +4815,41 @@ Private Sub txtAux_LostFocus(Index As Integer)
     Dim Importe As Currency
         
         
-    If Not PerderFocoGnral(txtaux(Index), Modo) Then Exit Sub
+    If Not PerderFocoGnral(txtAux(Index), Modo) Then Exit Sub
     
-    If txtaux(Index).Text = "" Then Exit Sub
+    If txtAux(Index).Text = "" Then Exit Sub
     
     Select Case Index
         Case 5 ' diario
-            RC = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", txtaux(5), "N")
+            RC = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", txtAux(5), "N")
             If RC = "" Then
                 MsgBox "No existe el tipo de diario. Reintroduzca.", vbExclamation
-                PonFoco txtaux(5)
+                PonFoco txtAux(5)
             End If
                 
         Case 6, 11 ' fecha
-            If Not EsFechaOK(txtaux(Index)) Then
-                MsgBox "Fecha incorrecta: " & txtaux(Index).Text, vbExclamation
-                txtaux(Index).Text = ""
-                PonerFoco txtaux(Index)
+            If Not EsFechaOK(txtAux(Index)) Then
+                MsgBox "Fecha incorrecta: " & txtAux(Index).Text, vbExclamation
+                txtAux(Index).Text = ""
+                PonerFoco txtAux(Index)
             End If
             
         Case 7 ' asiento
-            PonerFormatoEntero txtaux(Index)
+            PonerFormatoEntero txtAux(Index)
         
         Case 8 ' usuario
         
         Case 9
            ' IMPORTE
-             txtaux(Index) = ImporteSinFormato(txtaux(Index))
+             txtAux(Index) = ImporteSinFormato(txtAux(Index))
             
         Case 10 'tipo
-            txtaux(Index).Text = UCase(txtaux(Index).Text)
+            txtAux(Index).Text = UCase(txtAux(Index).Text)
         
         Case 12 ' cuenta de cobro
-            RC = txtaux(12).Text
+            RC = txtAux(12).Text
             If CuentaCorrectaUltimoNivel(RC, "") Then
-                txtaux(12).Text = RC
+                txtAux(12).Text = RC
             End If
         
     End Select
@@ -4844,6 +4879,7 @@ Dim Sql As String
     Next i
     
     If Not Rs.EOF Then
+        
         Text1(0).Text = DBLet(Rs!Forpa, "N")
         Text2(1).Text = PonerNombreDeCod(Text1(0), "formapago", "nomforpa", "codforpa", "N")
         

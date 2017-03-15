@@ -812,6 +812,7 @@ End Sub
 Private Sub Form_Load()
 Dim H As Integer
 Dim W As Integer
+
     Limpiar Me
     PrimeraVez = True
     Me.Icon = frmppal.Icon
@@ -875,7 +876,7 @@ Dim W As Integer
     Text1(9).Text = Format(Now, "dd/mm/yyyy")
     Text1(18).Text = Text1(9).Text
     
-    Me.cmbReferencia.ListIndex = vControl.UltReferRem
+    Me.cmbReferencia.ListIndex = Val(vControl.UltReferRem)
     
     Text7(0).Text = UCase(vEmpresa.nomempre)
     
@@ -892,13 +893,14 @@ Dim W As Integer
     W = FrameCambioRemesa.Width
     CadenaDesdeOtroForm = ""
     
+   
     Me.Height = H + 360
     Me.Width = W + 90
     
     H = Opcion
     If Opcion = 7 Then H = 6
     Me.cmdCancelar(H).Cancel = True
-    
+       
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)

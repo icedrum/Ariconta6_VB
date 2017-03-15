@@ -16,9 +16,9 @@ Begin VB.Form frmShortcutBar2
    StartUpPosition =   3  'Windows Default
    Begin XtremeShortcutBar.ShortcutBar wndShortcutBar 
       Height          =   6255
-      Left            =   120
+      Left            =   240
       TabIndex        =   0
-      Top             =   480
+      Top             =   1080
       Width           =   2655
       _Version        =   1114114
       _ExtentX        =   4683
@@ -28,12 +28,14 @@ Begin VB.Form frmShortcutBar2
       MinimumClientHeight=   20
       AllowMinimize   =   -1  'True
    End
-   Begin VB.Image Image1 
-      Height          =   855
+   Begin VB.Image Image2 
+      Height          =   975
       Left            =   0
       Picture         =   "frmShortcutBar.frx":0000
+      Stretch         =   -1  'True
       Top             =   0
-      Width           =   2505
+      Visible         =   0   'False
+      Width           =   2640
    End
 End
 Attribute VB_Name = "frmShortcutBar2"
@@ -79,17 +81,17 @@ End Sub
 
 Private Sub wndShortcutBar_SelectedChanged(ByVal Item As XtremeShortcutBar.IShortcutBarItem)
 Dim TabNuevo As RibbonTab
-    Select Case Item.Id
+    Select Case Item.id
         Case SHORTCUT_CONTACTS:
 
-            frmInbox.wndCalendarControl.Visible = False
+            frmInbox.CalendarControl.Visible = False
             frmInbox.ScrollBarCalendar.Visible = False
             Set TabNuevo = frmppal.RibbonBar.FindTab(3)  'Diario
             
            
         Case SHORTCUT_CALENDAR:
             frmPaneCalendar.AsignarCalendar
-            frmInbox.wndCalendarControl.Visible = True
+            frmInbox.CalendarControl.Visible = True
             frmInbox.ScrollBarCalendar.Visible = True
             Set TabNuevo = frmppal.RibbonBar.FindTab(ID_TAB_CALENDAR_HOME)
             
@@ -116,7 +118,7 @@ Public Sub Form_Resize()
     nWidth = Me.ScaleWidth - 8
     
     
-    wndShortcutBar.Move 4, Image1.Height, nWidth, ScaleHeight - 4 - Image1.Height
+    wndShortcutBar.Move 4, Image2.Height, nWidth, ScaleHeight - 4 - Image2.Height
        
        
        
@@ -141,5 +143,7 @@ End Sub
 Public Sub SetColor()
     Set wndShortcutBar.Icons = CommandBarsGlobalSettings.Icons
     Me.BackColor = wndShortcutBar.PaintManager.PaneBackgroundColor
+   ' Me.Image1.Visible = vUsu.Skin = 2
+    Me.Image2.Visible = True 'vUsu.Skin <> 2
 End Sub
 

@@ -27,19 +27,15 @@ Public Sub SetCalendar(ByVal pCalendar As CalendarControl)
     m_pHelper.SetCalendar pCalendar
 End Sub
 
-Public Sub OpenDB(ByVal strConnection As String, HacerGetDSN As Boolean)
+Public Sub OpenDB(ByVal strConnection As String)
     Debug.Assert Not m_bOpened
     
-On Error GoTo Err1
-    ' Open DSN connection
-    If HacerGetDSN Then
-        m_Connection.Open m_pHelper.GetDSN(strConnection)
-    Else
-        m_Connection.Open strConnection
-    End If
+On Error GoTo err1
+   ' Open DSN connection
+    m_Connection.Open m_pHelper.GetDSN(strConnection)
     m_bOpened = True
-    Debug.Print m_Connection.ConnectionString
-Err1:
+
+err1:
     If Err.Number <> 0 Then
         m_bOpened = False
         MsgBox "Cannot open SQL Server DB" & Err.Description
@@ -71,13 +67,9 @@ Private Sub m_pCalendar_DoCreateEvent(ByVal pEvent As XtremeCalendarControl.Cale
         Exit Sub
     End If
 
-On Error GoTo Err1
+On Error GoTo err1
 
     Dim strSQL As String
-    
-    
-    'aqui faltan cosas
-    
     strSQL = m_pHelper.MakeCreateEventSQL(pEvent)
     'Debug.Print strSQL
     
@@ -95,7 +87,7 @@ On Error GoTo Err1
     bResult = True
     Exit Sub
 
-Err1:
+err1:
     If Err.Number <> 0 Then
         Debug.Print "Cannot CreateEvent in DB: " & Err.Description
         Debug.Assert False
@@ -109,7 +101,7 @@ Private Sub m_pCalendar_DoCreateRPattern(ByVal pPattern As XtremeCalendarControl
         Exit Sub
     End If
 
-On Error GoTo Err1
+On Error GoTo err1
 
     Dim strSQL As String
     strSQL = m_pHelper.MakeCreatePatternSQL(pPattern)
@@ -128,7 +120,7 @@ On Error GoTo Err1
     
     bResult = True
     Exit Sub
-Err1:
+err1:
     If Err.Number <> 0 Then
         Debug.Print "Cannot UpdateEvent in DB: " & Err.Description
         Debug.Assert False
@@ -260,7 +252,7 @@ Private Sub m_pCalendar_DoUpdateEvent(ByVal pEvent As XtremeCalendarControl.Cale
         Exit Sub
     End If
 
-On Error GoTo Err1
+On Error GoTo err1
 
     Dim strSQL As String
     
@@ -271,7 +263,7 @@ On Error GoTo Err1
     
     bResult = True
     Exit Sub
-Err1:
+err1:
     If Err.Number <> 0 Then
         Debug.Print "Cannot UpdateEvent in DB: " & Err.Description
         Debug.Assert False
@@ -287,7 +279,7 @@ Private Sub m_pCalendar_DoUpdateRPattern(ByVal pPattern As XtremeCalendarControl
         Exit Sub
     End If
 
-On Error GoTo Err1
+On Error GoTo err1
 
     Dim strSQL As String
     strSQL = m_pHelper.MakeUpdatePatternSQL(pPattern)
@@ -297,7 +289,7 @@ On Error GoTo Err1
     
     bResult = True
     Exit Sub
-Err1:
+err1:
     If Err.Number <> 0 Then
         Debug.Print "Cannot UpdateEvent in DB: " & Err.Description
         Debug.Assert False
@@ -306,9 +298,3 @@ Err1:
 End Sub
 
 
-
-Private Function DevuelveCadenaConexion(CadenaConn As String) As String
-    
-    
-    
-End Function

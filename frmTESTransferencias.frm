@@ -2592,7 +2592,7 @@ Dim NumLinea As Integer
         Sql = Sql & ", situdocum = " & ValorNulo
         Sql = Sql & ", situacion = 0 "
         Sql = Sql & " where numserie = " & DBSet(Rs!NUmSerie, "T") & " and "
-        Sql = Sql & " numfactu = " & DBSet(Rs!NumFactu, "N") & " and fecfactu = " & DBSet(Rs!FecFactu, "F") & " and "
+        Sql = Sql & " numfactu = " & DBSet(Rs!NumFactu, "T") & " and fecfactu = " & DBSet(Rs!FecFactu, "F") & " and "
         Sql = Sql & " numorden = " & DBSet(Rs!numorden, "N")
                     
         Conn.Execute Sql

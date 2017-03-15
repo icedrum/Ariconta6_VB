@@ -352,7 +352,8 @@ Dim i As Long
         mvarId = Val(DBLet(Rs!codusu))
         mvarSkin = DBLet(Rs!Skin)
         
-        mvarSoloTesoreria = DBLet(Rs!SoloTesoreria, "N")
+        'para que no de error
+        LeerNuevoParametroProtegidoErrores
         
         'Pondra la tb ppal
         LeerTabPorDefecto
@@ -369,6 +370,15 @@ Err1:
     Leer = 1
 End Function
 
+Private Sub LeerNuevoParametroProtegidoErrores()
+    mvarSoloTesoreria = 0
+    On Error Resume Next
+    mvarSoloTesoreria = DBLet(Rs!SoloTesoreria, "N")
+
+    If Err.Number <> 0 Then Err.Clear
+End Sub
+
+
 
 Public Sub LeerTabPorDefecto()
     'Las tabs estan en mysql,menus, desde el 1 hasta el 14
@@ -384,9 +394,28 @@ End Sub
 
 Public Sub GuardarTabPorDefecto()
     
-    Sql = "UPDATE menus_usuarios SET filtro=if(codigo=" & vUsu.TabPorDefecto & ",1,0) WHERE codusu = " & vUsu.Id
-    Sql = Sql & " AND aplicacion = 'ariconta' AND codigo <=14"
-    Conn.Execute Sql
+    'En todas las contabilidades
+    Sql = "SELECT codempre conta FROM usuarios.empresasariconta "
+    Sql = Sql & " where mid(conta,1,8) = 'ariconta'"
+    Set Rs = New ADODB.Recordset
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Rs.EOF Then
+        'SOLO en esta. Deberia dar error
+        Sql = "UPDATE menus_usuarios SET filtro=if(codigo=" & vUsu.TabPorDefecto & ",1,0) WHERE codusu = " & vUsu.Id
+        Sql = Sql & " AND aplicacion = 'ariconta' AND codigo <=14"
+        Conn.Execute Sql
+    Else
+        While Not Rs.EOF
+            Sql = "UPDATE ariconta" & Rs!CONTA & ".menus_usuarios "
+            Sql = Sql & " SET filtro=if(codigo=" & vUsu.TabPorDefecto & ",1,0) WHERE codusu = " & vUsu.Id
+            Sql = Sql & " AND aplicacion = 'ariconta' AND codigo <=14"
+            Conn.Execute Sql
+            Rs.MoveNext
+        Wend
+    End If
+    Rs.Close
+    Set Rs = Nothing
+    
 End Sub
 
 
@@ -556,6 +585,7 @@ Dim RN As ADODB.Recordset
     If mvarFormulariosConPermisosEspeciales <> "" Then mvarFormulariosConPermisosEspeciales = "|" & mvarFormulariosConPermisosEspeciales
     
 End Sub
+
 
 
 

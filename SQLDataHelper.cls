@@ -175,7 +175,7 @@ Public Sub PutEventToRS(pEvent As CalendarEvent, pEventRS As ADODB.Recordset)
     If pEvent.RecurrenceState = xtpCalendarRecurrenceMaster Or _
        pEvent.RecurrenceState = xtpCalendarRecurrenceException Then
         
-        pEventRS("RecurrencePatternID") = pEvent.RecurrencePattern.Id
+        pEventRS("RecurrencePatternID") = pEvent.RecurrencePattern.id
     Else
         pEventRS("RecurrencePatternID") = 0
     End If
@@ -286,7 +286,7 @@ Public Sub ReadRPatternExceptions(pPattern As CalendarRecurrencePattern, pConnec
     Dim nPatternID As Long
     Dim strSQL As String
     
-    nPatternID = pPattern.Id
+    nPatternID = pPattern.id
         
     strSQL = "SELECT * FROM CalendarEvents WHERE " & vbCrLf
     
@@ -338,7 +338,7 @@ Public Function MakeUpdateEventSQL(pEvent As CalendarEvent) As String
     If pEvent.RecurrenceState = xtpCalendarRecurrenceMaster Or _
        pEvent.RecurrenceState = xtpCalendarRecurrenceException Then
         
-        strSQL = strSQL + "RecurrencePatternID = " & pEvent.RecurrencePattern.Id & ", " & vbCrLf
+        strSQL = strSQL + "RecurrencePatternID = " & pEvent.RecurrencePattern.id & ", " & vbCrLf
     Else
         strSQL = strSQL + "RecurrencePatternID = 0, " & vbCrLf
     End If
@@ -352,7 +352,7 @@ Public Function MakeUpdateEventSQL(pEvent As CalendarEvent) As String
     
     strSQL = strSQL + "ScheduleID = " & pEvent.ScheduleID & " " & vbCrLf
    
-    strSQL = strSQL + "WHERE EventID = " & pEvent.Id & ";"
+    strSQL = strSQL + "WHERE EventID = " & pEvent.id & ";"
     
     ''--------------------------------------------
     MakeUpdateEventSQL = strSQL
@@ -420,7 +420,7 @@ Public Function MakeCreateEventSQL(pEvent As CalendarEvent) As String
     If pEvent.RecurrenceState = xtpCalendarRecurrenceMaster Or _
        pEvent.RecurrenceState = xtpCalendarRecurrenceException Then
         
-        strSQL = strSQL & pEvent.RecurrencePattern.Id & ", " & vbCrLf
+        strSQL = strSQL & pEvent.RecurrencePattern.id & ", " & vbCrLf
     Else
         strSQL = strSQL + "0, " & vbCrLf
     End If
@@ -463,7 +463,7 @@ Public Function MakeUpdatePatternSQL(pRPattern As CalendarRecurrencePattern) As 
     
     strSQL = strSQL + "CustomPropertiesXMLData = " & MakeSQLstr(pRPattern.CustomProperties.SaveToString) & " " & vbCrLf
     
-    strSQL = strSQL + " WHERE RecurrencePatternID = " & pRPattern.Id
+    strSQL = strSQL + " WHERE RecurrencePatternID = " & pRPattern.id
     
     MakeUpdatePatternSQL = strSQL
 End Function
@@ -545,7 +545,9 @@ Public Function MakeRetrieveDayEventsSQL(ByVal dtDay As Date) As String
     strSQL = strSQL + "        DAY(EndDateTime) >= " & nDay & vbCrLf
     strSQL = strSQL + "     ) ) ) " & vbCrLf
     
-    'Debug.Print strSQL
+    'DAVID
+    'Para que solo seleccione las de todas las contabilidades o la de SOLO esta
+    strSQL = strSQL + " and ScheduleID in (0," & vEmpresa.codempre & ")     " & vbCrLf
 
     MakeRetrieveDayEventsSQL = strSQL
 End Function
@@ -600,7 +602,9 @@ Public Function MakeGetUpcomingEventsSQL(ByVal eDBtype As CodeJockCalendarDataTy
         'strSQL = strSQL + " DATEADD(""n"", -1 * ReminderMinutesBeforeStart, StartDateTime) <= " & strUntil
         strSQL = strSQL & strReminderStartDateSQL & " <= " & strUntil
     End If
-    
+     'DAVID
+    'Para que solo seleccione las de todas las contabilidades o la de SOLO esta
+    strSQL = strSQL + " and ScheduleID in (0," & vEmpresa.codempre & ")     " & vbCrLf
     MakeGetUpcomingEventsSQL = strSQL
     
 End Function

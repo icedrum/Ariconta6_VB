@@ -45,6 +45,7 @@ Dim EsBalancePerdidas_y_ganancias As Boolean
 
 'Para la precarga de datos del balance de sumas y saldos
 Dim RsBalPerGan As ADODB.Recordset
+Dim RsApertura As ADODB.Recordset
 
 
 '--------------------------------------------------------------------
@@ -869,9 +870,19 @@ End Function
 
 
 '--------------------------------------------------------
-'  BALANCE DE SUMAS Y SALDOS
+'  BALANCE DE SUMAS Y SALDOS  ***NUEVO***  31/01/2017
 '--------------------------------------------------------
-Public Sub CargaBalanceNuevo(ByRef Cta As String, NomCuenta As String, ConApertura As Boolean, ByRef FechaInicioPeriodo As Date, ByRef FechaFinPeriodo As Date, F_Ini As Date, F_Fin As Date, EjerciCerrados As Boolean, QuitarCierre As Byte, vContabili As Integer, DesdeBalancesConfigurados As Boolean, Resetea6y7 As Boolean, RecordSetPrecargado As Boolean)
+' Viene ya datos "CARGADOS"
+' Codmacta: que estamos procesando
+' Es decir, vendran en colImportes vendra una serie de string
+'
+'       201701|123.45|2400.01|
+'       201703|12.9|1430.04|
+'       201704|1133.5|445.21|
+'       201705|60.45|2.62|
+Public Sub CargaBalanceNuevaContabilidad(ByRef Cta As String, NomCuenta As String, ConApertura As Boolean, ByRef FechaInicioPeriodo As Date, ByRef FechaFinPeriodo As Date, F_Ini As Date, F_Fin As Date, EjerciCerrados As Boolean, QuitarCierre As Byte, vContabili As Integer, DesdeBalancesConfigurados As Boolean, Resetea6y7 As Boolean, RecordSetPrecargado As Boolean, ByRef ColImportes As Collection)
+
+
 'FechInicioEsMesInicio ->  QUiere decir que si el mes incio que he puesto coincide
 '                          con la fecha incio entoces,  no calcularemos anteriores
 '                          y si ademas desglosamos la apertura, se la restaremos a
@@ -887,6 +898,8 @@ Public Sub CargaBalanceNuevo(ByRef Cta As String, NomCuenta As String, ConApertu
 '                   Si precargamos el RS significa que antes de lanzar este proceso cargamos un RS
 '                   con los valores de la apertura (Y O CIERRE)
 '
+
+
 Dim miSQL As String
 Dim ActualD As Currency
 Dim ActualH As Currency
@@ -896,6 +909,14 @@ Dim NuloPer As Boolean
 Dim NuloAper As Boolean
 Dim CalcularImporteAnterior As Boolean
     
+Dim N As Integer
+Dim idPer As Long
+Dim Limite1 As Long
+Dim Limite2 As Long
+Dim AUX3 As String
+Dim MenorFecha As Boolean
+Dim Be As Boolean
+
     M1 = Month(FechaInicioPeriodo)
     M2 = Month(FechaFinPeriodo)
     A1 = Year(FechaInicioPeriodo)
@@ -921,16 +942,24 @@ Dim CalcularImporteAnterior As Boolean
         
     NuloAper = True
     If ConApertura Then
-        ObtenerApertura EjerciCerrados, F_Ini, F_Fin, NuloAper
-        'En impd y imph tendremos los saldos
+        ImpD = 0:  ImpH = 0
+        If RsApertura Is Nothing Then ObtenerAperturaBalance EjerciCerrados, F_Ini, F_Fin, NuloAper
+        
+        AUX3 = "codmacta = '" & vCta & "'"
+        RsApertura.Find AUX3, , adSearchForward, 1
+        NuloAper = True
+        If Not RsApertura.EOF Then
+            NuloAper = False
+            ImpD = DBLet(RsApertura!SumaDetimporteD, "N")
+            ImpH = DBLet(RsApertura!SumaDetimporteH, "N")
+
+        End If
     Else
         ImpD = 0
         ImpH = 0
     End If
     'Para la cadena de insercion
     'Modificacion 1 Junio 2004. -> Ver A_versiones
-    
-
 
     d = TransformaComasPuntos(CStr(ImpD))
     H = TransformaComasPuntos(CStr(ImpH))
@@ -948,53 +977,86 @@ Dim CalcularImporteAnterior As Boolean
     NuloAC = True
     CalcularImporteAnterior = False
     If Not EjerciCerrados Then
-        If vParam.fechafin < F_Ini Then
-            If Resetea6y7 Then
+        If vParam.fechafin < FechaInicioPeriodo Then
+            Be = Resetea6y7
+            If DesdeBalancesConfigurados Then Be = False
+            If Be Then
                 If Mid(Cta, 1, 1) = vParam.grupogto Or Mid(Cta, 1, 1) = vParam.grupovta Then
-                    CalcularImporteAnterior = False
-                Else
                     CalcularImporteAnterior = True
+                Else
                     If vParam.grupoord <> "" Then
                         If Mid(Cta, 1, 1) = vParam.grupoord Then
-                            CalcularImporteAnterior = False
+                            CalcularImporteAnterior = True
                             If vParam.Automocion <> "" Then
-                                If Mid(Cta, 1, Len(vParam.Automocion)) = vParam.Automocion Then CalcularImporteAnterior = True
+                                If Mid(Cta, 1, Len(vParam.Automocion)) = vParam.Automocion Then CalcularImporteAnterior = False
                             End If
                         End If
                     End If
                 End If
                 
             Else
-                CalcularImporteAnterior = True
+                CalcularImporteAnterior = False
             End If
         End If
      End If
     
+'
+'    'La fecha incio y periodo estan en   FIniPeriodo FFinPeriodo
+'    '*************************************************************
 
-    'AQUI AQUI AQUI
-    'La fecha incio y periodo estan en   FIniPeriodo FFinPeriodo
-  '*************************************************************
     If CalcularImporteAnterior Then
-            
-        'Estamos en ejercicio siguientes y hay que sumar todos los
-        'saldos de ejercicio actual
-        CalculaAcumuladosAnterioresBalance False, F_Ini, True, NuloAC
-        ActualD = ImAcD
-        ActualH = ImAcH
+        
+        
+        
+        AUX3 = Format(F_Ini, "yyyymm")
+        Limite1 = Val(AUX3)
+        AUX3 = DateAdd("yyyy", 1, F_Ini)
+        AUX3 = DateAdd("d", -1, CDate(AUX3))
+    
+        Limite2 = Format(AUX3, "yyyymm")
+        
+        For N = 1 To ColImportes.Count
+            idPer = Val(RecuperaValor(ColImportes(N), 1))
+            If idPer >= Limite1 And idPer <= Limite2 Then
+               ActualD = ActualD + CCur(RecuperaValor(ColImportes(N), 2))
+               ActualH = ActualH + CCur(RecuperaValor(ColImportes(N), 3))
+            Else
+                Exit For
+            End If
+
+        Next
+      
 
     End If
         
     'Las variabled de acumaldo hay k reestablecerlas
     ImAcD = 0: ImAcH = 0
     NuloAC1 = True
-    If FIniPeriodo = FechaInicioPeriodo Then
-        CalculaAcumuladosAnterioresBalance EjerciCerrados, F_Ini, False, NuloAC1
+   
+        
+        
+    If FIniPeriodo > F_Ini Then
+            
+        AUX3 = Format(F_Ini, "yyyymm")
+        Limite1 = Val(AUX3)
+        Limite2 = Format(FIniPeriodo, "yyyymm")
+        For N = 1 To ColImportes.Count
+            idPer = Val(RecuperaValor(ColImportes(N), 1))
+    
+            If idPer >= Limite1 And idPer < Limite2 Then
+               ImAcD = ImAcD + CCur(RecuperaValor(ColImportes(N), 2))
+               ImAcH = ImAcH + CCur(RecuperaValor(ColImportes(N), 3))
+            End If
+        Next
+     
+    
+        'CalculaAcumuladosAnterioresBalance EjerciCerrados, F_Ini, False, NuloAC1
         ImAcD = ImAcD - ImpD
         ImAcH = ImAcH - ImpH
     End If
     NuloAC = NuloAC1 And NuloAC
-    ImAcD = ActualD + ImAcD
-    ImAcH = ActualH + ImAcH
+    ImAcD = ImAcD - ActualD
+    ImAcH = ImAcH - ActualH
 
     d = TransformaComasPuntos(CStr(ImAcD))
     H = TransformaComasPuntos(CStr(ImAcH))
@@ -1005,8 +1067,28 @@ Dim CalcularImporteAnterior As Boolean
     
     
     'Calcula moviemientos periodo
-    MoviemientosPeridoBalance EjerciCerrados, F_Ini, F_Fin, NuloPer
-    If FIniPeriodo = FechaInicioPeriodo Then
+    'MoviemientosPeridoBalance EjerciCerrados, F_Ini, F_Fin, NuloPer
+    ' SELECT que hace el sub de arriba
+    ' Sum(timported) AS SumaDetimporteD, Sum(timporteh) AS SumaDetimporteH from hlinapu where
+    'mid(codmacta,1,9)='100000001' AND fechaent between '2015-05-01' AND '2015-09-30'
+    '  FIniPeriodo  FFinPeriodo
+    ImPerD = 0: ImPerH = 0
+    Limite1 = Format(FIniPeriodo, "yyyymm")
+    Limite2 = Format(FFinPeriodo, "yyyymm")
+    For N = 1 To ColImportes.Count
+        idPer = Val(RecuperaValor(ColImportes(N), 1))
+        If idPer >= Limite1 Then
+            If idPer <= Limite2 Then
+                ImPerD = ImPerD + CCur(RecuperaValor(ColImportes(N), 2))
+                ImPerH = ImPerH + CCur(RecuperaValor(ColImportes(N), 3))
+            Else
+                Exit For
+            End If
+        End If
+    Next
+    
+
+    If F_Ini = FechaInicioPeriodo Then
         'Le restamos los movimientos del desglose apertura
         ImPerD = ImPerD - ImpD
         ImPerH = ImPerH - ImpH
@@ -1160,6 +1242,44 @@ End Sub
 
 
 
+
+
+
+
+Private Sub ObtenerAperturaBalance(EjerCerrados As Boolean, ByRef fec1 As Date, ByRef fec2 As Date, ByRef NulAper As Boolean)
+Dim Aux As String
+
+    'El movimietno de apertura se clacula mirando el asiento de apertura (codigo
+    'concepto 970)
+    If EsCuentaUltimoNivel(vCta) Then
+        Aux = "codmacta"
+    Else
+        Aux = " substring(codmacta,1," & Len(vCta) & ") codmacta"
+    End If
+    Sql = "SELECT " & Aux & ",Sum(timported) AS SumaDetimporteD, Sum(timporteh) AS SumaDetimporteH  "
+    
+
+    
+    Sql = Sql & " from "
+    If Contabilidad >= 0 Then Sql = Sql & " ariconta" & Contabilidad & "."
+    Sql = Sql & "hlinapu"
+    If EjerCerrados Then Sql = Sql & "1"
+    Sql = Sql & " WHERE fechaent >= '"
+    
+    If fec1 >= vParam.fechaini Then
+        Sql = Sql & Format(vParam.fechaini, FormatoFecha)
+    Else
+        Sql = Sql & Format(fec1, FormatoFecha)
+    End If
+    Sql = Sql & "' and fechaent <='" & Format(fec2, FormatoFecha) & "'"
+    Sql = Sql & " AND codconce= 970" '970 es el asiento de apertura
+    Sql = Sql & " group by 1"
+    Sql = Sql & " ORDER BY codmacta"
+    Set RsApertura = New ADODB.Recordset
+    RsApertura.Open Sql, Conn, adOpenKeyset, adLockOptimistic, adCmdText
+  
+   
+End Sub
 
 
 
@@ -1393,6 +1513,13 @@ End Sub
 Public Sub CerrarPrecargaPerdidasyGanancias()
     RsBalPerGan.Close
     Set RsBalPerGan = Nothing
+End Sub
+
+Public Sub CerrarLeerApertura()
+    On Error Resume Next
+    RsApertura.Close
+    Set RsApertura = Nothing
+    Err.Clear
 End Sub
 
 
@@ -3553,8 +3680,8 @@ Public Function GeneraDatosBalanConfigImpresion(NumBalan As Integer)
         
         Contabilidad = -1
 
-
-        CargaArbol 0, 0, -1, "", Month(vParam.fechaini), Year(vParam.fechaini), Month(vParam.fechafin), Year(vParam.fechafin), "", True
+        Stop  'falta poner es periddas y ganacias
+        CargaArbol 0, 0, -1, "", Month(vParam.fechaini), Year(vParam.fechaini), Month(vParam.fechafin), Year(vParam.fechafin), "", True, Nothing, False
  
  
         Sql = "Select * from "
@@ -3690,7 +3817,7 @@ Dim AuxPyG As String
         
         
         
-        CargaArbol 0, 0, -1, "", Mes1, Anyo1, Mes2, Anyo2, vContabilidad, False, PB
+        CargaArbol 0, 0, -1, "", Mes1, Anyo1, Mes2, Anyo2, vContabilidad, False, PB, EsBalancePerdidas_y_ganancias
         
     
             
@@ -3774,7 +3901,7 @@ Dim AuxPyG As String
     Set RT = Nothing
 End Function
 
-Private Sub CargaArbol(ByRef vImporte As Currency, ByRef vimporte2 As Currency, Padre As Integer, Pasivo As String, ByRef Mes1 As Integer, ByRef Anyo1 As Integer, ByRef Mes2 As Integer, ByRef Anyo2 As Integer, ByRef Contabilidades As String, EsListado As Boolean, Optional ByRef PB As ProgressBar)
+Private Sub CargaArbol(ByRef vImporte As Currency, ByRef vimporte2 As Currency, Padre As Integer, Pasivo As String, ByRef Mes1 As Integer, ByRef Anyo1 As Integer, ByRef Mes2 As Integer, ByRef Anyo2 As Integer, ByRef Contabilidades As String, EsListado As Boolean, ByRef PrB As ProgressBar, EsPerdidasyGanancias As Boolean)
 Dim Rs As ADODB.Recordset
 Dim nodImporte As Currency
 Dim MiAux As String
@@ -3800,11 +3927,11 @@ Dim Tipo As Integer
     MiAux = "balances_texto where numbalan=" & NumAsiento & " AND padre" & MiAux
     MiAux = "Select * from " & MiAux
     
-    If Not PB Is Nothing Then
+    If Not PrB Is Nothing Then
         Nregs = TotalRegistrosConsulta(MiAux)
         If Nregs <> 0 Then
-            PB.Visible = True
-            CargarProgres PB, Nregs
+            PrB.Visible = True
+            CargarProgres PrB, Nregs
         End If
     End If
 
@@ -3816,8 +3943,8 @@ Dim Tipo As Integer
     While Not Rs.EOF
     
     
-        If Not PB Is Nothing Then
-            IncrementarProgres PB, 1
+        If Not PrB Is Nothing Then
+            IncrementarProgres PrB, 1
         End If
        
     
@@ -3842,12 +3969,12 @@ Dim Tipo As Integer
                     QueCuentas = PonerCuentasBalances(Rs!Pasivo, Rs!Codigo)
                 Else
                     'IMPORTES
-                    OtroImporte = CalculaImporteCtas(Rs!Pasivo, Rs!Codigo, Mes1, Anyo1, True, Contabilidades)
+                    OtroImporte = CalculaImporteCtas(Rs!Pasivo, Rs!Codigo, Mes1, Anyo1, True, Contabilidades, EsPerdidasyGanancias)
                 
-                    If Mes2 > 0 Then OtroImporte2 = CalculaImporteCtas(Rs!Pasivo, Rs!Codigo, Mes2, Anyo2, False, Contabilidades)
+                    If Mes2 > 0 Then OtroImporte2 = CalculaImporteCtas(Rs!Pasivo, Rs!Codigo, Mes2, Anyo2, False, Contabilidades, EsPerdidasyGanancias)
                 End If
             Else
-                CargaArbol OtroImporte, OtroImporte2, Rs!Codigo, Rs!Pasivo, Mes1, Anyo1, Mes2, Anyo2, Contabilidades, EsListado
+                CargaArbol OtroImporte, OtroImporte2, Rs!Codigo, Rs!Pasivo, Mes1, Anyo1, Mes2, Anyo2, Contabilidades, EsListado, PrB, EsPerdidasyGanancias
                 QueCuentas = ""
                 
             End If
@@ -3881,13 +4008,13 @@ Dim Tipo As Integer
     Wend
     Rs.Close
     
-    If Not PB Is Nothing Then PB.Visible = False
+    If Not PrB Is Nothing Then PrB.Visible = False
     
 End Sub
 
 
 
-Private Function CalculaImporteCtas(Pasivo As String, Codigo As Integer, ByRef mess1 As Integer, ByRef anyos1 As Integer, Año1_o2 As Boolean, ByRef Contabilidades As String) As Currency
+Private Function CalculaImporteCtas(Pasivo As String, Codigo As Integer, ByRef mess1 As Integer, ByRef anyos1 As Integer, Año1_o2 As Boolean, ByRef Contabilidades As String, EsPerdidasyGanancias As Boolean) As Currency
 Dim RT As ADODB.Recordset
 Dim X As Integer
 Dim Y As Integer
@@ -3927,7 +4054,7 @@ Dim ContaX As String
             End If
             
             EjerciciosCerrados = (CDate("15/" & mess1 & "/" & anyos1) < VFecha3)
-            vI1 = CalculaImporteCtas1Contabilidad(Pasivo, Codigo, mess1, anyos1, QuitarUno)
+            vI1 = CalculaImporteCtas1Contabilidad(Pasivo, Codigo, mess1, anyos1, QuitarUno, EsPerdidasyGanancias)
         
 
         
@@ -3945,15 +4072,16 @@ End Function
 
 
 
-Private Function CalculaImporteCtas1Contabilidad(Pasivo As String, Codigo As Integer, ByRef mess1 As Integer, ByRef anyos1 As Integer, QuitarSaldos As Boolean) As Currency
+Private Function CalculaImporteCtas1Contabilidad(Pasivo As String, Codigo As Integer, ByRef mess1 As Integer, ByRef anyos1 As Integer, QuitarSaldos As Boolean, EsPerdidasyGanancias As Boolean) As Currency
 Dim RC As ADODB.Recordset
 Dim F1 As Date
 Dim F2 As Date
 Dim I1 As Currency
 Dim B1 As Byte
 
-
-    
+Dim ColImportes As Collection
+Dim RN As ADODB.Recordset
+Dim Cad As String
 
 
     Set RC = New ADODB.Recordset
@@ -3961,7 +4089,6 @@ Dim B1 As Byte
     'Vamos a calcular el importe para cada cuenta, para cada contbiliadad
         
     vCta = "SELECT * from "
-   ' If Contabilidad > 0 Then vCta = vCta & "Conta" & Contabilidad & "."
     vCta = vCta & "balances_ctas WHERE pasivo ='" & Pasivo & "' AND codigo = " & Codigo & " AND numbalan = " & NumAsiento
     RC.Open vCta, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
@@ -3971,10 +4098,10 @@ Dim B1 As Byte
         F1 = CDate(Day(vParam.fechaini) & "/" & Month(vParam.fechaini) & "/" & anyos1 - 1)
     Else
         F1 = CDate(Day(vParam.fechaini) & "/" & Month(vParam.fechaini) & "/" & anyos1)
-        'CUANDO EL BALANCE SE pide sobre el año "siguiente" los saldos se cogen desde el inicio de ejercicio ACTUAL
-        If F1 > vParam.fechafin Then F1 = vParam.fechaini
-
-        
+        'CUANDO EL BALANCE SE pide sobre el año "siguiente" los saldos se cogen desde el inicio de ejercicio ACTUAL, menos en perdidas y ganancias
+        If F1 > vParam.fechafin Then
+            If Not EsPerdidasyGanancias Then F1 = vParam.fechaini
+        End If
     End If
 
     F2 = CDate(DiasMes(CInt(mess1), anyos1) & "/" & mess1 & "/" & anyos1)
@@ -3986,19 +4113,46 @@ Dim B1 As Byte
         B1 = 0  'Si no tengo que quitar saldos pòngo un cero
     End If
     
-    
+    Set RN = New ADODB.Recordset
 
     
     While Not RC.EOF
                                                                                                                   
-         Stop
-         'FALTA REVISAR
-                                                                                                                  'QUITAMOS si fecha incio menor k ultima fecha traspasada
-        'CargaBalanceNuevo RC!codmacta, "", False, Month(F1), mess1, Year(F1), anyos1, False, F1, F2, EjerciciosCerrados, B1, Contabilidad, True, True, False
-        CargaBalanceNuevo RC!codmacta, "", False, F1, F2, F1, F2, EjerciciosCerrados, B1, Contabilidad, True, True, False
-        
-        
-        
+        '
+            Cad = "SELECT substring(line.codmacta,1," & Len(RC!codmacta)
+            Cad = Cad & ") as codmacta,'' nommacta ,   year(fechaent) anyo,month(fechaent) mes,"
+            Cad = Cad & " sum(coalesce(timported,0)) debe, sum(coalesce(timporteh,0)) haber FROM "
+            If Contabilidad >= 0 Then Cad = Cad & "ariconta" & Contabilidad & "."
+            Cad = Cad & "hlinapu"
+            Cad = Cad & " as line "
+            Cad = Cad & " WHERE codmacta like '" & Trim(RC!codmacta) & "%'"
+            Cad = Cad & " AND fechaent between " & DBSet(F1, "F") & " AND " & DBSet(F2, "F")
+            Cad = Cad & " GROUP BY 1,anyo,mes "
+            Cad = Cad & " ORDER By 1 ,anyo,mes"
+
+            Set ColImportes = Nothing
+            Set ColImportes = New Collection
+            RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            While Not RN.EOF
+                Cad = RN!Anyo & Format(RN!Mes, "00") & "|" & RN!Debe & "|" & RN!Haber & "|"
+                ColImportes.Add Cad
+                RN.MoveNext
+            Wend
+            RN.Close
+            If ColImportes.Count = 0 Then
+                'CEROS
+                ImpH = 0
+                ImpD = 0
+                ImCierrH = 0
+                ImCierrD = 0
+            Else
+                'Antes en resetea 6y7 habia un true
+                
+                CargaBalanceNuevaContabilidad RC!codmacta, "", False, F1, F2, F1, F2, EjerciciosCerrados, B1, Contabilidad, True, True, False, ColImportes
+            End If
+
+            
+            
         'Balance de situacion. Tratar cta perdidas y ganancias
         If Not EsBalancePerdidas_y_ganancias And RC!codmacta = Mid(vParam.ctaperga, 1, 3) Then
             
@@ -4942,18 +5096,22 @@ End Function
 ' se hayan introducido con esa fecha
 '
 ' Niveles:  Sera un string con los niveles del balance
-Public Function CargaBalanceInicioEjercicio(Niveles As String) As Boolean
+Public Function CargaBalanceInicioEjercicio(Niveles As String, FechaInicioEjercicioSolicitado) As Boolean
 
 
 On Error GoTo ECargaBalanceInicioEjercicio
     CargaBalanceInicioEjercicio = False
     
+    ImCierrH = 0: ImCierrD = 0: ImPerD = 0: ImPerH = 0
     vCta = "INSERT INTO tmpbalancesumas (codusu,cta, nomcta, aperturaD, aperturaH, acumAntD, acumAntH, acumPerD, acumPerH, TotalD, TotalH) "
-    Sql = "select " & vUsu.Codigo & ",hlinapu.codmacta,nommacta,sum(timported) debe,"
-    Sql = Sql & " sum(timporteH) haber from hlinapu,cuentas "
-    Sql = Sql & " where cuentas.codmacta = hlinapu.codmacta and fechaent='" & Format(vParam.fechaini, FormatoFecha)
-    Sql = Sql & "'"
-    Sql = Sql & " and mid(cuentas.codmacta,1,1) < '6' "
+    Sql = "select " & vUsu.Codigo & ",hlinapu.codmacta,nommacta,sum(coalesce(timported,0)) debe,"
+    Sql = Sql & " sum(coalesce(timporteH,0)) haber from hlinapu,cuentas "
+    Sql = Sql & " where cuentas.codmacta = hlinapu.codmacta and "
+    
+    Sql = Sql & " fechaent=" & DBSet(FechaInicioEjercicioSolicitado, "F")
+    Sql = Sql & " and cuentas.codmacta < '6' "
+    'Apunte de apertura
+    Sql = Sql & " AND codconce =970"
     Sql = Sql & " group by 1,2 order by 2"
     
     Set RT = New ADODB.Recordset
@@ -4963,9 +5121,9 @@ On Error GoTo ECargaBalanceInicioEjercicio
         ImpD = DBLet(RT!Debe, "N")
         ImpH = DBLet(RT!Haber, "N")
         'Apertura. La carga sobre los valores Imcierrd y H
-        BuscarValorEnPrecargado RT!codmacta
-        ImPerD = ImpD - ImCierrD  'Para obtener los valores del periodo reales
-        ImPerH = ImpH - ImCierrH
+        'BuscarValorEnPrecargado RT!codmacta
+        'ImPerD = ImpD - ImCierrD  'Para obtener los valores del periodo reales
+        'ImPerH = ImpH - ImCierrH
         'Finalmente INsert mostraremos
         Sql = Sql & ",(" & vUsu.Codigo & ",'" & RT!codmacta & "','" & DevNombreSQL(RT!Nommacta) & "',"
         Sql = Sql & TransformaComasPuntos(CStr(ImCierrD)) & "," & TransformaComasPuntos(CStr(ImCierrH))

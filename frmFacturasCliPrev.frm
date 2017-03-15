@@ -493,7 +493,7 @@ Dim Modo As Byte
 '--------------------------------------------------
 Dim PrimeraVez As Boolean
 Dim Indice As Byte 'Index del text1 on es poses els datos retornats des d'atres Formularis de Mtos
-Dim I As Integer
+Dim i As Integer
 Dim vTag1 As CTag
 Dim vTag3 As CTag
 
@@ -510,13 +510,13 @@ Dim B As Boolean
         PonerIndicador lblIndicador, Modo
     End If
     
-    For I = 0 To txtAux.Count - 1
-        txtAux(I).BackColor = vbWhite
-    Next I
+    For i = 0 To txtAux.Count - 1
+        txtAux(i).BackColor = vbWhite
+    Next i
     
-    For I = 0 To txtAux.Count - 1
-        txtAux(I).Visible = Not B
-    Next I
+    For i = 0 To txtAux.Count - 1
+        txtAux(i).Visible = Not B
+    Next i
     
     cmdAceptar.Visible = Not B
     cmdCancelar.Visible = Not B
@@ -561,7 +561,7 @@ Private Sub BotonAnyadir()
     'Situamos el grid al final
 '    AnyadirLinea DataGrid1, Adodc1
          
-    anc = DataGrid1.Top
+    anc = DataGrid1.top
     If DataGrid1.Row < 0 Then
         anc = anc + 206
     Else
@@ -569,9 +569,9 @@ Private Sub BotonAnyadir()
     End If
     txtAux(0).Text = NumF
     FormateaCampo txtAux(0)
-    For I = 1 To txtAux.Count - 1
-        txtAux(I).Text = ""
-    Next I
+    For i = 1 To txtAux.Count - 1
+        txtAux(i).Text = ""
+    Next i
 
     LLamaLineas anc, 3 'Pone el form en Modo=3, Insertar
        
@@ -590,22 +590,22 @@ Private Sub BotonBuscar()
     CargaGrid "factcli.numserie is null "
     '*******************************************************************************
     'Buscar
-    For I = 0 To txtAux.Count - 1
-        txtAux(I).Text = ""
-    Next I
-    LLamaLineas DataGrid1.Top + 230, 1 'Pone el form en Modo=1, Buscar
+    For i = 0 To txtAux.Count - 1
+        txtAux(i).Text = ""
+    Next i
+    LLamaLineas DataGrid1.top + 230, 1 'Pone el form en Modo=1, Buscar
     PonFoco txtAux(0)
 End Sub
 
 Private Sub BotonModificar()
     Dim anc As Single
-    Dim I As Integer
+    Dim i As Integer
     
     Screen.MousePointer = vbHourglass
     
     If DataGrid1.Bookmark < DataGrid1.FirstRow Or DataGrid1.Bookmark > (DataGrid1.FirstRow + DataGrid1.VisibleRows - 1) Then
-        I = DataGrid1.Bookmark - DataGrid1.FirstRow
-        DataGrid1.Scroll 0, I
+        i = DataGrid1.Bookmark - DataGrid1.FirstRow
+        DataGrid1.Scroll 0, i
         DataGrid1.Refresh
     End If
     
@@ -633,9 +633,9 @@ Private Sub LLamaLineas(alto As Single, xModo As Byte)
     PonerModo xModo
     
     'Fijamos el ancho
-    For I = 0 To txtAux.Count - 1
-        txtAux(I).Top = alto
-    Next I
+    For i = 0 To txtAux.Count - 1
+        txtAux(i).top = alto
+    Next i
     ' ### [Monica] 12/09/2006
 End Sub
 
@@ -649,7 +649,7 @@ Private Sub PonerLongCampos()
 End Sub
 
 Private Sub cmdAceptar_Click()
-    Dim I As Variant ' Integer
+    Dim i As Variant ' Integer
 
     Select Case Modo
         Case 1 'BUSQUEDA
@@ -680,7 +680,7 @@ End Sub
 
 Private Sub cmdRegresar_Click()
 Dim cad As String
-Dim I As Integer
+Dim i As Integer
 Dim J As Integer
 Dim Aux As String
 
@@ -689,16 +689,16 @@ Dim Aux As String
         Exit Sub
     End If
     cad = ""
-    I = 0
+    i = 0
     Do
-        J = I + 1
-        I = InStr(J, DatosADevolverBusqueda, "|")
-        If I > 0 Then
-            Aux = Mid(DatosADevolverBusqueda, J, I - J)
+        J = i + 1
+        i = InStr(J, DatosADevolverBusqueda, "|")
+        If i > 0 Then
+            Aux = Mid(DatosADevolverBusqueda, J, i - J)
             J = Val(Aux)
             cad = cad & adodc1.Recordset.Fields(J) & "|"
         End If
-    Loop Until I = 0
+    Loop Until i = 0
     RaiseEvent DatoSeleccionado(cad)
     Unload Me
 End Sub
@@ -717,9 +717,13 @@ Dim cad As String
     If adodc1.Recordset Is Nothing Then Exit Sub
     If adodc1.Recordset.EOF Then Exit Sub
         
-    Me.Refresh
-    Screen.MousePointer = vbHourglass
     
+    Screen.MousePointer = vbHourglass
+    Me.MousePointer = vbHourglass
+    Me.lblIndicador.Caption = "Leyendo..."
+    lblIndicador.ForeColor = vbRed
+    Me.Refresh
+        
     CampoOrden = RecuperaValor(txtAux(ColIndex).Tag, 7)
     
     Select Case TipoOrden
@@ -732,8 +736,9 @@ Dim cad As String
     End Select
             
     CargaGrid
+    lblIndicador.ForeColor = vbBlack
     Screen.MousePointer = vbDefault
-
+    Me.MousePointer = vbDefault
 End Sub
 
 Private Sub DataGrid1_KeyPress(KeyAscii As Integer)
@@ -766,9 +771,9 @@ Private Sub Form_Load()
     PrimeraVez = True
 
     With Me.Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.imgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 1   'Buscar
         .Buttons(2).Image = 2   'Todos
     End With
@@ -807,24 +812,24 @@ Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
     End Select
 End Sub
 
-Private Sub CargaGrid(Optional vSQL As String)
-    Dim SQL As String
+Private Sub CargaGrid(Optional vSql As String)
+    Dim Sql As String
     Dim tots As String
     
-    If vSQL <> "" Then
-        SQL = CadenaConsulta & " where " & vSQL
+    If vSql <> "" Then
+        Sql = CadenaConsulta & " where " & vSql
     Else
-        SQL = CadenaConsulta
+        Sql = CadenaConsulta
     End If
     '********************* canviar el ORDER BY *********************++
     If CampoOrden = "" Then
-        SQL = SQL & " ORDER BY numserie, numfactu, fecfactu "
+        Sql = Sql & " ORDER BY numserie, numfactu, fecfactu "
     Else
-        SQL = SQL & " order by " & CampoOrden & " " & TipoOrden
+        Sql = Sql & " order by " & CampoOrden & " " & TipoOrden
     End If
     '**************************************************************++
     
-    CargaGridGnral Me.DataGrid1, Me.adodc1, SQL, PrimeraVez
+    CargaGridGnral Me.DataGrid1, Me.adodc1, Sql, PrimeraVez
     
     
     
@@ -871,7 +876,7 @@ End Sub
 Private Function DatosOK() As Boolean
 'Dim Datos As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Mens As String
 
 

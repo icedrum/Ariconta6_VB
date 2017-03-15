@@ -837,10 +837,11 @@ End Function
 'dEL 347
 Private Function PrimerosPasos(Anyo As Integer) As Boolean
 Dim Importe As Currency
-Dim Cad As String
+Dim cad As String
 Dim YaMostrado As Boolean
 Dim RI As ADODB.Recordset
 Dim importe2 As Currency
+Dim NombreFormateado As String
 
     On Error GoTo EGen347
     PrimerosPasos = False
@@ -906,10 +907,15 @@ Dim importe2 As Currency
     Linea = Linea & "0000000000000"   'Numero justificante la declaracion anterior
     Linea = Linea & Format(i, "000000000")
     Linea = Linea & DatosNumeroDec340((Importe), 16)
-    Linea = Linea & "000000000000000000000000"   'Inmuebles, total y suma
-    Linea = Linea & DatosTexto(" ", 67)
-    Cad = Space(500 - Len(Linea))
-    Linea = Linea & Cad
+    Linea = Linea & String(9, "0")
+    
+    'Febrero 2017
+    'Total operaciones arrendamiento
+    Linea = Linea & DatosNumeroDec340((0), 16)
+    
+    
+    cad = Space(500 - Len(Linea))
+    Linea = Linea & cad
     Print #NF, Linea
     Rs.Close
     
@@ -932,7 +938,11 @@ Dim importe2 As Currency
         
         Linea = Linea & DatosTexto(Rs!NIF, 9)
         Linea = Linea & DatosTexto(" ", 9)
-        Linea = Linea & DatosTexto(Rs!razosoci, 40)
+        
+        NombreFormateado = Rs!razosoci
+        FormatearTextoParaInformativas NombreFormateado
+        
+        Linea = Linea & DatosTexto(NombreFormateado, 40)
         Linea = Linea & "D"
         Linea = Linea & Mid(Rs!codposta, 1, 2)
         Linea = Linea & "  "   'PAIS
@@ -944,11 +954,11 @@ Dim importe2 As Currency
         
         
         If Rs!cliprov = 48 Then
-            Cad = "B"  'ventas
+            cad = "B"  'ventas
             
         Else
             If Rs!cliprov = 49 Then
-                Cad = "A"  'compras
+                cad = "A"  'compras
                 
             Else
                 'Agencias
@@ -960,7 +970,7 @@ Dim importe2 As Currency
                         YaMostrado = True
                     End If
                 End If
-                Cad = Chr(Rs!cliprov)
+                cad = Chr(Rs!cliprov)
             End If
         End If
         
@@ -968,7 +978,7 @@ Dim importe2 As Currency
         
         
         
-        Linea = Linea & Cad
+        Linea = Linea & cad
         
         
         'LINEA = LINEA & DatosTexto3((RS!Importe * 100), 16)
@@ -984,55 +994,61 @@ Dim importe2 As Currency
         
         'Nuevo Febrero 2012
         'Los IVAs trimiestrales
-        Cad = "SELECT * FROM tmp347trimestral WHERE codusu=" & vUsu.Codigo
-        Cad = Cad & " AND cliprov =" & Rs!cliprov & " AND nif = '" & Rs!NIF & "'"
+        cad = "SELECT * FROM tmp347trimestral WHERE codusu=" & vUsu.Codigo
+        cad = cad & " AND cliprov =" & Rs!cliprov & " AND nif = '" & Rs!NIF & "'"
         importe2 = 0
-        RI.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        RI.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not RI.EOF Then
         
         
                     'Febrero 2009
             ' Importe en metalico e importe por trasmisiones sujetas a IVA
             importe2 = DBLet(RI!metalico, "N")
-            Cad = "0"
-            If importe2 > 0 Then Cad = Anyo
+            cad = "0"
+            If importe2 > 0 Then cad = Anyo
                 
             Linea = Linea & DatosNumeroDec(importe2, 15)   'metalico
             Linea = Linea & " " & DatosTexto3(0, 15)   'trasmisiones
-            Linea = Linea & DatosTexto3(CCur(Cad), 4)    'ejercicio  NUEVO Febrero 2011
+            Linea = Linea & DatosTexto3(CCur(cad), 4)    'ejercicio  NUEVO Febrero 2011
         
         
         
             importe2 = RI!trim1 + RI!trim2 + RI!trim3 + RI!trim4
             If importe2 <> Rs!Importe Then
-                Cad = "Importe total y por trimestres distinto" & vbCrLf
-                Cad = Cad & "Total " & Importe & vbCrLf
-                Cad = Cad & "T1 " & RI!trim1 & "     " & "T2 " & RI!trim2 & "     "
-                Cad = Cad & "T3 " & RI!trim3 & "     " & "T4 " & RI!trim4 & "     "
-                Err.Raise 513, Cad
+                cad = "Importe total y por trimestres distinto" & vbCrLf
+                cad = cad & "Total " & Importe & vbCrLf
+                cad = cad & "T1 " & RI!trim1 & "     " & "T2 " & RI!trim2 & "     "
+                cad = cad & "T3 " & RI!trim3 & "     " & "T4 " & RI!trim4 & "     "
+                Err.Raise 513, cad
             End If
               
             'OK pintamos los trimestrales
-            Cad = DatosNumeroDec340(RI!trim1, 16)
-            Cad = Cad & " " & DatosTexto3(0, 15)   'trim 1 inmueble
-            Cad = Cad & DatosNumeroDec340(RI!trim2, 16)
-            Cad = Cad & " " & DatosTexto3(0, 15)   'trim 2 inmueble
-            Cad = Cad & DatosNumeroDec340(RI!trim3, 16)
-            Cad = Cad & " " & DatosTexto3(0, 15)   'trim 3 inmueble
-            Cad = Cad & DatosNumeroDec340(RI!trim4, 16)
-            Cad = Cad & " " & DatosTexto3(0, 15)   'trim 4 inmueble
+            cad = DatosNumeroDec340(RI!trim1, 16)
+            cad = cad & " " & DatosTexto3(0, 15)   'trim 1 inmueble
+            cad = cad & DatosNumeroDec340(RI!trim2, 16)
+            cad = cad & " " & DatosTexto3(0, 15)   'trim 2 inmueble
+            cad = cad & DatosNumeroDec340(RI!trim3, 16)
+            cad = cad & " " & DatosTexto3(0, 15)   'trim 3 inmueble
+            cad = cad & DatosNumeroDec340(RI!trim4, 16)
+            cad = cad & " " & DatosTexto3(0, 15)   'trim 4 inmueble
         Else
-            Cad = "No se encuentran valores trimestrales para: " & Rs!razosoci
-            Err.Raise 513, Cad
+            cad = "No se encuentran valores trimestrales para: " & Rs!razosoci
+            Err.Raise 513, cad
         End If
         RI.Close
-        Linea = Linea & Cad
+        Linea = Linea & cad
+        
+        
+        'Febrero 2017
+        'De la 263 a la 283 en blanco
+        Linea = Mid(Linea & Space(100), 1, 283)
+        Linea = Linea & DatosNumeroDec340((0), 16)
         
         
         'Hasta final de lineas
        
-        Cad = Space(300)
-        Linea = Mid(Linea & Cad, 1, 500)
+        cad = Space(300)
+        Linea = Mid(Linea & cad, 1, 500)
         Print #NF, Linea
         
         
@@ -1213,7 +1229,7 @@ End Function
 Private Function PrimerosPasos349(presentacion As Byte, vPeriodo As String, AnyoPres As Integer) As Boolean
 Dim Importe As Currency
 Dim Contador As Integer
-Dim Cad As String
+Dim cad As String
 
 
     On Error GoTo EGen347
@@ -1298,9 +1314,9 @@ Dim Cad As String
     'Case Else
     '    Cad = "T"
     'End Select
-    Cad = "T"
+    cad = "T"
        
-    Linea = Linea & Cad
+    Linea = Linea & cad
     Linea = Linea & DatosTexto(DBLet(Rs!telefono), 9)
     Linea = Linea & DatosTexto(DBLet(Rs!contacto), 40)
     Linea = Linea & "3490000000000"   'Numero justificante la declaracion. Empieza por 343. ENERO> 349
@@ -1343,10 +1359,10 @@ Dim Cad As String
         'El NIF lleva las letras del pais... que cojera del pais, NO del NIF
         'LINEA = LINEA & DatosTexto(RS!NIF, 17)
         
-        Cad = DBLet(Rs!desPobla) & "  "   'Llevara el pais
-        Cad = Trim(Mid(Cad, 1, 2)) & Rs!NIF
+        cad = DBLet(Rs!desPobla) & "  "   'Llevara el pais
+        cad = Trim(Mid(cad, 1, 2)) & Rs!NIF
         
-        Linea = Linea & DatosTexto(Cad, 17)
+        Linea = Linea & DatosTexto(cad, 17)
         Linea = Linea & DatosTexto(Rs!razosoci, 40)
         
         
@@ -1354,11 +1370,11 @@ Dim Cad As String
         'Estaba al reves
         'If RS!cliprov = 1 Then
         If Rs!cliprov = 0 Then
-            Cad = "E"  'ventas o entregas
+            cad = "E"  'ventas o entregas
         Else
-            Cad = "A"  'compras o adquisiciones
+            cad = "A"  'compras o adquisiciones
         End If
-        Linea = Linea & Cad
+        Linea = Linea & cad
         
         Linea = Linea & DatosTexto3((Rs!Importe * 100), 13)
         
@@ -1687,7 +1703,9 @@ Dim SqlNew As String
     Rs.Open Linea, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
             'Para cada factura si tiene varias bases, el trzo sera igual menos el importe final(de la cuto % y totaliva)
-    
+            'If Rs!NumFactu = 3601233 Then St op
+
+
     
             EsTicket = (DBLet(Rs!codconce340, "T") = "J")
 '            If vTicketsEn340LetraSerie Then
@@ -1777,7 +1795,8 @@ Dim SqlNew As String
             'rectifica,dom_intracom,pob_intracom,cp_intracom,"
             If Rs!totfaccl < 0 Then
                  'Rectifica  FALTA###
-                 Linea = Linea & "'" & DevNombreSQL(DBLet(Rs!confaccl, "T")) & "'"
+                 'Linea = Linea & "'" & DevNombreSQL(DBLet(Rs!confaccl, "T")) & "'"
+                 Linea = Linea & "'" & DevNombreSQL(DBLet(Rs!observa, "T")) & "'"
             Else
                  'NULL
                  Linea = Linea & "NULL"
@@ -2864,13 +2883,13 @@ Dim F2 As Date
 End Sub
 
 'REULTILIZO LINEA
-Private Sub InsertaMultipleTMP340(Cad As String)
+Private Sub InsertaMultipleTMP340(cad As String)
 
-    If Cad = "" Then Exit Sub
+    If cad = "" Then Exit Sub
     
-    Cad = Mid(Cad, 2) 'quitamos la primera coma
+    cad = Mid(cad, 2) 'quitamos la primera coma
     Linea = DevuelveInsertTmp340(0)
-    Linea = Linea & Cad
+    Linea = Linea & cad
     
     
     Conn.Execute Linea
@@ -3019,4 +3038,17 @@ Dim CADENA As String
         Conn.Execute Linea
     End If
         
+End Sub
+
+Private Sub FormatearTextoParaInformativas(ByRef CADENA As String)
+
+    
+    'º , ª
+    CADENA = Replace(CADENA, "º", " ")
+    CADENA = Replace(CADENA, "ª", " ")
+    CADENA = Replace(CADENA, "´", " ")
+    CADENA = Replace(CADENA, "`", " ", 1)
+    CADENA = Replace(CADENA, "(", " ", 1)
+    CADENA = Replace(CADENA, ")", " ", 1)
+    CADENA = Replace(CADENA, "  ", " ", 1)
 End Sub

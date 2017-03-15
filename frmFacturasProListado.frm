@@ -1190,7 +1190,7 @@ Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
 Private Sql As String
-Dim Cad As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -1515,7 +1515,7 @@ Private Sub txtCuentas_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuentas_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim Sql As String
@@ -1628,7 +1628,7 @@ Private Sub txtNumFactu_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtNumFactu_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 
     txtNumFactu(Index).Text = Trim(txtNumFactu(Index).Text)
     
@@ -1660,7 +1660,7 @@ Private Sub txtSerie_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtSerie_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim Sql As String
@@ -1698,7 +1698,7 @@ Dim Sql2 As String
     Sql = Sql & " factpro_totales.baseimpo BaseImp,factpro_totales.codigiva IVA,factpro_totales.porciva PorcIva,factpro_totales.porcrec PorcRec,factpro_totales.impoiva ImpIva,factpro_totales.imporec ImpRec "
     Sql = Sql & " FROM (factpro inner join factpro_totales on factpro.numserie = factpro_totales.numserie and factpro.numfactu = factpro_totales.numfactu and factpro.fecfactu = factpro_totales.fecfactu) "
     Sql = Sql & " inner join tmpfaclin ON factpro.numserie=tmpfaclin.numserie AND factpro.numfactu=tmpfaclin.Numfac and factpro.fecfactu=tmpfaclin.Fecha "
-    Sql = Sql & " WHERE  tmpfaclin.codusu = 22000 "
+    Sql = Sql & " WHERE  tmpfaclin.codusu =  " & vUsu.Codigo
     Sql = Sql & " ORDER BY factpro.codmacta, factpro.nommacta, factpro_totales.numlinea "
             
     'LLamos a la funcion
@@ -1721,7 +1721,7 @@ Dim nomDocu As String
     
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     
-    cadNomRPT = nomDocu ' "FacturasCliFecha.rpt"
+    cadNomRPT = nomDocu '
 
     'si se imprime el nif o la cuenta de cliente
     cadParam = cadParam & "pConNIF=" & check1(0).Value & "|"
@@ -1734,9 +1734,9 @@ Dim nomDocu As String
     cadParam = cadParam & "pFecha=""" & txtFecha(2).Text & """|"
     numParam = numParam + 1
     
-    If optVarios(3).Value Then cadParam = cadParam & "pOrden={factpro.numregis}|" ' nro de registro
-    If optVarios(0).Value Then cadParam = cadParam & "pOrden={factpro.fecfactu}|" ' fecha factura
-    If optVarios(2).Value Then cadParam = cadParam & "pOrden={factpro.fecharec}|" ' fecha de recepcion
+    If optVarios(3).Value Then cadParam = cadParam & "pOrden={tmpfaclin.Numfac}|" ' nro de registro
+    If optVarios(0).Value Then cadParam = cadParam & "pOrden={tmpfaclin.ctabase}|" ' fecha factura
+    If optVarios(2).Value Then cadParam = cadParam & "pOrden={tmpfaclin.fecha}|" ' fecha de recepcion
     
     numParam = numParam + 1
     
@@ -1760,12 +1760,15 @@ Dim Sql As String
     Sql = "delete from tmpfaclin where codusu = " & vUsu.Codigo
     Conn.Execute Sql
     
-    Sql = "insert into tmpfaclin (codusu, codigo, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
-    Sql = Sql & " recargo, tipoopera, tipoformapago, tipoiva) "
-    Sql = Sql & " select distinct " & vUsu.Codigo & ",0, factpro.numserie, contadores.nomregis, factpro.numregis, factpro.fecharec, factpro.codmacta, "
-    Sql = Sql & " factpro.nifdatos, factpro.totbases, factpro.totivas, factpro.totfacpr, factpro.trefacpr, factpro.nommacta,"
+    
+    
+    Sql = "insert into tmpfaclin (codusu, codigo,numfactura, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
+    Sql = Sql & " recargo, tipoopera, tipoformapago, tipoiva,ctabase) "
+    Sql = Sql & " select distinct " & vUsu.Codigo & ",factpro.anofactu,numfactu, factpro.numserie, contadores.nomregis, factpro.numregis, factpro.fecharec, factpro.codmacta, "
+    Sql = Sql & " factpro.nommacta,factpro.nifdatos, factpro.totbases, factpro.totivas, factpro.totfacpr, factpro.trefacpr, "
     Sql = Sql & " factpro.totrecargo, tipofpago.descformapago , aa.denominacion, " ', if(factpro.codopera = 0 or factpro.codopera = 3, 1,0) aaaa "
     Sql = Sql & " CASE factpro.codopera WHEN 0 THEN 0 WHEN 3 THEN 0 WHEN 1 THEN 1 WHEN 2 THEN 2 WHEN 4 THEN 3 WHEN 5 THEN 4 END "
+    Sql = Sql & ",fecfactu"
     Sql = Sql & " from " & tabla
     Sql = Sql & " where " & cadselect
     

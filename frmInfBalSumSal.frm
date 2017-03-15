@@ -1223,7 +1223,7 @@ Private Sub cmdAccion_Click(Index As Integer)
         If txtFecha(7).Text = "" Then txtFecha(7).Text = Format(Now, "dd/mm/yyyy")
         
         
-        EmpezarBalanceNuevo -1, pb2  'La -1 es balance normal
+        EmpezarBalanceNuevo2 -1, pb2  'La -1 es balance normal
             
             
     End If
@@ -1286,9 +1286,9 @@ Dim CONT As Integer
             CONT = Val(RecuperaValor(Legalizacion, 4))
             For i = 1 To 10
                 If i = CONT Then
-                    Check1(i).Value = 1
+                    check1(i).Value = 1
                 Else
-                    Check1(i).Value = 0
+                    check1(i).Value = 0
                 End If
             Next
 
@@ -1654,7 +1654,7 @@ Dim nomDocu As String
         Tipo = Tipo + 0        ' Sin movimientos
     End If
             
-    If Me.chkBalIncioEjercicio = 1 Then Tipo = 4
+    If Me.chkBalIncioEjercicio = 1 Then Tipo = 1
             
     cadParam = cadParam & "pTipo=" & Tipo & "|"
     numParam = numParam + 1
@@ -1704,9 +1704,9 @@ Dim nomDocu As String
     CONT = 0
     UltimoNivel = 0
     For i = 1 To 10
-        If Check1(i).Visible Then
+        If check1(i).Visible Then
 '                If Check2(I).Value = 1 Then Cont = Cont + 1
-            If Check1(i).Value = 1 Then
+            If check1(i).Value = 1 Then
                 If i = 10 Then
                     Cad = vEmpresa.DigitosUltimoNivel
                 Else
@@ -1791,7 +1791,7 @@ Private Function DatosOK() As Boolean
     
     CONT = 0
     For i = 1 To 10
-        If Check1(i).Value = 1 Then CONT = CONT + 1
+        If check1(i).Value = 1 Then CONT = CONT + 1
     Next i
     If CONT = 0 Then
         MsgBox "Seleccione como mínimo un nivel contable", vbExclamation
@@ -1807,36 +1807,37 @@ Private Sub CargarComboFecha()
 Dim J As Integer
 
 
-QueCombosFechaCargar "0|1|"
-
-
-For i = 1 To vEmpresa.numnivel - 1
-    J = DigitosNivel(i)
-    Check1(i).Visible = True
-    Check1(i).Caption = "Digitos: " & J
-Next i
+    QueCombosFechaCargar "0|1|"
+    
+    
+    For i = 1 To vEmpresa.numnivel - 1
+        J = DigitosNivel(i)
+        check1(i).Visible = True
+        check1(i).Caption = "Digitos: " & J
+    Next i
 
     cmbFecha(2).Clear
     cmbFecha(3).Clear
     
-    For i = 1 To 50
+    J = Year(vParam.fechafin) + 1 - 2000
+    For i = 1 To J
         cmbFecha(2).AddItem "20" & Format(i, "00")
         cmbFecha(3).AddItem "20" & Format(i, "00")
     Next i
     
-'Cargamos le combo de resalte de fechas
-Combo2.Clear
-
-Combo2.AddItem "Sin remarcar"
-Combo2.ItemData(Combo2.NewIndex) = 1000
-For i = 1 To vEmpresa.numnivel - 1
-    Combo2.AddItem "Nivel " & i
-    Combo2.ItemData(Combo2.NewIndex) = i
-Next i
+    'Cargamos le combo de resalte de fechas
+    Combo2.Clear
+    
+    Combo2.AddItem "Sin remarcar"
+    Combo2.ItemData(Combo2.NewIndex) = 1000
+    For i = 1 To vEmpresa.numnivel - 1
+        Combo2.AddItem "Nivel " & i
+        Combo2.ItemData(Combo2.NewIndex) = i
+    Next i
 End Sub
 
 
-Private Sub EmpezarBalanceNuevo(vConta As Integer, ByRef PB As ProgressBar)
+Private Sub EmpezarBalanceNuevo2(vConta As Integer, ByRef PB As ProgressBar)
 Dim Cade As String
 Dim Apertura As Boolean
 Dim QuitarSaldos2 As Byte
@@ -1856,19 +1857,16 @@ Dim Fec As Date
 Dim J As Integer
 
 
+Dim CodMactaEnProceso As String
+Dim NomactaEnProceso As String
+Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará yyyymm|imported|importeh|
+
 
     Screen.MousePointer = vbHourglass
     
     
     '### Esto no ha sido probado seguro. Falta Quitar codigo  o ver pq se puede llamar a esta funciona con varios valores
     
-    'Nuevo agosto 2014
-    '------------------------------------------------------------------------
-    '  Haremos los calculos para el nivel mas alto de los selecionados.
-    '  Para los inferiores sera tan facil como teneindo estos datos ya calculados
-    ' agruparlos convenientemente, por length del nivel
-    '
-    '
     
     If vConta = -1 Then
         IndiceCombo = 0
@@ -1895,7 +1893,9 @@ Dim J As Integer
     J = 1
     If Fec > vParam.fechafin Then
         'Siguiente
-        FechaIncioEjercicio = DateAdd("yyyy", 1, vParam.fechaini)
+        FechaIncioEjercicio = vParam.fechaini  ' DateAdd("yyyy", 1, vParam.fechaini)
+        FechaFinEjercicio = DateAdd("yyyy", 1, vParam.fechafin)
+
     Else
     
         FechaIncioEjercicio = vParam.fechaini
@@ -1907,9 +1907,10 @@ Dim J As Integer
                 FechaIncioEjercicio = DateAdd("yyyy", -1, FechaIncioEjercicio)
             End If
         Wend
+        FechaFinEjercicio = DateAdd("yyyy", 1, FechaIncioEjercicio)
+        FechaFinEjercicio = DateAdd("d", -1, FechaFinEjercicio)
     End If
-    FechaFinEjercicio = DateAdd("yyyy", 1, FechaIncioEjercicio)
-    FechaFinEjercicio = DateAdd("d", -1, FechaFinEjercicio)
+
 
     Cade = " fechaent between " & DBSet(FechaIncioEjercicio, "F") & " AND " & DBSet(FechaFinEjercicio, "F") & Cade
 
@@ -1917,29 +1918,30 @@ Dim J As Integer
     
     'Nivel del que vamos a calcular los datos
     LenPrimerNivelCalculado = 0
-    If Check1(10).Value Then
+    If check1(10).Value Then
         LenPrimerNivelCalculado = vEmpresa.DigitosUltimoNivel
     Else
         For i = vEmpresa.numnivel - 1 To 1 Step -1
             
             If vConta = -1 Then
                 'Balance normal
-                If Check1(i).Value = 1 Then LenPrimerNivelCalculado = DigitosNivel(i)
+                If check1(i).Value = 1 Then LenPrimerNivelCalculado = DigitosNivel(i)
                 
             Else
-'                'Balance consolidado
-'                If Me.ChkConso(i).Value = 1 Then LenPrimerNivelCalculado = DigitosNivel(i)
-'
+
             End If
             If LenPrimerNivelCalculado > 0 Then Exit For
         Next
     End If
    
-    'Como queremos tener ya el n pmbre de la cuenta, por eso todo el sql "complicado2
-    'La otra opcion seria sacar solamente el codmacta(si lefjoins ni leches)
-    ' y cargar a posteriori el nommacta. De velocidad no se va mucho, decimas
+    '
+    'NUEVO *************
+    ' Cargaremos de la hlinapu, codmacta,nommacta, mes,anño ,saldo. Y asi en un solo SELECT tenemos los saldos.
+    'Luego para cada cuenta tendremos que hacer los calculos
+    
     Cad = "SELECT substring(line.codmacta,1," & LenPrimerNivelCalculado
-    Cad = Cad & ") as codmacta,coalesce(nommacta,'ERROR##') nommacta From "
+    Cad = Cad & ") as codmacta,coalesce(nommacta,'ERROR##') nommacta ,   year(fechaent) anyo,month(fechaent) mes,"
+    Cad = Cad & " sum(coalesce(timported,0)) debe, sum(coalesce(timporteh,0)) haber FROM "
     If vConta >= 0 Then Cad = Cad & "ariconta" & vConta & "."
     Cad = Cad & "hlinapu"
     Cad = Cad & " as line LEFT JOIN "
@@ -1948,7 +1950,8 @@ Dim J As Integer
     Cad = Cad & "cuentas.codmacta = substring(line.codmacta,1," & LenPrimerNivelCalculado & ")"
     Cad = Cad & " WHERE " & Cade
 
-    Cad = Cad & " GROUP BY 1 ORDER By 1"
+    Cad = Cad & " GROUP BY 1,anyo,mes "
+    Cad = Cad & " ORDER By 1 ,anyo,mes"
 
     Apertura = (Me.chkApertura.Value = 1) And vConta < 0
     
@@ -1991,7 +1994,7 @@ Dim J As Integer
     'ultimo nivel y hay moivmientos para agrupar
     Agrupa = False
     If vConta < 0 And Me.chkAgrupacionCtasBalance.Value = 1 Then 'chekc de agrupar
-        If Check1(10).Value = 1 Then                 'sheck de ultimo nivel
+        If check1(10).Value = 1 Then                 'sheck de ultimo nivel
             Rs.Open "Select * from ctaagrupadas", Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             If Not Rs.EOF Then Agrupa = True
             Rs.Close
@@ -2014,17 +2017,18 @@ Dim J As Integer
         End If
         Agrupa = False
         CONT = -1
+      
     Else
     
         'Voy a ver si precargamos el RScon los datos para el cierr/pyg apertura
         'Veamos si precargamos los
         Sql = ""
-        If Check1(10).Value Then
+        If check1(10).Value Then
             'Esta chequeado ultimo nivel
             'Veamos si tiene seleccionado alguno mas
             Sql = "1"
             For CONT = 1 To 9
-                If Check1(CInt(CONT)).Value = 1 Then Sql = Sql & "1"
+                If check1(CInt(CONT)).Value = 1 Then Sql = Sql & "1"
             Next CONT
         End If
         PreCargarCierre = Len(Sql) = 1
@@ -2050,8 +2054,6 @@ Dim J As Integer
         Sql = "DELETE from tmpbalancesumas where codusu= " & vUsu.Codigo
         Conn.Execute Sql
         
-        
-        'Nuevo  13 Enero 2005
         ' Pondremos el frame a disabled, veremos el boton de cancelar
         ' y dejaremos k lo pulse
         ' Si lo pulsa cancelaremos y no saldremos
@@ -2069,11 +2071,27 @@ Dim J As Integer
         Rs.MoveFirst
         't1 = Timer
         
-        
+        CodMactaEnProceso = ""
         
         While Not Rs.EOF
                                                                                                                                        
-            CargaBalanceNuevo Rs.Fields(0), Rs.Fields(1), Apertura, InicioPeriodo, FinPeriodo, FechaIncioEjercicio, FechaFinEjercicio, False, QuitarSaldos2, vConta, False, Resetea6y7, CBool(PreCargarCierre)
+            If CodMactaEnProceso <> Rs.Fields(0) Then
+                                                                                                                                       
+                If CodMactaEnProceso <> "" Then
+                    CargaBalanceNuevaContabilidad CodMactaEnProceso, NomactaEnProceso, Apertura, InicioPeriodo, FinPeriodo, FechaIncioEjercicio, FechaFinEjercicio, False, QuitarSaldos2, vConta, False, Resetea6y7, CBool(PreCargarCierre), ColImporte
+                End If
+                CodMactaEnProceso = Rs.Fields(0)
+                NomactaEnProceso = Rs.Fields(1)
+                Set ColImporte = Nothing
+                Set ColImporte = New Collection
+                
+                
+                
+            End If
+            
+            Sql = Rs!Anyo & Format(Rs!Mes, "00") & "|" & Rs!Debe & "|" & Rs!Haber & "|"
+            ColImporte.Add Sql
+            
             
             PB.Value = Round((C1 / CONT), 3) * 1000
             PB.Refresh
@@ -2085,7 +2103,14 @@ Dim J As Integer
             Rs.MoveNext
         Wend
         
+         'El ulimo registro
+        If CodMactaEnProceso <> "" Then
+            CargaBalanceNuevaContabilidad CodMactaEnProceso, NomactaEnProceso, Apertura, InicioPeriodo, FinPeriodo, FechaIncioEjercicio, FechaFinEjercicio, False, QuitarSaldos2, vConta, False, Resetea6y7, CBool(PreCargarCierre), ColImporte
+        End If
+        
+        
         If PreCargarCierre Then CerrarPrecargaPerdidasyGanancias
+        CerrarLeerApertura
         
         'Reestablecemos
         PonleFoco cmdCancelar
@@ -2096,19 +2121,25 @@ Dim J As Integer
             Rs.Close
             Screen.MousePointer = vbDefault
             PB.Visible = False
+            Conn.Execute "DELETE from tmpbalancesumas WHERE codusu = " & vUsu.Codigo
             Exit Sub
         End If
         
     End If
     Rs.Close
+   
     
+    'Me cargo los que son todo cero
+    Sql = "DELETE  from tmpbalancesumas WHERE codusu = " & vUsu.Codigo & " and aperturaD =0 AND "
+    Sql = Sql & "aperturaH = 0 And acumAntD = 0 And acumAntH = 0 And acumPerD = 0 And acumPerH = 0"
+    Conn.Execute Sql
     
     'Siguientes subniveles, si es ue los ha pedido
     LenNivelCalculado = 0
     For i = LenPrimerNivelCalculado - 1 To 1 Step -1
         If vConta = -1 Then
             'Balance normal
-            If Check1(i).Value = 1 Then LenNivelCalculado = DigitosNivel(i)
+            If check1(i).Value = 1 Then LenNivelCalculado = DigitosNivel(i)
             
         Else
 '                'Balance consolidado
@@ -2275,9 +2306,9 @@ Dim J As Integer
         CONT = 0
         UltimoNivel = 0
         For i = 1 To 10
-            If Check1(i).Visible Then
+            If check1(i).Visible Then
 '                If Check2(I).Value = 1 Then Cont = Cont + 1
-                If Check1(i).Value = 1 Then
+                If check1(i).Value = 1 Then
                     If i = 10 Then
                         Cad = vEmpresa.DigitosUltimoNivel
                     Else
@@ -2417,47 +2448,63 @@ Dim J As Integer
 
     Frame2.Visible = True
     Combo2.Clear
-    Check1(10).Visible = True
+    check1(10).Visible = True
     For i = 1 To vEmpresa.numnivel - 1
         J = DigitosNivel(i)
         Cad = "Digitos: " & J
-        Check1(i).Visible = True
-        Me.Check1(i).Caption = Cad
+        check1(i).Visible = True
+        Me.check1(i).Caption = Cad
         
         Combo2.AddItem "Nivel :   " & i
         Combo2.ItemData(Combo2.NewIndex) = J
     Next i
     For i = vEmpresa.numnivel To 9
-        Check1(i).Visible = False
+        check1(i).Visible = False
     Next i
     
     
 End Sub
 
 Private Sub HacerBalanceInicio()
-    
+ Dim F As Date
+ 
     
         'Numero de niveles
         'Para cada nivel marcado veremos si tiene cuentas en la tmp
         RC = ""
         For i = 1 To 10
             Sql = "0"
-            If Check1(i).Visible Then
-                If Check1(i).Value = 1 Then Sql = "1"
+            If check1(i).Visible Then
+                If check1(i).Value = 1 Then Sql = "1"
             End If
             RC = RC & Sql
         Next i
     
+        F = "01/ " & Me.cmbFecha(0).ListIndex + 1 & "/" & Me.cmbFecha(2).Text
         
+        If F > DateAdd("yyyy", 1, vParam.fechafin) Then
+            MsgBox "Ejercicio no abierto"
+            Exit Sub
+        End If
+        
+        FechaIncioEjercicio = vParam.fechaini
+        i = 1
+        Do
+            If FechaIncioEjercicio <= F Then
+                i = 0
+            Else
+                FechaIncioEjercicio = DateAdd("yyyy", -1, FechaIncioEjercicio)
+            End If
+        Loop Until i = 0
         'Borramos los temporales
         Sql = "DELETE from tmpbalancesumas where codusu= " & vUsu.Codigo
         Conn.Execute Sql
     
         'Precargamos el cierre
         PrecargaApertura  'Carga en ur RS la apertura
-    
+        
         CONT = 1
-        If Not CargaBalanceInicioEjercicio(RC) Then CONT = 0
+        If Not CargaBalanceInicioEjercicio(RC, FechaIncioEjercicio) Then CONT = 0
         CerrarPrecargaPerdidasyGanancias
         If CONT = 0 Then Exit Sub
                 
@@ -2470,9 +2517,9 @@ Private Sub HacerBalanceInicio()
         'Para cada nivel marcado veremos si tiene cuentas en la tmp
         CONT = 0
         For i = 1 To 10
-            If Check1(i).Visible Then
+            If check1(i).Visible Then
 '                If Check2(I).Value = 1 Then Cont = Cont + 1
-                If Check1(i).Value = 1 Then
+                If check1(i).Value = 1 Then
                     If i = 10 Then
                         Cad = vEmpresa.DigitosUltimoNivel
                     Else
