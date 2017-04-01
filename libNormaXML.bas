@@ -28,7 +28,7 @@ Option Explicit
 Dim NFic As Integer   'Para no tener que pasarlo a todas las funciones
 
 Private Function XML(CADENA As String) As String
-Dim I As Integer
+Dim i As Integer
 Dim Aux As String
 Dim Le As String
 Dim C As Integer
@@ -46,8 +46,8 @@ Dim C As Integer
     '/ - ? : ( ) . , ' +
     'Espacio
     Aux = ""
-    For I = 1 To Len(CADENA)
-        Le = Mid(CADENA, I, 1)
+    For i = 1 To Len(CADENA)
+        Le = Mid(CADENA, i, 1)
         C = Asc(Le)
         
         
@@ -662,9 +662,9 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
                 If Sql = "" Then
                     Select Case TipoReferenciaCliente
                     Case 0
-                        'ALZIRA. La referencia final de 12 es el ctan bancaria del cli + su CC
-                        Sql = Mid(DBLet(miRsAux!IBAN), 13, 2) ' Dígitos de control
-                        Sql = Sql & Mid(DBLet(miRsAux!IBAN), 15, 10) ' Código de cuenta
+                        'Marzo 2017   Si es IBAN, es tooodo el iban
+                        Sql = miRsAux!IBAN
+                        
                     Case 1
                         'NIF
                         Sql = DBLet(miRsAux!nifclien, "T")

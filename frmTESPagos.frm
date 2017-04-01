@@ -536,7 +536,7 @@ Begin VB.Form frmTESPagos
             TabIndex        =   87
             Tag             =   "Nif|T|S|||pagos|nifprove|||"
             Top             =   2820
-            Width           =   1350
+            Width           =   1590
          End
          Begin VB.TextBox Text1 
             BeginProperty Font 
@@ -2609,10 +2609,9 @@ Private Sub cboFiltro_Click()
     If PrimeraVez Then Exit Sub
     If Modo = 0 Then Exit Sub
     
-    LimpiarCampos
-    CargaList 0, False 'CargaGrid 0, False
-    
-    HacerBusqueda2
+'    LimpiarCampos
+'    CargaList 0, False 'CargaGrid 0, False
+'    HacerBusqueda2
 End Sub
 
 
@@ -2645,7 +2644,7 @@ End Sub
 
 
 Private Sub cmdAceptar_Click()
-    Dim Cad As String
+    Dim cad As String
     Dim i As Integer
     Dim Clave As String
     
@@ -2681,10 +2680,10 @@ Private Sub cmdAceptar_Click()
                 If SituarData Then
                 
                     Text1_LostFocus 0
-                    Cad = vTipForpa 'para que no pierda el valor
+                    cad = vTipForpa 'para que no pierda el valor
                     PonerModo 2
-                    vTipForpa = Cad
-                    Cad = ""
+                    vTipForpa = cad
+                    cad = ""
                     PonPendiente
                     '-- Esto permanece para saber donde estamos
                     lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
@@ -2932,7 +2931,7 @@ Dim BloquearClave As Boolean
 End Sub
 
 Private Sub BotonEliminar()
-    Dim Cad As String
+    Dim cad As String
     Dim i As Integer
     Dim Sql As String
     Dim SqlLog As String
@@ -2946,10 +2945,10 @@ Private Sub BotonEliminar()
     
     
     '### a mano
-    Cad = "Seguro que desea eliminar de la BD el registro actual:"
-    Cad = Cad & vbCrLf & Data1.Recordset.Fields(0) & "  " & Data1.Recordset.Fields(1) & " "
-    Cad = Cad & Data1.Recordset.Fields(2) & "  " & Data1.Recordset.Fields(3) & "  " & Data1.Recordset.Fields(4)
-    i = MsgBox(Cad, vbQuestion + vbYesNoCancel + vbDefaultButton2)
+    cad = "Seguro que desea eliminar de la BD el registro actual:"
+    cad = cad & vbCrLf & Data1.Recordset.Fields(0) & "  " & Data1.Recordset.Fields(1) & " "
+    cad = cad & Data1.Recordset.Fields(2) & "  " & Data1.Recordset.Fields(3) & "  " & Data1.Recordset.Fields(4)
+    i = MsgBox(cad, vbQuestion + vbYesNoCancel + vbDefaultButton2)
     'Borramos
     If i = vbYes Then
         'Borro el elemento
@@ -2994,7 +2993,7 @@ Error2:
 End Sub
 
 Private Sub cmdRegresar_Click()
-Dim Cad As String
+Dim cad As String
 Dim impo As Currency
     
     If Data1.Recordset.EOF Then
@@ -3025,14 +3024,14 @@ Dim impo As Currency
     
     'Devolvera muuuuchas cosas
     'serie factura fecfac numvto
-    Cad = Text1(13).Text & "|" & Format(Text1(1).Text, "0000000") & "|" & Text1(2).Text & "|" & Text1(3).Text & "|"
+    cad = Text1(13).Text & "|" & Format(Text1(1).Text, "0000000") & "|" & Text1(2).Text & "|" & Text1(3).Text & "|"
     'Codmacta nommacta codforpa   nomforpa   importe
-    Cad = Cad & Text1(4).Text & "|" & Text2(0).Text & "|" & Text1(0).Text & "|" & Text2(1).Text & "|" & CStr(impo) & "|"
+    cad = cad & Text1(4).Text & "|" & Text2(0).Text & "|" & Text1(0).Text & "|" & Text2(1).Text & "|" & CStr(impo) & "|"
     'Lo que lleva cobrado
-    Cad = Cad & Text1(8).Text & "|"
+    cad = cad & Text1(8).Text & "|"
     
     
-    RaiseEvent DatoSeleccionado(Cad)
+    RaiseEvent DatoSeleccionado(cad)
     Unload Me
 End Sub
 
@@ -3186,7 +3185,7 @@ End Sub
 
 
 Private Sub frmB_Selecionado(CadenaDevuelta As String)
-Dim Cad As String
+Dim cad As String
 
     If CadenaDevuelta <> "" Then
         If DevfrmCCtas <> "" Then
@@ -3200,14 +3199,14 @@ Dim Cad As String
             'Sabemos que campos son los que nos devuelve
             'Creamos una cadena consulta y ponemos los datos
             DevfrmCCtas = ValorDevueltoFormGrid(Text1(4), CadenaDevuelta, 1)
-            Cad = DevfrmCCtas
+            cad = DevfrmCCtas
             DevfrmCCtas = ValorDevueltoFormGrid(Text1(1), CadenaDevuelta, 2)
-            Cad = Cad & " AND " & DevfrmCCtas
+            cad = cad & " AND " & DevfrmCCtas
             DevfrmCCtas = ValorDevueltoFormGrid(Text1(2), CadenaDevuelta, 3)
-            Cad = Cad & " AND " & DevfrmCCtas
+            cad = cad & " AND " & DevfrmCCtas
             DevfrmCCtas = ValorDevueltoFormGrid(Text1(3), CadenaDevuelta, 4)
-            Cad = Cad & " AND " & DevfrmCCtas
-            DevfrmCCtas = Cad
+            cad = cad & " AND " & DevfrmCCtas
+            DevfrmCCtas = cad
             If DevfrmCCtas = "" Then Exit Sub
             CadenaConsulta = "select * from " & NombreTabla & " WHERE " & DevfrmCCtas & " " & Ordenacion
             PonerCadenaBusqueda
@@ -3219,19 +3218,19 @@ Dim Cad As String
 End Sub
 
 Private Sub PonerDatoDevuelto(CadenaDevuelta As String)
-Dim Cad As String
+Dim cad As String
     DevfrmCCtas = ValorDevueltoFormGrid(Text1(13), CadenaDevuelta, 1)
-    Cad = DevfrmCCtas
+    cad = DevfrmCCtas
     DevfrmCCtas = ValorDevueltoFormGrid(Text1(1), CadenaDevuelta, 2)
-    Cad = Cad & " AND " & DevfrmCCtas
+    cad = cad & " AND " & DevfrmCCtas
     DevfrmCCtas = ValorDevueltoFormGrid(Text1(2), CadenaDevuelta, 3)
-    Cad = Cad & " AND " & DevfrmCCtas
+    cad = cad & " AND " & DevfrmCCtas
     DevfrmCCtas = ValorDevueltoFormGrid(Text1(3), CadenaDevuelta, 4)
-    Cad = Cad & " AND " & DevfrmCCtas
+    cad = cad & " AND " & DevfrmCCtas
     DevfrmCCtas = ValorDevueltoFormGrid(Text1(4), CadenaDevuelta, 5)
-    Cad = Cad & " AND " & DevfrmCCtas
+    cad = cad & " AND " & DevfrmCCtas
     
-    DevfrmCCtas = Cad
+    DevfrmCCtas = cad
     If DevfrmCCtas = "" Then Exit Sub
     'Se muestran en el mismo form
     CadenaConsulta = "select * from " & NombreTabla & " WHERE " & DevfrmCCtas & " " & Ordenacion
@@ -3293,7 +3292,7 @@ Private Sub ImgAgente_Click()
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
-Dim Cad As String
+Dim cad As String
 Dim Z
     Screen.MousePointer = vbHourglass
     If Index = 1 Then
@@ -3670,7 +3669,7 @@ End Function
 
 
 Private Sub HacerBusqueda()
-Dim Cad As String
+Dim cad As String
 
     CadB = ObtenerBusqueda2(Me, BuscaChekc, 1)
     
@@ -3701,8 +3700,11 @@ Dim Cad As String
         CadB = CadB & "mid(iban,21,4) = " & DBSet(Text1(21).Text, "T")
     End If
     
+    'ESTO NO VA
+    'Si no va, no lo pongo
+    'CadB1 = ObtenerBusqueda2(Me, , 2, "FrameAux1")
+    CadB1 = ""
     
-    CadB1 = ObtenerBusqueda2(Me, , 2, "FrameAux1")
     
     HacerBusqueda2
 
@@ -3716,10 +3718,16 @@ Private Sub HacerBusqueda2()
     If chkVistaPrevia = 1 Then
         MandaBusquedaPrevia CadB
     ElseIf CadB <> "" Or CadB1 <> "" Or cadFiltro <> "" Then
-        CadenaConsulta = "select distinct pagos.* from "
-        CadenaConsulta = CadenaConsulta & " (tipofpago  INNER JOIN hlinapu ON hlinapu.tipforpa = tipofpago.tipoformapago ) "
-        CadenaConsulta = CadenaConsulta & " right join pagos on pagos.numserie = hlinapu.numserie and pagos.numfactu = hlinapu.numfacpr and pagos.fecfactu = hlinapu.fecfactu and pagos.numorden = hlinapu.numorden and pagos.codmacta = hlinapu.codmacta "
-
+        If CadB1 <> "" Then
+            CadenaConsulta = "select  pagos.* from "
+            CadenaConsulta = CadenaConsulta & " (tipofpago  INNER JOIN hlinapu ON hlinapu.tipforpa = tipofpago.tipoformapago ) "
+            CadenaConsulta = CadenaConsulta & " right join pagos on pagos.numserie = hlinapu.numserie and pagos.numfactu = hlinapu.numfacpr and pagos.fecfactu = hlinapu.fecfactu and pagos.numorden = hlinapu.numorden and pagos.codmacta = hlinapu.codmacta "
+        Else
+            'En teoria CADB1 siempre sera "", pero lo he dejado(lo de arriba, por si acaso
+            CadenaConsulta = "select  pagos.* from pagos "
+            'CadenaConsulta = CadenaConsulta & " (tipofpago  INNER JOIN hlinapu ON hlinapu.tipforpa = tipofpago.tipoformapago ) "
+            'CadenaConsulta = CadenaConsulta & " right join pagos on pagos.numserie = hlinapu.numserie and pagos.numfactu = hlinapu.numfacpr and pagos.fecfactu = hlinapu.fecfactu and pagos.numorden = hlinapu.numorden and pagos.codmacta = hlinapu.codmacta "
+        End If
         
         CadenaConsulta = CadenaConsulta & " WHERE (1=1) "
         If CadB <> "" Then CadenaConsulta = CadenaConsulta & " and " & CadB & " "
@@ -4337,27 +4345,27 @@ End Sub
 
 Private Sub CargaList(Index As Integer, Enlaza As Boolean)
 Dim IT
-Dim Cad As String
+Dim cad As String
 
     lwpagos.ListItems.Clear
     Set Me.lwpagos.SmallIcons = frmppal.imgListComun16 'imgListComun 'ImgListviews
     Set miRsAux = New ADODB.Recordset
     
-    Cad = "SELECT  hlinapu.numdiari, hlinapu.fechaent, "
-    Cad = Cad & " hlinapu.numasien, hlinapu.ctacontr, "
-    Cad = Cad & " hcabapu.usucreacion, hcabapu.feccreacion, tipofpago.siglas, "
-    Cad = Cad & " hlinapu.reftalonpag, hlinapu.bancotalonpag, "
-    Cad = Cad & " (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) imppago, hlinapu.numserie, hlinapu.numfacpr, hlinapu.fecfactu, hlinapu.numorden, hlinapu.codmacta "
-    Cad = Cad & " FROM (hlinapu INNER JOIN tipofpago ON hlinapu.tipforpa = tipofpago.tipoformapago) INNER JOIN hcabapu ON hlinapu.numdiari = hcabapu.numdiari and hlinapu.fechaent = hcabapu.fechaent and hlinapu.numasien = hcabapu.numasien "
+    cad = "SELECT  hlinapu.numdiari, hlinapu.fechaent, "
+    cad = cad & " hlinapu.numasien, hlinapu.ctacontr, "
+    cad = cad & " hcabapu.usucreacion, hcabapu.feccreacion, tipofpago.siglas, "
+    cad = cad & " hlinapu.reftalonpag, hlinapu.bancotalonpag, "
+    cad = cad & " (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) imppago, hlinapu.numserie, hlinapu.numfacpr, hlinapu.fecfactu, hlinapu.numorden, hlinapu.codmacta "
+    cad = cad & " FROM (hlinapu INNER JOIN tipofpago ON hlinapu.tipforpa = tipofpago.tipoformapago) INNER JOIN hcabapu ON hlinapu.numdiari = hcabapu.numdiari and hlinapu.fechaent = hcabapu.fechaent and hlinapu.numasien = hcabapu.numasien "
     If Enlaza Then
-        Cad = Cad & Replace(Replace(ObtenerWhereCab(True), "pagos", "hlinapu"), "numfactu", "numfacpr")
+        cad = cad & Replace(Replace(ObtenerWhereCab(True), "pagos", "hlinapu"), "numfactu", "numfacpr")
     Else
-        Cad = Cad & " WHERE hlinapu.codmacta is null"
+        cad = cad & " WHERE false"
     End If
-    Cad = Cad & " ORDER BY hlinapu.numserie, hlinapu.numfacpr, hlinapu.fecfactu, hlinapu.numorden, hlinapu.fechaent, hlinapu.numasien"
+    cad = cad & " ORDER BY hlinapu.numserie, hlinapu.numfacpr, hlinapu.fecfactu, hlinapu.numorden, hlinapu.fechaent, hlinapu.numasien"
     
     
-    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         Set IT = lwpagos.ListItems.Add()
         IT.Text = DBLet(miRsAux!NumDiari, "N")
@@ -4430,11 +4438,11 @@ Dim vWhere As String
 End Function
 
 Private Sub PosicionarData()
-Dim Cad As String, Indicador As String
+Dim cad As String, Indicador As String
 
-    Cad = "(numserie=" & DBSet(Text1(13).Text, "T") & " and numfactu = " & DBSet(Text1(1).Text, "T") & " and fecfactu = " & DBSet(Text1(2).Text, "F") & " and numorden = " & DBSet(Text1(3).Text, "N") & ") "
+    cad = "(numserie=" & DBSet(Text1(13).Text, "T") & " and numfactu = " & DBSet(Text1(1).Text, "T") & " and fecfactu = " & DBSet(Text1(2).Text, "F") & " and numorden = " & DBSet(Text1(3).Text, "N") & ") "
     
-    If SituarDataMULTI(Data1, Cad, Indicador) Then
+    If SituarDataMULTI(Data1, cad, Indicador) Then
         If ModoLineas <> 1 Then PonerModo 2
         lblIndicador.Caption = Indicador
     Else
@@ -4445,15 +4453,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
     
     On Error Resume Next
 
-    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)

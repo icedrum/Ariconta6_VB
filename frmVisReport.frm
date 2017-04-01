@@ -241,7 +241,14 @@ Dim PrimeraVez As Boolean
 
 
 Private Sub CRViewer1_ExportButtonClicked(UseDefault As Boolean)
-    mrpt.Export True
+    On Error Resume Next
+
+    mrpt.Export False
+    If Err.Number <> 0 Then
+        MsgErr = Err.Description
+        Err.Clear
+        
+    End If
 End Sub
 
 Private Sub CRViewer1_PrintButtonClicked(UseDefault As Boolean)
@@ -574,18 +581,18 @@ Private Sub Exportar()
 End Sub
 
 Private Sub PonerMargen()
-Dim Cad As String
+Dim cad As String
 Dim i As Integer
     On Error GoTo EPon
-    Cad = Dir(App.Path & "\*.mrg")
-    If Cad <> "" Then
-        i = InStr(1, Cad, ".")
+    cad = Dir(App.Path & "\*.mrg")
+    If cad <> "" Then
+        i = InStr(1, cad, ".")
         If i > 0 Then
-            Cad = Mid(Cad, 1, i - 1)
-            If IsNumeric(Cad) Then
-                If Val(Cad) > 4000 Then Cad = "4000"
-                If Val(Cad) > 0 Then
-                    mrpt.BottomMargin = mrpt.BottomMargin + Val(Cad)
+            cad = Mid(cad, 1, i - 1)
+            If IsNumeric(cad) Then
+                If Val(cad) > 4000 Then cad = "4000"
+                If Val(cad) > 0 Then
+                    mrpt.BottomMargin = mrpt.BottomMargin + Val(cad)
                 End If
             End If
         End If

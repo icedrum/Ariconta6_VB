@@ -514,7 +514,7 @@ Attribute frmF.VB_VarHelpID = -1
 Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim tabla As String
 
@@ -623,19 +623,19 @@ End Sub
 
 Private Sub Form_Load()
     PrimeraVez = True
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Informe de Situación"
 
-    For I = 0 To 1
-        Me.ImgFec(I).Picture = frmPpal.imgIcoForms.ListImages(2).Picture
-    Next I
+    For i = 0 To 1
+        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+    Next i
      
     
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.ImgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
     
@@ -691,31 +691,31 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -777,7 +777,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, False
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 15
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 52
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -790,7 +790,7 @@ End Sub
 Private Function CargarTemporales() As Boolean
 Dim Sql As String
 Dim Sql2 As String
-Dim I As Integer
+Dim i As Integer
 Dim B As Boolean
 Dim Rs As ADODB.Recordset
 Dim Rs2 As ADODB.Recordset
@@ -1026,7 +1026,7 @@ Dim FecVenci As Date
 Dim TotalFac As Currency
 Dim TotalImp As Currency
 Dim ImpVenci As Currency
-Dim I As Integer
+Dim i As Integer
 Dim cadvalues2 As String
 Dim SqlInsert As String
 Dim SqlValues As String
@@ -1068,7 +1068,7 @@ Dim SqlValues As String
         If Not Rsvenci.EOF Then
             If DBLet(Rsvenci!numerove, "N") > 0 Then
                 '-------- Primer Vencimiento
-                I = 1
+                i = 1
                 'FECHA VTO
                 FecVenci = FecFactu
                 '=== Laura 23/01/2007
@@ -1096,7 +1096,7 @@ Dim SqlValues As String
             
                 'Resto Vencimientos
                 '--------------------------------------------------------------------
-                For I = 2 To Rsvenci!numerove
+                For i = 2 To Rsvenci!numerove
                    'FECHA Resto Vencimientos
                     '=== Laura 23/01/2007
                     'FecVenci = FecVenci + DBSet(rsVenci!restoven, "N")
@@ -1108,7 +1108,7 @@ Dim SqlValues As String
                     'IMPORTE Resto de Vendimientos
                     ImpVenci = Round(TotalFac / Rsvenci!numerove, 2)
                     cadvalues2 = cadvalues2 & DBSet(ImpVenci, "N") & "),"
-                Next I
+                Next i
             End If
         End If
         
@@ -1175,7 +1175,9 @@ Dim Base As Currency
         Sql2 = Sql2 & " order by 1 "
         
         Set Rs2 = New ADODB.Recordset
-        Rs2.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        'Rs2.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText  estaba asi. Monta el sql2 y luego abre el sql? wtf?
+        Rs2.Open Sql2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        
         While Not Rs2.EOF
             Base = DBLet(Rs2!Base, "N") * Round((1 - ((DBLet(Rs!dtoppago, "N") + DBLet(Rs!dtognral, "N")) / 100)), 2)
         
@@ -1212,7 +1214,7 @@ Dim Rsvenci As ADODB.Recordset
 Dim FecFactu As Date
 Dim TotalFac As Currency
 Dim TotalImp As Currency
-Dim I As Integer
+Dim i As Integer
 Dim cadvalues2 As String
 Dim SqlInsert As String
 Dim SqlValues As String
@@ -1255,7 +1257,7 @@ Dim ImpVenci As Currency
         If Not Rsvenci.EOF Then
             If DBLet(Rsvenci!numerove, "N") > 0 Then
                 '-------- Primer Vencimiento
-                I = 1
+                i = 1
                 'FECHA VTO
                 FecVenci = FecFactu
                 '=== Laura 23/01/2007
@@ -1283,7 +1285,7 @@ Dim ImpVenci As Currency
             
                 'Resto Vencimientos
                 '--------------------------------------------------------------------
-                For I = 2 To Rsvenci!numerove
+                For i = 2 To Rsvenci!numerove
                    'FECHA Resto Vencimientos
                     '=== Laura 23/01/2007
                     'FecVenci = FecVenci + DBSet(rsVenci!restoven, "N")
@@ -1295,7 +1297,7 @@ Dim ImpVenci As Currency
                     'IMPORTE Resto de Vencimientos
                     ImpVenci = Round(TotalFac / Rsvenci!numerove, 2)
                     cadvalues2 = cadvalues2 & DBSet(ImpVenci, "N") & "),"
-                Next I
+                Next i
             End If
         End If
         

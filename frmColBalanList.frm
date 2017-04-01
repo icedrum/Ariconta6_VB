@@ -428,7 +428,7 @@ Public NomBalan As String
 Private WithEvents frmBal As frmBasico
 Attribute frmBal.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 
 
 
@@ -507,14 +507,14 @@ End Sub
 
 
 Private Sub Form_Load()
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Impresión de Balances"
 
-    For I = 0 To 1
-        Me.imgBalan(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To 1
+        Me.imgBalan(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
     
     txtBalan(0).Text = Format(NumBalan, "000")
     txtBalan(1).Text = Format(NumBalan, "000")
@@ -526,7 +526,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmBal_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub ImgBalan_Click(Index As Integer)
@@ -549,24 +549,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-         frmPpal.cd1.Filter = "*.csv|*.csv"
+         frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -600,7 +600,7 @@ Private Sub txtBalan_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtBalan(Index).Text = Trim(txtBalan(Index).Text)
@@ -628,18 +628,18 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 '            lblCuentas(Index).Caption = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", txtCuentas(Index), "T")
             Cta = (txtBalan(Index).Text)
                                     '********
-            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
             If B = 0 Then
                 MsgBox "NO existe la cuenta: " & txtBalan(Index).Text, vbExclamation
                 txtBalan(Index).Text = ""
                 txtNBalan(Index).Text = ""
             Else
                 txtBalan(Index).Text = Cta
-                txtNBalan(Index).Text = SQL
+                txtNBalan(Index).Text = Sql
                 If B = 1 Then
                     txtNBalan(Index).Tag = ""
                 Else
-                    txtNBalan(Index).Tag = SQL
+                    txtNBalan(Index).Tag = Sql
                 End If
                 Hasta = -1
                 If Index = 6 Then
@@ -676,13 +676,13 @@ End Sub
 Private Sub AccionesCSV()
     
     'Monto el SQL
-    SQL = "Select balances.numbalan as codigo, balances.descripcion as descripcion, Balans.ctaingreso as CtaIngresos, Balans.ctagastos as CtaGastos, Balans.sufijoem as sufijoem, Balans.idcedente as cedente,"
-    SQL = SQL & " Balans.iban as IBAN, ccoste.nomccost  as CentroCoste "
-    SQL = SQL & " FROM Balans left join ccoste on Balans.codccost = ccoste.codccost "
-    If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
+    Sql = "Select balances.numbalan as codigo, balances.descripcion as descripcion, Balans.ctaingreso as CtaIngresos, Balans.ctagastos as CtaGastos, Balans.sufijoem as sufijoem, Balans.idcedente as cedente,"
+    Sql = Sql & " Balans.iban as IBAN, ccoste.nomccost  as CentroCoste "
+    Sql = Sql & " FROM Balans left join ccoste on Balans.codccost = ccoste.codccost "
+    If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
         
     'LLamoa a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -708,7 +708,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 13
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 24
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault

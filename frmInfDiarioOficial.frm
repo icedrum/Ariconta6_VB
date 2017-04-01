@@ -882,7 +882,7 @@ Attribute frmCon.VB_VarHelpID = -1
 Private frmCtas As frmCtasAgrupadas
 
 Private Sql As String
-Dim Cad As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -921,12 +921,12 @@ Private Sub Check1_Click(Index As Integer)
 Dim Valor As Byte
 Dim i As Integer
     
-    Valor = Check1(Index).Value
+    Valor = check1(Index).Value
     
     If Valor = 1 Then
-        For i = 1 To Check1.Count
-            If Check1(i).Visible Then
-                If i <> Index Then Check1(i).Value = 0
+        For i = 1 To check1.Count
+            If check1(i).Visible Then
+                If i <> Index Then check1(i).Value = 0
             End If
         Next i
 '        Check1(Index).Value = Valor
@@ -1067,7 +1067,7 @@ Private Sub Form_Load()
         cmbFecha(3).Text = Year(RecuperaValor(Legalizacion, 3)) - 1
             
         For i = 1 To 10
-            If RecuperaValor(Legalizacion, 4) = Check1(i).Tag Then Check1(i).Value = 1
+            If RecuperaValor(Legalizacion, 4) = check1(i).Tag Then check1(i).Value = 1
         Next i
     
     Else
@@ -1255,7 +1255,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 2
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 28
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -1342,8 +1342,8 @@ Private Function DatosOK() As Boolean
     Else
         CONT = Val(cmbFecha(2).Text) - 1
     End If
-    Cad = Day(vParam.fechaini) & "/" & Month(vParam.fechaini) & "/" & CONT
-    FechaIncioEjercicio = CDate(Cad)
+    cad = Day(vParam.fechaini) & "/" & Month(vParam.fechaini) & "/" & CONT
+    FechaIncioEjercicio = CDate(cad)
     
     i = cmbFecha(1).ListIndex + 1
     If i <= Month(vParam.fechafin) Then
@@ -1351,8 +1351,8 @@ Private Function DatosOK() As Boolean
     Else
         CONT = Val(cmbFecha(3).Text) + 1
     End If
-    Cad = Day(vParam.fechafin) & "/" & Month(vParam.fechafin) & "/" & CONT
-    FechaFinEjercicio = CDate(Cad)
+    cad = Day(vParam.fechafin) & "/" & Month(vParam.fechafin) & "/" & CONT
+    FechaFinEjercicio = CDate(cad)
 
     
     
@@ -1381,8 +1381,8 @@ Private Function DatosOK() As Boolean
     'Solo un nivel seleccionado
     CONT = 0
     For i = 1 To 10
-        If Check1(i).Visible = True Then
-            If Check1(i).Value Then CONT = CONT + 1
+        If check1(i).Visible = True Then
+            If check1(i).Value Then CONT = CONT + 1
         End If
     Next i
     If CONT <> 1 Then
@@ -1405,8 +1405,8 @@ QueCombosFechaCargar "0|1|"
 
 For i = 1 To vEmpresa.numnivel - 1
     J = DigitosNivel(i)
-    Check1(i).Visible = True
-    Check1(i).Caption = "Digitos: " & J
+    check1(i).Visible = True
+    check1(i).Caption = "Digitos: " & J
 Next i
 
     cmbFecha(2).Clear
@@ -1428,9 +1428,9 @@ Dim L As Integer
 
 L = 1
 Do
-    Cad = RecuperaValor(Lista, L)
-    If Cad <> "" Then
-        i = Val(Cad)
+    cad = RecuperaValor(Lista, L)
+    If cad <> "" Then
+        i = Val(cad)
         With cmbFecha(i)
             .Clear
             For CONT = 1 To 12
@@ -1441,7 +1441,7 @@ Do
         End With
     End If
     L = L + 1
-Loop Until Cad = ""
+Loop Until cad = ""
 End Sub
 
 
@@ -1520,17 +1520,17 @@ Dim J As Integer
     Frame2.Visible = True
     For i = 1 To vEmpresa.numnivel - 1
         J = DigitosNivel(i)
-        Cad = "Digitos: " & J
-        Check1(i).Visible = True
-        Check1(i).Tag = J
-        Me.Check1(i).Caption = Cad
-        Me.Check1(i).Value = 0
+        cad = "Digitos: " & J
+        check1(i).Visible = True
+        check1(i).Tag = J
+        Me.check1(i).Caption = cad
+        Me.check1(i).Value = 0
     Next i
-    Check1(10).Tag = vEmpresa.DigitosUltimoNivel
-    Check1(10).Visible = True
-    Me.Check1(10).Value = 0
+    check1(10).Tag = vEmpresa.DigitosUltimoNivel
+    check1(10).Visible = True
+    Me.check1(10).Value = 0
     For i = vEmpresa.numnivel To 9
-        Check1(i).Visible = False
+        check1(i).Visible = False
     Next i
     
     
@@ -1585,9 +1585,9 @@ Dim I2 As Currency
     
         
     'Comprobamos k nivel
-    For i = 1 To Me.Check1.Count
-        If Check1(i).Visible Then
-            If Check1(i).Value Then
+    For i = 1 To Me.check1.Count
+        If check1(i).Visible Then
+            If check1(i).Value Then
                 CONT = i
                 Exit For
             End If

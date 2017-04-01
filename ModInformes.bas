@@ -19,6 +19,9 @@ Public vMostrarTree As Boolean
 Public ExportarPDF As Boolean
 Public SoloImprimir As Boolean
 
+Public HaPulsadoImprimir As Boolean
+
+
 
 Dim Rs As Recordset
 Dim cad As String
@@ -443,12 +446,16 @@ End Function
 
 
 Public Sub ponerLabelBotonImpresion(ByRef BotonAcept As CommandButton, ByRef BotonImpr As CommandButton, SelectorImpresion As Integer)
+    On Error GoTo eponerLabelBotonImpresion
     If SelectorImpresion = 0 Then
         BotonAcept.Caption = "&Vista previa"
     Else
         BotonAcept.Caption = "&Aceptar"
     End If
     BotonImpr.Visible = SelectorImpresion = 0
+    
+eponerLabelBotonImpresion:
+    If Err.Number <> 0 Then Err.Clear
 End Sub
 
 Public Function PonerDesdeHasta(Campo As String, Tipo As String, ByRef Desde As TextBox, ByRef DesD As TextBox, ByRef Hasta As TextBox, ByRef DesH As TextBox, param As String) As Boolean
@@ -631,7 +638,7 @@ End Function
 
 Public Function ImprimeGeneral() As Boolean
     
-    Dim HaPulsadoImprimir As Boolean
+    
 
     Screen.MousePointer = vbHourglass
 
@@ -727,7 +734,7 @@ Dim Lanza As String
     Case 9
         Aux = "Bancos.pdf"
     Case 10
-        Aux = "Bic/Swift.pdf"
+        Aux = "Bic-Swift.pdf"
     Case 11
         Aux = "Agentes.pdf"
     Case 12
@@ -750,8 +757,65 @@ Dim Lanza As String
         Aux = "Modelo 340.pdf"
     Case 21
         Aux = "Modelo 347.pdf"
-    Case 51
-        
+    Case 22
+        Aux = "Cierre.pdf"
+    
+    Case 23 To 100
+            '23 un factura cli
+            '24 col balan listado
+            '25 infbalances
+            '26 preupuestaria
+            '27 Cta explotacion
+            '28 Diario oficial
+            '29 Log
+            '30 centro Coste
+            Aux = "factura|infBalances|balance situacion|Presupuestos|CuentaExplotacion|Diario Oficial|Registro acciones|Centro de coste|"
+            
+            '31 extrcto CC
+            '32 cta explo cc
+            '33 detalle explotacion
+            '34 imp recibo
+            '35 Cobros pdtes
+            Aux = Aux & "Extracto centro coste|Cta explotacion CC|Detalle explotacion|Recibo|Cobros pendientes|"
+            '36 compensa abonos cli
+            '37 reclama
+            '38 reclama List
+            '39 reclama list efec
+            '40 Listado remesas
+            '41 Devolucion Cobros
+            '42 pago por banco
+            Aux = Aux & "Compensa Cliente|Reclama|Listado reclamaciones|Efectos reclamados|Listado remesas|Cobros devueltos|Pagos banco|"
+            '43 Pagos pendientes
+            '44 recepcpon documentos
+            '45 remesas tplist
+            '46 transferencias
+            '47 Compensa cli / pro
+            '48 memoria plazis
+            '49 Gastos fijos
+             Aux = Aux & "pagos pendientes|Recepcion documentos|Remesas tp|Transferencias|Compensa cliente-proveedor|Memoria plazos pagos|Gastos fijos|"
+            
+            '50 situacion x nif
+            '51 por cuetna
+            '52 Informe sitaicon
+            '53 Balance sumas y saldos
+            '54 Perdidas y ganancias
+            '55 Elementos inmovilizados
+            '56 Info ratios
+            Aux = Aux & "Situacion por nif|Situacion por cuenta |Situacion|"
+            Aux = Aux & "Balance sumas y saldos|PerdidasGanancias|ElementosInmovilizado|InformeRatios|"
+            
+            '57 Informe evolucion saldors
+            '58. balance presupuestario
+            '59. Hco apuntes
+            '60. Extractos de cuentas
+            '61  Total cuenta concepto
+            Aux = Aux & "Evolucion saldos|Balance presupuestario|Apuntes|Extracto cuentas|Total cuenta concepto|"
+            
+            '62 Estadistica inmovilizado
+            Aux = Aux & "estadistica inmovilizado|SimulacionAmort"
+            
+            Aux = RecuperaValor(Aux, outTipoDocumento - 22) & ".pdf"
+             
     Case 100
         
     End Select
@@ -806,16 +870,26 @@ Dim Lanza As String
         Aux = "Modelo 340"
     Case 21
         Aux = "Modelo 347"
+    Case 22
+        Aux = "Simulacion del cierre"
         
-        
-    '--------------------------------------------------
-    Case 51
-        Aux = "Pedido proveedor nº: " ' & outClaveNombreArchiv
+    Case 23 To 100
+        Aux = "Factura cliente|infBalances|Balance Situacion|Presupuestos|Cuenta  explotacion|Diario Oficial|Registro acciones|Centro de coste|"
+        Aux = Aux & "Extracto centro coste|Cta explotacion CC|Detalle explotacion|Recibo|Cobros pendientes|"
+        Aux = Aux & "Compensa cliente|Reclamacion|Listado reclamaciones|Efectos reclamados|Listado remesas|Cobros devueltos|Pagos banco|"
+        Aux = Aux & "pagos pendientes|Recepcion documentos|Remesas |Transferencias|Compensa cliente - proveedor|Memoria plazos pagos|Gastos fijos|"
+        Aux = Aux & "Situacion por nif|Situacion por cuenta |Situacion|"
+        Aux = Aux & "Balance sumas y saldos|Perdidas y Ganancias|Elementos Inmovilizado|Informe de ratios|"
+        Aux = Aux & "Informe evolucion saldos|Balance presupuestario|Historico de apuntes|Extracto de cuentas|    "
+        Aux = Aux & "Total cuenta concepto|Estadisitica inmovilizado|Simulacion amortizacion|"
+        '--------------------------------------------------
+        Aux = RecuperaValor(Aux, outTipoDocumento - 22)
         
     Case 100
         Aux = "Factura nº" '& outClaveNombreArchiv
         
     End Select
+    Aux = vEmpresa.nomresum & ". " & Aux
     
     Lanza = Lanza & Aux & "|"
     
@@ -847,36 +921,32 @@ Dim otromail As String
 
 
     FijaDireccionEmail = ""
+    campoemail = ""
     
-    
-    If outTipoDocumento < 50 Then
-        campoemail = ""
-        
-    Else
-        If outTipoDocumento < 100 Then
-            'Para provedores
-            If outTipoDocumento = 51 Or outTipoDocumento = 52 Or outTipoDocumento = 53 Then
-                campoemail = "maiprov1"
-                otromail = "maiprov2"
-            Else
-                campoemail = "maiprov2"
-                otromail = "maiprov1"
-            End If
-'            campoemail = DevuelveDesdeBDNew(cpconta, "proveedor", campoemail, "codprove", Me.outCodigoCliProv, "N", otromail)
-            If campoemail = "" Then campoemail = otromail
-        Else
-            'Para Socios
-            If outTipoDocumento >= 100 Then
-                campoemail = "maisocio"
-                otromail = "maisocio"
-            Else
-                campoemail = "maisocio"
-                otromail = "maisocio"
-            End If
-'            campoemail = DevuelveDesdeBDNew(cAgro, "rsocios", campoemail, "codsocio", Me.outCodigoCliProv, "N") ' , otromail)
-            If campoemail = "" Then campoemail = otromail
-        End If
-    End If
+'    If outTipoDocumento < 50 Then
+''            'Para provedores
+''            If outTipoDocumento = 51 Or outTipoDocumento = 52 Or outTipoDocumento = 53 Then
+''                campoemail = "maiprov1"
+''                otromail = "maiprov2"
+''            Else
+''                campoemail = "maiprov2"
+''                otromail = "maiprov1"
+''            End If
+''            campoemail = DevuelveDesdeBDNew(cpconta, "proveedor", campoemail, "codprove", Me.outCodigoCliProv, "N", otromail)
+'            If campoemail = "" Then campoemail = otromail
+'        Else
+'            'Para Socios
+'            If outTipoDocumento >= 100 Then
+'                campoemail = "maisocio"
+'                otromail = "maisocio"
+'            Else
+'                campoemail = "maisocio"
+'                otromail = "maisocio"
+'            End If
+''            campoemail = DevuelveDesdeBDNew(cAgro, "rsocios", campoemail, "codsocio", Me.outCodigoCliProv, "N") ' , otromail)
+'            If campoemail = "" Then campoemail = otromail
+'        End If
+'    End If
     FijaDireccionEmail = campoemail
 End Function
 

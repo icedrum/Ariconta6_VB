@@ -269,7 +269,7 @@ Begin VB.Form frmTESRemesas
             BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
                SubItemIndex    =   1
                Text            =   "Factura"
-               Object.Width           =   2116
+               Object.Width           =   2469
             EndProperty
             BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
                SubItemIndex    =   2
@@ -295,7 +295,7 @@ Begin VB.Form frmTESRemesas
                Alignment       =   1
                SubItemIndex    =   6
                Text            =   "Importe"
-               Object.Width           =   3590
+               Object.Width           =   3237
             EndProperty
             BeginProperty ColumnHeader(8) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
                SubItemIndex    =   7
@@ -1902,7 +1902,7 @@ Private Sub Form_Activate()
         If lw1.ListItems.Count > 0 Then
             Set lw1.SelectedItem = Nothing
         Else
-            Unload Me
+           ' Unload Me
         End If
         HabilitartxtNumFac
     End If

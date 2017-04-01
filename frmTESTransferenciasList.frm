@@ -629,10 +629,10 @@ Attribute frmDia.VB_VarHelpID = -1
 Private WithEvents frmC As frmColCtas
 Attribute frmC.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim PrimeraVez As String
 
@@ -657,7 +657,7 @@ End Sub
 
 Private Sub Check1_Click(Index As Integer)
     If Index = 0 Then
-        Frame1.Enabled = (Check1(Index).Value = 1)
+        Frame1.Enabled = (check1(Index).Value = 1)
     End If
 End Sub
 
@@ -722,7 +722,7 @@ End Sub
 Private Sub Form_Load()
     PrimeraVez = True
 
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     If EsTransfAbonos Or TipoTransfPagos = 0 Then
@@ -746,10 +746,10 @@ Private Sub Form_Load()
         txtNum(1).Text = numero
         txtAnyo(0).Text = Anyo
         txtAnyo(1).Text = Anyo
-        Check1(0).Value = 1
+        check1(0).Value = 1
     End If
     
-    Frame1.Enabled = (Check1(0).Value = 1)
+    Frame1.Enabled = (check1(0).Value = 1)
     
     optVarios(0).Value = 1
     
@@ -768,24 +768,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -827,74 +827,74 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
     
     If EsTransfAbonos Then
     
-        SQL = "Select transferencias.codigo,transferencias.anyo, transferencias.fecha, "
+        Sql = "Select transferencias.codigo,transferencias.anyo, transferencias.fecha, "
         'CASE situacion WHEN 0 THEN 'ABIERTA' WHEN 1 THEN 'GENERADO FICHERO' WHEN 2 THEN 'CONTABILIZADA' END as descsituacion,"
-        SQL = SQL & " wtiposituacionrem.descsituacion Situacion, "
-        SQL = SQL & " CASE concepto WHEN 0 THEN 'PENSION' WHEN 1 THEN 'NOMINA' WHEN 9 THEN 'ORDINARIA' END as Concepto, "
-        SQL = SQL & " transferencias.codmacta Cuenta ,cuentas.nommacta Nombre,"
-        SQL = SQL & " transferencias.descripcion, Importe "
-        If Me.Check1(0).Value = 1 Then
-            SQL = SQL & "cobros.numserie, cobros.numfactu Factura, cobros.fecfactu Fecha, cobros.fecvenci FVencim, cobros.codmacta Cuenta, cobros.nomclien Descripcion, cobros.iban, cobros.impvenci Importe"
-            SQL = SQL & " from transferencias, cuentas, usuarios.wtiposituacionrem, tmpcobros2 "
+        Sql = Sql & " wtiposituacionrem.descsituacion Situacion, "
+        Sql = Sql & " CASE concepto WHEN 0 THEN 'PENSION' WHEN 1 THEN 'NOMINA' WHEN 9 THEN 'ORDINARIA' END as Concepto, "
+        Sql = Sql & " transferencias.codmacta Cuenta ,cuentas.nommacta Nombre,"
+        Sql = Sql & " transferencias.descripcion, Importe "
+        If Me.check1(0).Value = 1 Then
+            Sql = Sql & "cobros.numserie, cobros.numfactu Factura, cobros.fecfactu Fecha, cobros.fecvenci FVencim, cobros.codmacta Cuenta, cobros.nomclien Descripcion, cobros.iban, cobros.impvenci Importe"
+            Sql = Sql & " from transferencias, cuentas, usuarios.wtiposituacionrem, tmpcobros2 "
         Else
-            SQL = SQL & "transferencias.importe "
-            SQL = SQL & " from transferencias, cuentas "
+            Sql = Sql & "transferencias.importe "
+            Sql = Sql & " from transferencias, cuentas "
         End If
         
-        SQL = SQL & " where " & cadselect
+        Sql = Sql & " where " & cadselect
         
-        SQL = SQL & " and transferencias.codmacta = cuentas.codmacta  "
-        SQL = SQL & " and transferencias.situacion  = wtiposituacionrem.situacio  "
+        Sql = Sql & " and transferencias.codmacta = cuentas.codmacta  "
+        Sql = Sql & " and transferencias.situacion  = wtiposituacionrem.situacio  "
         
-        If Me.Check1(0).Value = 1 Then
-            SQL = SQL & " and tmpcobros2.codusu = " & vUsu.Codigo
-            SQL = SQL & " and transferencias.anyo = tmpcobros2.anyorem and transferencias.codigo = tmpcobros2.codrem "
+        If Me.check1(0).Value = 1 Then
+            Sql = Sql & " and tmpcobros2.codusu = " & vUsu.Codigo
+            Sql = Sql & " and transferencias.anyo = tmpcobros2.anyorem and transferencias.codigo = tmpcobros2.codrem "
         End If
         
-        SQL = SQL & " ORDER BY 2 desc, 1 "
+        Sql = Sql & " ORDER BY 2 desc, 1 "
         
     Else
     
-        SQL = "Select transferencias.codigo,transferencias.anyo, transferencias.fecha, "
+        Sql = "Select transferencias.codigo,transferencias.anyo, transferencias.fecha, "
         'CASE situacion WHEN 0 THEN 'ABIERTA' WHEN 1 THEN 'GENERADO FICHERO' WHEN 2 THEN 'CONTABILIZADA' END as descsituacion,"
-        SQL = SQL & " wtiposituacionrem.descsituacion Situacion, "
+        Sql = Sql & " wtiposituacionrem.descsituacion Situacion, "
         If TipoTransfPagos = 0 Then
-            SQL = SQL & " CASE concepto WHEN 0 THEN 'PENSION' WHEN 1 THEN 'NOMINA' WHEN 9 THEN 'ORDINARIA' END as Concepto, "
+            Sql = Sql & " CASE concepto WHEN 0 THEN 'PENSION' WHEN 1 THEN 'NOMINA' WHEN 9 THEN 'ORDINARIA' END as Concepto, "
         Else
-            SQL = SQL & " if (concepto = 0,'Vencimiento','Fecha intro.') as Tipo, "
+            Sql = Sql & " if (concepto = 0,'Vencimiento','Fecha intro.') as Tipo, "
         End If
-        SQL = SQL & " transferencias.codmacta Cuenta ,cuentas.nommacta Nombre,"
-        SQL = SQL & " transferencias.descripcion, Importe "
-        If Me.Check1(0).Value = 1 Then
-            SQL = SQL & "pagos.numserie, pagos.numfactu Factura, pagos.fecfactu Fecha, pagos.fecvenci FVencim, pagos.codmacta Cuenta, pagos.nomclien Descripcion, pagos.iban, pagos.impvenci Importe"
-            SQL = SQL & " from transferencias, cuentas, usuarios.wtiposituacionrem, tmppagos2 "
+        Sql = Sql & " transferencias.codmacta Cuenta ,cuentas.nommacta Nombre,"
+        Sql = Sql & " transferencias.descripcion, Importe "
+        If Me.check1(0).Value = 1 Then
+            Sql = Sql & "pagos.numserie, pagos.numfactu Factura, pagos.fecfactu Fecha, pagos.fecvenci FVencim, pagos.codmacta Cuenta, pagos.nomclien Descripcion, pagos.iban, pagos.impvenci Importe"
+            Sql = Sql & " from transferencias, cuentas, usuarios.wtiposituacionrem, tmppagos2 "
         Else
-            SQL = SQL & "transferencias.importe "
-            SQL = SQL & " from transferencias, cuentas "
+            Sql = Sql & "transferencias.importe "
+            Sql = Sql & " from transferencias, cuentas "
         End If
         
-        SQL = SQL & " where " & cadselect
+        Sql = Sql & " where " & cadselect
         
-        SQL = SQL & " and transferencias.codmacta = cuentas.codmacta  "
-        SQL = SQL & " and transferencias.situacion  = wtiposituacionrem.situacio  "
+        Sql = Sql & " and transferencias.codmacta = cuentas.codmacta  "
+        Sql = Sql & " and transferencias.situacion  = wtiposituacionrem.situacio  "
         
-        If Me.Check1(0).Value = 1 Then
-            SQL = SQL & " and tmppagos2.codusu = " & vUsu.Codigo
-            SQL = SQL & " and transferencias.anyo = tmppagos2.anyodocum and transferencias.codigo = tmppagos2.nrodocum "
+        If Me.check1(0).Value = 1 Then
+            Sql = Sql & " and tmppagos2.codusu = " & vUsu.Codigo
+            Sql = Sql & " and transferencias.anyo = tmppagos2.anyodocum and transferencias.codigo = tmppagos2.nrodocum "
         End If
         
-        SQL = SQL & " ORDER BY 2 desc, 1 "
+        Sql = Sql & " ORDER BY 2 desc, 1 "
     
     End If
         
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -916,7 +916,7 @@ Dim nomDocu As String
     
     cadNomRPT = nomDocu
 
-    If Me.Check1(0).Value Then
+    If Me.check1(0).Value Then
         cadParam = cadParam & "pDetalle=1|"
     Else
         cadParam = cadParam & "pDetalle=0|"
@@ -948,7 +948,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 2
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 46
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -956,8 +956,8 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
 Dim Tipo As Byte
@@ -985,7 +985,7 @@ Dim SubTipo As Byte ' 0 = pagos
         If Not AnyadirAFormula(cadFormula, "{transferencias.subtipo} = " & TipoTransfPagos) Then Exit Function
     End If
     
-    If Check1(0).Value Then CargarTemporal
+    If check1(0).Value Then CargarTemporal
     
     
     MontaSQL = True

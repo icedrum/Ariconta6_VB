@@ -2566,6 +2566,7 @@ Begin VB.Form frmMensajes
       Left            =   1800
       TabIndex        =   21
       Top             =   600
+      Visible         =   0   'False
       Width           =   120
    End
    Begin VB.Line Line4 
@@ -2591,6 +2592,7 @@ Begin VB.Form frmMensajes
       Left            =   2520
       TabIndex        =   20
       Top             =   840
+      Visible         =   0   'False
       Width           =   1065
    End
    Begin VB.Label Label10 
@@ -2609,6 +2611,7 @@ Begin VB.Form frmMensajes
       Left            =   2400
       TabIndex        =   19
       Top             =   480
+      Visible         =   0   'False
       Width           =   1425
    End
    Begin VB.Label Label9 
@@ -2629,6 +2632,7 @@ Begin VB.Form frmMensajes
       Left            =   0
       TabIndex        =   18
       Top             =   0
+      Visible         =   0   'False
       Width           =   975
    End
 End
@@ -2762,7 +2766,7 @@ Dim Ocupado As Boolean
     Next i
     If CadenaIconos <> "" Then
         CadenaIconos = Mid(CadenaIconos, 1, Len(CadenaIconos) - 1)
-        Sql = "update menus_usuarios set posx = 0, posy = 0, vericono = 0 where aplicacion = 'ariconta' and codusu = " & vUsu.Id & " and codigo in (" & CadenaIconos & ")"
+        Sql = "update menus_usuarios set posx = 0, posy = 0, vericono = 0 where aplicacion = 'ariconta' and codusu = " & vUsu.id & " and codigo in (" & CadenaIconos & ")"
         Conn.Execute Sql
     End If
 
@@ -2798,7 +2802,7 @@ Dim Ocupado As Boolean
                             ListView6.ListItems(i).SubItems(4) = Py
                             Sql = "update menus_usuarios set posx = " & DBSet(Px, "N")
                             Sql = Sql & ", posy = " & DBSet(Py, "N") & ", vericono = 1 where "
-                            Sql = Sql & "aplicacion = 'ariconta' and codusu = " & vUsu.Id
+                            Sql = Sql & "aplicacion = 'ariconta' and codusu = " & vUsu.id
                             Sql = Sql & " and codigo =" & DBSet(ListView6.ListItems(i).Text, "T")
                             Conn.Execute Sql
                            Exit For
@@ -4342,7 +4346,7 @@ Dim TotalArray  As Long
     
     Sql = "select menus.codigo, menus.imagen, menus.descripcion, menus_usuarios.posx, menus_usuarios.posy, menus_usuarios.vericono "
     Sql = Sql & " from menus inner join menus_usuarios on menus.codigo = menus_usuarios.codigo and menus.aplicacion = menus_usuarios.aplicacion"
-    Sql = Sql & " WHERE menus.aplicacion = 'ariconta' and menus_usuarios.codusu = " & vUsu.Id
+    Sql = Sql & " WHERE menus.aplicacion = 'ariconta' and menus_usuarios.codusu = " & vUsu.id
     Sql = Sql & " and menus.imagen <> 0 " ' si tiene imagen puede estar en el listview para seleccionar
     Sql = Sql & " and menus_usuarios.ver = 1 "
     Sql = Sql & " ORDER BY menus.codigo "

@@ -1671,7 +1671,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 15
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 43
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault

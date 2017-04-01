@@ -14,9 +14,9 @@ Public frmPaneCalendar As frmPaneCalendar2
 
 
 
-Public pageBackstageInfo As pageBackstageInfo
+'Public pageBackstageInfo As pageBackstageInfo
 Public pageBackstageHelp As pageBackstageHelp
-Public pageBackstageSend As pageBackstageSend
+'Public pageBackstageSend As pageBackstageSend
 
 Public Const ID_SWITCH_PRINTLAYOUT = 7700
 Public Const ID_SWITCH_FULLSCREENREADING = 7701

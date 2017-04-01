@@ -944,7 +944,7 @@ Private WithEvents frmCon  As frmConceptos
 Attribute frmCon.VB_VarHelpID = -1
 
 Private Sql As String
-Dim Cad As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -1210,7 +1210,7 @@ End Sub
 Private Sub AccionesCSV()
 Dim Sql2 As String
 Dim Tipo As Byte
-Dim Cad As String
+Dim cad As String
 
     On Error GoTo eAccionesCSV
 
@@ -1227,12 +1227,12 @@ Dim Cad As String
     
         IncrementarProgres pb2, 1
         
-        Cad = "01/" & cmbFecha(2).ListIndex + 1 & "/" & txtAno(4).Text
+        cad = "01/" & cmbFecha(2).ListIndex + 1 & "/" & txtAno(4).Text
         
         Sql = "insert into tmpbalancesumas (codusu,cta,nomcta,acumAntD,acumAntH) "
         Sql = Sql & " select " & vUsu.Codigo & ", hlinapu.codmacta Cuenta , nommacta Titulo, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) "
         Sql = Sql & " from hlinapu left join cuentas on hlinapu.codmacta = cuentas.codmacta where hlinapu.codconce<>970 AND mid(hlinapu.codmacta,1,1) IN ('6','7') and hlinapu.fechaent >= '" & Format(Me.txtAno(4).Text, "0000") & "-" & Format(Month(vParam.fechaini), "00") & "-" & Format(Day(vParam.fechaini), "00") & "'"
-        Sql = Sql & " and hlinapu.fechaent < " & DBSet(Cad, "F")
+        Sql = Sql & " and hlinapu.fechaent < " & DBSet(cad, "F")
         Sql = Sql & " group by 1,2,3 "
         Sql = Sql & " order by 1,2,3 "
             
@@ -1244,7 +1244,7 @@ Dim Cad As String
         i = DiasMes(cmbFecha(2).ListIndex + 1, txtAno(4).Text)
         
         Sql = "update tmpbalancesumas set "
-        Sql = Sql & " acumperd = (select sum(coalesce(timported,0)) from hlinapu where fechaent between " & DBSet(Cad, "F") & " and "
+        Sql = Sql & " acumperd = (select sum(coalesce(timported,0)) from hlinapu where fechaent between " & DBSet(cad, "F") & " and "
         Sql = Sql & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta)"
         
         Conn.Execute Sql
@@ -1252,7 +1252,7 @@ Dim Cad As String
         IncrementarProgres pb2, 1
         
         Sql = "update tmpbalancesumas set "
-        Sql = Sql & " acumperh = (select sum(coalesce(timporteh,0)) from hlinapu where fechaent between " & DBSet(Cad, "F") & " and "
+        Sql = Sql & " acumperh = (select sum(coalesce(timporteh,0)) from hlinapu where fechaent between " & DBSet(cad, "F") & " and "
         Sql = Sql & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta)"
         
         Conn.Execute Sql
@@ -1336,15 +1336,15 @@ Dim nomDocu As String
         
     'Parametros
     cadParam = cadParam & "Digitos=" & CONT & "|"
-    Cad = "01/" & cmbFecha(2).ListIndex + 1 & "/" & txtAno(4).Text
-    cadParam = cadParam & "FechaPeriodo=""" & Cad & """|"
+    cad = "01/" & cmbFecha(2).ListIndex + 1 & "/" & txtAno(4).Text
+    cadParam = cadParam & "FechaPeriodo=""" & cad & """|"
     
     numParam = numParam + 2
     'Existencias iniciales y finales
-    Cad = "InicioAcumulada=" & DBSet(txtExplo(0).Text, "N") & "|InicioPeriodo=" & DBSet(txtExplo(2).Text, "N")
-    cadParam = cadParam & Cad & "|"
-    Cad = "FinAcumulada=" & DBSet(txtExplo(1).Text, "N") & "|FinPeriodo=" & DBSet(txtExplo(3).Text, "N")
-    cadParam = cadParam & Cad & "|"
+    cad = "InicioAcumulada=" & DBSet(txtExplo(0).Text, "N") & "|InicioPeriodo=" & DBSet(txtExplo(2).Text, "N")
+    cadParam = cadParam & cad & "|"
+    cad = "FinAcumulada=" & DBSet(txtExplo(1).Text, "N") & "|FinPeriodo=" & DBSet(txtExplo(3).Text, "N")
+    cadParam = cadParam & cad & "|"
     numParam = numParam + 4
     
     
@@ -1378,7 +1378,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 2
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 27
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -1628,7 +1628,7 @@ Private Function DatosOK() As Boolean
     End If
     
     ' Uno y solo uno de los niveles tiene que estar marcado
-    Cad = ""
+    cad = ""
     For i = 1 To 10
         If Me.chkCtaExplo(i).Visible Then
             If Me.chkCtaExplo(i).Value = 1 Then
@@ -1637,11 +1637,11 @@ Private Function DatosOK() As Boolean
                 Else
                     CONT = vEmpresa.DigitosUltimoNivel
                 End If
-                Cad = Cad & "1"
+                cad = cad & "1"
             End If
         End If
     Next i
-    If Len(Cad) <> 1 Then
+    If Len(cad) <> 1 Then
         MsgBox "Seleccione uno(y solo uno) de los niveles para el informe.", vbExclamation
         Exit Function
     End If
@@ -1707,9 +1707,9 @@ Dim L As Integer
 
 L = 1
 Do
-    Cad = RecuperaValor(Lista, L)
-    If Cad <> "" Then
-        i = Val(Cad)
+    cad = RecuperaValor(Lista, L)
+    If cad <> "" Then
+        i = Val(cad)
         With cmbFecha(i)
             .Clear
             For CONT = 1 To 12
@@ -1720,7 +1720,7 @@ Do
         End With
     End If
     L = L + 1
-Loop Until Cad = ""
+Loop Until cad = ""
 End Sub
 
 

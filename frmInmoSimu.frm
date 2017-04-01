@@ -526,10 +526,10 @@ Attribute frmCC.VB_VarHelpID = -1
 Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 
 
@@ -615,21 +615,21 @@ End Sub
 
 
 Private Sub Form_Load()
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Simulación de Amortización"
 
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
 
 
-    For I = 0 To 1
-        Me.imgConcepto(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To 1
+        Me.imgConcepto(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
      
     txtFecha(0).Text = SugerirFechaNuevo
      
@@ -640,7 +640,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
@@ -649,15 +649,15 @@ End Sub
 
 Private Sub imgConcepto_Click(Index As Integer)
     
-    SQL = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     Set frmCon = New frmInmoConceptos
     frmCon.DatosADevolverBusqueda = True
     frmCon.Show vbModal
     Set frmCon = Nothing
-    If SQL <> "" Then
-        Me.txtConcepto(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNConcepto(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtConcepto(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNConcepto(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtConcepto(Index)
     End If
@@ -668,7 +668,7 @@ Private Sub imgConcepto_Click(Index As Integer)
 End Sub
 
 Private Sub frmCC_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 
@@ -704,31 +704,31 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -777,19 +777,19 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
-    SQL = "Select conconam Concepto,nomconam Descripción,codinmov Elemento,nominmov Descripción,fechaadq FechaAdquisicion,valoradq ValorAdquisicion,amortacu AmortAcumulada,totalamor TotalAmortizacion, "
-    SQL = SQL & "valoradq - amortacu - totalamor Pendiente "
-    SQL = SQL & " FROM tmpsimulainmo "
+    Sql = "Select conconam Concepto,nomconam Descripción,codinmov Elemento,nominmov Descripción,fechaadq FechaAdquisicion,valoradq ValorAdquisicion,amortacu AmortAcumulada,totalamor TotalAmortizacion, "
+    Sql = Sql & "valoradq - amortacu - totalamor Pendiente "
+    Sql = Sql & " FROM tmpsimulainmo "
     
-    If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
+    If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
     
-    SQL = SQL & " ORDER BY 1,2,3"
+    Sql = Sql & " ORDER BY 1,2,3"
         
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -821,7 +821,7 @@ Dim CADENA As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 2
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 63
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -829,8 +829,8 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
 Dim Situacion As String
@@ -848,7 +848,7 @@ End Function
 
 
 Private Function DatosOK() As Boolean
-Dim I As Integer
+Dim i As Integer
 Dim CADENA As String
 
     DatosOK = False
@@ -903,17 +903,17 @@ Dim RC As String
         Select Case Val(RC)
         Case 2
             'Semestral
-            I = 6
+            i = 6
             'Siempre es la ultima fecha de mes
         Case 3
             'Trimestral
-            I = 3
+            i = 3
         Case 4
             'Mensual
-            I = 1
+            i = 1
         Case Else
             'Anual
-            I = 12
+            i = 12
         End Select
         RC = PonFecha
     Else
@@ -929,22 +929,22 @@ Private Function PonFecha() As Date
 Dim d As Date
 'Dada la fecha en Cad y los meses k tengo k sumar
 'Pongo la fecha
-d = DateAdd("m", I, CDate(cad))
+d = DateAdd("m", i, CDate(cad))
 Select Case Month(d)
 Case 2
     If ((Year(d) - 2000) Mod 4) = 0 Then
-        I = 29
+        i = 29
     Else
-        I = 28
+        i = 28
     End If
 Case 1, 3, 5, 7, 8, 10, 12
     '31
-        I = 31
+        i = 31
 Case Else
     '30
-        I = 30
+        i = 30
 End Select
-cad = I & "/" & Month(d) & "/" & Year(d)
+cad = i & "/" & Month(d) & "/" & Year(d)
 PonFecha = CDate(cad)
 End Function
 

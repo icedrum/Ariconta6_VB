@@ -2856,7 +2856,7 @@ Dim FecRecepAnt As String ' recepcion
 Private Sub cboFiltro_Click()
     If PrimeraVez Then Exit Sub
     If Modo = 0 Then Exit Sub
-    HacerBusqueda2
+    'HacerBusqueda2
 End Sub
 
 Private Sub chkAux_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -2870,7 +2870,7 @@ Private Sub chkAux_LostFocus(Index As Integer)
 End Sub
 
 Private Sub cmdAceptar_Click()
-    Dim Cad As String
+    Dim cad As String
     Dim i As Integer
     Dim Limp As Boolean
     Dim Mc As Contadores
@@ -3346,7 +3346,7 @@ Dim Sql As String
         End If
         
         ' la parte del codusu
-        Sql = Sql & "," & DBSet(vUsu.Id, "N")
+        Sql = Sql & "," & DBSet(vUsu.id, "N")
         
         
         CadValues = CadValues & "(" & Sql & "),"
@@ -4625,7 +4625,7 @@ End Sub
 
 
 Private Sub cmdRegresar_Click()
-Dim Cad As String
+Dim cad As String
 Dim Aux As String
 Dim i As Integer
 Dim J As Integer
@@ -5110,7 +5110,7 @@ End Sub
 Private Function DatosOK() As Boolean
 Dim B As Boolean
 Dim Sql As String
-Dim Cad As String
+Dim cad As String
 'Dim Datos As String
 
     On Error GoTo EDatosOK
@@ -5241,12 +5241,12 @@ End Function
 
 
 Private Sub PosicionarData()
-Dim Cad As String, Indicador As String
+Dim cad As String, Indicador As String
 
-    Cad = "(numserie=" & DBSet(Text1(2).Text, "T") & " and numregis = " & DBSet(Text1(0).Text, "N") & " and anofactu = " & DBSet(Text1(14).Text, "N") & ") "
+    cad = "(numserie=" & DBSet(Text1(2).Text, "T") & " and numregis = " & DBSet(Text1(0).Text, "N") & " and anofactu = " & DBSet(Text1(14).Text, "N") & ") "
     
     ' *** gastar SituarData o SituarDataMULTI depenent de si la PK es simple o composta ***
-    If SituarDataMULTI(Data1, Cad, Indicador) Then
+    If SituarDataMULTI(Data1, cad, Indicador) Then
         If ModoLineas <> 1 Then PonerModo 2
         lblIndicador.Caption = Indicador
     Else
@@ -6387,7 +6387,7 @@ Private Sub InsertarLinea()
 Dim nomframe As String
 Dim B As Boolean
 Dim Limp As Boolean
-Dim Cad As String
+Dim cad As String
 
 
 
@@ -6472,7 +6472,7 @@ Private Sub ModificarLinea()
 'Modifica registre en les taules de Llínies
 Dim nomframe As String
 Dim v As Integer
-Dim Cad As String
+Dim cad As String
 Dim SqlLog As String
 
     On Error Resume Next
@@ -6558,15 +6558,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
     
     On Error Resume Next
 
-    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2) And DesdeNorma43 = 0
@@ -7043,10 +7043,10 @@ End Function
 
 
 Private Function ComprobarNumeroFactura(Actual As Boolean) As Boolean
-Dim Cad As String
+Dim cad As String
 Dim RT As ADODB.Recordset
-        Cad = " WHERE numregis=" & Text1(0).Text
-        Cad = Cad & " and numserie = " & DBSet(Text1(2).Text, "T")
+        cad = " WHERE numregis=" & Text1(0).Text
+        cad = cad & " and numserie = " & DBSet(Text1(2).Text, "T")
         
         If Actual Then
             i = 0
@@ -7054,12 +7054,12 @@ Dim RT As ADODB.Recordset
             i = 1
         End If
         
-        Cad = Cad & " AND anofactu =" & DBSet(Text1(14).Text, "N")
+        cad = cad & " AND anofactu =" & DBSet(Text1(14).Text, "N")
         
         Set RT = New ADODB.Recordset
         ComprobarNumeroFactura = True
         i = 0
-        RT.Open "Select numregis from factpro" & Cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+        RT.Open "Select numregis from factpro" & cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
         If Not RT.EOF Then
             If Not IsNull(RT.EOF) Then
                 ComprobarNumeroFactura = False
@@ -7068,7 +7068,7 @@ Dim RT As ADODB.Recordset
         RT.Close
         If ComprobarNumeroFactura Then
             i = 1
-            RT.Open "Select numregis from factpro" & Cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+            RT.Open "Select numregis from factpro" & cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
             If Not RT.EOF Then
                 If Not IsNull(RT.EOF) Then
                     ComprobarNumeroFactura = False
@@ -7078,8 +7078,8 @@ Dim RT As ADODB.Recordset
         End If
         Set RT = Nothing
         If Not ComprobarNumeroFactura Then
-            Cad = "Verifique los contadores. Ya existe la factura " & Text1(0).Text & vbCrLf
-            MsgBox Cad, vbExclamation
+            cad = "Verifique los contadores. Ya existe la factura " & Text1(0).Text & vbCrLf
+            MsgBox cad, vbExclamation
         End If
 End Function
 
@@ -7143,7 +7143,7 @@ Dim bs As Byte
 End Sub
 
 Private Sub CargaDatosLW2()
-Dim Cad As String
+Dim cad As String
 Dim Rs As ADODB.Recordset
 Dim IT As ListItem
 Dim ElIcono As Integer
@@ -7157,23 +7157,23 @@ Dim C As String
     
     Select Case CByte(RecuperaValor(lw1.Tag, 1))
     Case 5 ' imagenes
-        Cad = "select h.numlinea,  h.codigiva, tt.nombriva,  h.baseimpo, h.impoiva, h.imporec from factpro_totales h inner join tiposiva tt on h.codigiva = tt.codigiva  WHERE "
-        Cad = Cad & " numserie=" & DBSet(Data1.Recordset!NUmSerie, "T")
-        Cad = Cad & " and numregis=" & DBSet(Data1.Recordset!NumRegis, "N")
-        Cad = Cad & " and fecharec=" & DBSet(Data1.Recordset!fecharec, "F")
-        Cad = Cad & " and anofactu=" & Data1.Recordset!anofactu
+        cad = "select h.numlinea,  h.codigiva, tt.nombriva,  h.baseimpo, h.impoiva, h.imporec from factpro_totales h inner join tiposiva tt on h.codigiva = tt.codigiva  WHERE "
+        cad = cad & " numserie=" & DBSet(Data1.Recordset!NUmSerie, "T")
+        cad = cad & " and numregis=" & DBSet(Data1.Recordset!NumRegis, "N")
+        cad = cad & " and fecharec=" & DBSet(Data1.Recordset!fecharec, "F")
+        cad = cad & " and anofactu=" & Data1.Recordset!anofactu
         GroupBy = ""
         BuscaChekc = "numlinea"
         
     End Select
     
     
-    Cad = Cad & " ORDER BY 1"
+    cad = cad & " ORDER BY 1"
     
     lw1.ListItems.Clear
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     
     While Not Rs.EOF
@@ -7774,7 +7774,7 @@ Dim TotImpo As Currency
 Dim Sql1 As String
 Dim Rs As ADODB.Recordset
 Dim impo As Currency
-Dim Cad As String
+Dim cad As String
 Dim Sql4 As String
     
     On Error GoTo ECon
@@ -7869,30 +7869,30 @@ Dim Sql4 As String
         
         'Fijo en concepto el codconce
         Conce = ElConcepto
-        Cad = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(Conce), "N")
-        Ampliacion = Cad & " " & Ampliacion
+        cad = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(Conce), "N")
+        Ampliacion = cad & " " & Ampliacion
         Ampliacion = Mid(Ampliacion, 1, 35)
         
         'Ahora ponemos linliapu codmacta numdocum codconce ampconce timported timporte codccost ctacontr idcontab punteada
         'Cuenta Cliente/proveedor
-        Cad = Linea & ",'" & Trim(Text1(4).Text) & "','" & Numdocum & "'," & Conce & ",'" & DevNombreSQL(Ampliacion) & "',"
+        cad = Linea & ",'" & Trim(Text1(4).Text) & "','" & Numdocum & "'," & Conce & ",'" & DevNombreSQL(Ampliacion) & "',"
         'Importe cobro-pago
         ' nos lo dire "debe"
         If Not Debe Then
-            Cad = Cad & "NULL," & TransformaComasPuntos(CStr(impo))
+            cad = cad & "NULL," & TransformaComasPuntos(CStr(impo))
         Else
-            Cad = Cad & TransformaComasPuntos(CStr(impo)) & ",NULL"
+            cad = cad & TransformaComasPuntos(CStr(impo)) & ",NULL"
         End If
         'Codccost
-        Cad = Cad & ",NULL,"
+        cad = cad & ",NULL,"
         If LlevaContr Then
-            Cad = Cad & "'" & CtaBanco & "'"
+            cad = cad & "'" & CtaBanco & "'"
         Else
-            Cad = Cad & "NULL"
+            cad = cad & "NULL"
         End If
-        Cad = Cad & ",'PAGOS',0," & DBSet(Rs!NUmSerie, "T") & "," & DBSet(Rs!NumFactu, "T") & "," & DBSet(Rs!FecFactu, "F") & "," & DBSet(Rs!numorden, "N") & "," & TipForpa & ")"
-        Cad = Sql & Cad
-        Conn.Execute Cad
+        cad = cad & ",'PAGOS',0," & DBSet(Rs!NUmSerie, "T") & "," & DBSet(Rs!NumFactu, "T") & "," & DBSet(Rs!FecFactu, "F") & "," & DBSet(Rs!numorden, "N") & "," & TipForpa & ")"
+        cad = Sql & cad
+        Conn.Execute cad
         
         
         Rs.MoveNext
@@ -7933,33 +7933,33 @@ Dim Sql4 As String
     
     
     Conce = ElConcepto
-    Cad = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(Conce), "N")
-    Ampliacion = Cad & " " & Ampliacion
+    cad = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(Conce), "N")
+    Ampliacion = cad & " " & Ampliacion
     Ampliacion = Mid(Ampliacion, 1, 35)
     
     
-    Cad = Linea & "," & DBSet(CtaBanco, "T") & ",'" & Numdocum & "'," & Conce & ",'" & Ampliacion & "',"
+    cad = Linea & "," & DBSet(CtaBanco, "T") & ",'" & Numdocum & "'," & Conce & ",'" & Ampliacion & "',"
     'Importe cliente
     'Si el cobro/pago va al debe el contrapunte ira al haber
     If Not Debe Then
         'al debe
-        Cad = Cad & TransformaComasPuntos(CStr(TotImpo)) & ",NULL"
+        cad = cad & TransformaComasPuntos(CStr(TotImpo)) & ",NULL"
     Else
         'al haber
-        Cad = Cad & "NULL," & TransformaComasPuntos(CStr(TotImpo))
+        cad = cad & "NULL," & TransformaComasPuntos(CStr(TotImpo))
     End If
     
     'Codccost
-    Cad = Cad & ",NULL,"
+    cad = cad & ",NULL,"
     
     If LlevaContr Then
-        Cad = Cad & "'" & Trim(Text1(4).Text) & "'"
+        cad = cad & "'" & Trim(Text1(4).Text) & "'"
     Else
-        Cad = Cad & "NULL"
+        cad = cad & "NULL"
     End If
-    Cad = Cad & ",'PAGOS',0," & ValorNulo & "," & ValorNulo & "," & ValorNulo & "," & ValorNulo & "," & ValorNulo & ")"
-    Cad = Sql & Cad
-    Conn.Execute Cad
+    cad = cad & ",'PAGOS',0," & ValorNulo & "," & ValorNulo & "," & ValorNulo & "," & ValorNulo & "," & ValorNulo & ")"
+    cad = Sql & cad
+    Conn.Execute cad
     
     ContabilizarPagos = True
 

@@ -413,7 +413,7 @@ Option Explicit
 Private WithEvents frmCCos  As frmBasico
 Attribute frmCCos.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 
 Dim IndCodigo As Integer
 
@@ -490,13 +490,13 @@ End Sub
 
 
 Private Sub Form_Load()
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Centros de Coste"
 
     For i = 0 To 1
-        Me.imgCCoste(i).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
+        Me.imgCCoste(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Next i
      
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
@@ -532,24 +532,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-         frmPpal.cd1.Filter = "*.csv|*.csv"
+         frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -567,10 +567,10 @@ Private Sub txtCCoste_KeyDown(Index As Integer, KeyCode As Integer, Shift As Int
 End Sub
 
 
-Private Sub LanzaFormAyuda(Nombre As String, indice As Integer)
+Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
     Select Case Nombre
     Case "imgCCoste"
-        ImgCCoste_Click indice
+        ImgCCoste_Click Indice
     End Select
     
 End Sub
@@ -580,7 +580,7 @@ Private Sub txtCCoste_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCCoste_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 
     txtCCoste(Index).Text = Trim(txtCCoste(Index).Text)
     
@@ -600,15 +600,15 @@ End Sub
 Private Sub AccionesCSV()
     
     'Monto el SQL
-    SQL = "Select  ccoste.codccost as codigo ,nomccost as descripcion, ccoste_lineas.linscost as linea, subccost as CC, porccost as porcentaje "
-    SQL = SQL & " FROM ccoste left join ccoste_lineas on ccoste.codccost = ccoste_lineas.codccost "
-    SQL = SQL & " WHERE (1=1) "
+    Sql = "Select  ccoste.codccost as codigo ,nomccost as descripcion, ccoste_lineas.linscost as linea, subccost as CC, porccost as porcentaje "
+    Sql = Sql & " FROM ccoste left join ccoste_lineas on ccoste.codccost = ccoste_lineas.codccost "
+    Sql = Sql & " WHERE (1=1) "
     
-    If cadselect <> "" Then SQL = SQL & " AND " & cadselect
-    SQL = SQL & " ORDER BY 1,3"
+    If cadselect <> "" Then Sql = Sql & " AND " & cadselect
+    Sql = Sql & " ORDER BY 1,3"
         
     'LLamoa a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -637,7 +637,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 3
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 30
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault

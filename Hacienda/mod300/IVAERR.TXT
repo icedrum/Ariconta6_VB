@@ -1,4 +1,0 @@
-E303111 Devengo (2) Ejercicio incorrecto	
-ETIPDAT-La partida no admite negativos, en página: 01 campo: 063  posición: 0822
-E303634 Si el periodo es mensual y es una devolución, Inscrito en el Registro de
-        devolución mensual no puede ser "2".

@@ -28,14 +28,49 @@ Begin VB.Form frmShortcutBar2
       MinimumClientHeight=   20
       AllowMinimize   =   -1  'True
    End
-   Begin VB.Image Image2 
-      Height          =   975
-      Left            =   0
+   Begin VB.Label Label2 
+      BackStyle       =   0  'Transparent
+      Caption         =   "Software"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   6.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Left            =   1440
+      TabIndex        =   2
+      Top             =   360
+      Width           =   855
+   End
+   Begin VB.Label Label1 
+      BackStyle       =   0  'Transparent
+      Caption         =   "Ariadna "
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   -1  'True
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Left            =   840
+      TabIndex        =   1
+      Top             =   120
+      Width           =   855
+   End
+   Begin VB.Image Image1 
+      Height          =   525
+      Left            =   120
       Picture         =   "frmShortcutBar.frx":0000
       Stretch         =   -1  'True
-      Top             =   0
-      Visible         =   0   'False
-      Width           =   2640
+      Top             =   120
+      Width           =   495
    End
 End
 Attribute VB_Name = "frmShortcutBar2"
@@ -79,6 +114,10 @@ Sub CreateShortcutBar()
     
 End Sub
 
+Private Sub Label3_Click()
+
+End Sub
+
 Private Sub wndShortcutBar_SelectedChanged(ByVal Item As XtremeShortcutBar.IShortcutBarItem)
 Dim TabNuevo As RibbonTab
     Select Case Item.id
@@ -118,7 +157,7 @@ Public Sub Form_Resize()
     nWidth = Me.ScaleWidth - 8
     
     
-    wndShortcutBar.Move 4, Image2.Height, nWidth, ScaleHeight - 4 - Image2.Height
+    wndShortcutBar.Move 4, Image1.Height + 6, nWidth, ScaleHeight - 6 - Image1.Height
        
        
        
@@ -140,10 +179,24 @@ Public Sub Form_Resize()
 End Sub
 
 
-Public Sub SetColor()
+Public Sub SetColor(id As Integer)
     Set wndShortcutBar.Icons = CommandBarsGlobalSettings.Icons
     Me.BackColor = wndShortcutBar.PaintManager.PaneBackgroundColor
    ' Me.Image1.Visible = vUsu.Skin = 2
-    Me.Image2.Visible = True 'vUsu.Skin <> 2
+    Me.Image1.Visible = True 'vUsu.Skin <> 2
+    
+    
+    If id = ID_OPTIONS_STYLEBLACK2010 Then
+        Label1.ForeColor = vbWhite
+        Label2.ForeColor = &HE0E0E0
+    ElseIf id = ID_OPTIONS_STYLESILVER2010 Then
+        'HexColor = &H73716B
+        Label1.ForeColor = vbBlack
+        Label2.ForeColor = vbWhite
+    Else
+        Label1.ForeColor = &H800000
+        Label2.ForeColor = vbWhite
+    End If
+    
 End Sub
 

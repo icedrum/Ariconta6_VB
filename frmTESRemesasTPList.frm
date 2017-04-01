@@ -626,10 +626,10 @@ Attribute frmDia.VB_VarHelpID = -1
 Private WithEvents frmC As frmColCtas
 Attribute frmC.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim PrimeraVez As String
 
@@ -654,7 +654,7 @@ End Sub
 
 Private Sub Check1_Click(Index As Integer)
     If Index = 0 Then
-        Frame1.Enabled = (Check1(Index).Value = 1)
+        Frame1.Enabled = (check1(Index).Value = 1)
     End If
 End Sub
 
@@ -719,7 +719,7 @@ End Sub
 Private Sub Form_Load()
     PrimeraVez = True
 
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Listado de Remesas"
@@ -731,10 +731,10 @@ Private Sub Form_Load()
         txtNum(1).Text = numero
         txtAnyo(0).Text = Anyo
         txtAnyo(1).Text = Anyo
-        Check1(0).Value = 1
+        check1(0).Value = 1
     End If
     
-    Frame1.Enabled = (Check1(0).Value = 1)
+    Frame1.Enabled = (check1(0).Value = 1)
     
     optVarios(0).Value = 1
     
@@ -753,24 +753,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -810,31 +810,31 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
-    SQL = "select remesas.anyo Año, remesas.codigo, remesas.codmacta Cuenta, cuentas.nommacta Nombre, remesas.fecremesa Fecha,  "
-    SQL = SQL & " remesas.descripcion, wtiposituacionrem.descsituacion Situacion, "
-    If Me.Check1(0).Value = 1 Then
-        SQL = SQL & "cobros.numserie, cobros.numfactu Factura, cobros.fecfactu Fecha, cobros.fecvenci FVencim, cobros.codmacta Cuenta, aaa.nommacta Descripcion, cobros.iban, cobros.impvenci Importe"
-        SQL = SQL & " from remesas, cuentas, usuarios.wtiposituacionrem, cuentas aaa, tmpcobros2 "
+    Sql = "select remesas.anyo Año, remesas.codigo, remesas.codmacta Cuenta, cuentas.nommacta Nombre, remesas.fecremesa Fecha,  "
+    Sql = Sql & " remesas.descripcion, wtiposituacionrem.descsituacion Situacion, "
+    If Me.check1(0).Value = 1 Then
+        Sql = Sql & "cobros.numserie, cobros.numfactu Factura, cobros.fecfactu Fecha, cobros.fecvenci FVencim, cobros.codmacta Cuenta, aaa.nommacta Descripcion, cobros.iban, cobros.impvenci Importe"
+        Sql = Sql & " from remesas, cuentas, usuarios.wtiposituacionrem, cuentas aaa, tmpcobros2 "
     Else
-        SQL = SQL & "remesas.importe "
-        SQL = SQL & " from remesas, cuentas, usuarios.wtiposituacionrem"
+        Sql = Sql & "remesas.importe "
+        Sql = Sql & " from remesas, cuentas, usuarios.wtiposituacionrem"
     End If
-    SQL = SQL & " where " & cadselect
+    Sql = Sql & " where " & cadselect
     
-    SQL = SQL & " and remesas.codmacta = cuentas.codmacta and remesas.situacion = wtiposituacionrem.situacio "
+    Sql = Sql & " and remesas.codmacta = cuentas.codmacta and remesas.situacion = wtiposituacionrem.situacio "
     
-    If Me.Check1(0).Value = 1 Then
-        SQL = SQL & " and tmpcobros2.codusu = " & vUsu.Codigo
-        SQL = SQL & " and tmpcobros2.codmacta = aaa.codmacta and remesas.anyo = tmpcobros2.anyorem and remesas.codigo = tmpcobros2.codrem "
+    If Me.check1(0).Value = 1 Then
+        Sql = Sql & " and tmpcobros2.codusu = " & vUsu.Codigo
+        Sql = Sql & " and tmpcobros2.codmacta = aaa.codmacta and remesas.anyo = tmpcobros2.anyorem and remesas.codigo = tmpcobros2.codrem "
     End If
     
-    SQL = SQL & " ORDER BY 1 desc, 2 "
+    Sql = Sql & " ORDER BY 1 desc, 2 "
         
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -852,7 +852,7 @@ Dim nomDocu As String
     
     cadNomRPT = nomDocu
 
-    If Me.Check1(0).Value Then
+    If Me.check1(0).Value Then
         cadParam = cadParam & "pDetalle=1|"
     Else
         cadParam = cadParam & "pDetalle=0|"
@@ -873,7 +873,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 2
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 45
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -881,8 +881,8 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
 
@@ -891,7 +891,7 @@ Dim RC2 As String
     If Not PonerDesdeHasta("remesas.codigo", "REM", Me.txtNum(0), Me.txtNum(0), Me.txtNum(1), Me.txtNum(1), "pDHRemesa=""") Then Exit Function
     If Not PonerDesdeHasta("remesas.anyo", "ANYO", Me.txtAnyo(0), Me.txtAnyo(0), Me.txtAnyo(1), Me.txtAnyo(1), "pDHAnyo=""") Then Exit Function
     
-    If Check1(0).Value Then CargarTemporal
+    If check1(0).Value Then CargarTemporal
     
     MontaSQL = True
            

@@ -345,7 +345,7 @@ Private Function ImprimeFichero() As Boolean
 Dim NF As Integer
     NF = FreeFile
     On Error GoTo EImp
-    Open App.Path & "\Hacienda\mod300\" & "miIVA.txt" For Output As #NF
+    Open App.Path & "\miIVA.txt" For Output As #NF
     Print #NF, Linea;
     Close #NF
     ImprimeFichero = True
@@ -405,7 +405,7 @@ Dim Fmat As String
     If i = Espacios Then
         'Caso especial. La longitud son 13
         If Dato < 0 Then
-            MsgBox "Numero excede de las posciones para el programa de hacienda", vbExclamation
+            MsgBox "Numero excede de las posciones para el programa de Agencia tributaria", vbExclamation
             End
             
             
@@ -423,7 +423,7 @@ Dim Fmat As String
             
             DatosNumeroDec = DatosNumeroDec & Mid(Num, 1, i - 1) & Right(Num, 2)
         Else
-            MsgBox "El número excede de las posiciones solicitdas en programa de Hacienda. La aplicación finalizará.", vbExclamation
+            MsgBox "El número excede de las posiciones solicitdas en programa de Agencia Tributaria. La aplicación finalizará.", vbExclamation
             End
         End If
     End If
@@ -451,7 +451,7 @@ Dim Fmat As String
     If i = Espacios Then
         'Caso especial. La longitud son 13
         If Dato < 0 Then
-            MsgBox "Numero excede de las posciones para el programa de hacienda", vbExclamation
+            MsgBox "Numero excede de las posciones para el programa de Agencia tributaria", vbExclamation
             End
             
             
@@ -469,7 +469,7 @@ Dim Fmat As String
             
             DatosNumeroDec340 = DatosNumeroDec340 & Mid(Num, 1, i - 1) & Right(Num, 2)
         Else
-            MsgBox "El número excede de las posiciones solicitdas en programa de Hacienda. La aplicación finalizará.", vbExclamation
+            MsgBox "El número excede de las posiciones solicitdas en programa de Agencia Tributaria. La aplicación finalizará.", vbExclamation
             End
         End If
     End If
@@ -643,7 +643,7 @@ Dim PintaBanco As Boolean
     Else
         If Importe < 0 Then
 
-            'Nos tiene que devolver hacienda.
+            'Nos tiene que devolver haciend a.
             'O bien compensamos, o que nos ingrese(cuando les venga bien claro)
             'A dedcuir
             
@@ -677,7 +677,7 @@ Dim PintaBanco As Boolean
         Else
             '
             '
-            'TENGO QUE PAGAR A LA HACIENDA PUBLICA
+            'TENGO QUE PAGAR A LA HACIEND A PUBLICA
             'Dos opciones. Si tengo la cuenta y me han dicho que es adeudo en cuenta y si no sera ingreso
             'El trozo de devolucion y todo eso va a blanco
             Linea = Linea & DatosNumeroDec(0, 17)  'compensar
@@ -769,48 +769,6 @@ End Function
 
 
 
-Public Sub ImpresionModeloOficial()
-On Error GoTo EImpresionModeloOficial
-
-
-    If Dir(App.Path & "\Hacienda\mod300\MIPF32.exe") = "" Then
-        MsgBox "No existe la aplicación de hacienda: MIPF32", vbExclamation
-        Exit Sub
-    End If
-    
-    'Borramos el archivo Errores
-    If Dir(App.Path & "\Hacienda\mod300\" & "IvaErr.txt") <> "" Then Kill App.Path & "\Hacienda\mod300\" & "IvaErr.txt"
-    
-    'Lanzamos la aplicacion
-    Linea = App.Path & "\Hacienda\mod300\MIPF32.exe  /E:""" & App.Path & "\Hacienda\mod300\" & "miIVA.txt"""
-    Linea = Linea & " /R:""" & App.Path & "\Hacienda\mod300\" & "IvaErr.txt"""
-
-    Screen.MousePointer = vbHourglass
-    Shell Linea
-    espera 2
-    Do
-        espera 0.1
-        Linea = Dir(App.Path & "\Hacienda\mod300\FLAG.TXT")
-    Loop Until Linea = ""
-
-    Linea = Dir(App.Path & "\IvaErr.txt")
-    Linea = ""
-    espera 2
-    
-    If Dir(App.Path & "\Hacienda\mod300\" & "IvaErr.txt") <> "" Then espera 2
-    
-    'Comprobamos k no se ha generado el fichero de error
-    If Dir(App.Path & "\Hacienda\mod300\" & "IvaErr.txt") <> "" Then
-        'Si k hay error
-        Linea = "Se ha producido un error. Lear el archivo: " & vbCrLf & vbCrLf
-        Linea = Linea & App.Path & "\Hacienda\mod300\" & "IvaErr.txt" & vbCrLf & vbCrLf
-        Linea = Linea & " para obtener más datos."
-        MsgBox Linea, vbExclamation
-    End If
-EImpresionModeloOficial:
-    If Err.Number <> 0 Then MuestraError Err.Number
-    Screen.MousePointer = vbDefault
-End Sub
 
 
 
@@ -823,14 +781,12 @@ End Sub
 '---------------------------------------------------------------------------
 '---------------------------------------------------------------------------
 
-Public Function Modelo347(Impresion As Boolean, Anyo As Integer) As Boolean
+Public Function Modelo347(Anyo As Integer) As Boolean
 
     Modelo347 = False
     If Not PrimerosPasos(Anyo) Then Exit Function 'Ha fallado generando el fichero
         
-    If Impresion Then
-        ImpresionModeloOficial347
-    End If
+    
     Modelo347 = True
 End Function
 
@@ -877,7 +833,7 @@ Dim NombreFormateado As String
     End If
 
     NF = FreeFile
-    'Open App.Path & "\Hacienda\mod347\mod347.txt" For Output As #NF
+    
     Open App.Path & "\docum.pdf" For Output As #NF
     
     IdentificacionPresentador = ""
@@ -1070,51 +1026,6 @@ End Function
 
 
 
-Public Sub ImpresionModeloOficial347()
-On Error GoTo EImpresionModeloOficial
-
-
-    If Dir(App.Path & "\Hacienda\mod347\347pdf.exe") = "" Then
-        MsgBox "No existe la aplicación de hacienda: 347pdf.exe", vbExclamation
-        Exit Sub
-    End If
-    
-    'Borramos el archivo Errores
-    If Dir(App.Path & "\Hacienda\mod347\" & "IvaErr.txt") <> "" Then Kill App.Path & "\Hacienda\mod347\" & "IvaErr.txt"
-    
-    'Lanzamos la aplicacion
-    Linea = App.Path & "\Hacienda\mod347\347pdf.exe  /E:""" & App.Path & "\Hacienda\mod347\" & "mod347.txt"""
-    Linea = Linea & " /R:""" & App.Path & "\Hacienda\mod347\" & "IvaErr.txt"""
-
-    Screen.MousePointer = vbHourglass
-    Shell Linea
-    espera 1
-    Do
-        IdentificacionPresentador = Dir(App.Path, vbDirectory)
-        espera 0.1
-        Linea = Dir(App.Path & "\Hacienda\mod347\FLAG.TXT")
-    Loop Until Linea = ""
-
-    espera 2
-    
-    If Dir(App.Path & "\Hacienda\mod347\" & "IvaErr.txt") <> "" Then
-        Linea = Dir(App.Path & "\IvaErr.txt")
-        espera 3
-    End If
-    
-    'Comprobamos k no se ha generado el fichero de error
-    If Dir(App.Path & "\Hacienda\mod347\" & "IvaErr.txt") <> "" Then
-        'Si k hay error
-        Linea = "Se ha producido un error. Lea el archivo: " & vbCrLf & vbCrLf
-        Linea = Linea & App.Path & "\Hacienda\mod347\" & "IvaErr.txt" & vbCrLf & vbCrLf
-        Linea = Linea & " para obtener más información."
-        MsgBox Linea, vbExclamation
-    End If
-EImpresionModeloOficial:
-    If Err.Number <> 0 Then MuestraError Err.Number
-    Screen.MousePointer = vbDefault
-End Sub
-
 Public Function ComprobarNifs347() As Boolean
     On Error GoTo EComprobarNifs347
     ComprobarNifs347 = False
@@ -1203,7 +1114,7 @@ End Function
 '---------------------------------------------------------------------------
 '---------------------------------------------------------------------------
 
-Public Function MODELO349(Impresion As Boolean, Periodo As String, AnyoPres As Integer) As Boolean
+Public Function MODELO349(Periodo As String, AnyoPres As Integer) As Boolean
 
     MODELO349 = False
     If Not PrimerosPasos349(1, Periodo, AnyoPres) Then Exit Function  'Ha fallado generando el fichero
@@ -1214,10 +1125,7 @@ Public Function MODELO349(Impresion As Boolean, Periodo As String, AnyoPres As I
     '------------------------
     'Ya no hay modulo de impresion. Siempre genrar fichero
      MODELO349 = True
-     Exit Function
-    If Impresion Then
-        If ImpresionModeloOficial349 Then MODELO349 = True
-    End If
+    
 End Function
 
 
@@ -1275,7 +1183,8 @@ Dim cad As String
     End If
 
     NF = FreeFile
-    Open App.Path & "\Hacienda\mod349\mod349.txt" For Output As #NF
+    
+    Open App.Path & "\mod349.txt" For Output As #NF
     
     IdentificacionPresentador = ""
     Linea = "349"
@@ -1403,74 +1312,6 @@ End Function
 
 
 
-
-Public Function ImpresionModeloOficial349() As Boolean
-Dim NombreExe As String
-
-On Error GoTo EImpresionModeloOficial
-
-
-    ImpresionModeloOficial349 = False
-    
-    'Busco el nombre de la aplicacion
-    If Dir(App.Path & "\Hacienda\mod349", vbDirectory) = "" Then
-        MsgBox "No existe carpeta: " & App.Path & "\Hacienda\mod349", vbExclamation
-        Exit Function
-    End If
-    
-    NombreExe = Dir(App.Path & "\Hacienda\mod349\*.exe", vbArchive)
-    If NombreExe = "" Then
-        MsgBox "No se ha encontrado ningun exe en la carpeta: " & App.Path & "\Hacienda\mod349", vbExclamation
-        Exit Function
-    End If
-    
-    NombreExe = App.Path & "\Hacienda\mod349\" & NombreExe
-    
-    
-    
-    If Dir(NombreExe) = "" Then
-        MsgBox "No existe la aplicación de hacienda: " & NombreExe, vbExclamation
-        Exit Function
-    End If
-    
-    'Borramos el archivo Errores
-    If Dir(App.Path & "\Hacienda\mod349\" & "349Err.txt") <> "" Then Kill App.Path & "\Hacienda\mod349\" & "349Err.txt"
-    
-    'Lanzamos la aplicacion
-    'LINEA = App.path & "\Hacienda\mod349\vs349.exe  /E:""" & App.path & "\Hacienda\mod349\" & "mod349.txt"""
-    Linea = NombreExe & "  /E:""" & App.Path & "\Hacienda\mod349\" & "mod349.txt"""
-    Linea = Linea & " /R:""" & App.Path & "\Hacienda\mod349\" & "349Err.txt"""
-
-    Screen.MousePointer = vbHourglass
-    Shell Linea
-    espera 1
-    Do
-        IdentificacionPresentador = Dir(App.Path, vbDirectory)
-        espera 0.1
-        Linea = Dir(App.Path & "\Hacienda\mod347\FLAG.TXT")
-    Loop Until Linea = ""
-
-    espera 2
-    
-    If Dir(App.Path & "\Hacienda\mod349\" & "349Err.txt") <> "" Then
-        Linea = Dir(App.Path & "\349Err.txt")
-        espera 3
-    End If
-    
-    'Comprobamos k no se ha generado el fichero de error
-    If Dir(App.Path & "\Hacienda\mod349\" & "349Err.txt") <> "" Then
-        'Si k hay error
-        Linea = "Se ha producido un error. Lea el archivo: " & vbCrLf & vbCrLf
-        Linea = Linea & App.Path & "\Hacienda\mod349\" & "349Err.txt" & vbCrLf & vbCrLf
-        Linea = Linea & " para obtener más información."
-        MsgBox Linea, vbExclamation
-    Else
-        ImpresionModeloOficial349 = True
-    End If
-EImpresionModeloOficial:
-    If Err.Number <> 0 Then MuestraError Err.Number
-    Screen.MousePointer = vbDefault
-End Function
 
 
 

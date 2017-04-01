@@ -725,8 +725,8 @@ Attribute frmCon.VB_VarHelpID = -1
 Private WithEvents frmEle As frmInmoElto
 Attribute frmEle.VB_VarHelpID = -1
 
-Private SQL As String
-Dim Cad As String
+Private Sql As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -753,7 +753,7 @@ End Sub
 
 
 Private Sub chkSaltoPag_Click()
-    Me.Check1.Enabled = (chkSaltoPag.Value = 0)
+    Me.check1.Enabled = (chkSaltoPag.Value = 0)
 End Sub
 
 Private Sub cmdAccion_Click(Index As Integer)
@@ -811,14 +811,14 @@ End Sub
 
 
 Private Sub Form_Load()
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Elementos de Inmovilizado"
 
     For i = 0 To 1
-        Me.imgConcepto(i).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-        Me.imgElemento(i).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
+        Me.imgConcepto(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+        Me.imgElemento(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Next i
      
     Me.ChkTipo(1).Value = 1
@@ -829,20 +829,20 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
-Private Sub ImgConcepto_Click(Index As Integer)
+Private Sub imgConcepto_Click(Index As Integer)
     
-    SQL = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     Set frmCon = New frmInmoConceptos
     frmCon.DatosADevolverBusqueda = True
     frmCon.Show vbModal
     Set frmCon = Nothing
-    If SQL <> "" Then
-        Me.txtConcepto(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNConcepto(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtConcepto(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNConcepto(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtConcepto(Index)
     End If
@@ -853,20 +853,20 @@ Private Sub ImgConcepto_Click(Index As Integer)
 End Sub
 
 Private Sub frmEle_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub imgElemento_Click(Index As Integer)
     
-    SQL = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     Set frmEle = New frmInmoElto
     frmEle.DatosADevolverBusqueda = "0|1|"
     frmEle.Show vbModal
     Set frmEle = Nothing
-    If SQL <> "" Then
-        Me.txtElemento(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNElemento(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtElemento(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNElemento(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtElemento(Index)
     End If
@@ -887,24 +887,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -921,18 +921,18 @@ Private Sub txtConcepto_KeyDown(Index As Integer, KeyCode As Integer, Shift As I
     End If
 End Sub
 
-Private Sub LanzaFormAyuda(Nombre As String, indice As Integer)
+Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
     Select Case Nombre
     Case "imgConcepto"
-        ImgConcepto_Click indice
+        imgConcepto_Click Indice
     Case "imgElemento"
-        imgElemento_Click indice
+        imgElemento_Click Indice
     End Select
     
 End Sub
 
 Private Sub txtConcepto_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 
     txtConcepto(Index).Text = Trim(txtConcepto(Index).Text)
     
@@ -955,10 +955,10 @@ Private Sub txtConcepto_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtElemento_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtElemento(Index).Text = Trim(txtElemento(Index).Text)
@@ -977,18 +977,18 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
-    SQL = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta,inmovele.valoradq ValorAdquisicion ,inmovele.fechaadq FechaAdquisicion, inmovele_his.fechainm FechaAmortizacion, inmovele_his.imporinm ImporteAmortizacion, inmovele_his.porcinm PorcentajeAmortizacion "
-    SQL = SQL & " FROM (inmovele inner join inmovele_his on inmovele.codinmov = inmovele_his.codinmov) "
+    Sql = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta,inmovele.valoradq ValorAdquisicion ,inmovele.fechaadq FechaAdquisicion, inmovele_his.fechainm FechaAmortizacion, inmovele_his.imporinm ImporteAmortizacion, inmovele_his.porcinm PorcentajeAmortizacion "
+    Sql = Sql & " FROM (inmovele inner join inmovele_his on inmovele.codinmov = inmovele_his.codinmov) "
     
-    If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
+    If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
     
-    SQL = SQL & " ORDER BY 1,2,5" ' ordenado por codigo y por fecha de inmovilizado
+    Sql = Sql & " ORDER BY 1,2,5" ' ordenado por codigo y por fecha de inmovilizado
         
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1003,14 +1003,14 @@ Dim CADENA As String
         
     
     indRPT = "0503-00"
-    If Check1.Value Then indRPT = "0503-01" ' resumido
+    If check1.Value Then indRPT = "0503-01" ' resumido
     
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     
     cadNomRPT = nomDocu ' "fichaelto.rpt"
 
     ' si no es resumido miramos si saltamos pagina o no
-    If Check1.Value = 0 Then
+    If check1.Value = 0 Then
         cadParam = cadParam & "pSaltoPag=" & chkSaltoPag.Value & "|"
         numParam = numParam + 1
     End If
@@ -1031,7 +1031,7 @@ Dim CADENA As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 2
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 55
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -1039,8 +1039,8 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
 Dim Situacion As String

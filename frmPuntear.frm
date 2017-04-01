@@ -20,9 +20,19 @@ Begin VB.Form frmPuntear
       Caption         =   "Frame1"
       Height          =   885
       Left            =   120
-      TabIndex        =   22
+      TabIndex        =   23
       Top             =   780
       Width           =   17505
+      Begin VB.CommandButton cmdVer 
+         Height          =   375
+         Left            =   13200
+         Picture         =   "frmPuntear.frx":000C
+         Style           =   1  'Graphical
+         TabIndex        =   3
+         ToolTipText     =   "Ver datos"
+         Top             =   210
+         Width           =   375
+      End
       Begin VB.TextBox Text3 
          Alignment       =   1  'Right Justify
          BeginProperty Font 
@@ -56,7 +66,7 @@ Begin VB.Form frmPuntear
          EndProperty
          Height          =   360
          Left            =   2910
-         TabIndex        =   23
+         TabIndex        =   24
          Text            =   "Text5"
          Top             =   180
          Width           =   4275
@@ -112,7 +122,7 @@ Begin VB.Form frmPuntear
          EndProperty
          Height          =   255
          Left            =   13980
-         TabIndex        =   4
+         TabIndex        =   5
          Top             =   600
          Width           =   3435
       End
@@ -129,7 +139,7 @@ Begin VB.Form frmPuntear
          EndProperty
          Height          =   255
          Left            =   13980
-         TabIndex        =   3
+         TabIndex        =   4
          Top             =   240
          Width           =   3375
       End
@@ -146,14 +156,14 @@ Begin VB.Form frmPuntear
          EndProperty
          Height          =   255
          Left            =   90
-         TabIndex        =   26
+         TabIndex        =   27
          Top             =   210
          Width           =   795
       End
       Begin VB.Image imgCuentas 
          Height          =   240
          Left            =   990
-         Picture         =   "frmPuntear.frx":000C
+         Picture         =   "frmPuntear.frx":0A0E
          Top             =   180
          Width           =   240
       End
@@ -171,7 +181,7 @@ Begin VB.Form frmPuntear
          Height          =   255
          Index           =   0
          Left            =   7560
-         TabIndex        =   25
+         TabIndex        =   26
          Top             =   240
          Width           =   1275
       End
@@ -179,7 +189,7 @@ Begin VB.Form frmPuntear
          Height          =   240
          Index           =   1
          Left            =   11610
-         Picture         =   "frmPuntear.frx":685E
+         Picture         =   "frmPuntear.frx":7260
          Top             =   240
          Width           =   240
       End
@@ -197,7 +207,7 @@ Begin VB.Form frmPuntear
          Height          =   255
          Index           =   1
          Left            =   10500
-         TabIndex        =   24
+         TabIndex        =   25
          Top             =   270
          Width           =   1095
       End
@@ -205,7 +215,7 @@ Begin VB.Form frmPuntear
          Height          =   240
          Index           =   0
          Left            =   8850
-         Picture         =   "frmPuntear.frx":68E9
+         Picture         =   "frmPuntear.frx":72EB
          Top             =   240
          Width           =   240
       End
@@ -213,13 +223,13 @@ Begin VB.Form frmPuntear
    Begin VB.Frame FrameBotonGnral 
       Height          =   705
       Left            =   90
-      TabIndex        =   20
+      TabIndex        =   21
       Top             =   30
       Width           =   3555
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   330
          Left            =   240
-         TabIndex        =   21
+         TabIndex        =   22
          Top             =   180
          Width           =   3075
          _ExtentX        =   5424
@@ -267,7 +277,7 @@ Begin VB.Form frmPuntear
    Begin VB.Frame FramePorImportes 
       Height          =   735
       Left            =   150
-      TabIndex        =   15
+      TabIndex        =   16
       Top             =   8850
       Width           =   8715
       Begin VB.CommandButton cmdPorIMportes 
@@ -284,7 +294,7 @@ Begin VB.Form frmPuntear
          Height          =   435
          Index           =   1
          Left            =   5940
-         TabIndex        =   18
+         TabIndex        =   19
          Top             =   180
          Width           =   1185
       End
@@ -303,7 +313,7 @@ Begin VB.Form frmPuntear
          Height          =   435
          Index           =   0
          Left            =   7230
-         TabIndex        =   17
+         TabIndex        =   18
          Top             =   180
          Width           =   1185
       End
@@ -323,7 +333,7 @@ Begin VB.Form frmPuntear
          Height          =   255
          Index           =   1
          Left            =   3900
-         TabIndex        =   19
+         TabIndex        =   20
          Top             =   300
          Width           =   1935
       End
@@ -342,7 +352,7 @@ Begin VB.Form frmPuntear
          Height          =   255
          Index           =   0
          Left            =   120
-         TabIndex        =   16
+         TabIndex        =   17
          Top             =   300
          Width           =   3615
       End
@@ -362,7 +372,7 @@ Begin VB.Form frmPuntear
       Index           =   0
       Left            =   10020
       Locked          =   -1  'True
-      TabIndex        =   11
+      TabIndex        =   12
       Text            =   "Text2"
       Top             =   9090
       Width           =   2265
@@ -382,7 +392,7 @@ Begin VB.Form frmPuntear
       Index           =   1
       Left            =   12480
       Locked          =   -1  'True
-      TabIndex        =   10
+      TabIndex        =   11
       Text            =   "Text2"
       Top             =   9090
       Width           =   2265
@@ -402,7 +412,7 @@ Begin VB.Form frmPuntear
       Index           =   2
       Left            =   15300
       Locked          =   -1  'True
-      TabIndex        =   9
+      TabIndex        =   10
       Text            =   "Text2"
       Top             =   9090
       Width           =   2265
@@ -410,7 +420,7 @@ Begin VB.Form frmPuntear
    Begin MSComctlLib.ListView lwh 
       Height          =   6525
       Left            =   8880
-      TabIndex        =   8
+      TabIndex        =   9
       Top             =   2160
       Width           =   8730
       _ExtentX        =   15399
@@ -465,7 +475,7 @@ Begin VB.Form frmPuntear
    Begin MSComctlLib.ListView lwD 
       Height          =   6525
       Left            =   120
-      TabIndex        =   6
+      TabIndex        =   7
       Top             =   2160
       Width           =   8730
       _ExtentX        =   15399
@@ -520,7 +530,7 @@ Begin VB.Form frmPuntear
    Begin MSComctlLib.Toolbar ToolbarAyuda 
       Height          =   390
       Left            =   16890
-      TabIndex        =   27
+      TabIndex        =   28
       Top             =   150
       Width           =   405
       _ExtentX        =   714
@@ -539,7 +549,7 @@ Begin VB.Form frmPuntear
       Height          =   240
       Index           =   3
       Left            =   10950
-      Picture         =   "frmPuntear.frx":6974
+      Picture         =   "frmPuntear.frx":7376
       ToolTipText     =   "Puntear al haber"
       Top             =   1800
       Width           =   240
@@ -548,7 +558,7 @@ Begin VB.Form frmPuntear
       Height          =   240
       Index           =   2
       Left            =   10500
-      Picture         =   "frmPuntear.frx":6ABE
+      Picture         =   "frmPuntear.frx":74C0
       ToolTipText     =   "Quitar al haber"
       Top             =   1800
       Width           =   240
@@ -557,7 +567,7 @@ Begin VB.Form frmPuntear
       Height          =   240
       Index           =   1
       Left            =   1800
-      Picture         =   "frmPuntear.frx":6C08
+      Picture         =   "frmPuntear.frx":760A
       ToolTipText     =   "Puntear al Debe"
       Top             =   1770
       Width           =   240
@@ -566,7 +576,7 @@ Begin VB.Form frmPuntear
       Height          =   240
       Index           =   0
       Left            =   1440
-      Picture         =   "frmPuntear.frx":6D52
+      Picture         =   "frmPuntear.frx":7754
       ToolTipText     =   "Quitar al Debe"
       Top             =   1770
       Width           =   240
@@ -585,7 +595,7 @@ Begin VB.Form frmPuntear
       Height          =   255
       Index           =   2
       Left            =   10020
-      TabIndex        =   14
+      TabIndex        =   15
       Top             =   8850
       Width           =   1215
    End
@@ -603,7 +613,7 @@ Begin VB.Form frmPuntear
       Height          =   255
       Index           =   3
       Left            =   12510
-      TabIndex        =   13
+      TabIndex        =   14
       Top             =   8850
       Width           =   1215
    End
@@ -621,7 +631,7 @@ Begin VB.Form frmPuntear
       Height          =   255
       Index           =   4
       Left            =   15300
-      TabIndex        =   12
+      TabIndex        =   13
       Top             =   8850
       Width           =   1215
    End
@@ -640,7 +650,7 @@ Begin VB.Form frmPuntear
       ForeColor       =   &H00000080&
       Height          =   375
       Left            =   8880
-      TabIndex        =   7
+      TabIndex        =   8
       Top             =   1740
       Width           =   1200
    End
@@ -659,7 +669,7 @@ Begin VB.Form frmPuntear
       ForeColor       =   &H00800000&
       Height          =   375
       Left            =   120
-      TabIndex        =   5
+      TabIndex        =   6
       Top             =   1740
       Width           =   915
    End
@@ -686,7 +696,7 @@ Dim Rs As Recordset
 
 Dim PrimeraSeleccion As Boolean
 Dim ClickAnterior As Byte '0 Empezar 1.-Debe 2.-Haber
-Dim I As Integer
+Dim i As Integer
 Dim De As Currency
 Dim Ha As Currency
     
@@ -704,7 +714,7 @@ Dim ValorAnt As String
 
 Private Sub chkImp_Click()
     If Text3(2).Text <> "" And Text3(0).Text <> "" And Text3(1).Text <> "" Then
-        ConfirmarDatos False
+        'ConfirmarDatos False
     End If
 End Sub
 
@@ -714,7 +724,7 @@ End Sub
 
 Private Sub chkSin_Click()
     If Text3(2).Text <> "" And Text3(0).Text <> "" And Text3(1).Text <> "" Then
-        ConfirmarDatos False
+        'ConfirmarDatos False
     End If
 End Sub
 
@@ -722,7 +732,7 @@ Private Sub chkSin_KeyPress(KeyAscii As Integer)
     KEYpress KeyAscii
 End Sub
 
-Private Sub ConfirmarDatos(DesdeCuenta As Boolean)
+Private Sub ConfirmarDatos2()
     If Text3(2).Text = "" Then
         MsgBox "Introduzca una cuenta", vbExclamation
         PonleFoco Text3(2)
@@ -751,19 +761,18 @@ Private Sub ConfirmarDatos(DesdeCuenta As Boolean)
     End If
     Text3(0).Tag = Sql  'Para las fechas
     
-    If DesdeCuenta Then
-        'Bloqueamos manualamente la tabla, con esa cuenta
-        If Not BloqueoManual(True, "PUNTEO", CStr(Abs(EjerciciosCerrados) & Text3(2).Text)) Then
-            MsgBox "Imposible acceder a puntear la cuenta. Puede estar bloqueada", vbExclamation
-            Exit Sub
-        End If
+    BloqueoManual False, "PUNTEO", ""
+    If Not BloqueoManual(True, "PUNTEO", CStr(Abs(EjerciciosCerrados) & Text3(2).Text)) Then
+         MsgBox "Imposible acceder a puntear la cuenta. Puede estar bloqueada", vbExclamation
+         Exit Sub
     End If
+
     
     
     espera 0.1
     Me.Refresh
     DoEvents
-    CargarDatos
+    CargarDatos_
 
 End Sub
 
@@ -785,23 +794,23 @@ Private Sub cmdPorIMportes_Click(Index As Integer)
         
         'UPDATEAMOS EN LA BD
         'Y volveremos a cargar los datos
-        For I = 1 To lwh.ListItems.Count
-            If lwh.ListItems(I).Checked Then PunteaEnBD lwh.ListItems(I), False
-        Next I
+        For i = 1 To lwh.ListItems.Count
+            If lwh.ListItems(i).Checked Then PunteaEnBD lwh.ListItems(i), False
+        Next i
         
-        For I = 1 To lwD.ListItems.Count
-            If lwD.ListItems(I).Checked Then PunteaEnBD lwD.ListItems(I), True
-        Next I
+        For i = 1 To lwD.ListItems.Count
+            If lwD.ListItems(i).Checked Then PunteaEnBD lwD.ListItems(i), True
+        Next i
         
         
     Else
         'Quit la seleccion
-        For I = 1 To lwD.ListItems.Count
-            If lwD.ListItems(I).Checked Then lwD.ListItems(I).Checked = False
-        Next I
-        For I = 1 To lwh.ListItems.Count
-            If lwh.ListItems(I).Checked Then lwh.ListItems(I).Checked = False
-        Next I
+        For i = 1 To lwD.ListItems.Count
+            If lwD.ListItems(i).Checked Then lwD.ListItems(i).Checked = False
+        Next i
+        For i = 1 To lwh.ListItems.Count
+            If lwh.ListItems(i).Checked Then lwh.ListItems(i).Checked = False
+        Next i
     End If
     'Limpiamos campos
     
@@ -815,7 +824,7 @@ Private Sub cmdPorIMportes_Click(Index As Integer)
     'Quitamos las posibles marcas
     PonerModoPunteo False
     
-    If Index = 1 Then CargarDatos
+    If Index = 1 Then CargarDatos_
 End Sub
 
 Private Sub Command1_Click()
@@ -827,13 +836,17 @@ End Sub
 
 
 
+Private Sub cmdVer_Click()
+    ConfirmarDatos2
+End Sub
+
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     If Shift = 0 And KeyCode = vbKeyEscape Then Unload Me
 End Sub
 
 Private Sub Form_Load()
     
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
 
 '    Me.framePregunta.Visible = True
     Limpiar Me
@@ -841,9 +854,9 @@ Private Sub Form_Load()
     Caption = "Punteo de extractos"
     'La toolbar
     With Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.imgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 7
         .Buttons(2).Image = 8
         .Buttons(4).Image = 45 '22
@@ -854,7 +867,7 @@ Private Sub Form_Load()
     
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
     
@@ -863,10 +876,10 @@ Private Sub Form_Load()
     FrameDatos.Enabled = True
     FrameBotonGnral.Enabled = False
     
-    I = 0
-    Text3(0).Text = Format(DateAdd("yyyy", I, vParam.fechaini), "dd/mm/yyyy")
-    If Not vParam.FecEjerAct Then I = I + 1
-    Text3(1).Text = Format(DateAdd("yyyy", I, vParam.fechafin), "dd/mm/yyyy")
+    i = 0
+    Text3(0).Text = Format(DateAdd("yyyy", i, vParam.fechaini), "dd/mm/yyyy")
+    If Not vParam.FecEjerAct Then i = i + 1
+    Text3(1).Text = Format(DateAdd("yyyy", i, vParam.fechafin), "dd/mm/yyyy")
     
     
     CtasQueHaPunteado = ""   'Parar cuando haga el unload
@@ -968,13 +981,13 @@ Private Sub imgCheck_Click(Index As Integer)
         '---------------------------------
         Checkear = True
         If Index = 1 Then Checkear = False
-        For I = 1 To lwD.ListItems.Count
-            If lwD.ListItems(I).Checked = Checkear Then
+        For i = 1 To lwD.ListItems.Count
+            If lwD.ListItems(i).Checked = Checkear Then
                     
-                lwD.ListItems(I).Checked = Not lwD.ListItems(I).Checked
-                PunteaEnBD lwD.ListItems(I), True
+                lwD.ListItems(i).Checked = Not lwD.ListItems(i).Checked
+                PunteaEnBD lwD.ListItems(i), True
             End If
-        Next I
+        Next i
         If Index = 0 Then De = 0
     Else
     
@@ -982,12 +995,12 @@ Private Sub imgCheck_Click(Index As Integer)
         '---------------------------------
         Checkear = True
         If Index = 3 Then Checkear = False
-        For I = 1 To lwh.ListItems.Count
-            If lwh.ListItems(I).Checked = Checkear Then
-                lwh.ListItems(I).Checked = Not lwh.ListItems(I).Checked
-                PunteaEnBD lwh.ListItems(I), False
+        For i = 1 To lwh.ListItems.Count
+            If lwh.ListItems(i).Checked = Checkear Then
+                lwh.ListItems(i).Checked = Not lwh.ListItems(i).Checked
+                PunteaEnBD lwh.ListItems(i), False
             End If
-        Next I
+        Next i
         If Index = 2 Then Ha = 0
     End If
     ContadorBus = 0
@@ -1134,22 +1147,26 @@ End Sub
 
 
 Private Sub OtraCuenta(mas As Boolean)
-    
+Dim B As Boolean
     Screen.MousePointer = vbHourglass
     
     txtDesCta.Text = "OBTENER CUENTA"
     txtDesCta.Refresh
-    If ObtenerCuenta(mas) Then
-        BloqueoManual False, "PUNTEO", Text3(2).Text
-    
-        'Ya tenemos la cuenta
-        If Not BloqueoManual(True, "PUNTEO", CStr(Abs(EjerciciosCerrados) & Text3(2).Text)) Then
-            MsgBox "Imposible acceder a puntear la cuenta. Puede que este bloqueada", vbExclamation
-            Image2_Click
-            Exit Sub
-        End If
+    Screen.MousePointer = vbHourglass
+    B = ObtenerCuenta(mas)
+    Screen.MousePointer = vbDefault
+    If B Then
+'
+'
+'        'Ya tenemos la cuenta
+'        If Not BloqueoManual(True, "PUNTEO", CStr(Abs(EjerciciosCerrados) & Text3(2).Text)) Then
+'            MsgBox "Imposible acceder a puntear la cuenta. Puede que este bloqueada", vbExclamation
+'            Image2_Click
+'            Exit Sub
+'        End If
         
-        CargarDatos
+        'CargarDatos2
+        ConfirmarDatos2
     Else
         txtDesCta.Text = ""
     End If
@@ -1171,7 +1188,7 @@ Private Sub Text3_LostFocus(Index As Integer)
                 PonleFoco Text3(Index)
                 Exit Sub
             End If
-            ConfirmarDatos False
+            'ConfirmarDatos False
 
         Case 2
             RC = Trim(Text3(Index).Text)
@@ -1191,7 +1208,7 @@ Private Sub Text3_LostFocus(Index As Integer)
                 Text3(Index).Text = RC
                 txtDesCta.Text = Sql
                 FrameBotonGnral.Enabled = True
-                ConfirmarDatos True
+                'ConfirmarDatos True
             Else
                 MsgBox Sql, vbExclamation
                 Text3(Index).Text = ""
@@ -1215,12 +1232,12 @@ End Sub
 
 
 
-Private Sub CargarDatos()
+Private Sub CargarDatos_()
         Label5.Caption = "CARGA"
         Label6.Caption = "CARGA"
         Me.Refresh
         Screen.MousePointer = vbHourglass
-        CargarDatos2
+        CargarDatos
         Screen.MousePointer = vbDefault
         Label5.Caption = "DEBE"
         Label6.Caption = "HABER"
@@ -1228,7 +1245,7 @@ Private Sub CargarDatos()
         Label6.Refresh
 End Sub
 
-Private Sub CargarDatos2()
+Private Sub CargarDatos()
 Dim ItmX As ListItem
 On Error GoTo ECargarDatos
 
@@ -1270,7 +1287,7 @@ On Error GoTo ECargarDatos
     End If
     
     Rs.Open RC, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    I = 0
+    i = 0
     While Not Rs.EOF
         
         If IsNull(Rs!timported) Then
@@ -1301,11 +1318,11 @@ On Error GoTo ECargarDatos
         
         'Siguiente
         Rs.MoveNext
-        I = I + 1
+        i = i + 1
         'Por si refrescamos
-        If I > 3000 Then
-            I = 0
-            Me.Refresh
+        If i > 3000 Then
+            i = 0
+            DoEvents
         End If
     Wend
     Rs.Close
@@ -1325,23 +1342,23 @@ Private Sub BusquedaEnHaber()
     ContadorBus = 1
     Checkear = False
     Do
-        I = 1
-        While I <= lwh.ListItems.Count
+        i = 1
+        While i <= lwh.ListItems.Count
             'Comprobamos k no esta chekeado
-            If Not lwh.ListItems(I).Checked Then
+            If Not lwh.ListItems(i).Checked Then
                 'K tiene el mismo importe
-                If lwD.SelectedItem.SubItems(4) = lwh.ListItems(I).SubItems(4) Then
+                If lwD.SelectedItem.SubItems(4) = lwh.ListItems(i).SubItems(4) Then
                     'Comprobamos k tienen el mismo DOCUM
                     'Si no es el mismo, pero es la segunda busqueda, tb aceptamos
                     If ContadorBus > 1 Then
                         Checkear = True
                     Else
-                        Checkear = (lwD.SelectedItem.SubItems(2) = lwh.ListItems(I).SubItems(2))
+                        Checkear = (lwD.SelectedItem.SubItems(2) = lwh.ListItems(i).SubItems(2))
                     End If
                 
                     If Checkear Then
                         'Tiene el mismo importe y no esta chequeado
-                        Set lwh.SelectedItem = lwh.ListItems(I)
+                        Set lwh.SelectedItem = lwh.ListItems(i)
                         lwh.SelectedItem.EnsureVisible
                         lwh.SetFocus
                         Beep
@@ -1349,7 +1366,7 @@ Private Sub BusquedaEnHaber()
                     End If
                 End If
             End If
-            I = I + 1
+            i = i + 1
         Wend
         ContadorBus = ContadorBus + 1
         Loop Until ContadorBus > 2
@@ -1361,11 +1378,11 @@ Private Sub BusquedaEnDebe()
     ContadorBus = 1
     Checkear = False
     Do
-        I = 1
-        While I <= lwD.ListItems.Count
-            If lwh.SelectedItem.SubItems(4) = lwD.ListItems(I).SubItems(4) Then
+        i = 1
+        While i <= lwD.ListItems.Count
+            If lwh.SelectedItem.SubItems(4) = lwD.ListItems(i).SubItems(4) Then
                 'Lo hemos encontrado. Comprobamos que no esta chequeado
-                If Not lwD.ListItems(I).Checked Then
+                If Not lwD.ListItems(i).Checked Then
                     'Tiene el mismo importe y no esta chequeado
                     'Comprobamos k el docum es el mismo
                     'Si no es el mismo, pero es la segunda busqueda, tb aceptamos
@@ -1373,10 +1390,10 @@ Private Sub BusquedaEnDebe()
 
                         Checkear = True
                     Else
-                        Checkear = (lwh.SelectedItem.SubItems(2) = lwD.ListItems(I).SubItems(2))
+                        Checkear = (lwh.SelectedItem.SubItems(2) = lwD.ListItems(i).SubItems(2))
                     End If
                     If Checkear Then
-                        Set lwD.SelectedItem = lwD.ListItems(I)
+                        Set lwD.SelectedItem = lwD.ListItems(i)
                         lwD.SelectedItem.EnsureVisible
                         lwD.SetFocus
                         Beep
@@ -1384,7 +1401,7 @@ Private Sub BusquedaEnDebe()
                     End If
                 End If
             End If
-            I = I + 1
+            i = i + 1
         Wend
         ContadorBus = ContadorBus + 1
     Loop Until ContadorBus > 2
@@ -1554,30 +1571,30 @@ Dim H As Currency
     'Recorremos el debe
     With lwD
         If .ListItems.Count > 0 Then
-            For I = 1 To .ListItems.Count
-                Im = CCur(ImporteFormateado(.ListItems(I).SubItems(4)))
-                If Not .ListItems(I).Checked Then
+            For i = 1 To .ListItems.Count
+                Im = CCur(ImporteFormateado(.ListItems(i).SubItems(4)))
+                If Not .ListItems(i).Checked Then
                  
                     d = d + Im
                     
                 Else
                     PuntD = PuntD + Im
                 End If
-            Next I
+            Next i
         End If
     End With
     
     
     With lwh
         If .ListItems.Count > 0 Then
-            For I = 1 To .ListItems.Count
-                Im = CCur(ImporteFormateado(.ListItems(I).SubItems(4)))
-                If Not .ListItems(I).Checked Then
+            For i = 1 To .ListItems.Count
+                Im = CCur(ImporteFormateado(.ListItems(i).SubItems(4)))
+                If Not .ListItems(i).Checked Then
                     H = H + Im
                 Else
                     PuntH = PuntH + Im
                 End If
-            Next I
+            Next i
         End If
     End With
     
@@ -1607,6 +1624,7 @@ Private Sub DesmarcaTodo()
     Sql = Sql & "          ¿Desea continuar?"
     If MsgBox(Sql, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     
+    Screen.MousePointer = vbHourglass
     Sql = "UPDATE hlinapu"
     Sql = Sql & " SET punteada=0 WHERE codmacta = '" & Text3(2).Text & "'"
     Sql = Sql & " AND fechaent>= '" & Format(Text3(0).Text, FormatoFecha) & "'"
@@ -1614,6 +1632,7 @@ Private Sub DesmarcaTodo()
     Conn.Execute Sql
     InsertarCtaCadenaPunteados
     CargarDatos
+    Screen.MousePointer = vbDefault
 End Sub
 
 
@@ -1639,9 +1658,9 @@ Private Sub PonerModoPunteo(ModoImporte As Boolean)
     End With
     
     
-    For I = 0 To 3
-        imgCheck(I).Visible = Not ModoImporte
-    Next I
+    For i = 0 To 3
+        imgCheck(i).Visible = Not ModoImporte
+    Next i
 End Sub
 
 
@@ -1650,12 +1669,12 @@ Private Function AlgunNodoPunteado() As Boolean
 
     AlgunNodoPunteado = True
     
-    For I = 1 To lwD.ListItems.Count
-        If lwD.ListItems(I).Checked Then Exit Function
-    Next I
-    For I = 1 To lwh.ListItems.Count
-        If lwh.ListItems(I).Checked Then Exit Function
-    Next I
+    For i = 1 To lwD.ListItems.Count
+        If lwD.ListItems(i).Checked Then Exit Function
+    Next i
+    For i = 1 To lwh.ListItems.Count
+        If lwh.ListItems(i).Checked Then Exit Function
+    Next i
     'Si llega aqui es que NO hay ninguno punteado
     AlgunNodoPunteado = False
 End Function
@@ -1667,9 +1686,9 @@ Dim T1 As Single
 
 
     T1 = Timer - 1
-    For I = 1 To lwD.ListItems.Count
+    For i = 1 To lwD.ListItems.Count
         'Label
-        Sql = lwD.ListItems(I).SubItems(4) 'Cargo el importe
+        Sql = lwD.ListItems(i).SubItems(4) 'Cargo el importe
         
         If Timer - T1 > 1 Then
             Me.Label7(1).Visible = Not Me.Label7(1).Visible
@@ -1682,8 +1701,8 @@ Dim T1 As Single
                 RC = lwh.ListItems(J).SubItems(4)
                 If Sql = RC Then
                     'EUREKA!!!!!! El mismo importe
-                    lwD.ListItems(I).Checked = True
-                    PunteaEnBD lwD.ListItems(I), True
+                    lwD.ListItems(i).Checked = True
+                    PunteaEnBD lwD.ListItems(i), True
                     lwh.ListItems(J).Checked = True
                     PunteaEnBD lwh.ListItems(J), False
                     'Nos salimos del for
@@ -1691,7 +1710,7 @@ Dim T1 As Single
                 End If
             End If
         Next J
-    Next I
+    Next i
     
     Me.Label7(1).Visible = False
 End Sub
@@ -1727,6 +1746,6 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub

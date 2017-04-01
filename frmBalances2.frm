@@ -907,10 +907,10 @@ Option Explicit
 Public numBalance As Integer
 
 Dim PrimeraVez As Boolean
-Dim SQL As String
-Dim RS As Recordset
+Dim Sql As String
+Dim Rs As Recordset
 Dim NodoArbol As Node
-Dim I As Integer
+Dim i As Integer
 Dim Devolucion As String
 Dim Clave As String
 
@@ -950,10 +950,10 @@ End Sub
 Private Sub cmdGuardar_Click()
 On Error GoTo EGuarda
 
-    If Val(txtBal(0).Text) > 50 Then
-        MsgBox "No se puede guardar", vbExclamation
-        Exit Sub
-    End If
+    'If Val(txtBal(0).Text) > 50 Then
+    '    MsgBox "No se puede guardar", vbExclamation
+    '    Exit Sub
+    'End If
 
     txtBal(1).Text = Trim(txtBal(1).Text)
     txtBal(2).Text = Trim(txtBal(2).Text)
@@ -967,20 +967,20 @@ On Error GoTo EGuarda
         'Si esta como predeterminado
         
         If Check3.Value Then
-            SQL = "UPDATE balances set predeterminado=0 where perdidas =" & Abs(CInt(Check2.Value))
-            Conn.Execute SQL
+            Sql = "UPDATE balances set predeterminado=0 where perdidas =" & Abs(CInt(Check2.Value))
+            Conn.Execute Sql
         End If
         'Es modificar
-        SQL = "UPDATE balances SET nombalan='" & txtBal(1).Text & "', Descripcion = "
+        Sql = "UPDATE balances SET nombalan='" & txtBal(1).Text & "', Descripcion = "
         If txtBal(2).Text = "" Then
             Clave = "NULL"
         Else
             Clave = "'" & txtBal(2).Text & "'"
         End If
-        SQL = SQL & Clave & ", Aparece =" & Abs(CInt(Check1.Value))
-        SQL = SQL & ", perdidas =" & Abs(CInt(Check2.Value))
-        SQL = SQL & ", predeterminado =" & Abs(CInt(Check3.Value))
-        SQL = SQL & " WHERE numbalan =" & numBalance
+        Sql = Sql & Clave & ", Aparece =" & Abs(CInt(check1.Value))
+        Sql = Sql & ", perdidas =" & Abs(CInt(Check2.Value))
+        Sql = Sql & ", predeterminado =" & Abs(CInt(Check3.Value))
+        Sql = Sql & " WHERE numbalan =" & numBalance
         
         
         
@@ -990,31 +990,31 @@ On Error GoTo EGuarda
             If Not ExistePredeterminado Then Check3.Value = 1
         End If
         'Es nuevo
-        SQL = "INSERT INTO balances (numbalan, nombalan, Descripcion, Aparece, perdidas, Predeterminado) VALUES ("
-        SQL = SQL & NumRegElim & ",'" & txtBal(1).Text & "',"
+        Sql = "INSERT INTO balances (numbalan, nombalan, Descripcion, Aparece, perdidas, Predeterminado) VALUES ("
+        Sql = Sql & NumRegElim & ",'" & txtBal(1).Text & "',"
         If txtBal(2).Text = "" Then
             Clave = "NULL"
         Else
             Clave = "'" & txtBal(2).Text & "'"
         End If
-        SQL = SQL & Clave & "," & Abs(CInt(Check1.Value)) & ","
-        SQL = SQL & Abs(CInt(Check2.Value)) & "," & Abs(CInt(Check3.Value)) & ")"
+        Sql = Sql & Clave & "," & Abs(CInt(check1.Value)) & ","
+        Sql = Sql & Abs(CInt(Check2.Value)) & "," & Abs(CInt(Check3.Value)) & ")"
     End If
-    Conn.Execute SQL
+    Conn.Execute Sql
     
     
     'AHora ponemos si se ha seleccionado como predetrminado, el resto lo ponemos como NO predeterminado
     If Check3.Value Then
         'Ha puesto perdeterminado. Entonces vamos a poner todos los demas
         'Balances del tipo de este
-        SQL = "UPDATE balances SET predeterminado=0  WHERE Perdidas = " & Abs(CInt(Check2.Value))
-        SQL = SQL & " AND numbalan <> "
+        Sql = "UPDATE balances SET predeterminado=0  WHERE Perdidas = " & Abs(CInt(Check2.Value))
+        Sql = Sql & " AND numbalan <> "
         If NumRegElim > 0 Then
-            SQL = SQL & NumRegElim
+            Sql = Sql & NumRegElim
         Else
-            SQL = SQL & numBalance
+            Sql = Sql & numBalance
         End If
-        Conn.Execute SQL
+        Conn.Execute Sql
     End If
     
     
@@ -1052,7 +1052,7 @@ Dim N As Node
         End If
     End If
 
-    Set RS = New ADODB.Recordset
+    Set Rs = New ADODB.Recordset
     
     
     LetraActivo = SSTab1.Tag
@@ -1063,8 +1063,8 @@ Dim N As Node
     'CAMBIAR ORDEN
     '------------------------------------------
     
-    SQL = "SELECT * from balances_texto WHERE numbalan= " & numBalance
-    SQL = SQL & " AND Pasivo = '" & LetraActivo & "' AND codigo = "
+    Sql = "SELECT * from balances_texto WHERE numbalan= " & numBalance
+    Sql = Sql & " AND Pasivo = '" & LetraActivo & "' AND codigo = "
     Clave = ""
     If Index = 0 Then
         'Anterior
@@ -1072,40 +1072,40 @@ Dim N As Node
     Else
          Clave = Mid(TreeView1.SelectedItem.Next.Key, 2)
     End If
-    SQL = SQL & Clave
-    RS.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    If RS.EOF Then
+    Sql = Sql & Clave
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Rs.EOF Then
         MsgBox "Error leyendo NODO: " & Clave, vbExclamation
-        RS.Close
+        Rs.Close
         Exit Sub
     End If
     
-    NumRegElim = RS!Orden  'TEngo el nodo destino
-    RS.Close
+    NumRegElim = Rs!Orden  'TEngo el nodo destino
+    Rs.Close
     
     
     
-    SQL = "SELECT * from balances_texto WHERE numbalan= " & numBalance
-    SQL = SQL & " AND Pasivo = '" & LetraActivo & "' AND codigo = "
-    SQL = SQL & Mid(TreeView1.SelectedItem.Key, 2)
-    RS.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    If RS.EOF Then
+    Sql = "SELECT * from balances_texto WHERE numbalan= " & numBalance
+    Sql = Sql & " AND Pasivo = '" & LetraActivo & "' AND codigo = "
+    Sql = Sql & Mid(TreeView1.SelectedItem.Key, 2)
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Rs.EOF Then
         MsgBox "Error leyendo NODO: " & TreeView1.SelectedItem.Key, vbExclamation
-        RS.Close
+        Rs.Close
         Exit Sub
     End If
     
-    I = RS!Orden   'En I tengo el nodo que se mueve
-    RS.Close
+    i = Rs!Orden   'En I tengo el nodo que se mueve
+    Rs.Close
     
-    If I = NumRegElim Then
+    If i = NumRegElim Then
         MsgBox "TIENEN EL MISMO ORDEN. Consulte a soporte tecnico", vbExclamation
     End If
     
     'Updateamos los nodos
-    SQL = "UPDATE balances_texto SeT orden = " & I
-    SQL = SQL & " Where NumBalan = " & numBalance
-    SQL = SQL & " AND Pasivo = '" & LetraActivo & "' AND codigo = "
+    Sql = "UPDATE balances_texto SeT orden = " & i
+    Sql = Sql & " Where NumBalan = " & numBalance
+    Sql = Sql & " AND Pasivo = '" & LetraActivo & "' AND codigo = "
     Clave = ""
     If Index = 0 Then
         'Anterior
@@ -1113,15 +1113,15 @@ Dim N As Node
     Else
          Clave = Mid(TreeView1.SelectedItem.Next.Key, 2)
     End If
-    SQL = SQL & Clave
-    Conn.Execute SQL
+    Sql = Sql & Clave
+    Conn.Execute Sql
     
     
-    SQL = "UPDATE balances_texto SeT orden = " & NumRegElim
-    SQL = SQL & " Where NumBalan = " & numBalance
-    SQL = SQL & " AND Pasivo = '" & LetraActivo & "' AND codigo = "
-    SQL = SQL & Mid(TreeView1.SelectedItem.Key, 2)
-    Conn.Execute SQL
+    Sql = "UPDATE balances_texto SeT orden = " & NumRegElim
+    Sql = Sql & " Where NumBalan = " & numBalance
+    Sql = Sql & " AND Pasivo = '" & LetraActivo & "' AND codigo = "
+    Sql = Sql & Mid(TreeView1.SelectedItem.Key, 2)
+    Conn.Execute Sql
     
     
     'Recargamos el nodo
@@ -1145,47 +1145,47 @@ Dim N As Node
         Wend
                 'En numregelim tenemos el codigo del padre de los que estamos moviendo
         Clave = NumRegElim & "|"
-        SQL = "SELECT * from balances_texto WHERE numbalan= " & numBalance
-        SQL = SQL & " AND Pasivo = '" & LetraActivo & "' AND Padre "
+        Sql = "SELECT * from balances_texto WHERE numbalan= " & numBalance
+        Sql = Sql & " AND Pasivo = '" & LetraActivo & "' AND Padre "
         While Clave <> ""
-            I = InStr(1, Clave, "|")
-            If I = 0 Then Clave = ""
-            If I > 0 Then
-                Devolucion = Mid(Clave, 1, I - 1)
-                Clave = Mid(Clave, I + 1)
-                RS.Open SQL & " = " & Devolucion & " ORDER BY orden", Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            i = InStr(1, Clave, "|")
+            If i = 0 Then Clave = ""
+            If i > 0 Then
+                Devolucion = Mid(Clave, 1, i - 1)
+                Clave = Mid(Clave, i + 1)
+                Rs.Open Sql & " = " & Devolucion & " ORDER BY orden", Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
                 Devolucion = LetraActivo & Devolucion
-                While Not RS.EOF
-                    Clave = Clave & RS!Codigo & "|"
-                    Set N = Me.TreeView1.Nodes.Add(Devolucion, tvwChild, LetraActivo & RS!Codigo, RS!deslinea)
-                    If RS!Tipo = 1 Then
-                         N.Tag = DBLet(RS!Formula) & "||"
+                While Not Rs.EOF
+                    Clave = Clave & Rs!Codigo & "|"
+                    Set N = Me.TreeView1.Nodes.Add(Devolucion, tvwChild, LetraActivo & Rs!Codigo, Rs!deslinea)
+                    If Rs!Tipo = 1 Then
+                         N.Tag = DBLet(Rs!Formula) & "||"
                          N.Image = 3
                     Else
-                         N.Tag = DBLet(RS!texlinea) & "|" & DBLet(RS!LibroCD) & "|"
+                         N.Tag = DBLet(Rs!texlinea) & "|" & DBLet(Rs!LibroCD) & "|"
                          N.Image = 2
                     End If
-                    RS.MoveNext
+                    Rs.MoveNext
                 Wend
-                RS.Close
+                Rs.Close
             End If
             'Si llevamos muchos nodos refrescamos
-            I = TreeView1.Nodes.Count Mod 25
-            If I = 0 Then TreeView1.Refresh
+            i = TreeView1.Nodes.Count Mod 25
+            If i = 0 Then TreeView1.Refresh
         Wend
     
     End If
     
     
     'Dejamos seleccionado el que estaba
-    For I = 1 To TreeView1.Nodes.Count
-        If TreeView1.Nodes(I).Key = CadenaDesdeOtroForm Then
-            Set TreeView1.SelectedItem = TreeView1.Nodes(I)
+    For i = 1 To TreeView1.Nodes.Count
+        If TreeView1.Nodes(i).Key = CadenaDesdeOtroForm Then
+            Set TreeView1.SelectedItem = TreeView1.Nodes(i)
             TreeView1.SelectedItem.EnsureVisible
             TreeView1.SelectedItem.Expanded = True
             Exit For
         End If
-    Next I
+    Next i
     CargaListview
     CadenaDesdeOtroForm = ""
     NumRegElim = 0
@@ -1195,12 +1195,7 @@ End Sub
 Private Sub Command1_Click(Index As Integer)
 Dim Tipo As String
 
-    If Val(txtBal(0).Text) > 50 Then
-        If Index < 4 Then
-            MsgBox "No se puede editar", vbExclamation
-            Exit Sub
-        End If
-    End If
+    
 
 
     Screen.MousePointer = vbHourglass
@@ -1245,13 +1240,13 @@ End Sub
 
 Private Sub Form_Load()
 
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
 
     ' Botonera Principal
     With Me.Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.imgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 3
         .Buttons(2).Image = 35
         .Buttons(3).Image = 4
@@ -1315,54 +1310,54 @@ Dim Nod As Node
     Text1.Text = ""
     Text2.Text = ""
     Text3.Text = ""
-    SQL = "SELECT * from balances_texto WHERE numbalan= " & numBalance
-    SQL = SQL & " AND Pasivo = '" & LetraActivo & "' AND Padre "
+    Sql = "SELECT * from balances_texto WHERE numbalan= " & numBalance
+    Sql = Sql & " AND Pasivo = '" & LetraActivo & "' AND Padre "
     TreeView1.Nodes.Clear
-    Set RS = New ADODB.Recordset
-    RS.Open SQL & " is null ORDER BY Orden", Conn, adOpenKeyset, adLockPessimistic, adCmdText
-    If RS.EOF Then
-        RS.Close
+    Set Rs = New ADODB.Recordset
+    Rs.Open Sql & " is null ORDER BY Orden", Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    If Rs.EOF Then
+        Rs.Close
         GoTo cerrar
     End If
     
     'Las raices
     
     Clave = ""
-    While Not RS.EOF
-        Clave = Clave & RS!Codigo & "|"
-        Set Nod = Me.TreeView1.Nodes.Add(, , LetraActivo & RS!Codigo, RS!deslinea)
+    While Not Rs.EOF
+        Clave = Clave & Rs!Codigo & "|"
+        Set Nod = Me.TreeView1.Nodes.Add(, , LetraActivo & Rs!Codigo, Rs!deslinea)
         Nod.Image = 1
-        Nod.Tag = DBLet(RS!texlinea) & "|" & DBLet(RS!LibroCD) & "|"
-        RS.MoveNext
+        Nod.Tag = DBLet(Rs!texlinea) & "|" & DBLet(Rs!LibroCD) & "|"
+        Rs.MoveNext
     Wend
-    RS.Close
+    Rs.Close
     
     
     While Clave <> ""
-        I = InStr(1, Clave, "|")
-        If I = 0 Then Clave = ""
-        If I > 0 Then
-            Devolucion = Mid(Clave, 1, I - 1)
-            Clave = Mid(Clave, I + 1)
-            RS.Open SQL & " = " & Devolucion & " ORDER BY orden", Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        i = InStr(1, Clave, "|")
+        If i = 0 Then Clave = ""
+        If i > 0 Then
+            Devolucion = Mid(Clave, 1, i - 1)
+            Clave = Mid(Clave, i + 1)
+            Rs.Open Sql & " = " & Devolucion & " ORDER BY orden", Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             Devolucion = LetraActivo & Devolucion
-            While Not RS.EOF
-                Clave = Clave & RS!Codigo & "|"
-                Set Nod = Me.TreeView1.Nodes.Add(Devolucion, tvwChild, LetraActivo & RS!Codigo, RS!deslinea)
-                If RS!Tipo = 1 Then
-                     Nod.Tag = DBLet(RS!Formula) & "||"
+            While Not Rs.EOF
+                Clave = Clave & Rs!Codigo & "|"
+                Set Nod = Me.TreeView1.Nodes.Add(Devolucion, tvwChild, LetraActivo & Rs!Codigo, Rs!deslinea)
+                If Rs!Tipo = 1 Then
+                     Nod.Tag = DBLet(Rs!Formula) & "||"
                      Nod.Image = 3
                 Else
-                     Nod.Tag = DBLet(RS!texlinea) & "|" & DBLet(RS!LibroCD) & "|"
+                     Nod.Tag = DBLet(Rs!texlinea) & "|" & DBLet(Rs!LibroCD) & "|"
                      Nod.Image = 2
                 End If
-                RS.MoveNext
+                Rs.MoveNext
             Wend
-            RS.Close
+            Rs.Close
         End If
         'Si llevamos muchos nodos refrescamos
-        I = TreeView1.Nodes.Count Mod 25
-        If I = 0 Then TreeView1.Refresh
+        i = TreeView1.Nodes.Count Mod 25
+        If i = 0 Then TreeView1.Refresh
     Wend
     
     
@@ -1373,7 +1368,7 @@ Dim Nod As Node
     CargaListview
 cerrar:
     If Err.Number Then MuestraError Err.Number
-    Set RS = Nothing
+    Set Rs = Nothing
 End Sub
 
 
@@ -1447,7 +1442,7 @@ Dim Actual As String
     Nod.EnsureVisible
     Set TreeView1.SelectedItem = Nod
     'Numbal,pasivo,codigo,padre,orden
-    Clave = numBalance & "|" & SSTab1.Tag & "|" & Sig & "|" & Clave & "|" & I & "|"
+    Clave = numBalance & "|" & SSTab1.Tag & "|" & Sig & "|" & Clave & "|" & i & "|"
     InsertarNodo Nod, False
     Me.Refresh
 End Sub
@@ -1455,34 +1450,34 @@ End Sub
 
 
 Private Function DevuelveSiguiente(Padre As String) As Integer
-    Set RS = New ADODB.Recordset
-    SQL = ") From balances_texto where numbalan=" & numBalance & " AND pasivo = '"
+    Set Rs = New ADODB.Recordset
+    Sql = ") From balances_texto where numbalan=" & numBalance & " AND pasivo = '"
     If SSTab1.Tab = 1 Then
-        SQL = SQL & "A'"
+        Sql = Sql & "A'"
     Else
-        SQL = SQL & "B'"
+        Sql = Sql & "B'"
     End If
-    RS.Open "Select max(codigo" & SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    I = 0
-    If Not RS.EOF Then
-        I = DBLet(RS.Fields(0), "N")
+    Rs.Open "Select max(codigo" & Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    i = 0
+    If Not Rs.EOF Then
+        i = DBLet(Rs.Fields(0), "N")
     End If
-    RS.Close
-    DevuelveSiguiente = I + 1
+    Rs.Close
+    DevuelveSiguiente = i + 1
     
     'Ahora comprobamos dentro del bloque k orden tiene
     If Padre <> "" Then
-        SQL = SQL & " AND Padre =" & Padre
+        Sql = Sql & " AND Padre =" & Padre
     Else
-        SQL = SQL & " AND Padre is null"
+        Sql = Sql & " AND Padre is null"
     End If
-    RS.Open "Select max(orden" & SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    I = 0
-    If Not RS.EOF Then
-        I = DBLet(RS.Fields(0), "N")
+    Rs.Open "Select max(orden" & Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    i = 0
+    If Not Rs.EOF Then
+        i = DBLet(Rs.Fields(0), "N")
     End If
-    I = I + 1
-    Set RS = Nothing
+    i = i + 1
+    Set Rs = Nothing
     
     
     
@@ -1507,7 +1502,7 @@ Dim Actual As String
     Nod.EnsureVisible
     Set TreeView1.SelectedItem = Nod
     
-    Clave = numBalance & "|" & SSTab1.Tag & "|" & Sig & "|" & Clave & "|" & I & "|"
+    Clave = numBalance & "|" & SSTab1.Tag & "|" & Sig & "|" & Clave & "|" & i & "|"
     InsertarNodo Nod, False
     Me.Refresh
 End Sub
@@ -1536,16 +1531,16 @@ Private Sub InsertarNodo(ByRef Nod As Node, Modificar As Boolean)
         
         Clave = RecuperaValor(CadenaDesdeOtroForm, 3) 'Si es formula
         If Clave = "1" Then
-            I = 3  'Icono suma
+            i = 3  'Icono suma
         Else
             'Si es padre habra k ver k icono le corresponde
             If Nod.Parent Is Nothing Then
-                I = 1   'Icono raiz
+                i = 1   'Icono raiz
             Else
-                I = 2   'Icono noraml
+                i = 2   'Icono noraml
             End If
         End If
-        Nod.Image = I
+        Nod.Image = i
     End If
 End Sub
     
@@ -1566,17 +1561,17 @@ Private Sub EliminarNODO()
     
     
     'preguntamos
-    SQL = "Seguro que desea eliminar el nodo: " & TreeView1.SelectedItem.Text & "?"
-    If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+    Sql = "Seguro que desea eliminar el nodo: " & TreeView1.SelectedItem.Text & "?"
+    If MsgBox(Sql, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     
     
     
     'Comun para borrar
     Clave = " numbalan = " & numBalance & " AND Pasivo ='" & SSTab1.Tag & "' AND Codigo = " & Mid(TreeView1.SelectedItem.Key, 2)
-    SQL = "Delete from balances_ctas where " & Clave
-    Conn.Execute SQL
-    SQL = "Delete from balances_texto where " & Clave
-    Conn.Execute SQL
+    Sql = "Delete from balances_ctas where " & Clave
+    Conn.Execute Sql
+    Sql = "Delete from balances_texto where " & Clave
+    Conn.Execute Sql
     
     'Updateamos los ordenes
     TreeView1.Nodes.Remove TreeView1.SelectedItem.Index
@@ -1593,22 +1588,22 @@ Private Sub ModificaNodo()
         Exit Sub
     End If
 
-    Set RS = New ADODB.Recordset
+    Set Rs = New ADODB.Recordset
     Clave = " numbalan = " & numBalance & " AND Pasivo ='" & SSTab1.Tag & "' AND Codigo = " & Mid(TreeView1.SelectedItem.Key, 2)
-    SQL = "Select * from balances_texto where " & Clave
-    RS.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    If RS.EOF Then
+    Sql = "Select * from balances_texto where " & Clave
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Rs.EOF Then
         MsgBox "Se ha generado un error leyendo el codigo : " & Clave, vbExclamation
-        RS.Close
+        Rs.Close
         Exit Sub
     End If
     
     Clave = ""
-    For I = 0 To RS.Fields.Count - 1
-        Clave = Clave & DBLet(RS.Fields(I)) & "|"
-    Next I
-    RS.Close
-    Set RS = Nothing
+    For i = 0 To Rs.Fields.Count - 1
+        Clave = Clave & DBLet(Rs.Fields(i)) & "|"
+    Next i
+    Rs.Close
+    Set Rs = Nothing
     
     'Ya tengo todos los valores aqui, en Clave
     'Si tiene cuentas no va a poder generar formula
@@ -1643,39 +1638,39 @@ Dim Resta As Byte
     
     
     CadenaDesdeOtroForm = ""
-    SQL = TreeView1.SelectedItem.Text & "|"
+    Sql = TreeView1.SelectedItem.Text & "|"
     If Insertar Then
-        I = 9
+        i = 9
     Else
         Select Case ListView1.SelectedItem.Icon
         Case 5
-            I = 1  'Debe en el siguiente form
+            i = 1  'Debe en el siguiente form
         Case 6
-            I = 2   'Haber
+            i = 2   'Haber
         Case Else
-            I = 0   'Saldo
+            i = 0   'Saldo
         End Select
                 
         'Cuenta , debe haber
-        SQL = SQL & ListView1.SelectedItem.Text & "|" & I & "|"
+        Sql = Sql & ListView1.SelectedItem.Text & "|" & i & "|"
         
         
         'Si es resta
-        SQL = SQL & ListView1.SelectedItem.Tag & "|"
+        Sql = Sql & ListView1.SelectedItem.Tag & "|"
         
         'Para la opcion del formulario
-        I = 10
+        i = 10
     End If
-    frmMensajes.Opcion = I
-    frmMensajes.Parametros = SQL
+    frmMensajes.Opcion = i
+    frmMensajes.Parametros = Sql
     frmMensajes.Show vbModal
     If CadenaDesdeOtroForm <> "" Then
         Devolucion = RecuperaValor(CadenaDesdeOtroForm, 1)
         Clave = RecuperaValor(CadenaDesdeOtroForm, 2)
-        SQL = RecuperaValor(CadenaDesdeOtroForm, 3)
-        Resta = CByte(SQL)
+        Sql = RecuperaValor(CadenaDesdeOtroForm, 3)
+        Resta = CByte(Sql)
         If Insertar Then
-            If Not CompruebaCuenta(Devolucion, Clave, SQL = "1") Then Exit Sub
+            If Not CompruebaCuenta(Devolucion, Clave, Sql = "1") Then Exit Sub
         End If
         InsertaModiCtaSQL Clave, Insertar, Resta
         CargaListview
@@ -1692,22 +1687,22 @@ Private Sub InsertaModiCtaSQL(ByRef Tipo As String, Insertar As Boolean, Resta A
     On Error Resume Next
     
     If Insertar Then
-        SQL = "INSERT INTO balances_ctas (NumBalan, Pasivo, codigo, codmacta, tipsaldo,Resta ) VALUES ("
-        SQL = SQL & numBalance & ",'" & SSTab1.Tag & "'," & Mid(TreeView1.SelectedItem.Key, 2)
-        SQL = SQL & ",'" & Devolucion & "','" & Tipo & "'," & Resta & ")"
-        Conn.Execute SQL
+        Sql = "INSERT INTO balances_ctas (NumBalan, Pasivo, codigo, codmacta, tipsaldo,Resta ) VALUES ("
+        Sql = Sql & numBalance & ",'" & SSTab1.Tag & "'," & Mid(TreeView1.SelectedItem.Key, 2)
+        Sql = Sql & ",'" & Devolucion & "','" & Tipo & "'," & Resta & ")"
+        Conn.Execute Sql
         'Updateamos el registro para indicar k tiene cuentas
-        SQL = "UPDATE balances_texto Set TienenCtas=1 WHERE numbalan=" & numBalance & " AND Pasivo ='" & SSTab1.Tag
-        SQL = SQL & "' AND codigo =" & Mid(TreeView1.SelectedItem.Key, 2)
-        Conn.Execute SQL
+        Sql = "UPDATE balances_texto Set TienenCtas=1 WHERE numbalan=" & numBalance & " AND Pasivo ='" & SSTab1.Tag
+        Sql = Sql & "' AND codigo =" & Mid(TreeView1.SelectedItem.Key, 2)
+        Conn.Execute Sql
         
     Else
         'MODIFICAR
-        SQL = "UPDATE balances_ctas SET tipsaldo = '" & Tipo & "' ,Resta = " & Resta
-        SQL = SQL & " WHERE numbalan ="
-        SQL = SQL & numBalance & " AND pasivo = '" & SSTab1.Tag & "' AND codigo = " & Mid(TreeView1.SelectedItem.Key, 2)
-        SQL = SQL & " AND codmacta = '" & Devolucion & "'"
-        Conn.Execute SQL
+        Sql = "UPDATE balances_ctas SET tipsaldo = '" & Tipo & "' ,Resta = " & Resta
+        Sql = Sql & " WHERE numbalan ="
+        Sql = Sql & numBalance & " AND pasivo = '" & SSTab1.Tag & "' AND codigo = " & Mid(TreeView1.SelectedItem.Key, 2)
+        Sql = Sql & " AND codmacta = '" & Devolucion & "'"
+        Conn.Execute Sql
     End If
     If Err.Number <> 0 Then
         MuestraError Err.Number, "Insertando cuenta"
@@ -1719,35 +1714,35 @@ End Sub
 Private Function CompruebaCuenta(ByRef Cta As String, LEtra As String, Resta As Boolean) As Boolean
 Dim C1 As String
 
-    SQL = "Select * from balances_ctas WHERE numbalan= " & numBalance
-    SQL = SQL & " AND codmacta='" & Cta & "'"
+    Sql = "Select * from balances_ctas WHERE numbalan= " & numBalance
+    Sql = Sql & " AND codmacta='" & Cta & "'"
     
-    Set RS = New ADODB.Recordset
-    RS.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    SQL = ""
-    While Not RS.EOF
+    Set Rs = New ADODB.Recordset
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = ""
+    While Not Rs.EOF
     
     
-        If RS!Resta = Abs(Resta) Then
+        If Rs!Resta = Abs(Resta) Then
         
-            If LEtra = RS!TipSaldo Then
-                C1 = "pasivo = '" & RS!Pasivo & "' AND numbalan = " & numBalance & " AND codigo "
-                C1 = DevuelveDesdeBD("deslinea", "balances_texto", C1, RS!Codigo)
-                C1 = RS!Pasivo & " - " & RS!Codigo & " - " & RS!TipSaldo & ": " & C1
-                SQL = SQL & C1 & vbCrLf
+            If LEtra = Rs!TipSaldo Then
+                C1 = "pasivo = '" & Rs!Pasivo & "' AND numbalan = " & numBalance & " AND codigo "
+                C1 = DevuelveDesdeBD("deslinea", "balances_texto", C1, Rs!Codigo)
+                C1 = Rs!Pasivo & " - " & Rs!Codigo & " - " & Rs!TipSaldo & ": " & C1
+                Sql = Sql & C1 & vbCrLf
             End If
             
             
         Else
             
         End If
-        RS.MoveNext
+        Rs.MoveNext
     Wend
-    RS.Close
-    Set RS = Nothing
-    If SQL <> "" Then
-        SQL = "La cuenta ya está en los registros: " & vbCrLf & SQL & vbCrLf & "Desea continuar igualmente?"
-        If MsgBox(SQL, vbQuestion + vbYesNoCancel) = vbYes Then
+    Rs.Close
+    Set Rs = Nothing
+    If Sql <> "" Then
+        Sql = "La cuenta ya está en los registros: " & vbCrLf & Sql & vbCrLf & "Desea continuar igualmente?"
+        If MsgBox(Sql, vbQuestion + vbYesNoCancel) = vbYes Then
             CompruebaCuenta = True
         Else
             CompruebaCuenta = False
@@ -1767,14 +1762,14 @@ Dim ItmX As ListItem
 
 'Comun
 
-    SQL = "Select * from balances_ctas WHERE numbalan= " & numBalance
-    SQL = SQL & " AND Pasivo = '" & Me.SSTab1.Tag & "' AND codigo = " & Mid(TreeView1.SelectedItem.Key, 2)
-    SQL = SQL & " ORDER BY codmacta"
-    Set RS = New ADODB.Recordset
-    RS.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    While Not RS.EOF
-        Set ItmX = ListView1.ListItems.Add(, , RS!codmacta)   ' Autor.
-        Select Case RS!TipSaldo
+    Sql = "Select * from balances_ctas WHERE numbalan= " & numBalance
+    Sql = Sql & " AND Pasivo = '" & Me.SSTab1.Tag & "' AND codigo = " & Mid(TreeView1.SelectedItem.Key, 2)
+    Sql = Sql & " ORDER BY codmacta"
+    Set Rs = New ADODB.Recordset
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    While Not Rs.EOF
+        Set ItmX = ListView1.ListItems.Add(, , Rs!codmacta)   ' Autor.
+        Select Case Rs!TipSaldo
         Case "D"
              ItmX.Icon = 5
         Case "H"
@@ -1782,12 +1777,12 @@ Dim ItmX As ListItem
         Case Else
              ItmX.Icon = 7
         End Select
-        ItmX.Tag = Abs(RS!Resta)
+        ItmX.Tag = Abs(Rs!Resta)
         If ItmX.Tag = 1 Then ItmX.ForeColor = vbRed
-        RS.MoveNext
+        Rs.MoveNext
     Wend
-    RS.Close
-    Set RS = Nothing
+    Rs.Close
+    Set Rs = Nothing
     
 End Sub
 
@@ -1798,21 +1793,21 @@ Private Sub PonerDatosBalance()
     If NumRegElim = 0 Then
         'El balance ya existe
         'Ponemos los datos
-        Set RS = New ADODB.Recordset
-        RS.Open "Select * from balances where numbalan=" & numBalance, Conn, adOpenDynamic, adLockPessimistic, adCmdText
-        If RS.EOF Then
+        Set Rs = New ADODB.Recordset
+        Rs.Open "Select * from balances where numbalan=" & numBalance, Conn, adOpenDynamic, adLockPessimistic, adCmdText
+        If Rs.EOF Then
             MsgBox "Error leyendo los datos del balance: " & numBalance, vbExclamation
         Else
-            txtBal(1).Text = RS!NomBalan
-            txtBal(2).Text = DBLet(RS!Descripcion)
-            Check1.Value = RS!Aparece
-            Check2.Value = RS!perdidas
-            Check3.Value = RS!predeterminado
-            Check3.Tag = RS!predeterminado
+            txtBal(1).Text = Rs!NomBalan
+            txtBal(2).Text = DBLet(Rs!Descripcion)
+            check1.Value = Rs!Aparece
+            Check2.Value = Rs!perdidas
+            Check3.Value = Rs!predeterminado
+            Check3.Tag = Rs!predeterminado
             txtBal(0).Text = numBalance
         End If
-        RS.Close
-        Set RS = Nothing
+        Rs.Close
+        Set Rs = Nothing
         Caption = "Configurador de Balances  - " & txtBal(1).Text
         
         
@@ -1852,20 +1847,20 @@ Private Sub EliminarCta()
     If TreeView1.SelectedItem Is Nothing Then Exit Sub
     If ListView1.SelectedItem Is Nothing Then Exit Sub
     
-    SQL = "Desea eliminar de la linea la cuenta: " & ListView1.SelectedItem.Text & " ?"
-    If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+    Sql = "Desea eliminar de la linea la cuenta: " & ListView1.SelectedItem.Text & " ?"
+    If MsgBox(Sql, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     Clave = " numbalan = " & numBalance & " AND Pasivo ='" & SSTab1.Tag & "' AND Codigo = " & Mid(TreeView1.SelectedItem.Key, 2)
-    SQL = "DELETE FROM balances_ctas WHERE codmacta ='" & ListView1.SelectedItem.Text & "' AND "
-    SQL = SQL & Clave
-    Conn.Execute SQL
+    Sql = "DELETE FROM balances_ctas WHERE codmacta ='" & ListView1.SelectedItem.Text & "' AND "
+    Sql = Sql & Clave
+    Conn.Execute Sql
     
     ListView1.ListItems.Remove ListView1.SelectedItem.Index
     'Si no kedan mas cuentas
     If ListView1.ListItems.Count = 0 Then
         'Updateamos el registro para indicar k tiene cuentas
-        SQL = "UPDATE balances_texto Set TienenCtas=0 WHERE numbalan=" & numBalance & " AND Pasivo = '" & SSTab1.Tag
-        SQL = SQL & "' AND codigo =" & Mid(TreeView1.SelectedItem.Key, 2)
-        Conn.Execute SQL
+        Sql = "UPDATE balances_texto Set TienenCtas=0 WHERE numbalan=" & numBalance & " AND Pasivo = '" & SSTab1.Tag
+        Sql = Sql & "' AND codigo =" & Mid(TreeView1.SelectedItem.Key, 2)
+        Conn.Execute Sql
     End If
 End Sub
     
@@ -1875,17 +1870,17 @@ End Sub
 Private Function ExistePredeterminado() As Boolean
     
 On Error GoTo EExiste
-    Set RS = New ADODB.Recordset
+    Set Rs = New ADODB.Recordset
     ExistePredeterminado = False
-    SQL = "Select * from balances where perdidas = " & Abs(Check2.Value)
-    SQL = SQL & " AND predeterminado = 1"
-    RS.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    If Not RS.EOF Then ExistePredeterminado = True
-    RS.Close
+    Sql = "Select * from balances where perdidas = " & Abs(Check2.Value)
+    Sql = Sql & " AND predeterminado = 1"
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Not Rs.EOF Then ExistePredeterminado = True
+    Rs.Close
     
 EExiste:
     If Err.Number <> 0 Then Err.Clear
-    Set RS = Nothing
+    Set Rs = Nothing
 End Function
 
 Private Sub CargaPLAN()
@@ -1893,43 +1888,43 @@ Dim J As Integer
 Dim N As Integer
     
     On Error GoTo ECargaPlan
-    Set RS = New ADODB.Recordset
-    For I = 1 To vEmpresa.numnivel - 1
-        J = DigitosNivel(I)
+    Set Rs = New ADODB.Recordset
+    For i = 1 To vEmpresa.numnivel - 1
+        J = DigitosNivel(i)
         Devolucion = Mid("__________", 1, J)
-        SQL = "Select codmacta,nommacta from Cuentas where codmacta like '" & Devolucion & "'"
-        RS.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        If I = vEmpresa.numnivel - 1 Then
+        Sql = "Select codmacta,nommacta from Cuentas where codmacta like '" & Devolucion & "'"
+        Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        If i = vEmpresa.numnivel - 1 Then
             N = 3
         Else
             N = 2
         End If
-        While Not RS.EOF
-            Clave = RS!codmacta & " - " & RS!Nommacta
+        While Not Rs.EOF
+            Clave = Rs!codmacta & " - " & Rs!Nommacta
             If J > 1 Then
-                N = DigitosNivel(I - 1)
-                Devolucion = "C" & Mid(RS!codmacta, 1, N)
-                Set NodoArbol = Me.TreeView2.Nodes.Add(Devolucion, tvwChild, "C" & RS!codmacta, Clave)
+                N = DigitosNivel(i - 1)
+                Devolucion = "C" & Mid(Rs!codmacta, 1, N)
+                Set NodoArbol = Me.TreeView2.Nodes.Add(Devolucion, tvwChild, "C" & Rs!codmacta, Clave)
                 If J < 4 Then
                     NodoArbol.Image = 2
                 Else
                     NodoArbol.Image = 4
                 End If
             Else
-                Set NodoArbol = Me.TreeView2.Nodes.Add(, , "C" & RS!codmacta, Clave)
+                Set NodoArbol = Me.TreeView2.Nodes.Add(, , "C" & Rs!codmacta, Clave)
                 NodoArbol.Image = 1
             End If
             'Todos los subnodos de segundo nivel los vamos a mostrar
-            If I = 2 Then NodoArbol.EnsureVisible
+            If i = 2 Then NodoArbol.EnsureVisible
             
-            RS.MoveNext
+            Rs.MoveNext
         Wend
-        RS.Close
-    Next I
-    Set RS = Nothing
+        Rs.Close
+    Next i
+    Set Rs = Nothing
     'Que muestre la primera cuenta
     If TreeView2.Nodes.Count > 0 Then TreeView2.Nodes(1).EnsureVisible
     Exit Sub
 ECargaPlan:
-    MuestraError Err.Number, "Cargando plan: " & RS!codmacta
+    MuestraError Err.Number, "Cargando plan: " & Rs!codmacta
 End Sub

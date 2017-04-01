@@ -712,10 +712,10 @@ Attribute frmC.VB_VarHelpID = -1
 Private WithEvents frmCon  As frmConceptos
 Attribute frmCon.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim PrimeraVez As String
 
@@ -796,11 +796,11 @@ End Sub
 
 
 Private Sub Form_Load()
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
         
@@ -808,12 +808,12 @@ Private Sub Form_Load()
     'Otras opciones
     Me.Caption = "Totales por Cuenta y Conceptos"
 
-    For I = 0 To 1
-        Me.imgCuentas(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    Next I
-    For I = 0 To 0
-        Me.imgConceptos(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To 1
+        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
+    For i = 0 To 0
+        Me.imgConceptos(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
     
     PrimeraVez = True
      
@@ -906,24 +906,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -933,7 +933,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -1002,11 +1002,11 @@ Dim Hasta As Integer
         Case 0, 1 'Cuentas
             
             RC = txtCuentas(Index).Text
-            If CuentaCorrectaUltimoNivelSIN(RC, SQL) Then
+            If CuentaCorrectaUltimoNivelSIN(RC, Sql) Then
                 txtCuentas(Index) = RC
-                txtNCuentas(Index).Text = SQL
+                txtNCuentas(Index).Text = Sql
             Else
-                MsgBox SQL, vbExclamation
+                MsgBox Sql, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
                 PonFoco txtCuentas(Index)
@@ -1071,27 +1071,27 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
-    If Check1.Value = 0 Then
-        SQL = "Select hlinapu.codconce Concepto, conceptos.nomconce Descripción, hlinapu.codmacta as Cuenta, cuentas.nommacta Título, cuentas.nifdatos NIF, count(*) Número, "
-        SQL = SQL & " sum(coalesce(hlinapu.timported,0)) Debe, sum(coalesce(hlinapu.timporteh,0)) Haber, sum(coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) Saldo "
-        SQL = SQL & " FROM (hlinapu  INNER JOIN cuentas ON hlinapu.codmacta = cuentas.codmacta) INNER JOIN conceptos ON hlinapu.codconce = conceptos.codconce "
-        SQL = SQL & " where " & cadselect
-        SQL = SQL & " GROUP BY 1,2,3,4,5 "
-        SQL = SQL & " ORDER BY 1,2,3,4,5 "
+    If check1.Value = 0 Then
+        Sql = "Select hlinapu.codconce Concepto, conceptos.nomconce Descripción, hlinapu.codmacta as Cuenta, cuentas.nommacta Título, cuentas.nifdatos NIF, count(*) Número, "
+        Sql = Sql & " sum(coalesce(hlinapu.timported,0)) Debe, sum(coalesce(hlinapu.timporteh,0)) Haber, sum(coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) Saldo "
+        Sql = Sql & " FROM (hlinapu  INNER JOIN cuentas ON hlinapu.codmacta = cuentas.codmacta) INNER JOIN conceptos ON hlinapu.codconce = conceptos.codconce "
+        Sql = Sql & " where " & cadselect
+        Sql = Sql & " GROUP BY 1,2,3,4,5 "
+        Sql = Sql & " ORDER BY 1,2,3,4,5 "
     Else
-        SQL = "Select hlinapu.codconce Concepto, conceptos.nomconce Descripción, hlinapu.codmacta as Cuenta, cuentas.nommacta Título, cuentas.nifdatos NIF, YEAR(hlinapu.fechaent) Año, MONTH(hlinapu.fechaent) Mes, count(*) Número, "
-        SQL = SQL & " sum(coalesce(hlinapu.timported,0)) Debe, sum(coalesce(hlinapu.timporteh,0)) Haber, sum(coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) Saldo "
-        SQL = SQL & " FROM (hlinapu  INNER JOIN cuentas ON hlinapu.codmacta = cuentas.codmacta) INNER JOIN conceptos ON hlinapu.codconce = conceptos.codconce "
-        SQL = SQL & " where " & cadselect
-        SQL = SQL & " GROUP BY 1,2,3,4,5,6,7 "
-        SQL = SQL & " ORDER BY 1,2,3,4,5,6,7 "
+        Sql = "Select hlinapu.codconce Concepto, conceptos.nomconce Descripción, hlinapu.codmacta as Cuenta, cuentas.nommacta Título, cuentas.nifdatos NIF, YEAR(hlinapu.fechaent) Año, MONTH(hlinapu.fechaent) Mes, count(*) Número, "
+        Sql = Sql & " sum(coalesce(hlinapu.timported,0)) Debe, sum(coalesce(hlinapu.timporteh,0)) Haber, sum(coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) Saldo "
+        Sql = Sql & " FROM (hlinapu  INNER JOIN cuentas ON hlinapu.codmacta = cuentas.codmacta) INNER JOIN conceptos ON hlinapu.codconce = conceptos.codconce "
+        Sql = Sql & " where " & cadselect
+        Sql = Sql & " GROUP BY 1,2,3,4,5,6,7 "
+        Sql = Sql & " ORDER BY 1,2,3,4,5,6,7 "
     End If
         
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1103,7 +1103,7 @@ Dim nomDocu As String
     vMostrarTree = False
     conSubRPT = False
         
-    If Check1.Value = 1 Then
+    If check1.Value = 1 Then
         indRPT = "0310-01" '"TotCtaConTotalD.rpt"
     Else
         indRPT = "0310-00" '"TotCtaConTotal.rpt"
@@ -1117,7 +1117,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 2
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 61
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -1125,8 +1125,8 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
 

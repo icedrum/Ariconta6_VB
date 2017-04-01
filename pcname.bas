@@ -31,8 +31,8 @@ Private Enum WTS_INFO_CLASS
 End Enum
 
 
-Private Declare Function GetCurrentProcessId Lib "kernel32.dll" () As Long
-Private Declare Function ProcessIdToSessionId Lib "kernel32.dll" (ByVal dwProcessId As Long, ByRef pSessionId As Long) As Long
+Private Declare Function GetCurrentProcessId Lib "kernel32.DLL" () As Long
+Private Declare Function ProcessIdToSessionId Lib "kernel32.DLL" (ByVal dwProcessId As Long, ByRef pSessionId As Long) As Long
 
 
 Private Declare Function WTSQuerySessionInformation _
@@ -59,7 +59,7 @@ Private Declare Function lstrcpy Lib "kernel32" Alias "lstrcpyA" ( _
 '------------------------------------------------------------------------
 ' Lanza visores predeterminados por MIME
 Private Declare Function ShellExecute Lib "shell32.dll" Alias _
-    "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, _
+    "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, _
     ByVal lpFile As String, ByVal lpParameters As String, _
     ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
@@ -69,6 +69,7 @@ Private Declare Function ShellExecute Lib "shell32.dll" Alias _
 
 
 Public Function LanzaVisorMimeDocumento(Formhwnd As Long, Archivo As String)
+
     Call ShellExecute(Formhwnd, "open", Archivo, "", "", 1)
 End Function
 

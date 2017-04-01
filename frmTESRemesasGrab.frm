@@ -222,9 +222,9 @@ Begin VB.Form frmTESRemesasGrab
                Strikethrough   =   0   'False
             EndProperty
             Height          =   360
-            ItemData        =   "frmTESRemesasGrab.frx":0047
+            ItemData        =   "frmTESRemesasGrab.frx":003F
             Left            =   1740
-            List            =   "frmTESRemesasGrab.frx":0049
+            List            =   "frmTESRemesasGrab.frx":0041
             Style           =   2  'Dropdown List
             TabIndex        =   12
             Top             =   480
@@ -314,7 +314,7 @@ Begin VB.Form frmTESRemesasGrab
             Left            =   4980
             TabIndex        =   21
             Top             =   210
-            Width           =   1785
+            Width           =   2385
          End
          Begin VB.Label Label7 
             Caption         =   "Norma"

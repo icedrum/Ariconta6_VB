@@ -642,10 +642,10 @@ Attribute frmDia.VB_VarHelpID = -1
 Private WithEvents frmC As frmColCtas
 Attribute frmC.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim PrimeraVez As String
 
@@ -691,17 +691,17 @@ Private Sub cmdAccion_Click(Index As Integer)
     
     ReDim V340(5)
     cad = ""
-    I = 0
+    i = 0
     CadenaDesdeOtroForm = ""
     For NumRegElim = 1 To Me.ListView1(0).ListItems.Count
         If Me.ListView1(0).ListItems(NumRegElim).Checked Then
-            I = I + 1
+            i = i + 1
             CadenaDesdeOtroForm = CadenaDesdeOtroForm & ", " & Me.ListView1(0).ListItems(NumRegElim).Text
             V340(3) = V340(3) & "," & Mid(ListView1(0).ListItems(NumRegElim).Key, 2)
         End If
     Next NumRegElim
-    If I = 0 Then cad = " - Accion"
-    If I = Me.ListView1(0).ListItems.Count Then
+    If i = 0 Then cad = " - Accion"
+    If i = Me.ListView1(0).ListItems.Count Then
         'VAN TODOS. No pongo ninguno
         CadenaDesdeOtroForm = ""
         V340(3) = ""
@@ -712,16 +712,16 @@ Private Sub cmdAccion_Click(Index As Integer)
     End If
     V340(0) = CadenaDesdeOtroForm
     
-    I = 0
+    i = 0
     For NumRegElim = 1 To Me.ListView1(1).ListItems.Count
         If Me.ListView1(1).ListItems(NumRegElim).Checked Then
-            I = I + 1
+            i = i + 1
             CadenaDesdeOtroForm = CadenaDesdeOtroForm & ", " & Me.ListView1(1).ListItems(NumRegElim).Text
             V340(4) = V340(4) & ",'" & DevNombreSQL(ListView1(1).ListItems(NumRegElim).Text) & "'"
         End If
     Next NumRegElim
-    If I = 0 Then cad = cad & vbCrLf & " - Trabajador"
-    If I = Me.ListView1(1).ListItems.Count Then
+    If i = 0 Then cad = cad & vbCrLf & " - Trabajador"
+    If i = Me.ListView1(1).ListItems.Count Then
         'VAN TODOS. No pongo ninguno
         CadenaDesdeOtroForm = ""
         V340(4) = ""
@@ -800,7 +800,7 @@ End Sub
 Private Sub Form_Load()
     PrimeraVez = True
 
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Listado de Log"
@@ -833,8 +833,8 @@ Private Sub imgCheck_Click(Index As Integer)
     
     cad = "0"
     If (Index Mod 2) = 1 Then cad = "1"
-    For I = 1 To Me.ListView1(NumRegElim).ListItems.Count
-        ListView1(NumRegElim).ListItems(I).Checked = cad = "1"
+    For i = 1 To Me.ListView1(NumRegElim).ListItems.Count
+        ListView1(NumRegElim).ListItems(i).Checked = cad = "1"
     Next
 End Sub
 
@@ -870,24 +870,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -904,22 +904,22 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
     If Me.optLog(0) Then
-        SQL = "Select  `tmppendientes`.`nomforpa` Fecha, `tmppendientes`.`nombre` Trabajador, `tmppendientes`.`Situacion` Accion, `tmppendientes`.`observa` Detalle"
-        SQL = SQL & "  FROM  `tmppendientes` `tmppendientes`"
-        SQL = SQL & " where codusu = " & vUsu.Codigo
-        SQL = SQL & " order by 1,2,3,4"
+        Sql = "Select  `tmppendientes`.`nomforpa` Fecha, `tmppendientes`.`nombre` Trabajador, `tmppendientes`.`Situacion` Accion, `tmppendientes`.`observa` Detalle"
+        Sql = Sql & "  FROM  `tmppendientes` `tmppendientes`"
+        Sql = Sql & " where codusu = " & vUsu.Codigo
+        Sql = Sql & " order by 1,2,3,4"
     Else
-        SQL = "Select  `tmppendientes`.`nombre` Trabajador, `tmppendientes`.`nomforpa` Fecha,`tmppendientes`.`Situacion` Accion,  `tmppendientes`.`observa` Detalle"
-        SQL = SQL & "  FROM  `tmppendientes` `tmppendientes`"
-        SQL = SQL & " where codusu = " & vUsu.Codigo
-        SQL = SQL & " order by `tmppendientes`.`nombre`, `tmppendientes`.`nomforpa` "
+        Sql = "Select  `tmppendientes`.`nombre` Trabajador, `tmppendientes`.`nomforpa` Fecha,`tmppendientes`.`Situacion` Accion,  `tmppendientes`.`observa` Detalle"
+        Sql = Sql & "  FROM  `tmppendientes` `tmppendientes`"
+        Sql = Sql & " where codusu = " & vUsu.Codigo
+        Sql = Sql & " order by `tmppendientes`.`nombre`, `tmppendientes`.`nomforpa` "
     End If
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -964,7 +964,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 2
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 29
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -972,8 +972,8 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
 

@@ -4,45 +4,20 @@ Begin VB.Form pageBackstageInfo
    BackColor       =   &H00FFFFFF&
    BorderStyle     =   0  'None
    Caption         =   "Form1"
-   ClientHeight    =   6810
+   ClientHeight    =   10785
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   12540
+   ClientWidth     =   17385
    LinkTopic       =   "Form1"
-   ScaleHeight     =   454
+   ScaleHeight     =   719
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   836
+   ScaleWidth      =   1159
    ShowInTaskbar   =   0   'False
    StartUpPosition =   3  'Windows Default
-   Begin XtremeCommandBars.BackstageButton btnManageVersions 
-      Height          =   1230
-      Left            =   360
-      TabIndex        =   10
-      Top             =   3120
-      Width           =   1290
-      _Version        =   1114114
-      _ExtentX        =   2275
-      _ExtentY        =   2170
-      _StockProps     =   79
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Segoe UI"
-         Size            =   9
-         Charset         =   204
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      EnableMarkup    =   -1  'True
-      TextImageRelation=   1
-      ShowShadow      =   -1  'True
-      IconWidth       =   32
-      Icon            =   "pageBackstageInfo.frx":0000
-   End
    Begin XtremeCommandBars.BackstageButton btnCheckForIssues 
       Height          =   1230
       Left            =   360
-      TabIndex        =   9
+      TabIndex        =   4
       Top             =   5160
       Visible         =   0   'False
       Width           =   1290
@@ -64,39 +39,12 @@ Begin VB.Form pageBackstageInfo
       TextImageRelation=   1
       ShowShadow      =   -1  'True
       IconWidth       =   32
-      Icon            =   "pageBackstageInfo.frx":106A
-   End
-   Begin XtremeCommandBars.BackstageButton btnProtectDocument 
-      Height          =   1230
-      Left            =   360
-      TabIndex        =   8
-      Top             =   960
-      Width           =   1290
-      _Version        =   1114114
-      _ExtentX        =   2275
-      _ExtentY        =   2170
-      _StockProps     =   79
-      Caption         =   $"pageBackstageInfo.frx":20D4
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Segoe UI"
-         Size            =   9
-         Charset         =   204
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      EnableMarkup    =   -1  'True
-      TextImageRelation=   1
-      PushButtonStyle =   4
-      ShowShadow      =   -1  'True
-      IconWidth       =   32
-      Icon            =   "pageBackstageInfo.frx":21A8
+      Icon            =   "pageBackstageInfo.frx":0000
    End
    Begin XtremeCommandBars.BackstageSeparator lblBackstageSeparator4 
       Height          =   6615
       Left            =   7200
-      TabIndex        =   14
+      TabIndex        =   8
       Top             =   120
       Width           =   135
       _Version        =   1114114
@@ -109,7 +57,7 @@ Begin VB.Form pageBackstageInfo
    Begin XtremeCommandBars.BackstageSeparator lblBackstageSeparator3 
       Height          =   255
       Left            =   240
-      TabIndex        =   13
+      TabIndex        =   7
       Top             =   4560
       Width           =   6615
       _Version        =   1114114
@@ -121,7 +69,7 @@ Begin VB.Form pageBackstageInfo
    Begin XtremeCommandBars.BackstageSeparator lblBackstageSeparator2 
       Height          =   255
       Left            =   240
-      TabIndex        =   12
+      TabIndex        =   6
       Top             =   2520
       Width           =   6615
       _Version        =   1114114
@@ -133,7 +81,7 @@ Begin VB.Form pageBackstageInfo
    Begin XtremeCommandBars.BackstageSeparator lblBackstageSeparator1 
       Height          =   255
       Left            =   240
-      TabIndex        =   11
+      TabIndex        =   5
       Top             =   600
       Width           =   6615
       _Version        =   1114114
@@ -141,118 +89,6 @@ Begin VB.Form pageBackstageInfo
       _ExtentY        =   450
       _StockProps     =   2
       MarkupText      =   ""
-   End
-   Begin VB.Image Image1 
-      Height          =   1350
-      Left            =   7560
-      Picture         =   "pageBackstageInfo.frx":3212
-      Top             =   120
-      Width           =   3840
-   End
-   Begin VB.Label Label6 
-      BackColor       =   &H00FFFFFF&
-      Caption         =   "Tel: +34 963 805 579"
-      BeginProperty Font 
-         Name            =   "Segoe UI"
-         Size            =   8.25
-         Charset         =   204
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Index           =   3
-      Left            =   7800
-      TabIndex        =   17
-      Top             =   3600
-      Width           =   4215
-   End
-   Begin VB.Label Label6 
-      BackColor       =   &H00FFFFFF&
-      Caption         =   "46007 Valencia"
-      BeginProperty Font 
-         Name            =   "Segoe UI"
-         Size            =   8.25
-         Charset         =   204
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Index           =   2
-      Left            =   7800
-      TabIndex        =   16
-      Top             =   3120
-      Width           =   4215
-   End
-   Begin VB.Label Label6 
-      BackColor       =   &H00FFFFFF&
-      Caption         =   "Pasaje Ventura Feliu 13, Entresuelo 2 Izquierda"
-      BeginProperty Font 
-         Name            =   "Segoe UI"
-         Size            =   8.25
-         Charset         =   204
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Index           =   1
-      Left            =   7800
-      TabIndex        =   15
-      Top             =   2640
-      Width           =   4215
-   End
-   Begin XtremeCommandBars.CommandBars CommandBars 
-      Left            =   10200
-      Top             =   960
-      _Version        =   1114114
-      _ExtentX        =   635
-      _ExtentY        =   635
-      _StockProps     =   0
-      ScaleMode       =   1
-      VisualTheme     =   6
-   End
-   Begin VB.Label Label7 
-      BackColor       =   &H00FFFFFF&
-      Caption         =   "Version"
-      BeginProperty Font 
-         Name            =   "Segoe UI"
-         Size            =   9.75
-         Charset         =   204
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H005B5B5B&
-      Height          =   375
-      Left            =   1920
-      TabIndex        =   7
-      Top             =   3120
-      Width           =   2535
-   End
-   Begin VB.Label Label6 
-      BackColor       =   &H00FFFFFF&
-      Caption         =   "There are no previous versions of this file"
-      BeginProperty Font 
-         Name            =   "Segoe UI"
-         Size            =   8.25
-         Charset         =   204
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   855
-      Index           =   0
-      Left            =   1920
-      TabIndex        =   6
-      Top             =   3480
-      Width           =   4215
    End
    Begin VB.Label Label5 
       BackColor       =   &H00FFFFFF&
@@ -268,7 +104,7 @@ Begin VB.Form pageBackstageInfo
       EndProperty
       Height          =   255
       Left            =   1920
-      TabIndex        =   5
+      TabIndex        =   3
       Top             =   6000
       Visible         =   0   'False
       Width           =   4575
@@ -288,7 +124,7 @@ Begin VB.Form pageBackstageInfo
       ForeColor       =   &H005B5B5B&
       Height          =   375
       Left            =   1920
-      TabIndex        =   4
+      TabIndex        =   2
       Top             =   5280
       Visible         =   0   'False
       Width           =   2535
@@ -307,46 +143,10 @@ Begin VB.Form pageBackstageInfo
       EndProperty
       Height          =   255
       Left            =   1920
-      TabIndex        =   3
+      TabIndex        =   1
       Top             =   5640
       Visible         =   0   'False
       Width           =   4215
-   End
-   Begin VB.Label Label2 
-      BackColor       =   &H00FFFFFF&
-      BeginProperty Font 
-         Name            =   "Segoe UI"
-         Size            =   8.25
-         Charset         =   204
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   855
-      Left            =   1920
-      TabIndex        =   2
-      Top             =   1440
-      Width           =   5055
-   End
-   Begin VB.Label Label1 
-      BackColor       =   &H00FFFFFF&
-      Caption         =   "Licencia usuario final"
-      BeginProperty Font 
-         Name            =   "Segoe UI"
-         Size            =   9.75
-         Charset         =   204
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H005B5B5B&
-      Height          =   375
-      Left            =   1920
-      TabIndex        =   1
-      Top             =   1080
-      Width           =   2535
    End
    Begin VB.Label lblCaption 
       BackColor       =   &H00FFFFFF&
@@ -382,9 +182,9 @@ Private Type RECT
         Bottom As Long
 End Type
 
-Private Function AddButton(Controls As CommandBarControls, ControlType As XTPControlType, Id As Long, Caption As String, Optional BeginGroup As Boolean = False, Optional DescriptionText As String = "", Optional ButtonStyle As XTPButtonStyle = xtpButtonAutomatic, Optional Category As String = "Controls") As CommandBarControl
+Private Function AddButton(Controls As CommandBarControls, ControlType As XTPControlType, id As Long, Caption As String, Optional BeginGroup As Boolean = False, Optional DescriptionText As String = "", Optional ButtonStyle As XTPButtonStyle = xtpButtonAutomatic, Optional Category As String = "Controls") As CommandBarControl
     Dim Control As CommandBarControl
-    Set Control = Controls.Add(ControlType, Id, Caption)
+    Set Control = Controls.Add(ControlType, id, Caption)
     
     Control.BeginGroup = BeginGroup
     Control.DescriptionText = DescriptionText
@@ -396,7 +196,7 @@ Private Function AddButton(Controls As CommandBarControls, ControlType As XTPCon
 End Function
 
 Private Sub btnManageVersions_Click()
-    frmppal.OpcionesMenuInformacion ID_Ver_Version_operativa_web
+'    frmppal.OpcionesMenuInformacion ID_Ver_Version_operativa_web
 End Sub
 
 
@@ -405,7 +205,7 @@ Private Sub btnProtectDocument_DropDown()
         Set Popup = CommandBars.Add("Popup", xtpBarPopup)
              
    
-        AddButton Popup.Controls, xtpControlButton, ID_Licencia_Usuario_Final_txt, "Ver", False, "Ver licencia en formato texto."
+        'AddButton Popup.Controls, xtpControlButton, ID_Licencia_Usuario_Final_txt, "Ver", False, "Ver licencia en formato texto."
         AddButton Popup.Controls, xtpControlButton, ID_Licencia_Usuario_Final_web, "Abrir licencia en navegador", False, "Ver licencia en www.ariadnasw.com"
         'AddButton Popup.Controls, xtpControlButton, 0, "Restrict Editing", False, "Control what types of changes people can make to this document."
         'AddButton Popup.Controls, xtpControlButton, 0, "Restrict Permission by People", False, "Grant peole access while removing their ability to edit, copy, or print."
@@ -425,28 +225,27 @@ Private Sub btnProtectDocument_DropDown()
 
 End Sub
 
-Private Sub LanzaAccion(Id As Long)
-    frmppal.OpcionesMenuInformacion Id
-    
+Private Sub LanzaAccion(id As Long)
+    frmppal.OpcionesMenuInformacion id
 End Sub
 
 
 Private Sub CommandBars_Execute(ByVal Control As XtremeCommandBars.ICommandBarControl)
 Dim L As Long
     L = 0
-    Select Case Control.Id
+    Select Case Control.id
     Case ID_Licencia_Usuario_Final_txt
-        L = Control.Id
+        L = Control.id
     Case ID_Licencia_Usuario_Final_web
-        L = Control.Id
+        L = Control.id
     
     End Select
     If L > 0 Then LanzaAccion L
 End Sub
 
 Private Sub Form_Load()
-    CommandBars.ActiveMenuBar.Delete
-    Label6(0).Caption = App.Major & "." & App.Minor & "." & App.Revision
+    'CommandBars.ActiveMenuBar.Delete
+    'Label6(0).Caption = App.Major & "." & App.Minor & "." & App.Revision
 End Sub
 
 Private Sub Form_Resize()

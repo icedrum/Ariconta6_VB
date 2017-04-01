@@ -928,8 +928,8 @@ Dim nomDocu As String
 '                Exit Sub
 '            End If
             
-            'Modelo de hacienda
-            B2 = Modelo347(False, Year(CDate(txtFecha(1).Text)))
+            'Modelo de haciend a
+            B2 = Modelo347(Year(CDate(txtFecha(1).Text)))
             
             If B2 Then CopiarFicheroASalida False, txtTipoSalida(1).Text
         
@@ -1729,16 +1729,16 @@ End Function
 
 
 
-Private Sub CopiarFicheroHacienda(Modelo347 As Boolean)
+Private Sub CopiarFicheroHaciend2(Modelo347 As Boolean)
     On Error GoTo ECopiarFichero347
     MsgBox "El archivo se ha generado con exito.", vbInformation
     Sql = ""
     cd1.CancelError = True
     cd1.ShowSave
     If Modelo347 Then
-        Sql = App.Path & "\Hacienda\mod347\mod347.txt"
+        Sql = App.Path & "\mod347.txt"
     Else
-        Sql = App.Path & "\Hacienda\mod349\mod349.txt"
+        Sql = App.Path & "\mod349.txt"
     End If
     If cd1.FileTitle <> "" Then
         If Dir(cd1.FileName, vbArchive) <> "" Then

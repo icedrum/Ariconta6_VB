@@ -631,12 +631,12 @@ Public Sub CheckButton(nButton As Integer)
     CommandBars.Actions(nButton).Checked = True
 End Sub
 
-Sub OnThemeChanged(Id As Integer)
+Sub OnThemeChanged(id As Integer)
 Dim N_Skin As Integer
-    CheckButton Id
+    CheckButton id
     
     Dim FlatStyle As Boolean
-    FlatStyle = Id >= ID_OPTIONS_STYLESCENIC7 And Id <= ID_OPTIONS_STYLEBLACK2010
+    FlatStyle = id >= ID_OPTIONS_STYLESCENIC7 And id <= ID_OPTIONS_STYLEBLACK2010
         
         
     Me.BackColor = frmShortBar.wndShortcutBar.PaintManager.SplitterBackgroundColor
@@ -696,8 +696,8 @@ Dim N_Skin As Integer
     DockingPaneManager.PaintManager.ShowCaption = False
     DockingPaneManager.RedrawPanes
         
-    frmShortBar.SetColor
-    frmInbox.SetColor Id
+    frmShortBar.SetColor id
+    frmInbox.SetColor id
         
 
     frmPaneCalendar.SetFlatStyle FlatStyle
@@ -711,7 +711,7 @@ Dim N_Skin As Integer
     
     
     LoadIcons
-    N_Skin = Id - 2895
+    N_Skin = id - 2895
     EstablecerSkin N_Skin
     
     'Updatear SKIN usuario
@@ -727,12 +727,12 @@ Dim i As Integer
     Dim nTheme As XtremeCommandBars.XTPBackstageButtonControlAppearanceStyle
     nTheme = xtpAppearanceResource
 
-    If Not (pageBackstageInfo Is Nothing) Then
-        pageBackstageInfo.btnProtectDocument.Appearance = nTheme
-        pageBackstageInfo.btnProtectDocument.Appearance = nTheme
-        pageBackstageInfo.btnCheckForIssues.Appearance = nTheme
-        pageBackstageInfo.btnManageVersions.Appearance = nTheme
-    End If
+   ' If Not (pageBackstageInfo Is Nothing) Then
+        'pageBackstageInfo.btnProtectDocument.Appearance = nTheme
+        'pageBackstageInfo.btnProtectDocument.Appearance = nTheme
+        'pageBackstageInfo.btnCheckForIssues.Appearance = nTheme
+        'pageBackstageInfo.btnManageVersions.Appearance = nTheme
+   ' End If
     
     If Not (pageBackstageHelp Is Nothing) Then
         For i = 0 To 4
@@ -741,12 +741,12 @@ Dim i As Integer
         
     End If
     
-    If Not (pageBackstageSend Is Nothing) Then
+    'If Not (pageBackstageSend Is Nothing) Then
         'pageBackstageSend.btnTab(0).Appearance = nTheme
         'pageBackstageSend.btnTab(1).Appearance = nTheme
         'pageBackstageSend.btnTab(2).Appearance = nTheme
         'pageBackstageSend.btnTab(3).Appearance = nTheme
-    End If
+    'End If
 
 End Sub
 
@@ -818,7 +818,7 @@ Dim AbiertoFormulario  As Boolean
     AbiertoFormulario = False
     
 
-    Select Case Control.Id
+    Select Case Control.id
         Case XTPCommandBarsSpecialCommands.XTP_ID_RIBBONCONTROLTAB:
             
         
@@ -837,7 +837,7 @@ Dim AbiertoFormulario  As Boolean
         
         
         Case ID_Licencia_Usuario_Final_txt, ID_Licencia_Usuario_Final_web, ID_Ver_Version_operativa_web
-            OpcionesMenuInformacion Control.Id
+            OpcionesMenuInformacion Control.id
         
         
         
@@ -853,7 +853,7 @@ Dim AbiertoFormulario  As Boolean
             
         Case ID_OPTIONS_FONT_SYSTEM, ID_OPTIONS_FONT_NORMAL, ID_OPTIONS_FONT_LARGE, ID_OPTIONS_FONT_EXTRALARGE
             Dim newFontHeight As Integer
-            newFontHeight = FontSizes(Control.Id - ID_OPTIONS_FONT_SYSTEM)
+            newFontHeight = FontSizes(Control.id - ID_OPTIONS_FONT_SYSTEM)
             RibbonBar.FontHeight = newFontHeight
             
         Case ID_OPTIONS_FONT_AUTORESIZEICONS
@@ -979,7 +979,7 @@ Dim AbiertoFormulario  As Boolean
      
         Case Else
             AbiertoFormulario = True
-            AbrirFormularios Control.Id
+            AbrirFormularios Control.id
             
             
     End Select
@@ -1025,7 +1025,7 @@ Private Sub CommandBars_InitCommandsPopup(ByVal CommandBar As XtremeCommandBars.
             
             Do While Index + 1 <= CommandBar.Controls.Count
                 Set ControlItem = CommandBar.Controls.Item(Index + 1)
-                If ControlItem.Id = IDS_ARRANGE_BY Then
+                If ControlItem.id = IDS_ARRANGE_BY Then
                     ControlItem.Delete
                 Else
                     Exit Do
@@ -1061,7 +1061,7 @@ Private Sub CommandBars_Update(ByVal Control As XtremeCommandBars.ICommandBarCon
     
     
     
-    Select Case Control.Id
+    Select Case Control.id
         Case ID_VIEW_STATUSBAR:     Control.Checked = CommandBars.StatusBar.Visible
         
         
@@ -1080,7 +1080,7 @@ Private Sub CommandBars_Update(ByVal Control As XtremeCommandBars.ICommandBarCon
             
         Case ID_OPTIONS_FONT_SYSTEM, ID_OPTIONS_FONT_NORMAL, ID_OPTIONS_FONT_LARGE, ID_OPTIONS_FONT_EXTRALARGE
                 Dim newFontHeight As Integer
-                newFontHeight = FontSizes(Control.Id - ID_OPTIONS_FONT_SYSTEM)
+                newFontHeight = FontSizes(Control.id - ID_OPTIONS_FONT_SYSTEM)
                 Control.Checked = IIf(RibbonBar.FontHeight = newFontHeight, True, False)
                 
         Case ID_OPTIONS_FONT_AUTORESIZEICONS
@@ -1127,7 +1127,7 @@ Dim AntiguoTab As Integer
     
     AntiguoTab = -1
     If RibbonSeHaCreado Then
-        If Not RibbonBar.SelectedTab Is Nothing Then AntiguoTab = RibbonBar.SelectedTab.Id
+        If Not RibbonBar.SelectedTab Is Nothing Then AntiguoTab = RibbonBar.SelectedTab.id
     End If
     CreateRibbon
     CreateBackstage
@@ -1153,7 +1153,19 @@ End Sub
 
 
 
+
 Public Sub CambiarEmpresa(QueEmpresa As Integer)
+Dim cur As Integer
+    cur = Screen.MousePointer
+    Screen.MousePointer = vbHourglass
+    Me.Hide
+    CambiarEmpresa2 QueEmpresa
+    Me.Show
+    Screen.MousePointer = cur
+    
+End Sub
+
+Public Sub CambiarEmpresa2(QueEmpresa As Integer)
 Dim RB As RibbonBar
     CadenaDesdeOtroForm = vUsu.Login & "|" & vEmpresa.codempre & "|"
         
@@ -1375,9 +1387,9 @@ Public Sub ExpandButtonClicked()
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-    If Not (pageBackstageInfo Is Nothing) Then Unload pageBackstageInfo
+    'If Not (pageBackstageInfo Is Nothing) Then Unload pageBackstageInfo
     If Not (pageBackstageHelp Is Nothing) Then Unload pageBackstageHelp
-    If Not (pageBackstageSend Is Nothing) Then Unload pageBackstageSend
+    'If Not (pageBackstageSend Is Nothing) Then Unload pageBackstageSend
     
     'close all sub forms
     On Error Resume Next
@@ -1395,7 +1407,7 @@ End Sub
 
 
 Private Sub GuardarDatosUltimaTab()
-    i = RibbonBar.SelectedTab.Id
+    i = RibbonBar.SelectedTab.id
     If i = ID_TAB_CALENDAR_HOME Then Exit Sub 'no guardo este tab
     If i <> vUsu.TabPorDefecto Then
         vUsu.TabPorDefecto = i
@@ -1404,9 +1416,9 @@ Private Sub GuardarDatosUltimaTab()
 End Sub
 
 
-Public Function AddButton(Controls As CommandBarControls, ControlType As XTPControlType, Id As Long, Caption As String, Optional BeginGroup As Boolean = False, Optional DescriptionText As String = "", Optional ButtonStyle As XTPButtonStyle = xtpButtonAutomatic, Optional Category As String = "Controls") As CommandBarControl
+Public Function AddButton(Controls As CommandBarControls, ControlType As XTPControlType, id As Long, Caption As String, Optional BeginGroup As Boolean = False, Optional DescriptionText As String = "", Optional ButtonStyle As XTPButtonStyle = xtpButtonAutomatic, Optional Category As String = "Controls") As CommandBarControl
     Dim Control As CommandBarControl
-    Set Control = Controls.Add(ControlType, Id, Caption)
+    Set Control = Controls.Add(ControlType, id, Caption)
     
     Control.BeginGroup = BeginGroup
     Control.DescriptionText = DescriptionText
@@ -1644,17 +1656,17 @@ Private Sub CreateBackstage()
     'BackstageView.AddCommand ID_FILE_OPEN, "Open"
     'BackstageView.AddCommand ID_FILE_CLOSE, "Close"
     
-    If (pageBackstageInfo Is Nothing) Then Set pageBackstageInfo = New pageBackstageInfo
-    If (pageBackstageSend Is Nothing) Then Set pageBackstageSend = New pageBackstageSend
+    'If (pageBackstageInfo Is Nothing) Then Set pageBackstageInfo = New pageBackstageInfo
+    'If (pageBackstageSend Is Nothing) Then Set pageBackstageSend = New pageBackstageSend
     If (pageBackstageHelp Is Nothing) Then Set pageBackstageHelp = New pageBackstageHelp
     
     Dim ControlInfo As RibbonBackstageTab
     Set ControlInfo = BackstageView.AddTab(1000, "Info", pageBackstageHelp.hwnd)
     
-    BackstageView.AddTab 1002, "Empresas", pageBackstageSend.hwnd
+    'BackstageView.AddTab 1002, "Empresas", pageBackstageSend.hwnd
 
     ' Los menus de informacion...
-    BackstageView.AddTab 1001, "Acerca de", pageBackstageInfo.hwnd
+    'BackstageView.AddTab 1001, "Acerca de", pageBackstageInfo.hwnd
     
     
     
@@ -1692,7 +1704,7 @@ Private Sub CreateCalendarTabOriginal()
     Dim PopupBar As CommandBar
     
     Set TabCalendarHome = RibbonBar.InsertTab(14, "Agenda")
-    TabCalendarHome.Id = ID_TAB_CALENDAR_HOME
+    TabCalendarHome.id = ID_TAB_CALENDAR_HOME
  
     Set GroupNew = TabCalendarHome.Groups.AddGroup("&Nueva", ID_GROUP_NEW)
         
@@ -1949,7 +1961,7 @@ Dim Anterior As Integer
     
     cad = ""
     For i = 0 To RibbonBar.TabCount - 1
-        J = RibbonBar.Tab(i).Id
+        J = RibbonBar.Tab(i).id
         'Debug.Print J & " " & RibbonBar.Tab(i).Caption
         If J = Anterior Then
             
@@ -1975,7 +1987,7 @@ Private Sub CargaMenuConfiguracion(IdMenu As Integer)
 
         'Creamos la TAB
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Configuracion")
-        TabNuevo.Id = CLng(IdMenu)
+        TabNuevo.id = CLng(IdMenu)
         Set GroupNew = TabNuevo.Groups.AddGroup("", 1000000)
         
        
@@ -2004,8 +2016,12 @@ Private Sub CargaMenuConfiguracion(IdMenu As Integer)
             Rn2.MoveNext
         Wend
         Rn2.Close
-
-         Set GroupNew = Nothing
+        
+        'color Categorias  eventos
+        If Not GroupNew Is Nothing Then
+            Set Control = GroupNew.Add(xtpControlButton, 199, "Categorias calendario")
+        End If
+        Set GroupNew = Nothing
 End Sub
 
 
@@ -2017,7 +2033,7 @@ Private Sub CargaMenuDatosGenerales(IdMenu As Integer)
 Dim SegundoGrupo As RibbonGroup
         'Creamos la TAB
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Datos generales")
-        TabNuevo.Id = CLng(IdMenu)
+        TabNuevo.id = CLng(IdMenu)
         
         
         'En este llevaremos dos solapas, tesoreria y contabilidad (no le ponemos nombres)
@@ -2073,7 +2089,7 @@ Dim GrOtro As RibbonGroup
 
         'Creamos la TAB
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Diario")
-        TabNuevo.Id = CLng(IdMenu)
+        TabNuevo.id = CLng(IdMenu)
         
         cad = CStr(IdMenu * 100000)
         Set GroupNew = TabNuevo.Groups.AddGroup("ASIENTOS", cad & "0")
@@ -2132,7 +2148,7 @@ Dim GrupPag As RibbonGroup
         
         'Creamos la TAB
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Facturas")
-        TabNuevo.Id = CLng(IdMenu)
+        TabNuevo.id = CLng(IdMenu)
         
         cad = CStr(IdMenu * 100000)
         Set GropCli = TabNuevo.Groups.AddGroup("EMITIDAS", cad & "0")
@@ -2200,7 +2216,7 @@ Private Sub CargaMenuInmovilizado(IdMenu As Integer)
 
         'Creamos la TAB
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Inmovilizado")
-        TabNuevo.Id = CLng(IdMenu)
+        TabNuevo.id = CLng(IdMenu)
         
         
         'todos los hijos que cuelgan en la tab
@@ -2264,7 +2280,7 @@ Dim GrupRem As RibbonGroup
         
         'Creamos la TAB
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Tesoreria")
-        TabNuevo.Id = CLng(IdMenu)
+        TabNuevo.id = CLng(IdMenu)
         NumRegElim = TabNuevo.Index
         
         
@@ -2455,7 +2471,7 @@ Private Sub CargaMenuAnaliticaPResupuestaria(IdMenu As Integer)
             If TabNuevo Is Nothing Then
                 
                 Set TabNuevo = RibbonBar.InsertTab(15, "ANALITICA-PRESUPUESTO")
-                TabNuevo.Id = 15
+                TabNuevo.id = 15
                 
             End If
         End If
@@ -2513,7 +2529,7 @@ Dim GrupPag As RibbonGroup
         
         'Creamos la TAB
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Cierre ejercicio")
-        TabNuevo.Id = CLng(IdMenu)
+        TabNuevo.id = CLng(IdMenu)
         
         Set GroupNew = TabNuevo.Groups.AddGroup("", 13000001)
     
@@ -2553,8 +2569,8 @@ Dim GrupPag As RibbonGroup
 
 End Sub
 
-Private Function DevulevePosicionUtilidades(Id As Integer) As Integer
-    Select Case Id
+Private Function DevulevePosicionUtilidades(id As Integer) As Integer
+    Select Case id
     Case ID_Traspasodecuentasenapuntes
         DevulevePosicionUtilidades = 1
     Case ID_Renumerarregistrosproveedor
@@ -2615,7 +2631,7 @@ Dim Col As Collection
             'OK creamos solapa y demas
             'Creamos la TAB
             Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Utilidades")
-            TabNuevo.Id = CLng(IdMenu)
+            TabNuevo.id = CLng(IdMenu)
             Set GroupNew = TabNuevo.Groups.AddGroup("", 14000001)
             For NumRegElim = 1 To Col.Count
                 Habilitado = CStr(RecuperaValor(Col.Item(NumRegElim), 1)) = "1"
@@ -2644,7 +2660,7 @@ End Sub
 '**************************************************************************************************************
 '**************************************************************************************************************
 Private Sub AbrirFormularios(Accion As Long)
-
+   
 
     Select Case Accion
         Case 101 ' empresa
@@ -2670,6 +2686,11 @@ Private Sub AbrirFormularios(Accion As Long)
         Case 108 'Configurar Balances
             Screen.MousePointer = vbHourglass
             frmColBalan.Show vbModal, Me
+            
+        Case 199
+             frmCalendarCategorias.Show vbModal
+            
+            
         Case 201 ' plan contable
             Screen.MousePointer = vbHourglass
             frmColCtas.ConfigurarBalances = 0
@@ -2989,12 +3010,18 @@ Private Sub AbrirFormularios(Accion As Long)
      
    If Timer - UltimaLecturaReminders > 300 Then
         frmReminders.OnReminders xtpCalendarRemindersFire, Nothing
-        frmReminders.Show vbModal, Me
+        If frmReminders.CuantosAvisos > 0 Then frmReminders.Show vbModal, Me
+        CerrarAvisos
         UltimaLecturaReminders = Timer
     End If
      
 End Sub
 
+Private Sub CerrarAvisos()
+    On Error Resume Next
+    Unload frmReminders
+    Err.Clear
+End Sub
 
 
 Private Sub mnHerrAriadnaCC_Click(Index As Integer)
@@ -3079,9 +3106,9 @@ Private Sub PonerCaption()
 End Sub
 
 
-Public Sub OpcionesMenuInformacion(Id As Long)
+Public Sub OpcionesMenuInformacion(id As Long)
     
-    Select Case Id
+    Select Case id
     Case ID_Licencia_Usuario_Final_txt
         LanzaVisorMimeDocumento Me.hwnd, "c:\programas\Ariadna.rtf"
     Case ID_Licencia_Usuario_Final_web

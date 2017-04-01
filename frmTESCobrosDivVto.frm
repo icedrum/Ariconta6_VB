@@ -302,14 +302,14 @@ Attribute frmA.VB_VarHelpID = -1
 Private WithEvents frmP As frmFormaPago
 Attribute frmP.VB_VarHelpID = -1
 
-Dim SQL As String
+Dim Sql As String
 Dim RC As String
-Dim RS As Recordset
+Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
 Dim cad As String
 Dim CONT As Long
-Dim I As Integer
+Dim i As Integer
 Dim TotalRegistros As Long
 
 Dim Importe As Currency
@@ -375,24 +375,24 @@ Dim Dias As Integer
         
     vImpvto = 0
     vVtos = 0
-    If txtcodigo(1).Text <> "" Then vImpvto = ImporteSinFormato(ComprobarCero(txtcodigo(1).Text))
-    If txtcodigo(0).Text <> "" Then vVtos = CInt(ComprobarCero(txtcodigo(0).Text))
+    If txtCodigo(1).Text <> "" Then vImpvto = ImporteSinFormato(ComprobarCero(txtCodigo(1).Text))
+    If txtCodigo(0).Text <> "" Then vVtos = CInt(ComprobarCero(txtCodigo(0).Text))
         
     If vImpvto = 0 And vVtos = 0 Then
         MsgBox "Debe introducir el importe o el nro de vencimientos o ambos. Revise.", vbExclamation
-        PonFoco txtcodigo(0)
+        PonFoco txtCodigo(0)
         Exit Sub
     End If
     
     ' debe introducir la fecha del primer vto, viene cargada
-    If txtcodigo(2).Text = "" Then
+    If txtCodigo(2).Text = "" Then
         MsgBox "Debe introducir la fecha del primer vencimiento", vbExclamation
-        PonFoco txtcodigo(2)
+        PonFoco txtCodigo(2)
         Exit Sub
     End If
     
     
-    If txtcodigo(3).Text = "" Then
+    If txtCodigo(3).Text = "" Then
         If MsgBox("No ha puesto valor en el campo de días de resto de vencimientos. " & vbCrLf & vbCrLf & "¿ Desea continuar ?" & vbCrLf, vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
     End If
     
@@ -402,19 +402,20 @@ Dim Dias As Integer
     If vImpvto <> 0 Then
         If Importe < vImpvto Then
             MsgBox "El importe del vencimiento es inferior del importe a dividir. Revise", vbExclamation
-            PonFoco txtcodigo(0)
+            PonFoco txtCodigo(0)
             Exit Sub
         End If
         ' me ponen nro de vtos
         If vVtos <> 0 Then
+            'If Importe - Round(vImpvto * (vVtos - 1), 2) < 0 Then
             If Importe - Round(vImpvto * (vVtos - 1), 2) < 0 Then
                 MsgBox "Es imposible dividir el vencimiento en " & vVtos & " vencimientos de " & Format(vImpvto, "###,###,##0.00") & " euros.", vbExclamation
-                PonFoco txtcodigo(0)
+                PonFoco txtCodigo(0)
                 Exit Sub
             End If
             If vVtos = 1 And vImpvto <> Importe Then
                 MsgBox "No podemos dejar el vencimiento con menos importe del original. Revise.", vbExclamation
-                PonFoco txtcodigo(0)
+                PonFoco txtCodigo(0)
                 Exit Sub
             End If
         End If
@@ -430,45 +431,45 @@ Dim Dias As Integer
     
     Conn.BeginTrans
     
-    SQL = ""
-    If SQL = "" Then
-        Set RS = New ADODB.Recordset
+    Sql = ""
+    If Sql = "" Then
+        Set Rs = New ADODB.Recordset
         
         
         'CadenaDesdeOtroForm. Pipes
         '           1.- cadenaSQL numfac,numsere,fecfac
         '           2.- Numero vto
         '           3.- Importe maximo
-        I = -1
+        i = -1
         RC = "Select max(numorden) from cobros WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
-        RS.Open RC, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        If RS.EOF Then
-            SQL = "Error. Vencimiento NO encontrado: " & CadenaDesdeOtroForm
+        Rs.Open RC, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        If Rs.EOF Then
+            Sql = "Error. Vencimiento NO encontrado: " & CadenaDesdeOtroForm
         Else
-            I = RS.Fields(0) '+ 1
+            i = Rs.Fields(0) '+ 1
         End If
-        RS.Close
-        Set RS = Nothing
+        Rs.Close
+        Set Rs = Nothing
     End If
     
-    If SQL <> "" Then
-        MsgBox SQL, vbExclamation
-        PonFoco txtcodigo(1)
+    If Sql <> "" Then
+        MsgBox Sql, vbExclamation
+        PonFoco txtCodigo(1)
         Exit Sub
         
     Else
-        SQL = "¿Desea desdoblar el vencimiento en los indicados?" 'uno de : " & Im & " euros?"
-        If MsgBox(SQL, vbQuestion + vbYesNo) = vbNo Then Exit Sub
+        Sql = "¿Desea desdoblar el vencimiento en los indicados?" 'uno de : " & Im & " euros?"
+        If MsgBox(Sql, vbQuestion + vbYesNo) = vbNo Then Exit Sub
     End If
     
-    Dias = txtcodigo(3).Text
+    Dias = Val(txtCodigo(3).Text)
 
     
-    FecVenci = CDate(txtcodigo(2))
+    FecVenci = CDate(txtCodigo(2))
     vFecVenci = FecVenci
     'OK.  a desdoblar
     vTotal = 0
-    k = I + 1
+    k = i + 1
     For J = 1 To vVtos - 1
     
         vTotal = vTotal + vImpvto
@@ -476,25 +477,25 @@ Dim Dias As Integer
         vFecVenci = DateAdd("d", DBLet(Dias, "N"), vFecVenci)
         
     
-        SQL = "INSERT INTO cobros (`numorden`,`gastos`,impvenci,`fecultco`,`impcobro`,`recedocu`,"
-        SQL = SQL & "`tiporem`,`codrem`,`anyorem`,`siturem`,"
-        SQL = SQL & "`numserie`,`numfactu`,`fecfactu`,`codmacta`,`codforpa`,`fecvenci`,`ctabanc1`,"
-        SQL = SQL & "`text33csb`,`text41csb`,`ultimareclamacion`,`agente`,`departamento`,`Devuelto`,`situacionjuri`,"
-        SQL = SQL & "`noremesar`,`observa`,`nomclien`,`domclien`,`pobclien`,`cpclien`,`proclien`,`codpais`,`nifclien`,iban, codusu) "
+        Sql = "INSERT INTO cobros (`numorden`,`gastos`,impvenci,`fecultco`,`impcobro`,`recedocu`,"
+        Sql = Sql & "`tiporem`,`codrem`,`anyorem`,`siturem`,"
+        Sql = Sql & "`numserie`,`numfactu`,`fecfactu`,`codmacta`,`codforpa`,`fecvenci`,`ctabanc1`,"
+        Sql = Sql & "`text33csb`,`text41csb`,`ultimareclamacion`,`agente`,`departamento`,`Devuelto`,`situacionjuri`,"
+        Sql = Sql & "`noremesar`,`observa`,`nomclien`,`domclien`,`pobclien`,`cpclien`,`proclien`,`codpais`,`nifclien`,iban, codusu) "
         'Valores
-        SQL = SQL & " SELECT " & k & ",NULL," & TransformaComasPuntos(CStr(vImpvto)) & ",NULL,NULL,0,"
-        SQL = SQL & "NULL,NULL,NULL,NULL,"
-        SQL = SQL & "`numserie`,`numfactu`,`fecfactu`,`codmacta`,`codforpa`,"
-        SQL = SQL & DBSet(vFecVenci, "F") & ","
-        SQL = SQL & "`ctabanc1`,`text33csb`,`text41csb`,"
+        Sql = Sql & " SELECT " & k & ",NULL," & TransformaComasPuntos(CStr(vImpvto)) & ",NULL,NULL,0,"
+        Sql = Sql & "NULL,NULL,NULL,NULL,"
+        Sql = Sql & "`numserie`,`numfactu`,`fecfactu`,`codmacta`,`codforpa`,"
+        Sql = Sql & DBSet(vFecVenci, "F") & ","
+        Sql = Sql & "`ctabanc1`,`text33csb`,`text41csb`,"
         'text83csb`,
-        SQL = SQL & "`ultimareclamacion`,`agente`,`departamento`,`Devuelto`,`situacionjuri`,`noremesar`,`observa`,`nomclien`,`domclien`,`pobclien`,`cpclien`,`proclien`,`codpais`,`nifclien`,iban "
-        SQL = SQL & "," & DBSet(vUsu.Id, "N")
-        SQL = SQL & " FROM "
-        SQL = SQL & " cobros WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
-        SQL = SQL & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
+        Sql = Sql & "`ultimareclamacion`,`agente`,`departamento`,`Devuelto`,`situacionjuri`,`noremesar`,`observa`,`nomclien`,`domclien`,`pobclien`,`cpclien`,`proclien`,`codpais`,`nifclien`,iban "
+        Sql = Sql & "," & DBSet(vUsu.id, "N")
+        Sql = Sql & " FROM "
+        Sql = Sql & " cobros WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
+        Sql = Sql & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
     
-        Conn.Execute SQL
+        Conn.Execute Sql
     
         k = k + 1
     
@@ -504,31 +505,31 @@ Dim Dias As Integer
     ' actualizamos el primer vencimiento
     vTotal = vTotal + vImpvto
         
-    SQL = "update cobros set impvenci = coalesce(impcobro,0) + " & DBSet(vImpvto, "N")
-    SQL = SQL & ", fecvenci = " & DBSet(FecVenci, "F")
+    Sql = "update cobros set impvenci = coalesce(impcobro,0) + " & DBSet(vImpvto, "N")
+    Sql = Sql & ", fecvenci = " & DBSet(FecVenci, "F")
     
-    SQL = SQL & " WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
-    SQL = SQL & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
+    Sql = Sql & " WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
+    Sql = Sql & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
     
-    Conn.Execute SQL
+    Conn.Execute Sql
     
     ' en el ultimo dejamos la diferencia
     If vTotal <> Importe Then
-        SQL = "update cobros set impvenci = impvenci + " & DBSet(Importe - vTotal, "N")
+        Sql = "update cobros set impvenci = impvenci + " & DBSet(Importe - vTotal, "N")
         
-        SQL = SQL & " WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
-        SQL = SQL & " AND numorden = " & DBSet(k - 1, "N")
+        Sql = Sql & " WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
+        Sql = Sql & " AND numorden = " & DBSet(k - 1, "N")
         
-        Conn.Execute SQL
+        Conn.Execute Sql
     End If
     
     'Insertamos el LOG
     ParaElLog = "Dividir Vto.Fra.: " & Me.Label4(57).Caption & vbCrLf
     ParaElLog = ParaElLog & "Cliente         : " & Me.Label4(56).Caption & vbCrLf
-    ParaElLog = ParaElLog & "Nro.Vencimientos: " & txtcodigo(0).Text & vbCrLf
-    ParaElLog = ParaElLog & "Importe Vto     : " & txtcodigo(1).Text & vbCrLf
-    ParaElLog = ParaElLog & "Fecha primer Vto: " & txtcodigo(2).Text & vbCrLf
-    ParaElLog = ParaElLog & "Día Resto Vtos  : " & txtcodigo(3).Text & vbCrLf
+    ParaElLog = ParaElLog & "Nro.Vencimientos: " & txtCodigo(0).Text & vbCrLf
+    ParaElLog = ParaElLog & "Importe Vto     : " & txtCodigo(1).Text & vbCrLf
+    ParaElLog = ParaElLog & "Fecha primer Vto: " & txtCodigo(2).Text & vbCrLf
+    ParaElLog = ParaElLog & "Día Resto Vtos  : " & txtCodigo(3).Text & vbCrLf
     
     vLog.Insertar 1, vUsu, ParaElLog
     ParaElLog = ""
@@ -563,7 +564,7 @@ Dim Img As Image
 
 
     Limpiar Me
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
     
     'Limpiamos el tag
     PrimeraVez = True
@@ -587,17 +588,17 @@ Dim Img As Image
     Me.Width = W + 300
     Me.Height = H + 400
     
-    I = Opcion
-    If Opcion = 13 Or I = 43 Or I = 44 Then I = 11
+    i = Opcion
+    If Opcion = 13 Or i = 43 Or i = 44 Then i = 11
     
     'Aseguradas
-    Me.cmdCancelar(I).Cancel = True
+    Me.cmdCancelar(i).Cancel = True
     
 End Sub
 
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtcodigo(2).Text = Format(vFecha, "dd/mm/yyyy")
+    txtCodigo(2).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
@@ -606,15 +607,15 @@ Private Sub imgFecha_Click(Index As Integer)
     
     Set frmF = New frmCal
     frmF.Fecha = Now
-    If txtcodigo(2).Text <> "" Then frmF.Fecha = CDate(txtcodigo(2).Text)
+    If txtCodigo(2).Text <> "" Then frmF.Fecha = CDate(txtCodigo(2).Text)
     frmF.Show vbModal
     Set frmF = Nothing
-    PonFoco txtcodigo(2)
+    PonFoco txtCodigo(2)
 
 End Sub
 
 Private Sub txtcodigo_GotFocus(Index As Integer)
-    ConseguirFoco txtcodigo(Index), 3
+    ConseguirFoco txtCodigo(Index), 3
 End Sub
 
 Private Sub txtcodigo_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -633,7 +634,7 @@ Dim cad As String, cadTipo As String 'tipo cliente
 Dim B As Boolean
 
     'Quitar espacios en blanco por los lados
-    txtcodigo(Index).Text = Trim(txtcodigo(Index).Text)
+    txtCodigo(Index).Text = Trim(txtCodigo(Index).Text)
 '    If txtCodigo(Index).Text = "" Then Exit Sub
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
@@ -642,17 +643,17 @@ Dim B As Boolean
 
     Select Case Index
         Case 0 'nro de vtos
-            PonerFormatoEntero txtcodigo(Index)
+            PonerFormatoEntero txtCodigo(Index)
             
-            If txtcodigo(0).Text <> "" Then
-                txtcodigo(1).Text = Format(Round(ImporteSinFormato(ComprobarCero(txtcodigo(1).Text)) / txtcodigo(0), 2), "###,###,##0.00")
+            If txtCodigo(0).Text <> "" Then
+                txtCodigo(1).Text = Format(Round(ImporteSinFormato(ComprobarCero(txtCodigo(1).Text)) / txtCodigo(0), 2), "###,###,##0.00")
             End If
             
         Case 2 'FECHAS
-            If txtcodigo(Index).Text <> "" Then PonerFormatoFecha txtcodigo(Index)
+            If txtCodigo(Index).Text <> "" Then PonerFormatoFecha txtCodigo(Index)
             
         Case 1 'Importe
-            PonerFormatoDecimal txtcodigo(Index), 3
+            PonerFormatoDecimal txtCodigo(Index), 3
             
     End Select
 End Sub

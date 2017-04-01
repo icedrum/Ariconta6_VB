@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{6B7E6392-850A-101B-AFC0-4210102A8DA7}#1.3#0"; "comctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmReminders 
    AutoRedraw      =   -1  'True
    BorderStyle     =   1  'Fixed Single
@@ -14,6 +14,24 @@ Begin VB.Form frmReminders
    ScaleWidth      =   7125
    StartUpPosition =   2  'CenterScreen
    WhatsThisHelp   =   -1  'True
+   Begin VB.CommandButton cmdCancelar 
+      Cancel          =   -1  'True
+      Caption         =   "&Cerrar"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   435
+      Left            =   4320
+      TabIndex        =   9
+      Top             =   4720
+      Width           =   1215
+   End
    Begin VB.ComboBox cmbSnooze 
       BeginProperty Font 
          Name            =   "Verdana"
@@ -101,26 +119,27 @@ Begin VB.Form frmReminders
       Top             =   3000
       Width           =   1455
    End
-   Begin ComctlLib.ListView ctrlReminders 
-      Height          =   1815
+   Begin MSComctlLib.ListView ctrlReminders 
+      Height          =   1785
       Left            =   120
       TabIndex        =   8
       Top             =   1080
-      Width           =   6855
-      _ExtentX        =   12091
-      _ExtentY        =   3201
+      Width           =   6825
+      _ExtentX        =   12039
+      _ExtentY        =   3149
       View            =   3
       LabelEdit       =   1
-      LabelWrap       =   0   'False
-      HideSelection   =   0   'False
-      _Version        =   327682
+      LabelWrap       =   -1  'True
+      HideSelection   =   -1  'True
+      FullRowSelect   =   -1  'True
+      _Version        =   393217
       ForeColor       =   -2147483640
       BackColor       =   -2147483643
       BorderStyle     =   1
       Appearance      =   1
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Verdana"
-         Size            =   8.25
+         Size            =   9.75
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -128,18 +147,14 @@ Begin VB.Form frmReminders
          Strikethrough   =   0   'False
       EndProperty
       NumItems        =   2
-      BeginProperty ColumnHeader(1) {0713E8C7-850A-101B-AFC0-4210102A8DA7} 
-         Key             =   ""
-         Object.Tag             =   ""
-         Text            =   "Asunto"
-         Object.Width           =   5821
+      BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+         Text            =   "Evento"
+         Object.Width           =   7144
       EndProperty
-      BeginProperty ColumnHeader(2) {0713E8C7-850A-101B-AFC0-4210102A8DA7} 
+      BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          SubItemIndex    =   1
-         Key             =   ""
-         Object.Tag             =   ""
          Text            =   "Vencido"
-         Object.Width           =   3528
+         Object.Width           =   4233
       EndProperty
    End
    Begin VB.Label txtDescription2 
@@ -174,7 +189,7 @@ Begin VB.Form frmReminders
       Left            =   120
       TabIndex        =   5
       Top             =   3600
-      Width           =   4815
+      Width           =   3855
    End
    Begin VB.Label txtDescription1 
       Caption         =   "Label1"
@@ -201,6 +216,9 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Public CuantosAvisos As Integer
+
+
 Public Sub OnReminders(ByVal Action As XtremeCalendarControl.CalendarRemindersAction, ByVal Reminder As XtremeCalendarControl.CalendarReminder)
     If Action = xtpCalendarRemindersFire Or Action = xtpCalendarReminderSnoozed Or _
        Action = xtpCalendarReminderDismissed Or Action = xtpCalendarReminderDismissedAll _
@@ -213,6 +231,7 @@ Public Sub OnReminders(ByVal Action As XtremeCalendarControl.CalendarRemindersAc
         UpdateControlsBySelection
     End If
     
+    CuantosAvisos = ctrlReminders.ListItems.Count
     If ctrlReminders.ListItems.Count = 0 Then
         Unload Me
     End If
@@ -330,10 +349,22 @@ Private Sub btnSnooze_Click()
     pRem.Snooze nMinutes
 End Sub
 
-Private Sub ctrlReminders_ItemClick(ByVal Item As ComctlLib.ListItem)
-    UpdateControlsBySelection
+
+
+
+Private Sub cmdCancelar_Click()
+    Unload Me
 End Sub
 
+Private Sub ctrlReminders_ItemClick(ByVal Item As MSComctlLib.ListItem)
+UpdateControlsBySelection
+End Sub
+
+Private Sub Form_Activate()
+    If ctrlReminders.ListItems.Count = 0 Then
+        Unload Me
+    End If
+End Sub
 
 Private Sub Form_Load()
     Me.Icon = frmppal.Icon

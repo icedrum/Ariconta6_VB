@@ -344,10 +344,10 @@ Attribute frmFPago.VB_VarHelpID = -1
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim tabla As String
 
@@ -417,38 +417,38 @@ Private Sub cmdAccion_Click(Index As Integer)
 End Sub
 
 Private Function ReciboSinImprimir() As Boolean
-Dim SQL As String
+Dim Sql As String
 
-    SQL = " select count(*) from hlinapu aa , tmppendientes tt where "
-    SQL = SQL & " tt.codusu = " & vUsu.Codigo
-    SQL = SQL & " and aa.numserie = tt.serie_cta "
-    SQL = SQL & " and aa.numfaccl = tt.importe "
-    SQL = SQL & " and aa.fecfactu = tt.fecha "
-    SQL = SQL & " and aa.numorden = tt.numorden "
-    SQL = SQL & " and aa.numlinea = tt.codforpa "
-    SQL = SQL & " and aa.impreso = 0 "
+    Sql = " select count(*) from hlinapu aa , tmppendientes tt where "
+    Sql = Sql & " tt.codusu = " & vUsu.Codigo
+    Sql = Sql & " and aa.numserie = tt.serie_cta "
+    Sql = Sql & " and aa.numfaccl = tt.importe "
+    Sql = Sql & " and aa.fecfactu = tt.fecha "
+    Sql = Sql & " and aa.numorden = tt.numorden "
+    Sql = Sql & " and aa.numlinea = tt.codforpa "
+    Sql = Sql & " and aa.impreso = 0 "
     
-    ReciboSinImprimir = (TotalRegistros(SQL) > 0)
+    ReciboSinImprimir = (TotalRegistros(Sql) > 0)
     
 
 End Function
 
 
 Private Sub ActualizarRegistro()
-Dim SQL As String
+Dim Sql As String
 
     On Error Resume Next
 
-    SQL = "update hlinapu aa, tmppendientes tt set aa.impreso = 1 where "
-    SQL = SQL & " tt.codusu = " & vUsu.Codigo
-    SQL = SQL & " and aa.numserie = tt.serie_cta "
-    SQL = SQL & " and aa.numfaccl = tt.importe "
-    SQL = SQL & " and aa.fecfactu = tt.fecha "
-    SQL = SQL & " and aa.numorden = tt.numorden "
-    SQL = SQL & " and aa.numlinea = tt.codforpa "
-    SQL = SQL & " and aa.impreso = 0 "
+    Sql = "update hlinapu aa, tmppendientes tt set aa.impreso = 1 where "
+    Sql = Sql & " tt.codusu = " & vUsu.Codigo
+    Sql = Sql & " and aa.numserie = tt.serie_cta "
+    Sql = Sql & " and aa.numfaccl = tt.importe "
+    Sql = Sql & " and aa.fecfactu = tt.fecha "
+    Sql = Sql & " and aa.numorden = tt.numorden "
+    Sql = Sql & " and aa.numlinea = tt.codforpa "
+    Sql = Sql & " and aa.impreso = 0 "
     
-    Conn.Execute SQL
+    Conn.Execute Sql
 
 End Sub
 
@@ -479,14 +479,14 @@ End Sub
 
 Private Sub Form_Load()
     PrimeraVez = True
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Impresión de Recibos"
 
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
      
@@ -514,44 +514,44 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
-    SQL = ""
+    Sql = ""
             
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -584,7 +584,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 15
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 34
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -592,11 +592,11 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
-Dim I As Integer
+Dim i As Integer
 
 
     MontaSQL = False

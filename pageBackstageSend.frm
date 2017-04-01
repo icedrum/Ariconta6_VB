@@ -1,119 +1,19 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
-Object = "{555E8FCC-830E-45CC-AF00-A012D5AE7451}#17.2#0"; "Codejock.CommandBars.v17.2.0.ocx"
-Object = "{7CAC59E5-B703-4CCF-B326-8B956D962F27}#17.2#0"; "Codejock.ReportControl.v17.2.0.ocx"
 Begin VB.Form pageBackstageSend 
    BackColor       =   &H00FFFFFF&
    BorderStyle     =   0  'None
    Caption         =   "Form1"
-   ClientHeight    =   7185
+   ClientHeight    =   10815
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   13155
    FontTransparent =   0   'False
    LinkTopic       =   "Form1"
-   ScaleHeight     =   479
+   ScaleHeight     =   721
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   877
    ShowInTaskbar   =   0   'False
    StartUpPosition =   3  'Windows Default
-   Begin XtremeReportControl.ReportControl wndReportControl 
-      Height          =   5295
-      Left            =   10320
-      TabIndex        =   2
-      Top             =   -360
-      Visible         =   0   'False
-      Width           =   12255
-      _Version        =   1114114
-      _ExtentX        =   21616
-      _ExtentY        =   9340
-      _StockProps     =   64
-      FreezeColumnsAbs=   0   'False
-   End
-   Begin MSComctlLib.ListView ListView1 
-      Height          =   5895
-      Left            =   360
-      TabIndex        =   3
-      Top             =   960
-      Width           =   12375
-      _ExtentX        =   21828
-      _ExtentY        =   10398
-      View            =   3
-      LabelEdit       =   1
-      LabelWrap       =   0   'False
-      HideSelection   =   -1  'True
-      FullRowSelect   =   -1  'True
-      _Version        =   393217
-      ForeColor       =   -2147483640
-      BackColor       =   -2147483643
-      BorderStyle     =   1
-      Appearance      =   1
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "MS Sans Serif"
-         Size            =   12
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      NumItems        =   5
-      BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-         Text            =   "Codigo"
-         Object.Width           =   317
-      EndProperty
-      BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-         SubItemIndex    =   1
-         Text            =   "Nombre"
-         Object.Width           =   317
-      EndProperty
-      BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-         SubItemIndex    =   2
-         Text            =   "Resumido"
-         Object.Width           =   317
-      EndProperty
-      BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-         SubItemIndex    =   3
-         Text            =   "Inicio"
-         Object.Width           =   317
-      EndProperty
-      BeginProperty ColumnHeader(5) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-         SubItemIndex    =   4
-         Text            =   "Fin"
-         Object.Width           =   317
-      EndProperty
-   End
-   Begin XtremeCommandBars.BackstageSeparator lblBackstageSeparator1 
-      Height          =   255
-      Left            =   360
-      TabIndex        =   0
-      Top             =   480
-      Width           =   4695
-      _Version        =   1114114
-      _ExtentX        =   8281
-      _ExtentY        =   450
-      _StockProps     =   2
-      MarkupText      =   ""
-   End
-   Begin VB.Label Label1 
-      BackColor       =   &H00FFFFFF&
-      Caption         =   "Cambiar empresa"
-      BeginProperty Font 
-         Name            =   "Segoe UI"
-         Size            =   9.75
-         Charset         =   204
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H005B5B5B&
-      Height          =   255
-      Left            =   360
-      TabIndex        =   1
-      Top             =   240
-      Width           =   2535
-   End
 End
 Attribute VB_Name = "pageBackstageSend"
 Attribute VB_GlobalNameSpace = False
@@ -127,7 +27,7 @@ Private Sub Seleccionado()
 End Sub
 
 Private Sub Form_Load()
-    BuscaEmpresas
+    'BuscaEmpresas
     ItemCheck = False
 End Sub
 
@@ -135,98 +35,6 @@ End Sub
 
 
 
-
-Private Sub BuscaEmpresas()
-Dim Prohibidas As String
-Dim Rs As ADODB.Recordset
-Dim cad As String
-Dim Sql As String
-Dim ItmX As ListItem
-
-ListView1.ListItems.Clear
-
-Dim i As Integer
-
-For i = 1 To 5
-    ListView1.ColumnHeaders(i).Width = CInt(RecuperaValor("60|420|200|100|100|", i))
-Next
-
-'Cargamos las prohibidas
-Prohibidas = DevuelveProhibidas
-
-'Cargamos las empresas
-Set Rs = New ADODB.Recordset
-
-'[Monica]11/04/2014: solo debe de salir las ariconta
-Rs.Open "Select * from usuarios.empresasariconta where conta like 'ariconta%' ORDER BY Codempre", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-
-While Not Rs.EOF
-    cad = "|" & Rs!codempre & "|"
-    If InStr(1, Prohibidas, cad) = 0 Then
-        cad = Rs!nomempre
-        Set ItmX = ListView1.ListItems.Add()
-        ItmX.Text = Rs!codempre
-        
-        
-        ItmX.SubItems(1) = Rs!nomempre
-        ItmX.SubItems(2) = Rs!nomresum
-        cad = "fechafin"
-        Sql = DevuelveDesdeBD("fechaini", "ariconta" & Rs!codempre & ".parametros", "1", "1", "N", cad)
-        ItmX.SubItems(3) = Sql
-        ItmX.SubItems(4) = cad
-        
-            
-        cad = Rs!CONTA & "|" & Rs!nomresum '& "|" & Rs!Usuario & "|" & Rs!Pass & "|"
-        
-        If Rs!codempre = vEmpresa.codempre Then
-            ItmX.Bold = True
-            Set ListView1.SelectedItem = ItmX
-        End If
-            
-       ' ItmX.Tag = Cad
-       ' ItmX.ToolTipText = Rs!CONTA
-        
-        
-        'Si el codconta > 100 son empresas que viene del cambio del plan contable.
-        'Atenuare su visibilidad
-        If Rs!codempre > 100 Then
-            ItmX.ForeColor = &H808080
-            ItmX.ListSubItems(1).ForeColor = &H808080
-            ItmX.ListSubItems(2).ForeColor = &H808080
-            ItmX.ListSubItems(3).ForeColor = &H808080
-            'ItmX.SmallIcon = 2
-        Else
-            'normal
-            'ItmX.SmallIcon = 1
-        End If
-    End If
-    Rs.MoveNext
-Wend
-Rs.Close
-End Sub
-
-
-Private Function DevuelveProhibidas() As String
-Dim Rs As ADODB.Recordset
-Dim cad As String
-Dim i As Integer
-    On Error GoTo EDevuelveProhibidas
-    DevuelveProhibidas = ""
-    Set Rs = New ADODB.Recordset
-    i = vUsu.Codigo Mod 1000
-    Rs.Open "Select * from usuarios.usuarioempresasariconta WHERE codusu =" & i, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    cad = ""
-    While Not Rs.EOF
-        cad = cad & Rs.Fields(1) & "|"
-        Rs.MoveNext
-    Wend
-    If cad <> "" Then cad = "|" & cad
-    Rs.Close
-    DevuelveProhibidas = cad
-EDevuelveProhibidas:
-    Err.Clear
-    Set Rs = Nothing
-End Function
 
 
 
@@ -491,13 +299,11 @@ End Sub
 
 Private Sub Form_Resize()
     On Error Resume Next
-    Me.ListView1.Width = Me.ScaleWidth - ListView1.Left - 240
+   ' Me.ListView1.Width = Me.ScaleWidth - ListView1.Left - 240
 End Sub
 
 Private Sub ListView1_DblClick()
-    If Not ItemCheck Then Exit Sub
-    If ListView1.SelectedItem Is Nothing Then Exit Sub
-   frmPpal.CambiarEmpresa CInt(ListView1.SelectedItem.Text)
+   
     
     
 End Sub

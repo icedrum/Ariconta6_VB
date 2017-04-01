@@ -673,7 +673,7 @@ Attribute frmCon.VB_VarHelpID = -1
 Private frmCtas As frmCtasAgrupadas
 
 Private Sql As String
-Dim Cad As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -744,8 +744,8 @@ Private Sub cmdAccion_Click(Index As Integer)
     
         If Saldo473en470 Then
             'Deberiamos indicar si esta configurado para leer de la 470
-            Cad = "codmacta = '4' or codmacta='47' or codmacta like '473%' AND numbalan"
-            RC = DevuelveDesdeBD("concat(pasivo,' ',codigo,': ',codmacta)", "balances_ctas", Cad, txtBalan(0).Text & " ORDER BY codmacta")
+            cad = "codmacta = '4' or codmacta='47' or codmacta like '473%' AND numbalan"
+            RC = DevuelveDesdeBD("concat(pasivo,' ',codigo,': ',codmacta)", "balances_ctas", cad, txtBalan(0).Text & " ORDER BY codmacta")
             If RC <> "" Then MsgBox "La cuenta 470 ha sido configurada en el balance: " & RC, vbExclamation
                 
         End If
@@ -821,8 +821,8 @@ Private Sub Form_Activate()
         If Legalizacion <> "" Then
             optTipoSal(2).Value = True
                 
-            Cad = RecuperaValor(Legalizacion, 4)
-            If Val(Cad) = 0 Then
+            cad = RecuperaValor(Legalizacion, 4)
+            If Val(cad) = 0 Then
                 chkBalPerCompa.Value = 0
             Else
                 'txtAno(1).Text = Val(txtAno(0).Text) - 1
@@ -1051,7 +1051,7 @@ End Sub
 
 
 Private Sub txtBalan_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim RC As String
 Dim Hasta As Integer
 
@@ -1129,7 +1129,8 @@ Dim UltimoNivel As Integer
 Dim indRPT As String
 Dim nomDocu As String
 Dim ConTexto As Byte
-            
+Dim optExportar As Integer
+
     cadParam = cadParam & "pTipo=" & Tipo & "|"
     numParam = numParam + 1
     
@@ -1198,6 +1199,11 @@ Dim ConTexto As Byte
     If Me.chkBalPerCompa.Value = 1 Then CONT = CONT + 1
         
     'Textos
+    If RC = 1 Then
+        optExportar = 54
+    Else
+        optExportar = 25
+    End If
     RC = "perdidasyganancias= " & RC & "|"
           
     Sql = RC & "FechaImp= """ & txtFecha(7).Text & """|"
@@ -1246,7 +1252,7 @@ Dim ConTexto As Byte
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 2
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook optExportar
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -1338,9 +1344,9 @@ Dim L As Integer
 
 L = 1
 Do
-    Cad = RecuperaValor(Lista, L)
-    If Cad <> "" Then
-        i = Val(Cad)
+    cad = RecuperaValor(Lista, L)
+    If cad <> "" Then
+        i = Val(cad)
         With cmbFecha(i)
             .Clear
             For CONT = 1 To 12
@@ -1351,7 +1357,7 @@ Do
         End With
     End If
     L = L + 1
-Loop Until Cad = ""
+Loop Until cad = ""
 End Sub
 
 Private Sub txtTipoSalida_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)

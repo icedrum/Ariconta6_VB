@@ -1756,16 +1756,16 @@ End Sub
 
 
 Private Sub Eliminar()
-Dim Cad As String
+Dim cad As String
     Sql = "DELETE FROM cuentas where codmacta = '"
     For i = ListView1.ListItems.Count To 1 Step -1
         If ListView1.ListItems(i).Checked Then
-            Cad = BorrarCuenta(ListView1.ListItems(i).Text, Me.Label2)
-            If Cad = "" Then
+            cad = BorrarCuenta(ListView1.ListItems(i).Text, Me.Label2)
+            If cad = "" Then
                 If EliminaCuenta(ListView1.ListItems(i).Text) Then ListView1.ListItems.Remove i
             Else
-                Cad = ListView1.ListItems(i).Text & " - " & ListView1.ListItems(i).SubItems(1) & vbCrLf & Cad & vbCrLf
-                MsgBox Cad, vbExclamation
+                cad = ListView1.ListItems(i).Text & " - " & ListView1.ListItems(i).SubItems(1) & vbCrLf & cad & vbCrLf
+                MsgBox cad, vbExclamation
             End If
         End If
     Next i
@@ -1825,36 +1825,46 @@ End Sub
 Private Sub RecorriendoRecordsetDescuadres()
 
 
-    If NumCuentas = 0 Then Exit Sub
-    While Not Rs.EOF
+    If NumCuentas = 0 Then
         
-        Label2.Caption = Rs.Fields(0) & " - " & Rs.Fields(2)
-        Label2.Refresh
+    Else
         
-        pb1.Value = Int(((i / NumCuentas)) * 1000)
-        i = i + 1
-        
-        ObtenerSumas
-        
-        'Siguiente
-        Rs.MoveNext
-        'Miramos si hay algo por hacer
-        DoEvents
-        
-        'Si han pulsado parar
-        If HanPulsadoCancelar Then
-            PonerCampos 2
-            Exit Sub
-        End If
-    Wend
-    Rs.Close
-    
+        While Not Rs.EOF
+            
+            Label2.Caption = Rs.Fields(0) & " - " & Rs.Fields(2)
+            Label2.Refresh
+            
+            pb1.Value = Int(((i / NumCuentas)) * 1000)
+            i = i + 1
+            
+            ObtenerSumas
+            
+            'Siguiente
+            Rs.MoveNext
+            'Miramos si hay algo por hacer
+            DoEvents
+            
+            'Si han pulsado parar
+            If HanPulsadoCancelar Then
+                PonerCampos 2
+                Exit Sub
+            End If
+        Wend
+        Rs.Close
+    End If
     If ListView1.ListItems.Count > 0 Then
         PonerCampos 3
     Else
         MsgBox "Ningun asiento descuadrado.", vbExclamation
-        PonerCampos 0
-        If Opcion = 1 Then PonerCampos 3
+        
+        If Opcion = 1 Then
+            If NumCuentas = 0 Then
+                
+                PonerCampos 0
+            Else
+                PonerCampos 3
+            End If
+        End If
     End If
 
 End Sub
@@ -2195,7 +2205,7 @@ End Sub
 
 
 Private Sub CargarRecordSetCtasLibres()
-Dim Cad As String
+Dim cad As String
 Dim J As Long
 Dim Multiplicador As Long
 Dim vFormato As String
@@ -2203,7 +2213,7 @@ Dim vFormato As String
     i = vEmpresa.DigitosUltimoNivel - lblHuecoCta.Tag
     vFormato = Mid("00000000000", 1, i)
     Multiplicador = i
-    Cad = Me.txtHuecoCta.Text & Mid("0000000000", 1, i)
+    cad = Me.txtHuecoCta.Text & Mid("0000000000", 1, i)
     i = 1   'Primer Numero de cuenta
     
     Set Rs = New ADODB.Recordset
@@ -2235,8 +2245,8 @@ Dim vFormato As String
         Rs.Close
         'Cojemos desde la ultima
         i = vEmpresa.DigitosUltimoNivel - lblHuecoCta.Tag
-        Cad = Mid("999999999", 1, i)
-        i = Val(Cad) 'Utlima cta del subgrupo
+        cad = Mid("999999999", 1, i)
+        i = Val(cad) 'Utlima cta del subgrupo
         
         If NumCuentas < i Then
             NumCuentas = NumCuentas + 1
@@ -2260,10 +2270,10 @@ End Sub
 
 
 Private Sub InsertaCtasLibres(Cta As String, Descripcion As String)
-Dim Cad As String
-        Cad = Me.txtHuecoCta.Text & Cta
-        Cad = Cad & "','" & Descripcion & "')"
-        Conn.Execute Sql & Cad
+Dim cad As String
+        cad = Me.txtHuecoCta.Text & Cta
+        cad = cad & "','" & Descripcion & "')"
+        Conn.Execute Sql & cad
 End Sub
 
 
@@ -2307,7 +2317,7 @@ End Sub
 
 
 Private Sub BuscarFacturasSaltos()
-Dim Cad As String
+Dim cad As String
 Dim Aux As String
 Dim Anyo As Integer
 Dim J As Integer
@@ -2318,11 +2328,11 @@ Dim J As Integer
     
     If Opcion = 5 Then
         Sql = "numserie,anofactu as ano,numfactu as codigo"
-        Cad = "fecfactu"
+        cad = "fecfactu"
         Sql = Sql & " FROM factcli"
     Else
         Sql = "numserie, anofactu as ano,numregis as codigo"
-        Cad = "fecharec"
+        cad = "fecharec"
         Sql = Sql & " FROM factpro"
     End If
     
@@ -2333,11 +2343,11 @@ Dim J As Integer
         Exit Sub
     End If
     Aux = ""
-    Aux = Cad & " >= '" & Format(Text1(3).Text, FormatoFecha) & "'"
+    Aux = cad & " >= '" & Format(Text1(3).Text, FormatoFecha) & "'"
     
     
     Aux = Aux & " AND "
-    Aux = Aux & Cad & " <= '" & Format(Text1(2).Text, FormatoFecha) & "'"
+    Aux = Aux & cad & " <= '" & Format(Text1(2).Text, FormatoFecha) & "'"
     
     
     
@@ -2391,10 +2401,10 @@ Dim J As Integer
             
             If Rs!Codigo - i >= 2 Then
                 'SALTO
-                Cad = Format(Rs!Codigo - 1, "000000000")
+                cad = Format(Rs!Codigo - 1, "000000000")
 '                If opcion = 5 Then
                     Set ItmX = ListView1.ListItems.Add(, , Rs!NUmSerie)
-                    ItmX.SubItems(1) = Cad
+                    ItmX.SubItems(1) = cad
                     J = 2
 '                Else
 '                    Set ItmX = ListView1.ListItems.Add(, , Cad)
@@ -2407,10 +2417,10 @@ Dim J As Integer
                 
             Else
                 'HUECO
-                Cad = Format(i, "000000000")
+                cad = Format(i, "000000000")
 '                If opcion = 5 Then
                     Set ItmX = ListView1.ListItems.Add(, , Rs!NUmSerie)
-                    ItmX.SubItems(1) = Cad
+                    ItmX.SubItems(1) = cad
                     J = 2
 '                Else
 '                    Set ItmX = ListView1.ListItems.Add(, , Cad)

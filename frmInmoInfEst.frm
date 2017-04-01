@@ -834,8 +834,8 @@ Attribute frmCC.VB_VarHelpID = -1
 Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
 
-Private SQL As String
-Dim Cad As String
+Private Sql As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -914,21 +914,21 @@ Dim tabla As String
 End Sub
 
 Private Function CargarTablaTemporal(tabla As String, cadselect As String) As Boolean
-Dim SQL As String
+Dim Sql As String
 
     On Error GoTo eCargarTablaTemporal
     
     CargarTablaTemporal = False
 
-    SQL = "delete from tmpconextcab where codusu = " & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "delete from tmpconextcab where codusu = " & vUsu.Codigo
+    Conn.Execute Sql
     
-    SQL = "insert into tmpconextcab (codusu, cta, acumantD, acumantH) select " & vUsu.Codigo & ", inmovele.codinmov, inmovele.codinmov, sum(imporinm) from  " & tabla
-    SQL = SQL & " where " & cadselect
-    SQL = SQL & " group by 1, 2"
-    SQL = SQL & " order by 1,2 "
+    Sql = "insert into tmpconextcab (codusu, cta, acumantD, acumantH) select " & vUsu.Codigo & ", inmovele.codinmov, inmovele.codinmov, sum(imporinm) from  " & tabla
+    Sql = Sql & " where " & cadselect
+    Sql = Sql & " group by 1, 2"
+    Sql = Sql & " order by 1,2 "
     
-    Conn.Execute SQL
+    Conn.Execute Sql
     
     CargarTablaTemporal = True
     Exit Function
@@ -957,21 +957,21 @@ End Sub
 
 
 Private Sub Form_Load()
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Estadística de Inmovilizado"
 
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
 
 
     For i = 0 To 1
-        Me.imgConcepto(i).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-        Me.imgCCoste(i).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
+        Me.imgConcepto(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+        Me.imgCCoste(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Next i
      
     Me.ChkTipo(1).Value = 1
@@ -985,24 +985,24 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
     txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
-Private Sub ImgConcepto_Click(Index As Integer)
+Private Sub imgConcepto_Click(Index As Integer)
     
-    SQL = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     Set frmCon = New frmInmoConceptos
     frmCon.DatosADevolverBusqueda = True
     frmCon.Show vbModal
     Set frmCon = Nothing
-    If SQL <> "" Then
-        Me.txtConcepto(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNConcepto(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtConcepto(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNConcepto(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtConcepto(Index)
     End If
@@ -1013,12 +1013,12 @@ Private Sub ImgConcepto_Click(Index As Integer)
 End Sub
 
 Private Sub frmCC_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub ImgCCoste_Click(Index As Integer)
     
-    SQL = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     
     Set frmCC = New frmCCCentroCoste
@@ -1027,9 +1027,9 @@ Private Sub ImgCCoste_Click(Index As Integer)
     Set frmCC = Nothing
     
     
-    If SQL <> "" Then
-        Me.txtCCoste(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNCCoste(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtCCoste(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNCCoste(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtCCoste(Index)
     End If
@@ -1072,31 +1072,31 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -1113,17 +1113,17 @@ Private Sub txtConcepto_KeyDown(Index As Integer, KeyCode As Integer, Shift As I
     End If
 End Sub
 
-Private Sub LanzaFormAyuda(Nombre As String, indice As Integer)
+Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
     Select Case Nombre
     Case "imgConcepto"
-        ImgConcepto_Click indice
+        imgConcepto_Click Indice
     Case "imgCCoste"
-        ImgCCoste_Click indice
+        ImgCCoste_Click Indice
     End Select
 End Sub
 
 Private Sub txtConcepto_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 
     txtConcepto(Index).Text = Trim(txtConcepto(Index).Text)
     
@@ -1146,10 +1146,10 @@ Private Sub txtConcepto_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCCoste_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCCoste(Index).Text = Trim(txtCCoste(Index).Text)
@@ -1167,29 +1167,29 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
     If txtFecha(0).Text <> "" Or txtFecha(1).Text <> "" Then
-        SQL = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta,inmovele.valoradq ValorAdquisicion ,inmovele.fechaadq FechaAdquisicion, inmovele_his.fechainm FechaAmortizacion, inmovele_his.imporinm ImporteAmortizacion, inmovele_his.porcinm PorcentajeAmortizacion "
-        SQL = SQL & " FROM (inmovele inner join inmovele_his on inmovele.codinmov = inmovele_his.codinmov) "
+        Sql = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta,inmovele.valoradq ValorAdquisicion ,inmovele.fechaadq FechaAdquisicion, inmovele_his.fechainm FechaAmortizacion, inmovele_his.imporinm ImporteAmortizacion, inmovele_his.porcinm PorcentajeAmortizacion "
+        Sql = Sql & " FROM (inmovele inner join inmovele_his on inmovele.codinmov = inmovele_his.codinmov) "
     
-        If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
+        If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
         
-        SQL = SQL & " ORDER BY 1,2,5,6" ' ordenado por codigo y por fecha de inmovilizado
+        Sql = Sql & " ORDER BY 1,2,5,6" ' ordenado por codigo y por fecha de inmovilizado
     
     Else
-        SQL = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta ,inmovele.fechaadq FechaAdquisicion,inmovele.valoradq ValorAdquisicion, inmovele.amortacu Amortizado, coalesce(inmovele.valoradq,0) - coalesce(inmovele.amortacu,0) Pendiente, inmovele.fecventa FechaVta, inmovele.impventa ImpVenta "
-        SQL = SQL & " FROM inmovele "
+        Sql = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta ,inmovele.fechaadq FechaAdquisicion,inmovele.valoradq ValorAdquisicion, inmovele.amortacu Amortizado, coalesce(inmovele.valoradq,0) - coalesce(inmovele.amortacu,0) Pendiente, inmovele.fecventa FechaVta, inmovele.impventa ImpVenta "
+        Sql = Sql & " FROM inmovele "
         
-        If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
+        If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
         
-        SQL = SQL & " ORDER BY 1,2,4" ' ordenado por codigo y por fecha de adquisicion
+        Sql = Sql & " ORDER BY 1,2,4" ' ordenado por codigo y por fecha de adquisicion
     End If
     
         
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1234,7 +1234,7 @@ Dim CADENA As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 2
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 62
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -1242,8 +1242,8 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
 Dim Situacion As String

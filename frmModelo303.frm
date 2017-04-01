@@ -755,7 +755,7 @@ Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
 Private Sql As String
-Dim Cad As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -869,7 +869,7 @@ Private Sub cmdAccion_Click(Index As Integer)
     If optTipoSal(1).Value Then
         'EXPORTAR A CSV
         
-        ModeloHacienda
+        ModeloHaciend2
         
     
     Else
@@ -1126,34 +1126,34 @@ Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
 End Sub
 
 
-Private Sub ModeloHacienda()
+Private Sub ModeloHaciend2()
 Dim Sql2 As String
 Dim i As String
 Dim Es_A_Compensar As Byte
 Dim CadenaImportes As String
 
     'Generamos la cadena con los importes a mostrar
-    Cad = ""
+    cad = ""
     GeneraCadenaImportes
 
-    CadenaImportes = CStr(Cad)
+    CadenaImportes = CStr(cad)
 
 
     'Si el importe es negativo tendriamos que preguntar si quiere realizar
     'compensacion o ingreso/devolucion
     If CCur(ImpTotal) < 0 Then
         'NEGATIVO
-        Cad = "Importe a devolver / compensar." & vbCrLf & vbCrLf & _
+        cad = "Importe a devolver / compensar." & vbCrLf & vbCrLf & _
             "¿ Desea que sea a compensar ?"
-        i = MsgBox(Cad, vbQuestion + vbYesNoCancel)
+        i = MsgBox(cad, vbQuestion + vbYesNoCancel)
         If i = vbCancel Then Exit Sub
         Es_A_Compensar = 0
         If i = vbYes Then Es_A_Compensar = 1
         
     Else
-        Cad = "Ingreso por cta banco?" & vbCrLf & vbCrLf
+        cad = "Ingreso por cta banco?" & vbCrLf & vbCrLf
         '
-        i = MsgBox(Cad, vbQuestion + vbYesNoCancel)
+        i = MsgBox(cad, vbQuestion + vbYesNoCancel)
         If i = vbCancel Then Exit Sub
         Es_A_Compensar = 2
         If i = vbYes Then Es_A_Compensar = 3
@@ -1162,12 +1162,12 @@ Dim CadenaImportes As String
 
     'Generamos la cadena para el ultimo registro de la presentacion
     'Registro <T30303>
-    Cad = ""
+    cad = ""
     CadenaAdicional303_Nuevo
 
 
     'Ahora enviamos a generar fichero IVA
-    If GenerarFicheroIVA_303_2014(CadenaImportes, ImpTotal, CDate(txtFecha(2).Text), Periodo, Es_A_Compensar, Cad) Then
+    If GenerarFicheroIVA_303_2014(CadenaImportes, ImpTotal, CDate(txtFecha(2).Text), Periodo, Es_A_Compensar, cad) Then
     
     GuardarComo
     End If
@@ -1233,7 +1233,7 @@ Dim Rs As ADODB.Recordset
     
     'DE estos dos NO hay text
     'Diputacion foral
-    Cad = Cad & String(17, "0")
+    cad = cad & String(17, "0")
     
     'Campo13. Resultado
     DevuelveImporte ImpTotal - ImpCompensa, 0
@@ -1598,7 +1598,7 @@ Dim Resul As String
         End If
     End Select
     
-    Cad = Cad & Resul & Format(Importe, Aux)
+    cad = cad & Resul & Format(Importe, Aux)
         
 End Sub
 
@@ -1758,7 +1758,7 @@ Private Sub txtAno_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtAno_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 
     txtAno(Index).Text = Trim(txtAno(Index).Text)
     
@@ -1785,7 +1785,7 @@ Private Sub txtCuota_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuota_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 
     txtCuota(Index).Text = Trim(txtCuota(Index).Text)
     
@@ -2047,16 +2047,12 @@ Private Sub GuardarComo()
 
     On Error GoTo EGuardarComo
 
-    'Una vez generado el archvio
-    'App.path & "\Hacienda\mod300\miIVA.txt"
-
-'    If DirectorioEAT Then cd1.InitDir = "C:\AEAT"
 
 
     cd1.ShowSave
-    Cad = cd1.FileName
-    If Cad <> "" Then
-        FileCopy App.Path & "\Hacienda\mod300\miIVA.txt", Cad
+    cad = cd1.FileName
+    If cad <> "" Then
+        FileCopy App.Path & "\miIVA.txt", cad
     End If
     Exit Sub
 EGuardarComo:

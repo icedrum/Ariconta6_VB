@@ -775,10 +775,10 @@ Attribute frmF.VB_VarHelpID = -1
 Private WithEvents frmDia As frmTiposDiario
 Attribute frmDia.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim PrimeraVez As Boolean
 
@@ -868,14 +868,14 @@ End Sub
 Private Sub Form_Load()
     PrimeraVez = True
     
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Impresión de Diario"
 
-    For I = 0 To 1
-        Me.imgDiario(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To 1
+        Me.imgDiario(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
      
     txtFecha(2).Text = Format(Now, "dd/mm/yyyy")
     txtTitulo(0).Text = "DIARIO"
@@ -908,7 +908,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmDia_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
@@ -916,15 +916,15 @@ Private Sub frmF_Selec(vFecha As Date)
 End Sub
 
 Private Sub imgDiario_Click(Index As Integer)
-    SQL = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     Set frmDia = New frmTiposDiario
     frmDia.DatosADevolverBusqueda = "0|1|"
     frmDia.Show vbModal
     Set frmDia = Nothing
-    If SQL <> "" Then
-        Me.txtDiario(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNDiario(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtDiario(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNDiario(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtDiario(Index)
     End If
@@ -973,24 +973,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -1059,7 +1059,7 @@ Private Sub txtAsiento_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtAsiento(Index).Text = Trim(txtAsiento(Index).Text)
@@ -1084,19 +1084,19 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
-    SQL = "Select  hcabapu.numdiari Diario, hcabapu.numasien Asiento, hcabapu.fechaent Fecha, hlinapu.linliapu Linea, hlinapu.codmacta Cuenta, nommacta Descripcion, numdocum Documento, ampconce Ampliacion, timporteD Debe, timporteH Haber"
-    SQL = SQL & " FROM (hcabapu inner join hlinapu on hcabapu.numdiari = hlinapu.numdiari and hcabapu.numasien = hlinapu.numasien and hcabapu.fechaent = hlinapu.fechaent)"
-    SQL = SQL & " inner join cuentas on hlinapu.codmacta = cuentas.codmacta "
+    Sql = "Select  hcabapu.numdiari Diario, hcabapu.numasien Asiento, hcabapu.fechaent Fecha, hlinapu.linliapu Linea, hlinapu.codmacta Cuenta, nommacta Descripcion, numdocum Documento, ampconce Ampliacion, timporteD Debe, timporteH Haber"
+    Sql = Sql & " FROM (hcabapu inner join hlinapu on hcabapu.numdiari = hlinapu.numdiari and hcabapu.numasien = hlinapu.numasien and hcabapu.fechaent = hlinapu.fechaent)"
+    Sql = Sql & " inner join cuentas on hlinapu.codmacta = cuentas.codmacta "
     
-    If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
+    If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
     
-    SQL = SQL & " ORDER BY 1,2,3,4"
+    Sql = Sql & " ORDER BY 1,2,3,4"
         
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1125,7 +1125,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 2
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 59
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -1133,8 +1133,8 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
 

@@ -733,10 +733,10 @@ Attribute frmDpto.VB_VarHelpID = -1
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim tabla As String
 
@@ -826,18 +826,18 @@ End Sub
 
 Private Sub Form_Load()
     PrimeraVez = True
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Informe de Recepción de Documentos"
 
-    For I = 2 To 3
-        Me.ImgFec(I).Picture = frmPpal.imgIcoForms.ListImages(2).Picture
-    Next I
+    For i = 2 To 3
+        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+    Next i
      
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
      
@@ -851,19 +851,19 @@ Private Sub Form_Load()
     If CadenaInicio <> "" Then
         txtFecha(2).Text = RecuperaValor(CadenaInicio, 2)
         txtFecha(3).Text = txtFecha(2).Text
-        txtcodigo(0).Text = RecuperaValor(CadenaInicio, 1)
-        txtcodigo(1).Text = txtcodigo(0).Text
-        Check1(2).Value = RecuperaValor(CadenaInicio, 4)
-        Check1(3).Value = RecuperaValor(CadenaInicio, 3)
+        txtCodigo(0).Text = RecuperaValor(CadenaInicio, 1)
+        txtCodigo(1).Text = txtCodigo(0).Text
+        check1(2).Value = RecuperaValor(CadenaInicio, 4)
+        check1(3).Value = RecuperaValor(CadenaInicio, 3)
     Else
-        Check1(2).Value = 1
-        Check1(3).Value = 1
+        check1(2).Value = 1
+        check1(3).Value = 1
     End If
     
 End Sub
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 
@@ -907,43 +907,43 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
 Private Sub txtcodigo_GotFocus(Index As Integer)
-    ConseguirFoco txtcodigo(Index), 3
+    ConseguirFoco txtCodigo(Index), 3
 End Sub
 
 Private Sub txtcodigo_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtcodigo(Index).Tag, Index
+        LanzaFormAyuda txtCodigo(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
@@ -958,13 +958,13 @@ Private Sub txtcodigo_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
-    txtcodigo(Index).Text = Trim(txtcodigo(Index).Text)
+    txtCodigo(Index).Text = Trim(txtCodigo(Index).Text)
     
     
-    If txtcodigo(Index).Text = "" Then Exit Sub
+    If txtCodigo(Index).Text = "" Then Exit Sub
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
@@ -972,7 +972,7 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     Select Case Index
         Case 0, 1 'codigo
-            PonerFormatoEntero txtcodigo(Index)
+            PonerFormatoEntero txtCodigo(Index)
     
     End Select
     
@@ -987,45 +987,45 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
-    SQL = "SELECT talones.codigo, if(talones.talon = 1,'Talon','Pagare') Tipo,talones.fecharec,talones.codmacta Cuenta, cuentas.nommacta Descripcion, talones.numeroref Referencia, talones.banco Banco, talones.Fechavto , "
-    SQL = SQL & "talones_facturas.numserie Serie, talones_facturas.numfactu Factura, talones_facturas.fecfactu FecFra, talones_facturas.numorden Vto, talones_facturas.importe Importe "
-    SQL = SQL & " FROM  (talones LEFT JOIN talones_facturas ON talones.codigo = talones_facturas.codigo) INNER JOIN cuentas ON talones.codmacta = cuentas.codmacta  "
+    Sql = "SELECT talones.codigo, if(talones.talon = 1,'Talon','Pagare') Tipo,talones.fecharec,talones.codmacta Cuenta, cuentas.nommacta Descripcion, talones.numeroref Referencia, talones.banco Banco, talones.Fechavto , "
+    Sql = Sql & "talones_facturas.numserie Serie, talones_facturas.numfactu Factura, talones_facturas.fecfactu FecFra, talones_facturas.numorden Vto, talones_facturas.importe Importe "
+    Sql = Sql & " FROM  (talones LEFT JOIN talones_facturas ON talones.codigo = talones_facturas.codigo) INNER JOIN cuentas ON talones.codmacta = cuentas.codmacta  "
     
     If cadselect <> "" Then
-        SQL = SQL & " where " & cadselect
+        Sql = Sql & " where " & cadselect
     Else
-        SQL = SQL & " where (1=1) "
+        Sql = Sql & " where (1=1) "
     End If
     
     Select Case Combo1.ListIndex
         Case 0 'talones
-            SQL = SQL & " and talones.llevadobanco = 0"
+            Sql = Sql & " and talones.llevadobanco = 0"
         Case 1 'pagares
-            SQL = SQL & " and talones.llevadobanco = 1"
+            Sql = Sql & " and talones.llevadobanco = 1"
         Case 2 'todos
         
     End Select
             
-    If Check1(2).Value = 1 And Check1(3).Value = 1 Then
+    If check1(2).Value = 1 And check1(3).Value = 1 Then
         ' si estan marcados ambos no hacemos nada
     Else
-        If Check1(2).Value = 1 Then 'talones
-            SQL = SQL & " and talones.talon = 1"
+        If check1(2).Value = 1 Then 'talones
+            Sql = Sql & " and talones.talon = 1"
         End If
     
-        If Check1(3).Value = 1 Then 'pagares
-            SQL = SQL & " and talones.talon = 0"
+        If check1(3).Value = 1 Then 'pagares
+            Sql = Sql & " and talones.talon = 0"
         End If
     End If
     
-    SQL = SQL & " ORDER BY 1,2,3 "
+    Sql = Sql & " ORDER BY 1,2,3 "
 
             
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1040,10 +1040,10 @@ Dim nomDocu As String
     
     indRPT = "0611-00"
     
-    If Check1(0).Value Then cadParam = cadParam & "pDetalle=1|"
+    If check1(0).Value Then cadParam = cadParam & "pDetalle=1|"
     numParam = numParam + 1
         
-    If Check1(1).Value = 1 Then
+    If check1(1).Value = 1 Then
         indRPT = "0611-01"
     End If
         
@@ -1055,7 +1055,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 15
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 44
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -1063,16 +1063,16 @@ Dim nomDocu As String
 End Sub
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
-Dim I As Integer
+Dim i As Integer
 
     MontaSQL = False
     
     If Not PonerDesdeHasta("talones.fecharec", "F", Me.txtFecha(2), Me.txtFecha(2), Me.txtFecha(3), Me.txtFecha(3), "pDHFecha=""") Then Exit Function
-    If Not PonerDesdeHasta("talones.codigo", "COD", Me.txtcodigo(0), Me.txtcodigo(0), Me.txtcodigo(1), Me.txtcodigo(1), "pDHCodigo=""") Then Exit Function
+    If Not PonerDesdeHasta("talones.codigo", "COD", Me.txtCodigo(0), Me.txtCodigo(0), Me.txtCodigo(1), Me.txtCodigo(1), "pDHCodigo=""") Then Exit Function
             
     If Combo1.ListIndex <> 2 Then
         Select Case Combo1.ListIndex
@@ -1089,17 +1089,17 @@ Dim I As Integer
         End Select
     End If
             
-    If Check1(2).Value = 1 And Check1(3).Value = 1 Then
+    If check1(2).Value = 1 And check1(3).Value = 1 Then
         ' si estan marcados ambos no hacemos nada
     Else
-        If Check1(2).Value = 1 Then 'talones
+        If check1(2).Value = 1 Then 'talones
             If cadFormula <> "" Then cadFormula = cadFormula & " and "
             If cadselect <> "" Then cadselect = cadselect & " and "
             cadFormula = cadFormula & "{talones.talon} = 1"
             cadselect = cadselect & "talones.talon = 1"
         End If
     
-        If Check1(3).Value = 1 Then 'pagares
+        If check1(3).Value = 1 Then 'pagares
             If cadFormula <> "" Then cadFormula = cadFormula & " and "
             If cadselect <> "" Then cadselect = cadselect & " and "
             cadFormula = cadFormula & "{talones.talon} = 0"
@@ -1140,9 +1140,9 @@ End Sub
 Private Function DatosOK() As Boolean
     
     DatosOK = False
-    If Check1(2).Value = 0 And Check1(3).Value = 0 Then
+    If check1(2).Value = 0 And check1(3).Value = 0 Then
         MsgBox "Debe seleccionar al menos un tipo de documento. Revise.", vbExclamation
-        PonerFocoChk Check1(2)
+        PonerFocoChk check1(2)
         Exit Function
     End If
     DatosOK = True

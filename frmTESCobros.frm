@@ -3409,13 +3409,13 @@ Begin VB.Form frmTESCobros
          EndProperty
          Height          =   360
          Index           =   13
-         Left            =   360
+         Left            =   120
          MaxLength       =   30
          TabIndex        =   1
          Tag             =   "Serie|T|N|||cobros|numserie||S|"
          Text            =   "Text1"
          Top             =   270
-         Width           =   765
+         Width           =   885
       End
       Begin VB.TextBox Text1 
          Alignment       =   2  'Center
@@ -3430,13 +3430,12 @@ Begin VB.Form frmTESCobros
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   1260
-         MaxLength       =   7
+         Left            =   1200
          TabIndex        =   2
          Tag             =   "Nº Factura|N|N|||cobros|numfactu|0000000|S|"
          Text            =   "Text1"
          Top             =   270
-         Width           =   1335
+         Width           =   1575
       End
       Begin VB.TextBox Text1 
          Alignment       =   2  'Center
@@ -3451,7 +3450,7 @@ Begin VB.Form frmTESCobros
          EndProperty
          Height          =   360
          Index           =   3
-         Left            =   4200
+         Left            =   4440
          MaxLength       =   30
          TabIndex        =   4
          Tag             =   "Nº Vencimiento|N|N|0||cobros|numorden||S|"
@@ -3472,18 +3471,18 @@ Begin VB.Form frmTESCobros
          EndProperty
          Height          =   360
          Index           =   2
-         Left            =   2760
+         Left            =   2880
          MaxLength       =   10
          TabIndex        =   3
          Tag             =   "Fecha Factura|F|N|||cobros|fecfactu|dd/mm/yyyy|S|"
          Text            =   "Text1"
          Top             =   270
-         Width           =   1275
+         Width           =   1395
       End
       Begin VB.Image imgFecha 
          Height          =   240
          Index           =   0
-         Left            =   3780
+         Left            =   4020
          Picture         =   "frmTESCobros.frx":051F
          Top             =   0
          Width           =   240
@@ -3561,7 +3560,7 @@ Begin VB.Form frmTESCobros
          EndProperty
          Height          =   195
          Index           =   13
-         Left            =   360
+         Left            =   240
          TabIndex        =   47
          Top             =   0
          Width           =   540
@@ -3577,12 +3576,12 @@ Begin VB.Form frmTESCobros
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   255
+         Height          =   240
          Index           =   1
          Left            =   1260
          TabIndex        =   46
          Top             =   0
-         Width           =   1455
+         Width           =   1155
       End
       Begin VB.Label Label1 
          Caption         =   "Nº Vencimiento"
@@ -3597,9 +3596,9 @@ Begin VB.Form frmTESCobros
          EndProperty
          Height          =   195
          Index           =   2
-         Left            =   4170
+         Left            =   4410
          TabIndex        =   45
-         Top             =   30
+         Top             =   0
          Width           =   1860
       End
       Begin VB.Label Label1 
@@ -3615,7 +3614,7 @@ Begin VB.Form frmTESCobros
          EndProperty
          Height          =   195
          Index           =   4
-         Left            =   2760
+         Left            =   2880
          TabIndex        =   44
          Top             =   0
          Width           =   975
@@ -3763,11 +3762,11 @@ Private Sub cboFiltro_Click()
     If PrimeraVez Then Exit Sub
     If Modo = 0 Then Exit Sub
     
-    LimpiarCampos
-    CargaList 0, False 'CargaGrid 0, False
-    CargaGrid 1, False
+    'LimpiarCampos
+    'CargaList 0, False 'CargaGrid 0, False
+    'CargaGrid 1, False
     
-    HacerBusqueda2
+    'HacerBusqueda2
 End Sub
 
 Private Sub cboSituRem_KeyPress(KeyAscii As Integer)
@@ -3888,7 +3887,7 @@ Private Sub cmdAux_Click(Index As Integer)
             frmDia.Show vbModal
             Set frmDia = Nothing
             
-            PonFoco txtaux(5)
+            PonFoco txtAux(5)
             
         Case 2 ' cocnepto de devolucion
             Set frmDev = New frmBasico
@@ -3967,7 +3966,7 @@ End Function
 Private Sub BotonAnyadir()
     LimpiarCampos
     
-    Check1(1).Value = 0
+    check1(1).Value = 0
     'Añadiremos el boton de aceptar y demas objetos para insertar
     cmdAceptar.Caption = "&Aceptar"
     PonerModo 3
@@ -4360,11 +4359,11 @@ End Sub
 Private Sub LimpiarCampos()
     Limpiar Me   'Metodo general
     txtPendiente.Text = ""
-    Check1(0).Value = 0
-    Check1(1).Value = 0
-    Check1(2).Value = 0
-    Check1(3).Value = 0
-    Check1(4).Value = 0
+    check1(0).Value = 0
+    check1(1).Value = 0
+    check1(2).Value = 0
+    check1(3).Value = 0
+    check1(4).Value = 0
     cboTipoRem.ListIndex = -1
     Combo1.ListIndex = -1
     Text2(3).Text = ""
@@ -4443,7 +4442,7 @@ Private Sub frmC_Selec(vFecha As Date)
 End Sub
 
 Private Sub frmC1_Selec(vFecha As Date)
-    txtaux(CInt(cmdAux(1).Tag)).Text = Format(vFecha, "dd/mm/yyyy")
+    txtAux(CInt(cmdAux(1).Tag)).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
@@ -5305,8 +5304,8 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
         If i <> 8 Then txtaux1(i).BackColor = vbWhite
     Next i
     
-    Check1(2).Enabled = (Modo = 1)
-    Check1(4).Enabled = (Modo = 1)
+    check1(2).Enabled = (Modo = 1)
+    check1(4).Enabled = (Modo = 1)
     
     Combo1.Enabled = False '(Modo = 1) Or ((vUsu.Nombre = "root") And Modo = 4)
     
@@ -5420,7 +5419,7 @@ Dim Tipo As Integer
             If DBLet(Me.Data1.Recordset!recedocu, "N") = 1 Then
                 'Tiene la marca de documento recibido
                 'Veremos si se la ha quitado
-                If Me.Check1(0).Value = 0 Then
+                If Me.check1(0).Value = 0 Then
                     DevfrmCCtas = "Seguro que desea quitarle la marca de documento recibido?"
                     If MsgBox(DevfrmCCtas, vbQuestion + vbYesNo) = vbNo Then Exit Function
                 End If
@@ -5707,7 +5706,9 @@ Dim Im As Currency
     
     'Si ya ha cobrado algo...
     Im = DBLet(Data1.Recordset!impcobro, "N")
-    If Im > 0 Then frmTESCobrosDivVto.txtCodigo(1).Text = txtPendiente.Text
+    'If Im > 0 Then frmTESCobrosDivVto.txtCodigo(1).Text = txtPendiente.Text
+    frmTESCobrosDivVto.txtCodigo(1).Text = txtPendiente.Text
+    
     
     If Text1(0).Text = "" Then
         MsgBox "El cobro no tiene forma de pago. Revise.", vbExclamation
@@ -5771,6 +5772,8 @@ Dim IT
 Dim cad As String
 
     lwCobros.ListItems.Clear
+    If Not Enlaza Then Exit Sub  'marzo 2017
+    
     Set Me.lwCobros.SmallIcons = frmppal.imgListComun16 'imgListComun 'ImgListviews
     Set miRsAux = New ADODB.Recordset
     
@@ -5783,7 +5786,8 @@ Dim cad As String
     If Enlaza Then
         cad = cad & Replace(Replace(ObtenerWhereCab(True), "cobros", "hlinapu"), "numfactu", "numfaccl")
     Else
-        cad = cad & " WHERE hlinapu.codmacta is null"
+        'cad = cad & " WHERE hlinapu.codmacta is null"
+        cad = cad & " WHERE false"  'aunque aqui ya no entra
     End If
     cad = cad & " ORDER BY hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden, hlinapu.fechaent, hlinapu.numasien "
     
@@ -5880,20 +5884,26 @@ Dim tabla As String
         
         Case 1 'hlinapu
             tabla = "hlinapu"
-            Sql = "SELECT hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden, hlinapu.fecdevol, "
-            Sql = Sql & "hlinapu.coddevol, usuarios.wdevolucion.descripcion, hlinapu.tiporem, "
-            Sql = Sql & "CASE hlinapu.tiporem WHEN 1 THEN 'Efectos' WHEN 2 THEN 'Pagarés' WHEN 3 THEN 'Talones' END as TTipo, codrem, anyorem, (coalesce(timported,0) - coalesce(timporteh,0)) impcobro  "
-            Sql = Sql & " FROM " & tabla & " LEFT JOIN usuarios.wdevolucion ON hlinapu.coddevol = usuarios.wdevolucion.codigo "
+            
+            'Prueba david 'MARZO 2017
             If Enlaza Then
-                Sql = Sql & Replace(Replace(ObtenerWhereCab(True), "cobros", "hlinapu"), "numfactu", "numfaccl")
+                    
+                    Sql = "SELECT hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden, hlinapu.fecdevol, "
+                    Sql = Sql & "hlinapu.coddevol, usuarios.wdevolucion.descripcion, hlinapu.tiporem, "
+                    Sql = Sql & "CASE hlinapu.tiporem WHEN 1 THEN 'Efectos' WHEN 2 THEN 'Pagarés' WHEN 3 THEN 'Talones' END as TTipo, codrem, anyorem, (coalesce(timported,0) - coalesce(timporteh,0)) impcobro  "
+                    Sql = Sql & " FROM " & tabla & " LEFT JOIN usuarios.wdevolucion ON hlinapu.coddevol = usuarios.wdevolucion.codigo "
+                    If Enlaza Then
+                        Sql = Sql & Replace(Replace(ObtenerWhereCab(True), "cobros", "hlinapu"), "numfactu", "numfaccl")
+                    Else
+                        Sql = Sql & " WHERE hlinapu.codmacta is null"
+                    End If
+                    
+                    Sql = Sql & " and hlinapu.esdevolucion = 1 "
+                    Sql = Sql & " ORDER BY 1,2,3,4,5"
             Else
-                Sql = Sql & " WHERE hlinapu.codmacta is null"
+                Sql = "SELECT '' numserie,  0 numfaccl, 1 fecfactu, 1 numorden,  1 fecdevol, 1 coddevol, 1 descripcion,"
+                Sql = Sql & " 1 tiporem, 1 TTipo, 1 codrem, 1 anyorem, 0 impcobro   from bancos  where codmacta=-1"
             End If
-            
-            Sql = Sql & " and hlinapu.esdevolucion = 1 "
-            Sql = Sql & " ORDER BY 1,2,3,4,5"
-            
-            
             
     End Select
     ' ********************************************************************************
@@ -5984,9 +5994,9 @@ Dim B As Boolean
     B = (xModo = 1 Or xModo = 2) 'Insertar o Modificar Llínies
     Select Case Index
         Case 0 'hlinapu
-            For jj = 5 To txtaux.Count - 1
-                txtaux(jj).Visible = B
-                txtaux(jj).top = alto
+            For jj = 5 To txtAux.Count - 1
+                txtAux(jj).Visible = B
+                txtAux(jj).top = alto
             Next jj
         
         Case 1 'lineas de factura
@@ -6333,18 +6343,18 @@ Dim i As Integer
                 ' *** valor per defecte a l'insertar i formateig de tots els camps ***
                 Case 0 'lineas de cobros realizados
                     If Limpia Then
-                        For i = 0 To txtaux.Count - 1
-                            txtaux(i).Text = ""
+                        For i = 0 To txtAux.Count - 1
+                            txtAux(i).Text = ""
                         Next i
                     End If
-                    txtaux(0).Text = Text1(13).Text 'serie
-                    txtaux(1).Text = Text1(1).Text 'numfactu
-                    txtaux(2).Text = Text1(2).Text 'fecha
-                    txtaux(3).Text = Text1(3).Text 'nro vencimiento
+                    txtAux(0).Text = Text1(13).Text 'serie
+                    txtAux(1).Text = Text1(1).Text 'numfactu
+                    txtAux(2).Text = Text1(2).Text 'fecha
+                    txtAux(3).Text = Text1(3).Text 'nro vencimiento
                     
-                    txtaux(4).Text = Format(NumF, "0000") 'linea contador
+                    txtAux(4).Text = Format(NumF, "0000") 'linea contador
                     
-                    PonFoco txtaux(5)
+                    PonFoco txtAux(5)
             
             End Select
 
@@ -6507,8 +6517,8 @@ Dim cad As String
                     Limp = True
 
                     If Limp Then
-                        For i = 0 To txtaux.Count - 1
-                            txtaux(i).Text = ""
+                        For i = 0 To txtAux.Count - 1
+                            txtAux(i).Text = ""
                         Next i
                     End If
                     ModoLineas = 0
@@ -6620,7 +6630,7 @@ EDatosOKLlin:
 End Function
 
 Private Sub txtaux_GotFocus(Index As Integer)
-    ConseguirFoco txtaux(Index), Modo
+    ConseguirFoco txtAux(Index), Modo
 End Sub
 
 
@@ -6653,41 +6663,41 @@ Private Sub txtAux_LostFocus(Index As Integer)
     Dim Importe As Currency
         
         
-    If Not PerderFocoGnral(txtaux(Index), Modo) Then Exit Sub
+    If Not PerderFocoGnral(txtAux(Index), Modo) Then Exit Sub
     
-    If txtaux(Index).Text = "" Then Exit Sub
+    If txtAux(Index).Text = "" Then Exit Sub
     
     Select Case Index
         Case 5 ' diario
-            RC = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", txtaux(5), "N")
+            RC = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", txtAux(5), "N")
             If RC = "" Then
                 MsgBox "No existe el tipo de diario. Reintroduzca.", vbExclamation
-                PonFoco txtaux(5)
+                PonFoco txtAux(5)
             End If
                 
         Case 6, 11 ' fecha
-            If Not EsFechaOK(txtaux(Index)) Then
-                MsgBox "Fecha incorrecta: " & txtaux(Index).Text, vbExclamation
-                txtaux(Index).Text = ""
-                PonerFoco txtaux(Index)
+            If Not EsFechaOK(txtAux(Index)) Then
+                MsgBox "Fecha incorrecta: " & txtAux(Index).Text, vbExclamation
+                txtAux(Index).Text = ""
+                PonerFoco txtAux(Index)
             End If
             
         Case 7 ' asiento
-            PonerFormatoEntero txtaux(Index)
+            PonerFormatoEntero txtAux(Index)
         
         Case 8 ' usuario
         
         Case 9
            ' IMPORTE
-             txtaux(Index) = ImporteSinFormato(txtaux(Index))
+             txtAux(Index) = ImporteSinFormato(txtAux(Index))
             
         Case 10 'tipo
-            txtaux(Index).Text = UCase(txtaux(Index).Text)
+            txtAux(Index).Text = UCase(txtAux(Index).Text)
         
         Case 12 ' cuenta de cobro
-            RC = txtaux(12).Text
+            RC = txtAux(12).Text
             If CuentaCorrectaUltimoNivel(RC, "") Then
-                txtaux(12).Text = RC
+                txtAux(12).Text = RC
             End If
         
     End Select

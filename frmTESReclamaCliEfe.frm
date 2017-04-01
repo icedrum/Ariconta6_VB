@@ -1560,7 +1560,7 @@ Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
 Private Sql As String
-Dim Cad As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -1611,20 +1611,20 @@ Dim nomDocu As String
     ' si es por email
     If Me.optTipoSal(3).Value Then
         
-        Cad = "DELETE FROM tmp347 WHERE codusu =" & vUsu.Codigo
-        Conn.Execute Cad
+        cad = "DELETE FROM tmp347 WHERE codusu =" & vUsu.Codigo
+        Conn.Execute cad
         
         Set Rs = New ADODB.Recordset
         
-        Cad = "SELECT fechaadq,maidatos,razosoci,nommacta FROM tmpentrefechas,cuentas WHERE"
-        Cad = Cad & " fechaadq=codmacta AND    CodUsu = " & vUsu.Codigo
-        Cad = Cad & " GROUP BY fechaadq ORDER BY maidatos"
-        Rs.Open Cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+        cad = "SELECT fechaadq,maidatos,razosoci,nommacta FROM tmpentrefechas,cuentas WHERE"
+        cad = cad & " fechaadq=codmacta AND    CodUsu = " & vUsu.Codigo
+        cad = cad & " GROUP BY fechaadq ORDER BY maidatos"
+        Rs.Open cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
         
-        Cad = "pFechaIMP= """ & txtFecha(4).Text & """|"
-        Cad = Cad & "pverCCC= " & Abs(Me.chkMostrarCta) & "|"
+        cad = "pFechaIMP= """ & txtFecha(4).Text & """|"
+        cad = cad & "pverCCC= " & Abs(Me.chkMostrarCta) & "|"
         
-        cadParam = cadParam & Cad
+        cadParam = cadParam & cad
         numParam = numParam + 2
         
         Sql = "{tmpentrefechas.codusu}=" & vUsu.Codigo
@@ -2133,7 +2133,7 @@ Private Sub txtCuentas_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuentas_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim Sql As String
@@ -2233,7 +2233,7 @@ Private Sub txtSerie_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtSerie_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim Sql As String
@@ -2275,7 +2275,7 @@ End Sub
 
 
 Private Sub txtCarta_LostFocus()
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim Sql As String
@@ -2310,7 +2310,7 @@ Private Sub txtAgente_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtAgente_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String
+Dim cad As String, cadTipo As String
 Dim Cta As String
 Dim B As Boolean
 Dim Sql As String
@@ -2379,7 +2379,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 15
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 39
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -2430,8 +2430,8 @@ Dim Dpto As Long
     
     'No enlazamos por NIF, si no k en NIF guardaremos codmacta
     'codinmov, nominmov, fechaadq, valoradq, amortacu, fecventa, impventa, impperiodo) VALUES (
-    Cad = "DELETE FROM tmpentrefechas WHERE codusu = " & vUsu.Codigo
-    Conn.Execute Cad
+    cad = "DELETE FROM tmpentrefechas WHERE codusu = " & vUsu.Codigo
+    Conn.Execute cad
     
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Sql = "INSERT INTO tmpentrefechas(codusu,codigo,codccost,nomccost,fecventa,conconam,fechaadq"
@@ -2449,26 +2449,26 @@ Dim Dpto As Long
         Importe = Rs!ImpVenci + DBLet(Rs!Gastos, "N") - DBLet(Rs!impcobro, "N")
         If DBLet(Rs!recedocu, "N") = 1 Then Importe = 0
         If Importe > 0 Then
-            Cad = i & ",'" & Rs!NUmSerie & "','"
-            Cad = Cad & Rs!NumFactu & "','"
-            Cad = Cad & Format(Rs!FecFactu, FormatoFecha) & "',"
-            Cad = Cad & Rs!numorden & ",'"
-            Cad = Cad & Rs!codmacta & "','"
-            Cad = Cad & Rs!FecVenci & "',"
-            Cad = Cad & TransformaComasPuntos(CStr(Rs!ImpVenci)) & ","
+            cad = i & ",'" & Rs!NUmSerie & "','"
+            cad = cad & Rs!NumFactu & "','"
+            cad = cad & Format(Rs!FecFactu, FormatoFecha) & "',"
+            cad = cad & Rs!numorden & ",'"
+            cad = cad & Rs!codmacta & "','"
+            cad = cad & Rs!FecVenci & "',"
+            cad = cad & TransformaComasPuntos(CStr(Rs!ImpVenci)) & ","
             If IsNull(Rs!impcobro) Then
-                Cad = Cad & "NULL"
+                cad = cad & "NULL"
             Else
-                Cad = Cad & TransformaComasPuntos(CStr(Rs!impcobro))
+                cad = cad & TransformaComasPuntos(CStr(Rs!impcobro))
             End If
             'ValorADQ=GASTOS
-            Cad = Cad & "," & TransformaComasPuntos(CStr(DBLet(Rs!Gastos, "N")))
+            cad = cad & "," & TransformaComasPuntos(CStr(DBLet(Rs!Gastos, "N")))
             
             'Febrero 2010
             'Departamento
-            Cad = Cad & "," & DBLet(Rs!departamento, "N")
-            Cad = Sql & Cad & ")"
-            Conn.Execute Cad
+            cad = cad & "," & DBLet(Rs!departamento, "N")
+            cad = Sql & cad & ")"
+            Conn.Execute cad
             
             i = i + 1
             
@@ -2502,21 +2502,21 @@ Dim Dpto As Long
     
     
     
-    Cad = "DELETE FROM tmpcuentas  where codusu = " & vUsu.Codigo
-    Conn.Execute Cad
+    cad = "DELETE FROM tmpcuentas  where codusu = " & vUsu.Codigo
+    Conn.Execute cad
     
-    Cad = "SELECT fechaadq,codinmov FROM tmpentrefechas WHERE codusu = " & vUsu.Codigo & " GROUP BY fechaadq,codinmov"
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    cad = "SELECT fechaadq,codinmov FROM tmpentrefechas WHERE codusu = " & vUsu.Codigo & " GROUP BY fechaadq,codinmov"
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     'Datos contables
     Set miRsAux = New ADODB.Recordset
     CONT = 0
     While Not Rs.EOF
         'BUSCAMOS DATOS
-        Cad = "SELECT * from cuentas where codmacta='" & Rs.Fields(0) & "'"
+        cad = "SELECT * from cuentas where codmacta='" & Rs.Fields(0) & "'"
     
         'Insertar datos en z347
-        miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         'Nuevo. Ya no llevamos NIF, llevaremos departamento
         RC = "" 'SERA EL NIF. Sera el DPTO
         i = 1
@@ -2543,13 +2543,13 @@ Dim Dpto As Long
             Sql = Sql & DBLet(miRsAux!nifdatos, "T") & "','" 'En nommacta meto el NIF del cliente
                 
                 
-            Cad = DBLet(miRsAux!IBAN, "T")
+            cad = DBLet(miRsAux!IBAN, "T")
             
-            Cad = Cad & "','"
+            cad = cad & "','"
             'El dpto si tiene
-            Cad = Cad & DevNombreSQL(DevuelveDesdeBD("descripcion", "departamentos", "codmacta = '" & miRsAux!codmacta & "' AND dpto", CStr(Dpto)))
-            Cad = Cad & "'," & Dpto
-            Ejecuta Sql & Cad & ")"   'Lo pongo en funcion para que no me de error
+            cad = cad & DevNombreSQL(DevuelveDesdeBD("descripcion", "departamentos", "codmacta = '" & miRsAux!codmacta & "' AND dpto", CStr(Dpto)))
+            cad = cad & "'," & Dpto
+            Ejecuta Sql & cad & ")"   'Lo pongo en funcion para que no me de error
             
             Sql = "UPDATE tmpentrefechas SET nomconam='" & RC & "' WHERE fechaadq = '" & Rs!fechaadq & "'"
             Sql = Sql & " AND codusu = " & vUsu.Codigo
@@ -2749,10 +2749,10 @@ Private Sub MontaSQLReclamacion()
     
     
     'Select
-    Cad = "Select cobros.*, cuentas.codmacta FROM cobros,cuentas,formapago "
-    Cad = Cad & " WHERE  formapago.codforpa=cobros.codforpa AND cobros.codmacta = cuentas.codmacta"
-    Cad = Cad & " AND formapago.codforpa=cobros.codforpa "
-    Sql = Cad & Sql
+    cad = "Select cobros.*, cuentas.codmacta FROM cobros,cuentas,formapago "
+    cad = cad & " WHERE  formapago.codforpa=cobros.codforpa AND cobros.codmacta = cuentas.codmacta"
+    cad = cad & " AND formapago.codforpa=cobros.codforpa "
+    Sql = cad & Sql
     
     
 End Sub

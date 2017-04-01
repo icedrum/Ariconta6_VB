@@ -497,10 +497,10 @@ Attribute frmDpto.VB_VarHelpID = -1
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim tabla As String
 
@@ -592,19 +592,19 @@ End Sub
 
 Private Sub Form_Load()
     PrimeraVez = True
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Memoria Plazos de Pago"
 
     
-    For I = 0 To 1
-        Me.ImgFec(I).Picture = frmPpal.imgIcoForms.ListImages(2).Picture
-    Next I
+    For i = 0 To 1
+        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+    Next i
      
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
      
@@ -619,7 +619,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 
@@ -658,25 +658,25 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -684,7 +684,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -698,25 +698,25 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
-    SQL = "SELECT cobros.codmacta Cuenta, cobros.nomclien Descripcion, hlinapu.fecdevol FecDevol, "
-    SQL = SQL & "cobros.numserie Serie, cobros.numfactu Factura, cobros.fecfactu FecFra, cobros.numorden Vto, hlinapu.timporteh - hlinapu.timported Importe, "
-    SQL = SQL & "hlinapu.gastodev Gastos, hlinapu.coddevol Devol, wdevolucion.descripcion Descripcion "
-    SQL = SQL & " FROM  (cobros INNER JOIN hlinapu ON cobros.numserie = hlinapu.numserie AND "
-    SQL = SQL & " cobros.numfactu = hlinapu.numfaccl AND cobros.fecfactu = hlinapu.fecfactu AND "
-    SQL = SQL & " cobros.numorden = hlinapu.numorden) "
-    SQL = SQL & "  LEFT JOIN usuarios.wdevolucion ON hlinapu.coddevol = wdevolucion.codigo "
+    Sql = "SELECT cobros.codmacta Cuenta, cobros.nomclien Descripcion, hlinapu.fecdevol FecDevol, "
+    Sql = Sql & "cobros.numserie Serie, cobros.numfactu Factura, cobros.fecfactu FecFra, cobros.numorden Vto, hlinapu.timporteh - hlinapu.timported Importe, "
+    Sql = Sql & "hlinapu.gastodev Gastos, hlinapu.coddevol Devol, wdevolucion.descripcion Descripcion "
+    Sql = Sql & " FROM  (cobros INNER JOIN hlinapu ON cobros.numserie = hlinapu.numserie AND "
+    Sql = Sql & " cobros.numfactu = hlinapu.numfaccl AND cobros.fecfactu = hlinapu.fecfactu AND "
+    Sql = Sql & " cobros.numorden = hlinapu.numorden) "
+    Sql = Sql & "  LEFT JOIN usuarios.wdevolucion ON hlinapu.coddevol = wdevolucion.codigo "
     
-    If cadselect <> "" Then SQL = SQL & " where " & cadselect
+    If cadselect <> "" Then Sql = Sql & " where " & cadselect
     
     
-    SQL = SQL & " ORDER BY " & SQL2
+    Sql = Sql & " ORDER BY " & Sql2
 
             
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -738,7 +738,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 15
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 48
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -748,7 +748,7 @@ Dim nomDocu As String
 End Sub
 
 Private Function CargarTemporal() As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim vSql As String
 Dim vSql1 As String
 Dim vSql2 As String
@@ -787,10 +787,10 @@ Dim F2Ant As String
     F1Ant = DateAdd("yyyy", -1, CDate(txtFecha(0).Text))
     F2Ant = DateAdd("yyyy", -1, CDate(txtFecha(1).Text))
     
-    SQL = "delete from tmpimpbalance where codusu = " & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "delete from tmpimpbalance where codusu = " & vUsu.Codigo
+    Conn.Execute Sql
     
-    SQL = "insert into tmpimpbalance (codusu, codigo, descripcion, importe1, importe2) values (" & vUsu.Codigo & ","
+    Sql = "insert into tmpimpbalance (codusu, codigo, descripcion, importe1, importe2) values (" & vUsu.Codigo & ","
     
     SqlValues = ""
     
@@ -829,11 +829,11 @@ Dim F2Ant As String
     
     
     SqlValues = "2,'Ratio de operaciones pagadas'," & DBSet(Ratio1, "N") & "," & DBSet(Ratio1ant, "N") & ")"
-    Conn.Execute SQL & SqlValues
+    Conn.Execute Sql & SqlValues
     
     ' importe pagos realizados
     SqlValues = "4,'Total pagos realizados'," & DBSet(Importe1, "N") & "," & DBSet(Importe1ant, "N") & ")"
-    Conn.Execute SQL & SqlValues
+    Conn.Execute Sql & SqlValues
     
     ' ratio de operaciones pendientes de pago
     vSql = "select round(datediff(" & DBSet(txtFecha(1).Text, "F") & ",factpro.fecharec) * impefect,2) a, impefect b from factpro inner join pagos on factpro.numserie = pagos.numserie and factpro.numfactu = pagos.numfactu and factpro.fecfactu = pagos.fecfactu "
@@ -864,11 +864,11 @@ Dim F2Ant As String
     If Importe2ant <> 0 Then Ratio2ant = Round(Valor2ant / Importe2ant, 2)
     
     SqlValues = "3,'Ratio de operaciones pendientes de pago'," & DBSet(Ratio2, "N") & "," & DBSet(Ratio2ant, "N") & ")"
-    Conn.Execute SQL & SqlValues
+    Conn.Execute Sql & SqlValues
     
     ' importe operaciones pendientes de pago
     SqlValues = "5,'Total pagos pendientes'," & DBSet(importe2, "N") & "," & DBSet(Importe2ant, "N") & ")"
-    Conn.Execute SQL & SqlValues
+    Conn.Execute Sql & SqlValues
     
     
     ' periodo medio de pago a proveedores
@@ -878,7 +878,7 @@ Dim F2Ant As String
     If (Importe1ant + Importe2ant) <> 0 Then PMAnt = Round(((Ratio1ant * Importe1ant) + (Ratio2ant * Importe2ant)) / (Importe1ant + Importe2ant), 2)
     
     SqlValues = "1,'Periodo medio de pago a proveedores'," & DBSet(PM, "N") & "," & DBSet(PMAnt, "N") & ")"
-    Conn.Execute SQL & SqlValues
+    Conn.Execute Sql & SqlValues
     
     
     CargarTemporal = True
@@ -889,11 +889,11 @@ eCargarTemporal:
 End Function
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
-Dim I As Integer
+Dim i As Integer
 
 
     MontaSQL = False

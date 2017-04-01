@@ -20,7 +20,7 @@ Begin VB.Form frmConExtr
       Caption         =   "Frame1"
       Height          =   525
       Left            =   7890
-      TabIndex        =   34
+      TabIndex        =   35
       Top             =   240
       Width           =   8475
       Begin VB.CheckBox chkCtaConMov 
@@ -36,7 +36,7 @@ Begin VB.Form frmConExtr
          EndProperty
          Height          =   300
          Left            =   3600
-         TabIndex        =   36
+         TabIndex        =   37
          Top             =   120
          Width           =   4875
       End
@@ -53,7 +53,7 @@ Begin VB.Form frmConExtr
          EndProperty
          Height          =   300
          Left            =   210
-         TabIndex        =   35
+         TabIndex        =   36
          Top             =   120
          Width           =   2865
       End
@@ -73,7 +73,7 @@ Begin VB.Form frmConExtr
       Index           =   11
       Left            =   12810
       Locked          =   -1  'True
-      TabIndex        =   31
+      TabIndex        =   32
       Text            =   "Text6"
       Top             =   8850
       Width           =   1435
@@ -93,7 +93,7 @@ Begin VB.Form frmConExtr
       Index           =   10
       Left            =   11385
       Locked          =   -1  'True
-      TabIndex        =   30
+      TabIndex        =   31
       Text            =   "Text6"
       Top             =   8850
       Width           =   1435
@@ -113,7 +113,7 @@ Begin VB.Form frmConExtr
       Index           =   9
       Left            =   9945
       Locked          =   -1  'True
-      TabIndex        =   29
+      TabIndex        =   30
       Text            =   "Text6"
       Top             =   8850
       Width           =   1435
@@ -121,13 +121,13 @@ Begin VB.Form frmConExtr
    Begin VB.Frame FrameBotonGnral 
       Height          =   705
       Left            =   240
-      TabIndex        =   15
+      TabIndex        =   16
       Top             =   60
       Width           =   2775
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   330
          Left            =   240
-         TabIndex        =   16
+         TabIndex        =   17
          Top             =   180
          Width           =   2265
          _ExtentX        =   3995
@@ -182,7 +182,7 @@ Begin VB.Form frmConExtr
       Index           =   8
       Left            =   12780
       Locked          =   -1  'True
-      TabIndex        =   5
+      TabIndex        =   6
       Text            =   "Text6"
       Top             =   8340
       Width           =   1435
@@ -202,7 +202,7 @@ Begin VB.Form frmConExtr
       Index           =   7
       Left            =   11340
       Locked          =   -1  'True
-      TabIndex        =   4
+      TabIndex        =   5
       Text            =   "Text6"
       Top             =   8340
       Width           =   1435
@@ -222,7 +222,7 @@ Begin VB.Form frmConExtr
       Index           =   6
       Left            =   9930
       Locked          =   -1  'True
-      TabIndex        =   3
+      TabIndex        =   4
       Text            =   "Text6"
       Top             =   8340
       Width           =   1435
@@ -278,9 +278,19 @@ Begin VB.Form frmConExtr
       BorderStyle     =   0  'None
       Height          =   525
       Left            =   270
-      TabIndex        =   11
+      TabIndex        =   12
       Top             =   840
       Width           =   17130
+      Begin VB.CommandButton cmdVer 
+         Height          =   375
+         Left            =   14040
+         Picture         =   "frmConExtr.frx":000C
+         Style           =   1  'Graphical
+         TabIndex        =   3
+         ToolTipText     =   "Ver datos"
+         Top             =   90
+         Width           =   375
+      End
       Begin VB.TextBox Text3 
          Alignment       =   1  'Right Justify
          BeginProperty Font 
@@ -353,7 +363,7 @@ Begin VB.Form frmConExtr
          Height          =   360
          Left            =   2730
          Locked          =   -1  'True
-         TabIndex        =   12
+         TabIndex        =   13
          Text            =   "Text2"
          Top             =   90
          Width           =   4725
@@ -372,7 +382,7 @@ Begin VB.Form frmConExtr
          Height          =   255
          Index           =   0
          Left            =   90
-         TabIndex        =   33
+         TabIndex        =   34
          Top             =   120
          Width           =   855
       End
@@ -386,7 +396,7 @@ Begin VB.Form frmConExtr
          Height          =   240
          Index           =   1
          Left            =   12270
-         Picture         =   "frmConExtr.frx":000C
+         Picture         =   "frmConExtr.frx":0A0E
          Top             =   120
          Width           =   240
       End
@@ -394,7 +404,7 @@ Begin VB.Form frmConExtr
          Height          =   240
          Index           =   0
          Left            =   9120
-         Picture         =   "frmConExtr.frx":0097
+         Picture         =   "frmConExtr.frx":0A99
          Top             =   120
          Width           =   240
       End
@@ -412,7 +422,7 @@ Begin VB.Form frmConExtr
          Height          =   255
          Index           =   3
          Left            =   11220
-         TabIndex        =   14
+         TabIndex        =   15
          Top             =   120
          Width           =   975
       End
@@ -430,7 +440,7 @@ Begin VB.Form frmConExtr
          Height          =   255
          Index           =   2
          Left            =   7830
-         TabIndex        =   13
+         TabIndex        =   14
          Top             =   105
          Width           =   1305
       End
@@ -438,7 +448,7 @@ Begin VB.Form frmConExtr
    Begin MSComctlLib.Toolbar ToolbarAyuda 
       Height          =   390
       Left            =   16530
-      TabIndex        =   17
+      TabIndex        =   18
       Top             =   180
       Width           =   405
       _ExtentX        =   714
@@ -456,7 +466,7 @@ Begin VB.Form frmConExtr
    Begin MSComctlLib.ListView ListView1 
       Height          =   6435
       Left            =   240
-      TabIndex        =   18
+      TabIndex        =   19
       Top             =   1830
       Width           =   17040
       _ExtentX        =   30057
@@ -551,7 +561,7 @@ Begin VB.Form frmConExtr
       Height          =   255
       Index           =   1
       Left            =   7440
-      TabIndex        =   32
+      TabIndex        =   33
       Top             =   8850
       Width           =   1575
    End
@@ -569,7 +579,7 @@ Begin VB.Form frmConExtr
       Height          =   285
       Index           =   4
       Left            =   7530
-      TabIndex        =   28
+      TabIndex        =   29
       Top             =   1440
       Width           =   1530
    End
@@ -588,7 +598,7 @@ Begin VB.Form frmConExtr
       Height          =   285
       Index           =   6
       Left            =   11160
-      TabIndex        =   27
+      TabIndex        =   28
       Top             =   1440
       Width           =   1545
    End
@@ -607,7 +617,7 @@ Begin VB.Form frmConExtr
       Height          =   285
       Index           =   7
       Left            =   12780
-      TabIndex        =   26
+      TabIndex        =   27
       Top             =   1440
       Width           =   1545
    End
@@ -627,7 +637,7 @@ Begin VB.Form frmConExtr
       Height          =   240
       Index           =   8
       Left            =   15090
-      TabIndex        =   25
+      TabIndex        =   26
       Top             =   1440
       Width           =   645
    End
@@ -645,7 +655,7 @@ Begin VB.Form frmConExtr
       Height          =   285
       Index           =   5
       Left            =   10350
-      TabIndex        =   24
+      TabIndex        =   25
       Top             =   1440
       Width           =   705
    End
@@ -663,7 +673,7 @@ Begin VB.Form frmConExtr
       Height          =   285
       Index           =   2
       Left            =   2790
-      TabIndex        =   23
+      TabIndex        =   24
       Top             =   1440
       Width           =   1860
    End
@@ -681,7 +691,7 @@ Begin VB.Form frmConExtr
       Height          =   285
       Index           =   3
       Left            =   5010
-      TabIndex        =   22
+      TabIndex        =   23
       Top             =   1440
       Width           =   2160
    End
@@ -700,7 +710,7 @@ Begin VB.Form frmConExtr
       Height          =   285
       Index           =   1
       Left            =   1680
-      TabIndex        =   21
+      TabIndex        =   22
       Top             =   1440
       Width           =   1005
    End
@@ -718,7 +728,7 @@ Begin VB.Form frmConExtr
       Height          =   285
       Index           =   0
       Left            =   330
-      TabIndex        =   20
+      TabIndex        =   21
       Top             =   1440
       Width           =   1305
    End
@@ -738,7 +748,7 @@ Begin VB.Form frmConExtr
       Height          =   240
       Index           =   9
       Left            =   16230
-      TabIndex        =   19
+      TabIndex        =   20
       Top             =   1440
       Width           =   135
    End
@@ -756,7 +766,7 @@ Begin VB.Form frmConExtr
       ForeColor       =   &H00000080&
       Height          =   555
       Left            =   4000
-      TabIndex        =   8
+      TabIndex        =   9
       Top             =   4000
       Visible         =   0   'False
       Width           =   5175
@@ -776,7 +786,7 @@ Begin VB.Form frmConExtr
       Height          =   255
       Index           =   0
       Left            =   7410
-      TabIndex        =   6
+      TabIndex        =   7
       Top             =   8400
       Width           =   1335
    End
@@ -794,7 +804,7 @@ Begin VB.Form frmConExtr
       ForeColor       =   &H00000000&
       Height          =   360
       Left            =   240
-      TabIndex        =   9
+      TabIndex        =   10
       Top             =   8340
       Width           =   3165
    End
@@ -811,7 +821,7 @@ Begin VB.Form frmConExtr
       ForeColor       =   &H00800000&
       Height          =   360
       Left            =   3480
-      TabIndex        =   10
+      TabIndex        =   11
       Top             =   8340
       Width           =   3405
    End
@@ -829,7 +839,7 @@ Begin VB.Form frmConExtr
       ForeColor       =   &H00000080&
       Height          =   255
       Left            =   240
-      TabIndex        =   7
+      TabIndex        =   8
       Top             =   8340
       Visible         =   0   'False
       Width           =   6645
@@ -891,7 +901,7 @@ Private Sub adodc1_MoveComplete(ByVal adReason As ADODB.EventReasonEnum, ByVal p
     Label10.Refresh
 End Sub
 
-Private Sub RefrescarDatos()
+Private Sub RefrescarDatos2()
 'CONSULTA EXTRACTOS
 Dim F As Date
     If Text3(2).Text = "" Then
@@ -960,7 +970,7 @@ Dim F As Date
         Screen.MousePointer = vbDefault
         
         CargarDatos False
-        
+        PonerFoco Text3(2)
         Exit Sub
     End If
     
@@ -991,11 +1001,15 @@ End Sub
 
 Private Sub OtraCuenta(Index As Integer)
 Dim i As Integer
+Dim B As Boolean
 
     If Cuenta <> "" Then Exit Sub
 
     'Obtener la cuenta
-    If Not ObtenerCuenta(Index = 0) Then Exit Sub
+    Screen.MousePointer = vbHourglass
+    B = ObtenerCuenta(Index = 0)
+    Screen.MousePointer = vbDefault
+    If Not B Then Exit Sub
 
     'Poner datos
     Screen.MousePointer = vbHourglass
@@ -1029,7 +1043,11 @@ Private Sub chkCtaConMov_Click()
 End Sub
 
 Private Sub chkPunteo_Click()
-    RefrescarDatos
+   ' RefrescarDatos2
+End Sub
+
+Private Sub cmdVer_Click()
+    RefrescarDatos2
 End Sub
 
 Private Sub Form_Activate()
@@ -1121,7 +1139,7 @@ Dim i As Integer
         Sql = ""
         CuentaCorrectaUltimoNivel Cuenta, Sql
         Text5.Text = Sql
-        RefrescarDatos
+        RefrescarDatos2
     Else
         CargaGrid
         PonFoco Text3(2)
@@ -1162,7 +1180,7 @@ Private Sub frmCta_DatoSeleccionado(CadenaSeleccion As String)
     Text5.Text = RecuperaValor(CadenaSeleccion, 2)
     
     'no refrescaba
-    If ValorAnterior <> Text3(2).Text Then RefrescarDatos
+    'If ValorAnterior <> Text3(2).Text Then RefrescarDatos
     ValorAnterior = Text3(2).Text
     
 End Sub
@@ -1306,7 +1324,7 @@ Private Sub Text3_LostFocus(Index As Integer)
                 PonerFoco Text3(Index)
                 Exit Sub
             Else
-                If ValorAnterior <> Text3(Index).Text Then RefrescarDatos
+                'If ValorAnterior <> Text3(Index).Text Then RefrescarDatos
             End If
     
         Case 2 ' cuentas
@@ -1319,7 +1337,7 @@ Private Sub Text3_LostFocus(Index As Integer)
                 Text3(2).Text = RC
                 Text5.Text = Sql
                 
-                If ValorAnterior <> Text3(Index).Text Then RefrescarDatos
+                'If ValorAnterior <> Text3(Index).Text Then RefrescarDatos
             Else
                 MsgBox Sql, vbExclamation
                 Text3(2).Text = ""
@@ -1336,6 +1354,8 @@ On Error GoTo ECargaDatos
 
 
     Label101.Caption = ""
+    Me.ListView1.ListItems.Clear
+    Me.ListView1.Refresh
     Label100.Visible = True
     Label100.Refresh
     
@@ -1407,7 +1427,7 @@ Dim Pinta As Boolean
 
 Dim NumAto As Long  'el numero de asiento por si viene de los asientos
 
-Dim Cad As String
+Dim cad As String
 Dim miRsAux As ADODB.Recordset
 
     Me.ListView1.ListItems.Clear
@@ -1422,23 +1442,23 @@ Dim miRsAux As ADODB.Recordset
        
     
     
-    Cad = " numasien,fechaent,cta codmacta,nomdocum numdocum,ampconce,timporteD impdebe,timporteH imphaber,ccost codccost"
-    Cad = Cad & ",if(punteada='',' ','*') punteada,nommacta,contra ctacontr,linliapu numlinea, numdiari "
+    cad = " numasien,fechaent,cta codmacta,nomdocum numdocum,ampconce,timporteD impdebe,timporteH imphaber,ccost codccost"
+    cad = cad & ",if(punteada='',' ','*') punteada,nommacta,contra ctacontr,linliapu numlinea, numdiari "
     If Text3(2).Text <> "" Then
-        Cad = "Select " & Cad & " from tmpConExt left join cuentas on tmpConExt.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
+        cad = "Select " & cad & " from tmpConExt left join cuentas on tmpConExt.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
         If Me.chkPunteo.Value = 1 Then
-            Cad = Cad & " and punteada = 0"
+            cad = cad & " and punteada = 0"
         End If
     Else
-        Cad = "Select " & Cad & " from tmpConExt left join cuentas on tmpConExt.contra=cuentas.codmacta  where codusu = " & vUsu.Codigo
+        cad = "Select " & cad & " from tmpConExt left join cuentas on tmpConExt.contra=cuentas.codmacta  where codusu = " & vUsu.Codigo
         If Me.chkPunteo.Value = 1 Then
-            Cad = Cad & " and punteada = 0"
+            cad = cad & " and punteada = 0"
         End If
     End If
-    Cad = Cad & " AND cta = '" & Text3(2).Text & "' ORDER BY fechaent,numasien,linliapu  " ' ORDER BY POS"
+    cad = cad & " AND cta = '" & Text3(2).Text & "' ORDER BY fechaent,numasien,linliapu  " ' ORDER BY POS"
     
     
-    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If miRsAux.EOF Then
     
@@ -1527,12 +1547,12 @@ Dim miRsAux As ADODB.Recordset
     miRsAux.Close
         
     Dim Rs As ADODB.Recordset
-    Cad = "SELECT codmacta, sum(coalesce(timporteD,0)) impdebe,sum(coalesce(timporteH,0)) imphaber"
-    Cad = Cad & " from hlinapu "
-    Cad = Cad & " where hlinapu.codmacta=" & DBSet(Text3(2).Text, "T") & " AND fechaent>=" & DBSet(vParam.fechaini, "F") '& " and fechaent <= " & DBSet(F2, "F")  '2013-01-01'"
-    Cad = Cad & " group by 1 "
+    cad = "SELECT codmacta, sum(coalesce(timporteD,0)) impdebe,sum(coalesce(timporteH,0)) imphaber"
+    cad = cad & " from hlinapu "
+    cad = cad & " where hlinapu.codmacta=" & DBSet(Text3(2).Text, "T") & " AND fechaent>=" & DBSet(vParam.fechaini, "F") '& " and fechaent <= " & DBSet(F2, "F")  '2013-01-01'"
+    cad = cad & " group by 1 "
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Me.Text6(6).Text = Format(DBLet(Rs!impdebe, "N"), FormatoImporte)
@@ -1598,16 +1618,16 @@ End Sub
 
 Private Sub CargarColumnas()
 Dim i As Integer
-Dim Cad As String
+Dim cad As String
 
     
-    Cad = "1300|1150|2005|3714|1500|820|1950|1950|1950|350|"  '0|0|0|"
+    cad = "1300|1150|2005|3714|1500|820|1950|1950|1950|350|"  '0|0|0|"
     'tieneanalitica
     Me.LabelCab(5).Visible = (vParam.autocoste)
     
     
     For i = 1 To Me.ListView1.ColumnHeaders.Count
-        ListView1.ColumnHeaders.Item(i).Width = RecuperaValor(Cad, i)
+        ListView1.ColumnHeaders.Item(i).Width = RecuperaValor(cad, i)
         If i > 6 Then Me.LabelCab(i - 1).Width = ListView1.ColumnHeaders(i).Width
 
         Me.LabelCab(i - 1).Left = ListView1.ColumnHeaders.Item(i).Left + 120
@@ -1630,9 +1650,12 @@ Private Function ObtenerCuenta(Siguiente As Boolean) As Boolean
     Label101.Caption = ""
     Label100.Visible = True
     Label100.Refresh
-    Sql = "select codmacta from hlinapu"
+    Sql = "select distinct codmacta from hlinapu"
     If EjerciciosCerrados Then Sql = Sql & "1"
-    Sql = Sql & " WHERE codmacta "
+    Sql = Sql & " WHERE "
+    Sql = Sql & " fechaent >= '" & Format(Text3(0).Text, FormatoFecha) & "'"
+    Sql = Sql & " AND fechaent <= '" & Format(Text3(1).Text, FormatoFecha) & "'"
+    Sql = Sql & " AND codmacta "
     If Siguiente Then
         Sql = Sql & ">"
     Else
@@ -1643,9 +1666,8 @@ Private Function ObtenerCuenta(Siguiente As Boolean) As Boolean
     Else
         Sql = Sql & " '" & Text3(2).Text & "'"
     End If
-    Sql = Sql & " AND fechaent >= '" & Format(Text3(0).Text, FormatoFecha) & "'"
-    Sql = Sql & " AND fechaent <= '" & Format(Text3(1).Text, FormatoFecha) & "'"
-    Sql = Sql & " group by codmacta ORDER BY codmacta"
+    
+    Sql = Sql & " ORDER BY codmacta"
     If Siguiente Then
         Sql = Sql & " ASC"
     Else
@@ -1812,15 +1834,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
     
     On Error Resume Next
 
-    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 0 Or Modo = 2)

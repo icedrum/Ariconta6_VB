@@ -245,7 +245,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 
-Private Const NumeroCamposTratar = 18
+Private Const NumeroCamposTratarFraCli = 20
 
 Dim strArray() As String
 Dim LineaConErrores As Boolean
@@ -267,6 +267,7 @@ Private Sub cmdAceptar_Click()
         
         InsertarEnContabilidadFraCli
         If J > 0 Then
+            ListView1.Tag = 0
             CargaEncabezado 2
             Set miRsAux = New ADODB.Recordset
             cad = "select codigo,texto1,texto2,observa1 from tmptesoreriacomun where codusu =" & vUsu.Codigo & " ORDER BY codigo"
@@ -318,7 +319,7 @@ Private Sub Command1_Click()
     End If
     cmdAceptar.Visible = False
     ListView1.ListItems.Clear
-    
+    ListView1.Tag = 0 'No puede hacer dblclick
     
 
 
@@ -472,9 +473,11 @@ Dim RC As Byte
             ListView1.ListItems(i).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!CalculoImponible, FormatoImporte)
             ListView1.ListItems(i).SubItems(10) = Format(miRsAux!TotalFactura, FormatoImporte)
             
-            
-            
-            
+            If vEmpresa.TieneTesoreria Then
+                cad = " "
+                If DBLet(miRsAux!IBAN, "T") <> "" Or DBLet(miRsAux!txtcsb, "T") <> "" Then cad = "*"
+                ListView1.ListItems(i).SubItems(11) = cad
+            End If
             
         Else
             
@@ -486,6 +489,8 @@ Dim RC As Byte
             For NF = 1 To 10
                 If NF < 3 Or NF > 6 Then ListView1.ListItems(i).SubItems(NF) = " "
             Next
+            
+            If vEmpresa.TieneTesoreria Then ListView1.ListItems(i).SubItems(11) = " "
             
         End If
         
@@ -527,8 +532,8 @@ Dim clmX As ColumnHeader
         clmX.Width = 4000
         
         Set clmX = ListView1.ColumnHeaders.Add()
-        clmX.Text = "valore fichero"
-        clmX.Width = 7000
+        clmX.Text = "Valor en fichero"
+        clmX.Width = 9000
     Case 2
         'Erro en totales
         
@@ -547,7 +552,7 @@ Dim clmX As ColumnHeader
         
     Case 3
         'OK FACTURAS CLIENTE
-                
+        ListView1.Tag = 1
         
         Set clmX = ListView1.ColumnHeaders.Add()
         clmX.Text = "Serie"
@@ -588,8 +593,8 @@ Dim clmX As ColumnHeader
         clmX.Width = 400
         
         Set clmX = ListView1.ColumnHeaders.Add()
-        clmX.Text = "Total bases"
-        clmX.Width = 1350
+        clmX.Text = "Bases"
+        clmX.Width = 1250
         clmX.Alignment = lvwColumnRight
         
         Set clmX = ListView1.ColumnHeaders.Add()
@@ -599,9 +604,17 @@ Dim clmX As ColumnHeader
         
         Set clmX = ListView1.ColumnHeaders.Add()
         clmX.Text = "Total"
-        clmX.Width = 1500
+        clmX.Width = 1300
         clmX.Alignment = lvwColumnRight
-        
+                
+        If vEmpresa.TieneTesoreria Then
+            Set clmX = ListView1.ColumnHeaders.Add()
+            clmX.Text = "€"
+            clmX.Width = 370
+                    
+          
+        End If
+            
     End Select
 End Sub
 
@@ -618,7 +631,8 @@ Dim Aux As String
     'tipo_ret,ctaventas,Ccoste,impventa,iva,impiva,recargo,imprecargo,totalfactura,integracion)
     Msg$ = "Serie|Factura|Fecha|Cliente|Forma pago|Tipo opereacion|Cta retencion|Importe retencion|"
     Msg$ = Msg$ & "Tipo retencion|Cta ventas|ccoste|Importe venta|Porcentaje IVA|Importe IVA|Porcentaje recargo|Impor Recargo|Total factura|INTREGRACION|"
-    
+    '28 marzo
+    Msg$ = Msg$ & "iban|txtcsb|"
     
     
     'Preparamos tabla de insercion
@@ -644,7 +658,7 @@ Dim Aux As String
             'Primera linea encabezado?
             If Me.check1.Value = 1 Then cad = ""
         Else
-            If InStr(1, String(NumeroCamposTratar, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
+            If InStr(1, String(NumeroCamposTratarFraCli, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
         End If
         
         
@@ -653,14 +667,14 @@ Dim Aux As String
             
             strArray = Split(cad, ";")
             
-            If UBound(strArray) = NumeroCamposTratar - 1 Then
+            If UBound(strArray) = NumeroCamposTratarFraCli - 1 Then
                 'Falta el ultimo punto y coma
                 cad = cad & ";"
                 strArray = Split(cad, ";")
             End If
             
             
-            If UBound(strArray) <> NumeroCamposTratar Then
+            If UBound(strArray) <> NumeroCamposTratarFraCli Then
                 J = J + 1
                 Aux = vUsu.Codigo & "," & J & "," & NumRegElim & ",'Nº campos incorrecto'," & DBSet(cad, "T")
                 Conn.Execute "INSERT INTO tmptesoreriacomun (codusu,codigo,texto1,texto2,observa1) VALUES (" & Aux & ")"
@@ -704,15 +718,15 @@ Private Sub SeparaLineaCliente()
 Dim NuevaLinea As Boolean
 
     CadenaDesdeOtroForm = "INSERT INTO tmpintefrafracli(codusu,Codigo,serie,factura,fecha,cta_cli,fpago,tipo_operacion,ctaret,impret"
-    CadenaDesdeOtroForm = CadenaDesdeOtroForm & ",tipo_ret,ctaventas,Ccoste,impventa,iva,impiva,recargo,imprecargo,totalfactura,integracion"
+    CadenaDesdeOtroForm = CadenaDesdeOtroForm & ",tipo_ret,ctaventas,Ccoste,impventa,iva,impiva,recargo,imprecargo,totalfactura,integracion,iban,txtcsb"
     CadenaDesdeOtroForm = CadenaDesdeOtroForm & ") VALUES (" & vUsu.Codigo & "," & NumRegElim
     
 
     'Vemos los campos.
     ' 0       1         2       3           4           5               6           7       8       9           10
     'SERIE  FACTURA  FECHA  CTA. CLI.    F.PAGO    TIPO OPERACION   CTA.RET.   IMP.RET   TIPO RET. CTA.VENTAS   CCOST
-    '  11       12          13         14       15          16              17
-    'IMP.VENTA  % I.V.A.  MP.IVA    % R.E.    IMP. REC.   TOTAL FACTURA   INTEGRACION
+    '  11       12          13         14       15          16              17          18       1,9
+    'IMP.VENTA  % I.V.A.  MP.IVA    % R.E.    IMP. REC.   TOTAL FACTURA   INTEGRACION   IBAN    txtcsb
     LineaConErrores = False
     
    
@@ -735,6 +749,9 @@ Dim NuevaLinea As Boolean
                         strArray(1) = "0"
                         strArray(2) = "1900-01-01"
                         strArray(3) = ""
+                        
+                        
+                        
                         NuevaLinea = False
                     End If
                 End If
@@ -746,7 +763,7 @@ Dim NuevaLinea As Boolean
     End If
     
     'Validamos campos
-    For k = 0 To NumeroCamposTratar - 1
+    For k = 0 To NumeroCamposTratarFraCli - 1
         ValidarLinea CByte(k)
     Next k
     
@@ -766,6 +783,10 @@ Dim NuevaLinea As Boolean
             If strArray(4) = "" Then
                 AnyadeEnErrores "Falta forma de pago"
             End If
+            
+            
+            
+            
         End If
         
         
@@ -810,8 +831,8 @@ Dim ValorSQL As String
     'Vemos los campos.
     ' 0       1         2       3           4           5               6           7       8       9
     'SERIE  FACTURA  FECHA  CTA. CLI.    F.PAGO    TIPO OPERACION   CTA.RET.   IMP.RET   TIPO RET. CTA.VENTAS
-    '  11       12          13         14       15          16              17
-    'IMP.VENTA  % I.V.A.  MP.IVA    % R.E.    IMP. REC.   TOTAL FACTURA   INTEGRACION
+    '  11       12          13         14       15          16              17          18          19
+    'IMP.VENTA  % I.V.A.  MP.IVA    % R.E.    IMP. REC.   TOTAL FACTURA   INTEGRACION  iban     txtcsb
     ValorSQL = "NULL"
     Select Case QueCampo
     'Numerico REQUERIDO
@@ -1218,7 +1239,7 @@ Dim IVA As Currency
 Dim TotalFac As Currency
 Dim ColBases As Collection
 Dim Fecha As Date
-
+Dim Aux As String
 Dim ColCob As Collection
 Dim tCobro As String
 'Tipo integracion   Viene en el fichero en la posicion 17
@@ -1256,7 +1277,7 @@ Dim Tipointegracion As Byte
     'codusu,Codigo,serie,factura,fecha,cta_cli,fpago,tipo_operacion,ctaret,impret,tipo_ret,ctaventas,Ccoste,impventa,
     'IVA , ImpIva, recargo, imprecargo, TotalFactura, integracion
     
-    cad = "select tmpintefrafracli.*,codpais,nifdatos,desprovi,despobla,codposta,dirdatos,nommacta,iban from tmpintefrafracli left join cuentas ON cta_cli=codmacta"
+    cad = "select tmpintefrafracli.*,codpais,nifdatos,desprovi,despobla,codposta,dirdatos,nommacta,cuentas.iban ibancta from tmpintefrafracli left join cuentas ON cta_cli=codmacta"
     cad = cad & " WHERe codusu =" & vUsu.Codigo & " order by codigo"
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     FACTURA = ""
@@ -1317,15 +1338,36 @@ Dim Tipointegracion As Byte
                 'select nommacta,dirdatos,despobla,codposta,desprovi,codpais,nifdatos from cuentas
                 'Para los cobros     (cojo esta variable)
                 '       insert into cobros(agente,nomclien, domclien, pobclien, cpclien, proclien, codpais, nifclien,
-                'numserie,numfactu,fecfactu,codmacta,codforpa,ctabanc1,iban,text33csb,numorden,fecvenci,impvenci)
+                'numserie,numfactu,fecfactu,codmacta,codforpa,ctabanc1,iban,text33csb,text41csb,numorden,fecvenci,impvenci)
                 
                 If Tipointegracion <> 1 Then
                     tCobro = " (" & RecuperaValor(CadenaDesdeOtroForm, 1) & "," & DBSet(miRsAux!Nommacta, "T") & "," & DBSet(miRsAux!dirdatos, "T", "S")
                     tCobro = tCobro & "," & DBSet(miRsAux!desPobla, "T", "S") & "," & DBSet(miRsAux!codposta, "T", "S")
                     tCobro = tCobro & "," & DBSet(miRsAux!desProvi, "T", "S") & "," & DBSet(miRsAux!codPAIS, "T", "S") & "," & DBSet(miRsAux!nifdatos, "T")
                     tCobro = tCobro & "," & DBSet(miRsAux!Serie, "T") & "," & miRsAux!FACTURA & "," & DBSet(miRsAux!Fecha, "F") & "," & DBSet(miRsAux!Cta_cli, "T")
-                    tCobro = tCobro & "," & k & "," & DBSet(RecuperaValor(CadenaDesdeOtroForm, 3), "T") & "," & DBSet(miRsAux!IBAN, "T", "S") & ","
-                    tCobro = tCobro & DBSet("Factura : " & miRsAux!FACTURA & " de " & miRsAux!Fecha, "T") & ","
+                    tCobro = tCobro & "," & k & "," & DBSet(RecuperaValor(CadenaDesdeOtroForm, 3), "T") & ","
+                    
+                    'Si me ha indicado IBAN, o no, en la importacion
+                    If DBLet(miRsAux!IBAN, "T") = "" Then
+                        Aux = DBSet(miRsAux!ibancta, "T", "S")
+                    Else
+                        Aux = DBSet(miRsAux!IBAN, "T", "S")
+                    End If
+                    tCobro = tCobro & Aux & ","
+                    
+                    'Si me ha indicado(o no) txtobserva text33csb text41csb
+                    If DBLet(miRsAux!txtcsb, "T") = "" Then
+                        Aux = DBSet("Factura : " & miRsAux!FACTURA & " de " & miRsAux!Fecha, "T") & ",null,"
+                    Else
+                        Aux = miRsAux!txtcsb
+                        If Len(Aux) > 80 Then
+                            Aux = DBSet(Mid(Aux, 1, 80), "T") & "," & DBSet(Mid(Aux, 81), "T") & ","
+                        Else
+                            Aux = DBSet(Aux, "T") & ",NULL,"
+                        End If
+                    End If
+                    tCobro = tCobro & Aux
+                    
                     CargarCobrosSobreCollectionConSQLInsert ColCob, CStr(k), miRsAux!Fecha, TotalFac, tCobro
                 End If
                 
@@ -1454,7 +1496,7 @@ Private Sub InsertarFACTURA(ByRef C As Collection, FacturaC As String, Fecha As 
             cad = cad & ", " & Cobros.Item(i)
         Next i
         cad = Mid(cad, 2)
-        cad = "insert into cobros(agente,nomclien, domclien, pobclien, cpclien, proclien, codpais, nifclien,numserie,numfactu,fecfactu,codmacta,codforpa,ctabanc1,iban,text33csb,numorden,fecvenci,impvenci) VALUES " & cad
+        cad = "insert into cobros(agente,nomclien, domclien, pobclien, cpclien, proclien, codpais, nifclien,numserie,numfactu,fecfactu,codmacta,codforpa,ctabanc1,iban,text33csb,text41csb,numorden,fecvenci,impvenci) VALUES " & cad
         Conn.Execute cad
     End If
     
@@ -1585,3 +1627,28 @@ Private Sub imgppal_Click(Index As Integer)
 End Sub
 
 
+Private Sub ListView1_DblClick()
+    If Not vEmpresa.TieneTesoreria Then Exit Sub
+    If ListView1.ListItems.Count = 0 Then Exit Sub
+    If ListView1.SelectedItem Is Nothing Then Exit Sub
+    
+    If ListView1.Tag = 0 Then Exit Sub 'El dblclick no hace nada
+    
+    
+    If optVarios(0).Value Then
+        If ListView1.SelectedItem.SubItems(11) = "*" Then
+            'Han puesto observaciones y/o IBAN
+            cad = "serie =" & DBSet(ListView1.SelectedItem.Text, "T") & " AND  factura =" & ListView1.SelectedItem.SubItems(1) & " AND codusu"
+            cad = DevuelveDesdeBD("concat(coalesce(iban,''),'|',coalesce(txtcsb,''),'|')", "tmpintefrafracli", cad, CStr(vUsu.Codigo))
+            If cad <> "" Then
+                With ListView1.SelectedItem
+                    CadenaDesdeOtroForm = "Cliente: " & .SubItems(3) & vbCrLf
+                    CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Factura: " & .Text & .SubItems(1) & vbCrLf & vbCrLf
+                    CadenaDesdeOtroForm = CadenaDesdeOtroForm & "IBAN: " & RecuperaValor(cad, 1) & vbCrLf
+                    CadenaDesdeOtroForm = CadenaDesdeOtroForm & "TxtCSB: " & RecuperaValor(cad, 2) & vbCrLf
+                End With
+                MsgBox CadenaDesdeOtroForm, vbInformation
+            End If
+        End If
+    End If
+End Sub

@@ -644,7 +644,7 @@ Private Const IdPrograma = 807
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
-Public Numero As String
+Public numero As String
 Public Tipo As Byte ' 0=sin filtro de fechas
                     ' 1=
 
@@ -654,10 +654,10 @@ Attribute frmF.VB_VarHelpID = -1
 Private WithEvents frmGas As frmBasico
 Attribute frmGas.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim tabla As String
 
@@ -764,18 +764,18 @@ End Sub
 
 Private Sub Form_Load()
     PrimeraVez = True
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Informe de Gastos"
 
-    For I = 0 To 1
-        Me.imgGastos(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To 1
+        Me.imgGastos(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
     
-    For I = 0 To 1
-        Me.ImgFec(I).Picture = frmPpal.imgIcoForms.ListImages(2).Picture
-    Next I
+    For i = 0 To 1
+        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+    Next i
      
     
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
@@ -839,24 +839,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-        frmPpal.cd1.Filter = "*.csv|*.csv"
+        frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -867,7 +867,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -894,7 +894,7 @@ Private Sub txtGastos_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtGastos(Index).Text = Trim(txtGastos(Index).Text)
@@ -923,20 +923,20 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
-    SQL = "SELECT gastosfijos.codigo Codigo, gastosfijos.descripcion, gastosfijos.ctaprevista, cuentas1.nommacta Nombre, gastosfijos.contrapar Contrapar, cuentas2.nommacta NombreContr, "
-    SQL = SQL & " gastosfijos_recibos.fecha, gastosfijos_recibos.importe, gastosfijos_recibos.contabilizado Contab"
-    SQL = SQL & " FROM  ((gastosfijos INNER JOIN gastosfijos_recibos ON gastosfijos.codigo = gastosfijos_recibos.codigo) INNER JOIN cuentas cuentas1 ON gastosfijos.ctaprevista = cuentas1.codmacta) "
-    SQL = SQL & " INNER JOIN cuentas cuentas2 ON gastosfijos.contrapar = cuentas2.codmacta"
+    Sql = "SELECT gastosfijos.codigo Codigo, gastosfijos.descripcion, gastosfijos.ctaprevista, cuentas1.nommacta Nombre, gastosfijos.contrapar Contrapar, cuentas2.nommacta NombreContr, "
+    Sql = Sql & " gastosfijos_recibos.fecha, gastosfijos_recibos.importe, gastosfijos_recibos.contabilizado Contab"
+    Sql = Sql & " FROM  ((gastosfijos INNER JOIN gastosfijos_recibos ON gastosfijos.codigo = gastosfijos_recibos.codigo) INNER JOIN cuentas cuentas1 ON gastosfijos.ctaprevista = cuentas1.codmacta) "
+    Sql = Sql & " INNER JOIN cuentas cuentas2 ON gastosfijos.contrapar = cuentas2.codmacta"
     
-    If cadselect <> "" Then SQL = SQL & " where " & cadselect
+    If cadselect <> "" Then Sql = Sql & " where " & cadselect
     
-    SQL = SQL & " ORDER BY 1,7 "
+    Sql = Sql & " ORDER BY 1,7 "
 
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -953,7 +953,7 @@ Dim nomDocu As String
     
 
         
-    If Check1(0).Value Then cadParam = cadParam & "pResumen=1|"
+    If check1(0).Value Then cadParam = cadParam & "pResumen=1|"
     numParam = numParam + 1
         
     
@@ -964,7 +964,7 @@ Dim nomDocu As String
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
     If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, False
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 15
+    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 49
         
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
@@ -975,11 +975,11 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
-Dim SQL2 As String
+Dim Sql As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
-Dim I As Integer
+Dim i As Integer
 
 
     MontaSQL = False
