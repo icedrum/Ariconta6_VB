@@ -22,6 +22,49 @@ Begin VB.Form frmUtilidades
       TabIndex        =   21
       Top             =   5400
       Width           =   7275
+      Begin VB.Frame FrameProgresoFac2 
+         Height          =   1215
+         Left            =   90
+         TabIndex        =   35
+         Top             =   150
+         Width           =   6945
+         Begin VB.Label Label7 
+            Caption         =   "Label7"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Index           =   1
+            Left            =   1680
+            TabIndex        =   37
+            Top             =   510
+            Width           =   4395
+         End
+         Begin VB.Label Label7 
+            Caption         =   "Label7"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Index           =   0
+            Left            =   120
+            TabIndex        =   36
+            Top             =   510
+            Width           =   1455
+         End
+      End
       Begin VB.TextBox txtCLI2 
          BackColor       =   &H80000018&
          Enabled         =   0   'False
@@ -130,49 +173,6 @@ Begin VB.Form frmUtilidades
          TabIndex        =   24
          Top             =   420
          Width           =   525
-      End
-      Begin VB.Frame FrameProgresoFac 
-         Height          =   1215
-         Left            =   90
-         TabIndex        =   35
-         Top             =   150
-         Width           =   6945
-         Begin VB.Label Label7 
-            Caption         =   "Label7"
-            BeginProperty Font 
-               Name            =   "Verdana"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   255
-            Index           =   1
-            Left            =   1680
-            TabIndex        =   37
-            Top             =   510
-            Width           =   4395
-         End
-         Begin VB.Label Label7 
-            Caption         =   "Label7"
-            BeginProperty Font 
-               Name            =   "Verdana"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   255
-            Index           =   0
-            Left            =   120
-            TabIndex        =   36
-            Top             =   510
-            Width           =   1455
-         End
       End
       Begin VB.Image imgppal 
          Height          =   240
@@ -1285,8 +1285,8 @@ Private Sub Form_Load()
         Me.cmdCrearCuenta.Enabled = vUsu.Nivel < 3
     Case 5, 6
         'Facturas clienes  y Facturas proveedores
-        FrameProgresoFac.Left = 120
-        FrameProgresoFac.Visible = False
+        FrameProgresoFac2.Left = 120
+        FrameProgresoFac2.Visible = False
         Me.frameCLI.Visible = True
         Text1(3).Text = vParam.fechaini
         Text1(2).Text = vParam.fechafin
@@ -1947,6 +1947,10 @@ E1:
     Set Rs = Nothing
 End Sub
 
+Private Sub FrameProgresoFac_DragDrop(Source As Control, X As Single, Y As Single)
+
+End Sub
+
 Private Sub frmC_DatoSeleccionado(CadenaSeleccion As String)
 On Error Resume Next
     If Opcion = 3 Then
@@ -2289,7 +2293,7 @@ Private Sub BuscarContabilizacionFacturas()
     
     Label7(0).Caption = ""
     Label7(1).Caption = ""
-    Me.FrameProgresoFac.Visible = True
+    Me.FrameProgresoFac2.Visible = True
     
     'Comprobamos facturas que estando contabilizadas no tienen apuntes
 '    FacturasContabilizadas
@@ -2309,7 +2313,7 @@ EBuscarContabilizacionFacturas:
     If Err.Number <> 0 Then MuestraError Err.Number
     Set Rs = Nothing
     Set miRsAux = Nothing
-    Me.FrameProgresoFac.Visible = False
+    Me.FrameProgresoFac2.Visible = False
     cmdCancel.Enabled = True
     cmdBus.Enabled = True
     

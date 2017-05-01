@@ -108,7 +108,7 @@ Begin VB.Form frmparametros
       _ExtentY        =   9393
       _Version        =   393216
       Tabs            =   6
-      Tab             =   3
+      Tab             =   2
       TabHeight       =   520
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Verdana"
@@ -147,35 +147,38 @@ Begin VB.Form frmparametros
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "I.V.A. - Norma 43"
       TabPicture(2)   =   "frmparametros.frx":0044
-      Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Text1(13)"
-      Tab(2).Control(1)=   "Text1(15)"
-      Tab(2).Control(2)=   "Text1(14)"
-      Tab(2).Control(3)=   "Frame17"
-      Tab(2).Control(4)=   "Frame8"
-      Tab(2).Control(5)=   "Frame1"
-      Tab(2).Control(6)=   "Label1(13)"
-      Tab(2).Control(7)=   "Label1(14)"
+      Tab(2).ControlEnabled=   -1  'True
+      Tab(2).Control(0)=   "Label1(14)"
+      Tab(2).Control(0).Enabled=   0   'False
+      Tab(2).Control(1)=   "Label1(13)"
+      Tab(2).Control(1).Enabled=   0   'False
+      Tab(2).Control(2)=   "Frame1"
+      Tab(2).Control(2).Enabled=   0   'False
+      Tab(2).Control(3)=   "Frame8"
+      Tab(2).Control(3).Enabled=   0   'False
+      Tab(2).Control(4)=   "Frame17"
+      Tab(2).Control(4).Enabled=   0   'False
+      Tab(2).Control(5)=   "Text1(14)"
+      Tab(2).Control(5).Enabled=   0   'False
+      Tab(2).Control(6)=   "Text1(15)"
+      Tab(2).Control(6).Enabled=   0   'False
+      Tab(2).Control(7)=   "Text1(13)"
+      Tab(2).Control(7).Enabled=   0   'False
       Tab(2).ControlCount=   8
       TabCaption(3)   =   "Inmovilizado"
       TabPicture(3)   =   "frmparametros.frx":0060
-      Tab(3).ControlEnabled=   -1  'True
-      Tab(3).Control(0)=   "Frame7"
-      Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "Frame9"
-      Tab(3).Control(1).Enabled=   0   'False
+      Tab(3).ControlEnabled=   0   'False
+      Tab(3).Control(0)=   "Frame14"
+      Tab(3).Control(1)=   "Frame15"
       Tab(3).Control(2)=   "Frame16"
-      Tab(3).Control(2).Enabled=   0   'False
-      Tab(3).Control(3)=   "Frame15"
-      Tab(3).Control(3).Enabled=   0   'False
-      Tab(3).Control(4)=   "Frame14"
-      Tab(3).Control(4).Enabled=   0   'False
+      Tab(3).Control(3)=   "Frame9"
+      Tab(3).Control(4)=   "Frame7"
       Tab(3).ControlCount=   5
       TabCaption(4)   =   "Tesorería I"
       TabPicture(4)   =   "frmparametros.frx":007C
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Frame66"
-      Tab(4).Control(1)=   "FrameValDefecto"
+      Tab(4).Control(0)=   "FrameValDefecto"
+      Tab(4).Control(1)=   "Frame66"
       Tab(4).ControlCount=   2
       TabCaption(5)   =   "Tesorería II"
       TabPicture(5)   =   "frmparametros.frx":0098
@@ -198,7 +201,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   360
          Index           =   13
-         Left            =   -65070
+         Left            =   9930
          MaxLength       =   15
          TabIndex        =   34
          Tag             =   "Importe limite 347|N|S|0||parametros|limimpcl|0.00||"
@@ -218,7 +221,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   360
          Index           =   15
-         Left            =   -64170
+         Left            =   10830
          MaxLength       =   2
          TabIndex        =   33
          Tag             =   "Ultimo periodo liquidación I.V.A.|N|S|0|100|parametros|perfactu|||"
@@ -238,7 +241,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   360
          Index           =   14
-         Left            =   -65070
+         Left            =   9930
          MaxLength       =   8
          TabIndex        =   32
          Tag             =   "Ultimo año liquidación I.V.A.|N|S|0|9999|parametros|anofactu|||"
@@ -258,7 +261,7 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   645
-         Left            =   -67260
+         Left            =   7740
          TabIndex        =   183
          Top             =   900
          Width           =   3525
@@ -1274,7 +1277,7 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2265
-         Left            =   300
+         Left            =   -74700
          TabIndex        =   118
          Top             =   810
          Width           =   3945
@@ -1373,7 +1376,7 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2265
-         Left            =   4530
+         Left            =   -70470
          TabIndex        =   111
          Top             =   840
          Width           =   6765
@@ -1596,7 +1599,7 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1365
-         Left            =   4560
+         Left            =   -70440
          TabIndex        =   108
          Top             =   3240
          Width           =   6735
@@ -1713,7 +1716,7 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1395
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   91
          Top             =   900
          Width           =   7365
@@ -1859,7 +1862,7 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1845
-         Left            =   300
+         Left            =   -74700
          TabIndex        =   87
          Top             =   3180
          Visible         =   0   'False
@@ -1991,7 +1994,7 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1965
-         Left            =   300
+         Left            =   -74700
          TabIndex        =   82
          Top             =   1020
          Visible         =   0   'False
@@ -2512,7 +2515,7 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2685
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   75
          Top             =   2370
          Width           =   11115
@@ -2590,7 +2593,7 @@ Begin VB.Form frmparametros
             Left            =   1860
             MaxLength       =   8
             TabIndex        =   26
-            Tag             =   "Concepto modelo 303|N|S|0||parametros|conce303|||"
+            Tag             =   "Concepto modelo 303|N|S|0||parametros|conce303|0||"
             Top             =   360
             Width           =   645
          End
@@ -3671,7 +3674,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   315
          Index           =   13
-         Left            =   -67230
+         Left            =   7770
          TabIndex        =   185
          Top             =   2010
          Width           =   1830
@@ -3689,7 +3692,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   315
          Index           =   14
-         Left            =   -67200
+         Left            =   7800
          TabIndex        =   184
          Top             =   1650
          Width           =   2160
@@ -4057,11 +4060,11 @@ Private Sub Form_Load()
     Me.SSTab1.TabEnabled(5) = (vEmpresa.TieneTesoreria)
     Me.SSTab1.TabVisible(5) = (vEmpresa.TieneTesoreria)
     
-    adodc1.ConnectionString = Conn
-    adodc1.RecordSource = "Select * from parametros "
-    adodc1.Refresh
+    Adodc1.ConnectionString = Conn
+    Adodc1.RecordSource = "Select * from parametros "
+    Adodc1.Refresh
     Limpiar Me
-    If adodc1.Recordset.EOF Then
+    If Adodc1.Recordset.EOF Then
         'No hay datos
         
         PonerModo 3
@@ -4393,14 +4396,25 @@ Private Sub Text1_LostFocus(Index As Integer)
        Text2(Index).Text = Sql
     Case 6, 7, 10, 11, 23, 35
        'Conceptos
-       If Not IsNumeric(Text1(Index).Text) Then Exit Sub
-       Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", Text1(Index).Text)
-       If Sql = "" Then
-            Sql = "Codigo incorrecto"
-            Text1(Index).Text = "-1"
+       cad = "NO"
+       If Not IsNumeric(Text1(Index).Text) Then
+            Sql = ""
+            MsgBox "Campo debe ser numerico", vbExclamation
+            Text1(Index).Text = ""
+        Else
+            cad = "codconce"
+            Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", Text1(Index).Text, "N", cad)
+            If cad = "codconce" Then
+                'NO existe el concepto
+                MsgBox "No existe el concepto", vbExclamation
+                Text1(Index).Text = ""
+            Else
+                cad = ""
+            End If
         End If
-       Text2(Index).Text = Sql
-        '....
+        
+        Text2(Index).Text = Sql
+        If cad <> "" Then PonFoco Text1(Index)
     Case 18
         cad = Text1(18).Text
         If CuentaCorrectaUltimoNivel(cad, Sql) Then
@@ -4425,6 +4439,10 @@ Private Sub Text1_LostFocus(Index As Integer)
         
     Case 33
         cad = Text1(33).Text
+        If cad = "" Then
+            Text7.Text = ""
+            Exit Sub
+        End If
         If CuentaCorrectaUltimoNivel(cad, Sql) Then
             Text1(33).Text = cad
             Text7.Text = Sql
@@ -4432,11 +4450,15 @@ Private Sub Text1_LostFocus(Index As Integer)
             MsgBox Sql, vbExclamation
             Text1(33).Text = cad
             Text7.Text = Sql
-            If Modo > 2 Then Text1(33).SetFocus
+            If Modo > 2 And cad <> "" Then Text1(33).SetFocus
         End If
         
     Case 34
         cad = Text1(34).Text
+        If cad = "" Then
+            Text8.Text = ""
+            Exit Sub
+        End If
         If CuentaCorrectaUltimoNivel(cad, Sql) Then
             Text1(34).Text = cad
             Text8.Text = Sql
@@ -4444,7 +4466,9 @@ Private Sub Text1_LostFocus(Index As Integer)
             MsgBox Sql, vbExclamation
             Text1(34).Text = cad
             Text8.Text = Sql
-            If Modo > 2 Then Text1(34).SetFocus
+            If Modo > 2 Then
+                If cad <> "" Then PonFoco Text1(34)
+            End If
         End If
         
     Case 30 ' nro de ariges asociado
@@ -4550,7 +4574,7 @@ Private Sub PonerContRegIndicador()
 Dim cadReg As String
 
     If (Modo = 2 Or Modo = 0) Then
-        cadReg = PonerContRegistros(Me.adodc1)
+        cadReg = PonerContRegistros(Me.Adodc1)
         If CadB = "" Then
             lblIndicador.Caption = cadReg
         Else
@@ -4566,8 +4590,8 @@ Private Sub PonerCampos()
     Dim tabla As String
     Dim Cod As String
     
-        If adodc1.Recordset.EOF Then Exit Sub
-        If PonerCamposForma(Me, adodc1) Then
+        If Adodc1.Recordset.EOF Then Exit Sub
+        If PonerCamposForma(Me, Adodc1) Then
            'Correcto, ponemos los datos auxiliares
            '----------------------------------------
            ' Diarios
@@ -4792,7 +4816,7 @@ Dim cad As String
     On Error Resume Next
 
     cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
     Set Rs = New ADODB.Recordset
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -5072,7 +5096,7 @@ On Error GoTo ECargarDatos
         Check5(2).Value = Rs!abonocambiado
         Check5(8).Value = Rs!comprobarinicio
         Check5(10).Value = Rs!nor19xvto
-        Check5(9).Value = Rs!EliminaRecibidosRiesgo
+        Check5(9).Value = DBLet(Rs!EliminaRecibidosRiesgo, "N") = 1
         Check5(11).Value = Rs!fechaasegesfra
         
         

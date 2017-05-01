@@ -414,7 +414,7 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
     Dim Fecha2 As Date
     Dim FinFecha As Boolean
 
-
+    
     Dim EsPersonaJuridica As Boolean
     
     Dim J As Integer
@@ -427,6 +427,31 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
     '-- Abrir el fichero a enviar
     NFic = FreeFile()
     Open NomFichero For Output As #NFic
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    Sql = "Select count(*),sum(impvenci)+sum(coalesce(gastos,0)) from cobros WHERE "
+    Sql = Sql & " codrem = " & RecuperaValor(Remesa_, 1)
+    Sql = Sql & " AND anyorem=" & RecuperaValor(Remesa_, 2)
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    J = miRsAux.Fields(0) 'NO PUEDE SER EOF
+    ImpEfe = miRsAux.Fields(1)
+    miRsAux.Close
+    
+    
+    
+    
+    
+    
+    
+    
     
     Sql = "select  numserie,numfactu,fecfactu,numorden,cobros.codmacta,codrem,anyorem,Tiporem,"
     
@@ -460,6 +485,10 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
     
     
     miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    
+    
+    
+    
     Sql = ""
     If Not miRsAux.EOF Then
         
@@ -491,11 +520,11 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
             Print #NFic, "   <CreDtTm>" & Sql & "</CreDtTm>"
             
             'Control sumatorio y numero de registro
-            
-            Sql = " codrem = " & RecuperaValor(Remesa_, 1) & " AND anyorem=" & RecuperaValor(Remesa_, 2) & " AND 1"
-            Sql = DevuelveDesdeBD("concat(count(*),'|',sum(coalesce(gastos,0)+impvenci),'|')", "cobros", Sql, "1")
-            Print #NFic, "   <NbOfTxs>" & RecuperaValor(Sql, 1) & "</NbOfTxs>"
-            Sql = RecuperaValor(Sql, 2)
+            'LO hemos calculado arriba
+            'Lo tenemos en impefec y j
+            Print #NFic, "   <NbOfTxs>" & J & "</NbOfTxs>"
+            Sql = ImpEfe
+            Sql = Replace(Sql, ",", ".")
             Print #NFic, "   <CtrlSum>" & Sql & "</CtrlSum>"
             
             
@@ -543,6 +572,11 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
                 'Informacion del PAGO.
                 ' Se imprime una vez cada FECHA
                 If Fecha2 <> miRsAux!FecVenci Then
+                        
+                        
+                        
+                        
+                        
                         
                         If Fecha2 > CDate("01/02/1900") Then Print #NFic, "</PmtInf>"
                         Fecha2 = miRsAux!FecVenci
@@ -1133,7 +1167,7 @@ Dim RegistroErroneo As Boolean
                 '        NIF
                 aux2 = Mid(aux2, 6)
                 If aux2 <> Sql Then
-'                    Stop
+
                     Err.Raise 513, , "NIF empresa del fichero no coincide con el de la empresa en Ariconta"
                 End If
             End If
@@ -1234,13 +1268,11 @@ Dim RegistroErroneo As Boolean
                 Itm.SubItems(5) = Format(AUX3, FormatoImporte)
                 If VtoEncontrado Then
                     'El importe deberia coincidir. Si no lo marcariamos como error
-'                    Stop
-'                    Stop
+
                     
                     Dim ImporteRemesado As Currency
-                    '[[[[[[[[[[[[[[PREGUNTAR a DAVID
-                    'antes cobros_realizados
-                    Sql = "select impcobro cobros where "
+
+                    Sql = "select impcobro FROM cobros where "
                     Sql = Sql & " numserie = " & DBSet(Trim(Mid(aux2, 11, 3)), "T") & " and numfactu = " & DBSet(Val(Mid(aux2, 14, 8)), "N")
                     Sql = Sql & " and fecfactu = '" & Mid(aux2, 22, 4) & "-" & Mid(aux2, 26, 2) & "-" & Mid(aux2, 28, 2) & "' "
                     
@@ -1248,7 +1280,7 @@ Dim RegistroErroneo As Boolean
                     
                     If ImporteRemesado <> AUX3 Then
                     
-                        MsgBox "La factura " & DBSet(Trim(Mid(aux2, 11, 3)), "T") & "-" & DBSet(Val(Mid(aux2, 14, 8)), "N") & " de fecha " & Mid(aux2, 28, 2) & "/" & Mid(aux2, 26, 2) & "/" & Mid(aux2, 22, 4) & " es de " & aux2 & " euros", vbExclamation
+                        MsgBox "La factura " & DBSet(Trim(Mid(aux2, 11, 3)), "T") & "-" & DBSet(Val(Mid(aux2, 14, 8)), "N") & " de fecha " & Mid(aux2, 28, 2) & "/" & Mid(aux2, 26, 2) & "/" & Mid(aux2, 22, 4) & " es de " & ImporteRemesado & " euros", vbExclamation
                     
                     Else
                         
@@ -1322,4 +1354,609 @@ End Sub
 
 
 
+
+
+
+
+
+
+
+'******************************************************************************************************************
+'******************************************************************************************************************
+'******************************************************************************************************************
+'
+'       Abril 2017
+'       Agrupamos por cuenta /y fecha
+'
+'******************************************************************************************************************
+'******************************************************************************************************************
+'******************************************************************************************************************
+
+
+
+Public Function GrabarDisketteNorma19_SEPA_XML_AgrupandoCuentas(NomFichero As String, Remesa_ As String, FecPre As String, TipoReferenciaCliente As Byte, Sufijo As String, FechaCobro As String, SEPA_EmpresasGraboNIF As Boolean, Norma19_15 As Boolean, DatosBanco As String, NifEmpresa As String, esAnticipoCredito As Boolean) As Boolean
+    Dim ColLineasFichero As Collection
+    Dim ColFechaCtaAgrupada As Collection
+    Dim NumeroVencimientos As Integer
+    Dim CuentasAgrupadas As String
+    Dim RFechas As ADODB.Recordset
+    Dim ImporteAgrupado As Currency
+    Dim UnVencimiento As Collection
+    Dim AmpliacionAgrupada As String
+    
+    Dim ValorEnOpcionales As Boolean
+    '-- Genera_Remesa: Esta función genera la remesa indicada, en el fichero correspondiente
+    
+    
+    Dim Sql As String
+    Dim ImpEfe As Currency
+
+    '
+    Dim IdDeudor As String
+    Dim Cuenta As String
+    Dim Fecha2 As Date
+    Dim FinFecha As Boolean
+
+    
+    Dim EsPersonaJuridica As Boolean
+    
+    Dim J As Integer
+    'Dim IdNorma As String  '1914 o 1915
+    
+    On Error GoTo Err_Remesa19sepa
+    
+    
+
+    '-- Abrir el fichero a enviar
+    
+    Set ColLineasFichero = New Collection
+    Set ColFechaCtaAgrupada = New Collection
+    Set RFechas = New ADODB.Recordset
+    
+    Sql = "select  numserie,numfactu,fecfactu,numorden,cobros.codmacta,codrem,anyorem,Tiporem,"
+    
+    'SEPTIEMBRE 2015
+    'Todos van a la fecha de vencimiento
+'    If vParam.Norma19xFechaVto Then
+'        SQL = SQL & " fecvenci"
+'    Else
+'        SQL = SQL & "'" & Format(FecCobro, FormatoFecha) & "'"
+'    End If
+    'OCTUBRE. Si no indica fecha cobro, ira cada una con su vencimiento, si no la fecha de cobro
+    
+    If FechaCobro = "" Then
+        Sql = Sql & " fecvenci"
+    Else
+        Sql = Sql & "'" & Format(FechaCobro, FormatoFecha) & "'"
+    End If
+
+    
+    Sql = Sql & " as fecvenci,impvenci,ctabanc1,"
+    Sql = Sql & "text33csb,text41csb,cobros.gastos,cobros.iban,"
+    Sql = Sql & "cobros.nomclien,cobros.nifclien,cobros.domclien,cobros.cpclien,cobros.pobclien,cobros.proclien,cobros.codpais,bics.bic,cobros.referencia,cuentas.SEPA_Refere,cuentas.SEPA_FecFirma  from cobros"
+    Sql = Sql & "  left join bics on mid(cobros.iban,5,4)=bics.entidad inner join cuentas on "
+    Sql = Sql & " cobros.codmacta = cuentas.codmacta WHERE "
+    Sql = Sql & " codrem = " & RecuperaValor(Remesa_, 1)
+    Sql = Sql & " AND anyorem=" & RecuperaValor(Remesa_, 2)
+    
+    
+    
+    
+    'Vamos a ver si agrupa cuentas
+    miRsAux.Open Sql & " order by  fecvenci, Cobros.IBAN", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    
+    Fecha2 = "01/01/1900"
+    
+    While Not miRsAux.EOF
+            
+        'Informacion del PAGO.
+        ' Se imprime una vez cada FECHA
+        If Fecha2 <> miRsAux!FecVenci Then
+            If Fecha2 > CDate("01/02/1900") Then ColFechaCtaAgrupada.Add Fecha2 & "-" & CuentasAgrupadas
+            
+            Fecha2 = miRsAux!FecVenci
+            
+            CuentasAgrupadas = ""
+            Cuenta = ""
+        End If
+        If Cuenta = miRsAux!IBAN Then CuentasAgrupadas = CuentasAgrupadas & miRsAux!codmacta & "|"
+        Cuenta = miRsAux!IBAN
+        miRsAux.MoveNext
+    Wend
+    
+    
+    If Fecha2 > CDate("01/02/1900") Then
+        ColFechaCtaAgrupada.Add Fecha2 & "-" & CuentasAgrupadas
+    Else
+        'No hay registros
+        
+    End If
+    
+    Cuenta = ""
+    miRsAux.Close
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+ 
+
+
+
+     
+    'Encabezado
+    ColLineasFichero.Add "<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>"
+    ColLineasFichero.Add "<Document xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns=""urn:iso:std:iso:20022:tech:xsd:pain.008.001.02"">"
+    ColLineasFichero.Add "<CstmrDrctDbtInitn>"
+                
+    ColLineasFichero.Add "<GrpHdr>"
+    
+    If esAnticipoCredito Then
+        Sql = "FSDD"
+    Else
+        Sql = "PRE"
+    End If
+    
+    Sql = Sql & Format(Now, "yyyymmddhhnnss")
+    
+    'Los milisegundos
+    Sql = Sql & Format((Timer - Int(Timer)) * 10000, "0000") & "0"
+    'Idententificacion propia
+    '   tiporem,codrem,anyorem
+    Sql = Sql & "RE1" & Format(RecuperaValor(Remesa_, 1), "000000") & Format(RecuperaValor(Remesa_, 2), "0000")
+            
+    
+    ColLineasFichero.Add "<MsgId>" & Sql & "</MsgId>"
+    
+    Sql = Format(Now, "yyyy-mm-dd") & "T" & Format(Now, "hh:mm:ss")   '<CreDtTm>2015-09-10T16:26:56</CreDtTm>
+    ColLineasFichero.Add "   <CreDtTm>" & Sql & "</CreDtTm>"
+    
+    'Control sumatorio y numero de registro
+    
+    
+    
+    
+    Sql = " codrem = " & RecuperaValor(Remesa_, 1) & " AND anyorem=" & RecuperaValor(Remesa_, 2) & " AND 1"
+    'Sql = DevuelveDesdeBD("concat(count(*),'|',sum(coalesce(gastos,0)+impvenci),'|')", "cobros", Sql, "1")
+    Sql = DevuelveDesdeBD("sum(coalesce(gastos,0)+impvenci)", "cobros", Sql, "1")
+    'Print #NFic, "   <NbOfTxs>" & RecuperaValor(Sql, 1) & "</NbOfTxs>"
+    'Sql = RecuperaValor(Sql, 2)
+    'Print #NFic, "   <CtrlSum>" & Sql & "</CtrlSum>"
+    ColLineasFichero.Add "TOTALES:  " & Sql
+    
+    'Empezamos datos
+    ColLineasFichero.Add "   <InitgPty>"
+    ColLineasFichero.Add "     <Nm>" & XML(vEmpresa.nomempre) & "</Nm>"
+    ColLineasFichero.Add "     <Id>"
+                
+    'Tipo identificador deudor.  Persona fisica (2) o juridica (1)
+    Sql = Mid(NifEmpresa, 1, 1)
+    EsPersonaJuridica = Not IsNumeric(Sql)
+    If EsPersonaJuridica Then
+        ColLineasFichero.Add "        <OrgId>"
+    Else
+        ColLineasFichero.Add "        <PrvtId>"
+    End If
+    
+    Sql = Trim(NifEmpresa) + "ES00"   'Identificacion acreedor
+    Sql = CadenaTextoMod97(Sql)
+    'Si no es dos digitos es un mensaje de error
+    If Len(Sql) <> 2 Then Err.Raise 513, , Sql
+    Sql = "ES" & Sql & Sufijo & NifEmpresa
+    ColLineasFichero.Add "           <Othr>"
+    ColLineasFichero.Add "              <Id>" & Sql & "</Id>"    'Ejemplo: ES3100024348588Y
+    ColLineasFichero.Add "           </Othr>"
+    
+    If EsPersonaJuridica Then
+        ColLineasFichero.Add "        </OrgId>"
+    Else
+        ColLineasFichero.Add "        </PrvtId>"
+    End If
+    
+    
+    ColLineasFichero.Add "      </Id>"
+    ColLineasFichero.Add "   </InitgPty>"
+    ColLineasFichero.Add "</GrpHdr>"
+
+
+    'Cuantas fechas
+    Sql = "SELECT "
+    If FechaCobro = "" Then
+        Sql = Sql & " fecvenci"
+    Else
+        Sql = Sql & "'" & Format(FechaCobro, FormatoFecha) & "'"
+    End If
+    Sql = Sql & " as fecvenci FROM cobros WHERE "
+    Sql = Sql & " codrem = " & RecuperaValor(Remesa_, 1)
+    Sql = Sql & " AND anyorem=" & RecuperaValor(Remesa_, 2)
+    Sql = Sql & " GROUP by 1"
+    
+
+
+
+     
+    RFechas.Open Sql & " order by  fecvenci,Cobros.IBAN", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+         
+    NumeroVencimientos = 0
+    While Not RFechas.EOF
+         
+            'Previo envio vtos
+           ColLineasFichero.Add "<PmtInf>"
+
+            'SQL = "RE" & miRsAux!Tiporem & Format(miRsAux!CodRem, "000000") & Format(miRsAux!AnyoRem, "0000") & " " & Format(Fecha2, "dd/mm/yyyy")
+            Sql = "RE" & Format(RecuperaValor(Remesa_, 1), "00000") & Format(RecuperaValor(Remesa_, 2), "0000") & " " & Format(FecPre, "dd/mm/yy") & NifEmpresa
+            
+            ColLineasFichero.Add "   <PmtInfId>" & Sql & "</PmtInfId>"
+            ColLineasFichero.Add "   <PmtMtd>DD</PmtMtd>"              'DirectDebit
+            ColLineasFichero.Add "   <BtchBookg>false</BtchBookg>"     'True: un apunte por cada recib   False: Por el total
+            ColLineasFichero.Add "   <PmtTpInf>"
+            ColLineasFichero.Add "      <SvcLvl>"
+            ColLineasFichero.Add "          <Cd>SEPA</Cd>"
+            ColLineasFichero.Add "      </SvcLvl>"
+            ColLineasFichero.Add "      <LclInstrm>"
+            ColLineasFichero.Add "         <Cd>COR1</Cd>"    'CORE o COR1
+            ColLineasFichero.Add "      </LclInstrm>"
+            ColLineasFichero.Add "      <SeqTp>RCUR</SeqTp>"
+            ColLineasFichero.Add "      <CtgyPurp>"
+            ColLineasFichero.Add "         <Cd>TRAD</Cd>"
+            ColLineasFichero.Add "      </CtgyPurp>"
+            ColLineasFichero.Add "   </PmtTpInf>"
+            'ColLineasFichero.Add  "   <ReqdColltnDt>" & Format(FecCobro, "yyyy-mm-dd") & "</ReqdColltnDt>"
+            ColLineasFichero.Add "   <ReqdColltnDt>" & Format(RFechas.Fields(0), "yyyy-mm-dd") & "</ReqdColltnDt>"
+            ColLineasFichero.Add "   <Cdtr>"
+            ColLineasFichero.Add "      <Nm>" & XML(vEmpresa.nomempre) & "</Nm>"
+            ColLineasFichero.Add "      <PstlAdr>"
+            ColLineasFichero.Add "          <Ctry>ES</Ctry>"
+            
+            Dim RsDirec As ADODB.Recordset
+            Dim SqlDirec As String
+            Dim Direccion As String
+            
+            Direccion = ""
+            
+            SqlDirec = "select direccion, numero, escalera, piso, puerta from empresa2"
+            Set RsDirec = New ADODB.Recordset
+            RsDirec.Open SqlDirec, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            If Not RsDirec.EOF Then
+                Direccion = DBLet(RsDirec!Direccion) & " " & DBLet(RsDirec!numero) & " " & DBLet(RsDirec!escalera) & " " & DBLet(RsDirec!piso) & " " & DBLet(RsDirec!puerta)
+            End If
+            Set RsDirec = Nothing
+            
+            Sql = Direccion
+            If Sql <> "" Then ColLineasFichero.Add "          <AdrLine>" & XML(Sql) & "</AdrLine>"
+            ColLineasFichero.Add "      </PstlAdr>"
+            ColLineasFichero.Add "   </Cdtr>"
+            ColLineasFichero.Add "   <CdtrAcct>"
+            ColLineasFichero.Add "      <Id>"
+            'IBAN
+
+            ColLineasFichero.Add "         <IBAN>" & DatosBanco & "</IBAN>"
+            ColLineasFichero.Add "      </Id>"
+            ColLineasFichero.Add "   </CdtrAcct>"
+            ColLineasFichero.Add "   <CdtrAgt>"
+            ColLineasFichero.Add "      <FinInstnId>"
+            Sql = Mid(DatosBanco, 5, 4)
+            Sql = DevuelveDesdeBD("bic", "bics", "entidad", Sql)
+            ColLineasFichero.Add "         <BIC>" & Trim(Sql) & "</BIC>"
+            ColLineasFichero.Add "      </FinInstnId>"
+            ColLineasFichero.Add "   </CdtrAgt>"
+            
+            ColLineasFichero.Add "   <CdtrSchmeId>"
+            ColLineasFichero.Add "       <Id>"
+            ColLineasFichero.Add "          <PrvtId>"
+            ColLineasFichero.Add "             <Othr>"
+            
+            Sql = Trim(NifEmpresa) + "ES00"   'Identificacion acreedor
+            Sql = CadenaTextoMod97(Sql)
+            'Si no es dos digitos es un mensaje de error
+            If Len(Sql) <> 2 Then Err.Raise 513, , Sql
+            Sql = "ES" & Sql & Sufijo & NifEmpresa
+            ColLineasFichero.Add "                 <Id>" & Sql & "</Id>"
+            ColLineasFichero.Add "                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>"
+            ColLineasFichero.Add "             </Othr>"
+            ColLineasFichero.Add "          </PrvtId>"
+            ColLineasFichero.Add "       </Id>"
+            ColLineasFichero.Add "   </CdtrSchmeId>"
+
+             
+             
+             
+        
+        
+    
+            Sql = "select  numserie,numfactu,fecfactu,numorden,cobros.codmacta,codrem,anyorem,Tiporem,"
+            
+            If FechaCobro = "" Then
+                Sql = Sql & " fecvenci"
+            Else
+                Sql = Sql & "'" & Format(FechaCobro, FormatoFecha) & "'"
+            End If
+            
+            Sql = Sql & " as fecvenci,impvenci,ctabanc1,"
+            Sql = Sql & "text33csb,text41csb,cobros.gastos,cobros.iban,"
+            Sql = Sql & "cobros.nomclien,cobros.nifclien,cobros.domclien,cobros.cpclien,cobros.pobclien,cobros.proclien,cobros.codpais,bics.bic,cobros.referencia,cuentas.SEPA_Refere,cuentas.SEPA_FecFirma  from cobros"
+            Sql = Sql & "  left join bics on mid(cobros.iban,5,4)=bics.entidad inner join cuentas on "
+            Sql = Sql & " cobros.codmacta = cuentas.codmacta WHERE "
+            Sql = Sql & " codrem = " & RecuperaValor(Remesa_, 1)
+            Sql = Sql & " AND anyorem=" & RecuperaValor(Remesa_, 2)
+            If FechaCobro = "" Then Sql = Sql & " AND fecvenci = '" & Format(RFechas.Fields(0), FormatoFecha) & "'"
+            Sql = Sql & " ORDER BY cobros.IBAN"
+             
+            miRsAux.Open Sql, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+            If miRsAux.EOF Then Err.Raise 513, , "FECHA INCORRECTA EN VENCIMENTOS(**1**)"
+            
+            'Vamos a ver si hay cuentas "agrupadas"
+            
+            For i = 1 To ColFechaCtaAgrupada.Count
+                Sql = Mid(ColFechaCtaAgrupada.Item(i), 1, 10)
+                CuentasAgrupadas = ""
+                If CDate(Sql) = RFechas.Fields(0) Then
+                    CuentasAgrupadas = Mid(ColFechaCtaAgrupada.Item(i), 12)
+                    Exit For
+                End If
+            Next
+            Set UnVencimiento = Nothing
+            
+            Do
+            
+                 'Tipo identificador deudor.  Persona fisica (2) o juridica (1)
+                 
+            
+              
+               J = 0
+               ImporteAgrupado = 0
+               AmpliacionAgrupada = ""
+               If InStr(1, CuentasAgrupadas, miRsAux!codmacta) > 0 Then
+                   'Es una de la cuentas que vamos a agrupar
+                   i = 0
+                   
+                   Sql = miRsAux!codmacta
+                   While i = 0
+                        J = J + 1
+                        
+                        AmpliacionAgrupada = AmpliacionAgrupada & ",   " & miRsAux!NUmSerie & Format(miRsAux!NumFactu, "000000")
+                        If miRsAux!numorden > 1 Then AmpliacionAgrupada = AmpliacionAgrupada & "-" & miRsAux!numorden
+                        AmpliacionAgrupada = AmpliacionAgrupada & " " & Format(miRsAux!FecFactu, "dd/mm/yy")
+                        ImpEfe = DBLet(miRsAux!Gastos, "N")
+                        ImpEfe = miRsAux!ImpVenci + ImpEfe
+                        ImporteAgrupado = ImporteAgrupado + ImpEfe
+                        miRsAux.MoveNext
+                        If miRsAux.EOF Then
+                            i = 1
+                        Else
+                            If miRsAux!codmacta <> Sql Then i = 1
+                        End If
+                   Wend
+                   miRsAux.MovePrevious  'Dejamos con los datos del cliente
+                   
+               
+  
+                   
+                 End If
+               
+                 Set UnVencimiento = New Collection
+                     
+                 Sql = Mid(miRsAux!nifclien, 1, 1)
+                 EsPersonaJuridica = Not IsNumeric(Sql)
+                 
+                 
+                 
+             
+             
+                 UnVencimiento.Add "   <DrctDbtTxInf>"
+                 UnVencimiento.Add "      <PmtId>"
+                 
+                 'Referencia del adeudo
+                 If AmpliacionAgrupada <> "" Then
+                    Sql = "@GR@" & FrmtStr(miRsAux!codmacta, 10) & " " & miRsAux!nifclien & " " & Replace(Remesa_, "|", " ")
+                 Else
+                    Sql = FrmtStr(miRsAux!codmacta, 10) & FrmtStr(miRsAux!NUmSerie, 3) & Format(miRsAux!NumFactu, "00000000")
+                    Sql = Sql & Format(miRsAux!FecFactu, "yyyymmdd") & Format(miRsAux!numorden, "000")
+                 End If
+                 Sql = FrmtStr(Sql, 35)
+                 UnVencimiento.Add "          <EndToEndId>" & Sql & "</EndToEndId>"
+                 UnVencimiento.Add "      </PmtId>"
+                 
+                 If AmpliacionAgrupada <> "" Then
+                    ImpEfe = ImporteAgrupado
+                 Else
+                    ImpEfe = DBLet(miRsAux!Gastos, "N")
+                    ImpEfe = miRsAux!ImpVenci + ImpEfe
+                 End If
+                 Sql = TransformaComasPuntos(Format(ImpEfe, "####0.00"))
+                 UnVencimiento.Add "      <InstdAmt Ccy=""EUR"">" & Sql & "</InstdAmt>"
+                 UnVencimiento.Add "      <DrctDbtTx>"
+                 UnVencimiento.Add "         <MndtRltdInf>"
+                 
+                 'Si la cuenta tiene ORDEN de mandato, coge este
+                 Sql = DBLet(miRsAux!SEPA_Refere, "T")
+                 If Sql = "" Then
+                     Select Case TipoReferenciaCliente
+                     Case 0
+                         'Marzo 2017   Si es IBAN, es tooodo el iban
+                         Sql = miRsAux!IBAN
+                         
+                     Case 1
+                         'NIF
+                         Sql = DBLet(miRsAux!nifclien, "T")
+                         
+                     Case 2
+                         'Referencia en el VTO. No es Nula
+                         Sql = DBLet(miRsAux!Referencia, "T")
+                         
+                     End Select
+                 End If
+                 UnVencimiento.Add "            <MndtId>" & Sql & "</MndtId>"    'Orden de mandato
+                 
+                 'Si tiene fecha firma de mandato
+                 Sql = "2009-10-31"
+                 If Not IsNull(miRsAux!SEPA_FecFirma) Then Sql = Format(miRsAux!SEPA_FecFirma, "yyyy-mm-dd")
+                 UnVencimiento.Add "            <DtOfSgntr>" & Sql & "</DtOfSgntr>"
+                 
+                 UnVencimiento.Add "         </MndtRltdInf>"
+                 UnVencimiento.Add "      </DrctDbtTx>"
+                 UnVencimiento.Add "      <DbtrAgt>"
+                 UnVencimiento.Add "         <FinInstnId>"
+                 Sql = FrmtStr(DBLet(miRsAux!BIC, "T"), 11)
+                 UnVencimiento.Add "            <BIC>" & Sql & "</BIC>"
+                 UnVencimiento.Add "         </FinInstnId>"
+                 UnVencimiento.Add "      </DbtrAgt>"
+                 UnVencimiento.Add "      <Dbtr>"
+                 
+                 UnVencimiento.Add "         <Nm>" & XML(miRsAux!nomclien) & "</Nm>"
+                 UnVencimiento.Add "         <PstlAdr>"
+                 
+                 Sql = "ES"
+                 If Not IsNull(miRsAux!codPAIS) Then Sql = Mid(miRsAux!codPAIS, 1, 2)
+                 UnVencimiento.Add "            <Ctry>" & Sql & "</Ctry>"
+                 
+                 
+                 If Not IsNull(miRsAux!domclien) Then UnVencimiento.Add "              <AdrLine>" & XML(miRsAux!domclien) & "</AdrLine>"
+                 
+                 Sql = ""
+                 'SQL = XML(Trim(DBLet(miRsAux!codposta, "T") & " " & DBLet(miRsAux!despobla, "T")))
+                 'If SQL <> "" Then ColLineasFichero.Add  "              <AdrLine>" & SQL & "</AdrLine>"If Not IsNull(miRsAux!desprovi) Then ColLineasFichero.Add  "              <AdrLine>" & XML(miRsAux!desprovi) & "</AdrLine>"
+                 If DBLet(miRsAux!pobclien, "T") = DBLet(miRsAux!proclien, "N") Then
+                     Sql = Trim(DBLet(miRsAux!cpclien, "T") & "   " & DBLet(miRsAux!pobclien, "T"))
+                 
+                 Else
+                     Sql = Trim(DBLet(miRsAux!pobclien, "T") & "   " & DBLet(miRsAux!cpclien, "T"))
+                     If Not IsNull(miRsAux!proclien) Then Sql = Sql & "     " & miRsAux!proclien
+                 End If
+                 If Sql <> "" Then UnVencimiento.Add "              <AdrLine>" & XML(Mid(Sql, 1, 70)) & "</AdrLine>"
+                 
+                 
+                 
+                 UnVencimiento.Add "         </PstlAdr>"
+                 UnVencimiento.Add "         <Id>"
+                 UnVencimiento.Add "            <PrvtId>"
+                 UnVencimiento.Add "               <Othr>"
+                 
+                 
+    
+                    Select Case TipoReferenciaCliente
+                    Case 0
+                        'ALZIRA. La referencia final de 12 es el ctan bancaria del cli + su CC
+                        Sql = Mid(DBLet(miRsAux!IBAN), 13, 2) ' Dígitos de control
+                        Sql = Sql & Mid(DBLet(miRsAux!IBAN), 15, 10) ' Código de cuenta
+                    Case 1
+                        'NIF
+                        Sql = DBLet(miRsAux!nifclien, "T")
+                 
+                    Case 2
+                        'Referencia en el VTO. No es Nula
+                        Sql = DBLet(miRsAux!Referencia, "T")
+                    
+                    End Select
+                 
+                 UnVencimiento.Add "                   <Id>" & Sql & "</Id>"
+                 If TipoReferenciaCliente = 1 Then UnVencimiento.Add "                   <Issr>NIF</Issr>"
+                 UnVencimiento.Add "               </Othr>"
+                 UnVencimiento.Add "            </PrvtId>"
+                 UnVencimiento.Add "         </Id>"
+                 UnVencimiento.Add "      </Dbtr>"
+                 UnVencimiento.Add "      <DbtrAcct>"
+                 UnVencimiento.Add "         <Id>"
+                 
+                 Sql = IBAN_Destino   'Hay que poner TRUE aunque sea cobro
+                 UnVencimiento.Add "            <IBAN>" & Sql & "</IBAN>"
+                 UnVencimiento.Add "         </Id>"
+                 UnVencimiento.Add "      </DbtrAcct>"
+                 UnVencimiento.Add "      <Purp>"
+                 UnVencimiento.Add "         <Cd>TRAD</Cd>"
+                 UnVencimiento.Add "      </Purp>"
+                 UnVencimiento.Add "      <RmtInf>"
+                 
+                 
+                 If AmpliacionAgrupada <> "" Then
+                    Sql = AmpliacionAgrupada
+                 Else
+                    Sql = Trim(DBLet(miRsAux!text33csb, "T") & " " & FrmtStr(DBLet(miRsAux!text41csb, "T"), 60))
+                 End If
+                 If Sql = "" Then Sql = miRsAux!nomclien
+                 UnVencimiento.Add "         <Ustrd>" & XML(Sql) & "</Ustrd>"
+                 UnVencimiento.Add "      </RmtInf>"
+                 UnVencimiento.Add "   </DrctDbtTxInf>"
+                NumeroVencimientos = NumeroVencimientos + 1
+             
+                'Siguiente
+                Sql = miRsAux!codmacta  'por si acaso agrupa
+                miRsAux.MoveNext
+                If AmpliacionAgrupada <> "" Then
+                    
+                    i = 0
+                    'Cuenta agrupada
+                     Do
+                        If miRsAux.EOF Then
+                            i = 1
+                        Else
+                            If miRsAux!codmacta <> Sql Then
+                                i = 1
+                            Else
+                                miRsAux.MoveNext
+                            End If
+                        End If
+                
+                    Loop Until i = 1
+                
+                 End If
+                
+                
+                'Grabo en el fichero la lineas
+                For i = 1 To UnVencimiento.Count
+                    ColLineasFichero.Add UnVencimiento.Item(i)
+                    
+                Next
+                ColLineasFichero.Add ""
+            Loop Until miRsAux.EOF
+            
+            miRsAux.Close
+         
+             
+        ColLineasFichero.Add "</PmtInf>"
+        RFechas.MoveNext
+    Wend
+    RFechas.Close
+           
+           
+    ColLineasFichero.Add "</PmtInf>"
+    ColLineasFichero.Add "</CstmrDrctDbtInitn></Document>"
+     
+     
+     GrabarDisketteNorma19_SEPA_XML_AgrupandoCuentas = True
+ 
+        
+        
+        
+    NFic = FreeFile()
+    Open NomFichero For Output As #NFic
+        
+        
+        
+    Close #NFic
+        
+        
+    
+
+Err_Remesa19sepa:
+    If Err.Number <> 0 Then
+        MsgBox "Err: " & Err.Number & vbCrLf & _
+        Err.Description, vbCritical, "Grabación del diskette de Remesa SEPA"
+        Err.Clear
+    End If
+    CerrarFichero NFic
+    
+    
+    Set ColLineasFichero = Nothing
+    Set ColFechaCtaAgrupada = Nothing
+    Set RFechas = Nothing
+    Set miRsAux = Nothing
+End Function
 

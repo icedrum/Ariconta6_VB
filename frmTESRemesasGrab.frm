@@ -662,14 +662,14 @@ End Sub
 '
 '
 '
-Private Sub CrearDisco()
+Private Function CrearDisco() As Boolean
 Dim B As Boolean
 Dim FCobro As String
     
-    
+        CrearDisco = False
         If cboTipoRemesa.ListIndex < 0 Then
             MsgBox "Seleccione la norma para la remesa", vbExclamation
-            Exit Sub
+            Exit Function
         End If
     
         'El identificador REFERENCIA solo es valido para la norma 19
@@ -677,19 +677,19 @@ Dim FCobro As String
             B = cboTipoRemesa.ListIndex = 0 Or cboTipoRemesa.ListIndex = 3
             If Not B Then
                 MsgBox "Campo 'Referencia del recibo.' solo es válido para la norma 19", vbExclamation
-                Exit Sub
+                Exit Function
             End If
         End If
                 
                 
         If Text1(9).Text = "" Then
             MsgBox "Fecha cobro en blanco", vbExclamation
-            Exit Sub
+            Exit Function
         End If
         
         If Text1(18).Text = "" Then
             MsgBox "Fecha presentacion en blanco", vbExclamation
-            Exit Sub
+            Exit Function
         End If
         
         
@@ -731,17 +731,18 @@ Dim FCobro As String
                     Set miRsAux = New ADODB.Recordset
                     If Not UpdatearCobrosRemesa Then MsgBox "Error updateando cobros remesa", vbExclamation
                     Set miRsAux = Nothing
+                    
                 End If
                 
             End If
-            
+            CrearDisco = True
         End If
         
         
         
         
         
-End Sub
+End Function
 
 
 Private Function UpdatearCobrosRemesa() As Boolean
@@ -786,16 +787,17 @@ End Function
 
 
 Private Sub cmdRemeTipo1_Click(Index As Integer)
-
+Dim B As Boolean
     Select Case Index
     Case 0
     Case 1
         'Generar diskete
-        CrearDisco
+        B = CrearDisco
         
         vControl.UltReferRem = CStr(cmbReferencia.ListIndex)
         vControl.Grabar
         
+        If B Then Unload Me
     End Select
     
     

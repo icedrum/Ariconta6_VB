@@ -42,7 +42,7 @@ Begin VB.Form frmTESCobrosDivVto
          EndProperty
          Height          =   360
          Index           =   3
-         Left            =   2160
+         Left            =   2880
          TabIndex        =   3
          Top             =   2700
          Width           =   1365
@@ -60,7 +60,7 @@ Begin VB.Form frmTESCobrosDivVto
          EndProperty
          Height          =   360
          Index           =   2
-         Left            =   2190
+         Left            =   2880
          TabIndex        =   2
          Top             =   2280
          Width           =   1365
@@ -78,7 +78,7 @@ Begin VB.Form frmTESCobrosDivVto
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   2190
+         Left            =   2880
          TabIndex        =   0
          Tag             =   "Nº asiento|N|S|0||hcabapu|numasien|####0|S|"
          Top             =   1350
@@ -97,7 +97,7 @@ Begin VB.Form frmTESCobrosDivVto
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   2190
+         Left            =   2880
          TabIndex        =   1
          Top             =   1800
          Width           =   1365
@@ -138,7 +138,7 @@ Begin VB.Form frmTESCobrosDivVto
          Width           =   975
       End
       Begin VB.Label Label4 
-         Caption         =   "Días resto Vtos."
+         Caption         =   "Días resto vencimientos"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -154,18 +154,18 @@ Begin VB.Form frmTESCobrosDivVto
          Left            =   450
          TabIndex        =   13
          Top             =   2760
-         Width           =   1680
+         Width           =   2355
       End
       Begin VB.Image imgFecha 
          Height          =   240
          Index           =   0
-         Left            =   1920
+         Left            =   2520
          Picture         =   "frmTESCobrosDivVto.frx":000C
          Top             =   2280
          Width           =   240
       End
       Begin VB.Label Label4 
-         Caption         =   "Fecha 1er Vto"
+         Caption         =   "Fecha primer Vto"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -181,10 +181,10 @@ Begin VB.Form frmTESCobrosDivVto
          Left            =   450
          TabIndex        =   12
          Top             =   2280
-         Width           =   1410
+         Width           =   1695
       End
       Begin VB.Label Label4 
-         Caption         =   "Nº Vencimientos"
+         Caption         =   "Nro. Recibos a generar"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -200,7 +200,7 @@ Begin VB.Form frmTESCobrosDivVto
          Left            =   450
          TabIndex        =   11
          Top             =   1350
-         Width           =   1650
+         Width           =   2250
       End
       Begin VB.Label Label4 
          Caption         =   "Importe"
@@ -235,9 +235,9 @@ Begin VB.Form frmTESCobrosDivVto
          ForeColor       =   &H00000000&
          Height          =   240
          Index           =   62
-         Left            =   3660
+         Left            =   4320
          TabIndex        =   9
-         Top             =   1770
+         Top             =   1800
          Width           =   630
       End
       Begin VB.Label Label4 
@@ -369,6 +369,11 @@ Dim Dias As Integer
     
     ' controles
     
+    If txtCodigo(0).Text = "1" Then
+        MsgBox "No puede dividir en 1 vencimiento", vbExclamation
+        Exit Sub
+    End If
+    
     
     RC = RecuperaValor(CadenaDesdeOtroForm, 3)
     Importe = CCur(RC)
@@ -393,7 +398,7 @@ Dim Dias As Integer
     
     
     If txtCodigo(3).Text = "" Then
-        If MsgBox("No ha puesto valor en el campo de días de resto de vencimientos. " & vbCrLf & vbCrLf & "¿ Desea continuar ?" & vbCrLf, vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
+       ' If MsgBox("No ha puesto valor en el campo de días de resto de vencimientos. " & vbCrLf & vbCrLf & "¿ Desea continuar ?" & vbCrLf, vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
     End If
     
     
@@ -427,9 +432,43 @@ Dim Dias As Integer
     
     If vVtos = 0 Then
         vVtos = Round(Importe / vImpvto, 0)
+        
+        If txtCodigo(0).Text = "" Then vVtos = 2
+        
     End If
     
-    Conn.BeginTrans
+    'Para los calculos de los nuevos vencimientos
+    Dias = Val(txtCodigo(3).Text)
+    FecVenci = CDate(txtCodigo(2))
+    
+    
+  
+    Dim vVtos2 As Integer
+    Dim FV As Date
+    Dim MensajeVtos As String
+    
+    FV = FecVenci
+    vVtos2 = vVtos
+    
+    
+    'Para la confirmacion
+    vTotal = 0
+    Sql = ""
+    For J = 1 To vVtos2 - 1
+        vTotal = vTotal + vImpvto
+        FV = DateAdd("d", DBLet(Dias, "N"), FV)
+        
+        '           10 primeros fecha  Resto importe
+        Sql = Sql & Format(FV, "dd/mm/yyyy") & Format(vImpvto, FormatoImporte) & "|"
+        
+    Next J
+    
+    If vTotal <> Importe Then
+        vTotal = Importe - vTotal
+        Sql = Format(FecVenci, "dd/mm/yyyy") & Format(vTotal, FormatoImporte) & "|" & Sql
+    End If
+    MensajeVtos = Sql
+    
     
     Sql = ""
     If Sql = "" Then
@@ -458,14 +497,21 @@ Dim Dias As Integer
         Exit Sub
         
     Else
-        Sql = "¿Desea desdoblar el vencimiento en los indicados?" 'uno de : " & Im & " euros?"
-        If MsgBox(Sql, vbQuestion + vbYesNo) = vbNo Then Exit Sub
+        'Sql = "¿Desea desdoblar el vencimiento en los indicados?" 'uno de : " & Im & " euros?"
+        'If MsgBox(Sql, vbQuestion + vbYesNo) = vbNo Then Exit Sub
+        'If MsgBox(MensajeVtos, vbQuestion + vbYesNoCancel + vbDefaultButton3) <> vbYes Then Exit Sub
+        'Como cadenadesde otroform YA esta ocupada. Cojo otra
+        Ampliacion = "" 'Varaiable GLOBAL
+        frmTesDividVtoResult.Vtos = MensajeVtos
+        frmTesDividVtoResult.Show vbModal
+        If Ampliacion = "" Then Exit Sub
+        
     End If
     
-    Dias = Val(txtCodigo(3).Text)
-
     
-    FecVenci = CDate(txtCodigo(2))
+    Conn.BeginTrans
+    
+    
     vFecVenci = FecVenci
     'OK.  a desdoblar
     vTotal = 0

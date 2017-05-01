@@ -3436,7 +3436,7 @@ End Sub
 
 Private Sub Text1_KeyPress(Index As Integer, KeyAscii As Integer)
     If Index = 27 Then
-        PonleFoco Me.cmdAceptar
+      '  PonleFoco Me.cmdAceptar
     Else
         KEYpress KeyAscii
     End If
@@ -3677,27 +3677,27 @@ Dim cad As String
     
     If Text1(10).Text <> "" Then
         If CadB <> "" Then CadB = CadB & " and "
-        CadB = CadB & "mid(iban,1,4) = " & DBSet(Text1(10).Text, "T")
+        CadB = CadB & "mid(pagos.iban,1,4) = " & DBSet(Text1(10).Text, "T")
     End If
     If Text1(26).Text <> "" Then
         If CadB <> "" Then CadB = CadB & " and "
-        CadB = CadB & "mid(iban,5,4) = " & DBSet(Text1(26).Text, "T")
+        CadB = CadB & "mid(pagos.iban,5,4) = " & DBSet(Text1(26).Text, "T")
     End If
     If Text1(28).Text <> "" Then
         If CadB <> "" Then CadB = CadB & " and "
-        CadB = CadB & "mid(iban,9,4) = " & DBSet(Text1(28).Text, "T")
+        CadB = CadB & "mid(pagos.iban,9,4) = " & DBSet(Text1(28).Text, "T")
     End If
     If Text1(29).Text <> "" Then
         If CadB <> "" Then CadB = CadB & " and "
-        CadB = CadB & "mid(iban,13,4) = " & DBSet(Text1(29).Text, "T")
+        CadB = CadB & "mid(pagos.iban,13,4) = " & DBSet(Text1(29).Text, "T")
     End If
     If Text1(30).Text <> "" Then
         If CadB <> "" Then CadB = CadB & " and "
-        CadB = CadB & "mid(iban,17,4) = " & DBSet(Text1(30).Text, "T")
+        CadB = CadB & "mid(pagos.iban,17,4) = " & DBSet(Text1(30).Text, "T")
     End If
     If Text1(21).Text <> "" Then
         If CadB <> "" Then CadB = CadB & " and "
-        CadB = CadB & "mid(iban,21,4) = " & DBSet(Text1(21).Text, "T")
+        CadB = CadB & "mid(pagos.iban,21,4) = " & DBSet(Text1(21).Text, "T")
     End If
     
     'ESTO NO VA
@@ -4281,8 +4281,9 @@ Dim Im As Currency
     frmTESPagosDivVto.Label4(57).Caption = Data1.Recordset!NUmSerie & Format(Data1.Recordset!NumFactu, "000000") & " / " & Data1.Recordset!numorden & "      de " & Format(Data1.Recordset!FecFactu, "dd/mm/yyyy")
     
     'Si ya ha cobrado algo...
-    Im = DBLet(Data1.Recordset!imppagad, "N")
-    If Im > 0 Then frmTESPagosDivVto.txtCodigo(1).Text = txtPendiente.Text
+  '  Im = DBLet(Data1.Recordset!imppagad, "N")
+  '  If Im > 0 Then frmTESPagosDivVto.txtCodigo(1).Text = txtPendiente.Text
+    frmTESPagosDivVto.txtCodigo(1).Text = txtPendiente.Text
     
     If Text1(0).Text = "" Then
         MsgBox "El pago no tiene forma de pago. Revise.", vbExclamation
@@ -4328,8 +4329,13 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
                     If Not SePuedeEliminar Then Exit Sub
                 
                     If PertenceAlgunoDocumentoEmitido Then Exit Sub
-
-                
+                        
+                    CadB1 = DevuelveDesdeBD("embargo", "cuentas", "codmacta", Text1(4).Text, "T")
+                    If CadB1 = "1" Then
+                        MsgBox "Cuenta en situacion de embargo", vbExclamation
+                        CadB1 = ""
+                        Exit Sub
+                    End If
                     'Bloqueamos
                     If BloqueaRegistroForm(Me) Then
                         RealizarPagoCuenta
@@ -4888,8 +4894,9 @@ Dim Sql As String
     
     If Not Rs.EOF Then
         
-        Text1(0).Text = DBLet(Rs!Forpa, "N")
-        Text2(1).Text = PonerNombreDeCod(Text1(0), "formapago", "nomforpa", "codforpa", "N")
+        Text1(0).Text = DBLet(Rs!Forpa, "T")
+        Text2(1).Text = ""
+        If Text1(0).Text <> "" Then Text2(1).Text = PonerNombreDeCod(Text1(0), "formapago", "nomforpa", "codforpa", "N")
         
         Text1(16).Text = DBLet(Rs!Nommacta, "T")
         Text1(15).Text = DBLet(Rs!dirdatos, "T")

@@ -14,7 +14,7 @@ Begin VB.Form frmTESVerCobrosPagos
    Begin VB.Frame frame 
       Height          =   1095
       Left            =   90
-      TabIndex        =   0
+      TabIndex        =   4
       Top             =   30
       Width           =   14445
       Begin VB.CommandButton cmdRegresar 
@@ -66,7 +66,7 @@ Begin VB.Form frmTESVerCobrosPagos
          EndProperty
          Height          =   240
          Left            =   3510
-         TabIndex        =   4
+         TabIndex        =   2
          Top             =   450
          Value           =   1  'Checked
          Width           =   2415
@@ -304,7 +304,7 @@ Begin VB.Form frmTESVerCobrosPagos
    Begin MSComctlLib.ListView ListView1 
       Height          =   5025
       Left            =   90
-      TabIndex        =   2
+      TabIndex        =   0
       Top             =   1200
       Width           =   14475
       _ExtentX        =   25532
@@ -485,7 +485,7 @@ Private Sub Form_Activate()
         'Cargamos el LIST
         CargaList
         
-        PonerFocoLw Me.ListView1
+        'PonerFocoLw Me.ListView1
         
     End If
     Screen.MousePointer = vbDefault
@@ -712,7 +712,7 @@ Dim Inserta As Boolean
                     ' por lo de mc añado la condicion And DBLet(RS!siturem, "T") > "B"
                         If DBLet(Rs!CodRem, "N") > 0 And DBLet(Rs!siturem, "T") > "B" Then
                             Inserta = False
-                            'Stop
+                            
                         End If
                     ' añadido lo que pide Mc de que se vean las remesas que tengan situacion B
                     Else
@@ -776,7 +776,7 @@ Dim ImpAux As Currency
         If Asc(Right(" " & DBLet(Rs!siturem, "T"), 1)) = 81 Or Asc(Right(" " & DBLet(Rs!siturem, "T"), 1)) = 66 Then
             riesgo = riesgo + vImporte
         Else
-           ' Stop
+           
         End If
     
     ElseIf Rs!tipoformapago = vbTalon Or Rs!tipoformapago = vbPagare Then

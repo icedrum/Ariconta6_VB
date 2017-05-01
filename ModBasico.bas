@@ -993,12 +993,13 @@ Public Sub AyudaDepartamentos(frmBas As frmBasico, Optional CodActual As String,
 End Sub
 
 
-Public Sub AyudaCuentas(frmBas As frmBasico2, Optional CodActual As String, Optional cWhere As String)
+Public Sub AyudaCuentas(frmBas As frmBasico2, Optional CodActual As String, Optional cWhere As String, Optional Empresa As String)
 
     frmBas.CadenaTots = "S|txtAux(0)|T|Cuenta|1350|;S|txtAux(1)|T|Descripción|4150|;S|txtAux(2)|T|NIF|1500|;"
     frmBas.CadenaConsulta = "SELECT cuentas.codmacta, cuentas.nommacta, cuentas.nifdatos "
-    frmBas.CadenaConsulta = frmBas.CadenaConsulta & " FROM cuentas "
-    frmBas.CadenaConsulta = frmBas.CadenaConsulta & " WHERE (1=1) "
+    frmBas.CadenaConsulta = frmBas.CadenaConsulta & " FROM "
+    If Empresa <> "" Then frmBas.CadenaConsulta = frmBas.CadenaConsulta & " ariconta" & Empresa & "."
+    frmBas.CadenaConsulta = frmBas.CadenaConsulta & "cuentas WHERE (1=1) "
     If cWhere <> "" Then frmBas.CadenaConsulta = frmBas.CadenaConsulta & " and " & cWhere
     
     frmBas.Tag1 = "Cuenta|T|N|||cuentas|codmacta||S|"

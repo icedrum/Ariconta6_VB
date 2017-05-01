@@ -903,7 +903,8 @@ Private Sub Generar2()
 Dim Contador2 As Integer
 Dim F2 As Date
 Dim TipoAnt As Integer
-    
+Dim Aux As String
+
     Cad = ""
     For i = 1 To Me.ListView1.ListItems.Count
         If ListView1.ListItems(i).Checked Then
@@ -1051,6 +1052,35 @@ Dim TipoAnt As Integer
         End If
     End If
     
+    'Embargado
+    Cad = ""
+    For i = 1 To Me.ListView1.ListItems.Count
+        If ListView1.ListItems(i).Checked Then
+            If InStr(1, Cad, ListView1.ListItems(i).Tag) = 0 Then
+                Cad = Cad & ", " & DBSet(ListView1.ListItems(i).Tag, "T")
+            End If
+        End If
+    Next i
+
+    If Cad <> "" Then
+        'No deberia ser ""
+        Cad = Mid(Cad, 2)
+        Set miRsAux = New ADODB.Recordset
+        Cad = "Select codmacta,nommacta from cuentas where embargo=1 AND codmacta in (" & Cad & ")"
+        miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
+        While Not miRsAux.EOF
+            Cad = Cad & miRsAux!codmacta & " " & miRsAux!Nommacta & vbCrLf
+            miRsAux.MoveNext
+        Wend
+        miRsAux.Close
+        Set miRsAux = Nothing
+        
+        If Cad <> "" Then
+            MsgBox "Cuentas en situacion de embargo:" & vbCrLf & Cad, vbExclamation
+            Exit Sub
+        End If
+    End If
     
     Cad = "Desea contabilizar los vencimientos seleccionados?"
     If Combo1.ItemData(Combo1.ListIndex) = 1 Then
@@ -1349,14 +1379,18 @@ Private Sub cmdAceptar_Click()
     Generar2
 End Sub
 
+Private Sub Combo1_Click()
+    Combo1_Validate False
+End Sub
+
 Private Sub Combo1_KeyPress(KeyAscii As Integer)
     KEYpress KeyAscii
 End Sub
 
 Private Sub Combo1_Validate(Cancel As Boolean)
     If Combo1.ListIndex = -1 Then
-        MsgBox "Debe introducir un tipo de Pago. Revise.", vbExclamation
-        Combo1.SetFocus
+       ' MsgBox "Debe introducir un tipo de Pago. Revise.", vbExclamation
+       ' Combo1.SetFocus
     
     Else
          'If Tipo = 1 And OrdenarEfecto And Not Cobros Then cmdGenerar.Caption = "Transferencia"
@@ -1766,7 +1800,7 @@ Dim ImpAux As Currency
         If Asc(Right(" " & DBLet(Rs!siturem, "T"), 1)) = 81 Then
             riesgo = riesgo + vImporte
         Else
-           ' Stop
+      
         End If
     
     ElseIf Rs!tipoformapago = vbTalon Or Rs!tipoformapago = vbPagare Then
@@ -2025,6 +2059,7 @@ End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
 Dim DevfrmCCtas As String
+Dim Cad As String
 
     Select Case Index
         Case 0 ' cuenta de banco
@@ -2035,11 +2070,12 @@ Dim DevfrmCCtas As String
        Case 1 ' cuenta de proveedor
             Set frmCCtas = New frmColCtas
             DevfrmCCtas = ""
+            Cad = txtCta(5).Text
             frmCCtas.DatosADevolverBusqueda = "0"
             frmCCtas.FILTRO = "2" ' proveedores
             frmCCtas.Show vbModal
             Set frmCCtas = Nothing
-    
+            If Cad <> txtCta(5).Text Then txtCta_LostFocus 5
     End Select
     PonFoco txtCta(Index + 4)
 End Sub

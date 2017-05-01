@@ -85,8 +85,8 @@ End Sub
 
 
 
-
-Public Function SeparaCampoBusqueda(Tipo As String, Campo As String, CADENA As String, ByRef DevSQL As String) As Byte
+'EsClave: Si es clave, en los char NO forzaremos los *
+Public Function SeparaCampoBusqueda(Tipo As String, Campo As String, CADENA As String, ByRef DevSQL As String, EsClave As Boolean) As Byte
 Dim cad As String
 Dim Aux As String
 Dim Ch As String
@@ -231,7 +231,7 @@ Case "T"
         '++
         If Len(Aux) <> 0 Then
             If InStr(1, Aux, "*") = 0 Then
-                Aux = "*" & Aux & "*"
+                If Not EsClave Then Aux = "*" & Aux & "*"
             End If
         End If
         '++
@@ -2676,8 +2676,8 @@ Private Function CargaAcumuladosTotalesCerrados(ByRef Cta As String) As Boolean
     CargaAcumuladosTotalesCerrados = True
 End Function
 
-Public Function BloqueoManual(Bloquear As Boolean, tabla As String, Clave As String) As Boolean
-    If Bloquear Then
+Public Function BloqueoManual(bloquear As Boolean, tabla As String, Clave As String) As Boolean
+    If bloquear Then
         Sql = "INSERT INTO zbloqueos (codusu, tabla, clave) VALUES (" & vUsu.Codigo
         Sql = Sql & ",'" & UCase(tabla) & "','" & UCase(Clave) & "')"
     Else
@@ -2866,7 +2866,9 @@ Dim F2 As Date
    Aux = Aux & ",cuentas where "
    Aux = Aux & "mid(hlinapu.codmacta,1," & A3 & ")=cuentas.codmacta  "
    Aux = Aux & " and fechaent between " & DBSet(F1, "F") & " and " & DBSet(F2, "F")
-   Aux = Aux & " group by hlinapu.codmacta order by hlinapu.codmacta"
+   'Aux = Aux & " group by hlinapu.codmacta order by hlinapu.codmacta"  quito estoAbril2017
+   Aux = Aux & " group by 3 order by 3"
+   
    Set RTT = New ADODB.Recordset
    RTT.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
    If RTT.EOF Then
@@ -2897,7 +2899,7 @@ Dim F2 As Date
         ImpH = ImpH - ImAcH
         
         
-        vCta = "'" & RTT.Fields(2) & "','" & RTT.Fields(3) & "'"
+        vCta = "'" & RTT.Fields(2) & "','" & DevNombreSQL(RTT.Fields(3)) & "'"
         Codigo = ""
         InsertaParaListadoDiarioResum
                 
@@ -3025,7 +3027,7 @@ Dim Rs As Recordset
         While Not Rs.EOF
             ImpD = Rs.Fields(2)
             ImpH = Rs.Fields(3)
-            vCta = "'" & Rs.Fields(1) & "','" & Rs.Fields(4) & "'"
+            vCta = "'" & Rs.Fields(1) & "','" & DevNombreSQL(Rs.Fields(4)) & "'"
             InsertaParaListadoDiarioResum
             Rs.MoveNext
         Wend
@@ -3074,7 +3076,7 @@ C = Sql & M2 & ",'" & Format(VFecha3, "dd/mm/yyyy") & "'," & NumAsiento & "," & 
 C = C & ",'" & Codigo & DebeHaber & "'," & d & "," & H & ")"
 On Error Resume Next
 Conn.Execute C
-If Err.Number <> 0 Then MuestraError Err.Number, "Insertando en temporal para informes"
+If Err.Number <> 0 Then MuestraError Err.Number, "Insertando en temporal para informes:" & C
 M2 = M2 + 1
 End Sub
 
@@ -3950,7 +3952,7 @@ Dim Tipo As Integer
     
         OtroImporte = 0
         OtroImporte2 = 0
-        'If RS!Tipo = 1 Then Stop
+        'If RS!Tipo = 1 Then St op
         If vParam.NuevoPlanContable Then
             Tipo = 0  'ASi seguro que entro
         Else
@@ -4190,7 +4192,7 @@ Dim cad As String
         'NUEVO NUEVO
         '-----------
         
-        'If RC!Codmacta = "640" Then Stop
+        'If RC!Codmacta = "640" Then St op
         If vParam.NuevoPlanContable Then
         
             If EsBalancePerdidas_y_ganancias Then
@@ -4211,7 +4213,7 @@ Dim cad As String
 
         If RC!TipSaldo <> "S" Then
             Debug.Print RC!codmacta
-            'Stop
+            'St op
         End If
         
         Select Case RC!TipSaldo
@@ -4573,7 +4575,7 @@ Dim importeCierreH As Currency
 
     Sql = "insert into tmpevolsal (codusu, codmacta, nommacta, apertura, mes1, mes2, mes3, mes4, mes5, mes6, mes7, mes8, mes9, mes10, mes11, mes12, "
     Sql = Sql & "importemes1, importemes2, importemes3, importemes4, importemes5, importemes6, importemes7, importemes8, importemes9, importemes10, importemes11, importemes12) values ("
-    Sql = Sql & vUsu.Codigo & "," & DBSet(vCta, "T") & "," & DBSet(DescCuenta, "T") & ","
+    Sql = Sql & vUsu.Codigo & "," & DBSet(vCta, "T") & ",'" & DescCuenta & "',"
 
     Select Case Tipo
         Case 0
@@ -4592,21 +4594,30 @@ Dim importeCierreH As Currency
     Else
         Anyo = Year(FechaInicio)
         For k = 1 To 12
-            K1 = Month(FechaInicio - 1 + k)
+            K1 = Month(FechaInicio) - 1 + k
             If K1 > 12 Then
                 K1 = K1 - 12
                 Anyo = Year(FechaInicio) + 1
             End If
-            Mes = Format(Anyo, "0000") & Format(K1, "00")
+            'Mes = Format(Anyo, "0000") & Format(K1, "00")
+            Sql = Sql & DBSet(Format(Anyo, "0000") & Format(K1, "00"), "N") & ","
         Next k
-        Sql = Sql & DBSet(Mes, "N") & ","
+        
     End If
     Sql = Sql & "0,0,0,0,0,0,0,0,0,0,0,0)"
 
     Conn.Execute Sql
 
     
-    Sql = "Select year(fechaent) anopsald, month(fechaent) mespsald, sum(coalesce(timported,0)) impmesde, sum(coalesce(timporteh,0)) impmesha from hlinapu where codmacta = '" & vCta & "'" & vSql
+    Sql = "Select year(fechaent) anopsald, month(fechaent) mespsald, sum(coalesce(timported,0)) impmesde, sum(coalesce(timporteh,0)) impmesha from hlinapu where "
+    If EsCuentaUltimoNivel(vCta) Then
+        Sql = Sql & "codmacta = '" & vCta & "'"
+    Else
+        Sql = Sql & "codmacta like '" & vCta & "%' "
+    
+    End If
+    'Las fechas
+    Sql = Sql & " AND fechaent between " & DBSet(vFecha1, "F") & " AND " & DBSet(vFecha2, "F")
     Sql = Sql & " GROUP BY year(fechaent), month(fechaent) "
     Sql = Sql & " ORDER by year(fechaent),month(fechaent) "
     Set RT = New ADODB.Recordset
@@ -4769,7 +4780,7 @@ Dim importeCierreH As Currency
                     M1 = 1
                     M2 = Month(vFecha2)
             Else
-                'Stop
+                
                 M2 = Month(vFecha2)
             End If
             
@@ -4843,7 +4854,7 @@ Dim vAux As Long
                 Sql2 = Sql2 & " importemes3 = " & DBSet(Importe, "N")
             Case DBLet(Rs!Mes4, "N")
                 Sql2 = Sql2 & " importemes4 = " & DBSet(Importe, "N")
-            Case DBLet(Rs!Mes5, "N")
+            Case DBLet(Rs!mes5, "N")
                 Sql2 = Sql2 & " importemes5 = " & DBSet(Importe, "N")
             Case DBLet(Rs!Mes6, "N")
                 Sql2 = Sql2 & " importemes6 = " & DBSet(Importe, "N")
@@ -5227,7 +5238,9 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     '                   42- iva regimen especial agrario
 
 
+    On Error GoTo eLiquidacionIVANew
 
+    LiquidacionIVANew = False
 
     If vParam.periodos = 1 Then
         'Esamos en mensual
@@ -5267,7 +5280,7 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     ' iva
     Sql = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente )"
     
-    Sql = Sql & " select " & vUsu.Codigo & ",porciva,porcrec,sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0)), " & Empresa & "," & Periodo & "," & Anyo & ",0 "
+    Sql = Sql & " select " & vUsu.Codigo & ",porciva,coalesce(imporec,0),sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0)), " & Empresa & "," & Periodo & "," & Anyo & ",0 "
     Sql = Sql & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
     Sql = Sql & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
     Sql = Sql & " and factcli.codopera = 0 " ' tipo de operacion general
@@ -5280,15 +5293,19 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     
     
     ' recargo de equivalencia
-    Sql = "insert into tmpliquidaiva(codusu,iva,bases,ivas,codempre,periodo,ano,cliente)"
+    Sql = "insert into tmpliquidaiva(codusu,iva,bases,ivas,codempre,periodo,ano,cliente,porcrec)"
     
     Sql = Sql & " select " & vUsu.Codigo & ",porciva,sum(baseimpo),sum(coalesce(imporec,0))," & Empresa & "," & Periodo & "," & Anyo & ",1 "
+    Sql = Sql & " ,coalesce(porcrec,0)"
     Sql = Sql & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
     Sql = Sql & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
     Sql = Sql & " and tipodiva in (0,1) " 'solo iva e igic
     Sql = Sql & " and factcli.codopera = 0 " ' tipo de operacion general
     Sql = Sql & " and factcli_totales.codigiva = tiposiva.codigiva "
     Sql = Sql & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
+    'DAVID ABRIL 2017
+    Sql = Sql & " and coalesce(porcerec,0)>0"
+    
     Sql = Sql & " group by 1,2"
                     
     Conn.Execute Sql
@@ -5453,8 +5470,10 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
                     
     Conn.Execute Sql
     
-    
-    
+    LiquidacionIVANew = True
+eLiquidacionIVANew:
+    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description, Err.Description
+        
     
 End Function
 

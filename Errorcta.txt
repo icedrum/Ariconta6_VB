@@ -1,8 +1,0 @@
-Nivel: 6
-Cuenta: 100000001  -> 10000 NO encontrada 
-
-
-Nivel: 4
-Cuenta: 1120  -> 112 NO encontrada 
-
-

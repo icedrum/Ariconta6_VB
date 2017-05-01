@@ -1119,6 +1119,7 @@ End Sub
 
 Private Sub Form_Activate()
     Screen.MousePointer = vbDefault
+    
 End Sub
 
 

@@ -99,7 +99,7 @@ Dim cad As String
     Set tree.Icons = frmShortBar.wndShortcutBar.Icons
     tree.IconSize = 16
     
-    tree.Font.Size = 10
+    tree.Font.SIZE = 10
     
      
     

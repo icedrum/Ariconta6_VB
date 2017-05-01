@@ -228,7 +228,7 @@ Attribute frmP.VB_VarHelpID = -1
 
 Dim Rs As ADODB.Recordset
 Dim Sql As String
-Dim I As Integer
+Dim i As Integer
 Dim IT As ListItem  'Comun
 Dim PrimeraVez As Boolean
 Dim Cancelado As Boolean
@@ -1112,7 +1112,7 @@ Dim H As Integer
 Dim W As Integer
     Limpiar Me
     PrimeraVez = True
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
     
     
     'Cago los iconos
@@ -1735,7 +1735,7 @@ Dim TipForpa As Byte
                 
                 SqlBanco = "select reftalonpag, bancotalonpag from tmpcobros2 where codusu = " & vUsu.Codigo
                 SqlBanco = SqlBanco & " and numserie = " & DBSet(RecuperaValor(RS1!Cliente, 1), "T")
-                SqlBanco = SqlBanco & " and numfactu = " & DBSet(RecuperaValor(RS1!Cliente, 2), "N")
+                SqlBanco = SqlBanco & " and numfactu = " & DBSet(RecuperaValor(RS1!Cliente, 2), "T")
                 SqlBanco = SqlBanco & " and fecfactu = " & DBSet(RecuperaValor(RS1!Cliente, 3), "F")
                 SqlBanco = SqlBanco & " and numorden = " & DBSet(RecuperaValor(RS1!Cliente, 4), "N")
                 SqlBanco = SqlBanco & " and codmacta = " & DBSet(RS1!cliprov, "T")

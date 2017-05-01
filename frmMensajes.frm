@@ -26,6 +26,97 @@ Begin VB.Form frmMensajes
    ScaleWidth      =   16440
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame FrameAsientoLiquida 
+      Height          =   6645
+      Left            =   30
+      TabIndex        =   133
+      Top             =   60
+      Visible         =   0   'False
+      Width           =   13230
+      Begin VB.CommandButton CmdContabilizar 
+         Caption         =   "Contabilizar"
+         Height          =   375
+         Left            =   9840
+         TabIndex        =   137
+         Top             =   6000
+         Width           =   1455
+      End
+      Begin VB.CommandButton cmdCancelar 
+         Caption         =   "Salir"
+         Height          =   375
+         Left            =   11520
+         TabIndex        =   134
+         Top             =   6000
+         Width           =   1365
+      End
+      Begin MSComctlLib.ListView ListView7 
+         Height          =   4905
+         Left            =   225
+         TabIndex        =   135
+         Top             =   1005
+         Width           =   12795
+         _ExtentX        =   22569
+         _ExtentY        =   8652
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483643
+         BorderStyle     =   1
+         Appearance      =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         NumItems        =   0
+      End
+      Begin VB.Label Label7 
+         Caption         =   "Realiza apunte"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000080&
+         Height          =   285
+         Index           =   3
+         Left            =   11160
+         TabIndex        =   165
+         Top             =   480
+         Visible         =   0   'False
+         Width           =   1845
+      End
+      Begin VB.Label Label54 
+         Caption         =   "Asiento Contable"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   375
+         Left            =   240
+         TabIndex        =   136
+         Top             =   390
+         Width           =   3705
+      End
+   End
    Begin VB.Timer tCuadre 
       Enabled         =   0   'False
       Interval        =   1500
@@ -1609,75 +1700,6 @@ Begin VB.Form frmMensajes
          Width           =   5295
       End
    End
-   Begin VB.Frame FrameAsientoLiquida 
-      Height          =   6720
-      Left            =   30
-      TabIndex        =   133
-      Top             =   60
-      Visible         =   0   'False
-      Width           =   12270
-      Begin VB.CommandButton CmdContabilizar 
-         Caption         =   "Contabilizar"
-         Height          =   375
-         Left            =   9060
-         TabIndex        =   137
-         Top             =   6000
-         Width           =   1455
-      End
-      Begin VB.CommandButton cmdCancelar 
-         Caption         =   "Salir"
-         Height          =   375
-         Left            =   10650
-         TabIndex        =   134
-         Top             =   6000
-         Width           =   1365
-      End
-      Begin MSComctlLib.ListView ListView7 
-         Height          =   4905
-         Left            =   225
-         TabIndex        =   135
-         Top             =   1005
-         Width           =   11835
-         _ExtentX        =   20876
-         _ExtentY        =   8652
-         View            =   3
-         LabelWrap       =   -1  'True
-         HideSelection   =   -1  'True
-         _Version        =   393217
-         ForeColor       =   -2147483640
-         BackColor       =   -2147483643
-         BorderStyle     =   1
-         Appearance      =   1
-         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         NumItems        =   0
-      End
-      Begin VB.Label Label54 
-         Caption         =   "Asiento Contable"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   12
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   375
-         Left            =   240
-         TabIndex        =   136
-         Top             =   390
-         Width           =   10185
-      End
-   End
    Begin VB.Frame FrameReclamaciones 
       BorderStyle     =   0  'None
       BeginProperty Font 
@@ -3197,6 +3219,10 @@ Private Sub CmdCanRecibos_Click()
 End Sub
 
 Private Sub CmdContabilizar_Click()
+    
+    If UCase(ListView7.ColumnHeaders(1).Text) = "EMPR" Then
+        If MsgBox("Continuar con el proceso?", vbQuestion + vbYesNo) <> vbYes Then Exit Sub
+    End If
     CadenaDesdeOtroForm = "OK"
     Unload Me
 End Sub
@@ -4696,74 +4722,169 @@ Dim cad As String
 Dim Equipo As String
 Dim Pos As Long
 
+Dim MultiEmpresa As Boolean
+Dim EmprAnterior As Integer
+Dim VerCuadrarApunte As Boolean
+
     On Error GoTo ECargarAsiento
     
     
     ListView7.ColumnHeaders.Clear
     ListView7.ListItems.Clear
+        
+    Label7(3).Visible = False
+    If Parametros = "0" Then
+        'Solo generar
+        CmdContabilizar.Caption = "Generar"
+    Else
+        CmdContabilizar.Caption = "Contabilizar"
+        Label7(3).Visible = True
+    End If
+    
+    Set Rs = New ADODB.Recordset
+    
+    cad = "SELECT distinct numasien FROM tmpconext where tmpconext.codusu = " & DBSet(vUsu.Codigo, "N")
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    cad = ""
+    While Not Rs.EOF
+        cad = cad & "X"
+        Rs.MoveNext
+    Wend
+    Rs.Close
+    
+    MultiEmpresa = Len(cad) > 1
     
     
-'    ListView7.ColumnHeaders.Add , , "Ord.", 800.0631
-    ListView7.ColumnHeaders.Add , , "Cuenta", 1500.2522
+    If MultiEmpresa Then ListView7.ColumnHeaders.Add , , "Empr", 800.0631
+    ListView7.ColumnHeaders.Add , , "Cuenta", 1600.2522
     ListView7.ColumnHeaders.Add , , "Denominación", 4000.2522
     ListView7.ColumnHeaders.Add , , "Debe", 2050.2522, 1
     ListView7.ColumnHeaders.Add , , "Haber", 2050.2522, 1
     ListView7.ColumnHeaders.Add , , "Saldo", 2050.2522, 1
     
-    Set Rs = New ADODB.Recordset
+    
     
     
     Pos = DevuelveValor("select max(pos) from tmpconext where codusu = " & DBSet(vUsu.Codigo, "N"))
     
     
-    cad = "select tmpconext.cta, cuentas.nommacta, tmpconext.timported, tmpconext.timporteh, acumtotT, tmpconext.pos"
-    cad = cad & " from (ariconta" & NumConta & ".tmpconext inner join ariconta" & NumConta & ".cuentas on tmpconext.cta = cuentas.codmacta) "
+    cad = "select tmpconext.cta, cuentas.nommacta, tmpconext.timported, tmpconext.timporteh, acumtotT, tmpconext.pos, ampconce, numasien "
+    cad = cad & " from (ariconta" & NumConta & ".tmpconext left join ariconta" & NumConta & ".cuentas on tmpconext.cta = cuentas.codmacta) "
     cad = cad & " left join ariconta" & NumConta & ".tmpconextcab on tmpconext.codusu = tmpconextcab.codusu and tmpconext.cta = tmpconextcab.cta"
     cad = cad & " where tmpconext.codusu = " & DBSet(vUsu.Codigo, "N")
     cad = cad & " order by pos "
     
     Rs.Open cad, Conn, adOpenKeyset, adLockOptimistic, adCmdText
     cad = ""
+    EmprAnterior = -1
+    Importe = 0
     While Not Rs.EOF
                     
         Set IT = ListView7.ListItems.Add
         
-        
-        IT.Text = DBLet(Rs.Fields(0))
-        IT.SubItems(1) = DBLet(Rs.Fields(1))
-        If DBLet(Rs.Fields(2)) <> 0 Then
-            IT.SubItems(2) = Format(DBLet(Rs.Fields(2)), "###,###,##0.00")
+        If MultiEmpresa Then
+            IT.Text = Rs!NumAsien
+            IT.SubItems(1) = Rs.Fields(0)
+            NE = 2
+            
+  
+            
         Else
-            IT.SubItems(2) = ""
+            IT.Text = DBLet(Rs.Fields(0))
+            NE = 1
         End If
-        If DBLet(Rs.Fields(3)) <> 0 Then
-            IT.SubItems(3) = Format(DBLet(Rs.Fields(3)), "###,###,##0.00")
+        
+        Equipo = DBLet(Rs!Ampconce, "T")
+        If Equipo = "" Then Equipo = IT.Text
+        IT.SubItems(NE) = Equipo
+        NE = NE + 1
+        If DBLet(Rs.Fields(2)) <> 0 Then
+            IT.SubItems(NE) = Format(DBLet(Rs.Fields(2)), "###,###,##0.00")
         Else
-            IT.SubItems(3) = ""
+            IT.SubItems(NE) = " "
+        End If
+        NE = NE + 1
+        If DBLet(Rs.Fields(3)) <> 0 Then
+            IT.SubItems(NE) = Format(DBLet(Rs.Fields(3)), "###,###,##0.00")
+        Else
+            IT.SubItems(NE) = " "
         End If
         
         ' si no estamos en la última línea mostramos el saldo de la cuenta
+        NE = NE + 1
+        IT.SubItems(NE) = " "
         If DBLet(Rs.Fields(5)) <> Pos Then
             If DBLet(Rs.Fields(4)) <> 0 Then
-                IT.SubItems(4) = Format(DBLet(Rs.Fields(4)), "###,###,##0.00")
+                IT.SubItems(NE) = Format(DBLet(Rs.Fields(4)), "###,###,##0.00")
             Else
-                IT.SubItems(4) = ""
+                IT.SubItems(NE) = " "
             End If
-            IT.ListSubItems(4).ForeColor = &HAE8859   '&HEED68C
+            IT.ListSubItems(NE).ForeColor = &HAE8859   '&HEED68C
 '            IT.ListSubItems(4).Bold = True
             
         End If
         
+        
+        VerCuadrarApunte = False
         If DBLet(Rs.Fields(5)) = Pos Then
             IT.Bold = True
             IT.ListSubItems(1).Bold = True
             IT.ListSubItems(2).Bold = True
             IT.ListSubItems(3).Bold = True
 '            IT.ListSubItems(4).Bold = True
+
+        Else
+            
+            'No es el ultimo registro. Vemos si es muliempresa, para cuadrar el apunte
+            If MultiEmpresa Then
+                VerCuadrarApunte = True
+                Importe = Importe + Rs.Fields(2) - Rs.Fields(3)
+                    
+            End If
+    
         End If
         
         'Siguiente
         Rs.MoveNext
+        
+        
+        'Ver VerCuadrarApunte = True
+        If VerCuadrarApunte Then
+            If Not Rs.EOF Then
+                If EmprAnterior >= 0 And EmprAnterior <> Rs!NumAsien And Importe <> 0 Then
+                    'CAMBIO DE EMPRESA. HAY QUE CUADRAR si no es el ultimo, o si la empresa no es donde se esta haciendo la liquidacion
+                    If EmprAnterior <> vEmpresa.codempre Then
+                        'If DBLet(Rs.Fields(5)) <> Pos Then
+                        
+                        
+                            Set IT = ListView7.ListItems.Add
+                            IT.Text = EmprAnterior
+                            If Importe < 0 Then
+                                Equipo = "ctahpacreedor"
+                                IT.SubItems(4) = " "
+                                IT.SubItems(3) = Format(Abs(Importe), FormatoImporte)
+                                IT.ListSubItems(3).ForeColor = vbRed
+                            Else
+                                Equipo = "ctahpdeudor"
+                                IT.SubItems(3) = " "
+                                IT.SubItems(4) = Format(Importe, FormatoImporte)
+                                IT.ListSubItems(4).ForeColor = vbRed
+                            End If
+                            Equipo = DevuelveDesdeBD(Equipo, "ariconta" & EmprAnterior & ".parametros", "1", "1")
+                            IT.SubItems(1) = Equipo & " "
+                            Equipo = DevuelveDesdeBD("nommacta", "ariconta" & EmprAnterior & ".cuentas", "codmacta", Equipo, "T")
+                            If Equipo = "" Then Equipo = "NO encontrada"
+                            IT.SubItems(2) = Equipo
+                            IT.ListSubItems(2).ForeColor = vbRed
+                            IT.SubItems(5) = " "
+                        'End If
+                    End If
+                    Importe = 0
+                End If
+                EmprAnterior = Rs!NumAsien
+            End If
+        End If
+        
     Wend
     NumRegElim = 0
     Rs.Close

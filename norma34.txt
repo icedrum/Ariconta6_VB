@@ -2,86 +2,162 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
 <CstmrCdtTrfInitn>
    <GrpHdr>
-      <MsgId>TRANPAG000011F20160908T115318</MsgId>
-      <CreDtTm>2016-09-08T11:53:18</CreDtTm>
-      <NbOfTxs>1</NbOfTxs>
-      <CtrlSum>121.00</CtrlSum>
+      <MsgId>TRANPAG000001F20170407T120105</MsgId>
+      <CreDtTm>2017-04-07T12:01:05</CreDtTm>
+      <NbOfTxs>3</NbOfTxs>
+      <CtrlSum>162.46</CtrlSum>
       <InitgPty>
-         <Nm>PRUEBASSSSSS</Nm>
+         <Nm>Agricola de Catadau S.C. Suministros</Nm>
          <Id>
            <OrgId>
                <Othr>
-                  <Id>B96470190000</Id>
+                  <Id>F46038881AN1</Id>
                </Othr>
            </OrgId>
          </Id>
       </InitgPty>
    </GrpHdr>
    <PmtInf>
-      <PmtInfId>20160908115318B96470190</PmtInfId>
+      <PmtInfId>20170407120105F46038881</PmtInfId>
       <PmtMtd>TRF</PmtMtd>
-      <ReqdExctnDt>2016-09-08</ReqdExctnDt>
+      <ReqdExctnDt>2017-04-07</ReqdExctnDt>
       <Dbtr>
-         <Nm>PRUEBASSSSSS</Nm>
+         <Nm>Agricola de Catadau S.C. Suministros</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-            <AdrLine>Pasaje Ventura Feliu 13  Valencia</AdrLine>
+            <AdrLine>C RODRIGUEZ DE LA FUENTE   Valencia</AdrLine>
          </PstlAdr>
          <Id>
             <OrgId>
                <Othr>
-                  <Id>B96470190000</Id>
+                  <Id>F46038881AN1</Id>
                </Othr>
             </OrgId>
          </Id>
     </Dbtr>
     <DbtrAcct>
        <Id>
-          <IBAN>ES7421001864910200094745</IBAN>
+          <IBAN>ES1030582268581021006712</IBAN>
        </Id>
        <Ccy>EUR</Ccy>
     </DbtrAcct>
     <DbtrAgt>
        <FinInstnId>
-          <BIC>CAIXESBBXXX</BIC>
+          <BIC>CCRIES2AXXX</BIC>
        </FinInstnId>
     </DbtrAgt>
    <CdtTrfTxInf>
       <PmtId>
-         <EndToEndId>151515    20160908001</EndToEndId>
+         <EndToEndId>CEN000005720150218001</EndToEndId>
       </PmtId>
       <PmtTpInf>
           <SvcLvl><Cd>SEPA</Cd></SvcLvl>
-          <CtgyPurp><Cd>SALA</Cd></CtgyPurp>
+          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
        </PmtTpInf>
        <Amt>
-          <InstdAmt Ccy="EUR">121.00</InstdAmt>
+          <InstdAmt Ccy="EUR">76.83</InstdAmt>
        </Amt>
        <CdtrAgt>
           <FinInstnId>
-             <BIC>CAHMESMMXXX</BIC>
+             <BIC>CCRIES2AXXX</BIC>
           </FinInstnId>
        </CdtrAgt>
        <Cdtr>
-          <Nm>PC COMPONENTES Y MULTIMEDIA, S.L.</Nm>
+          <Nm>A O ROIG, SIGFRIDO</Nm>
            <Id>
                <OrgId>
                   <Othr>
-                     <Id>B73347494</Id>
+                     <Id>20699787V</Id>
                   </Othr>
                </OrgId>
            </Id>
         </Cdtr>
         <CdtrAcct>
            <Id>
-              <IBAN>ES4420384545858552525600</IBAN>
+              <IBAN>ES3130582268512810008911</IBAN>
            </Id>
         </CdtrAcct>
       <Purp>
-         <Cd>SALA</Cd>
+         <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>Factura 151515 de Fecha 08/09/2016</Ustrd>
+         <Ustrd>Devolucion centimo sanitario</Ustrd>
+      </RmtInf>
+   </CdtTrfTxInf>
+   <CdtTrfTxInf>
+      <PmtId>
+         <EndToEndId>CEN000007820150218001</EndToEndId>
+      </PmtId>
+      <PmtTpInf>
+          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
+          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
+       </PmtTpInf>
+       <Amt>
+          <InstdAmt Ccy="EUR">38.92</InstdAmt>
+       </Amt>
+       <CdtrAgt>
+          <FinInstnId>
+             <BIC>CCRIES2AXXX</BIC>
+          </FinInstnId>
+       </CdtrAgt>
+       <Cdtr>
+          <Nm>LLORENS LAHOZ, AMADO</Nm>
+           <Id>
+               <OrgId>
+                  <Othr>
+                     <Id>20698953B</Id>
+                  </Othr>
+               </OrgId>
+           </Id>
+        </Cdtr>
+        <CdtrAcct>
+           <Id>
+              <IBAN>ES5230821315803191889215</IBAN>
+           </Id>
+        </CdtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>Devolucion centimo sanitario</Ustrd>
+      </RmtInf>
+   </CdtTrfTxInf>
+   <CdtTrfTxInf>
+      <PmtId>
+         <EndToEndId>CEN000008620150218001</EndToEndId>
+      </PmtId>
+      <PmtTpInf>
+          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
+          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
+       </PmtTpInf>
+       <Amt>
+          <InstdAmt Ccy="EUR">46.71</InstdAmt>
+       </Amt>
+       <CdtrAgt>
+          <FinInstnId>
+             <BIC>CCRIES2AXXX</BIC>
+          </FinInstnId>
+       </CdtrAgt>
+       <Cdtr>
+          <Nm>A O CARDETE, JOSE</Nm>
+           <Id>
+               <OrgId>
+                  <Othr>
+                     <Id>20698385H</Id>
+                  </Othr>
+               </OrgId>
+           </Id>
+        </Cdtr>
+        <CdtrAcct>
+           <Id>
+              <IBAN>ES0530582268562810015827</IBAN>
+           </Id>
+        </CdtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>Devolucion centimo sanitario</Ustrd>
       </RmtInf>
    </CdtTrfTxInf>
    </PmtInf>

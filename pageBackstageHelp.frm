@@ -1,5 +1,6 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
+Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
 Object = "{555E8FCC-830E-45CC-AF00-A012D5AE7451}#17.2#0"; "Codejock.CommandBars.v17.2.0.ocx"
 Begin VB.Form pageBackstageHelp 
    BackColor       =   &H00FFFFFF&
@@ -14,6 +15,325 @@ Begin VB.Form pageBackstageHelp
    ScaleWidth      =   17115
    ShowInTaskbar   =   0   'False
    StartUpPosition =   3  'Windows Default
+   Begin VB.PictureBox tabPage 
+      BackColor       =   &H00FFFFFF&
+      BorderStyle     =   0  'None
+      Height          =   6855
+      Index           =   3
+      Left            =   6120
+      ScaleHeight     =   6855
+      ScaleWidth      =   10575
+      TabIndex        =   33
+      Top             =   1440
+      Width           =   10575
+      Begin XtremeCommandBars.BackstageButton btnProtectDocument 
+         Height          =   1230
+         Left            =   3120
+         TabIndex        =   34
+         Top             =   4800
+         Width           =   1290
+         _Version        =   1114114
+         _ExtentX        =   2275
+         _ExtentY        =   2170
+         _StockProps     =   79
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Segoe UI"
+            Size            =   9
+            Charset         =   204
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         EnableMarkup    =   -1  'True
+         TextImageRelation=   1
+         ShowShadow      =   -1  'True
+         IconWidth       =   32
+         Icon            =   "pageBackstageHelp.frx":0000
+      End
+      Begin XtremeCommandBars.BackstageButton btnManageVersions 
+         Height          =   1230
+         Left            =   8280
+         TabIndex        =   35
+         Top             =   4800
+         Width           =   1290
+         _Version        =   1114114
+         _ExtentX        =   2275
+         _ExtentY        =   2170
+         _StockProps     =   79
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Segoe UI"
+            Size            =   9
+            Charset         =   204
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         EnableMarkup    =   -1  'True
+         TextImageRelation=   1
+         ShowShadow      =   -1  'True
+         IconWidth       =   32
+         Icon            =   "pageBackstageHelp.frx":106A
+      End
+      Begin VB.Label Label6 
+         BackColor       =   &H00FFFFFF&
+         Caption         =   "fecver"
+         BeginProperty Font 
+            Name            =   "Segoe UI"
+            Size            =   8.25
+            Charset         =   204
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   5
+         Left            =   4800
+         TabIndex        =   53
+         Top             =   5160
+         Width           =   4215
+      End
+      Begin VB.Label Label18 
+         BackColor       =   &H00FFFFFF&
+         Caption         =   "www.ariadnasw.com"
+         BeginProperty Font 
+            Name            =   "Segoe UI"
+            Size            =   9.75
+            Charset         =   204
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H005B5B5B&
+         Height          =   375
+         Left            =   720
+         MousePointer    =   14  'Arrow and Question
+         TabIndex        =   52
+         Top             =   3000
+         Width           =   2535
+      End
+      Begin VB.Label Label16 
+         BackColor       =   &H00FFFFFF&
+         Caption         =   "Acerca de ..."
+         BeginProperty Font 
+            Name            =   "Segoe UI"
+            Size            =   9.75
+            Charset         =   204
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H005B5B5B&
+         Height          =   255
+         Left            =   120
+         TabIndex        =   44
+         Top             =   240
+         Width           =   4695
+      End
+      Begin VB.Label Label15 
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Segoe UI Light"
+            Size            =   9.75
+            Charset         =   204
+            Weight          =   300
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H005B5B5B&
+         Height          =   255
+         Left            =   120
+         TabIndex        =   43
+         Top             =   4920
+         Width           =   4695
+      End
+      Begin VB.Label Label6 
+         BackColor       =   &H00FFFFFF&
+         Caption         =   "Tel: +34 963 805 579"
+         BeginProperty Font 
+            Name            =   "Segoe UI"
+            Size            =   8.25
+            Charset         =   204
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   4
+         Left            =   720
+         TabIndex        =   42
+         Top             =   2520
+         Width           =   4215
+      End
+      Begin VB.Label Label6 
+         BackColor       =   &H00FFFFFF&
+         Caption         =   "46007 Valencia"
+         BeginProperty Font 
+            Name            =   "Segoe UI"
+            Size            =   8.25
+            Charset         =   204
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   3
+         Left            =   720
+         TabIndex        =   41
+         Top             =   2280
+         Width           =   4215
+      End
+      Begin VB.Label Label6 
+         BackColor       =   &H00FFFFFF&
+         Caption         =   "Pasaje Ventura Feliu 13, Entresuelo 2 Izquierda"
+         BeginProperty Font 
+            Name            =   "Segoe UI"
+            Size            =   8.25
+            Charset         =   204
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   2
+         Left            =   720
+         TabIndex        =   40
+         Top             =   2040
+         Width           =   4215
+      End
+      Begin VB.Label Label14 
+         BackColor       =   &H00FFFFFF&
+         Caption         =   "Licencia usuario final"
+         BeginProperty Font 
+            Name            =   "Segoe UI"
+            Size            =   11.25
+            Charset         =   204
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H005B5B5B&
+         Height          =   300
+         Left            =   720
+         TabIndex        =   39
+         Top             =   4320
+         Width           =   2190
+      End
+      Begin VB.Label Label12 
+         AutoSize        =   -1  'True
+         BackColor       =   &H00FFFFFF&
+         Caption         =   "Version"
+         BeginProperty Font 
+            Name            =   "Segoe UI"
+            Size            =   11.25
+            Charset         =   204
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H005B5B5B&
+         Height          =   300
+         Left            =   4800
+         TabIndex        =   38
+         Top             =   4320
+         Width           =   795
+      End
+      Begin VB.Label Label6 
+         BackColor       =   &H00FFFFFF&
+         Caption         =   "There are no previo"
+         BeginProperty Font 
+            Name            =   "Segoe UI Semibold"
+            Size            =   9
+            Charset         =   204
+            Weight          =   600
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   0
+         Left            =   4800
+         TabIndex        =   37
+         Top             =   4800
+         Width           =   4215
+      End
+      Begin VB.Label Label11 
+         BackColor       =   &H00FFFFFF&
+         Caption         =   "Ariadna Software "
+         BeginProperty Font 
+            Name            =   "Segoe UI"
+            Size            =   21.75
+            Charset         =   204
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00C00000&
+         Height          =   615
+         Left            =   720
+         TabIndex        =   36
+         Top             =   1320
+         Width           =   3975
+      End
+   End
+   Begin MSAdodcLib.Adodc Adodc1 
+      Height          =   375
+      Left            =   6480
+      Top             =   480
+      Visible         =   0   'False
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   661
+      ConnectMode     =   0
+      CursorLocation  =   3
+      IsolationLevel  =   -1
+      ConnectionTimeout=   15
+      CommandTimeout  =   30
+      CursorType      =   3
+      LockType        =   3
+      CommandType     =   8
+      CursorOptions   =   0
+      CacheSize       =   50
+      MaxRecords      =   0
+      BOFAction       =   0
+      EOFAction       =   0
+      ConnectStringType=   1
+      Appearance      =   1
+      BackColor       =   -2147483643
+      ForeColor       =   -2147483640
+      Orientation     =   0
+      Enabled         =   -1
+      Connect         =   ""
+      OLEDBString     =   ""
+      OLEDBFile       =   ""
+      DataSourceName  =   ""
+      OtherAttributes =   ""
+      UserName        =   ""
+      Password        =   ""
+      RecordSource    =   ""
+      Caption         =   "Adodc1"
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      _Version        =   393216
+   End
    Begin VB.PictureBox tabPage 
       BackColor       =   &H00FFFFFF&
       BorderStyle     =   0  'None
@@ -140,7 +460,7 @@ Begin VB.Form pageBackstageHelp
       _ExtentX        =   9340
       _ExtentY        =   1931
       _StockProps     =   79
-      Caption         =   $"pageBackstageHelp.frx":0000
+      Caption         =   $"pageBackstageHelp.frx":20D4
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Segoe UI"
          Size            =   9
@@ -154,7 +474,7 @@ Begin VB.Form pageBackstageHelp
       EnableMarkup    =   -1  'True
       ImageAlignment  =   0
       IconWidth       =   64
-      Icon            =   "pageBackstageHelp.frx":00AA
+      Icon            =   "pageBackstageHelp.frx":217E
    End
    Begin XtremeCommandBars.BackstageButton btnAcciones 
       Height          =   975
@@ -167,7 +487,7 @@ Begin VB.Form pageBackstageHelp
       _ExtentX        =   9551
       _ExtentY        =   1720
       _StockProps     =   79
-      Caption         =   $"pageBackstageHelp.frx":4114
+      Caption         =   $"pageBackstageHelp.frx":61E8
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Segoe UI"
          Size            =   9
@@ -181,7 +501,7 @@ Begin VB.Form pageBackstageHelp
       EnableMarkup    =   -1  'True
       ImageAlignment  =   0
       IconWidth       =   64
-      Icon            =   "pageBackstageHelp.frx":41DC
+      Icon            =   "pageBackstageHelp.frx":62B0
    End
    Begin XtremeCommandBars.BackstageButton btnAcciones 
       Height          =   975
@@ -194,7 +514,7 @@ Begin VB.Form pageBackstageHelp
       _ExtentX        =   9551
       _ExtentY        =   1720
       _StockProps     =   79
-      Caption         =   $"pageBackstageHelp.frx":8246
+      Caption         =   $"pageBackstageHelp.frx":A31A
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Segoe UI"
          Size            =   9
@@ -208,7 +528,7 @@ Begin VB.Form pageBackstageHelp
       EnableMarkup    =   -1  'True
       ImageAlignment  =   0
       IconWidth       =   64
-      Icon            =   "pageBackstageHelp.frx":8325
+      Icon            =   "pageBackstageHelp.frx":A3F9
    End
    Begin XtremeCommandBars.BackstageButton btnAcciones 
       Height          =   975
@@ -221,7 +541,7 @@ Begin VB.Form pageBackstageHelp
       _ExtentX        =   9551
       _ExtentY        =   1720
       _StockProps     =   79
-      Caption         =   $"pageBackstageHelp.frx":C38F
+      Caption         =   $"pageBackstageHelp.frx":E463
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Segoe UI"
          Size            =   9
@@ -235,7 +555,7 @@ Begin VB.Form pageBackstageHelp
       EnableMarkup    =   -1  'True
       ImageAlignment  =   0
       IconWidth       =   64
-      Icon            =   "pageBackstageHelp.frx":C448
+      Icon            =   "pageBackstageHelp.frx":E51C
    End
    Begin XtremeCommandBars.BackstageButton btnAcciones 
       Height          =   1095
@@ -248,7 +568,7 @@ Begin VB.Form pageBackstageHelp
       _ExtentX        =   9340
       _ExtentY        =   1931
       _StockProps     =   79
-      Caption         =   $"pageBackstageHelp.frx":104B2
+      Caption         =   $"pageBackstageHelp.frx":12586
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Segoe UI"
          Size            =   9
@@ -262,7 +582,7 @@ Begin VB.Form pageBackstageHelp
       EnableMarkup    =   -1  'True
       ImageAlignment  =   0
       IconWidth       =   64
-      Icon            =   "pageBackstageHelp.frx":10576
+      Icon            =   "pageBackstageHelp.frx":1264A
    End
    Begin XtremeCommandBars.BackstageSeparator BackstageSeparator1 
       Height          =   255
@@ -312,7 +632,7 @@ Begin VB.Form pageBackstageHelp
       _ExtentX        =   9340
       _ExtentY        =   1720
       _StockProps     =   79
-      Caption         =   $"pageBackstageHelp.frx":145E0
+      Caption         =   $"pageBackstageHelp.frx":166B4
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Segoe UI"
          Size            =   9
@@ -326,7 +646,7 @@ Begin VB.Form pageBackstageHelp
       EnableMarkup    =   -1  'True
       ImageAlignment  =   0
       IconWidth       =   48
-      Icon            =   "pageBackstageHelp.frx":146A5
+      Icon            =   "pageBackstageHelp.frx":16779
    End
    Begin XtremeCommandBars.BackstageSeparator BackstageSeparator2 
       Height          =   255
@@ -351,7 +671,7 @@ Begin VB.Form pageBackstageHelp
       _ExtentX        =   9340
       _ExtentY        =   1720
       _StockProps     =   79
-      Caption         =   $"pageBackstageHelp.frx":16CC5
+      Caption         =   $"pageBackstageHelp.frx":18D99
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Segoe UI"
          Size            =   9
@@ -365,7 +685,7 @@ Begin VB.Form pageBackstageHelp
       EnableMarkup    =   -1  'True
       ImageAlignment  =   0
       IconWidth       =   48
-      Icon            =   "pageBackstageHelp.frx":16D86
+      Icon            =   "pageBackstageHelp.frx":18E5A
    End
    Begin VB.PictureBox tabPage 
       BackColor       =   &H00FFFFFF&
@@ -708,238 +1028,6 @@ Begin VB.Form pageBackstageHelp
          Width           =   4695
       End
    End
-   Begin VB.PictureBox tabPage 
-      BackColor       =   &H00FFFFFF&
-      BorderStyle     =   0  'None
-      Height          =   6855
-      Index           =   3
-      Left            =   6120
-      ScaleHeight     =   6855
-      ScaleWidth      =   10575
-      TabIndex        =   33
-      Top             =   1440
-      Width           =   10575
-      Begin XtremeCommandBars.BackstageButton btnProtectDocument 
-         Height          =   1230
-         Left            =   3120
-         TabIndex        =   34
-         Top             =   4800
-         Width           =   1290
-         _Version        =   1114114
-         _ExtentX        =   2275
-         _ExtentY        =   2170
-         _StockProps     =   79
-         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "Segoe UI"
-            Size            =   9
-            Charset         =   204
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         EnableMarkup    =   -1  'True
-         TextImageRelation=   1
-         ShowShadow      =   -1  'True
-         IconWidth       =   32
-         Icon            =   "pageBackstageHelp.frx":191F0
-      End
-      Begin XtremeCommandBars.BackstageButton btnManageVersions 
-         Height          =   1230
-         Left            =   8280
-         TabIndex        =   35
-         Top             =   4800
-         Width           =   1290
-         _Version        =   1114114
-         _ExtentX        =   2275
-         _ExtentY        =   2170
-         _StockProps     =   79
-         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "Segoe UI"
-            Size            =   9
-            Charset         =   204
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         EnableMarkup    =   -1  'True
-         TextImageRelation=   1
-         ShowShadow      =   -1  'True
-         IconWidth       =   32
-         Icon            =   "pageBackstageHelp.frx":1A25A
-      End
-      Begin VB.Label Label16 
-         BackColor       =   &H00FFFFFF&
-         Caption         =   "Acerca de ..."
-         BeginProperty Font 
-            Name            =   "Segoe UI"
-            Size            =   9.75
-            Charset         =   204
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H005B5B5B&
-         Height          =   255
-         Left            =   120
-         TabIndex        =   44
-         Top             =   240
-         Width           =   4695
-      End
-      Begin VB.Label Label15 
-         BackColor       =   &H00FFFFFF&
-         BeginProperty Font 
-            Name            =   "Segoe UI Light"
-            Size            =   9.75
-            Charset         =   204
-            Weight          =   300
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H005B5B5B&
-         Height          =   255
-         Left            =   120
-         TabIndex        =   43
-         Top             =   4920
-         Width           =   4695
-      End
-      Begin VB.Label Label6 
-         BackColor       =   &H00FFFFFF&
-         Caption         =   "Tel: +34 963 805 579"
-         BeginProperty Font 
-            Name            =   "Segoe UI"
-            Size            =   8.25
-            Charset         =   204
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Index           =   4
-         Left            =   720
-         TabIndex        =   42
-         Top             =   3120
-         Width           =   4215
-      End
-      Begin VB.Label Label6 
-         BackColor       =   &H00FFFFFF&
-         Caption         =   "46007 Valencia"
-         BeginProperty Font 
-            Name            =   "Segoe UI"
-            Size            =   8.25
-            Charset         =   204
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Index           =   3
-         Left            =   720
-         TabIndex        =   41
-         Top             =   2640
-         Width           =   4215
-      End
-      Begin VB.Label Label6 
-         BackColor       =   &H00FFFFFF&
-         Caption         =   "Pasaje Ventura Feliu 13, Entresuelo 2 Izquierda"
-         BeginProperty Font 
-            Name            =   "Segoe UI"
-            Size            =   8.25
-            Charset         =   204
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Index           =   2
-         Left            =   720
-         TabIndex        =   40
-         Top             =   2040
-         Width           =   4215
-      End
-      Begin VB.Label Label14 
-         BackColor       =   &H00FFFFFF&
-         Caption         =   "Licencia usuario final"
-         BeginProperty Font 
-            Name            =   "Segoe UI"
-            Size            =   9.75
-            Charset         =   204
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H005B5B5B&
-         Height          =   375
-         Left            =   720
-         TabIndex        =   39
-         Top             =   4320
-         Width           =   2535
-      End
-      Begin VB.Label Label12 
-         BackColor       =   &H00FFFFFF&
-         Caption         =   "Version"
-         BeginProperty Font 
-            Name            =   "Segoe UI"
-            Size            =   9.75
-            Charset         =   204
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H005B5B5B&
-         Height          =   375
-         Left            =   4800
-         TabIndex        =   38
-         Top             =   4320
-         Width           =   2535
-      End
-      Begin VB.Label Label6 
-         BackColor       =   &H00FFFFFF&
-         Caption         =   "There are no previous versions of this file"
-         BeginProperty Font 
-            Name            =   "Segoe UI"
-            Size            =   8.25
-            Charset         =   204
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   855
-         Index           =   0
-         Left            =   4800
-         TabIndex        =   37
-         Top             =   4800
-         Width           =   4215
-      End
-      Begin VB.Label Label11 
-         BackColor       =   &H00FFFFFF&
-         Caption         =   "Ariadna Software "
-         BeginProperty Font 
-            Name            =   "Segoe UI"
-            Size            =   18
-            Charset         =   204
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00C00000&
-         Height          =   615
-         Left            =   720
-         TabIndex        =   36
-         Top             =   1320
-         Width           =   3975
-      End
-   End
    Begin XtremeCommandBars.BackstageSeparator BackstageSeparator3 
       Height          =   255
       Left            =   240
@@ -1070,6 +1158,8 @@ End Sub
 Private Sub Form_Load()
     Label9.Caption = vEmpresa.nomempre
     Label6(0).Caption = App.Major & "." & App.Minor & "." & App.Revision
+    FechaModfichero
+    
 End Sub
 
 Private Sub Form_Resize()
@@ -1442,6 +1532,11 @@ eCargadocumentos:
     End If
 End Sub
 
+Private Sub Label18_Click()
+    LanzaVisorMimeDocumento Me.hwnd, "http://www.ariadnasw.com"
+                
+End Sub
+
 Private Sub ListView1_DblClick()
 Dim Abrir As Boolean
 
@@ -1449,11 +1544,11 @@ Dim Abrir As Boolean
     
     Abrir = False 'antes \ImgFicFT
     If Dir(App.Path & "\temp\" & ListView1.SelectedItem & ".pdf", vbArchive) = "" Then
-        adodc1.ConnectionString = Conn
-        adodc1.RecordSource = "Select * from usuarios.wfichdocs where idDocumento=" & Mid(ListView1.SelectedItem.Key, 2)
-        adodc1.Refresh
+        Adodc1.ConnectionString = Conn
+        Adodc1.RecordSource = "Select * from usuarios.wfichdocs where idDocumento=" & Mid(ListView1.SelectedItem.Key, 2)
+        Adodc1.Refresh
 
-        If LeerBinary(adodc1.Recordset!Campo, App.Path & "\temp\" & ListView1.SelectedItem.Text & ".pdf") Then Abrir = True
+        If LeerBinary(Adodc1.Recordset!Campo, App.Path & "\temp\" & ListView1.SelectedItem.Text & ".pdf") Then Abrir = True
     Else
         Abrir = True
         
@@ -1582,3 +1677,30 @@ Private Sub ListViewEmpresa_DblClick()
     If ListViewEmpresa.SelectedItem Is Nothing Then Exit Sub
    frmppal.CambiarEmpresa CInt(ListViewEmpresa.SelectedItem.Text)
 End Sub
+
+
+Private Sub FechaModfichero()
+    On Error GoTo efech
+    Label6(5).Caption = ""
+    
+    Dim fso, Archivo As Object
+
+
+Set fso = CreateObject("Scripting.FileSystemObject")
+Set Archivo = fso.GetFile(App.Path & "\" & App.EXEName & ".exe")
+
+
+  Label6(5).Caption = Archivo.DateLastModified
+
+
+
+    
+    
+    
+efech:
+    Set Archivo = Nothing
+    Set fso = Nothing
+    
+    Err.Clear
+End Sub
+

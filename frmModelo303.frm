@@ -799,7 +799,7 @@ End Sub
 
 
 Private Sub cmdAccion_Click(Index As Integer)
-
+Dim B As Boolean
     If Not DatosOK Then Exit Sub
     
     
@@ -809,18 +809,31 @@ Private Sub cmdAccion_Click(Index As Integer)
     End If
     
     
+    Screen.MousePointer = vbHourglass
+    
     InicializarVbles True
     
-'++
-    'AHora generaremos la liquidacion para todos los periodos k abarque la seleecion
-    Screen.MousePointer = vbHourglass
+    
+    'Si tiene compensaciones de peridoso anteriores
+    'CompensacionAnterior
+    ImpTotal = 0
+    If txtCuota(0).Text <> "" Then
+        ImpTotal = ImporteFormateado(txtCuota(0).Text)
+    End If
+    cadParam = cadParam & "CompensacionAnterior=" & ImpTotal & "|"
+    numParam = numParam + 1
+    
+
+
+    
     'Guardamos el valor del chk del IVA
 '--
 '    ModeloIva False
     Label13.Caption = "Elimina datos anteriores"
     Label13.Visible = True
     Label13.Refresh
-    If GeneraLasLiquidaciones Then
+    B = GeneraLasLiquidaciones
+    If B Then
         
     
         Label13.Caption = ""
@@ -847,20 +860,20 @@ Private Sub cmdAccion_Click(Index As Integer)
         Else
             'Mas de una empresa
             Sql = "'Empresas seleccionadas:' + Chr(13) "
-            For i = 0 To Me.ListView1(1).ListItems.Count - 1
-                Sql = Sql & " + '        " & Me.ListView1(0).ListItems(i).Text & "' + Chr(13)"
+            For i = 1 To Me.ListView1(1).ListItems.Count - 1
+                Sql = Sql & " + ""        " & Me.ListView1(1).ListItems(i).Text & """ + Chr(13)"
             Next i
         End If
 
         Consolidado = Sql
 
-    
+        
     End If
     Label13.Visible = False
     Me.Refresh
     Screen.MousePointer = vbDefault
 
-
+    If Not B Then Exit Sub
 '++
     
     
@@ -1636,18 +1649,19 @@ Dim nomDocu As String
     If EmpresasSeleccionadas = 1 Then
         For i = 1 To Me.ListView1(1).ListItems.Count
             If ListView1(1).ListItems(i).Checked Then
-                If Me.ListView1(1).ListItems(i).Text <> vEmpresa.nomempre Then Sql = Me.ListView1(1).ListItems(i).SubItems(1)
+                If Me.ListView1(1).ListItems(i).Text <> vEmpresa.CodEMpre Then Sql = Me.ListView1(1).ListItems(i).SubItems(1)
             End If
         Next i
     Else
         'Mas de una empresa
-        Sql = "'Empresas seleccionadas:' + Chr(13) "
+        Sql = "Empresas seleccionadas: "" + Chr(13) "
         For i = 1 To Me.ListView1(1).ListItems.Count
-            Sql = Sql & " + '        " & Me.ListView1(1).ListItems(i).Text & "' + Chr(13)"
+            Sql = Sql & " + """ & Me.ListView1(1).ListItems(i).SubItems(1) & """ + Chr(13) "
         Next i
+        Sql = Sql & " + """
     End If
     
-    cadParam = cadParam & "empresas = """ & Sql & """|"
+    cadParam = cadParam & "empresas= """ & Sql & """|"
     numParam = numParam + 1
     
 
@@ -1777,7 +1791,7 @@ End Sub
 
 
 Private Sub txtCuota_GotFocus(Index As Integer)
-    ConseguirFoco txtAno(Index), 3
+    ConseguirFoco txtCuota(Index), 3
 End Sub
 
 Private Sub txtCuota_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -1795,8 +1809,15 @@ Dim cad As String, cadTipo As String 'tipo cliente
 
     Select Case Index
         Case 0 'Cuota
-            PonerFormatoDecimal txtCuota(0), 1
-            
+            If Not PonerFormatoDecimal(txtCuota(0), 1) Then
+                txtCuota(0).Text = ""
+            Else
+                If ImporteFormateado(txtCuota(0).Text) < 0 Then
+                    MsgBox "Importe positivo", vbExclamation
+                    txtCuota(0).Text = ""
+                    PonFoco txtCuota(0)
+                End If
+            End If
     End Select
 
 End Sub
@@ -1886,6 +1907,16 @@ Private Function DatosOK() As Boolean
             If Not ComprobarContabilizacionFrasCliProv(False, ListView1(1).ListItems(i).Text) Then Exit Function
         End If
     Next i
+
+    If txtCuota(0).Text <> "" Then
+        If ImporteFormateado(txtCuota(0).Text) < 0 Then
+            MsgBox "Importe a compensar debe ser positivo", vbExclamation
+            Exit Function
+        End If
+    End If
+            
+        
+
 
     DatosOK = True
 
@@ -2016,7 +2047,10 @@ Private Function GeneraLasLiquidaciones() As Boolean
             For CONT = CInt(txtperiodo(0).Text) To CInt(txtperiodo(1).Text)
                 Label13.Caption = Mid(ListView1(1).ListItems(i).SubItems(1), 1, 20) & ".  " & CONT
                 Label13.Refresh
-                LiquidacionIVANew CByte(CONT), CInt(txtAno(0).Text), Me.ListView1(1).ListItems(i).Text, True  '(chkIVAdetallado.Value = 1)
+                If Not LiquidacionIVANew(CByte(CONT), CInt(txtAno(0).Text), Me.ListView1(1).ListItems(i).Text, True) Then      '(chkIVAdetallado.Value = 1)
+                    GeneraLasLiquidaciones = False
+                    Exit Function
+                End If
             Next CONT
         End If
     Next i

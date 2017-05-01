@@ -30,12 +30,12 @@ End Sub
 Public Sub OpenDB(ByVal strConnection As String)
     Debug.Assert Not m_bOpened
     
-On Error GoTo err1
+On Error GoTo Err1
    ' Open DSN connection
     m_Connection.Open m_pHelper.GetDSN(strConnection)
     m_bOpened = True
 
-err1:
+Err1:
     If Err.Number <> 0 Then
         m_bOpened = False
         MsgBox "Cannot open SQL Server DB" & Err.Description
@@ -67,7 +67,7 @@ Private Sub m_pCalendar_DoCreateEvent(ByVal pEvent As XtremeCalendarControl.Cale
         Exit Sub
     End If
 
-On Error GoTo err1
+On Error GoTo Err1
 
     Dim strSQL As String
     strSQL = m_pHelper.MakeCreateEventSQL(pEvent)
@@ -87,7 +87,7 @@ On Error GoTo err1
     bResult = True
     Exit Sub
 
-err1:
+Err1:
     If Err.Number <> 0 Then
         Debug.Print "Cannot CreateEvent in DB: " & Err.Description
         Debug.Assert False
@@ -101,7 +101,7 @@ Private Sub m_pCalendar_DoCreateRPattern(ByVal pPattern As XtremeCalendarControl
         Exit Sub
     End If
 
-On Error GoTo err1
+On Error GoTo Err1
 
     Dim strSQL As String
     strSQL = m_pHelper.MakeCreatePatternSQL(pPattern)
@@ -120,7 +120,7 @@ On Error GoTo err1
     
     bResult = True
     Exit Sub
-err1:
+Err1:
     If Err.Number <> 0 Then
         Debug.Print "Cannot UpdateEvent in DB: " & Err.Description
         Debug.Assert False
@@ -134,7 +134,7 @@ Private Sub m_pCalendar_DoDeleteEvent(ByVal pEvent As XtremeCalendarControl.Cale
     End If
     
     Dim strSQL As String
-    strSQL = "DELETE FROM CalendarEvents WHERE EventID = " & pEvent.Id
+    strSQL = "DELETE FROM CalendarEvents WHERE EventID = " & pEvent.id
     
     m_Connection.Execute strSQL, , adExecuteNoRecords
     
@@ -147,7 +147,7 @@ Private Sub m_pCalendar_DoDeleteRPattern(ByVal pPattern As XtremeCalendarControl
     End If
     
     Dim strSQL As String
-    strSQL = "DELETE FROM CalendarRecurrencePatterns WHERE RecurrencePatternID = " & pPattern.Id
+    strSQL = "DELETE FROM CalendarRecurrencePatterns WHERE RecurrencePatternID = " & pPattern.id
     
     m_Connection.Execute strSQL, , adExecuteNoRecords
     
@@ -171,7 +171,7 @@ Private Sub m_pCalendar_DoGetUpcomingEvents(ByVal dtFrom As Date, ByVal PeriodMi
     
     Dim strSQL As String
     strSQL = m_pHelper.MakeGetUpcomingEventsSQL(cjCalendarData_MySQL, dtFrom, PeriodMinutes, bOptimizeSQL)
-    Debug.Print strSQL
+    'Debug.Print strSQL
     
     '----------------------------------------------------------
     Dim rsEvents As ADODB.Recordset
@@ -252,7 +252,7 @@ Private Sub m_pCalendar_DoUpdateEvent(ByVal pEvent As XtremeCalendarControl.Cale
         Exit Sub
     End If
 
-On Error GoTo err1
+On Error GoTo Err1
 
     Dim strSQL As String
     
@@ -263,7 +263,7 @@ On Error GoTo err1
     
     bResult = True
     Exit Sub
-err1:
+Err1:
     If Err.Number <> 0 Then
         Debug.Print "Cannot UpdateEvent in DB: " & Err.Description
         Debug.Assert False
@@ -279,7 +279,7 @@ Private Sub m_pCalendar_DoUpdateRPattern(ByVal pPattern As XtremeCalendarControl
         Exit Sub
     End If
 
-On Error GoTo err1
+On Error GoTo Err1
 
     Dim strSQL As String
     strSQL = m_pHelper.MakeUpdatePatternSQL(pPattern)
@@ -289,7 +289,7 @@ On Error GoTo err1
     
     bResult = True
     Exit Sub
-err1:
+Err1:
     If Err.Number <> 0 Then
         Debug.Print "Cannot UpdateEvent in DB: " & Err.Description
         Debug.Assert False

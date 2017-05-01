@@ -957,6 +957,8 @@ Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
         imgCuentas_Click Indice
     Case "imgFecha"
         imgFec_Click Indice
+    Case "imgConceptos"
+        imgConceptos_Click Indice
     End Select
     
 End Sub

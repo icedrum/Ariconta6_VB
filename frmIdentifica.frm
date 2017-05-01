@@ -493,7 +493,8 @@ Dim Sql As String
     Conn.Execute "Delete from tmpactualizar " & CadenaDesdeOtroForm
     Conn.Execute "Delete from usuarios.ztesoreriacomun  " & CadenaDesdeOtroForm
 
-      
+    CarpetasDeAriconta
+    
     CadenaDesdeOtroForm = ""
 
     Me.Refresh
@@ -502,6 +503,19 @@ Dim Sql As String
     
     DoEvents
     espera 0.2
+End Sub
+
+
+Private Sub CarpetasDeAriconta()
+
+On Error Resume Next
+    If Dir(App.Path & "\Exportar", vbDirectory) = "" Then MkDir App.Path & "\Exportar"
+    If Dir(App.Path & "\Hacienda", vbDirectory) = "" Then MkDir App.Path & "\Hacienda"
+    If Dir(App.Path & "\Hacienda\mod347", vbDirectory) = "" Then MkDir App.Path & "\Hacienda\mod347"
+    If Dir(App.Path & "\Hacienda\mod349", vbDirectory) = "" Then MkDir App.Path & "\Hacienda\mod349"
+    
+    
+    If Err.Number <> 0 Then Err.Clear
 End Sub
 
 

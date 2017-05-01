@@ -1,1 +1,0 @@
-000001 10038  Longitud errónea en el registro o terminación del registro incorrecta .

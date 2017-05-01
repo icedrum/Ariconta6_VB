@@ -815,20 +815,39 @@ Private Sub cmdCancelarAccion_Click()
 End Sub
 
 Private Sub Form_Activate()
+Dim F As Date
+
     If PrimeraVez Then
         PrimeraVez = False
         
         If Legalizacion <> "" Then
             optTipoSal(2).Value = True
                 
+            cad = RecuperaValor(Legalizacion, 3)
+            F = CDate(cad)
+            
+            cmbFecha(0).ListIndex = Month(F) - 1
+            cmbFecha(1).ListIndex = Month(F) - 1
+            cmbFecha(2).Text = Year(F)
+            cmbFecha(3).Text = CInt(cmbFecha(2).Text) - 1
+            
+            PosicionarCombo cmbFecha(2), Year(F)
+            PosicionarCombo cmbFecha(3), CInt(cmbFecha(2).Text) - 1
+                 
+                
+                
             cad = RecuperaValor(Legalizacion, 4)
+                        
             If Val(cad) = 0 Then
                 chkBalPerCompa.Value = 0
             Else
                 'txtAno(1).Text = Val(txtAno(0).Text) - 1
-                cmbFecha(3).ListIndex = cmbFecha(2).ListIndex
-                cmbFecha(1).ListIndex = cmbFecha(0).ListIndex
+                'cmbFecha(3).ListIndex = cmbFecha(2).ListIndex
+                'cmbFecha(1).ListIndex = cmbFecha(0).ListIndex
                 chkBalPerCompa.Value = 1
+                Frame2.Visible = True
+                Frame2.Enabled = True
+                DoEvents
             End If
             
             cmdAccion_Click (1)

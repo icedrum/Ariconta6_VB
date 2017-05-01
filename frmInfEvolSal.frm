@@ -116,7 +116,7 @@ Begin VB.Form frmInfEvolSal
             Caption         =   "9º nivel"
             BeginProperty Font 
                Name            =   "Verdana"
-               Size            =   9.75
+               Size            =   9
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -134,7 +134,7 @@ Begin VB.Form frmInfEvolSal
             Caption         =   "8º nivel"
             BeginProperty Font 
                Name            =   "Verdana"
-               Size            =   9.75
+               Size            =   9
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -152,7 +152,7 @@ Begin VB.Form frmInfEvolSal
             Caption         =   "7º nivel"
             BeginProperty Font 
                Name            =   "Verdana"
-               Size            =   9.75
+               Size            =   9
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -170,7 +170,7 @@ Begin VB.Form frmInfEvolSal
             Caption         =   "6º nivel"
             BeginProperty Font 
                Name            =   "Verdana"
-               Size            =   9.75
+               Size            =   9
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -188,7 +188,7 @@ Begin VB.Form frmInfEvolSal
             Caption         =   "5º nivel"
             BeginProperty Font 
                Name            =   "Verdana"
-               Size            =   9.75
+               Size            =   9
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -206,7 +206,7 @@ Begin VB.Form frmInfEvolSal
             Caption         =   "4º nivel"
             BeginProperty Font 
                Name            =   "Verdana"
-               Size            =   9.75
+               Size            =   9
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -224,7 +224,7 @@ Begin VB.Form frmInfEvolSal
             Caption         =   "3º nivel"
             BeginProperty Font 
                Name            =   "Verdana"
-               Size            =   9.75
+               Size            =   9
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -242,7 +242,7 @@ Begin VB.Form frmInfEvolSal
             Caption         =   "2º nivel"
             BeginProperty Font 
                Name            =   "Verdana"
-               Size            =   9.75
+               Size            =   9
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -260,7 +260,7 @@ Begin VB.Form frmInfEvolSal
             Caption         =   "1er nivel"
             BeginProperty Font 
                Name            =   "Verdana"
-               Size            =   9.75
+               Size            =   9
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -278,7 +278,7 @@ Begin VB.Form frmInfEvolSal
             Caption         =   "Último:  "
             BeginProperty Font 
                Name            =   "Verdana"
-               Size            =   9.75
+               Size            =   9
                Charset         =   0
                Weight          =   400
                Underline       =   0   'False
@@ -291,7 +291,7 @@ Begin VB.Form frmInfEvolSal
             TabIndex        =   26
             Top             =   240
             Value           =   1  'Checked
-            Width           =   1155
+            Width           =   1275
          End
       End
       Begin MSComctlLib.Toolbar ToolbarAyuda 
@@ -941,7 +941,7 @@ End Sub
 
 
 Private Sub cmdAccion_Click(Index As Integer)
-    
+Dim B As Boolean
     If Not DatosOK Then Exit Sub
     
     PulsadoCancelar = False
@@ -967,7 +967,7 @@ Private Sub cmdAccion_Click(Index As Integer)
     Me.cmdCancelar.Enabled = True
 
     
-    If Not MontaSQL Then Exit Sub
+    'If Not MontaSQL Then Exit Sub
     
     
     
@@ -987,7 +987,9 @@ Private Sub cmdAccion_Click(Index As Integer)
     DoEvents 'Para que no bloquee la pantalla
     Label2(29).Caption = "Leyendo datos BD"
     Label2(29).Refresh
-    If ListadoEvolucionMensual Then
+    B = ListadoEvolucionMensual
+    Screen.MousePointer = vbDefault
+    If B Then
     
         If Not HayRegParaInforme("tmpevolsal", "codusu=" & vUsu.Codigo) Then Exit Sub
         
@@ -1265,7 +1267,7 @@ Dim K1 As Integer
     RC = "Ejercicio " & Mid(RC, 1, 23) & "  "
     If txtCta(6).Text <> "" Then RC = RC & " desde " & txtCta(6).Text & " -" & txtNCta(6).Text
     If txtCta(7).Text <> "" Then RC = RC & " hasta " & txtCta(7).Text & " -" & txtNCta(7).Text
-    If RC <> "" Then RC = "Cuentas: " & RC
+    If RC <> "" Then RC = " " & RC
 
     
     
@@ -1293,29 +1295,29 @@ Dim K1 As Integer
             If K1 > 12 Then K1 = K1 - 12
             Select Case k
                 Case 0
-                    cadParam = cadParam & "pMes1=""" & UCase(MonthName(K1)) & """|"
+                    cadParam = cadParam & "pMes1=""" & UCase(MonthName(K1, True)) & """|"
                 Case 1
-                    cadParam = cadParam & "pMes2=""" & UCase(MonthName(K1)) & """|"
+                    cadParam = cadParam & "pMes2=""" & UCase(MonthName(K1, True)) & """|"
                 Case 2
-                    cadParam = cadParam & "pMes3=""" & UCase(MonthName(K1)) & """|"
+                    cadParam = cadParam & "pMes3=""" & UCase(MonthName(K1, True)) & """|"
                 Case 3
-                    cadParam = cadParam & "pMes4=""" & UCase(MonthName(K1)) & """|"
+                    cadParam = cadParam & "pMes4=""" & UCase(MonthName(K1, True)) & """|"
                 Case 4
-                    cadParam = cadParam & "pMes5=""" & UCase(MonthName(K1)) & """|"
+                    cadParam = cadParam & "pMes5=""" & UCase(MonthName(K1, True)) & """|"
                 Case 5
-                    cadParam = cadParam & "pMes6=""" & UCase(MonthName(K1)) & """|"
+                    cadParam = cadParam & "pMes6=""" & UCase(MonthName(K1, True)) & """|"
                 Case 6
-                    cadParam = cadParam & "pMes7=""" & UCase(MonthName(K1)) & """|"
+                    cadParam = cadParam & "pMes7=""" & UCase(MonthName(K1, True)) & """|"
                 Case 7
-                    cadParam = cadParam & "pMes8=""" & UCase(MonthName(K1)) & """|"
+                    cadParam = cadParam & "pMes8=""" & UCase(MonthName(K1, True)) & """|"
                 Case 8
-                    cadParam = cadParam & "pMes9=""" & UCase(MonthName(K1)) & """|"
+                    cadParam = cadParam & "pMes9=""" & UCase(MonthName(K1, True)) & """|"
                 Case 9
-                    cadParam = cadParam & "pMes10=""" & UCase(MonthName(K1)) & """|"
+                    cadParam = cadParam & "pMes10=""" & UCase(MonthName(K1, True)) & """|"
                 Case 10
-                    cadParam = cadParam & "pMes11=""" & UCase(MonthName(K1)) & """|"
+                    cadParam = cadParam & "pMes11=""" & UCase(MonthName(K1, True)) & """|"
                 Case 11
-                    cadParam = cadParam & "pMes12=""" & UCase(MonthName(K1)) & """|"
+                    cadParam = cadParam & "pMes12=""" & UCase(MonthName(K1, True)) & """|"
              End Select
         Next k
     End If
@@ -1348,18 +1350,18 @@ Dim K1 As Integer
 End Sub
 
 
-Private Function MontaSQL() As Boolean
-Dim Sql As String
-Dim Sql2 As String
-Dim RC As String
-Dim RC2 As String
-
-    MontaSQL = False
-    
-    
-    MontaSQL = True
-           
-End Function
+'Private Function MontaSQL() As Boolean
+'Dim Sql As String
+'Dim Sql2 As String
+'Dim RC As String
+'Dim RC2 As String
+'
+'    MontaSQL = False
+'
+'
+'    MontaSQL = True
+'
+'End Function
 
 
 Private Function DatosOK() As Boolean
@@ -1464,8 +1466,9 @@ Dim J As Integer
     ChkEvolSaldo(10).Visible = True
     For i = 1 To vEmpresa.numnivel - 1
         J = DigitosNivel(i)
-        cad = "Digitos: " & J
+        cad = "Digitos:" & J
         ChkEvolSaldo(i).Visible = True
+        ChkEvolSaldo(i).Tag = J
         Me.ChkEvolSaldo(i).Caption = cad
         
     Next i
@@ -1565,9 +1568,21 @@ Dim Tipo As Integer
     RC = Mid(Sql, 14, 10)
     FechaFinEjercicio = CDate(RC)
     
-    Sql = "Select hlinapu.codmacta,nommacta from hlinapu,cuentas where hlinapu.codmacta=cuentas.codmacta "
-
+    
+    If Me.ChkEvolSaldo(10).Value Then
+        Sql = "Select hlinapu.codmacta,nommacta from hlinapu left join cuentas on hlinapu.codmacta=cuentas.codmacta "
+    Else
+        CONT = 1
+        For i = 1 To 10
+            If Me.ChkEvolSaldo(i).Value Then
+                CONT = ChkEvolSaldo(i).Tag
+                Exit For
+            End If
+        Next
+        Sql = "Select substring(hlinapu.codmacta,1," & CONT & ") as codmacta,nommacta from hlinapu left join cuentas on substring(hlinapu.codmacta,1," & CONT & ")=cuentas.codmacta"
+    End If
     'Si tienen desde /hasta
+    Sql = Sql & " WHERE TRUE "
     If txtCta(6).Text <> "" Then Sql = Sql & " AND hlinapu.codmacta >= '" & txtCta(6).Text & "'"
     If txtCta(7).Text <> "" Then Sql = Sql & " AND hlinapu.codmacta <= '" & txtCta(7).Text & "'"
 
@@ -1580,7 +1595,7 @@ Dim Tipo As Integer
         Sql = Sql & " (year(fechaent) =" & Year(FechaIncioEjercicio) + 1 & " AND month(fechaent) < " & Month(FechaIncioEjercicio) & "))"
     End If
     
-    Sql = Sql & " GROUP BY hlinapu.codmacta"
+     Sql = Sql & " GROUP BY 1"
     
     
     If Option1.Value Then Tipo = 0
@@ -1589,7 +1604,7 @@ Dim Tipo As Integer
     
     
     
-    'stop
+    
     QuitarTambienElCierre = FechaIncioEjercicio < vParam.fechaini
     Set Rs = New ADODB.Recordset
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText

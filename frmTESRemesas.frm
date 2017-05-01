@@ -2412,6 +2412,16 @@ Dim Sql As String
     Modo = 4
     PonerModo Modo
 
+    'Abril 2017
+    'Cargo la tmpcierre, que si no despues da fallo
+    Conn.Execute "DELETE FROM  tmpcierre1 where codusu =" & vUsu.Codigo
+    Sql = "insert into `tmpcierre1` (`codusu`,`cta`,`nomcta`,`acumPerD`) VALUES (" & vUsu.Codigo & ","
+    Msg = Trim(lw1.SelectedItem.SubItems(6))
+    If Msg = "" Then Msg = " "
+    Sql = Sql & DBSet(lw1.SelectedItem.SubItems(4), "T") & "," & DBSet(Msg, "T") & "," & DBSet(lw1.SelectedItem.SubItems(7), "N") & ")"
+    Conn.Execute Sql
+
+
     txtFecha(5).Text = Format(lw1.SelectedItem.SubItems(2), "dd/mm/yyyy")
     txtCuentas(3).Text = lw1.SelectedItem.SubItems(4)
     txtNCuentas(3).Text = lw1.SelectedItem.SubItems(5)
@@ -2932,7 +2942,7 @@ Dim cad As String
     On Error Resume Next
 
     cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
     Set Rs = New ADODB.Recordset
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -3221,6 +3231,8 @@ Dim Sql2 As String
                     If MsgBox(cad, vbQuestion + vbYesNoCancel) <> vbYes Then
                         Set Rs = Nothing
                         Set colCtas = Nothing
+                        cmdAceptar(0).Caption = "&Aceptar"
+                        ModoInsertar = False
                         Exit Sub
                     End If
                             
@@ -3855,6 +3867,7 @@ Dim ImporteQueda As Currency
             cad = cad & ", descripcion ='" & DevNombreSQL(Text2.Text) & "'"
             cad = cad & ", fecremesa= " & DBSet(txtFecha(5).Text, "F")
             cad = cad & ", codmacta= " & DBSet(txtCuentas(3).Text, "T")
+            
             cad = cad & " WHERE codigo=" & NumeroRemesa
             cad = cad & " AND anyo =" & Year(CDate(txtFecha(4).Text))
             If Not Ejecuta(cad) Then Exit Function
@@ -3887,7 +3900,7 @@ Dim ImporteQueda As Currency
                     C = cad & C
                     Conn.Execute C
                 Else
-                    'Stop
+       
                 End If
            End With
            
@@ -3918,6 +3931,12 @@ Dim ImporteQueda As Currency
             cad = cad & " AND tiporem = 1"
             Conn.Execute cad
             
+        Else
+            cad = "UPDATE Remesas SET importe=" & DBSet(Text1(4).Text, "N")
+            cad = cad & " WHERE codigo=" & NumeroRemesa
+            cad = cad & " AND anyo =" & lw1.SelectedItem.SubItems(1)
+            cad = cad & " AND tiporem = 1"
+            Conn.Execute cad
         End If
         
         NumeroRemesa = NumeroRemesa + 1
@@ -3932,7 +3951,7 @@ Dim ImporteQueda As Currency
     GenerarRemesa = True
     Conn.CommitTrans
     If Opcion = 0 Then BloqueoManual False, "Remesas", "Remesas"
-    
+  '  If Opcion = 1 Then lw1.SelectedItem.SubItems(7) = Text1(4).Text
     Label2.Caption = ""
     Label2.Visible = False
     

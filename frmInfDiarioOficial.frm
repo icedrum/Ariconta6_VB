@@ -122,10 +122,10 @@ Begin VB.Form frmInfDiarioOficial
       End
       Begin VB.Frame Frame2 
          Height          =   1815
-         Left            =   180
+         Left            =   120
          TabIndex        =   22
          Top             =   3120
-         Width           =   4185
+         Width           =   4245
          Begin VB.CheckBox Check1 
             Caption         =   "Último:  "
             BeginProperty Font 
@@ -176,7 +176,7 @@ Begin VB.Form frmInfDiarioOficial
             EndProperty
             Height          =   240
             Index           =   8
-            Left            =   2760
+            Left            =   2880
             TabIndex        =   30
             Top             =   990
             Width           =   1215
@@ -194,7 +194,7 @@ Begin VB.Form frmInfDiarioOficial
             EndProperty
             Height          =   240
             Index           =   7
-            Left            =   1380
+            Left            =   1440
             TabIndex        =   29
             Top             =   990
             Width           =   1305
@@ -230,7 +230,7 @@ Begin VB.Form frmInfDiarioOficial
             EndProperty
             Height          =   240
             Index           =   5
-            Left            =   2760
+            Left            =   2880
             TabIndex        =   27
             Top             =   600
             Width           =   1215
@@ -248,7 +248,7 @@ Begin VB.Form frmInfDiarioOficial
             EndProperty
             Height          =   240
             Index           =   4
-            Left            =   1380
+            Left            =   1440
             TabIndex        =   26
             Top             =   600
             Width           =   1305
@@ -284,10 +284,10 @@ Begin VB.Form frmInfDiarioOficial
             EndProperty
             Height          =   240
             Index           =   2
-            Left            =   2760
+            Left            =   2880
             TabIndex        =   24
             Top             =   240
-            Width           =   1185
+            Width           =   1305
          End
          Begin VB.CheckBox Check1 
             Caption         =   "1er nivel"
@@ -302,7 +302,7 @@ Begin VB.Form frmInfDiarioOficial
             EndProperty
             Height          =   240
             Index           =   1
-            Left            =   1380
+            Left            =   1440
             TabIndex        =   23
             Top             =   240
             Width           =   1335
@@ -1063,8 +1063,8 @@ Private Sub Form_Load()
         cmbFecha(0).ListIndex = Month(RecuperaValor(Legalizacion, 2)) - 1
         cmbFecha(1).ListIndex = Month(RecuperaValor(Legalizacion, 3)) - 1
     
-        cmbFecha(2).Text = Year(RecuperaValor(Legalizacion, 2)) - 1
-        cmbFecha(3).Text = Year(RecuperaValor(Legalizacion, 3)) - 1
+        cmbFecha(2).Text = Year(RecuperaValor(Legalizacion, 2))
+        cmbFecha(3).Text = Year(RecuperaValor(Legalizacion, 3))
             
         For i = 1 To 10
             If RecuperaValor(Legalizacion, 4) = check1(i).Tag Then check1(i).Value = 1
@@ -1406,7 +1406,7 @@ QueCombosFechaCargar "0|1|"
 For i = 1 To vEmpresa.numnivel - 1
     J = DigitosNivel(i)
     check1(i).Visible = True
-    check1(i).Caption = "Digitos: " & J
+    check1(i).Caption = "Digitos:" & J
 Next i
 
     cmbFecha(2).Clear

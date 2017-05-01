@@ -353,7 +353,7 @@ Begin VB.Form frmTESRemesasDev
          End
          Begin VB.Label Label4 
             AutoSize        =   -1  'True
-            Caption         =   "Cáculo Gastos Devolución Cliente"
+            Caption         =   "Cálculo Gastos Devolución Cliente"
             BeginProperty Font 
                Name            =   "Verdana"
                Size            =   9.75
@@ -369,7 +369,7 @@ Begin VB.Form frmTESRemesasDev
             Left            =   390
             TabIndex        =   33
             Top             =   390
-            Width           =   3630
+            Width           =   3930
          End
          Begin VB.Label Label4 
             AutoSize        =   -1  'True
@@ -1420,7 +1420,7 @@ Private Sub CargaCabecera()
         i = 10 'para elegir la ultima columna, la que llevara ser-fac como ordenacion
     Else
         ' en el caso de devolucion desde fichero mostramos el codigo de devolucion
-        lwCobros.ColumnHeaders.Add , , "Serie", 820
+        lwCobros.ColumnHeaders.Add , , "Serie", 1020
         lwCobros.ColumnHeaders.Add , , "Factura", 1140
         lwCobros.ColumnHeaders.Add , , "Vto", 650
         lwCobros.ColumnHeaders.Add , , "Cuenta", 1500
@@ -1433,7 +1433,7 @@ Private Sub CargaCabecera()
         lwCobros.ColumnHeaders.Add , , "Año", 0
         lwCobros.ColumnHeaders.Add , , "Banco", 0
         
-        lwCobros.ColumnHeaders.Add , , "Devolución", 4000, 0
+        lwCobros.ColumnHeaders.Add , , "Devolución", 3800, 0
         
         
     End If
@@ -1462,7 +1462,7 @@ Private Sub frmBas2_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmC_Selec(vFecha As Date)
-    Text1(CInt(Image1(0).Tag)).Text = Format(vFecha, "dd/mm/yyyy")
+    Text1(CInt(Image1(11).Tag)).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
@@ -1482,7 +1482,7 @@ Private Sub Image1_Click(Index As Integer)
     Set frmC = New frmCal
     frmC.Fecha = Now
     If Text1(Index).Text <> "" Then frmC.Fecha = CDate(Text1(Index).Text)
-    Image1(0).Tag = Index
+    Image1(11).Tag = Index
     frmC.Show vbModal
     Set frmC = Nothing
     If Text1(Index).Text <> "" Then PonerFoco Text1(Index)

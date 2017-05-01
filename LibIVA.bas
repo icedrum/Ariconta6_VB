@@ -1788,9 +1788,10 @@ Dim SqlNew As String
                 
             '`codpais`,`idenpais`,`nifresidencia`
             PAIS = UCase(DBLet(Rs!codPAIS, "T"))
-            If PAIS = "" Then PAIS = "ESPAÑA"
+            If PAIS = "" Then PAIS = "ES"
             
-            If PAIS = "ESPAÑA" Then
+            
+            If PAIS = "ES" Then
                 Linea = Linea & "'ES','1',NULL"
                 Identificacion = 0
             Else
@@ -1804,7 +1805,8 @@ Dim SqlNew As String
 '            If Not IsNull(Rs!tp2facpr) Then NF = NF + 1
 '            If Not IsNull(Rs!tp3facpr) Then NF = NF + 1
 
-            SqlNew = "select count(*) from factpro_totales where numserie = " & DBSet(Rs!NUmSerie, "T")
+            SqlNew = "select count(*) from  ariconta" & NumeroEmpresa & ".factpro_totales "
+            SqlNew = SqlNew & " where numserie = " & DBSet(Rs!NUmSerie, "T")
             SqlNew = SqlNew & " and numregis = " & DBSet(Rs!NumRegis, "N")
             SqlNew = SqlNew & " and anofactu = " & DBSet(Rs!anofactu, "N")
             
@@ -1826,7 +1828,8 @@ Dim SqlNew As String
                 IVA_BI = False
 '                If InStr(1, IvaREA, "|" & CStr(Rs!codigiva) & "|") > 0 Then
                 If DBLet(Rs!codopera) = 5 Then
-                    Linea = Linea & "X"
+                    Linea = Linea & "X"  'rs!codconce340
+                    
                 Else
                     Linea = Linea & "R"
                 End If
@@ -2379,6 +2382,8 @@ Private Sub GrabaRegistros340()
                 Linea = Linea & " "
                 
             Else
+                'If Rs!clavelibro = "R" Then Stop
+            
                 Linea = Linea & Rs!clavelibro
                 Linea = Linea & DatosTexto(DBLet(Rs!claveoperacion), 1)
             End If
@@ -2453,6 +2458,11 @@ Private Sub GrabaRegistros340()
                 Linea = Linea & "0000"
                 Linea = Linea & DatosNumeroDec(0, 15)
                 
+                'Abril 2017
+                'Fecha cobro de cobro e importes cobrados
+                'Ver cuando hay que indicar (!!! y que valor !!!). De momentom, nuestros casos 0
+                Linea = Linea & DatosNumeroDec(0, 8)
+                Linea = Linea & DatosNumeroDec(0, 13)
                 
         Case "R", "X"
                 'RECIBIDAS
@@ -2462,6 +2472,13 @@ Private Sub GrabaRegistros340()
                Linea = Linea & Format(Rs!numiva, "00")
                Linea = Linea & String(80, " ")   'intervalo  id facturas
                Linea = Linea & DatosNumeroDec340(Rs!cuotare, 14)
+               
+                'Abril 2017
+                'Fecha de pago e importes pagados
+                'Ver cuando hay que indicar (!!! y que valor !!!). De momentom, nuestros casos 0
+                Linea = Linea & DatosNumeroDec(0, 8)
+                Linea = Linea & DatosNumeroDec(0, 13)
+               
         Case "I"
                 'Bien de INVERSION. En la poscion
                 'MsgBox "Bienes de inversion UNICAMENTE en ultimo periodo liquidacion", vbExclamation
@@ -2494,6 +2511,12 @@ Private Sub GrabaRegistros340()
                 'Ejercicio del pago en la cadena IdentificacionPresentador la posicion 4,5,6,7 son el anño
                 Linea = Linea & Mid(IdentificacionPresentador, 4, 4)
                 Linea = Linea & DatosNumeroDec(0, 15)
+                
+                'Abril 2017
+                'Fecha cobro de cobro e importes cobrados
+                'Ver cuando hay que indicar (!!! y que valor !!!). De momentom, nuestros casos 0
+                Linea = Linea & DatosNumeroDec(0, 8)
+                Linea = Linea & DatosNumeroDec(0, 13)
         End Select
         
         

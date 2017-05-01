@@ -42,7 +42,7 @@ Begin VB.Form frmTESPagosDivVto
          EndProperty
          Height          =   360
          Index           =   3
-         Left            =   2160
+         Left            =   2760
          TabIndex        =   3
          Top             =   2700
          Width           =   1365
@@ -60,7 +60,7 @@ Begin VB.Form frmTESPagosDivVto
          EndProperty
          Height          =   360
          Index           =   2
-         Left            =   2190
+         Left            =   2790
          TabIndex        =   2
          Top             =   2280
          Width           =   1365
@@ -78,7 +78,7 @@ Begin VB.Form frmTESPagosDivVto
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   2190
+         Left            =   2790
          TabIndex        =   0
          Tag             =   "Nº asiento|N|S|0||hcabapu|numasien|####0|S|"
          Top             =   1350
@@ -97,7 +97,7 @@ Begin VB.Form frmTESPagosDivVto
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   2190
+         Left            =   2790
          TabIndex        =   1
          Top             =   1800
          Width           =   1365
@@ -138,7 +138,8 @@ Begin VB.Form frmTESPagosDivVto
          Width           =   975
       End
       Begin VB.Label Label4 
-         Caption         =   "Días resto Vtos."
+         AutoSize        =   -1  'True
+         Caption         =   "Días resto vencimientos"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -151,10 +152,10 @@ Begin VB.Form frmTESPagosDivVto
          ForeColor       =   &H00000000&
          Height          =   240
          Index           =   3
-         Left            =   450
+         Left            =   210
          TabIndex        =   13
          Top             =   2760
-         Width           =   1680
+         Width           =   2355
       End
       Begin VB.Image imgFecha 
          Height          =   240
@@ -165,7 +166,8 @@ Begin VB.Form frmTESPagosDivVto
          Width           =   240
       End
       Begin VB.Label Label4 
-         Caption         =   "Fecha 1er Vto"
+         AutoSize        =   -1  'True
+         Caption         =   "Fecha primer Vto"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -178,13 +180,13 @@ Begin VB.Form frmTESPagosDivVto
          ForeColor       =   &H00000000&
          Height          =   240
          Index           =   2
-         Left            =   450
+         Left            =   210
          TabIndex        =   12
          Top             =   2280
-         Width           =   1410
+         Width           =   1695
       End
       Begin VB.Label Label4 
-         Caption         =   "Nº Vencimientos"
+         Caption         =   "Nº recibos a generar"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -197,10 +199,10 @@ Begin VB.Form frmTESPagosDivVto
          ForeColor       =   &H00000000&
          Height          =   240
          Index           =   1
-         Left            =   450
+         Left            =   240
          TabIndex        =   11
          Top             =   1350
-         Width           =   1650
+         Width           =   2370
       End
       Begin VB.Label Label4 
          Caption         =   "Importe"
@@ -216,7 +218,7 @@ Begin VB.Form frmTESPagosDivVto
          ForeColor       =   &H00000000&
          Height          =   240
          Index           =   0
-         Left            =   450
+         Left            =   210
          TabIndex        =   10
          Top             =   1800
          Width           =   780
@@ -235,7 +237,7 @@ Begin VB.Form frmTESPagosDivVto
          ForeColor       =   &H00000000&
          Height          =   240
          Index           =   62
-         Left            =   3660
+         Left            =   4260
          TabIndex        =   9
          Top             =   1800
          Width           =   630
@@ -307,7 +309,7 @@ Dim RC As String
 Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
-Dim Cad As String
+Dim cad As String
 Dim CONT As Long
 Dim i As Integer
 Dim TotalRegistros As Long
@@ -362,6 +364,14 @@ Dim Dias As Integer
     On Error GoTo ecmdDivVto
 
 
+    If txtCodigo(0).Text = "1" Then
+        MsgBox "No puede indicar un vencimiento", vbExclamation
+        Exit Sub
+    End If
+        
+        
+
+
     'Dividira el vto en dos. En uno dejara el importe que solicita y en el otro el resto
     'Los gastos s quedarian en uno asi como el cobrado si diera lugar
     
@@ -390,9 +400,9 @@ Dim Dias As Integer
     End If
     
     
-    If txtCodigo(3).Text = "" Then
-        If MsgBox("No ha puesto valor en el campo de días de resto de vencimientos. " & vbCrLf & vbCrLf & "¿ Desea continuar ?" & vbCrLf, vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
-    End If
+   ' If txtCodigo(3).Text = "" Then
+   '     If MsgBox("No ha puesto valor en el campo de días de resto de vencimientos. " & vbCrLf & vbCrLf & "¿ Desea continuar ?" & vbCrLf, vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
+   ' End If
     
     
     
@@ -424,9 +434,50 @@ Dim Dias As Integer
     
     If vVtos = 0 Then
         vVtos = Round(Importe / vImpvto, 0)
+        If txtCodigo(0).Text = "" Then vVtos = 2
     End If
     
-    Conn.BeginTrans
+    
+    
+    Dias = Val(txtCodigo(3).Text)
+    FecVenci = CDate(txtCodigo(2))
+    
+    
+    
+    Dim vVtos2 As Integer
+    Dim FV As Date
+    Dim MensajeVtos As String
+    
+    FV = FecVenci
+    vVtos2 = vVtos
+    
+    
+    'Para la confirmacion
+    vTotal = 0
+    Sql = ""
+    For J = 1 To vVtos2 - 1
+        vTotal = vTotal + vImpvto
+        FV = DateAdd("d", DBLet(Dias, "N"), FV)
+        
+        '           10 primeros fecha  Resto importe
+        Sql = Sql & Format(FV, "dd/mm/yyyy") & Format(vImpvto, FormatoImporte) & "|"
+        
+    Next J
+    
+    If vTotal <> Importe Then
+        vTotal = Importe - vTotal
+        Sql = Format(FecVenci, "dd/mm/yyyy") & Format(vTotal, FormatoImporte) & "|" & Sql
+    End If
+    MensajeVtos = Sql
+        
+    
+    
+    
+    
+    
+    
+    
+    
     
     Sql = ""
     If Sql = "" Then
@@ -456,13 +507,18 @@ Dim Dias As Integer
         
     Else
         Sql = "¿Desea desdoblar el vencimiento en los indicados?" 'uno de : " & Im & " euros?"
-        If MsgBox(Sql, vbQuestion + vbYesNo) = vbNo Then Exit Sub
+        'If MsgBox(Sql, vbQuestion + vbYesNo) = vbNo Then Exit Sub
+        
+        Ampliacion = "" 'Varaiable GLOBAL
+        frmTesDividVtoResult.Vtos = MensajeVtos
+        frmTesDividVtoResult.Show vbModal
+        If Ampliacion = "" Then Exit Sub
+        
+        
     End If
     
-    Dias = txtCodigo(3).Text
-
     
-    FecVenci = CDate(txtCodigo(2))
+    Conn.BeginTrans
     vFecVenci = FecVenci
     'OK.  a desdoblar
     vTotal = 0
@@ -485,7 +541,7 @@ Dim Dias As Integer
         Sql = Sql & "ctabanc1,text1csb,text2csb,"
         'text83csb`,
         Sql = Sql & "observa,nomprove,domprove,pobprove,cpprove,proprove,codpais,nifprove,iban "
-        Sql = Sql & "," & DBSet(vUsu.Id, "N")
+        Sql = Sql & "," & DBSet(vUsu.id, "N")
         Sql = Sql & " FROM pagos WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
         Sql = Sql & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
 '        Sql = Sql & " and codmacta = "
@@ -625,7 +681,7 @@ Dim cerrar As Boolean
 End Sub
 
 Private Sub txtcodigo_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim B As Boolean
 
     'Quitar espacios en blanco por los lados
@@ -638,7 +694,7 @@ Dim B As Boolean
 
     Select Case Index
         Case 0 'nro de vtos
-            PonerFormatoEntero txtCodigo(Index)
+            If Not PonerFormatoEntero(txtCodigo(Index)) Then txtCodigo(Index).Text = ""
             
             If txtCodigo(0).Text <> "" Then
                 txtCodigo(1).Text = Format(Round(ImporteSinFormato(ComprobarCero(txtCodigo(1).Text)) / txtCodigo(0), 2), "###,###,##0.00")

@@ -4365,7 +4365,7 @@ Dim cad As String
     On Error Resume Next
 
     cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
     Set Rs = New ADODB.Recordset
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -4976,7 +4976,7 @@ Private Sub ObtenerSumas()
 ''''    Sql = Sql & "));"
     
     Sql = "SELECT Sum(hlinapu.timporteD) AS SumaDetimporteD, Sum(hlinapu.timporteH) AS SumaDetimporteH"
-    Sql = Sql & " ,hlinapu.numdiari,hlinapu.fechaent,hlinapu.numasien"
+    'Sql = Sql & " ,hlinapu.numdiari,hlinapu.fechaent,hlinapu.numasien"
     Sql = Sql & " From hlinapu WHERE hlinapu.numdiari =" & Data1.Recordset!NumDiari
     Sql = Sql & " AND hlinapu.fechaent=" & DBSet(Data1.Recordset!FechaEnt, "F")
     Sql = Sql & " AND hlinapu.numasien= " & Data1.Recordset!NumAsien
@@ -5484,17 +5484,17 @@ Dim L As Long
     
     'Abro parar guardar el binary
     C = "Select * from hcabapu_fichdocs where codigo =" & L '& " and codsocio = " & DBSet(RecuperaValor(vDatos, 1), "N")
-    adodc1.ConnectionString = Conn
-    adodc1.RecordSource = C
-    adodc1.Refresh
+    Adodc1.ConnectionString = Conn
+    Adodc1.RecordSource = C
+    Adodc1.Refresh
 '
-    If adodc1.Recordset.EOF Then
+    If Adodc1.Recordset.EOF Then
         'MAAAAAAAAAAAAL
 
     Else
         'Guardar
-        GuardarBinary adodc1.Recordset!Campo, Fichero
-        adodc1.Recordset.Update
+        GuardarBinary Adodc1.Recordset!Campo, Fichero
+        Adodc1.Recordset.Update
     End If
     
 End Function
@@ -5586,20 +5586,20 @@ Dim L As Long
     C = C & " and numdiari = " & DBSet(Text1(2).Text, "N")
     C = C & " and codigo = " & DBSet(lw1.SelectedItem.SubItems(3), "N")
 
-    adodc1.ConnectionString = Conn
-    adodc1.RecordSource = C
-    adodc1.Refresh
+    Adodc1.ConnectionString = Conn
+    Adodc1.RecordSource = C
+    Adodc1.Refresh
 
-    If adodc1.Recordset.EOF Then
+    If Adodc1.Recordset.EOF Then
         'NO HAY NINGUNA
     Else
         'LEEMOS LA IMAGEN
-        L = adodc1.Recordset!Codigo
+        L = Adodc1.Recordset!Codigo
         C = App.Path & "\" & CarpetaIMG & "\" & L
-        If DBLet(adodc1.Recordset!DOCUM) <> "0" Then
-            C = App.Path & "\" & CarpetaIMG & "\" & adodc1.Recordset!DOCUM
+        If DBLet(Adodc1.Recordset!DOCUM) <> "0" Then
+            C = App.Path & "\" & CarpetaIMG & "\" & Adodc1.Recordset!DOCUM
         End If
-        LeerBinary adodc1.Recordset!Campo, C
+        LeerBinary Adodc1.Recordset!Campo, C
     End If
 
 End Sub
@@ -5646,11 +5646,11 @@ Dim Contador As Integer
     Else
         Set IT = lw1.ListItems.Add()
 
-        IT.Text = Me.adodc1.Recordset!Orden '"Nuevo " & Contador
+        IT.Text = Me.Adodc1.Recordset!Orden '"Nuevo " & Contador
         
-        IT.SubItems(1) = Me.adodc1.Recordset.Fields(5)  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
+        IT.SubItems(1) = Me.Adodc1.Recordset.Fields(5)  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
         IT.SubItems(2) = vpaz
-        IT.SubItems(3) = Me.adodc1.Recordset.Fields(0)
+        IT.SubItems(3) = Me.Adodc1.Recordset.Fields(0)
         
         Set IT = Nothing
     End If
@@ -5723,29 +5723,29 @@ Dim nFile As Long
     C = C & " and numdiari = " & DBSet(Text1(2).Text, "N")
     C = C & " ORDER BY orden"
 
-    adodc1.ConnectionString = Conn
-    adodc1.RecordSource = C
-    adodc1.Refresh
+    Adodc1.ConnectionString = Conn
+    Adodc1.RecordSource = C
+    Adodc1.Refresh
 
-    If adodc1.Recordset.EOF Then
+    If Adodc1.Recordset.EOF Then
         'NO HAY NINGUNA
     Else
         'LEEMOS LAS IMAGENES
-        While Not adodc1.Recordset.EOF
-            L = adodc1.Recordset!Codigo
+        While Not Adodc1.Recordset.EOF
+            L = Adodc1.Recordset!Codigo
             C = App.Path & "\" & CarpetaIMG & "\" & L
-            If DBLet(adodc1.Recordset!DOCUM) <> "0" Then
-                C = App.Path & "\" & CarpetaIMG & "\" & adodc1.Recordset!DOCUM
+            If DBLet(Adodc1.Recordset!DOCUM) <> "0" Then
+                C = App.Path & "\" & CarpetaIMG & "\" & Adodc1.Recordset!DOCUM
             End If
             If Dir(C) <> "" Then
                 AnyadirAlListview C, True
             Else
-                If LeerBinary(adodc1.Recordset!Campo, C) Then
+                If LeerBinary(Adodc1.Recordset!Campo, C) Then
                     AnyadirAlListview C, True
                 End If
             End If
 
-            adodc1.Recordset.MoveNext
+            Adodc1.Recordset.MoveNext
         Wend
     
     End If

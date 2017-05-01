@@ -964,7 +964,7 @@ Public Sub InicializarVbles(AñadireElDeEmpresa As Boolean)
     cadFormula = ""
     cadselect = ""
     cadParam = "|"
-    numParam = 0
+    NumParam = 0
     cadNomRPT = ""
     conSubRPT = False
     cadPDFrpt = ""
@@ -973,7 +973,7 @@ Public Sub InicializarVbles(AñadireElDeEmpresa As Boolean)
     
     If AñadireElDeEmpresa Then
         cadParam = cadParam & "pEmpresa=""" & vEmpresa.nomempre & """|"
-        numParam = numParam + 1
+        NumParam = NumParam + 1
     End If
     
 End Sub
@@ -1339,19 +1339,19 @@ Dim nomDocu As String
     cad = "01/" & cmbFecha(2).ListIndex + 1 & "/" & txtAno(4).Text
     cadParam = cadParam & "FechaPeriodo=""" & cad & """|"
     
-    numParam = numParam + 2
+    NumParam = NumParam + 2
     'Existencias iniciales y finales
     cad = "InicioAcumulada=" & DBSet(txtExplo(0).Text, "N") & "|InicioPeriodo=" & DBSet(txtExplo(2).Text, "N")
     cadParam = cadParam & cad & "|"
     cad = "FinAcumulada=" & DBSet(txtExplo(1).Text, "N") & "|FinPeriodo=" & DBSet(txtExplo(3).Text, "N")
     cadParam = cadParam & cad & "|"
-    numParam = numParam + 4
+    NumParam = NumParam + 4
     
     
     cadParam = cadParam & "pTipo=" & chkExplotacion.Value & "|"
-    numParam = numParam + 1
+    NumParam = NumParam + 1
     cadParam = cadParam & "pPeriodo=""Mes cálculo: " & UCase(Mid(cmbFecha(2).Text, 1, 1)) & Mid(cmbFecha(2).Text, 2, Len(cmbFecha(2).Text)) & "     Año: " & txtAno(4).Text & """|"
-    numParam = numParam + 1
+    NumParam = NumParam + 1
     
     If Me.chkComparativo = 1 Then
         cadParam = cadParam & "Anyo1=""" & Format(CInt(txtAno(4).Text) - 1, "0000") & """|"
@@ -1359,7 +1359,7 @@ Dim nomDocu As String
         
         cadParam = cadParam & "pPorcen=" & chkPorcentajes.Value & "|"
         cadParam = cadParam & "pUsu=" & vUsu.Codigo & "|"
-        numParam = numParam + 4
+        NumParam = NumParam + 4
         
         indRPT = "0307-01" '"CtaExplotacionComp.rpt"
         
@@ -1401,13 +1401,24 @@ Dim Anyo As String
     Else
         Anyo = Val(txtAno(4).Text) - 1
     End If
-    vFecha = Day(vParam.fechaini) & "/" & Month(vParam.fechaini) & "/" & Anyo
+    vFecha = Format(Day(vParam.fechaini), "00") & "/" & Month(vParam.fechaini) & "/" & Anyo
     
-    cadFormula = "{hlinapu.codconce}<>970 AND mid({hlinapu.codmacta},1,1) IN [" & DBSet(vParam.grupogto, "T") & "," & DBSet(vParam.grupovta, "T") & "]" ''6','7']"
-    cadselect = "hlinapu.codconce<>970 AND mid(hlinapu.codmacta,1,1) IN (" & DBSet(vParam.grupogto, "T") & "," & DBSet(vParam.grupovta, "T") & ")" ''6','7')"
+    cadFormula = "{hlinapu.codconce}<>960 AND mid({hlinapu.codmacta},1,1) IN [" & DBSet(vParam.grupogto, "T") & "," & DBSet(vParam.grupovta, "T") & "]" ''6','7']"
+    cadselect = "hlinapu.codconce<>960 AND mid(hlinapu.codmacta,1,1) IN (" & DBSet(vParam.grupogto, "T") & "," & DBSet(vParam.grupovta, "T") & ")" ''6','7')"
+    
+    
     'Montamos la fecha de inicio del periodo solicitado
-    cadFormula = cadFormula & " AND {hlinapu.fechaent} >= Date (" & Me.txtAno(4).Text & "," & Month(vParam.fechaini) & "," & Day(vParam.fechaini) & ") "
-    cadselect = cadselect & " AND hlinapu.fechaent >= '" & Format(Me.txtAno(4).Text, "0000") & "-" & Format(Month(vParam.fechaini), "00") & "-" & Format(Day(vParam.fechaini), "00") & "'"
+    'Estaba este
+    'cadFormula = cadFormula & " AND {hlinapu.fechaent} >= Date (" & Me.txtAno(4).Text & "," & Month(vParam.fechaini) & "," & Day(vParam.fechaini) & ")     "
+    'cadselect = cadselect & " AND hlinapu.fechaent >= '" & Format(Me.txtAno(4).Text, "0000") & "-" & Format(Month(vParam.fechaini), "00") & "-" & Format(Day(vParam.fechaini), "00") & "'"
+    
+    
+    'Ponemos este
+    cadFormula = cadFormula & " AND {hlinapu.fechaent} >= Date (" & Year(vFecha) & "," & Month(vParam.fechaini) & "," & Day(vParam.fechaini) & ")     "
+    cadselect = cadselect & " AND hlinapu.fechaent >= '" & Format(Year(vFecha), "0000") & "-" & Format(Month(vParam.fechaini), "00") & "-" & Format(Day(vParam.fechaini), "00") & "'"
+    
+    
+    
     i = DiasMes(cmbFecha(2).ListIndex + 1, CInt(txtAno(4).Text))
     cadFormula = cadFormula & " AND {hlinapu.fechaent} <= Date (" & Me.txtAno(4).Text & ", " & cmbFecha(2).ListIndex + 1 & "," & i & ")  "
     cadselect = cadselect & " AND hlinapu.fechaent <= '" & Format(Me.txtAno(4).Text, "0000") & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "'"

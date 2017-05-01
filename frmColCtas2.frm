@@ -665,12 +665,12 @@ Private Sub BotonBuscar()
     CadenaConsulta = GeneraSQL("codmacta= 'David'")  'esto es para que no cargue ningun registro
     CargaGrid
     ParaBusqueda True
-    txtAux(0).Text = "": txtAux(1).Text = "": txtAux(2).Text = ""
+    txtaux(0).Text = "": txtaux(1).Text = "": txtaux(2).Text = ""
     '++
     Modo = 1
     PonerModoUsuarioGnral Modo, "ariconta"
-    ConseguirFoco txtAux(1), Modo
-    PonFoco txtAux(1)
+    ConseguirFoco txtaux(1), Modo
+    PonFoco txtaux(1)
 End Sub
 
 Private Sub BotonVerTodos()
@@ -745,12 +745,12 @@ Error2:
         End If
 End Sub
 
-Private Sub FijarError(ByRef Cad As String)
+Private Sub FijarError(ByRef cad As String)
     On Error Resume Next
-    Cad = Conn.Errors(0).Description
+    cad = Conn.Errors(0).Description
     If Err.Number <> 0 Then
         Err.Clear
-        Cad = ""
+        cad = ""
     End If
 End Sub
 
@@ -764,7 +764,7 @@ End Sub
 
 
 Private Sub OpcionesCambiadas()
-    If txtAux(0).Visible Then Exit Sub
+    If txtaux(0).Visible Then Exit Sub
 
     Screen.MousePointer = vbHourglass
     
@@ -795,41 +795,41 @@ Dim Sql As String
 
     If Index = 0 Then
         'Ha pulsado aceptar
-        txtAux(0).Text = Trim(txtAux(0).Text)
-        txtAux(1).Text = Trim(txtAux(1).Text)
+        txtaux(0).Text = Trim(txtaux(0).Text)
+        txtaux(1).Text = Trim(txtaux(1).Text)
         'Si estan vacios no hacemos nada
         Sql = ""
         Aux = ""
-        If txtAux(0).Text <> "" Then
-            If SeparaCampoBusqueda("T", "codmacta", txtAux(0).Text, Aux) = 0 Then Sql = Aux
+        If txtaux(0).Text <> "" Then
+            If SeparaCampoBusqueda("T", "codmacta", txtaux(0).Text, Aux, False) = 0 Then Sql = Aux
         End If
-        If txtAux(1).Text <> "" Then
+        If txtaux(1).Text <> "" Then
             Aux = ""
             
             'VEO si ha puesto un *
-            If InStr(1, txtAux(1).Text, "*") = 0 Then txtAux(1).Text = "*" & txtAux(1).Text & "*"
-            If SeparaCampoBusqueda("T", "nommacta", txtAux(1).Text, Aux) = 0 Then
+            If InStr(1, txtaux(1).Text, "*") = 0 Then txtaux(1).Text = "*" & txtaux(1).Text & "*"
+            If SeparaCampoBusqueda("T", "nommacta", txtaux(1).Text, Aux, False) = 0 Then
                 If Sql <> "" Then Sql = Sql & " AND "
                 Sql = Sql & Aux
             End If
         End If
         
-        If txtAux(2).Text <> "" Then
+        If txtaux(2).Text <> "" Then
             Aux = ""
             Dim CADENA As String
             
-            If InStr(1, txtAux(2).Text, ">>") <> 0 Then
+            If InStr(1, txtaux(2).Text, ">>") <> 0 Then
                 CADENA = "select max(fecbloq) from cuentas "
             Else
-                If InStr(1, txtAux(2).Text, "<<") <> 0 Then
+                If InStr(1, txtaux(2).Text, "<<") <> 0 Then
                     CADENA = "select min(fecbloq) from cuentas "
                 Else
-                    If InStr(1, UCase(txtAux(2).Text), "=NULL") <> 0 Then
+                    If InStr(1, UCase(txtaux(2).Text), "=NULL") <> 0 Then
                         Aux = "(fecbloq is null)"
                         If Sql <> "" Then Sql = Sql & " AND "
                         Sql = Sql & Aux
                     Else
-                        If InStr(1, UCase(txtAux(2).Text), "<>NULL") <> 0 Then
+                        If InStr(1, UCase(txtaux(2).Text), "<>NULL") <> 0 Then
                             Aux = "(not fecbloq is null)"
                             If Sql <> "" Then Sql = Sql & " AND "
                             Sql = Sql & Aux
@@ -838,11 +838,11 @@ Dim Sql As String
                 End If
             End If
             If DevuelveValor(CADENA) <> "0" Then
-                txtAux(2).Text = DevuelveValor(CADENA)
+                txtaux(2).Text = DevuelveValor(CADENA)
             End If
             
             
-            If SeparaCampoBusqueda("F", "fecbloq", txtAux(2).Text, Aux) = 0 Then
+            If SeparaCampoBusqueda("F", "fecbloq", txtaux(2).Text, Aux, False) = 0 Then
                 If Sql <> "" Then Sql = Sql & " AND "
                 Sql = Sql & Aux
             End If
@@ -912,7 +912,6 @@ Private Sub DataGrid1_KeyDown(KeyCode As Integer, Shift As Integer)
     
     If Modo = 0 Or Modo = 2 Then
         Form_KeyDown KeyCode, Shift
-        KeyCode = 0
     End If
     
 End Sub
@@ -932,11 +931,14 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
         frmCExt.Show vbModal
         
         Set frmCExt = Nothing
-        
+        KeyCode = 0
         Exit Sub
     End If
 
-    If Shift = 0 And KeyCode = vbKeyEscape Then Unload Me
+    If Shift = 0 And KeyCode = vbKeyEscape Then
+        KeyCode = 0
+        Unload Me
+    End If
 End Sub
 '++
 Private Sub Form_Activate()
@@ -1256,18 +1258,18 @@ Private Sub CargaGrid2()
                
                
         If Not CadAncho Then
-            txtAux(0).Left = DataGrid1.Columns(0).Left + 150
-            txtAux(0).Width = DataGrid1.Columns(0).Width - 30
-            txtAux(0).top = DataGrid1.top + 260 ' 235
-            txtAux(1).Left = DataGrid1.Columns(1).Left + 150
-            txtAux(1).Width = DataGrid1.Columns(1).Width - 30
-            txtAux(2).Left = DataGrid1.Columns(3).Left + 150
-            txtAux(2).Width = DataGrid1.Columns(3).Width - 30
-            txtAux(1).top = txtAux(0).top
-            txtAux(2).top = txtAux(0).top
-            txtAux(0).Height = DataGrid1.RowHeight - 15
-            txtAux(1).Height = txtAux(0).Height
-            txtAux(2).Height = txtAux(0).Height
+            txtaux(0).Left = DataGrid1.Columns(0).Left + 150
+            txtaux(0).Width = DataGrid1.Columns(0).Width - 30
+            txtaux(0).top = DataGrid1.top + 260 ' 235
+            txtaux(1).Left = DataGrid1.Columns(1).Left + 150
+            txtaux(1).Width = DataGrid1.Columns(1).Width - 30
+            txtaux(2).Left = DataGrid1.Columns(3).Left + 150
+            txtaux(2).Width = DataGrid1.Columns(3).Width - 30
+            txtaux(1).top = txtaux(0).top
+            txtaux(2).top = txtaux(0).top
+            txtaux(0).Height = DataGrid1.RowHeight - 15
+            txtaux(1).Height = txtaux(0).Height
+            txtaux(2).Height = txtaux(0).Height
             CadAncho = True
         End If
                
@@ -1294,7 +1296,7 @@ End Sub
 Private Sub PonerOptionsVisibles(Opcion As Byte)
 Dim i As Integer
 Dim J As Integer
-Dim Cad As String
+Dim cad As String
 
 End Sub
 
@@ -1307,7 +1309,7 @@ Dim nexo As String
 Dim J As Integer
 Dim wildcar As String
 Dim Digitos As Integer
-Dim Cad As String
+Dim cad As String
 
     Sql = ""
     nexo = ""
@@ -1342,8 +1344,8 @@ Dim Cad As String
     
     '++ añado el filtro
     'filtro
-    Cad = DevuelveSQLFiltro(True)
-    If Cad <> "" Then wildcar = wildcar & Cad
+    cad = DevuelveSQLFiltro(True)
+    If cad <> "" Then wildcar = wildcar & cad
     
     GeneraSQL = wildcar
 End Function
@@ -1353,7 +1355,7 @@ End Function
 Private Function SepuedeEliminarCuenta(Cuenta As String) As Boolean
 Dim NivelCta As Integer
 Dim i, J As Integer
-Dim Cad As String
+Dim cad As String
 
     SepuedeEliminarCuenta = False
     If EsCuentaUltimoNivel(Cuenta) Then
@@ -1363,11 +1365,11 @@ Dim Cad As String
         'NO se puede borrar
         lblComprobar(0).Caption = "Comprobando"
         lblComprobar(0).Visible = True
-        Cad = BorrarCuenta(Cuenta, lblComprobar(0))
+        cad = BorrarCuenta(Cuenta, lblComprobar(0))
         lblComprobar(0).Visible = False
-        If Cad <> "" Then
-            Cad = Cuenta & vbCrLf & Cad
-            MsgBox Cad, vbExclamation
+        If cad <> "" Then
+            cad = Cuenta & vbCrLf & cad
+            MsgBox cad, vbExclamation
             Exit Function
         End If
         
@@ -1384,17 +1386,17 @@ Dim Cad As String
         'Ctas agrupadas
         i = DigitosNivel(NivelCta)
         If i = 3 Then
-            Cad = DevuelveDesdeBD("codmacta", "ctaagrupadas", "codmacta", Cuenta, "T")
-            If Cad <> "" Then
+            cad = DevuelveDesdeBD("codmacta", "ctaagrupadas", "codmacta", Cuenta, "T")
+            If cad <> "" Then
                 MsgBox "El subnivel pertenece a agrupacion de cuentas en balance"
                 Exit Function
             End If
         End If
         For J = NivelCta + 1 To vEmpresa.numnivel
-            Cad = Cuenta & "__________"
+            cad = Cuenta & "__________"
             i = DigitosNivel(J)
-            Cad = Mid(Cad, 1, i)
-            If TieneEnBD(Cad) Then
+            cad = Mid(cad, 1, i)
+            If TieneEnBD(cad) Then
                 MsgBox "Tiene cuentas en niveles superiores (" & J & ")", vbExclamation
                 Exit Function
             End If
@@ -1403,10 +1405,10 @@ Dim Cad As String
     SepuedeEliminarCuenta = True
 End Function
 
-Private Function TieneEnBD(Cad As String) As String
+Private Function TieneEnBD(cad As String) As String
     
     Set Rs = New ADODB.Recordset
-    Rs.Open "Select codmacta from cuentas where codmacta like '" & Cad & "'", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open "Select codmacta from cuentas where codmacta like '" & cad & "'", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     TieneEnBD = Not Rs.EOF
     Rs.Close
     Set Rs = Nothing
@@ -1427,9 +1429,9 @@ End Sub
 
 
 Private Sub ParaBusqueda(Ver As Boolean)
-txtAux(0).Visible = Ver
-txtAux(1).Visible = Ver
-txtAux(2).Visible = Ver
+txtaux(0).Visible = Ver
+txtaux(1).Visible = Ver
+txtaux(2).Visible = Ver
 cmdAccion(0).Visible = Ver
 cmdAccion(1).Visible = Ver
 If Ver Then
@@ -1458,7 +1460,7 @@ Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
 End Sub
 
 Private Sub txtaux_GotFocus(Index As Integer)
-    ConseguirFoco txtAux(Index), 1
+    ConseguirFoco txtaux(Index), 1
 End Sub
 
 Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
@@ -1471,7 +1473,7 @@ End Sub
 
 
 Private Sub ComprobarCuentas()
-Dim Cad As String
+Dim cad As String
 Dim N As Integer
 Dim i As Integer
 Dim Col As Collection
@@ -1483,7 +1485,7 @@ On Error GoTo EComprobarCuentas
     'NO hay cuentas
     If Me.adodc1.Recordset.EOF Then Exit Sub
     'Buscando datos
-    If txtAux(0).Visible Then Exit Sub
+    If txtaux(0).Visible Then Exit Sub
     'Para cada nivel n comprobaremos si existe la cuenta en un
     'nivel n-1
     'La comprobacion se hara para cada cta de n sabiendo k
@@ -1512,12 +1514,12 @@ On Error GoTo EComprobarCuentas
         lblComprobar(0).Caption = "Nivel: " & i
         lblComprobar(0).Refresh
         Do
-            If ObtenerCuenta(Cad, i, N) Then
-                lblComprobar(1).Caption = Cad
+            If ObtenerCuenta(cad, i, N) Then
+                lblComprobar(1).Caption = cad
                 lblComprobar(1).Refresh
-                ComprobarCuenta Cad, i, Col
+                ComprobarCuenta cad, i, Col
             End If
-        Loop Until Cad = ""
+        Loop Until cad = ""
     Next i
     
     
@@ -1537,21 +1539,21 @@ On Error GoTo EComprobarCuentas
         MsgBox "Comprobación finalizada", vbInformation
         
         Else
-            Cad = Dir("C:\WINDOWS\NOTEPAD.exe")
-            If Cad = "" Then
-                Cad = Dir("C:\WINNT\NOTEPAD.exe")
+            cad = Dir("C:\WINDOWS\NOTEPAD.exe")
+            If cad = "" Then
+                cad = Dir("C:\WINNT\NOTEPAD.exe")
             End If
-            If Cad = "" Then
+            If cad = "" Then
                 MsgBox "Se ha producido errores. Vea el archivo Errorcta.txt"
                 Else
-                Shell Cad & " " & App.Path & "\Errorcta.txt", vbMaximizedFocus
+                Shell cad & " " & App.Path & "\Errorcta.txt", vbMaximizedFocus
             End If
             espera 2
     
             If vUsu.Nivel < 2 Then
                 If MsgBox("Desea crear los subniveles?", vbQuestion + vbYesNo) = vbYes Then
                         
-                        Cad = "insert into `cuentas` (`codmacta`,`nommacta`,`apudirec`,dirdatos) VALUES ('"
+                        cad = "insert into `cuentas` (`codmacta`,`nommacta`,`apudirec`,dirdatos) VALUES ('"
                         For NF = 1 To Col.Count
                             N = DigitosNivelAnterior(Col.Item(NF))
                             If N > 0 Then
@@ -1563,7 +1565,7 @@ On Error GoTo EComprobarCuentas
                             
                             If C1 = "" Then C1 = "AUTOM: " & Col.Item(NF)
     
-                            EjecutaSQL Cad & Col.Item(NF) & "','" & DevNombreSQL(C1) & "','N','AUTOMATICA en la comprobacion')"
+                            EjecutaSQL cad & Col.Item(NF) & "','" & DevNombreSQL(C1) & "','N','AUTOMATICA en la comprobacion')"
                         Next NF
                 End If
             End If
@@ -1662,12 +1664,12 @@ End Sub
 
 
 Private Function DevuelveUltimaCuentaGrupo(Cta As String, Nivel As Integer, ByRef Digitos As Integer) As String
-Dim Cad As String
+Dim cad As String
 Dim N As Integer
 N = DigitosNivel(Nivel - 1)
-Cad = Mid(Cta, 1, N)
-Cad = Cad & "9999999999"
-DevuelveUltimaCuentaGrupo = Mid(Cad, 1, Digitos)
+cad = Mid(Cta, 1, N)
+cad = cad & "9999999999"
+DevuelveUltimaCuentaGrupo = Mid(cad, 1, Digitos)
 End Function
 
 
@@ -1764,11 +1766,11 @@ End Sub
 
 Private Sub txtAux_LostFocus(Index As Integer)
 
-    If Not PerderFocoGnral(txtAux(Index), Modo) Then Exit Sub
+    If Not PerderFocoGnral(txtaux(Index), Modo) Then Exit Sub
 
     If Index = 0 Then
-        Aux = txtAux(0).Text
-        If CuentaCorrectaUltimoNivel(Aux, "") Then txtAux(0).Text = Aux
+        Aux = txtaux(0).Text
+        If CuentaCorrectaUltimoNivel(Aux, "") Then txtaux(0).Text = Aux
     End If
 End Sub
 
@@ -1906,15 +1908,15 @@ End Function
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
     
     On Error Resume Next
 
-    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2) 'And (DatosADevolverBusqueda = "")

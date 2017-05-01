@@ -211,7 +211,7 @@ Begin VB.Form frmFacturasCliListado
          Index           =   1
          Left            =   1230
          TabIndex        =   7
-         Tag             =   "imgConcepto"
+         Tag             =   "imgCuentas"
          Top             =   5160
          Width           =   1275
       End
@@ -230,7 +230,7 @@ Begin VB.Form frmFacturasCliListado
          Index           =   0
          Left            =   1230
          TabIndex        =   6
-         Tag             =   "imgConcepto"
+         Tag             =   "imgCuentas"
          Top             =   4740
          Width           =   1275
       End
@@ -249,7 +249,7 @@ Begin VB.Form frmFacturasCliListado
          Index           =   0
          Left            =   1260
          TabIndex        =   0
-         Tag             =   "imgConcepto"
+         Tag             =   "imgSerie"
          Top             =   960
          Width           =   765
       End
@@ -268,7 +268,7 @@ Begin VB.Form frmFacturasCliListado
          Index           =   1
          Left            =   1260
          TabIndex        =   1
-         Tag             =   "imgConcepto"
+         Tag             =   "imgSerie"
          Top             =   1380
          Width           =   765
       End
@@ -326,7 +326,7 @@ Begin VB.Form frmFacturasCliListado
          Left            =   1230
          MaxLength       =   10
          TabIndex        =   5
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFecha"
          Top             =   3930
          Width           =   1305
       End
@@ -346,7 +346,7 @@ Begin VB.Form frmFacturasCliListado
          Left            =   1230
          MaxLength       =   10
          TabIndex        =   4
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFecha"
          Top             =   3510
          Width           =   1305
       End
@@ -771,6 +771,7 @@ Begin VB.Form frmFacturasCliListado
          Index           =   2
          Left            =   1350
          TabIndex        =   9
+         Tag             =   "imgFecha"
          Top             =   450
          Width           =   1485
       End
@@ -1205,7 +1206,7 @@ Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
 Private Sql As String
-Dim Cad As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -1525,7 +1526,7 @@ Private Sub txtCuentas_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuentas_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim Sql As String
@@ -1624,7 +1625,7 @@ End Sub
 
 Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
     Select Case Nombre
-    Case "imgDiario"
+    Case "imgSerie"
         imgSerie_Click Indice
     Case "imgFecha"
         imgFec_Click Indice
@@ -1638,7 +1639,7 @@ Private Sub txtNumFactu_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtNumFactu_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 
     txtNumFactu(Index).Text = Trim(txtNumFactu(Index).Text)
     
@@ -1662,7 +1663,14 @@ End Sub
 
 
 Private Sub txtSerie_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
-    KEYdown KeyCode
+    If KeyCode = vbKeyAdd Then
+        KeyCode = 0
+        
+        LanzaFormAyuda txtSerie(Index).Tag, Index
+    Else
+        KEYdown KeyCode
+    End If
+
 End Sub
 
 Private Sub txtSerie_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -1670,7 +1678,7 @@ Private Sub txtSerie_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtSerie_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim Sql As String

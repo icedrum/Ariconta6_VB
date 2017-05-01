@@ -247,7 +247,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   1
          Left            =   1230
          TabIndex        =   7
-         Tag             =   "imgConcepto"
+         Tag             =   "imgCuenta"
          Top             =   5160
          Width           =   1275
       End
@@ -266,7 +266,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   0
          Left            =   1230
          TabIndex        =   6
-         Tag             =   "imgConcepto"
+         Tag             =   "imgCuenta"
          Top             =   4740
          Width           =   1275
       End
@@ -285,7 +285,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   0
          Left            =   1260
          TabIndex        =   0
-         Tag             =   "imgConcepto"
+         Tag             =   "imgSerie"
          Top             =   960
          Width           =   765
       End
@@ -304,7 +304,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   1
          Left            =   1260
          TabIndex        =   1
-         Tag             =   "imgConcepto"
+         Tag             =   "imgSerie"
          Top             =   1380
          Width           =   765
       End
@@ -362,7 +362,7 @@ Begin VB.Form frmFacturasProListado
          Left            =   1230
          MaxLength       =   10
          TabIndex        =   5
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFecha"
          Top             =   3930
          Width           =   1305
       End
@@ -382,7 +382,7 @@ Begin VB.Form frmFacturasProListado
          Left            =   1230
          MaxLength       =   10
          TabIndex        =   4
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFecha"
          Top             =   3510
          Width           =   1305
       End
@@ -757,6 +757,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   2
          Left            =   1350
          TabIndex        =   9
+         Tag             =   "imgFecha"
          Top             =   450
          Width           =   1485
       End
@@ -1614,7 +1615,7 @@ End Sub
 
 Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
     Select Case Nombre
-    Case "imgDiario"
+    Case "imgSerie"
         imgSerie_Click Indice
     Case "imgFecha"
         imgFec_Click Indice
@@ -1652,7 +1653,14 @@ End Sub
 
 
 Private Sub txtSerie_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
-    KEYdown KeyCode
+    If KeyCode = vbKeyAdd Then
+        KeyCode = 0
+        
+        LanzaFormAyuda txtSerie(Index).Tag, Index
+    Else
+        KEYdown KeyCode
+    End If
+
 End Sub
 
 Private Sub txtSerie_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -1763,10 +1771,16 @@ Dim Sql As String
     
     
     Sql = "insert into tmpfaclin (codusu, codigo,numfactura, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
-    Sql = Sql & " recargo, tipoopera, tipoformapago, tipoiva,ctabase) "
+    Sql = Sql & " recargo,  tipoformapago,tipoopera, tipoiva,ctabase) "
     Sql = Sql & " select distinct " & vUsu.Codigo & ",factpro.anofactu,numfactu, factpro.numserie, contadores.nomregis, factpro.numregis, factpro.fecharec, factpro.codmacta, "
     Sql = Sql & " factpro.nommacta,factpro.nifdatos, factpro.totbases, factpro.totivas, factpro.totfacpr, factpro.trefacpr, "
-    Sql = Sql & " factpro.totrecargo, tipofpago.descformapago , aa.denominacion, " ', if(factpro.codopera = 0 or factpro.codopera = 3, 1,0) aaaa "
+    Sql = Sql & " factpro.totrecargo, tipofpago.descformapago , "
+    
+    'Abril 2017
+    'if(factpro.codopera = 0 or factpro.codopera = 3, 1,0) aaaa "
+    'Sql = Sql & " aa.denominacion, " '
+    Sql = Sql & " factpro.codopera, " ',
+    
     Sql = Sql & " CASE factpro.codopera WHEN 0 THEN 0 WHEN 3 THEN 0 WHEN 1 THEN 1 WHEN 2 THEN 2 WHEN 4 THEN 3 WHEN 5 THEN 4 END "
     Sql = Sql & ",fecfactu"
     Sql = Sql & " from " & tabla
