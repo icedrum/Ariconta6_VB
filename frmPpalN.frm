@@ -1062,35 +1062,36 @@ Private Sub CommandBars_Update(ByVal Control As XtremeCommandBars.ICommandBarCon
     
     
     Select Case Control.id
-        Case ID_VIEW_STATUSBAR:     Control.Checked = CommandBars.StatusBar.Visible
+        Case ID_VIEW_STATUSBAR:
+            'Control.Checked = CommandBars.StatusBar.Visible
         
         
             
         Case ID_GROUP_ARRANGE_WORK_WEEK:
-            Control.Checked = IIf(frmInbox.CalendarControl.ViewType = xtpCalendarWorkWeekView, True, False)
+            'Control.Checked = IIf(frmInbox.CalendarControl.ViewType = xtpCalendarWorkWeekView, True, False)
             
         Case ID_GROUP_ARRANGE_WEEK:
-            Control.Checked = IIf(frmInbox.CalendarControl.ViewType = xtpCalendarWeekView, True, False)
+            'Control.Checked = IIf(frmInbox.CalendarControl.ViewType = xtpCalendarWeekView, True, False)
             
         Case ID_GROUP_ARRANGE_MONTH:
-            Control.Checked = IIf(frmInbox.CalendarControl.ViewType = xtpCalendarMonthView, True, False)
+            'Control.Checked = IIf(frmInbox.CalendarControl.ViewType = xtpCalendarMonthView, True, False)
         
         Case ID_OPTIONS_ANIMATION:
-            Control.Checked = CommandBars.ActiveMenuBar.EnableAnimation
+            'Control.Checked = CommandBars.ActiveMenuBar.EnableAnimation
             
         Case ID_OPTIONS_FONT_SYSTEM, ID_OPTIONS_FONT_NORMAL, ID_OPTIONS_FONT_LARGE, ID_OPTIONS_FONT_EXTRALARGE
-                Dim newFontHeight As Integer
-                newFontHeight = FontSizes(Control.id - ID_OPTIONS_FONT_SYSTEM)
-                Control.Checked = IIf(RibbonBar.FontHeight = newFontHeight, True, False)
+             '   Dim newFontHeight As Integer
+             '   newFontHeight = FontSizes(Control.Id - ID_OPTIONS_FONT_SYSTEM)
+             '   Control.Checked = IIf(RibbonBar.FontHeight = newFontHeight, True, False)
                 
         Case ID_OPTIONS_FONT_AUTORESIZEICONS
-                Control.Checked = CommandBars.PaintManager.AutoResizeIcons
+              '  Control.Checked = CommandBars.PaintManager.AutoResizeIcons
 
         Case ID_RIBBON_EXPAND:
-            Control.Visible = RibbonBar.Minimized
+            'Control.Visible = RibbonBar.Minimized
             
         Case ID_RIBBON_MINIMIZE:
-            Control.Visible = Not RibbonBar.Minimized
+            'Control.Visible = Not RibbonBar.Minimized
     End Select
     If Err.Number <> 0 Then Err.Clear
 End Sub
@@ -1126,12 +1127,16 @@ End Sub
 Private Sub CargaDatosMenusDemas()
 Dim AntiguoTab As Integer
     
+    
+    Screen.MousePointer = vbHourglass
     AntiguoTab = -1
     If RibbonSeHaCreado Then
         If Not RibbonBar.SelectedTab Is Nothing Then AntiguoTab = RibbonBar.SelectedTab.id
     End If
     CreateRibbon
+    Screen.MousePointer = vbHourglass
     CreateBackstage
+    Screen.MousePointer = vbHourglass
     CreateRibbonOptions
     
     If vEmpresa.TieneTesoreria And vUsu.SoloTesoreria = 1 Then
@@ -1142,9 +1147,10 @@ Dim AntiguoTab As Integer
     'vEmpresa.TieneContabilidad = False
     '??????
     '0=solo contabilidad / 1=todo / 2=solo tesoreria
-    
+    Screen.MousePointer = vbHourglass
     CargaMenu AntiguoTab
     CreateStatusBar
+    Screen.MousePointer = vbHourglass
     PonerCaption
     CreateCalendarTabOriginal
     RibbonSeHaCreado = True
@@ -1459,9 +1465,10 @@ Private Sub LoadIcons()
       
     'ICONOS PEQUEÑOS
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\quickstepsgallery.png", _
-            Array(ID_RatiosyGráficas, ID_EvolucióndeSaldos, ID_Totalesporconcepto, 1, 1, 1), xtpImageNormal
+            Array(ID_RatiosyGráficas, ID_EvolucióndeSaldos, ID_Totalesporconcepto, 1, 1, ID_AseguClientes), xtpImageNormal
         
-     
+    
+    
     
     'Pequeños
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\mail_16x16.bmp", _
@@ -1491,7 +1498,7 @@ Private Sub LoadIcons()
         ID_ImportarFacturasCliente, 1, 1, ID_Compensarcliente, ID_SumasySaldos, ID_CuentadeExplotación, ID_BalancedeSituación, ID_PérdidasyGanancias, 1, 1, 1, 1, 1, ID_CarteradeCobros, ID_InformeCobrosPendientes, _
         ID_Renumeracióndeasientos, ID_CierredeEjercicio, ID_Deshacercierre, ID_DiarioOficial, ID_PresentaciónTelemáticadeLibros, ID_Traspasodecuentasenapuntes, ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, 1, 1, 1, 1, 1, _
         ID_Traspasodecuentasenapuntes, ID_Aumentardígitoscontables, 1, 1, 1, 1, 1, ID_LibroFacturasEmitidas, 1, 1, ID_Remesas, 1, 1, 1, 1, _
-        ID_RecepcionTalónPagare, ID_RemesasTalenPagare, ID_Accionesrealizadas, 1, ID_LiquidacionIVA, 1, 1, 1, ID_AsientosPredefinidos, 1, 1, 1, 1, 1, 1, _
+        ID_RecepcionTalónPagare, ID_RemesasTalenPagare, ID_Accionesrealizadas, 1, ID_LiquidacionIVA, 1, 1, 1, ID_AsientosPredefinidos, 1, 1, 1, 1, ID_FrasConso, 1, _
         ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, 1, 1, ID_Asientos, 1)
     
      
@@ -1531,6 +1538,10 @@ Private Sub LoadIcons()
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\mail_16x16.bmp", _
             Array(1, ID_Reclamaciones, ID_InformeImpagados, ID_RemesasTalenPagare, ID_Norma57Pagosventanilla, ID_TransferenciasAbonos, ID_Confirming, _
             ID_Pagosdomiciliados, ID_GastosFijos, ID_Compensarproveedor), xtpImageNormal
+    
+    
+    
+    
     
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\quickstepsgallery.png", _
             Array(ID_InformePagosbancos, ID_Transferencias, ID_MemoriaPlazosdepago, ID_Informeporcuenta, ID_SituaciónTesoreria, ID_InformeporNIF), xtpImageNormal
@@ -2144,7 +2155,10 @@ End Sub
 Private Sub CargaMenuFacturas(IdMenu As Integer)
 Dim GropCli As RibbonGroup
 Dim GrupPag As RibbonGroup
-        
+Dim Consoli As RibbonGroup
+Dim OpsAseg As RibbonGroup
+Dim Insertado As Boolean
+
         If Not vEmpresa.TieneContabilidad Then Exit Sub
         
         'Creamos la TAB
@@ -2155,7 +2169,7 @@ Dim GrupPag As RibbonGroup
         Set GropCli = TabNuevo.Groups.AddGroup("EMITIDAS", cad & "0")
         Set GrupPag = TabNuevo.Groups.AddGroup("RECIBIDAS", cad & "1")
         Set GroupNew = TabNuevo.Groups.AddGroup("I.V.A.", cad & "2")
-    
+            
 
 '
 '        401 "Facturas Emitidas" 14
@@ -2169,7 +2183,7 @@ Dim GrupPag As RibbonGroup
 '        410 "Modelo 347"    0
 '        411 "Modelo 349"    0
 '        412 "Liquidacion I.V.A."    18
-'
+'        413 consolidado
         
         'todos los hijos que cuelgan en la tab
         cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
@@ -2187,21 +2201,34 @@ Dim GrupPag As RibbonGroup
                 End If
             End If
             
-            
+            Insertado = True
             Select Case Rn2!Codigo
             Case 401, 402, 403
                 Set Control = GropCli.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
             Case 404, 405, 406
                 Set Control = GrupPag.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+            
+            Case 413
+                Set Consoli = TabNuevo.Groups.AddGroup("CONSOLIDADO", CStr(IdMenu * 100000) & "2")
+                Set Control = Consoli.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                 
+                 
+            Case 414, 415, 416
+                 If vParamT.TieneOperacionesAseguradas Then
+                        If OpsAseg Is Nothing Then Set OpsAseg = TabNuevo.Groups.AddGroup("OP. ASEGURADAS", CStr(IdMenu * 100000) & "4")
+                        Set Control = OpsAseg.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                 Else
+                    Insertado = False
+                 End If
+                 
             Case Else
                 Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
             End Select
             
             
             cad = "NO"
-            Control.Enabled = Habilitado
-           ' ControlNew_NewItems.KeyboardTip = "V"
-         
+            If Insertado Then Control.Enabled = Habilitado
+           
             Rn2.MoveNext
         Wend
         Rn2.Close
@@ -2794,7 +2821,15 @@ Private Sub AbrirFormularios(Accion As Long)
             frmModelo349.Show vbModal
         Case 412 ' liquidacion de iva
             frmHcoLiqIVA.Show vbModal
-        
+            
+        Case ID_FrasConso   '413
+            frmConsolidadoFras.Show vbModal
+            
+        Case ID_AseguClientes   '414
+            frmSegurosListClientes.Show vbModal
+            
+         Case ID_AseguComunicaSeguro '415
+            frmSegurosListComunicacion.Show vbModal
         Case 502 ' conceptos
             Screen.MousePointer = vbHourglass
             frmInmoConceptos.Show vbModal
@@ -2822,6 +2857,7 @@ Private Sub AbrirFormularios(Accion As Long)
             frmTESCobrosPdtesList.Show vbModal
         
         Case 603 ' impresion de recibos
+            frmTESImpRecibo.documentoDePago = ""
             frmTESImpRecibo.Show vbModal
         Case 604 ' realizar cobro
             With frmTESRealizarCobros

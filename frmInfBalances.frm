@@ -1187,7 +1187,7 @@ Dim optExportar As Integer
     End If
         
     
-'    Stop
+
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     cadNomRPT = nomDocu '"balance1a.rpt"
 

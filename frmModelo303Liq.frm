@@ -945,16 +945,13 @@ Dim ImporteTemporal As Currency
     NomConce = DevuelveValor("select nomconce from ariconta" & NumeroConta & ".conceptos where codconce = " & CodConce)
     Numdocum = "LIQ." & txtAno(0).Text & "-" & txtperiodo(1).Text
     
-    'If NumeroConta = vEmpresa.CodEmpre Then
-    '    Stop
-    '
-    'Else
+
         If vParam.periodos = 0 Then
             Ampconce = NomConce & " Liq.303 " & txtperiodo(0).Text & "T"
         Else
             Ampconce = NomConce & " Liq.303 " & cmbPeriodo(0).Text
         End If
-    'End If
+
     
     ' insertamos en lineas
     Sql = "SELECT * "

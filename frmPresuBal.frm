@@ -852,7 +852,7 @@ Private Sub cmdAccion_Click(Index As Integer)
     CadenaDesdeOtroForm = ""
     
     For CONT = 1 To 10
-        If check1(CONT).Value = 1 Then CadenaDesdeOtroForm = CadenaDesdeOtroForm & "- " & CONT
+        If Check1(CONT).Value = 1 Then CadenaDesdeOtroForm = CadenaDesdeOtroForm & "- " & CONT
     Next
 
     RC = RC & " Digitos: " & Mid(CadenaDesdeOtroForm, 2)
@@ -865,7 +865,7 @@ Private Sub cmdAccion_Click(Index As Integer)
 
     RC = ""
     For CONT = 1 To 9
-        If check1(CONT).Value = 1 Then
+        If Check1(CONT).Value = 1 Then
             If RC = "" Then RC = CONT
         End If
     Next
@@ -875,6 +875,10 @@ Private Sub cmdAccion_Click(Index As Integer)
 
     Me.cmdCancelarAccion.Visible = False
     Me.cmdCancelarAccion.Enabled = False
+    
+    
+    GeneraBalancePresupuestario
+    
     
     Me.cmdCancelar.Visible = True
     Me.cmdCancelar.Enabled = True
@@ -938,7 +942,7 @@ On Error GoTo EGeneraBalancePresupuestario
     Set Rs = New ADODB.Recordset
     Rs.Open Aux, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If Rs.EOF Then
-        MsgBox "Ningún registro a mostrar.", vbExclamation
+      '  MsgBox "Ningún registro a mostrar.", vbExclamation
         Rs.Close
         Exit Function
     End If
@@ -1092,7 +1096,7 @@ On Error GoTo EGeneraBalancePresupuestario
         'SUBNIVEL
         Aux = ""
         For i = 1 To 9
-            If check1(i).Value = 1 Then
+            If Check1(i).Value = 1 Then
                 
                 Aux = DevuelveDesdeBD("count(*)", "tmppresu2", "codusu", CStr(vUsu.Codigo))
                 CONT = Val(Aux)
@@ -1129,7 +1133,7 @@ On Error GoTo EGeneraBalancePresupuestario
         Next
         
         
-        If check1(10).Value = 0 Then
+        If Check1(10).Value = 0 Then
             Aux = "DELETE FROM tmppresu2 WHERE codusu = " & vUsu.Codigo & " AND cta like '" & Mid("__________", 1, vEmpresa.DigitosUltimoNivel) & "'"
             Conn.Execute Aux
         End If
@@ -1380,8 +1384,8 @@ Dim nomDocu As String
     CONT = 0
     UltimoNivel = 0
     For i = 1 To 10
-        If check1(i).Visible Then
-            If check1(i).Value = 1 Then
+        If Check1(i).Visible Then
+            If Check1(i).Value = 1 Then
                 If i = 10 Then
                     cad = vEmpresa.DigitosUltimoNivel
                 Else
@@ -1433,8 +1437,8 @@ Private Function DatosOK() As Boolean
     If Not ComprobarCuentas(6, 7) Then Exit Function
     
     Sql = ""
-    For i = 1 To Me.check1.Count
-        If Me.check1(i).Value Then Sql = Sql & "&"
+    For i = 1 To Me.Check1.Count
+        If Me.Check1(i).Value Then Sql = Sql & "&"
     Next i
     If Len(Sql) <> 1 Then
         If cmbFecha(0).ListIndex > 0 Then
@@ -1455,8 +1459,8 @@ Dim J As Integer
     
     For i = 1 To vEmpresa.numnivel - 1
         J = DigitosNivel(i)
-        check1(i).Visible = True
-        check1(i).Caption = "Digitos: " & J
+        Check1(i).Visible = True
+        Check1(i).Caption = "Digitos: " & J
     Next i
 
 End Sub
@@ -1536,16 +1540,16 @@ Dim J As Integer
 
 
     Frame2.Visible = True
-    check1(10).Visible = True
+    Check1(10).Visible = True
     For i = 1 To vEmpresa.numnivel - 1
         J = DigitosNivel(i)
         cad = "Digitos: " & J
-        check1(i).Visible = True
-        Me.check1(i).Caption = cad
+        Check1(i).Visible = True
+        Me.Check1(i).Caption = cad
     Next i
     
     For i = vEmpresa.numnivel To 9
-        check1(i).Visible = False
+        Check1(i).Visible = False
     Next i
     
     

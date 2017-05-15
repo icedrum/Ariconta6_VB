@@ -366,7 +366,7 @@ Begin VB.Form frmTESPagosPdtesList
          Left            =   1230
          MaxLength       =   10
          TabIndex        =   0
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFecha"
          Top             =   810
          Width           =   1305
       End
@@ -386,7 +386,7 @@ Begin VB.Form frmTESPagosPdtesList
          Left            =   1230
          MaxLength       =   10
          TabIndex        =   1
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFecha"
          Top             =   1230
          Width           =   1305
       End
@@ -481,7 +481,7 @@ Begin VB.Form frmTESPagosPdtesList
          Index           =   1
          Left            =   1230
          TabIndex        =   5
-         Tag             =   "imgConcepto"
+         Tag             =   "imgCuentas"
          Top             =   2340
          Width           =   1275
       End
@@ -500,7 +500,7 @@ Begin VB.Form frmTESPagosPdtesList
          Index           =   0
          Left            =   1230
          TabIndex        =   4
-         Tag             =   "imgConcepto"
+         Tag             =   "imgCuentas"
          Top             =   1920
          Width           =   1275
       End
@@ -519,7 +519,7 @@ Begin VB.Form frmTESPagosPdtesList
          Index           =   0
          Left            =   1200
          TabIndex        =   6
-         Tag             =   "imgConcepto"
+         Tag             =   "imgSerie"
          Top             =   3030
          Width           =   765
       End
@@ -538,7 +538,7 @@ Begin VB.Form frmTESPagosPdtesList
          Index           =   1
          Left            =   1200
          TabIndex        =   7
-         Tag             =   "imgConcepto"
+         Tag             =   "imgSerie"
          Top             =   3450
          Width           =   765
       End
@@ -558,7 +558,7 @@ Begin VB.Form frmTESPagosPdtesList
          Left            =   4260
          MaxLength       =   10
          TabIndex        =   3
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFecha"
          Top             =   1260
          Width           =   1305
       End
@@ -578,7 +578,7 @@ Begin VB.Form frmTESPagosPdtesList
          Left            =   4260
          MaxLength       =   10
          TabIndex        =   2
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFecha"
          Top             =   840
          Width           =   1305
       End
@@ -1516,7 +1516,13 @@ Private Sub txtSerie_GotFocus(Index As Integer)
 End Sub
 
 Private Sub txtSerie_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
-    KEYdown KeyCode
+    If KeyCode = vbKeyAdd Then
+        KeyCode = 0
+        
+        LanzaFormAyuda txtSerie(Index).Tag, Index
+    Else
+        KEYdown KeyCode
+    End If
 End Sub
 
 Private Sub txtSerie_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -1620,7 +1626,7 @@ Dim nomDocu As String
         cadParam = cadParam & "pTipo=1|"
         numParam = numParam + 1
         
-        If check1(1).Value Then cadParam = cadParam & "pResumen=1|"
+        If Check1(1).Value Then cadParam = cadParam & "pResumen=1|"
         numParam = numParam + 1
         
          cadParam = cadParam & "pOrden={pagos.fecefect}|"
@@ -1637,7 +1643,7 @@ Dim nomDocu As String
         cadParam = cadParam & "pTipo=2|"
         numParam = numParam + 1
     
-        If check1(1).Value Then
+        If Check1(1).Value Then
             cadParam = cadParam & "pResumen=1|"
             numParam = numParam + 1
         End If
@@ -1650,7 +1656,7 @@ Dim nomDocu As String
         If optVarios(4).Value Then cadParam = cadParam & "pOrden={pagos.nomprove}|"
         numParam = numParam + 2
     
-        If check1(1).Value Then
+        If Check1(1).Value Then
             cadParam = cadParam & "pResumen=1|"
             numParam = numParam + 1
         End If

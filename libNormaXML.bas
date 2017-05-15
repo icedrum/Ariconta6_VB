@@ -596,7 +596,7 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
                         Print #NFic, "          <Cd>SEPA</Cd>"
                         Print #NFic, "      </SvcLvl>"
                         Print #NFic, "      <LclInstrm>"
-                        Print #NFic, "         <Cd>COR1</Cd>"   'CORE o COR1
+                        Print #NFic, "         <Cd>CORE</Cd>"   'CORE o COR1(YA NO VA EL COR1)
                         Print #NFic, "      </LclInstrm>"
                         Print #NFic, "      <SeqTp>RCUR</SeqTp>"
                         Print #NFic, "      <CtgyPurp>"
@@ -1601,7 +1601,7 @@ Public Function GrabarDisketteNorma19_SEPA_XML_AgrupandoCuentas(NomFichero As St
             ColLineasFichero.Add "          <Cd>SEPA</Cd>"
             ColLineasFichero.Add "      </SvcLvl>"
             ColLineasFichero.Add "      <LclInstrm>"
-            ColLineasFichero.Add "         <Cd>COR1</Cd>"    'CORE o COR1
+            ColLineasFichero.Add "         <Cd>CORE</Cd>"    'CORE o COR1 (YA NO VA cor1)
             ColLineasFichero.Add "      </LclInstrm>"
             ColLineasFichero.Add "      <SeqTp>RCUR</SeqTp>"
             ColLineasFichero.Add "      <CtgyPurp>"

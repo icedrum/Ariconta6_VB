@@ -704,6 +704,8 @@ Dim nomDocu As String
     cadParam = cadParam & "Titulo= """ & DevNombreSQL(txtNBalan(0).Text) & """|"
     numParam = numParam + 1
     
+    cadFormula = "{tmpImpBalance.codusu} = " & vUsu.Codigo
+    
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text

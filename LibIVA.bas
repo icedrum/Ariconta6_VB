@@ -1338,8 +1338,7 @@ Dim i As Integer
 Dim NIFError As Integer  'Un fichero de texto
 Dim NIFErrores As Boolean
 Dim Minimo As Long
-Dim SerieTickets As String
-Dim varTicketsEn340LetraSerie As Boolean
+Dim SerieTickets2 As String
 Dim vAux As Integer
 Dim ImportePagosMetalico As Currency
 
@@ -1393,7 +1392,7 @@ Dim ImportePagosMetalico As Currency
 '            End If
 '            SerieTickets = Sql
 
-            SerieTickets = "J"
+            SerieTickets2 = "J"
             Sql = ""
             
             Minimo = NumRegElim
@@ -1403,8 +1402,7 @@ Dim ImportePagosMetalico As Currency
             lbl.Caption = "Ariconta " & ListadoEmpresas.ListItems(i).Text & "  Emitidas" '.ItemData(I - 1) & "  Emitidas"
             lbl.Refresh
             Sql = CadenaSelect340(True, False, Periodo, Anyo, False)
-            CargaFacturasEmitidas ListadoEmpresas.ListItems(i).Text, Sql, SerieTickets, varTicketsEn340LetraSerie
-            
+            CargaFacturasEmitidas ListadoEmpresas.ListItems(i).Text, Sql
             
             'Facturas recibidas NORMALES
             lbl.Caption = "Ariconta " & ListadoEmpresas.ListItems(i).Text & "  Recibidas"
@@ -1416,8 +1414,7 @@ Dim ImportePagosMetalico As Currency
             
             'Facturas recibidas con bien de inversion
             
-            'If UtlPeriodoLiquidacion Then
-            CargaFacturasRecibidasBienInversion ListadoEmpresas.ListItems(i).Text, Anyo
+            If UtlPeriodoLiquidacion Then CargaFacturasRecibidasBienInversion ListadoEmpresas.ListItems(i).Text, Anyo
             
             
             
@@ -1434,7 +1431,7 @@ Dim ImportePagosMetalico As Currency
                 Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
                 Sql = ""
                 While Not Rs.EOF
-                    Sql = Sql & ", " & Rs!codconce
+                    Sql = Sql & ", " & Rs!CodConce
                     Rs.MoveNext
                 Wend
                 Rs.Close
@@ -1514,7 +1511,7 @@ EModelo340:
 End Function
 
 
-Private Sub CargaFacturasEmitidas(NumeroEmpresa As Byte, CadWhere As String, SerieTicket As String, vTicketsEn340LetraSerie As Boolean)
+Private Sub CargaFacturasEmitidas(NumeroEmpresa As Byte, CadWhere As String)
 Dim PAIS As String
 Dim CadenaInsert As String
 Dim Identificacion As Byte
@@ -1525,6 +1522,8 @@ Dim SerieAnt As String
 Dim EsPorCtaAjena As Boolean
 Dim ErroresCtaAjena As String  'Cuando en lugar de codfaccl va a co
 Dim SqlNew As String
+
+
 
     '0: ESPAÑA
     '1: De momento van juntos intracom y extranjero. Ya veremos com separamos
@@ -1538,31 +1537,36 @@ Dim SqlNew As String
     Linea = Linea & " and factcli.numfactu = factcli_totales.numfactu "
     Linea = Linea & " and factcli.anofactu = factcli_totales.anofactu "
     'Voy a ordenar por numserie para no leer tantas veces de contadores
-    Linea = Linea & " ORDER BY factcli.numserie"
+    Linea = Linea & " ORDER BY factcli.numserie,numfactu,fecfactu"
     CadenaInsert = ""
     ErroresCtaAjena = ""
     Rs.Open Linea, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
             'Para cada factura si tiene varias bases, el trzo sera igual menos el importe final(de la cuto % y totaliva)
-            'If Rs!NumFactu = 3601233 Then St op
+            'If Rs!NumFactu = 19 Then St op
 
 
-    
-            EsTicket = (DBLet(Rs!codconce340, "T") = "J")
-'            If vTicketsEn340LetraSerie Then
-'                EsTicket = (Rs!NumSerie = SerieTicket)
-'            Else
-'                If InStr(1, SerieTicket, Rs!codmacta) > 0 Then EsTicket = True
-'            End If
-            '`nifdeclarado`,`nifrepresante`,`razosoci`,
-            Linea = DBLet(Rs!razosoci, "T")
-            If Linea = "" Then Linea = Rs!Nommacta 'por si acaso no tiene razon social
+            Linea = DBLet(Rs!codconce340, "T")
+            EsTicket = (Linea = "J" Or Linea = "B") 'de momento las de tickets agupados las seguimos considerando
+                                                    'tickets hasta que desde ariges cambiemos la integracion
+          
+            
+            
+            
+            'El nommacta viene de la factura. NO deberia ser NULL
+            
+            Linea = Rs!Nommacta
+            If Linea = "" Then Linea = DBLet(Rs!razosoci, "T")   'por si acaso no tiene nommacta
             
             Linea = Devnombresql340(Linea)
             
                         
             'Si es ticket aqui no va nada
             If EsTicket Then
+                'AQUI
+                'Faltaria ver si identificamos la venta o NO. Clientes varios
+                'Estmos con CATADAU
+                
                 Linea = "'',NULL,'" & DevNombreSQL(Linea) & "',"
             Else
                 Linea = "'" & DBLet(Rs!nifdatos, "T") & "',NULL,'" & DevNombreSQL(Linea) & "',"
@@ -1586,7 +1590,7 @@ Dim SqlNew As String
 '            NF = 1
 '            If Not IsNull(Rs!tp2faccl) Then NF = NF + 1
 '            If Not IsNull(Rs!tp3faccl) Then NF = NF + 1
-            SqlNew = "select count(*) from factcli_totales where numserie = " & DBSet(Rs!NUmSerie, "T")
+            SqlNew = "select count(*) from " & "ariconta" & NumeroEmpresa & ".factcli_totales where numserie = " & DBSet(Rs!NUmSerie, "T")
             SqlNew = SqlNew & " and numfactu = " & DBSet(Rs!NumFactu, "N")
             SqlNew = SqlNew & " and anofactu = " & DBSet(Rs!anofactu, "N")
             
@@ -1635,7 +1639,6 @@ Dim SqlNew As String
            
             'rectifica,dom_intracom,pob_intracom,cp_intracom,"
             If Rs!totfaccl < 0 Then
-                 'Rectifica  FALTA###
                  'Linea = Linea & "'" & DevNombreSQL(DBLet(Rs!confaccl, "T")) & "'"
                  Linea = Linea & "'" & DevNombreSQL(DBLet(Rs!observa, "T")) & "'"
             Else
@@ -1646,7 +1649,8 @@ Dim SqlNew As String
            'If Identificacion = 1 Then
            Linea = Linea & ",NULL,NULL,NULL,"
            
-           'Base UNO. SIEMPRE EXISTE
+           'Base UNO. SIEMPRE EXISTE    EN NF llevaremos cuantos registros (detalle) hay
+           If NF = 0 Then NF = 1
            TotalLin = Rs!Impoiva + Rs!Baseimpo + DBLet(Rs!ImpoRec, "N")
            PAIS = "NULL," & NF & "," & TransformaComasPuntos(CStr(Rs!porciva)) & "," & TransformaComasPuntos(CStr(Rs!Baseimpo)) _
                 & "," & TransformaComasPuntos(CStr(Rs!Impoiva)) & "," & TransformaComasPuntos(CStr(TotalLin))
@@ -1655,31 +1659,6 @@ Dim SqlNew As String
            'Insertar
            CadenaInsert = CadenaInsert & ",(" & vUsu.Codigo & "," & NumRegElim & "," & Linea & PAIS
            NumRegElim = NumRegElim + 1
-           
-'           'Base DOS si no es null
-'           If Not IsNull(Rs!ba2faccl) Then
-'                TotalLin = Rs!ti2faccl + Rs!ba2faccl + DBLet(Rs!tr2faccl, "N")
-'                PAIS = "NULL," & NF & "," & TransformaComasPuntos(CStr(Rs!pi2faccl)) & "," & TransformaComasPuntos(CStr(Rs!ba2faccl)) _
-'                & "," & TransformaComasPuntos(CStr(Rs!ti2faccl)) & "," & TransformaComasPuntos(CStr(TotalLin))
-'                PAIS = PAIS & "," & TransformaComasPuntos(CStr(DBLet(Rs!pr2faccl, "N"))) & "," & TransformaComasPuntos(CStr(DBLet(Rs!tr2faccl, "N"))) & ")"
-'
-'                'Insertar
-'                CadenaInsert = CadenaInsert & ",(" & vUsu.Codigo & "," & NumRegElim & "," & Linea & PAIS
-'                NumRegElim = NumRegElim + 1
-'           End If
-'
-'
-'           'Base TRES si no es null
-'           If Not IsNull(Rs!ba3faccl) Then
-'                TotalLin = Rs!ti3faccl + Rs!ba3faccl + DBLet(Rs!tr3faccl, "N")
-'                PAIS = "NULL," & NF & "," & TransformaComasPuntos(CStr(Rs!pi3faccl)) & "," & TransformaComasPuntos(CStr(Rs!ba3faccl)) _
-'                & "," & TransformaComasPuntos(CStr(Rs!ti3faccl)) & "," & TransformaComasPuntos(CStr(TotalLin))
-'                PAIS = PAIS & "," & TransformaComasPuntos(CStr(DBLet(Rs!pr3faccl, "N"))) & "," & TransformaComasPuntos(CStr(DBLet(Rs!tr3faccl, "N"))) & ")"
-'
-'                'Insertar
-'                CadenaInsert = CadenaInsert & ",(" & vUsu.Codigo & "," & NumRegElim & "," & Linea & PAIS
-'                NumRegElim = NumRegElim + 1
-'           End If
            
            
            'HACEMOS EL INSERT
@@ -2223,7 +2202,7 @@ Private Function Devnombresql340(CADENA As String) As String
 
 End Function
 
-Public Function GeneraFichero340(PresentaInternet As Boolean, anoPeriodo As String, UtlPeriodoLiquidacion As Boolean) As Boolean
+Public Function GeneraFichero340(PresentaInternet As Boolean, anoPeriodo As String, UtlPeriodoLiquidacion As Boolean, DeclaracionSustitutiva As String) As Boolean
     
     On Error GoTo EGeneraFichero340
     GeneraFichero340 = False
@@ -2243,7 +2222,7 @@ Public Function GeneraFichero340(PresentaInternet As Boolean, anoPeriodo As Stri
     
     'Grabaremos el fichero de cabecera
     IdentificacionPresentador = "340" & Mid(anoPeriodo, 1, 4)
-    GrabaCabecera340 PresentaInternet, anoPeriodo, UtlPeriodoLiquidacion 'Le añadire el nif a la cabcera
+    GrabaCabecera340 PresentaInternet, anoPeriodo, UtlPeriodoLiquidacion, DeclaracionSustitutiva
     
     GrabaRegistros340
     
@@ -2273,7 +2252,7 @@ End Function
 '                      año
 '                          mes,  cuando sea por trimestres: marzo er trimestr  jun 2º trimes ...
 '                             pp period 1..12  o 1T 2T ....
-Private Sub GrabaCabecera340(vPresentaInternet As Boolean, anoPeriodo As String, UtlimoPeriodoPresentacion As Boolean)
+Private Sub GrabaCabecera340(vPresentaInternet As Boolean, anoPeriodo As String, UtlimoPeriodoPresentacion As Boolean, IDDeclaracionSustitutiva As String)
 Dim vAux As String
 
     Linea = "Select * from empresa2"
@@ -2300,12 +2279,29 @@ Dim vAux As String
     Rs.Close
     
     'nn1 declar  340EEEEPPSSSS
-    Linea = Linea & "340" & Mid(anoPeriodo, 1, 6) & "0001"
+    
+    'Si es sustitutiva, NO es la primera. Habra que ver que numero de declaracion que es
+    
+    '3402017020001
+    vAux = "0001"
+    If IDDeclaracionSustitutiva <> "" Then
+        vAux = Right(IDDeclaracionSustitutiva, 4)
+        vAux = Val(vAux) + 1
+        vAux = Right("00000" & vAux, 4)
+    End If
+    
+    
+    Linea = Linea & "340" & Mid(anoPeriodo, 1, 6) & vAux
+    vAux = ""
     
     'Campos que no relleanmos
     'dec compen,sustitutiva,nº declar anteriro
-    Linea = Linea & " " & " " & String(13, "0")
-    
+    'Si lleva declaracion sustitutiva vendran 13 digitos, pondremos un S y los 13 digitos pasadps
+    If IDDeclaracionSustitutiva = "" Then
+        Linea = Linea & " " & " " & String(13, "0")
+    Else
+        Linea = Linea & " " & "S" & IDDeclaracionSustitutiva
+    End If
     'Periodo
     Linea = Linea & Mid(anoPeriodo, 7, 2)
     
@@ -2377,13 +2373,16 @@ Private Sub GrabaRegistros340()
             Linea = Linea & "X" 'rea
         Else
             If Rs!clavelibro = "Z" Then
-                'Son efectivos. Parece ser que hay que pintar una E
+                'Son efectivos.  hay que pintar una E
                 Linea = Linea & "E"
                 Linea = Linea & " "
                 
             Else
-                'If Rs!clavelibro = "R" Then Stop
-            
+'                If Rs!claveoperacion = "C" Then
+'                    If Rs!numiva < 2 Then St op
+'                End If
+'                If Rs!claveoperacion = "R" Then St op
+'
                 Linea = Linea & Rs!clavelibro
                 Linea = Linea & DatosTexto(DBLet(Rs!claveoperacion), 1)
             End If
@@ -2576,10 +2575,10 @@ End Function
 
 
 
-Private Function DevFacturasTmp340DeEseNIF(vNIF As String) As String
+Private Function DevFacturasTmp340DeEseNIF(vNif As String) As String
 Dim C As String
 Dim RT As ADODB.Recordset
-    C = "select clavelibro,idfactura,fechaexp from tmp340 where nifdeclarado='" & vNIF & "'"
+    C = "select clavelibro,idfactura,fechaexp from tmp340 where nifdeclarado='" & vNif & "'"
     C = C & " AND codusu = " & vUsu.Codigo
     Set RT = New ADODB.Recordset
     RT.Open C, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -2665,7 +2664,7 @@ Dim F2 As Date
    
     'Leemos todas las cuentas que tengan CIF
     Set RCIF = New ADODB.Recordset
-    Sql = "Select codmacta,razosoci,nifdatos,pais,nommacta from ariconta" & NConta & ".cuentas where apudirec='S' and nifdatos<>''"
+    Sql = "Select codmacta,razosoci,nifdatos,codpais,nommacta from ariconta" & NConta & ".cuentas where apudirec='S' and nifdatos<>''"
     Sql = Sql & " and model347=1" 'par evitar sacar los de varios
     RCIF.Open Sql, Conn, adOpenKeyset, adLockOptimistic, adCmdText
     CadInsert = ""
@@ -2779,7 +2778,7 @@ Dim Aux As String
            
                 
             '`codpais`,`idenpais`,`nifresidencia`
-            Aux = UCase(DBLet(R!PAIS, "T"))
+            Aux = UCase(DBLet(R!codPAIS, "T"))
             If Aux = "" Then Aux = "ESPAÑA"
             
             If Aux = "ESPAÑA" Then

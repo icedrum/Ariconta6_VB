@@ -5274,6 +5274,7 @@ Dim Rs As ADODB.Recordset
                 Text4(Index).Text = DevuelveDesdeBDNew(cConta, "departamentos", "descripcion", "codmacta", Text1(4).Text, "T", , "dpto", Text1(25).Text, "N")
                 If Text4(Index) = "" Then
                     MsgBox "No existe el Departamento de este Cliente. Reintroduzca.", vbExclamation
+                    Text1(Index).Text = ""
                     PonFoco Text1(Index)
                 End If
             Else
@@ -6348,7 +6349,7 @@ Dim cad As String
     On Error Resume Next
 
     cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
     Set Rs = New ADODB.Recordset
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -8045,7 +8046,7 @@ Dim Sql As String
         End If
         
         ' falta el codusu
-        Sql = Sql & "," & DBSet(vUsu.Id, "N")
+        Sql = Sql & "," & DBSet(vUsu.id, "N")
         
         
         CadValues = CadValues & "(" & Sql & "),"

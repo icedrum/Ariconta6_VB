@@ -883,6 +883,9 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
+        
+        QuitarPulsacionMas txtFecha(Index)
+        
         If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
@@ -1147,6 +1150,18 @@ Dim RC2 As String
            
 End Function
 
+
+Private Sub txtFecha_KeyPress(Index As Integer, KeyAscii As Integer)
+    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    If txtFecha(Index).Text = "" Then Exit Sub
+
+        
+    If Not EsFechaOK(txtFecha(Index)) Then
+        If InStr(1, txtFecha(Index).Text, "+") = 0 Then MsgBox "Fecha incorrecta", vbExclamation
+        txtFecha(Index).Text = ""
+        PonFoco txtFecha(Index)
+    End If
+End Sub
 
 Private Sub txtfecha_LostFocus(Index As Integer)
     txtFecha(Index).Text = Trim(txtFecha(Index).Text)

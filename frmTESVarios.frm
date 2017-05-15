@@ -1195,7 +1195,18 @@ Private Sub txtCtaNormal_GotFocus(Index As Integer)
 End Sub
     
 Private Sub txtCtaNormal_KeyPress(Index As Integer, KeyAscii As Integer)
-    KEYpress KeyAscii
+    If KeyAscii = teclaBuscar Then
+        Select Case Index
+            Case 5: KEYPPal KeyAscii, 5
+        End Select
+    Else
+        KEYpress KeyAscii
+    End If
+End Sub
+
+Private Sub KEYPPal(KeyAscii As Integer, Indice As Integer)
+    KeyAscii = 0
+    imgCtaNorma_Click (Indice)
 End Sub
 
 Private Sub txtCtaNormal_LostFocus(Index As Integer)

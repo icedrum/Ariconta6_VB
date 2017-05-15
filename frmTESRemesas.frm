@@ -288,7 +288,7 @@ Begin VB.Form frmTESRemesas
             EndProperty
             BeginProperty ColumnHeader(6) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
                SubItemIndex    =   5
-               Text            =   "Forma pago"
+               Text            =   "Cliente"
                Object.Width           =   5821
             EndProperty
             BeginProperty ColumnHeader(7) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
@@ -1773,6 +1773,20 @@ Dim B As Boolean
             Exit Function
         End If
         
+        
+        'Nueva comprobacion
+        'EL NIF debe tenerlo
+        Sql = ""
+        For i = 1 To Me.lwCobros2.ListItems.Count
+            If lwCobros2.ListItems(i).Checked Then
+                If lwCobros2.ListItems(i).ListSubItems(3).Tag = "NO" Then Sql = Sql & lwCobros2.ListItems(i).Text & " - " & lwCobros2.ListItems(i).SubItems(1) & " " & lwCobros2.ListItems(i).SubItems(5) & vbCrLf
+            End If
+        Next i
+        If Sql <> "" Then
+            MsgBox "Vencimientos sin NIF" & vbCrLf & Sql, vbExclamation
+            Exit Function
+        End If
+        
         'mayo 2015
          If SubTipo = vbTipoPagoRemesa Then
             If vParamT.RemesasPorEntidad Then
@@ -2850,7 +2864,24 @@ Dim ImporteTot As Currency
         IT.SubItems(2) = Format(miRsAux!FecFactu, "dd/mm/yyyy")
         IT.SubItems(3) = miRsAux!numorden
         IT.SubItems(4) = miRsAux!FecVenci
-        IT.SubItems(5) = miRsAux!nomforpa
+        
+        'Ponemos nombre cliente
+        'IT.SubItems(5) = miRsAux!nomforpa
+        IT.SubItems(5) = DBLet(miRsAux!nomclien, "T")
+        IT.ListSubItems(5).ToolTipText = miRsAux!codmacta
+        If IT.SubItems(5) = "" Then
+            IT.SubItems(5) = " Faltan datos fiscales"
+            IT.ListSubItems(5).ForeColor = vbRed
+        End If
+        If DBLet(miRsAux!nifclien, "T") = "" Then
+            'Vencimiento en ROJO. Falta NIF
+            IT.ListSubItems(3).ForeColor = vbRed
+            IT.ListSubItems(3).ToolTipText = "FALTA NIF"
+            IT.ListSubItems(3).Tag = "NO"
+        Else
+          
+            IT.ListSubItems(3).Tag = ""
+        End If
     
         IT.Checked = True
     
@@ -3471,12 +3502,18 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
     Select Case Index
         Case 0, 1, 2, 3 'cuentas
             Cta = (txtCuentas(Index).Text)
-                                    '********
-            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
-            If B = 0 Then
+                                   '********
+            If Index = 2 Then
+                 B = CuentaCorrectaUltimoNivel(Cta, Sql)
+            Else
+                 B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
+            End If
+           
+            If Not B Then
                 MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
+                PonleFoco txtCuentas(Index)
             Else
                 txtCuentas(Index).Text = Cta
                 txtNCuentas(Index).Text = Sql

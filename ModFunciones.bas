@@ -728,7 +728,7 @@ Public Function ObtenerBusqueda(ByRef formulario As Form) As String
     For Each Control In formulario.Controls
         If TypeOf Control Is TextBox Then
             Aux = Trim(Control.Text)
-            'If Control.Text <> "" Then Stop
+            'If Control.Text <> "" Then St op
             If UCase(Aux) = "NULL" Then
                 Carga = mTag.Cargar(Control)
                 If Carga Then
@@ -751,7 +751,7 @@ Public Function ObtenerBusqueda(ByRef formulario As Form) As String
             Carga = mTag.Cargar(Control)
             If Carga Then
                 Aux = Trim(Control.Text)
-                'If Control.Text <> "" Then Stop
+                'If Control.Text <> "" Then St op
                 If Aux <> "" Then
                     If mTag.tabla <> "" Then
                         tabla = mTag.tabla & "."
@@ -1794,6 +1794,7 @@ EBLOQ:
             MuestraError Err.Number, "Bloqueo tabla"
         Else
             MsgBox "Registro bloqueado por otro usuario", vbExclamation
+            Err.Clear
         End If
     End If
     Screen.MousePointer = AntiguoCursor

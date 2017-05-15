@@ -280,7 +280,7 @@ Begin VB.Form frmTESCobrosDevList
          Left            =   1230
          MaxLength       =   10
          TabIndex        =   0
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFecha"
          Top             =   810
          Width           =   1305
       End
@@ -300,7 +300,7 @@ Begin VB.Form frmTESCobrosDevList
          Left            =   1230
          MaxLength       =   10
          TabIndex        =   1
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFecha"
          Top             =   1230
          Width           =   1305
       End
@@ -357,7 +357,7 @@ Begin VB.Form frmTESCobrosDevList
          Index           =   1
          Left            =   1230
          TabIndex        =   5
-         Tag             =   "imgConcepto"
+         Tag             =   "imgCuentas"
          Top             =   2340
          Width           =   1275
       End
@@ -376,7 +376,7 @@ Begin VB.Form frmTESCobrosDevList
          Index           =   0
          Left            =   1230
          TabIndex        =   4
-         Tag             =   "imgConcepto"
+         Tag             =   "imgCuentas"
          Top             =   1920
          Width           =   1275
       End
@@ -396,7 +396,7 @@ Begin VB.Form frmTESCobrosDevList
          Left            =   4260
          MaxLength       =   10
          TabIndex        =   3
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFecha"
          Top             =   1260
          Width           =   1305
       End
@@ -416,7 +416,7 @@ Begin VB.Form frmTESCobrosDevList
          Left            =   4260
          MaxLength       =   10
          TabIndex        =   2
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFecha"
          Top             =   840
          Width           =   1305
       End

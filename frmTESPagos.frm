@@ -1980,7 +1980,7 @@ Begin VB.Form frmTESPagos
       Begin VB.Image imgFecha 
          Height          =   240
          Index           =   1
-         Left            =   10890
+         Left            =   10920
          Picture         =   "frmTESPagos.frx":0161
          Top             =   1410
          Width           =   240
@@ -2788,7 +2788,7 @@ Private Sub BotonAnyadir()
     Text2(3).Text = Combo1.Text
     
     'añadimos el codusu
-    Text1(20).Text = vUsu.Id
+    Text1(20).Text = vUsu.id
     
     cboSituRem.ListIndex = -1
     '###A mano
@@ -2860,6 +2860,11 @@ Dim BloquearClave As Boolean
     If PertenceAlgunoDocumentoEmitido Then Exit Sub
 
     If Not BloqueaRegistroForm(Me) Then Exit Sub
+    
+    
+    
+    On Error GoTo eBotonModificar
+    
     '---------
     'MODIFICAR
     '----------
@@ -2901,33 +2906,32 @@ Dim BloquearClave As Boolean
         Text1(19).BackColor = vbWhite
         'Pongo visible false los img
          For N = 0 To 6
-            If N < 4 And N <> 3 Then imgCuentas(N).Visible = False
-            Me.imgFecha(N).Visible = False
+            If N < 4 And N <> 3 Then
+                imgCuentas(N).Visible = False
+                Me.imgFecha(N).Visible = False
+            End If
          Next N
         
         
-        'Si es una remesa de talon/pagare tb dejare modificar el numero de talon pagare
-        If Val(DBLet(Data1.Recordset!Tiporem)) > 1 Then
-            Text1(27).Locked = False
-            Text1(27).BackColor = vbWhite
-        End If
+       
             
         PonerFoco Text1(10)
     Else
         PonerFoco Text1(6)
     End If
     
-    
-    'Si no tienen permisos NO permito modificar
-    If vParamT.TieneOperacionesAseguradas Then
-        If vUsu.Nivel >= 1 Then Me.SSTab2.TabEnabled(2) = False  'FrameSeguro.Enabled = False
-    End If
+
     'Escondemos el navegador y ponemos insertando
     'Como el campo 1 es clave primaria, NO se puede modificar
     '### A mano
     DespalzamientoVisible False
     lblIndicador.Caption = "Modificar"
     
+    
+    Exit Sub
+eBotonModificar:
+    MuestraError Err.Number, "Boton modificar", Err.Description
+    PonerModo 0
 End Sub
 
 Private Sub BotonEliminar()
@@ -3170,7 +3174,7 @@ End Sub
 Private Sub LimpiarCampos()
     Limpiar Me   'Metodo general
     txtPendiente.Text = ""
-    check1(0).Value = 0
+    Check1(0).Value = 0
     Combo1.ListIndex = -1
     Text2(3).Text = ""
     lblIndicador.Caption = ""
@@ -3255,8 +3259,8 @@ End Sub
 
 Private Sub frmPais_DatoSeleccionado(CadenaSeleccion As String)
     If CadenaSeleccion <> "" Then
-        Text1(36).Text = RecuperaValor(CadenaSeleccion, 1)
-        Text2(36).Text = RecuperaValor(CadenaSeleccion, 2)
+        Text1(25).Text = RecuperaValor(CadenaSeleccion, 1)
+        Text2(25).Text = RecuperaValor(CadenaSeleccion, 2)
     End If
 End Sub
 
@@ -3435,12 +3439,65 @@ Private Sub Text1_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer
 End Sub
 
 Private Sub Text1_KeyPress(Index As Integer, KeyAscii As Integer)
-    If Index = 27 Then
-      '  PonleFoco Me.cmdAceptar
+    If KeyAscii = teclaBuscar Then
+        Select Case Index
+            Case 0: KEYCta KeyAscii, 1
+            Case 4: KEYCta KeyAscii, 0
+            Case 9: KEYCta KeyAscii, 2
+            Case 2: KEYFec KeyAscii, 0
+            Case 5: KEYFec KeyAscii, 1
+            Case 7: KEYFec KeyAscii, 2
+            Case 32: KEYFec KeyAscii, 3
+            
+            Case 13: KEYSer KeyAscii
+            Case 34: KEYAge KeyAscii
+            Case 33: KEYDpto KeyAscii
+            Case 25: KEYPPal KeyAscii, 1
+            Case 17: KEYPPal KeyAscii, 0
+        End Select
     Else
-        KEYpress KeyAscii
+        If Index = 24 Then
+            'Despues de la fecha prorroga va el btn
+            PonleFoco Me.cmdAceptar
+        Else
+            KEYpress KeyAscii
+        End If
     End If
 End Sub
+
+Private Sub KEYCta(KeyAscii As Integer, Indice As Integer)
+    KeyAscii = 0
+    imgCuentas_Click (Indice)
+End Sub
+
+Private Sub KEYFec(KeyAscii As Integer, Indice As Integer)
+    KeyAscii = 0
+    imgFecha_Click (Indice)
+End Sub
+
+Private Sub KEYSer(KeyAscii As Integer)
+    KeyAscii = 0
+    imgSerie_Click
+End Sub
+
+Private Sub KEYAge(KeyAscii As Integer)
+    KeyAscii = 0
+    ImgAgente_Click
+End Sub
+
+
+Private Sub KEYDpto(KeyAscii As Integer)
+    KeyAscii = 0
+    imgDepart_Click
+End Sub
+
+Private Sub KEYPPal(KeyAscii As Integer, Indice As Integer)
+    KeyAscii = 0
+    imgppal_Click (Indice)
+End Sub
+
+
+
 
 
 Private Sub KEYpress(KeyAscii As Integer)
@@ -4080,7 +4137,7 @@ Dim Tipo As Integer
         If DBLet(Me.Data1.Recordset!emitdocum, "N") = 1 Then
             'Tiene la marca de documento emitido
             'Veremos si se la ha quitado
-            If Me.check1(0).Value = 0 Then
+            If Me.Check1(0).Value = 0 Then
                 DevfrmCCtas = "Seguro que desea quitarle la marca de documento emitido?"
                 If MsgBox(DevfrmCCtas, vbQuestion + vbYesNo) = vbNo Then Exit Function
             End If
@@ -4185,12 +4242,13 @@ Private Function SePuedeEliminar() As Byte
 End Function
 
 Private Function PertenceAlgunoDocumentoEmitido() As Boolean
-
+On Error Resume Next
     PertenceAlgunoDocumentoEmitido = False
     If Val(Data1.Recordset!emitdocum) = 1 Then
         If MsgBox("Pertence a un documento emtitido.  No deberia seguir con el proceso." & vbCrLf & vbCrLf & "Continuar?", vbQuestion + vbYesNoCancel) <> vbYes Then PertenceAlgunoDocumentoEmitido = True
     End If
-
+    
+    Err.Clear
 End Function
 
 
@@ -4464,7 +4522,7 @@ Dim cad As String
     On Error Resume Next
 
     cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
     Set Rs = New ADODB.Recordset
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -4712,7 +4770,7 @@ Private Sub BotonImprimirRecibo()
 
 
     CargarTemporal
-
+    frmTESImpRecibo.documentoDePago = ""
     frmTESImpRecibo.pImporte = lwpagos.SelectedItem.SubItems(9) 'Me.AdoAux(0).Recordset.Fields(14)
     frmTESImpRecibo.pFechaRec = lwpagos.SelectedItem.SubItems(1) 'Me.AdoAux(0).Recordset.Fields(6)
     frmTESImpRecibo.pFecFactu = lwpagos.SelectedItem.SubItems(12) 'Me.AdoAux(0).Recordset.Fields(2)

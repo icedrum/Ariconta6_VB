@@ -1211,33 +1211,24 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim Sql2 As String
-Dim Tipo As Byte
-            
+Dim F As Date
 
-    Select Case Tipo
-        Case 1
-            Sql = "select cta Cuenta , nomcta Titulo, totald Saldo_deudor, totalh Saldo_acreedor from tmpbalancesumas where codusu = " & vUsu.Codigo
-            Sql = Sql & " order by 1 "
-        
-        Case 2
-            Sql = "select cta Cuenta , nomcta Titulo, acumantd AcumAnt_deudor, acumanth AcumAnt_acreedor, acumperd AcumPer_deudor, acumperh AcumPer_acreedor, totald Saldo_deudor, totalh Saldo_acreedor from tmpbalancesumas where codusu = " & vUsu.Codigo
-            Sql = Sql & " order by 1 "
-        
-        Case 3
-            Sql = "select cta Cuenta , nomcta Titulo, aperturad Apertura_deudor, aperturah Apertura_acreedor,  totald Saldo_deudor, totalh Saldo_acreedor from tmpbalancesumas where codusu = " & vUsu.Codigo
-            Sql = Sql & " order by 1 "
-        
-        Case 4
-            Sql = "select cta Cuenta , nomcta Titulo, aperturad, aperturah, case when coalesce(aperturad,0) - coalesce(aperturah,0) > 0 then concat(coalesce(aperturad,0) - coalesce(aperturah,0),'D') when coalesce(aperturad,0) - coalesce(aperturah,0) < 0 then concat(coalesce(aperturah,0) - coalesce(aperturad,0),'H') when coalesce(aperturad,0) - coalesce(aperturah,0) = 0 then 0 end Apertura, "
-            Sql = Sql & " acumantd AcumAnt_deudor, acumanth AcumAnt_acreedor, acumperd AcumPer_deudor, acumperh AcumPer_acreedor, "
-            Sql = Sql & " totald Saldo_deudor, totalh Saldo_acreedor, case when coalesce(totald,0) - coalesce(totalh,0) > 0 then concat(coalesce(totald,0) - coalesce(totalh,0),'D') when coalesce(totald,0) - coalesce(totalh,0) < 0 then concat(coalesce(totalh,0) - coalesce(totald,0),'H') when coalesce(totald,0) - coalesce(totalh,0) = 0 then 0 end Saldo"
-            Sql = Sql & " from tmpbalancesumas where codusu = " & vUsu.Codigo
-            Sql = Sql & " order by 1 "
-        
-    End Select
+
     
 
+
+    Sql = "SELECT `tmpevolsal`.`codmacta` cuenta, `tmpevolsal`.`nommacta` nombre , `tmpevolsal`.`apertura` "
+    '`tmpevolsal`.`importemes1`, `tmpevolsal`.`importemes2`, `tmpevolsal`.`importemes3`, `tmpevolsal`.`importemes4`, `tmpevolsal`.`importemes5`, `tmpevolsal`.`importemes6`, `tmpevolsal`.`importemes7`, `tmpevolsal`.`importemes8`, `tmpevolsal`.`importemes9`, `tmpevolsal`.`importemes10`, `tmpevolsal`.`importemes11`, `tmpevolsal`.`importemes12`"
+    RC = cmbEjercicios(0).List(cmbEjercicios(0).ListIndex)
+    RC = Trim(Mid(RC, 1, InStr(1, RC, "-") - 1))
+    F = CDate(RC)
+    For i = 1 To 12
+        cad = UCase(Format(F, "mmm- yy"))
+        Sql = Sql & ", tmpevolsal.importemes" & i & " as '" & cad & "'"
+        F = DateAdd("m", 1, F)
+    Next
+    
+    Sql = Sql & " FROM   `tmpevolsal` `tmpevolsal` where codusu =" & vUsu.Codigo
 
         
     'LLamos a la funcion
@@ -1251,7 +1242,7 @@ Dim Tipo As Byte
 Dim UltimoNivel As Integer
 Dim indRPT As String
 Dim nomDocu As String
-Dim k As Integer
+Dim K As Integer
 Dim K1 As Integer
 
     If Option1.Value Then Tipo = 0
@@ -1290,10 +1281,10 @@ Dim K1 As Integer
         cadParam = cadParam & "pMes12=""DICIEMBRE""|"
     Else
         'Años fiscales partidos . Coooperativas agricolas
-        For k = 0 To 11
-            K1 = Month(FechaIncioEjercicio) + k
+        For K = 0 To 11
+            K1 = Month(FechaIncioEjercicio) + K
             If K1 > 12 Then K1 = K1 - 12
-            Select Case k
+            Select Case K
                 Case 0
                     cadParam = cadParam & "pMes1=""" & UCase(MonthName(K1, True)) & """|"
                 Case 1
@@ -1319,7 +1310,7 @@ Dim K1 As Integer
                 Case 11
                     cadParam = cadParam & "pMes12=""" & UCase(MonthName(K1, True)) & """|"
              End Select
-        Next k
+        Next K
     End If
     
     numParam = numParam + 12
@@ -1618,8 +1609,11 @@ Dim Tipo As Integer
             Sql = Sql & " AND year(fechaent) = " & Year(FechaIncioEjercicio)
         Else
             'Años fiscales partidos . Coooperativas agricolas
-            Sql = Sql & " AND ( (year(fechaent) = " & Year(FechaIncioEjercicio) & " and month(fechaent) >=" & Month(FechaIncioEjercicio) & ") OR "
-            Sql = Sql & " (year(fechaent) =" & Year(FechaIncioEjercicio) + 1 & " AND month(fechaent) < " & Month(FechaIncioEjercicio) & "))"
+            'Sql = Sql & " AND ( (year(fechaent) = " & Year(FechaIncioEjercicio) & " and month(fechaent) >=" & Month(FechaIncioEjercicio) & ") OR "
+            'Sql = Sql & " (year(fechaent) =" & Year(FechaIncioEjercicio) + 1 & " AND month(fechaent) < " & Month(FechaIncioEjercicio) & "))"
+            
+            Sql = " AND fechaent>=" & DBSet(FechaIncioEjercicio, "F") & " AND fechaent <=" & DBSet(FechaFinEjercicio, "F")
+            
         End If
         CONT = 0
         While Not Rs.EOF

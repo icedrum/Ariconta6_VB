@@ -4,7 +4,7 @@ Begin VB.Form frmTESPagosDivVto
    Appearance      =   0  'Flat
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Listados"
-   ClientHeight    =   3900
+   ClientHeight    =   4140
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   5565
@@ -12,7 +12,7 @@ Begin VB.Form frmTESPagosDivVto
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   3900
+   ScaleHeight     =   4140
    ScaleWidth      =   5565
    StartUpPosition =   2  'CenterScreen
    Begin MSComDlg.CommonDialog cd1 
@@ -23,12 +23,29 @@ Begin VB.Form frmTESPagosDivVto
       _Version        =   393216
    End
    Begin VB.Frame FrameDividVto 
-      Height          =   3855
+      Height          =   4095
       Left            =   60
-      TabIndex        =   6
+      TabIndex        =   7
       Top             =   0
       Visible         =   0   'False
       Width           =   5415
+      Begin VB.CheckBox chkDiaFijo 
+         Caption         =   "Dia fijo de cobro"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   240
+         TabIndex        =   4
+         Top             =   3240
+         Width           =   1815
+      End
       Begin VB.TextBox txtcodigo 
          Alignment       =   1  'Right Justify
          BeginProperty Font 
@@ -42,7 +59,7 @@ Begin VB.Form frmTESPagosDivVto
          EndProperty
          Height          =   360
          Index           =   3
-         Left            =   2760
+         Left            =   2790
          TabIndex        =   3
          Top             =   2700
          Width           =   1365
@@ -115,8 +132,8 @@ Begin VB.Form frmTESPagosDivVto
          EndProperty
          Height          =   375
          Left            =   3000
-         TabIndex        =   4
-         Top             =   3300
+         TabIndex        =   5
+         Top             =   3600
          Width           =   975
       End
       Begin VB.CommandButton cmdCancelar 
@@ -133,8 +150,8 @@ Begin VB.Form frmTESPagosDivVto
          Height          =   375
          Index           =   27
          Left            =   4200
-         TabIndex        =   5
-         Top             =   3300
+         TabIndex        =   6
+         Top             =   3600
          Width           =   975
       End
       Begin VB.Label Label4 
@@ -153,7 +170,7 @@ Begin VB.Form frmTESPagosDivVto
          Height          =   240
          Index           =   3
          Left            =   210
-         TabIndex        =   13
+         TabIndex        =   14
          Top             =   2760
          Width           =   2355
       End
@@ -181,7 +198,7 @@ Begin VB.Form frmTESPagosDivVto
          Height          =   240
          Index           =   2
          Left            =   210
-         TabIndex        =   12
+         TabIndex        =   13
          Top             =   2280
          Width           =   1695
       End
@@ -200,7 +217,7 @@ Begin VB.Form frmTESPagosDivVto
          Height          =   240
          Index           =   1
          Left            =   240
-         TabIndex        =   11
+         TabIndex        =   12
          Top             =   1350
          Width           =   2370
       End
@@ -219,7 +236,7 @@ Begin VB.Form frmTESPagosDivVto
          Height          =   240
          Index           =   0
          Left            =   210
-         TabIndex        =   10
+         TabIndex        =   11
          Top             =   1800
          Width           =   780
       End
@@ -238,7 +255,7 @@ Begin VB.Form frmTESPagosDivVto
          Height          =   240
          Index           =   62
          Left            =   4260
-         TabIndex        =   9
+         TabIndex        =   10
          Top             =   1800
          Width           =   630
       End
@@ -257,7 +274,7 @@ Begin VB.Form frmTESPagosDivVto
          Height          =   240
          Index           =   57
          Left            =   240
-         TabIndex        =   8
+         TabIndex        =   9
          Top             =   660
          Width           =   5040
       End
@@ -276,7 +293,7 @@ Begin VB.Form frmTESPagosDivVto
          Height          =   240
          Index           =   56
          Left            =   240
-         TabIndex        =   7
+         TabIndex        =   8
          Top             =   330
          Width           =   5040
       End
@@ -321,6 +338,19 @@ Dim Fecha As Date
 Dim DevfrmCCtas As String
 
 Dim ParaElLog As String
+
+
+
+Private Sub chkDiaFijo_Click()
+    If chkDiaFijo.Value = 1 Then txtCodigo(3).Text = ""
+    BloqueaTXT txtCodigo(3), chkDiaFijo.Value = 1
+End Sub
+
+Private Sub chkDiaFijo_KeyPress(KeyAscii As Integer)
+     KEYpress KeyAscii
+End Sub
+
+
 
 Private Sub PonFoco(ByRef T1 As TextBox)
     T1.SelStart = 0
@@ -445,10 +475,18 @@ Dim Dias As Integer
     
     
     Dim vVtos2 As Integer
-    Dim FV As Date
+    Dim FV2 As Date
     Dim MensajeVtos As String
+    Dim EnteroAux As Integer
+    Dim FinalMes As Boolean
     
-    FV = FecVenci
+    
+    J = DiasMes(Month(FecVenci), Year(FecVenci))
+    Sql = J & "/" & Format(Month(FecVenci), "00") & "/" & Year(FecVenci)
+    FinalMes = False
+    If CDate(Sql) = FecVenci Then FinalMes = True
+    
+    FV2 = FecVenci
     vVtos2 = vVtos
     
     
@@ -457,10 +495,25 @@ Dim Dias As Integer
     Sql = ""
     For J = 1 To vVtos2 - 1
         vTotal = vTotal + vImpvto
-        FV = DateAdd("d", DBLet(Dias, "N"), FV)
+        
+        If Me.chkDiaFijo.Value = 0 Then
+            'Lo que hacia
+            FV2 = DateAdd("d", DBLet(Dias, "N"), FV2)
+        Else
+            'Final de mes
+            FV2 = DateAdd("m", 1, FV2)
+            If FinalMes Then
+                k = DiasMes(Month(FV2), Year(FV2))
+                cad = k & "/" & Format(Month(FV2), "00") & "/" & Year(FV2)
+                FV2 = CDate(cad)
+            End If
+        End If
+        
+        
+        
         
         '           10 primeros fecha  Resto importe
-        Sql = Sql & Format(FV, "dd/mm/yyyy") & Format(vImpvto, FormatoImporte) & "|"
+        Sql = Sql & Format(FV2, "dd/mm/yyyy") & Format(vImpvto, FormatoImporte) & "|"
         
     Next J
     
@@ -527,7 +580,18 @@ Dim Dias As Integer
     
         vTotal = vTotal + vImpvto
     
-        vFecVenci = DateAdd("d", DBLet(Dias, "N"), vFecVenci)
+        If Me.chkDiaFijo.Value = 0 Then
+            'Lo que hacia
+            vFecVenci = DateAdd("d", DBLet(Dias, "N"), vFecVenci)
+        Else
+            'Final de mes
+            vFecVenci = DateAdd("m", 1, vFecVenci)
+            If FinalMes Then
+                EnteroAux = DiasMes(Month(vFecVenci), Year(vFecVenci))
+                cad = EnteroAux & "/" & Format(Month(vFecVenci), "00") & "/" & Year(vFecVenci)
+                vFecVenci = CDate(cad)
+            End If
+        End If
         
     
         Sql = "INSERT INTO pagos (numorden,impefect,fecultpa,imppagad,emitdocum,"

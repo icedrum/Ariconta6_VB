@@ -107,16 +107,19 @@ End Function
 
 
 
-Private Function comprobarCuentasBancariasRecibos(Remesa As String) As Boolean
+Private Function comprobarCuentasBancariasRecibos_NIF(Remesa As String) As Boolean
 Dim CC As String
+Dim NifsVacios As String
+
 On Error GoTo EcomprobarCuentasBancariasRecibos
 
-    comprobarCuentasBancariasRecibos = False
+    comprobarCuentasBancariasRecibos_NIF = False
 
     Sql = "select * from cobros where codrem = " & RecuperaValor(Remesa, 1)
     Sql = Sql & " AND anyorem=" & RecuperaValor(Remesa, 2)
     miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Registro = ""
+    NifsVacios = ""
     NF = 0
     While Not miRsAux.EOF
 
@@ -139,16 +142,29 @@ On Error GoTo EcomprobarCuentasBancariasRecibos
     
         End If
     
+        If DBLet(miRsAux!nifclien, "T") = "" Then
+            NifsVacios = NifsVacios & miRsAux!codmacta & " - " & miRsAux!NUmSerie & "/" & miRsAux!NumFactu & "-" & miRsAux!numorden & vbCrLf
+        End If
+        
     
         miRsAux.MoveNext
     Wend
     miRsAux.Close
+    
+    If NifsVacios <> "" Then NifsVacios = "NIFs vacios: " & vbCrLf & vbCrLf & NifsVacios
+    
     If Registro <> "" Then
         Sql = "Los siguientes vencimientos no tienen la cuenta bancaria con todos los datos." & vbCrLf & Registro
         MsgBox Sql, vbExclamation
+        If NifsVacios <> "" Then MsgBox NifsVacios, vbExclamation
+
         Exit Function
     End If
     
+    If NifsVacios <> "" Then
+        MsgBox NifsVacios, vbExclamation
+        Exit Function
+    End If
     
     'Si llega aqui es que todos tienen DATOS
     Sql = "select iban from cobros where codrem = " & RecuperaValor(Remesa, 1)
@@ -207,10 +223,10 @@ On Error GoTo EcomprobarCuentasBancariasRecibos
     
     
     
-    comprobarCuentasBancariasRecibos = True
+    comprobarCuentasBancariasRecibos_NIF = True
     Exit Function
 EcomprobarCuentasBancariasRecibos:
-    MuestraError Err.Number, "comprobar Cuentas Bancarias Recibos"
+    MuestraError Err.Number, "comprobar Cuentas Bancarias Recibos / NIFs"
 End Function
 
 'La norma 19 acepta como identificador del "cliente" el campo referencia en la BD
@@ -1347,7 +1363,7 @@ Dim B As Boolean
     
     If DatosBanco = "" Then Exit Function
     
-    If Not comprobarCuentasBancariasRecibos(Remesa) Then Exit Function
+    If Not comprobarCuentasBancariasRecibos_NIF(Remesa) Then Exit Function
 
 
 

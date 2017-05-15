@@ -882,11 +882,7 @@ Dim UsuarioOrigen As Long
 
 Private Sub cmdConfigMenu_Click()
     If ListView1.SelectedItem Is Nothing Then Exit Sub
-'    Screen.MousePointer = vbHourglass
-'    CargarListEditorMenu
-'    Label7.Caption = ListView1.SelectedItem.SubItems(1)
-'    Me.FrameEditorMenus.Visible = True
-'    Screen.MousePointer = vbDefault
+
 
     frmEditorMenus.CodigoActual = CInt(ListView1.SelectedItem.Text)
     frmEditorMenus.Show vbModal
@@ -979,7 +975,7 @@ Private Sub cmdFrameUsu_Click(Index As Integer)
             End If
         End If
         
-        UsuarioOrigen = Combo6.ListIndex
+        UsuarioOrigen = Combo6.ItemData(Combo6.ListIndex)
         
         InsertarModificar i
         
@@ -1735,16 +1731,8 @@ Private Sub LimpiarCamposUsuario()
 End Sub
 Private Sub LeerEditorMenus()
     On Error GoTo ELeerEditorMenus
-    cmdConfigMenu.Visible = False
-    Sql = "Select count(*) from usuarios.appmenus where aplicacion='conta'"
-    Set miRsAux = New ADODB.Recordset
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    If Not miRsAux.EOF Then
-        If Not IsNull(miRsAux.Fields(0)) Then
-            If miRsAux.Fields(0) > 0 Then cmdConfigMenu.Visible = True
-        End If
-    End If
-    miRsAux.Close
+    cmdConfigMenu.Visible = vUsu.Nivel < 1
+  
         
 
     

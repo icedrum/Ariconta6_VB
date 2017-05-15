@@ -421,7 +421,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   0
          Left            =   1230
          TabIndex        =   8
-         Tag             =   "imgConcepto"
+         Tag             =   "imgAgente"
          Top             =   4140
          Width           =   1275
       End
@@ -440,7 +440,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   1
          Left            =   1230
          TabIndex        =   9
-         Tag             =   "imgConcepto"
+         Tag             =   "imgAgente"
          Top             =   4530
          Width           =   1275
       End
@@ -498,7 +498,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Left            =   1230
          MaxLength       =   10
          TabIndex        =   0
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFec"
          Top             =   810
          Width           =   1305
       End
@@ -518,7 +518,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Left            =   1230
          MaxLength       =   10
          TabIndex        =   1
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFec"
          Top             =   1230
          Width           =   1305
       End
@@ -613,7 +613,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   1
          Left            =   1230
          TabIndex        =   5
-         Tag             =   "imgConcepto"
+         Tag             =   "imgCuentas"
          Top             =   2310
          Width           =   1275
       End
@@ -632,7 +632,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   0
          Left            =   1230
          TabIndex        =   4
-         Tag             =   "imgConcepto"
+         Tag             =   "imgCuentas"
          Top             =   1920
          Width           =   1275
       End
@@ -651,7 +651,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   0
          Left            =   1230
          TabIndex        =   10
-         Tag             =   "imgConcepto"
+         Tag             =   "imgSerie"
          Top             =   5280
          Width           =   765
       End
@@ -670,7 +670,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   1
          Left            =   1230
          TabIndex        =   11
-         Tag             =   "imgConcepto"
+         Tag             =   "imgSerie"
          Top             =   5670
          Width           =   765
       End
@@ -690,7 +690,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   1
          Left            =   1230
          TabIndex        =   7
-         Tag             =   "imgConcepto"
+         Tag             =   "imgDpto"
          Top             =   3450
          Width           =   1275
       End
@@ -710,7 +710,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   0
          Left            =   1230
          TabIndex        =   6
-         Tag             =   "imgConcepto"
+         Tag             =   "imgDpto"
          Top             =   3060
          Width           =   1275
       End
@@ -730,7 +730,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Left            =   4260
          MaxLength       =   10
          TabIndex        =   3
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFec"
          Top             =   1260
          Width           =   1305
       End
@@ -750,7 +750,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Left            =   4260
          MaxLength       =   10
          TabIndex        =   2
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFec"
          Top             =   840
          Width           =   1305
       End
@@ -1917,6 +1917,7 @@ Private Sub txtCuentas_KeyPress(Index As Integer, KeyAscii As Integer)
     KEYpress KeyAscii
 End Sub
 
+
 Private Sub txtCuentas_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
@@ -2008,7 +2009,7 @@ Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
     Select Case Nombre
     Case "imgSerie"
         imgSerie_Click Indice
-    Case "imgFecha"
+    Case "imgFec"
         imgFec_Click Indice
     Case "imgCuentas"
         imgCuentas_Click Indice
@@ -2019,17 +2020,31 @@ Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
     End Select
 End Sub
 
+
+Private Sub txtFecha_KeyPress(Index As Integer, KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
 Private Sub txtSerie_GotFocus(Index As Integer)
     ConseguirFoco txtSerie(Index), 3
 End Sub
 
 Private Sub txtSerie_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
-    KEYdown KeyCode
+    If KeyCode = vbKeyAdd Then
+        KeyCode = 0
+        
+        LanzaFormAyuda txtSerie(Index).Tag, Index
+    Else
+        KEYdown KeyCode
+    End If
+
 End Sub
 
 Private Sub txtSerie_KeyPress(Index As Integer, KeyAscii As Integer)
-    KEYpress KeyAscii
+        KEYpress KeyAscii
 End Sub
+
+
 
 Private Sub txtSerie_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
@@ -2065,12 +2080,20 @@ Private Sub txtDpto_GotFocus(Index As Integer)
 End Sub
 
 Private Sub txtDpto_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
-    KEYdown KeyCode
+    If KeyCode = vbKeyAdd Then
+        KeyCode = 0
+        
+        LanzaFormAyuda txtDpto(Index).Tag, Index
+    Else
+        KEYdown KeyCode
+    End If
+
 End Sub
 
 Private Sub txtDpto_KeyPress(Index As Integer, KeyAscii As Integer)
     KEYpress KeyAscii
 End Sub
+
 
 Private Sub txtDpto_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
@@ -2095,21 +2118,25 @@ Dim Hasta As Integer
 
 End Sub
 
-'******
-
-
 '****** agentes
 Private Sub txtAgente_GotFocus(Index As Integer)
     ConseguirFoco txtAgente(Index), 3
 End Sub
 
 Private Sub txtAgente_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
-    KEYdown KeyCode
+    If KeyCode = vbKeyAdd Then
+        KeyCode = 0
+        
+        LanzaFormAyuda txtAgente(Index).Tag, Index
+    Else
+        KEYdown KeyCode
+    End If
 End Sub
 
 Private Sub txtAgente_KeyPress(Index As Integer, KeyAscii As Integer)
     KEYpress KeyAscii
 End Sub
+
 
 Private Sub txtAgente_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String

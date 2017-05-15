@@ -456,6 +456,9 @@ Public Property Get Par_pen_apli() As String
     Par_pen_apli = mvarPar_pen_apli
 End Property
 
+
+
+
 'Public Property Let nctafact(ByVal vData As String)
 ''se usa cuando se asigna un valor a la propiedad, en el
 ''lado izquierdo de la asignacion

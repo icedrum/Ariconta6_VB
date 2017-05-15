@@ -241,9 +241,9 @@ Begin VB.Form frmTESImpRecibo
          EndProperty
          Height          =   765
          Index           =   0
-         Left            =   240
+         Left            =   360
          TabIndex        =   15
-         Top             =   990
+         Top             =   960
          Width           =   6360
       End
    End
@@ -315,15 +315,14 @@ Private Const IdPrograma = 603
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
 '
-'  3 espacios
-'       -Los desde hasta,
-'       -las opciones / ordenacion
-'       -el tipo salida
+'   Impresion "talon pagare --- documento de pago
+'
+Public documentoDePago As String ''levara el rmpt. Contra tmptesoreria comun
 '
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
-Public Legalizacion As String
+
 
 Public VienedeRealizarCobro As Boolean
 
@@ -335,14 +334,7 @@ Public pNumOrden As String
 Public pFechaRec As String
 Public pNumlinea As String
 
-Private WithEvents frmF As frmCal
-Attribute frmF.VB_VarHelpID = -1
-Private WithEvents frmConta As frmBasico
-Attribute frmConta.VB_VarHelpID = -1
-Private WithEvents frmFPago As frmBasico2
-Attribute frmFPago.VB_VarHelpID = -1
-Private WithEvents frmCtas As frmColCtas
-Attribute frmCtas.VB_VarHelpID = -1
+
 
 Private Sql As String
 Dim cad As String
@@ -462,6 +454,7 @@ Private Sub Form_Activate()
     If PrimeraVez Then
         PrimeraVez = False
     End If
+    Screen.MousePointer = vbDefault
 End Sub
 
 Private Sub Form_KeyPress(KeyAscii As Integer)
@@ -494,7 +487,10 @@ Private Sub Form_Load()
     If pNumSerie <> "" Then
         Label3(0).Caption = "Factura: " & pNumSerie & "-" & Format(pNumFactu, "0000000") & "  de " & pFecFactu & " Vencimiento No." & pNumOrden
     Else
+        
         Label3(0).Caption = ""
+        
+        If documentoDePago <> "" Then Label3(0).Caption = "Documento de pago"
     End If
     
      
@@ -547,6 +543,10 @@ End Sub
 Private Sub AccionesCSV()
 Dim Sql2 As String
 
+
+    MsgBox "No disponible", vbExclamation
+
+
     'Monto el SQL
     Sql = ""
             
@@ -564,13 +564,18 @@ Dim nomDocu As String
     conSubRPT = False
         
     
-    indRPT = "0603-00"
-
-    If VienedeRealizarCobro Then indRPT = "0603-01"
-        
-
-    If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     
+    If documentoDePago = "" Then
+        indRPT = "0603-00"
+    
+        If VienedeRealizarCobro Then indRPT = "0603-01"
+            
+    
+        If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
+    
+    Else
+        nomDocu = documentoDePago
+    End If
     cadNomRPT = nomDocu ' "Recibo.rpt"
 
 
@@ -583,7 +588,7 @@ Dim nomDocu As String
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
+    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, False
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 34
         
     If SoloImprimir Or ExportarPDF Then Unload Me
@@ -592,16 +597,16 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
-Dim Sql2 As String
-Dim RC As String
-Dim RC2 As String
-Dim i As Integer
 
 
     MontaSQL = False
-    
-    cadFormula = "{tmppendientes.codusu} = " & vUsu.Codigo
+    If Me.documentoDePago <> "" Then
+        'Documento de pago. Sobre tablas temporales
+        cadFormula = "{tmptesoreriacomun.codusu} = " & vUsu.Codigo
+    Else
+        'lo que habia
+        cadFormula = "{tmppendientes.codusu} = " & vUsu.Codigo
+    End If
     MontaSQL = True
 End Function
 

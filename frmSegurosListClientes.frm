@@ -1,5 +1,5 @@
 VERSION 5.00
-Begin VB.Form frmIVAList 
+Begin VB.Form frmSegurosListClientes 
    BorderStyle     =   3  'Fixed Dialog
    ClientHeight    =   4920
    ClientLeft      =   45
@@ -26,9 +26,27 @@ Begin VB.Form frmIVAList
       EndProperty
       Height          =   4335
       Left            =   7200
-      TabIndex        =   18
+      TabIndex        =   14
       Top             =   0
       Width           =   3255
+      Begin VB.OptionButton optVarios 
+         Caption         =   "Numero de poliza"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   2
+         Left            =   600
+         TabIndex        =   24
+         Top             =   1560
+         Width           =   2295
+      End
       Begin VB.OptionButton optVarios 
          Caption         =   "Descripción"
          BeginProperty Font 
@@ -42,9 +60,9 @@ Begin VB.Form frmIVAList
          EndProperty
          Height          =   240
          Index           =   1
-         Left            =   1440
-         TabIndex        =   3
-         Top             =   840
+         Left            =   600
+         TabIndex        =   1
+         Top             =   1080
          Width           =   1455
       End
       Begin VB.OptionButton optVarios 
@@ -60,9 +78,9 @@ Begin VB.Form frmIVAList
          EndProperty
          Height          =   240
          Index           =   0
-         Left            =   240
-         TabIndex        =   2
-         Top             =   840
+         Left            =   600
+         TabIndex        =   0
+         Top             =   600
          Width           =   975
       End
    End
@@ -79,11 +97,11 @@ Begin VB.Form frmIVAList
       EndProperty
       Height          =   1575
       Left            =   120
-      TabIndex        =   15
+      TabIndex        =   13
       Top             =   0
       Width           =   6975
-      Begin VB.TextBox txtNIva 
-         BackColor       =   &H80000018&
+      Begin VB.TextBox txtCuentas 
+         Alignment       =   1  'Right Justify
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -95,33 +113,14 @@ Begin VB.Form frmIVAList
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   2130
-         Locked          =   -1  'True
-         TabIndex        =   23
-         Top             =   1020
-         Width           =   4185
-      End
-      Begin VB.TextBox txtNIva 
-         BackColor       =   &H80000018&
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   0
-         Left            =   2130
-         Locked          =   -1  'True
+         Left            =   1200
          TabIndex        =   22
-         Top             =   600
-         Width           =   4185
+         Tag             =   "imgConcepto"
+         Top             =   840
+         Width           =   1275
       End
-      Begin VB.TextBox txtIVA 
-         Alignment       =   1  'Right Justify
+      Begin VB.TextBox txtNCuentas 
+         BackColor       =   &H80000018&
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -133,13 +132,13 @@ Begin VB.Form frmIVAList
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   1230
-         TabIndex        =   1
-         Tag             =   "imgConcepto"
-         Top             =   1020
-         Width           =   855
+         Left            =   2490
+         Locked          =   -1  'True
+         TabIndex        =   21
+         Top             =   840
+         Width           =   4155
       End
-      Begin VB.TextBox txtIVA 
+      Begin VB.TextBox txtCuentas 
          Alignment       =   1  'Right Justify
          BeginProperty Font 
             Name            =   "Verdana"
@@ -152,25 +151,30 @@ Begin VB.Form frmIVAList
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   1230
-         TabIndex        =   0
+         Left            =   1200
+         TabIndex        =   19
          Tag             =   "imgConcepto"
-         Top             =   600
-         Width           =   855
+         Top             =   480
+         Width           =   1275
       End
-      Begin VB.Image imgIVA 
-         Height          =   255
-         Index           =   1
-         Left            =   930
-         Top             =   1020
-         Width           =   255
-      End
-      Begin VB.Image imgIVA 
-         Height          =   255
+      Begin VB.TextBox txtNCuentas 
+         BackColor       =   &H80000018&
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
          Index           =   0
-         Left            =   930
-         Top             =   600
-         Width           =   255
+         Left            =   2490
+         Locked          =   -1  'True
+         TabIndex        =   18
+         Top             =   480
+         Width           =   4155
       End
       Begin VB.Label Label3 
          Caption         =   "Hasta"
@@ -185,10 +189,17 @@ Begin VB.Form frmIVAList
          EndProperty
          Height          =   195
          Index           =   1
-         Left            =   240
-         TabIndex        =   17
-         Top             =   1020
-         Width           =   615
+         Left            =   120
+         TabIndex        =   23
+         Top             =   840
+         Width           =   780
+      End
+      Begin VB.Image imgCuentas 
+         Height          =   255
+         Index           =   1
+         Left            =   960
+         Top             =   840
+         Width           =   255
       End
       Begin VB.Label Label3 
          Caption         =   "Desde"
@@ -203,10 +214,17 @@ Begin VB.Form frmIVAList
          EndProperty
          Height          =   195
          Index           =   0
-         Left            =   240
-         TabIndex        =   16
-         Top             =   600
-         Width           =   690
+         Left            =   120
+         TabIndex        =   20
+         Top             =   480
+         Width           =   780
+      End
+      Begin VB.Image imgCuentas 
+         Height          =   255
+         Index           =   0
+         Left            =   960
+         Top             =   480
+         Width           =   255
       End
    End
    Begin VB.CommandButton cmdCancelar 
@@ -223,7 +241,7 @@ Begin VB.Form frmIVAList
       EndProperty
       Height          =   375
       Left            =   9240
-      TabIndex        =   6
+      TabIndex        =   4
       Top             =   4440
       Width           =   1215
    End
@@ -240,7 +258,7 @@ Begin VB.Form frmIVAList
       Height          =   375
       Index           =   1
       Left            =   7680
-      TabIndex        =   4
+      TabIndex        =   2
       Top             =   4440
       Width           =   1455
    End
@@ -258,7 +276,7 @@ Begin VB.Form frmIVAList
       Height          =   375
       Index           =   0
       Left            =   120
-      TabIndex        =   5
+      TabIndex        =   3
       Top             =   4440
       Width           =   1335
    End
@@ -275,7 +293,7 @@ Begin VB.Form frmIVAList
       EndProperty
       Height          =   2655
       Left            =   120
-      TabIndex        =   7
+      TabIndex        =   5
       Top             =   1680
       Width           =   6975
       Begin VB.CommandButton PushButtonImpr 
@@ -291,7 +309,7 @@ Begin VB.Form frmIVAList
          EndProperty
          Height          =   375
          Left            =   5220
-         TabIndex        =   21
+         TabIndex        =   17
          Top             =   720
          Width           =   1515
       End
@@ -300,7 +318,7 @@ Begin VB.Form frmIVAList
          Height          =   315
          Index           =   1
          Left            =   6480
-         TabIndex        =   20
+         TabIndex        =   16
          Top             =   1680
          Width           =   285
       End
@@ -309,7 +327,7 @@ Begin VB.Form frmIVAList
          Height          =   315
          Index           =   0
          Left            =   6480
-         TabIndex        =   19
+         TabIndex        =   15
          Top             =   1200
          Width           =   285
       End
@@ -327,7 +345,7 @@ Begin VB.Form frmIVAList
          Index           =   2
          Left            =   1710
          Locked          =   -1  'True
-         TabIndex        =   14
+         TabIndex        =   12
          Top             =   1680
          Width           =   4725
       End
@@ -345,7 +363,7 @@ Begin VB.Form frmIVAList
          Index           =   1
          Left            =   1710
          Locked          =   -1  'True
-         TabIndex        =   13
+         TabIndex        =   11
          Top             =   1200
          Width           =   4725
       End
@@ -363,7 +381,7 @@ Begin VB.Form frmIVAList
          Index           =   0
          Left            =   1710
          Locked          =   -1  'True
-         TabIndex        =   12
+         TabIndex        =   10
          Text            =   "Text1"
          Top             =   720
          Width           =   3405
@@ -382,7 +400,7 @@ Begin VB.Form frmIVAList
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   11
+         TabIndex        =   9
          Top             =   2160
          Width           =   975
       End
@@ -400,7 +418,7 @@ Begin VB.Form frmIVAList
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   10
+         TabIndex        =   8
          Top             =   1680
          Width           =   975
       End
@@ -418,7 +436,7 @@ Begin VB.Form frmIVAList
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   9
+         TabIndex        =   7
          Top             =   1200
          Width           =   1545
       End
@@ -436,19 +454,22 @@ Begin VB.Form frmIVAList
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   8
+         TabIndex        =   6
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
       End
    End
 End
-Attribute VB_Name = "frmIVAList"
+Attribute VB_Name = "frmSegurosListClientes"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
+
+
+Private Const IdPrograma = 414
 
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
@@ -461,12 +482,12 @@ Option Explicit
 '
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
-' ***********************************************************************************************************
+    ' ***********************************************************************************************************
+Private WithEvents frmCtas As frmColCtas
+Attribute frmCtas.VB_VarHelpID = -1
 
-Private WithEvents frmTIva As frmBasico2
-Attribute frmTIva.VB_VarHelpID = -1
-            
-Private SQL As String
+
+Private Sql As String
 
 
 Public Sub InicializarVbles(AñadireElDeEmpresa As Boolean)
@@ -497,9 +518,12 @@ Private Sub cmdAccion_Click(Index As Integer)
     
     InicializarVbles True
     
-    If Not PonerDesdeHasta("tiposiva.codigiva", "TIVA", Me.txtIVA(0), Me.txtNIva(0), Me.txtIVA(1), Me.txtNIva(1), "pDH=""") Then Exit Sub
-        
-    If Not HayRegParaInforme("tiposiva", cadselect) Then Exit Sub
+    If Not PonerDesdeHasta("cuentas.codmacta", "CTA", Me.txtCuentas(0), Me.txtNCuentas(0), Me.txtCuentas(1), Me.txtNCuentas(1), "Cuenta=""") Then Exit Sub
+    
+    If Not ListAseguBasico Then Exit Sub
+     
+    cadFormula = "{tmptesoreriacomun.codusu} = " & vUsu.Codigo
+   
     
     If optTipoSal(1).Value Then
         'EXPORTAR A CSV
@@ -549,11 +573,11 @@ Private Sub Form_Load()
     Me.Icon = frmppal.Icon
         
     'Otras opciones
-    Me.Caption = "Tipos de IVA"
+    Me.Caption = "Datos báscios operaciones aseguradas"
     optVarios(0).Value = True
 
     For i = 0 To 1
-        Me.imgiva(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Next i
      
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
@@ -563,28 +587,11 @@ End Sub
 
 
 Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
-Private Sub frmTIva_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
-End Sub
-
-Private Sub imgiva_Click(Index As Integer)
-    SQL = ""
-    AbiertoOtroFormEnListado = True
-    Set frmTIva = New frmBasico2
-    AyudaTiposIva frmTIva
-    Set frmTIva = Nothing
-    If SQL <> "" Then
-        Me.txtIVA(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNIva(Index).Text = RecuperaValor(SQL, 2)
-    Else
-        QuitarPulsacionMas Me.txtIVA(Index)
-    End If
-    
-    PonFoco Me.txtIVA(Index)
-    AbiertoOtroFormEnListado = False
+Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub optTipoSal_Click(Index As Integer)
@@ -620,60 +627,21 @@ Private Sub PushButtonImpr_Click()
 End Sub
 
 
-Private Sub txtIVA_GotFocus(Index As Integer)
-    ConseguirFoco txtIVA(Index), 3
-End Sub
-
-Private Sub txtIVA_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
-    If KeyCode = vbKeyAdd Then
-        KeyCode = 0
-        
-        LanzaFormAyuda txtIVA(Index).Tag, Index
-    End If
-End Sub
 
 
-Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
-    Select Case Nombre
-    Case "imgIVA"
-        imgiva_Click Indice
-    End Select
-    
-End Sub
-
-Private Sub txtiva_KeyPress(Index As Integer, KeyAscii As Integer)
-   ' KEYpressGnral KeyAscii
-End Sub
-
-Private Sub txtIVA_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
-
-    txtIVA(Index).Text = Trim(txtIVA(Index).Text)
-    
-    'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
-    'mostrar mensajes ni hacer nada
-    If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
-
-    Select Case Index
-        Case 0, 1 ' TIPOS DE IVA
-            txtNIva(Index).Text = DevuelveDesdeBD("nombriva", "tiposiva", "codigiva", txtIVA(Index), "N")
-            If txtIVA(Index).Text <> "" Then txtIVA(Index).Text = Format(txtIVA(Index).Text, "000")
-    End Select
-
-End Sub
 
 
 Private Sub AccionesCSV()
     
     'Monto el SQL
-    SQL = "Select  codigiva as codigo ,nombriva as descripcion, porceiva as porcentaje, porcerec as recargo,  CASE tipodiva WHEN 0 THEN 'IVA' WHEN 1 THEN 'IGIC' WHEN 2 THEN 'BIEN DE INVERSION' WHEN 3 THEN 'R.E.A' WHEN 4 THEN 'NO DEDUCIBLE' END as TipoIva FROM tiposiva "
-    If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
-    i = 1
-    If optVarios(1).Value Then i = 2 'nombre
-    SQL = SQL & " ORDER BY " & i
+'    SQL = "Select  codigiva as codigo ,nombriva as descripcion, porceiva as porcentaje, porcerec as recargo,  CASE tipodiva WHEN 0 THEN 'IVA' WHEN 1 THEN 'IGIC' WHEN 2 THEN 'BIEN DE INVERSION' WHEN 3 THEN 'R.E.A' WHEN 4 THEN 'NO DEDUCIBLE' END as TipoIva FROM tiposiva "
+'    If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
+'    i = 1
+'    If optVarios(1).Value Then i = 2 'nombre
+'    SQL = SQL & " ORDER BY " & i
         
     'LLamoa a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+'    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -695,11 +663,11 @@ Dim nomDocu As String
     End If
     numParam = numParam + 1
     
-    indRPT = "0204-00"
+    indRPT = Format(IdPrograma, "0000") & "-00"
     
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     
-    cadNomRPT = nomDocu '"TiposIVA.rpt"
+    cadNomRPT = nomDocu
     
     ImprimeGeneral
     
@@ -710,3 +678,201 @@ Dim nomDocu As String
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
 End Sub
+
+
+
+
+
+Private Sub txtCuentas_GotFocus(Index As Integer)
+    ConseguirFoco txtCuentas(Index), 3
+End Sub
+
+Private Sub txtCuentas_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+    If KeyCode = vbKeyAdd Then
+        KeyCode = 0
+        
+        LanzaFormAyuda txtCuentas(Index).Tag, Index
+    End If
+End Sub
+
+
+Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
+    Select Case Nombre
+    Case "imgCuentas"
+        imgCuentas_Click Indice
+    End Select
+    
+End Sub
+
+Private Sub txtCuentas_KeyPress(Index As Integer, KeyAscii As Integer)
+   ' KEYpressGnral KeyAscii
+End Sub
+
+Private Sub txtCuentas_LostFocus(Index As Integer)
+Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cta As String
+Dim B As Boolean
+Dim Sql As String
+
+    txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
+    
+    
+    If txtCuentas(Index).Text = "" Then
+        txtNCuentas(Index).Text = ""
+        Exit Sub
+    End If
+    
+    If Not IsNumeric(txtCuentas(Index).Text) Then
+        If InStr(1, txtCuentas(Index).Text, "+") = 0 Then MsgBox "La cuenta debe ser numérica: " & txtCuentas(Index).Text, vbExclamation
+        txtCuentas(Index).Text = ""
+        txtNCuentas(Index).Text = ""
+        Exit Sub
+    End If
+    
+    
+    'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
+    'mostrar mensajes ni hacer nada
+    If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
+
+    Select Case Index
+        Case 0, 1 'cuentas
+            Cta = (txtCuentas(Index).Text)
+                                    '********
+            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
+            If B = 0 Then
+                MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
+                txtCuentas(Index).Text = ""
+                txtNCuentas(Index).Text = ""
+            Else
+                txtCuentas(Index).Text = Cta
+                txtNCuentas(Index).Text = Sql
+                If B = 1 Then
+                    txtNCuentas(Index).Tag = ""
+                Else
+                    txtNCuentas(Index).Tag = Sql
+                End If
+           End If
+    
+    End Select
+
+End Sub
+
+
+
+Private Sub imgCuentas_Click(Index As Integer)
+    Sql = ""
+    AbiertoOtroFormEnListado = True
+    Set frmCtas = New frmColCtas
+    frmCtas.DatosADevolverBusqueda = True
+    frmCtas.Show vbModal
+    Set frmCtas = Nothing
+    If Sql <> "" Then
+        Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
+    Else
+        QuitarPulsacionMas Me.txtCuentas(Index)
+    End If
+    
+    PonFoco Me.txtCuentas(Index)
+    AbiertoOtroFormEnListado = False
+End Sub
+
+
+
+
+Private Function ListAseguBasico() As Boolean
+Dim cad As String
+Dim RC As String
+
+    On Error GoTo EListAseguBasico
+    ListAseguBasico = False
+    
+    Set miRsAux = New ADODB.Recordset
+    
+    cad = "DELETE FROM tmptesoreriacomun  where codusu =" & vUsu.Codigo
+    Conn.Execute cad
+    
+    cad = "Select * from cuentas where numpoliz<>"""""
+    If cadselect <> "" Then cad = cad & " AND " & cadselect
+    
+    
+    
+    'RC = CampoABD(Text3(21), "F", "fecsolic", True)
+    'If RC <> "" Then SQL = SQL & " AND " & RC
+    'RC = CampoABD(Text3(22), "F", "fecconce", False)
+    'If RC <> "" Then SQL = SQL & " AND " & RC
+    
+    'RC = CampoABD(txtCta(0), "T", "codmacta", True)
+    'If RC <> "" Then SQL = SQL & " AND " & RC
+    'RC = CampoABD(txtCta(1), "T", "codmacta", False)
+    'If RC <> "" Then SQL = SQL & " AND " & RC
+    'If SQL <> "" Then Cad = Cad & SQL
+        
+    
+    'ORDENACION
+    If optVarios(1).Value Then
+        RC = "nommacta"
+    Else
+        If Me.optVarios(2).Value Then
+            RC = "numpoliz"
+        Else
+            RC = "codmacta"
+        End If
+    End If
+    cad = cad & " ORDER BY " & RC
+    
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    i = 0
+    cad = "INSERT INTO tmptesoreriacomun (codusu, codigo,texto1,texto2,texto3,texto4,fecha1,fecha2,importe1,"
+    cad = cad & "importe2,observa1,observa2) VALUES (" & vUsu.Codigo & ","
+        
+    While Not miRsAux.EOF
+        i = i + 1
+        Sql = i & ",'" & miRsAux!codmacta & "','" & DevNombreSQL(miRsAux!Nommacta) & "','" & DBLet(miRsAux!nifdatos, "T") & "','"
+        Sql = Sql & DevNombreSQL(miRsAux!numpoliz) & "',"
+        'Fecha sol y concesion
+        Sql = Sql & DBSet(miRsAux!fecsolic, "F", "T") & "," & DBSet(miRsAux!fecconce, "F", "T") & ","
+        'Importes sol y concesion
+        Sql = Sql & DBSet(miRsAux!credisol, "N", "T") & "," & DBSet(miRsAux!credicon, "N", "T") & ","
+        'Observaciones
+        RC = Memo_Leer(miRsAux!observa)
+        If Len(RC) = 0 Then
+            'Los dos campos NULL
+            Sql = Sql & "NULL,NULL"
+        Else
+            If Len(RC) < 255 Then
+                Sql = Sql & "'" & DevNombreSQL(RC) & "',NULL"
+            Else
+                Sql = Sql & "'" & DevNombreSQL(Mid(RC, 1, 255))
+                RC = Mid(RC, 256)
+                Sql = Sql & "','" & DevNombreSQL(Mid(RC, 1, 255)) & "'"
+            End If
+        End If
+        
+        Sql = Sql & ")"
+        Conn.Execute cad & Sql
+        miRsAux.MoveNext
+    Wend
+    miRsAux.Close
+    
+    If i > 0 Then
+        ListAseguBasico = True
+    Else
+        MsgBox "Ningun datos con esos valores", vbExclamation
+    End If
+    
+EListAseguBasico:
+    If Err.Number <> 0 Then MuestraError Err.Number, "ListAseguBasico"
+    Set miRsAux = Nothing
+End Function
+
+
+
+
+
+
+
+
+
+
+

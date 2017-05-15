@@ -1341,7 +1341,7 @@ Private Sub BotonModificar()
 
 
     'Si tienen NO tiene lineas dejaremos modificar la cuenta contable
-    If adodc1.Recordset.EOF Then Text1(2).Enabled = True
+    If Adodc1.Recordset.EOF Then Text1(2).Enabled = True
     
     DespalzamientoVisible False
     lblIndicador.Caption = "Modificar"
@@ -1380,10 +1380,10 @@ Dim Ok As Boolean
     NumRegElim = Data1.Recordset.AbsolutePosition
     
         i = 0
-        If Not adodc1.Recordset Is Nothing Then
-            If Not adodc1.Recordset.EOF Then
-               adodc1.Recordset.MoveFirst
-               While Not adodc1.Recordset.EOF
+        If Not Adodc1.Recordset Is Nothing Then
+            If Not Adodc1.Recordset.EOF Then
+               Adodc1.Recordset.MoveFirst
+               While Not Adodc1.Recordset.EOF
                
                    'Obtengo el importe del vto
                    Sql = MontaSQLDelVto(False)
@@ -1391,10 +1391,10 @@ Dim Ok As Boolean
                    Sql = DevuelveDesdeBD("impcobro", "cobros", Sql, "1")
                    If Sql = "" Then Sql = "0"
                    Importe = CCur(Sql)
-                   If Importe <> adodc1.Recordset!Importe Then
+                   If Importe <> Adodc1.Recordset!Importe Then
                        'TODO EL IMPORTE estaba en la linea. Fecultco a NULL
                        i = 1
-                       Importe = Importe - adodc1.Recordset!Importe
+                       Importe = Importe - Adodc1.Recordset!Importe
                    Else
                        i = 0
                    End If
@@ -1411,10 +1411,10 @@ Dim Ok As Boolean
                    If Not EjecutarSQL(Sql) Then
                        MsgBox "Error actualizadno cobros", vbExclamation
                        i = 100
-                       adodc1.Recordset.MoveLast
+                       Adodc1.Recordset.MoveLast
                    End If
                    
-                   adodc1.Recordset.MoveNext
+                   Adodc1.Recordset.MoveNext
                Wend
             End If
         End If
@@ -1452,7 +1452,7 @@ Dim Ok As Boolean
 End Sub
 
 Private Sub cmdRegresar_Click()
-Dim Cad As String
+Dim cad As String
 Dim i As Integer
 Dim J As Integer
 Dim Aux As String
@@ -1687,9 +1687,21 @@ End Sub
 
 
 Private Sub Text1_KeyPress(Index As Integer, KeyAscii As Integer)
-    KEYpress KeyAscii
+    If KeyAscii = teclaBuscar Then
+        Select Case Index
+            Case 1: KEYPPal KeyAscii, 0
+            Case 6: KEYPPal KeyAscii, 1
+            Case 2: KEYPPal KeyAscii, 2
+        End Select
+    Else
+        KEYpress KeyAscii
+    End If
 End Sub
 
+Private Sub KEYPPal(KeyAscii As Integer, Indice As Integer)
+    KeyAscii = 0
+    imgppal_Click (Indice)
+End Sub
 '----------------------------------------------------------------
 '----------------------------------------------------------------
 ' Cunado el campo de texto pierde el enfoque
@@ -2077,11 +2089,11 @@ Private Sub CargaGrid2(Enlaza As Boolean)
     
     On Error GoTo ECarga
     DataGrid1.Tag = "Estableciendo"
-    adodc1.ConnectionString = Conn
-    adodc1.RecordSource = MontaSQLCarga(Enlaza)
-    adodc1.CursorType = adOpenDynamic
-    adodc1.LockType = adLockPessimistic
-    adodc1.Refresh
+    Adodc1.ConnectionString = Conn
+    Adodc1.RecordSource = MontaSQLCarga(Enlaza)
+    Adodc1.CursorType = adOpenDynamic
+    Adodc1.LockType = adLockPessimistic
+    Adodc1.Refresh
     
     DataGrid1.AllowRowSizing = False
     DataGrid1.RowHeight = 320
@@ -2200,8 +2212,8 @@ End Sub
 Private Sub EliminarLineaFactura()
 Dim Importe As Currency
 
-    If adodc1.Recordset.RecordCount < 1 Then Exit Sub
-    If adodc1.Recordset.EOF Then Exit Sub
+    If Adodc1.Recordset.RecordCount < 1 Then Exit Sub
+    If Adodc1.Recordset.EOF Then Exit Sub
     If ModificandoLineas <> 0 Then Exit Sub
     
     cmdAux_Click (0)
@@ -2215,8 +2227,8 @@ End Sub
 Private Sub PosicionaLineas(Pos As Integer)
     On Error GoTo EPosicionaLineas
     If Pos > 1 Then
-        If Pos >= adodc1.Recordset.RecordCount Then Pos = adodc1.Recordset.RecordCount - 1
-        adodc1.Recordset.Move Pos
+        If Pos >= Adodc1.Recordset.RecordCount Then Pos = Adodc1.Recordset.RecordCount - 1
+        Adodc1.Recordset.Move Pos
     End If
     
     Exit Sub
@@ -2426,23 +2438,23 @@ End Sub
 
 
 Private Sub PonerCamposVencimiento(DesdeElButon As Boolean)
-Dim Cad As String
+Dim cad As String
 Dim Importe As Currency
 
         'Veresmos si existe un unico vto para esta factura
-        Cad = "Select numserie,numfactu,fecfactu,numorden,impvenci,impcobro,tipforpa,Gastos from cobros,formapago"
-        Cad = Cad & "  WHERE cobros.codforpa=formapa.codforpa"
-        Cad = Cad & " AND codmacta ='" & Text1(2).Text & "'"
+        cad = "Select numserie,numfactu,fecfactu,numorden,impvenci,impcobro,tipforpa,Gastos from cobros,formapago"
+        cad = cad & "  WHERE cobros.codforpa=formapa.codforpa"
+        cad = cad & " AND codmacta ='" & Text1(2).Text & "'"
         
         'Numero de serie y numfac
         If Not DesdeElButon Then
-            Cad = Cad & " AND numserie ='" & txtAux(0).Text & "' AND numfactu = " & txtAux(1).Text
+            cad = cad & " AND numserie ='" & txtAux(0).Text & "' AND numfactu = " & txtAux(1).Text
         Else
-            Cad = Cad & Sql  'SQL traera los datos del venciemietno
+            cad = cad & Sql  'SQL traera los datos del venciemietno
         End If
             
         Set miRsAux = New ADODB.Recordset
-        miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         i = 0
         Sql = ""
         While Not miRsAux.EOF
@@ -2452,11 +2464,11 @@ Dim Importe As Currency
             If Importe = 0 Then
                 
                     If IsNull(miRsAux!impcobro) Then
-                        Cad = "Importe es cero"
+                        cad = "Importe es cero"
                     Else
-                        Cad = "Totalmente cobrado"
+                        cad = "Totalmente cobrado"
                     End If
-                    MsgBox Cad, vbExclamation
+                    MsgBox cad, vbExclamation
                 
             Else
                 NumRegElim = vbTalon
@@ -2499,7 +2511,7 @@ End Sub
 
 Private Function AuxOK_() As Boolean
 Dim Importe As Currency
-Dim Cad As String
+Dim cad As String
     AuxOK_ = False
     For i = 0 To txtAux.Count - 1
         If txtAux(i).Text = "" Then
@@ -2528,18 +2540,18 @@ Dim Cad As String
 
     
         'Ahora veremos si esta introduciendo un VTO sin el importe total....
-        Cad = "Select impvenci,impcobro,Gastos from cobros"
-        Cad = Cad & "  WHERE numserie ='" & txtAux(0).Text & "' AND numfactu = " & txtAux(1).Text
-        Cad = Cad & "  AND fecfactu='" & Format(txtAux(2).Text, FormatoFecha) & "' AND numorden = " & txtAux(3).Text
+        cad = "Select impvenci,impcobro,Gastos from cobros"
+        cad = cad & "  WHERE numserie ='" & txtAux(0).Text & "' AND numfactu = " & txtAux(1).Text
+        cad = cad & "  AND fecfactu='" & Format(txtAux(2).Text, FormatoFecha) & "' AND numorden = " & txtAux(3).Text
         Set miRsAux = New ADODB.Recordset
-        miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not miRsAux.EOF Then
                 Importe = miRsAux!ImpVenci + DBLet(miRsAux!Gastos, "N") - DBLet(miRsAux!impcobro, "N")
                 Importe = Importe - ImporteFormateado(txtAux(4).Text)
                 If Importe > 0 Then
-                    Cad = "Deberia dividir el vencimiento si no lo va a remesar por el total pendiente."
-                    Cad = Cad & vbCrLf & vbCrLf & "¿Continuar?"
-                    If MsgBox(Cad, vbQuestion + vbYesNo + vbMsgBoxRight) = vbYes Then AuxOK_ = True
+                    cad = "Deberia dividir el vencimiento si no lo va a remesar por el total pendiente."
+                    cad = cad & vbCrLf & vbCrLf & "¿Continuar?"
+                    If MsgBox(cad, vbQuestion + vbYesNo + vbMsgBoxRight) = vbYes Then AuxOK_ = True
                 Else
                     AuxOK_ = True
                 End If
@@ -2695,8 +2707,8 @@ End Sub
 
 Private Function RecodsetVacio() As Boolean
     RecodsetVacio = True
-    If Not adodc1.Recordset Is Nothing Then
-        If Not adodc1.Recordset.EOF Then RecodsetVacio = False
+    If Not Adodc1.Recordset Is Nothing Then
+        If Not Adodc1.Recordset.EOF Then RecodsetVacio = False
     End If
 End Function
 
@@ -2888,7 +2900,7 @@ Private Function MontaSQLDelVto(EnLasLineas As Boolean) As String
         MontaSQLDelVto = " numserie = '" & txtAux(0).Text & "' AND numfactu = " & txtAux(1).Text
         MontaSQLDelVto = MontaSQLDelVto & " and fecfactu ='" & Format(txtAux(2).Text, FormatoFecha) & "' AND numorden = " & txtAux(3).Text
     Else
-        With adodc1.Recordset
+        With Adodc1.Recordset
           MontaSQLDelVto = " numserie = '" & !NUmSerie & "' AND numfactu = " & !NumFactu
           MontaSQLDelVto = MontaSQLDelVto & " and fecfactu ='" & Format(!FecFactu, FormatoFecha) & "' AND numorden = " & !numorden
         End With
@@ -3084,15 +3096,15 @@ End Function
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
     
     On Error Resume Next
 
-    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
@@ -3109,9 +3121,9 @@ Dim Cad As String
         Me.Toolbar2.Buttons(3).Enabled = DBLet(Rs!especial, "N") And Modo = 2
         
         ToolbarAux.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2)
-        If Not Me.adodc1.Recordset Is Nothing Then
+        If Not Me.Adodc1.Recordset Is Nothing Then
             ToolbarAux.Buttons(2).Enabled = False
-            ToolbarAux.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2 And Me.adodc1.Recordset.RecordCount > 0)
+            ToolbarAux.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2 And Me.Adodc1.Recordset.RecordCount > 0)
         Else
             ToolbarAux.Buttons(2).Enabled = False
             ToolbarAux.Buttons(3).Enabled = False

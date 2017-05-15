@@ -654,7 +654,7 @@ End Sub
 
 Private Sub Check1_Click(Index As Integer)
     If Index = 0 Then
-        Frame1.Enabled = (check1(Index).Value = 1)
+        Frame1.Enabled = (Check1(Index).Value = 1)
     End If
 End Sub
 
@@ -731,10 +731,10 @@ Private Sub Form_Load()
         txtNum(1).Text = numero
         txtAnyo(0).Text = Anyo
         txtAnyo(1).Text = Anyo
-        check1(0).Value = 1
+        Check1(0).Value = 1
     End If
     
-    Frame1.Enabled = (check1(0).Value = 1)
+    Frame1.Enabled = (Check1(0).Value = 1)
     
     optVarios(0).Value = 1
     
@@ -815,8 +815,8 @@ Dim Sql2 As String
     'Monto el SQL
     Sql = "select remesas.anyo Año, remesas.codigo, remesas.codmacta Cuenta, cuentas.nommacta Nombre, remesas.fecremesa Fecha,  "
     Sql = Sql & " remesas.descripcion, wtiposituacionrem.descsituacion Situacion, "
-    If Me.check1(0).Value = 1 Then
-        Sql = Sql & "cobros.numserie, cobros.numfactu Factura, cobros.fecfactu Fecha, cobros.fecvenci FVencim, cobros.codmacta Cuenta, aaa.nommacta Descripcion, cobros.iban, cobros.impvenci Importe"
+    If Me.Check1(0).Value = 1 Then
+        Sql = Sql & "tmpcobros2.numserie, tmpcobros2.numfactu Factura, tmpcobros2.fecfactu Fecha, tmpcobros2.fecvenci FVencim, tmpcobros2.codmacta Cuenta, aaa.nommacta Descripcion, tmpcobros2.iban, tmpcobros2.impvenci Importe"
         Sql = Sql & " from remesas, cuentas, usuarios.wtiposituacionrem, cuentas aaa, tmpcobros2 "
     Else
         Sql = Sql & "remesas.importe "
@@ -826,12 +826,22 @@ Dim Sql2 As String
     
     Sql = Sql & " and remesas.codmacta = cuentas.codmacta and remesas.situacion = wtiposituacionrem.situacio "
     
-    If Me.check1(0).Value = 1 Then
+    
+    RC = ""
+    If Me.Check1(0).Value = 1 Then
         Sql = Sql & " and tmpcobros2.codusu = " & vUsu.Codigo
         Sql = Sql & " and tmpcobros2.codmacta = aaa.codmacta and remesas.anyo = tmpcobros2.anyorem and remesas.codigo = tmpcobros2.codrem "
+        
+        
+        If optVarios(0).Value Then RC = ""  'pondra el ultimo order by
+        If optVarios(1).Value Then RC = " tmpcobros2.codmacta, "
+        If optVarios(2).Value Then RC = " tmpcobros2.fecvenci, "
+        If optVarios(3).Value Then RC = " aaa.nommacta, "
+        RC = "," & RC & " tmpcobros2.numserie, tmpcobros2.numfactu"
+        
     End If
     
-    Sql = Sql & " ORDER BY 1 desc, 2 "
+    Sql = Sql & " ORDER BY 1 desc, 2 " & RC
         
     'LLamos a la funcion
     GeneraFicheroCSV Sql, txtTipoSalida(1).Text
@@ -852,7 +862,7 @@ Dim nomDocu As String
     
     cadNomRPT = nomDocu
 
-    If Me.check1(0).Value Then
+    If Me.Check1(0).Value Then
         cadParam = cadParam & "pDetalle=1|"
     Else
         cadParam = cadParam & "pDetalle=0|"
@@ -891,7 +901,7 @@ Dim RC2 As String
     If Not PonerDesdeHasta("remesas.codigo", "REM", Me.txtNum(0), Me.txtNum(0), Me.txtNum(1), Me.txtNum(1), "pDHRemesa=""") Then Exit Function
     If Not PonerDesdeHasta("remesas.anyo", "ANYO", Me.txtAnyo(0), Me.txtAnyo(0), Me.txtAnyo(1), Me.txtAnyo(1), "pDHAnyo=""") Then Exit Function
     
-    If check1(0).Value Then CargarTemporal
+    If Check1(0).Value Then CargarTemporal
     
     MontaSQL = True
            

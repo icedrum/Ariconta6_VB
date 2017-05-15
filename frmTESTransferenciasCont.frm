@@ -477,6 +477,10 @@ Dim ContabilizacionEspecialNorma19 As Boolean
         
         Else
             Sql = "update pagos set situdocum = 'Q', situacion = 1 "
+            
+            'IMPPAGAD y fec
+            Sql = Sql & ", fecultpa=" & DBSet(Text1(10).Text, "F") & " ,imppagad =impefect"
+            
             Sql = Sql & " WHERE nrodocum=" & RecuperaValor(NumeroDocumento, 1)
             Sql = Sql & " and anyodocum=" & RecuperaValor(NumeroDocumento, 2)
             
@@ -640,7 +644,7 @@ Dim cad As String
         If Cobros Then
             impo = DBLet(Rs!ImpVenci, "N")
         Else
-            impo = DBLet(Rs!ImpEfect, "N")
+            impo = DBLet(Rs!impefect, "N")
         End If
         
         If Cobros Then

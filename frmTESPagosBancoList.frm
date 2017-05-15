@@ -336,7 +336,7 @@ Begin VB.Form frmTESPagosBancoList
          Index           =   1
          Left            =   1260
          TabIndex        =   1
-         Tag             =   "imgConcepto"
+         Tag             =   "imgCuentas"
          Top             =   1230
          Width           =   1275
       End
@@ -355,7 +355,7 @@ Begin VB.Form frmTESPagosBancoList
          Index           =   0
          Left            =   1260
          TabIndex        =   0
-         Tag             =   "imgConcepto"
+         Tag             =   "imgCuentas"
          Top             =   810
          Width           =   1275
       End
@@ -375,7 +375,7 @@ Begin VB.Form frmTESPagosBancoList
          Left            =   1260
          MaxLength       =   10
          TabIndex        =   3
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFecha"
          Top             =   2430
          Width           =   1305
       End
@@ -395,7 +395,7 @@ Begin VB.Form frmTESPagosBancoList
          Left            =   1260
          MaxLength       =   10
          TabIndex        =   2
-         Tag             =   "imgConcepto"
+         Tag             =   "imgFecha"
          Top             =   2010
          Width           =   1305
       End
@@ -722,8 +722,8 @@ End Sub
 
 Private Sub Check1_Click(Index As Integer)
     If Index = 0 Then
-        check1(1).Enabled = (check1(0).Value = 1)
-        If Not check1(1).Enabled Then check1(1).Value = 0
+        Check1(1).Enabled = (Check1(0).Value = 1)
+        If Not Check1(1).Enabled Then Check1(1).Value = 0
     End If
 End Sub
 
@@ -1044,7 +1044,7 @@ Dim nomDocu As String
     indRPT = "0803-00"
 
         
-    If check1(0).Value Then indRPT = "0803-01"
+    If Check1(0).Value Then indRPT = "0803-01"
     
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     
@@ -1079,7 +1079,7 @@ Dim i As Integer
     If Not AnyadirAFormula(cadselect, "(pagos.impefect - coalesce(pagos.imppagad,0)) <> 0") Then Exit Function
     
     
-    If check1(0).Value = 1 And check1(1).Value = 1 Then
+    If Check1(0).Value = 1 And Check1(1).Value = 1 Then
         If cadFormula <> "" Then cadFormula = cadFormula & " and "
         If cadselect <> "" Then cadselect = cadselect & " and "
         

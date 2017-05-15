@@ -28,9 +28,28 @@ Begin VB.Form frmTESInfSituacionNIF
       EndProperty
       Height          =   3015
       Left            =   120
-      TabIndex        =   18
+      TabIndex        =   21
       Top             =   0
       Width           =   6945
+      Begin VB.TextBox txtNIF 
+         Alignment       =   1  'Right Justify
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   0
+         Left            =   1320
+         TabIndex        =   0
+         Tag             =   "imgConcepto"
+         Top             =   480
+         Width           =   1485
+      End
       Begin VB.TextBox txtCuentas 
          Alignment       =   1  'Right Justify
          BeginProperty Font 
@@ -44,10 +63,10 @@ Begin VB.Form frmTESInfSituacionNIF
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   1260
-         TabIndex        =   4
-         Tag             =   "imgConcepto"
-         Top             =   690
+         Left            =   1320
+         TabIndex        =   1
+         Tag             =   "imgCuentas"
+         Top             =   960
          Width           =   1485
       End
       Begin VB.TextBox txtNCuentas 
@@ -65,8 +84,8 @@ Begin VB.Form frmTESInfSituacionNIF
          Index           =   0
          Left            =   2850
          Locked          =   -1  'True
-         TabIndex        =   19
-         Top             =   690
+         TabIndex        =   22
+         Top             =   960
          Width           =   3735
       End
       Begin VB.TextBox txtFecha 
@@ -84,9 +103,9 @@ Begin VB.Form frmTESInfSituacionNIF
          Index           =   1
          Left            =   1230
          MaxLength       =   10
-         TabIndex        =   1
-         Tag             =   "imgConcepto"
-         Top             =   2100
+         TabIndex        =   3
+         Tag             =   "imgFecha"
+         Top             =   2340
          Width           =   1305
       End
       Begin VB.TextBox txtFecha 
@@ -104,10 +123,28 @@ Begin VB.Form frmTESInfSituacionNIF
          Index           =   0
          Left            =   1230
          MaxLength       =   10
-         TabIndex        =   0
-         Tag             =   "imgConcepto"
-         Top             =   1680
+         TabIndex        =   2
+         Tag             =   "imgFecha"
+         Top             =   1920
          Width           =   1305
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Cuenta"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Index           =   1
+         Left            =   240
+         TabIndex        =   35
+         Top             =   1080
+         Width           =   735
       End
       Begin VB.Label lblFecha 
          BeginProperty Font 
@@ -122,7 +159,7 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   255
          Index           =   0
          Left            =   2580
-         TabIndex        =   27
+         TabIndex        =   30
          Top             =   3630
          Width           =   4095
       End
@@ -139,7 +176,7 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   255
          Index           =   4
          Left            =   2580
-         TabIndex        =   26
+         TabIndex        =   29
          Top             =   3990
          Width           =   4095
       End
@@ -156,7 +193,7 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   255
          Index           =   0
          Left            =   2610
-         TabIndex        =   25
+         TabIndex        =   28
          Top             =   2340
          Width           =   4035
       End
@@ -173,19 +210,19 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   255
          Index           =   1
          Left            =   2580
-         TabIndex        =   24
+         TabIndex        =   27
          Top             =   2700
          Width           =   4035
       End
       Begin VB.Image imgCuentas 
          Height          =   255
          Index           =   0
-         Left            =   930
-         Top             =   720
+         Left            =   1080
+         Top             =   1080
          Width           =   255
       End
       Begin VB.Label Label3 
-         Caption         =   "Cuenta"
+         Caption         =   "N.I.F."
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -199,22 +236,22 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   285
          Index           =   11
          Left            =   240
-         TabIndex        =   23
-         Top             =   420
+         TabIndex        =   26
+         Top             =   480
          Width           =   1020
       End
       Begin VB.Image ImgFec 
          Height          =   240
          Index           =   1
          Left            =   960
-         Top             =   2100
+         Top             =   2340
          Width           =   240
       End
       Begin VB.Image ImgFec 
          Height          =   240
          Index           =   0
          Left            =   960
-         Top             =   1680
+         Top             =   1920
          Width           =   240
       End
       Begin VB.Label Label3 
@@ -231,8 +268,8 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   195
          Index           =   16
          Left            =   270
-         TabIndex        =   22
-         Top             =   2100
+         TabIndex        =   25
+         Top             =   2340
          Width           =   615
       End
       Begin VB.Label Label3 
@@ -249,8 +286,8 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   195
          Index           =   17
          Left            =   270
-         TabIndex        =   21
-         Top             =   1710
+         TabIndex        =   24
+         Top             =   1950
          Width           =   690
       End
       Begin VB.Label Label3 
@@ -268,8 +305,8 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   195
          Index           =   18
          Left            =   270
-         TabIndex        =   20
-         Top             =   1410
+         TabIndex        =   23
+         Top             =   1650
          Width           =   2280
       End
    End
@@ -286,7 +323,7 @@ Begin VB.Form frmTESInfSituacionNIF
       EndProperty
       Height          =   2655
       Left            =   150
-      TabIndex        =   7
+      TabIndex        =   10
       Top             =   3090
       Width           =   6915
       Begin VB.OptionButton optTipoSal 
@@ -303,7 +340,7 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   17
+         TabIndex        =   20
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -322,7 +359,7 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   16
+         TabIndex        =   19
          Top             =   1200
          Width           =   1515
       End
@@ -340,7 +377,7 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   15
+         TabIndex        =   18
          Top             =   1680
          Width           =   975
       End
@@ -358,7 +395,7 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   14
+         TabIndex        =   17
          Top             =   2160
          Width           =   975
       End
@@ -376,7 +413,7 @@ Begin VB.Form frmTESInfSituacionNIF
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   13
+         TabIndex        =   16
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -395,7 +432,7 @@ Begin VB.Form frmTESInfSituacionNIF
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   12
+         TabIndex        =   15
          Top             =   1200
          Width           =   4665
       End
@@ -413,7 +450,7 @@ Begin VB.Form frmTESInfSituacionNIF
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   11
+         TabIndex        =   14
          Top             =   1680
          Width           =   4665
       End
@@ -422,7 +459,7 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   10
+         TabIndex        =   13
          Top             =   1200
          Width           =   255
       End
@@ -431,7 +468,7 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   9
+         TabIndex        =   12
          Top             =   1680
          Width           =   255
       End
@@ -448,7 +485,7 @@ Begin VB.Form frmTESInfSituacionNIF
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   8
+         TabIndex        =   11
          Top             =   720
          Width           =   1515
       End
@@ -466,19 +503,20 @@ Begin VB.Form frmTESInfSituacionNIF
       EndProperty
       Height          =   5745
       Left            =   7110
-      TabIndex        =   6
+      TabIndex        =   9
       Top             =   0
       Width           =   4305
       Begin MSComctlLib.ListView ListView1 
          Height          =   2100
          Index           =   1
          Left            =   240
-         TabIndex        =   28
+         TabIndex        =   5
          Top             =   3540
          Width           =   3825
          _ExtentX        =   6747
          _ExtentY        =   3704
          View            =   3
+         LabelEdit       =   1
          LabelWrap       =   -1  'True
          HideSelection   =   -1  'True
          HideColumnHeaders=   -1  'True
@@ -502,12 +540,13 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   2130
          Index           =   0
          Left            =   240
-         TabIndex        =   30
+         TabIndex        =   4
          Top             =   960
          Width           =   3825
          _ExtentX        =   6747
          _ExtentY        =   3757
          View            =   3
+         LabelEdit       =   1
          LabelWrap       =   -1  'True
          HideSelection   =   -1  'True
          HideColumnHeaders=   -1  'True
@@ -530,7 +569,7 @@ Begin VB.Form frmTESInfSituacionNIF
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   3660
-         TabIndex        =   33
+         TabIndex        =   34
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -577,7 +616,7 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   255
          Index           =   0
          Left            =   210
-         TabIndex        =   31
+         TabIndex        =   32
          Top             =   660
          Width           =   1920
       End
@@ -613,7 +652,7 @@ Begin VB.Form frmTESInfSituacionNIF
          Height          =   255
          Index           =   15
          Left            =   240
-         TabIndex        =   29
+         TabIndex        =   31
          Top             =   3240
          Width           =   1110
       End
@@ -632,7 +671,7 @@ Begin VB.Form frmTESInfSituacionNIF
       EndProperty
       Height          =   375
       Left            =   10200
-      TabIndex        =   3
+      TabIndex        =   7
       Top             =   5940
       Width           =   1215
    End
@@ -649,7 +688,7 @@ Begin VB.Form frmTESInfSituacionNIF
       Height          =   375
       Index           =   1
       Left            =   8640
-      TabIndex        =   2
+      TabIndex        =   6
       Top             =   5940
       Width           =   1455
    End
@@ -667,7 +706,7 @@ Begin VB.Form frmTESInfSituacionNIF
       Height          =   375
       Index           =   0
       Left            =   150
-      TabIndex        =   5
+      TabIndex        =   8
       Top             =   5910
       Width           =   1335
    End
@@ -684,7 +723,7 @@ Begin VB.Form frmTESInfSituacionNIF
       EndProperty
       Height          =   255
       Left            =   1980
-      TabIndex        =   32
+      TabIndex        =   33
       Top             =   6000
       Width           =   6270
    End
@@ -729,7 +768,7 @@ Dim tabla As String
 Dim PrimeraVez As Boolean
 Dim Cancelado As Boolean
 
-Dim vNIF As String
+'Dim vNIF As String
 
 
 Public Sub InicializarVbles(AñadireElDeEmpresa As Boolean)
@@ -751,15 +790,33 @@ Public Sub InicializarVbles(AñadireElDeEmpresa As Boolean)
 End Sub
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
-Dim Sql2 As String
-Dim RC As String
+'Dim Sql As String
 Dim RC2 As String
+Dim RC As String
+Dim i As Integer
 
     MontaSQL = False
     
     If Not PonerDesdeHasta("cobros.FecFactu", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""") Then Exit Function
-            
+    
+    
+    
+    
+    
+    RC = ""
+    RC2 = ""
+    For i = 1 To Me.ListView1(0).ListItems.Count
+        If ListView1(0).ListItems(i).Checked Then
+            RC = RC & "- " & Me.ListView1(0).ListItems(i).SubItems(2) & " "
+        Else
+            RC2 = "NO" 'No estan todos seleccionados
+        End If
+    Next
+    
+    If RC2 <> "" Then RC2 = Mid(RC, 2)
+    cadParam = cadParam & "pTipoPago=""" & RC2 & """|"
+    numParam = numParam + 1
+    'pTipoPago
     MontaSQL = True
 End Function
 
@@ -812,7 +869,7 @@ End Sub
 Private Sub Form_Activate()
     If PrimeraVez Then
         PrimeraVez = False
-        PonFoco txtCuentas(0)
+        'PonFoco txtCuentas(0)
     End If
 End Sub
 
@@ -851,7 +908,7 @@ Private Sub Form_Load()
         .Buttons(1).Image = 26
     End With
     
-    vNIF = ""
+    Me.txtNIF(0).Text = ""
     
      
     CargarListViewEmpresas 1
@@ -951,8 +1008,9 @@ Dim Sql As String
 
     ListView1(Index).ColumnHeaders.Add , , "Descripción", 3200
     ListView1(Index).ColumnHeaders.Add , , "Código", 0
+    ListView1(Index).ColumnHeaders.Add , , "Siglas", 0
     
-    Sql = "SELECT descformapago, tipoformapago  "
+    Sql = "SELECT descformapago, tipoformapago,siglas  "
     Sql = Sql & " FROM tipofpago "
     Sql = Sql & " order by 2 "
     
@@ -964,7 +1022,7 @@ Dim Sql As String
         
         ItmX.Text = Rs.Fields(0).Value
         ItmX.SubItems(1) = Rs.Fields(1).Value
-        
+        ItmX.SubItems(2) = Rs.Fields(2).Value
         ItmX.Checked = True
         
         Rs.MoveNext
@@ -1040,8 +1098,8 @@ Private Sub imgCuentas_Click(Index As Integer)
         Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
         Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
         If txtCuentas(Index).Text <> "" Then
-            vNIF = ""
-            vNIF = DevuelveDesdeBD("nifdatos", "cuentas", "codmacta", txtCuentas(Index), "T")
+            Me.txtNIF(0).Text = ""
+            Me.txtNIF(0).Text = DevuelveDesdeBD("nifdatos", "cuentas", "codmacta", txtCuentas(Index), "T")
         End If
 
     Else
@@ -1157,6 +1215,8 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
         If InStr(1, txtCuentas(Index).Text, "+") = 0 Then MsgBox "La cuenta debe ser numérica: " & txtCuentas(Index).Text, vbExclamation
         txtCuentas(Index).Text = ""
         txtNCuentas(Index).Text = ""
+        txtNIF(Index).Text = ""
+        PonleFoco txtCuentas(Index)
         Exit Sub
     End If
     
@@ -1197,8 +1257,8 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
                     End If
                     
                 End If
-                vNIF = ""
-                vNIF = DevuelveDesdeBD("nifdatos", "cuentas", "codmacta", txtCuentas(Index), "T")
+                Me.txtNIF(0).Text = ""
+                Me.txtNIF(0).Text = DevuelveDesdeBD("nifdatos", "cuentas", "codmacta", txtCuentas(Index), "T")
             End If
     
     
@@ -1308,11 +1368,11 @@ Dim B As Boolean
             Sql = Sql & "( "
         
             Sql = Sql & "select cobros.codmacta,nifclien nifdatos from ariconta" & ListView1(1).ListItems(i).Tag & ".cobros where not nifclien is null  "
-            If vNIF <> "" Then Sql = Sql & " and cobros.nifclien = " & DBSet(vNIF, "T")
+            If Me.txtNIF(0).Text <> "" Then Sql = Sql & " and cobros.nifclien = " & DBSet(Me.txtNIF(0).Text, "T")
             Sql = Sql & " group by  codmacta,nifclien"
             Sql = Sql & " union "
             Sql = Sql & "select pagos.codmacta,nifprove nifdatos from ariconta" & ListView1(1).ListItems(i).Tag & ".pagos where not nifprove is null"
-            If vNIF <> "" Then Sql = Sql & " and pagos.nifprove = " & DBSet(vNIF, "T")
+            If Me.txtNIF(0).Text <> "" Then Sql = Sql & " and pagos.nifprove = " & DBSet(Me.txtNIF(0).Text, "T")
             Sql = Sql & " group by  codmacta,nifprove"
             
             Sql = Sql & ") aaaaa "
@@ -1365,7 +1425,7 @@ Dim QueTipoPago As String
     cad = "" 'para saber si ha selccionado todos
     For L = 1 To Me.ListView1(0).ListItems.Count
         If ListView1(0).ListItems(L).Checked Then
-            QueTipoPago = QueTipoPago & ", " & Me.ListView1(0).ListItems(L).Tag
+            QueTipoPago = QueTipoPago & ", " & Me.ListView1(0).ListItems(L).SubItems(1)
         Else
             cad = "NO" 'No estan todos seleccionados
         End If
@@ -1488,8 +1548,8 @@ Dim QueTipoPago As String
             '                    empresa
             cad = L & ",'" & Empre & "','"
             cad = cad & DevNombreSQL(miRsAux!NumFactu) & " : " & miRsAux!numorden & "','"
-            cad = cad & Rs!Cta & "','"
-            cad = cad & DevNombreSQL(miRsAux!Nommacta) & "','"
+            cad = cad & Rs!Cta & "',"
+            cad = cad & DBSet(miRsAux!nomprove, "T") & ",'"
             ' fecha1 y 2
             cad = cad & Format(miRsAux!FecFactu, FormatoFecha) & "','"
             cad = cad & Format(miRsAux!fecefect, FormatoFecha) & "',"
@@ -1591,7 +1651,7 @@ Private Function DatosOK() As Boolean
     
     DatosOK = False
     
-    If vNIF = "" Then
+    If Me.txtNIF(0).Text = "" Then
         MsgBox "Introduzca la Cuenta para obtener el NIF", vbExclamation
         Exit Function
     End If
@@ -1626,6 +1686,22 @@ Private Function DatosOK() As Boolean
 
 End Function
 
+
+Private Sub txtNIF_LostFocus(Index As Integer)
+    If txtNIF(0).Text <> "" Then
+        Sql = "nommacta"
+        RC = DevuelveDesdeBD("codmacta", "cuentas", "nifdatos", txtNIF(0).Text, "T", Sql)
+        If RC = "" Then
+            txtNCuentas(0).Text = "NIF no pertenece a ninguan cuenta"
+        Else
+            txtNCuentas(0).Text = Sql
+            Me.txtCuentas(0).Text = RC
+            PonleFoco Me.cmdAccion
+        End If
+    Else
+        
+    End If
+End Sub
 
 Private Sub txtTipoSalida_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     KEYdown KeyCode

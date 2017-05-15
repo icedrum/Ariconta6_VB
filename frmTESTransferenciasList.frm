@@ -657,7 +657,7 @@ End Sub
 
 Private Sub Check1_Click(Index As Integer)
     If Index = 0 Then
-        Frame1.Enabled = (check1(Index).Value = 1)
+        Frame1.Enabled = (Check1(Index).Value = 1)
     End If
 End Sub
 
@@ -746,10 +746,10 @@ Private Sub Form_Load()
         txtNum(1).Text = numero
         txtAnyo(0).Text = Anyo
         txtAnyo(1).Text = Anyo
-        check1(0).Value = 1
+        Check1(0).Value = 1
     End If
     
-    Frame1.Enabled = (check1(0).Value = 1)
+    Frame1.Enabled = (Check1(0).Value = 1)
     
     optVarios(0).Value = 1
     
@@ -839,12 +839,12 @@ Dim Sql2 As String
         Sql = Sql & " CASE concepto WHEN 0 THEN 'PENSION' WHEN 1 THEN 'NOMINA' WHEN 9 THEN 'ORDINARIA' END as Concepto, "
         Sql = Sql & " transferencias.codmacta Cuenta ,cuentas.nommacta Nombre,"
         Sql = Sql & " transferencias.descripcion, Importe "
-        If Me.check1(0).Value = 1 Then
-            Sql = Sql & "cobros.numserie, cobros.numfactu Factura, cobros.fecfactu Fecha, cobros.fecvenci FVencim, cobros.codmacta Cuenta, cobros.nomclien Descripcion, cobros.iban, cobros.impvenci Importe"
+        If Me.Check1(0).Value = 1 Then
+            Sql = Sql & " ,tmpcobros2.numserie, tmpcobros2.numfactu Factura, tmpcobros2.fecfactu Fecha, tmpcobros2.fecvenci FVencim, tmpcobros2.codmacta Cuenta, tmpcobros2.cliente Descripcion, tmpcobros2.iban, tmpcobros2.impvenci Importe"
             Sql = Sql & " from transferencias, cuentas, usuarios.wtiposituacionrem, tmpcobros2 "
         Else
-            Sql = Sql & "transferencias.importe "
-            Sql = Sql & " from transferencias, cuentas "
+            'Sql = Sql & "transferencias.importe "
+            Sql = Sql & " from transferencias, cuentas, usuarios.wtiposituacionrem "
         End If
         
         Sql = Sql & " where " & cadselect
@@ -852,12 +852,20 @@ Dim Sql2 As String
         Sql = Sql & " and transferencias.codmacta = cuentas.codmacta  "
         Sql = Sql & " and transferencias.situacion  = wtiposituacionrem.situacio  "
         
-        If Me.check1(0).Value = 1 Then
+        
+        RC = ""   'para el order by
+        If Me.Check1(0).Value = 1 Then
             Sql = Sql & " and tmpcobros2.codusu = " & vUsu.Codigo
             Sql = Sql & " and transferencias.anyo = tmpcobros2.anyorem and transferencias.codigo = tmpcobros2.codrem "
+            
+            If optVarios(0).Value Then RC = ""  'pondra el ultimo order by
+            If optVarios(1).Value Then RC = " tmpcobros2.codmacta, "
+            If optVarios(2).Value Then RC = " tmpcobros2.fecvenci, "
+            If optVarios(3).Value Then RC = " nomclien, "
+            RC = "," & RC & " tmpcobros2.numserie, tmpcobros2.numfactu"
         End If
         
-        Sql = Sql & " ORDER BY 2 desc, 1 "
+        Sql = Sql & " ORDER BY 2 desc, 1 " & RC
         
     Else
     
@@ -871,8 +879,8 @@ Dim Sql2 As String
         End If
         Sql = Sql & " transferencias.codmacta Cuenta ,cuentas.nommacta Nombre,"
         Sql = Sql & " transferencias.descripcion, Importe "
-        If Me.check1(0).Value = 1 Then
-            Sql = Sql & "pagos.numserie, pagos.numfactu Factura, pagos.fecfactu Fecha, pagos.fecvenci FVencim, pagos.codmacta Cuenta, pagos.nomclien Descripcion, pagos.iban, pagos.impvenci Importe"
+        If Me.Check1(0).Value = 1 Then
+            Sql = Sql & ", tmppagos2.numserie, tmppagos2.numfactu Factura, tmppagos2.fecfactu Fecha, tmppagos2.fecefect FVencim, tmppagos2.codmacta Cuenta, tmppagos2.proveedor Descripcion, tmppagos2.iban, tmppagos2.impefect Importe"
             Sql = Sql & " from transferencias, cuentas, usuarios.wtiposituacionrem, tmppagos2 "
         Else
             Sql = Sql & "transferencias.importe "
@@ -883,13 +891,20 @@ Dim Sql2 As String
         
         Sql = Sql & " and transferencias.codmacta = cuentas.codmacta  "
         Sql = Sql & " and transferencias.situacion  = wtiposituacionrem.situacio  "
-        
-        If Me.check1(0).Value = 1 Then
+        RC = ""
+        If Me.Check1(0).Value = 1 Then
             Sql = Sql & " and tmppagos2.codusu = " & vUsu.Codigo
             Sql = Sql & " and transferencias.anyo = tmppagos2.anyodocum and transferencias.codigo = tmppagos2.nrodocum "
+                    
+            If optVarios(0).Value Then RC = ""  'pondra el ultimo order by
+            If optVarios(1).Value Then RC = " tmppagos2.codmacta, "
+            If optVarios(2).Value Then RC = " tmppagos2.fecefect, "
+            If optVarios(3).Value Then RC = " proveedor, "
+            RC = "," & RC & " tmppagos2.numserie, tmppagos2.numfactu"
+        
         End If
         
-        Sql = Sql & " ORDER BY 2 desc, 1 "
+        Sql = Sql & " ORDER BY 2 desc, 1 " & RC
     
     End If
         
@@ -916,7 +931,7 @@ Dim nomDocu As String
     
     cadNomRPT = nomDocu
 
-    If Me.check1(0).Value Then
+    If Me.Check1(0).Value Then
         cadParam = cadParam & "pDetalle=1|"
     Else
         cadParam = cadParam & "pDetalle=0|"
@@ -985,7 +1000,7 @@ Dim SubTipo As Byte ' 0 = pagos
         If Not AnyadirAFormula(cadFormula, "{transferencias.subtipo} = " & TipoTransfPagos) Then Exit Function
     End If
     
-    If check1(0).Value Then CargarTemporal
+    If Check1(0).Value Then CargarTemporal
     
     
     MontaSQL = True

@@ -762,7 +762,18 @@ Private Sub Text1_GotFocus(Index As Integer)
 End Sub
 
 Private Sub Text1_KeyPress(Index As Integer, KeyAscii As Integer)
-    KEYpress KeyAscii
+    If KeyAscii = teclaBuscar Then
+        Select Case Index
+            Case 0: KEYCuentas KeyAscii, 0
+        End Select
+    Else
+        KEYpress KeyAscii
+    End If
+End Sub
+
+Private Sub KEYCuentas(KeyAscii As Integer, Indice As Integer)
+    KeyAscii = 0
+    imgCuentas_Click (Indice)
 End Sub
 
 
@@ -1509,6 +1520,14 @@ On Error GoTo EValoresConceptosPorDefecto
     Exit Sub
 EValoresConceptosPorDefecto:
     Err.Clear
+End Sub
+
+Private Sub Text4_KeyPress(KeyAscii As Integer)
+    If KeyAscii = teclaBuscar Then
+        KEYCuentas KeyAscii, 1
+    Else
+        KEYpress KeyAscii
+    End If
 End Sub
 
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)

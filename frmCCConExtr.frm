@@ -936,7 +936,7 @@ Dim MostrarAnterior As Byte
 End Sub
 
 Private Sub OtraCuenta(Index As Integer)
-Dim I As Integer
+Dim i As Integer
 
     If Cuenta <> "" Then Exit Sub
 
@@ -947,9 +947,9 @@ Dim I As Integer
     Screen.MousePointer = vbHourglass
     
     'Ponemos los text a blanco
-    For I = 6 To 8
-        Text6(I).Text = ""
-    Next I
+    For i = 6 To 8
+        Text6(i).Text = ""
+    Next i
     
     Label100.Visible = True
     Label101.Caption = ""
@@ -973,10 +973,10 @@ End Sub
 
 Private Sub Form_Load()
 Dim J As Integer
-Dim I As Integer
+Dim i As Integer
 
 
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
 
     Limpiar Me
     
@@ -1000,52 +1000,52 @@ Dim I As Integer
     
     '?? he sumado a todos los left 3000 unidades
     If vParam.autocoste Then
-        For I = 2 To 3
-            J = I * 3
+        For i = 2 To 3
+            J = i * 3
             Text6(0 + J).Left = 8815 + 270
             Text6(0 + J).Width = anc - 15
             Text6(1 + J).Left = Text6(0 + J).Left + anc + 15
             Text6(1 + J).Width = anc - 15
             Text6(2 + J).Left = Text6(1 + J).Left + anc + 15
             Text6(2 + J).Width = anc - 15 + 100
-        Next I
+        Next i
     Else
-        For I = 2 To 3
-            J = I * 3
+        For i = 2 To 3
+            J = i * 3
             Text6(0 + J).Left = 9380
             Text6(0 + J).Width = 1500
             Text6(1 + J).Left = 10890
             Text6(1 + J).Width = 1500
             Text6(2 + J).Left = 12400
             Text6(2 + J).Width = 1600
-        Next I
+        Next i
     End If
     
     
-    imgCCoste.Picture = frmPpal.imgIcoForms.ListImages(1).Picture
+    imgCCoste.Picture = frmppal.imgIcoForms.ListImages(1).Picture
 
 
     ' añadido por el tema del listview
-    For I = 6 To 11
-        Text6(I).Width = 1850
-    Next I
+    For i = 6 To 11
+        Text6(i).Width = 1850
+    Next i
     
-    For I = 2 To 3
-        Text6(I * 3).Left = ListView1.ColumnHeaders(7).Left + 300
-        Text6((I * 3) + 1).Left = ListView1.ColumnHeaders(8).Left + 300
-        Text6((I * 3) + 2).Left = ListView1.ColumnHeaders(9).Left + 300
-    Next I
+    For i = 2 To 3
+        Text6(i * 3).Left = ListView1.ColumnHeaders(7).Left + 300
+        Text6((i * 3) + 1).Left = ListView1.ColumnHeaders(8).Left + 300
+        Text6((i * 3) + 2).Left = ListView1.ColumnHeaders(9).Left + 300
+    Next i
 
     If EjerciciosCerrados Then
-        I = -1
+        i = -1
     Else
-        I = 0
+        i = 0
     End If
     
     
-    Text3(0).Text = Format(DateAdd("yyyy", I, vParam.fechaini), "dd/mm/yyyy")
-    If Not vParam.FecEjerAct Then I = I + 1
-    Text3(1).Text = Format(DateAdd("yyyy", I, vParam.fechafin), "dd/mm/yyyy")
+    Text3(0).Text = Format(DateAdd("yyyy", i, vParam.fechaini), "dd/mm/yyyy")
+    If Not vParam.FecEjerAct Then i = i + 1
+    Text3(1).Text = Format(DateAdd("yyyy", i, vParam.fechafin), "dd/mm/yyyy")
     
     VieneDeIntroduccion = False
     If Cuenta <> "" Then
@@ -1062,9 +1062,9 @@ Dim I As Integer
     
     
     With Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.ImgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 18
         .Buttons(2).Image = 16
         .Buttons(3).Image = 30
@@ -1074,7 +1074,7 @@ Dim I As Integer
     
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.ImgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
     
@@ -1146,7 +1146,7 @@ If Not VieneDeIntroduccion Then
             Screen.MousePointer = vbDefault
             Me.Refresh
         Else
-'''''            Stop
+
         End If
     End If
 Else
@@ -1482,7 +1482,7 @@ End Sub
 
 
 Private Sub PintaPrimeraLineaSaldo(ByRef LinaeaSaldoAnteriorPintada As Boolean, ByRef d As Currency, ByRef H As Currency, ByRef IT As ListItem)
-Dim I As Integer
+Dim i As Integer
     
     LinaeaSaldoAnteriorPintada = False
     If d = 0 And H = 0 Then Exit Sub
@@ -1491,8 +1491,8 @@ Dim I As Integer
     Set IT = ListView1.ListItems.Add(, "ANTERIOR")
     IT.Text = " "
     
-    For I = 1 To 9
-        IT.SubItems(I) = " "
+    For i = 1 To 9
+        IT.SubItems(i) = " "
     Next
     IT.SubItems(3) = "SALDO ANTERIOR AL PERIODO"
     IT.ListSubItems(3).ForeColor = vbBlack
@@ -1506,7 +1506,7 @@ End Sub
 
 
 Private Sub PintaUltimaLineaSaldo(ByRef IT As ListItem)
-Dim I As Integer
+Dim i As Integer
     
     
     If DebePeriodo = 0 And HaberPeriodo = 0 Then Exit Sub
@@ -1515,8 +1515,8 @@ Dim I As Integer
     Set IT = ListView1.ListItems.Add(, "TOTAL")
     IT.Text = " "
     
-    For I = 1 To 9
-        IT.SubItems(I) = " "
+    For i = 1 To 9
+        IT.SubItems(i) = " "
     Next
     IT.SubItems(3) = "TOTAL"
     IT.ListSubItems(3).ForeColor = vbBlack
@@ -1528,7 +1528,7 @@ Dim I As Integer
 End Sub
 
 Private Sub CargarColumnas()
-Dim I As Integer
+Dim i As Integer
 Dim cad As String
 
     
@@ -1537,11 +1537,11 @@ Dim cad As String
     Me.LabelCab(5).Visible = False  '(vParam.autocoste)
     
     
-    For I = 1 To Me.ListView1.ColumnHeaders.Count
-        ListView1.ColumnHeaders.Item(I).Width = RecuperaValor(cad, I)
-        If I > 6 Then Me.LabelCab(I - 1).Width = ListView1.ColumnHeaders(I).Width
+    For i = 1 To Me.ListView1.ColumnHeaders.Count
+        ListView1.ColumnHeaders.Item(i).Width = RecuperaValor(cad, i)
+        If i > 6 Then Me.LabelCab(i - 1).Width = ListView1.ColumnHeaders(i).Width
 
-        Me.LabelCab(I - 1).Left = ListView1.ColumnHeaders.Item(I).Left + 120
+        Me.LabelCab(i - 1).Left = ListView1.ColumnHeaders.Item(i).Left + 120
     Next
     Me.LabelCab(9).Left = ListView1.ColumnHeaders.Item(10).Left + 300 '180
     
@@ -1605,7 +1605,7 @@ End Function
 
 
 Private Sub CargaImportes()
-Dim I As Integer
+Dim i As Integer
 Dim Im1 As Currency
 Dim Im2 As Currency
 
@@ -1615,17 +1615,17 @@ Dim Im2 As Currency
     RT.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If RT.EOF Then
         'Limpiaremos
-        For I = 6 To 11
-            Text6(I).Text = ""
-        Next I
+        For i = 6 To 11
+            Text6(i).Text = ""
+        Next i
         ImpD = 0
         ImpH = 0
         
     Else
         Im1 = 0: Im2 = 0
-        For I = 6 To 8
-            Text6(I).Text = Format(RT.Fields(I + 4), FormatoImporte)
-        Next I
+        For i = 6 To 8
+            Text6(i).Text = Format(RT.Fields(i + 4), FormatoImporte)
+        Next i
         
         DebePeriodo = RT.Fields(7)
         HaberPeriodo = RT.Fields(8)
@@ -1725,7 +1725,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 
 End Sub
@@ -1738,7 +1738,7 @@ Dim cad As String
     On Error Resume Next
 
     cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
     Set Rs = New ADODB.Recordset
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText

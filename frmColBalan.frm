@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Object = "{CDE57A40-8B86-11D0-B3C6-00A0C90AEA82}#1.0#0"; "MSDATGRD.OCX"
 Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
 Begin VB.Form frmColBalan 
@@ -351,15 +351,15 @@ End Sub
 
 Private Sub Form_Load()
 
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
     
     PrimeraVez = True
       
     ' Botonera Principal
     With Me.Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.imgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 3
         .Buttons(2).Image = 4
         .Buttons(3).Image = 5
@@ -370,16 +370,16 @@ Private Sub Form_Load()
     
     ' Botonera Principal 2
     With Me.Toolbar2
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.imgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 37 'comprobar
         .Buttons(2).Image = 35 'copiar
     End With
     
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
     
@@ -407,20 +407,20 @@ End Sub
 
 
 Private Sub CargaGrid()
-Dim sql As String
+Dim Sql As String
     
     
-    sql = ""
+    Sql = ""
     If cboFiltro.ListIndex = 1 Then
-        sql = " WHERE Perdidas = 1"
+        Sql = " WHERE Perdidas = 1"
     Else
         If cboFiltro.ListIndex = 2 Then
-            sql = " WHERE Perdidas = 0"
+            Sql = " WHERE Perdidas = 0"
         End If
     End If
-    sql = sql & " ORDER BY Numbalan"
-    sql = "select numbalan,nombalan, if(perdidas=1,'SI','NO') as Perd ,if(predeterminado=1,'*','') as Pre  from balances " & sql
-    Adodc1.RecordSource = sql
+    Sql = Sql & " ORDER BY Numbalan"
+    Sql = "select numbalan,nombalan, if(perdidas=1,'SI','NO') as Perd ,if(predeterminado=1,'*','') as Pre  from balances " & Sql
+    Adodc1.RecordSource = Sql
     Adodc1.ConnectionString = Conn
     Adodc1.Refresh
     
@@ -458,21 +458,21 @@ End Function
 
 
 Private Sub EliminarBalance()
-Dim sql As String
-    sql = "Seguro que desea eliminar el balance: " & Adodc1.Recordset!NomBalan & "?"
-    If MsgBox(sql, vbExclamation + vbYesNo) <> vbYes Then Exit Sub
+Dim Sql As String
+    Sql = "Seguro que desea eliminar el balance: " & Adodc1.Recordset!NomBalan & "?"
+    If MsgBox(Sql, vbExclamation + vbYesNo) <> vbYes Then Exit Sub
     
     'Eliminamos las cuentas
-    sql = "DELETE FROM balances_ctas WHere numbalan=" & Adodc1.Recordset!NumBalan
-    Conn.Execute sql
+    Sql = "DELETE FROM balances_ctas WHere numbalan=" & Adodc1.Recordset!NumBalan
+    Conn.Execute Sql
     
     'Eliminamos las lineas del balance
-    sql = "DELETE FROM balances_texto WHere numbalan=" & Adodc1.Recordset!NumBalan
-    Conn.Execute sql
+    Sql = "DELETE FROM balances_texto WHere numbalan=" & Adodc1.Recordset!NumBalan
+    Conn.Execute Sql
     
     'Eliminamos el balance
-    sql = "DELETE FROM balances WHere numbalan=" & Adodc1.Recordset!NumBalan
-    Conn.Execute sql
+    Sql = "DELETE FROM balances WHere numbalan=" & Adodc1.Recordset!NumBalan
+    Conn.Execute Sql
     
 End Sub
 
@@ -626,7 +626,7 @@ End Sub
 Private Sub BotonImprimir()
 Dim CodigoBalanceBuscar As Integer
     
-    
+    If Adodc1.Recordset.EOF Then Exit Sub
     frmColBalanList.NumBalan = Adodc1.Recordset!NumBalan
     frmColBalanList.NomBalan = Adodc1.Recordset!NomBalan
     frmColBalanList.Show vbModal
@@ -730,7 +730,7 @@ End Sub
 
 Private Sub BotonEliminar()
 Dim CodigoBalanceBuscar As Integer
-Dim sql As String
+Dim Sql As String
     
     On Error GoTo Error2
     
@@ -749,7 +749,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -760,7 +760,7 @@ Dim cad As String
     On Error Resume Next
 
     cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
     Set Rs = New ADODB.Recordset
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText

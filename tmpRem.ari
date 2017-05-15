@@ -2,23 +2,23 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02">
 <CstmrDrctDbtInitn>
 <GrpHdr>
-<MsgId>PRE2017041211060760160RE10000132017</MsgId>
-   <CreDtTm>2017-04-12T11:06:07</CreDtTm>
-   <NbOfTxs>2</NbOfTxs>
-   <CtrlSum>24.96</CtrlSum>
+<MsgId>PRE2017051210260971090RE10000072017</MsgId>
+   <CreDtTm>2017-05-12T10:26:14</CreDtTm>
+   <NbOfTxs>1</NbOfTxs>
+   <CtrlSum>342.21</CtrlSum>
    <InitgPty>
-     <Nm>Agricola de Catadau S.C. Suministros</Nm>
+     <Nm>COOP.COMARCAL LA VALL D ALBAIDA COOP.V.</Nm>
      <Id>
         <OrgId>
            <Othr>
-              <Id>ES38000F46038881</Id>
+              <Id>ES31000F97345896</Id>
            </Othr>
         </OrgId>
       </Id>
    </InitgPty>
 </GrpHdr>
 <PmtInf>
-   <PmtInfId>RE000132017 12/04/17F46038881</PmtInfId>
+   <PmtInfId>RE000072017 12/05/17F97345896</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -33,17 +33,17 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2017-04-12</ReqdColltnDt>
+   <ReqdColltnDt>2017-05-12</ReqdColltnDt>
    <Cdtr>
-      <Nm>Agricola de Catadau S.C. Suministros</Nm>
+      <Nm>COOP.COMARCAL LA VALL D ALBAIDA COOP.V.</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
+          <AdrLine>Direccion 13 I. En 2</AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES1030582268581021006712</IBAN>
+         <IBAN>ES3530582269132710000159</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
@@ -55,7 +55,7 @@
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES38000F46038881</Id>
+                 <Id>ES31000F97345896</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -63,12 +63,12 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>4300000672A  0016129619961216001   </EndToEndId>
+          <EndToEndId>4301001   A  0201708120170228001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">6.41</InstdAmt>
+      <InstdAmt Ccy="EUR">342.21</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES4830821315823191936719</MndtId>
+            <MndtId>ES2030582269142810003403</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
@@ -78,73 +78,30 @@
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>MIQUEL A O, RAFAEL</Nm>
+         <Nm>RAUL BENAVENT SENTANDREU</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>C/ RAMON ESTEVE, 1</AdrLine>
-              <AdrLine>CATADAU   46196     VALENCIA</AdrLine>
+              <AdrLine>C/BENIGANIM,5</AdrLine>
+              <AdrLine>QUATRETONDA   46837     VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>823191936719</Id>
+                   <Id>142810003403</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES4830821315823191936719</IBAN>
+            <IBAN>ES2030582269142810003403</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>REGISTRO GRAL.-SECC.SUMINISTRO Factura 0161296 de 16/Dic/1996</Ustrd>
-      </RmtInf>
-   </DrctDbtTxInf>
-   <DrctDbtTxInf>
-      <PmtId>
-          <EndToEndId>4300000672A  0031019719970131001   </EndToEndId>
-      </PmtId>
-      <InstdAmt Ccy="EUR">18.55</InstdAmt>
-      <DrctDbtTx>
-         <MndtRltdInf>
-            <MndtId>ES4830821315823191936719</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
-         </MndtRltdInf>
-      </DrctDbtTx>
-      <DbtrAgt>
-         <FinInstnId>
-            <BIC>CCRIES2AXXX</BIC>
-         </FinInstnId>
-      </DbtrAgt>
-      <Dbtr>
-         <Nm>MIQUEL A O, RAFAEL</Nm>
-         <PstlAdr>
-            <Ctry>ES</Ctry>
-              <AdrLine>C/ RAMON ESTEVE, 1</AdrLine>
-              <AdrLine>CATADAU   46196     VALENCIA</AdrLine>
-         </PstlAdr>
-         <Id>
-            <PrvtId>
-               <Othr>
-                   <Id>823191936719</Id>
-               </Othr>
-            </PrvtId>
-         </Id>
-      </Dbtr>
-      <DbtrAcct>
-         <Id>
-            <IBAN>ES4830821315823191936719</IBAN>
-         </Id>
-      </DbtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>REGISTRO GRAL.-SECC.SUMINISTRO Factura 0310197 de 31/Ene/1997</Ustrd>
+         <Ustrd>FACTURA  A-2017081 de Fecha 28 feb 2017</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>
