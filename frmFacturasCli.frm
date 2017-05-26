@@ -4353,7 +4353,8 @@ Private Sub HacerBusqueda2()
     If chkVistaPrevia = 1 Then
         MandaBusquedaPrevia
     ElseIf CadB <> "" Or CadB1 <> "" Or cadFiltro <> "" Then
-        CadenaConsulta = "select distinct factcli.* from (" & NombreTabla & " INNER JOIN cuentas ON factcli.codmacta = cuentas.codmacta)  "
+        CadenaConsulta = "select distinct factcli.* from " & NombreTabla
+        'CadenaConsulta = CadenaConsulta & " INNER JOIN cuentas ON factcli.codmacta = cuentas.codmacta  "
         CadenaConsulta = CadenaConsulta & " left join factcli_lineas on factcli.numserie = factcli_lineas.numserie and factcli.numfactu = factcli_lineas.numfactu and factcli.anofactu = factcli_lineas.anofactu "
         CadenaConsulta = CadenaConsulta & " WHERE (1=1) "
         If CadB <> "" Then CadenaConsulta = CadenaConsulta & " and " & CadB & " "
@@ -4377,6 +4378,7 @@ Private Sub MandaBusquedaPrevia()
 Dim cWhere As String
 Dim cWhere1 As String
     
+    Screen.MousePointer = vbHourglass
     cWhere = "(numserie, numfactu, fecfactu) in (select factcli.numserie, factcli.numfactu, factcli.fecfactu from "
     cWhere = cWhere & "factcli LEFT JOIN factcli_lineas ON factcli.numserie = factcli_lineas.numserie and factcli.fecfactu = factcli_lineas.fecfactu and factcli.numfactu = factcli_lineas.numfactu "
     cWhere = cWhere & " WHERE (1=1) "
@@ -6849,7 +6851,7 @@ Dim C As String
     Set RsF6 = New ADODB.Recordset
             
     
-    C = "SELECT hlinapu.numasien, hlinapu.linliapu, hlinapu.codmacta, cuentas.nommacta,"
+    C = "SELECT hlinapu.numasien, hlinapu.linliapu, hlinapu.codmacta, cuentas.nomm  acta,"
     C = C & " hlinapu.numdocum, hlinapu.ctacontr, hlinapu.codconce, conceptos.nomconce as nombreconcepto, hlinapu.ampconce, cuentas_1.nommacta as nomctapar,"
     C = C & " hlinapu.timporteD, hlinapu.timporteH, hlinapu.codccost, ccoste.nomccost as centrocoste,"
     C = C & " hlinapu.numdiari, hlinapu.fechaent"

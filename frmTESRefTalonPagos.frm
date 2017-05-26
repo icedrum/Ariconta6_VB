@@ -18,7 +18,7 @@ Begin VB.Form frmTESRefTalonPagos
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin VB.TextBox txtAux 
-      Alignment       =   1  'Right Justify
+      Alignment       =   2  'Center
       BeginProperty Font 
          Name            =   "Verdana"
          Size            =   9.75
@@ -29,13 +29,14 @@ Begin VB.Form frmTESRefTalonPagos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   285
-      Index           =   8
-      Left            =   2970
-      MaxLength       =   10
-      TabIndex        =   16
-      Tag             =   "Cuenta|T|N|||tmppagos2|codmacta||S|"
+      Index           =   7
+      Left            =   2400
+      MaxLength       =   30
+      TabIndex        =   15
+      Tag             =   "Referencia|T|S|||tmppagos2|codmacta|||"
+      Text            =   "1234567"
       Top             =   4440
-      Width           =   825
+      Width           =   1605
    End
    Begin VB.TextBox txtAux 
       BeginProperty Font 
@@ -51,7 +52,7 @@ Begin VB.Form frmTESRefTalonPagos
       Index           =   1
       Left            =   720
       MaxLength       =   30
-      TabIndex        =   15
+      TabIndex        =   14
       Tag             =   "Serie|T|S|||tmppagos2|numserie||S|"
       Top             =   4440
       Width           =   795
@@ -59,13 +60,13 @@ Begin VB.Form frmTESRefTalonPagos
    Begin VB.Frame FrameBotonGnral 
       Height          =   705
       Left            =   90
-      TabIndex        =   13
+      TabIndex        =   12
       Top             =   60
       Width           =   1095
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   330
          Left            =   240
-         TabIndex        =   14
+         TabIndex        =   13
          Top             =   210
          Width           =   675
          _ExtentX        =   1191
@@ -84,25 +85,6 @@ Begin VB.Form frmTESRefTalonPagos
             EndProperty
          EndProperty
       End
-   End
-   Begin VB.TextBox txtAux 
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   285
-      Index           =   7
-      Left            =   7530
-      MaxLength       =   30
-      TabIndex        =   6
-      Tag             =   "Banco|T|S|||tmppagos2|bancotalonpag|||"
-      Top             =   4440
-      Width           =   1095
    End
    Begin VB.TextBox txtAux 
       Alignment       =   2  'Center
@@ -180,9 +162,9 @@ Begin VB.Form frmTESRefTalonPagos
       Height          =   285
       Index           =   2
       Left            =   1590
-      MaxLength       =   8
+      MaxLength       =   10
       TabIndex        =   1
-      Tag             =   "Factura|N|N|||tmppagos2|numfactu|######0|S|"
+      Tag             =   "Factura|T|N|||tmppagos2|numfactu||S|"
       Top             =   4440
       Width           =   705
    End
@@ -238,7 +220,7 @@ Begin VB.Form frmTESRefTalonPagos
       EndProperty
       Height          =   375
       Left            =   8400
-      TabIndex        =   7
+      TabIndex        =   6
       Tag             =   "   "
       Top             =   5550
       Visible         =   0   'False
@@ -258,7 +240,7 @@ Begin VB.Form frmTESRefTalonPagos
       EndProperty
       Height          =   375
       Left            =   9540
-      TabIndex        =   8
+      TabIndex        =   7
       Top             =   5535
       Visible         =   0   'False
       Width           =   1095
@@ -267,7 +249,7 @@ Begin VB.Form frmTESRefTalonPagos
       Bindings        =   "frmTESRefTalonPagos.frx":000C
       Height          =   4410
       Left            =   120
-      TabIndex        =   11
+      TabIndex        =   10
       Top             =   885
       Width           =   10515
       _ExtentX        =   18547
@@ -346,7 +328,7 @@ Begin VB.Form frmTESRefTalonPagos
       EndProperty
       Height          =   375
       Left            =   9540
-      TabIndex        =   12
+      TabIndex        =   11
       Top             =   5550
       Visible         =   0   'False
       Width           =   1095
@@ -355,7 +337,7 @@ Begin VB.Form frmTESRefTalonPagos
       Height          =   555
       Index           =   1
       Left            =   120
-      TabIndex        =   9
+      TabIndex        =   8
       Top             =   5430
       Width           =   2385
       Begin VB.Label lblIndicador 
@@ -372,7 +354,7 @@ Begin VB.Form frmTESRefTalonPagos
          EndProperty
          Height          =   255
          Left            =   40
-         TabIndex        =   10
+         TabIndex        =   9
          Top             =   240
          Width           =   2295
       End
@@ -503,18 +485,17 @@ Dim Modo As Byte
 '--------------------------------------------------
 Dim PrimeraVez As Boolean
 Dim Indice As Byte 'Index del text1 on es poses els datos retornats des d'atres Formularis de Mtos
-Dim I As Integer
+Dim i As Integer
 
 Dim FechaAnt As String
 Dim Ok As Boolean
 Dim CadB1 As String
 Dim FILTRO As Byte
-Dim SQL As String
+Dim Sql As String
 
 
 Dim CadB2 As String
 Dim RefAnt As String
-Dim BancoAnt As String
 
 
 
@@ -531,15 +512,15 @@ Dim B As Boolean
     End If
 
     
-    For I = 0 To txtAux.Count - 1
-        txtAux(I).Visible = (Modo = 1)
-        txtAux(I).Enabled = (Modo = 1)
-    Next I
+    For i = 0 To txtAux.Count - 1
+        txtAux(i).Visible = (Modo = 1)
+        txtAux(i).Enabled = (Modo = 1)
+    Next i
     
-    For I = 6 To 7
-        txtAux(I).Visible = (Modo = 1 Or Modo = 4)
-        txtAux(I).Enabled = (Modo = 1 Or Modo = 4)
-    Next I
+    i = 6
+        txtAux(i).Visible = (Modo = 1 Or Modo = 4)
+        txtAux(i).Enabled = (Modo = 1 Or Modo = 4)
+   
     
     cmdAceptar.Visible = Not B
     cmdCancelar.Visible = Not B
@@ -586,13 +567,13 @@ End Sub
 
 Private Sub BotonModificar()
     Dim anc As Single
-    Dim I As Integer
+    Dim i As Integer
     
     Screen.MousePointer = vbHourglass
     
     If DataGrid1.Bookmark < DataGrid1.FirstRow Or DataGrid1.Bookmark > (DataGrid1.FirstRow + DataGrid1.VisibleRows - 1) Then
-        I = DataGrid1.Bookmark - DataGrid1.FirstRow
-        DataGrid1.Scroll 0, I
+        i = DataGrid1.Bookmark - DataGrid1.FirstRow
+        DataGrid1.Scroll 0, i
         DataGrid1.Refresh
     End If
     
@@ -608,13 +589,11 @@ Private Sub BotonModificar()
     txtAux(2).Text = DataGrid1.Columns(2).Text
     txtAux(3).Text = DataGrid1.Columns(3).Text
     txtAux(4).Text = DataGrid1.Columns(4).Text
-    txtAux(8).Text = DataGrid1.Columns(5).Text
+    txtAux(7).Text = DataGrid1.Columns(5).Text
     txtAux(5).Text = DataGrid1.Columns(6).Text
     txtAux(6).Text = DataGrid1.Columns(7).Text
-    txtAux(7).Text = DataGrid1.Columns(8).Text
     If txtAux(6).Text = "" Then txtAux(6).Text = RefAnt
-    If txtAux(7).Text = "" Then txtAux(7).Text = BancoAnt
-    
+
     LLamaLineas anc, 4 'Pone el form en Modo=4, Modificar
    
     'Como es modificar
@@ -628,9 +607,9 @@ Private Sub LLamaLineas(alto As Single, xModo As Byte)
     PonerModo xModo
     
     'Fijamos el ancho
-    For I = 0 To txtAux.Count - 1
-        txtAux(I).Top = alto
-    Next I
+    For i = 0 To txtAux.Count - 1
+        txtAux(i).top = alto
+    Next i
     ' ### [Monica] 12/09/2006
 End Sub
 
@@ -645,10 +624,10 @@ Private Sub PonerLongCampos()
 End Sub
 
 Private Sub cmdAceptar_Click()
-    Dim I As String
+    Dim i As String
     Dim NReg As Long
-    Dim SQL As String
-    Dim SQL2 As String
+    Dim Sql As String
+    Dim Sql2 As String
     
     Select Case Modo
         Case 1 'BUSQUEDA
@@ -677,14 +656,14 @@ Private Sub cmdAceptar_Click()
                     Ok = True
                     FechaAnt = txtAux(4).Text
                     TerminaBloquear
-                    I = adodc1.Recordset.AbsolutePosition
+                    i = adodc1.Recordset.AbsolutePosition
                     
                     PonerModo 2
                     CargaGrid "" 'CadB
-                    If I = Me.adodc1.Recordset.RecordCount Then
+                    If i = Me.adodc1.Recordset.RecordCount Then
                         Me.adodc1.Recordset.MoveLast
                     Else
-                        Me.adodc1.Recordset.Move I - 1
+                        Me.adodc1.Recordset.Move i - 1
                     End If
                     
                     PonerFocoGrid Me.DataGrid1
@@ -715,7 +694,7 @@ End Sub
 
 Private Sub cmdRegresar_Click()
 Dim cad As String
-Dim I As Integer
+Dim i As Integer
 Dim J As Integer
 Dim Aux As String
 
@@ -724,16 +703,16 @@ Dim Aux As String
         Exit Sub
     End If
     cad = ""
-    I = 0
+    i = 0
     Do
-        J = I + 1
-        I = InStr(J, DatosADevolverBusqueda, "|")
-        If I > 0 Then
-            Aux = Mid(DatosADevolverBusqueda, J, I - J)
+        J = i + 1
+        i = InStr(J, DatosADevolverBusqueda, "|")
+        If i > 0 Then
+            Aux = Mid(DatosADevolverBusqueda, J, i - J)
             J = Val(Aux)
             cad = cad & adodc1.Recordset.Fields(J) & "|"
         End If
-    Loop Until I = 0
+    Loop Until i = 0
     RaiseEvent DatoSeleccionado(cad)
     Unload Me
 End Sub
@@ -779,20 +758,20 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_Load()
-Dim SQL2 As String
+Dim Sql2 As String
 
     PrimeraVez = True
 
     With Toolbar1
-         .HotImageList = frmPpal.imgListComun_OM
-         .DisabledImageList = frmPpal.imgListComun_BN
-         .ImageList = frmPpal.imgListComun
+         .HotImageList = frmppal.imgListComun_OM
+         .DisabledImageList = frmppal.imgListComun_BN
+         .ImageList = frmppal.ImgListComun
          .Buttons(1).Image = 4
     End With
 
 
     '****************** canviar la consulta *********************************+
-    CadenaConsulta = "SELECT aaa.codusu, aaa.numserie, aaa.numfactu, aaa.fecfactu, aaa.numorden, aaa.codmacta, aaa.fecefect, aaa.reftalonpag, aaa.bancotalonpag "
+    CadenaConsulta = "SELECT aaa.codusu, aaa.numserie, aaa.numfactu, aaa.fecfactu, aaa.numorden, aaa.codmacta, aaa.fecefect, aaa.reftalonpag"
     CadenaConsulta = CadenaConsulta & " FROM tmppagos2 aaa "
     CadenaConsulta = CadenaConsulta & " WHERE codusu = " & vUsu.Codigo
     '************************************************************************
@@ -846,28 +825,28 @@ Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
 End Sub
 
 Private Sub CargaGrid(Optional vSql As String)
-    Dim SQL As String
+    Dim Sql As String
     Dim tots As String
-    Dim SQL2 As String
+    Dim Sql2 As String
     
     If vSql <> "" Then
-        SQL = CadenaConsulta & " AND " & vSql
+        Sql = CadenaConsulta & " AND " & vSql
     Else
-        SQL = CadenaConsulta
+        Sql = CadenaConsulta
     End If
     '********************* canviar el ORDER BY *********************++
-    SQL = SQL & " " & Ordenacion
+    Sql = Sql & " " & Ordenacion
     '**************************************************************++
     
     
-    CargaGridGnral Me.DataGrid1, Me.adodc1, SQL, PrimeraVez
+    CargaGridGnral Me.DataGrid1, Me.adodc1, Sql, PrimeraVez
     
     ' *******************canviar els noms i si fa falta la cantitat********************
     tots = "N||||0|;S|txtAux(1)|T|Serie|700|;S|txtAux(2)|T|Factura|1000|;S|txtAux(3)|T|Fecha Fra.|1250|;"
     tots = tots & "S|txtAux(4)|T|Orden|1000|;"
-    tots = tots & "S|txtAux(8)|T|Cuenta|1500|;"
-    tots = tots & "S|txtAux(5)|T|Fecha Vto|1250|;S|txtAux(6)|T|Referencia|1500|;"
-    tots = tots & "S|txtAux(7)|T|Banco|1500|;"
+    tots = tots & "S|txtAux(7)|T|Cuenta|1500|;"
+    tots = tots & "S|txtAux(5)|T|Fecha Vto|1250|;S|txtAux(6)|T|Referencia|2500|;"
+'    tots = tots & "S|txtAux(7)|T|Banco|1500|;"
     arregla tots, DataGrid1, Me
     
     DataGrid1.ScrollBars = dbgAutomatic
@@ -875,7 +854,7 @@ Private Sub CargaGrid(Optional vSql As String)
     DataGrid1.Columns(2).Alignment = dbgLeft
     DataGrid1.Columns(4).Alignment = dbgLeft
     DataGrid1.Columns(7).Alignment = dbgCenter
-    DataGrid1.Columns(8).Alignment = dbgLeft
+'    DataGrid1.Columns(8).Alignment = dbgLeft
     
 End Sub
 
@@ -900,8 +879,7 @@ Private Sub txtAux_LostFocus(Index As Integer)
             
         Case 6
             RefAnt = txtAux(Index)
-        Case 7
-            BancoAnt = txtAux(Index)
+       
     End Select
     
 End Sub
@@ -909,7 +887,7 @@ End Sub
 Private Function DatosOK() As Boolean
 'Dim Datos As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Mens As String
 Dim FechaAnt As Date
 Dim NroDig As Integer
@@ -943,11 +921,11 @@ End Sub
 
 Private Sub txtaux_KeyPress(Index As Integer, KeyAscii As Integer)
 
-    If Index = 7 Then ' estoy introduciendo la lectura
+    If Index = 6 Then ' estoy introduciendo la lectura
        If KeyAscii = 13 Then 'ENTER
             If Modo = 4 Then
                 RefAnt = txtAux(6)
-                BancoAnt = txtAux(7)
+                
                 
                 cmdAceptar_Click
                 'ModificarLinea
@@ -989,7 +967,6 @@ On Error GoTo EKeyD
             'ModificarExistencia
                 
             RefAnt = txtAux(6)
-            BancoAnt = txtAux(7)
             
             cmdAceptar_Click
 '            ModificarLinea

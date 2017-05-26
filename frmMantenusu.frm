@@ -975,8 +975,11 @@ Private Sub cmdFrameUsu_Click(Index As Integer)
             End If
         End If
         
-        UsuarioOrigen = Combo6.ItemData(Combo6.ListIndex)
-        
+        If Combo6.ListIndex >= 0 Then
+            UsuarioOrigen = Combo6.ItemData(Combo6.ListIndex)
+        Else
+            UsuarioOrigen = 0
+        End If
         InsertarModificar i
         
     End If

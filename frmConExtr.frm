@@ -22,7 +22,7 @@ Begin VB.Form frmConExtr
       Left            =   7890
       TabIndex        =   35
       Top             =   240
-      Width           =   8475
+      Width           =   8595
       Begin VB.CheckBox chkCtaConMov 
          Caption         =   "Sólo Cuentas con movimiento en el ejercicio"
          BeginProperty Font 
@@ -38,7 +38,7 @@ Begin VB.Form frmConExtr
          Left            =   3600
          TabIndex        =   37
          Top             =   120
-         Width           =   4875
+         Width           =   4995
       End
       Begin VB.CheckBox chkPunteo 
          Caption         =   "Sólo Apuntes sin puntear"
@@ -447,7 +447,7 @@ Begin VB.Form frmConExtr
    End
    Begin MSComctlLib.Toolbar ToolbarAyuda 
       Height          =   390
-      Left            =   16530
+      Left            =   16680
       TabIndex        =   18
       Top             =   180
       Width           =   405
@@ -892,7 +892,7 @@ Dim ImpH As Currency
 
 Private Sub adodc1_MoveComplete(ByVal adReason As ADODB.EventReasonEnum, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pRecordset As ADODB.Recordset)
     On Error Resume Next
-    Label10.Caption = DBLet(adodc1.Recordset!Nommacta, "T")
+    Label10.Caption = DBLet(Adodc1.Recordset!Nommacta, "T")
     If Err.Number <> 0 Then
         Err.Clear
         Label10.Caption = ""
@@ -1396,7 +1396,7 @@ End Function
 Private Sub CargaGrid()
 
 
-    adodc1.ConnectionString = Conn
+    Adodc1.ConnectionString = Conn
     Sql = " codusu, cta, numdiari, Pos, fechaent, numasien, linliapu, nomdocum, contra, ampconce, timporteD, timporteH, saldo,ccost, Punteada"
     If Text3(2).Text <> "" Then
         Sql = Sql & ",nommacta"
@@ -1408,13 +1408,13 @@ Private Sub CargaGrid()
     End If
     Sql = Sql & " AND cta = '" & Text3(2).Text & "' ORDER BY POS"
     
-    adodc1.RecordSource = Sql
-    adodc1.Refresh
+    Adodc1.RecordSource = Sql
+    Adodc1.Refresh
     
     
     
     Label101.Caption = "Total lineas:   "
-    Label101.Caption = Label101.Caption & Me.adodc1.Recordset.RecordCount
+    Label101.Caption = Label101.Caption & Me.Adodc1.Recordset.RecordCount
     
 End Sub
 
@@ -1655,17 +1655,21 @@ Private Function ObtenerCuenta(Siguiente As Boolean) As Boolean
     Sql = Sql & " WHERE "
     Sql = Sql & " fechaent >= '" & Format(Text3(0).Text, FormatoFecha) & "'"
     Sql = Sql & " AND fechaent <= '" & Format(Text3(1).Text, FormatoFecha) & "'"
+    
+     If Me.chkCtaConMov.Value = 1 Then Sql = Sql & " and codconce < 900"
+    
+    
     Sql = Sql & " AND codmacta "
     If Siguiente Then
         Sql = Sql & ">"
     Else
         Sql = Sql & "<"
     End If
-    If Me.chkCtaConMov.Value = 1 Then
-        Sql = Sql & DBSet(CtaAnt, "T")
-    Else
+   ' If Me.chkCtaConMov.Value = 1 Then
+   '     Sql = Sql & DBSet(CtaAnt, "T")
+   ' Else
         Sql = Sql & " '" & Text3(2).Text & "'"
-    End If
+   ' End If
     
     Sql = Sql & " ORDER BY codmacta"
     If Siguiente Then
@@ -1687,18 +1691,18 @@ Private Function ObtenerCuenta(Siguiente As Boolean) As Boolean
         ObtenerCuenta = False
     Else
         'Sólo Cuentas con movimiento en el ejercicio
-        If Me.chkCtaConMov.Value = 1 Then
+ '       If Me.chkCtaConMov.Value = 1 Then
             Dim Sql4 As String
-            CtaAnt = RT!codmacta
-            Sql4 = "select count(*) from hlinapu where codmacta = " & DBSet(RT!codmacta, "T") & " and fechaent >= " & DBSet(vParam.fechaini, "F") & " and codconce < 900"
-            If TotalRegistros(Sql4) = 0 Then
-                ObtenerCuenta Siguiente
-                ObtenerCuenta = False
-                Exit Function
-            End If
-        Else
-            CtaAnt = ""
-        End If
+'            CtaAnt = RT!codmacta
+'            Sql4 = "select count(*) from hlinapu where codmacta = " & DBSet(RT!codmacta, "T") & " and fechaent >= " & DBSet(vParam.fechaini, "F") & " and codconce < 900"
+'            If TotalRegistros(Sql4) = 0 Then
+'                ObtenerCuenta Siguiente
+'                ObtenerCuenta = False
+'                Exit Function
+'            End If
+'        Else
+'            CtaAnt = ""
+'        End If
     
         Text3(2).Text = RT!codmacta
         Text5.Text = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", RT!codmacta, "T")
@@ -1839,7 +1843,7 @@ Dim cad As String
     On Error Resume Next
 
     cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
     Set Rs = New ADODB.Recordset
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText

@@ -3112,8 +3112,9 @@ Dim Aux As String
     
     ContinuarPago = False
     
-    If CargarPagosTemporal(Text1(5).Text, Text1(1).Text, ImporteFormateado(Text1(13).Text)) Then
-        ' Insertamos
+    'If CargarPagosTemporal(Text1(5).Text, Text1(1).Text, ImporteFormateado(Text1(13).Text)) Then
+    If CargarPagosTemporal(Text1(5).Text, FecFactuAnt, ImporteFormateado(Text1(13).Text)) Then
+        ' Insertamos  FecFactuAnt
         If Not ExisteAlgunPago(Text1(2).Text, Text1(4).Text, Text1(25).Text, FecFactuAnt, False) Then
     '{{{{{{{{{
             Sql = "select ccc.ctabanco,ccc.iban, ddd.nommacta "

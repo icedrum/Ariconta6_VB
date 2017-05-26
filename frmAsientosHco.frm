@@ -2465,7 +2465,7 @@ Dim i As Integer
     
     'Maxima longitud cuentas
     txtAux(3).MaxLength = vEmpresa.DigitosUltimoNivel
-    txtAux(5).MaxLength = vEmpresa.DigitosUltimoNivel
+    txtAux(6).MaxLength = vEmpresa.DigitosUltimoNivel
     'CadAncho = False
     PulsadoSalir = False
 
@@ -3596,7 +3596,7 @@ Dim LINASI As Long
                 While Not miRsAux.EOF
                     LINASI = LINASI + 1
                     Sql = Sql & ", (" & Data1.Recordset!NumDiari & "," & DBSet(Data1.Recordset!FechaEnt, "F") & "," & Data1.Recordset!NumAsien
-                    Sql = Sql & "," & LINASI & ",'" & miRsAux!Cta & "'," & DBSet(miRsAux!Numdocum, "T") & "," & DBSet(miRsAux!codconce, "N")
+                    Sql = Sql & "," & LINASI & ",'" & miRsAux!Cta & "'," & DBSet(miRsAux!Numdocum, "T") & "," & DBSet(miRsAux!CodConce, "N")
                     Sql = Sql & "," & DBSet(miRsAux!Ampconce & " " & Ampliacion, "T") & "," & DBSet(miRsAux!timported, "N", "S") & "," & DBSet(miRsAux!timporteH, "N", "S")
                     Sql = Sql & "," & DBSet(miRsAux!ctacontr, "T")
                     If vParam.autocoste Then
@@ -5182,7 +5182,7 @@ Dim C As String
         txtAux2(4).Text = RsF6!Nommacta
         txtAux(5).Text = DBLet(RsF6!Numdocum, "T")
         txtAux(6).Text = DBLet(RsF6!ctacontr, "T")
-        txtAux(7).Text = RsF6!codconce
+        txtAux(7).Text = RsF6!CodConce
         txtAux(8).Text = DBLet(RsF6!Ampconce, "T")
         C = DBLet(RsF6!timported, "T")
         If C <> "" Then

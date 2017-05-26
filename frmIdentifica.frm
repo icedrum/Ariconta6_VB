@@ -13,6 +13,12 @@ Begin VB.Form frmIdentifica
    ScaleHeight     =   5640
    ScaleWidth      =   9705
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Timer Timer1 
+      Enabled         =   0   'False
+      Interval        =   1000
+      Left            =   480
+      Top             =   4320
+   End
    Begin VB.TextBox Text1 
       Alignment       =   2  'Center
       BackColor       =   &H00FFFFFF&
@@ -116,7 +122,7 @@ Begin VB.Form frmIdentifica
       Left            =   360
       TabIndex        =   5
       Top             =   2850
-      Width           =   2655
+      Width           =   9135
    End
    Begin VB.Label Label1 
       BackStyle       =   0  'Transparent
@@ -178,6 +184,10 @@ Dim T1 As Single
 Dim CodPC As Long
 Dim UsuarioOK As String
 
+
+Dim Segundos As Integer
+
+
 Private Sub Combo1_KeyPress(KeyAscii As Integer)
     KEYpress KeyAscii
 End Sub
@@ -194,12 +204,18 @@ Private Sub Combo1_LostFocus()
     Text1(0).Text = Combo1.Text
 End Sub
 
+
+
+
 Private Sub Form_Activate()
 
     If PrimeraVez Then
         PrimeraVez = False
         
-        espera 0.5
+        espera 0.25
+       
+        
+        
         Me.Refresh
         
         Set vControl = New Control2
@@ -229,17 +245,22 @@ Private Sub Form_Activate()
              End
         End If
          
+        Segundos = 60
+        Me.Timer1.Enabled = True
+         
+         
+         
         'Gestionar el nombredel PC para la asignacion de PC en el entorno de red
         CodPC = GestionaPC2
         CadenaDesdeOtroForm = ""
          
-         'Leemos el ultimo usuario conectado
+        'Leemos el ultimo usuario conectado
         Text1(0).Text = vControl.UltUsu
          
-         CargaCombo
-         PosicionarCombo2 Combo1, Text1(0)
+        CargaCombo
+        PosicionarCombo2 Combo1, Text1(0)
          
-         If CodPC > 0 Then
+        If CodPC > 0 Then
             If ActualizarVersion Then
                 Set Conn = Nothing
                Unload Me
@@ -277,6 +298,7 @@ End Sub
 Private Sub Form_Load()
     Screen.MousePointer = vbHourglass
     UsuarioOK = ""
+
     PonerVisible False
     T1 = Timer
     Text1(0).Text = ""
@@ -318,8 +340,13 @@ Private Sub Form_Unload(Cancel As Integer)
             End If
         
     End If
+    Parar
 End Sub
 
+Private Sub Parar()
+    Timer1.Enabled = False
+    Err.Clear
+End Sub
 
 Private Sub Text1_GotFocus(Index As Integer)
     With Text1(Index)
@@ -394,6 +421,7 @@ Dim Ok As Byte
         End If
     Else
         'OK
+        Timer1.Enabled = False
         If vEmpresa Is Nothing Then
             UsuarioCorrecto
             Unload Me
@@ -696,4 +724,17 @@ On Error Resume Next
     NumRegElim = 0
     
     
+End Sub
+
+Private Sub Timer1_Timer()
+    Segundos = Segundos - 1
+    If Segundos <= 0 Then
+        Unload Me
+    Else
+        If Segundos < 52 Then
+            Label1(2).Visible = True
+            Label1(2).Caption = "Si no hace login, la pantalla se cerrará automáticamente en " & " " & Segundos & " segundos."
+            Label1(2).Refresh
+         End If
+    End If
 End Sub

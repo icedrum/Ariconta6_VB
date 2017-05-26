@@ -15,6 +15,177 @@ Begin VB.Form frmCierre
    ScaleWidth      =   14700
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame frameDescierre 
+      BorderStyle     =   0  'None
+      Caption         =   $"frmCierre.frx":000C
+      Height          =   3975
+      Left            =   30
+      TabIndex        =   21
+      Top             =   -30
+      Width           =   5565
+      Begin VB.TextBox Text3 
+         Enabled         =   0   'False
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Left            =   180
+         TabIndex        =   25
+         Text            =   "Text3"
+         Top             =   2160
+         Width           =   5085
+      End
+      Begin VB.CommandButton cmdCancel 
+         Caption         =   "&Cancelar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   5
+         Left            =   4200
+         TabIndex        =   23
+         Top             =   3240
+         Width           =   1035
+      End
+      Begin VB.CommandButton cmdDescerrar 
+         Caption         =   "&Aceptar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Left            =   3000
+         TabIndex        =   22
+         Top             =   3240
+         Width           =   1125
+      End
+      Begin MSComctlLib.Toolbar ToolbarAyuda 
+         Height          =   390
+         Index           =   2
+         Left            =   4890
+         TabIndex        =   95
+         Top             =   90
+         Width           =   405
+         _ExtentX        =   714
+         _ExtentY        =   688
+         ButtonWidth     =   609
+         ButtonHeight    =   582
+         _Version        =   393216
+         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+            NumButtons      =   1
+            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Ayuda"
+            EndProperty
+         EndProperty
+      End
+      Begin VB.Label Label19 
+         Caption         =   "descrip"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   3
+         Left            =   240
+         TabIndex        =   102
+         Top             =   2640
+         Width           =   5175
+      End
+      Begin VB.Label Label19 
+         Caption         =   "-Haber apuntes ejercicio siguiente"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   2
+         Left            =   600
+         TabIndex        =   101
+         Top             =   1440
+         Width           =   3510
+      End
+      Begin VB.Label Label19 
+         Caption         =   "-Estar descuadrada"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   1
+         Left            =   600
+         TabIndex        =   100
+         Top             =   1080
+         Width           =   3510
+      End
+      Begin VB.Label Label18 
+         Alignment       =   2  'Center
+         Caption         =   "Para deshacer cierre no debe :"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   11.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   270
+         Left            =   240
+         TabIndex        =   96
+         Top             =   240
+         Width           =   3765
+      End
+      Begin VB.Label Label19 
+         Caption         =   "-Trabajar nadie en esta contabilidad"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   0
+         Left            =   600
+         TabIndex        =   24
+         Top             =   720
+         Width           =   3615
+      End
+   End
    Begin VB.Frame fPyG 
       BorderStyle     =   0  'None
       Height          =   9825
@@ -398,7 +569,7 @@ Begin VB.Form frmCierre
             Height          =   240
             Index           =   2
             Left            =   930
-            Picture         =   "frmCierre.frx":000C
+            Picture         =   "frmCierre.frx":0097
             Top             =   420
             Width           =   240
          End
@@ -662,7 +833,7 @@ Begin VB.Form frmCierre
             Height          =   240
             Index           =   3
             Left            =   870
-            Picture         =   "frmCierre.frx":0A0E
+            Picture         =   "frmCierre.frx":0A99
             Top             =   450
             Width           =   240
          End
@@ -871,7 +1042,7 @@ Begin VB.Form frmCierre
             Height          =   240
             Index           =   1
             Left            =   870
-            Picture         =   "frmCierre.frx":1410
+            Picture         =   "frmCierre.frx":149B
             Top             =   330
             Width           =   240
          End
@@ -1119,7 +1290,7 @@ Begin VB.Form frmCierre
             Height          =   240
             Index           =   0
             Left            =   900
-            Picture         =   "frmCierre.frx":1E12
+            Picture         =   "frmCierre.frx":1E9D
             Top             =   420
             Width           =   240
          End
@@ -1543,122 +1714,6 @@ Begin VB.Form frmCierre
          TabIndex        =   13
          Top             =   7590
          Width           =   6750
-      End
-   End
-   Begin VB.Frame frameDescierre 
-      BorderStyle     =   0  'None
-      Caption         =   $"frmCierre.frx":2814
-      Height          =   3975
-      Left            =   30
-      TabIndex        =   21
-      Top             =   -30
-      Width           =   5565
-      Begin VB.TextBox Text3 
-         Enabled         =   0   'False
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Left            =   180
-         TabIndex        =   25
-         Text            =   "Text3"
-         Top             =   1920
-         Width           =   5085
-      End
-      Begin VB.CommandButton cmdCancel 
-         Caption         =   "&Cancelar"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Index           =   5
-         Left            =   4290
-         TabIndex        =   23
-         Top             =   3270
-         Width           =   1035
-      End
-      Begin VB.CommandButton cmdDescerrar 
-         Caption         =   "&Aceptar"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Left            =   3030
-         TabIndex        =   22
-         Top             =   3270
-         Width           =   1125
-      End
-      Begin MSComctlLib.Toolbar ToolbarAyuda 
-         Height          =   390
-         Index           =   2
-         Left            =   4890
-         TabIndex        =   95
-         Top             =   90
-         Width           =   405
-         _ExtentX        =   714
-         _ExtentY        =   688
-         ButtonWidth     =   609
-         ButtonHeight    =   582
-         _Version        =   393216
-         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-            NumButtons      =   1
-            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Object.ToolTipText     =   "Ayuda"
-            EndProperty
-         EndProperty
-      End
-      Begin VB.Label Label18 
-         Alignment       =   2  'Center
-         Caption         =   "No debe haber nadie más trabajando contra esta contabilidad"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   11.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   855
-         Left            =   210
-         TabIndex        =   96
-         Top             =   720
-         Width           =   4875
-      End
-      Begin VB.Label Label19 
-         Caption         =   "Trabajar nadie en esta contabilidad"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Left            =   210
-         TabIndex        =   24
-         Top             =   2490
-         Width           =   5070
       End
    End
    Begin VB.Frame fRenumeracion 
@@ -2196,8 +2251,8 @@ On Error GoTo EDescierre
     espera 0.3
     Me.Refresh
     If Ok Then
-        Label19.Caption = "Eliminar asientos"
-        Label19.Refresh
+        Label19(3).Caption = "Eliminar asientos"
+        Label19(3).Refresh
         Ok = HacerDescierre
     End If
     
@@ -2549,7 +2604,7 @@ Case 5
     H = frameDescierre.Height + 400
     W = frameDescierre.Width
     Caption = "Deshacer cierre"
-    Label19.Caption = ""
+    Label19(3).Caption = ""
     Text3.Text = "Ejercicio actual: " & Format(vParam.fechaini, "dd/mm/yyyy") & " - " & Format(vParam.fechafin, "dd/mm/yyyy")
 
 
@@ -4095,8 +4150,8 @@ On Error GoTo EHacerDescierre
     'Si ya hay un 960 en hcabapu, con esa fecha entonces es k ya esta hecho el cierre
     'P y G
     MaxAsien = 0
-    Label19.Caption = "Perdidas y ganancias"
-    Label19.Refresh
+    Label19(3).Caption = "Perdidas y ganancias"
+    Label19(3).Refresh
 
     Sql = ""
     cad = CStr(DateAdd("yyyy", -1, vParam.fechaini))
@@ -4157,8 +4212,8 @@ On Error GoTo EHacerDescierre
 
 
 
-    Label19.Caption = "Regularización 8 y 9"
-    Label19.Refresh
+    Label19(3).Caption = "Regularización 8 y 9"
+    Label19(3).Refresh
 
     
 
@@ -4198,8 +4253,8 @@ On Error GoTo EHacerDescierre
 
     'Cierre
     'Si hay un 980  en hcabapu, con esa fecha entonces es k ya esta hecho el cierre
-    Label19.Caption = "Cierre"
-    Label19.Refresh
+    Label19(3).Caption = "Cierre"
+    Label19(3).Refresh
 
     Sql = " codconce=980 "
     cad = CStr(DateAdd("yyyy", -1, vParam.fechaini))
@@ -4228,8 +4283,8 @@ On Error GoTo EHacerDescierre
     Me.Refresh
         
         
-    Label19.Caption = "Apertura"
-    Label19.Refresh
+    Label19(3).Caption = "Apertura"
+    Label19(3).Refresh
     'Si ya hay un  970 en hcabapu, con esa fecha entonces es k ya esta hecho el cierre
     Sql = " codconce=970 "
     cad = Format(vParam.fechaini, FormatoFecha)
@@ -4264,8 +4319,8 @@ On Error GoTo EHacerDescierre
     'Ahora, en parametros cambias ciertas cosas tales como fechas ejercicio
     'Reestablecemos las fechas
     'Ahora, en parametros cambias ciertas cosas tales como fechas ejercicio
-    Label19.Caption = "Contadores"
-    Label19.Refresh
+    Label19(3).Caption = "Contadores"
+    Label19(3).Refresh
     i = -1
     cad = Format(DateAdd("yyyy", i, vParam.fechaini), FormatoFecha)
     Sql = "UPDATE parametros SET fechaini= '" & cad

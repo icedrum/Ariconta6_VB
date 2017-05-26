@@ -6,16 +6,16 @@ Begin VB.Form frmTESReclamaCli
    Appearance      =   0  'Flat
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Reclamaciones"
-   ClientHeight    =   7275
+   ClientHeight    =   7095
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   13050
+   ClientWidth     =   12930
    Icon            =   "frmTESReclamaCli.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   7275
-   ScaleWidth      =   13050
+   ScaleHeight     =   7095
+   ScaleWidth      =   12930
    StartUpPosition =   2  'CenterScreen
    Begin MSComDlg.CommonDialog cd1 
       Left            =   6930
@@ -26,7 +26,7 @@ Begin VB.Form frmTESReclamaCli
    End
    Begin VB.Frame Frame1 
       BorderStyle     =   0  'None
-      Height          =   6885
+      Height          =   7005
       Left            =   90
       TabIndex        =   12
       Top             =   -30
@@ -740,7 +740,7 @@ Dim RC As String
 Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
-Dim Cad As String
+Dim cad As String
 Dim CONT As Long
 Dim i As Integer
 Dim TotalRegistros As Long
@@ -791,7 +791,7 @@ Private Sub cmdCancelar_Click(Index As Integer)
         FrameReclamacionesCliente.Visible = False
         FrameReclamacionesCliente.Enabled = False
         
-        CargaList
+        CargaList True
         Codigo = ComprobarCero(Text1(5))
     Else
         Unload Me
@@ -935,7 +935,7 @@ Private Sub Form_Activate()
             End If
             CadenaDesdeOtroForm = ""
         End If
-        CargaList
+        CargaList True
     End If
     Screen.MousePointer = vbDefault
 End Sub
@@ -1087,7 +1087,7 @@ Dim Campo2 As Integer
         Case "Carta"
             CampoOrden = "reclama.carta"
     End Select
-    CargaList
+    CargaList False
 
 
 End Sub
@@ -1133,7 +1133,7 @@ Private Sub HacerToolBar(Boton As Integer)
         Case 5
 '            BotonBuscar
         Case 6 ' ver todos
-            CargaList
+            CargaList False
         Case 8
             'Imprimir factura
             frmTESReclamaCliList.Show vbModal
@@ -1301,7 +1301,7 @@ Private Sub HacerToolBar2(Boton As Integer)
     Select Case Boton
         Case 1
             frmTESReclamaCliEfe.Show vbModal
-            CargaList
+            CargaList True
             
     End Select
 End Sub
@@ -1476,22 +1476,22 @@ Dim ImporteTot As Currency
     Set miRsAux = New ADODB.Recordset
     
     If Modificar Then
-        Cad = "Select reclama_facturas.numlinea,reclama_facturas.numserie,reclama_facturas.numfactu,reclama_facturas.fecfactu,reclama_facturas.numorden,reclama_facturas.impvenci importe,"
-        Cad = Cad & " cobros.codforpa,cobros.fecvenci, cobros.gastos, cobros.impvenci, cobros.impcobro,nomforpa from reclama_facturas,cobros,formapago where cobros.codforpa=formapago.codforpa "
-        Cad = Cad & " and reclama_facturas.numserie = cobros.numserie "
-        Cad = Cad & " and reclama_facturas.numfactu = cobros.numfactu "
-        Cad = Cad & " and reclama_facturas.fecfactu = cobros.fecfactu "
-        Cad = Cad & " and reclama_facturas.numorden = cobros.numorden "
-        Cad = Cad & " AND reclama_facturas.codigo = " & Me.Text1(5).Text
-        Cad = Cad & " ORDER BY 1"
+        cad = "Select reclama_facturas.numlinea,reclama_facturas.numserie,reclama_facturas.numfactu,reclama_facturas.fecfactu,reclama_facturas.numorden,reclama_facturas.impvenci importe,"
+        cad = cad & " cobros.codforpa,cobros.fecvenci, cobros.gastos, cobros.impvenci, cobros.impcobro,nomforpa from reclama_facturas,cobros,formapago where cobros.codforpa=formapago.codforpa "
+        cad = cad & " and reclama_facturas.numserie = cobros.numserie "
+        cad = cad & " and reclama_facturas.numfactu = cobros.numfactu "
+        cad = cad & " and reclama_facturas.fecfactu = cobros.fecfactu "
+        cad = cad & " and reclama_facturas.numorden = cobros.numorden "
+        cad = cad & " AND reclama_facturas.codigo = " & Me.Text1(5).Text
+        cad = cad & " ORDER BY 1"
     Else
-        Cad = "Select cobros.*,nomforpa from cobros,formapago where cobros.codforpa=formapago.codforpa "
-        Cad = Cad & " AND codmacta = '" & Me.Text1(2).Text & "'"
-        Cad = Cad & " AND (transfer =0 or transfer is null) and codrem is null"
-        Cad = Cad & " and recedocu=0 and situacion = 0" ' pendientes de cobro
-        Cad = Cad & " ORDER BY fecvenci"
+        cad = "Select cobros.*,nomforpa from cobros,formapago where cobros.codforpa=formapago.codforpa "
+        cad = cad & " AND codmacta = '" & Me.Text1(2).Text & "'"
+        cad = cad & " AND (transfer =0 or transfer is null) and codrem is null"
+        cad = cad & " and recedocu=0 and situacion = 0" ' pendientes de cobro
+        cad = cad & " ORDER BY fecvenci"
     End If
-    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         Set IT = lwReclamCli.ListItems.Add()
         IT.Text = miRsAux!NUmSerie
@@ -1557,7 +1557,7 @@ End Sub
 
 Private Sub FijaCadenaSQLCobrosCompen()
 
-    Cad = "numserie, numfactu, fecfactu, numorden "
+    cad = "numserie, numfactu, fecfactu, numorden "
     
 End Sub
 
@@ -1565,15 +1565,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
     
     On Error Resume Next
 
-    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N")
@@ -1596,31 +1596,45 @@ End Sub
 
 
 
-Private Sub CargaList()
+Private Sub CargaList(SoloUnAnyo As Boolean)
 Dim IT
 
     lw1.ListItems.Clear
     Set Me.lw1.SmallIcons = frmppal.ImgListviews
     Set miRsAux = New ADODB.Recordset
+    lblIndicador.Caption = "Leyendo"
+    lblIndicador.Refresh
+    cad = "Select codigo,fecreclama,codmacta,nommacta,carta,CASE carta WHEN 0 THEN 'Carta' WHEN 1 THEN 'EMail' WHEN 2 THEN 'Teléfono' END as TCarta,importes,observaciones from reclama "
     
-    Cad = "Select codigo,fecreclama,codmacta,nommacta,carta,CASE carta WHEN 0 THEN 'Carta' WHEN 1 THEN 'EMail' WHEN 2 THEN 'Teléfono' END as TCarta,importes,observaciones from reclama "
-    
+    If SoloUnAnyo Then cad = cad & " WHERE fecreclama > " & DBSet(DateAdd("yyyy", -1, Now), "F")
     
     If CampoOrden = "" Then CampoOrden = "reclama.fecreclama"
-    Cad = Cad & " ORDER BY " & CampoOrden
-    If Orden Then Cad = Cad & " DESC"
+    cad = cad & " ORDER BY " & CampoOrden
+    If Orden Then cad = cad & " DESC"
     
-    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    i = 0
+    J = 0
     While Not miRsAux.EOF
+        i = i + 1
         Set IT = lw1.ListItems.Add()
         IT.Text = Format(miRsAux!Fecreclama, "dd/mm/yyyy")
         IT.SubItems(1) = DBLet(miRsAux!codmacta, "T")
         IT.SubItems(2) = DBLet(miRsAux!Nommacta, "T")
         IT.SubItems(3) = miRsAux!tcarta
         IT.SubItems(4) = Format(miRsAux!Importes, "###,###,##0.00")
-        IT.SubItems(5) = DBLet(miRsAux!observaciones, "T")
+        IT.SubItems(5) = DBLet(miRsAux!Observaciones, "T")
         IT.SubItems(6) = miRsAux!Codigo
         IT.SubItems(7) = miRsAux!carta
+        
+        If i > 250 Then
+            J = J + 1
+            lblIndicador.Caption = "Lectura: " & J
+            lw1.Refresh
+            
+            i = 0
+            Me.Refresh
+        End If
         miRsAux.MoveNext
     Wend
     miRsAux.Close

@@ -1054,12 +1054,12 @@ Public Function PonerParamRPT(Indice As String, nomDocu As String) As Boolean
 Dim cad As String
 Dim Encontrado As Boolean
 
-        nomDocu = ""
+        
         Encontrado = False
         PonerParamRPT = False
         
         cad = "select informe from scryst where codigo = " & DBSet(Indice, "T")
-        
+        nomDocu = ""
         Set Rs = New ADODB.Recordset
         Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         

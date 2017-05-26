@@ -887,6 +887,10 @@ Public Const ID_Totalesporconcepto = 310
 Public Const ID_EvolucióndeSaldos = 311
 Public Const ID_RatiosyGráficas = 312
 Public Const ID_Punteoextractobancario = 314
+Public Const ID_ConsoBalSums = 315
+
+
+
 
 Public Const ID_FacturasEmitidas = 401
 Public Const ID_LibroFacturasEmitidas = 402
@@ -900,6 +904,7 @@ Public Const ID_Modelo347 = 410
 Public Const ID_Modelo349 = 411
 Public Const ID_LiquidacionIVA = 412
 Public Const ID_FrasConso = 413
+
 'Asegurados
 Public Const ID_AseguClientes = 414
 Public Const ID_AseguComunicaSeguro = 415

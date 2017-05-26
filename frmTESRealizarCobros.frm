@@ -1392,7 +1392,7 @@ Private Sub Combo1_Validate(Cancel As Boolean)
         
         i = 0
         If (Combo1.ItemData(Combo1.ListIndex) = 2 Or Combo1.ItemData(Combo1.ListIndex) = 3) Then i = 1
-        Me.mnbarra1.Visible = i = 1
+        Me.mnBarra1.Visible = i = 1
         Me.mnNumero.Visible = i = 1
     
         CargaList
@@ -3255,7 +3255,7 @@ Dim ImporteInterno2 As Currency
                 SqlBanco = SqlBanco & " and numfactu = " & DBSet(RecuperaValor(RS1!Cliente, 2), "N")
                 SqlBanco = SqlBanco & " and fecfactu = " & DBSet(RecuperaValor(RS1!Cliente, 3), "F")
                 SqlBanco = SqlBanco & " and numorden = " & DBSet(RecuperaValor(RS1!Cliente, 4), "N")
-                SqlBanco = SqlBanco & " and codmacta = " & DBSet(RS1!cliprov, "T")
+                'SqlBanco = SqlBanco & " and codmacta = " & DBSet(RS1!cliprov, "T")
         
                 Set RsBanco = New ADODB.Recordset
                 RsBanco.Open SqlBanco, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText

@@ -2598,11 +2598,13 @@ End Function
 Public Sub LanzaNotepad(ByVal NombreFichero As String, Descripcion As String)
     On Error Resume Next
     'Solo sirve para los archivos
-    Shell "notepad " & NombreFichero, vbNormalFocus
+    Shell "notepad " & NombreFichero, vbMinimizedFocus
     If Err.Number <> 0 Then
         NombreFichero = "Imposible mostrar archivo para: " & Descripcion & vbCrLf & "Fichero: " & NombreFichero
         MsgBox NombreFichero, vbExclamation
         Err.Clear
+    Else
+        MsgBox "Compruebe fichero NIFs", vbExclamation
     End If
 End Sub
 

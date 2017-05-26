@@ -268,7 +268,7 @@ Dim EsPersonaJuridica2 As Boolean
         Print #NFic, "      <PmtTpInf>"
         If Pagos Then
             Im = DBLet(miRsAux!imppagad, "N")
-            Im = miRsAux!ImpEfect - Im
+            Im = miRsAux!impefect - Im
             Aux = miRsAux!codmacta
 
         Else
@@ -1122,7 +1122,7 @@ Dim Itm As ListItem
 Dim Rs As ADODB.Recordset
 
 Dim RegistroErroneo As Boolean
-
+Dim RemesasNoContabilizadas As String
 
     On Error GoTo eLeerLineaDevolucionSEPA_XML
     Remesa = ""
@@ -1211,6 +1211,21 @@ Dim RegistroErroneo As Boolean
     Dim jj As Long
     jj = 1
     Set Rs = New ADODB.Recordset
+    RemesasNoContabilizadas = ""
+    
+    RemesasNoContabilizadas = "codigo =" & RecuperaValor(Remesa, 1) & " AND anyo =" & RecuperaValor(Remesa, 2) & " AND 1"
+    RemesasNoContabilizadas = DevuelveDesdeBD("situacion", "remesas", RemesasNoContabilizadas, "1")
+    If RemesasNoContabilizadas < "Q" Then
+        If RemesasNoContabilizadas = "" Then
+            RemesasNoContabilizadas = "no encontrada "
+        Else
+            RemesasNoContabilizadas = "incorrecta. " & RemesasNoContabilizadas
+        End If
+        RemesasNoContabilizadas = "Situación remesa " & RemesasNoContabilizadas & ".  " & Replace(Remesa, "|", " ")
+        MsgBox RemesasNoContabilizadas, vbExclamation
+        Exit Sub
+        
+    End If
     
     Do
         posicion = InStr(posicion, ContenidoFichero, "<TxInfAndSts>")
@@ -1225,6 +1240,11 @@ Dim RegistroErroneo As Boolean
             posicion = PosicionEnFichero(1, DatosXMLVto, "<OrgnlEndToEndId>")
             L2 = PosicionEnFichero(posicion, DatosXMLVto, "</OrgnlEndToEndId>")
             aux2 = Mid(DatosXMLVto, posicion, L2 - posicion)
+            
+            
+            
+            
+            
             
             
             Set Itm = lwCobros.ListItems.Add(, "C" & jj)

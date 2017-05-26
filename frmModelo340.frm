@@ -706,7 +706,7 @@ Private Sub cmdAccion_Click(Index As Integer)
     
     
     Screen.MousePointer = vbHourglass
-    If Modelo340(Me.ListView1(1), CInt(txtAno(0).Text), cmbPeriodo(0).ListIndex + 1, cad, lbl340, False, Me.optTipoSal(1).Value = 1, V340(), UltimoPeriodoLiquidacion) Then
+    If Modelo340(Me.ListView1(1), CInt(txtAno(0).Text), cmbPeriodo(0).ListIndex + 1, cad, lbl340, False, Me.optTipoSal(1).Value, V340(), UltimoPeriodoLiquidacion) Then
         lbl340.Caption = ""
         
         If Not optTipoSal(1).Value Then

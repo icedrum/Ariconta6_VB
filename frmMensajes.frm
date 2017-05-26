@@ -5498,6 +5498,7 @@ Dim EquipoConBD As Boolean
 Dim cad As String
 Dim Equipo As String
 Dim Pos As Long
+Dim Pagos As Boolean
 
     On Error GoTo ECargarRecibosConCobrosParciales
     
@@ -5520,7 +5521,8 @@ Dim Pos As Long
     ' le hemos pasado el select completo de cobros
     cad = Parametros
     
-    
+    Pagos = False
+    If InStr(1, UCase(cad), "PAGOS.") > 0 Then Pagos = True
     Rs.Open cad, Conn, adOpenKeyset, adLockOptimistic, adCmdText
     cad = ""
     While Not Rs.EOF
@@ -5534,17 +5536,21 @@ Dim Pos As Long
         
         
         'importe
-        If DBLet(Rs!ImpVenci, "N") <> 0 Then
-            IT.SubItems(4) = Format(DBLet(Rs!ImpVenci), "###,###,##0.00")
+        IT.SubItems(4) = " "
+        If Not Pagos Then
+            'COBROS
+            If DBLet(Rs!ImpVenci, "N") <> 0 Then IT.SubItems(4) = Format(DBLet(Rs!ImpVenci), "###,###,##0.00")
         Else
-            IT.SubItems(4) = " "
+            If DBLet(Rs!impefect, "N") <> 0 Then IT.SubItems(4) = Format(DBLet(Rs!impefect), "###,###,##0.00")
         End If
         
         'importe cobrado
-        If DBLet(Rs!impcobro, "N") <> 0 Then
-            IT.SubItems(5) = Format(DBLet(Rs!impcobro), "###,###,##0.00")
+        IT.SubItems(5) = " "
+        If Not Pagos Then
+            'Cobros
+            If DBLet(Rs!impcobro, "N") <> 0 Then IT.SubItems(5) = Format(DBLet(Rs!impcobro), "###,###,##0.00")
         Else
-            IT.SubItems(5) = " "
+            If DBLet(Rs!imppagad, "N") <> 0 Then IT.SubItems(5) = Format(DBLet(Rs!imppagad), "###,###,##0.00")
         End If
         
         Rs.MoveNext
@@ -5556,7 +5562,8 @@ Dim Pos As Long
     Exit Sub
     
 ECargarRecibosConCobrosParciales:
-    MuestraError Err.Number, "Carga Recibos con cobros parciales " & Err.Description
+    
+    MuestraError Err.Number, "Carga Recibos con " & IIf(Pagos, "pagos", "cobros") & " parciales " & Err.Description
     Errores = ""
     Set Rs = Nothing
 End Sub

@@ -1158,12 +1158,7 @@ On Error GoTo EModificaDesdeFormulario
             
         End If
     Next Control
-    'Construimos el SQL
-    'Ejemplo:
-    'Update Pedidos
-    'SET ImportePedido = ImportePedido * 1.1,
-    'Cargo = Cargo * 1.03
-    'WHERE PaísDestinatario = 'México';
+
     If CadWhere = "" Then
         MsgBox "No se ha definido ninguna clave principal.", vbExclamation
         Exit Function

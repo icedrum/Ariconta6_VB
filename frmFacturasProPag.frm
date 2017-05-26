@@ -77,7 +77,6 @@ Begin VB.Form frmFacturasProPag
          Left            =   2490
          MaxLength       =   30
          TabIndex        =   9
-         Tag             =   "Fecha|F|N|||factpro|fecfactu|dd/mm/yyyy|N|"
          Top             =   1860
          Width           =   1305
       End
@@ -872,7 +871,7 @@ Private Sub PonerContRegIndicador()
 Dim cadReg As String
 
     If (Modo = 2 Or Modo = 0) Then
-        cadReg = PonerContRegistros(Me.adodc1)
+        cadReg = PonerContRegistros(Me.Adodc1)
         If CadB = "" Then
             lblIndicador.Caption = cadReg
         Else
@@ -887,7 +886,7 @@ Private Sub PonerModoOpcionesMenu()
 Dim B As Boolean
 
     
-    B = (adodc1.Recordset.RecordCount > 0) And Not DeConsulta
+    B = (Adodc1.Recordset.RecordCount > 0) And Not DeConsulta
     'Modificar
     Toolbar1.Buttons(2).Enabled = B
     Me.mnModificar.Enabled = B
@@ -973,23 +972,23 @@ Dim temp As Boolean
 
     On Error GoTo Error2
     'Ciertas comprobaciones
-    If adodc1.Recordset.EOF Then Exit Sub
+    If Adodc1.Recordset.EOF Then Exit Sub
     
     '*************** canviar els noms i el DELETE **********************************
     Sql = "¿Seguro que desea eliminar el Cobro?"
-    Sql = Sql & vbCrLf & "Código: " & adodc1.Recordset.Fields(1)
+    Sql = Sql & vbCrLf & "Código: " & Adodc1.Recordset.Fields(1)
     
     If MsgBox(Sql, vbQuestion + vbYesNo) = vbYes Then
         'Hay que eliminar
-        NumRegElim = adodc1.Recordset.AbsolutePosition
+        NumRegElim = Adodc1.Recordset.AbsolutePosition
         
-        Sql = "Delete from tmppagos where codusu=" & DBSet(vUsu.Codigo, "N") & " and numorden = " & adodc1.Recordset.Fields(1)
+        Sql = "Delete from tmppagos where codusu=" & DBSet(vUsu.Codigo, "N") & " and numorden = " & Adodc1.Recordset.Fields(1)
         Conn.Execute Sql
         CargaGrid CadB
         
-        temp = SituarDataTrasEliminar(adodc1, NumRegElim, True)
+        temp = SituarDataTrasEliminar(Adodc1, NumRegElim, True)
         PonerModoOpcionesMenu
-        adodc1.Recordset.Cancel
+        Adodc1.Recordset.Cancel
     End If
     Exit Sub
     
@@ -1051,8 +1050,8 @@ Private Sub btnBuscar_Click(Index As Integer)
 End Sub
 
 Private Sub Check1_Click()
-    Text1(1).Enabled = (check1.Value = 1)
-    imgppal(0).Enabled = (check1.Value = 1)
+    Text1(1).Enabled = (Check1.Value = 1)
+    imgppal(0).Enabled = (Check1.Value = 1)
 End Sub
 
 Private Sub cmdAceptar_Click()
@@ -1082,10 +1081,10 @@ Private Sub cmdAceptar_Click()
                     Ok = True
                 
                     TerminaBloquear
-                    i = adodc1.Recordset.Fields(1)
+                    i = Adodc1.Recordset.Fields(1)
                     PonerModo 2
                     CargaGrid "" 'CadB
-                    adodc1.Recordset.Find (adodc1.Recordset.Fields(1).Name & " ='" & i & "'")
+                    Adodc1.Recordset.Find (Adodc1.Recordset.Fields(1).Name & " ='" & i & "'")
                     PonerFocoGrid Me.DataGrid1
                     
                     
@@ -1114,7 +1113,7 @@ Private Sub CmdContinuar_Click()
 End Sub
 
 Private Sub cmdRegresar_Click()
-Dim Cad As String
+Dim cad As String
 Dim i As Integer
 Dim J As Integer
 Dim Aux As String
@@ -1129,7 +1128,7 @@ Dim Aux As String
         MsgBox "Debe introducir los datos del banco.", vbExclamation
         PonFoco Text1(26)
     Else
-        If check1.Value Then
+        If Check1.Value Then
             If Text1(1).Text = "" Then
                 MsgBox "Debe introducir la fecha de contabilización del cobro.", vbExclamation
                 PonFoco Text1(1)
@@ -1137,7 +1136,7 @@ Dim Aux As String
             End If
         End If
     
-        RaiseEvent DatoSeleccionado(Text1(26).Text & "|" & Text1(13).Text & "|" & Text1(14).Text & "|" & Text1(15).Text & "|" & Text1(16).Text & "|" & Text1(29).Text & "|" & Me.check1.Value & "|" & Me.Text1(1).Text & "|")
+        RaiseEvent DatoSeleccionado(Text1(26).Text & "|" & Text1(13).Text & "|" & Text1(14).Text & "|" & Text1(15).Text & "|" & Text1(16).Text & "|" & Text1(29).Text & "|" & Me.Check1.Value & "|" & Me.Text1(1).Text & "|")
         
         Unload Me
     End If
@@ -1145,10 +1144,10 @@ End Sub
 
 
 Private Sub DataGrid1_HeadClick(ByVal ColIndex As Integer)
-Dim Cad As String
+Dim cad As String
 
-    If adodc1.Recordset Is Nothing Then Exit Sub
-    If adodc1.Recordset.EOF Then Exit Sub
+    If Adodc1.Recordset Is Nothing Then Exit Sub
+    If Adodc1.Recordset.EOF Then Exit Sub
     
     Me.Refresh
     Screen.MousePointer = vbHourglass
@@ -1178,7 +1177,7 @@ Private Sub Form_Activate()
         Else
             PonerModo 2
             If Me.CodigoActual <> "" Then
-                SituarData Me.adodc1, "numorden=" & CodigoActual, "", True
+                SituarData Me.Adodc1, "numorden=" & CodigoActual, "", True
                 
             End If
         End If
@@ -1206,11 +1205,11 @@ Private Sub Form_Activate()
         
         EsReciboBancario = (RecuperaValor(CodigoActual, 7) = 4)
         Me.Text2(1).Text = RecuperaValor(CodigoActual, 8)
-        check1.Value = 0
+        Check1.Value = 0
         
         Text1(1).Text = Format(Now, "dd/mm/yyyy")
-        Text1(1).Enabled = (check1.Value = 1)
-        imgppal(0).Enabled = (check1.Value = 1)
+        Text1(1).Enabled = (Check1.Value = 1)
+        imgppal(0).Enabled = (Check1.Value = 1)
         If Text1(26).Text <> "" Then
             PonleFoco cmdRegresar
         Else
@@ -1250,8 +1249,8 @@ Dim Sql2 As String
     CargaGrid
     
     ' podemos marcar de si se da por cobrado solo en el caso de haya un solo efecto
-    check1.Visible = (adodc1.Recordset.RecordCount = 1)
-    check1.Enabled = (adodc1.Recordset.RecordCount = 1)
+    Check1.Visible = (Adodc1.Recordset.RecordCount = 1)
+    Check1.Enabled = (Adodc1.Recordset.RecordCount = 1)
     
     FechaAnt = ""
     
@@ -1327,14 +1326,14 @@ End Sub
 Private Sub mnModificar_Click()
     'Comprobaciones
     '--------------
-    If adodc1.Recordset.EOF Then Exit Sub
+    If Adodc1.Recordset.EOF Then Exit Sub
     
-    If adodc1.Recordset.RecordCount < 1 Then Exit Sub
+    If Adodc1.Recordset.RecordCount < 1 Then Exit Sub
     
     
     'Preparamos para modificar
     '-------------------------
-    If BLOQUEADesdeFormulario2(Me, adodc1, 1) Then BotonModificar
+    If BLOQUEADesdeFormulario2(Me, Adodc1, 1) Then BotonModificar
 End Sub
 
 
@@ -1506,7 +1505,7 @@ Private Sub CargaGrid(Optional vSql As String)
     '**************************************************************++
     
     
-    CargaGridGnral Me.DataGrid1, Me.adodc1, Sql, PrimeraVez
+    CargaGridGnral Me.DataGrid1, Me.Adodc1, Sql, PrimeraVez
     
     ' *******************canviar els noms i si fa falta la cantitat********************
     tots = "N||||0|;S|txtAux(1)|T|Orden|1000|;S|txtAux(2)|T|Fecha Vto|2250|;S|btnBuscar(0)|B||195|;"
@@ -1761,11 +1760,11 @@ End Sub
 
 Private Sub PasarSigReg()
 'Nos situamos en el siguiente registro
-    If Me.DataGrid1.Bookmark < Me.adodc1.Recordset.RecordCount Then
+    If Me.DataGrid1.Bookmark < Me.Adodc1.Recordset.RecordCount Then
         DataGrid1.Bookmark = DataGrid1.Bookmark + 1
         BotonModificar
         PonFoco txtAux(3)
-    ElseIf DataGrid1.Bookmark = adodc1.Recordset.RecordCount Then
+    ElseIf DataGrid1.Bookmark = Adodc1.Recordset.RecordCount Then
         BotonModificar
         PonFoco txtAux(3)
     End If

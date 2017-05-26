@@ -1472,7 +1472,7 @@ Private Sub LoadIcons()
     
     'Pequeños
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\mail_16x16.bmp", _
-            Array(1, 1, 1, 1, ID_EstadísticaInmovilizado, ID_SimulaciónAmortización, ID_DeshacerAmortización, 1, 1, ID_VentaBajainmovilizado), xtpImageNormal
+            Array(ID_ConsoBalSums, 1, 1, 1, ID_EstadísticaInmovilizado, ID_SimulaciónAmortización, ID_DeshacerAmortización, 1, 1, ID_VentaBajainmovilizado), xtpImageNormal
         
     'Pequeños diario
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\quickstepsgallery.png", _
@@ -2095,7 +2095,7 @@ End Sub
 Private Sub CargaMenuDiarios(IdMenu As Integer)
 Dim GrupSald As RibbonGroup
 Dim GrOtro As RibbonGroup
-
+Dim GrConsoli As RibbonGroup
 
         If Not vEmpresa.TieneContabilidad Then Exit Sub
 
@@ -2107,7 +2107,7 @@ Dim GrOtro As RibbonGroup
         Set GroupNew = TabNuevo.Groups.AddGroup("ASIENTOS", cad & "0")
         Set GrupSald = TabNuevo.Groups.AddGroup("BALANCES", cad & "1")
         Set GrOtro = TabNuevo.Groups.AddGroup("", cad & "2")
-    
+        Set GrConsoli = TabNuevo.Groups.AddGroup("CONSOLIDADO", cad & "4")
         
         'todos los hijos que cuelgan en la tab
         cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
@@ -2131,6 +2131,10 @@ Dim GrOtro As RibbonGroup
                     Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
                 Case 306, 307, 308, 309
                     Set Control = GrupSald.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                    
+                'Consolidado
+                Case 315
+                    Set Control = GrConsoli.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
                 Case Else
                     Set Control = GrOtro.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
                                         
@@ -2688,8 +2692,7 @@ End Sub
 '**************************************************************************************************************
 '**************************************************************************************************************
 Private Sub AbrirFormularios(Accion As Long)
-   
-
+    
     Select Case Accion
         Case 101 ' empresa
             frmempresa.Show vbModal
@@ -2794,6 +2797,14 @@ Private Sub AbrirFormularios(Accion As Long)
             frmInfRatios.Show vbModal
         Case 314 ' puntero extracto bancario
             frmPunteoBanco.Show vbModal
+        
+        Case 315
+            frmInfBalSumSalConso.Show vbModal
+        
+        
+        
+        
+        
         Case 401 ' emitidas
             Screen.MousePointer = vbHourglass
             frmFacturasCli.Show vbModal

@@ -19,7 +19,7 @@ Private mvarNombreRegistro As String 'copia local
 Private mvarContador As Long  'copia local
 
 Private Rs As ADODB.Recordset
-Private SQL As String
+Private Sql As String
 Private Mens As String
 
 
@@ -83,17 +83,22 @@ End Function
 '//  Devuelve el contador que corresponda.
 '//  Si es llamado desde dentro de un begin-trans
 '//  entonces NO ejecuta las sentencias commit
+
+'  Los contadores ZZ0 hasta ZZ9 Seran de la apliacion
+'       ZZ0 Confirming
+'       ZZ1 NAVARRES-> Tarjeta credito (pagos con recargo)
+'
 Public Function ConseguirContador(LEtra As String, EjercicioActual As Boolean, DentroBeginTrans As Boolean) As Byte
 Dim Ok As Boolean
 Dim C1 As Long
 Dim C2 As Long
     On Error GoTo Err1
     'Abrimos bloqueando
-    SQL = "Select * from contadores WHERE TipoRegi = '" & LEtra & "' FOR UPDATE"
+    Sql = "Select * from contadores WHERE TipoRegi = '" & LEtra & "' FOR UPDATE"
     ConseguirContador = 1
     Ok = False
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If Not Rs.EOF Then
         mvarTipoContador = LEtra
         mvarNombreRegistro = Rs!nomregis
@@ -108,19 +113,19 @@ Dim C2 As Long
     End If
     
     'Actualizamos el contador
-    SQL = "UPDATE contadores set "
+    Sql = "UPDATE contadores set "
     If EjercicioActual Then
         C1 = C1 + 1
         mvarContador = C1
         'c1 = c1 + 1 'ANTES
-        SQL = SQL & " contado1=" & C1
+        Sql = Sql & " contado1=" & C1
     Else
         C2 = C2 + 1
         mvarContador = C2
-        SQL = SQL & " contado2=" & C2
+        Sql = Sql & " contado2=" & C2
     End If
-    SQL = SQL & " WHERE TipoRegi = '" & LEtra & "'"
-    Conn.Execute SQL
+    Sql = Sql & " WHERE TipoRegi = '" & LEtra & "'"
+    Conn.Execute Sql
     
     'Desbloqueamos
     If Not DentroBeginTrans Then Conn.Execute "commit"
@@ -142,13 +147,13 @@ Dim C1 As Long
 Dim C2 As Long
     On Error GoTo Err1
     'Abrimos bloqueando
-    SQL = "Select * from contadores WHERE TipoRegi = '" & LEtra & "' FOR UPDATE"
+    Sql = "Select * from contadores WHERE TipoRegi = '" & LEtra & "' FOR UPDATE"
     'Esto esba asi antes, sin comentar
     'Conn.Execute "Set autocommit = 0"
     DevolverContador = 1
     Ok = False
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If Not Rs.EOF Then
         mvarTipoContador = LEtra
         mvarNombreRegistro = Rs!nomregis
@@ -172,16 +177,16 @@ Dim C2 As Long
 
     If Ok Then
         'Actualizamos el contador
-        SQL = "UPDATE contadores set "
+        Sql = "UPDATE contadores set "
         If EjercicioActual Then
             C1 = C1 - 1
-            SQL = SQL & " contado1=" & C1
+            Sql = Sql & " contado1=" & C1
         Else
             C2 = C2 - 1
-            SQL = SQL & " contado2=" & C2
+            Sql = Sql & " contado2=" & C2
         End If
-        SQL = SQL & " WHERE TipoRegi = '" & LEtra & "'"
-        Conn.Execute SQL
+        Sql = Sql & " WHERE TipoRegi = '" & LEtra & "'"
+        Conn.Execute Sql
     End If
 
     'Desbloqueamos
@@ -202,23 +207,23 @@ Dim F1 As Date
     YaExisteContador = False
 
     Set Rs = New ADODB.Recordset
-    SQL = "select fechaent,numdiari from hlinapu where numasien= " & mvarContador
+    Sql = "select fechaent,numdiari from hlinapu where numasien= " & mvarContador
     If EjercicioActual Then
         F1 = DateAdd("yyyy", -1, FechaFinEjercicio)
-        SQL = SQL & " AND fechaent > '" & Format(F1, FormatoFecha) & "'"    'mayor estricto
-        SQL = SQL & " AND fechaent <= '" & Format(FechaFinEjercicio, FormatoFecha) & "'"
+        Sql = Sql & " AND fechaent > '" & Format(F1, FormatoFecha) & "'"    'mayor estricto
+        Sql = Sql & " AND fechaent <= '" & Format(FechaFinEjercicio, FormatoFecha) & "'"
     Else
         F1 = DateAdd("yyyy", 1, FechaFinEjercicio)
-        SQL = SQL & " AND fechaent > '" & Format(FechaFinEjercicio, FormatoFecha) & "'"    'mayor estricto
-        SQL = SQL & " AND fechaent <= '" & Format(F1, FormatoFecha) & "'"
+        Sql = Sql & " AND fechaent > '" & Format(FechaFinEjercicio, FormatoFecha) & "'"    'mayor estricto
+        Sql = Sql & " AND fechaent <= '" & Format(F1, FormatoFecha) & "'"
     End If
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Rs.EOF Then
         YaExisteContador = True
     Else
         'YA existe.
-        SQL = mvarContador & " -  " & Rs!FechaEnt & " - " & Rs!NumDiari & vbCrLf & vbCrLf & "Error contadores"
-        If MostrarError Then MsgBox "Ya existe numero de asiento:" & SQL, vbExclamation
+        Sql = mvarContador & " -  " & Rs!FechaEnt & " - " & Rs!NumDiari & vbCrLf & vbCrLf & "Error contadores"
+        If MostrarError Then MsgBox "Ya existe numero de asiento:" & Sql, vbExclamation
     End If
     Rs.Close
     Set Rs = Nothing

@@ -4,20 +4,60 @@ Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
 Begin VB.Form frmCartas 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Modelos de cartas"
-   ClientHeight    =   6660
+   ClientHeight    =   7665
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   9855
+   ClientWidth     =   10500
    ClipControls    =   0   'False
    Icon            =   "frmCartas.frx":0000
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   6660
-   ScaleWidth      =   9855
+   ScaleHeight     =   7665
+   ScaleWidth      =   10500
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.TextBox Text1 
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   360
+      Index           =   4
+      Left            =   1320
+      MaxLength       =   50
+      TabIndex        =   4
+      Tag             =   "Descripción|T|S|||cartas|desped||N|"
+      Text            =   "Text1"
+      Top             =   6480
+      Width           =   8985
+   End
+   Begin VB.TextBox Text1 
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   360
+      Index           =   3
+      Left            =   1320
+      MaxLength       =   50
+      TabIndex        =   2
+      Tag             =   "Descripción|T|S|||cartas|saludos||N|"
+      Text            =   "Text1"
+      Top             =   1560
+      Width           =   8985
+   End
    Begin VB.CheckBox chkVistaPrevia 
       Caption         =   "Vista previa"
       BeginProperty Font 
@@ -31,20 +71,20 @@ Begin VB.Form frmCartas
       EndProperty
       Height          =   300
       Left            =   7050
-      TabIndex        =   15
+      TabIndex        =   17
       Top             =   210
       Width           =   1605
    End
    Begin VB.Frame FrameBotonGnral 
       Height          =   705
       Left            =   240
-      TabIndex        =   12
+      TabIndex        =   14
       Top             =   120
       Width           =   3135
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   330
          Left            =   240
-         TabIndex        =   13
+         TabIndex        =   15
          Top             =   180
          Width           =   2685
          _ExtentX        =   4736
@@ -111,15 +151,15 @@ Begin VB.Form frmCartas
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   4035
+      Height          =   4155
       Index           =   2
-      Left            =   240
+      Left            =   1320
       MultiLine       =   -1  'True
       ScrollBars      =   2  'Vertical
-      TabIndex        =   2
+      TabIndex        =   3
       Tag             =   "Párrafo 1|T|S|||cartas|parrafo1||N|"
       Text            =   "frmCartas.frx":000C
-      Top             =   1890
+      Top             =   2130
       Width           =   9075
    End
    Begin VB.TextBox Text1 
@@ -134,13 +174,13 @@ Begin VB.Form frmCartas
       EndProperty
       Height          =   360
       Index           =   1
-      Left            =   3690
+      Left            =   3810
       MaxLength       =   50
       TabIndex        =   1
       Tag             =   "Descripción|T|S|||cartas|descarta||N|"
       Text            =   "Text1"
       Top             =   1087
-      Width           =   5625
+      Width           =   6465
    End
    Begin VB.CommandButton cmdAceptar 
       Caption         =   "&Aceptar"
@@ -154,9 +194,9 @@ Begin VB.Form frmCartas
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   7170
-      TabIndex        =   3
-      Top             =   6120
+      Left            =   8010
+      TabIndex        =   5
+      Top             =   7200
       Width           =   1035
    End
    Begin VB.CommandButton cmdCancelar 
@@ -172,26 +212,26 @@ Begin VB.Form frmCartas
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   8325
-      TabIndex        =   4
-      Top             =   6120
+      Left            =   9165
+      TabIndex        =   6
+      Top             =   7200
       Width           =   1035
    End
    Begin VB.CommandButton cmdRegresar 
       Caption         =   "&Regresar"
       Height          =   375
-      Left            =   8310
-      TabIndex        =   5
-      Top             =   6120
+      Left            =   9150
+      TabIndex        =   7
+      Top             =   7200
       Visible         =   0   'False
       Width           =   1035
    End
    Begin VB.Frame Frame1 
       Height          =   540
       Index           =   0
-      Left            =   240
-      TabIndex        =   8
-      Top             =   6000
+      Left            =   120
+      TabIndex        =   10
+      Top             =   7080
       Width           =   2655
       Begin VB.Label lblIndicador 
          Alignment       =   2  'Center
@@ -207,7 +247,7 @@ Begin VB.Form frmCartas
          EndProperty
          Height          =   240
          Left            =   240
-         TabIndex        =   9
+         TabIndex        =   11
          Top             =   180
          Width           =   2115
       End
@@ -225,18 +265,18 @@ Begin VB.Form frmCartas
       EndProperty
       Height          =   360
       Index           =   0
-      Left            =   1650
+      Left            =   1320
       MaxLength       =   5
       TabIndex        =   0
       Tag             =   "Cod. Carta|N|N|0|999|cartas|codcarta|000|S|"
       Text            =   "Text1"
-      Top             =   1087
-      Width           =   630
+      Top             =   1080
+      Width           =   975
    End
    Begin MSAdodcLib.Adodc Data1 
       Height          =   330
-      Left            =   1800
-      Top             =   6060
+      Left            =   1680
+      Top             =   7140
       Visible         =   0   'False
       Width           =   1335
       _ExtentX        =   2355
@@ -283,7 +323,7 @@ Begin VB.Form frmCartas
    Begin MSComctlLib.Toolbar ToolbarAyuda 
       Height          =   390
       Left            =   9000
-      TabIndex        =   16
+      TabIndex        =   18
       Top             =   120
       Width           =   405
       _ExtentX        =   714
@@ -301,13 +341,13 @@ Begin VB.Form frmCartas
    Begin VB.Frame FrameDesplazamiento 
       Height          =   705
       Left            =   3540
-      TabIndex        =   14
+      TabIndex        =   16
       Top             =   120
       Width           =   2415
       Begin MSComctlLib.Toolbar ToolbarDes 
          Height          =   330
          Left            =   180
-         TabIndex        =   17
+         TabIndex        =   19
          Top             =   180
          Width           =   1965
          _ExtentX        =   3466
@@ -338,13 +378,49 @@ Begin VB.Form frmCartas
          EndProperty
       End
    End
+   Begin VB.Label Label22 
+      Caption         =   "Despedida"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   2
+      Left            =   240
+      TabIndex        =   21
+      Top             =   6480
+      Width           =   1200
+   End
+   Begin VB.Label Label22 
+      Caption         =   "Saludos"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   0
+      Left            =   240
+      TabIndex        =   20
+      Top             =   1620
+      Width           =   1200
+   End
    Begin VB.Image imgZoom 
       Height          =   240
       Index           =   0
       Left            =   1080
       Tag             =   "-1"
       ToolTipText     =   "Zoom párrafo"
-      Top             =   1590
+      Top             =   2190
       Width           =   240
    End
    Begin VB.Label Label22 
@@ -360,8 +436,8 @@ Begin VB.Form frmCartas
       EndProperty
       Height          =   255
       Index           =   6
-      Left            =   2430
-      TabIndex        =   11
+      Left            =   2520
+      TabIndex        =   13
       Top             =   1140
       Width           =   1200
    End
@@ -379,12 +455,12 @@ Begin VB.Form frmCartas
       Height          =   255
       Index           =   1
       Left            =   240
-      TabIndex        =   10
-      Top             =   1575
+      TabIndex        =   12
+      Top             =   2175
       Width           =   825
    End
    Begin VB.Label Label3 
-      Caption         =   "Código Carta"
+      Caption         =   "Código "
       BeginProperty Font 
          Name            =   "Verdana"
          Size            =   9.75
@@ -394,11 +470,11 @@ Begin VB.Form frmCartas
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   255
+      Height          =   240
       Left            =   240
-      TabIndex        =   7
+      TabIndex        =   9
       Top             =   1140
-      Width           =   2025
+      Width           =   735
    End
    Begin VB.Label Label10 
       Caption         =   "Cargando datos ........."
@@ -413,7 +489,7 @@ Begin VB.Form frmCartas
       EndProperty
       Height          =   255
       Left            =   240
-      TabIndex        =   6
+      TabIndex        =   8
       Top             =   8220
       Visible         =   0   'False
       Width           =   3495
@@ -1054,7 +1130,7 @@ Dim cad As String
     On Error Resume Next
 
     cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
     Set Rs = New ADODB.Recordset
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText

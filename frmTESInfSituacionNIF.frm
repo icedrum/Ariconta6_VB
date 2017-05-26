@@ -1447,7 +1447,8 @@ Dim QueTipoPago As String
 'observa2, opcion) VALUES
     GeneraCobrosPagosNIF = False
     L = 1
-    Sql = "Select * from tmp347 where codusu =" & vUsu.Codigo & " ORDER BY cliprov,nif"
+    'Sql = "Select * from tmp347 where codusu =" & vUsu.Codigo & " ORDER BY cliprov,nif"
+    Sql = "Select cliprov,nif from tmp347 where codusu =" & vUsu.Codigo & " GROUP BY cliprov"
     Set Rs = New ADODB.Recordset
     Set miRsAux = New ADODB.Recordset
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -1458,7 +1459,7 @@ Dim QueTipoPago As String
             Exit Function
         End If
         'Los labels
-        Label9.Caption = "Nif: " & Rs!NIF & " - " & Rs!Cta
+        Label9.Caption = "Nif: " & Rs!NIF & " - "
         Label9.Refresh
         
         'SQL insert
@@ -1473,7 +1474,7 @@ Dim QueTipoPago As String
         Empre = DameEmpresa(CStr(Rs!cliprov))
         
         'COBROS
-        cad = "Select fecfactu,numserie,numfactu, numorden,impvenci,impcobro,gastos,fecvenci,nomclien nommacta from ariconta" & Rs!cliprov & ".cobros as c1 "
+        cad = "Select fecfactu,numserie,numfactu, numorden,impvenci,impcobro,gastos,fecvenci,codmacta,nomclien nommacta from ariconta" & Rs!cliprov & ".cobros as c1 "
         If QueTipoPago <> "" Then cad = cad & ", ariconta" & Rs!cliprov & ".formapago as sforpa"
         cad = cad & " where c1.nifclien='" & Rs!NIF & "'"
         If QueTipoPago <> "" Then cad = cad & " AND c1.codforpa=sforpa.codforpa AND sforpa.tipforpa in (" & QueTipoPago & ")"
@@ -1493,7 +1494,7 @@ Dim QueTipoPago As String
             '                    empresa
             cad = L & ",'" & Empre & "','"
             cad = cad & miRsAux!NUmSerie & "/" & Format(miRsAux!NumFactu, "0000000000") & " : " & miRsAux!numorden & "','"
-            cad = cad & Rs!Cta & "','"
+            cad = cad & miRsAux!codmacta & "','"
             cad = cad & DevNombreSQL(miRsAux!Nommacta) & "','"
             'texto4: fecha
             cad = cad & Format(miRsAux!FecFactu, FormatoFecha) & "','"
@@ -1527,7 +1528,7 @@ Dim QueTipoPago As String
         miRsAux.Close
         
         'PAGOS
-        cad = "Select numfactu,numorden,fecfactu,imppagad,fecefect,impefect,nomprove from ariconta" & Rs!cliprov & ".pagos "
+        cad = "Select numfactu,numorden,fecfactu,imppagad,fecefect,impefect,codmacta,nomprove from ariconta" & Rs!cliprov & ".pagos "
         If QueTipoPago <> "" Then cad = cad & ", ariconta" & Rs!cliprov & ".formapago as sforpa"
         cad = cad & " where nifprove='" & Rs!NIF & "'"
         If QueTipoPago <> "" Then cad = cad & " AND pagos.codforpa=sforpa.codforpa AND sforpa.tipforpa in (" & QueTipoPago & ")"
@@ -1548,7 +1549,7 @@ Dim QueTipoPago As String
             '                    empresa
             cad = L & ",'" & Empre & "','"
             cad = cad & DevNombreSQL(miRsAux!NumFactu) & " : " & miRsAux!numorden & "','"
-            cad = cad & Rs!Cta & "',"
+            cad = cad & miRsAux!codmacta & "',"
             cad = cad & DBSet(miRsAux!nomprove, "T") & ",'"
             ' fecha1 y 2
             cad = cad & Format(miRsAux!FecFactu, FormatoFecha) & "','"

@@ -919,7 +919,7 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub frmC_Selec(vFecha As Date)
-    Text1(CInt(Image1(0).Tag)).Text = Format(vFecha, "dd/mm/yyyy")
+    Text1(CInt(Image1(9).Tag)).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
@@ -930,7 +930,7 @@ Private Sub Image1_Click(Index As Integer)
     Set frmC = New frmCal
     frmC.Fecha = Now
     If Text1(Index).Text <> "" Then frmC.Fecha = CDate(Text1(Index).Text)
-    Image1(0).Tag = Index
+    Image1(9).Tag = Index
     frmC.Show vbModal
     Set frmC = Nothing
     If Text1(Index).Text <> "" Then PonerFoco Text1(Index)

@@ -1004,7 +1004,7 @@ Public Sub AyudaCuentas(frmBas As frmBasico2, Optional CodActual As String, Opti
     
     frmBas.Tag1 = "Cuenta|T|N|||cuentas|codmacta||S|"
     frmBas.Tag2 = "Descripción|T|N|||cuentas|nommacta|||"
-    frmBas.Tag3 = "NIF|T|S|||cuenteas|nifdatos|||"
+    frmBas.Tag3 = "NIF|T|S|||cuentas|nifdatos|||"
 
     frmBas.Maxlen1 = 10
     frmBas.Maxlen2 = 50

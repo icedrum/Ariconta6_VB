@@ -1563,44 +1563,52 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    Sql = "Select cobros.codmacta Cliente, cobros.nomclien Nombre, cobros.fecfactu FFactura, cobros.fecvenci FVenci, "
-    Sql = Sql & " cobros.numorden Orden, cobros.gastos Gastos, cobros.impcobro Cobrado, cobros.impvenci ImpVenci, "
-    Sql = Sql & " concat(cobros.numserie,' ', concat('0000000',cobros.numfactu)) Factura , cobros.codforpa FPago, "
-    Sql = Sql & " formapago.nomforpa Descripcion, cobros.referencia Referenciasa, tipofpago.descformapago Tipo "
+
+    Sql = " Select pagos.codmacta Proveedor, pagos.nomprove Nombre, pagos.fecfactu FFactura, pagos.fecfactu FVenci,  pagos.numorden Orden,"
+    Sql = Sql & " pagos.impefect Importe,imppagad pagado,"
+    Sql = Sql & " concat(pagos.numserie,' ', concat('0000000',pagos.numfactu)) Factura , pagos.codforpa FPago,"
+    Sql = Sql & " formapago.nomforpa Descripcion, pagos.referencia Referenciasa,"
+    Sql = Sql & " tipofpago.descformapago Tipo ,pagos.observa Observaciones"
+    Sql = Sql & " FROM (pagos inner join formapago on pagos.codforpa = formapago.codforpa)"
+    Sql = Sql & " inner join tipofpago on formapago.tipforpa = tipofpago.tipoformapago  WHERE pagos.situacion = 0 and"
+    Sql = Sql & " (pagos.impefect - coalesce(pagos.imppagad,0)) <> 0"
+    Sql = Sql & " AND (formapago.tipforpa in (0,1,2,3,4,5,6) AND (pagos.situacion = 0) AND "
+    Sql = Sql & " ((pagos.impefect - coalesce(pagos.imppagad,0)) <> 0)) "
     
-    If optVarios(0).Value Or optVarios(1).Value Then
-        Sql = Sql & ", cobros.noremesar NoRemesar, cobros.situacionjuri SitJuridica, cobros.Devuelto Devuelto, cobros.recedocu Recepcion, cobros.observa Observaciones "
-    End If
     
-    Sql = Sql & " FROM (cobros inner join formapago on cobros.codforpa = formapago.codforpa) "
-    Sql = Sql & " inner join tipofpago on formapago.tipforpa = tipofpago.tipoformapago "
-    Sql = Sql & " WHERE cobros.situacion = 0 and (cobros.impvenci + coalesce(cobros.gastos,0) - coalesce(cobros.impcobro,0)) <> 0 "
+    
+ 
+    
+    
+    
+    
     If cadselect <> "" Then Sql = Sql & " AND " & cadselect
             
     Sql2 = ""
             
     If optVarios(0).Value Then
-        If optVarios(3).Value Then Sql2 = Sql2 & " cobros.codmacta"
-        If optVarios(4).Value Then Sql2 = Sql2 & " cobros.nomclien"
+        If optVarios(3).Value Then Sql2 = Sql2 & " pagos.codmacta"
+        If optVarios(4).Value Then Sql2 = Sql2 & " pagos.nomprove"
     End If
     
     If optVarios(1).Value Then
-        Sql2 = Sql2 & " cobros.FecVenci"
+        Sql2 = Sql2 & " pagos.fecefect,"
         
-        If optVarios(3).Value Then Sql2 = Sql2 & ",cobros.codmacta"
-        If optVarios(4).Value Then Sql2 = Sql2 & ",cobros.nomclien"
+        If optVarios(3).Value Then Sql2 = Sql2 & " pagos.codmacta"
+        If optVarios(4).Value Then Sql2 = Sql2 & " pagos.nomprove"
     End If
 
     If optVarios(2).Value Then
-        Sql2 = Sql2 & " tipofpago.descformapago"
+        Sql2 = Sql2 & " tipofpago.descformapago,"
         
-        If optVarios(3).Value Then Sql2 = Sql2 & ",cobros.codmacta"
-        If optVarios(4).Value Then Sql2 = Sql2 & ",cobros.nomclien"
+        If optVarios(3).Value Then Sql2 = Sql2 & " pagos.codmacta"
+        If optVarios(4).Value Then Sql2 = Sql2 & " pagos.nomprove"
     End If
 
     Sql = Sql & " ORDER BY " & Sql2
             
     'LLamos a la funcion
+    
     GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
