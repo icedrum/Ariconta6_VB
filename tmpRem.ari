@@ -2,23 +2,23 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02">
 <CstmrDrctDbtInitn>
 <GrpHdr>
-<MsgId>PRE2017051210260971090RE10000072017</MsgId>
-   <CreDtTm>2017-05-12T10:26:14</CreDtTm>
+<MsgId>PRE2017060210191382420RE10000012017</MsgId>
+   <CreDtTm>2017-06-02T10:19:13</CreDtTm>
    <NbOfTxs>1</NbOfTxs>
-   <CtrlSum>342.21</CtrlSum>
+   <CtrlSum>1732.5</CtrlSum>
    <InitgPty>
-     <Nm>COOP.COMARCAL LA VALL D ALBAIDA COOP.V.</Nm>
+     <Nm>Agricola de Catadau S.C. Hortofruticola</Nm>
      <Id>
         <OrgId>
            <Othr>
-              <Id>ES31000F97345896</Id>
+              <Id>ES38002F46038881</Id>
            </Othr>
         </OrgId>
       </Id>
    </InitgPty>
 </GrpHdr>
 <PmtInf>
-   <PmtInfId>RE000072017 12/05/17F97345896</PmtInfId>
+   <PmtInfId>RE000012017 02/06/17F46038881</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -26,24 +26,24 @@
           <Cd>SEPA</Cd>
       </SvcLvl>
       <LclInstrm>
-         <Cd>COR1</Cd>
+         <Cd>CORE</Cd>
       </LclInstrm>
       <SeqTp>RCUR</SeqTp>
       <CtgyPurp>
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2017-05-12</ReqdColltnDt>
+   <ReqdColltnDt>2017-06-02</ReqdColltnDt>
    <Cdtr>
-      <Nm>COOP.COMARCAL LA VALL D ALBAIDA COOP.V.</Nm>
+      <Nm>Agricola de Catadau S.C. Hortofruticola</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>Direccion 13 I. En 2</AdrLine>
+          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES3530582269132710000159</IBAN>
+         <IBAN>ES5230582268501021006736</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
@@ -55,7 +55,7 @@
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES31000F97345896</Id>
+                 <Id>ES38002F46038881</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -63,12 +63,12 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>4301001   A  0201708120170228001   </EndToEndId>
+          <EndToEndId>4007202012S  0000001420161230001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">342.21</InstdAmt>
+      <InstdAmt Ccy="EUR">1732.50</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES2030582269142810003403</MndtId>
+            <MndtId>ES0930582268552720000289</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
@@ -78,30 +78,30 @@
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>RAUL BENAVENT SENTANDREU</Nm>
+         <Nm>CRESPO VANACLOCHA, SALVADOR</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>C/BENIGANIM,5</AdrLine>
-              <AdrLine>QUATRETONDA   46837     VALENCIA</AdrLine>
+              <AdrLine>C/ CORBELLA, 55</AdrLine>
+              <AdrLine>CARLET   46240     VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>142810003403</Id>
+                   <Id>552720000289</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES2030582269142810003403</IBAN>
+            <IBAN>ES0930582268552720000289</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>FACTURA  A-2017081 de Fecha 28 feb 2017</Ustrd>
+         <Ustrd>CRESPO VANACLOCHA, SALVADOR</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>

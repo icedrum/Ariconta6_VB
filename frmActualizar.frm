@@ -623,7 +623,7 @@ Dim PrimeraContrapartida As String
     Case 2
         Cad2 = DevNombreSQL(DBLet(RF!Nommacta))
     Case Else
-        Cad2 = DBLet(RF!confaccl)
+        Cad2 = DBLet(RF!observa)
     End Select
     
     '   Modificacion para k aparezca en la ampliacio el CC en la ampliacion de codmacta
@@ -940,7 +940,7 @@ Dim TipoDIva As Byte
     Case 2
         Cad2 = DevNombreSQL(DBLet(RF!Nommacta))
     Case Else
-        Cad2 = DBLet(RF!confacpr)
+        Cad2 = DBLet(RF!observa)
     End Select
     
         
@@ -989,8 +989,8 @@ Dim TipoDIva As Byte
     Dim EsSujetoPasivo As Boolean
     Dim EsImportacion As Boolean
     
-    EsImportacion = (DBLet(RF!codopera, "N") = 2)
-    EsSujetoPasivo = ((DBLet(RF!codopera, "N") = 1) Or (DBLet(RF!codopera, "N") = 4))
+    EsImportacion = (DBLet(RF!CodOpera, "N") = 2)
+    EsSujetoPasivo = ((DBLet(RF!CodOpera, "N") = 1) Or (DBLet(RF!CodOpera, "N") = 4))
     
     Set RsIvas = New ADODB.Recordset
     RsIvas.Open SqlIva, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -1391,7 +1391,7 @@ On Error Resume Next
             Sql = Sql & " AND numserie = '" & Rs!NUmSerie & "'"
         Else
             'proveedores
-            Sql = Sql & " WHERE numregis = " & Rs!NumRegis
+            Sql = Sql & " WHERE numregis = " & Rs!numregis
             Sql = Sql & " AND anofactu =" & Rs!anofactu
         End If
         Conn.Execute Sql

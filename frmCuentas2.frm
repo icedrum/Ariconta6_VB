@@ -136,102 +136,126 @@ Begin VB.Form frmCuentas
          Tab(0).Control(17).Enabled=   0   'False
          Tab(0).Control(18)=   "Image1(6)"
          Tab(0).Control(18).Enabled=   0   'False
-         Tab(0).Control(19)=   "ToolbarMail"
+         Tab(0).Control(19)=   "Label1(12)"
          Tab(0).Control(19).Enabled=   0   'False
-         Tab(0).Control(20)=   "Text1(12)"
+         Tab(0).Control(20)=   "Label1(29)"
          Tab(0).Control(20).Enabled=   0   'False
-         Tab(0).Control(21)=   "Check1"
+         Tab(0).Control(21)=   "ToolbarMail"
          Tab(0).Control(21).Enabled=   0   'False
-         Tab(0).Control(22)=   "Text1(2)"
+         Tab(0).Control(22)=   "Text1(12)"
          Tab(0).Control(22).Enabled=   0   'False
-         Tab(0).Control(23)=   "Text1(3)"
+         Tab(0).Control(23)=   "Check1"
          Tab(0).Control(23).Enabled=   0   'False
-         Tab(0).Control(24)=   "Text1(4)"
+         Tab(0).Control(24)=   "Text1(2)"
          Tab(0).Control(24).Enabled=   0   'False
-         Tab(0).Control(25)=   "Text1(5)"
+         Tab(0).Control(25)=   "Text1(3)"
          Tab(0).Control(25).Enabled=   0   'False
-         Tab(0).Control(26)=   "Text1(6)"
+         Tab(0).Control(26)=   "Text1(4)"
          Tab(0).Control(26).Enabled=   0   'False
-         Tab(0).Control(27)=   "Text1(7)"
+         Tab(0).Control(27)=   "Text1(5)"
          Tab(0).Control(27).Enabled=   0   'False
-         Tab(0).Control(28)=   "Text1(8)"
+         Tab(0).Control(28)=   "Text1(6)"
          Tab(0).Control(28).Enabled=   0   'False
-         Tab(0).Control(29)=   "Text1(9)"
+         Tab(0).Control(29)=   "Text1(7)"
          Tab(0).Control(29).Enabled=   0   'False
-         Tab(0).Control(30)=   "Text1(10)"
+         Tab(0).Control(30)=   "Text1(8)"
          Tab(0).Control(30).Enabled=   0   'False
-         Tab(0).Control(31)=   "Text1(23)"
+         Tab(0).Control(31)=   "Text1(9)"
          Tab(0).Control(31).Enabled=   0   'False
-         Tab(0).Control(32)=   "Text2(2)"
+         Tab(0).Control(32)=   "Text1(10)"
          Tab(0).Control(32).Enabled=   0   'False
-         Tab(0).Control(33)=   "Text2(3)"
+         Tab(0).Control(33)=   "Text1(23)"
          Tab(0).Control(33).Enabled=   0   'False
-         Tab(0).Control(34)=   "Text1(30)"
+         Tab(0).Control(34)=   "Text2(2)"
          Tab(0).Control(34).Enabled=   0   'False
-         Tab(0).Control(35)=   "Text1(27)"
+         Tab(0).Control(35)=   "Text2(3)"
          Tab(0).Control(35).Enabled=   0   'False
-         Tab(0).Control(36)=   "Text2(27)"
+         Tab(0).Control(36)=   "Text1(30)"
          Tab(0).Control(36).Enabled=   0   'False
-         Tab(0).Control(37)=   "Check3"
+         Tab(0).Control(37)=   "Text1(27)"
          Tab(0).Control(37).Enabled=   0   'False
-         Tab(0).ControlCount=   38
+         Tab(0).Control(38)=   "Text2(27)"
+         Tab(0).Control(38).Enabled=   0   'False
+         Tab(0).Control(39)=   "Check3"
+         Tab(0).Control(39).Enabled=   0   'False
+         Tab(0).Control(40)=   "Text1(35)"
+         Tab(0).Control(40).Enabled=   0   'False
+         Tab(0).Control(41)=   "Text1(36)"
+         Tab(0).Control(41).Enabled=   0   'False
+         Tab(0).ControlCount=   42
          TabCaption(1)   =   "Tesorería"
          TabPicture(1)   =   "frmCuentas2.frx":687A
          Tab(1).ControlEnabled=   0   'False
-         Tab(1).Control(0)=   "Check4"
-         Tab(1).Control(0).Enabled=   0   'False
-         Tab(1).Control(1)=   "cmdSepa"
-         Tab(1).Control(1).Enabled=   0   'False
-         Tab(1).Control(2)=   "Text1(34)"
-         Tab(1).Control(2).Enabled=   0   'False
-         Tab(1).Control(3)=   "Text1(33)"
-         Tab(1).Control(3).Enabled=   0   'False
-         Tab(1).Control(4)=   "Text1(32)"
-         Tab(1).Control(4).Enabled=   0   'False
-         Tab(1).Control(5)=   "Text1(31)"
-         Tab(1).Control(5).Enabled=   0   'False
-         Tab(1).Control(6)=   "Frame4"
-         Tab(1).Control(6).Enabled=   0   'False
-         Tab(1).Control(7)=   "Text1(16)"
-         Tab(1).Control(7).Enabled=   0   'False
-         Tab(1).Control(8)=   "Text1(15)"
-         Tab(1).Control(8).Enabled=   0   'False
-         Tab(1).Control(9)=   "Text1(14)"
-         Tab(1).Control(9).Enabled=   0   'False
-         Tab(1).Control(10)=   "Text1(13)"
-         Tab(1).Control(10).Enabled=   0   'False
-         Tab(1).Control(11)=   "Text2(1)"
-         Tab(1).Control(11).Enabled=   0   'False
-         Tab(1).Control(12)=   "Text2(0)"
-         Tab(1).Control(12).Enabled=   0   'False
-         Tab(1).Control(13)=   "Text1(26)"
-         Tab(1).Control(13).Enabled=   0   'False
-         Tab(1).Control(14)=   "Text1(25)"
-         Tab(1).Control(14).Enabled=   0   'False
-         Tab(1).Control(15)=   "Text1(29)"
-         Tab(1).Control(15).Enabled=   0   'False
-         Tab(1).Control(16)=   "imgppal(4)"
-         Tab(1).Control(16).Enabled=   0   'False
-         Tab(1).Control(17)=   "Label1(27)"
-         Tab(1).Control(17).Enabled=   0   'False
-         Tab(1).Control(18)=   "Label1(26)"
-         Tab(1).Control(18).Enabled=   0   'False
-         Tab(1).Control(19)=   "Image1(0)"
-         Tab(1).Control(19).Enabled=   0   'False
-         Tab(1).Control(20)=   "Image1(1)"
-         Tab(1).Control(20).Enabled=   0   'False
-         Tab(1).Control(21)=   "Label1(24)"
-         Tab(1).Control(21).Enabled=   0   'False
-         Tab(1).Control(22)=   "Label1(21)"
-         Tab(1).Control(22).Enabled=   0   'False
-         Tab(1).Control(23)=   "Label1(28)"
-         Tab(1).Control(23).Enabled=   0   'False
+         Tab(1).Control(0)=   "Label1(28)"
+         Tab(1).Control(1)=   "Label1(21)"
+         Tab(1).Control(2)=   "Label1(24)"
+         Tab(1).Control(3)=   "Image1(1)"
+         Tab(1).Control(4)=   "Image1(0)"
+         Tab(1).Control(5)=   "Label1(26)"
+         Tab(1).Control(6)=   "Label1(27)"
+         Tab(1).Control(7)=   "imgppal(4)"
+         Tab(1).Control(8)=   "Text1(29)"
+         Tab(1).Control(9)=   "Text1(25)"
+         Tab(1).Control(10)=   "Text1(26)"
+         Tab(1).Control(11)=   "Text2(0)"
+         Tab(1).Control(12)=   "Text2(1)"
+         Tab(1).Control(13)=   "Text1(13)"
+         Tab(1).Control(14)=   "Text1(14)"
+         Tab(1).Control(15)=   "Text1(15)"
+         Tab(1).Control(16)=   "Text1(16)"
+         Tab(1).Control(17)=   "Frame4"
+         Tab(1).Control(18)=   "Text1(31)"
+         Tab(1).Control(19)=   "Text1(32)"
+         Tab(1).Control(20)=   "Text1(33)"
+         Tab(1).Control(21)=   "Text1(34)"
+         Tab(1).Control(22)=   "cmdSepa"
+         Tab(1).Control(23)=   "Check4"
          Tab(1).ControlCount=   24
          TabCaption(2)   =   "Departamentos"
          TabPicture(2)   =   "frmCuentas2.frx":6896
          Tab(2).ControlEnabled=   0   'False
          Tab(2).Control(0)=   "FrameAux2"
          Tab(2).ControlCount=   1
+         Begin VB.TextBox Text1 
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   360
+            Index           =   36
+            Left            =   8160
+            MaxLength       =   30
+            TabIndex        =   103
+            Tag             =   "Mov|T|S|||cuentas|movilcta|||"
+            Text            =   "Text1"
+            Top             =   4050
+            Width           =   2100
+         End
+         Begin VB.TextBox Text1 
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   360
+            Index           =   35
+            Left            =   5880
+            MaxLength       =   30
+            TabIndex        =   101
+            Tag             =   "T|T|S|||cuentas|telefonocta|||"
+            Text            =   "Text1"
+            Top             =   4050
+            Width           =   2100
+         End
          Begin VB.CheckBox Check4 
             Caption         =   "Embargada"
             BeginProperty Font 
@@ -328,10 +352,10 @@ Begin VB.Form frmCuentas
                Strikethrough   =   0   'False
             EndProperty
             Height          =   240
-            Left            =   8280
+            Left            =   6120
             TabIndex        =   98
             Tag             =   "Cuenta Múltiple|N|S|||cuentas|esctamultiple|||"
-            Top             =   3930
+            Top             =   4740
             Width           =   1875
          End
          Begin VB.TextBox Text1 
@@ -715,7 +739,7 @@ Begin VB.Form frmCuentas
             Left            =   1500
             TabIndex        =   85
             Top             =   4050
-            Width           =   4245
+            Width           =   4347
          End
          Begin VB.TextBox Text1 
             BeginProperty Font 
@@ -1453,6 +1477,42 @@ Begin VB.Form frmCuentas
             Text            =   "Text1"
             Top             =   1290
             Width           =   3720
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Móvil"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Index           =   29
+            Left            =   8175
+            TabIndex        =   104
+            Top             =   3780
+            Width           =   2025
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Teléfono"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Index           =   12
+            Left            =   5895
+            TabIndex        =   102
+            Top             =   3780
+            Width           =   1905
          End
          Begin VB.Image imgppal 
             Height          =   240

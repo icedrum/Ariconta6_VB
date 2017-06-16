@@ -865,7 +865,8 @@ Dim Aux As String
     'Los encabezados
     ListView1(Index).ColumnHeaders.Clear
 
-    ListView1(Index).ColumnHeaders.Add , , "Empresa", 3800
+    ListView1(Index).ColumnHeaders.Add , , "Código", 600
+    ListView1(Index).ColumnHeaders.Add , , "Empresa", 3200
     
 
 
@@ -874,7 +875,7 @@ Dim Aux As String
     Prohibidas = DevuelveProhibidas
     
     ListView1(Index).ListItems.Clear
-    Aux = "Select * from Usuarios.empresasariconta where tesor>0"
+    Aux = "Select * from Usuarios.empresasariconta where tesor>0 order by codempre"
     
     Rs.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
@@ -884,7 +885,8 @@ Dim Aux As String
             Set IT = ListView1(Index).ListItems.Add
             IT.Key = "C" & Rs!codempre
             If vEmpresa.codempre = Rs!codempre Then IT.Checked = True
-            IT.Text = Rs!nomempre
+            IT.Text = Rs!codempre
+            IT.SubItems(1) = Rs!nomempre
             IT.Tag = Rs!codempre
             IT.ToolTipText = Rs!CONTA
         End If
@@ -1178,7 +1180,7 @@ Dim LaCuenta As Boolean
             End If
                 
             'Clientes
-            If Me.check1(0).Value = 1 Then
+            If Me.Check1(0).Value = 1 Then
                 RC2 = cadselect
                 RC2 = Replace(RC2, "#@#", "factcli.fecfactu")
                 
@@ -1196,7 +1198,7 @@ Dim LaCuenta As Boolean
             'Proveedores
             Label9.Caption = "Obteniendo fra pro.: " & ListView1(1).ListItems(i).Text
             Label9.Refresh
-            If Me.check1(1).Value = 1 Then
+            If Me.Check1(1).Value = 1 Then
                 RC2 = cadselect
                 RC2 = Replace(RC2, "#@#", "factpro.fecharec")
                 Sql = "SELECT " & vUsu.Codigo & " codusu," & Me.ListView1(1).ListItems(i).Tag & " empresa,"
@@ -1300,7 +1302,7 @@ Private Function DatosOK() As Boolean
         Exit Function
     End If
 
-    If Me.check1(0).Value = 0 And Me.check1(1).Value = 0 Then
+    If Me.Check1(0).Value = 0 And Me.Check1(1).Value = 0 Then
         MsgBox "Seleccione clientes y/o proveedores.", vbExclamation
         Exit Function
     End If

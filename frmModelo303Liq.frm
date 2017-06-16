@@ -2208,7 +2208,8 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     Sql = Sql & " select " & vUsu.Codigo & ",tiposiva.cuentare cuenta,sum(baseimpo) base,sum(impoiva) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",0 "
     Sql = Sql & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
     Sql = Sql & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
-    Sql = Sql & " and factpro.codopera = 4 " ' tipo de operacion inversion sujeto pasivo
+    'Sql = Sql & " and factpro.codopera = 4 " ' tipo de operacion inversion sujeto pasivo
+    Sql = Sql & " and factpro.codopera in (1,4) " ' tipo de operacion inversion sujeto pasivo E intracom
     Sql = Sql & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
     Sql = Sql & " and factpro_totales.codigiva = tiposiva.codigiva "
     Sql = Sql & " group by 1,2"

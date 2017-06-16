@@ -565,6 +565,8 @@ Dim i As Integer
             If Control.Tag <> "" Then
                 If (opcio = 0) Or ((opcio = 1) And (InStr(1, Control.Container.Name, "FrameAux")) = 0) Or ((opcio = 2) And (Control.Container.Name = nom_frame)) Then
                     If mTag.Cargado Then
+                        'If Control.Index = 29 Then St op
+                    
                         'Columna en la BD
                         If mTag.Columna <> "" Then
                             Campo = mTag.Columna
@@ -2629,8 +2631,8 @@ Public Sub PonerLongCamposGnral(ByRef formulario As Form, Modo As Byte, Opcion A
                     Next i
                 
                 Case 3 'para los TXTAUX
-                    For i = 0 To .txtAux.Count - 1
-                        With .txtAux(i)
+                    For i = 0 To .txtaux.Count - 1
+                        With .txtaux(i)
                             If .MaxLength <> 0 Then
                                .HelpContextID = .MaxLength 'guardamos es maxlenth para reestablecerlo despues
                                 .MaxLength = 0 'tamaño infinito
@@ -2651,8 +2653,8 @@ Public Sub PonerLongCamposGnral(ByRef formulario As Form, Modo As Byte, Opcion A
                         End With
                     Next i
                 Case 3 'para los txtAux
-                    For i = 0 To .txtAux.Count - 1
-                        With .txtAux(i)
+                    For i = 0 To .txtaux.Count - 1
+                        With .txtaux(i)
                             If .HelpContextID <> 0 Then
                                 .MaxLength = .HelpContextID 'volvemos a poner el valor real del maxlenth
                                 .HelpContextID = 0
@@ -3156,7 +3158,7 @@ Dim vCadena As String
             If Escliente Then
                 vCadena = vCadena & "Fra. " & DBLet(Rs!NUmSerie) & " " & Format(DBLet(Rs!NumFactu), "0000000") & " " & DBLet(Rs!FecFactu, "F")
             Else
-                vCadena = vCadena & "Fra.Reg. " & DBLet(Rs!NUmSerie) & " " & Format(DBLet(Rs!NumRegis), "0000000") & " " & DBLet(Rs!fecharec, "F")
+                vCadena = vCadena & "Fra.Reg. " & DBLet(Rs!NUmSerie) & " " & Format(DBLet(Rs!numregis), "0000000") & " " & DBLet(Rs!fecharec, "F")
             
             End If
             

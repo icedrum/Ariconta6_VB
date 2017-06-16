@@ -128,6 +128,9 @@ Public YAnt As Currency
 Public HaHabidoCambios As Boolean
 
 
+
+
+
     'Para los asientos k vemos desde la consulta de extractos
     '  0.- NADA
     '  1.- SIIII
@@ -197,20 +200,6 @@ Public Function LeerEmpresaParametros()
         
         'incializamos el objeto
         Set vLog = New cLOG
-        'Si estamos en localhost, y el usuario es administrador
-        'Haremos la opcion de volcar la
-        
-'        If Not (vEmpresa Is Nothing) And Not (vParam Is Nothing) Then
-'
-'            'PAra la consulta de extractos
-'            CadenaDesdeOtroForm = "DELETE from tmpconextcab where codusu= " & vUsu.Codigo
-'            Conn.Execute CadenaDesdeOtroForm
-'
-'            CadenaDesdeOtroForm = "DELETE from tmpconext where codusu= " & vUsu.Codigo
-'            Conn.Execute CadenaDesdeOtroForm
-'
-'            CadenaDesdeOtroForm = ""
-'        End If
         
         
 End Function

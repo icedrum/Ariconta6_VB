@@ -1650,6 +1650,7 @@ ECargando:
     Text2(1).Text = Format(Vencido, FormatoImporte)
     
     Text2(2).Text = Format(riesgo, FormatoImporte)
+    riesgo = 0
     Me.MousePointer = vbDefault
     Screen.MousePointer = vbDefault
     Set Rs = Nothing
@@ -2015,7 +2016,7 @@ Dim vGasto As Currency
     
     C = " WHERE codusu =" & vUsu.Codigo
     Conn.Execute "DELETE FROM tmpfaclin" & C
-
+    riesgo = 0
 
     'Fechas fin ejercicios
     FechaFinEjercicios = DateAdd("yyyy", 1, vParam.fechafin)
@@ -2762,7 +2763,7 @@ Dim ImporteInterno2 As Currency
                  'Para la ampliacion de nºtal + ctrapar NO pongo la ampliacion del concepto
                  If TipoAmpliacion = 5 Then Aux = ""
                  Ampliacion = Aux & Ampliacion
-                 If Len(Ampliacion) > 30 Then Ampliacion = Mid(Ampliacion, 1, 30)
+                 If Len(Ampliacion) > 50 Then Ampliacion = Mid(Ampliacion, 1, 50)
                 
                  Sql = Sql & "'" & DevNombreSQL(Ampliacion) & "',"
                  
@@ -2937,8 +2938,12 @@ Dim ImporteInterno2 As Currency
                 Dim SqlBanco As String
                 Dim RsBanco As ADODB.Recordset
                 
-                SqlBanco = "select reftalonpag, bancotalonpag from tmppagos2 where codusu = " & vUsu.Codigo
-                SqlBanco = SqlBanco & " and numserie = " & DBSet(RecuperaValor(RS1!Cliente, 1), "T")
+                'ANTES
+                'SqlBanco = "select reftalonpag, bancotalonpag from tmppagos2 where codusu = " & vUsu.Codigo
+                
+                
+                SqlBanco = "select Referencia , ctabanc1 from pagos where "
+                SqlBanco = SqlBanco & " numserie = " & DBSet(RecuperaValor(RS1!Cliente, 1), "T")
                 SqlBanco = SqlBanco & " and numfactu = " & DBSet(RecuperaValor(RS1!Cliente, 2), "T")
                 SqlBanco = SqlBanco & " and fecfactu = " & DBSet(RecuperaValor(RS1!Cliente, 3), "F")
                 SqlBanco = SqlBanco & " and numorden = " & DBSet(RecuperaValor(RS1!Cliente, 4), "N")
@@ -3235,7 +3240,7 @@ Dim NomFile As String
                     If ListView1.ListItems(i).Checked Then
                         If Me.ListView1.ListItems(i).ForeColor = vbRed Then
                             'Ese vto YA esta en otra "documentos de pagares"
-                            cad = cad & "    - " & Me.ListView1.ListItems(i).SubItems(1) & " " & Me.ListView1.ListItems(i).SubItems(9) & vbCrLf
+                            cad = cad & "    - " & Me.ListView1.ListItems(i).SubItems(1) & " " & Me.ListView1.ListItems(i).SubItems(10) & vbCrLf
                         End If
                     End If
                 Next i
@@ -3707,7 +3712,7 @@ Dim SqlBanco As String
                     'Llevara el listado de los pagos que efectuamos
                     'Antes: SQL = SQL & ".- " & Mid(.Text + Space(10), 1, 10)
                     '                 fra             fecfac              vto                  fecvenci
-                    Sql = .Text & ":" & .SubItems(1) & "|" & .SubItems(2) & "|" & .SubItems(2) & "|" & .SubItems(9) & "|"
+                    Sql = .Text & ":" & .SubItems(1) & "|" & .SubItems(2) & "|" & .SubItems(3) & "|" & .SubItems(9) & "|"
                     ColVtosQuePago.Add Sql
                     
                     'SaltoLinea

@@ -587,8 +587,8 @@ Dim MRUShortcutBarWidth
 Const IMAGEBASE = 10000
 Const MinimizedShortcutBarWidth = 32 + 8
 
-Dim WithEvents StatusBar  As XtremeCommandBars.StatusBar
-Attribute StatusBar.VB_VarHelpID = -1
+Dim WithEvents statusBar  As XtremeCommandBars.statusBar
+Attribute statusBar.VB_VarHelpID = -1
 Dim FontSizes(4) As Integer
 Dim RibbonSeHaCreado As Boolean
 Dim Pane As Pane
@@ -604,6 +604,10 @@ Dim Control As CommandBarControl
 Dim ControlNew_NewItems As CommandBarPopup
 Dim Rn2 As ADODB.Recordset
 Dim Habilitado As Boolean
+
+
+
+Dim UltimaConsultaSII As Date  'para que no este todo el tiempo yendo a ver el SII
 
 
 Public Function RibbonBar() As RibbonBar
@@ -649,12 +653,12 @@ Dim N_Skin As Integer
             CommandBars.AllowFrameTransparency False 'True
             CommandBars.EnableOffice2007Frame True
             CommandBars.SetAllCaps False
-            CommandBars.StatusBar.SetAllCaps False
+            CommandBars.statusBar.SetAllCaps False
         Case Else
             CommandBars.AllowFrameTransparency True
             CommandBars.EnableOffice2007Frame False
             CommandBars.SetAllCaps False
-            CommandBars.StatusBar.SetAllCaps False
+            CommandBars.statusBar.SetAllCaps False
     End Select
     
     Dim ToolTipContext As ToolTipContext
@@ -665,7 +669,7 @@ Dim N_Skin As Integer
     ToolTipContext.SetMargin 2, 2, 2, 2
     ToolTipContext.MaxTipWidth = 180
     
-    StatusBar.ToolTipContext.Style = ToolTipContext.Style
+    statusBar.ToolTipContext.Style = ToolTipContext.Style
     frmShortBar.wndShortcutBar.ToolTipContext.Style = ToolTipContext.Style
     
        
@@ -755,26 +759,26 @@ Dim Pane As StatusBarPane
 
     If RibbonSeHaCreado Then
         'StatusBar.Pane(0).Value = vEmpresa.nomempre & "    " & vUsu.Login
-        StatusBar.Pane(0).Text = "Nº " & vEmpresa.codempre
-        StatusBar.Pane(1).Text = vEmpresa.nomempre
+        statusBar.Pane(0).Text = "Nº " & vEmpresa.codempre
+        statusBar.Pane(1).Text = vEmpresa.nomempre
     
     Else
     
          
-         Set StatusBar = Nothing
+         Set statusBar = Nothing
          
-         Set StatusBar = CommandBars.StatusBar
-         StatusBar.Visible = True
+         Set statusBar = CommandBars.statusBar
+         statusBar.Visible = True
          
          
-         Set Pane = StatusBar.AddPane(ID_INDICATOR_PAGENUMBER)
+         Set Pane = statusBar.AddPane(ID_INDICATOR_PAGENUMBER)
          Pane.Text = "Nº " & vEmpresa.codempre
          Pane.Caption = "&C"
          Pane.Value = vEmpresa.nomempre & "    " & vUsu.Login
          Pane.Button = True
          Pane.SetPadding 8, 0, 8, 0
          
-         Set Pane = StatusBar.AddPane(ID_INDICATOR_WORDCOUNT)
+         Set Pane = statusBar.AddPane(ID_INDICATOR_WORDCOUNT)
          Pane.Text = vEmpresa.nomempre
          Pane.Caption = ""
          Pane.Value = vEmpresa.codempre
@@ -782,13 +786,13 @@ Dim Pane As StatusBarPane
          Pane.SetPadding 8, 0, 8, 0
          
          
-         Set Pane = StatusBar.AddPane(0)
+         Set Pane = statusBar.AddPane(0)
          Pane.Style = SBPS_STRETCH Or SBPS_NOBORDERS
          Pane.BeginGroup = True
                  
         '
-         StatusBar.RibbonDividerIndex = 3
-         StatusBar.EnableCustomization True
+         statusBar.RibbonDividerIndex = 3
+         statusBar.EnableCustomization True
          
          CommandBars.Options.KeyboardCuesShow = xtpKeyboardCuesShowNever
          CommandBars.Options.ShowKeyboardTips = True
@@ -842,7 +846,7 @@ Dim AbiertoFormulario  As Boolean
         
         
         Case ID_VIEW_STATUSBAR:
-            CommandBars.StatusBar.Visible = Not CommandBars.StatusBar.Visible
+            CommandBars.statusBar.Visible = Not CommandBars.statusBar.Visible
             CommandBars.RecalcLayout
             
         Case ID_RIBBON_EXPAND:
@@ -1215,6 +1219,10 @@ Dim RB As RibbonBar
     vControl.UltEmpre = vUsu.CadenaConexion
     
     vControl.Grabar
+    
+    
+    UltimaConsultaSII = DateAdd("h", -2, Now) 'para que fuerze ver SII
+    
     Screen.MousePointer = vbDefault
 End Sub
 
@@ -1279,6 +1287,10 @@ Private Sub Form_Load()
         End If
     End If
     CommandBars.FindControl(, cad, , True).Execute
+    
+    
+    UltimaConsultaSII = DateAdd("h", -2, Now) 'para que fuerze ver SII
+    
 End Sub
 
 
@@ -1591,6 +1603,10 @@ Private Sub LoadIcons()
         Array(COLUMN_MAIL_ICON, COLUMN_IMPORTANCE_ICON, COLUMN_CHECK_ICON, RECORD_UNREAD_MAIL_ICON, RECORD_READ_MAIL_ICON, _
             RECORD_REPLIED_ICON, RECORD_IMPORTANCE_HIGH_ICON, COLUMN_ATTACHMENT_ICON, COLUMN_ATTACHMENT_NORMAL_ICON, _
             RECORD_IMPORTANCE_LOW_ICON), xtpImageNormal
+            
+            
+        CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\suministro-inmediato-informacion.bmp", ID_SII, xtpImageNormal
+            
             
         Dim i As Integer
         For i = 1 To 17
@@ -2107,7 +2123,7 @@ Dim GrConsoli As RibbonGroup
         Set GroupNew = TabNuevo.Groups.AddGroup("ASIENTOS", cad & "0")
         Set GrupSald = TabNuevo.Groups.AddGroup("BALANCES", cad & "1")
         Set GrOtro = TabNuevo.Groups.AddGroup("", cad & "2")
-        Set GrConsoli = TabNuevo.Groups.AddGroup("CONSOLIDADO", cad & "4")
+        
         
         'todos los hijos que cuelgan en la tab
         cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
@@ -2134,6 +2150,7 @@ Dim GrConsoli As RibbonGroup
                     
                 'Consolidado
                 Case 315
+                    Set GrConsoli = TabNuevo.Groups.AddGroup("CONSOLIDADO", cad & "4")
                     Set Control = GrConsoli.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
                 Case Else
                     Set Control = GrOtro.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
@@ -2152,7 +2169,7 @@ Dim GrConsoli As RibbonGroup
         Rn2.Close
     Set GrupSald = Nothing
     Set GrOtro = Nothing
-
+     Set GrConsoli = Nothing
 End Sub
 
 
@@ -2162,6 +2179,7 @@ Dim GrupPag As RibbonGroup
 Dim Consoli As RibbonGroup
 Dim OpsAseg As RibbonGroup
 Dim Insertado As Boolean
+Dim B As Boolean
 
         If Not vEmpresa.TieneContabilidad Then Exit Sub
         
@@ -2217,7 +2235,7 @@ Dim Insertado As Boolean
                 Set Control = Consoli.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
                  
                  
-            Case 414, 415, 416
+            Case 414, 415
                  If vParamT.TieneOperacionesAseguradas Then
                         If OpsAseg Is Nothing Then Set OpsAseg = TabNuevo.Groups.AddGroup("OP. ASEGURADAS", CStr(IdMenu * 100000) & "4")
                         Set Control = OpsAseg.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
@@ -2226,7 +2244,20 @@ Dim Insertado As Boolean
                  End If
                  
             Case Else
+                B = True
+                If Rn2!Codigo = ID_SII Then
+                    
+                    If vParam.SIITiene Then
+                        If vUsu.Nivel > 0 Then B = False
+                    Else
+                        B = False
+                        
+                    End If
+                End If
+                If Not B Then Habilitado = False
+                
                 Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                
             End Select
             
             
@@ -2237,7 +2268,10 @@ Dim Insertado As Boolean
         Wend
         Rn2.Close
 
-
+    
+        
+        
+        
 End Sub
 
 
@@ -2693,6 +2727,10 @@ End Sub
 '**************************************************************************************************************
 Private Sub AbrirFormularios(Accion As Long)
     
+   
+    If Accion <> ID_SII Then AbrirFormSII False
+    
+    
     Select Case Accion
         Case 101 ' empresa
             frmempresa.Show vbModal
@@ -2801,12 +2839,9 @@ Private Sub AbrirFormularios(Accion As Long)
         Case 315
             frmInfBalSumSalConso.Show vbModal
         
-        
-        
-        
-        
         Case 401 ' emitidas
             Screen.MousePointer = vbHourglass
+            frmFacturasCli.FACTURA = ""
             frmFacturasCli.Show vbModal
         Case 402 ' libro emitidas
             frmFacturasCliListado.Show vbModal
@@ -2839,8 +2874,14 @@ Private Sub AbrirFormularios(Accion As Long)
         Case ID_AseguClientes   '414
             frmSegurosListClientes.Show vbModal
             
-         Case ID_AseguComunicaSeguro '415
+        Case ID_AseguComunicaSeguro '415
             frmSegurosListComunicacion.Show vbModal
+        
+        Case ID_SII
+            AbrirFormSII True
+        
+        
+        
         Case 502 ' conceptos
             Screen.MousePointer = vbHourglass
             frmInmoConceptos.Show vbModal
@@ -3085,6 +3126,48 @@ Private Sub mnHerrAriadnaCC_Click(Index As Integer)
         frmCentroControl.Opcion = Index
         frmCentroControl.Show vbModal
     
+End Sub
+
+
+Private Sub AbrirFormSII(AbrirSeguro As Boolean)
+Dim B As Byte
+Dim C As String
+
+    If Not vParam.SIITiene Then Exit Sub
+
+    
+    
+    If AbrirSeguro Then
+        B = 1
+    Else
+        If vUsu.Nivel > 0 Then Exit Sub
+        C = statusBar.Pane(1).Text
+        Screen.MousePointer = vbHourglass
+        statusBar.Pane(1).Text = "leyendo SIII....    "
+        
+        If DateDiff("h", UltimaConsultaSII, Now) > 1 Then
+            B = DarAvisoPendientesSII
+            If B > 0 Then
+                If MsgBox("Tiene facturas pendientes para el Suministro inmediato de informacion(AEAT)." & vbCrLf & "¿Verlas ahora?", vbQuestion + vbYesNo) = vbNo Then
+                    B = 0
+            
+                End If
+            End If
+        Else
+            B = 0
+        End If
+        
+        statusBar.Pane(1).Text = C
+        Screen.MousePointer = vbDefault
+    End If
+
+
+    If B > 0 Then
+        frmSII_Avisos.QueMostrarDeSalida = B
+        frmSII_Avisos.Show vbModal
+        UltimaConsultaSII = Now
+    End If
+
 End Sub
 
 

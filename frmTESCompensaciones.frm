@@ -17,7 +17,7 @@ Begin VB.Form frmTESCompensaciones
    Begin VB.Frame FrameDatos 
       Height          =   7215
       Left            =   60
-      TabIndex        =   3
+      TabIndex        =   6
       Top             =   30
       Width           =   13515
       Begin VB.TextBox Text4 
@@ -35,7 +35,7 @@ Begin VB.Form frmTESCompensaciones
          Locked          =   -1  'True
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
-         TabIndex        =   13
+         TabIndex        =   1
          Text            =   "frmTESCompensaciones.frx":0000
          Top             =   480
          Width           =   7275
@@ -73,7 +73,7 @@ Begin VB.Form frmTESCompensaciones
          Height          =   360
          Index           =   0
          Left            =   1680
-         TabIndex        =   7
+         TabIndex        =   10
          Text            =   "Text2"
          Top             =   480
          Width           =   4275
@@ -91,10 +91,10 @@ Begin VB.Form frmTESCompensaciones
             Strikethrough   =   0   'False
          EndProperty
          Height          =   375
-         Left            =   12150
-         TabIndex        =   2
+         Left            =   12030
+         TabIndex        =   5
          Top             =   6600
-         Width           =   1095
+         Width           =   1215
       End
       Begin VB.TextBox Text3 
          Alignment       =   1  'Right Justify
@@ -110,7 +110,7 @@ Begin VB.Form frmTESCompensaciones
          Height          =   360
          Index           =   0
          Left            =   4530
-         TabIndex        =   6
+         TabIndex        =   9
          Text            =   "Text3"
          Top             =   6600
          Width           =   1365
@@ -129,7 +129,7 @@ Begin VB.Form frmTESCompensaciones
          Height          =   360
          Index           =   1
          Left            =   6090
-         TabIndex        =   5
+         TabIndex        =   8
          Text            =   "Text3"
          Top             =   6600
          Width           =   1365
@@ -148,7 +148,7 @@ Begin VB.Form frmTESCompensaciones
          Height          =   360
          Index           =   2
          Left            =   7650
-         TabIndex        =   4
+         TabIndex        =   7
          Text            =   "Text3"
          Top             =   6600
          Width           =   1365
@@ -165,16 +165,16 @@ Begin VB.Form frmTESCompensaciones
             Strikethrough   =   0   'False
          EndProperty
          Height          =   375
-         Left            =   10830
-         TabIndex        =   1
+         Left            =   10710
+         TabIndex        =   4
          Top             =   6600
-         Width           =   1095
+         Width           =   1215
       End
       Begin MSComctlLib.ListView lw1 
          Height          =   5175
          Index           =   1
          Left            =   6030
-         TabIndex        =   8
+         TabIndex        =   3
          Top             =   1200
          Width           =   7305
          _ExtentX        =   12885
@@ -240,7 +240,7 @@ Begin VB.Form frmTESCompensaciones
          Height          =   5175
          Index           =   0
          Left            =   120
-         TabIndex        =   11
+         TabIndex        =   2
          Top             =   1200
          Width           =   5850
          _ExtentX        =   10319
@@ -339,7 +339,7 @@ Begin VB.Form frmTESCompensaciones
          Height          =   255
          Index           =   2
          Left            =   2100
-         TabIndex        =   12
+         TabIndex        =   13
          Top             =   6600
          Width           =   1455
       End
@@ -358,7 +358,7 @@ Begin VB.Form frmTESCompensaciones
          Height          =   255
          Index           =   0
          Left            =   120
-         TabIndex        =   10
+         TabIndex        =   12
          Top             =   180
          Width           =   975
       End
@@ -377,7 +377,7 @@ Begin VB.Form frmTESCompensaciones
          Height          =   255
          Index           =   1
          Left            =   6120
-         TabIndex        =   9
+         TabIndex        =   11
          Top             =   210
          Width           =   1095
       End
@@ -808,16 +808,27 @@ Dim NIF As String
                 PonFoco Text1(Index)
             Else
                 ' Añadida esta parte donde según el nif del cliente me voy a buscar las ctas de proveedor con el mismo nif
-                NIF = DevuelveDesdeBD("nifdatos", "cuentas", "codmacta", C, "T")
-                CadNif = ""
-                If NIF <> "" Then
-                    CadNif = NIF
-
-                    Text4.Tag = CuentasProveedorDelNif(NIF)
-                    If Text4.Tag <> "" Then
-                        CargarListView 1
+                
+                
+                
+                    NIF = DevuelveDesdeBD("nifdatos", "cuentas", "codmacta", C, "T")
+                    CadNif = ""
+                    If NIF <> "" Then
+                        C = ""
+                        If Text4.Tag <> "" Then C = "N"
+                        If C <> "" Then
+                            If MsgBox("Leer datos proveedores " & NIF & "?", vbQuestion + vbYesNo) = vbYes Then C = ""
+                        End If
+                        If C = "" Then
+                            CadNif = NIF
+        
+                            Text4.Tag = CuentasProveedorDelNif(NIF)
+                            If Text4.Tag <> "" Then
+                                CargarListView 1
+                            End If
+                        End If
                     End If
-                End If
+                
             End If
         End If
         'Cargamos el listview
@@ -1188,7 +1199,7 @@ Dim FrasPro As String
                         End If
                     End If
                     'codconce numdocum, ampconce , codmacta, timporteD,timporteH, ctacontr
-                    Sql = FP.condecli & ",'" & .Text & .SubItems(1) & "','"
+                    Sql = FP.condecli & ",'" & .Text & Format(.SubItems(1), "000000") & "','"
         
                     Sql = Sql & DevNombreSQL(Mid(Ampliacion, 1, 30)) & "','" & Text1(0).Text & "',"
 

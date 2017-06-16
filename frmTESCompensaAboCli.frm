@@ -249,10 +249,10 @@ Begin VB.Form frmTESCompensaAboCli
             Strikethrough   =   0   'False
          EndProperty
          Height          =   375
-         Left            =   10350
+         Left            =   10110
          TabIndex        =   2
          Top             =   6300
-         Width           =   975
+         Width           =   1215
       End
       Begin VB.CommandButton cmdCancelar 
          Caption         =   "&Cancelar"
@@ -267,10 +267,10 @@ Begin VB.Form frmTESCompensaAboCli
          EndProperty
          Height          =   375
          Index           =   0
-         Left            =   11550
+         Left            =   11430
          TabIndex        =   1
          Top             =   6300
-         Width           =   975
+         Width           =   1095
       End
       Begin MSAdodcLib.Adodc Data1 
          Height          =   330

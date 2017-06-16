@@ -1320,7 +1320,7 @@ Dim nomDocu As String
     Sql = "Empresas=""Empresas:"
     CONT = 1
     Do
-        If ListView1.ListItems(CONT).Checked Then Sql = Sql & """ + chr(13) + ""        " & ListView1.ListItems(CONT).Text
+        If ListView1.ListItems(CONT).Checked Then Sql = Sql & """ + chr(13) + ""        " & ListView1.ListItems(CONT).ListSubItems(1)
         CONT = CONT + 1
     Loop Until CONT > ListView1.ListItems.Count
     Sql = Sql & """|"
@@ -2116,7 +2116,10 @@ Dim Aux As String
     'Los encabezados
     ListView1.ColumnHeaders.Clear
 
-    ListView1.ColumnHeaders.Add , , "Empresa", 3800
+    ListView1.ColumnHeaders.Add , , "Código", 600
+    ListView1.ColumnHeaders.Add , , "Empresa", 3200
+    
+    
     
 
 
@@ -2135,7 +2138,8 @@ Dim Aux As String
             Set IT = ListView1.ListItems.Add
             IT.Key = "C" & Rs!codempre
             If vEmpresa.codempre = Rs!codempre Then IT.Checked = True
-            IT.Text = Rs!nomempre
+            IT.Text = Rs!codempre
+            IT.SubItems(1) = Rs!nomempre
             IT.Tag = Rs!codempre
             IT.ToolTipText = Rs!CONTA
         End If

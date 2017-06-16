@@ -26,6 +26,129 @@ Begin VB.Form frmMensajes
    ScaleWidth      =   16440
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame FrameReclamaciones 
+      BorderStyle     =   0  'None
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   5535
+      Left            =   0
+      TabIndex        =   142
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   15915
+      Begin VB.CommandButton Command1 
+         Caption         =   "&Salir"
+         Height          =   375
+         Index           =   3
+         Left            =   8400
+         TabIndex        =   143
+         Top             =   4800
+         Width           =   1095
+      End
+      Begin MSComctlLib.ImageList ImageList3 
+         Left            =   1320
+         Top             =   5760
+         _ExtentX        =   1005
+         _ExtentY        =   1005
+         BackColor       =   -2147483643
+         ImageWidth      =   16
+         ImageHeight     =   16
+         MaskColor       =   12632256
+         _Version        =   393216
+         BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
+            NumListImages   =   3
+            BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "frmMensajes.frx":000C
+               Key             =   ""
+            EndProperty
+            BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "frmMensajes.frx":57FE
+               Key             =   ""
+            EndProperty
+            BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "frmMensajes.frx":6210
+               Key             =   ""
+            EndProperty
+         EndProperty
+      End
+      Begin MSComctlLib.ListView ListView9 
+         Height          =   3735
+         Left            =   180
+         TabIndex        =   144
+         Top             =   840
+         Width           =   9315
+         _ExtentX        =   16431
+         _ExtentY        =   6588
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   0   'False
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         SmallIcons      =   "ImageList1"
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483643
+         BorderStyle     =   1
+         Appearance      =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         NumItems        =   4
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Text            =   "Nivel"
+            Object.Width           =   2699
+         EndProperty
+         BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Alignment       =   1
+            SubItemIndex    =   1
+            Text            =   "Debe"
+            Object.Width           =   2999
+         EndProperty
+         BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Alignment       =   1
+            SubItemIndex    =   2
+            Text            =   "Haber"
+            Object.Width           =   2999
+         EndProperty
+         BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Alignment       =   1
+            SubItemIndex    =   3
+            Text            =   "Saldo"
+            Object.Width           =   2999
+         EndProperty
+      End
+      Begin VB.Label Label30 
+         Caption         =   "Label30"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   11.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   405
+         Left            =   210
+         TabIndex        =   145
+         Top             =   240
+         Width           =   9195
+      End
+   End
    Begin VB.Frame FrameAsientoLiquida 
       Height          =   6645
       Left            =   30
@@ -51,9 +174,9 @@ Begin VB.Form frmMensajes
       End
       Begin MSComctlLib.ListView ListView7 
          Height          =   4905
-         Left            =   225
+         Left            =   2760
          TabIndex        =   135
-         Top             =   1005
+         Top             =   840
          Width           =   12795
          _ExtentX        =   22569
          _ExtentY        =   8652
@@ -265,15 +388,15 @@ Begin VB.Form frmMensajes
          BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
             NumListImages   =   3
             BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":000C
+               Picture         =   "frmMensajes.frx":6662
                Key             =   ""
             EndProperty
             BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":57FE
+               Picture         =   "frmMensajes.frx":BE54
                Key             =   ""
             EndProperty
             BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":6210
+               Picture         =   "frmMensajes.frx":C866
                Key             =   ""
             EndProperty
          EndProperty
@@ -504,15 +627,15 @@ Begin VB.Form frmMensajes
          BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
             NumListImages   =   3
             BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":6662
+               Picture         =   "frmMensajes.frx":CCB8
                Key             =   ""
             EndProperty
             BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":BE54
+               Picture         =   "frmMensajes.frx":124AA
                Key             =   ""
             EndProperty
             BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":C866
+               Picture         =   "frmMensajes.frx":12EBC
                Key             =   ""
             EndProperty
          EndProperty
@@ -665,7 +788,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   2
          Left            =   6480
-         Picture         =   "frmMensajes.frx":CCB8
+         Picture         =   "frmMensajes.frx":1330E
          Top             =   330
          Width           =   240
       End
@@ -673,7 +796,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   3
          Left            =   6120
-         Picture         =   "frmMensajes.frx":CE02
+         Picture         =   "frmMensajes.frx":13458
          Top             =   330
          Width           =   240
       End
@@ -1219,7 +1342,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   5820
-         Picture         =   "frmMensajes.frx":CF4C
+         Picture         =   "frmMensajes.frx":135A2
          Top             =   1605
          Width           =   240
       End
@@ -1227,7 +1350,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   1
          Left            =   5820
-         Picture         =   "frmMensajes.frx":D94E
+         Picture         =   "frmMensajes.frx":13FA4
          Top             =   2070
          Width           =   240
       End
@@ -1377,7 +1500,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   4920
-         Picture         =   "frmMensajes.frx":E350
+         Picture         =   "frmMensajes.frx":149A6
          ToolTipText     =   "Quitar seleccion"
          Top             =   720
          Width           =   240
@@ -1386,7 +1509,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   1
          Left            =   4920
-         Picture         =   "frmMensajes.frx":E49A
+         Picture         =   "frmMensajes.frx":14AF0
          ToolTipText     =   "Todos"
          Top             =   1080
          Width           =   240
@@ -1698,129 +1821,6 @@ Begin VB.Form frmMensajes
          TabIndex        =   100
          Top             =   240
          Width           =   5295
-      End
-   End
-   Begin VB.Frame FrameReclamaciones 
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   5535
-      Left            =   0
-      TabIndex        =   142
-      Top             =   0
-      Visible         =   0   'False
-      Width           =   9795
-      Begin VB.CommandButton Command1 
-         Caption         =   "&Salir"
-         Height          =   375
-         Index           =   3
-         Left            =   8370
-         TabIndex        =   143
-         Top             =   4770
-         Width           =   1095
-      End
-      Begin MSComctlLib.ImageList ImageList3 
-         Left            =   1320
-         Top             =   5760
-         _ExtentX        =   1005
-         _ExtentY        =   1005
-         BackColor       =   -2147483643
-         ImageWidth      =   16
-         ImageHeight     =   16
-         MaskColor       =   12632256
-         _Version        =   393216
-         BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-            NumListImages   =   3
-            BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":E5E4
-               Key             =   ""
-            EndProperty
-            BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":13DD6
-               Key             =   ""
-            EndProperty
-            BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":147E8
-               Key             =   ""
-            EndProperty
-         EndProperty
-      End
-      Begin MSComctlLib.ListView ListView9 
-         Height          =   3735
-         Left            =   180
-         TabIndex        =   144
-         Top             =   840
-         Width           =   9315
-         _ExtentX        =   16431
-         _ExtentY        =   6588
-         View            =   3
-         LabelEdit       =   1
-         LabelWrap       =   -1  'True
-         HideSelection   =   0   'False
-         FullRowSelect   =   -1  'True
-         _Version        =   393217
-         SmallIcons      =   "ImageList1"
-         ForeColor       =   -2147483640
-         BackColor       =   -2147483643
-         BorderStyle     =   1
-         Appearance      =   1
-         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         NumItems        =   4
-         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Text            =   "Nivel"
-            Object.Width           =   2699
-         EndProperty
-         BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Alignment       =   1
-            SubItemIndex    =   1
-            Text            =   "Debe"
-            Object.Width           =   2999
-         EndProperty
-         BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Alignment       =   1
-            SubItemIndex    =   2
-            Text            =   "Haber"
-            Object.Width           =   2999
-         EndProperty
-         BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Alignment       =   1
-            SubItemIndex    =   3
-            Text            =   "Saldo"
-            Object.Width           =   2999
-         EndProperty
-      End
-      Begin VB.Label Label30 
-         Caption         =   "Label30"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   11.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   405
-         Left            =   210
-         TabIndex        =   145
-         Top             =   240
-         Width           =   9195
       End
    End
    Begin VB.Frame FrameTalPagPdtes 
@@ -3575,6 +3575,7 @@ Dim W As Integer, H As Integer
     Case 50 ' facturas de reclamaciones
         Me.Caption = "Facturas Reclamadas"
         Me.Label30.Caption = "Reclamación a " & RecuperaValor(Parametros, 2) & " de fecha " & RecuperaValor(Parametros, 3)
+        TamayoFrameReclama True
         Me.FrameReclamaciones.Visible = True
         W = Me.FrameReclamaciones.Width
         H = Me.FrameReclamaciones.Height + 300
@@ -3585,6 +3586,7 @@ Dim W As Integer, H As Integer
     Case 51 ' facturas de remesas
         FrameReclamaciones.top = 0
         FrameReclamaciones.Left = 0
+        TamayoFrameReclama False
         Me.Caption = "Facturas de Remesa"
         Me.Label30.Caption = "Remesa " & RecuperaValor(Parametros, 1) & " / " & RecuperaValor(Parametros, 2)
         Me.FrameReclamaciones.Visible = True
@@ -3615,6 +3617,7 @@ Dim W As Integer, H As Integer
     Case 55 ' facturas de transferencias de abonos
         Me.Caption = "Facturas de Transferencia de Abonos"
         Me.Label30.Caption = "Transferencia " & RecuperaValor(Parametros, 1) & " / " & RecuperaValor(Parametros, 2)
+        TamayoFrameReclama False
         Me.FrameReclamaciones.Visible = True
         W = Me.FrameReclamaciones.Width
         H = Me.FrameReclamaciones.Height + 300
@@ -3625,6 +3628,7 @@ Dim W As Integer, H As Integer
     Case 56 ' facturas de transferencias de pagos
         Me.Caption = "Facturas de Transferencia de Pagos"
         Me.Label30.Caption = "Transferencia " & RecuperaValor(Parametros, 1) & " / " & RecuperaValor(Parametros, 2)
+        TamayoFrameReclama False
         Me.FrameReclamaciones.Visible = True
         W = Me.FrameReclamaciones.Width
         H = Me.FrameReclamaciones.Height + 300
@@ -3635,6 +3639,7 @@ Dim W As Integer, H As Integer
     Case 57 ' facturas de compensaciones
         Me.Caption = "Facturas de Compensación Cliente"
         Me.Label30.Caption = "Compensación " & RecuperaValor(Parametros, 1) & " de " & RecuperaValor(Parametros, 2)
+        TamayoFrameReclama True
         Me.FrameReclamaciones.Visible = True
         W = Me.FrameReclamaciones.Width
         H = Me.FrameReclamaciones.Height + 300
@@ -3645,6 +3650,7 @@ Dim W As Integer, H As Integer
     Case 58 ' facturas de compensaciones proveedor
         Me.Caption = "Facturas de Compensación Proveedor"
         Me.Label30.Caption = "Compensación " & RecuperaValor(Parametros, 1) & " de " & RecuperaValor(Parametros, 2)
+        TamayoFrameReclama True
         Me.FrameReclamaciones.Visible = True
         W = Me.FrameReclamaciones.Width
         H = Me.FrameReclamaciones.Height + 300
@@ -3666,6 +3672,19 @@ Private Sub PonerFrameVisible(Fr As frame, ByRef H As Integer, ByRef W As Intege
     Fr.Visible = True
 End Sub
 
+
+
+
+
+Private Sub TamayoFrameReclama(Normal As Boolean)
+    If Normal Then
+        Me.FrameReclamaciones.Width = 9795
+    Else
+        Me.FrameReclamaciones.Width = 14915
+    End If
+    Me.ListView9.Width = Me.FrameReclamaciones.Width - 390
+    Me.Command1(3).Left = Me.FrameReclamaciones.Width - 1395
+End Sub
 
 Private Sub CargaValoresHco()
 'Lo que hace es dado el parametro scamos la cuenta, nomcuenta, saldos
@@ -3899,12 +3918,14 @@ Private Sub ListView9_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader
                 CampoOrden = "numorden"
             Case "Fecha Vto"
                 CampoOrden = "fecvenci"
+            Case "Nombre"
+                CampoOrden = "nomclien"
             Case "Importe"
                 CampoOrden = "importe"
         End Select
         
         CargarFacturasRemesas
-    Else
+    ElseIf Opcion = 50 Then
         Orden = Not Orden
         
         Select Case ColumnHeader
@@ -5127,9 +5148,11 @@ Dim Esta As Boolean
     
     ListView9.ColumnHeaders.Add , , "Serie", 800.2522
     ListView9.ColumnHeaders.Add , , "Factura", 1500.2522
+
     ListView9.ColumnHeaders.Add , , "Fecha", 1500.2522
-    ListView9.ColumnHeaders.Add , , "Vto", 700.2522
+    ListView9.ColumnHeaders.Add , , "Vto", 800.2522
     ListView9.ColumnHeaders.Add , , "Fecha Vto", 1500.2522
+    ListView9.ColumnHeaders.Add , , "Nombre", 5000.2522
     ListView9.ColumnHeaders.Add , , "Gastos", 1000.2522, 1
     ListView9.ColumnHeaders.Add , , "Importe", 2000.2522, 1
     ListView9.ColumnHeaders.Add , , "ID", 0, 1  'Oculto. Numserie|numfac
@@ -5139,7 +5162,7 @@ Dim Esta As Boolean
     Set rApu = New ADODB.Recordset
     Set Col = New Collection
     
-    cad = "select cobros.numserie, cobros.numfactu, cobros.fecfactu, cobros.numorden, cobros.fecvenci, cobros.gastos, cobros.impvenci  importe, ' ' devol"
+    cad = "select cobros.numserie, cobros.numfactu, cobros.fecfactu, cobros.numorden , cobros.fecvenci,nomclien , cobros.gastos, cobros.impvenci  importe, ' ' devol"
     cad = cad & " from cobros "
     cad = cad & " where (cobros.codrem = " & DBSet(RecuperaValor(Parametros, 1), "N") & " and cobros.anyorem = " & DBSet(RecuperaValor(Parametros, 2), "N") & ") "
     
@@ -5153,18 +5176,21 @@ Dim Esta As Boolean
     While Not Rs.EOF
         
         cad = Rs.Fields(0) & "|"
-        For J = 1 To 4
+        cad = cad & Format(Rs.Fields(1), "000000") & "|"
+        
+        For J = 2 To 5
             cad = cad & DBLet(Rs.Fields(J)) & "|"
         Next
         
         'gastos
-        cad = cad & DBLet(Rs.Fields(5), "N") & "|"
+        cad = cad & DBLet(Rs.Fields(6), "N") & "|"
         
         'importe
-        cad = cad & DBLet(Rs.Fields(6), "N") & "|"
+        cad = cad & DBLet(Rs.Fields(7), "N") & "|"
             
         
-        cad = cad & Rs.Fields(7) & "|"
+        cad = cad & Rs.Fields(8) & "|"
+        
         Col.Add cad
         Rs.MoveNext
     Wend
@@ -5173,7 +5199,7 @@ Dim Esta As Boolean
     
     
     
-    cad = " select hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden, cobros.fecvenci, hlinapu.gastodev, coalesce(hlinapu.timporteh,0) - coalesce(hlinapu.timported,0) importe, '*' devol"
+    cad = " select hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden, cobros.fecvenci, hlinapu.gastodev, coalesce(hlinapu.timporteh,0) - coalesce(hlinapu.timported,0) importe, '*' devol,hlinapu.codmacta"
     cad = cad & " from cobros inner join hlinapu on cobros.numserie = hlinapu.numserie and cobros.numfactu = hlinapu.numfaccl and cobros.fecfactu = hlinapu.fecfactu and cobros.numorden = hlinapu.numorden "
     cad = cad & " where (hlinapu.codrem = " & DBSet(RecuperaValor(Parametros, 1), "N") & " and hlinapu.anyorem = " & DBSet(RecuperaValor(Parametros, 2), "N") & " and hlinapu.esdevolucion = 0) "
     cad = cad & " ORDER BY 1,2,3,4"   'numserie, cobros.numfactu, cobros.fecfactu, cobros.numorden
@@ -5210,6 +5236,7 @@ Dim Esta As Boolean
                 cad = cad & DBLet(rApu.Fields(J)) & "|"
             Next
             
+            cad = cad & DevuelveDesdeBD("nommacta", "cuentas", "apudirec='S' AND codmacta", rApu!codmacta, "T") & "|"
             'gastos
             cad = cad & DBLet(rApu.Fields(5), "N") & "|"
             
@@ -5218,6 +5245,7 @@ Dim Esta As Boolean
                 
             
             cad = cad & rApu.Fields(7) & "|"
+            
             Col.Add cad
         End If
             
@@ -5238,31 +5266,33 @@ Dim Esta As Boolean
         For i = 1 To 4
             IT.SubItems(i) = RecuperaValor(cad, i + 1)
         Next
-        
+        IT.SubItems(5) = RecuperaValor(cad, 6)
                         
         'gastos
-        Sql = RecuperaValor(cad, 6)
-        If Sql <> 0 Then
-            IT.SubItems(5) = Format(CCur(Sql), "###,###,##0.00")
-        Else
-            IT.SubItems(5) = " "
-        End If
-        
-        'importe
         Sql = RecuperaValor(cad, 7)
         If Sql <> 0 Then
-            IT.SubItems(6) = Format(Sql, "###,###,##0.00")
+            IT.SubItems(6) = Format(CCur(Sql), "###,###,##0.00")
         Else
             IT.SubItems(6) = " "
         End If
         
+        'importe
+        Sql = RecuperaValor(cad, 8)
+        If Sql <> 0 Then
+            IT.SubItems(7) = Format(Sql, "###,###,##0.00")
+        Else
+            IT.SubItems(7) = " "
+        End If
+        
+        Sql = RecuperaValor(cad, 9)
+        If Sql = "*" Then IT.SmallIcon = 42
+        
+        
         'Para la ordenacion
         cad = IT.Text & Format(IT.SubItems(1), "000000")
-        IT.SubItems(7) = cad
+        IT.SubItems(8) = cad
         
-        'Siguiente
-        Sql = RecuperaValor(cad, 8)
-        If Sql = "*" Then IT.SmallIcon = 42
+        
         
         
         
@@ -5304,12 +5334,13 @@ Dim Pos As Long
     ListView9.ColumnHeaders.Add , , "Fecha", 1500.2522
     ListView9.ColumnHeaders.Add , , "Vto", 700.2522
     ListView9.ColumnHeaders.Add , , "Fecha Vto", 1500.2522
+    ListView9.ColumnHeaders.Add , , "Nombre", 5000.2522
     ListView9.ColumnHeaders.Add , , "Gastos", 1000.2522, 1
     ListView9.ColumnHeaders.Add , , "Importe", 2000.2522, 1
     
     Set Rs = New ADODB.Recordset
     
-    cad = "select cobros.numserie, cobros.numfactu, cobros.fecfactu, cobros.numorden, cobros.fecvenci, cobros.gastos, cobros.impvenci  importe "
+    cad = "select cobros.numserie, cobros.numfactu, cobros.fecfactu, cobros.numorden, cobros.fecvenci,cobros.nomclien, cobros.gastos, cobros.impvenci  importe "
     cad = cad & " from cobros "
     cad = cad & " where (cobros.transfer = " & DBSet(RecuperaValor(Parametros, 1), "N") & " and cobros.anyorem = " & DBSet(RecuperaValor(Parametros, 2), "N") & ") "
     
@@ -5329,19 +5360,20 @@ Dim Pos As Long
         IT.SubItems(2) = DBLet(Rs.Fields(2))
         IT.SubItems(3) = DBLet(Rs.Fields(3))
         IT.SubItems(4) = DBLet(Rs.Fields(4))
+        IT.SubItems(5) = DBLet(Rs.Fields(5))
         
         'gastos
-        If DBLet(Rs.Fields(5), "N") <> 0 Then
-            IT.SubItems(5) = Format(DBLet(Rs.Fields(5)), "###,###,##0.00")
-        Else
-            IT.SubItems(5) = " "
-        End If
-        
-        'importe
         If DBLet(Rs.Fields(6), "N") <> 0 Then
             IT.SubItems(6) = Format(DBLet(Rs.Fields(6)), "###,###,##0.00")
         Else
             IT.SubItems(6) = " "
+        End If
+        
+        'importe
+        If DBLet(Rs.Fields(7), "N") <> 0 Then
+            IT.SubItems(7) = Format(DBLet(Rs.Fields(7)), "###,###,##0.00")
+        Else
+            IT.SubItems(7) = " "
         End If
         
         
@@ -5382,12 +5414,13 @@ Dim Pos As Long
     ListView9.ColumnHeaders.Add , , "Fecha", 1350.2522
     ListView9.ColumnHeaders.Add , , "Vto", 700.2522
     ListView9.ColumnHeaders.Add , , "Proveedor", 1500.2522
+    ListView9.ColumnHeaders.Add , , "Nombre", 5000.2522
     ListView9.ColumnHeaders.Add , , "Fecha Vto", 1350.2522
     ListView9.ColumnHeaders.Add , , "Importe", 1800.2522, 1
     
     Set Rs = New ADODB.Recordset
     
-    cad = "select pagos.numserie, pagos.numfactu, pagos.fecfactu, pagos.numorden, pagos.codmacta, pagos.fecefect, pagos.impefect  importe "
+    cad = "select pagos.numserie, pagos.numfactu, pagos.fecfactu, pagos.numorden, pagos.codmacta,pagos.nomprove, pagos.fecefect, pagos.impefect  importe "
     cad = cad & " from pagos "
     cad = cad & " where (pagos.nrodocum = " & DBSet(RecuperaValor(Parametros, 1), "N") & " and pagos.anyodocum = " & DBSet(RecuperaValor(Parametros, 2), "N") & ") "
     
@@ -5408,12 +5441,14 @@ Dim Pos As Long
         IT.SubItems(3) = DBLet(Rs.Fields(3))
         IT.SubItems(4) = DBLet(Rs.Fields(4))
         IT.SubItems(5) = DBLet(Rs.Fields(5))
+        IT.SubItems(6) = DBLet(Rs.Fields(6))
+        
         
         'importe
-        If DBLet(Rs.Fields(6), "N") <> 0 Then
-            IT.SubItems(6) = Format(DBLet(Rs.Fields(6)), "###,###,##0.00")
+        If DBLet(Rs.Fields(7), "N") <> 0 Then
+            IT.SubItems(7) = Format(DBLet(Rs.Fields(7)), "###,###,##0.00")
         Else
-            IT.SubItems(6) = " "
+            IT.SubItems(7) = " "
         End If
         
         Rs.MoveNext
@@ -5541,7 +5576,7 @@ Dim Pagos As Boolean
             'COBROS
             If DBLet(Rs!ImpVenci, "N") <> 0 Then IT.SubItems(4) = Format(DBLet(Rs!ImpVenci), "###,###,##0.00")
         Else
-            If DBLet(Rs!impefect, "N") <> 0 Then IT.SubItems(4) = Format(DBLet(Rs!impefect), "###,###,##0.00")
+            If DBLet(Rs!ImpEfect, "N") <> 0 Then IT.SubItems(4) = Format(DBLet(Rs!ImpEfect), "###,###,##0.00")
         End If
         
         'importe cobrado

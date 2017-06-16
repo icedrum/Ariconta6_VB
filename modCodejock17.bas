@@ -905,9 +905,12 @@ Public Const ID_Modelo349 = 411
 Public Const ID_LiquidacionIVA = 412
 Public Const ID_FrasConso = 413
 
+
 'Asegurados
 Public Const ID_AseguClientes = 414
 Public Const ID_AseguComunicaSeguro = 415
+'SII
+Public Const ID_SII = 416
 
 
 

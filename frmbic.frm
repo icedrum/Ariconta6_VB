@@ -204,7 +204,7 @@ Begin VB.Form frmbic
       Height          =   350
       Index           =   1
       Left            =   900
-      MaxLength       =   30
+      MaxLength       =   150
       TabIndex        =   1
       Tag             =   "Nombre|T|N|||bics|nombre|||"
       Text            =   "Dato2"
@@ -548,9 +548,9 @@ Private Sub BotonAnyadir()
     End If
    
     If DataGrid1.Row < 0 Then
-        anc = DataGrid1.Top + 270
+        anc = DataGrid1.top + 270
     Else
-        anc = DataGrid1.RowTop(DataGrid1.Row) + DataGrid1.Top
+        anc = DataGrid1.RowTop(DataGrid1.Row) + DataGrid1.top
     End If
     
     txtAux(0).Text = "": txtAux(1).Text = "": txtAux(2).Text = ""
@@ -576,7 +576,7 @@ Private Sub BotonBuscar()
     txtAux(1).Text = ""
     txtAux(2).Text = ""
     
-    LLamaLineas DataGrid1.Top + 250, 1
+    LLamaLineas DataGrid1.top + 250, 1
     
     PonFoco txtAux(0)
     
@@ -587,7 +587,7 @@ Private Sub BotonModificar()
     '---------
     'MODIFICAR
     '----------
-    Dim cad As String
+    Dim Cad As String
     Dim anc As Single
     Dim I As Integer
     If Adodc1.Recordset.EOF Then Exit Sub
@@ -605,7 +605,7 @@ Private Sub BotonModificar()
     If DataGrid1.Row < 0 Then
         anc = 320
         Else
-        anc = DataGrid1.RowTop(DataGrid1.Row) + DataGrid1.Top
+        anc = DataGrid1.RowTop(DataGrid1.Row) + DataGrid1.top
     End If
 
     'Llamamos al form
@@ -624,27 +624,27 @@ End Sub
 Private Sub LLamaLineas(alto As Single, xModo As Byte)
     PonerModo xModo
     'Fijamos el ancho
-    txtAux(0).Top = alto
-    txtAux(1).Top = alto
-    txtAux(2).Top = alto
+    txtAux(0).top = alto
+    txtAux(1).top = alto
+    txtAux(2).top = alto
 End Sub
 
 Private Sub BotonEliminar()
-Dim SQL As String
+Dim Sql As String
     On Error GoTo Error2
     'Ciertas comprobaciones
     If Adodc1.Recordset.EOF Then Exit Sub
     
     If Not SepuedeBorrar Then Exit Sub
     '### a mano
-    SQL = "Seguro que desea eliminar el BIC del banco:"
-    SQL = SQL & vbCrLf & "Código: " & Adodc1.Recordset.Fields(0)
-    SQL = SQL & vbCrLf & "Nombre: " & Adodc1.Recordset.Fields(1)
-    If MsgBox(SQL, vbQuestion + vbYesNoCancel) = vbYes Then
+    Sql = "Seguro que desea eliminar el BIC del banco:"
+    Sql = Sql & vbCrLf & "Código: " & Adodc1.Recordset.Fields(0)
+    Sql = Sql & vbCrLf & "Nombre: " & Adodc1.Recordset.Fields(1)
+    If MsgBox(Sql, vbQuestion + vbYesNoCancel) = vbYes Then
     
         'Hay que eliminar
-        SQL = "Delete from bics where entidad=" & Adodc1.Recordset!Entidad
-        Conn.Execute SQL
+        Sql = "Delete from bics where entidad=" & Adodc1.Recordset!Entidad
+        Conn.Execute Sql
         CargaGrid ""
         Adodc1.Recordset.Cancel
     End If
@@ -711,16 +711,16 @@ Private Sub cmdCancelar_Click()
 End Sub
 
 Private Sub cmdRegresar_Click()
-    Dim cad As String
+    Dim Cad As String
     
     If Adodc1.Recordset.EOF Then
         MsgBox "Ningún registro a devolver.", vbExclamation
         Exit Sub
     End If
     
-    cad = Adodc1.Recordset.Fields(0) & "|"
-    cad = cad & Adodc1.Recordset.Fields(1) & "|"
-    RaiseEvent DatoSeleccionado(cad)
+    Cad = Adodc1.Recordset.Fields(0) & "|"
+    Cad = Cad & Adodc1.Recordset.Fields(1) & "|"
+    RaiseEvent DatoSeleccionado(Cad)
     Unload Me
 End Sub
 
@@ -743,13 +743,13 @@ End Sub
 
 Private Sub Form_Load()
 
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
 
     ' Botonera Principal
     With Me.Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.imgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 3
         .Buttons(2).Image = 4
         .Buttons(3).Image = 5
@@ -760,9 +760,9 @@ Private Sub Form_Load()
 
     ' desplazamiento
     With Me.Toolbar2
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.imgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 6
         .Buttons(2).Image = 7
         .Buttons(3).Image = 8
@@ -771,7 +771,7 @@ Private Sub Form_Load()
     
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
     
@@ -850,19 +850,19 @@ Private Sub DespalzamientoVisible(bol As Boolean)
     FrameDesplazamiento.Enabled = bol
 End Sub
 
-Private Sub CargaGrid(Optional SQL As String)
+Private Sub CargaGrid(Optional Sql As String)
     Dim J As Integer
     Dim TotalAncho As Integer
     Dim I As Integer
     
     Adodc1.ConnectionString = Conn
-    If SQL <> "" Then
-        SQL = CadenaConsulta & " WHERE " & SQL
+    If Sql <> "" Then
+        Sql = CadenaConsulta & " WHERE " & Sql
     Else
-        SQL = CadenaConsulta
+        Sql = CadenaConsulta
     End If
-    SQL = SQL & " ORDER BY entidad"
-    Adodc1.RecordSource = SQL
+    Sql = Sql & " ORDER BY entidad"
+    Adodc1.RecordSource = Sql
     Adodc1.CursorType = adOpenDynamic
     Adodc1.LockType = adLockOptimistic
     Adodc1.Refresh
@@ -910,7 +910,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -1015,30 +1015,30 @@ Private Sub DataGrid1_LostFocus()
 End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
-Dim RS As ADODB.Recordset
-Dim cad As String
+Dim Rs As ADODB.Recordset
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
-    Set RS = New ADODB.Recordset
-    RS.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Set Rs = New ADODB.Recordset
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
-    If Not RS.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(RS!creareliminar, "N") And (Modo = 0 Or Modo = 2)
-        Toolbar1.Buttons(2).Enabled = DBLet(RS!Modificar, "N") And (Modo = 0 Or Modo = 2)
-        Toolbar1.Buttons(3).Enabled = DBLet(RS!creareliminar, "N") And (Modo = 0 Or Modo = 2)
+    If Not Rs.EOF Then
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
         
-        Toolbar1.Buttons(5).Enabled = DBLet(RS!Ver, "N") And (Modo = 0 Or Modo = 2)
-        Toolbar1.Buttons(6).Enabled = DBLet(RS!Ver, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(5).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
         
-        Toolbar1.Buttons(8).Enabled = DBLet(RS!Imprimir, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 0 Or Modo = 2)
     End If
     
-    RS.Close
-    Set RS = Nothing
+    Rs.Close
+    Set Rs = Nothing
     
 End Sub
 

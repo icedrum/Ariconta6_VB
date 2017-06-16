@@ -123,12 +123,22 @@ Private mvarconce303 As Integer 'copia local
 
 Private SQL As String  'Para la sentencia
 Private Mens As String    'Para los mensajes
-Private RS As Recordset
+Private Rs As Recordset
 Private RC As Byte
 
 
 Private mvarEsMultiseccion As Boolean
 Private mvarContabApteIva0 As Boolean
+
+
+
+
+
+Private mvarTieneSII As Boolean
+Private mvarFechaInicioSII As Date
+Private mvarDiasAvisoSII As Integer
+
+
 
 
 
@@ -751,9 +761,6 @@ Public Property Let perfactu(ByVal vData As Integer)
 End Property
 
 Public Property Get perfactu() As Integer
-'se usa cuando se asigna un valor a la propiedad, en el
-'lado derecho de la asignacion
-'Syntax: Debug.Print X.perfactu
      perfactu = mvarperfactu
 End Property
 
@@ -1050,6 +1057,18 @@ Public Property Get conce303() As Integer
 End Property
 
 
+
+Public Property Get SIITiene() As Boolean
+     SIITiene = mvarTieneSII
+End Property
+Public Property Get SIIFechaInicio() As Date
+     SIIFechaInicio = mvarFechaInicioSII
+End Property
+Public Property Get SIIDiasAviso() As Integer
+     SIIDiasAviso = mvarDiasAvisoSII
+End Property
+
+
 '------------------------------------------------
 'FUNCIONES del modulo Cparametros
 '------------------------------------------------
@@ -1154,71 +1173,75 @@ End Property
 Public Function Leer() As Byte
     On Error GoTo Err3
     SQL = "SELECT * FROM parametros"
-    Set RS = New ADODB.Recordset
-    RS.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic
-    If RS.EOF Then
+    Set Rs = New ADODB.Recordset
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic
+    If Rs.EOF Then
         Leer = 1
         'ELSE
         Else
-            mvarfechaini = RS!fechaini
-            mvarfechafin = RS!fechafin
-            mvarautocoste = RS!autocoste
-            mvaremitedia = RS!emitedia
-            mvarlistahco = RS!listahco
-            mvarnumdiapr = RS!numdiapr
-            mvarconcefpr = DBLet(RS!concefpr, "N")
-            mvarconceapr = DBLet(RS!conceapr, "N")
-            mvarnumdiacl = DBLet(RS!numdiacl, "N")
-            mvarconcefcl = DBLet(RS!concefcl, "N")
-            mvarconceacl = DBLet(RS!conceacl, "N")
-            mvarlimimpcl = RS!limimpcl
+            mvarfechaini = Rs!fechaini
+            mvarfechafin = Rs!fechafin
+            mvarautocoste = Rs!autocoste
+            mvaremitedia = Rs!emitedia
+            mvarlistahco = Rs!listahco
+            mvarnumdiapr = Rs!numdiapr
+            mvarconcefpr = DBLet(Rs!concefpr, "N")
+            mvarconceapr = DBLet(Rs!conceapr, "N")
+            mvarnumdiacl = DBLet(Rs!numdiacl, "N")
+            mvarconcefcl = DBLet(Rs!concefcl, "N")
+            mvarconceacl = DBLet(Rs!conceacl, "N")
+            mvarlimimpcl = Rs!limimpcl
             'mvarconpresu = RS!conpresu
-            mvarperiodos = RS!periodos
-            mvargrupogto = DBLet(RS!grupogto)
-            mvargrupovta = DBLet(RS!grupovta)
-            mvarctaperga = DBLet(RS!ctaperga)
-            mvarabononeg = RS!abononeg
-            mvargrupoord = DBLet(RS!grupoord)
-            mvartinumfac = RS!tinumfac
-            mvarmodhcofa = RS!modhcofa
-            mvaranofactu = RS!anofactu
-            mvarperfactu = RS!perfactu
-            mvarnctafact = RS!nctafact
-            mvarAsienActAuto = RS!AsienActAuto
-            mvarCodiNume = RS!CodiNume
+            mvarperiodos = Rs!periodos
+            mvargrupogto = DBLet(Rs!grupogto)
+            mvargrupovta = DBLet(Rs!grupovta)
+            mvarctaperga = DBLet(Rs!ctaperga)
+            mvarabononeg = Rs!abononeg
+            mvargrupoord = DBLet(Rs!grupoord)
+            mvartinumfac = Rs!tinumfac
+            mvarmodhcofa = Rs!modhcofa
+            mvaranofactu = Rs!anofactu
+            mvarperfactu = Rs!perfactu
+            mvarnctafact = Rs!nctafact
+            mvarAsienActAuto = Rs!AsienActAuto
+            mvarCodiNume = Rs!CodiNume
             
             'Modificacion del 28 de Octubre de 2003
-            mvarContabilizaFactura = DBLet(RS!ContabilizaFact, "N")
+            mvarContabilizaFactura = DBLet(Rs!ContabilizaFact, "N")
             
-            mvarConstructoras = (RS!Constructoras = 1)
-            
-            '++
-            mvarPathAyuda = DBLet(RS!PathAyuda, "T")
-            mvarFecEjerAct = DBLet(RS!FecEjerAct, "N")
-            mvarNroAriges = DBLet(RS!NroAriges, "N")
-            
-            mvarWebSoporte = DBLet(RS!WebSoporte, "T")
-            mvarMailSoporte = DBLet(RS!MailSoporte, "T")
+            mvarConstructoras = (Rs!Constructoras = 1)
             
             '++
-            mvarctahpdeudor = DBLet(RS!CtaHPDeudor, "T")
-            mvarctahpacreedor = DBLet(RS!CtaHPAcreedor, "T")
-            mvarnumdia303 = DBLet(RS!diario303, "N")
-            mvarconce303 = DBLet(RS!conce303, "N")
+            mvarPathAyuda = DBLet(Rs!PathAyuda, "T")
+            mvarFecEjerAct = DBLet(Rs!FecEjerAct, "N")
+            mvarNroAriges = DBLet(Rs!NroAriges, "N")
+            
+            mvarWebSoporte = DBLet(Rs!WebSoporte, "T")
+            mvarMailSoporte = DBLet(Rs!MailSoporte, "T")
+            
+            '++
+            mvarctahpdeudor = DBLet(Rs!CtaHPDeudor, "T")
+            mvarctahpacreedor = DBLet(Rs!CtaHPAcreedor, "T")
+            mvarnumdia303 = DBLet(Rs!diario303, "N")
+            mvarconce303 = DBLet(Rs!conce303, "N")
             
             ParametrosNuevos
+
+            mvarTieneSII = False
+            LeerDatosSII
+
 
             If ASignarConceptosFacturas Then Leer = 0
     End If
 
-    RS.Close
+    Rs.Close
     
     
                     'Para que lea si hay bloqueo de cuentas
     If Leer = 0 Then ObtenerCuentasBloqueadas
     
     
-    Set RS = Nothing
+    Set Rs = Nothing
     Exit Function
 
 Err3:
@@ -1227,7 +1250,7 @@ Err3:
     Mens = Mens & "Descripción: " & Err.Description
     MsgBox Mens, vbExclamation
     On Error Resume Next
-    CerrarRs RS
+    CerrarRs Rs
     Leer = 1
     Err.Clear
 End Function
@@ -1254,53 +1277,53 @@ Dim Nuevos As String
             
             On Error Resume Next
             
-            mvarCCenFacturas = DBLet(RS!CCenFacturas, "B")
+            mvarCCenFacturas = DBLet(Rs!CCenFacturas, "B")
             If Err.Number <> 0 Then AgregarMsg Nuevos, "CCenFacturas"
             
-            mvarSubgrupo1 = DBLet(RS!Subgrupo1, "T")
+            mvarSubgrupo1 = DBLet(Rs!Subgrupo1, "T")
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Subgrupo1"
             
-            mvarSubgrupo2 = DBLet(RS!Subgrupo2, "T")
+            mvarSubgrupo2 = DBLet(Rs!Subgrupo2, "T")
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Subgrupo2"
             
-            If Not IsNull(RS!FechaActiva) Then mvarFechaActiva = RS!FechaActiva
+            If Not IsNull(Rs!FechaActiva) Then mvarFechaActiva = Rs!FechaActiva
             If Err.Number <> 0 Then AgregarMsg Nuevos, "FechaActiva"
             
             
-            mvarEnlazaCtasMultibase = DBLet(RS!enlaza_cta, "T")
+            mvarEnlazaCtasMultibase = DBLet(Rs!enlaza_cta, "T")
             If Err.Number <> 0 Then AgregarMsg Nuevos, "enlaza_cta"
             
-            mvarAgenciaViajes = (DBLet(RS!AgenciaViajes, "N") = 1)
+            mvarAgenciaViajes = (DBLet(Rs!AgenciaViajes, "N") = 1)
             If Err.Number <> 0 Then AgregarMsg Nuevos, "AgenciaViajes"
             
-            mvarNuevoPlanContable = (DBLet(RS!NuevaPlan, "N") = 1)
+            mvarNuevoPlanContable = (DBLet(Rs!NuevaPlan, "N") = 1)
             If Err.Number <> 0 Then AgregarMsg Nuevos, "NuevaPlan"
             
-            mvarAutomocion = DBLet(RS!Automocion, "T")
+            mvarAutomocion = DBLet(Rs!Automocion, "T")
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Automocion"
             
             
             
-            mvarTicketsEn340LetraSerie = (DBLet(RS!TicketsEn340LetraSerie, "N") = 1)
+            mvarTicketsEn340LetraSerie = (DBLet(Rs!TicketsEn340LetraSerie, "N") = 1)
             If Err.Number <> 0 Then AgregarMsg Nuevos, "TicketsEn340LetraSerie"
             
-            mvarPresentacion349Mensual = (DBLet(RS!Presentacion349Mensual, "N") = 1)
+            mvarPresentacion349Mensual = (DBLet(Rs!Presentacion349Mensual, "N") = 1)
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Presentacion349Mensual"
             
             
-            mvarEnviarPorOutlook = (DBLet(RS!EnvioDesdeOutlook, "N") = 1)
+            mvarEnviarPorOutlook = (DBLet(Rs!EnvioDesdeOutlook, "N") = 1)
             If Err.Number <> 0 Then AgregarMsg Nuevos, "EnvioDesdeOutlook"
             
-            mvarGranEmpresa = (DBLet(RS!GranEmpresa, "N") = 1)
+            mvarGranEmpresa = (DBLet(Rs!GranEmpresa, "N") = 1)
             If Err.Number <> 0 Then AgregarMsg Nuevos, "GranEmpresa"
             
-            mvarTraspasCtasBanco = DBLet(RS!TraspasCtasBanco, "N")
+            mvarTraspasCtasBanco = DBLet(Rs!TraspasCtasBanco, "N")
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Trapaso bancos entre secciones"
             
-            mvarEsMultiseccion = (DBLet(RS!EsMultiseccion, "N") = 1)
+            mvarEsMultiseccion = (DBLet(Rs!EsMultiseccion, "N") = 1)
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Multisección"
             
-            mvarContabApteIva0 = (DBLet(RS!ContabApteIva0, "N") = 1)
+            mvarContabApteIva0 = (DBLet(Rs!ContabApteIva0, "N") = 1)
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Contabilizacion Apte Iva 0"
             
             
@@ -1373,19 +1396,52 @@ Public Sub ObtenerCuentasBloqueadas()
     On Error GoTo EmvarCuentasBloqueadas
     
     mvarCuentasBloqueadas = ""
-    Set RS = Nothing
-    Set RS = New ADODB.Recordset
+    Set Rs = Nothing
+    Set Rs = New ADODB.Recordset
     SQL = "Select codmacta,fecbloq from cuentas where apudirec = 'S' and not (fecbloq is null)"
     
-    RS.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    While Not RS.EOF
-        mvarCuentasBloqueadas = mvarCuentasBloqueadas & RS!codmacta & ":" & RS!FecBloq & "|"
-        RS.MoveNext
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    While Not Rs.EOF
+        mvarCuentasBloqueadas = mvarCuentasBloqueadas & Rs!codmacta & ":" & Rs!FecBloq & "|"
+        Rs.MoveNext
     Wend
-    RS.Close
+    Rs.Close
     
 EmvarCuentasBloqueadas:
     If Err.Number <> 0 Then MuestraError Err.Number, "Obtener CuentasBloqueadas"
 
 
 End Sub
+
+
+
+Private Sub LeerDatosSII()
+
+On Error GoTo eLeerDatosSII
+
+    mvarTieneSII = False
+    
+    
+
+    If Not IsNull(Rs!SIIFechaInicio) Then
+        mvarFechaInicioSII = Rs!SIIFechaInicio
+        mvarDiasAvisoSII = Rs!SIIDiasAviso
+        mvarTieneSII = True
+    
+    End If
+    
+    
+    
+    
+    
+    
+
+
+    Exit Sub
+eLeerDatosSII:
+    mvarTieneSII = False
+    Conn.Errors.Clear
+    Err.Clear
+End Sub
+
+

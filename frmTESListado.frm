@@ -130,7 +130,7 @@ Begin VB.Form frmTESListado
          Top             =   1440
          Width           =   4245
       End
-      Begin VB.TextBox txtConcpto 
+      Begin VB.TextBox txtConcepto 
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -223,7 +223,7 @@ Begin VB.Form frmTESListado
          Top             =   3960
          Width           =   4785
       End
-      Begin VB.TextBox txtConcpto 
+      Begin VB.TextBox txtConcepto 
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -398,12 +398,12 @@ Begin VB.Form frmTESListado
          Width           =   765
       End
       Begin VB.Image imgConcepto 
-         Height          =   240
+         Height          =   480
          Index           =   1
          Left            =   2040
          Picture         =   "frmTESListado.frx":000C
          Top             =   4440
-         Width           =   240
+         Width           =   480
       End
       Begin VB.Label Label4 
          AutoSize        =   -1  'True
@@ -426,20 +426,20 @@ Begin VB.Form frmTESListado
          Width           =   1050
       End
       Begin VB.Image imgConcepto 
-         Height          =   240
+         Height          =   480
          Index           =   0
          Left            =   2040
          Picture         =   "frmTESListado.frx":685E
          Top             =   3960
-         Width           =   240
+         Width           =   480
       End
       Begin VB.Image imgDiario 
-         Height          =   240
+         Height          =   480
          Index           =   0
          Left            =   2040
          Picture         =   "frmTESListado.frx":D0B0
          Top             =   3240
-         Width           =   240
+         Width           =   480
       End
       Begin VB.Label Label4 
          AutoSize        =   -1  'True
@@ -847,12 +847,12 @@ Begin VB.Form frmTESListado
          Width           =   6990
       End
       Begin VB.Image imgDiario 
-         Height          =   240
+         Height          =   480
          Index           =   1
          Left            =   1890
          Picture         =   "frmTESListado.frx":13902
          Top             =   960
-         Width           =   240
+         Width           =   480
       End
       Begin VB.Label Label4 
          AutoSize        =   -1  'True
@@ -913,12 +913,12 @@ Begin VB.Form frmTESListado
          Width           =   1050
       End
       Begin VB.Image imgConcepto 
-         Height          =   240
+         Height          =   480
          Index           =   2
          Left            =   1890
          Picture         =   "frmTESListado.frx":1A154
          Top             =   1680
-         Width           =   240
+         Width           =   480
       End
       Begin VB.Label Label6 
          Caption         =   "Haber"
@@ -939,12 +939,12 @@ Begin VB.Form frmTESListado
          Width           =   795
       End
       Begin VB.Image imgConcepto 
-         Height          =   240
+         Height          =   480
          Index           =   3
          Left            =   1890
          Picture         =   "frmTESListado.frx":209A6
          Top             =   2160
-         Width           =   240
+         Width           =   480
       End
       Begin VB.Label Label4 
          AutoSize        =   -1  'True
@@ -1121,7 +1121,7 @@ Dim RC As String
 Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
-Dim Cad As String
+Dim cad As String
 Dim CONT As Long
 Dim i As Integer
 Dim TotalRegistros As Long
@@ -1180,8 +1180,8 @@ End Sub
 Private Sub cmdContabCompensaciones_Click()
 
     'COmprobaciones y leches
-    If Me.txtConcpto(0).Text = "" Or txtDiario(0).Text = "" Or Text3(23).Text = "" Or _
-        Me.txtConcpto(1).Text = "" Then
+    If Me.txtConcepto(0).Text = "" Or txtDiario(0).Text = "" Or Text3(23).Text = "" Or _
+        Me.txtConcepto(1).Text = "" Then
         MsgBox "Todos los campos de contabilizacion  son obligatorios", vbExclamation
         Exit Sub
     End If
@@ -1216,7 +1216,7 @@ Private Sub cmdContabCompensaciones_Click()
     End If
 
     'Cargamos la cadena y cerramos
-    CadenaDesdeOtroForm = Me.txtConcpto(0).Text & "|" & Me.txtConcpto(1).Text & "|" & txtDiario(0).Text & "|" & Text3(23).Text & "|" & Me.txtCtaBanc(2).Text & "|" & DevNombreSQL(txtDescBanc(2).Text) & "|"
+    CadenaDesdeOtroForm = Me.txtConcepto(0).Text & "|" & Me.txtConcepto(1).Text & "|" & txtDiario(0).Text & "|" & Text3(23).Text & "|" & Me.txtCtaBanc(2).Text & "|" & DevNombreSQL(txtDescBanc(2).Text) & "|"
     CadenaDesdeOtroForm = CadenaDesdeOtroForm & Me.txtFPago(8).Text & "|" & Me.cboCompensaVto.ItemData(Me.cboCompensaVto.ListIndex) & "|"
     CadenaDesdeOtroForm = CadenaDesdeOtroForm & Me.chkCompensa.Value & "|"
     Unload Me
@@ -1335,7 +1335,7 @@ Dim Img As Image
         
         For H = 0 To 1
             
-            txtConcpto(H).Text = RecuperaValor(CadenaDesdeOtroForm, (H * 2) + 1)
+            txtConcepto(H).Text = RecuperaValor(CadenaDesdeOtroForm, (H * 2) + 1)
             txtDescConcepto(H).Text = RecuperaValor(CadenaDesdeOtroForm, (H * 2) + 2)
         Next H
         Me.cboCompensaVto.Clear
@@ -1548,6 +1548,10 @@ Private Sub frmC_Selec(vFecha As Date)
     Text3(CInt(RC)).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
+Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
+    Sql = CadenaSeleccion
+End Sub
+
 Private Sub frmP_DatoSeleccionado(CadenaSeleccion As String)
     Me.txtFPago(RC).Text = RecuperaValor(CadenaSeleccion, 1)
     Me.txtDescFPago(RC).Text = RecuperaValor(CadenaSeleccion, 2)
@@ -1611,7 +1615,7 @@ Private Sub imgConcepto_Click(Index As Integer)
     Set frmCon = Nothing
     If Sql <> "" Then
         Me.txtConcepto(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtNConcepto(Index).Text = RecuperaValor(Sql, 2)
+        Me.txtDescConcepto(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtConcepto(Index)
     End If
@@ -1668,7 +1672,7 @@ End Sub
 
 
 Private Sub txtCCost_GotFocus(Index As Integer)
-    PonFoco txtConcpto(Index)
+    PonFoco txtConcepto(Index)
 End Sub
 
 Private Sub txtCCost_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -1681,7 +1685,7 @@ Private Sub txtCCost_LostFocus(Index As Integer)
     If txtCCost(Index).Text <> "" Then
         
 
-            txtConcpto(Index).Text = Val(txtConcpto(Index).Text)
+            'txtConcpto(Index).Text = Val(txtConcepto(Index).Text)
             Sql = DevuelveDesdeBD("nomccost", "ccoste", "codccost", txtCCost(Index).Text, "T")
             If Sql = "" Then
                 MsgBox "No existe el centro de coste: " & Me.txtCCost(Index).Text, vbExclamation
@@ -1712,21 +1716,35 @@ Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
     
 End Sub
 
-Private Sub txtConcepto_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Private Sub txtConcepto_KeyPress(Index As Integer, KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
 
+Private Sub txtConcepto_LostFocus(Index As Integer)
+Dim cad As String
     txtConcepto(Index).Text = Trim(txtConcepto(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
 '    If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
-    Select Case Index
-        Case 2, 3 'CONCEPTOS
-            txtNConcepto(Index).Text = DevuelveDesdeBD("nomconce", "conceptos", "codconce", txtConcepto(Index), "N")
-            If txtConcepto(Index).Text <> "" Then txtConcepto(Index).Text = Format(txtConcepto(Index).Text, "000")
-    End Select
-
+            cad = ""
+            If txtConcepto(Index).Text <> "" Then
+                If PonerFormatoEntero(txtConcepto(Index)) Then
+                    cad = DevuelveDesdeBD("nomconce", "conceptos", "codconce", txtConcepto(Index), "N")
+                    If cad = "" Then
+                        MsgBox "No existe el concepto", vbExclamation
+                    Else
+                        txtConcepto(Index).Text = Format(txtConcepto(Index).Text, "000")
+                    End If
+                
+                End If
+                If cad = "" Then
+                    txtConcepto(Index).Text = ""
+                    PonFoco txtConcepto(Index)
+                End If
+            End If
+            Me.txtDescConcepto(Index).Text = cad
 End Sub
 
 Private Sub txtDiario_GotFocus(Index As Integer)
@@ -1795,22 +1813,22 @@ Private Sub txtCtaBanc_LostFocus(Index As Integer)
         Exit Sub
     End If
     
-    Cad = txtCtaBanc(Index).Text
-    i = CuentaCorrectaUltimoNivelSIN(Cad, Sql)
+    cad = txtCtaBanc(Index).Text
+    i = CuentaCorrectaUltimoNivelSIN(cad, Sql)
     If i = 0 Then
         MsgBox "NO existe la cuenta: " & txtCtaBanc(Index).Text, vbExclamation
         Sql = ""
-        Cad = ""
+        cad = ""
     Else
-        Cad = DevuelveDesdeBD("codmacta", "bancos", "codmacta", Cad, "T")
-        If Cad = "" Then
+        cad = DevuelveDesdeBD("codmacta", "bancos", "codmacta", cad, "T")
+        If cad = "" Then
             MsgBox "Cuenta no asoaciada a ningun banco", vbExclamation
             Sql = ""
             i = 0
         End If
     End If
     
-    txtCtaBanc(Index).Text = Cad
+    txtCtaBanc(Index).Text = cad
     Me.txtDescBanc(Index).Text = Sql
     If i = 0 Then PonFoco txtCtaBanc(Index)
     
@@ -2039,5 +2057,6 @@ Dim B As Byte
     End Select
     txtCta(Index).Tag = txtCta(Index).Text
 End Sub
+
 
 
