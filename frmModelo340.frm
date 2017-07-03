@@ -1223,8 +1223,12 @@ Private Function CuardarComo340() As Boolean
     On Error GoTo ECopiarFichero347
     
     CuardarComo340 = False
+    
     cd1.CancelError = True
     cd1.InitDir = Mid(App.Path, 1, 3)
+    InicializaCD1
+    
+    
     cd1.ShowSave
         
     cad = App.Path & "\tmp340.dat"
@@ -1243,6 +1247,16 @@ ECopiarFichero347:
     
 End Function
 
+Private Sub InicializaCD1()
+On Error Resume Next
+    i = InStrRev(txtTipoSalida(1).Text, "\")
+    Msg = Mid(txtTipoSalida(1).Text, 1, i)
+    
+    cd1.InitDir = Msg
+    cd1.FileName = Mid(txtTipoSalida(1).Text, i + 1)
+    Err.Clear
+
+End Sub
 
 Private Sub InsertaLog340()
 Dim C2 As String

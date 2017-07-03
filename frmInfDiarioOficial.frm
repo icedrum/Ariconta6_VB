@@ -27,103 +27,13 @@ Begin VB.Form frmInfDiarioOficial
       EndProperty
       Height          =   5055
       Left            =   7110
-      TabIndex        =   12
+      TabIndex        =   33
       Top             =   0
       Width           =   4455
-      Begin VB.TextBox txtNumRes 
-         Alignment       =   1  'Right Justify
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   4
-         Left            =   1890
-         TabIndex        =   39
-         Top             =   2760
-         Width           =   1455
-      End
-      Begin VB.TextBox txtNumRes 
-         Alignment       =   1  'Right Justify
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   3
-         Left            =   1890
-         TabIndex        =   38
-         Top             =   2250
-         Width           =   1455
-      End
-      Begin VB.TextBox txtNumRes 
-         Alignment       =   1  'Right Justify
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   1
-         Left            =   1890
-         TabIndex        =   37
-         Top             =   1680
-         Width           =   1455
-      End
-      Begin VB.TextBox txtNumRes 
-         Alignment       =   1  'Right Justify
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   0
-         Left            =   1890
-         TabIndex        =   36
-         Top             =   1170
-         Width           =   1455
-      End
-      Begin VB.TextBox txtFecha 
-         Alignment       =   2  'Center
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   7
-         Left            =   1890
-         TabIndex        =   32
-         Top             =   690
-         Width           =   1485
-      End
-      Begin VB.Frame Frame2 
+      Begin VB.Frame FrameDigitos 
          Height          =   1815
          Left            =   120
-         TabIndex        =   22
+         TabIndex        =   41
          Top             =   3120
          Width           =   4245
          Begin VB.CheckBox Check1 
@@ -140,7 +50,7 @@ Begin VB.Form frmInfDiarioOficial
             Height          =   240
             Index           =   10
             Left            =   120
-            TabIndex        =   44
+            TabIndex        =   11
             Top             =   240
             Value           =   1  'Checked
             Width           =   1155
@@ -159,7 +69,7 @@ Begin VB.Form frmInfDiarioOficial
             Height          =   240
             Index           =   9
             Left            =   120
-            TabIndex        =   31
+            TabIndex        =   20
             Top             =   1380
             Width           =   1245
          End
@@ -177,7 +87,7 @@ Begin VB.Form frmInfDiarioOficial
             Height          =   240
             Index           =   8
             Left            =   2880
-            TabIndex        =   30
+            TabIndex        =   19
             Top             =   990
             Width           =   1215
          End
@@ -195,7 +105,7 @@ Begin VB.Form frmInfDiarioOficial
             Height          =   240
             Index           =   7
             Left            =   1440
-            TabIndex        =   29
+            TabIndex        =   18
             Top             =   990
             Width           =   1305
          End
@@ -213,7 +123,7 @@ Begin VB.Form frmInfDiarioOficial
             Height          =   240
             Index           =   6
             Left            =   120
-            TabIndex        =   28
+            TabIndex        =   17
             Top             =   990
             Width           =   1305
          End
@@ -231,7 +141,7 @@ Begin VB.Form frmInfDiarioOficial
             Height          =   240
             Index           =   5
             Left            =   2880
-            TabIndex        =   27
+            TabIndex        =   16
             Top             =   600
             Width           =   1215
          End
@@ -249,7 +159,7 @@ Begin VB.Form frmInfDiarioOficial
             Height          =   240
             Index           =   4
             Left            =   1440
-            TabIndex        =   26
+            TabIndex        =   15
             Top             =   600
             Width           =   1305
          End
@@ -267,9 +177,9 @@ Begin VB.Form frmInfDiarioOficial
             Height          =   240
             Index           =   3
             Left            =   120
-            TabIndex        =   25
+            TabIndex        =   14
             Top             =   600
-            Width           =   1245
+            Width           =   1275
          End
          Begin VB.CheckBox Check1 
             Caption         =   "2º nivel"
@@ -285,7 +195,7 @@ Begin VB.Form frmInfDiarioOficial
             Height          =   240
             Index           =   2
             Left            =   2880
-            TabIndex        =   24
+            TabIndex        =   13
             Top             =   240
             Width           =   1305
          End
@@ -303,15 +213,123 @@ Begin VB.Form frmInfDiarioOficial
             Height          =   240
             Index           =   1
             Left            =   1440
-            TabIndex        =   23
+            TabIndex        =   12
             Top             =   240
             Width           =   1335
          End
       End
+      Begin VB.CheckBox chkRenumerar 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Renumerar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   120
+         TabIndex        =   10
+         Top             =   3360
+         Width           =   1965
+      End
+      Begin VB.TextBox txtNumRes 
+         Alignment       =   1  'Right Justify
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   4
+         Left            =   1890
+         TabIndex        =   9
+         Top             =   2760
+         Width           =   1455
+      End
+      Begin VB.TextBox txtNumRes 
+         Alignment       =   1  'Right Justify
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   3
+         Left            =   1890
+         TabIndex        =   8
+         Top             =   2250
+         Width           =   1455
+      End
+      Begin VB.TextBox txtNumRes 
+         Alignment       =   1  'Right Justify
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   1
+         Left            =   1890
+         TabIndex        =   7
+         Top             =   1680
+         Width           =   1455
+      End
+      Begin VB.TextBox txtNumRes 
+         Alignment       =   1  'Right Justify
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   0
+         Left            =   1890
+         TabIndex        =   6
+         Top             =   1170
+         Width           =   1455
+      End
+      Begin VB.TextBox txtFecha 
+         Alignment       =   2  'Center
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   7
+         Left            =   1890
+         TabIndex        =   5
+         Top             =   690
+         Width           =   1485
+      End
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   3750
-         TabIndex        =   19
+         TabIndex        =   40
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -340,7 +358,7 @@ Begin VB.Form frmInfDiarioOficial
          Height          =   255
          Index           =   3
          Left            =   150
-         TabIndex        =   42
+         TabIndex        =   47
          Top             =   2820
          Width           =   1680
       End
@@ -358,7 +376,7 @@ Begin VB.Form frmInfDiarioOficial
          Height          =   255
          Index           =   2
          Left            =   150
-         TabIndex        =   41
+         TabIndex        =   46
          Top             =   2340
          Width           =   1680
       End
@@ -376,7 +394,7 @@ Begin VB.Form frmInfDiarioOficial
          Height          =   255
          Index           =   0
          Left            =   150
-         TabIndex        =   40
+         TabIndex        =   45
          Top             =   1260
          Width           =   870
       End
@@ -394,7 +412,7 @@ Begin VB.Form frmInfDiarioOficial
          Height          =   255
          Index           =   1
          Left            =   150
-         TabIndex        =   34
+         TabIndex        =   43
          Top             =   1740
          Width           =   1080
       End
@@ -412,7 +430,7 @@ Begin VB.Form frmInfDiarioOficial
          Height          =   195
          Index           =   9
          Left            =   150
-         TabIndex        =   33
+         TabIndex        =   42
          Top             =   750
          Width           =   690
       End
@@ -438,9 +456,27 @@ Begin VB.Form frmInfDiarioOficial
       EndProperty
       Height          =   2355
       Left            =   120
-      TabIndex        =   11
+      TabIndex        =   32
       Top             =   0
       Width           =   6915
+      Begin VB.CheckBox chkDiarioOficial 
+         Caption         =   "Diario oficial resumen"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   240
+         TabIndex        =   4
+         Top             =   1920
+         Value           =   1  'Checked
+         Width           =   3135
+      End
       Begin VB.ComboBox cmbFecha 
          BeginProperty Font 
             Name            =   "Verdana"
@@ -457,7 +493,7 @@ Begin VB.Form frmInfDiarioOficial
          Left            =   2790
          List            =   "frmInfDiarioOficial.frx":008D
          Style           =   2  'Dropdown List
-         TabIndex        =   46
+         TabIndex        =   1
          Top             =   810
          Width           =   1215
       End
@@ -477,7 +513,7 @@ Begin VB.Form frmInfDiarioOficial
          Left            =   2790
          List            =   "frmInfDiarioOficial.frx":0091
          Style           =   2  'Dropdown List
-         TabIndex        =   45
+         TabIndex        =   3
          Top             =   1260
          Width           =   1215
       End
@@ -497,7 +533,7 @@ Begin VB.Form frmInfDiarioOficial
          Left            =   1170
          List            =   "frmInfDiarioOficial.frx":0095
          Style           =   2  'Dropdown List
-         TabIndex        =   21
+         TabIndex        =   2
          Top             =   1260
          Width           =   1575
       End
@@ -517,7 +553,7 @@ Begin VB.Form frmInfDiarioOficial
          Left            =   1170
          List            =   "frmInfDiarioOficial.frx":0099
          Style           =   2  'Dropdown List
-         TabIndex        =   20
+         TabIndex        =   0
          Top             =   810
          Width           =   1575
       End
@@ -535,7 +571,7 @@ Begin VB.Form frmInfDiarioOficial
          Height          =   195
          Index           =   4
          Left            =   180
-         TabIndex        =   18
+         TabIndex        =   39
          Top             =   1290
          Width           =   615
       End
@@ -553,7 +589,7 @@ Begin VB.Form frmInfDiarioOficial
          Height          =   195
          Index           =   5
          Left            =   180
-         TabIndex        =   17
+         TabIndex        =   38
          Top             =   900
          Width           =   690
       End
@@ -572,7 +608,7 @@ Begin VB.Form frmInfDiarioOficial
          Height          =   195
          Index           =   8
          Left            =   180
-         TabIndex        =   16
+         TabIndex        =   37
          Top             =   540
          Width           =   1410
       End
@@ -591,7 +627,7 @@ Begin VB.Form frmInfDiarioOficial
       EndProperty
       Height          =   375
       Left            =   10320
-      TabIndex        =   2
+      TabIndex        =   22
       Top             =   5190
       Width           =   1215
    End
@@ -608,7 +644,7 @@ Begin VB.Form frmInfDiarioOficial
       Height          =   375
       Index           =   1
       Left            =   8730
-      TabIndex        =   0
+      TabIndex        =   21
       Top             =   5190
       Width           =   1455
    End
@@ -626,7 +662,7 @@ Begin VB.Form frmInfDiarioOficial
       Height          =   375
       Index           =   0
       Left            =   120
-      TabIndex        =   1
+      TabIndex        =   23
       Top             =   5190
       Width           =   1335
    End
@@ -643,7 +679,7 @@ Begin VB.Form frmInfDiarioOficial
       EndProperty
       Height          =   2655
       Left            =   120
-      TabIndex        =   3
+      TabIndex        =   24
       Top             =   2400
       Width           =   6915
       Begin VB.CommandButton PushButtonImpr 
@@ -659,7 +695,7 @@ Begin VB.Form frmInfDiarioOficial
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   15
+         TabIndex        =   36
          Top             =   720
          Width           =   1515
       End
@@ -668,7 +704,7 @@ Begin VB.Form frmInfDiarioOficial
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   14
+         TabIndex        =   35
          Top             =   1680
          Width           =   255
       End
@@ -677,7 +713,7 @@ Begin VB.Form frmInfDiarioOficial
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   13
+         TabIndex        =   34
          Top             =   1200
          Width           =   255
       End
@@ -695,7 +731,7 @@ Begin VB.Form frmInfDiarioOficial
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   10
+         TabIndex        =   31
          Top             =   1680
          Width           =   4665
       End
@@ -713,7 +749,7 @@ Begin VB.Form frmInfDiarioOficial
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   9
+         TabIndex        =   30
          Top             =   1200
          Width           =   4665
       End
@@ -731,7 +767,7 @@ Begin VB.Form frmInfDiarioOficial
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   8
+         TabIndex        =   29
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -750,7 +786,7 @@ Begin VB.Form frmInfDiarioOficial
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   7
+         TabIndex        =   28
          Top             =   2160
          Width           =   975
       End
@@ -768,7 +804,7 @@ Begin VB.Form frmInfDiarioOficial
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   6
+         TabIndex        =   27
          Top             =   1680
          Width           =   975
       End
@@ -786,7 +822,7 @@ Begin VB.Form frmInfDiarioOficial
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   5
+         TabIndex        =   26
          Top             =   1200
          Width           =   1515
       End
@@ -804,7 +840,7 @@ Begin VB.Form frmInfDiarioOficial
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   4
+         TabIndex        =   25
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -823,7 +859,7 @@ Begin VB.Form frmInfDiarioOficial
       EndProperty
       Height          =   375
       Left            =   10320
-      TabIndex        =   35
+      TabIndex        =   44
       Top             =   5190
       Width           =   1215
    End
@@ -840,7 +876,7 @@ Begin VB.Form frmInfDiarioOficial
       Height          =   255
       Index           =   25
       Left            =   1650
-      TabIndex        =   43
+      TabIndex        =   48
       Top             =   5220
       Width           =   5565
    End
@@ -873,15 +909,8 @@ Public Legalizacion As String ' "fecha informe|fechainicio|fechafin|nrodigitos"
 
 Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
-Private WithEvents frmDia As frmTiposDiario
-Attribute frmDia.VB_VarHelpID = -1
-Private WithEvents frmC As frmColCtas
-Attribute frmC.VB_VarHelpID = -1
-Private WithEvents frmCon  As frmConceptos
-Attribute frmCon.VB_VarHelpID = -1
-Private frmCtas As frmCtasAgrupadas
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -921,12 +950,12 @@ Private Sub Check1_Click(Index As Integer)
 Dim Valor As Byte
 Dim i As Integer
     
-    Valor = check1(Index).Value
+    Valor = Check1(Index).Value
     
     If Valor = 1 Then
-        For i = 1 To check1.Count
-            If check1(i).Visible Then
-                If i <> Index Then check1(i).Value = 0
+        For i = 1 To Check1.Count
+            If Check1(i).visible Then
+                If i <> Index Then Check1(i).Value = 0
             End If
         Next i
 '        Check1(Index).Value = Valor
@@ -936,15 +965,34 @@ Dim i As Integer
 End Sub
 
 
+Private Sub chkDiarioOficial_Click()
+    FrameDigitos.visible = chkDiarioOficial.Value = 1
+    Me.chkRenumerar.visible = chkDiarioOficial.Value <> 1
+    Me.Caption = "Diario Oficial "
+    If Me.chkDiarioOficial.Value = 1 Then Me.Caption = Me.Caption & "(RESUMEN)"
+    PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
+
+End Sub
+
+
+Private Sub chkDiarioOficial_KeyPress(KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
+Private Sub chkRenumerar_KeyPress(KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
 Private Sub cmdAccion_Click(Index As Integer)
-    
+Dim B As Boolean
+
     If Not DatosOK Then Exit Sub
     
     PulsadoCancelar = False
-    Me.cmdCancelarAccion.Visible = True
+    Me.cmdCancelarAccion.visible = True
     Me.cmdCancelarAccion.Enabled = True
     
-    Me.cmdCancelar.Visible = False
+    Me.cmdCancelar.visible = False
     Me.cmdCancelar.Enabled = False
         
     
@@ -958,7 +1006,13 @@ Private Sub cmdAccion_Click(Index As Integer)
 
 '++
     Screen.MousePointer = vbHourglass
-    If GenerarLibroResumen Then
+    If Me.chkDiarioOficial.Value = 0 Then
+        B = GeneraDiarioOficial
+    Else
+        B = GenerarLibroResumen
+    End If
+    Label2(25).Caption = ""
+    If B Then
         
         If optTipoSal(1).Value Then
             'EXPORTAR A CSV
@@ -986,10 +1040,10 @@ Private Sub cmdAccion_Click(Index As Integer)
     End If
     
     
-    Me.cmdCancelarAccion.Visible = False
+    Me.cmdCancelarAccion.visible = False
     Me.cmdCancelarAccion.Enabled = False
     
-    Me.cmdCancelar.Visible = True
+    Me.cmdCancelar.visible = True
     Me.cmdCancelar.Enabled = True
     
     
@@ -999,7 +1053,7 @@ Private Sub cmdAccion_Click(Index As Integer)
 End Sub
 
 Private Sub cmdCancelar_Click()
-    If Me.cmdCancelarAccion.Visible Then Exit Sub
+    If Me.cmdCancelarAccion.visible Then Exit Sub
     HanPulsadoSalir = True
     Unload Me
 End Sub
@@ -1047,11 +1101,13 @@ Private Sub Form_Load()
         
         
     'Otras opciones
-    Me.Caption = "Diario Oficial"
+    Me.Caption = "Diario Oficial (RESUMEN)"
 
-    
+        
     PrimeraVez = True
      
+     
+    chkDiarioOficial.Value = 1
     CargarComboFecha
      
     PonerNiveles
@@ -1067,7 +1123,7 @@ Private Sub Form_Load()
         cmbFecha(3).Text = Year(RecuperaValor(Legalizacion, 3))
             
         For i = 1 To 10
-            If RecuperaValor(Legalizacion, 4) = check1(i).Tag Then check1(i).Value = 1
+            If RecuperaValor(Legalizacion, 4) = Check1(i).Tag Then Check1(i).Value = 1
         Next i
     
     Else
@@ -1094,7 +1150,7 @@ Private Sub Form_Load()
     
     
     cmdCancelarAccion.Enabled = False
-    cmdCancelarAccion.Visible = False
+    cmdCancelarAccion.visible = False
     
     
     
@@ -1109,16 +1165,6 @@ End Sub
 
 
 
-Private Sub Image1_Click(Index As Integer)
-
-    Select Case Index
-        Case 0 'cuentas agrupadas
-            Set frmCtas = New frmCtasAgrupadas
-            frmCtas.Show vbModal
-            Set frmCtas = Nothing
-    End Select
-
-End Sub
 
 
 
@@ -1151,9 +1197,6 @@ Private Sub optTipoSal_Click(Index As Integer)
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), Index
 End Sub
 
-Private Sub optVarios_KeyPress(Index As Integer, KeyAscii As Integer)
-    KEYpress KeyAscii
-End Sub
 
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
@@ -1182,11 +1225,6 @@ End Sub
 
 
 
-Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
-    Set frmCtas = New frmCtasAgrupadas
-    frmCtas.Show vbModal
-    Set frmCtas = Nothing
-End Sub
 
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
@@ -1207,12 +1245,18 @@ End Sub
 
 Private Sub AccionesCSV()
     
-    Sql = "select fecha, asiento, cuenta, titulo, concepto, coalesce(debe,0) debe, coalesce(haber,0) haber from tmpdirioresum where codusu = " & vUsu.Codigo
-    Sql = Sql & " order by clave "
-
+    If Me.chkDiarioOficial.Value = 1 Then
+        SQL = "select fecha, asiento, cuenta, titulo, concepto, coalesce(debe,0) debe, coalesce(haber,0) haber from tmpdirioresum where codusu = " & vUsu.Codigo
+        SQL = SQL & " order by clave "
+    Else
+        SQL = "select  fecha1 fecha,texto1 asiento,texto2 linea ,texto3,observa1,observa2 ampliacion,coalesce(importe1,0) debe,coalesce(importe2,0) haber"
+        SQL = SQL & " From tmptesoreriacomun WHERE codusu =" & vUsu.Codigo
+        SQL = SQL & " order by codigo "
+    
+    End If
         
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1224,33 +1268,75 @@ Dim indRPT As String
 Dim nomDocu As String
 
 
+    If Me.chkDiarioOficial.Value = 0 Then
+        
+        'Fechas
+        RC = Me.cmbFecha(0).Text & "/" & cmbFecha(2).Text & "  al  " & Me.cmbFecha(1).Text & "/" & cmbFecha(3).Text
+        cadParam = cadParam & "Fechas= ""Desde  " & RC & """|"
+        
+            
+        'Fecha de impresion
+        cadParam = cadParam & "FechaImp= """ & txtFecha(7).Text & """|"
+        'Numero de hoja
+        If txtNumRes(1).Text <> "" Then
+            i = Val(txtNumRes(1).Text)
+        Else
+            i = 0
+        End If
+        cadParam = cadParam & "Numhoja= " & i & "|"
     
-    cadParam = cadParam & "pFecha=""" & txtFecha(7).Text & """|"
     
-    'Numero de página
-    If txtNumRes(1).Text <> "" Then
-        cadParam = cadParam & "pNumPag=" & txtNumRes(1).Text - 1 & "|"
+        'Acumulados anteriores
+        If txtNumRes(3).Text <> "" Or txtNumRes(4).Text <> "" Then
+            i = 0  'En el informe diremos k si se muestra
+        Else
+            i = 1
+        End If
+        cadParam = cadParam & "TieneAcumulados= " & i & "|"
+    
+        If i = 1 Then
+            cadParam = cadParam & "AntD= 0|"
+            cadParam = cadParam & "AntH= 0|"
+        Else
+            cadParam = cadParam & "AntD= " & TransformaComasPuntos(txtNumRes(3).Text) & "|"
+            cadParam = cadParam & "AntH= " & TransformaComasPuntos(txtNumRes(4).Text) & "|"
+        End If
+        
+    
+        indRPT = "1306-01"
+        cadFormula = "{tmptesoreriacomun.codusu}=" & vUsu.Codigo
+
+    
+    
     Else
-        cadParam = cadParam & "pNumPag=0|"
+        'RESUMEN. Lo que habia
+        
+        cadParam = cadParam & "pFecha=""" & txtFecha(7).Text & """|"
+        
+        'Numero de página
+        If txtNumRes(1).Text <> "" Then
+            cadParam = cadParam & "pNumPag=" & txtNumRes(1).Text - 1 & "|"
+        Else
+            cadParam = cadParam & "pNumPag=0|"
+        End If
+        numParam = numParam + 2
+        
+        cadParam = cadParam & "pDHFecha=""" & cmbFecha(0).Text & " " & cmbFecha(2).Text & " a " & cmbFecha(1).Text & " " & cmbFecha(3).Text & """|"
+        numParam = numParam + 1
+        
+        
+        indRPT = "1306-00"
+        cadFormula = "{tmpdirioresum.codusu}=" & vUsu.Codigo
+
     End If
-    numParam = numParam + 2
-    
-    cadParam = cadParam & "pDHFecha=""" & cmbFecha(0).Text & " " & cmbFecha(2).Text & " a " & cmbFecha(1).Text & " " & cmbFecha(3).Text & """|"
-    numParam = numParam + 1
-    
-    
     
     vMostrarTree = False
     conSubRPT = False
         
-    indRPT = "1306-00"
     
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     
-    cadNomRPT = nomDocu '"SumasySaldos.rpt"
-
-    cadFormula = "{tmpdirioresum.codusu}=" & vUsu.Codigo
-
+    cadNomRPT = nomDocu
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
@@ -1263,7 +1349,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -1379,18 +1465,31 @@ Private Function DatosOK() As Boolean
     End If
     
     'Solo un nivel seleccionado
-    CONT = 0
-    For i = 1 To 10
-        If check1(i).Visible = True Then
-            If check1(i).Value Then CONT = CONT + 1
+    If Me.chkDiarioOficial.Value = 1 Then
+        CONT = 0
+        For i = 1 To 10
+            If Check1(i).visible = True Then
+                If Check1(i).Value Then CONT = CONT + 1
+            End If
+        Next i
+        If CONT <> 1 Then
+            MsgBox "Seleccione uno, y solo uno, de los niveles para mostrar el informe", vbExclamation
+            Exit Function
         End If
-    Next i
-    If CONT <> 1 Then
-        MsgBox "Seleccione uno, y solo uno, de los niveles para mostrar el informe", vbExclamation
-        Exit Function
+        
+    Else
+        If Me.chkRenumerar.Value = 1 Then
+            If txtNumRes(0).Text = "" Then
+                MsgBox "Tiene que poner el numero del primer asiento", vbExclamation
+                Exit Function
+            End If
+        
+            If Val(txtNumRes(0).Text) < 0 Then
+                MsgBox "Valores positivos para numero de asiento", vbExclamation
+                Exit Function
+            End If
+        End If
     End If
-    
-
 
 
     DatosOK = True
@@ -1405,8 +1504,8 @@ QueCombosFechaCargar "0|1|"
 
 For i = 1 To vEmpresa.numnivel - 1
     J = DigitosNivel(i)
-    check1(i).Visible = True
-    check1(i).Caption = "Digitos:" & J
+    Check1(i).visible = True
+    Check1(i).Caption = "Digitos:" & J
 Next i
 
     cmbFecha(2).Clear
@@ -1464,73 +1563,27 @@ Private Function ComparaFechasCombos(Indice1 As Integer, Indice2 As Integer, InC
 End Function
 
 
-'Siempre k la fecha no este en fecha siguiente
-Private Function HayAsientoCierre(Mes As Byte, Anyo As Integer, Optional Contabilidad As String) As Boolean
-Dim C As String
-    HayAsientoCierre = False
-    C = "01/" & CStr(Mes) & "/" & Anyo
-    'Si la fecha es menor k la fecha de inicio de ejercicio entonces SI k hay asiento de cierre
-    If CDate(C) < vParam.fechaini Then
-        HayAsientoCierre = True
-    Else
-        If CDate(C) > vParam.fechafin Then
-            'Seguro k no hay
-            Exit Function
-        Else
-            C = "Select count(*) from " & Contabilidad
-            C = C & " hlinapu where (codconce=960 or codconce = 980) and fechaent>='" & Format(vParam.fechaini, FormatoFecha)
-            C = C & "' AND fechaent <='" & Format(vParam.fechafin, FormatoFecha) & "'"
-            Rs.Open C, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-            If Not Rs.EOF Then
-                If Not IsNull(Rs.Fields(0)) Then
-                    If Rs.Fields(0) > 0 Then HayAsientoCierre = True
-                End If
-            End If
-            Rs.Close
-        End If
-    End If
-End Function
 
-
-
-
-Private Function TieneCuentasEnTmpBalance(DigitosNivel As String) As Boolean
-Dim Rs As ADODB.Recordset
-Dim C As String
-
-    Set Rs = New ADODB.Recordset
-    TieneCuentasEnTmpBalance = False
-    C = Mid("__________", 1, CInt(DigitosNivel))
-    C = "Select count(*) from tmpbalancesumas  where cta like '" & C & "'"
-    C = C & " AND codusu = " & vUsu.Codigo
-    Rs.Open C, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    If Not Rs.EOF Then
-        If Not IsNull(Rs.Fields(0)) Then
-            If Rs.Fields(0) > 0 Then TieneCuentasEnTmpBalance = True
-        End If
-    End If
-    Rs.Close
-End Function
 
 Private Sub PonerNiveles()
 Dim i As Integer
 Dim J As Integer
 
 
-    Frame2.Visible = True
+    FrameDigitos.visible = True
     For i = 1 To vEmpresa.numnivel - 1
         J = DigitosNivel(i)
         cad = "Digitos: " & J
-        check1(i).Visible = True
-        check1(i).Tag = J
-        Me.check1(i).Caption = cad
-        Me.check1(i).Value = 0
+        Check1(i).visible = True
+        Check1(i).Tag = J
+        Me.Check1(i).Caption = cad
+        Me.Check1(i).Value = 0
     Next i
-    check1(10).Tag = vEmpresa.DigitosUltimoNivel
-    check1(10).Visible = True
-    Me.check1(10).Value = 0
+    Check1(10).Tag = vEmpresa.DigitosUltimoNivel
+    Check1(10).visible = True
+    Me.Check1(10).Value = 0
     For i = vEmpresa.numnivel To 9
-        check1(i).Visible = False
+        Check1(i).visible = False
     Next i
     
     
@@ -1569,9 +1622,6 @@ Private Sub txtTipoSalida_KeyDown(Index As Integer, KeyCode As Integer, Shift As
     KEYdown KeyCode
 End Sub
 
-Private Sub txtTitulo_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
-    KEYdown KeyCode
-End Sub
 
 Private Function GenerarLibroResumen() As Boolean
 Dim I2 As Currency
@@ -1580,14 +1630,14 @@ Dim I2 As Currency
     GenerarLibroResumen = False
     
     'Eliminamos registros tmp
-    Sql = "Delete FROM tmpdirioresum where codusu =" & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "Delete FROM tmpdirioresum where codusu =" & vUsu.Codigo
+    Conn.Execute SQL
     
         
     'Comprobamos k nivel
-    For i = 1 To Me.check1.Count
-        If check1(i).Visible Then
-            If check1(i).Value Then
+    For i = 1 To Me.Check1.Count
+        If Check1(i).visible Then
+            If Check1(i).Value Then
                 CONT = i
                 Exit For
             End If
@@ -1652,9 +1702,9 @@ Dim I2 As Currency
     
     'Vemos si ha generado datos
     Set miRsAux = New ADODB.Recordset
-    Sql = "Select count(*) from tmpdirioresum where codusu =" & vUsu.Codigo
+    SQL = "Select count(*) from tmpdirioresum where codusu =" & vUsu.Codigo
     CONT = 0
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If Not miRsAux.EOF Then
         If Not IsNull(miRsAux.Fields(0)) Then CONT = miRsAux.Fields(0)
     End If
@@ -1672,4 +1722,148 @@ Dim I2 As Currency
 EGenerarLibroResumen:
     MuestraError Err.Number, "Generar libro resumen"
 End Function
+
+
+
+
+
+
+'************************************************************************************************
+' GeneraDiarioOficial
+
+Private Function GeneraDiarioOficial() As Boolean
+Dim Total As Long
+Dim Pos As Long
+Dim miCo As Long
+Dim CADENA As String
+    On Error GoTo EGeneraDiarioOficial
+
+    GeneraDiarioOficial = False
+    
+    Set Rs = New ADODB.Recordset
+    'Parte comun
+    cad = " from hlinapu,cuentas"
+    cad = cad & " WHERE hlinapu.codmacta = cuentas.codmacta"
+    
+    RC = cmbFecha(2).Text & "-" & Format(cmbFecha(0).ListIndex + 1, "00") & "-01"
+    cad = cad & " AND fechaent >='" & RC & "'"
+    i = DiasMes(Me.cmbFecha(1).ListIndex + 1, CInt(cmbFecha(3).Text))
+    RC = cmbFecha(3).Text & "-" & Format(cmbFecha(1).ListIndex + 1, "00") & "-" & i
+    cad = cad & " AND fechaent <='" & RC & "'"
+    
+    'Para el contador
+    SQL = "Select count(*) " & cad
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Total = 0
+    If Not Rs.EOF Then
+        Total = DBLet(Rs.Fields(0), "N")
+    End If
+    Rs.Close
+    
+    If Total = 0 Then
+        MsgBox "Ningun asiento entre esas fechas.", vbExclamation
+        Exit Function
+    End If
+    
+    Me.cmdCancelarAccion.visible = True
+    PulsadoCancelar = False
+    
+    'Borramos la temporal
+    
+    Label2(25).Caption = "Preparando BD"
+    Label2(25).Refresh
+    Conn.Execute "Delete from tmptesoreriacomun where codusu = " & vUsu.Codigo
+    
+    'Ya tenemos el total
+    SQL = "select fechaent,numasien,linliapu,cuentas.codmacta, cuentas.nommacta,numdocum,"
+    SQL = SQL & "ampconce,timported,timporteh " & cad
+    SQL = SQL & " ORDER BY fechaent,numasien"
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    
+    DoEvents
+    If PulsadoCancelar Then
+        Rs.Close
+        Exit Function
+    End If
+ 
+    Label2(25).Caption = ""
+    Label2(25).Refresh
+    
+    'Construimos la mitad de cadena de insercion
+    CADENA = "INSERT INTO tmptesoreriacomun(codusu,codigo,fecha1,texto1,texto2,"
+    CADENA = CADENA & "texto3,observa1,texto4,observa2,importe1,importe2) VALUES "
+    SQL = ""
+    NumRegElim = 0
+    
+    If chkRenumerar.Value = 1 Then CONT = Val(Me.txtNumRes(0).Text) - 1
+    
+    While Not Rs.EOF
+        NumRegElim = NumRegElim + 1
+        If chkRenumerar.Value = 1 Then
+            'Si k estamos renumerando
+           If miCo <> Rs!NumAsien Then
+                CONT = CONT + 1
+                miCo = Rs!NumAsien
+            End If
+        Else
+            CONT = Rs!NumAsien
+        End If
+        
+        If Label2(25).Caption <> Rs!FechaEnt Then
+            Label2(25).Caption = Rs!FechaEnt
+            Label2(25).Refresh
+        End If
+        
+        cad = Rs!Nommacta
+        NombreSQL cad
+        cad = ", (" & vUsu.Codigo & "," & NumRegElim & ",'" & Format(Rs!FechaEnt, FormatoFecha) & "','" & Format(CONT, "000000") & "','" & Format(Rs!Linliapu, "0000") & "','" & Rs!codmacta & "','" & cad & "','"
+        cad = cad & DevNombreSQL(DBLet(Rs!Numdocum)) & "','" & DevNombreSQL(DBLet(Rs!Ampconce)) & "',"
+        If Not IsNull(Rs!timported) Then
+            RC = TransformaComasPuntos(CStr(Rs!timported))
+            cad = cad & RC & ",NULL)"
+        Else
+            RC = TransformaComasPuntos(CStr(Rs!timporteH))
+            cad = cad & "NULL," & RC & ")"
+        End If
+        SQL = SQL & cad
+       
+        'Siguiente
+        Pos = Pos + 1
+        DoEvents
+        If PulsadoCancelar Then
+            Rs.Close
+            Exit Function
+        End If
+        
+        If Len(SQL) > 3000 Then
+            SQL = Mid(SQL, 2)
+            SQL = CADENA & SQL
+            Conn.Execute SQL
+            SQL = ""
+        End If
+        
+        
+        
+        Rs.MoveNext
+    Wend
+    Rs.Close
+     
+    
+    If SQL <> "" Then
+        SQL = Mid(SQL, 2)
+        SQL = CADENA & SQL
+        Conn.Execute SQL
+        SQL = ""
+    End If
+     
+     
+     
+    GeneraDiarioOficial = True
+    
+EGeneraDiarioOficial:
+    If Err.Number <> 0 Then MuestraError Err.Number
+    Set Rs = Nothing
+End Function
+
+
 

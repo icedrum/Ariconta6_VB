@@ -160,7 +160,7 @@ Attribute frmD.VB_VarHelpID = -1
 
 Dim PrimeraVez As Boolean
 Dim Rs As Recordset
-Dim Cad As String
+Dim cad As String
 Dim i As Byte
 Dim B As Boolean
 Dim Importe As Currency
@@ -239,16 +239,16 @@ Private Sub cmdCalcula_Click()
         Conn.BeginTrans
         
         'Grabamos el LOG
-        Cad = "Fecha amortización: " & txtFecAmo.Text
-        If Mc.Contador > 0 Then Cad = Cad & " Asiento asignado: " & Mc.Contador
-        vLog.Insertar 13, vUsu, Cad
+        cad = "Fecha amortización: " & txtFecAmo.Text
+        If Mc.Contador > 0 Then cad = cad & " Asiento asignado: " & Mc.Contador
+        vLog.Insertar 13, vUsu, cad
         
         
-        Cad = "Select * from inmovele where inmovele.fecventa is null and inmovele.valoradq>inmovele.amortacu and situacio=1"
+        cad = "Select * from inmovele where inmovele.fecventa is null and inmovele.valoradq>inmovele.amortacu and situacio=1"
         'Fecha adq
-        Cad = Cad & " and fechaadq <='" & Format(CDate(txtFecAmo.Text), FormatoFecha) & "'"
-        Cad = Cad & " for update "
-        B = GeneraCalculoInmovilizado(Cad, 2)
+        cad = cad & " and fechaadq <='" & Format(CDate(txtFecAmo.Text), FormatoFecha) & "'"
+        cad = cad & " for update "
+        B = GeneraCalculoInmovilizado(cad, 2)
         If B Then
             Conn.CommitTrans
         Else
@@ -261,7 +261,7 @@ Private Sub cmdCalcula_Click()
         Screen.MousePointer = vbDefault
         If B Then
             'ha ido bien
-            MsgBox "El cálculo se ha realizado con éxito. En introducción de Asientos está el asiento generado.", vbExclamation
+            MsgBox "El cálculo se ha realizado con éxito.", vbInformation ' En introducción de Asientos está el asiento generado.", vbExclamation
             Set Mc = Nothing
             Unload Me
             Exit Sub
@@ -324,10 +324,10 @@ End Sub
 Private Function SugerirFechaNuevo() As String
 Dim RC As String
     RC = "tipoamor"
-    Cad = DevuelveDesdeBD("ultfecha", "paramamort", "codigo", "1", "N", RC)
+    cad = DevuelveDesdeBD("ultfecha", "paramamort", "codigo", "1", "N", RC)
 
-    If Cad <> "" Then
-        Me.Tag = Cad   'Ultima actualizacion
+    If cad <> "" Then
+        Me.Tag = cad   'Ultima actualizacion
         Select Case Val(RC)
         Case 2
             'Semestral
@@ -345,7 +345,7 @@ Dim RC As String
         End Select
         RC = PonFecha
     Else
-        Cad = "01/01/1991"
+        cad = "01/01/1991"
         RC = Format(Now, "dd/mm/yyyy")
     End If
     SugerirFechaNuevo = Format(RC, "dd/mm/yyyy")
@@ -358,7 +358,7 @@ Private Function PonFecha() As Date
 Dim d As Date
 'Dada la fecha en Cad y los meses k tengo k sumar
 'Pongo la fecha
-d = DateAdd("m", i, CDate(Cad))
+d = DateAdd("m", i, CDate(cad))
 Select Case Month(d)
 Case 2
     If ((Year(d) - 2000) Mod 4) = 0 Then
@@ -373,8 +373,8 @@ Case Else
     '30
         i = 30
 End Select
-Cad = i & "/" & Month(d) & "/" & Year(d)
-PonFecha = CDate(Cad)
+cad = i & "/" & Month(d) & "/" & Year(d)
+PonFecha = CDate(cad)
 End Function
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -382,10 +382,10 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    Cad = Format(vFecha, "dd/mm/yyyy")
+    cad = Format(vFecha, "dd/mm/yyyy")
     Select Case i
     Case 2
-        txtFecAmo.Text = Cad
+        txtFecAmo.Text = cad
     End Select
 End Sub
 
@@ -514,10 +514,10 @@ On Error GoTo EGen
         If Opcion = 3 Then
 '            Cad = Text4(0).Text
         Else
-            Cad = Me.txtFecAmo.Text
+            cad = Me.txtFecAmo.Text
         End If
       
-        B = CalculaAmortizacion(Codinmov, CDate(Cad), DivMes, UltAmor, ParametrosContabiliza, Mc.Contador, CONT, Tipo < 2)
+        B = CalculaAmortizacion(Codinmov, CDate(cad), DivMes, UltAmor, ParametrosContabiliza, Mc.Contador, CONT, Tipo < 2)
         If Not B Then
             Rs.Close
             Exit Function
@@ -530,9 +530,9 @@ On Error GoTo EGen
     Wend
     'Actualizamos la fecha de ultima amortizacion en paraemtros
     If Opcion <> 3 Then
-        Cad = "UPDATE paramamort SET ultfecha= '" & Format(Cad, FormatoFecha)
-        Cad = Cad & "' WHERE codigo=1"
-        Conn.Execute Cad
+        cad = "UPDATE paramamort SET ultfecha= '" & Format(cad, FormatoFecha)
+        cad = cad & "' WHERE codigo=1"
+        Conn.Execute cad
         Rs.Close
     Else
         'Estamos dando de baja o vendiendo un inmovilizado. Solo hay uno y hay k situarlo
@@ -553,35 +553,35 @@ Dim vCadena As String
 
 On Error GoTo EGeneracabeceraApunte
         GeneracabeceraApunte = False
-        Cad = "INSERT INTO hcabapu (numdiari, fechaent, numasien,  obsdiari, feccreacion,usucreacion,desdeaplicacion) VALUES ("
-        Cad = Cad & RecuperaValor(ParametrosContabiliza, 4) & ",'"
+        cad = "INSERT INTO hcabapu (numdiari, fechaent, numasien,  obsdiari, feccreacion,usucreacion,desdeaplicacion) VALUES ("
+        cad = cad & RecuperaValor(ParametrosContabiliza, 4) & ",'"
         If Opcion = 3 Then
 '            Fecha = CDate(Text4(0).Text)
         Else
             Fecha = CDate(txtFecAmo.Text)
         End If
-        Cad = Cad & Format(Fecha, FormatoFecha)
-        Cad = Cad & "'," & Mc.Contador
-        Cad = Cad & ",'"
+        cad = cad & Format(Fecha, FormatoFecha)
+        cad = cad & "'," & Mc.Contador
+        cad = cad & ",'"
         'Segun sea VENTA, BAJA, o calculo de inmovilizado pondremos una cosa u otra
         Select Case vTipo
         Case 0, 1
             'VENTA
             If vTipo = 0 Then
-                Cad = Cad & "Venta de "
+                cad = cad & "Venta de "
                 vCadena = "Venta de "
             Else
-                Cad = Cad & "Baja de "
+                cad = cad & "Baja de "
                 vCadena = "Baja de "
             End If
-            Cad = Cad & DevNombreSQL(Rs!nominmov)
+            cad = cad & DevNombreSQL(Rs!nominmov)
             vCadena = vCadena & DevNombreSQL(Rs!nominmov)
         Case Else
-            Cad = Cad & "Amortización: " & Fecha
+            cad = cad & "Amortización: " & Fecha
             vCadena = "Amortización " & Fecha
         End Select
-        Cad = Cad & "'," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Inmovilizado " & vCadena & "')"
-        Conn.Execute Cad
+        cad = cad & "'," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Inmovilizado " & vCadena & "')"
+        Conn.Execute cad
         GeneracabeceraApunte = True
         Exit Function
 EGeneracabeceraApunte:

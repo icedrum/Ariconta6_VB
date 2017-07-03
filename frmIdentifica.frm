@@ -432,7 +432,7 @@ End Sub
 
 
 Private Sub UsuarioCorrecto()
-Dim Sql As String
+Dim SQL As String
 Dim PrimeraBD As String
         Screen.MousePointer = vbHourglass
         CadenaDesdeOtroForm = "OK"
@@ -469,8 +469,8 @@ Dim PrimeraBD As String
         
 
         ' antes de cerrar la conexion cojo de usuarios.empresasariconta la primera que encuentre
-        Sql = "select min(conta) from usuarios.empresasariconta  "
-        PrimeraBD = DevuelveValor(Sql)
+        SQL = "select min(conta) from usuarios.empresasariconta  "
+        PrimeraBD = DevuelveValor(SQL)
 
 
         'Cerramos la conexion
@@ -510,7 +510,7 @@ End Sub
 
 
 Private Sub HacerAccionesBD()
-Dim Sql As String
+Dim SQL As String
     
     T1 = Timer
     
@@ -519,7 +519,7 @@ Dim Sql As String
     Conn.Execute "Delete from zBloqueos " & CadenaDesdeOtroForm
     Conn.Execute "Delete from tmpconextcab " & CadenaDesdeOtroForm
     Conn.Execute "Delete from tmpactualizar " & CadenaDesdeOtroForm
-    Conn.Execute "Delete from usuarios.ztesoreriacomun  " & CadenaDesdeOtroForm
+    Conn.Execute "Delete from tmptesoreriacomun  " & CadenaDesdeOtroForm
 
     CarpetasDeAriconta
     
@@ -547,13 +547,13 @@ On Error Resume Next
 End Sub
 
 
-Private Sub PonerVisible(Visible As Boolean)
-    Label1(2).Visible = Not Visible  'Cargando
-    Text1(0).Visible = Visible
-    Text1(1).Visible = Visible
-    Label1(0).Visible = Visible
-    Label1(1).Visible = Visible
-    Combo1.Visible = Visible
+Private Sub PonerVisible(visible As Boolean)
+    Label1(2).visible = Not visible  'Cargando
+    Text1(0).visible = visible
+    Text1(1).visible = visible
+    Label1(0).visible = visible
+    Label1(1).visible = visible
+    Combo1.visible = visible
 End Sub
 
 
@@ -705,7 +705,7 @@ On Error Resume Next
     teclaBuscar = 43
 
     DireccionAyuda = "http://help-ariconta.ariadnasw.com/"
-
+    
     'Borramos uno de los archivos temporales
     If Dir(App.Path & "\ErrActua.txt") <> "" Then Kill App.Path & "\ErrActua.txt"
     
@@ -732,7 +732,7 @@ Private Sub Timer1_Timer()
         Unload Me
     Else
         If Segundos < 52 Then
-            Label1(2).Visible = True
+            Label1(2).visible = True
             Label1(2).Caption = "Si no hace login, la pantalla se cerrará automáticamente en " & " " & Segundos & " segundos."
             Label1(2).Refresh
          End If

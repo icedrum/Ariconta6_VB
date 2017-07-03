@@ -442,10 +442,10 @@ Private Sub chkReme_Click()
         'Ver cobros pagos
         If Cobros And (Me.chkReme.Value = 1) Then SeVeRiesgo = True
     End If
-    Label2(2).Visible = SeVeRiesgo
-    Text2(2).Visible = SeVeRiesgo
-    Label2(3).Visible = SeVeRiesgo And Cobros
-    Text2(3).Visible = SeVeRiesgo And Cobros
+    Label2(2).visible = SeVeRiesgo
+    Text2(2).visible = SeVeRiesgo
+    Label2(3).visible = SeVeRiesgo And Cobros
+    Text2(3).visible = SeVeRiesgo And Cobros
     CargaList
 End Sub
 
@@ -504,7 +504,7 @@ Private Sub Form_Load()
     CargaIconoListview Me.ListView1
     ListView1.Checkboxes = OrdenarEfecto
     Text1.Enabled = Not OrdenarEfecto
-    Me.chkReme.Visible = False
+    Me.chkReme.visible = False
     
 '    imgFecha(2).Visible = False 'Para cambiar la fecha de contabilizacion de los pagos
 
@@ -516,7 +516,7 @@ Private Sub Form_Load()
     
         Caption = "Cobros pendientes"
         chkReme.Value = 1
-        chkReme.Visible = True
+        chkReme.visible = True
     Else
         Caption = "Pagos pendientes"
         
@@ -526,10 +526,10 @@ Private Sub Form_Load()
     
     i = 0
     If Cobros And (Tipo = 2 Or Tipo = 3) Then i = 1
-    Me.mnBarra1.Visible = i = 1
-    Me.mnNumero.Visible = i = 1
+    Me.mnBarra1.visible = i = 1
+    Me.mnNumero.visible = i = 1
     'Efectuar cobros
-    Me.cmdRegresar.Visible = Regresar
+    Me.cmdRegresar.visible = Regresar
     ListView1.SmallIcons = Me.ImageList1
     Text1.Text = Format(Now, "dd/mm/yyyy")
     Text1.Tag = "'" & Format(Now, FormatoFecha) & "'"
@@ -647,10 +647,10 @@ On Error GoTo ECargando
         'Ver cobros pagos
 '        If Cobros And (Me.chkReme.Value = 1) Then SeVeRiesgo = True
     End If
-    Label2(2).Visible = SeVeRiesgo
-    Text2(2).Visible = SeVeRiesgo
-    Label2(3).Visible = SeVeRiesgo And Cobros
-    Text2(3).Visible = SeVeRiesgo And Cobros
+    Label2(2).visible = SeVeRiesgo
+    Text2(2).visible = SeVeRiesgo
+    Label2(3).visible = SeVeRiesgo And Cobros
+    Text2(3).visible = SeVeRiesgo And Cobros
     
     
     Set Rs = New ADODB.Recordset
@@ -668,10 +668,10 @@ On Error GoTo ECargando
     If OrdenarEfecto Then
         Text2(2).Text = "0,00"
         Label2(2).Caption = "Selec."
-        Label2(2).Visible = True
-        Text2(2).Visible = True
-        Label2(3).Visible = True And Cobros
-        Text2(3).Visible = True And Cobros
+        Label2(2).visible = True
+        Text2(2).visible = True
+        Label2(3).visible = True And Cobros
+        Text2(3).visible = True And Cobros
     End If
     
 ECargando:
@@ -790,13 +790,12 @@ Dim ImpAux As Currency
     
     If Rs!tipoformapago = vbTarjeta Then
         'Si tiene el parametro y le ha puesto valor
-        If vParamT.IntereseCobrosTarjeta > 0 And ImporteGastosTarjeta_ > 0 Then
+        If vParamT.IntereseCobrosTarjeta2 > 0 And ImporteGastosTarjeta_ > 0 Then
             DiasDif = 0
             If Rs!FecVenci < Fecha Then DiasDif = DateDiff("d", Rs!FecVenci, Fecha)
             If DiasDif > 0 Then
                 'Si ya tenia gastos.
                 If DBLet(Rs!Gastos, "N") > 0 Then
-                    MsgBox "Ya tenia gastos", vbExclamation
                     ItmX.ListSubItems(8).Bold = True
                     ItmX.ListSubItems(8).ForeColor = vbRed
                 End If

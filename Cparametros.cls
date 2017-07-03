@@ -138,7 +138,8 @@ Private mvarTieneSII As Boolean
 Private mvarFechaInicioSII As Date
 Private mvarDiasAvisoSII As Integer
 
-
+Private mvarVersionSII As String
+Private mvarModificarIvaLineasFraCli As Boolean
 
 
 
@@ -1068,6 +1069,16 @@ Public Property Get SIIDiasAviso() As Integer
      SIIDiasAviso = mvarDiasAvisoSII
 End Property
 
+Public Property Get SII_Version() As String
+     SII_Version = mvarVersionSII
+End Property
+
+Public Property Get ModificarIvaLineasFraCli() As Boolean
+     ModificarIvaLineasFraCli = mvarModificarIvaLineasFraCli
+End Property
+
+
+
 
 '------------------------------------------------
 'FUNCIONES del modulo Cparametros
@@ -1326,6 +1337,8 @@ Dim Nuevos As String
             mvarContabApteIva0 = (DBLet(Rs!ContabApteIva0, "N") = 1)
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Contabilizacion Apte Iva 0"
             
+            mvarModificarIvaLineasFraCli = (DBLet(Rs!MoficaImporIVALineas, "N") = 1)
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Permite modificar iva lineas factura cliente"
             
             
         If Err.Number <> 0 Then Err.Clear
@@ -1427,7 +1440,7 @@ On Error GoTo eLeerDatosSII
         mvarFechaInicioSII = Rs!SIIFechaInicio
         mvarDiasAvisoSII = Rs!SIIDiasAviso
         mvarTieneSII = True
-    
+        mvarVersionSII = Rs!VersionSII
     End If
     
     

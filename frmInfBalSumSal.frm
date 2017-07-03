@@ -1164,7 +1164,7 @@ Private Sub cmdAccion_Click(Index As Integer)
     
         'Ahora, si ha puesto desde hasta cuenta, no puede seleccionar
         'un desde.
-        If Me.txtcta(6).Text <> "" Or txtcta(7).Text <> "" Then
+        If Me.txtCta(6).Text <> "" Or txtCta(7).Text <> "" Then
             If CONT > 1 Then
                 If vUsu.Nivel < 2 Then
                     cad = "debe"
@@ -1385,14 +1385,14 @@ Private Sub Form_Load()
             For i = 2 To vEmpresa.DigitosUltimoNivel
                 cad = cad & "9"
             Next
-            txtcta(7).Text = cad
+            txtCta(7).Text = cad
         End If
     End If
     
 End Sub
 
 Private Sub frmC_DatoSeleccionado(CadenaSeleccion As String)
-    txtcta(IndCodigo).Text = RecuperaValor(CadenaSeleccion, 1)
+    txtCta(IndCodigo).Text = RecuperaValor(CadenaSeleccion, 1)
     txtNCta(IndCodigo).Text = RecuperaValor(CadenaSeleccion, 2)
 End Sub
 
@@ -1424,7 +1424,7 @@ Private Sub imgCuentas_Click(Index As Integer)
     frmC.Show vbModal
     Set frmC = Nothing
 
-    PonFoco txtcta(Index)
+    PonFoco txtCta(Index)
 
 End Sub
 
@@ -1507,7 +1507,7 @@ End Sub
 
 
 Private Sub txtCta_GotFocus(Index As Integer)
-    ConseguirFoco txtcta(Index), 3
+    ConseguirFoco txtCta(Index), 3
 End Sub
 
 
@@ -1536,21 +1536,21 @@ Dim cad As String, cadTipo As String 'tipo cliente
 Dim RC As String
 Dim Hasta As Integer
 
-    txtcta(Index).Text = Trim(txtcta(Index).Text)
+    txtCta(Index).Text = Trim(txtCta(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
 '    If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
-    txtcta(Index).Text = Trim(txtcta(Index).Text)
-    If txtcta(Index).Text = "" Then
+    txtCta(Index).Text = Trim(txtCta(Index).Text)
+    If txtCta(Index).Text = "" Then
         txtNCta(Index).Text = ""
         Exit Sub
     End If
     
-    If Not IsNumeric(txtcta(Index).Text) Then
-        If InStr(1, txtcta(Index).Text, "+") = 0 Then MsgBox "La cuenta debe ser numérica: " & txtcta(Index).Text, vbExclamation
-        txtcta(Index).Text = ""
+    If Not IsNumeric(txtCta(Index).Text) Then
+        If InStr(1, txtCta(Index).Text, "+") = 0 Then MsgBox "La cuenta debe ser numérica: " & txtCta(Index).Text, vbExclamation
+        txtCta(Index).Text = ""
         txtNCta(Index).Text = ""
         Exit Sub
     End If
@@ -1560,20 +1560,20 @@ Dim Hasta As Integer
     Select Case Index
         Case 6, 7 'Cuentas
             
-            RC = txtcta(Index).Text
+            RC = txtCta(Index).Text
             If CuentaCorrectaUltimoNivelSIN(RC, Sql) Then
-                txtcta(Index) = RC
+                txtCta(Index) = RC
                 txtNCta(Index).Text = Sql
             Else
                 MsgBox Sql, vbExclamation
-                txtcta(Index).Text = ""
+                txtCta(Index).Text = ""
                 txtNCta(Index).Text = ""
-                PonFoco txtcta(Index)
+                PonFoco txtCta(Index)
             End If
             
             If Index = 0 Then Hasta = 1
             If Hasta >= 1 Then
-                txtcta(Hasta).Text = txtcta(Index).Text
+                txtCta(Hasta).Text = txtCta(Index).Text
                 txtNCta(Hasta).Text = txtNCta(Index).Text
             End If
     End Select
@@ -1840,6 +1840,8 @@ Dim J As Integer
 End Sub
 
 
+
+
 Private Sub EmpezarBalanceNuevo2(vConta As Integer, ByRef PB As ProgressBar)
 Dim Cade As String
 Dim Apertura As Boolean
@@ -1882,8 +1884,8 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
     
     
     'Desde hasta cuentas
-    If txtcta(i).Text <> "" Then Cade = Cade & " AND ((cuentas.codmacta)>='" & txtcta(i).Text & "')"
-    If txtcta(i + 1).Text <> "" Then Cade = Cade & " AND ((cuentas.codmacta)<='" & txtcta(i + 1).Text & "')"
+    If txtCta(i).Text <> "" Then Cade = Cade & " AND ((cuentas.codmacta)>='" & txtCta(i).Text & "')"
+    If txtCta(i + 1).Text <> "" Then Cade = Cade & " AND ((cuentas.codmacta)<='" & txtCta(i + 1).Text & "')"
     
     'Fechas
     'Del ejercicio solicitado
@@ -2261,14 +2263,14 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
         Sql = Sql & cmbFecha(1).ListIndex + 1 & "/" & cmbFecha(3).Text & """|"
         'Si tiene desde hasta codcuenta
         cad = ""
-        If txtcta(6).Text <> "" Then cad = cad & "Desde " & txtcta(6).Text & " - " & txtNCta(6).Tag
-        If txtcta(7).Text <> "" Then
+        If txtCta(6).Text <> "" Then cad = cad & "Desde " & txtCta(6).Text & " - " & txtNCta(6).Tag
+        If txtCta(7).Text <> "" Then
             If cad <> "" Then
                 cad = cad & "    h"
             Else
                 cad = "H"
             End If
-            cad = cad & "asta " & txtcta(7).Text & " - " & txtNCta(7).Tag
+            cad = cad & "asta " & txtCta(7).Text & " - " & txtNCta(7).Tag
         End If
         If cad = "" Then cad = " "
         Sql = Sql & "Cuenta= """ & cad & """|"
@@ -2364,15 +2366,15 @@ Private Function ComprobarCuentas(Indice1 As Integer, Indice2 As Integer) As Boo
 Dim L1 As Integer
 Dim L2 As Integer
     ComprobarCuentas = False
-    If txtcta(Indice1).Text <> "" And txtcta(Indice2).Text <> "" Then
-        L1 = Len(txtcta(Indice1).Text)
-        L2 = Len(txtcta(Indice2).Text)
+    If txtCta(Indice1).Text <> "" And txtCta(Indice2).Text <> "" Then
+        L1 = Len(txtCta(Indice1).Text)
+        L2 = Len(txtCta(Indice2).Text)
         If L1 > L2 Then
             L2 = L1
         Else
             L1 = L2
         End If
-        If Val(Mid(txtcta(Indice1).Text & "000000000", 1, L1)) > Val(Mid(txtcta(Indice2).Text & "0000000000", 1, L1)) Then
+        If Val(Mid(txtCta(Indice1).Text & "000000000", 1, L1)) > Val(Mid(txtCta(Indice2).Text & "0000000000", 1, L1)) Then
             MsgBox "Cuenta desde mayor que cuenta hasta.", vbExclamation
             Exit Function
         End If

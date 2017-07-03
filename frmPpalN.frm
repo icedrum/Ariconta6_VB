@@ -606,8 +606,8 @@ Dim Rn2 As ADODB.Recordset
 Dim Habilitado As Boolean
 
 
+Dim PrimeraVez As Boolean
 
-Dim UltimaConsultaSII As Date  'para que no este todo el tiempo yendo a ver el SII
 
 
 Public Function RibbonBar() As RibbonBar
@@ -768,7 +768,7 @@ Dim Pane As StatusBarPane
          Set statusBar = Nothing
          
          Set statusBar = CommandBars.statusBar
-         statusBar.Visible = True
+         statusBar.visible = True
          
          
          Set Pane = statusBar.AddPane(ID_INDICATOR_PAGENUMBER)
@@ -846,7 +846,7 @@ Dim AbiertoFormulario  As Boolean
         
         
         Case ID_VIEW_STATUSBAR:
-            CommandBars.statusBar.Visible = Not CommandBars.statusBar.Visible
+            CommandBars.statusBar.visible = Not CommandBars.statusBar.visible
             CommandBars.RecalcLayout
             
         Case ID_RIBBON_EXPAND:
@@ -1025,7 +1025,7 @@ Private Sub CommandBars_InitCommandsPopup(ByVal CommandBar As XtremeCommandBars.
         If Not Control Is Nothing Then
             Dim Index As Long
             Index = Control.Index
-            Control.Visible = False
+            Control.visible = False
             
             Do While Index + 1 <= CommandBar.Controls.Count
                 Set ControlItem = CommandBar.Controls.Item(Index + 1)
@@ -1123,8 +1123,12 @@ Private Sub DockingPaneManager_AttachPane(ByVal Item As XtremeDockingPane.IPane)
 End Sub
 
 Private Sub Form_Activate()
-    Screen.MousePointer = vbDefault
     
+    If PrimeraVez Then
+        PrimeraVez = False
+        AbrirFormSII False
+    End If
+    Screen.MousePointer = vbDefault
 End Sub
 
 
@@ -1167,12 +1171,18 @@ End Sub
 
 Public Sub CambiarEmpresa(QueEmpresa As Integer)
 Dim cur As Integer
-    cur = Screen.MousePointer
+
     Screen.MousePointer = vbHourglass
     Me.Hide
     CambiarEmpresa2 QueEmpresa
     Me.Show
-    Screen.MousePointer = cur
+    If vParam.SIITiene Then
+        DoEvents
+        Screen.MousePointer = vbHourglass
+        espera 0.1
+        AbrirFormSII False
+    End If
+    Screen.MousePointer = vbDefault
     
 End Sub
 
@@ -1206,8 +1216,8 @@ Dim RB As RibbonBar
    CargaDatosMenusDemas
    frmPaneContacts.SeleccionarNodoEmpresa vEmpresa.codempre
    pageBackstageHelp.Label9.Caption = vEmpresa.nomempre
-   pageBackstageHelp.tabPage(0).Visible = False
-   pageBackstageHelp.tabPage(1).Visible = False
+   pageBackstageHelp.tabPage(0).visible = False
+   pageBackstageHelp.tabPage(1).visible = False
    frmInbox.OpenProvider
    Set RB = RibbonBar
    RB.Minimized = False
@@ -1221,7 +1231,7 @@ Dim RB As RibbonBar
     vControl.Grabar
     
     
-    UltimaConsultaSII = DateAdd("h", -2, Now) 'para que fuerze ver SII
+    
     
     Screen.MousePointer = vbDefault
 End Sub
@@ -1288,8 +1298,8 @@ Private Sub Form_Load()
     End If
     CommandBars.FindControl(, cad, , True).Execute
     
-    
-    UltimaConsultaSII = DateAdd("h", -2, Now) 'para que fuerze ver SII
+    PrimeraVez = True
+
     
 End Sub
 
@@ -1739,7 +1749,7 @@ Private Sub CreateCalendarTabOriginal()
     Set Control = GroupNew.Add(xtpControlButton, ID_GROUP_NEW_APPOINTMENT, "&Evento")
     Control.Enabled = False
     Set Control = GroupNew.Add(xtpControlButton, ID_GROUP_NEW_MEETING, "&Cita")
-    Control.Enabled = False
+    Control.Enabled = True
     
     '------------------------------------
     'Set ControlNew_NewItems = GroupNew.Add(xtpControlButtonPopup, ID_GROUP_NEW_ITEMS, "New &Items")
@@ -1872,12 +1882,12 @@ End Sub
 
 
 Public Sub CargaMenu(AntiguoTab As Integer)
-Dim RN As ADODB.Recordset
+Dim Rn As ADODB.Recordset
 
 
 
 
-    Set RN = New ADODB.Recordset
+    Set Rn = New ADODB.Recordset
     Set Rn2 = New ADODB.Recordset
     On Error GoTo eCargaMenu
     
@@ -1885,18 +1895,18 @@ Dim RN As ADODB.Recordset
     If RibbonSeHaCreado Then RibbonBar.RemoveAllTabs
     
     cad = "Select * from menus where aplicacion = 'ariconta' and padre =0 ORDER BY padre,orden "
-    RN.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    While Not RN.EOF
+    Rn.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    While Not Rn.EOF
     
         
-        If Not BloqueaPuntoMenu(RN!Codigo, "ariconta") Then
+        If Not BloqueaPuntoMenu(Rn!Codigo, "ariconta") Then
              Habilitado = True
              
-             If Not MenuVisibleUsuario(DBLet(RN!Codigo), "ariconta") Then
+             If Not MenuVisibleUsuario(DBLet(Rn!Codigo), "ariconta") Then
                  Habilitado = False
              Else
          
-                 If (MenuVisibleUsuario(DBLet(RN!Padre), "ariconta") And DBLet(RN!Padre) <> 0) Or DBLet(RN!Padre) = 0 Then
+                 If (MenuVisibleUsuario(DBLet(Rn!Padre), "ariconta") And DBLet(Rn!Padre) <> 0) Or DBLet(Rn!Padre) = 0 Then
                      'OK todo habilitado
                  Else
                      Habilitado = False
@@ -1907,50 +1917,50 @@ Dim RN As ADODB.Recordset
                 
             If Habilitado Then
                 
-                Select Case RN!Codigo
+                Select Case Rn!Codigo
                 Case 1
                     '1   "CONFIGURACION"
-                    CargaMenuConfiguracion RN!Codigo
+                    CargaMenuConfiguracion Rn!Codigo
                 Case 2
                     '2   "DATOS GENERALES"
-                    CargaMenuDatosGenerales RN!Codigo
+                    CargaMenuDatosGenerales Rn!Codigo
                 Case 3
                     '3   "DIARIO"
-                    CargaMenuDiarios RN!Codigo
+                    CargaMenuDiarios Rn!Codigo
                 Case 4
                     '4   "FACTURAS"
-                    CargaMenuFacturas RN!Codigo
+                    CargaMenuFacturas Rn!Codigo
                 Case 5
                     '5   "INMOVILIZADO"
-                    CargaMenuInmovilizado RN!Codigo
+                    CargaMenuInmovilizado Rn!Codigo
                 Case 6
                     '6   "CARTERA DE COBROS"
-                    CargaMenuTesoreriaCobros RN!Codigo
+                    CargaMenuTesoreriaCobros Rn!Codigo
                 Case 7
                     
                 Case 8
                     '8   "CARTERA DE PAGOS"
-                    CargaMenuTesoreriaPagos RN!Codigo
+                    CargaMenuTesoreriaPagos Rn!Codigo
                 Case 9
                     '9   "INFORMES TESORERIA"
-                     CargaMenuTesoreriaInformes RN!Codigo
+                     CargaMenuTesoreriaInformes Rn!Codigo
                 Case 10
                     '10  "ANALÍTICA"
                     'Va dentro de diario
                     'UNa solapa para el
-                    CargaMenuAnaliticaPResupuestaria RN!Codigo
+                    CargaMenuAnaliticaPResupuestaria Rn!Codigo
                 Case 11
                     '11  "PRESUPUESTARIA"
-                    CargaMenuAnaliticaPResupuestaria RN!Codigo
+                    CargaMenuAnaliticaPResupuestaria Rn!Codigo
                 Case 12
                 
                 Case 13
                     '13  "CIERRE EJERCICIO"
-                    CargaMenuCierreEjercicio RN!Codigo
+                    CargaMenuCierreEjercicio Rn!Codigo
                      
                 Case 14
                     '14  "UTILIDADES"
-                    CargaMenuUtilidades RN!Codigo
+                    CargaMenuUtilidades Rn!Codigo
                 Case Else
                     MsgBox "Menu no tratado"
                     End
@@ -1960,9 +1970,9 @@ Dim RN As ADODB.Recordset
                                                  
         End If  'de habilitado el padre
     
-        RN.MoveNext
+        Rn.MoveNext
     Wend
-    RN.Close
+    Rn.Close
                         
     PonerTabPorDefecto AntiguoTab
     
@@ -1972,7 +1982,7 @@ eCargaMenu:
     Set TabNuevo = Nothing
     Set GroupNew = Nothing
     Set Control = Nothing
-    Set RN = Nothing
+    Set Rn = Nothing
     Set Rn2 = Nothing
 End Sub
 
@@ -1993,7 +2003,7 @@ Dim Anterior As Integer
         'Debug.Print J & " " & RibbonBar.Tab(i).Caption
         If J = Anterior Then
             
-            RibbonBar.Tab(i).Visible = True
+            RibbonBar.Tab(i).visible = True
             RibbonBar.Tab(i).Selected = True
             Set RibbonBar.SelectedTab = RibbonBar.Tab(i)
             cad = "OK"
@@ -2003,7 +2013,7 @@ Dim Anterior As Integer
     If cad = "" Then
         
         For J = RibbonBar.TabCount To 1 Step -1
-            RibbonBar.Tab(J - 1).Visible = True
+            RibbonBar.Tab(J - 1).visible = True
             RibbonBar.Tab(J - 1).Selected = True
         Next J
     End If
@@ -2678,6 +2688,10 @@ Dim Col As Collection
                 End If
             End If
             
+            If Rn2!Codigo = 1414 Then
+                If vParamT.FormaPagoInterTarjeta < 0 Then Habilitado = False
+            End If
+            
             Col.Add Abs(Habilitado) & "|" & Rn2!Codigo & "|" & Rn2!Descripcion & "|"
             If Habilitado Then cad = "S"
             
@@ -2691,6 +2705,7 @@ Dim Col As Collection
             '1411    "Traspaso códigos de I.V.A."
             '1412    "Acciones realizadas"
             '1413    Importar fras cliente
+            '1414    importacon facturas (de momento consum)
             
         'Ya puedo utilizar numregelim
         If cad <> "" Then
@@ -2728,7 +2743,7 @@ End Sub
 Private Sub AbrirFormularios(Accion As Long)
     
    
-    If Accion <> ID_SII Then AbrirFormSII False
+   ' If Accion <> ID_SII Then AbrirFormSII_2 False
     
     
     Select Case Accion
@@ -2785,7 +2800,7 @@ Private Sub AbrirFormularios(Accion As Long)
             frmBanco.Show vbModal
         Case 208 ' bic
             Screen.MousePointer = vbHourglass
-            frmBic.Show vbModal
+            frmbic.Show vbModal
         Case 209 ' agentes
             Screen.MousePointer = vbHourglass
             frmAgentes.Show vbModal
@@ -2913,7 +2928,7 @@ Private Sub AbrirFormularios(Accion As Long)
             frmTESImpRecibo.Show vbModal
         Case 604 ' realizar cobro
             With frmTESRealizarCobros
-                .ImporteGastosTarjeta_ = 0 '--Importe
+               
                 '--.vSQL = SQL
                 .Regresar = False
                 .Cobros = True
@@ -3090,7 +3105,9 @@ Private Sub AbrirFormularios(Accion As Long)
             Screen.MousePointer = vbDefault
         Case 1413
             frmImportarFraCli.Show vbModal
-        
+        Case 1414
+            frmImportarNavarres.Show vbModal
+            
         Case Else
   
     End Select
@@ -3145,18 +3162,14 @@ Dim C As String
         Screen.MousePointer = vbHourglass
         statusBar.Pane(1).Text = "leyendo SIII....    "
         
-        If DateDiff("h", UltimaConsultaSII, Now) > 1 Then
-            B = DarAvisoPendientesSII
-            If B > 0 Then
-                If MsgBox("Tiene facturas pendientes para el Suministro inmediato de informacion(AEAT)." & vbCrLf & "¿Verlas ahora?", vbQuestion + vbYesNo) = vbNo Then
-                    B = 0
-            
-                End If
-            End If
-        Else
-            B = 0
-        End If
         
+        B = DarAvisoPendientesSII()
+        If B > 0 Then
+            If MsgBox("AGENCIA TRIBUTARIA" & vbCrLf & vbCrLf & "Tiene facturas pendientes de comunicar al SII." & vbCrLf & vbCrLf & "¿Verlas ahora?", vbCritical + vbYesNo) = vbNo Then
+                B = 0
+            End If
+        End If
+    
         statusBar.Pane(1).Text = C
         Screen.MousePointer = vbDefault
     End If
@@ -3165,7 +3178,6 @@ Dim C As String
     If B > 0 Then
         frmSII_Avisos.QueMostrarDeSalida = B
         frmSII_Avisos.Show vbModal
-        UltimaConsultaSII = Now
     End If
 
 End Sub
@@ -3243,9 +3255,11 @@ Public Sub OpcionesMenuInformacion(id As Long)
     Case ID_Licencia_Usuario_Final_txt
         LanzaVisorMimeDocumento Me.hwnd, "c:\programas\Ariadna.rtf"
     Case ID_Licencia_Usuario_Final_web
-        LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & "AriCONTA-6.html?Licenciadeuso.html"
+        LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & "Licenciadeuso.html"
     Case ID_Ver_Version_operativa_web
         LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & "Ariconta-6.html"  ' "http://www.ariadnasw.com/clientes/"
+    Case ID_Ver_CambiosVersion
+        LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & "Versiones.html"
     End Select
     
 End Sub

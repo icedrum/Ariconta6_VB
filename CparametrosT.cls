@@ -85,7 +85,11 @@ Private mvarRemesasPorEntidad As Boolean
 Private mvarNormasFormatoXML As Boolean
 Private mvarPar_pen_apli As String
 
-Private Sql As String  'Para la sentencia
+Private mvarForpaPaogTarjetaAplicaIntereses As Integer
+
+
+
+Private SQL As String  'Para la sentencia
 Private Mens As String    'Para los mensajes
 Private Rs As Recordset
 Private RC As Byte
@@ -420,11 +424,14 @@ End Property
 'Los cobros a credito se pagaran con intereses.
 'Grabara en gastos el valor de los intereses
 ' y cuando de por aceptado lo guarda
-Public Property Get IntereseCobrosTarjeta() As Currency
-     IntereseCobrosTarjeta = mvarIntereseCobrosTarjeta
+Public Property Get IntereseCobrosTarjeta2() As Currency
+     IntereseCobrosTarjeta2 = mvarIntereseCobrosTarjeta
 End Property
-Public Property Let IntereseCobrosTarjeta(ByVal vData As Currency)
+Public Property Let IntereseCobrosTarjeta2(ByVal vData As Currency)
      mvarIntereseCobrosTarjeta = vData
+End Property
+Public Property Get FormaPagoInterTarjeta() As Integer
+     FormaPagoInterTarjeta = mvarForpaPaogTarjetaAplicaIntereses
 End Property
 
 
@@ -503,9 +510,9 @@ Private Function Leer1() As Byte
     
     Leer1 = 1
     
-    Sql = "SELECT * FROM paramTesor"
+    SQL = "SELECT * FROM paramTesor"
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic
     If Rs.EOF Then
         'ELSE
         Else
@@ -530,77 +537,78 @@ Private Function ParametrosTesoreriaNuevos()
     mvarRecaudacionEjecutiva = False
     mvarNuevasNormasSEPA = False
     mvarIntereseCobrosTarjeta = 0
+    mvarForpaPaogTarjetaAplicaIntereses = -1
     mvarNorma57 = 0
     mvarNormasFormatoXML = False
     
-    Sql = "generactrpar"
-    mvarAgrupaBancario = (DBLet(Rs.Fields(Sql), "N") = 1)
+    SQL = "generactrpar"
+    mvarAgrupaBancario = (DBLet(Rs.Fields(SQL), "N") = 1)
 
 
 
-    Sql = "contapagarepte"
-    mvarPagaresCtaPuente = (DBLet(Rs.Fields(Sql), "N") = 1)
+    SQL = "contapagarepte"
+    mvarPagaresCtaPuente = (DBLet(Rs.Fields(SQL), "N") = 1)
 
 
-    Sql = "contatalonpte"
-    mvarTalonesCtaPuente = (DBLet(Rs.Fields(Sql), "N") = 1)
+    SQL = "contatalonpte"
+    mvarTalonesCtaPuente = (DBLet(Rs.Fields(SQL), "N") = 1)
 
     
-    Sql = "comprobarinicio"
-    mvarComprobarAlInicio = (DBLet(Rs.Fields(Sql), "N") = 1)
+    SQL = "comprobarinicio"
+    mvarComprobarAlInicio = (DBLet(Rs.Fields(SQL), "N") = 1)
     
-    Sql = "EliminaRecibidosRiesgo"
-    mvarEliminaRecibidosRiesgo = (DBLet(Rs.Fields(Sql), "N") = 1)
+    SQL = "EliminaRecibidosRiesgo"
+    mvarEliminaRecibidosRiesgo = (DBLet(Rs.Fields(SQL), "N") = 1)
     
     
     'Operaciones aseguradas
     ' `DiasMaxAvisoDesde` `DiasMaxAvisoHasta `DiasMaxSiniestroDesde`
     '`DiasMaxSiniestrohasta` `FechaIniSeg`
     
-    Sql = "FechaIniSeg"
-    If Not IsNull(Rs.Fields(Sql)) Then
+    SQL = "FechaIniSeg"
+    If Not IsNull(Rs.Fields(SQL)) Then
         mvarTieneOperacionesAseguradas = True
-        mvarFechaIniSeg = Rs.Fields(Sql)
+        mvarFechaIniSeg = Rs.Fields(SQL)
         
-        Sql = "DiasMaxAvisoDesde"
-        mvarDiasMaxAvisoD = DBLet(Rs.Fields(Sql), "N")
-        Sql = "DiasMaxAvisoHasta"
-        mvarDiasMaxAvisoH = DBLet(Rs.Fields(Sql), "N")
-        Sql = "DiasMaxSiniestroDesde"
-        mvarDiasMaxSiniestroD = DBLet(Rs.Fields(Sql), "N")
-        Sql = "DiasMaxSiniestrohasta"
-        mvarDiasMaxSiniestroH = DBLet(Rs.Fields(Sql), "N")
+        SQL = "DiasMaxAvisoDesde"
+        mvarDiasMaxAvisoD = DBLet(Rs.Fields(SQL), "N")
+        SQL = "DiasMaxAvisoHasta"
+        mvarDiasMaxAvisoH = DBLet(Rs.Fields(SQL), "N")
+        SQL = "DiasMaxSiniestroDesde"
+        mvarDiasMaxSiniestroD = DBLet(Rs.Fields(SQL), "N")
+        SQL = "DiasMaxSiniestrohasta"
+        mvarDiasMaxSiniestroH = DBLet(Rs.Fields(SQL), "N")
 
-        Sql = "DiasAvisoDesdeProrroga"
-        mvarDiasAvisoDesdeProrroga = DBLet(Rs.Fields(Sql), "N")
+        SQL = "DiasAvisoDesdeProrroga"
+        mvarDiasAvisoDesdeProrroga = DBLet(Rs.Fields(SQL), "N")
         
 
     End If
     
     
-    Sql = "Nor19xVto"
-    mvarNorma19xFechaVto = (DBLet(Rs.Fields(Sql), "N") = 1)
-    Sql = "RecaudacionEjecutiva"
-    mvarRecaudacionEjecutiva = (DBLet(Rs.Fields(Sql), "N") = 1)
-    Sql = "FechaAsegEsFra"
-    mvarFechaSeguroEsFra = (DBLet(Rs.Fields(Sql), "N") = 1)
+    SQL = "Nor19xVto"
+    mvarNorma19xFechaVto = (DBLet(Rs.Fields(SQL), "N") = 1)
+    SQL = "RecaudacionEjecutiva"
+    mvarRecaudacionEjecutiva = (DBLet(Rs.Fields(SQL), "N") = 1)
+    SQL = "FechaAsegEsFra"
+    mvarFechaSeguroEsFra = (DBLet(Rs.Fields(SQL), "N") = 1)
     
     'Noviembre 2013
-    Sql = "Norma19_34Nueva"
-    mvarNuevasNormasSEPA = (DBLet(Rs.Fields(Sql), "N") = 1)
+    SQL = "Norma19_34Nueva"
+    mvarNuevasNormasSEPA = (DBLet(Rs.Fields(SQL), "N") = 1)
     
     'Abril 2014
-    Sql = "Intereses cobro tarjeta"
+    SQL = "Intereses cobro tarjeta"
     mvarIntereseCobrosTarjeta = DBLet(Rs!InteresesCobrosTarjeta, "N")
     
     
     'Octubre 2014
-    Sql = "Norma57. Pagos porventanilla"
+    SQL = "Norma57. Pagos porventanilla"
     mvarNorma57 = DBLet(Rs!Norma57, "N")
     
     
     'Marzo 2015
-    Sql = "Pagos confirming"
+    SQL = "Pagos confirming"
     mvarPagosConfirmingNorma = DBLet(Rs!CaixaConfirming, "N") = 1
     
     'Mayo 2015
@@ -608,15 +616,20 @@ Private Function ParametrosTesoreriaNuevos()
     
     'Sept. 2015
     ' Si la SEPA se presenta enm XML o fichero texto
-    Sql = "SEPA"
+    SQL = "SEPA"
     mvarNormasFormatoXML = DBLet(Rs!XML, "N") = 1
     
     
     mvarPar_pen_apli = DBLet(Rs!Par_pen_apli, "T")
     
+    SQL = "FormaPagoTarjeta"
+    If Not IsNull(Rs!FormaPagoTarjeta) Then mvarForpaPaogTarjetaAplicaIntereses = Rs!FormaPagoTarjeta
+  
+    
+    
     Exit Function
 EP:
-    MsgBox "Error leyendo parametros: " & Sql, vbExclamation
+    MsgBox "Error leyendo parametros: " & SQL, vbExclamation
 End Function
 
 '****   LEER  ***
@@ -624,9 +637,9 @@ Private Function Leer2() As Byte
     
     
     Leer2 = 1
-    Sql = "SELECT * FROM parametros"
+    SQL = "SELECT * FROM parametros"
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic
     If Rs.EOF Then
     
         'ELSE

@@ -406,7 +406,7 @@ Private Const IdPrograma = 606
 
 
 
-Dim Sql As String   'Cadena de uso comun
+Dim SQL As String   'Cadena de uso comun
 Dim Im As Currency
 Dim CampoAnterior As String
 Dim CadNif As String
@@ -429,23 +429,23 @@ Dim ModificarVto As Boolean  'No pone el impcobrado, pone vto el total que queda
     
     'COmprobaciones
     'Que hay seleccionado algun vencimiento
-    Sql = ""
+    SQL = ""
     For NumRegElim = 1 To lw1(0).ListItems.Count
         If lw1(0).ListItems(NumRegElim).Checked Then
-            Sql = "1"
+            SQL = "1"
             Exit For
         End If
     Next
-    If Sql <> "" Then
+    If SQL <> "" Then
         For NumRegElim = 1 To lw1(1).ListItems.Count
             If lw1(1).ListItems(NumRegElim).Checked Then
-                Sql = "1"
+                SQL = "1"
                 'Nos salimos.
                 Exit For
             End If
         Next
     End If
-    If Sql = "" Then
+    If SQL = "" Then
         MsgBox "Debe seleccionar algun vencimiento(cobros y pagos)", vbExclamation
         Exit Sub
     End If
@@ -463,12 +463,12 @@ Dim ModificarVto As Boolean  'No pone el impcobrado, pone vto el total que queda
     Else
         If Im > 0 Then
             'Estoy pagando mas que cobrando
-            Sql = CStr(EstableceVtoQueTotaliza(0))
-            If Sql <> "0" Then Set IT = lw1(0).ListItems(CInt(Sql))
+            SQL = CStr(EstableceVtoQueTotaliza(0))
+            If SQL <> "0" Then Set IT = lw1(0).ListItems(CInt(SQL))
         Else
             'Estoy COBRANDO mas que pagando
-            Sql = CStr(EstableceVtoQueTotaliza(1))
-            If Sql <> "0" Then Set IT = lw1(1).ListItems(CInt(Sql))
+            SQL = CStr(EstableceVtoQueTotaliza(1))
+            If SQL <> "0" Then Set IT = lw1(1).ListItems(CInt(SQL))
         End If
         
         
@@ -485,12 +485,12 @@ Dim ModificarVto As Boolean  'No pone el impcobrado, pone vto el total que queda
                 'No hay ningun vto donde compensar.
                 'Seleccionare el ultimo seleccionado del listview que corresponda
                 If CCur(Text3(2).Tag) > 0 Then
-                    Sql = CStr(ForzarVtoQueTotaliza(0))
-                    Set IT = lw1(0).ListItems(CInt(Sql))
+                    SQL = CStr(ForzarVtoQueTotaliza(0))
+                    Set IT = lw1(0).ListItems(CInt(SQL))
                 Else
                     'Estoy COBRANDO mas que pagando
-                    Sql = CStr(ForzarVtoQueTotaliza(1))
-                    Set IT = lw1(1).ListItems(CInt(Sql))
+                    SQL = CStr(ForzarVtoQueTotaliza(1))
+                    Set IT = lw1(1).ListItems(CInt(SQL))
                 End If
             End If
         End If
@@ -509,10 +509,10 @@ Dim ModificarVto As Boolean  'No pone el impcobrado, pone vto el total que queda
         ValoresConceptosPorDefecto True, CDC, CDP
         vCP.conhacli = CDC
         vCP.condepro = CDP
-        Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(CDC))
-        CadenaDesdeOtroForm = vCP.conhacli & "|" & Sql & "|"
-        Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(CDP))
-        CadenaDesdeOtroForm = CadenaDesdeOtroForm & vCP.condepro & "|" & Sql & "|"
+        SQL = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(CDC))
+        CadenaDesdeOtroForm = vCP.conhacli & "|" & SQL & "|"
+        SQL = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(CDP))
+        CadenaDesdeOtroForm = CadenaDesdeOtroForm & vCP.condepro & "|" & SQL & "|"
     Else
         CadenaDesdeOtroForm = "||||"
     End If
@@ -520,14 +520,14 @@ Dim ModificarVto As Boolean  'No pone el impcobrado, pone vto el total que queda
     'Le indico si puede realizar la compensacion sobre un vto, o no
     If IT Is Nothing Then
         '0:No
-        Sql = "0|Nada|"
+        SQL = "0|Nada|"
     Else
         '1: Si
-        Sql = "1|" & IT.Index & "|"
+        SQL = "1|" & IT.Index & "|"
     End If
-    CadenaDesdeOtroForm = CadenaDesdeOtroForm & Sql
+    CadenaDesdeOtroForm = CadenaDesdeOtroForm & SQL
     Set vCP = Nothing
-    Sql = ""
+    SQL = ""
     
     frmTESListado.Opcion = 22
     
@@ -545,16 +545,16 @@ Dim ModificarVto As Boolean  'No pone el impcobrado, pone vto el total que queda
                 Im = ImporteFormateado(lw1(IndiceListView).ListItems(NumRegElim).SubItems(4))
                 If Im > Abs(CCur(Text3(2).Tag)) Then
                     If IndiceListView = 0 Then
-                        Sql = lw1(IndiceListView).ListItems(NumRegElim).Text
+                        SQL = lw1(IndiceListView).ListItems(NumRegElim).Text
                     Else
                         'pagos
-                        Sql = ""
+                        SQL = ""
                     End If
                     
-                    Sql = "Fact: " & Sql & lw1(IndiceListView).ListItems(NumRegElim).SubItems(1) & " ,vto " & lw1(IndiceListView).ListItems(NumRegElim).SubItems(3) & _
+                    SQL = "Fact: " & SQL & lw1(IndiceListView).ListItems(NumRegElim).SubItems(1) & " ,vto " & lw1(IndiceListView).ListItems(NumRegElim).SubItems(3) & _
                             " de fecha " & lw1(IndiceListView).ListItems(NumRegElim).SubItems(2)
                     
-                    frmTESListado.InsertaItemComboCompensaVto Sql, CInt(NumRegElim)
+                    frmTESListado.InsertaItemComboCompensaVto SQL, CInt(NumRegElim)
                 End If
             End If
         Next
@@ -568,14 +568,14 @@ Dim ModificarVto As Boolean  'No pone el impcobrado, pone vto el total que queda
         If CuentaBloqeada(Text1(0).Text, RecuperaValor(CadenaDesdeOtroForm, 4), True) Then Exit Sub
         'Compruebo que ninguna de las dos esta bloqueda para le fecha de contabilizacion
          
-        Sql = Text4.Tag
-        While Sql <> ""
-             NumRegElim = InStr(1, Sql, "|")
+        SQL = Text4.Tag
+        While SQL <> ""
+             NumRegElim = InStr(1, SQL, "|")
              If NumRegElim = 0 Then
-                 Sql = ""
+                 SQL = ""
              Else
-                 If CuentaBloqeada(Mid(Sql, 1, NumRegElim - 1), RecuperaValor(CadenaDesdeOtroForm, 4), True) Then Exit Sub
-                 Sql = Mid(Sql, NumRegElim + 1)
+                 If CuentaBloqeada(Mid(SQL, 1, NumRegElim - 1), RecuperaValor(CadenaDesdeOtroForm, 4), True) Then Exit Sub
+                 SQL = Mid(SQL, NumRegElim + 1)
              End If
         Wend
                     
@@ -589,39 +589,39 @@ Dim ModificarVto As Boolean  'No pone el impcobrado, pone vto el total que queda
         CadenaDesdeOtroForm = Mid(CadenaDesdeOtroForm, 1, Len(CadenaDesdeOtroForm) - 1)
         'Comprueno si lleva contra un vto o NO
         NumRegElim = InStrRev(CadenaDesdeOtroForm, "|")
-        Sql = Mid(CadenaDesdeOtroForm, NumRegElim + 1)
+        SQL = Mid(CadenaDesdeOtroForm, NumRegElim + 1)
         CadenaDesdeOtroForm = Mid(CadenaDesdeOtroForm, 1, NumRegElim - 1)
-        If Sql = "0" Then
+        If SQL = "0" Then
             'NO ha seleccionado el vto, con lo cual pongo el IT a nothing
             Set IT = Nothing
             
         Else
             'Va a compensar contra un vto. Si el vto va a aumentar entonces le pregunto si desea continuar
           
-            If IT.Index <> Val(Sql) Then
+            If IT.Index <> Val(SQL) Then
                 'Ha cambiado el VTO que le ofertabamos nosotros
-                Set IT = lw1(IndiceListView).ListItems(CInt(Val(Sql)))
+                Set IT = lw1(IndiceListView).ListItems(CInt(Val(SQL)))
             End If
             'Aqui NO debe de ebtrar
             If AumentaElImporteDelVto Then
-                Sql = "El importe del vencimiento Factura: "
-                Sql = Sql & IT.SubItems(1) & "   nº" & IT.SubItems(3) & "  de fecha " & IT.SubItems(2)
-                Sql = Sql & " se va a incrementar"
+                SQL = "El importe del vencimiento Factura: "
+                SQL = SQL & IT.SubItems(1) & "   nº" & IT.SubItems(3) & "  de fecha " & IT.SubItems(2)
+                SQL = SQL & " se va a incrementar"
                 
-                Sql = Sql & vbCrLf & "¿Desea continuar?"
-                If MsgBox(Sql, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+                SQL = SQL & vbCrLf & "¿Desea continuar?"
+                If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
             End If
         End If
         
         'ASigno la nueva forma de pago del vto resultante (o en su defecto obvio el dato
         'Con lo cual voy a quitar el utlimi pipe que es la FP
         NumRegElim = InStrRev(CadenaDesdeOtroForm, "|")
-        Sql = Mid(CadenaDesdeOtroForm, NumRegElim + 1)
+        SQL = Mid(CadenaDesdeOtroForm, NumRegElim + 1)
         CadenaDesdeOtroForm = Mid(CadenaDesdeOtroForm, 1, NumRegElim)
         IndiceListView = -1
         If Not IT Is Nothing Then
-            If Sql <> "" Then
-                If IsNumeric(Sql) Then IndiceListView = Val(Sql)
+            If SQL <> "" Then
+                If IsNumeric(SQL) Then IndiceListView = Val(SQL)
             End If
         End If
         CadenaDesdeOtroForm = CadenaDesdeOtroForm & Text1(0).Text & " " & Text2(0).Text & " - " & Text4.Text & "|"
@@ -702,7 +702,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
@@ -712,14 +712,14 @@ Private Sub imgCuentas_Click(Index As Integer)
         'Avisar si ya han cargado datos
          Screen.MousePointer = vbHourglass
          Set frmCCtas = New frmColCtas
-         Sql = ""
+         SQL = ""
          CampoAnterior = Text1(Index).Text
          frmCCtas.DatosADevolverBusqueda = "0"
          frmCCtas.Show vbModal
          Set frmCCtas = Nothing
-         If Sql <> "" Then
-            Text1(Index).Text = RecuperaValor(Sql, 1)
-            Text2(Index).Text = RecuperaValor(Sql, 2)
+         If SQL <> "" Then
+            Text1(Index).Text = RecuperaValor(SQL, 1)
+            Text2(Index).Text = RecuperaValor(SQL, 2)
             If CampoAnterior <> Text1(Index).Text Then CargarListView Index
         End If
     Else
@@ -797,13 +797,13 @@ Dim NIF As String
 
         Else
             C = Text1(Index).Text
-            If Not CuentaCorrectaUltimoNivel(C, Sql) Then
-                MsgBox Sql & " - " & C, vbExclamation
-                Sql = ""
+            If Not CuentaCorrectaUltimoNivel(C, SQL) Then
+                MsgBox SQL & " - " & C, vbExclamation
+                SQL = ""
                 C = ""
             End If
             Text1(Index).Text = C
-            Text2(Index).Text = Sql
+            Text2(Index).Text = SQL
             If C = "" Then
                 PonFoco Text1(Index)
             Else
@@ -837,17 +837,17 @@ End Sub
 
 
 Private Function CuentasProveedorDelNif(NIF As String) As String
-Dim Sql As String
+Dim SQL As String
 Dim Rs As ADODB.Recordset
 Dim CadResult As String
 
     CuentasProveedorDelNif = ""
 
-    Sql = "select distinct codmacta from pagos where nifprove = " & DBSet(NIF, "T")
-    Sql = Sql & " and impefect - coalesce(imppagad,0) <> 0 "
+    SQL = "select distinct codmacta from pagos where nifprove = " & DBSet(NIF, "T")
+    SQL = SQL & " and impefect - coalesce(imppagad,0) <> 0 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     CadResult = ""
     
@@ -880,7 +880,10 @@ Dim C As String
         CalculaImportes
         
         If Indice = 0 Then
-            If Text1(Indice).Text = "" Then Exit Sub
+            If Text1(Indice).Text = "" Then
+                Screen.MousePointer = vbDefault
+                Exit Sub
+            End If
         End If
     
     Set miRsAux = New ADODB.Recordset
@@ -902,7 +905,7 @@ Dim C As String
             If NumRegElim = 0 Then
                 C = ""
             Else
-                Sql = Mid(C, 1, NumRegElim - 1)
+                SQL = Mid(C, 1, NumRegElim - 1)
                 C = Mid(C, NumRegElim + 1)
                 CargaDatosListview Indice  'Cargamos para este cliente
             End If
@@ -926,26 +929,26 @@ Dim CargaEnListview As Boolean
     
     
     If Indice = 0 Then
-        Sql = "select numserie,numfactu,fecfactu,numorden,impvenci,impcobro,gastos,codmacta from cobros where"
-        Sql = Sql & " codrem is null and anyorem is null and transfer is null" 'estacaja=0 and
+        SQL = "select numserie,numfactu,fecfactu,numorden,impvenci,impcobro,gastos,codmacta from cobros where"
+        SQL = SQL & " codrem is null and anyorem is null and coalesce(transfer,0)=0 "
         'Y que el talon pagare NO este recepcionado
-        Sql = Sql & " AND recedocu = 0"
-        Sql = Sql & " and  codmacta ='" & Text1(Indice).Text & "'"
+        SQL = SQL & " AND recedocu = 0"
+        SQL = SQL & " and  codmacta ='" & Text1(Indice).Text & "'"
     Else
         'En SQL va el codmacta
-        CadNif = DevuelveDesdeBD("nifdatos", "cuentas", "codmacta", Sql, "T")
+        CadNif = DevuelveDesdeBD("nifdatos", "cuentas", "codmacta", SQL, "T")
         
-        Sql = " and nrodocum is null and pagos.codmacta ='" & Sql & "'"
+        SQL = " and nrodocum is null and pagos.codmacta ='" & SQL & "'"
         If CadNif <> "" Then
-            Sql = Sql & " and pagos.nifprove = " & DBSet(CadNif, "T")
+            SQL = SQL & " and pagos.nifprove = " & DBSet(CadNif, "T")
         End If
         
-        Sql = " WHERE impefect - coalesce(imppagad,0) <> 0 " & Sql 'AND estacaja =0
-        Sql = "select numfactu,fecfactu,numorden,impefect,imppagad,pagos.codmacta as codmacta,nomprove as nommacta, numserie  FROM pagos " & Sql
+        SQL = " WHERE impefect - coalesce(imppagad,0) <> 0 " & SQL 'AND estacaja =0
+        SQL = "select numfactu,fecfactu,numorden,impefect,imppagad,pagos.codmacta as codmacta,nomprove as nommacta, numserie  FROM pagos " & SQL
     End If
     
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    Sql = ""
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = ""
     While Not miRsAux.EOF
         'Veremos si el importe es positivo, o no
         
@@ -975,10 +978,10 @@ Dim CargaEnListview As Boolean
                 
                 IT.Text = Mid(miRsAux!Nommacta, 1, 20)
                 'Para que aparezca en el
-                If Sql = "" Then
+                If SQL = "" Then
                     If Text4.Text <> "" Then Text4.Text = Text4.Text & vbCrLf
                     Text4.Text = Text4.Text & miRsAux!codmacta & "   " & miRsAux!Nommacta
-                    Sql = "D"
+                    SQL = "D"
                 End If
                 IT.SubItems(1) = miRsAux!NumFactu
                 IT.SubItems(2) = miRsAux!FecFactu
@@ -1097,7 +1100,7 @@ Dim FrasPro As String
         
         'Descripcion concepto
         CampoAnterior = DevuelveDesdeBD("nomconce", "conceptos", "codconce", FP.conhacli)
-        Sql = ""
+        SQL = ""
         
         '----------------------------------------------------------------------
         '----------------------------------------------------------------------
@@ -1199,19 +1202,19 @@ Dim FrasPro As String
                         End If
                     End If
                     'codconce numdocum, ampconce , codmacta, timporteD,timporteH, ctacontr
-                    Sql = FP.condecli & ",'" & .Text & Format(.SubItems(1), "000000") & "','"
+                    SQL = FP.condecli & ",'" & .Text & Format(.SubItems(1), "000000") & "','"
         
-                    Sql = Sql & DevNombreSQL(Mid(Ampliacion, 1, 30)) & "','" & Text1(0).Text & "',"
+                    SQL = SQL & DevNombreSQL(Mid(Ampliacion, 1, 30)) & "','" & Text1(0).Text & "',"
 
                     'Importe
                     If VaAlDebe Then
-                        Sql = Sql & TransformaComasPuntos(CStr(Im)) & ",NULL"
+                        SQL = SQL & TransformaComasPuntos(CStr(Im)) & ",NULL"
                     Else
-                        Sql = Sql & "NULL," & TransformaComasPuntos(CStr(Im))
+                        SQL = SQL & "NULL," & TransformaComasPuntos(CStr(Im))
                     End If
                     
                     'Contrapartida. esta guaddad en ContrapartidaPago
-                    Sql = Sql & "," & ContrapartidaPago & ","
+                    SQL = SQL & "," & ContrapartidaPago & ","
                     
                     'Habran dos pipes.
                     '   1.- lo que tengo que insertar en hlinapu
@@ -1224,7 +1227,7 @@ Dim FrasPro As String
                     Ampliacion = Ampliacion & " WHERE `numserie`='" & .Text & "' and numfactu=" & .SubItems(1)
                     Ampliacion = Ampliacion & " and `fecfactu`='" & Format(.SubItems(2), FormatoFecha) & "' and `numorden`=" & .SubItems(3) & "|"
             
-                    CCli.Add Sql & Ampliacion
+                    CCli.Add SQL & Ampliacion
                 End With
             End If
     Next NumRegElim
@@ -1330,15 +1333,15 @@ Dim FrasPro As String
                         End If
                     End If
                     'numdocum, ampconce , codmacta, timporteD,timporteH, ctacontr
-                    Sql = FP.condepro & ",'" & DevNombreSQL(.SubItems(1)) & "','"
+                    SQL = FP.condepro & ",'" & DevNombreSQL(.SubItems(1)) & "','"
         
-                    Sql = Sql & DevNombreSQL(Mid(Ampliacion, 1, 30)) & "','" & .Tag & "',"
+                    SQL = SQL & DevNombreSQL(Mid(Ampliacion, 1, 30)) & "','" & .Tag & "',"
 
                     'Importe
                     If VaAlDebe Then
-                        Sql = Sql & TransformaComasPuntos(CStr(Im)) & ",NULL"
+                        SQL = SQL & TransformaComasPuntos(CStr(Im)) & ",NULL"
                     Else
-                        Sql = Sql & "NULL," & TransformaComasPuntos(CStr(Im))
+                        SQL = SQL & "NULL," & TransformaComasPuntos(CStr(Im))
                     End If
                     
                     'Contrapartida
@@ -1351,9 +1354,9 @@ Dim FrasPro As String
 
                     
                     If Ampliacion <> "" Then
-                        Sql = Sql & ",'" & Ampliacion & "',"
+                        SQL = SQL & ",'" & Ampliacion & "',"
                     Else
-                        Sql = Sql & ",NULL,"
+                        SQL = SQL & ",NULL,"
                     End If
                     
                     
@@ -1366,7 +1369,7 @@ Dim FrasPro As String
                     '
                     Ampliacion = Ampliacion & " WHERE `codmacta`='" & .Tag & "' and `numfactu`='" & DevNombreSQL(.SubItems(1))
                     Ampliacion = Ampliacion & "' and `fecfactu`='" & Format(.SubItems(2), FormatoFecha) & "' and `numorden`=" & .SubItems(3) & "|"
-                    CPro.Add Sql & Ampliacion
+                    CPro.Add SQL & Ampliacion
                     
                     
   
@@ -1375,7 +1378,7 @@ Dim FrasPro As String
     Next NumRegElim
 
     'El ajuste de la linea del banco
-     If Sql <> "" And (ItmVto Is Nothing) Then
+     If SQL <> "" And (ItmVto Is Nothing) Then
      
         'Una pequeña comprobacion
         'Valor calculado ahora: Total
@@ -1384,39 +1387,39 @@ Dim FrasPro As String
          Im = ImporteFormateado(Text3(2).Text)
          If Im <> Total Then
             CampoAnterior = "ERROR importe calculado"
-            Sql = ""
+            SQL = ""
         Else
             If Im <> 0 Then
                 'Meteremos, o bien en la lista de cobro, o bien en la de pagos, en funcion del importe
-                Sql = ""
+                SQL = ""
                 NumRegElim = 0
                 Ampliacion = "Compensa:" & Text1(0).Text & " // "
                 Do
                     NumRegElim = NumRegElim + 1
-                    Sql = RecuperaValor(Text4.Tag, CInt(NumRegElim))
-                    If Sql <> "" Then Ampliacion = Ampliacion & " " & Sql
-                Loop Until Sql = ""
+                    SQL = RecuperaValor(Text4.Tag, CInt(NumRegElim))
+                    If SQL <> "" Then Ampliacion = Ampliacion & " " & SQL
+                Loop Until SQL = ""
                
                 
                 Ampliacion = Mid(Ampliacion, 1, 30)
                                                 
                 VaAlDebe = True
-                Sql = FP.condepro
+                SQL = FP.condepro
                 If Im < 0 Then
-                    Sql = FP.condecli
+                    SQL = FP.condecli
                     VaAlDebe = False
                     Im = -Im
                 End If
                 
                 'coconce numdocum, ampconce , codmacta, timporteD,timporteH, ctacontr
-                Sql = Sql & ",'COMPENSA.','" & DevNombreSQL(Ampliacion) & "','" & RecuperaValor(CadenaDesdeOtroForm, 5) & "',"
+                SQL = SQL & ",'COMPENSA.','" & DevNombreSQL(Ampliacion) & "','" & RecuperaValor(CadenaDesdeOtroForm, 5) & "',"
                 If VaAlDebe Then
-                    Sql = Sql & TransformaComasPuntos(CStr(Im)) & ",NULL"
+                    SQL = SQL & TransformaComasPuntos(CStr(Im)) & ",NULL"
                 Else
-                    Sql = Sql & "NULL," & TransformaComasPuntos(CStr(Im))
+                    SQL = SQL & "NULL," & TransformaComasPuntos(CStr(Im))
                 End If
-                Sql = Sql & ",NULL,||" 'No elimna cobro/pago
-                CPro.Add Sql
+                SQL = SQL & ",NULL,||" 'No elimna cobro/pago
+                CPro.Add SQL
                                 
         
             End If
@@ -1426,12 +1429,12 @@ Dim FrasPro As String
     Set FP = Nothing
         
         
-    If Sql <> "" Then
+    If SQL <> "" Then
     
 
 
-        Sql = "Los efectos serán modificados despues de contabilizar la compensación." & vbCrLf & "¿Continuar?"
-        If MsgBox(Sql, vbQuestion + vbYesNo) = vbYes Then CrearColecciones = True
+        SQL = "Los efectos serán modificados despues de contabilizar la compensación." & vbCrLf & "¿Continuar?"
+        If MsgBox(SQL, vbQuestion + vbYesNo) = vbYes Then CrearColecciones = True
 
     Else
         If CampoAnterior = "" Then CampoAnterior = "No se ha seleccionado ningún vencimiento."

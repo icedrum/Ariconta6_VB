@@ -1745,57 +1745,7 @@ ELeerEditorMenus:
 End Sub
 
 
-Private Sub CargarListEditorMenu()
-Dim Nod As Node
-Dim J As Integer
 
-    TreeView1.Nodes.Clear
-    Sql = "Select * from usuarios.appmenus where aplicacion='conta'"
-    Sql = Sql & " ORDER BY padre ,orden"
-    Set miRsAux = New ADODB.Recordset
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    While Not miRsAux.EOF
-        If DBLet(miRsAux!Padre, "N") = 0 Then
-            Set Nod = TreeView1.Nodes.Add(, , "C" & miRsAux!Contador)
-        Else
-            Sql = "C" & miRsAux!Padre
-            Set Nod = TreeView1.Nodes.Add(Sql, tvwChild, "C" & miRsAux!Contador)
-        End If
-        Sql = miRsAux!Name & "|"
-        If Not IsNull(miRsAux!Indice) Then Sql = Sql & miRsAux!Indice
-        Nod.Tag = Sql
-   
-        Nod.Text = miRsAux!Caption
-        Nod.Checked = True
-        Nod.EnsureVisible
-        miRsAux.MoveNext
-    Wend
-    miRsAux.Close
-    If TreeView1.Nodes.Count > 1 Then TreeView1.Nodes(1).EnsureVisible
-    
-    'AHora ire nodo a nodo buscando los k deshabilitamos de la aplicacion
-    Sql = "Select * from usuarios.appmenusUsuario where aplicacion='Conta' AND codusu =" & ListView1.SelectedItem.Text
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    While Not miRsAux.EOF
-        For i = 1 To TreeView1.Nodes.Count
-            Sql = miRsAux!Tag
-            If TreeView1.Nodes(i).Tag = Sql Then
-                TreeView1.Nodes(i).Checked = False
-                If TreeView1.Nodes(i).Children > 0 Then Recursivo2 TreeView1.Nodes(i).Child, TreeView1.Nodes(i).Checked
-                Exit For
-            End If
-        Next i
-        miRsAux.MoveNext
-    Wend
-    miRsAux.Close
-    
-    
-    
-    
-    
-    
-    Set miRsAux = Nothing
-End Sub
 
 
 

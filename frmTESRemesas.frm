@@ -28,20 +28,20 @@ Begin VB.Form frmTESRemesas
       BorderStyle     =   0  'None
       Height          =   8895
       Left            =   30
-      TabIndex        =   20
+      TabIndex        =   23
       Top             =   30
       Visible         =   0   'False
       Width           =   15795
       Begin VB.Frame FrameBotonGnral2 
          Height          =   705
          Left            =   4020
-         TabIndex        =   28
+         TabIndex        =   31
          Top             =   180
          Width           =   2355
          Begin MSComctlLib.Toolbar Toolbar2 
             Height          =   330
             Left            =   210
-            TabIndex        =   29
+            TabIndex        =   32
             Top             =   210
             Width           =   1935
             _ExtentX        =   3413
@@ -71,7 +71,7 @@ Begin VB.Form frmTESRemesas
       Begin VB.Frame Frame2 
          Height          =   705
          Left            =   240
-         TabIndex        =   21
+         TabIndex        =   24
          Top             =   180
          Width           =   3585
          Begin MSComctlLib.Toolbar Toolbar1 
@@ -134,7 +134,7 @@ Begin VB.Form frmTESRemesas
       Begin MSComctlLib.ListView lw1 
          Height          =   7305
          Left            =   240
-         TabIndex        =   22
+         TabIndex        =   25
          Top             =   990
          Width           =   15525
          _ExtentX        =   27384
@@ -163,7 +163,7 @@ Begin VB.Form frmTESRemesas
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   15270
-         TabIndex        =   23
+         TabIndex        =   26
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -201,7 +201,7 @@ Begin VB.Form frmTESRemesas
       BorderStyle     =   0  'None
       Height          =   9045
       Left            =   30
-      TabIndex        =   19
+      TabIndex        =   22
       Top             =   -60
       Visible         =   0   'False
       Width           =   15855
@@ -220,7 +220,7 @@ Begin VB.Form frmTESRemesas
          Height          =   360
          Index           =   4
          Left            =   12060
-         TabIndex        =   60
+         TabIndex        =   61
          Tag             =   "Importe|N|N|||reclama|importes|||"
          Top             =   4200
          Width           =   1815
@@ -230,13 +230,13 @@ Begin VB.Form frmTESRemesas
          Caption         =   "Frame4"
          Height          =   4515
          Left            =   150
-         TabIndex        =   26
+         TabIndex        =   29
          Top             =   3840
          Width           =   11655
          Begin MSComctlLib.ListView lwCobros2 
             Height          =   4215
             Left            =   0
-            TabIndex        =   27
+            TabIndex        =   30
             Top             =   360
             Width           =   11655
             _ExtentX        =   20558
@@ -325,7 +325,7 @@ Begin VB.Form frmTESRemesas
       Begin VB.Frame Frame3 
          Height          =   555
          Left            =   180
-         TabIndex        =   24
+         TabIndex        =   27
          Top             =   8340
          Width           =   1755
          Begin VB.Label lblIndicador 
@@ -342,7 +342,7 @@ Begin VB.Form frmTESRemesas
             EndProperty
             Height          =   255
             Left            =   240
-            TabIndex        =   25
+            TabIndex        =   28
             Top             =   210
             Width           =   1200
          End
@@ -361,7 +361,7 @@ Begin VB.Form frmTESRemesas
          Height          =   375
          Index           =   0
          Left            =   13170
-         TabIndex        =   17
+         TabIndex        =   20
          Top             =   8460
          Width           =   1155
       End
@@ -379,7 +379,7 @@ Begin VB.Form frmTESRemesas
          Height          =   375
          Index           =   0
          Left            =   14430
-         TabIndex        =   18
+         TabIndex        =   21
          Top             =   8460
          Width           =   1095
       End
@@ -443,9 +443,26 @@ Begin VB.Form frmTESRemesas
          EndProperty
          Height          =   3735
          Left            =   120
-         TabIndex        =   30
+         TabIndex        =   33
          Top             =   60
          Width           =   15645
+         Begin VB.CheckBox chkExluirDevueltos 
+            Caption         =   "Excluir devueltos"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Left            =   11910
+            TabIndex        =   19
+            Top             =   2790
+            Width           =   2745
+         End
          Begin VB.TextBox txtCuentas 
             BeginProperty Font 
                Name            =   "Verdana"
@@ -479,7 +496,7 @@ Begin VB.Form frmTESRemesas
             Height          =   360
             Index           =   2
             Left            =   1620
-            TabIndex        =   58
+            TabIndex        =   59
             Text            =   "Text2"
             Top             =   3150
             Width           =   3525
@@ -515,7 +532,7 @@ Begin VB.Form frmTESRemesas
             EndProperty
             Height          =   255
             Left            =   11910
-            TabIndex        =   56
+            TabIndex        =   18
             Top             =   2370
             Width           =   3315
          End
@@ -532,7 +549,7 @@ Begin VB.Form frmTESRemesas
             EndProperty
             Height          =   255
             Left            =   11910
-            TabIndex        =   55
+            TabIndex        =   17
             Top             =   1920
             Width           =   2745
          End
@@ -727,7 +744,7 @@ Begin VB.Form frmTESRemesas
             Index           =   0
             Left            =   7020
             Locked          =   -1  'True
-            TabIndex        =   34
+            TabIndex        =   37
             Top             =   810
             Width           =   4665
          End
@@ -746,7 +763,7 @@ Begin VB.Form frmTESRemesas
             Index           =   1
             Left            =   7020
             Locked          =   -1  'True
-            TabIndex        =   33
+            TabIndex        =   36
             Top             =   1200
             Width           =   4665
          End
@@ -765,7 +782,7 @@ Begin VB.Form frmTESRemesas
             Index           =   0
             Left            =   7530
             Locked          =   -1  'True
-            TabIndex        =   32
+            TabIndex        =   35
             Top             =   1950
             Width           =   4125
          End
@@ -784,7 +801,7 @@ Begin VB.Form frmTESRemesas
             Index           =   1
             Left            =   7530
             Locked          =   -1  'True
-            TabIndex        =   31
+            TabIndex        =   34
             Top             =   2370
             Width           =   4125
          End
@@ -880,7 +897,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   1
             Left            =   240
-            TabIndex        =   59
+            TabIndex        =   60
             Top             =   2880
             Width           =   825
          End
@@ -905,7 +922,7 @@ Begin VB.Form frmTESRemesas
             Height          =   255
             Index           =   0
             Left            =   6630
-            TabIndex        =   57
+            TabIndex        =   58
             Top             =   2880
             Width           =   1245
          End
@@ -930,7 +947,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   5
             Left            =   5250
-            TabIndex        =   54
+            TabIndex        =   57
             Top             =   2880
             Width           =   795
          End
@@ -948,7 +965,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   0
             Left            =   5190
-            TabIndex        =   53
+            TabIndex        =   56
             Top             =   840
             Width           =   600
          End
@@ -966,7 +983,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   1
             Left            =   5190
-            TabIndex        =   52
+            TabIndex        =   55
             Top             =   1230
             Width           =   585
          End
@@ -999,7 +1016,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   6
             Left            =   5160
-            TabIndex        =   51
+            TabIndex        =   54
             Top             =   510
             Width           =   960
          End
@@ -1018,7 +1035,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   8
             Left            =   2700
-            TabIndex        =   50
+            TabIndex        =   53
             Top             =   480
             Width           =   2280
          End
@@ -1037,7 +1054,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   7
             Left            =   240
-            TabIndex        =   49
+            TabIndex        =   52
             Top             =   1650
             Width           =   1590
          End
@@ -1055,7 +1072,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   5
             Left            =   2700
-            TabIndex        =   48
+            TabIndex        =   51
             Top             =   840
             Width           =   690
          End
@@ -1072,7 +1089,7 @@ Begin VB.Form frmTESRemesas
             Height          =   255
             Index           =   4
             Left            =   2580
-            TabIndex        =   47
+            TabIndex        =   50
             Top             =   3990
             Width           =   4095
          End
@@ -1090,7 +1107,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   4
             Left            =   2700
-            TabIndex        =   46
+            TabIndex        =   49
             Top             =   1260
             Width           =   615
          End
@@ -1108,7 +1125,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   3
             Left            =   240
-            TabIndex        =   45
+            TabIndex        =   48
             Top             =   2010
             Width           =   690
          End
@@ -1126,7 +1143,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   2
             Left            =   240
-            TabIndex        =   44
+            TabIndex        =   47
             Top             =   2430
             Width           =   615
          End
@@ -1172,7 +1189,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   9
             Left            =   5160
-            TabIndex        =   43
+            TabIndex        =   46
             Top             =   2430
             Width           =   615
          End
@@ -1190,7 +1207,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   10
             Left            =   5160
-            TabIndex        =   42
+            TabIndex        =   45
             Top             =   2010
             Width           =   690
          End
@@ -1209,7 +1226,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   11
             Left            =   5160
-            TabIndex        =   41
+            TabIndex        =   44
             Top             =   1650
             Width           =   1890
          End
@@ -1241,7 +1258,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   16
             Left            =   270
-            TabIndex        =   40
+            TabIndex        =   43
             Top             =   1230
             Width           =   615
          End
@@ -1259,7 +1276,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   17
             Left            =   270
-            TabIndex        =   39
+            TabIndex        =   42
             Top             =   840
             Width           =   690
          End
@@ -1278,7 +1295,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   18
             Left            =   270
-            TabIndex        =   38
+            TabIndex        =   41
             Top             =   480
             Width           =   2280
          End
@@ -1297,7 +1314,7 @@ Begin VB.Form frmTESRemesas
             Height          =   315
             Index           =   14
             Left            =   2670
-            TabIndex        =   37
+            TabIndex        =   40
             Top             =   1650
             Width           =   2340
          End
@@ -1315,7 +1332,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   19
             Left            =   2670
-            TabIndex        =   36
+            TabIndex        =   39
             Top             =   2430
             Width           =   615
          End
@@ -1333,7 +1350,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   20
             Left            =   2670
-            TabIndex        =   35
+            TabIndex        =   38
             Top             =   2010
             Width           =   690
          End
@@ -1351,7 +1368,7 @@ Begin VB.Form frmTESRemesas
          EndProperty
          Height          =   3735
          Left            =   120
-         TabIndex        =   62
+         TabIndex        =   63
          Top             =   60
          Width           =   15645
          Begin VB.TextBox txtFecha 
@@ -1368,7 +1385,7 @@ Begin VB.Form frmTESRemesas
             Height          =   360
             Index           =   5
             Left            =   5370
-            TabIndex        =   64
+            TabIndex        =   65
             Tag             =   "Fecha Reclamación|F|N|||reclama|fecreclama|dd/mm/yyyy||"
             Text            =   "99/99/9999"
             Top             =   2130
@@ -1387,7 +1404,7 @@ Begin VB.Form frmTESRemesas
             Height          =   360
             Left            =   6690
             MaxLength       =   50
-            TabIndex        =   65
+            TabIndex        =   66
             Tag             =   "Descripción|T|N|||remesas|descripción|||"
             Top             =   2130
             Width           =   5025
@@ -1407,7 +1424,7 @@ Begin VB.Form frmTESRemesas
             Height          =   360
             Index           =   3
             Left            =   1740
-            TabIndex        =   66
+            TabIndex        =   67
             Text            =   "Text2"
             Top             =   2130
             Width           =   3525
@@ -1425,7 +1442,7 @@ Begin VB.Form frmTESRemesas
             Height          =   360
             Index           =   3
             Left            =   360
-            TabIndex        =   63
+            TabIndex        =   64
             Text            =   "Text2"
             Top             =   2130
             Width           =   1335
@@ -1445,7 +1462,7 @@ Begin VB.Form frmTESRemesas
             Height          =   375
             Index           =   12
             Left            =   360
-            TabIndex        =   71
+            TabIndex        =   72
             Top             =   750
             Width           =   8940
          End
@@ -1462,7 +1479,7 @@ Begin VB.Form frmTESRemesas
             Height          =   255
             Index           =   0
             Left            =   2580
-            TabIndex        =   70
+            TabIndex        =   71
             Top             =   3990
             Width           =   4095
          End
@@ -1480,7 +1497,7 @@ Begin VB.Form frmTESRemesas
             Height          =   225
             Index           =   4
             Left            =   5370
-            TabIndex        =   69
+            TabIndex        =   70
             Top             =   1860
             Width           =   795
          End
@@ -1505,7 +1522,7 @@ Begin VB.Form frmTESRemesas
             Height          =   255
             Index           =   3
             Left            =   6690
-            TabIndex        =   68
+            TabIndex        =   69
             Top             =   1860
             Width           =   1245
          End
@@ -1530,7 +1547,7 @@ Begin VB.Form frmTESRemesas
             Height          =   195
             Index           =   2
             Left            =   360
-            TabIndex        =   67
+            TabIndex        =   68
             Top             =   1860
             Width           =   1845
          End
@@ -1549,7 +1566,7 @@ Begin VB.Form frmTESRemesas
          EndProperty
          Height          =   255
          Left            =   2130
-         TabIndex        =   72
+         TabIndex        =   73
          Top             =   8550
          Width           =   8400
       End
@@ -1569,7 +1586,7 @@ Begin VB.Form frmTESRemesas
          Height          =   240
          Index           =   72
          Left            =   12090
-         TabIndex        =   61
+         TabIndex        =   62
          Top             =   3900
          Width           =   1575
       End
@@ -1672,6 +1689,22 @@ Private Function ComprobarObjeto(ByRef T As TextBox) As Boolean
 
     Set miTag = Nothing
 End Function
+
+Private Sub Check1_Click()
+
+End Sub
+
+Private Sub chkAgruparRemesaPorEntidad_KeyPress(KeyAscii As Integer)
+KEYpress KeyAscii
+End Sub
+
+Private Sub chkComensaAbonos_KeyPress(KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
+Private Sub chkExluirDevueltos_KeyPress(KeyAscii As Integer)
+KEYpress KeyAscii
+End Sub
 
 Private Sub cmdCancelar_Click(Index As Integer)
 Dim i As Integer
@@ -1940,7 +1973,7 @@ Dim Img As Image
     Me.imgCuentas(3).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
     For i = 0 To 5
-        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+        Me.imgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
     Next i
     
     ' Botonera Principal
@@ -2400,7 +2433,7 @@ Dim i As Integer
     
     Me.chkComensaAbonos.Value = 0
     Me.chkAgruparRemesaPorEntidad.Value = 0
-    
+    chkExluirDevueltos.Value = 0
     Me.lwCobros2.ListItems.Clear
     
     If Err.Number <> 0 Then Err.Clear
@@ -3126,6 +3159,9 @@ Dim Sql2 As String
 
         'Si esta en situacion juridica TAMPOCO se remesa
         Sql = Sql & " AND situacionjuri=0"
+
+        'Si esta marcado EXXCLUIR DEVUELTOS
+        If Me.chkExluirDevueltos.Value = 1 Then Sql = Sql & " AND Devuelto=0"
 
     End If
     

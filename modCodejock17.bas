@@ -380,7 +380,7 @@ Public Const ID_VIEW_STATUSBAR = 10016
 'Public Const ID_WEB_HOME = 148
 'Public Const ID_WEB_SEARCH = 149
 'Public Const ID_WEB_REFRESH = 200
-'Public Const ID_WEB_STOP = 201
+'Public Const ID_WEB_S TOP = 201
 '
 'Public Const ID_OUTLOOK_TODAY = 202
 'Public Const ID_BACK = 210
@@ -979,7 +979,7 @@ Public Const ID_ImportarFacturasCliente = 1413
 Public Const ID_Licencia_Usuario_Final_txt = 2001
 Public Const ID_Licencia_Usuario_Final_web = 2002
 Public Const ID_Ver_Version_operativa_web = 2003
-
+Public Const ID_Ver_CambiosVersion = 2004
 
 
 

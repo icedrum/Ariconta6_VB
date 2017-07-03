@@ -673,25 +673,25 @@ Begin VB.Form frmInmoVenta
          Caption         =   "Baja"
          BeginProperty Font 
             Name            =   "Verdana"
-            Size            =   9.75
+            Size            =   11.25
             Charset         =   0
-            Weight          =   700
+            Weight          =   400
             Underline       =   0   'False
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
          Index           =   1
-         Left            =   1830
+         Left            =   1920
          TabIndex        =   40
          Top             =   300
-         Width           =   855
+         Width           =   1455
       End
       Begin VB.OptionButton Option1 
          Caption         =   "Venta"
          BeginProperty Font 
             Name            =   "Verdana"
-            Size            =   9.75
+            Size            =   11.25
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -704,7 +704,7 @@ Begin VB.Form frmInmoVenta
          TabIndex        =   39
          Top             =   300
          Value           =   -1  'True
-         Width           =   1245
+         Width           =   1365
       End
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
@@ -850,9 +850,9 @@ Attribute frmFCli.VB_VarHelpID = -1
 
 Dim PrimeraVez As Boolean
 Dim Rs As Recordset
-Dim Cad As String
+Dim cad As String
 Dim i As Byte
-Dim b As Boolean
+Dim B As Boolean
 Dim Importe As Currency
 '
 'Desde parametros
@@ -893,14 +893,14 @@ Dim F As Date
         Text4(0).SetFocus
         Exit Sub
     End If
-    If txtcta(0).Text = "" Then
+    If txtCta(0).Text = "" Then
         MsgBox "Introduzca la cuenta de pérdidas/beneficios.", vbExclamation
-        txtcta(0).SetFocus
+        txtCta(0).SetFocus
         Exit Sub
     End If
     'Si esta bloqueada
-    If EstaLaCuentaBloqueada(txtcta(0).Text, CDate(Text4(0).Text)) Then
-        MsgBox "Cuenta bloqueada: " & txtcta(0).Text, vbExclamation
+    If EstaLaCuentaBloqueada(txtCta(0).Text, CDate(Text4(0).Text)) Then
+        MsgBox "Cuenta bloqueada: " & txtCta(0).Text, vbExclamation
         Exit Sub
     End If
     
@@ -914,20 +914,20 @@ Dim F As Date
             Exit Sub
         End If
             
-        If txtcta(1).Text = "" Then
+        If txtCta(1).Text = "" Then
             MsgBox "Introduzca la cuenta de venta.", vbExclamation
-            txtcta(1).SetFocus
+            txtCta(1).SetFocus
             Exit Sub
         End If
         '
-        If EstaLaCuentaBloqueada(txtcta(1).Text, CDate(Text4(0).Text)) Then
-            MsgBox "Cuenta bloqueada: " & txtcta(1).Text, vbExclamation
+        If EstaLaCuentaBloqueada(txtCta(1).Text, CDate(Text4(0).Text)) Then
+            MsgBox "Cuenta bloqueada: " & txtCta(1).Text, vbExclamation
             Exit Sub
         End If
         
         'Si la cuenta necesita CC
         If vParam.autocoste Then
-            If HayKHabilitarCentroCoste(txtcta(0).Text) Then
+            If HayKHabilitarCentroCoste(txtCta(0).Text) Then
                 If Me.txtCodCCost(2).Text = "" Then
                     MsgBox "Debe poner el Centro de coste para la cuenta base", vbExclamation
                     Exit Sub
@@ -936,18 +936,18 @@ Dim F As Date
         End If
         'Si tiene tesoreria y es una venta. Entonce introducimos el vencimiento
         If vEmpresa.TieneTesoreria Then
-            Cad = ""
-            If Text8(0).Text = "" Then Cad = "Falta forma pago"
-            If txtcta(3).Text = "" Then Cad = "Falta cta prevista de pago"
-            If Text8(2).Text = "" Then Cad = "Falta el agente"
-            If Cad <> "" Then
-                Cad = "Campos requeridos." & Cad
-                MsgBox Cad, vbExclamation
+            cad = ""
+            If Text8(0).Text = "" Then cad = "Falta forma pago"
+            If txtCta(3).Text = "" Then cad = "Falta cta prevista de pago"
+            If Text8(2).Text = "" Then cad = "Falta el agente"
+            If cad <> "" Then
+                cad = "Campos requeridos." & cad
+                MsgBox cad, vbExclamation
                 Exit Sub
             End If
             
-            If EstaLaCuentaBloqueada(txtcta(3).Text, CDate(Text4(0).Text)) Then
-                MsgBox "Cuenta bloqueada: " & txtcta(3).Text, vbExclamation
+            If EstaLaCuentaBloqueada(txtCta(3).Text, CDate(Text4(0).Text)) Then
+                MsgBox "Cuenta bloqueada: " & txtCta(3).Text, vbExclamation
                 Exit Sub
             End If
         End If
@@ -984,7 +984,7 @@ Dim F As Date
         
     'Tenemos que comprobar si la fecha es mayor que la proxima fecha amortizacion
     F = CDate(SugerirFechaNuevo)
-    Debug.Print F
+    'Debug.Print F
     If CDate(Text4(0).Text) > F Then
         MsgBox "La fecha venta/baja es mayor que la próxima fecha de amortizacion(" & Format(F, "dd/mm/yyyy") & ")", vbExclamation
         Exit Sub
@@ -1004,12 +1004,12 @@ Dim F As Date
     'Si contabilizamos hay k conseguir el numero de asiento
     If Contabiliza Then
         Set Mc = New Contadores
-        b = (Mc.ConseguirContador("0", CDate(Text4(0).Text) <= vParam.fechafin, True) = 0)
+        B = (Mc.ConseguirContador("0", CDate(Text4(0).Text) <= vParam.fechafin, True) = 0)
     Else
-        b = True
+        B = True
     End If
     
-    If b Then
+    If B Then
         Screen.MousePointer = vbHourglass
         PreparaBloquear
         Conn.BeginTrans
@@ -1029,21 +1029,21 @@ Dim F As Date
             If HayQueAmortizar Then
                'Cad = "Select * from sinmov where codinmov=" & Text6.Text & " for update "
                 'cont=1  -> Lo inicaliza en el modulo
-               b = GeneraCalculoInmovilizado(Cad, CByte(i))
+               B = GeneraCalculoInmovilizado(cad, CByte(i))
                
                'Volvemos a cargar los datos despues de la amortizacion
-               If b Then
+               If B Then
                     Rs.Close   'Cierro el RS. para volverlo abrir con los datos actualizados de amortiz
-                    b = CargarDatosInmov
+                    B = CargarDatosInmov
                End If
                
             Else
                 CONT = 1 'Contador para las lineas de asiento
-                b = GeneracabeceraApunte(CByte(i))
+                B = GeneracabeceraApunte(CByte(i))
             End If
             'Contador de asiento
             ContaLinASi = CONT
-            If b Then
+            If B Then
             
                 'Modificacion del 26 de Abril. Si hay venta se vende, pero
                 'la cancelacion del elemento se produce siempre
@@ -1071,12 +1071,12 @@ Dim F As Date
             Conn.CommitTrans
         Else
             Conn.RollbackTrans
-            b = False
+            B = False
         End If
         TerminaBloquear
         pb1.Visible = False
         Screen.MousePointer = vbDefault
-        If b Then
+        If B Then
             If Option1(0).Value Then
 
                 Set frmFCli = New frmFacturasCli
@@ -1112,30 +1112,35 @@ Private Function ComprobaDatosVentaBajaElemento() As Boolean
     'Ahora, en ztmpsimula tengo los datos del elmento
     Set Rs = New ADODB.Recordset
     
+    'NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+    'NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+    'NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+    'NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+    'cad = "Select valoradq,amortacu,totalamor from Usuarios.zsimulainm where codusu = " & vUsu.Codigo
+    cad = "Select valoradq,amortacu,totalamor from tmpsimulainmo where codusu = " & vUsu.Codigo
     
-    Cad = "Select valoradq,amortacu,totalamor from Usuarios.zsimulainm where codusu = " & vUsu.Codigo
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    Cad = "      "
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    cad = "      "
     Importe = 0
     aux2 = ""
-    b = False
+    B = False
     
     
     
     
     If Not Rs.EOF Then
-        b = True
-        aux2 = "Importe adq : " & Cad & Format(Rs!valoradq, FormatoImporte) & vbCrLf
-        aux2 = aux2 & "Amort. acum. : " & Cad & Format(Rs!amortacu, FormatoImporte) & vbCrLf
+        B = True
+        aux2 = "Importe adq : " & cad & Format(Rs!valoradq, FormatoImporte) & vbCrLf
+        aux2 = aux2 & "Amort. acum. : " & cad & Format(Rs!amortacu, FormatoImporte) & vbCrLf
         Importe = Rs!valoradq - Rs!amortacu
-        aux2 = aux2 & "Pendiente:     " & Cad & Format(Importe, FormatoImporte) & vbCrLf & vbCrLf
+        aux2 = aux2 & "Pendiente:     " & cad & Format(Importe, FormatoImporte) & vbCrLf & vbCrLf
         
         
-        aux2 = aux2 & "Amort. periodo : " & Cad & Format(Rs!totalamor, FormatoImporte) & vbCrLf
+        aux2 = aux2 & "Amort. periodo : " & cad & Format(Rs!totalamor, FormatoImporte) & vbCrLf
         Importe = Importe - Rs!totalamor
         'Si es venta.
         If Option1(0).Value Then
-            aux2 = aux2 & "Importe venta : " & Cad & Format(CCur(Text5.Text), FormatoImporte) & vbCrLf
+            aux2 = aux2 & "Importe venta : " & cad & Format(CCur(Text5.Text), FormatoImporte) & vbCrLf
             Importe = Importe - CCur(Text5.Text)
         End If
 
@@ -1145,23 +1150,23 @@ Private Function ComprobaDatosVentaBajaElemento() As Boolean
         
         'Si es venta, todo sera ganancias
         If Option1(0).Value Then
-            b = True
+            B = True
             Importe = -1 * CCur(Text5.Text)
         End If
     End If
     Rs.Close
     
     
-    If b Then
-        TipoIva = String(35, "*") & vbCrLf
+    If B Then
+        TipoIva = String(45, "*") & vbCrLf
         If Importe > 0 Then
             'Significa que a la baja o a la venta, falta por amortizar
             'Con lo cual vamos a una cuenta de perdidas
-            aux2 = aux2 & "Pérdidas inm.: " & Cad & Format(CCur(Importe), FormatoImporte) & vbCrLf & vbCrLf
-            If Mid(txtcta(0).Text, 1, 1) <> "6" Then aux2 = aux2 & TipoIva & "Deberia poner una cuenta de PERDIDAS" & vbCrLf & TipoIva
+            aux2 = aux2 & "Pérdidas inm.: " & cad & Format(CCur(Importe), FormatoImporte) & vbCrLf & vbCrLf
+            If Mid(txtCta(0).Text, 1, 1) <> "6" Then aux2 = aux2 & TipoIva & "Deberia poner una cuenta de PERDIDAS" & vbCrLf & TipoIva
         Else
-            aux2 = aux2 & "Ganancias inm.: " & Cad & Format(CCur(Abs(Importe)), FormatoImporte) & vbCrLf & vbCrLf
-            If Mid(txtcta(0).Text, 1, 1) <> "7" Then aux2 = aux2 & TipoIva & "Deberia poner una cuenta de GANANCIAS" & vbCrLf & TipoIva
+            aux2 = aux2 & "Ganancias inm.: " & cad & Format(CCur(Abs(Importe)), FormatoImporte) & vbCrLf & vbCrLf
+            If Mid(txtCta(0).Text, 1, 1) <> "7" Then aux2 = aux2 & TipoIva & "Deberia poner una cuenta de GANANCIAS" & vbCrLf & TipoIva
         End If
     End If
     
@@ -1172,15 +1177,15 @@ Private Function ComprobaDatosVentaBajaElemento() As Boolean
     'o ganancias del grupo 6 o del 7
 
     If Option1(0).Value Then
-        Cad = "venta"
+        cad = "venta"
     Else
-        Cad = "baja"
+        cad = "baja"
     End If
-    Cad = "Va a realizar la " & Cad & " del "
+    cad = "Va a realizar la " & cad & " del "
     
     
     
-    aux2 = Cad & "elemento:" & vbCrLf & vbCrLf & Text6(0).Text & " - " & Text7(0).Text & vbCrLf & vbCrLf & aux2
+    aux2 = cad & "elemento:" & vbCrLf & vbCrLf & Text6(0).Text & " - " & Text7(0).Text & vbCrLf & vbCrLf & aux2
     
     
 
@@ -1230,8 +1235,8 @@ Private Sub Form_Load()
 
     
     imgElto(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    imgCta(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    imgCta(1).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    imgcta(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    imgcta(1).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCCost(2).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCon(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
@@ -1285,10 +1290,10 @@ End Sub
 Private Function SugerirFechaNuevo() As String
 Dim RC As String
     RC = "tipoamor"
-    Cad = DevuelveDesdeBD("ultfecha", "paramamort", "codigo", "1", "N", RC)
+    cad = DevuelveDesdeBD("ultfecha", "paramamort", "codigo", "1", "N", RC)
 
-    If Cad <> "" Then
-        Me.Tag = Cad   'Ultima actualizacion
+    If cad <> "" Then
+        Me.Tag = cad   'Ultima actualizacion
         Select Case Val(RC)
         Case 2
             'Semestral
@@ -1306,7 +1311,7 @@ Dim RC As String
         End Select
         RC = PonFecha
     Else
-        Cad = "01/01/1991"
+        cad = "01/01/1991"
         RC = Format(Now, "dd/mm/yyyy")
     End If
     'If Simulacion Then
@@ -1327,7 +1332,7 @@ Private Function PonFecha() As Date
 Dim d As Date
 'Dada la fecha en Cad y los meses k tengo k sumar
 'Pongo la fecha
-d = DateAdd("m", i, CDate(Cad))
+d = DateAdd("m", i, CDate(cad))
 Select Case Month(d)
 Case 2
     If ((Year(d) - 2000) Mod 4) = 0 Then
@@ -1342,8 +1347,8 @@ Case Else
     '30
         i = 30
 End Select
-Cad = i & "/" & Month(d) & "/" & Year(d)
-PonFecha = CDate(Cad)
+cad = i & "/" & Month(d) & "/" & Year(d)
+PonFecha = CDate(cad)
 End Function
 
 
@@ -1362,8 +1367,8 @@ End Sub
 Private Sub frmBa_DatoSeleccionado(CadenaSeleccion As String)
     If i = 1 Then
         'Cuenta bancaria
-        txtcta(3).Text = RecuperaValor(CadenaSeleccion, 1)
-        txtDescta(3).Text = RecuperaValor(CadenaSeleccion, 2)
+        txtCta(3).Text = RecuperaValor(CadenaSeleccion, 1)
+        txtDesCta(3).Text = RecuperaValor(CadenaSeleccion, 2)
     End If
 End Sub
 
@@ -1374,14 +1379,14 @@ Private Sub frmCC_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmCt_DatoSeleccionado(CadenaSeleccion As String)
-    txtcta(i).Text = RecuperaValor(CadenaSeleccion, 1)
-    txtDescta(i).Text = RecuperaValor(CadenaSeleccion, 2)
+    txtCta(i).Text = RecuperaValor(CadenaSeleccion, 1)
+    txtDesCta(i).Text = RecuperaValor(CadenaSeleccion, 2)
 End Sub
 
 
 Private Sub frmE_DatoSeleccionado(CadenaSeleccion As String)
-    Cad = RecuperaValor(CadenaSeleccion, 3)
-    If Cad = "" Or Cad = "1" Or Cad = "2" Then
+    cad = RecuperaValor(CadenaSeleccion, 3)
+    If cad = "" Or cad = "1" Or cad = "2" Then
         MsgBox "El elemento esta dado de baja o vendido", vbExclamation
         Exit Sub
     End If
@@ -1391,13 +1396,13 @@ Private Sub frmE_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    Cad = Format(vFecha, "dd/mm/yyyy")
+    cad = Format(vFecha, "dd/mm/yyyy")
     Select Case i
     Case 0
     Case 1
     Case 2
     Case 3
-        Text4(0).Text = Cad
+        Text4(0).Text = cad
     Case 4, 5
     End Select
 End Sub
@@ -1416,7 +1421,7 @@ End Sub
 
 Private Sub frmDpto_DatoSeleccionado(CadenaSeleccion As String)
     If CadenaSeleccion <> "" Then
-        txtdpto(0).Text = RecuperaValor(CadenaSeleccion, 1)
+        txtDpto(0).Text = RecuperaValor(CadenaSeleccion, 1)
         txtDesdpto(0).Text = RecuperaValor(CadenaSeleccion, 2)
     End If
 End Sub
@@ -1478,9 +1483,9 @@ Private Sub imgDpto_Click(Index As Integer)
     Indice = 1
     
     Set frmDpto = New frmBasico
-    AyudaDepartamentos frmDpto, txtcta(Indice).Text, "codmacta = " & DBSet(txtcta(1).Text, "T")
+    AyudaDepartamentos frmDpto, txtCta(Indice).Text, "codmacta = " & DBSet(txtCta(1).Text, "T")
     Set frmDpto = Nothing
-    PonFoco txtdpto(Indice)
+    PonFoco txtDpto(Indice)
 
 End Sub
 
@@ -1521,6 +1526,9 @@ End Sub
 
 
 Private Sub Option1_Click(Index As Integer)
+    Me.Option1(0).FontBold = Index = 0
+    Me.Option1(1).FontBold = Index = 1
+    
     Me.FrameVenta.Enabled = (Option1(0).Value)
     Me.FrameTesor.Enabled = vEmpresa.TieneTesoreria And Me.FrameVenta.Enabled
     
@@ -1529,11 +1537,11 @@ Private Sub Option1_Click(Index As Integer)
         Text8(1).Text = ""
         Text8(2).Text = ""
         Text8(3).Text = ""
-        txtcta(3).Text = ""
-        txtDescta(3).Text = ""
-        txtcta(1).Text = ""
-        txtDescta(1).Text = ""
-        txtdpto(0).Text = ""
+        txtCta(3).Text = ""
+        txtDesCta(3).Text = ""
+        txtCta(1).Text = ""
+        txtDesCta(1).Text = ""
+        txtDpto(0).Text = ""
         txtDesdpto(0).Text = ""
         txtCodCCost(2).Text = ""
         txtNomCcost(2).Text = ""
@@ -1576,8 +1584,8 @@ Private Sub Text5_LostFocus()
         'Esta formateado
         Importe = ImporteFormateado(Text5.Text)
     Else
-        Cad = TransformaPuntosComas(Text5.Text)
-        Importe = CCur(Cad)
+        cad = TransformaPuntosComas(Text5.Text)
+        Importe = CCur(cad)
     End If
     Text5.Text = Format(Importe, FormatoImporte)
     
@@ -1601,8 +1609,8 @@ Dim Rs As ADODB.Recordset
         End If
         Text6(0).Text = Format(Text6(0).Text, "000000")
         ParametrosContabiliza = "situacio"
-        Cad = DevuelveDesdeBD("nominmov", "inmovele", "codinmov", .Text, "N", ParametrosContabiliza)
-        If Cad = "" Then
+        cad = DevuelveDesdeBD("nominmov", "inmovele", "codinmov", .Text, "N", ParametrosContabiliza)
+        If cad = "" Then
             MsgBox "elemento de inmovlizado NO encontrado: " & .Text, vbExclamation
         Else
             'Esta comprobacion solo es para la venta/baja
@@ -1611,9 +1619,9 @@ Dim Rs As ADODB.Recordset
                     If ParametrosContabiliza = "4" Then
                         MsgBox "Elemento totalmente amortizado", vbExclamation
                     Else
-                        MsgBox "El elemento : " & Cad & " ya ha sido vendido o dado de baja", vbExclamation
+                        MsgBox "El elemento : " & cad & " ya ha sido vendido o dado de baja", vbExclamation
                     End If
-                    Cad = ""
+                    cad = ""
                 Else
                     If vParam.autocoste Then
                         ' traemos si lo tiene el centro de coste del elemento inmovilizado
@@ -1629,8 +1637,8 @@ Dim Rs As ADODB.Recordset
                 End If
             End If
         End If
-        Text7(Index).Text = Cad
-        If Cad = "" Then
+        Text7(Index).Text = cad
+        If cad = "" Then
             .Text = ""
             .SetFocus
         End If
@@ -1653,24 +1661,24 @@ Private Sub Text8_LostFocus(Index As Integer)
             Exit Sub
         End If
         If Not IsNumeric(Text8(0).Text) Then
-            Cad = ""
+            cad = ""
             i = 1
         Else
-            Cad = DevuelveDesdeBD("nomforpa", "formapago", "codforpa", Text8(0).Text, "N")
+            cad = DevuelveDesdeBD("nomforpa", "formapago", "codforpa", Text8(0).Text, "N")
             i = 2
         End If
-        If Cad = "" Then
-            Cad = "Error en forma pago."
+        If cad = "" Then
+            cad = "Error en forma pago."
             If i = 1 Then
-                Cad = Cad & " Campo debe ser numérico"
+                cad = cad & " Campo debe ser numérico"
             Else
-                Cad = Cad & " No existe forma pago:" & Text8(0).Text
+                cad = cad & " No existe forma pago:" & Text8(0).Text
             End If
-            MsgBox Cad, vbExclamation
+            MsgBox cad, vbExclamation
             Text8(0).Text = ""
             Text8(1).Text = ""
         Else
-            Text8(1).Text = Cad
+            Text8(1).Text = cad
         End If
     Else
         If Index = 2 Then
@@ -1680,24 +1688,24 @@ Private Sub Text8_LostFocus(Index As Integer)
             End If
         
             If Not IsNumeric(Text8(2).Text) Then
-                Cad = ""
+                cad = ""
                 i = 1
             Else
-                Cad = DevuelveDesdeBD("nombre", "agentes", "codigo", Text8(2).Text, "N")
+                cad = DevuelveDesdeBD("nombre", "agentes", "codigo", Text8(2).Text, "N")
                 i = 2
             End If
-            If Cad = "" Then
-                Cad = "Error en el agente."
+            If cad = "" Then
+                cad = "Error en el agente."
                 If i = 1 Then
-                    Cad = Cad & " Campo debe ser numérico"
+                    cad = cad & " Campo debe ser numérico"
                 Else
-                    Cad = Cad & " No existe agente:" & Text8(2).Text
+                    cad = cad & " No existe agente:" & Text8(2).Text
                 End If
-                MsgBox Cad, vbExclamation
+                MsgBox cad, vbExclamation
                 Text8(2).Text = ""
                 Text8(3).Text = ""
             Else
-                Text8(3).Text = Cad
+                Text8(3).Text = cad
             End If
         
         
@@ -1736,20 +1744,20 @@ Private Sub txtCodCCost_LostFocus(Index As Integer)
         txtNomCcost(Index).Text = ""
         Exit Sub
     End If
-    Cad = DevuelveDesdeBD("nomccost", "ccoste", "codccost", txtCodCCost(Index).Text, "T")
-    If Cad = "" Then
+    cad = DevuelveDesdeBD("nomccost", "ccoste", "codccost", txtCodCCost(Index).Text, "T")
+    If cad = "" Then
         MsgBox "C. coste NO encontrado: " & txtCodCCost(Index).Text, vbExclamation
         txtCodCCost(Index).Text = ""
         txtCodCCost(Index).SetFocus
     End If
-    txtNomCcost(Index).Text = Cad
+    txtNomCcost(Index).Text = cad
 End Sub
 
 
 
 
 Private Sub txtCta_GotFocus(Index As Integer)
-    With txtcta(Index)
+    With txtCta(Index)
         .SelStart = 0
         .SelLength = Len(.Text)
     End With
@@ -1759,56 +1767,56 @@ Private Sub txtCta_LostFocus(Index As Integer)
 Dim Rs As ADODB.Recordset
 Dim Sql As String
 
-With txtcta(Index)
+With txtCta(Index)
     .Text = Trim(.Text)
     If .Text = "" Then
-        txtDescta(Index).Text = ""
+        txtDesCta(Index).Text = ""
         Exit Sub
     End If
     ParametrosContabiliza = .Text
-    If CuentaCorrectaUltimoNivel(ParametrosContabiliza, Cad) Then
+    If CuentaCorrectaUltimoNivel(ParametrosContabiliza, cad) Then
         .Text = ParametrosContabiliza
-        txtDescta(Index).Text = Cad
+        txtDesCta(Index).Text = cad
         If Index = 3 Then
-            Cad = DevuelveDesdeBD("codmacta", "bancos", "codmacta", ParametrosContabiliza, "T")
-            If Cad = "" Then
+            cad = DevuelveDesdeBD("codmacta", "bancos", "codmacta", ParametrosContabiliza, "T")
+            If cad = "" Then
                 MsgBox "Cuenta no asociada a ningun banco", vbExclamation
                 .Text = ""
-                txtDescta(Index).Text = ""
+                txtDesCta(Index).Text = ""
             End If
         Else
             If Index = 1 Then
-                txtdpto(0).Text = ""
+                txtDpto(0).Text = ""
                 txtDesdpto(0).Text = ""
                 
                 If Me.Option1(0).Value Then
                     ' traemos todos los datos de la cuenta para la venta
                     Sql = "select ctabanco, cuentas.forpa, formapago.nomforpa from cuentas left join formapago on cuentas.forpa = formapago.codforpa "
-                    Sql = Sql & " where codmacta = " & DBSet(txtcta(1).Text, "T")
+                    Sql = Sql & " where codmacta = " & DBSet(txtCta(1).Text, "T")
                     
                     Set Rs = New ADODB.Recordset
                     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
                     If Not Rs.EOF Then
                         If DBLet(Rs!Forpa, "N") <> 0 Then Text8(0).Text = Format(DBLet(Rs!Forpa, "N"), "000")
                         Text8(1).Text = DBLet(Rs!nomforpa, "T")
-                        txtcta(3).Text = DBLet(Rs!CtaBanco, "T")
-                        txtDescta(3).Text = ""
-                        If txtcta(3).Text <> "" Then txtDescta(3).Text = DevuelveValor("select nommacta from cuentas where codmacta = " & DBSet(txtcta(3).Text, "T"))
+                        txtCta(3).Text = DBLet(Rs!CtaBanco, "T")
+                        txtDesCta(3).Text = ""
+                        If txtCta(3).Text <> "" Then txtDesCta(3).Text = DevuelveValor("select nommacta from cuentas where codmacta = " & DBSet(txtCta(3).Text, "T"))
                     End If
                     Set Rs = Nothing
                 Else
                     ' limpiamos los datos
                     Text8(0).Text = ""
                     Text8(1).Text = ""
-                    txtcta(3).Text = ""
-                    txtDescta(3).Text = ""
+                    txtCta(3).Text = ""
+                    txtDesCta(3).Text = ""
                 End If
             End If
         End If
     Else
-        MsgBox Cad, vbExclamation
+        MsgBox cad, vbExclamation
         .Text = ""
-        txtDescta(Index).Text = ""
+        txtDesCta(Index).Text = ""
         .SetFocus
     End If
 
@@ -1930,7 +1938,7 @@ End Sub
 '       2.- Calculo de amortizacion
 Private Function GeneraCalculoInmovilizado(ByRef SeleccionInmovilizado As String, Tipo As Byte) As Boolean
 Dim Codinmov As Long
-Dim b As Boolean
+Dim B As Boolean
 On Error GoTo EGen
 
     GeneraCalculoInmovilizado = False
@@ -1965,12 +1973,12 @@ On Error GoTo EGen
         Codinmov = Rs!Codinmov
        
         'La fecha depende si estamos calculando normal o estamos vendiendo
-        If Opcion = 3 Then
-            Cad = Text4(0).Text
-        End If
+       
+        cad = Text4(0).Text
+
       
-        b = CalculaAmortizacion(Codinmov, CDate(Cad), DivMes, UltAmor, ParametrosContabiliza, Mc.Contador, CONT, Tipo < 2)
-        If Not b Then
+        B = CalculaAmortizacion(Codinmov, CDate(cad), DivMes, UltAmor, ParametrosContabiliza, Mc.Contador, CONT, Tipo < 2)
+        If Not B Then
             Rs.Close
             Exit Function
         End If
@@ -1982,9 +1990,9 @@ On Error GoTo EGen
     Wend
     'Actualizamos la fecha de ultima amortizacion en paraemtros
     If Opcion <> 3 Then
-        Cad = "UPDATE paramamort SET ultfecha= '" & Format(Cad, FormatoFecha)
-        Cad = Cad & "' WHERE codigo=1"
-        Conn.Execute Cad
+        cad = "UPDATE paramamort SET ultfecha= '" & Format(cad, FormatoFecha)
+        cad = cad & "' WHERE codigo=1"
+        Conn.Execute cad
         Rs.Close
     Else
         'Estamos dando de baja o vendiendo un inmovilizado. Solo hay uno y hay k situarlo
@@ -2001,20 +2009,20 @@ End Function
 
 'Para cancelar elto
 Private Sub PonerCadenaLinea()
-    Cad = "INSERT INTO hlinapu (numdiari, fechaent, numasien, linliapu, codmacta, numdocum, codconce"
-    Cad = Cad & ", ampconce, timporteD, timporteH, codccost, ctacontr, idcontab, punteada) VALUES ("
-    Cad = Cad & RecuperaValor(ParametrosContabiliza, 4) & ",'"
-    Cad = Cad & Format(Text4(0).Text, FormatoFecha)
-    Cad = Cad & "'," & Mc.Contador & ","
+    cad = "INSERT INTO hlinapu (numdiari, fechaent, numasien, linliapu, codmacta, numdocum, codconce"
+    cad = cad & ", ampconce, timporteD, timporteH, codccost, ctacontr, idcontab, punteada) VALUES ("
+    cad = cad & RecuperaValor(ParametrosContabiliza, 4) & ",'"
+    cad = cad & Format(Text4(0).Text, FormatoFecha)
+    cad = cad & "'," & Mc.Contador & ","
 End Sub
 
 
 Private Function CargarDatosInmov() As Boolean
 On Error GoTo ECar
     CargarDatosInmov = False
-    Cad = "Select * from inmovele where codinmov =" & Text6(0).Text & " for update"
+    cad = "Select * from inmovele where codinmov =" & Text6(0).Text & " for update"
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
     If Rs.EOF Then
         MsgBox "Error leyendo datos inmovilizado: " & Text6(0).Text, vbExclamation
         Rs.Close
@@ -2045,20 +2053,20 @@ Dim NomConce As String
         'NO tiene reparto de gastos
         '---------------------------
         PonerCadenaLinea
-        Cad = Cad & CONT & ",'" & Rs!codmact3 & "','" & Format(Rs!Codinmov, "000000") & "',"
-        Cad = Cad & RecuperaValor(ParametrosContabiliza, 2)   'Concepto DEBE
+        cad = cad & CONT & ",'" & Rs!codmact3 & "','" & Format(Rs!Codinmov, "000000") & "',"
+        cad = cad & RecuperaValor(ParametrosContabiliza, 2)   'Concepto DEBE
         '[Monica]15/09/2015: en ampliacion tambien llevamos el nombre de concepto delante
         NomConce = DevuelveValor("select nomconce from conceptos where codconce = " & RecuperaValor(ParametrosContabiliza, 2))
-        Cad = Cad & ",'" & DevNombreSQL(NomConce) & " " & DevNombreSQL(Rs!nominmov)
+        cad = cad & ",'" & DevNombreSQL(NomConce) & " " & DevNombreSQL(Rs!nominmov)
         Aux = TransformaComasPuntos(CStr(Rs!amortacu))
-        Cad = Cad & "'," & Aux & ",NULL" & ","     'AUX tiene el importe del inmovilizado
+        cad = cad & "'," & Aux & ",NULL" & ","     'AUX tiene el importe del inmovilizado
         Aux = "NULL"
         If Not IsNull(Rs!codccost) Then
             If HayKHabilitarCentroCoste(Rs!codmact3) Then Aux = "'" & Rs!codccost & "'"
         End If
-        Cad = Cad & Aux
-        Cad = Cad & ",'" & Rs!codmact1 & "','CONTAI',0)"
-        Conn.Execute Cad
+        cad = cad & Aux
+        cad = cad & ",'" & Rs!codmact1 & "','CONTAI',0)"
+        Conn.Execute cad
         CONT = CONT + 1
         
         
@@ -2076,22 +2084,22 @@ Dim NomConce As String
         If Importe > 0 Then
             PonerCadenaLinea
         
-            Cad = Cad & CONT & ",'" & txtcta(0).Text & "','" & Format(Rs!Codinmov, "000000") & "',"
-            Cad = Cad & RecuperaValor(ParametrosContabiliza, 2)   'Concepto DEBE
+            cad = cad & CONT & ",'" & txtCta(0).Text & "','" & Format(Rs!Codinmov, "000000") & "',"
+            cad = cad & RecuperaValor(ParametrosContabiliza, 2)   'Concepto DEBE
             '[Monica]15/09/2015: en ampliacion tambien llevamos el nombre de concepto delante
             NomConce = DevuelveValor("select nomconce from conceptos where codconce = " & RecuperaValor(ParametrosContabiliza, 2))
-            Cad = Cad & ",'" & DevNombreSQL(NomConce) & " " & DevNombreSQL(Rs!nominmov)
+            cad = cad & ",'" & DevNombreSQL(NomConce) & " " & DevNombreSQL(Rs!nominmov)
             Aux = TransformaComasPuntos(CStr(Importe))
-            Cad = Cad & "'," & Aux & ",NULL" & ","
+            cad = cad & "'," & Aux & ",NULL" & ","
             
             Aux = "NULL"
             If Not IsNull(Rs!codccost) Then
-                If HayKHabilitarCentroCoste(txtcta(0).Text) Then Aux = "'" & Rs!codccost & "'"
+                If HayKHabilitarCentroCoste(txtCta(0).Text) Then Aux = "'" & Rs!codccost & "'"
             End If
             
-            Cad = Cad & Aux
-            Cad = Cad & ",'" & Rs!codmact3 & "','CONTAI',0)"
-            Conn.Execute Cad
+            cad = cad & Aux
+            cad = cad & ",'" & Rs!codmact3 & "','CONTAI',0)"
+            Conn.Execute cad
             CONT = CONT + 1
         End If
 
@@ -2101,28 +2109,28 @@ Dim NomConce As String
 
         
         PonerCadenaLinea
-        Cad = Cad & CONT & ",'" & Rs!codmact1 & "','" & Format(Rs!Codinmov, "000000") & "',"
-        Cad = Cad & RecuperaValor(ParametrosContabiliza, 2)   'Concepto DEBE
+        cad = cad & CONT & ",'" & Rs!codmact1 & "','" & Format(Rs!Codinmov, "000000") & "',"
+        cad = cad & RecuperaValor(ParametrosContabiliza, 2)   'Concepto DEBE
         '[Monica]15/09/2015: en ampliacion tambien llevamos el nombre de concepto delante
         NomConce = DevuelveValor("select nomconce from conceptos where codconce = " & RecuperaValor(ParametrosContabiliza, 2))
-        Cad = Cad & ",'" & DevNombreSQL(NomConce) & " " & DevNombreSQL(Rs!nominmov)
+        cad = cad & ",'" & DevNombreSQL(NomConce) & " " & DevNombreSQL(Rs!nominmov)
         Aux = TransformaComasPuntos(CStr(Rs!valoradq))
-        Cad = Cad & "',NULL," & Aux & ","    'AUX tiene el importe del inmovilizado
+        cad = cad & "',NULL," & Aux & ","    'AUX tiene el importe del inmovilizado
         
         Aux = "NULL"
         If Not IsNull(Rs!codccost) Then
             If HayKHabilitarCentroCoste(Rs!codmact1) Then Aux = "'" & Rs!codccost & "'"
         End If
         
-        Cad = Cad & Aux
+        cad = cad & Aux
         If Importe = 0 Then
             'SI QUE CANCELO en la ctapartida la cuenta
-            Cad = Cad & ",'" & Rs!codmact3 & "'"
+            cad = cad & ",'" & Rs!codmact3 & "'"
         Else
-            Cad = Cad & ",NULL"
+            cad = cad & ",NULL"
         End If
-        Cad = Cad & ",'CONTAI',0)"
-        Conn.Execute Cad
+        cad = cad & ",'CONTAI',0)"
+        Conn.Execute cad
         CONT = CONT + 1
         
         
@@ -2135,10 +2143,10 @@ Dim NomConce As String
     
 '   Es para baja
     If Option1(1).Value Then
-        Cad = "UPDATE inmovele SET fecventa = '" & Format(Text4(0).Text, FormatoFecha)
-        Cad = Cad & "', situacio =3  "
-        Cad = Cad & " Where Codinmov = " & Text6(0).Text
-        Conn.Execute Cad
+        cad = "UPDATE inmovele SET fecventa = '" & Format(Text4(0).Text, FormatoFecha)
+        cad = cad & "', situacio =3  "
+        cad = cad & " Where Codinmov = " & Text6(0).Text
+        Conn.Execute cad
     End If
     CancelarCuentaElemento = True
 ECancelarCuentaElemento:
@@ -2151,27 +2159,27 @@ Private Function GeneracabeceraApunte(vTipo As Byte) As Boolean
 Dim Fecha As Date
 On Error GoTo EGeneracabeceraApunte
         GeneracabeceraApunte = False
-        Cad = "INSERT INTO hcabapu (numdiari, fechaent, numasien,feccreacion,usucreacion,desdeaplicacion, obsdiari) VALUES ("
-        Cad = Cad & RecuperaValor(ParametrosContabiliza, 4) & ",'"
+        cad = "INSERT INTO hcabapu (numdiari, fechaent, numasien,feccreacion,usucreacion,desdeaplicacion, obsdiari) VALUES ("
+        cad = cad & RecuperaValor(ParametrosContabiliza, 4) & ",'"
         If Opcion = 3 Then
             Fecha = CDate(Text4(0).Text)
         End If
-        Cad = Cad & Format(Fecha, FormatoFecha)
-        Cad = Cad & "'," & Mc.Contador
+        cad = cad & Format(Fecha, FormatoFecha)
+        cad = cad & "'," & Mc.Contador
         
-        Cad = Cad & "," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Inmovilizado Amortización " & Fecha & "'"
+        cad = cad & "," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Inmovilizado Amortización " & Fecha & "'"
         
-        Cad = Cad & ",'"
+        cad = cad & ",'"
         'Segun sea VENTA, BAJA, o calculo de inmovilizado pondremos una cosa u otra
         Select Case vTipo
         Case 0, 1
             'VENTA
-            Cad = Cad & txtCon(0).Text
+            cad = cad & txtCon(0).Text
         Case Else
-            Cad = Cad & "Amortización: " & Fecha
+            cad = cad & "Amortización: " & Fecha
         End Select
-        Cad = Cad & "')"
-        Conn.Execute Cad
+        cad = cad & "')"
+        Conn.Execute cad
         GeneracabeceraApunte = True
         Exit Function
 EGeneracabeceraApunte:
@@ -2227,13 +2235,13 @@ On Error GoTo EVentaElemento
         
         'CABECEREA DE FACTURA ---
         'Genereamos la cabecera de factura
-        Cad = "INSERT INTO factcli (numserie, numfactu, fecfactu, codmacta, anofactu, codforpa, observa,"
-        Cad = Cad & " totbases,totivas,totfaccl, fecliqcl, nommacta, dirdatos, codpobla,"
-        Cad = Cad & " despobla,desprovi,nifdatos,codpais,dpto,codagente) VALUES ("
+        cad = "INSERT INTO factcli (numserie, numfactu, fecfactu, codmacta, anofactu, codforpa, observa,"
+        cad = cad & " totbases,totivas,totfaccl, fecliqcl, nommacta, dirdatos, codpobla,"
+        cad = cad & " despobla,desprovi,nifdatos,codpais,dpto,codagente) VALUES ("
         'Ejemplo:  'A', 111111112, '2022-02-02', '1', 2002, 'VENTA elto 1',
      
         Aux = DBSet(mZ.TipoContador, "T") & "," & mZ.Contador & "," & DBSet(Text4(0).Text, "F") & ","
-        Aux = Aux & DBSet(txtcta(1).Text, "T") & "," & Year(Text4(0).Text) & "," & DBSet(Text8(0).Text, "N") & "," & DBSet(txtCon(0).Text, "T") & ","
+        Aux = Aux & DBSet(txtCta(1).Text, "T") & "," & Year(Text4(0).Text) & "," & DBSet(Text8(0).Text, "N") & "," & DBSet(txtCon(0).Text, "T") & ","
 
         'Pocentaje iva, imponible tal  ytal
         Importe = RI!porceiva
@@ -2264,7 +2272,7 @@ On Error GoTo EVentaElemento
         CadenaDesdeOtroForm = CadenaDesdeOtroForm & Format(Importe, FormatoImporte) & "|" 'TOTAL FAC
         
         ' datos fiscales de la factura
-        SqlCtas = "select * from cuentas where codmacta = " & DBSet(txtcta(1).Text, "T")
+        SqlCtas = "select * from cuentas where codmacta = " & DBSet(txtCta(1).Text, "T")
         Set RsCta = New ADODB.Recordset
         RsCta.Open SqlCtas, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not RsCta.EOF Then
@@ -2285,8 +2293,8 @@ On Error GoTo EVentaElemento
             Aux = Aux & "," & ValorNulo
         End If
         'departamento
-        If txtdpto(0).Text <> "" Then
-            Aux = Aux & "," & DBSet(txtdpto(0).Text, "N")
+        If txtDpto(0).Text <> "" Then
+            Aux = Aux & "," & DBSet(txtDpto(0).Text, "N")
         Else
             Aux = Aux & "," & ValorNulo
         End If
@@ -2299,7 +2307,7 @@ On Error GoTo EVentaElemento
         End If
         
         Aux = Aux & ")"
-        Conn.Execute Cad & Aux
+        Conn.Execute cad & Aux
         
         ImporteTotal = ImporteFormateado(Text5.Text)
         CONT = 1
@@ -2307,8 +2315,8 @@ On Error GoTo EVentaElemento
         '-------------------------------------------------------
         '-------------------------------------------------------
         'lINEAS . comun
-        Cad = "INSERT INTO factcli_lineas (numserie, numfactu, fecfactu, anofactu, numlinea, codmacta, baseimpo, codigiva, porciva, porcrec, impoiva, imporec, "
-        Cad = Cad & "aplicret, codccost) VALUES ('" & mZ.TipoContador & "'," & mZ.Contador & "," & DBSet(Text4(0).Text, "F") & "," & Year(Text4(0).Text) & ","
+        cad = "INSERT INTO factcli_lineas (numserie, numfactu, fecfactu, anofactu, numlinea, codmacta, baseimpo, codigiva, porciva, porcrec, impoiva, imporec, "
+        cad = cad & "aplicret, codccost) VALUES ('" & mZ.TipoContador & "'," & mZ.Contador & "," & DBSet(Text4(0).Text, "F") & "," & Year(Text4(0).Text) & ","
         
         
         'Modificacion de 26 Abril 2004
@@ -2339,7 +2347,7 @@ On Error GoTo EVentaElemento
                 If HayKHabilitarCentroCoste(Rs!codmact3) Then CC = "'" & Me.txtCodCCost(2).Text & "'"
             End If
             CONT = CONT + 1
-            Conn.Execute Cad & Aux & CC & ")"
+            Conn.Execute cad & Aux & CC & ")"
             
             
             'Ahora como he generado este apunte...
@@ -2356,7 +2364,7 @@ On Error GoTo EVentaElemento
         
         'Elemento
         Aux = TransformaComasPuntos(CStr(Importe))
-        Aux = CONT & "," & DBSet(txtcta(0).Text, "T") & "," & Aux & ","
+        Aux = CONT & "," & DBSet(txtCta(0).Text, "T") & "," & Aux & ","
         
         ' iva y porcentaje de iva
         Aux = Aux & TipoIva & "," & DBSet(RI!porceiva, "N") & "," & DBSet(RI!porcerec, "N") & ","
@@ -2369,19 +2377,19 @@ On Error GoTo EVentaElemento
         'centro de coste
         CC = "NULL"
         If vParam.autocoste Then
-            If HayKHabilitarCentroCoste(txtcta(0).Text) Then CC = "'" & Me.txtCodCCost(2).Text & "'"
+            If HayKHabilitarCentroCoste(txtCta(0).Text) Then CC = "'" & Me.txtCodCCost(2).Text & "'"
 
         End If
         CONT = CONT + 1
-        Conn.Execute Cad & Aux & CC & ")"
+        Conn.Execute cad & Aux & CC & ")"
         
         
         
         '-------------------------------------------------------
         '-------------------------------------------------------
         ' insertamos en la tabla factcli_totales
-        Cad = "INSERT INTO factcli_totales (numserie, numfactu, fecfactu, anofactu, numlinea, baseimpo, codigiva, porciva, porcrec, impoiva, imporec) "
-        Cad = Cad & " VALUES ('" & mZ.TipoContador & "'," & mZ.Contador & "," & DBSet(Text4(0).Text, "F") & "," & Year(Text4(0).Text) & ", 1,"
+        cad = "INSERT INTO factcli_totales (numserie, numfactu, fecfactu, anofactu, numlinea, baseimpo, codigiva, porciva, porcrec, impoiva, imporec) "
+        cad = cad & " VALUES ('" & mZ.TipoContador & "'," & mZ.Contador & "," & DBSet(Text4(0).Text, "F") & "," & Year(Text4(0).Text) & ", 1,"
         
         Importe = ImporteTotal
         
@@ -2396,7 +2404,7 @@ On Error GoTo EVentaElemento
         ImpRec = Round(Importe * DBLet(RI!porcerec) / 100, 2)
         Aux = Aux & DBSet(ImpIva, "N") & "," & DBSet(ImpRec, "N", "S")
         
-        Conn.Execute Cad & Aux & ")"
+        Conn.Execute cad & Aux & ")"
         
         
         Rs.Close
@@ -2448,20 +2456,21 @@ On Error GoTo EVentaElemento
         
             'Tambien , para la factura meteremos en la tabla tesoreria comun
             'los datos del vto
-             Cad = "DELETE from ztesoreriacomun where codusu =" & vUsu.Codigo
-             EjecutaSQL Cad
-             Cad = "INSERT INTO Usuarios.ztesoreriacomun (codusu, codigo, texto1, texto2"
-             Cad = Cad & " ,importe1,  fecha1) values (" & vUsu.Codigo & ",1,'"
-             Cad = Cad & Text8(1).Text & "'," & aux2 & "," & TransformaComasPuntos(CStr(Importe)) & ",'"
-             Cad = Cad & Format(Text4(0).Text, FormatoFecha) & "')"
-             EjecutaSQL Cad
+             cad = "DELETE from tmptesoreriacomun where codusu =" & vUsu.Codigo
+             EjecutaSQL cad
+             If aux2 = "" Then aux2 = Text6(0).Text             'NO se que hace con AUX2
+             cad = "INSERT INTO tmptesoreriacomun (codusu, codigo, texto1, texto2"
+             cad = cad & " ,importe1,  fecha1) values (" & vUsu.Codigo & ",1,'"
+             cad = cad & Text8(1).Text & "'," & aux2 & "," & TransformaComasPuntos(CStr(Importe)) & ",'"
+             cad = cad & Format(Text4(0).Text, FormatoFecha) & "')"
+             EjecutaSQL cad
         End If
         
         'Ahora hay k poner el elemento a vendido, con el importe de venta y la fecha de venta
-        Cad = "UPDATE inmovele SET fecventa = '" & Format(Text4(0).Text, FormatoFecha)
-        Cad = Cad & "', situacio =2 , impventa="
-        Cad = Cad & TransformaComasPuntos(ImporteSinFormato(Text5.Text)) & " WHERE codinmov =" & Text6(0).Text
-        Conn.Execute Cad
+        cad = "UPDATE inmovele SET fecventa = '" & Format(Text4(0).Text, FormatoFecha)
+        cad = cad & "', situacio =2 , impventa="
+        cad = cad & TransformaComasPuntos(ImporteSinFormato(Text5.Text)) & " WHERE codinmov =" & Text6(0).Text
+        Conn.Execute cad
         
         VentaElemento = True
 EVentaElemento:
@@ -2486,9 +2495,9 @@ Dim textCSB As String
     Sql = "delete from tmpcobros where codusu = " & DBSet(vUsu.Codigo, "N")
     Conn.Execute Sql
     
-    b = CargarCobrosTemporal(Text8(0).Text, Text4(0).Text, CCur(Text5.Text))
+    B = CargarCobrosTemporal(Text8(0).Text, Text4(0).Text, CCur(Text5.Text))
     
-    If b Then
+    If B Then
         
         CadInsert = "insert into cobros (numserie,numfactu,fecfactu,numorden,codmacta,codforpa,fecvenci,impvenci," & _
                     "ctabanc1,fecultco,impcobro,emitdocum,recedocu,contdocu," & _
@@ -2497,7 +2506,7 @@ Dim textCSB As String
         CadValues = ""
         
         
-        Sql = "select * from cuentas where codmacta = " & DBSet(txtcta(1).Text, "T")
+        Sql = "select * from cuentas where codmacta = " & DBSet(txtCta(1).Text, "T")
         Set RsCta = New ADODB.Recordset
         RsCta.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not RsCta.EOF Then
@@ -2513,8 +2522,8 @@ Dim textCSB As String
                 i = i + 1
                 
                 Sql = DBSet(mZ.TipoContador, "T") & "," & DBSet(mZ.Contador, "N") & "," & DBSet(Text4(0).Text, "F") & "," & DBSet(i, "N") & ","
-                Sql = Sql & DBSet(txtcta(1).Text, "T") & "," & DBSet(Text8(0).Text, "N") & "," & DBSet(Rs!FecVenci, "F") & "," & DBSet(Rs!ImpVenci, "N") & ","
-                Sql = Sql & DBSet(txtcta(3).Text, "T", "S") & ","
+                Sql = Sql & DBSet(txtCta(1).Text, "T") & "," & DBSet(Text8(0).Text, "N") & "," & DBSet(Rs!FecVenci, "F") & "," & DBSet(Rs!ImpVenci, "N") & ","
+                Sql = Sql & DBSet(txtCta(3).Text, "T", "S") & ","
                 
                 Sql = Sql & ValorNulo & "," & ValorNulo & ","
                 
@@ -2522,7 +2531,7 @@ Dim textCSB As String
                 
                 textCSB = "Factura " & Trim(mZ.TipoContador) & "-" & Trim(mZ.Contador) & " de Fecha " & Text4(0).Text
                 
-                Sql = Sql & DBSet(textCSB, "T") & "," & ValorNulo & "," & ValorNulo & "," & DBSet(Text8(2).Text, "N", "S") & "," & DBSet(txtdpto(0).Text, "N", "S") & "," & ValorNulo & ","
+                Sql = Sql & DBSet(textCSB, "T") & "," & ValorNulo & "," & ValorNulo & "," & DBSet(Text8(2).Text, "N", "S") & "," & DBSet(txtDpto(0).Text, "N", "S") & "," & ValorNulo & ","
                 Sql = Sql & DBSet(RsCta!Nommacta, "T", "S") & "," & DBSet(RsCta!dirdatos, "T", "S") & "," & DBSet(RsCta!desPobla, "T", "S") & "," & DBSet(RsCta!codposta, "T", "S") & ","
                 Sql = Sql & DBSet(RsCta!desProvi, "T", "S") & "," & DBSet(RsCta!IBAN, "T", "S")
                 
@@ -2546,7 +2555,7 @@ Dim textCSB As String
         Set RsCta = Nothing
     End If
     
-    InsertarCobro = b
+    InsertarCobro = B
     Exit Function
 eInsertarCobro:
     MuestraError Err.Number, "Insertar Cobro", Err.Description
@@ -2556,9 +2565,9 @@ End Function
 'Devuelve TRUE si esta activo
 Private Function HayQueAmortizar() As Boolean
 HayQueAmortizar = False
-Cad = DevuelveDesdeBD("situacio", "inmovele", "codinmov", Text6(0).Text, "N")
-If Cad <> "" Then
-    If Cad = "1" Then HayQueAmortizar = True
+cad = DevuelveDesdeBD("situacio", "inmovele", "codinmov", Text6(0).Text, "N")
+If cad <> "" Then
+    If cad = "1" Then HayQueAmortizar = True
 End If
 End Function
 
@@ -2572,8 +2581,8 @@ End Function
 Private Sub EmiteFacturaVentaInmmovilizado()
 
 On Error GoTo EEmiteFacturaVentaInmmovilizado
-    Cad = "DELETE FROM Usuarios.z347  WHERE codusu =" & vUsu.Codigo
-    Conn.Execute Cad
+    cad = "DELETE FROM Usuarios.z347  WHERE codusu =" & vUsu.Codigo
+    Conn.Execute cad
     
     'Los datos del encabezado
     CargaEncabezadoCarta 1
@@ -2581,18 +2590,18 @@ On Error GoTo EEmiteFacturaVentaInmmovilizado
     
     
     Set Rs = New ADODB.Recordset
-    Cad = "Select * from Cuentas where codmacta='" & txtcta(1).Text & "'"
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    Cad = "INSERT INTO Usuarios.z347 (codusu, cliprov, nif, importe, razosoci, dirdatos, codposta, despobla) VALUES (" & vUsu.Codigo
+    cad = "Select * from Cuentas where codmacta='" & txtCta(1).Text & "'"
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    cad = "INSERT INTO Usuarios.z347 (codusu, cliprov, nif, importe, razosoci, dirdatos, codposta, despobla) VALUES (" & vUsu.Codigo
     If Rs.EOF Then
-        Cad = Cad & "," & DivMes & ",'nif'," & TransformaComasPuntos(ImporteSinFormato(Text5.Text)) & ",'" & DevNombreSQL(txtDescta(1).Text) & "','Direccion','codpos','Poblacion')"
+        cad = cad & "," & DivMes & ",'nif'," & TransformaComasPuntos(ImporteSinFormato(Text5.Text)) & ",'" & DevNombreSQL(txtDesCta(1).Text) & "','Direccion','codpos','Poblacion')"
     Else
-        Cad = Cad & "," & DivMes & ",'"
-        Cad = Cad & DBLet(Rs!nifdatos) & "'," & TransformaComasPuntos(ImporteSinFormato(Text5.Text)) & ",'" & DevNombreSQL(txtDescta(1).Text) & "','"
-        Cad = Cad & DevNombreSQL(DBLet(Rs!dirdatos)) & "','" & DBLet(Rs!codposta) & "','"
-        Cad = Cad & DevNombreSQL(DBLet(Rs!desPobla)) & "')"
+        cad = cad & "," & DivMes & ",'"
+        cad = cad & DBLet(Rs!nifdatos) & "'," & TransformaComasPuntos(ImporteSinFormato(Text5.Text)) & ",'" & DevNombreSQL(txtDesCta(1).Text) & "','"
+        cad = cad & DevNombreSQL(DBLet(Rs!dirdatos)) & "','" & DBLet(Rs!codposta) & "','"
+        cad = cad & DevNombreSQL(DBLet(Rs!desPobla)) & "')"
     End If
-    Conn.Execute Cad
+    Conn.Execute cad
     
     Exit Sub
 EEmiteFacturaVentaInmmovilizado:
@@ -2603,20 +2612,20 @@ End Sub
 Private Sub txtDpto_GotFocus(Index As Integer)
 Dim Sql As String
 Dim i As Integer
-    With txtdpto(Index)
+    With txtDpto(Index)
         .SelStart = 0
         .SelLength = Len(.Text)
     End With
 
-    If txtcta(1).Text <> "" Then
-        Sql = "select dpto, descripcion from departamentos where codmacta = " & DBSet(txtcta(1).Text, "T")
+    If txtCta(1).Text <> "" Then
+        Sql = "select dpto, descripcion from departamentos where codmacta = " & DBSet(txtCta(1).Text, "T")
         i = TotalRegistrosConsulta(Sql)
         Select Case i
             Case 0
                 PonFoco Text5
             Case 1
             Case Else
-                PonFoco txtdpto(0)
+                PonFoco txtDpto(0)
         End Select
     End If
 
@@ -2627,17 +2636,17 @@ Private Sub txtDpto_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtDpto_LostFocus(Index As Integer)
-    txtdpto(Index).Text = Trim(txtdpto(Index).Text)
-    If txtdpto(Index).Text = "" Then
+    txtDpto(Index).Text = Trim(txtDpto(Index).Text)
+    If txtDpto(Index).Text = "" Then
         txtDesdpto(Index).Text = ""
         Exit Sub
     End If
-    Cad = DevuelveValor("select descripcion from departamentos where codmacta = " & DBSet(txtcta(1).Text, "T") & " and dpto = " & DBSet(txtdpto(Index).Text, "N"))
-    If Cad = "" Then
-        MsgBox "Departamento NO encontrado: " & txtdpto(Index).Text, vbExclamation
-        txtdpto(Index).Text = ""
-        txtdpto(Index).SetFocus
+    cad = DevuelveValor("select descripcion from departamentos where codmacta = " & DBSet(txtCta(1).Text, "T") & " and dpto = " & DBSet(txtDpto(Index).Text, "N"))
+    If cad = "" Then
+        MsgBox "Departamento NO encontrado: " & txtDpto(Index).Text, vbExclamation
+        txtDpto(Index).Text = ""
+        txtDpto(Index).SetFocus
     End If
-    txtDesdpto(Index).Text = Cad
+    txtDesdpto(Index).Text = cad
 
 End Sub

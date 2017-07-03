@@ -1475,15 +1475,16 @@ End Sub
 Private Function ObtenerCuenta(Siguiente As Boolean) As Boolean
 
     Sql = "select codmacta from hlinapu"
-    Sql = Sql & " WHERE codmacta "
+    
+    Sql = Sql & " WHERE  fechaent >= '" & Format(Text3(0).Text, FormatoFecha) & "'"
+    Sql = Sql & " AND fechaent <= '" & Format(Text3(1).Text, FormatoFecha) & "'"
+    Sql = Sql & " AND codmacta "
     If Siguiente Then
         Sql = Sql & ">"
     Else
         Sql = Sql & "<"
     End If
     Sql = Sql & " '" & Text3(2).Text & "'"
-    Sql = Sql & " AND  fechaent >= '" & Format(Text3(0).Text, FormatoFecha) & "'"
-    Sql = Sql & " AND fechaent <= '" & Format(Text3(1).Text, FormatoFecha) & "'"
     
     If chkSin.Value = 1 Then Sql = Sql & " AND punteada =0 "
     

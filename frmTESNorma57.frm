@@ -416,7 +416,7 @@ Attribute frmA.VB_VarHelpID = -1
 Private WithEvents frmP As frmFormaPago
 Attribute frmP.VB_VarHelpID = -1
 
-Dim Sql As String
+Dim SQL As String
 Dim RC As String
 Dim Rs As Recordset
 Dim PrimeraVez As Boolean
@@ -459,19 +459,19 @@ Private Sub cmdContabilizarNorma57_Click()
 Dim frmTESRealCob As frmTESRealizarCobros
 
 
-    Sql = ""
-    If Me.lwNorma57Importar(0).ListItems.Count = 0 Then Sql = Sql & "-Ningun vencimiento desde el fichero" & vbCrLf
-    If Me.txtCtaBanc(5).Text = "" Then Sql = Sql & "-Cuenta bancaria" & vbCrLf
-    If Sql <> "" Then
-        MsgBox Sql, vbExclamation
+    SQL = ""
+    If Me.lwNorma57Importar(0).ListItems.Count = 0 Then SQL = SQL & "-Ningun vencimiento desde el fichero" & vbCrLf
+    If Me.txtCtaBanc(5).Text = "" Then SQL = SQL & "-Cuenta bancaria" & vbCrLf
+    If SQL <> "" Then
+        MsgBox SQL, vbExclamation
         Exit Sub
     End If
     
     
     'La madre de las batallas
     'El sql que mando
-    Sql = "(numserie ,numfactu,fecfactu,numorden ) IN (select ccost,pos,nomdocum,numdiari from tmpconext "
-    Sql = Sql & " WHERE codusu =" & vUsu.Codigo & " and numasien=0 ) "
+    SQL = "(numserie ,numfactu,fecfactu,numorden ) IN (select ccost,pos,nomdocum,numdiari from tmpconext "
+    SQL = SQL & " WHERE codusu =" & vUsu.Codigo & " and numasien=0 ) "
     'CUIDADO. El trozo 'from tmpconext  WHERE codusu' tiene que estar extamente ASI
     '  ya que en ver cobros, si encuentro esto, pong la fecha de vencimiento la del PAGO por
     ' ventanilla que devuelve el banco y contabilizamos en funcion de esa fecha
@@ -482,9 +482,8 @@ Dim frmTESRealCob As frmTESRealizarCobros
     Set frmTESRealCob = New frmTESRealizarCobros
 
     With frmTESRealCob
-        .ImporteGastosTarjeta_ = 0
-        '--.OrdenacionEfectos = 3
-        .vSql2 = Sql
+
+        .vSql2 = SQL
         .OrdenarEfecto = True
         .Regresar = False
         .ContabTransfer = False
@@ -507,8 +506,8 @@ End Sub
 Private Sub cmdNoram57Fich_Click()
 
     If Me.lwNorma57Importar(0).ListItems.Count > 0 Or lwNorma57Importar(1).ListItems.Count > 0 Then
-        Sql = "Ya hay un proceso . ¿ Desea importar otro archivo?"
-        If MsgBox(Sql, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+        SQL = "Ya hay un proceso . ¿ Desea importar otro archivo?"
+        If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     End If
     
     Me.cmdContabilizarNorma57.Visible = False
@@ -630,20 +629,20 @@ End Sub
 
 
 Private Sub frmBa_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 
 
 Private Sub imgCtaBanc_Click(Index As Integer)
-    Sql = ""
+    SQL = ""
     Set frmBa = New frmBanco
     frmBa.DatosADevolverBusqueda = "OK"
     frmBa.Show vbModal
     Set frmBa = Nothing
-    If Sql <> "" Then
-        txtCtaBanc(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtDescBanc(Index).Text = RecuperaValor(Sql, 2)
+    If SQL <> "" Then
+        txtCtaBanc(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtDescBanc(Index).Text = RecuperaValor(SQL, 2)
     End If
 End Sub
 
@@ -679,22 +678,22 @@ Private Sub txtCtaBanc_LostFocus(Index As Integer)
     End If
     
     cad = txtCtaBanc(Index).Text
-    i = CuentaCorrectaUltimoNivelSIN(cad, Sql)
+    i = CuentaCorrectaUltimoNivelSIN(cad, SQL)
     If i = 0 Then
         MsgBox "NO existe la cuenta: " & txtCtaBanc(Index).Text, vbExclamation
-        Sql = ""
+        SQL = ""
         cad = ""
     Else
         cad = DevuelveDesdeBD("codmacta", "bancos", "codmacta", cad, "T")
         If cad = "" Then
             MsgBox "Cuenta no asoaciada a ningun banco", vbExclamation
-            Sql = ""
+            SQL = ""
             i = 0
         End If
     End If
     
     txtCtaBanc(Index).Text = cad
-    Me.txtDescBanc(Index).Text = Sql
+    Me.txtDescBanc(Index).Text = SQL
     If i = 0 Then PonFoco txtCtaBanc(Index)
     
 End Sub
@@ -793,13 +792,13 @@ Dim Estado As Byte  '0  esperando cabcerea
     procesarficheronorma57 = False
     i = FreeFile
     Open cd1.FileName For Input As #i
-    Sql = ""
+    SQL = ""
     Estado = 0
     Importe = 0
     TotalRegistros = 0
     While Not EOF(i)
-            Line Input #i, Sql
-            RC = Mid(Sql, 1, 4)
+            Line Input #i, SQL
+            RC = Mid(SQL, 1, 4)
             Select Case Estado
             Case 0
                 'Para saber que el fichero tiene el formato correcto
@@ -808,7 +807,7 @@ Dim Estado As Byte  '0  esperando cabcerea
                         'Voy a buscar si hay un banco
                         
                         RC = "select cuentas.codmacta,nommacta from bancos,cuentas where bancos.codmacta="
-                        RC = RC & "cuentas.codmacta AND mid(bancos.iban,5,4) = " & Trim(Mid(Sql, 23, 4))
+                        RC = RC & "cuentas.codmacta AND mid(bancos.iban,5,4) = " & Trim(Mid(SQL, 23, 4))
                         Set miRsAux = New ADODB.Recordset
                         miRsAux.Open RC, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
                         TotalRegistros = 0
@@ -831,22 +830,22 @@ Dim Estado As Byte  '0  esperando cabcerea
                     '   6070      46076147000130582263151014000000014067003059                      0000000516142
                     '                                  fecha       impot   socio                      fra      CC codigo de control del codigo de barra
                     'Fecha pago
-                    RC = Mid(Sql, 31, 2) & "/" & Mid(Sql, 33, 2) & "/20" & Mid(Sql, 35, 2)
+                    RC = Mid(SQL, 31, 2) & "/" & Mid(SQL, 33, 2) & "/20" & Mid(SQL, 35, 2)
                     Fecha = CDate(RC)
                     'IMporte
-                    RC = Mid(Sql, 37, 12)
+                    RC = Mid(SQL, 37, 12)
                     cad = CStr(CCur(Val(RC) / 100))
                     'FRA
-                    RC = Mid(Sql, 77, 11)
+                    RC = Mid(SQL, 77, 11)
                     CONT = Val(RC)
                     'Socio
-                    RC = Val(Mid(Sql, 50, 6))
+                    RC = Val(Mid(SQL, 50, 6))
                         
                     'Insertamos en tmp
                     TotalRegistros = TotalRegistros + 1
-                    Sql = "INSERT INTO tmpconext(codusu,cta,fechaent,Pos,TimporteD,linliapu) VALUES (" & vUsu.Codigo & ",'"
-                    Sql = Sql & RC & "','" & Format(Fecha, FormatoFecha) & "'," & CONT & "," & TransformaComasPuntos(cad) & "," & TotalRegistros & ")"
-                    Conn.Execute Sql
+                    SQL = "INSERT INTO tmpconext(codusu,cta,fechaent,Pos,TimporteD,linliapu) VALUES (" & vUsu.Codigo & ",'"
+                    SQL = SQL & RC & "','" & Format(Fecha, FormatoFecha) & "'," & CONT & "," & TransformaComasPuntos(cad) & "," & TotalRegistros & ")"
+                    Conn.Execute SQL
                     
                     Importe = Importe + CCur(TransformaPuntosComas(cad))
                 ElseIf RC = "8070" Then
@@ -859,17 +858,17 @@ Dim Estado As Byte  '0  esperando cabcerea
                     RC = ""
                     
                     'numero registros
-                    cad = Val(Mid(Sql, 24, 5))
+                    cad = Val(Mid(SQL, 24, 5))
                     If Val(cad) = 0 Then
-                        RC = RC = RC & vbCrLf & "Linea totales. Nº registros cero. " & Sql
+                        RC = RC = RC & vbCrLf & "Linea totales. Nº registros cero. " & SQL
                     Else
                         If Val(cad) - 2 <> TotalRegistros Then RC = "Contador de registros incorrecto"
                     End If
                     'Suma importes
-                    cad = CStr(CCur(Mid(Sql, 37, 12) / 100))
+                    cad = CStr(CCur(Mid(SQL, 37, 12) / 100))
                     
                     If CCur(cad) = 0 Then
-                        RC = RC = RC & vbCrLf & "Linea totales. Suma importes cero. " & Sql
+                        RC = RC = RC & vbCrLf & "Linea totales. Suma importes cero. " & SQL
                     Else
                         If CCur(cad) <> Importe Then RC = RC & vbCrLf & "Suma importes incorrecta"
                     End If
@@ -888,12 +887,12 @@ Dim Estado As Byte  '0  esperando cabcerea
     If Estado < 2 Then
         'Errores procesando fichero
         If Estado = 0 Then
-            Sql = "No se encuetra la linea de inicio de declarante(6070)"
+            SQL = "No se encuetra la linea de inicio de declarante(6070)"
         Else
-            Sql = "No se encuetra la linea de totales(8070)"
+            SQL = "No se encuetra la linea de totales(8070)"
         End If
 
-        MsgBox "Error procesando el fichero." & vbCrLf & Sql, vbExclamation
+        MsgBox "Error procesando el fichero." & vbCrLf & SQL, vbExclamation
     Else
         espera 0.5
         procesarficheronorma57 = True
@@ -933,15 +932,15 @@ On Error GoTo eVtosNorma57Escalona
     
     VtosNorma57Escalona = False
     Set RN = New ADODB.Recordset
-    Sql = "select * from tmpconext WHERE codusu =" & vUsu.Codigo & " order by cta,pos "
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "select * from tmpconext WHERE codusu =" & vUsu.Codigo & " order by cta,pos "
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     AlgunVtoNoEncontrado = False
     While Not miRsAux.EOF
         'Vto a vto
         '
         RC = RellenaCodigoCuenta("430." & miRsAux!Cta)
-        Sql = "Select * from cobros where codmacta = '" & RC & "' AND numfactu =" & miRsAux!Pos & " and impvenci>0"
-        RN.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        SQL = "Select * from cobros where codmacta = '" & RC & "' AND numfactu =" & miRsAux!Pos & " and impvenci>0"
+        RN.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         CONT = 0
         If RN.EOF Then
             cad = "NO encontrado"
@@ -966,24 +965,24 @@ On Error GoTo eVtosNorma57Escalona
             Wend
         End If
         RN.Close
-        Sql = "UPDATE tmpconext SET "
+        SQL = "UPDATE tmpconext SET "
         If CONT = 1 Then
             'OK este es el vto
             'NO hacemos nada. Updateamos los campos de la tmp
             'para buscar despues
             'numdiari numorden       numdocum=fecfaccl     ccost numserie
-            Sql = Sql & " nomdocum ='" & Format(Fecha, FormatoFecha)
-            Sql = Sql & "', ccost ='" & DevfrmCCtas
-            Sql = Sql & "', numdiari = " & i
-            Sql = Sql & ", contra = '" & RC & "'"
+            SQL = SQL & " nomdocum ='" & Format(Fecha, FormatoFecha)
+            SQL = SQL & "', ccost ='" & DevfrmCCtas
+            SQL = SQL & "', numdiari = " & i
+            SQL = SQL & ", contra = '" & RC & "'"
         Else
             If i > 1 Then cad = "(+1) " & cad
-            Sql = Sql & " numasien=  " & NoEncontrado  'para vtos no encontrados o erroneos
-            Sql = Sql & ", ampconce ='" & DevNombreSQL(cad) & "'"
+            SQL = SQL & " numasien=  " & NoEncontrado  'para vtos no encontrados o erroneos
+            SQL = SQL & ", ampconce ='" & DevNombreSQL(cad) & "'"
             If NoEncontrado = 2 Then AlgunVtoNoEncontrado = True
         End If
-        Sql = Sql & " WHERE codusu =" & vUsu.Codigo & " AND linliapu = " & miRsAux!Linliapu
-        Conn.Execute Sql
+        SQL = SQL & " WHERE codusu =" & vUsu.Codigo & " AND linliapu = " & miRsAux!Linliapu
+        Conn.Execute SQL
             
  
         
@@ -998,15 +997,15 @@ On Error GoTo eVtosNorma57Escalona
     If AlgunVtoNoEncontrado Then
         'Lo buscamos al reves
         espera 0.5
-        Sql = "select * from  tmpconext  WHERE codusu =" & vUsu.Codigo & " AND numasien=2"
-        miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        SQL = "select * from  tmpconext  WHERE codusu =" & vUsu.Codigo & " AND numasien=2"
+        miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         While Not miRsAux.EOF
             'Miguel angel
             'Puede que en algunos recibos las posciones del fichero vengan cambiadas
             'Donde era la factura es la cta y al reves
             RC = RellenaCodigoCuenta("430." & miRsAux!Pos)
-            Sql = "Select * from cobros where codmacta = '" & RC & "' AND numfactu =" & Val(miRsAux!Cta) & " and impvenci>0"
-            RN.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            SQL = "Select * from cobros where codmacta = '" & RC & "' AND numfactu =" & Val(miRsAux!Cta) & " and impvenci>0"
+            RN.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             If Not RN.EOF Then
         
                 'OK encontrado.
@@ -1022,11 +1021,11 @@ On Error GoTo eVtosNorma57Escalona
                 'para buscar despues
                 'numdiari numorden       numdocum=fecfaccl     ccost numserie
                 If CONT = 1 Then
-                    Sql = Sql & " nomdocum ='" & Format(Fecha, FormatoFecha)
-                    Sql = Sql & "', ccost ='" & DevfrmCCtas
-                    Sql = Sql & "', numdiari = " & i
-                    Sql = Sql & ", contra = '" & RC & "'"
-                    Sql = "UPDATE tmpconext SET "
+                    SQL = SQL & " nomdocum ='" & Format(Fecha, FormatoFecha)
+                    SQL = SQL & "', ccost ='" & DevfrmCCtas
+                    SQL = SQL & "', numdiari = " & i
+                    SQL = SQL & ", contra = '" & RC & "'"
+                    SQL = "UPDATE tmpconext SET "
                 End If
             End If
             RN.Close
@@ -1079,13 +1078,13 @@ Dim IT As ListItem
 
     Set miRsAux = New ADODB.Recordset
     If Correctos Then
-        Sql = "select tmpconext.*,nommacta from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta WHERE codusu = " & vUsu.Codigo
-        Sql = Sql & " and numasien=0 order by  ccost,pos  "
+        SQL = "select tmpconext.*,nommacta from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta WHERE codusu = " & vUsu.Codigo
+        SQL = SQL & " and numasien=0 order by  ccost,pos  "
     Else
-        Sql = "select * from tmpconext WHERE codusu = " & vUsu.Codigo & " and numasien > 0 order by cta,pos "
+        SQL = "select * from tmpconext WHERE codusu = " & vUsu.Codigo & " and numasien > 0 order by cta,pos "
     End If
     
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         If Correctos Then
             Set IT = Me.lwNorma57Importar(0).ListItems.Add(, "C" & Format(miRsAux!Linliapu, "0000"))
@@ -1094,11 +1093,11 @@ Dim IT As ListItem
             IT.SubItems(2) = Format(miRsAux!nomdocum, "dd/mm/yyyy")
             IT.SubItems(3) = miRsAux!Linliapu
             If IsNull(miRsAux!Nommacta) Then
-                Sql = "ERRROR GRAVE"
+                SQL = "ERRROR GRAVE"
             Else
-                Sql = miRsAux!Nommacta
+                SQL = miRsAux!Nommacta
             End If
-            IT.SubItems(4) = Sql
+            IT.SubItems(4) = SQL
             IT.SubItems(5) = Format(miRsAux!timported, FormatoImporte)
             IT.SubItems(6) = Format(miRsAux!FechaEnt, "dd/mm/yyyy")
             IT.Checked = True

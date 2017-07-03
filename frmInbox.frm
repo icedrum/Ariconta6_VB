@@ -174,7 +174,7 @@ Public Sub Form_Resize()
    
     Image1.Left = Me.Width - 900
     Image1.top = Me.Height - 1000
-    If CalendarControl.Visible Then
+    If CalendarControl.visible Then
         CalendarControl.Move 1, 4, ScaleWidth - ScrollBarCalendar.Width - 7, ScaleHeight - 11
         
         ScrollBarCalendar.Move CalendarControl.Width, CalendarControl.top + 44, ScrollBarCalendar.Width, CalendarControl.Height - 44
@@ -183,15 +183,15 @@ Public Sub Form_Resize()
 
 End Sub
 
-Public Sub SetColor(Id As Integer)
+Public Sub SetColor(id As Integer)
 
    
    
     Dim HexColor As Long
-    If Id = ID_OPTIONS_STYLEBLACK2010 Then
+    If id = ID_OPTIONS_STYLEBLACK2010 Then
         'HexColor = &H393839
         HexColor = &H949294
-    ElseIf Id = ID_OPTIONS_STYLESILVER2010 Then
+    ElseIf id = ID_OPTIONS_STYLESILVER2010 Then
         'HexColor = &H73716B
         HexColor = &HBDB2AD
     Else
@@ -317,7 +317,7 @@ Private Sub CalendarControl_ContextMenu(ByVal X As Single, ByVal Y As Single)
 
     Debug.Print "On context menu"
        
-    Exit Sub
+    'Exit Sub
        
     Dim Popup As CommandBar
     Dim Control As CommandBarControl
@@ -400,7 +400,7 @@ Private Sub CalendarControl_MouseMove(Button As Integer, Shift As Integer, X As 
       ' Debug.Print "MouseMove. HitTest = "; HitTest.ViewEvent.Event.Subject
        
        If ToolTips_Mode = 1 Then
-           CalendarControl.ToolTipText = "[" & HitTest.ViewEvent.Event.Id & "]  " & HitTest.ViewEvent.Event.Subject
+           CalendarControl.ToolTipText = "[" & HitTest.ViewEvent.Event.id & "]  " & HitTest.ViewEvent.Event.Subject
        Else
            CalendarControl.ToolTipText = ""
            Me.Refresh

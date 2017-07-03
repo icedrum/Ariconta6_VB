@@ -2213,6 +2213,7 @@ Dim cad As String
 Dim J As Long
 Dim Multiplicador As Long
 Dim vFormato As String
+Dim CadenaInsert As String
 
     i = vEmpresa.DigitosUltimoNivel - lblHuecoCta.Tag
     vFormato = Mid("00000000000", 1, i)
@@ -2228,11 +2229,11 @@ Dim vFormato As String
     
     Sql = "Select codmacta from cuentas where codmacta like '" & Me.txtHuecoCta.Text & "%' AND Apudirec='S'"
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    Sql = "INSERT INTO tmpbussinmov VALUES ('"
+    
     If Rs.EOF Then
         'Estan todas libres
         
-        InsertaCtasLibres Format(i, vFormato), "TODAS LIBRES"
+        InsertaCtasLibres Format(i, vFormato), "TODAS LIBRES", CadenaInsert
         Rs.Close
     Else
         
@@ -2240,7 +2241,7 @@ Dim vFormato As String
             NumCuentas = CLng(Right(CStr(Rs.Fields(0)), Multiplicador))
             If NumCuentas > i Then
                 For J = i To NumCuentas - 1
-                    InsertaCtasLibres Format(J, vFormato), "SALTO"
+                    InsertaCtasLibres Format(J, vFormato), "SALTO", CadenaInsert
                 Next J
             End If
             i = NumCuentas + 1
@@ -2254,11 +2255,17 @@ Dim vFormato As String
         
         If NumCuentas < i Then
             NumCuentas = NumCuentas + 1
-            InsertaCtasLibres Format(NumCuentas, vFormato), "Desde aqui LIBRES"
+            InsertaCtasLibres Format(NumCuentas, vFormato), "Desde aqui LIBRES", CadenaInsert
         End If
         
         
     End If
+    
+    'Por si acaso la cadena esta pendiente de insertar
+    InsertaCtasLibres "", "", CadenaInsert
+    
+    
+    
     
         Sql = "Select * from tmpbussinmov ORDER BY codmacta"
         Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -2273,11 +2280,29 @@ Dim vFormato As String
 End Sub
 
 
-Private Sub InsertaCtasLibres(Cta As String, Descripcion As String)
+Private Sub InsertaCtasLibres(Cta As String, Descripcion As String, CadenaInsert2 As String)
+Dim Insertar As Boolean
 Dim cad As String
+
+    If Cta <> "" Then
+        Insertar = False
         cad = Me.txtHuecoCta.Text & Cta
-        cad = cad & "','" & Descripcion & "')"
-        Conn.Execute Sql & cad
+        cad = "('" & cad & "','" & Descripcion & "')"
+        
+        CadenaInsert2 = CadenaInsert2 & ", " & cad
+        If Len(CadenaInsert2) > 300 Then Insertar = True
+    Else
+        Insertar = True
+    End If
+    
+    If Insertar Then
+        If CadenaInsert2 <> "" Then
+            CadenaInsert2 = Mid(CadenaInsert2, 2)
+            Sql = "INSERT INTO tmpbussinmov(codmacta,titulo) VALUES " & CadenaInsert2
+            Conn.Execute Sql
+            CadenaInsert2 = ""
+        End If
+    End If
 End Sub
 
 

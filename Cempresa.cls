@@ -47,6 +47,12 @@ Private mvarGranEmpresa As Boolean
 
 'NIF empresa. Esta en la tabla empresa2
 Private mvarNIF As String
+Private mvarNombreEmpresaOficial As String
+
+
+
+
+
 
 Private SQL As String  'Para la sentencia
 Private Mens As String    'Para los mensajes
@@ -299,6 +305,11 @@ Public Property Get NIF() As String
     NIF = mvarNIF
 End Property
 
+
+Public Property Get NombreEmpresaOficial() As String
+    NombreEmpresaOficial = mvarNombreEmpresaOficial
+End Property
+
 '------------------------------------------------
 'FUNCIONES del modulo Cempresa
 '------------------------------------------------
@@ -387,8 +398,10 @@ Public Function Leer(Optional CONTA As String) As Byte
             'Vemos si es gran empresa o no
             LeerGranEmpresa
             
-            
-            mvarNIF = DevuelveDesdeBD("nifempre", "empresa2", "1", "1")
+            SQL = "NomEmpresaOficial"
+            mvarNIF = DevuelveDesdeBD("nifempre", "empresa2", "1", "1", "N", SQL)
+            If SQL = "" Then SQL = mvarnomempre
+            mvarNombreEmpresaOficial = SQL
             
             
             Leer = 0

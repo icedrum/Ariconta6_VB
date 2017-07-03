@@ -34,10 +34,9 @@ Public Function Comprobar_NIF(NIF As String) As Boolean
             '-- comienza por letra
 
             If IsNumeric(Mid(NIF, 9, 1)) Then
-
-                '-- Acaba en número
-
-                If InStr(1, "ABCDEFGHJPQSNU", Mid(NIF, 1, 1)) <> 0 Then
+    
+                'JUN17. Añadimos V
+                If InStr(1, "ABCDEFGHJPQSNUV", Mid(NIF, 1, 1)) <> 0 Then
 
                     '-- Es una sociedad
 
@@ -116,7 +115,7 @@ End Function
  
 
 Public Function Comprobar_NIF_PersonaExtranjera(NIF As String) As Boolean
-
+    Dim Aux As String
     Dim mCadena As String
 
     Dim mLetra As String
@@ -125,10 +124,12 @@ Public Function Comprobar_NIF_PersonaExtranjera(NIF As String) As Boolean
 
     'mCadena = "DTRWAGMYFPXBNJZSQVHLCKE"  antes enero 2012
     mCadena = "TRWAGMYFPDXBNJZSQVHLCKE"
-
+               
     '-- Tomamos el NIF propiamente dicho y calculamos el módulo 23
+    Aux = Mid(NIF, 2, 7)
+    If Mid(NIF, 1, 1) = "Y" Then Aux = "1" & Aux
 
-    m23 = Val(Mid(NIF, 2, 7)) Mod 23
+    m23 = Val(Aux) Mod 23
 
     mLetra = Mid(mCadena, m23 + 1, 1)
 
@@ -158,7 +159,7 @@ Public Function Comprobar_NIF_Sociedad(NIF As String) As Boolean
 
     Dim mN2 As String
 
-    Dim I, I2 As Integer
+    Dim i, I2 As Integer
 
     Dim Suma, Control As Long
 
@@ -168,17 +169,17 @@ Public Function Comprobar_NIF_Sociedad(NIF As String) As Boolean
 
     '-- Sumamos las cifras pares
 
-    For I = 2 To Len(vNif) Step 2
+    For i = 2 To Len(vNif) Step 2
 
-        Suma = Suma + Val(Mid(vNif, I, 1))
+        Suma = Suma + Val(Mid(vNif, i, 1))
 
-    Next I
+    Next i
 
     '-- Ahora las impares * 2, y sumando las cifras del resultado
 
-    For I = 1 To Len(vNif) Step 2
+    For i = 1 To Len(vNif) Step 2
 
-        mN2 = CStr(Val(Mid(vNif, I, 1)) * 2)
+        mN2 = CStr(Val(Mid(vNif, i, 1)) * 2)
 
         For I2 = 1 To Len(mN2)
 
@@ -186,7 +187,7 @@ Public Function Comprobar_NIF_Sociedad(NIF As String) As Boolean
 
         Next I2
 
-    Next I
+    Next i
 
     '-- Ya tenemos la suma y calculamos el control
 

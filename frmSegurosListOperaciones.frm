@@ -716,7 +716,7 @@ Private Sub Form_Load()
 
     
     For i = 0 To 1
-        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+        Me.imgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
     Next i
      
 '    For i = 0 To 0
@@ -1141,6 +1141,7 @@ Dim k As Integer
                     End If
                 End If
                 If Sql <> "" Then
+                    'FALTA######
                     Sql = "UPDATE Usuarios.ztesoreriacomun set texto5='" & DevNombreSQL(Sql) & "' WHERE codusu ="
                     Sql = Sql & vUsu.Codigo & " AND texto5='" & DevNombreSQL(miRsAux!texto5) & "'"
                     Conn.Execute Sql

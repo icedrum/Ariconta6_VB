@@ -123,15 +123,15 @@ Dim TabNuevo As RibbonTab
     Select Case Item.id
         Case SHORTCUT_CONTACTS:
 
-            frmInbox.CalendarControl.Visible = False
-            frmInbox.ScrollBarCalendar.Visible = False
+            frmInbox.CalendarControl.visible = False
+            frmInbox.ScrollBarCalendar.visible = False
             Set TabNuevo = frmppal.RibbonBar.FindTab(3)  'Diario
             
            
         Case SHORTCUT_CALENDAR:
             frmPaneCalendar.AsignarCalendar
-            frmInbox.CalendarControl.Visible = True
-            frmInbox.ScrollBarCalendar.Visible = True
+            frmInbox.CalendarControl.visible = True
+            frmInbox.ScrollBarCalendar.visible = True
             Set TabNuevo = frmppal.RibbonBar.FindTab(ID_TAB_CALENDAR_HOME)
             
             frmPaneCalendar.Enabled = True
@@ -183,7 +183,7 @@ Public Sub SetColor(id As Integer)
     Set wndShortcutBar.Icons = CommandBarsGlobalSettings.Icons
     Me.BackColor = wndShortcutBar.PaintManager.PaneBackgroundColor
    ' Me.Image1.Visible = vUsu.Skin = 2
-    Me.Image1.Visible = True 'vUsu.Skin <> 2
+    Me.Image1.visible = True 'vUsu.Skin <> 2
     
     
     If id = ID_OPTIONS_STYLEBLACK2010 Then

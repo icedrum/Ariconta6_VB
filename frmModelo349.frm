@@ -220,7 +220,7 @@ Begin VB.Form frmModelo349
             Left            =   3750
             Picture         =   "frmModelo349.frx":0004
             ToolTipText     =   "Puntear al Debe"
-            Top             =   30
+            Top             =   60
             Width           =   240
          End
          Begin VB.Image imgCheck 
@@ -1154,8 +1154,7 @@ Dim Trim(3) As Currency
     Sql = "DELETE FROM tmp347tot where codusu = " & vUsu.Codigo
     Conn.Execute Sql
     
-    Sql = "DELETE FROM tmp347 where codusu = " & vUsu.Codigo
-    Conn.Execute Sql
+
     
     'Para el listado de facturas utilizaremos los datos
     Sql = "DELETE FROM tmpfaclin WHERE codusu =" & vUsu.Codigo
@@ -1173,7 +1172,11 @@ Dim Trim(3) As Currency
     Set miRsAux = New ADODB.Recordset
     For i = 1 To ListView1(1).ListItems.Count
         If ListView1(1).ListItems(i).Checked Then
-    
+            
+            Sql = "DELETE FROM tmp347 where codusu = " & vUsu.Codigo
+            Conn.Execute Sql
+            
+            
             If Not ComprobarCuentas349_DOS("ariconta" & ListView1(1).ListItems(i).Text, C1, C2) Then
                 Set miRsAux = Nothing
                 Exit Function
@@ -1414,7 +1417,7 @@ On Error GoTo EComprobarCuentas349
     While Not Rs.EOF
         ContadorPro = ContadorPro + 1
         
-        Sql = ContadorPro & ",'" & Format(Rs!NumRegis, "0000000000") & "','" & Format(Rs!fecharec, FormatoFecha) & "','"
+        Sql = ContadorPro & ",'" & Format(Rs!numregis, "0000000000") & "','" & Format(Rs!fecharec, FormatoFecha) & "','"
         ', cta,  NIF, IVA,  Total   .- IVA= numero empresa    cta=cod factura
         
         'Abril 2006. Busco la base, no el total factura
