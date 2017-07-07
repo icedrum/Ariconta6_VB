@@ -1364,7 +1364,7 @@ Private Sub Combo1_Validate(Cancel As Boolean)
         
         i = 0
         'If Cobros And (Combo1.ItemData(Combo1.ListIndex) = 2 Or Combo1.ItemData(Combo1.ListIndex) = 3) Then i = 1
-        Me.mnbarra1.visible = i = 1
+        Me.mnBarra1.visible = i = 1
         Me.mnNumero.visible = i = 1
         
         
@@ -3525,32 +3525,54 @@ Dim J As Integer
   
     cad = cad & SQL
 
-    NumRegElim = InStr(1, Text3(1).Text, "-")
-    SQL = DevNombreSQL(Mid(Text3(1).Text, NumRegElim + 1))
+   
+    SQL = DevNombreSQL(txtDCta(4).Text)
 
     '
     cad = cad & ",'" & SQL & "',"
     
     NumRegElim = 0
+    
+    
+    If Combo1.ItemData(Combo1.ListIndex) = vbTalon Or Combo1.ItemData(Combo1.ListIndex) = vbPagare Then
+    
+        SQL = "Select reftalonpag from tmppagos2 where codusu = " & vUsu.Codigo & " GROUP BY reftalonpag"
+        miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        If Not miRsAux.EOF Then
+            SQL = ""
+            While Not miRsAux.EOF
+                NumeroTalonPagere = DBLet(miRsAux.Fields(0), "T")
+                SQL = SQL & "X"
+                miRsAux.MoveNext
+            Wend
+        End If
+        miRsAux.Close
+        If Len(SQL) <> 1 Then NumeroTalonPagere = ""
+    End If
+    
     If NumeroTalonPagere = "" Then
         NumeroTalonPagere = txtDCta(4).Text
-        NumRegElim = 1
+       
     End If
+    
+    
+    
+    
     
     If NumeroTalonPagere = "" Then
         cad = cad & "NULL"
     Else
         cad = cad & "'" & DevNombreSQL(NumeroTalonPagere) & "'"
     End If
-    'Reestablezco
-    If NumRegElim = 1 Then NumeroTalonPagere = ""
+
         
     
     
-    'Pongo tb la fecha vto en parrafo 4
-    cad = cad & ",'" & RecuperaValor(vTextos, 1) & "'"
+    'Pongo tb la fecha vto en parrafo 3
+    cad = cad & ",'" & Text3(0).Text & "'"
     
     'Si tiene numerodetalonpagare entonces
+    
     SQL = "NULL"
     If NumeroTalonPagere <> "" Then
         SQL = "codusu = " & vUsu.Codigo & " AND Pasivo = 'Z' AND codigo "
