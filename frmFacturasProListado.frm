@@ -31,6 +31,24 @@ Begin VB.Form frmFacturasProListado
       Top             =   6750
       Width           =   4455
       Begin VB.OptionButton optVarios 
+         Caption         =   "Fecha liquidación"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   4
+         Left            =   390
+         TabIndex        =   59
+         Top             =   1791
+         Width           =   2295
+      End
+      Begin VB.OptionButton optVarios 
          Caption         =   "Nº Registro"
          BeginProperty Font 
             Name            =   "Verdana"
@@ -63,7 +81,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   2
          Left            =   390
          TabIndex        =   51
-         Top             =   1500
+         Top             =   1394
          Width           =   2295
       End
       Begin VB.OptionButton optVarios 
@@ -81,7 +99,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   1
          Left            =   390
          TabIndex        =   48
-         Top             =   1950
+         Top             =   2190
          Width           =   1725
       End
       Begin VB.OptionButton optVarios 
@@ -99,7 +117,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   0
          Left            =   390
          TabIndex        =   47
-         Top             =   1050
+         Top             =   997
          Width           =   1755
       End
       Begin VB.CheckBox Check1 
@@ -117,7 +135,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   1
          Left            =   2460
          TabIndex        =   46
-         Top             =   1980
+         Top             =   2220
          Width           =   1335
       End
    End
@@ -598,7 +616,7 @@ Begin VB.Form frmFacturasProListado
          Left            =   270
          TabIndex        =   29
          Top             =   3210
-         Width           =   1830
+         Width           =   2670
       End
       Begin VB.Label Label3 
          Caption         =   "Serie"
@@ -1190,7 +1208,7 @@ Attribute frmConta.VB_VarHelpID = -1
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -1318,6 +1336,8 @@ Private Sub Form_Load()
     
     Me.optVarios(2).Value = True
     
+    
+    optVarios(4).visible = vParam.IvaEnFechaPago
     optVarios_Click (0)
     
     txtFecha(0).Text = vParam.fechaini
@@ -1356,7 +1376,7 @@ Private Sub frmConta_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
@@ -1420,15 +1440,15 @@ Private Sub imgFec_Click(Index As Integer)
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
-    Sql = ""
+    SQL = ""
     AbiertoOtroFormEnListado = True
     Set frmCtas = New frmColCtas
     frmCtas.DatosADevolverBusqueda = True
     frmCtas.Show vbModal
     Set frmCtas = Nothing
-    If Sql <> "" Then
-        Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
+    If SQL <> "" Then
+        Me.txtCuentas(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(SQL, 2)
     Else
         QuitarPulsacionMas Me.txtCuentas(Index)
     End If
@@ -1442,11 +1462,13 @@ Private Sub optTipoSal_Click(Index As Integer)
 End Sub
 
 Private Sub optVarios_Click(Index As Integer)
-    check1(1).Enabled = optVarios(1).Value
-    If Not check1(1).Enabled Then check1(1).Value = 0
+    Check1(1).Enabled = optVarios(1).Value
+    If Not Check1(1).Enabled Then Check1(1).Value = 0
     
     If optVarios(0) Then
         Label3(8).Caption = "Fecha Factura"
+    ElseIf optVarios(4) Then
+        Label3(8).Caption = "Fecha liquidación"
     Else
         Label3(8).Caption = "Fecha Recepción"
     End If
@@ -1457,7 +1479,7 @@ Private Sub optVarios_KeyPress(Index As Integer, KeyAscii As Integer)
     KEYpress KeyAscii
   
   
-    check1(1).Enabled = optVarios(1).Value
+    Check1(1).Enabled = optVarios(1).Value
     
 End Sub
 
@@ -1519,7 +1541,7 @@ Private Sub txtCuentas_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
@@ -1546,18 +1568,18 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
         Case 0, 1 'cuentas
             Cta = (txtCuentas(Index).Text)
                                     '********
-            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
             If B = 0 Then
                 MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
             Else
                 txtCuentas(Index).Text = Cta
-                txtNCuentas(Index).Text = Sql
+                txtNCuentas(Index).Text = SQL
                 If B = 1 Then
                     txtNCuentas(Index).Tag = ""
                 Else
-                    txtNCuentas(Index).Tag = Sql
+                    txtNCuentas(Index).Tag = SQL
                 End If
                 Hasta = -1
                 If Index = 6 Then
@@ -1671,7 +1693,7 @@ Private Sub txtSerie_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtSerie(Index).Text = UCase(Trim(txtSerie(Index).Text))
@@ -1701,16 +1723,16 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    Sql = "Select factpro.numserie Serie, tmpfaclin.nomserie Descripcion, factpro.numfactu Factura, factpro.fecfactu Fecha, factpro.codmacta Cuenta, factpro.nommacta Titulo, tmpfaclin.tipoformapago TipoPago, "
-    Sql = Sql & " tmpfaclin.tipoopera TOperacion, factpro.codconce340 TFra, factpro.trefaccl Retencion, "
-    Sql = Sql & " factpro_totales.baseimpo BaseImp,factpro_totales.codigiva IVA,factpro_totales.porciva PorcIva,factpro_totales.porcrec PorcRec,factpro_totales.impoiva ImpIva,factpro_totales.imporec ImpRec "
-    Sql = Sql & " FROM (factpro inner join factpro_totales on factpro.numserie = factpro_totales.numserie and factpro.numfactu = factpro_totales.numfactu and factpro.fecfactu = factpro_totales.fecfactu) "
-    Sql = Sql & " inner join tmpfaclin ON factpro.numserie=tmpfaclin.numserie AND factpro.numfactu=tmpfaclin.Numfac and factpro.fecfactu=tmpfaclin.Fecha "
-    Sql = Sql & " WHERE  tmpfaclin.codusu =  " & vUsu.Codigo
-    Sql = Sql & " ORDER BY factpro.codmacta, factpro.nommacta, factpro_totales.numlinea "
+    SQL = "Select factpro.numserie Serie, tmpfaclin.nomserie Descripcion, factpro.numfactu Factura, factpro.fecfactu Fecha, factpro.codmacta Cuenta, factpro.nommacta Titulo, tmpfaclin.tipoformapago TipoPago, "
+    SQL = SQL & " tmpfaclin.tipoopera TOperacion, factpro.codconce340 TFra, factpro.trefaccl Retencion, "
+    SQL = SQL & " factpro_totales.baseimpo BaseImp,factpro_totales.codigiva IVA,factpro_totales.porciva PorcIva,factpro_totales.porcrec PorcRec,factpro_totales.impoiva ImpIva,factpro_totales.imporec ImpRec "
+    SQL = SQL & " FROM (factpro inner join factpro_totales on factpro.numserie = factpro_totales.numserie and factpro.numfactu = factpro_totales.numfactu and factpro.fecfactu = factpro_totales.fecfactu) "
+    SQL = SQL & " inner join tmpfaclin ON factpro.numserie=tmpfaclin.numserie AND factpro.numfactu=tmpfaclin.Numfac and factpro.fecfactu=tmpfaclin.Fecha "
+    SQL = SQL & " WHERE  tmpfaclin.codusu =  " & vUsu.Codigo
+    SQL = SQL & " ORDER BY factpro.codmacta, factpro.nommacta, factpro_totales.numlinea "
             
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1725,16 +1747,16 @@ Dim nomDocu As String
     
     indRPT = "0405-00"
     If optVarios(1).Value Then indRPT = "0405-01"
-    If check1(1).Value And optVarios(1).Value Then indRPT = "0405-02"
+    If Check1(1).Value And optVarios(1).Value Then indRPT = "0405-02"
     
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     
     cadNomRPT = nomDocu '
 
     'si se imprime el nif o la cuenta de cliente
-    cadParam = cadParam & "pConNIF=" & check1(0).Value & "|"
+    cadParam = cadParam & "pConNIF=" & Check1(0).Value & "|"
     numParam = numParam + 1
-    cadParam = cadParam & "pConFecha=" & check1(2).Value & "|"
+    cadParam = cadParam & "pConFecha=" & Check1(2).Value & "|"
     numParam = numParam + 1
     
     cadParam = cadParam & "pNumPag=" & ComprobarCero(txtPag2(0).Text) & "|"
@@ -1759,34 +1781,43 @@ Dim nomDocu As String
 End Sub
 
 Private Function CargarTemporal() As Boolean
-Dim Sql As String
+Dim SQL As String
 
     On Error GoTo eCargarTemporal
 
     CargarTemporal = False
     
-    Sql = "delete from tmpfaclin where codusu = " & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "delete from tmpfaclin where codusu = " & vUsu.Codigo
+    Conn.Execute SQL
     
     
     
-    Sql = "insert into tmpfaclin (codusu, codigo,numfactura, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
-    Sql = Sql & " recargo,  tipoformapago,tipoopera, tipoiva,ctabase) "
-    Sql = Sql & " select distinct " & vUsu.Codigo & ",factpro.anofactu,numfactu, factpro.numserie, contadores.nomregis, factpro.numregis, factpro.fecharec, factpro.codmacta, "
-    Sql = Sql & " factpro.nommacta,factpro.nifdatos, factpro.totbases, factpro.totivas, factpro.totfacpr, factpro.trefacpr, "
-    Sql = Sql & " factpro.totrecargo, tipofpago.descformapago , "
+    SQL = "insert into tmpfaclin (codusu, codigo,numfactura, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
+    SQL = SQL & " recargo,  tipoformapago,tipoopera, tipoiva,ctabase) "
+    SQL = SQL & " select distinct " & vUsu.Codigo & ",factpro.anofactu,numfactu, factpro.numserie, contadores.nomregis, factpro.numregis,"
+    If Me.optVarios(0).Value Then
+        SQL = SQL & " factpro.fecfactu"
+    Else
+        If Me.optVarios(4).Value Then
+            SQL = SQL & " factpro.fecliqpr"
+        Else
+            SQL = SQL & " factpro.fecharec"
+        End If
+    End If
+    SQL = SQL & " ,factpro.codmacta,factpro.nommacta,factpro.nifdatos, factpro.totbases, factpro.totivas, factpro.totfacpr, factpro.trefacpr, "
+    SQL = SQL & " factpro.totrecargo, tipofpago.descformapago , "
     
     'Abril 2017
     'if(factpro.codopera = 0 or factpro.codopera = 3, 1,0) aaaa "
     'Sql = Sql & " aa.denominacion, " '
-    Sql = Sql & " factpro.codopera, " ',
+    SQL = SQL & " factpro.codopera, " ',
     
-    Sql = Sql & " CASE factpro.codopera WHEN 0 THEN 0 WHEN 3 THEN 0 WHEN 1 THEN 1 WHEN 2 THEN 2 WHEN 4 THEN 3 WHEN 5 THEN 4 END "
-    Sql = Sql & ",fecfactu"
-    Sql = Sql & " from " & tabla
-    Sql = Sql & " where " & cadselect
+    SQL = SQL & " CASE factpro.codopera WHEN 0 THEN 0 WHEN 3 THEN 0 WHEN 1 THEN 1 WHEN 2 THEN 2 WHEN 4 THEN 3 WHEN 5 THEN 4 END "
+    SQL = SQL & ",fecfactu"
+    SQL = SQL & " from " & tabla
+    SQL = SQL & " where " & cadselect
     
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     CargarTemporal = True
     Exit Function
@@ -1796,7 +1827,7 @@ eCargarTemporal:
 End Function
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -1808,9 +1839,13 @@ Dim i As Integer
     If Not PonerDesdeHasta("factpro.NumSerie", "SER", Me.txtSerie(0), Me.txtNSerie(0), Me.txtSerie(1), Me.txtNSerie(1), "pDHSerie=""") Then Exit Function
     
     If Me.optVarios(0).Value Then
-        If Not PonerDesdeHasta("factpro.fecfactu", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""") Then Exit Function
+        If Not PonerDesdeHasta("factpro.fecfactu", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""factura:") Then Exit Function
     Else
-        If Not PonerDesdeHasta("factpro.fecharec", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""") Then Exit Function
+        If Me.optVarios(4).Value Then
+            If Not PonerDesdeHasta("factpro.fecliqpr", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""liquidación: ") Then Exit Function
+        Else
+            If Not PonerDesdeHasta("factpro.fecharec", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""recepción: ") Then Exit Function
+        End If
     End If
     
         
@@ -1830,19 +1865,19 @@ Dim i As Integer
             
             
             
-    Sql = ""
+    SQL = ""
     For i = 1 To Me.ListView1(1).ListItems.Count
         If Me.ListView1(1).ListItems(i).Checked Then
-            Sql = Sql & Me.ListView1(1).ListItems(i).Text & ","
+            SQL = SQL & Me.ListView1(1).ListItems(i).Text & ","
         End If
     Next i
     
-    If Sql <> "" Then
+    If SQL <> "" Then
         ' quitamos la ultima coma
-        Sql = Mid(Sql, 1, Len(Sql) - 1)
+        SQL = Mid(SQL, 1, Len(SQL) - 1)
         
-        If Not AnyadirAFormula(cadselect, "factpro_totales.codigiva in (" & Sql & ")") Then Exit Function
-        If Not AnyadirAFormula(cadFormula, "{factpro_totales.codigiva} in [" & Sql & "]") Then Exit Function
+        If Not AnyadirAFormula(cadselect, "factpro_totales.codigiva in (" & SQL & ")") Then Exit Function
+        If Not AnyadirAFormula(cadFormula, "{factpro_totales.codigiva} in [" & SQL & "]") Then Exit Function
     Else
         If Not AnyadirAFormula(cadselect, "factpro_totales.codigiva is null") Then Exit Function
         If Not AnyadirAFormula(cadFormula, "isnull({factpro_totales.codigiva})") Then Exit Function
@@ -1907,7 +1942,7 @@ Private Sub CargarListView(Index As Integer)
 'en un ListView
 Dim Rs As ADODB.Recordset
 Dim ItmX As ListItem
-Dim Sql As String
+Dim SQL As String
 
     On Error GoTo ECargarList
 
@@ -1917,12 +1952,12 @@ Dim Sql As String
     ListView1(Index).ColumnHeaders.Add , , "Código", 900
     ListView1(Index).ColumnHeaders.Add , , "Descripción", 2200
     
-    Sql = "SELECT codigiva, nombriva "
-    Sql = Sql & " FROM tiposiva "
-    Sql = Sql & " ORDER BY codigiva "
+    SQL = "SELECT codigiva, nombriva "
+    SQL = SQL & " FROM tiposiva "
+    SQL = SQL & " ORDER BY codigiva "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     While Not Rs.EOF
         Set ItmX = ListView1(Index).ListItems.Add
@@ -1944,7 +1979,7 @@ End Sub
 
 Private Sub CargarCombo()
 Dim Rs As ADODB.Recordset
-Dim Sql As String
+Dim SQL As String
 Dim J As Long
 
     For i = 1 To Combo1.Count - 1
@@ -1953,8 +1988,8 @@ Dim J As Long
 
     'Tipo de factura
     Set Rs = New ADODB.Recordset
-    Sql = "SELECT * FROM usuarios.wconce340 ORDER BY codigo"
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "SELECT * FROM usuarios.wconce340 ORDER BY codigo"
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     Combo1(0).AddItem "Todos"
     Combo1(0).ItemData(Combo1(0).NewIndex) = Asc(1)

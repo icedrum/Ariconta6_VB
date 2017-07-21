@@ -1263,10 +1263,7 @@ Dim cad As String
         Linea = "2" 'Obligado
         Linea = Linea & IdentificacionPresentador
         Linea = Linea & DatosTexto(" ", 58)
-        'NIF INTACOM
-        'MOdificacion de marzo 2009
-        'El NIF lleva las letras del pais... que cojera del pais, NO del NIF
-        'LINEA = LINEA & DatosTexto(RS!NIF, 17)
+     
         
         cad = DBLet(Rs!desPobla) & "  "   'Llevara el pais
         cad = Trim(Mid(cad, 1, 2)) & Rs!NIF
@@ -1274,14 +1271,17 @@ Dim cad As String
         Linea = Linea & DatosTexto(cad, 17)
         Linea = Linea & DatosTexto(Rs!razosoci, 40)
         
-        
-        'JULIO 2012
-        'Estaba al reves
-        'If RS!cliprov = 1 Then
-        If Rs!cliprov = 0 Then
-            cad = "E"  'ventas o entregas
+
+        'If Rs!cliprov = 0 Then
+        '    cad = "E"  'ventas o entregas
+        'Else
+        '    cad = "A"  'compras o adquisiciones
+        'end If
+        If Rs!cliprov < 65 Or Rs!cliprov > 90 Then
+            MsgBox "Error codigo intracomunitaria" & Linea, vbExclamation
+            cad = "X"
         Else
-            cad = "A"  'compras o adquisiciones
+            cad = Chr(Rs!cliprov)
         End If
         Linea = Linea & cad
         
@@ -1574,7 +1574,7 @@ Dim aux2 As String
             End If
                 
             '`codpais`,`idenpais`,`nifresidencia`
-            PAIS = UCase(DBLet(Rs!codpais, "T"))
+            PAIS = UCase(DBLet(Rs!codPAIS, "T"))
             If PAIS = "" Then PAIS = "ES"
             
             If PAIS = "ES" Then
@@ -1767,7 +1767,7 @@ Dim SqlNew As String
             
                 
             '`codpais`,`idenpais`,`nifresidencia`
-            PAIS = UCase(DBLet(Rs!codpais, "T"))
+            PAIS = UCase(DBLet(Rs!codPAIS, "T"))
             If PAIS = "" Then PAIS = "ES"
             
             
@@ -1990,7 +1990,7 @@ Dim SqlNew As String
             
                 
             '`codpais`,`idenpais`,`nifresidencia`
-            PAIS = UCase(DBLet(Rs!codpais, "T"))
+            PAIS = UCase(DBLet(Rs!codPAIS, "T"))
             If PAIS = "" Then PAIS = "ESPAÑA"
             
             If PAIS = "ESPAÑA" Then
@@ -2361,13 +2361,13 @@ Dim aux2 As String
         'Razosoci
         Linea = Linea & DatosTexto(Rs!razosoci, 40)
         'Pais,idenpais,niresidencia                 'Dira que es el documento  del id en pais de referencia (nif, passporte...)
-        Linea = Linea & DatosTexto(Rs!codpais, 2)
+        Linea = Linea & DatosTexto(Rs!codPAIS, 2)
         Linea = Linea & DBLet(Rs!idenpais, "N")
         If Val(DBLet(Rs!idenpais, "N")) > 1 Then
-            If Mid(Rs!nifresidencia, 1, 2) = Rs!codpais Then
+            If Mid(Rs!nifresidencia, 1, 2) = Rs!codPAIS Then
                 aux2 = DatosTexto(DBLet(Rs!nifresidencia), 20)
             Else
-                aux2 = DatosTexto(Rs!codpais, 2) & DatosTexto(DBLet(Rs!nifresidencia), 18)
+                aux2 = DatosTexto(Rs!codPAIS, 2) & DatosTexto(DBLet(Rs!nifresidencia), 18)
             End If
             Linea = Linea & aux2
         Else
@@ -2559,7 +2559,7 @@ Private Function ComprobarNifs340(Minimo As Long, maximo As Long) As Integer
     Rs.Open Linea, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Linea = ""
     While Not Rs.EOF
-        If Rs!codpais = "ES" Then
+        If Rs!codPAIS = "ES" Then
             'ESPAÑA. Comprobamos NIF"
             If Not Comprobar_NIF(Rs!nifdeclarado) Then
                 Linea = Linea & DevFacturasTmp340DeEseNIF(Rs!nifdeclarado)
@@ -2785,7 +2785,7 @@ Dim Aux As String
            
                 
             '`codpais`,`idenpais`,`nifresidencia`
-            Aux = UCase(DBLet(R!codpais, "T"))
+            Aux = UCase(DBLet(R!codPAIS, "T"))
             If Aux = "" Then Aux = "ESPAÑA"
             
             If Aux = "ESPAÑA" Then
@@ -2855,7 +2855,7 @@ Dim CADENA As String
            
                 
             '`codpais`,`idenpais`,`nifresidencia`
-            Linea = Linea & "'" & Rs!codpais & "','" & Rs!idenpais & "','" & DBLet(Rs!nifresidencia, "T") & "'"
+            Linea = Linea & "'" & Rs!codPAIS & "','" & Rs!idenpais & "','" & DBLet(Rs!nifresidencia, "T") & "'"
             
             
             '`clavelibro`,`claveoperacion`,   !!!ATENCION!!!! POnemos como clave libro una Z  <<<<---- UNA z

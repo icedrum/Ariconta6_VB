@@ -1882,12 +1882,12 @@ End Sub
 
 
 Public Sub CargaMenu(AntiguoTab As Integer)
-Dim Rn As ADODB.Recordset
+Dim RN As ADODB.Recordset
 
 
 
 
-    Set Rn = New ADODB.Recordset
+    Set RN = New ADODB.Recordset
     Set Rn2 = New ADODB.Recordset
     On Error GoTo eCargaMenu
     
@@ -1895,18 +1895,18 @@ Dim Rn As ADODB.Recordset
     If RibbonSeHaCreado Then RibbonBar.RemoveAllTabs
     
     cad = "Select * from menus where aplicacion = 'ariconta' and padre =0 ORDER BY padre,orden "
-    Rn.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    While Not Rn.EOF
+    RN.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    While Not RN.EOF
     
         
-        If Not BloqueaPuntoMenu(Rn!Codigo, "ariconta") Then
+        If Not BloqueaPuntoMenu(RN!Codigo, "ariconta") Then
              Habilitado = True
              
-             If Not MenuVisibleUsuario(DBLet(Rn!Codigo), "ariconta") Then
+             If Not MenuVisibleUsuario(DBLet(RN!Codigo), "ariconta") Then
                  Habilitado = False
              Else
          
-                 If (MenuVisibleUsuario(DBLet(Rn!Padre), "ariconta") And DBLet(Rn!Padre) <> 0) Or DBLet(Rn!Padre) = 0 Then
+                 If (MenuVisibleUsuario(DBLet(RN!Padre), "ariconta") And DBLet(RN!Padre) <> 0) Or DBLet(RN!Padre) = 0 Then
                      'OK todo habilitado
                  Else
                      Habilitado = False
@@ -1917,50 +1917,50 @@ Dim Rn As ADODB.Recordset
                 
             If Habilitado Then
                 
-                Select Case Rn!Codigo
+                Select Case RN!Codigo
                 Case 1
                     '1   "CONFIGURACION"
-                    CargaMenuConfiguracion Rn!Codigo
+                    CargaMenuConfiguracion RN!Codigo
                 Case 2
                     '2   "DATOS GENERALES"
-                    CargaMenuDatosGenerales Rn!Codigo
+                    CargaMenuDatosGenerales RN!Codigo
                 Case 3
                     '3   "DIARIO"
-                    CargaMenuDiarios Rn!Codigo
+                    CargaMenuDiarios RN!Codigo
                 Case 4
                     '4   "FACTURAS"
-                    CargaMenuFacturas Rn!Codigo
+                    CargaMenuFacturas RN!Codigo
                 Case 5
                     '5   "INMOVILIZADO"
-                    CargaMenuInmovilizado Rn!Codigo
+                    CargaMenuInmovilizado RN!Codigo
                 Case 6
                     '6   "CARTERA DE COBROS"
-                    CargaMenuTesoreriaCobros Rn!Codigo
+                    CargaMenuTesoreriaCobros RN!Codigo
                 Case 7
                     
                 Case 8
                     '8   "CARTERA DE PAGOS"
-                    CargaMenuTesoreriaPagos Rn!Codigo
+                    CargaMenuTesoreriaPagos RN!Codigo
                 Case 9
                     '9   "INFORMES TESORERIA"
-                     CargaMenuTesoreriaInformes Rn!Codigo
+                     CargaMenuTesoreriaInformes RN!Codigo
                 Case 10
                     '10  "ANALÍTICA"
                     'Va dentro de diario
                     'UNa solapa para el
-                    CargaMenuAnaliticaPResupuestaria Rn!Codigo
+                    CargaMenuAnaliticaPResupuestaria RN!Codigo
                 Case 11
                     '11  "PRESUPUESTARIA"
-                    CargaMenuAnaliticaPResupuestaria Rn!Codigo
+                    CargaMenuAnaliticaPResupuestaria RN!Codigo
                 Case 12
                 
                 Case 13
                     '13  "CIERRE EJERCICIO"
-                    CargaMenuCierreEjercicio Rn!Codigo
+                    CargaMenuCierreEjercicio RN!Codigo
                      
                 Case 14
                     '14  "UTILIDADES"
-                    CargaMenuUtilidades Rn!Codigo
+                    CargaMenuUtilidades RN!Codigo
                 Case Else
                     MsgBox "Menu no tratado"
                     End
@@ -1970,9 +1970,9 @@ Dim Rn As ADODB.Recordset
                                                  
         End If  'de habilitado el padre
     
-        Rn.MoveNext
+        RN.MoveNext
     Wend
-    Rn.Close
+    RN.Close
                         
     PonerTabPorDefecto AntiguoTab
     
@@ -1982,7 +1982,7 @@ eCargaMenu:
     Set TabNuevo = Nothing
     Set GroupNew = Nothing
     Set Control = Nothing
-    Set Rn = Nothing
+    Set RN = Nothing
     Set Rn2 = Nothing
 End Sub
 
@@ -2864,6 +2864,7 @@ Private Sub AbrirFormularios(Accion As Long)
             frmFacturasCliCtaVtas.Show vbModal
         Case 404 ' recibidas
             Screen.MousePointer = vbHourglass
+            frmFacturasPro.FACTURA = ""
             frmFacturasPro.Show vbModal
         Case 405 ' libro recibidas
             frmFacturasProListado.Show vbModal

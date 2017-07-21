@@ -2197,13 +2197,13 @@ Dim cad As String
     
     'Ejemplo valores
     '1, '2001-01-20', 0, 0, '0', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0)"
-    SQL = SQL & Text9.Text & ",'" & Format(CDate(txtFec(2).Text), FormatoFecha) & "'," & NumAsi & ",'"
-    '          documento
-    SQL = SQL & Text11.Text & "','"
+    SQL = SQL & Text9.Text & ",'" & Format(CDate(txtFec(2).Text), FormatoFecha) & "'," & NumAsi & ","
+    '          dcumento
+    SQL = SQL & DBSet(Text11.Text, "T") & ","
     
     'Ampliacion concepto
     cad = Mid(Text7.Text & " " & Text8.Text, 1, 30)
-    SQL = SQL & cad & "',"
+    SQL = SQL & DBSet(cad, "T") & ","
     
     'Concepto
     SQL = SQL & Text6.Text & ","

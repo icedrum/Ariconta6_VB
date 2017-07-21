@@ -4046,7 +4046,7 @@ Dim B As Boolean
             Text1(i).BackColor = vbWhite
         End If
     Next i
-    If vParam.SIITiene Then Text1(28).Locked = Modo <> 1
+    
     
     For i = 0 To Combo1.Count - 1
         Combo1(i).Locked = B
@@ -4056,6 +4056,18 @@ Dim B As Boolean
         imgppal(i).Enabled = Not B
     Next i
     imgppal(6).Enabled = (Text1(8).Text <> "")
+    
+    
+    If vParam.SIITiene Then Text1(28).Locked = Modo <> 1
+    B = Modo = 1 Or (vParam.IvaEnFechaPago And (Modo = 3 Or Modo = 4))
+    BloqueaTXT Text1(23), Not B
+    Text1(23).Enabled = B
+    
+    
+    
+    
+    
+    
     
     ' observaciones
     
@@ -4505,14 +4517,14 @@ Dim CuentaAntes As String
     Case 7
         'Fecha de liquidacion
         Indice = 23
-        
-        Set frmF = New frmCal
-        frmF.Fecha = Now
-        If Text1(23).Text <> "" Then frmF.Fecha = CDate(Text1(23).Text)
-        frmF.Show vbModal
-        Set frmF = Nothing
-        PonFoco Text1(23)
-        
+        If Text1(23).Enabled And Not Text1(23).Locked Then
+            Set frmF = New frmCal
+            frmF.Fecha = Now
+            If Text1(23).Text <> "" Then frmF.Fecha = CDate(Text1(23).Text)
+            frmF.Show vbModal
+            Set frmF = Nothing
+            PonFoco Text1(23)
+        End If
     Case 8
         ' observaciones
         Screen.MousePointer = vbDefault
@@ -4766,13 +4778,14 @@ Private Sub BotonModificar()
         Exit Sub
     End If
     
+    'Falta ver sii
+    If Not ComprobarPeriodo(23, 1) Then Exit Sub
+    If Not ComprobarPeriodo(1, 2) Then Exit Sub
     
-    If Not ComprobarPeriodo2(23) Then Exit Sub
-
     PonerModo 4
 
     ' *** foco al 1r camp visible que NO siga clau primaria ***
-    PonFoco Text1(1)
+    PonFoco Text1(25)
     ' *********************************************************
     
     FecFactuAnt = Text1(26).Text
@@ -4820,7 +4833,7 @@ Private Sub BotonModificar()
     'Añadiremos el boton de aceptar y demas objetos para insertar
     PonerModo 4
     DespalzamientoVisible False
-    PonFoco Text1(1)
+    'PonFoco Text1(1)
     
     
     
@@ -4851,7 +4864,8 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
     End If
 
     'Comprobamos si esta liquidado
-    If Not ComprobarPeriodo2(23) Then Exit Sub
+    If Not ComprobarPeriodo(23, 1) Then Exit Sub
+    If Not ComprobarPeriodo(1, 2) Then Exit Sub
     
     'Comprobamos que no esta actualizada ya
     SQL = ""
@@ -5167,7 +5181,7 @@ Dim cad As String
     DatosOK = False
     
     'fecha de liquidacion
-    Text1(23).Text = Text1(1).Text
+    If Not vParam.IvaEnFechaPago Then Text1(23).Text = Text1(1).Text
     
     If Combo1(0).ListIndex = 0 Then
         Text1(22).Text = "0"
@@ -5407,6 +5421,7 @@ Dim J As Integer
             If Not EsFechaOK(Text1(Index)) Then
                 MsgBox "Fecha incorrecta", vbExclamation
                 If Index = 1 Then Text1(14).Text = ""
+                Text1(Index).Text = ""
                 PonFoco Text1(Index)
                 Exit Sub
             End If
@@ -5432,19 +5447,23 @@ Dim J As Integer
             Text1(Index).Text = Format(Text1(Index).Text, "dd/mm/yyyy")
             If Index = 1 Then Text1(14).Text = Year(CDate(Text1(Index).Text))
             
-            If Index = 1 And Modo <> 1 Then Text1(23).Text = Text1(1).Text
+            i = 0  'No actualiza fecha liquidacion
+            If Index = 1 Then
+                If Modo = 3 Then
+                    i = 1
+                Else
+                    If Modo = 4 Then
+                        If Not vParam.IvaEnFechaPago Then i = 1
+                    End If
+                End If
+            End If
+            If i = 1 Then Text1(23).Text = Text1(1).Text
             
             'Si que pertenece a ejerccios en curso. Por lo tanto comprobaremos
             'que el periodo de liquidacion del IVA no ha pasado.
-            i = 0
-            If vParam.Constructoras Then
-                If Index = 23 Then i = 1
-            Else
-                If Index = 1 Then i = 1
-            End If
-            If i > 2 Then
-                If Not ComprobarPeriodo2(Index) Then PonFoco Text1(Indice)
-            End If
+
+            If Not ComprobarPeriodo(Index, IIf(Index = 1, 2, 1)) Then PonFoco Text1(Indice)
+    
 
         Case 2 ' Serie
             If Not IsNumeric(Text1(Index).Text) Then
@@ -5794,7 +5813,11 @@ Dim Ampliacion As String
         Numasien2 = -1
     End If
     
-    If Not ComprobarPeriodo2(23) Then Exit Sub
+    If Not ComprobarPeriodo(23, 1) Then Exit Sub
+    If Not ComprobarPeriodo(1, 2) Then Exit Sub
+    
+        
+    
     
     'Llegados aqui bloqueamos desde form
     If Not BLOQUEADesdeFormulario2(Me, data1, 1) Then Exit Sub
@@ -7427,55 +7450,68 @@ Dim SQL As String
 
 End Sub
 
-Private Function ComprobarPeriodo2(Indice As Integer) As Boolean
+'Tipo Verificacion
+'  0. periodo IVA y SII
+'  1- Solo periodo
+'  2- Solo SII
+Private Function ComprobarPeriodo(Indice As Integer, TipoVerificacion As Byte) As Boolean
 Dim Cerrado As Boolean
 Dim MensajeSII As String
 Dim Mostrar As Boolean
     ModificarPagos = True
 
     MensajeSII = ""
-    If vParam.SIITiene Then
-        'SI esta presentada...
-        If Modo <> 3 Then
-            If DBLet(data1.Recordset!sii_id, "N") > 0 Then
-                'If Val(DBLet(data1.Recordset!sii _status, "N")) > 2 Then
-                If Text1(28).BackColor = &HC0FFC0 Or Text1(28).BackColor = &H80FF& Then
-                    MsgBox "La factura ya esta presentada en el sistema de SII de la AEAT.", vbExclamation
-                    Exit Function
+    If TipoVerificacion <> 1 Then
+        If vParam.SIITiene Then
+            'SI esta presentada...
+            If Modo <> 3 And Modo <> 1 Then
+                If DBLet(data1.Recordset!sii_id, "N") > 0 Then
+                    'If Val(DBLet(data1.Recordset!sii _status, "N")) > 2 Then
+                    If Text1(28).BackColor = &HC0FFC0 Or Text1(28).BackColor = &H80FF& Then
+                        MsgBox "La factura ya esta presentada en el sistema de SII de la AEAT.", vbExclamation
+                        Exit Function
+                    End If
                 End If
             End If
-        End If
-        
-        
-        If Modo > 2 Then
-            If DateDiff("d", CDate(Text1(Indice).Text), Now) > vParam.SIIDiasAviso Then
-                MensajeSII = String(70, "*") & vbCrLf
-                MensajeSII = MensajeSII & "SII.  Excede del maximo dias permitido para comunicar la factura" & vbCrLf & MensajeSII
+            
+            
+            If Modo > 2 Then
+                If DateDiff("d", CDate(Text1(Indice).Text), Now) > vParam.SIIDiasAviso Then
+                    MensajeSII = String(70, "*") & vbCrLf
+                    MensajeSII = MensajeSII & "SII.  Excede del maximo dias permitido para comunicar la factura" & vbCrLf & MensajeSII
+                End If
             End If
+        
         End If
-    
     End If
+
+
 
 
     'Primero pondremos la fecha a año periodo
-    i = Year(CDate(Text1(Indice).Text))
-    If vParam.periodos = 0 Then
-        'Trimestral
-        Ancho = ((Month(CDate(Text1(Indice).Text)) - 1) \ 3) + 1
-        Else
-        Ancho = Month(CDate((Text1(Indice).Text)))
-    End If
     Cerrado = False
-    If i < vParam.anofactu Then
-        Cerrado = True
-    Else
-        If i = vParam.anofactu Then
-            'El mismo año. Comprobamos los periodos
-            If vParam.perfactu >= Ancho Then _
-                Cerrado = True
+    If TipoVerificacion <> 2 Then
+        i = Year(CDate(Text1(Indice).Text))
+        If vParam.periodos = 0 Then
+            'Trimestral
+            Ancho = ((Month(CDate(Text1(Indice).Text)) - 1) \ 3) + 1
+            Else
+            Ancho = Month(CDate((Text1(Indice).Text)))
         End If
+        Cerrado = False
+        If i < vParam.anofactu Then
+            Cerrado = True
+        Else
+            If i = vParam.anofactu Then
+                'El mismo año. Comprobamos los periodos
+                If vParam.perfactu >= Ancho Then _
+                    Cerrado = True
+            End If
+        End If
+        
     End If
-    ComprobarPeriodo2 = True
+    
+    ComprobarPeriodo = True
     ModificaFacturaPeriodoLiquidado = False
     
     Mostrar = Cerrado
@@ -7503,12 +7539,12 @@ Dim Mostrar As Boolean
         If vUsu.Nivel = 0 Then
             SQL = SQL & vbCrLf & " ¿Desea continuar igualmente ?"
   
-            If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then ComprobarPeriodo2 = False
+            If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then ComprobarPeriodo = False
         Else
         
             MsgBox SQL, vbExclamation
             
-            ComprobarPeriodo2 = False
+            ComprobarPeriodo = False
         
         End If
     
@@ -7551,8 +7587,10 @@ Dim SQL As String
         
         
         If PonDatos Then
-            Text1(5).Text = DBLet(Rs!Forpa, "N")
-            Text4(5).Text = PonerNombreDeCod(Text1(5), "formapago", "nomforpa", "codforpa", "N")
+            If Not IsNull(Rs!Forpa) Then
+                Text1(5).Text = DBLet(Rs!Forpa, "N")
+                Text4(5).Text = PonerNombreDeCod(Text1(5), "formapago", "nomforpa", "codforpa", "N")
+            End If
         End If
         
         If Text1(15).Text = "" Then Text1(15).Text = DBLet(Rs!Nommacta, "T")

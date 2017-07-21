@@ -42,8 +42,9 @@ Private mvarperfactu As Integer 'copia local
 Private mvarnctafact As String 'copia local
 Private mvarCodiNume As Byte
 Private mvarAsienActAuto As Boolean 'copia local
-Private mvarConstructoras As Boolean
 
+'Private "mvar Constructoras" As Boolean
+Private mvarIvaEnFechaPago As Boolean
 
 'Modificacion del 28 de Octubre de 2003
 Private mvarContabilizaFactura As Boolean
@@ -148,18 +149,18 @@ Private mvarModificarIvaLineasFraCli As Boolean
 'Propiedades del modulo Cparametros
 '------------------------------------------------
 
-Public Property Let Constructoras(ByVal vData As Boolean)
+Public Property Let IvaEnFechaPago(ByVal vData As Boolean)
 'se usa cuando se asigna un valor a la propiedad, en el
 'lado izquierdo de la asignacion
 'Syntax: X.contabil = 5
-     mvarConstructoras = vData
+     mvarIvaEnFechaPago = vData
 End Property
 
-Public Property Get Constructoras() As Boolean
+Public Property Get IvaEnFechaPago() As Boolean
 'se usa cuando se asigna un valor a la propiedad, en el
 'lado derecho de la asignacion
 'Syntax: Debug.Print X.contabil
-     Constructoras = mvarConstructoras
+     IvaEnFechaPago = mvarIvaEnFechaPago
 End Property
 
 
@@ -1220,7 +1221,7 @@ Public Function Leer() As Byte
             'Modificacion del 28 de Octubre de 2003
             mvarContabilizaFactura = DBLet(Rs!ContabilizaFact, "N")
             
-            mvarConstructoras = (Rs!Constructoras = 1)
+            mvarIvaEnFechaPago = (Rs!Constructoras = 1)
             
             '++
             mvarPathAyuda = DBLet(Rs!PathAyuda, "T")

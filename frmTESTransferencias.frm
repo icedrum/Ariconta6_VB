@@ -1767,10 +1767,10 @@ Dim i As Integer
             ModoInsertar = False
         End If
     
-        Frame1.Visible = True
+        Frame1.visible = True
         Frame1.Enabled = True
         
-        FrameCreacionRemesa.Visible = False
+        FrameCreacionRemesa.visible = False
         FrameCreacionRemesa.Enabled = False
         If i >= 0 Then lw1.SetFocus
     Else
@@ -1986,7 +1986,7 @@ End Sub
 Private Sub Form_Activate()
     If PrimeraVez Then
         PrimeraVez = False
-        If Not Frame1.Visible Then
+        If Not Frame1.visible Then
             If CadenaDesdeOtroForm <> "" Then
             Else
 '                PonFoco Text1(2)
@@ -2059,18 +2059,18 @@ Dim Img As Image
                         
             'concepto
             Label3(13).Enabled = True
-            Label3(13).Visible = True
+            Label3(13).visible = True
             cboConcepto.Enabled = True
-            cboConcepto.Visible = True
+            cboConcepto.visible = True
             Label3(15).Enabled = True
-            Label3(15).Visible = True
+            Label3(15).visible = True
             cboConcepto2.Enabled = True
-            cboConcepto2.Visible = True
+            cboConcepto2.visible = True
             'fecha introducida
             chkFecha.Enabled = False
-            chkFecha.Visible = False
+            chkFecha.visible = False
             chkFecha2.Enabled = False
-            chkFecha2.Visible = False
+            chkFecha2.visible = False
             
             Label3(11).Caption = "Cuenta Cliente"
             Label3(18).Caption = "Fecha Vencimiento"
@@ -2082,18 +2082,18 @@ Dim Img As Image
             
             'concepto
             Label3(13).Enabled = True
-            Label3(13).Visible = True
+            Label3(13).visible = True
             cboConcepto.Enabled = True
-            cboConcepto.Visible = True
+            cboConcepto.visible = True
             Label3(15).Enabled = True
-            Label3(15).Visible = True
+            Label3(15).visible = True
             cboConcepto2.Enabled = True
-            cboConcepto2.Visible = True
+            cboConcepto2.visible = True
             'fecha introducida
             chkFecha.Enabled = False
-            chkFecha.Visible = False
+            chkFecha.visible = False
             chkFecha2.Enabled = False
-            chkFecha2.Visible = False
+            chkFecha2.visible = False
             
             Label3(11).Caption = "Cuenta Proveedor"
             Label3(18).Caption = "Fecha Efecto"
@@ -2106,18 +2106,18 @@ Dim Img As Image
             
             'concepto
             Label3(13).Enabled = False
-            Label3(13).Visible = False
+            Label3(13).visible = False
             cboConcepto.Enabled = False
-            cboConcepto.Visible = False
+            cboConcepto.visible = False
             Label3(15).Enabled = False
-            Label3(15).Visible = False
+            Label3(15).visible = False
             cboConcepto2.Enabled = False
-            cboConcepto2.Visible = False
+            cboConcepto2.visible = False
             'fecha introducida
             chkFecha.Enabled = True
-            chkFecha.Visible = True
+            chkFecha.visible = True
             chkFecha2.Enabled = True
-            chkFecha2.Visible = True
+            chkFecha2.visible = True
             
             Label3(11).Caption = "Cuenta Proveedor"
             Label3(18).Caption = "Fecha Efecto"
@@ -2129,25 +2129,25 @@ Dim Img As Image
             
             'concepto
             Label3(13).Enabled = False
-            Label3(13).Visible = False
+            Label3(13).visible = False
             cboConcepto.Enabled = False
-            cboConcepto.Visible = False
+            cboConcepto.visible = False
             Label3(15).Enabled = False
-            Label3(15).Visible = False
+            Label3(15).visible = False
             cboConcepto2.Enabled = False
-            cboConcepto2.Visible = False
+            cboConcepto2.visible = False
             'fecha introducida
             chkFecha.Enabled = True
-            chkFecha.Visible = True
+            chkFecha.visible = True
             chkFecha2.Enabled = True
-            chkFecha2.Visible = True
+            chkFecha2.visible = True
             
             Label3(11).Caption = "Cuenta Proveedor"
             Label3(18).Caption = "Fecha Efecto"
             Label3(14).Caption = "Importe Efecto"
     End Select
     
-    
+    If TipoTrans < 2 Then cboConcepto.ListIndex = 1
     'Limpiamos el tag
     PrimeraVez = True
     CommitConexion  'Porque son listados. No hay nada dentro transaccion
@@ -2156,8 +2156,8 @@ Dim Img As Image
     H = FrameCreacionRemesa.Height + 120
     W = FrameCreacionRemesa.Width
     
-    FrameCreacionRemesa.Visible = False
-    Me.Frame1.Visible = True
+    FrameCreacionRemesa.visible = False
+    Me.Frame1.visible = True
     
     
     Me.Width = W + 300
@@ -2179,7 +2179,8 @@ Dim Img As Image
     If TipoTrans = 0 Then
         lwCobros.ColumnHeaders.Add , , "Vto", 699
         lwCobros.ColumnHeaders.Add , , "Fecha Vto", 1350
-        lwCobros.ColumnHeaders.Add , , "Forma pago", 3500
+        'lwCobros.ColumnHeaders.Add , , "Forma pago", 3500
+        lwCobros.ColumnHeaders.Add , , "Cliente", 3500
     Else
         lwCobros.ColumnHeaders.Add , , "Efec", 699
         lwCobros.ColumnHeaders.Add , , "Fecha Efec", 1350
@@ -2744,28 +2745,28 @@ Dim B As Boolean
     PonerIndicador lblIndicador, Modo
     
     If Modo = 3 Or Modo = 4 Then
-        Frame1.Visible = False
+        Frame1.visible = False
         Frame1.Enabled = False
     
-        Me.FrameCreacionRemesa.Visible = True
+        Me.FrameCreacionRemesa.visible = True
         Me.FrameCreacionRemesa.Enabled = True
     End If
     
     If Modo = 3 Then
-        Me.FrameCreaRem.Visible = True
+        Me.FrameCreaRem.visible = True
         Me.FrameCreaRem.Enabled = True
         
-        Me.FrameModRem.Visible = False
+        Me.FrameModRem.visible = False
         Me.FrameModRem.Enabled = False
         
         Me.lwCobros.Enabled = True
         Me.imgCheck(0).Enabled = True
         Me.imgCheck(1).Enabled = True
     Else
-        Me.FrameCreaRem.Visible = False
+        Me.FrameCreaRem.visible = False
         Me.FrameCreaRem.Enabled = False
         
-        Me.FrameModRem.Visible = True
+        Me.FrameModRem.visible = True
         Me.FrameModRem.Enabled = True
         
         Me.lwCobros.Enabled = False
@@ -2855,10 +2856,30 @@ Private Sub HacerToolBar2(Boton As Integer)
                End Select
             End If
             
+            
+            SQL = ""
             If CadenaDesdeOtroForm <> "" Then
-                MsgBox CadenaDesdeOtroForm, vbExclamation
-                CadenaDesdeOtroForm = ""
-                Exit Sub
+                If TipoTrans < 2 Then
+                    If vUsu.Nivel = 0 Then
+                        SQL = "S"
+                    Else
+                        SQL = "N"
+                    End If
+                Else
+                    SQL = "N"
+                End If
+            End If
+            
+            If SQL <> "" Then
+                If SQL = "N" Then
+                    MsgBox CadenaDesdeOtroForm, vbExclamation
+                    CadenaDesdeOtroForm = ""
+                    Exit Sub
+                Else
+                    CadenaDesdeOtroForm = CadenaDesdeOtroForm & vbCrLf & vbCrLf & "¿seguro que desea contabilizarla?" & vbCrLf
+                    CadenaDesdeOtroForm = String(70, "*") & vbCrLf & CadenaDesdeOtroForm & vbCrLf & String(70, "*")
+                    If MsgBox(CadenaDesdeOtroForm, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+                End If
             End If
             CadenaDesdeOtroForm = ""
             
@@ -3317,7 +3338,14 @@ Dim ImporteTot As Currency
         IT.SubItems(2) = Format(miRsAux!FecFactu, "dd/mm/yyyy")
         IT.SubItems(3) = miRsAux!numorden
         IT.SubItems(4) = miRsAux!FecVenci
-        IT.SubItems(5) = miRsAux!nomforpa
+        
+        
+        'IT.SubItems(5) = miRsAux!nomforpa
+        If IsNull(miRsAux!nomclien) Then
+            IT.SubItems(5) = miRsAux!codmacta
+        Else
+            IT.SubItems(5) = miRsAux!nomclien
+        End If
     
         If Modificar Then IT.Checked = True
     
@@ -4101,6 +4129,10 @@ Private Sub txtfecha_LostFocus(Index As Integer)
     PonerFormatoFecha txtFecha(Index)
 End Sub
 
+Private Sub txtRemesa_KeyPress(KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
 Private Sub txtSerie_GotFocus(Index As Integer)
     ConseguirFoco txtSerie(Index), 3
 End Sub
@@ -4332,7 +4364,7 @@ Dim ImporteQueda As Currency
     '------------------------------------------------------------
     
     Label2.Caption = ""
-    Label2.Visible = True
+    Label2.visible = True
     
     While Not Rs.EOF
     
@@ -4528,7 +4560,7 @@ Dim ImporteQueda As Currency
     If Opcion = 0 Then BloqueoManual False, "Transferencias", "Transferencias"
     
     Label2.Caption = ""
-    Label2.Visible = False
+    Label2.visible = False
     
     Exit Function
     
@@ -4545,6 +4577,6 @@ eGenerarTransferencia:
     If Opcion = 0 Then BloqueoManual False, "Transferencias", "Transferencias"
 
     Label2.Caption = ""
-    Label2.Visible = False
+    Label2.visible = False
 End Function
 

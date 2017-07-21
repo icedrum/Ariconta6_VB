@@ -670,7 +670,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private Const IdPrograma = 901
+Private Const IdPrograma = 413
 
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
@@ -693,7 +693,7 @@ Attribute frmF.VB_VarHelpID = -1
 Private WithEvents frmGas As frmBasico
 Attribute frmGas.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -933,7 +933,7 @@ End Function
 
 
 Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 
@@ -979,18 +979,18 @@ End Sub
 
 
 Private Sub imgCuentas_Click(Index As Integer)
-    Sql = ""
+    SQL = ""
     AbiertoOtroFormEnListado = True
     Set frmCCtas = New frmColCtas
     frmCCtas.DatosADevolverBusqueda = True
     frmCCtas.Show vbModal
     Set frmCCtas = Nothing
-    If Sql <> "" Then
+    If SQL <> "" Then
     '    Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
     '    Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
     '    If txtCuentas(Index).Text <> "" Then
             Me.txtNIF(0).Text = ""
-            Me.txtNIF(0).Text = DevuelveDesdeBD("nifdatos", "cuentas", "codmacta", RecuperaValor(Sql, 1), "T")
+            Me.txtNIF(0).Text = DevuelveDesdeBD("nifdatos", "cuentas", "codmacta", RecuperaValor(SQL, 1), "T")
     '    End If
 
     Else
@@ -1132,7 +1132,7 @@ End Sub
 
 
 Private Function CargarTemporales() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim RC As String
 Dim RC2 As String
 Dim i As Integer
@@ -1144,14 +1144,14 @@ Dim LaCuenta As Boolean
     Label9.Caption = "Preparando tablas"
     Label9.Refresh
     'tmpfaclin(codusu,codigo,numserie,nomserie,Numfac,Fecha,cta,Cliente,NIF,Imponible,IVA,ImpIVA,Total,retencion,numfactura)
-    Sql = "Delete from tmpfaclin where codusu =" & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "Delete from tmpfaclin where codusu =" & vUsu.Codigo
+    Conn.Execute SQL
     
-    Sql = "Delete from tmpcuentas where codusu =" & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "Delete from tmpcuentas where codusu =" & vUsu.Codigo
+    Conn.Execute SQL
                 
                 
-    Sql = ""
+    SQL = ""
     LaCuenta = False
     
     RC = "INSERT INTO tmpfaclin(codusu,codigo,numserie,nomserie,numfactura,Fecha,cta,Cliente,NIF,Imponible,IVA,ImpIVA,retencion,Total,Numfac,tipoformapago) "
@@ -1184,14 +1184,14 @@ Dim LaCuenta As Boolean
                 RC2 = cadselect
                 RC2 = Replace(RC2, "#@#", "factcli.fecfactu")
                 
-                Sql = "SELECT " & vUsu.Codigo & " codusu," & Me.ListView1(1).ListItems(i).Tag & " empresa,"
-                Sql = Sql & " numserie,nomregis, numfactu,fecfactu,codmacta,nommacta,nifdatos,totbases,0,"
-                Sql = Sql & " totivas+coalesce(totrecargo,0),coalesce(trefaccl,0),totfaccl, 0 proveed ,nomforpa from "
-                Sql = Sql & " ariconta" & ListView1(1).ListItems(i).Tag & ".factcli,ariconta" & ListView1(1).ListItems(i).Tag & ".contadores"
-                Sql = Sql & " ,ariconta" & ListView1(1).ListItems(i).Tag & ".formapago"
-                Sql = Sql & " WHERE factcli.numserie=contadores.tiporegi AND factcli.codforpa=formapago.codforpa  AND " & RC2
-                Sql = RC & Sql
-                If Not Ejecuta(Sql) Then Exit Function
+                SQL = "SELECT " & vUsu.Codigo & " codusu," & Me.ListView1(1).ListItems(i).Tag & " empresa,"
+                SQL = SQL & " numserie,nomregis, numfactu,fecfactu,codmacta,nommacta,nifdatos,totbases,0,"
+                SQL = SQL & " totivas+coalesce(totrecargo,0),coalesce(trefaccl,0),totfaccl, 0 proveed ,nomforpa from "
+                SQL = SQL & " ariconta" & ListView1(1).ListItems(i).Tag & ".factcli,ariconta" & ListView1(1).ListItems(i).Tag & ".contadores"
+                SQL = SQL & " ,ariconta" & ListView1(1).ListItems(i).Tag & ".formapago"
+                SQL = SQL & " WHERE factcli.numserie=contadores.tiporegi AND factcli.codforpa=formapago.codforpa  AND " & RC2
+                SQL = RC & SQL
+                If Not Ejecuta(SQL) Then Exit Function
                 
                 
             End If
@@ -1201,14 +1201,14 @@ Dim LaCuenta As Boolean
             If Me.Check1(1).Value = 1 Then
                 RC2 = cadselect
                 RC2 = Replace(RC2, "#@#", "factpro.fecharec")
-                Sql = "SELECT " & vUsu.Codigo & " codusu," & Me.ListView1(1).ListItems(i).Tag & " empresa,"
-                Sql = Sql & " numserie,nomregis, numfactu,fecharec,codmacta,nommacta,nifdatos,totbases,0,"
-                Sql = Sql & " totivas+coalesce(totrecargo,0),coalesce(trefacpr,0),totfacpr, 1 proveed,nomforpa FROM "
-                Sql = Sql & " ariconta" & ListView1(1).ListItems(i).Tag & ".factpro,ariconta" & ListView1(1).ListItems(i).Tag & ".contadores"
-                Sql = Sql & " ,ariconta" & ListView1(1).ListItems(i).Tag & ".formapago"
-                Sql = Sql & " WHERE  factpro.numserie=contadores.tiporegi AND factpro.codforpa=formapago.codforpa AND " & RC2
-                Sql = RC & Sql
-                If Not Ejecuta(Sql) Then Exit Function
+                SQL = "SELECT " & vUsu.Codigo & " codusu," & Me.ListView1(1).ListItems(i).Tag & " empresa,"
+                SQL = SQL & " numserie,nomregis, numfactu,fecharec,codmacta,nommacta,nifdatos,totbases,0,"
+                SQL = SQL & " totivas+coalesce(totrecargo,0),coalesce(trefacpr,0),totfacpr, 1 proveed,nomforpa FROM "
+                SQL = SQL & " ariconta" & ListView1(1).ListItems(i).Tag & ".factpro,ariconta" & ListView1(1).ListItems(i).Tag & ".contadores"
+                SQL = SQL & " ,ariconta" & ListView1(1).ListItems(i).Tag & ".formapago"
+                SQL = SQL & " WHERE  factpro.numserie=contadores.tiporegi AND factpro.codforpa=formapago.codforpa AND " & RC2
+                SQL = RC & SQL
+                If Not Ejecuta(SQL) Then Exit Function
                 
                 
             End If
@@ -1222,14 +1222,14 @@ Dim LaCuenta As Boolean
     Label9.Refresh
 
     Set miRsAux = New ADODB.Recordset
-    Sql = "Select codigo from tmpfaclin where codusu = " & vUsu.Codigo & " GROUP BY 1"
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic
+    SQL = "Select codigo from tmpfaclin where codusu = " & vUsu.Codigo & " GROUP BY 1"
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic
     While Not miRsAux.EOF
-            Sql = miRsAux.Fields(0)
-            Sql = DevuelveDesdeBD("nomempre", "ariconta" & Sql & ".empresa", "1", "1")
+            SQL = miRsAux.Fields(0)
+            SQL = DevuelveDesdeBD("nomempre", "ariconta" & SQL & ".empresa", "1", "1")
             
-            Sql = "UPDATE tmpfaclin set tipoopera =" & DBSet(Sql, "T") & " WHERE codusu = " & vUsu.Codigo & " AND codigo =" & miRsAux!Codigo
-            Conn.Execute Sql
+            SQL = "UPDATE tmpfaclin set tipoopera =" & DBSet(SQL, "T") & " WHERE codusu = " & vUsu.Codigo & " AND codigo =" & miRsAux!Codigo
+            Conn.Execute SQL
             miRsAux.MoveNext
     Wend
     miRsAux.Close
@@ -1290,14 +1290,14 @@ Private Function DatosOK() As Boolean
         Exit Function
     End If
     
-    Sql = ""
+    SQL = ""
     For i = 1 To ListView1(1).ListItems.Count
         If ListView1(1).ListItems(i).Checked Then
-            Sql = "O"
+            SQL = "O"
             Exit For
         End If
     Next i
-    If Sql = "" Then
+    If SQL = "" Then
         MsgBox "Seleccione al menos una empresa", vbExclamation
         Exit Function
     End If
@@ -1314,8 +1314,8 @@ End Function
 
 Private Sub txtNIF_LostFocus(Index As Integer)
     If txtNIF(0).Text <> "" Then
-        Sql = "nommacta"
-        RC = DevuelveDesdeBD("codmacta", "cuentas", "nifdatos", txtNIF(0).Text, "T", Sql)
+        SQL = "nommacta"
+        RC = DevuelveDesdeBD("codmacta", "cuentas", "nifdatos", txtNIF(0).Text, "T", SQL)
         If RC = "" Then
            ' txtNCuentas(0).Text = "NIF no pertenece a ninguan cuenta"
         Else

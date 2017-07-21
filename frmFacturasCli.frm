@@ -3983,7 +3983,8 @@ Dim B As Boolean
     Next i
     
     If vParam.SIITiene Then Text1(28).Locked = Modo <> 1
-       
+    'De momento FIJO
+    Text1(23).Enabled = Modo = 1
     
     For i = 0 To Combo1.Count - 1
         Combo1(i).Locked = B
@@ -4418,14 +4419,15 @@ Dim CuentaAnt As String
         
     Case 7
         'Fecha de liquidacion
-        Indice = 23
-        
-        Set frmF = New frmCal
-        frmF.Fecha = Now
-        If Text1(23).Text <> "" Then frmF.Fecha = CDate(Text1(23).Text)
-        frmF.Show vbModal
-        Set frmF = Nothing
-        PonFoco Text1(23)
+        If Text1(23).Enabled Then
+            Indice = 23
+            Set frmF = New frmCal
+            frmF.Fecha = Now
+            If Text1(23).Text <> "" Then frmF.Fecha = CDate(Text1(23).Text)
+            frmF.Show vbModal
+            Set frmF = Nothing
+            PonFoco Text1(23)
+        End If
         
     Case 8
         ' observaciones
@@ -5331,7 +5333,7 @@ Dim Rs As ADODB.Recordset
             'Si que pertenece a ejerccios en curso. Por lo tanto comprobaremos
             'que el periodo de liquidacion del IVA no ha pasado.
             i = 0
-            If vParam.Constructoras Then
+            If vParam.IvaEnFechaPago Then
                 If Index = 23 Then i = 1
             Else
                 If Index = 1 Then i = 1
@@ -7556,7 +7558,7 @@ Dim Mostrar As Boolean
     
     If vParam.SIITiene Then
             'SI esta presentada...
-        If Modo <> 3 Then
+        If Modo <> 3 And Modo <> 1 Then
             If DBLet(data1.Recordset!sii_id, "N") > 0 Then
                 'If Val(DBLet(data1.Recordset!sii _status, "N")) > 2 Then
                 If Text1(28).BackColor = &HC0FFC0 Or Text1(28).BackColor = &H80FF& Then
