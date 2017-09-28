@@ -690,7 +690,7 @@ Attribute frmC.VB_VarHelpID = -1
 Private WithEvents frmCta As frmColCtas
 Attribute frmCta.VB_VarHelpID = -1
 
-Dim Sql As String
+Dim SQL As String
 Dim RC As String
 Dim Rs As Recordset
 
@@ -749,17 +749,17 @@ Private Sub ConfirmarDatos2()
         End If
     End If
     
-    Sql = ""
+    SQL = ""
     'Llegados aqui. Vemos la fecha y demas
     If Text3(0).Text <> "" Then
-        Sql = " fechaent >= '" & Format(Text3(0).Text, FormatoFecha) & "'"
+        SQL = " fechaent >= '" & Format(Text3(0).Text, FormatoFecha) & "'"
     End If
     
     If Text3(1).Text <> "" Then
-        If Sql <> "" Then Sql = Sql & " AND "
-        Sql = Sql & " fechaent <= '" & Format(Text3(1).Text, FormatoFecha) & "'"
+        If SQL <> "" Then SQL = SQL & " AND "
+        SQL = SQL & " fechaent <= '" & Format(Text3(1).Text, FormatoFecha) & "'"
     End If
-    Text3(0).Tag = Sql  'Para las fechas
+    Text3(0).Tag = SQL  'Para las fechas
     
     BloqueoManual False, "PUNTEO", ""
     If Not BloqueoManual(True, "PUNTEO", CStr(Abs(EjerciciosCerrados) & Text3(2).Text)) Then
@@ -872,7 +872,7 @@ Private Sub Form_Load()
     End With
     
     
-    FramePorImportes.Visible = False
+    FramePorImportes.visible = False
     FrameDatos.Enabled = True
     FrameBotonGnral.Enabled = False
     
@@ -965,14 +965,14 @@ Private Sub imgCheck_Click(Index As Integer)
         RC = "puntear los apuntes"
     End If
     
-    Sql = "Seguro que desea " & RC
+    SQL = "Seguro que desea " & RC
     If Index > 1 Then
         RC = "HABER"
     Else
         RC = "DEBE"
     End If
-    Sql = Sql & " al " & RC & "?"
-    If MsgBox(Sql, vbQuestion + vbYesNo) = vbNo Then Exit Sub
+    SQL = SQL & " al " & RC & "?"
+    If MsgBox(SQL, vbQuestion + vbYesNo) = vbNo Then Exit Sub
     
     'HA DICHO SI
     
@@ -1204,13 +1204,13 @@ Private Sub Text3_LostFocus(Index As Integer)
                 Exit Sub
                 
             End If
-            If CuentaCorrectaUltimoNivel(RC, Sql) Then
+            If CuentaCorrectaUltimoNivel(RC, SQL) Then
                 Text3(Index).Text = RC
-                txtDesCta.Text = Sql
+                txtDesCta.Text = SQL
                 FrameBotonGnral.Enabled = True
                 'ConfirmarDatos True
             Else
-                MsgBox Sql, vbExclamation
+                MsgBox SQL, vbExclamation
                 Text3(Index).Text = ""
                 
                 lwD.ListItems.Clear
@@ -1415,8 +1415,8 @@ On Error GoTo EPuntea
     
         
     
-    Sql = "UPDATE hlinapu"
-    Sql = Sql & " SET "
+    SQL = "UPDATE hlinapu"
+    SQL = SQL & " SET "
     If IT.Checked Then
         RC = "1"
         Sng = 1
@@ -1434,15 +1434,15 @@ On Error GoTo EPuntea
 
 
 
-    Sql = Sql & " punteada = " & RC
-    Sql = Sql & " WHERE fechaent='" & Format(IT.Text, FormatoFecha) & "'"
-    Sql = Sql & " AND numasien=" & IT.SubItems(1) & " AND numdiari ="
+    SQL = SQL & " punteada = " & RC
+    SQL = SQL & " WHERE fechaent='" & Format(IT.Text, FormatoFecha) & "'"
+    SQL = SQL & " AND numasien=" & IT.SubItems(1) & " AND numdiari ="
     RC = RecuperaValor(IT.Tag, 1)
-    Sql = Sql & RC & " AND linliapu ="
+    SQL = SQL & RC & " AND linliapu ="
     RC = RecuperaValor(IT.Tag, 2)
-    Sql = Sql & RC & ";"
+    SQL = SQL & RC & ";"
     If ModoPunteo = 0 Then
-        Conn.Execute Sql
+        Conn.Execute SQL
         InsertarCtaCadenaPunteados
     End If
     
@@ -1474,36 +1474,40 @@ End Sub
 
 Private Function ObtenerCuenta(Siguiente As Boolean) As Boolean
 
-    Sql = "select codmacta from hlinapu"
+    SQL = "select distinct codmacta from hlinapu"
     
-    Sql = Sql & " WHERE  fechaent >= '" & Format(Text3(0).Text, FormatoFecha) & "'"
-    Sql = Sql & " AND fechaent <= '" & Format(Text3(1).Text, FormatoFecha) & "'"
-    Sql = Sql & " AND codmacta "
+    SQL = SQL & " WHERE  fechaent >= '" & Format(Text3(0).Text, FormatoFecha) & "'"
+    SQL = SQL & " AND fechaent <= '" & Format(Text3(1).Text, FormatoFecha) & "'"
+    SQL = SQL & " AND codmacta "
     If Siguiente Then
-        Sql = Sql & ">"
+        SQL = SQL & ">"
     Else
-        Sql = Sql & "<"
+        SQL = SQL & "<"
     End If
-    Sql = Sql & " '" & Text3(2).Text & "'"
+    SQL = SQL & " '" & Text3(2).Text & "'"
     
-    If chkSin.Value = 1 Then Sql = Sql & " AND punteada =0 "
+    If chkSin.Value = 1 Then SQL = SQL & " AND punteada =0 "
     
-    Sql = Sql & " group by codmacta ORDER BY codmacta"
+    SQL = SQL & "  ORDER BY codmacta"
     If Siguiente Then
-        Sql = Sql & " ASC"
+        SQL = SQL & " ASC"
     Else
-        Sql = Sql & " DESC"
+        SQL = SQL & " DESC"
     End If
+    
+    'Para optimizar la velocidad
+    SQL = SQL & " limit 0, 1"
+    
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If Rs.EOF Then
-        Sql = "No se ha obtenido la cuenta "
+        SQL = "No se ha obtenido la cuenta "
         If Siguiente Then
-            Sql = Sql & " siguiente."
+            SQL = SQL & " siguiente."
         Else
-            Sql = Sql & " anterior."
+            SQL = SQL & " anterior."
         End If
-        MsgBox Sql, vbExclamation
+        MsgBox SQL, vbExclamation
         ObtenerCuenta = False
     Else
         Text3(2).Text = Rs!codmacta
@@ -1600,12 +1604,12 @@ Dim H As Currency
     End With
     
     
-    Sql = Format(PuntD, FormatoImporte) & "|" & Format(d, FormatoImporte) & "|" & Format(PuntD + d, FormatoImporte) & "|"
-    Sql = Sql & Format(PuntH, FormatoImporte) & "|" & Format(H, FormatoImporte) & "|" & Format(PuntH + H, FormatoImporte) & "|"
+    SQL = Format(PuntD, FormatoImporte) & "|" & Format(d, FormatoImporte) & "|" & Format(PuntD + d, FormatoImporte) & "|"
+    SQL = SQL & Format(PuntH, FormatoImporte) & "|" & Format(H, FormatoImporte) & "|" & Format(PuntH + H, FormatoImporte) & "|"
     'Las diferencias
-    Sql = Sql & Format(PuntD - PuntH, FormatoImporte) & "|" & Format(d - H, FormatoImporte) & "|" & Format((PuntD - PuntH) + (d - H), FormatoImporte) & "|"
+    SQL = SQL & Format(PuntD - PuntH, FormatoImporte) & "|" & Format(d - H, FormatoImporte) & "|" & Format((PuntD - PuntH) + (d - H), FormatoImporte) & "|"
     
-    frmMensajes.Parametros = Sql
+    frmMensajes.Parametros = SQL
     frmMensajes.Opcion = 18
     frmMensajes.Show vbModal
     
@@ -1618,19 +1622,19 @@ End Sub
 
 Private Sub DesmarcaTodo()
 
-    Sql = "Va a desmarcar todos los punteos para: " & vbCrLf & vbCrLf
-    Sql = Sql & "Cuenta: " & Text3(2).Text & " - " & txtDesCta.Text & vbCrLf
-    Sql = Sql & "Fecha inicio: " & Text3(0).Text & vbCrLf
-    Sql = Sql & "Fecha fin:     " & Text3(1).Text & vbCrLf & vbCrLf & vbCrLf
-    Sql = Sql & "          ¿Desea continuar?"
-    If MsgBox(Sql, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+    SQL = "Va a desmarcar todos los punteos para: " & vbCrLf & vbCrLf
+    SQL = SQL & "Cuenta: " & Text3(2).Text & " - " & txtDesCta.Text & vbCrLf
+    SQL = SQL & "Fecha inicio: " & Text3(0).Text & vbCrLf
+    SQL = SQL & "Fecha fin:     " & Text3(1).Text & vbCrLf & vbCrLf & vbCrLf
+    SQL = SQL & "          ¿Desea continuar?"
+    If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     
     Screen.MousePointer = vbHourglass
-    Sql = "UPDATE hlinapu"
-    Sql = Sql & " SET punteada=0 WHERE codmacta = '" & Text3(2).Text & "'"
-    Sql = Sql & " AND fechaent>= '" & Format(Text3(0).Text, FormatoFecha) & "'"
-    Sql = Sql & " AND fechaent<= '" & Format(Text3(1).Text, FormatoFecha) & "'"
-    Conn.Execute Sql
+    SQL = "UPDATE hlinapu"
+    SQL = SQL & " SET punteada=0 WHERE codmacta = '" & Text3(2).Text & "'"
+    SQL = SQL & " AND fechaent>= '" & Format(Text3(0).Text, FormatoFecha) & "'"
+    SQL = SQL & " AND fechaent<= '" & Format(Text3(1).Text, FormatoFecha) & "'"
+    Conn.Execute SQL
     InsertarCtaCadenaPunteados
     CargarDatos
     Screen.MousePointer = vbDefault
@@ -1646,7 +1650,7 @@ Private Sub PonerModoPunteo(ModoImporte As Boolean)
         ModoPunteo = 0
     End If
         
-    FramePorImportes.Visible = ModoImporte
+    FramePorImportes.visible = ModoImporte
     FrameDatos.Enabled = Not ModoImporte
     
     With Toolbar1
@@ -1660,7 +1664,7 @@ Private Sub PonerModoPunteo(ModoImporte As Boolean)
     
     
     For i = 0 To 3
-        imgCheck(i).Visible = Not ModoImporte
+        imgCheck(i).visible = Not ModoImporte
     Next i
 End Sub
 
@@ -1689,18 +1693,18 @@ Dim T1 As Single
     T1 = Timer - 1
     For i = 1 To lwD.ListItems.Count
         'Label
-        Sql = lwD.ListItems(i).SubItems(4) 'Cargo el importe
+        SQL = lwD.ListItems(i).SubItems(4) 'Cargo el importe
         
         If Timer - T1 > 1 Then
-            Me.Label7(1).Visible = Not Me.Label7(1).Visible
-            If Me.Label7(1).Visible Then Me.Label7(1).Refresh
+            Me.Label7(1).visible = Not Me.Label7(1).visible
+            If Me.Label7(1).visible Then Me.Label7(1).Refresh
             T1 = Timer
         End If
         
         For J = 1 To lwh.ListItems.Count
             If Not lwh.ListItems(J).Checked Then
                 RC = lwh.ListItems(J).SubItems(4)
-                If Sql = RC Then
+                If SQL = RC Then
                     'EUREKA!!!!!! El mismo importe
                     lwD.ListItems(i).Checked = True
                     PunteaEnBD lwD.ListItems(i), True
@@ -1713,7 +1717,7 @@ Dim T1 As Single
         Next J
     Next i
     
-    Me.Label7(1).Visible = False
+    Me.Label7(1).visible = False
 End Sub
 
 '-------------------------------------------------------

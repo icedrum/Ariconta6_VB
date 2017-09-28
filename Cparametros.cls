@@ -140,6 +140,8 @@ Private mvarFechaInicioSII As Date
 Private mvarDiasAvisoSII As Integer
 
 Private mvarVersionSII As String
+Private mvarSII_Periodo_DesdeLiq As Boolean
+
 Private mvarModificarIvaLineasFraCli As Boolean
 
 
@@ -1078,6 +1080,9 @@ Public Property Get ModificarIvaLineasFraCli() As Boolean
      ModificarIvaLineasFraCli = mvarModificarIvaLineasFraCli
 End Property
 
+Public Property Get SII_Periodo_DesdeLiq() As Boolean
+     SII_Periodo_DesdeLiq = mvarSII_Periodo_DesdeLiq
+End Property
 
 
 
@@ -1442,6 +1447,7 @@ On Error GoTo eLeerDatosSII
         mvarDiasAvisoSII = Rs!SIIDiasAviso
         mvarTieneSII = True
         mvarVersionSII = Rs!VersionSII
+        mvarSII_Periodo_DesdeLiq = DBLet(Rs!SII_Periodo_DesdeLiq, "N") = 1
     End If
     
     

@@ -99,7 +99,7 @@ Dim H As Integer
 Dim C1 As String
 Dim C2 As String
 Dim BloqueIVA As Byte
-
+Dim FechaPeriodo As Date
 
     On Error GoTo eSii_FraCLI
     Sii_FraCLI = False
@@ -114,15 +114,12 @@ Dim BloqueIVA As Byte
     SQL = IDEnvioFacturasEmitidas & ",'ARICONTA'," & DBSet(Now, "FH") & ",1,"
 
 '#2
+    FechaPeriodo = RN!FecFactu
+    If vParam.SII_Periodo_DesdeLiq Then FechaPeriodo = RN!fecliqcl
+    
     'CAB_IDVersionSii , CAB_Titular_NombreRazon, CAB_Titular_NIFRepresentante, CAB_Titular_NIF, REG_PI_Ejercicio, REG_PI_Periodo
-    SQL = SQL & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'A0'," & Year(RN!FecFactu) & ","
-    
-    
-    
-    
-    
-    
-    SQL = SQL & "'" & Format(Month(RN!FecFactu), "00") & "',"
+    SQL = SQL & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'A0'," & Year(FechaPeriodo) & ","
+    SQL = SQL & "'" & Format(Month(FechaPeriodo), "00") & "',"
     
 '#3
     'REG_IDF_IDEF_NIF,REG_IDF_NumSerieFacturaEmisor,REG_IDF_NumSerieFacturaEmisorResumenFin,REG_IDF_FechaExpedicionFacturaEmisor,REG_FE_TipoFactura
@@ -204,7 +201,7 @@ Dim BloqueIVA As Byte
         'INTRACOMUNITARIAS    EXTRANJERO
         'PAIS doc
             
-        C2 = DBSet(DBLet(RN!codPAIS, "T"), "T", "S")
+        C2 = DBSet(DBLet(RN!codpais, "T"), "T", "S")
         If RN!CodOpera = 1 Then
             Aux = DBLet(RN!nifdatos, "T")   'DBLet(RN!codPAIS, "T") & DBLet(RN!nifdatos, "T")
             C1 = "'02'"
@@ -397,7 +394,18 @@ Private Function DevuelveClaveTranscendenciaEmitida(ByRef R As ADODB.Recordset) 
     If R!CodOpera = "2" Then
         DevuelveClaveTranscendenciaEmitida = "02"
     Else
-        DevuelveClaveTranscendenciaEmitida = "01"
+    
+        'Si es operaciones de ARRENDAMIENTO
+        'EMITIDAS 11: S/REF C/RET 13 C/REF C/S/RET
+        If R!codconce340 = "R" Then
+            If DBLet(R!CatastralREF, "T") = "" Then
+                DevuelveClaveTranscendenciaEmitida = "11"
+            Else
+                DevuelveClaveTranscendenciaEmitida = "13"
+            End If
+        Else
+            DevuelveClaveTranscendenciaEmitida = "01"
+        End If
     End If
 
     
@@ -477,7 +485,9 @@ Dim C2 As String
 Dim TotalDecucible As Currency
 Dim CodOpera As Byte
 Dim InversionSujetoPasivo As Boolean
-
+Dim FechaPeriodo As Date
+    
+    
 
 
     On Error GoTo eSii_FraCLI
@@ -494,7 +504,10 @@ Dim InversionSujetoPasivo As Boolean
 
 '#2
     'CAB_IDVersionSii , CAB_Titular_NombreRazon, CAB_Titular_NIFRepresentante, CAB_Titular_NIF, REG_PI_Ejercicio, REG_PI_Periodo
-    SQL = SQL & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'A0'," & Year(RN!fecharec) & "," & "'" & Format(Month(RN!fecharec), "00") & "',"
+    FechaPeriodo = RN!fecharec
+    If vParam.SII_Periodo_DesdeLiq Then FechaPeriodo = RN!fecliqpr
+    
+    SQL = SQL & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'A0'," & Year(FechaPeriodo) & "," & "'" & Format(Month(FechaPeriodo), "00") & "',"
     
     
 '#3
@@ -502,7 +515,7 @@ Dim InversionSujetoPasivo As Boolean
     If RN!CodOpera = 1 Or RN!CodOpera = 2 Then
         'INTRACOMUNITARIAS    EXTRANJERO
         'PAIS doc
-        C2 = DBSet(DBLet(RN!codPAIS, "T"), "T", "S")
+        C2 = DBSet(DBLet(RN!codpais, "T"), "T", "S")
         If RN!CodOpera = 1 Then
             Aux = DBLet(RN!nifdatos, "T")  'DBLet(RN!codPAIS, "T") & DBLet(RN!nifdatos, "T")
             C1 = "'02'"
@@ -549,7 +562,7 @@ Dim InversionSujetoPasivo As Boolean
     If RN!CodOpera = 1 Or RN!CodOpera = 2 Then
         'INTRACOMUNITARIAS    EXTRANJERO
         'PAIS doc
-        C2 = DBSet(DBLet(RN!codPAIS, "T"), "T", "S")
+        C2 = DBSet(DBLet(RN!codpais, "T"), "T", "S")
         If RN!CodOpera = 1 Then
             Aux = DBLet(RN!nifdatos, "T")   ' DBLet(RN!codPAIS, "T") & DBLet(RN!nifdatos, "T")
             C1 = "'02'"

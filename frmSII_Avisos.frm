@@ -329,6 +329,8 @@ Dim Rwtipopera As ADODB.Recordset
 Dim FacturasEnviadasYConCSV As String
 
 
+'Montifruit NO las quiere marcadas
+Dim Marcadas As Boolean
 
 
 
@@ -873,14 +875,11 @@ Private Function SQL_ASWSII()
     End If
     
     SQL_ASWSII = SQL_ASWSII & " WHERE "
-    'If cboFiltro.ListIndex = 0 Then
-    '    SQL_ASWSII = SQL_ASWSII & " enviada = 0 "
-    '    'Y las que esten pendientes de
-    '    SQL_ASWSII = SQL_ASWSII & " OR substring(resultado,1,1)='A'"
-    'Else
+    'Multi empresa, vamos a filtrar por NIF
+    SQL_ASWSII = SQL_ASWSII & " CAB_Titular_NIF =" & DBSet(vEmpresa.NIF, "T") & " AND "
 
-        SQL_ASWSII = SQL_ASWSII & " enviada = 1 and not csv is null and FechaHoraCreacion>= " & DBSet(DateAdd("m", -1, Now), "F")
-    'End If
+    SQL_ASWSII = SQL_ASWSII & " enviada = 1 and not csv is null and FechaHoraCreacion>= " & DBSet(DateAdd("m", -1, Now), "F")
+
     If Text3(0).Text <> "" Then SQL_ASWSII = SQL_ASWSII & " AND date(FechaHoraCreacion) = " & DBSet(Text3(0).Text, "F")
     SQL_ASWSII = SQL_ASWSII & " ORDER BY FechaHoraCreacion desc        "
 End Function
@@ -953,7 +952,7 @@ Private Sub CargaDatos()
     Dim Item As ReportRecordItem
     Dim Record
     
-    
+        
     
     If Me.cboFacturas.ListIndex = 0 Then
         CargaDatosPendientes
@@ -977,7 +976,10 @@ Dim SQL As String
     
     Set miRsAux = New ADODB.Recordset
     
-                
+    
+    'Monti NO las quiere marcadas por defecto
+    Marcadas = True
+    If InStr(1, UCase(vEmpresa.nomempre), "MONTI") > 0 Then Marcadas = False
     
                 
     SQL = SQL_
@@ -1065,7 +1067,7 @@ Dim ItemIcon As Integer
         'Check
     Set Item = Record.AddItem("")
     If PuedeEnviar Then
-        Item.Checked = MarcarComoCheck
+        Item.Checked = MarcarComoCheck And Marcadas
         Item.HasCheckbox = i = 0 Or i = 2
     Else
         Item.Checked = False

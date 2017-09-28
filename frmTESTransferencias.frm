@@ -1835,6 +1835,8 @@ End Sub
 Private Function DatosOK(Opcion As Integer) As Boolean
 Dim B As Boolean
 Dim nTipo As String
+Dim C As String
+Dim J As Integer
 
     DatosOK = False
 
@@ -1906,7 +1908,22 @@ Dim nTipo As String
         End If
     
     
+        'Sept 2017
+        'Si hay algun "NO" no sigue
+        
     End If
+    
+        C = ""
+        For J = 1 To Me.lwCobros.ListItems.Count
+            If lwCobros.ListItems(J).ListSubItems(3).Tag = "NO" And lwCobros.ListItems(J).Checked Then
+                C = C & lwCobros.ListItems(J).Text & " - " & lwCobros.ListItems(J).SubItems(1) & " "
+                C = C & lwCobros.ListItems(J).SubItems(5) & " " & lwCobros.ListItems(J).ListSubItems(3).ToolTipText & vbCrLf
+            End If
+        Next
+        If C <> "" Then
+            MsgBox "Vencimientos incorrectos" & vbCrLf & C, vbExclamation
+            Exit Function
+        End If
     
     DatosOK = True
 
@@ -3337,10 +3354,17 @@ Dim ImporteTot As Currency
         IT.SubItems(1) = Format(miRsAux!NumFactu, "0000000")
         IT.SubItems(2) = Format(miRsAux!FecFactu, "dd/mm/yyyy")
         IT.SubItems(3) = miRsAux!numorden
+        IT.ListSubItems(3).Tag = ""
+        
+        
+        If Not ComprobarIBANCuentaBancaria(DBLet(miRsAux!IBAN, "T"), cad) Then
+            IT.ListSubItems(3).Tag = "NO"
+            IT.ListSubItems(3).Bold = True
+            IT.ListSubItems(3).ForeColor = vbRed
+            IT.ListSubItems(3).ToolTipText = cad
+        End If
+        
         IT.SubItems(4) = miRsAux!FecVenci
-        
-        
-        'IT.SubItems(5) = miRsAux!nomforpa
         If IsNull(miRsAux!nomclien) Then
             IT.SubItems(5) = miRsAux!codmacta
         Else
@@ -3348,6 +3372,10 @@ Dim ImporteTot As Currency
         End If
     
         If Modificar Then IT.Checked = True
+    
+    
+            
+    
     
         Importe = DBLet(miRsAux!Gastos, "N")
         Importe = Importe + miRsAux!ImpVenci
@@ -3414,6 +3442,22 @@ Dim ImporteTot As Currency
         IT.SubItems(1) = miRsAux!NumFactu
         IT.SubItems(2) = Format(miRsAux!FecFactu, "dd/mm/yyyy")
         IT.SubItems(3) = miRsAux!numorden
+        
+         IT.ListSubItems(3).Tag = ""
+        
+        
+        If Not ComprobarIBANCuentaBancaria(DBLet(miRsAux!IBAN, "T"), cad) Then
+            IT.ListSubItems(3).Tag = "NO"
+            IT.ListSubItems(3).Bold = True
+            IT.ListSubItems(3).ForeColor = vbRed
+            IT.ListSubItems(3).ToolTipText = cad
+        End If
+       
+        
+        
+        
+        
+        
         IT.SubItems(4) = miRsAux!fecefect
         IT.SubItems(5) = miRsAux!nomprove
     

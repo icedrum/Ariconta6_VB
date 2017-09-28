@@ -1723,11 +1723,14 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    SQL = "Select factpro.numserie Serie, tmpfaclin.nomserie Descripcion, factpro.numfactu Factura, factpro.fecfactu Fecha, factpro.codmacta Cuenta, factpro.nommacta Titulo, tmpfaclin.tipoformapago TipoPago, "
-    SQL = SQL & " tmpfaclin.tipoopera TOperacion, factpro.codconce340 TFra, factpro.trefaccl Retencion, "
-    SQL = SQL & " factpro_totales.baseimpo BaseImp,factpro_totales.codigiva IVA,factpro_totales.porciva PorcIva,factpro_totales.porcrec PorcRec,factpro_totales.impoiva ImpIva,factpro_totales.imporec ImpRec "
-    SQL = SQL & " FROM (factpro inner join factpro_totales on factpro.numserie = factpro_totales.numserie and factpro.numfactu = factpro_totales.numfactu and factpro.fecfactu = factpro_totales.fecfactu) "
-    SQL = SQL & " inner join tmpfaclin ON factpro.numserie=tmpfaclin.numserie AND factpro.numfactu=tmpfaclin.Numfac and factpro.fecfactu=tmpfaclin.Fecha "
+    SQL = "Select factpro.numserie Serie, tmpfaclin.nomserie Descripcion, factpro.numfactu Factura,factpro.numregis Registro, factpro.fecfactu Fecha, factpro.fecharec FRecep ,factpro.codmacta Cuenta, "
+    SQL = SQL & " factpro.nommacta Titulo, tmpfaclin.tipoformapago TipoPago, "
+    SQL = SQL & " tmpfaclin.tipoopera TOperacion, factpro.codconce340 TFra, factpro.trefacpr Retencion, "
+    SQL = SQL & " factpro_totales.baseimpo BaseImp,factpro_totales.codigiva IVA,factpro_totales.porciva PorcIva,factpro_totales.porcrec PorcRec,"
+    SQL = SQL & " factpro_totales.impoiva ImpIva,factpro_totales.imporec ImpRec "
+    SQL = SQL & " FROM (factpro inner join factpro_totales on factpro.numserie = factpro_totales.numserie and factpro.numregis = factpro_totales.numregis "
+    SQL = SQL & " and factpro.fecharec = factpro_totales.fecharec) "
+    SQL = SQL & " inner join tmpfaclin ON factpro.numserie=tmpfaclin.numserie AND factpro.numregis=tmpfaclin.Numfac and factpro.fecharec=tmpfaclin.fecha "
     SQL = SQL & " WHERE  tmpfaclin.codusu =  " & vUsu.Codigo
     SQL = SQL & " ORDER BY factpro.codmacta, factpro.nommacta, factpro_totales.numlinea "
             

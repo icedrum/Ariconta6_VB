@@ -617,6 +617,17 @@ Begin VB.Form frmTESRealizarCobros
       TabIndex        =   8
       Top             =   7740
       Width           =   17085
+      Begin VB.CommandButton cmdImpresionRecibostandar 
+         Height          =   375
+         Left            =   1800
+         Picture         =   "frmTESRealizarCobros.frx":7596
+         Style           =   1  'Graphical
+         TabIndex        =   39
+         ToolTipText     =   "Imprimir recibo"
+         Top             =   120
+         Visible         =   0   'False
+         Width           =   375
+      End
       Begin VB.CommandButton cmdImprimir 
          Caption         =   "&Recibos"
          BeginProperty Font 
@@ -629,7 +640,7 @@ Begin VB.Form frmTESRealizarCobros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   375
-         Left            =   1800
+         Left            =   2280
          TabIndex        =   38
          Top             =   120
          Visible         =   0   'False
@@ -647,7 +658,7 @@ Begin VB.Form frmTESRealizarCobros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   375
-         Left            =   180
+         Left            =   120
          TabIndex        =   34
          Top             =   120
          Width           =   1425
@@ -1337,9 +1348,22 @@ Private Sub cmdAceptar_Click()
 End Sub
 
 
+Private Sub cmdImpresionRecibostandar_Click()
+    If GenerarRecibos(False) Then
+         If Not PonerParamRPT("0603-02", cadNomRPT) Then Exit Sub
+         vMostrarTree = False
+         cadFormula = "{tmptesoreriacomun.codusu}=" & vUsu.Codigo
+         cadParam = ""
+         numParam = 0
+        
+         ImprimeGeneral
+    
+    End If
+End Sub
+
 'SOLO IMRPIMIMOS los tarjeta
 Private Sub cmdImprimir_Click()
-        If GenerarRecibos2 Then
+        If GenerarRecibos(True) Then
                 'textoherecibido
                
                 
@@ -1413,7 +1437,7 @@ Private Sub Combo1_Validate(Cancel As Boolean)
         
         i = 0
         If (Combo1.ItemData(Combo1.ListIndex) = 2 Or Combo1.ItemData(Combo1.ListIndex) = 3) Then i = 1
-        Me.mnBarra1.visible = i = 1
+        Me.mnbarra1.visible = i = 1
         Me.mnNumero.visible = i = 1
     
         CargaList
@@ -1435,6 +1459,7 @@ Dim vis As Boolean
     End If
                 
     cmdImprimir.visible = vis
+    Me.cmdImpresionRecibostandar.visible = Not vis
 End Sub
 
 
@@ -3742,7 +3767,7 @@ End Function
 
 
 'Para la impresion de cobros de Navarres
-Private Function GenerarRecibos2() As Boolean
+Private Function GenerarRecibos(ImpresionNavarres As Boolean) As Boolean
 Dim SQL As String
 Dim Contador As Integer
 Dim J As Integer
@@ -3751,9 +3776,10 @@ Dim N As Integer
 
 
     On Error GoTo EGenerarRecibos
-    GenerarRecibos2 = False
+    GenerarRecibos = False
     
     'Todas as formas de pago deben ser las mismas e iguales a la de parametros
+    
     cad = ""
     J = 1
     N = 0
@@ -3775,13 +3801,15 @@ Dim N As Integer
         MsgBox "Seleccione alguna vencimiento", vbExclamation
         Exit Function
     End If
-    If cad <> "" Then
-        cad = "Vencimientos para seleccionados sin la forma de pago correcta." & vbCrLf & "Tarjeta codigo:" & vParamT.FormaPagoInterTarjeta & vbCrLf & vbCrLf & cad
-        
-        MsgBox cad, vbExclamation
-        Exit Function
+    
+    If ImpresionNavarres Then
+        If cad <> "" Then
+            cad = "Vencimientos para seleccionados sin la forma de pago correcta." & vbCrLf & "Tarjeta codigo:" & vParamT.FormaPagoInterTarjeta & vbCrLf & vbCrLf & cad
+            
+            MsgBox cad, vbExclamation
+            Exit Function
+        End If
     End If
-        
     
     'Limpiamos
     cad = "Delete from tmptesoreriacomun where codusu = " & vUsu.Codigo
@@ -3821,13 +3849,19 @@ Dim N As Integer
     'parrafo1
     SQL = ""
     
+    If ImpresionNavarres Then
+        SQL = "2"
+        If Fecha <= vParam.fechafin Then SQL = "1"
+        SQL = DevuelveDesdeBD("contado" & SQL, "contadores", "tiporegi", "'ZZ1'") 'tarjeta credito tipo NAVARRES
+        If SQL = "" Then SQL = "1"
+        J = Val(SQL) + 1
+        SQL = Format(J, "00000")
+
+    Else
         
-    SQL = "2"
-    If Fecha <= vParam.fechafin Then SQL = "1"
-    SQL = DevuelveDesdeBD("contado" & SQL, "contadores", "tiporegi", "'ZZ1'") 'tarjeta credito tipo NAVARRES
-    If SQL = "" Then SQL = "1"
-    J = Val(SQL) + 1
-    SQL = Format(J, "00000")
+        SQL = "X"
+    End If
+    
 
     cad = cad & ",'" & SQL & "'"
     
@@ -3856,7 +3890,7 @@ Dim N As Integer
         
         End If
     Next i
-    GenerarRecibos2 = True
+    GenerarRecibos = True
 EGenerarRecibos:
     If Err.Number <> 0 Then
         MuestraError Err.Number

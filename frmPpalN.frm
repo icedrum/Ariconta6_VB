@@ -608,7 +608,7 @@ Dim Habilitado As Boolean
 
 Dim PrimeraVez As Boolean
 
-
+Dim EmpresasQueYaHaComunicadoAsientosDescuadrados As String
 
 Public Function RibbonBar() As RibbonBar
     Set RibbonBar = CommandBars.ActiveMenuBar
@@ -1126,7 +1126,9 @@ Private Sub Form_Activate()
     
     If PrimeraVez Then
         PrimeraVez = False
-        AbrirFormSII False
+        DoEvents
+        AccionesIncioAbrirProgramaEmpresa
+        
     End If
     Screen.MousePointer = vbDefault
 End Sub
@@ -1176,12 +1178,10 @@ Dim cur As Integer
     Me.Hide
     CambiarEmpresa2 QueEmpresa
     Me.Show
-    If vParam.SIITiene Then
-        DoEvents
-        Screen.MousePointer = vbHourglass
-        espera 0.1
-        AbrirFormSII False
-    End If
+       DoEvents
+       Screen.MousePointer = vbHourglass
+    AccionesIncioAbrirProgramaEmpresa
+    
     Screen.MousePointer = vbDefault
     
 End Sub
@@ -2800,7 +2800,7 @@ Private Sub AbrirFormularios(Accion As Long)
             frmBanco.Show vbModal
         Case 208 ' bic
             Screen.MousePointer = vbHourglass
-            frmbic.Show vbModal
+            frmBic.Show vbModal
         Case 209 ' agentes
             Screen.MousePointer = vbHourglass
             frmAgentes.Show vbModal
@@ -3105,7 +3105,7 @@ Private Sub AbrirFormularios(Accion As Long)
             frmLog.Show vbModal
             Screen.MousePointer = vbDefault
         Case 1413
-            frmImportarFraCli.Show vbModal
+            frmImportarUtil.Show vbModal
         Case 1414
             frmImportarNavarres.Show vbModal
             
@@ -3147,6 +3147,34 @@ Private Sub mnHerrAriadnaCC_Click(Index As Integer)
 End Sub
 
 
+Private Sub AccionesIncioAbrirProgramaEmpresa()
+Dim C As String
+    
+    If vUsu.Nivel = 0 And vUsu.id >= 0 Then
+        'EmpresasQueYaHaComunicadoAsientosDescuadrados :  Para que solo lo haga una vez
+        If InStr(1, EmpresasQueYaHaComunicadoAsientosDescuadrados, "|" & vEmpresa.codempre & "|") = 0 Then
+            If EmpresasQueYaHaComunicadoAsientosDescuadrados = "" Then EmpresasQueYaHaComunicadoAsientosDescuadrados = "|"
+            EmpresasQueYaHaComunicadoAsientosDescuadrados = EmpresasQueYaHaComunicadoAsientosDescuadrados & vEmpresa.codempre & "|"
+            C = "sum(coalesce(timported,0))-sum(coalesce(timporteh,0))"
+            C = DevuelveDesdeBD(C, "hlinapu", "fechaent>=" & DBSet(vParam.fechaini, "F") & " AND 1", "1")
+            If C <> "" Then
+                If CCur(C) <> 0 Then MsgBox "Existen asientos descuadrados", vbExclamation
+            End If
+        
+        End If
+    End If
+    
+    If vParam.SIITiene Then
+        DoEvents
+        Screen.MousePointer = vbHourglass
+        espera 0.1
+    
+        AbrirFormSII False
+    End If
+End Sub
+
+
+
 Private Sub AbrirFormSII(AbrirSeguro As Boolean)
 Dim B As Byte
 Dim C As String
@@ -3166,7 +3194,7 @@ Dim C As String
         
         B = DarAvisoPendientesSII()
         If B > 0 Then
-            If MsgBox("AGENCIA TRIBUTARIA" & vbCrLf & vbCrLf & "Tiene facturas pendientes de comunicar al SII." & vbCrLf & vbCrLf & "¿Verlas ahora?", vbCritical + vbYesNo) = vbNo Then
+            If MsgBox("AGENCIA TRIBUTARIA" & vbCrLf & vbCrLf & "Tiene facturas pendientes de comunicar al SII." & vbCrLf & vbCrLf & "¿Verlas ahora?", vbCritical + vbYesNo + vbDefaultButton2) = vbNo Then
                 B = 0
             End If
         End If

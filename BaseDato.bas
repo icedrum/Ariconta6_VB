@@ -898,7 +898,7 @@ Public Sub CargaBalanceNuevaContabilidad(ByRef Cta As String, NomCuenta As Strin
 '                   Si precargamos el RS significa que antes de lanzar este proceso cargamos un RS
 '                   con los valores de la apertura (Y O CIERRE)
 '
-
+' En ejercicios siguientes, las cuentas 6  7 e cogen desde inicio de ejercicio(siguiente)
 
 Dim miSQL As String
 Dim ActualD As Currency
@@ -979,6 +979,8 @@ Dim Be As Boolean
     If Not EjerciCerrados Then
         If vParam.fechafin < FechaInicioPeriodo Then
             Be = Resetea6y7
+           
+            
             If DesdeBalancesConfigurados Then Be = False
             If Be Then
                 If Mid(Cta, 1, 1) = vParam.grupogto Or Mid(Cta, 1, 1) = vParam.grupovta Then
@@ -2593,7 +2595,7 @@ Private Sub InsertaIVADetallado(Clientes2 As Byte, Nodeducible As Boolean)
     Else
         'Ya esta insertado
         If Not IsNull(miRsAux!Importe1) Then ImpD = miRsAux!Importe1
-        If Not IsNull(miRsAux!importe2) Then ImpH = miRsAux!importe2
+        If Not IsNull(miRsAux!Importe2) Then ImpH = miRsAux!Importe2
         M2 = 1
     End If
     miRsAux.Close

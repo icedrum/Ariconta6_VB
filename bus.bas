@@ -2,7 +2,7 @@ Attribute VB_Name = "bus"
 Option Explicit
 
 
-Global i&, J&, k&                             ' Contadores
+Global i&, J&, K&                             ' Contadores
 Global Msg$, MsgErr$, NumErr&                 ' Variables de control de error
 Global CONT%, Opc%, Skn$, SknDir$             ' Otros contadores
 Public Tmp%, m_hMod&
@@ -140,7 +140,7 @@ Public Sub Main()
 Dim cad As String
 Dim NF As Integer
 
-Dim Sql As String
+Dim SQL As String
 
 
 
@@ -268,7 +268,7 @@ On Error GoTo EAbrirConexion
     cad = cad & ";PWD=" & vControl.PassworBD
     cad = cad & ";Persist Security Info=true"
     
-    Prueba = "Conn.ConnectionString = cad"
+    Prueba = "Conn.ConnectionString = " & cad
     Conn.ConnectionString = cad
     Prueba = "Conn.open"
     Conn.Open
@@ -701,7 +701,7 @@ End Function
 
 Public Function CuentaCorrectaUltimoNivel(ByRef Cuenta As String, ByRef Devuelve As String) As Boolean
 'Comprueba si es numerica
-Dim Sql As String
+Dim SQL As String
 
 CuentaCorrectaUltimoNivel = False
 If Cuenta = "" Then
@@ -721,15 +721,15 @@ If Not EsCuentaUltimoNivel(Cuenta) Then
     Exit Function
 End If
 
-Sql = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cuenta, "T")
-If Sql = "" Then
+SQL = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cuenta, "T")
+If SQL = "" Then
     Devuelve = "No existe la cuenta : " & Cuenta
     Exit Function
 End If
 
 'Llegados aqui, si que existe la cuenta
 CuentaCorrectaUltimoNivel = True
-Devuelve = Sql
+Devuelve = SQL
 End Function
 
 '-------------------------------------------------------------------------
@@ -737,7 +737,7 @@ End Function
 '   Es la misma solo k no si no existe cuenta no da error
 Public Function CuentaCorrectaUltimoNivelSIN(ByRef Cuenta As String, ByRef Devuelve As String) As Byte
 'Comprueba si es numerica
-Dim Sql As String
+Dim SQL As String
 
 CuentaCorrectaUltimoNivelSIN = 0
 If Cuenta = "" Then
@@ -754,18 +754,18 @@ Cuenta = RellenaCodigoCuenta(Cuenta)
 
 CuentaCorrectaUltimoNivelSIN = 1
 If Not EsCuentaUltimoNivel(Cuenta) Then
-    Sql = "No es cuenta de último nivel"
+    SQL = "No es cuenta de último nivel"
 Else
-    Sql = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cuenta, "T")
-    If Sql = "" Then
-        Sql = "No existe la cuenta  "
+    SQL = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cuenta, "T")
+    If SQL = "" Then
+        SQL = "No existe la cuenta  "
     Else
         CuentaCorrectaUltimoNivelSIN = 2
     End If
 End If
 
 'Llegados aqui, si que existe la cuenta
-Devuelve = Sql
+Devuelve = SQL
 End Function
 
 Public Function CuentaCorrectaUltimoNivelTXT(TCta As TextBox, TDesc As TextBox) As Boolean
@@ -935,22 +935,22 @@ End Function
 'Periodo vendran las fechas Ini y fin con pipe final
 Public Sub SaldoHistorico(Cuenta As String, Periodo As String, DescCuenta As String, EsSobreEjerciciosCerrados As Boolean)
 Dim Rs As Recordset
-Dim Sql As String
+Dim SQL As String
 Dim RC2 As String
 Dim vImp As Currency
 
     Screen.MousePointer = vbHourglass
-    Sql = "Select Sum(timporteD),sum(timporteH) from hlinapu"
-    If EsSobreEjerciciosCerrados Then Sql = Sql & "1"
-    Sql = Sql & " WHERE codmacta='" & Cuenta & "'"
+    SQL = "Select Sum(timporteD),sum(timporteH) from hlinapu"
+    If EsSobreEjerciciosCerrados Then SQL = SQL & "1"
+    SQL = SQL & " WHERE codmacta='" & Cuenta & "'"
     
     If Not EsSobreEjerciciosCerrados Then _
-        Sql = Sql & " AND fechaent>='" & Format(vParam.fechaini, FormatoFecha) & "'"
-    Sql = Sql & " AND punteada "
+        SQL = SQL & " AND fechaent>='" & Format(vParam.fechaini, FormatoFecha) & "'"
+    SQL = SQL & " AND punteada "
     Set Rs = New ADODB.Recordset
     RC2 = Cuenta & "|"
     'PUNTEADO
-    Rs.Open Sql & "='S';", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open SQL & "='S';", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If Not Rs.EOF Then
        RC2 = RC2 & Format(Rs.Fields(0), FormatoImporte) & "|"
        RC2 = RC2 & Format(Rs.Fields(1), FormatoImporte) & "|"
@@ -959,7 +959,7 @@ Dim vImp As Currency
     End If
     Rs.Close
     'SIN puntear
-    Rs.Open Sql & "<>'S';", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open SQL & "<>'S';", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If Not Rs.EOF Then
        RC2 = RC2 & Format(Rs.Fields(0), FormatoImporte) & "|"
        RC2 = RC2 & Format(Rs.Fields(1), FormatoImporte) & "|"
@@ -970,11 +970,11 @@ Dim vImp As Currency
     
     'En el periodo. Para cuando viene de puntear
     If Periodo <> "" Then
-        Sql = "Select Sum(timporteD) , sum(timporteH) from hlinapu"
-        If EsSobreEjerciciosCerrados Then Sql = Sql & "1"
-        Sql = Sql & " WHERE codmacta='" & Cuenta & "' AND "
-        Sql = Sql & Periodo
-        Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+        SQL = "Select Sum(timporteD) , sum(timporteH) from hlinapu"
+        If EsSobreEjerciciosCerrados Then SQL = SQL & "1"
+        SQL = SQL & " WHERE codmacta='" & Cuenta & "' AND "
+        SQL = SQL & Periodo
+        Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
         If Not Rs.EOF Then
             vImp = DBLet(Rs.Fields(0), "N")
             vImp = vImp - DBLet(Rs.Fields(1), "N")
@@ -1428,7 +1428,7 @@ Public Function UsuariosConectados(vMens As String, Optional DejarContinuar As B
 Dim i As Integer
 Dim cad As String
 Dim metag As String
-Dim Sql As String
+Dim SQL As String
 cad = OtrosPCsContraContabiliad(False)
 UsuariosConectados = False
 If cad <> "" Then
@@ -1439,12 +1439,12 @@ If cad <> "" Then
     metag = metag & vbCrLf & "Los siguientes PC's están conectados a: " & vEmpresa.nomempre & " (" & vUsu.CadenaConexion & ")" & vbCrLf & vbCrLf
     
     Do
-        Sql = RecuperaValor(cad, i)
-        If Sql <> "" Then
-            metag = metag & "    - " & Sql & vbCrLf
+        SQL = RecuperaValor(cad, i)
+        If SQL <> "" Then
+            metag = metag & "    - " & SQL & vbCrLf
             i = i + 1
         End If
-    Loop Until Sql = ""
+    Loop Until SQL = ""
     If DejarContinuar Then
         'Hare la pregunta
         metag = metag & vbCrLf & "¿Continuar?"
@@ -1478,10 +1478,10 @@ Dim Ch As String
 End Function
 
 
-Public Function EjecutaSQL(ByRef Sql As String) As Boolean
+Public Function EjecutaSQL(ByRef SQL As String) As Boolean
     EjecutaSQL = False
     On Error Resume Next
-    Conn.Execute Sql
+    Conn.Execute SQL
     If Err.Number <> 0 Then
         Err.Clear
     Else
@@ -1868,4 +1868,40 @@ Dim cad As String
   
 End Function
 
+
+
+
+
+
+
+
+
+Public Function ComprobarIBANCuentaBancaria(CuentaCCC As String, cadMen As String) As Boolean
+Dim Cta As String
+Dim BuscaChekc As String
+Dim B As Boolean
+    cadMen = ""
+    B = True
+    If Len(CuentaCCC) <> 24 Then
+        cadMen = "IBAN no tiene longitud correcta."
+        B = False
+    Else
+        Cta = Mid(CuentaCCC, 5, 20)
+        If Not Comprueba_CC(Cta) Then
+            cadMen = "La cuenta bancaria(IBAN) no es correcta."
+            B = False
+        Else
+            BuscaChekc = ""
+            BuscaChekc = Mid(CuentaCCC, 1, 2)
+                
+            If DevuelveIBAN2(BuscaChekc, Cta, Cta) Then
+                If Mid(CuentaCCC, 1, 4) <> BuscaChekc & Cta Then
+                    cadMen = "El código de IBAN no es correcto, debería ser " & BuscaChekc & Cta
+                    B = False
+                End If
+            End If
+        End If
+    End If
+    ComprobarIBANCuentaBancaria = B
+End Function
 

@@ -970,7 +970,7 @@ Begin VB.Form frmFacturasCli
    Begin VB.Frame FrameDesplazamiento 
       Height          =   705
       Left            =   6390
-      TabIndex        =   52
+      TabIndex        =   53
       Top             =   90
       Width           =   2415
       Begin MSComctlLib.Toolbar ToolbarDes 
@@ -1010,13 +1010,13 @@ Begin VB.Form frmFacturasCli
    Begin VB.Frame FrameBotonGnral 
       Height          =   705
       Left            =   240
-      TabIndex        =   48
+      TabIndex        =   50
       Top             =   90
       Width           =   3585
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   330
          Left            =   240
-         TabIndex        =   50
+         TabIndex        =   52
          Top             =   180
          Width           =   3135
          _ExtentX        =   5530
@@ -1074,7 +1074,7 @@ Begin VB.Form frmFacturasCli
       Height          =   4050
       Index           =   0
       Left            =   270
-      TabIndex        =   37
+      TabIndex        =   39
       Top             =   870
       Width           =   17160
       Begin VB.ComboBox Combo1 
@@ -2021,7 +2021,7 @@ Begin VB.Form frmFacturasCli
          EndProperty
          Height          =   255
          Left            =   7950
-         TabIndex        =   42
+         TabIndex        =   44
          Top             =   2310
          Width           =   1515
       End
@@ -2038,7 +2038,7 @@ Begin VB.Form frmFacturasCli
          EndProperty
          Height          =   255
          Left            =   5190
-         TabIndex        =   41
+         TabIndex        =   43
          Top             =   270
          Width           =   930
       End
@@ -2055,7 +2055,7 @@ Begin VB.Form frmFacturasCli
          EndProperty
          Height          =   255
          Left            =   6660
-         TabIndex        =   39
+         TabIndex        =   41
          Top             =   270
          Width           =   1140
       End
@@ -2074,7 +2074,7 @@ Begin VB.Form frmFacturasCli
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   38
+         TabIndex        =   40
          Top             =   270
          Width           =   555
       End
@@ -2083,7 +2083,7 @@ Begin VB.Form frmFacturasCli
       BorderStyle     =   0  'None
       Height          =   3060
       Left            =   285
-      TabIndex        =   43
+      TabIndex        =   45
       Top             =   7125
       Width           =   17190
       Begin VB.TextBox txtAux2 
@@ -2115,7 +2115,7 @@ Begin VB.Form frmFacturasCli
          Height          =   255
          Index           =   0
          Left            =   14250
-         TabIndex        =   35
+         TabIndex        =   37
          Tag             =   "Aplica Retencion|N|N|0|1|factcli_lineas|aplicret|||"
          Top             =   2190
          Visible         =   0   'False
@@ -2138,7 +2138,7 @@ Begin VB.Form frmFacturasCli
          Index           =   11
          Left            =   13200
          MaxLength       =   15
-         TabIndex        =   53
+         TabIndex        =   36
          Tag             =   "Importe Rec|N|S|||factcli_lineas|imporec|###,###,##0.00||"
          Text            =   "ImpRec"
          Top             =   2160
@@ -2183,7 +2183,7 @@ Begin VB.Form frmFacturasCli
          Index           =   12
          Left            =   14520
          MaxLength       =   15
-         TabIndex        =   36
+         TabIndex        =   38
          Tag             =   "CC|T|S|||factcli_lineas|codccost|||"
          Text            =   "CC"
          Top             =   2160
@@ -2207,7 +2207,7 @@ Begin VB.Form frmFacturasCli
          Index           =   10
          Left            =   12090
          MaxLength       =   15
-         TabIndex        =   51
+         TabIndex        =   35
          Tag             =   "Importe Iva|N|S|||factcli_lineas|impoiva|###,###,##0.00||"
          Text            =   "ImpIva"
          Top             =   2160
@@ -2511,7 +2511,7 @@ Begin VB.Form frmFacturasCli
          Height          =   315
          Index           =   0
          Left            =   4800
-         TabIndex        =   45
+         TabIndex        =   47
          ToolTipText     =   "Buscar cuenta"
          Top             =   2190
          Visible         =   0   'False
@@ -2535,7 +2535,7 @@ Begin VB.Form frmFacturasCli
          Left            =   5040
          Locked          =   -1  'True
          MaxLength       =   40
-         TabIndex        =   44
+         TabIndex        =   46
          Text            =   "Nombre cuenta"
          Top             =   2190
          Visible         =   0   'False
@@ -2593,7 +2593,7 @@ Begin VB.Form frmFacturasCli
          Height          =   2040
          Index           =   1
          Left            =   45
-         TabIndex        =   46
+         TabIndex        =   48
          Top             =   780
          Width           =   16770
          _ExtentX        =   29580
@@ -2700,7 +2700,7 @@ Begin VB.Form frmFacturasCli
       EndProperty
       Height          =   375
       Left            =   16380
-      TabIndex        =   49
+      TabIndex        =   51
       Top             =   10350
       Width           =   1035
    End
@@ -2717,7 +2717,7 @@ Begin VB.Form frmFacturasCli
       EndProperty
       Height          =   375
       Left            =   15090
-      TabIndex        =   47
+      TabIndex        =   49
       Top             =   10350
       Width           =   1035
    End
@@ -2806,7 +2806,7 @@ Begin VB.Form frmFacturasCli
       EndProperty
       Height          =   375
       Left            =   16380
-      TabIndex        =   40
+      TabIndex        =   42
       Top             =   10350
       Visible         =   0   'False
       Width           =   1035
@@ -3110,7 +3110,7 @@ Private Sub cmdAceptar_Click()
                     TerminaBloquear
                     
                     If Numasien2 > 0 Then
-                        If IntegrarFactura Then
+                        If IntegrarFactura(False) Then
                             Text1(8).Text = Format(Numasien2, "0000000")
                             Numasien2 = -1
                             NumDiario = 0
@@ -3140,25 +3140,26 @@ Private Sub cmdAceptar_Click()
                 Case 1 'afegir llínia
                     InsertarLinea
                 Case 2 'modificar llínies
-                    ModificarLinea
-                                        
-                    '**** parte de contabilizacion de la factura
-                    TerminaBloquear
-                    
-                    If Numasien2 > 0 Then
-                        If IntegrarFactura Then
-                            Text1(8).Text = Format(Numasien2, "0000000")
-                            Numasien2 = -1
-                            NumDiario = 0
-                        Else
-                            B = False
+            
+                        If ModificarLinea Then
+                                                
+                            '**** parte de contabilizacion de la factura
+                            TerminaBloquear
+                            
+                            If Numasien2 > 0 Then
+                                If IntegrarFactura(False) Then
+                                    Text1(8).Text = Format(Numasien2, "0000000")
+                                    Numasien2 = -1
+                                    NumDiario = 0
+                                Else
+                                    B = False
+                                End If
+                            End If
+                        
+                            If ModificarCobros Then CobrosTesoreria
+                            
+                            PosicionarData
                         End If
-                    End If
-                
-                    If ModificarCobros Then CobrosTesoreria
-                    
-                    PosicionarData
-                    
             End Select
             
     
@@ -3646,7 +3647,7 @@ Private Sub Form_Activate()
             CadenaConsulta = SQL
             PonerCadenaBusqueda
             'BOTON lineas
-            
+            If Combo1(0).ListIndex = 18 Then ReferenciaCatastral True
             cboFiltro.ListIndex = 0
             
         Else
@@ -4721,7 +4722,7 @@ Private Sub BotonModificar()
     End If
         
         
-    'Si viene a esta factura buscando por un campo k no sea clave entonces no le dejo seguir
+     'Si viene a esta factura buscando por un campo k no sea clave entonces no le dejo seguir
     If InStr(1, data1.Recordset.Source, "numasien") Then
         MsgBox "Busque la factura por su numero de factura", vbExclamation
         Numasien2 = -1
@@ -4958,7 +4959,8 @@ Dim CPostal As String, desProvi As String, desPais As String
         PosicionarCombo Combo1(0), Asc(Text1(22).Text)
     End If
     
-    Combo1_Validate 1, False
+    'Combo1_Validate 1, False
+    Combo1_Click 1
     
     If Text1(27).Text = "" Then
         Combo1(3).ListIndex = -1
@@ -5002,7 +5004,7 @@ Dim v
                 Text1(1).Text = data1.Recordset!FecFactu
                 Text1(0).Text = data1.Recordset!NumFactu
                 Text1(14).Text = data1.Recordset!anofactu
-                If Not IntegrarFactura Then
+                If Not IntegrarFactura(False) Then
                     Modo = 4 'lo pongo por si acaso
                     Exit Sub
                 End If
@@ -5048,7 +5050,7 @@ Dim v
                 Text1(1).Text = data1.Recordset!FecFactu
                 Text1(0).Text = data1.Recordset!NumFactu
                 Text1(14).Text = data1.Recordset!anofactu
-                If Not IntegrarFactura Then
+                If Not IntegrarFactura(False) Then
                     Modo = 4 'lo pongo por si acaso
                     Exit Sub
                 End If
@@ -5062,7 +5064,7 @@ Dim v
                     Text1(8).Text = Format(Mc.Contador, "0000000")
                     Numasien2 = Mc.Contador
                     If ModificaDesdeFormulario2(Me, 2, "Frame2") Then
-                        If Not IntegrarFactura Then
+                        If Not IntegrarFactura(False) Then
                             Modo = 4
                             Exit Sub
                         End If
@@ -5834,7 +5836,7 @@ Dim SqlLog As String
         TerminaBloquear
         
         If Numasien2 > 0 Then
-            If IntegrarFactura Then
+            If IntegrarFactura(False) Then
                 Text1(8).Text = Format(Numasien2, "0000000")
                 Numasien2 = -1
                 NumDiario = 0
@@ -6157,7 +6159,7 @@ Dim B As Boolean
 Dim cant As Integer
 Dim Mens As String
 Dim vFact As Byte, vDocum As Byte
-
+Dim Importe As Currency
 
     DatosOkLlin = True
     
@@ -6206,11 +6208,15 @@ Dim vFact As Byte, vDocum As Byte
         If IvaCuenta = "" Then
             CambiarIva = True
         Else
-            If CInt(ComprobarCero(txtAux(7).Text)) <> CInt(ComprobarCero(IvaCuenta)) Then
-                If MsgBox("El código de iva es distinto del de la cuenta. " & vbCrLf & " ¿ Desea modificarlo en la cuenta ? " & vbCrLf & vbCrLf, vbQuestion + vbYesNo) = vbYes Then
-                    CambiarIva = True
-                Else
-                    CambiarIva = False
+        
+             If ModoLineas = 1 Then
+            
+                If CInt(ComprobarCero(txtAux(7).Text)) <> CInt(ComprobarCero(IvaCuenta)) Then
+                    If MsgBox("El código de iva es distinto del de la cuenta. " & vbCrLf & " ¿ Desea modificarlo en la cuenta ? " & vbCrLf & vbCrLf, vbQuestion + vbYesNo) = vbYes Then
+                        CambiarIva = True
+                    Else
+                        CambiarIva = False
+                    End If
                 End If
             End If
         End If
@@ -6227,6 +6233,44 @@ Dim vFact As Byte, vDocum As Byte
         End If
         
         
+    End If
+    
+    
+    
+    
+    
+    'Como puede modificar los IVA, hay que comprobar
+    If B And vParam.ModificarIvaLineasFraCli Then
+        
+        Importe = ImporteFormateado(txtAux(8).Text) / 100
+        Importe = ImporteFormateado(txtAux(6).Text) * Importe
+        
+        
+        
+        If Abs(Importe - ImporteFormateado(txtAux(10).Text)) >= 0.1 Then
+            Mens = "Iva calculado: " & Format(Importe, FormatoImporte) & vbCrLf
+            Mens = Mens & "Iva introducido: " & txtAux(10).Text & vbCrLf
+            Mens = "DIFERENCIAS EN IVA" & vbCrLf & vbCrLf & Mens & vbCrLf & "¿Desea continuar igualmente?"
+            
+            If MsgBox(Mens, vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then B = False
+        End If
+        
+        If B Then
+            If Me.txtAux(9).Text <> "" Then
+                'REGARCO
+                
+                Importe = ImporteFormateado(txtAux(9).Text) / 100
+                Importe = ImporteFormateado(txtAux(6).Text) * Importe
+                If Abs(Importe - ImporteFormateado(txtAux(11).Text)) >= 0.05 Then
+                    Mens = "Iva calculado: " & Format(Importe, FormatoImporte) & vbCrLf
+                    Mens = Mens & "Iva introducido: " & txtAux(11).Text & vbCrLf
+                    Mens = "DIFERENCIAS EN RECARGO EQUIVALENCIA" & vbCrLf & vbCrLf & Mens & vbCrLf & "¿Desea continuar igualmente?"
+                    
+                    If MsgBox(Mens, vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then B = False
+                End If
+                
+            End If
+        End If
     End If
     
     DatosOkLlin = B
@@ -6473,7 +6517,7 @@ eActualizarIva:
 End Function
 
 
-Private Sub ModificarLinea()
+Private Function ModificarLinea() As Boolean
 'Modifica registre en les taules de Llínies
 Dim nomframe As String
 Dim v As Integer
@@ -6486,7 +6530,10 @@ Dim cad As String
     End Select
     ' **************************************************************
 
+    ModificarLinea = False
     If DatosOkLlin(nomframe) Then
+
+
         TerminaBloquear
         Conn.BeginTrans
         
@@ -6528,13 +6575,12 @@ Dim cad As String
             ' ***********************************************************
 
             LLamaLineas NumTabMto, 0
-            
+            ModificarLinea = True
         Else
             Conn.RollbackTrans
         End If
     End If
-        
-End Sub
+End Function
 
 
 
@@ -6637,7 +6683,7 @@ End Sub
 Private Sub txtAux_LostFocus(Index As Integer)
     Dim RC As String
     Dim Importe As Currency
-        
+    Dim CalcularElIva As Boolean
         If Not PerderFocoGnral(txtAux(Index), Modo) Then Exit Sub
         
         If txtAux(Index).Text = AntiguoText1 Then
@@ -6645,7 +6691,7 @@ Private Sub txtAux_LostFocus(Index As Integer)
              Exit Sub
         End If
     
-        
+        CalcularElIva = True
         Select Case Index
         Case 5
             RC = txtAux(5).Text
@@ -6658,9 +6704,14 @@ Private Sub txtAux_LostFocus(Index As Integer)
                 Else
                     txtAux2(5).Text = SQL
                     ' traemos el tipo de iva de la cuenta
-                    txtAux(7).Text = DevuelveDesdeBD("codigiva", "cuentas", "codmacta", txtAux(5).Text, "N")
-                    IvaCuenta = txtAux(7)
-                    If txtAux(7).Text <> "" Then txtAux_LostFocus (7)
+                    If ModoLineas = 1 Then
+                        txtAux(7).Text = DevuelveDesdeBD("codigiva", "cuentas", "codmacta", txtAux(5).Text, "N")
+                        IvaCuenta = txtAux(7)
+                        If txtAux(7).Text <> "" Then txtAux_LostFocus (7)
+                    Else
+                        CalcularElIva = False
+                    End If
+                    
                     RC = ""
                 End If
             Else
@@ -6703,7 +6754,15 @@ Private Sub txtAux_LostFocus(Index As Integer)
             If Modo = 5 And ModoLineas = 1 Then MostrarObservaciones txtAux(Index)
             
         Case 6
-            PonerFormatoDecimal txtAux(Index), 1
+            If Not PonerFormatoDecimal(txtAux(Index), 1) Then
+                txtAux(Index).Text = ""
+            Else
+                'Si modificando lienas, no cambia el importe NO recalculo iVA
+                If Modo = 5 And ModoLineas = 2 Then
+                    If ImporteFormateado(txtAux(Index).Text) = CCur(DBLet(AdoAux(1).Recordset!Baseimpo, "N")) Then CalcularElIva = False
+                    
+                End If
+            End If
             
         Case 7 ' iva
             RC = "porcerec"
@@ -6718,7 +6777,15 @@ Private Sub txtAux_LostFocus(Index As Integer)
                     txtAux(9).Text = RC
                 End If
             End If
-                
+            
+             If Modo = 5 And ModoLineas = 2 Then
+                If txtAux(7).Text <> "" Then
+                    If Val(txtAux(Index).Text) = Val(DBLet(AdoAux(1).Recordset!codigiva, "N")) Then CalcularElIva = False
+                End If
+            End If
+            
+            
+            
         Case 10, 11
            'LOS IMPORTES
             If PonerFormatoDecimal(txtAux(Index), 1) Then
@@ -6743,7 +6810,10 @@ Private Sub txtAux_LostFocus(Index As Integer)
             cmdAceptar.SetFocus
         End Select
 
-        If Index = 5 Or Index = 6 Or Index = 7 Then CalcularIVA
+
+        If CalcularElIva Then
+            If Index = 5 Or Index = 6 Or Index = 7 Then CalcularIVA
+        End If
 
 
 End Sub
@@ -7552,6 +7622,10 @@ Private Function ComprobarPeriodo2(Indice As Integer) As Boolean
 Dim Cerrado As Boolean
 Dim MensajeSII As String
 Dim Mostrar As Boolean
+Dim ModEspecial As Boolean
+
+
+
     '[Monica]12/09/2016: Si cerrado o liquidado no hacemos nada en cartera
     ModificarCobros = True
     
@@ -7562,7 +7636,61 @@ Dim Mostrar As Boolean
             If DBLet(data1.Recordset!sii_id, "N") > 0 Then
                 'If Val(DBLet(data1.Recordset!sii _status, "N")) > 2 Then
                 If Text1(28).BackColor = &HC0FFC0 Or Text1(28).BackColor = &H80FF& Then
-                    MsgBox "La factura ya esta presentada en el sistema de SII de la AEAT.", vbExclamation
+                    
+                    
+                    
+                                            'Si fecha >= fechaini
+                        ModEspecial = False
+                        If vUsu.Nivel <= 1 Then
+                            If data1.Recordset!FecFactu >= vParam.fechaini Then ModEspecial = True
+                        End If
+                        
+                        If ModEspecial Then
+                        
+                            'Bloqueamos el registro
+                        
+                        
+                            CadenaDesdeOtroForm = ""
+                            Conn.Execute "DELETE from tmpfaclin WHERE codusu = " & vUsu.Codigo
+                            With frmFacturaModificar
+                                .Cliente = True
+                                .Anyo = data1.Recordset!anofactu
+                                .Codigo = data1.Recordset!NumFactu
+                                .NUmSerie = data1.Recordset!NUmSerie
+                                .Fecha = data1.Recordset!FecFactu
+                                .Show vbModal
+                            End With
+                            
+                            
+                            'Si que ha modificado
+                            Screen.MousePointer = vbHourglass
+                            If CadenaDesdeOtroForm <> "" Then
+                                
+                                If ModificaFacturaSiiPresentada Then
+                                    CargaGrid 1, True
+                                
+                                End If
+                            End If
+                            Screen.MousePointer = vbDefault
+                        Else
+                            MsgBox "La factura ya esta presentada en el sistema de SII de la AEAT.", vbExclamation
+                            
+                        End If
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     Exit Function
                 End If
             End If
@@ -7670,7 +7798,7 @@ Dim SQL As String
         Text1(18).Text = DBLet(Rs!desPobla, "T")
         Text1(19).Text = DBLet(Rs!desProvi, "T")
         Text1(20).Text = DBLet(Rs!nifdatos, "T")
-        Text1(21).Text = DBLet(Rs!codPAIS, "T")
+        Text1(21).Text = DBLet(Rs!codpais, "T")
         Text4(21).Text = PonerNombreDeCod(Text1(21), "paises", "nompais", "codpais", "T")
     End If
     Exit Sub
@@ -7962,7 +8090,7 @@ eRecalcularTotalesFactura:
 End Function
 
 
-Private Function IntegrarFactura() As Boolean
+Private Function IntegrarFactura(DentroBeginTrans As Boolean) As Boolean
 Dim SqlLog As String
 
     IntegrarFactura = False
@@ -7986,6 +8114,7 @@ Dim SqlLog As String
         .NUmSerie = Text1(2).Text
         .FechaAsiento = Text1(1).Text
         .FechaAnterior = FecFactuAnt
+        .DentroBeginTrans = DentroBeginTrans
         .SqlLog = SqlLog
         If Numasien2 < 0 Then
             
@@ -8370,5 +8499,53 @@ Dim SQL As String
     EsFraCliTraspasada = (DevuelveValor(SQL) = 1)
     
 
+End Function
+
+
+
+
+Private Function ModificaFacturaSiiPresentada() As Boolean
+Dim C As String
+On Error GoTo eModificaDesdeFormAux
+    ModificaFacturaSiiPresentada = False
+        
+    Conn.BeginTrans
+        
+        
+    'Borramos de linfact
+    '
+    C = ObtenerWhereCP(True)
+    Conn.Execute "DELETE FROM factcli_lineas " & C
+        
+    
+    'insertamos  dedesde tmpfaclin
+    C = "INSERT INTO factcli_lineas(numserie,numfactu,fecfactu,anofactu,numlinea,codmacta,baseimpo,codigiva,porciva,porcrec,impoiva,imporec,aplicret,codccost) VALUES "
+    C = C & CadenaDesdeOtroForm
+    Conn.Execute C
+    
+    'Borramos lineas apuntes
+    Numasien2 = data1.Recordset!NumAsien
+    NumDiario = data1.Recordset!NumDiari
+    FecFactuAnt = data1.Recordset!FecFactu
+    If Numasien2 > 0 Then
+        C = " WHERE (numasien=" & Numasien2 & " and fechaent = " & DBSet(FecFactuAnt, "F") & " and numdiari = " & DBSet(NumDiario, "N") & ") "
+        Conn.Execute "DELETE FROM hlinapu " & C
+        
+        IntegrarFactura (True)
+        
+
+    End If
+    
+    
+    'Si llega aqui. Todo bien
+    Conn.CommitTrans
+    ModificaFacturaSiiPresentada = True
+    
+    
+    
+    Exit Function
+eModificaDesdeFormAux:
+    MuestraError Err.Number, Err.Description
+    Conn.RollbackTrans
 End Function
 

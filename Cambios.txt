@@ -1,0 +1,41 @@
+6.1.4
+===================================================================================================================
+
+- Aceleración para la obtención de cuenta siguiente en extractos y el punteo
+- FACTURAS (CLI Y PRO).
+	1) NO traemos el IVA de la cuenta 
+	2) Si no cambia BASE IMP ni cambia TIPO de IVA, NO recalcular importe
+
+- Las fechas de liquidación y recepción no pueden ser menores que la de emisión(factura)
+- Al modificar linea de factura y cambiamos la cuenta, NO trae el IVA vinculardo. Deja el que habia
+  	Si no cambia tipoiva o base, no recalcula el Importe
+
+- Facturas SII. Cuando ya esten presentadas habilitar un botón para poder modificar las bases.
+- Avisar si importeIVA calculado MUY distinto del introducido
+- Transferencias. En la pantalla de selección avisar si hay IBAN "vacios /incorrectos"
+- Verificar que la cuenta bancaria es correcta al grabar la remesa y las transferencias.
+- Al crear un usuario nuevo debe crear los menús en todas las BBDD.
+- En parámetros si da error en una cuenta no te deja salir.
+
+- Correcion grabacion SII ARRENDAMIENTOS facturas emitidas
+- Impresion de recibos "antes de contabilizacion". Ariconta lo tenia. Ariconta existia la opcion de despues de contabilizar. Añadir btn para impresion 
+- Avisar de alguna manera al entrar que hay asientos descuadrados.
+- SII. En facturas traspasadas, hay que filtrar por CIF empresa, ya que por ejemplo, en Morales les aparecen las de AVAB y al reves
+- Importación fras.proveedores Navarres. Pedirá Fecha de Recepción, Tipo de IVA. Enseñar previamente y controlar posibles errores antes de insertar. Grabará el nombre de la variedad en observaciones.
+- Fallo exportación facturas recibidas a csv
+- Cuando crea cuenta desde asiento,una vez creada, la pone en contrapartida
+- Resetear cuentas 6 y 7 en Sumas y Saldos cuando se pide ejercicio siguiente. las perdidas y ganancias seran reflejadas en la cuenta 12 de parametros
+- SII. Que el periodo de presentacion lo pueda coger también de la fecha de liquidación/(HORTONATURE)
+
+
+6.0.25
+===================================================================================================================
+
+
+ - Compensación. Segunda pantalla. El INTRO en los conceptos no pasan de campo
+ - Poner teléfono y móvil en las cuentas.
+ - Al hacer click en la remesa, en el detalle no aparece nombre del cliente. Verificar también transferencias.
+ - Liquidacion IVA: No tiene en cuenta intracomunitarias para el apunte contable.
+
+ 
+ - SII. Faltan alugunos detalles. No esta completamente operativo.

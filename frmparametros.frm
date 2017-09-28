@@ -157,43 +157,43 @@ Begin VB.Form frmparametros
       TabCaption(1)   =   "Clientes - Proveedores "
       TabPicture(1)   =   "frmparametros.frx":0028
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Frame3"
-      Tab(1).Control(1)=   "Frame2"
+      Tab(1).Control(0)=   "Frame2"
+      Tab(1).Control(1)=   "Frame3"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "I.V.A. - Norma 43"
       TabPicture(2)   =   "frmparametros.frx":0044
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Label1(14)"
-      Tab(2).Control(1)=   "Label1(13)"
-      Tab(2).Control(2)=   "Frame1"
-      Tab(2).Control(3)=   "Frame8"
-      Tab(2).Control(4)=   "Frame17"
-      Tab(2).Control(5)=   "Text1(14)"
-      Tab(2).Control(6)=   "Text1(15)"
-      Tab(2).Control(7)=   "Text1(13)"
+      Tab(2).Control(0)=   "Text1(13)"
+      Tab(2).Control(1)=   "Text1(15)"
+      Tab(2).Control(2)=   "Text1(14)"
+      Tab(2).Control(3)=   "Frame17"
+      Tab(2).Control(4)=   "Frame8"
+      Tab(2).Control(5)=   "Frame1"
+      Tab(2).Control(6)=   "Label1(13)"
+      Tab(2).Control(7)=   "Label1(14)"
       Tab(2).ControlCount=   8
       TabCaption(3)   =   "Inmovilizado"
       TabPicture(3)   =   "frmparametros.frx":0060
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Frame14"
-      Tab(3).Control(1)=   "Frame15"
+      Tab(3).Control(0)=   "Frame7"
+      Tab(3).Control(1)=   "Frame9"
       Tab(3).Control(2)=   "Frame16"
-      Tab(3).Control(3)=   "Frame9"
-      Tab(3).Control(4)=   "Frame7"
+      Tab(3).Control(3)=   "Frame15"
+      Tab(3).Control(4)=   "Frame14"
       Tab(3).ControlCount=   5
       TabCaption(4)   =   "Tesorería I"
       TabPicture(4)   =   "frmparametros.frx":007C
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "FrameValDefecto"
-      Tab(4).Control(1)=   "Frame66"
+      Tab(4).Control(0)=   "Frame66"
+      Tab(4).Control(1)=   "FrameValDefecto"
       Tab(4).ControlCount=   2
       TabCaption(5)   =   "Tesorería II"
       TabPicture(5)   =   "frmparametros.frx":0098
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "FrameTalones(1)"
-      Tab(5).Control(1)=   "FrameTalones(0)"
-      Tab(5).Control(2)=   "FrameOpAseguradas"
-      Tab(5).Control(3)=   "FrameTalones(2)"
+      Tab(5).Control(0)=   "FrameTalones(2)"
+      Tab(5).Control(1)=   "FrameOpAseguradas"
+      Tab(5).Control(2)=   "FrameTalones(0)"
+      Tab(5).Control(3)=   "FrameTalones(1)"
       Tab(5).ControlCount=   4
       Begin VB.TextBox Text1 
          Alignment       =   1  'Right Justify
@@ -4093,7 +4093,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmC_Selec(vFecha As Date)
-    ImgFec(1).Tag = vFecha
+    imgFec(1).Tag = vFecha
 End Sub
 
 Private Sub frmCo_DatoSeleccionado(CadenaSeleccion As String)
@@ -4257,9 +4257,9 @@ Private Sub imgFec_Click(Index As Integer)
     Dim F As Date
     'En los tag
     'En el 0 tendremos quien lo ha llamado y en el 1 el valor que devuelve
-    ImgFec(0).Tag = Index
+    imgFec(0).Tag = Index
     F = Now
-    ImgFec(1).Tag = ""
+    imgFec(1).Tag = ""
     If Text1(Index).Text <> "" Then
         If IsDate(Text1(Index).Text) Then F = Text1(Index).Text
     End If
@@ -4267,8 +4267,8 @@ Private Sub imgFec_Click(Index As Integer)
     frmC.Fecha = F
     frmC.Show vbModal
     Set frmC = Nothing
-    If ImgFec(1).Tag <> "" Then
-        If IsDate(ImgFec(1).Tag) Then Text1(Index).Text = Format(CDate(ImgFec(1).Tag), "dd/mm/yyyy")
+    If imgFec(1).Tag <> "" Then
+        If IsDate(imgFec(1).Tag) Then Text1(Index).Text = Format(CDate(imgFec(1).Tag), "dd/mm/yyyy")
     End If
 End Sub
 
@@ -4429,8 +4429,8 @@ Private Sub Text1_LostFocus(Index As Integer)
             Text4.Text = SQL
         Else
             MsgBox SQL, vbExclamation
-            Text1(18).Text = cad
-            Text4.Text = SQL
+            Text1(18).Text = "" ' cad
+            Text4.Text = "" 'SQL
             If Modo > 2 Then Text1(18).SetFocus
         End If
     
@@ -4455,8 +4455,8 @@ Private Sub Text1_LostFocus(Index As Integer)
             Text7.Text = SQL
         Else
             MsgBox SQL, vbExclamation
-            Text1(33).Text = cad
-            Text7.Text = SQL
+            Text1(33).Text = "" ' cad
+            Text7.Text = "" 'SQL
             If Modo > 2 And cad <> "" Then Text1(33).SetFocus
         End If
         
@@ -4567,8 +4567,8 @@ Private Sub PonerModo(Kmodo As Integer)
         Text1(0).Locked = (vUsu.Nivel >= 1)
         Text1(1).Locked = (vUsu.Nivel >= 1)
     End If
-    For i = 0 To ImgFec.Count - 1
-        ImgFec(i).Enabled = Not Text1(0).Locked
+    For i = 0 To imgFec.Count - 1
+        imgFec(i).Enabled = Not Text1(0).Locked
     Next i
     
     PonerModoUsuarioGnral Modo, "ariconta"
@@ -4651,7 +4651,7 @@ Private Function DatosOK() As Boolean
         End If
     End If
     
-    
+
     'NO puede marcar constructora y Agencia viajes a la vez
     If Check1(8).Value = 1 And Check1(9).Value Then
         MsgBox "No puede marcar Contructora y Agencia de viajes a la vez", vbExclamation
@@ -5083,7 +5083,7 @@ On Error GoTo ECargarDatos
     If Not Rs.EOF Then
         CargarDatosTesoreria = True
         '------------------  Ponemos los datos
-        Text5(0).Text = Rs!ctabenbanc
+        Text5(0).Text = DBLet(Rs!ctabenbanc, "T")
         Text5_LostFocus 0
         Text5(4).Text = DBLet(Rs!Par_pen_apli, "T")
         Text5_LostFocus 4
@@ -5179,8 +5179,8 @@ Private Sub Text5_LostFocus(Index As Integer)
             Text6(Index).Text = SQL
         Else
             MsgBox SQL, vbExclamation
-            Text5(Index).Text = cad
-            Text6(Index).Text = SQL
+            Text5(Index).Text = "" 'cad
+            Text6(Index).Text = "" 'SQL
             If Modo > 2 Then Text5(Index).SetFocus
         End If
 
