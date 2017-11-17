@@ -2,7 +2,7 @@ Attribute VB_Name = "modTesoreria"
 Option Explicit
 
 Public Function CargarCobrosTemporal(Forpa As String, FecFactu As String, TotalFac As Currency) As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim CadValues As String
 Dim Rsvenci As ADODB.Recordset
 Dim FecVenci As String
@@ -12,10 +12,10 @@ Dim ImpVenci As Currency
 
     CargarCobrosTemporal = False
 
-    Sql = "SELECT numerove, primerve, restoven FROM formapago WHERE codforpa=" & DBSet(Forpa, "N")
+    SQL = "SELECT numerove, primerve, restoven FROM formapago WHERE codforpa=" & DBSet(Forpa, "N")
     
     Set Rsvenci = New ADODB.Recordset
-    Rsvenci.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rsvenci.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     CadValues = ""
     
@@ -32,10 +32,10 @@ Dim ImpVenci As Currency
             If Rsvenci!numerove = 1 Then
                 ImpVenci = TotalFac
             Else
-                ImpVenci = Round(TotalFac / Rsvenci.Fields(0).Value, 2)
+                ImpVenci = Round2(TotalFac / Rsvenci.Fields(0).Value, 2)
                 'Comprobar que la suma de los vencimientos cuadra con el total de la factura
                 If ImpVenci * Rsvenci!numerove <> TotalFac Then
-                    ImpVenci = Round(ImpVenci + (TotalFac - ImpVenci * Rsvenci.Fields(0).Value), 2)
+                    ImpVenci = Round2(ImpVenci + (TotalFac - ImpVenci * Rsvenci.Fields(0).Value), 2)
                 End If
             End If
             CadValues = "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
@@ -46,7 +46,7 @@ Dim ImpVenci As Currency
                 FecVenci = DateAdd("d", DBLet(Rsvenci!restoven, "N"), FecVenci)
                     
                 'IMPORTE Resto de Vendimientos
-                ImpVenci = Round(TotalFac / Rsvenci.Fields(0).Value, 2)
+                ImpVenci = Round2(TotalFac / Rsvenci.Fields(0).Value, 2)
                 
                 CadValues = CadValues & "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
             Next i
@@ -56,9 +56,9 @@ Dim ImpVenci As Currency
     Set Rsvenci = Nothing
     
     If CadValues <> "" Then
-        Sql = "INSERT INTO tmpcobros (codusu, numorden, fecvenci, impvenci)"
-        Sql = Sql & " VALUES " & Mid(CadValues, 1, Len(CadValues) - 1)
-        Conn.Execute Sql
+        SQL = "INSERT INTO tmpcobros (codusu, numorden, fecvenci, impvenci)"
+        SQL = SQL & " VALUES " & Mid(CadValues, 1, Len(CadValues) - 1)
+        Conn.Execute SQL
     End If
     
     CargarCobrosTemporal = True
@@ -74,7 +74,7 @@ End Function
 '       insert into cobros(numserie,numfactu,fecfactu,codmacta,codforpa,ctabanc1,iban,text33csb,numorden,fecvenci,impvenci)
 '    Para ello enviaremos TODO el sql menos y numorden fecvenci e impvenci
 Public Function CargarCobrosSobreCollectionConSQLInsert(ByRef ColCobros As Collection, Forpa As String, FecFactu As String, TotalFac As Currency, PartFijaSQL As String) As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Rsvenci As ADODB.Recordset
 Dim FecVenci As String
 Dim ImpVenci As Currency
@@ -85,10 +85,10 @@ Dim ImpVenci As Currency
 
     Set ColCobros = New Collection
     
-    Sql = "SELECT numerove, primerve, restoven FROM formapago WHERE codforpa=" & DBSet(Forpa, "N")
+    SQL = "SELECT numerove, primerve, restoven FROM formapago WHERE codforpa=" & DBSet(Forpa, "N")
     
     Set Rsvenci = New ADODB.Recordset
-    Rsvenci.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rsvenci.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
 
     
@@ -105,10 +105,10 @@ Dim ImpVenci As Currency
             If Rsvenci!numerove = 1 Then
                 ImpVenci = TotalFac
             Else
-                ImpVenci = Round(TotalFac / Rsvenci.Fields(0).Value, 2)
+                ImpVenci = Round2(TotalFac / Rsvenci.Fields(0).Value, 2)
                 'Comprobar que la suma de los vencimientos cuadra con el total de la factura
                 If ImpVenci * Rsvenci!numerove <> TotalFac Then
-                    ImpVenci = Round(ImpVenci + (TotalFac - ImpVenci * Rsvenci.Fields(0).Value), 2)
+                    ImpVenci = Round2(ImpVenci + (TotalFac - ImpVenci * Rsvenci.Fields(0).Value), 2)
                 End If
             End If
             'CadValues = "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
@@ -121,7 +121,7 @@ Dim ImpVenci As Currency
                 FecVenci = DateAdd("d", DBLet(Rsvenci!restoven, "N"), FecVenci)
                     
                 'IMPORTE Resto de Vendimientos
-                ImpVenci = Round(TotalFac / Rsvenci.Fields(0).Value, 2)
+                ImpVenci = Round2(TotalFac / Rsvenci.Fields(0).Value, 2)
                 
                 'CadValues = CadValues & "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
                 ColCobros.Add PartFijaSQL & i & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & ")"
@@ -151,16 +151,16 @@ End Function
 
 
 Public Function BancoPropio() As String
-Dim Sql As String
+Dim SQL As String
 Dim Rs As ADODB.Recordset
 
     BancoPropio = ""
 
-    Sql = "select codmacta from bancos "
+    SQL = "select codmacta from bancos "
     
-    If TotalRegistrosConsulta(Sql) = 1 Then
+    If TotalRegistrosConsulta(SQL) = 1 Then
         Set Rs = New ADODB.Recordset
-        Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not Rs.EOF Then BancoPropio = DBLet(Rs!codmacta, "T")
         Set Rs = Nothing
     End If

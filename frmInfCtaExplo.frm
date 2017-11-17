@@ -943,7 +943,7 @@ Attribute frmC.VB_VarHelpID = -1
 Private WithEvents frmCon  As frmConceptos
 Attribute frmCon.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -964,7 +964,7 @@ Public Sub InicializarVbles(AñadireElDeEmpresa As Boolean)
     cadFormula = ""
     cadselect = ""
     cadParam = "|"
-    NumParam = 0
+    numParam = 0
     cadNomRPT = ""
     conSubRPT = False
     cadPDFrpt = ""
@@ -973,7 +973,7 @@ Public Sub InicializarVbles(AñadireElDeEmpresa As Boolean)
     
     If AñadireElDeEmpresa Then
         cadParam = cadParam & "pEmpresa=""" & vEmpresa.nomempre & """|"
-        NumParam = NumParam + 1
+        numParam = numParam + 1
     End If
     
 End Sub
@@ -1218,107 +1218,107 @@ Dim cad As String
     ' cuenta de explotacion normal
     If chkComparativo.Value = 0 Then
 
-        pb2.Visible = True
+        pb2.visible = True
         CargarProgres pb2, 6
         
         'Cargamos una temporal para poder exportar a fichero
-        Sql = "delete from tmpbalancesumas where codusu = " & vUsu.Codigo
-        Conn.Execute Sql
+        SQL = "delete from tmpbalancesumas where codusu = " & vUsu.Codigo
+        Conn.Execute SQL
     
         IncrementarProgres pb2, 1
         
         cad = "01/" & cmbFecha(2).ListIndex + 1 & "/" & txtAno(4).Text
         
-        Sql = "insert into tmpbalancesumas (codusu,cta,nomcta,acumAntD,acumAntH) "
-        Sql = Sql & " select " & vUsu.Codigo & ", hlinapu.codmacta Cuenta , nommacta Titulo, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) "
-        Sql = Sql & " from hlinapu left join cuentas on hlinapu.codmacta = cuentas.codmacta where hlinapu.codconce<>970 AND mid(hlinapu.codmacta,1,1) IN ('6','7') and hlinapu.fechaent >= '" & Format(Me.txtAno(4).Text, "0000") & "-" & Format(Month(vParam.fechaini), "00") & "-" & Format(Day(vParam.fechaini), "00") & "'"
-        Sql = Sql & " and hlinapu.fechaent < " & DBSet(cad, "F")
-        Sql = Sql & " group by 1,2,3 "
-        Sql = Sql & " order by 1,2,3 "
+        SQL = "insert into tmpbalancesumas (codusu,cta,nomcta,acumAntD,acumAntH) "
+        SQL = SQL & " select " & vUsu.Codigo & ", hlinapu.codmacta Cuenta , nommacta Titulo, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) "
+        SQL = SQL & " from hlinapu left join cuentas on hlinapu.codmacta = cuentas.codmacta where hlinapu.codconce<>970 AND mid(hlinapu.codmacta,1,1) IN ('6','7') and hlinapu.fechaent >= '" & Format(Me.txtAno(4).Text, "0000") & "-" & Format(Month(vParam.fechaini), "00") & "-" & Format(Day(vParam.fechaini), "00") & "'"
+        SQL = SQL & " and hlinapu.fechaent < " & DBSet(cad, "F")
+        SQL = SQL & " group by 1,2,3 "
+        SQL = SQL & " order by 1,2,3 "
             
-        Conn.Execute Sql
+        Conn.Execute SQL
         
         IncrementarProgres pb2, 1
         
         
         i = DiasMes(cmbFecha(2).ListIndex + 1, txtAno(4).Text)
         
-        Sql = "update tmpbalancesumas set "
-        Sql = Sql & " acumperd = (select sum(coalesce(timported,0)) from hlinapu where fechaent between " & DBSet(cad, "F") & " and "
-        Sql = Sql & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta)"
+        SQL = "update tmpbalancesumas set "
+        SQL = SQL & " acumperd = (select sum(coalesce(timported,0)) from hlinapu where fechaent between " & DBSet(cad, "F") & " and "
+        SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta)"
         
-        Conn.Execute Sql
+        Conn.Execute SQL
         
         IncrementarProgres pb2, 1
         
-        Sql = "update tmpbalancesumas set "
-        Sql = Sql & " acumperh = (select sum(coalesce(timporteh,0)) from hlinapu where fechaent between " & DBSet(cad, "F") & " and "
-        Sql = Sql & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta)"
+        SQL = "update tmpbalancesumas set "
+        SQL = SQL & " acumperh = (select sum(coalesce(timporteh,0)) from hlinapu where fechaent between " & DBSet(cad, "F") & " and "
+        SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta)"
         
-        Conn.Execute Sql
+        Conn.Execute SQL
         
         IncrementarProgres pb2, 1
         
         'existencias iniciales
         If txtExplo(0).Text <> "" Or txtExplo(2).Text <> "" Then
-            Sql = "insert into tmpbalancesumas (codusu,cta,nomcta,acumAntD,acumAntH,acumPerD,acumPerH) values ( "
-            Sql = Sql & vUsu.Codigo & ",'0000000000','Existencias Iniciales'," & DBSet(ComprobarCero(txtExplo(0).Text), "N") & ",0," & DBSet(ComprobarCero(txtExplo(2).Text), "N") & ",0) "
+            SQL = "insert into tmpbalancesumas (codusu,cta,nomcta,acumAntD,acumAntH,acumPerD,acumPerH) values ( "
+            SQL = SQL & vUsu.Codigo & ",'0000000000','Existencias Iniciales'," & DBSet(ComprobarCero(txtExplo(0).Text), "N") & ",0," & DBSet(ComprobarCero(txtExplo(2).Text), "N") & ",0) "
         
-            Conn.Execute Sql
+            Conn.Execute SQL
         End If
         
         IncrementarProgres pb2, 1
         
         'existencias finales
         If txtExplo(1).Text <> "" Or txtExplo(3).Text <> "" Then
-            Sql = "insert into tmpbalancesumas (codusu,cta,nomcta,acumAntD,acumAntH,acumPerD,acumPerH) values ( "
-            Sql = Sql & vUsu.Codigo & ",'9999999999','Existencias Finales',0," & DBSet(ComprobarCero(txtExplo(1).Text), "N") & ",0," & DBSet(ComprobarCero(txtExplo(3).Text), "N") & ") "
+            SQL = "insert into tmpbalancesumas (codusu,cta,nomcta,acumAntD,acumAntH,acumPerD,acumPerH) values ( "
+            SQL = SQL & vUsu.Codigo & ",'9999999999','Existencias Finales',0," & DBSet(ComprobarCero(txtExplo(1).Text), "N") & ",0," & DBSet(ComprobarCero(txtExplo(3).Text), "N") & ") "
         
-            Conn.Execute Sql
+            Conn.Execute SQL
         End If
         
         IncrementarProgres pb2, 1
         
         If chkExplotacion.Value = 1 Then
-            Sql = "select if(cta in ('0000000000','9999999999'),'',cta) Cuenta, nomcta Titulo, coalesce(acumantd,0) AcumAntD, coalesce(acumanth,0) AcumAntH, coalesce(acumperd,0) AcumPerD, coalesce(acumperh,0) AcumPerH from tmpbalancesumas "
+            SQL = "select if(cta in ('0000000000','9999999999'),'',cta) Cuenta, nomcta Titulo, coalesce(acumantd,0) AcumAntD, coalesce(acumanth,0) AcumAntH, coalesce(acumperd,0) AcumPerD, coalesce(acumperh,0) AcumPerH from tmpbalancesumas "
         Else
-            Sql = "select if(cta in ('0000000000','9999999999'),'',cta) Cuenta, nomcta Titulo, (coalesce(acumantd,0) + coalesce(acumperd,0)) SaldoD, (coalesce(acumanth,0) + coalesce(acumperH,0)) SaldoH from tmpbalancesumas "
+            SQL = "select if(cta in ('0000000000','9999999999'),'',cta) Cuenta, nomcta Titulo, (coalesce(acumantd,0) + coalesce(acumperd,0)) SaldoD, (coalesce(acumanth,0) + coalesce(acumperH,0)) SaldoH from tmpbalancesumas "
         End If
-        Sql = Sql & " where codusu = " & vUsu.Codigo
-        Sql = Sql & " and (coalesce(acumantd,0) + coalesce(acumanth,0) + coalesce(acumperd,0) + coalesce(acumperh,0)) <> 0"
-        Sql = Sql & " order by cta "
+        SQL = SQL & " where codusu = " & vUsu.Codigo
+        SQL = SQL & " and (coalesce(acumantd,0) + coalesce(acumanth,0) + coalesce(acumperd,0) + coalesce(acumperh,0)) <> 0"
+        SQL = SQL & " order by cta "
     
-        pb2.Visible = False
+        pb2.visible = False
     
     
     Else ' cuenta de explotacion comparativa
         If CargarTablaTemporal(vFecha) Then
-            Sql = "select aaaaa.cta CtaPasivo, aaaaa.nomcta Titulo, aaaaa.totald '" & Format(CInt(txtAno(4).Text) - 1, "0000") & "', aaaaa.totalh '" & Format(CInt(txtAno(4).Text), "0000") & "'"
-            Sql = Sql & ", bbbbb.cta CtaPasivo, bbbbb.nomcta Titulo, bbbbb.totald '" & Format(CInt(txtAno(4).Text) - 1, "0000") & "', bbbbb.totalh '" & Format(CInt(txtAno(4).Text), "0000") & "'"
-            Sql = Sql & " from tmpbalancesumas aaaaa, tmpbalancesumas bbbbb "
-            Sql = Sql & " where aaaaa.codusu = " & vUsu.Codigo & " and bbbbb.codusu = " & vUsu.Codigo
-            Sql = Sql & " order by aaaaa.cta, bbbbb.cta "
+            SQL = "select aaaaa.cta CtaPasivo, aaaaa.nomcta Titulo, aaaaa.totald '" & Format(CInt(txtAno(4).Text) - 1, "0000") & "', aaaaa.totalh '" & Format(CInt(txtAno(4).Text), "0000") & "'"
+            SQL = SQL & ", bbbbb.cta CtaPasivo, bbbbb.nomcta Titulo, bbbbb.totald '" & Format(CInt(txtAno(4).Text) - 1, "0000") & "', bbbbb.totalh '" & Format(CInt(txtAno(4).Text), "0000") & "'"
+            SQL = SQL & " from tmpbalancesumas aaaaa, tmpbalancesumas bbbbb "
+            SQL = SQL & " where aaaaa.codusu = " & vUsu.Codigo & " and bbbbb.codusu = " & vUsu.Codigo
+            SQL = SQL & " order by aaaaa.cta, bbbbb.cta "
             
             If Me.chkPorcentajes.Value = 0 Then
-                Sql = "select aaaaa.cta Cuenta, aaaaa.nomcta Titulo, aaaaa.totald '" & Format(CInt(txtAno(4).Text) - 1, "0000") & "', aaaaa.totalh '" & Format(CInt(txtAno(4).Text), "0000") & "'"
+                SQL = "select aaaaa.cta Cuenta, aaaaa.nomcta Titulo, aaaaa.totald '" & Format(CInt(txtAno(4).Text) - 1, "0000") & "', aaaaa.totalh '" & Format(CInt(txtAno(4).Text), "0000") & "'"
             Else
-                Sql = "select aaaaa.cta Cuenta, aaaaa.nomcta Titulo, aaaaa.totald '" & Format(CInt(txtAno(4).Text) - 1, "0000") & "', aaaaa.totalh '" & Format(CInt(txtAno(4).Text), "0000") & "', round(aaaaa.totalh / aaaaa.totald * 100,2) -100 Porcentaje"
+                SQL = "select aaaaa.cta Cuenta, aaaaa.nomcta Titulo, aaaaa.totald '" & Format(CInt(txtAno(4).Text) - 1, "0000") & "', aaaaa.totalh '" & Format(CInt(txtAno(4).Text), "0000") & "', round2(aaaaa.totalh / aaaaa.totald * 100,2) -100 Porcentaje"
             End If
-            Sql = Sql & " from tmpbalancesumas aaaaa "
-            Sql = Sql & " where aaaaa.codusu = " & vUsu.Codigo
-            Sql = Sql & " order by 1"
+            SQL = SQL & " from tmpbalancesumas aaaaa "
+            SQL = SQL & " where aaaaa.codusu = " & vUsu.Codigo
+            SQL = SQL & " order by 1"
         End If
     End If
     
         
         
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
     Exit Sub
     
 eAccionesCSV:
-    pb2.Visible = False
+    pb2.visible = False
     MuestraError Err.Number, "Carga de Temporal", Err.Description
 End Sub
 
@@ -1339,19 +1339,19 @@ Dim nomDocu As String
     cad = "01/" & cmbFecha(2).ListIndex + 1 & "/" & txtAno(4).Text
     cadParam = cadParam & "FechaPeriodo=""" & cad & """|"
     
-    NumParam = NumParam + 2
+    numParam = numParam + 2
     'Existencias iniciales y finales
     cad = "InicioAcumulada=" & DBSet(txtExplo(0).Text, "N") & "|InicioPeriodo=" & DBSet(txtExplo(2).Text, "N")
     cadParam = cadParam & cad & "|"
     cad = "FinAcumulada=" & DBSet(txtExplo(1).Text, "N") & "|FinPeriodo=" & DBSet(txtExplo(3).Text, "N")
     cadParam = cadParam & cad & "|"
-    NumParam = NumParam + 4
+    numParam = numParam + 4
     
     
     cadParam = cadParam & "pTipo=" & chkExplotacion.Value & "|"
-    NumParam = NumParam + 1
+    numParam = numParam + 1
     cadParam = cadParam & "pPeriodo=""Mes cálculo: " & UCase(Mid(cmbFecha(2).Text, 1, 1)) & Mid(cmbFecha(2).Text, 2, Len(cmbFecha(2).Text)) & "     Año: " & txtAno(4).Text & """|"
-    NumParam = NumParam + 1
+    numParam = numParam + 1
     
     If Me.chkComparativo = 1 Then
         cadParam = cadParam & "Anyo1=""" & Format(CInt(txtAno(4).Text) - 1, "0000") & """|"
@@ -1359,7 +1359,7 @@ Dim nomDocu As String
         
         cadParam = cadParam & "pPorcen=" & chkPorcentajes.Value & "|"
         cadParam = cadParam & "pUsu=" & vUsu.Codigo & "|"
-        NumParam = NumParam + 4
+        numParam = numParam + 4
         
         indRPT = "0307-01" '"CtaExplotacionComp.rpt"
         
@@ -1387,7 +1387,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -1437,7 +1437,7 @@ Dim Anyo As String
 End Function
 
 Private Function CargarTablaTemporal(Fecha As String) As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim FechaI As Date
 Dim FechaF As Date
 Dim FechaIAnt As Date
@@ -1455,7 +1455,7 @@ Dim ConceptoPerdidasyGanancias As Integer
         
     CargarTablaTemporal = False
 
-    pb2.Visible = True
+    pb2.visible = True
     CargarProgres pb2, 7
 
 
@@ -1469,7 +1469,7 @@ Dim ConceptoPerdidasyGanancias As Integer
     FechaFAnt = DateAdd("yyyy", -1, FechaF)
     
     For i = 1 To 10
-        If Me.chkCtaExplo(i).Visible Then
+        If Me.chkCtaExplo(i).visible Then
             If Me.chkCtaExplo(i).Value = 1 Then
                 If i < 10 Then
                     Digitos = DigitosNivel(i)
@@ -1483,8 +1483,8 @@ Dim ConceptoPerdidasyGanancias As Integer
     CADENA = String(Digitos, "_")
     
     'Borramos los temporales
-    Sql = "DELETE from tmpbalancesumas where codusu= " & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "DELETE from tmpbalancesumas where codusu= " & vUsu.Codigo
+    Conn.Execute SQL
     
 
 
@@ -1492,14 +1492,14 @@ Dim ConceptoPerdidasyGanancias As Integer
     IncrementarProgres pb2, 1
 
     'Metemos las cuentas
-    Sql = "insert into tmpbalancesumas (codusu, cta, nomcta, totald, totalh) "
-    Sql = Sql & "select distinct " & vUsu.Codigo & ", mid(hlinapu.codmacta,1," & Digitos & ") , cuentas.nommacta, 0, 0 "
-    Sql = Sql & " from hlinapu inner join cuentas on mid(hlinapu.codmacta,1," & Digitos & ") = cuentas.codmacta where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
-    Sql = Sql & "  AND mid(hlinapu.codmacta,1,1) IN ('6','7') "
-    Sql = Sql & " and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaF, "F")
+    SQL = "insert into tmpbalancesumas (codusu, cta, nomcta, totald, totalh) "
+    SQL = SQL & "select distinct " & vUsu.Codigo & ", mid(hlinapu.codmacta,1," & Digitos & ") , cuentas.nommacta, 0, 0 "
+    SQL = SQL & " from hlinapu inner join cuentas on mid(hlinapu.codmacta,1," & Digitos & ") = cuentas.codmacta where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
+    SQL = SQL & "  AND mid(hlinapu.codmacta,1,1) IN ('6','7') "
+    SQL = SQL & " and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaF, "F")
     
     
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     IncrementarProgres pb2, 1
     
@@ -1508,74 +1508,74 @@ Dim ConceptoPerdidasyGanancias As Integer
     'Actualizamos acumulados del periodo actual
     'activo
     
-    Sql = "update tmpbalancesumas set "
-    Sql = Sql & " totalh = (select sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
-    Sql = Sql & " and fechaent between " & DBSet(FechaI, "F") & " and " & DBSet(FechaF, "F")
-    Sql = Sql & " and mid(hlinapu.codmacta,1," & Digitos & ") = tmpbalancesumas.cta) "
-    Sql = Sql & " where mid(tmpbalancesumas.cta,1,1) = '6' "
-    Sql = Sql & " and codusu = " & DBSet(vUsu.Codigo, "N") '& ")"
+    SQL = "update tmpbalancesumas set "
+    SQL = SQL & " totalh = (select sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
+    SQL = SQL & " and fechaent between " & DBSet(FechaI, "F") & " and " & DBSet(FechaF, "F")
+    SQL = SQL & " and mid(hlinapu.codmacta,1," & Digitos & ") = tmpbalancesumas.cta) "
+    SQL = SQL & " where mid(tmpbalancesumas.cta,1,1) = '6' "
+    SQL = SQL & " and codusu = " & DBSet(vUsu.Codigo, "N") '& ")"
     
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     IncrementarProgres pb2, 1
     
     'pasivo
-    Sql = "update tmpbalancesumas set "
-    Sql = Sql & " totalh = (select sum(coalesce(timporteh,0)) - sum(coalesce(timported,0)) from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
-    Sql = Sql & "   and fechaent between " & DBSet(FechaI, "F") & " and " & DBSet(FechaF, "F")
-    Sql = Sql & " and mid(hlinapu.codmacta,1," & Digitos & ") = tmpbalancesumas.cta) "
-    Sql = Sql & " where mid(tmpbalancesumas.cta,1,1) = '7' "
-    Sql = Sql & " and codusu = " & DBSet(vUsu.Codigo, "N") '& ")"
+    SQL = "update tmpbalancesumas set "
+    SQL = SQL & " totalh = (select sum(coalesce(timporteh,0)) - sum(coalesce(timported,0)) from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
+    SQL = SQL & "   and fechaent between " & DBSet(FechaI, "F") & " and " & DBSet(FechaF, "F")
+    SQL = SQL & " and mid(hlinapu.codmacta,1," & Digitos & ") = tmpbalancesumas.cta) "
+    SQL = SQL & " where mid(tmpbalancesumas.cta,1,1) = '7' "
+    SQL = SQL & " and codusu = " & DBSet(vUsu.Codigo, "N") '& ")"
     
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     IncrementarProgres pb2, 1
     
     
     'Actualizamos acumulados del periodo anterior
     'activo
-    Sql = "update tmpbalancesumas set "
-    Sql = Sql & " totald = (select sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
-    Sql = Sql & "   and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaFAnt, "F")
+    SQL = "update tmpbalancesumas set "
+    SQL = SQL & " totald = (select sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
+    SQL = SQL & "   and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaFAnt, "F")
     
     
     
     
     
-    Sql = Sql & " and mid(hlinapu.codmacta,1," & Digitos & ") = tmpbalancesumas.cta) "
-    Sql = Sql & " where mid(tmpbalancesumas.cta,1,1) = '6' "
-    Sql = Sql & " and codusu = " & DBSet(vUsu.Codigo, "N") '& ")"
+    SQL = SQL & " and mid(hlinapu.codmacta,1," & Digitos & ") = tmpbalancesumas.cta) "
+    SQL = SQL & " where mid(tmpbalancesumas.cta,1,1) = '6' "
+    SQL = SQL & " and codusu = " & DBSet(vUsu.Codigo, "N") '& ")"
     
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     IncrementarProgres pb2, 1
         
     'pasivo
-    Sql = "update tmpbalancesumas set "
-    Sql = Sql & " totald = (select sum(coalesce(timporteh,0)) - sum(coalesce(timported,0)) from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
-    Sql = Sql & " and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaFAnt, "F")
-    Sql = Sql & " and mid(hlinapu.codmacta,1," & Digitos & ") = tmpbalancesumas.cta) "
-    Sql = Sql & " where mid(tmpbalancesumas.cta,1,1) = '7' "
-    Sql = Sql & " and codusu = " & DBSet(vUsu.Codigo, "N") '& ")"
+    SQL = "update tmpbalancesumas set "
+    SQL = SQL & " totald = (select sum(coalesce(timporteh,0)) - sum(coalesce(timported,0)) from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
+    SQL = SQL & " and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaFAnt, "F")
+    SQL = SQL & " and mid(hlinapu.codmacta,1," & Digitos & ") = tmpbalancesumas.cta) "
+    SQL = SQL & " where mid(tmpbalancesumas.cta,1,1) = '7' "
+    SQL = SQL & " and codusu = " & DBSet(vUsu.Codigo, "N") '& ")"
     
-    Conn.Execute Sql
+    Conn.Execute SQL
         
     IncrementarProgres pb2, 1
     
     'borramos las cuentas que no tienen movimientos en ese periodo
-    Sql = "delete from tmpbalancesumas where codusu = " & vUsu.Codigo & " and totald is null and totalh is null"
-    Conn.Execute Sql
+    SQL = "delete from tmpbalancesumas where codusu = " & vUsu.Codigo & " and totald is null and totalh is null"
+    Conn.Execute SQL
     
     IncrementarProgres pb2, 1
     
     CargarTablaTemporal = True
         
-    pb2.Visible = False
+    pb2.visible = False
     Exit Function
         
         
 eCargarTablaTemporal:
-    pb2.Visible = False
+    pb2.visible = False
     MuestraError Err.Number, "Cargando tabla temporal", Err.Description
 End Function
 
@@ -1641,7 +1641,7 @@ Private Function DatosOK() As Boolean
     ' Uno y solo uno de los niveles tiene que estar marcado
     cad = ""
     For i = 1 To 10
-        If Me.chkCtaExplo(i).Visible Then
+        If Me.chkCtaExplo(i).visible Then
             If Me.chkCtaExplo(i).Value = 1 Then
                 If i < 10 Then
                     CONT = DigitosNivel(i)
@@ -1683,12 +1683,12 @@ Dim J As Integer
     
     'Y ademas deshabilitamos los niveles no utilizados por la aplicacion
     For i = vEmpresa.numnivel To 9
-        Me.chkCtaExplo(i).Visible = False
+        Me.chkCtaExplo(i).visible = False
     Next i
     
     For i = 1 To vEmpresa.numnivel - 1
         J = DigitosNivel(i)
-        chkCtaExplo(i).Visible = True
+        chkCtaExplo(i).visible = True
         chkCtaExplo(i).Caption = "Digitos: " & J
     Next i
 

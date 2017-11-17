@@ -1289,9 +1289,9 @@ Dim CONT As Integer
             CONT = Val(RecuperaValor(Legalizacion, 4))
             For i = 1 To 10
                 If i = CONT Then
-                    Check1(i).Value = 1
+                    check1(i).Value = 1
                 Else
-                    Check1(i).Value = 0
+                    check1(i).Value = 0
                 End If
             Next
 
@@ -1707,9 +1707,9 @@ Dim nomDocu As String
     CONT = 0
     UltimoNivel = 0
     For i = 1 To 10
-        If Check1(i).visible Then
+        If check1(i).visible Then
 '                If Check2(I).Value = 1 Then Cont = Cont + 1
-            If Check1(i).Value = 1 Then
+            If check1(i).Value = 1 Then
                 If i = 10 Then
                     cad = vEmpresa.DigitosUltimoNivel
                 Else
@@ -1794,7 +1794,7 @@ Private Function DatosOK() As Boolean
     
     CONT = 0
     For i = 1 To 10
-        If Check1(i).Value = 1 Then CONT = CONT + 1
+        If check1(i).Value = 1 Then CONT = CONT + 1
     Next i
     If CONT = 0 Then
         MsgBox "Seleccione como mínimo un nivel contable", vbExclamation
@@ -1815,8 +1815,8 @@ Dim J As Integer
     
     For i = 1 To vEmpresa.numnivel - 1
         J = DigitosNivel(i)
-        Check1(i).visible = True
-        Check1(i).Caption = "Digitos: " & J
+        check1(i).visible = True
+        check1(i).Caption = "Digitos: " & J
     Next i
 
     cmbFecha(2).Clear
@@ -1923,14 +1923,14 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
     
     'Nivel del que vamos a calcular los datos
     LenPrimerNivelCalculado = 0
-    If Check1(10).Value Then
+    If check1(10).Value Then
         LenPrimerNivelCalculado = vEmpresa.DigitosUltimoNivel
     Else
         For i = vEmpresa.numnivel - 1 To 1 Step -1
             
             If vConta = -1 Then
                 'Balance normal
-                If Check1(i).Value = 1 Then LenPrimerNivelCalculado = DigitosNivel(i)
+                If check1(i).Value = 1 Then LenPrimerNivelCalculado = DigitosNivel(i)
                 
             Else
 
@@ -1999,7 +1999,7 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
     'ultimo nivel y hay moivmientos para agrupar
     Agrupa = False
     If vConta < 0 And Me.chkAgrupacionCtasBalance.Value = 1 Then 'chekc de agrupar
-        If Check1(10).Value = 1 Then                 'sheck de ultimo nivel
+        If check1(10).Value = 1 Then                 'sheck de ultimo nivel
             Rs.Open "Select * from ctaagrupadas", Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             If Not Rs.EOF Then Agrupa = True
             Rs.Close
@@ -2030,12 +2030,12 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
         'Voy a ver si precargamos el RScon los datos para el cierr/pyg apertura
         'Veamos si precargamos los
         SQL = ""
-        If Check1(10).Value Then
+        If check1(10).Value Then
             'Esta chequeado ultimo nivel
             'Veamos si tiene seleccionado alguno mas
             SQL = "1"
             For CONT = 1 To 9
-                If Check1(CInt(CONT)).Value = 1 Then SQL = SQL & "1"
+                If check1(CInt(CONT)).Value = 1 Then SQL = SQL & "1"
             Next CONT
         End If
         PreCargarCierre = Len(SQL) = 1
@@ -2200,7 +2200,7 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
     For i = LenPrimerNivelCalculado - 1 To 1 Step -1
         If vConta = -1 Then
             'Balance normal
-            If Check1(i).Value = 1 Then LenNivelCalculado = DigitosNivel(i)
+            If check1(i).Value = 1 Then LenNivelCalculado = DigitosNivel(i)
             
         Else
 '                'Balance consolidado
@@ -2221,6 +2221,20 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
             SQL = SQL & " order by 1,2 "
             
             Conn.Execute SQL
+            
+            
+  
+  '              SQL = "update tmpbalancesumas set acumperd=acumperd-acumperh,acumperh=0 where cta like '" & Mid("__________", 1, LenNivelCalculado) & "' and acumperd<>0 and acumperh<>0 and acumperd-acumperh>=0 ;"
+  '              Conn.Execute SQL
+  '              SQL = "update tmpbalancesumas set acumperh=acumperh-acumperd,acumperd=0 where cta like '" & Mid("__________", 1, LenNivelCalculado) & "' and acumperd<>0 and acumperh<>0 and acumperh-acumperd>0 ;"
+  '              Conn.Execute SQL
+                
+                'En saldos solo habran mov al debe o al haber
+               ' SQL = "update tmpbalancesumas set totalD=totalD-totalH,totalH=0 where cta like '" & Mid("__________", 1, LenNivelCalculado) & "' and totalD<>0 and totalH<>0 and totalD-totalD>=0 ;"
+               ' Conn.Execute SQL
+               ' SQL = "update tmpbalancesumas set totalH=totalH-totalD,totalD=0 where cta like '" & Mid("__________", 1, LenNivelCalculado) & "' and totalD<>0 and totalH<>0 and totalD-totalD>0 ;"
+               ' Conn.Execute SQL
+           
             
             LenNivelCalculado = 0
         End If
@@ -2367,9 +2381,9 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
         CONT = 0
         UltimoNivel = 0
         For i = 1 To 10
-            If Check1(i).visible Then
+            If check1(i).visible Then
 '                If Check2(I).Value = 1 Then Cont = Cont + 1
-                If Check1(i).Value = 1 Then
+                If check1(i).Value = 1 Then
                     If i = 10 Then
                         cad = vEmpresa.DigitosUltimoNivel
                     Else
@@ -2509,18 +2523,18 @@ Dim J As Integer
 
     Frame2.visible = True
     Combo2.Clear
-    Check1(10).visible = True
+    check1(10).visible = True
     For i = 1 To vEmpresa.numnivel - 1
         J = DigitosNivel(i)
         cad = "Digitos: " & J
-        Check1(i).visible = True
-        Me.Check1(i).Caption = cad
+        check1(i).visible = True
+        Me.check1(i).Caption = cad
         
         Combo2.AddItem "Nivel :   " & i
         Combo2.ItemData(Combo2.NewIndex) = J
     Next i
     For i = vEmpresa.numnivel To 9
-        Check1(i).visible = False
+        check1(i).visible = False
     Next i
     
     
@@ -2535,8 +2549,8 @@ Private Sub HacerBalanceInicio()
         RC = ""
         For i = 1 To 10
             SQL = "0"
-            If Check1(i).visible Then
-                If Check1(i).Value = 1 Then SQL = "1"
+            If check1(i).visible Then
+                If check1(i).Value = 1 Then SQL = "1"
             End If
             RC = RC & SQL
         Next i
@@ -2578,9 +2592,9 @@ Private Sub HacerBalanceInicio()
         'Para cada nivel marcado veremos si tiene cuentas en la tmp
         CONT = 0
         For i = 1 To 10
-            If Check1(i).visible Then
+            If check1(i).visible Then
 '                If Check2(I).Value = 1 Then Cont = Cont + 1
-                If Check1(i).Value = 1 Then
+                If check1(i).Value = 1 Then
                     If i = 10 Then
                         cad = vEmpresa.DigitosUltimoNivel
                     Else

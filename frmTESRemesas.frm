@@ -1641,7 +1641,7 @@ Attribute frmMens2.VB_VarHelpID = -1
 Private frmMens As frmMensajes
 
 Dim SQL As String
-Dim RC As String
+Dim rc As String
 Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 

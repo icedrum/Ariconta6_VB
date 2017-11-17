@@ -85,6 +85,7 @@ Begin VB.Form frmCuentas
          _ExtentX        =   18971
          _ExtentY        =   10821
          _Version        =   393216
+         Tab             =   1
          TabHeight       =   520
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "Verdana"
@@ -97,119 +98,101 @@ Begin VB.Form frmCuentas
          EndProperty
          TabCaption(0)   =   "Datos cuentas"
          TabPicture(0)   =   "frmCuentas2.frx":685E
-         Tab(0).ControlEnabled=   -1  'True
-         Tab(0).Control(0)=   "Label1(11)"
-         Tab(0).Control(0).Enabled=   0   'False
-         Tab(0).Control(1)=   "Label1(2)"
-         Tab(0).Control(1).Enabled=   0   'False
-         Tab(0).Control(2)=   "Label1(7)"
-         Tab(0).Control(2).Enabled=   0   'False
-         Tab(0).Control(3)=   "Label1(3)"
-         Tab(0).Control(3).Enabled=   0   'False
-         Tab(0).Control(4)=   "Label1(4)"
-         Tab(0).Control(4).Enabled=   0   'False
-         Tab(0).Control(5)=   "Label1(5)"
-         Tab(0).Control(5).Enabled=   0   'False
-         Tab(0).Control(6)=   "Label1(6)"
-         Tab(0).Control(6).Enabled=   0   'False
-         Tab(0).Control(7)=   "Label1(8)"
-         Tab(0).Control(7).Enabled=   0   'False
-         Tab(0).Control(8)=   "Label1(9)"
-         Tab(0).Control(8).Enabled=   0   'False
-         Tab(0).Control(9)=   "Label1(10)"
-         Tab(0).Control(9).Enabled=   0   'False
-         Tab(0).Control(10)=   "Label1(22)"
-         Tab(0).Control(10).Enabled=   0   'False
-         Tab(0).Control(11)=   "imgppal(2)"
-         Tab(0).Control(11).Enabled=   0   'False
-         Tab(0).Control(12)=   "imgWeb(0)"
-         Tab(0).Control(12).Enabled=   0   'False
-         Tab(0).Control(13)=   "Image1(2)"
-         Tab(0).Control(13).Enabled=   0   'False
-         Tab(0).Control(14)=   "Image1(3)"
-         Tab(0).Control(14).Enabled=   0   'False
-         Tab(0).Control(15)=   "Label1(14)"
-         Tab(0).Control(15).Enabled=   0   'False
-         Tab(0).Control(16)=   "Image1(4)"
-         Tab(0).Control(16).Enabled=   0   'False
-         Tab(0).Control(17)=   "Label1(15)"
-         Tab(0).Control(17).Enabled=   0   'False
-         Tab(0).Control(18)=   "Image1(6)"
-         Tab(0).Control(18).Enabled=   0   'False
-         Tab(0).Control(19)=   "Label1(12)"
-         Tab(0).Control(19).Enabled=   0   'False
-         Tab(0).Control(20)=   "Label1(29)"
-         Tab(0).Control(20).Enabled=   0   'False
-         Tab(0).Control(21)=   "ToolbarMail"
-         Tab(0).Control(21).Enabled=   0   'False
-         Tab(0).Control(22)=   "Text1(12)"
-         Tab(0).Control(22).Enabled=   0   'False
-         Tab(0).Control(23)=   "Check1"
-         Tab(0).Control(23).Enabled=   0   'False
-         Tab(0).Control(24)=   "Text1(2)"
-         Tab(0).Control(24).Enabled=   0   'False
-         Tab(0).Control(25)=   "Text1(3)"
-         Tab(0).Control(25).Enabled=   0   'False
-         Tab(0).Control(26)=   "Text1(4)"
-         Tab(0).Control(26).Enabled=   0   'False
-         Tab(0).Control(27)=   "Text1(5)"
-         Tab(0).Control(27).Enabled=   0   'False
-         Tab(0).Control(28)=   "Text1(6)"
-         Tab(0).Control(28).Enabled=   0   'False
-         Tab(0).Control(29)=   "Text1(7)"
-         Tab(0).Control(29).Enabled=   0   'False
-         Tab(0).Control(30)=   "Text1(8)"
-         Tab(0).Control(30).Enabled=   0   'False
-         Tab(0).Control(31)=   "Text1(9)"
-         Tab(0).Control(31).Enabled=   0   'False
-         Tab(0).Control(32)=   "Text1(10)"
-         Tab(0).Control(32).Enabled=   0   'False
-         Tab(0).Control(33)=   "Text1(23)"
-         Tab(0).Control(33).Enabled=   0   'False
-         Tab(0).Control(34)=   "Text2(2)"
-         Tab(0).Control(34).Enabled=   0   'False
-         Tab(0).Control(35)=   "Text2(3)"
-         Tab(0).Control(35).Enabled=   0   'False
-         Tab(0).Control(36)=   "Text1(30)"
-         Tab(0).Control(36).Enabled=   0   'False
-         Tab(0).Control(37)=   "Text1(27)"
-         Tab(0).Control(37).Enabled=   0   'False
-         Tab(0).Control(38)=   "Text2(27)"
-         Tab(0).Control(38).Enabled=   0   'False
-         Tab(0).Control(39)=   "Check3"
-         Tab(0).Control(39).Enabled=   0   'False
-         Tab(0).Control(40)=   "Text1(35)"
-         Tab(0).Control(40).Enabled=   0   'False
-         Tab(0).Control(41)=   "Text1(36)"
-         Tab(0).Control(41).Enabled=   0   'False
+         Tab(0).ControlEnabled=   0   'False
+         Tab(0).Control(0)=   "Text1(36)"
+         Tab(0).Control(1)=   "Text1(35)"
+         Tab(0).Control(2)=   "Check3"
+         Tab(0).Control(3)=   "Text2(27)"
+         Tab(0).Control(4)=   "Text1(27)"
+         Tab(0).Control(5)=   "Text1(30)"
+         Tab(0).Control(6)=   "Text2(3)"
+         Tab(0).Control(7)=   "Text2(2)"
+         Tab(0).Control(8)=   "Text1(23)"
+         Tab(0).Control(9)=   "Text1(10)"
+         Tab(0).Control(10)=   "Text1(9)"
+         Tab(0).Control(11)=   "Text1(8)"
+         Tab(0).Control(12)=   "Text1(7)"
+         Tab(0).Control(13)=   "Text1(6)"
+         Tab(0).Control(14)=   "Text1(5)"
+         Tab(0).Control(15)=   "Text1(4)"
+         Tab(0).Control(16)=   "Text1(3)"
+         Tab(0).Control(17)=   "Text1(2)"
+         Tab(0).Control(18)=   "Check1"
+         Tab(0).Control(19)=   "Text1(12)"
+         Tab(0).Control(20)=   "ToolbarMail"
+         Tab(0).Control(21)=   "Label1(29)"
+         Tab(0).Control(22)=   "Label1(12)"
+         Tab(0).Control(23)=   "Image1(6)"
+         Tab(0).Control(24)=   "Label1(15)"
+         Tab(0).Control(25)=   "Image1(4)"
+         Tab(0).Control(26)=   "Label1(14)"
+         Tab(0).Control(27)=   "Image1(3)"
+         Tab(0).Control(28)=   "Image1(2)"
+         Tab(0).Control(29)=   "imgWeb(0)"
+         Tab(0).Control(30)=   "imgppal(2)"
+         Tab(0).Control(31)=   "Label1(22)"
+         Tab(0).Control(32)=   "Label1(10)"
+         Tab(0).Control(33)=   "Label1(9)"
+         Tab(0).Control(34)=   "Label1(8)"
+         Tab(0).Control(35)=   "Label1(6)"
+         Tab(0).Control(36)=   "Label1(5)"
+         Tab(0).Control(37)=   "Label1(4)"
+         Tab(0).Control(38)=   "Label1(3)"
+         Tab(0).Control(39)=   "Label1(7)"
+         Tab(0).Control(40)=   "Label1(2)"
+         Tab(0).Control(41)=   "Label1(11)"
          Tab(0).ControlCount=   42
          TabCaption(1)   =   "Tesorería"
          TabPicture(1)   =   "frmCuentas2.frx":687A
-         Tab(1).ControlEnabled=   0   'False
-         Tab(1).Control(0)=   "Check4"
-         Tab(1).Control(1)=   "cmdSepa"
-         Tab(1).Control(2)=   "Text1(34)"
-         Tab(1).Control(3)=   "Text1(33)"
-         Tab(1).Control(4)=   "Text1(32)"
-         Tab(1).Control(5)=   "Text1(31)"
-         Tab(1).Control(6)=   "Frame4"
-         Tab(1).Control(7)=   "Text1(16)"
-         Tab(1).Control(8)=   "Text1(15)"
-         Tab(1).Control(9)=   "Text1(14)"
-         Tab(1).Control(10)=   "Text1(13)"
-         Tab(1).Control(11)=   "Text2(1)"
-         Tab(1).Control(12)=   "Text2(0)"
-         Tab(1).Control(13)=   "Text1(26)"
-         Tab(1).Control(14)=   "Text1(25)"
-         Tab(1).Control(15)=   "Text1(29)"
-         Tab(1).Control(16)=   "imgppal(4)"
-         Tab(1).Control(17)=   "Label1(27)"
-         Tab(1).Control(18)=   "Label1(26)"
-         Tab(1).Control(19)=   "Image1(0)"
-         Tab(1).Control(20)=   "Image1(1)"
-         Tab(1).Control(21)=   "Label1(24)"
-         Tab(1).Control(22)=   "Label1(21)"
-         Tab(1).Control(23)=   "Label1(28)"
+         Tab(1).ControlEnabled=   -1  'True
+         Tab(1).Control(0)=   "Label1(28)"
+         Tab(1).Control(0).Enabled=   0   'False
+         Tab(1).Control(1)=   "Label1(21)"
+         Tab(1).Control(1).Enabled=   0   'False
+         Tab(1).Control(2)=   "Label1(24)"
+         Tab(1).Control(2).Enabled=   0   'False
+         Tab(1).Control(3)=   "Image1(1)"
+         Tab(1).Control(3).Enabled=   0   'False
+         Tab(1).Control(4)=   "Image1(0)"
+         Tab(1).Control(4).Enabled=   0   'False
+         Tab(1).Control(5)=   "Label1(26)"
+         Tab(1).Control(5).Enabled=   0   'False
+         Tab(1).Control(6)=   "Label1(27)"
+         Tab(1).Control(6).Enabled=   0   'False
+         Tab(1).Control(7)=   "imgppal(4)"
+         Tab(1).Control(7).Enabled=   0   'False
+         Tab(1).Control(8)=   "Text1(29)"
+         Tab(1).Control(8).Enabled=   0   'False
+         Tab(1).Control(9)=   "Text1(25)"
+         Tab(1).Control(9).Enabled=   0   'False
+         Tab(1).Control(10)=   "Text1(26)"
+         Tab(1).Control(10).Enabled=   0   'False
+         Tab(1).Control(11)=   "Text2(0)"
+         Tab(1).Control(11).Enabled=   0   'False
+         Tab(1).Control(12)=   "Text2(1)"
+         Tab(1).Control(12).Enabled=   0   'False
+         Tab(1).Control(13)=   "Text1(13)"
+         Tab(1).Control(13).Enabled=   0   'False
+         Tab(1).Control(14)=   "Text1(14)"
+         Tab(1).Control(14).Enabled=   0   'False
+         Tab(1).Control(15)=   "Text1(15)"
+         Tab(1).Control(15).Enabled=   0   'False
+         Tab(1).Control(16)=   "Text1(16)"
+         Tab(1).Control(16).Enabled=   0   'False
+         Tab(1).Control(17)=   "Frame4"
+         Tab(1).Control(17).Enabled=   0   'False
+         Tab(1).Control(18)=   "Text1(31)"
+         Tab(1).Control(18).Enabled=   0   'False
+         Tab(1).Control(19)=   "Text1(32)"
+         Tab(1).Control(19).Enabled=   0   'False
+         Tab(1).Control(20)=   "Text1(33)"
+         Tab(1).Control(20).Enabled=   0   'False
+         Tab(1).Control(21)=   "Text1(34)"
+         Tab(1).Control(21).Enabled=   0   'False
+         Tab(1).Control(22)=   "cmdSepa"
+         Tab(1).Control(22).Enabled=   0   'False
+         Tab(1).Control(23)=   "Check4"
+         Tab(1).Control(23).Enabled=   0   'False
          Tab(1).ControlCount=   24
          TabCaption(2)   =   "Departamentos"
          TabPicture(2)   =   "frmCuentas2.frx":6896
@@ -228,7 +211,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   36
-            Left            =   8160
+            Left            =   -66840
             MaxLength       =   30
             TabIndex        =   103
             Tag             =   "Mov|T|S|||cuentas|movilcta|||"
@@ -248,7 +231,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   35
-            Left            =   5880
+            Left            =   -69120
             MaxLength       =   30
             TabIndex        =   101
             Tag             =   "T|T|S|||cuentas|telefonocta|||"
@@ -268,7 +251,7 @@ Begin VB.Form frmCuentas
                Strikethrough   =   0   'False
             EndProperty
             Height          =   240
-            Left            =   -66960
+            Left            =   8040
             TabIndex        =   23
             Tag             =   "Modelo|N|S|||cuentas|embargo|||"
             Top             =   840
@@ -276,7 +259,7 @@ Begin VB.Form frmCuentas
          End
          Begin VB.CommandButton cmdSepa 
             Height          =   375
-            Left            =   -68880
+            Left            =   6120
             Picture         =   "frmCuentas2.frx":68B2
             Style           =   1  'Graphical
             TabIndex        =   100
@@ -295,11 +278,12 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   34
-            Left            =   -68580
+            Left            =   9840
             MaxLength       =   4
             TabIndex        =   22
             Text            =   "Text"
-            Top             =   720
+            Top             =   840
+            Visible         =   0   'False
             Width           =   720
          End
          Begin VB.TextBox Text1 
@@ -314,11 +298,12 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   33
-            Left            =   -69360
+            Left            =   10200
             MaxLength       =   4
             TabIndex        =   21
             Text            =   "Text"
-            Top             =   720
+            Top             =   480
+            Visible         =   0   'False
             Width           =   720
          End
          Begin VB.TextBox Text1 
@@ -333,7 +318,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   32
-            Left            =   -66060
+            Left            =   8940
             TabIndex        =   28
             Tag             =   "Fecha Mandato|F|S|||cuentas|SEPA_FecFirma|dd/mm/yyyy||"
             Text            =   "0000000000"
@@ -352,7 +337,7 @@ Begin VB.Form frmCuentas
                Strikethrough   =   0   'False
             EndProperty
             Height          =   240
-            Left            =   6120
+            Left            =   -68880
             TabIndex        =   98
             Tag             =   "Cuenta Múltiple|N|S|||cuentas|esctamultiple|||"
             Top             =   4740
@@ -370,7 +355,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   31
-            Left            =   -72570
+            Left            =   2430
             MaxLength       =   35
             TabIndex        =   27
             Tag             =   "Cta banco|T|S|||cuentas|SEPA_Refere|||"
@@ -389,7 +374,7 @@ Begin VB.Form frmCuentas
                Strikethrough   =   0   'False
             EndProperty
             Height          =   2655
-            Left            =   -74910
+            Left            =   90
             TabIndex        =   87
             Top             =   3330
             Width           =   10455
@@ -736,7 +721,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   27
-            Left            =   1500
+            Left            =   -73500
             TabIndex        =   85
             Top             =   4050
             Width           =   4347
@@ -753,7 +738,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   27
-            Left            =   150
+            Left            =   -74850
             MaxLength       =   10
             TabIndex        =   13
             Tag             =   "Contrapartida Habitual|T|S|||cuentas|codcontrhab|||"
@@ -773,11 +758,12 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   16
-            Left            =   -70164
+            Left            =   8880
             MaxLength       =   4
             TabIndex        =   20
             Text            =   "Text"
-            Top             =   720
+            Top             =   480
+            Visible         =   0   'False
             Width           =   720
          End
          Begin VB.TextBox Text1 
@@ -792,11 +778,12 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   15
-            Left            =   -70966
+            Left            =   10200
             MaxLength       =   4
             TabIndex        =   19
             Text            =   "Text1"
-            Top             =   720
+            Top             =   960
+            Visible         =   0   'False
             Width           =   720
          End
          Begin VB.TextBox Text1 
@@ -811,11 +798,12 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   14
-            Left            =   -71768
+            Left            =   9600
             MaxLength       =   4
             TabIndex        =   18
             Text            =   "Text1"
-            Top             =   720
+            Top             =   360
+            Visible         =   0   'False
             Width           =   720
          End
          Begin VB.TextBox Text1 
@@ -830,12 +818,12 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   13
-            Left            =   -72570
-            MaxLength       =   4
+            Left            =   2430
+            MaxLength       =   40
             TabIndex        =   17
             Text            =   "Text1"
             Top             =   720
-            Width           =   720
+            Width           =   5025
          End
          Begin VB.TextBox Text1 
             BeginProperty Font 
@@ -849,7 +837,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   30
-            Left            =   150
+            Left            =   -74850
             MaxLength       =   2
             TabIndex        =   14
             Tag             =   "Iva|N|S|||cuentas|codigiva|00||"
@@ -871,7 +859,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   3
-            Left            =   960
+            Left            =   -74040
             TabIndex        =   82
             Top             =   4680
             Width           =   4785
@@ -890,7 +878,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   2
-            Left            =   6450
+            Left            =   -68550
             TabIndex        =   81
             Top             =   2670
             Width           =   3675
@@ -1139,7 +1127,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   1
-            Left            =   -71100
+            Left            =   3900
             TabIndex        =   71
             Top             =   1860
             Width           =   6345
@@ -1158,7 +1146,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   0
-            Left            =   -71100
+            Left            =   3900
             TabIndex        =   70
             Top             =   1290
             Width           =   6345
@@ -1175,7 +1163,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   26
-            Left            =   -72570
+            Left            =   2430
             MaxLength       =   10
             TabIndex        =   26
             Tag             =   "Cta banco|T|S|||cuentas|ctabanco|||"
@@ -1194,7 +1182,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   25
-            Left            =   -72570
+            Left            =   2430
             MaxLength       =   10
             TabIndex        =   25
             Tag             =   "For. pago|N|S|||cuentas|forpa|||"
@@ -1214,7 +1202,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   23
-            Left            =   8370
+            Left            =   -66630
             MaxLength       =   15
             TabIndex        =   15
             Tag             =   "NIF|F|S|||cuentas|fecbloq|||"
@@ -1234,7 +1222,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   705
             Index           =   10
-            Left            =   150
+            Left            =   -74850
             MultiLine       =   -1  'True
             ScrollBars      =   2  'Vertical
             TabIndex        =   16
@@ -1255,7 +1243,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   9
-            Left            =   5880
+            Left            =   -69120
             MaxLength       =   50
             TabIndex        =   12
             Tag             =   "Direccion web|T|S|||cuentas|webdatos|||"
@@ -1275,7 +1263,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   8
-            Left            =   150
+            Left            =   -74850
             MaxLength       =   40
             TabIndex        =   11
             Tag             =   "E-Mail|T|S|||cuentas|maidatos|||"
@@ -1295,7 +1283,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   7
-            Left            =   7500
+            Left            =   -67500
             MaxLength       =   15
             TabIndex        =   4
             Tag             =   "NIF|T|S|||cuentas|nifdatos|||"
@@ -1315,7 +1303,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   6
-            Left            =   1530
+            Left            =   -73470
             MaxLength       =   30
             TabIndex        =   9
             Tag             =   "Provincia|T|S|||cuentas|desprovi|||"
@@ -1335,7 +1323,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   5
-            Left            =   150
+            Left            =   -74850
             MaxLength       =   50
             TabIndex        =   7
             Tag             =   "Población|T|S|||cuentas|despobla|||"
@@ -1355,7 +1343,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   4
-            Left            =   165
+            Left            =   -74835
             MaxLength       =   6
             TabIndex        =   8
             Tag             =   "Cod. Postal|T|S|||cuentas|codposta|||"
@@ -1375,7 +1363,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   3
-            Left            =   150
+            Left            =   -74850
             MaxLength       =   50
             TabIndex        =   6
             Tag             =   "Domicilio|T|S|||cuentas|dirdatos|||"
@@ -1395,7 +1383,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   2
-            Left            =   150
+            Left            =   -74850
             MaxLength       =   60
             TabIndex        =   3
             Tag             =   "Razón social|T|S|||cuentas|razosoci|||"
@@ -1414,7 +1402,7 @@ Begin VB.Form frmCuentas
                Strikethrough   =   0   'False
             EndProperty
             Height          =   240
-            Left            =   9420
+            Left            =   -65580
             TabIndex        =   5
             Tag             =   "Modelo|N|S|||cuentas|model347|||"
             Top             =   720
@@ -1432,7 +1420,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   12
-            Left            =   5880
+            Left            =   -69120
             MaxLength       =   2
             TabIndex        =   10
             Tag             =   "Pais|T|S|||cuentas|codpais|||"
@@ -1442,7 +1430,7 @@ Begin VB.Form frmCuentas
          End
          Begin MSComctlLib.Toolbar ToolbarMail 
             Height          =   390
-            Left            =   930
+            Left            =   -74070
             TabIndex        =   73
             Top             =   3000
             Width           =   375
@@ -1470,7 +1458,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   360
             Index           =   29
-            Left            =   -68520
+            Left            =   6480
             MaxLength       =   40
             TabIndex        =   24
             Tag             =   "IBAN|T|S|||cuentas|iban|||"
@@ -1491,7 +1479,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   255
             Index           =   29
-            Left            =   8175
+            Left            =   -66825
             TabIndex        =   104
             Top             =   3780
             Width           =   2025
@@ -1509,7 +1497,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   255
             Index           =   12
-            Left            =   5895
+            Left            =   -69105
             TabIndex        =   102
             Top             =   3780
             Width           =   1905
@@ -1517,7 +1505,7 @@ Begin VB.Form frmCuentas
          Begin VB.Image imgppal 
             Height          =   240
             Index           =   4
-            Left            =   -66360
+            Left            =   8640
             Picture         =   "frmCuentas2.frx":747E
             Top             =   2430
             Width           =   240
@@ -1535,7 +1523,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   195
             Index           =   27
-            Left            =   -74790
+            Left            =   210
             TabIndex        =   97
             Top             =   2430
             Width           =   1455
@@ -1543,7 +1531,7 @@ Begin VB.Form frmCuentas
          Begin VB.Image Image1 
             Height          =   240
             Index           =   6
-            Left            =   2460
+            Left            =   -72540
             Top             =   3750
             Width           =   240
          End
@@ -1560,7 +1548,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   255
             Index           =   15
-            Left            =   150
+            Left            =   -74850
             TabIndex        =   86
             Top             =   3780
             Width           =   2355
@@ -1578,7 +1566,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   255
             Index           =   26
-            Left            =   -74790
+            Left            =   210
             TabIndex        =   84
             Top             =   720
             Width           =   585
@@ -1586,7 +1574,7 @@ Begin VB.Form frmCuentas
          Begin VB.Image Image1 
             Height          =   240
             Index           =   4
-            Left            =   1740
+            Left            =   -73260
             Top             =   5040
             Width           =   240
          End
@@ -1603,7 +1591,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   255
             Index           =   14
-            Left            =   180
+            Left            =   -74820
             TabIndex        =   83
             Top             =   4440
             Width           =   405
@@ -1611,21 +1599,21 @@ Begin VB.Form frmCuentas
          Begin VB.Image Image1 
             Height          =   240
             Index           =   3
-            Left            =   600
+            Left            =   -74400
             Top             =   4440
             Width           =   240
          End
          Begin VB.Image Image1 
             Height          =   240
             Index           =   2
-            Left            =   6360
+            Left            =   -68640
             Top             =   2370
             Width           =   240
          End
          Begin VB.Image imgWeb 
             Height          =   240
             Index           =   0
-            Left            =   7380
+            Left            =   -67620
             Picture         =   "frmCuentas2.frx":7509
             Top             =   3060
             Width           =   240
@@ -1633,14 +1621,14 @@ Begin VB.Form frmCuentas
          Begin VB.Image Image1 
             Height          =   240
             Index           =   0
-            Left            =   -72900
+            Left            =   2100
             Top             =   1320
             Width           =   240
          End
          Begin VB.Image Image1 
             Height          =   240
             Index           =   1
-            Left            =   -72900
+            Left            =   2100
             Top             =   1890
             Width           =   240
          End
@@ -1657,7 +1645,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   195
             Index           =   24
-            Left            =   -74790
+            Left            =   210
             TabIndex        =   69
             Top             =   1860
             Width           =   1455
@@ -1675,7 +1663,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   345
             Index           =   21
-            Left            =   -74790
+            Left            =   210
             TabIndex        =   68
             Top             =   1290
             Width           =   1425
@@ -1683,7 +1671,7 @@ Begin VB.Form frmCuentas
          Begin VB.Image imgppal 
             Height          =   240
             Index           =   2
-            Left            =   9870
+            Left            =   -65130
             Picture         =   "frmCuentas2.frx":7A93
             Top             =   4410
             Width           =   240
@@ -1701,7 +1689,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   255
             Index           =   22
-            Left            =   8370
+            Left            =   -66630
             TabIndex        =   62
             Top             =   4440
             Width           =   1440
@@ -1719,7 +1707,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   255
             Index           =   10
-            Left            =   165
+            Left            =   -74835
             TabIndex        =   61
             Top             =   5040
             Width           =   1485
@@ -1737,7 +1725,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   255
             Index           =   9
-            Left            =   5865
+            Left            =   -69135
             TabIndex        =   60
             Top             =   3060
             Width           =   1905
@@ -1755,7 +1743,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   255
             Index           =   8
-            Left            =   150
+            Left            =   -74850
             TabIndex        =   59
             Top             =   3060
             Width           =   855
@@ -1773,7 +1761,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   255
             Index           =   6
-            Left            =   1545
+            Left            =   -73455
             TabIndex        =   58
             Top             =   2430
             Width           =   1905
@@ -1791,7 +1779,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   195
             Index           =   5
-            Left            =   150
+            Left            =   -74850
             TabIndex        =   57
             Top             =   1710
             Width           =   1125
@@ -1809,7 +1797,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   255
             Index           =   4
-            Left            =   150
+            Left            =   -74850
             TabIndex        =   56
             Top             =   2430
             Width           =   1065
@@ -1827,7 +1815,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   195
             Index           =   3
-            Left            =   135
+            Left            =   -74865
             TabIndex        =   55
             Top             =   1080
             Width           =   1170
@@ -1845,7 +1833,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   255
             Index           =   7
-            Left            =   7500
+            Left            =   -67500
             TabIndex        =   54
             Top             =   420
             Width           =   1320
@@ -1863,7 +1851,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   195
             Index           =   2
-            Left            =   150
+            Left            =   -74850
             TabIndex        =   53
             Top             =   390
             Width           =   1725
@@ -1881,7 +1869,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   255
             Index           =   11
-            Left            =   5880
+            Left            =   -69120
             TabIndex        =   52
             Top             =   2430
             Width           =   465
@@ -1899,7 +1887,7 @@ Begin VB.Form frmCuentas
             EndProperty
             Height          =   195
             Index           =   28
-            Left            =   -68280
+            Left            =   6720
             TabIndex        =   99
             Top             =   2460
             Width           =   1995
@@ -2420,33 +2408,8 @@ Private Sub cmdAceptar_Click()
     Case 3
             'Si hay busqueda
             CadenaDesdeOtroForm = ""
+            Text1(29).Text = Text1(13).Text
             SQL = ObtenerBusqueda2(Me, , 1)
-            
-            If Text1(13).Text <> "" Then
-                If SQL <> "" Then SQL = SQL & " and "
-                SQL = SQL & "mid(iban,1,4) = " & DBSet(Text1(13).Text, "T")
-            End If
-            If Text1(14).Text <> "" Then
-                If SQL <> "" Then SQL = SQL & " and "
-                SQL = SQL & "mid(iban,5,4) = " & DBSet(Text1(14).Text, "T")
-            End If
-            If Text1(15).Text <> "" Then
-                If SQL <> "" Then SQL = SQL & " and "
-                SQL = SQL & "mid(iban,9,4) = " & DBSet(Text1(15).Text, "T")
-            End If
-            If Text1(16).Text <> "" Then
-                If SQL <> "" Then SQL = SQL & " and "
-                SQL = SQL & "mid(iban,13,4) = " & DBSet(Text1(16).Text, "T")
-            End If
-            If Text1(33).Text <> "" Then
-                If SQL <> "" Then SQL = SQL & " and "
-                SQL = SQL & "mid(iban,17,4) = " & DBSet(Text1(33).Text, "T")
-            End If
-            If Text1(34).Text <> "" Then
-                If SQL <> "" Then SQL = SQL & " and "
-                SQL = SQL & "mid(iban,21,4) = " & DBSet(Text1(34).Text, "T")
-            End If
-
             
             Dim Sql2 As String
             Sql2 = ObtenerBusqueda2(Me, , 2, "FrameAux2")
@@ -2547,7 +2510,7 @@ Private Sub cmdCopiarDatos_Click(Index As Integer)
 Dim EmpresaSt As String
 
     If Index = 0 Or Index = 2 Then
-       If Not Frame1.Visible Then
+       If Not Frame1.visible Then
             MsgBox "Solo se pueden copiar datos para las cuentas a ultimo nivel", vbExclamation
             Exit Sub
         End If
@@ -2657,15 +2620,15 @@ Private Sub Form_Load()
     Text1(0).Enabled = True
     Text1(0).MaxLength = vEmpresa.DigitosUltimoNivel
     EnablarText (vModo <> 0)
-    cmdCopiarDatos(0).Visible = vModo = 1
-    cmdCopiarDatos(1).Visible = vModo = 1 Or vModo = 2
-    cmdSepa.Visible = vModo = 0
+    cmdCopiarDatos(0).visible = vModo = 1
+    cmdCopiarDatos(1).visible = vModo = 1 Or vModo = 2
+    cmdSepa.visible = vModo = 0
     
     For i = 0 To Me.imgppal.Count - 1
-        Me.imgppal(i).Visible = vModo > 0
+        Me.imgppal(i).visible = vModo > 0
     Next i
     
-    FrGranEmpresa.Visible = False
+    FrGranEmpresa.visible = False
     
     ' La Ayuda
     With Me.ToolbarMail
@@ -2705,11 +2668,11 @@ Private Sub Form_Load()
             If CodCta <> "" Then Text1(0).Text = CodCta
             '347
             Check1.Value = 1
-            Frame1.Visible = True
+            Frame1.visible = True
             Frame1.Enabled = False
             lblIndicador.Caption = "INSERTAR"
             
-            Me.cmdCopiarDatos(2).Visible = HayMasDeUnaEmpresa
+            Me.cmdCopiarDatos(2).visible = HayMasDeUnaEmpresa
             
             CargaGrid 2, False
             
@@ -2728,7 +2691,7 @@ Private Sub Form_Load()
             Modo = 1
     
             LimpiarCampos
-            Frame1.Visible = True
+            Frame1.visible = True
             lblIndicador.Caption = "BUSQUEDA"
     
             CargaGrid 2, False
@@ -2769,7 +2732,7 @@ Private Sub Form_Load()
         Me.Text1(30).Enabled = True
         For i = 2 To 3
             Me.Image1(i).Enabled = True
-            Me.Image1(i).Visible = True
+            Me.Image1(i).visible = True
         Next i
         
     Else
@@ -2777,7 +2740,7 @@ Private Sub Form_Load()
         Me.Text1(30).Enabled = False
         For i = 2 To 3
             Me.Image1(i).Enabled = False
-            Me.Image1(i).Visible = False
+            Me.Image1(i).visible = False
         Next i
     End If
     
@@ -2791,9 +2754,9 @@ Private Sub Form_Load()
     
     
     ' copiar de otra contabilidad solo puede ser si estamos insertando
-    cmdCopiarDatos(0).Visible = (Modo = 3)
+    cmdCopiarDatos(0).visible = (Modo = 3)
     cmdCopiarDatos(0).Enabled = (Modo = 3)
-    cmdCopiarDatos(2).Visible = (Modo = 3)
+    cmdCopiarDatos(2).visible = (Modo = 3)
     cmdCopiarDatos(2).Enabled = (Modo = 3)
     
     
@@ -2806,7 +2769,7 @@ Private Sub ImgVisibleCtaHab()
     B = ((Modo = 3 Or Modo = 4) And (Mid(Text1(0).Text, 1, 1) = "4" Or Mid(Text1(0).Text, 1, 1) = "5")) And chkUltimo.Value = 1
     Text1(27).Enabled = B
     Me.Image1(6).Enabled = B
-    Me.Image1(6).Visible = B
+    Me.Image1(6).visible = B
     
 End Sub
 
@@ -2859,12 +2822,12 @@ Dim Valor
         If Rs.Fields!apudirec = "S" Then
             chkUltimo.Value = 1
             Text1(11).Text = "S"
-            Me.Frame1.Visible = True
+            Me.Frame1.visible = True
             varBloqCta = Text1(23).Text
 
             Else
             chkUltimo.Value = 0
-            Frame1.Visible = False
+            Frame1.visible = False
             Text1(24).Text = Text1(10).Text
             Text1(11).Text = "N"
         End If
@@ -2874,8 +2837,8 @@ Dim Valor
         
         Check4.Value = DBLet(Rs!embargo, "N")
         
-        Check2.Visible = (Len(Text1(0).Text) = 3)
-        lbl347.Visible = (Len(Text1(0).Text) = 3)
+        Check2.visible = (Len(Text1(0).Text) = 3)
+        lbl347.visible = (Len(Text1(0).Text) = 3)
         
         Check3.Value = DBLet(Rs!esctamultiple, "N") = 1
         
@@ -2887,39 +2850,8 @@ Dim Valor
         Set mTag = Nothing
 
 
-        Text1(13).Text = ""
-        Text1(14).Text = ""
-        Text1(15).Text = ""
-        Text1(16).Text = ""
-        Text1(33).Text = ""
-        Text1(34).Text = ""
-        
-        Text1(13).ToolTipText = ""
-        Text1(14).ToolTipText = ""
-        Text1(15).ToolTipText = ""
-        Text1(16).ToolTipText = ""
-        Text1(33).ToolTipText = ""
-        Text1(34).ToolTipText = ""
-
-        If Text1(29).Text <> "" Then
-            Text1(13).Text = Mid(Text1(29).Text, 1, 4)
-            Text1(14).Text = Mid(Text1(29).Text, 5, 4)
-            Text1(15).Text = Mid(Text1(29).Text, 9, 4)
-            Text1(16).Text = Mid(Text1(29).Text, 13, 4)
-            Text1(33).Text = Mid(Text1(29).Text, 17, 4)
-            Text1(34).Text = Mid(Text1(29).Text, 21, 4)
+        Text1(13).Text = DevuelveIBANSeparado(Text1(29).Text)
             
-            Dim CCC As String
-            CCC = Text1(13).Text & " " & Text1(14).Text & " " & Text1(15).Text & " " & Mid(Text1(16).Text, 1, 2) & " " & Mid(Text1(16).Text, 3, 2) & Text1(33).Text & Text1(34).Text
-            
-            Text1(13).ToolTipText = CCC
-            Text1(14).ToolTipText = CCC
-            Text1(15).ToolTipText = CCC
-            Text1(16).ToolTipText = CCC
-            Text1(33).ToolTipText = CCC
-            Text1(34).ToolTipText = CCC
-            
-        End If
 
     If Text1(26).Text <> "" And Len(Text1(0).Text) = 3 Then
         txtRegularizacion.Text = Text1(26).Text
@@ -2946,7 +2878,7 @@ Dim B As Boolean
             End If
         End If
     End If
-    Me.FrGranEmpresa.Visible = B
+    Me.FrGranEmpresa.visible = B
 End Sub
 
 Private Sub frmBan_DatoSeleccionado(CadenaSeleccion As String)
@@ -3155,14 +3087,14 @@ Private Sub Text1_LostFocus(Index As Integer)
     Dim mTag As CTag
     Dim Im As Currency
     
-    If vModo = 3 Then
-        If Text1(13).Text <> "" Then Text1(13).Text = UCase(Text1(13).Text)
-        If Text1(14).Text <> "" Then Text1(14).Text = Format(Text1(14).Text, "0000")
-        If Text1(15).Text <> "" Then Text1(15).Text = Format(Text1(15).Text, "0000")
-        If Text1(16).Text <> "" Then Text1(16).Text = Format(Text1(16).Text, "0000")
-        If Text1(33).Text <> "" Then Text1(16).Text = Format(Text1(33).Text, "0000")
-        If Text1(34).Text <> "" Then Text1(16).Text = Format(Text1(34).Text, "0000")
-    End If
+'    If vModo = 3 Then
+'        If Text1(13).Text <> "" Then Text1(13).Text = UCase(Text1(13).Text)
+'        If Text1(14).Text <> "" Then Text1(14).Text = Format(Text1(14).Text, "0000")
+'        If Text1(15).Text <> "" Then Text1(15).Text = Format(Text1(15).Text, "0000")
+'        If Text1(16).Text <> "" Then Text1(16).Text = Format(Text1(16).Text, "0000")
+'        If Text1(33).Text <> "" Then Text1(16).Text = Format(Text1(33).Text, "0000")
+'        If Text1(34).Text <> "" Then Text1(16).Text = Format(Text1(34).Text, "0000")
+'    End If
     
     
     If vModo = 3 Or vModo = 0 Then Exit Sub 'Busqueda avanzada o ver solo
@@ -3174,7 +3106,7 @@ Private Sub Text1_LostFocus(Index As Integer)
     End If
     If Text1(Index).Text = "" Then
         If Index = 0 Then
-            Frame1.Visible = True
+            Frame1.visible = True
             chkUltimo.Value = 0
         ElseIf Index = 25 Then
             Text2(0).Text = ""
@@ -3200,47 +3132,25 @@ Private Sub Text1_LostFocus(Index As Integer)
                 If Text1(12).Text = "" Then Text1(12).Text = "ESPAÑA"
             End If
         '....
-        Case 13 To 16, 33, 34
-            If vModo = 2 Then
-                
-                If Index <> 13 Then
-                    If Not EsNumerico(Text1(Index).Text) Then
-                        PonFoco Text1(Index)
-                        Exit Sub
+        'Case 13 To 16, 33, 34
+        Case 13
+            SQL = ""
+            Text1(Index).Text = Trim(Text1(Index).Text)
+            If Text1(Index).Text <> "" Then
+                Text1(Index).Text = UCase(Text1(Index).Text)
+                SQL = Replace(Text1(Index).Text, " ", "")
+                If Not EsIBAN_Correcto(SQL) Then
+                    If Mid(Text1(13).Text, 1, 2) = "ES" Then
+                        MsgBox "IBAN incorrecto.", vbExclamation
                     Else
-                        Text1(Index).Text = Format(Text1(Index).Text, "0000")
-                    End If
-                
-                    If Text1(14).Text <> "" And Text1(15).Text <> "" And Text1(16).Text <> "" And Text1(33).Text <> "" And Text1(34).Text <> "" Then
-                        ' comprobamos si es correcto
-                        SQL = Format(Text1(14).Text, "0000") & Format(Text1(15).Text, "0000") & Format(Text1(16).Text, "0000") & Format(Text1(33).Text, "0000") & Format(Text1(34).Text, "0000")
-                        
-                    End If
-                Else
-                
-                    If Mid(Text1(Index).Text, 1, 2) = "ES" Then
-                        If Not IBAN_Correcto(Me.Text1(Index).Text) Then Text1(Index).Text = ""
-                
+                        MsgBox "IBAN paraece incorrecto.", vbExclamation
                     End If
                 End If
-                
-                If Text1(13).Text <> "" And Text1(14).Text <> "" And Text1(15).Text <> "" And Text1(16).Text <> "" And Text1(33).Text <> "" And Text1(34).Text <> "" Then
-                    
-                    SQL = Format(Text1(14).Text, "0000") & Format(Text1(15).Text, "0000") & Format(Text1(16).Text, "0000") & Format(Text1(33).Text, "0000") & Format(Text1(34).Text, "0000")
-            
-                    Sql2 = CStr(Mid(Text1(13).Text, 1, 2))
-                    If DevuelveIBAN2(CStr(Sql2), SQL, SQL) Then
-                        If Mid(Text1(13).Text, 3, 2) <> SQL Then
-                            
-                            MsgBox "Codigo IBAN distinto del calculado [" & Sql2 & SQL & "]", vbExclamation
-                        End If
-                    End If
-                
-                End If
-                
-                Text1(29).Text = Text1(13).Text & Format(ComprobarCero(Text1(14).Text), "0000") & Format(ComprobarCero(Text1(15).Text), "0000") & Format(ComprobarCero(Text1(16).Text), "0000") & Format(ComprobarCero(Text1(33).Text), "0000") & Format(Text1(34).Text, "0000")
-            
             End If
+
+            Text1(29).Text = SQL
+            
+            
                 
         
         Case 18, 20, 23, 28, 32
@@ -3422,7 +3332,7 @@ Dim RC2 As String
         If Len(Text1(0).Text) = 3 Then
             Check1.Value = Check2.Value
             'Es gran empresa y digitos 8 9
-            If Me.FrGranEmpresa.Visible Then
+            If Me.FrGranEmpresa.visible Then
             
                 If Mid(txtRegularizacion.Text, 1, 1) <> "1" Then
                     MsgBox "La regularizacion será contra las cuentas del grupo 1", vbExclamation
@@ -3537,34 +3447,19 @@ Dim RC2 As String
     
     If Text1(11).Text = "S" Then
        If Text1(13).Text <> "" Then
-             SQL = Text1(14).Text & Text1(15).Text & Text1(16).Text & Text1(33).Text & Text1(34).Text
-             If Len(SQL) <> 20 Then
-                 MsgBox "Longitud cuenta bancaria incorrecta", vbExclamation
-                 Exit Function
-             End If
-    
-            'Compruebo EL IBAN
-            'Meto el CC
-            RC2 = SQL
-            SQL = ""
-            If Me.Text1(13).Text <> "" Then SQL = Mid(Text1(13).Text, 1, 2)
-
-            If DevuelveIBAN2(SQL, RC2, RC2) Then
-                If Me.Text1(13).Text = "" Then
-                    If MsgBox("Poner IBAN ?", vbQuestion + vbYesNo) = vbYes Then Me.Text1(13).Text = RC2
+            RC2 = Replace(Text1(13).Text, " ", "")
+            If Not EsIBAN_Correcto(RC2) Then
+                If Mid(Text1(13).Text, 1, 2) = "ES" Then
+                    MsgBox "IBAN incorrecto", vbExclamation
+                    PonleFoco Text1(13)
+                    B = False
                 Else
-                    If Mid(Text1(13).Text, 3, 2) <> RC2 Then
-                        RC2 = "Calculado : " & SQL & RC2
-                        RC2 = "Introducido: " & Me.Text1(13).Text & vbCrLf & RC2 & vbCrLf
-                        RC2 = "Error en codigo IBAN" & vbCrLf & RC2 & "Continuar?"
-                        If MsgBox(RC2, vbQuestion + vbYesNo) = vbNo Then Exit Function
-                    End If
+                    If MsgBox("IBAN paraece incorrecto. ¿Continuar?", vbQuestion + vbYesNoCancel) <> vbYes Then B = False
                 End If
             End If
-        Else
-            Text1(29).Text = ""
-        
-        End If
+            Text1(29).Text = RC2
+       End If
+       If Not B Then Exit Function
     End If
     
     If txtRegularizacion.Text <> "" And Len(Text1(0).Text) = 3 Then
@@ -3614,7 +3509,7 @@ End If
 'Ponemos , si es de ultimo nivel habilitados los campos
 
 B = EsCuentaUltimoNivel(Text1(0).Text)
-Frame1.Visible = B
+Frame1.visible = B
 Frame1.Enabled = True
 chkUltimo.Value = Abs(CInt(B))
 If Not B Then
@@ -3660,7 +3555,7 @@ End Sub
 Private Sub PonerDatosDeOtraCuenta(QueEmpresa_ As String)
 Dim C As String
     C = Text1(0).Text
-    Text1(0).Visible = False
+    Text1(0).visible = False
     CodCta = SQL
     PonerCampos QueEmpresa_
     lblIndicador.Caption = "Insertar"
@@ -3669,7 +3564,7 @@ Dim C As String
     Else
         If C <> "" Then Text1(0).Text = C
     End If
-    Text1(0).Visible = True
+    Text1(0).visible = True
     CodCta = ""
 End Sub
 
@@ -4140,8 +4035,8 @@ Dim B As Boolean
        
     '---------------------------------------------
     B = Modo <> 0 And Modo <> 2
-    cmdCancelar.Visible = B
-    cmdAceptar.Visible = B
+    cmdCancelar.visible = B
+    cmdAceptar.visible = B
        
 
     If (Modo < 2) Or (Modo = 3) Then
@@ -4176,7 +4071,7 @@ Dim B As Boolean
     Select Case Index
         Case 2 ' departamentos
             For jj = 1 To 2
-                txtaux3(jj).Visible = B
+                txtaux3(jj).visible = B
                 txtaux3(jj).top = alto
             Next jj
     End Select

@@ -1527,7 +1527,6 @@ Begin VB.Form frmTESPagos
          Width           =   9225
       End
       Begin VB.TextBox Text1 
-         Alignment       =   2  'Center
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -1540,10 +1539,11 @@ Begin VB.Form frmTESPagos
          Height          =   360
          Index           =   10
          Left            =   360
+         MaxLength       =   40
          TabIndex        =   6
          Text            =   "0000"
          Top             =   1410
-         Width           =   675
+         Width           =   5595
       End
       Begin VB.TextBox Text2 
          BackColor       =   &H80000018&
@@ -1739,11 +1739,12 @@ Begin VB.Form frmTESPagos
          EndProperty
          Height          =   360
          Index           =   28
-         Left            =   1920
+         Left            =   6360
          MaxLength       =   4
          TabIndex        =   8
          Text            =   "0000"
-         Top             =   1410
+         Top             =   1320
+         Visible         =   0   'False
          Width           =   675
       End
       Begin VB.TextBox Text1 
@@ -1759,11 +1760,12 @@ Begin VB.Form frmTESPagos
          EndProperty
          Height          =   360
          Index           =   29
-         Left            =   2670
+         Left            =   7200
          MaxLength       =   4
          TabIndex        =   9
          Text            =   "0000"
-         Top             =   1410
+         Top             =   1320
+         Visible         =   0   'False
          Width           =   675
       End
       Begin VB.TextBox Text1 
@@ -1779,11 +1781,12 @@ Begin VB.Form frmTESPagos
          EndProperty
          Height          =   360
          Index           =   30
-         Left            =   3420
+         Left            =   7680
          MaxLength       =   4
          TabIndex        =   10
          Text            =   "0000"
-         Top             =   1410
+         Top             =   1290
+         Visible         =   0   'False
          Width           =   675
       End
       Begin VB.TextBox Text1 
@@ -1799,11 +1802,12 @@ Begin VB.Form frmTESPagos
          EndProperty
          Height          =   360
          Index           =   21
-         Left            =   4170
+         Left            =   8400
          MaxLength       =   4
          TabIndex        =   11
          Text            =   "0000"
-         Top             =   1410
+         Top             =   1320
+         Visible         =   0   'False
          Width           =   675
       End
       Begin VB.TextBox Text1 
@@ -1819,11 +1823,12 @@ Begin VB.Form frmTESPagos
          EndProperty
          Height          =   360
          Index           =   26
-         Left            =   1140
+         Left            =   5760
          MaxLength       =   20
          TabIndex        =   7
          Text            =   "0000"
-         Top             =   1410
+         Top             =   1320
+         Visible         =   0   'False
          Width           =   675
       End
       Begin VB.TextBox Text1 
@@ -2715,7 +2720,7 @@ Private Sub cmdAux_Click(Index As Integer)
             frmDia.Show vbModal
             Set frmDia = Nothing
             
-            PonFoco txtAux(5)
+            PonFoco txtaux(5)
             
             
     End Select
@@ -3250,7 +3255,7 @@ Private Sub frmC_Selec(vFecha As Date)
 End Sub
 
 Private Sub frmC1_Selec(vFecha As Date)
-    txtAux(CInt(cmdAux(1).Tag)).Text = Format(vFecha, "dd/mm/yyyy")
+    txtaux(CInt(cmdAux(1).Tag)).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
@@ -3563,19 +3568,14 @@ Private Sub Text1_LostFocus(Index As Integer)
                     End If
                     If SQL = "" Then
                         SQL = DevuelveLaCtaBanco(DevfrmCCtas)
-
-                        Text1(10).Text = Mid(RecuperaValor(SQL, 1), 1, 4)
-                        Text1(26).Text = Mid(RecuperaValor(SQL, 1), 5, 4)
-                        Text1(28).Text = Mid(RecuperaValor(SQL, 1), 9, 4)
-                        Text1(29).Text = Mid(RecuperaValor(SQL, 1), 13, 4)
-                        Text1(30).Text = Mid(RecuperaValor(SQL, 1), 17, 4)
-                        Text1(21).Text = Mid(RecuperaValor(SQL, 1), 21, 4)
-
-                        Text1(19).Text = RecuperaValor(SQL, 5)
+                        Text1(19).Text = RecuperaValor(SQL, 1)
+                        SQL = DevuelveIBANSeparado(Text1(19).Text)
+                        Text1(10).Text = SQL
+                        
                     End If
                 End If
 
-                SQL = DevuelveLaCtaBanco(DevfrmCCtas)
+                
                 
 
 
@@ -3662,42 +3662,16 @@ Private Sub Text1_LostFocus(Index As Integer)
         
 
     Case 28 To 30, 10, 26, 21
-        If Index <> 10 Then
-            'Cuenta bancaria
-            If Not IsNumeric(Text1(Index).Text) Then
-                MsgBox "Cuenta banco debe ser numérico: " & Text1(Index).Text, vbExclamation
-                Text1(Index).Text = ""
-                PonerFoco Text1(Index)
-            Else
-                'Formateamos
-                If Text1(Index) <> "" Then
-                    Text1(Index).Text = Format(Text1(Index).Text, "0000")
-                End If
-            End If
-        Else
-            If Text1(Index).Text <> "" Then Text1(Index).Text = UCase(Text1(Index).Text)
+        If Text1(Index).Text <> "" Then
+            
+            SQL = Text1(Index).Text
+            SQL = Replace(SQL, " ", "")
+            
+
+            If Not EsIBAN_Correcto(SQL) Then MsgBox "IBAN incorrecto", vbExclamation
+            
         End If
-        
-        SQL = Text1(26).Text & Text1(28).Text & Text1(29).Text & Text1(30).Text & Text1(21).Text
-        
-        If Len(SQL) = 20 And Index = 21 Then 'solo cuando pierde el foco la cuentaban
-            'OK. Calculamos el IBAN
-            If Text1(10).Text = "" Then
-                'NO ha puesto IBAN
-                If DevuelveIBAN2("ES", SQL, SQL) Then Text1(10).Text = "ES" & SQL
-            Else
-                Valor = CStr(Mid(Text1(10).Text, 1, 2))
-                If DevuelveIBAN2(CStr(Valor), SQL, SQL) Then
-                    If Mid(Text1(10).Text, 3) <> SQL Then
-                        MsgBox "Codigo IBAN distinto del calculado [" & Valor & SQL & "]", vbExclamation
-                    End If
-                End If
-            End If
-        End If
-        
-        Text1(19).Text = Text1(10).Text & Text1(26).Text & Text1(28).Text & Text1(29).Text & Text1(30).Text & Text1(21).Text
-        
-        
+        Text1(19).Text = Replace(Text1(10).Text, " ", "")
     Case 25 ' codigo de pais
         If Text1(Index).Text <> "" Then
             Text2(Index).Text = PonerNombreDeCod(Text1(Index), "paises", "nompais", "codpais", "T")
@@ -3732,37 +3706,11 @@ End Function
 Private Sub HacerBusqueda()
 Dim cad As String
 
+    Text1(19).Text = Text1(10).Text
     CadB = ObtenerBusqueda2(Me, BuscaChekc, 1)
     
-    ' busqueda por las partes del iban
     
-    If Text1(10).Text <> "" Then
-        If CadB <> "" Then CadB = CadB & " and "
-        CadB = CadB & "mid(pagos.iban,1,4) = " & DBSet(Text1(10).Text, "T")
-    End If
-    If Text1(26).Text <> "" Then
-        If CadB <> "" Then CadB = CadB & " and "
-        CadB = CadB & "mid(pagos.iban,5,4) = " & DBSet(Text1(26).Text, "T")
-    End If
-    If Text1(28).Text <> "" Then
-        If CadB <> "" Then CadB = CadB & " and "
-        CadB = CadB & "mid(pagos.iban,9,4) = " & DBSet(Text1(28).Text, "T")
-    End If
-    If Text1(29).Text <> "" Then
-        If CadB <> "" Then CadB = CadB & " and "
-        CadB = CadB & "mid(pagos.iban,13,4) = " & DBSet(Text1(29).Text, "T")
-    End If
-    If Text1(30).Text <> "" Then
-        If CadB <> "" Then CadB = CadB & " and "
-        CadB = CadB & "mid(pagos.iban,17,4) = " & DBSet(Text1(30).Text, "T")
-    End If
-    If Text1(21).Text <> "" Then
-        If CadB <> "" Then CadB = CadB & " and "
-        CadB = CadB & "mid(pagos.iban,21,4) = " & DBSet(Text1(21).Text, "T")
-    End If
     
-    'ESTO NO VA
-    'Si no va, no lo pongo
     'CadB1 = ObtenerBusqueda2(Me, , 2, "FrameAux1")
     CadB1 = ""
     
@@ -3901,39 +3849,10 @@ Private Sub PonerCampos()
     
     
     ' situamos los campos del iban
-    Text1(10).Text = ""
-    Text1(26).Text = ""
-    Text1(28).Text = ""
-    Text1(29).Text = ""
-    Text1(30).Text = ""
-    Text1(21).Text = ""
     
     Text1(10).ToolTipText = ""
-    Text1(26).ToolTipText = ""
-    Text1(28).ToolTipText = ""
-    Text1(29).ToolTipText = ""
-    Text1(30).ToolTipText = ""
-    Text1(21).ToolTipText = ""
-    
-    If Text1(19).Text <> "" Then
-        Text1(10) = Mid(Text1(19), 1, 4)
-        Text1(26) = Mid(Text1(19), 5, 4)
-        Text1(28) = Mid(Text1(19), 9, 4)
-        Text1(29) = Mid(Text1(19), 13, 4)
-        Text1(30) = Mid(Text1(19), 17, 4)
-        Text1(21) = Mid(Text1(19), 21, 4)
-        
-        Dim CCC As String
-        CCC = Text1(10).Text & " " & Text1(26).Text & " " & Text1(28).Text & " " & Mid(Text1(29).Text, 1, 2) & " " & Mid(Text1(29).Text, 3, 2) & Text1(30).Text & Text1(21).Text
-        
-        Text1(10).ToolTipText = CCC
-        Text1(26).ToolTipText = CCC
-        Text1(28).ToolTipText = CCC
-        Text1(29).ToolTipText = CCC
-        Text1(30).ToolTipText = CCC
-        Text1(21).ToolTipText = CCC
-    
-    End If
+    Text1(10).Text = DevuelveIBANSeparado(Text1(19).Text)
+   
     
     
     
@@ -3979,15 +3898,15 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
         For i = 0 To Text1.Count - 1
             Text1(0).BackColor = &H80000018
         Next i
-        Text1(28).MaxLength = 4
-        Text1(29).MaxLength = 4
+        'Text1(28).MaxLength = 4
+        'Text1(29).MaxLength = 4
     ElseIf Modo = 4 Then
     End If
     
     'Modo buscar
     If Kmodo = 1 Then
-        Text1(28).MaxLength = 0
-        Text1(29).MaxLength = 0
+        'Text1(28).MaxLength = 0
+        'Text1(29).MaxLength = 0
     End If
     
     Modo = Kmodo
@@ -4095,44 +4014,46 @@ Dim Tipo As Integer
     DevfrmCCtas = DevuelveDesdeBD("tipforpa", "formapago", "codforpa", Text1(0).Text, "N")
     Tipo = CInt(DevfrmCCtas)
 
-    DevfrmCCtas = Trim(Text1(26).Text) & Trim(Text1(28).Text) & Text1(29).Text & Trim(Text1(30).Text) & Trim(Text1(21).Text)
+    
+   ' DevfrmCCtas = Trim(Text1(26).Text) & Trim(Text1(28).Text) & Text1(29).Text & Trim(Text1(30).Text) & Trim(Text1(21).Text)
+    
+    DevfrmCCtas = UCase(Text1(10).Text)
+    
+    
     
     'AHora comprobare Si tiene cuenta bancaria, si es correcta
-    B = False
+    B = True
+
+
+    If Len(DevfrmCCtas) > 0 And Len(DevfrmCCtas) < 20 Then
+        MsgBox "Cuenta bancaria incorrecta", vbExclamation
+        B = False
+        Exit Function
+    End If
+
+        
     If DevfrmCCtas <> "" Then
-        If Val(DevfrmCCtas) <> 0 Then B = True
-    End If
-        
-    If B Then
-        'Vale, hay campos y son numericos
-        'La cuenta contable si digi control, si tiene valor, tiene que ser longitud 18
-        If Len(DevfrmCCtas) < 20 Then
-            MsgBox "Cuenta bancaria incorrecta", vbExclamation
-            Exit Function
-        End If
-    End If
-        
-    If B Then
-        'Compruebo EL IBAN
-        'Meto el CC
-        BuscaChekc = ""
-        If Me.Text1(10).Text <> "" Then BuscaChekc = Mid(Text1(10).Text, 1, 2)
-            
-        If DevuelveIBAN2(BuscaChekc, DevfrmCCtas, DevfrmCCtas) Then
-            If Me.Text1(10).Text = "" Then
-                If MsgBox("Poner IBAN ?", vbQuestion + vbYesNo) = vbYes Then Me.Text1(10).Text = BuscaChekc & DevfrmCCtas
+        If Not EsIBAN_Correcto(DevfrmCCtas) Then
+            If Mid(DevfrmCCtas, 1, 2) = "ES" Then
+                MsgBox "Iban incorrecto", vbExclamation
+                B = False
             Else
-                If Mid(Text1(10).Text, 3) <> DevfrmCCtas Then
-                    DevfrmCCtas = "Calculado : " & BuscaChekc & DevfrmCCtas
-                    DevfrmCCtas = "Introducido: " & Me.Text1(10).Text & vbCrLf & DevfrmCCtas & vbCrLf
-                    DevfrmCCtas = "Error en codigo IBAN" & vbCrLf & DevfrmCCtas & "Continuar?"
-                    If MsgBox(DevfrmCCtas, vbQuestion + vbYesNo) = vbNo Then Exit Function
+                If MsgBox("El IBAN parece incorrecto.   ¿Continuar?", vbQuestion + vbYesNoCancel) <> vbYes Then
+                    B = False
+                    PonleFoco Text1(10)
                 End If
             End If
         End If
+    Else
+        B = True
     End If
     
-    If Not B Then Text1(19).Text = ""
+    If Not B Then
+        Text1(19).Text = ""
+        Exit Function
+    Else
+        Text1(19).Text = Replace(UCase(Text1(10).Text), " ", "")
+    End If
     
     If CuentaBloqeada(Me.Text1(4).Text, CDate(Text1(2).Text), True) Then Exit Function
         
@@ -4150,6 +4071,7 @@ Dim Tipo As Integer
 
     
     'Nuevo. 12 Mayo 2008
+    
     B = CuentaBloqeada(Me.Text1(4).Text, CDate(Text1(2).Text), True)
     If B Then
         If (vUsu.Codigo Mod 100) > 0 Then Exit Function
@@ -4858,7 +4780,7 @@ EDatosOKLlin:
 End Function
 
 Private Sub txtaux_GotFocus(Index As Integer)
-    ConseguirFoco txtAux(Index), Modo
+    ConseguirFoco txtaux(Index), Modo
 End Sub
 
 
@@ -4891,41 +4813,41 @@ Private Sub txtAux_LostFocus(Index As Integer)
     Dim Importe As Currency
         
         
-    If Not PerderFocoGnral(txtAux(Index), Modo) Then Exit Sub
+    If Not PerderFocoGnral(txtaux(Index), Modo) Then Exit Sub
     
-    If txtAux(Index).Text = "" Then Exit Sub
+    If txtaux(Index).Text = "" Then Exit Sub
     
     Select Case Index
         Case 5 ' diario
-            RC = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", txtAux(5), "N")
+            RC = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", txtaux(5), "N")
             If RC = "" Then
                 MsgBox "No existe el tipo de diario. Reintroduzca.", vbExclamation
-                PonFoco txtAux(5)
+                PonFoco txtaux(5)
             End If
                 
         Case 6, 11 ' fecha
-            If Not EsFechaOK(txtAux(Index)) Then
-                MsgBox "Fecha incorrecta: " & txtAux(Index).Text, vbExclamation
-                txtAux(Index).Text = ""
-                PonerFoco txtAux(Index)
+            If Not EsFechaOK(txtaux(Index)) Then
+                MsgBox "Fecha incorrecta: " & txtaux(Index).Text, vbExclamation
+                txtaux(Index).Text = ""
+                PonerFoco txtaux(Index)
             End If
             
         Case 7 ' asiento
-            PonerFormatoEntero txtAux(Index)
+            PonerFormatoEntero txtaux(Index)
         
         Case 8 ' usuario
         
         Case 9
            ' IMPORTE
-             txtAux(Index) = ImporteSinFormato(txtAux(Index))
+             txtaux(Index) = ImporteSinFormato(txtaux(Index))
             
         Case 10 'tipo
-            txtAux(Index).Text = UCase(txtAux(Index).Text)
+            txtaux(Index).Text = UCase(txtaux(Index).Text)
         
         Case 12 ' cuenta de cobro
-            RC = txtAux(12).Text
+            RC = txtaux(12).Text
             If CuentaCorrectaUltimoNivel(RC, "") Then
-                txtAux(12).Text = RC
+                txtaux(12).Text = RC
             End If
         
     End Select

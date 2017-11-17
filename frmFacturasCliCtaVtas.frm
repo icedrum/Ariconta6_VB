@@ -801,7 +801,7 @@ Attribute frmF.VB_VarHelpID = -1
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -928,7 +928,7 @@ End Sub
 
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
@@ -959,15 +959,15 @@ Private Sub imgFec_Click(Index As Integer)
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
-    Sql = ""
+    SQL = ""
     AbiertoOtroFormEnListado = True
     Set frmCtas = New frmColCtas
     frmCtas.DatosADevolverBusqueda = True
     frmCtas.Show vbModal
     Set frmCtas = Nothing
-    If Sql <> "" Then
-        Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
+    If SQL <> "" Then
+        Me.txtCuentas(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(SQL, 2)
     Else
         QuitarPulsacionMas Me.txtCuentas(Index)
     End If
@@ -1034,7 +1034,7 @@ Private Sub txtCuentas_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
@@ -1061,18 +1061,18 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
         Case 0, 1, 2, 3 'cuentas
             Cta = (txtCuentas(Index).Text)
                                     '********
-            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
             If B = 0 Then
                 MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
             Else
                 txtCuentas(Index).Text = Cta
-                txtNCuentas(Index).Text = Sql
+                txtNCuentas(Index).Text = SQL
                 If B = 1 Then
                     txtNCuentas(Index).Tag = ""
                 Else
-                    txtNCuentas(Index).Tag = Sql
+                    txtNCuentas(Index).Tag = SQL
                 End If
                 Hasta = -1
                 If Index = 0 Then
@@ -1111,40 +1111,40 @@ Dim TotalAnt As Currency
 
     'Monto el SQL
     If Check1(0).Value = 1 Then
-        Sql = "Select  tmpfaclin.ctabase CtaBase, cuentas.nommacta Titulo, tmpfaclin.cta Cliente, tmpfaclin.cliente Titulo, tmpfaclin.numserie Serie, tmpfaclin.numfac Factura, tmpfaclin.Fecha, tmpfaclin.iva Iva, tmpfaclin.Imponible "
-        Sql = Sql & "FROM  tmpfaclin inner join cuentas on tmpfaclin.ctabase = cuentas.codmacta "
-        Sql = Sql & " WHERE  tmpfaclin.codusu = " & DBSet(vUsu.Codigo, "N")
+        SQL = "Select  tmpfaclin.ctabase CtaBase, cuentas.nommacta Titulo, tmpfaclin.cta Cliente, tmpfaclin.cliente Titulo, tmpfaclin.numserie Serie, tmpfaclin.numfac Factura, tmpfaclin.Fecha, tmpfaclin.iva Iva, tmpfaclin.Imponible "
+        SQL = SQL & "FROM  tmpfaclin inner join cuentas on tmpfaclin.ctabase = cuentas.codmacta "
+        SQL = SQL & " WHERE  tmpfaclin.codusu = " & DBSet(vUsu.Codigo, "N")
         If Check1(2).Value = 1 Then
-            Sql = Sql & " ORDER BY tmpfaclin.ctabase, tmpfaclin.codigo"
+            SQL = SQL & " ORDER BY tmpfaclin.ctabase, tmpfaclin.codigo"
         Else
-            Sql = Sql & " order by tmpfaclin.ctabase, tmpfaclin.cta"
+            SQL = SQL & " order by tmpfaclin.ctabase, tmpfaclin.cta"
         End If
     Else
         If Check1(1).Value = 1 Then
-            Sql = "Select  tmpfaclin.ctabase,  tmpfaclin.cta,  sum(tmpfaclin.imponibleant) Anterior,  sum(tmpfaclin.imponible)  importe "
-            Sql = Sql & "FROM  tmpfaclin inner join cuentas on tmpfaclin.ctabase = cuentas.codmacta "
-            Sql = Sql & " WHERE  tmpfaclin.codusu = " & DBSet(vUsu.Codigo, "N")
-            Sql = Sql & " group by 1,2"
-            Sql = Sql & " order by 1,2"
+            SQL = "Select  tmpfaclin.ctabase,  tmpfaclin.cta,  sum(tmpfaclin.imponibleant) Anterior,  sum(tmpfaclin.imponible)  importe "
+            SQL = SQL & "FROM  tmpfaclin inner join cuentas on tmpfaclin.ctabase = cuentas.codmacta "
+            SQL = SQL & " WHERE  tmpfaclin.codusu = " & DBSet(vUsu.Codigo, "N")
+            SQL = SQL & " group by 1,2"
+            SQL = SQL & " order by 1,2"
             
             Set Rs = New ADODB.Recordset
-            Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             While Not Rs.EOF
                 Total = DevuelveValor("select sum(imponible) from tmpfaclin where codusu = " & vUsu.Codigo & " and ctabase = " & DBSet(Rs!CtaBase, "T"))
                 TotalAnt = DevuelveValor("select sum(imponibleant) from tmpfaclin where codusu = " & vUsu.Codigo & " and ctabase = " & DBSet(Rs!CtaBase, "T"))
             
             
                 If Total <> 0 Then
-                    Sql2 = "update tmpfaclin set iva = " & DBSet(Round(DBLet(Rs!Importe) * 100 / Total, 2), "N")
+                    Sql2 = "update tmpfaclin set iva = " & DBSet(Round2(DBLet(Rs!Importe) * 100 / Total, 2), "N")
                     If TotalAnt <> 0 Then
-                        Sql2 = Sql2 & ", porcrec = " & DBSet(Round(DBLet(Rs!Anterior) * 100 / TotalAnt, 2), "N")
+                        Sql2 = Sql2 & ", porcrec = " & DBSet(Round2(DBLet(Rs!Anterior) * 100 / TotalAnt, 2), "N")
                     Else
                         Sql2 = Sql2 & ", porcrec = 0"
                     End If
                 Else
                     Sql2 = "update tmpfaclin set iva = 0 "
                     If TotalAnt <> 0 Then
-                        Sql2 = Sql2 & ", porcrec = " & DBSet(Round(DBLet(Rs!Anterior) * 100 / TotalAnt, 2), "N")
+                        Sql2 = Sql2 & ", porcrec = " & DBSet(Round2(DBLet(Rs!Anterior) * 100 / TotalAnt, 2), "N")
                     Else
                         Sql2 = Sql2 & ", porcrec = 0"
                     End If
@@ -1158,32 +1158,32 @@ Dim TotalAnt As Currency
             Wend
             Set Rs = Nothing
             
-            Sql = "Select  tmpfaclin.ctabase CtaBase, cuentas.nommacta Titulo, tmpfaclin.cta Cliente, ccc.nommacta TituloCli, sum(tmpfaclin.imponibleant) ImporteAnt, porcrec PorcAnt, sum(tmpfaclin.imponible) Importe, iva Porc"
-            Sql = Sql & " FROM  (tmpfaclin inner join cuentas on tmpfaclin.ctabase = cuentas.codmacta) inner join cuentas ccc on tmpfaclin.cta = ccc.codmacta "
-            Sql = Sql & " WHERE  tmpfaclin.codusu = " & DBSet(vUsu.Codigo, "N")
-            Sql = Sql & " group by 1,2,3,4 "
+            SQL = "Select  tmpfaclin.ctabase CtaBase, cuentas.nommacta Titulo, tmpfaclin.cta Cliente, ccc.nommacta TituloCli, sum(tmpfaclin.imponibleant) ImporteAnt, porcrec PorcAnt, sum(tmpfaclin.imponible) Importe, iva Porc"
+            SQL = SQL & " FROM  (tmpfaclin inner join cuentas on tmpfaclin.ctabase = cuentas.codmacta) inner join cuentas ccc on tmpfaclin.cta = ccc.codmacta "
+            SQL = SQL & " WHERE  tmpfaclin.codusu = " & DBSet(vUsu.Codigo, "N")
+            SQL = SQL & " group by 1,2,3,4 "
             If Check1(2).Value = 1 Then
-                Sql = Sql & " ORDER BY tmpfaclin.ctabase, tmpfaclin.codigo"
+                SQL = SQL & " ORDER BY tmpfaclin.ctabase, tmpfaclin.codigo"
             Else
-                Sql = Sql & " order by tmpfaclin.ctabase, tmpfaclin.cta"
+                SQL = SQL & " order by tmpfaclin.ctabase, tmpfaclin.cta"
             End If
             
             
         Else
-            Sql = "Select  tmpfaclin.ctabase,  tmpfaclin.cta,  sum(tmpfaclin.imponible) Importe "
-            Sql = Sql & " FROM  tmpfaclin inner join cuentas on tmpfaclin.ctabase = cuentas.codmacta "
-            Sql = Sql & " WHERE  tmpfaclin.codusu = " & DBSet(vUsu.Codigo, "N")
-            Sql = Sql & " group by 1,2"
-            Sql = Sql & " ORDER BY 1,2"
+            SQL = "Select  tmpfaclin.ctabase,  tmpfaclin.cta,  sum(tmpfaclin.imponible) Importe "
+            SQL = SQL & " FROM  tmpfaclin inner join cuentas on tmpfaclin.ctabase = cuentas.codmacta "
+            SQL = SQL & " WHERE  tmpfaclin.codusu = " & DBSet(vUsu.Codigo, "N")
+            SQL = SQL & " group by 1,2"
+            SQL = SQL & " ORDER BY 1,2"
         
         
             Set Rs = New ADODB.Recordset
-            Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             While Not Rs.EOF
                 Total = DevuelveValor("select sum(imponible) from tmpfaclin where codusu = " & vUsu.Codigo & " and ctabase = " & DBSet(Rs!CtaBase, "T"))
                 
                 If Total <> 0 Then
-                    Sql2 = "update tmpfaclin set iva = " & DBSet(Round(DBLet(Rs!Importe) * 100 / Total, 2), "N")
+                    Sql2 = "update tmpfaclin set iva = " & DBSet(Round2(DBLet(Rs!Importe) * 100 / Total, 2), "N")
                 Else
                     Sql2 = "update tmpfaclin set iva = 0 "
                 End If
@@ -1197,14 +1197,14 @@ Dim TotalAnt As Currency
             Set Rs = Nothing
             
             
-            Sql = "Select  tmpfaclin.ctabase CtaBase, cuentas.nommacta Titulo, tmpfaclin.cta Cliente, ccc.nommacta TituloCli, sum(tmpfaclin.imponible) Importe, iva Porc "
-            Sql = Sql & " FROM  (tmpfaclin inner join cuentas on tmpfaclin.ctabase = cuentas.codmacta) inner join cuentas ccc on tmpfaclin.cta = ccc.codmacta "
-            Sql = Sql & " WHERE  tmpfaclin.codusu = " & DBSet(vUsu.Codigo, "N")
-            Sql = Sql & " group by 1,2,3,4,6 "
+            SQL = "Select  tmpfaclin.ctabase CtaBase, cuentas.nommacta Titulo, tmpfaclin.cta Cliente, ccc.nommacta TituloCli, sum(tmpfaclin.imponible) Importe, iva Porc "
+            SQL = SQL & " FROM  (tmpfaclin inner join cuentas on tmpfaclin.ctabase = cuentas.codmacta) inner join cuentas ccc on tmpfaclin.cta = ccc.codmacta "
+            SQL = SQL & " WHERE  tmpfaclin.codusu = " & DBSet(vUsu.Codigo, "N")
+            SQL = SQL & " group by 1,2,3,4,6 "
             If Check1(2).Value = 1 Then
-                Sql = Sql & " ORDER BY tmpfaclin.ctabase, tmpfaclin.codigo"
+                SQL = SQL & " ORDER BY tmpfaclin.ctabase, tmpfaclin.codigo"
             Else
-                Sql = Sql & " order by tmpfaclin.ctabase, tmpfaclin.cta"
+                SQL = SQL & " order by tmpfaclin.ctabase, tmpfaclin.cta"
             End If
         
         
@@ -1212,7 +1212,7 @@ Dim TotalAnt As Currency
     End If
     
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1247,7 +1247,7 @@ Dim nomDocu As String
 End Sub
 
 Private Function CargarTemporal() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Rs As ADODB.Recordset
 
     On Error GoTo eCargarTemporal
@@ -1257,49 +1257,49 @@ Dim Rs As ADODB.Recordset
     Set Rs = New ADODB.Recordset
 
     'Preparando tablas informe
-    Sql = "DELETE from tmpfaclin where codusu =" & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "DELETE from tmpfaclin where codusu =" & vUsu.Codigo
+    Conn.Execute SQL
     
     If Check1(1).Value = 0 Then ' si no es comparativo
 
     
         If Check1(0).Value = 1 Then ' desglosar por cuenta
-            Sql = "insert into tmpfaclin (codusu,ctabase,cta,cliente,numserie,Numfac,Fecha,iva,imponible) "
-            Sql = Sql & "select " & vUsu.Codigo & ", factcli_lineas.codmacta, factcli.codmacta, factcli.nommacta, factcli.numserie, factcli.numfactu, factcli.fecfactu, factcli_lineas.porciva, factcli_lineas.baseimpo "
-            Sql = Sql & " from " & tabla
-            If cadselect <> "" Then Sql = Sql & " where " & cadselect
+            SQL = "insert into tmpfaclin (codusu,ctabase,cta,cliente,numserie,Numfac,Fecha,iva,imponible) "
+            SQL = SQL & "select " & vUsu.Codigo & ", factcli_lineas.codmacta, factcli.codmacta, factcli.nommacta, factcli.numserie, factcli.numfactu, factcli.fecfactu, factcli_lineas.porciva, factcli_lineas.baseimpo "
+            SQL = SQL & " from " & tabla
+            If cadselect <> "" Then SQL = SQL & " where " & cadselect
         Else
-            Sql = "insert into tmpfaclin (codusu,ctabase,cta,cliente,imponible) "
-            Sql = Sql & "select " & vUsu.Codigo & ", factcli_lineas.codmacta,factcli.codmacta, factcli.nommacta, sum(coalesce(factcli_lineas.baseimpo,0))  "
-            Sql = Sql & " from " & tabla
-            If cadselect <> "" Then Sql = Sql & " where " & cadselect
-            Sql = Sql & " group by 1,2,3,4 "
+            SQL = "insert into tmpfaclin (codusu,ctabase,cta,cliente,imponible) "
+            SQL = SQL & "select " & vUsu.Codigo & ", factcli_lineas.codmacta,factcli.codmacta, factcli.nommacta, sum(coalesce(factcli_lineas.baseimpo,0))  "
+            SQL = SQL & " from " & tabla
+            If cadselect <> "" Then SQL = SQL & " where " & cadselect
+            SQL = SQL & " group by 1,2,3,4 "
         End If
     Else ' comparativo
-        Sql = "insert into tmpfaclin (codusu,ctabase,cta,cliente,imponible, imponibleant) "
-        Sql = Sql & " select c1, c2, c3, c4, sum(importe1), sum(importe2) "
-        Sql = Sql & " from ("
-        Sql = Sql & "select " & vUsu.Codigo & " c1, factcli_lineas.codmacta c2, factcli.codmacta c3, factcli.nommacta c4, sum(coalesce(factcli_lineas.baseimpo,0)) importe1, 0 importe2 "
-        Sql = Sql & " from " & tabla
-        If cadselect <> "" Then Sql = Sql & " where " & cadselect
-        Sql = Sql & " group by 1,2,3,4 "
-        Sql = Sql & " union "
-        Sql = Sql & "select " & vUsu.Codigo & " c1, factcli_lineas.codmacta c2, factcli.codmacta c3, factcli.nommacta c4, 0 importe1, sum(coalesce(factcli_lineas.baseimpo,0)) importe2 "
-        Sql = Sql & " from " & tabla
-        Sql = Sql & " where factcli.fecfactu between date_sub(" & DBSet(txtFecha(0).Text, "F") & ", interval 1 year) and date_sub(" & DBSet(txtFecha(1).Text, "F") & ",  interval 1 year)"
-        If CadSelect1 <> "" Then Sql = Sql & " and " & CadSelect1
-        Sql = Sql & " group by 1,2,3,4 "
-        Sql = Sql & ") aaaaaa "
-        Sql = Sql & " group by 1,2,3,4 "
+        SQL = "insert into tmpfaclin (codusu,ctabase,cta,cliente,imponible, imponibleant) "
+        SQL = SQL & " select c1, c2, c3, c4, sum(importe1), sum(importe2) "
+        SQL = SQL & " from ("
+        SQL = SQL & "select " & vUsu.Codigo & " c1, factcli_lineas.codmacta c2, factcli.codmacta c3, factcli.nommacta c4, sum(coalesce(factcli_lineas.baseimpo,0)) importe1, 0 importe2 "
+        SQL = SQL & " from " & tabla
+        If cadselect <> "" Then SQL = SQL & " where " & cadselect
+        SQL = SQL & " group by 1,2,3,4 "
+        SQL = SQL & " union "
+        SQL = SQL & "select " & vUsu.Codigo & " c1, factcli_lineas.codmacta c2, factcli.codmacta c3, factcli.nommacta c4, 0 importe1, sum(coalesce(factcli_lineas.baseimpo,0)) importe2 "
+        SQL = SQL & " from " & tabla
+        SQL = SQL & " where factcli.fecfactu between date_sub(" & DBSet(txtFecha(0).Text, "F") & ", interval 1 year) and date_sub(" & DBSet(txtFecha(1).Text, "F") & ",  interval 1 year)"
+        If CadSelect1 <> "" Then SQL = SQL & " and " & CadSelect1
+        SQL = SQL & " group by 1,2,3,4 "
+        SQL = SQL & ") aaaaaa "
+        SQL = SQL & " group by 1,2,3,4 "
     End If
     
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     
     If Check1(2).Value = 1 Then
             If Check1(0).Value = 1 Then ' desglosar por cuenta
                 ' actualizamos el tmplinfac.codigo, que es el orden por importes
-                Sql = " update tmpfaclin ddd, " & _
+                SQL = " update tmpfaclin ddd, " & _
                         "( " & _
                         "select ctabase, cta, imponible, numserie, fecha, numfac, @rownum:=@rownum + 1 AS rownum " & _
                         "    from tmpfaclin, (SELECT @rownum:=0) r " & _
@@ -1309,11 +1309,11 @@ Dim Rs As ADODB.Recordset
                         " set ddd.Codigo = fff.rownum " & _
                         " where ddd.codusu = " & DBSet(vUsu.Codigo, "N") & "  and ddd.ctabase = fff.ctabase and ddd.Cta = fff.Cta and ddd.NumSerie = fff.NumSerie and ddd.Fecha = fff.Fecha and ddd.NumFac = fff.NumFac"
             
-                Conn.Execute Sql
+                Conn.Execute SQL
             
             Else
                 ' actualizamos el tmplinfac.codigo, que indica que el orden es por cantidades
-                Sql = "update tmpfaclin, " & _
+                SQL = "update tmpfaclin, " & _
                       " (" & _
                       "     select ctabase, cta, @rownum:=@rownum+1 AS rownum " & _
                       "     From " & _
@@ -1327,7 +1327,7 @@ Dim Rs As ADODB.Recordset
                       " ) ZZZZ " & _
                       " Set tmpfaclin.Codigo = zzzz.rownum " & _
                       " Where codusu = " & DBSet(vUsu.Codigo, "N") & " and tmpfaclin.ctabase = zzzz.ctabase And tmpfaclin.Cta = zzzz.Cta "
-                Conn.Execute Sql
+                Conn.Execute SQL
             End If
     End If
     
@@ -1340,7 +1340,7 @@ End Function
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String

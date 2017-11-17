@@ -3109,6 +3109,13 @@ Private Sub AbrirFormularios(Accion As Long)
         Case 1414
             frmImportarNavarres.Show vbModal
             
+            
+        Case 1415
+             frmMensajes.Opcion = 62
+             frmMensajes.Show vbModal
+                
+            
+            
         Case Else
   
     End Select
@@ -3161,6 +3168,9 @@ Dim C As String
                 If CCur(C) <> 0 Then MsgBox "Existen asientos descuadrados", vbExclamation
             End If
         
+        
+            If vParam.PathFicherosInteg <> "" Then hacerDir vParam.PathFicherosInteg
+        
         End If
     End If
     
@@ -3170,6 +3180,22 @@ Dim C As String
         espera 0.1
     
         AbrirFormSII False
+    End If
+End Sub
+
+Private Sub hacerDir(CadenaPath As String)
+Dim Si As Boolean
+    On Error Resume Next
+    Si = False
+    If Right(CadenaPath, 1) = "\" Then
+        If Dir(CadenaPath & "*.*", vbArchive) <> "" Then Si = True
+    Else
+        If Dir(CadenaPath & "\*.*", vbArchive) <> "" Then Si = True
+    End If
+    If Err.Number <> 0 Then
+        Err.Clear
+    Else
+        If Si Then MsgBox "Archivos pendientes de integrar", vbInformation
     End If
 End Sub
 

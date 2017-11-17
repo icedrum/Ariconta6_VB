@@ -1554,8 +1554,8 @@ Private WithEvents frmC As frmColCtas
 Attribute frmC.VB_VarHelpID = -1
 
 Dim cad As String
-Dim RS As Recordset
-Dim I As Integer
+Dim Rs As Recordset
+Dim i As Integer
 Dim VV As Currency
 
 
@@ -1597,20 +1597,20 @@ On Error GoTo EINs
         Exit Sub
     End If
     
-    For I = 0 To 11
-        If txtN(I).Text <> "" Then
-            If Not IsNumeric(txtN(I).Text) Then
+    For i = 0 To 11
+        If txtN(i).Text <> "" Then
+            If Not IsNumeric(txtN(i).Text) Then
                 MsgBox "Los valores de los importes deben de ser numéricos", vbExclamation
                 Exit Sub
             End If
         End If
-    Next I
+    Next i
     'Llegados aqui esta todo bien. Luego haremos dos cosas
-    I = Year(vParam.fechaini)
-    If Check1.Value Then I = I + 1
+    i = Year(vParam.fechaini)
+    If Check1.Value Then i = i + 1
 
-    I = 0
-    If Check1.Value Then I = I + 1
+    i = 0
+    If Check1.Value Then i = i + 1
 
     If Check1.Value Then Ejercicio = Ejercicio + 1
 
@@ -1647,24 +1647,24 @@ On Error GoTo EINs
         Anyo = Ejercicio 'Year(vParam.fechaini)
     End If
     Mes = Month(vParam.fechaini) - 1
-    For I = 0 To 11
+    For i = 0 To 11
         Mes = Mes + 1
         If Mes > 12 Then
             Mes = 1
             Anyo = Anyo + 1
         End If
     
-        If txtN(I).Text <> "" Then
-            Aux = TransformaComasPuntos(ImporteFormateado(txtN(I).Text))
+        If txtN(i).Text <> "" Then
+            Aux = TransformaComasPuntos(ImporteFormateado(txtN(i).Text))
             Conn.Execute cad & Anyo & "," & Mes & "," & Aux & ")"
         End If
-    Next I
+    Next i
     
     'Llegados aqui dejamos que vuelva a poner valores para otras cuentas
     If MsgBox("Datos generados.     ¿Salir?", vbQuestion + vbYesNoCancel) = vbYes Then
-        I = Year(vParam.fechaini)
-        If Check1.Value Then I = I + 1
-        CadenaDesdeOtroForm = " presupuestos.codmacta = '" & txtCta(0).Text & "' and anopresu = " & I
+        i = Year(vParam.fechaini)
+        If Check1.Value Then i = i + 1
+        CadenaDesdeOtroForm = " presupuestos.codmacta = '" & txtCta(0).Text & "' and anopresu = " & i
         Unload Me
     Else
         txtAnual.Text = ""
@@ -1710,8 +1710,8 @@ End Sub
 
 
 Private Sub PonerFrames()
-    Me.FrameN.Visible = (Opcion = 0)
-    FrMasiva.Visible = (Opcion = 1)
+    Me.FrameN.visible = (Opcion = 0)
+    FrMasiva.visible = (Opcion = 1)
 End Sub
 
 Private Sub Form_Activate()
@@ -1723,7 +1723,7 @@ End Sub
 
 Private Sub Form_Load()
     
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
 
 '    opcion = 0
 '    Limpiar Me
@@ -1731,21 +1731,21 @@ Private Sub Form_Load()
     Label5.Caption = ""
     PonerFrames
     
-    For I = 0 To imgcta.Count - 1
-        imgcta(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To imgCta.Count - 1
+        imgCta(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
     
     If Opcion = 1 Then
         Me.Caption = "Generar datos cuentas presupuestarias"
     Else
-        Me.chkMasiva.Visible = False
+        Me.chkMasiva.visible = False
         Me.chkMasiva.Enabled = False
         Me.chkMasiva.Value = False
         If Modo = 0 Then
             Me.Caption = "Insertar datos cuentas presupuestarias"
         Else
             Me.Caption = "Modificar datos cuentas presupuestarias"
-            Me.Check1.Visible = False
+            Me.Check1.visible = False
             Me.Check1.Enabled = False
             Me.Check1.Value = False
         End If
@@ -1755,12 +1755,12 @@ Private Sub Form_Load()
     Me.ChkEliminar.Value = 1
     
     Dim J As Integer
-    For I = 0 To 11
-        J = Month(vParam.fechaini) + I
+    For i = 0 To 11
+        J = Month(vParam.fechaini) + i
         If J > 12 Then J = J - 12
         
-        Label2(I).Caption = NombreMes(J)
-    Next I
+        Label2(i).Caption = NombreMes(J)
+    Next i
     
 End Sub
 
@@ -1797,12 +1797,12 @@ End Function
 
 
 Private Sub frmC_DatoSeleccionado(CadenaSeleccion As String)
-    txtCta(I).Text = RecuperaValor(CadenaSeleccion, 1)
-    txtDesCta(I).Text = RecuperaValor(CadenaSeleccion, 2)
+    txtCta(i).Text = RecuperaValor(CadenaSeleccion, 1)
+    txtDescta(i).Text = RecuperaValor(CadenaSeleccion, 2)
 End Sub
 
 Private Sub imgcta_Click(Index As Integer)
-    I = Index
+    i = Index
     AntiguoText = txtCta(Index).Text
     Set frmC = New frmColCtas
     frmC.DatosADevolverBusqueda = "0|1"
@@ -1837,10 +1837,10 @@ Private Sub txtAnual_LostFocus()
             Else
                 VV = CCur(TransformaPuntosComas(txtAnual.Text))
             End If
-            VV = Round((VV / 12), 2)
-            For I = 0 To 11
-                txtN(I).Text = VV
-            Next I
+            VV = Round2((VV / 12), 2)
+            For i = 0 To 11
+                txtN(i).Text = VV
+            Next i
             cad = "OK"
         End If
         If txtAnual.Text <> "" Then txtPorc.Text = ""
@@ -1877,15 +1877,15 @@ Private Sub txtCta_LostFocus(Index As Integer)
     txtCta(Index).Text = Trim(txtCta(Index).Text)
     If txtCta(Index).Text = AntiguoText Then Exit Sub
     If txtCta(Index).Text = "" Then
-        txtDesCta(Index).Text = ""
+        txtDescta(Index).Text = ""
     Else
         CadenaDesdeOtroForm = (txtCta(Index).Text)
         If CuentaCorrectaUltimoNivel(CadenaDesdeOtroForm, cad) Then
                 txtCta(Index).Text = CadenaDesdeOtroForm
-                txtDesCta(Index).Text = cad
+                txtDescta(Index).Text = cad
         Else
             MsgBox cad, vbExclamation
-            txtDesCta(Index).Text = cad
+            txtDescta(Index).Text = cad
         End If
         CadenaDesdeOtroForm = ""
     End If
@@ -1945,9 +1945,9 @@ End Sub
 
 Private Sub LimpiarCampos()
 On Error Resume Next
-For I = 0 To 11
-     Me.txtN(I).Text = ""
-Next I
+For i = 0 To 11
+     Me.txtN(i).Text = ""
+Next i
 
 End Sub
 
@@ -2024,47 +2024,47 @@ On Error GoTo EPonerValoresAnteriores
     cad = "Select * from presupuestos where codmacta='" & txtCta(0).Text & "' AND"
     cad = cad & " date(concat(anopresu,'-',right(concat('00',mespresu),2),'-01')) between " & DBSet(vFecIni, "F") & " and " & DBSet(vFecFin, "F")
     
-    Set RS = New ADODB.Recordset
-    RS.Open cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    If Not RS.EOF Then
-        While Not RS.EOF
+    Set Rs = New ADODB.Recordset
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    If Not Rs.EOF Then
+        While Not Rs.EOF
             'El mes viene en el campo "mespresu"
             'Entonces para el label , k van del 12 al 23
             If Anterior Then
-                If RS!mespresu < Month(vParam.fechaini) Then
-                    I = RS!mespresu + 12 - Month(vParam.fechaini) + 12
+                If Rs!mespresu < Month(vParam.fechaini) Then
+                    i = Rs!mespresu + 12 - Month(vParam.fechaini) + 12
                 Else
-                    I = RS!mespresu - Month(vParam.fechaini) + 12
+                    i = Rs!mespresu - Month(vParam.fechaini) + 12
                 End If
             Else
-                If RS!mespresu < Month(vParam.fechaini) Then
-                    I = RS!mespresu + 12 - Month(vParam.fechaini) + 24
+                If Rs!mespresu < Month(vParam.fechaini) Then
+                    i = Rs!mespresu + 12 - Month(vParam.fechaini) + 24
                 Else
-                    I = RS!mespresu - Month(vParam.fechaini) + 24
+                    i = Rs!mespresu - Month(vParam.fechaini) + 24
                 End If
             End If
-            Label2(I).Caption = Format(RS!imppresu, FormatoImporte)
+            Label2(i).Caption = Format(Rs!imppresu, FormatoImporte)
             
             'Ponemos el futuro valor(NUEVO)
             If txtPorc.Text <> "" Then
                 'Porcentual
-                VV = Round(RS!imppresu * CCur(txtPorc.Text), 2)
+                VV = Round2(Rs!imppresu * CCur(txtPorc.Text), 2)
                 VV = VV / 100
-                VV = VV + RS!imppresu
+                VV = VV + Rs!imppresu
                 If Anterior Then
-                    I = I - 12
+                    i = i - 12
                 Else
-                    I = I - 24
+                    i = i - 24
                 End If
-                txtN(I).Text = Format(VV, FormatoImporte)
+                txtN(i).Text = Format(VV, FormatoImporte)
             End If
             
             'Sig
-            RS.MoveNext
+            Rs.MoveNext
         Wend
     End If
-    RS.Close
-    Set RS = Nothing
+    Rs.Close
+    Set Rs = Nothing
     
 Exit Sub
 EPonerValoresAnteriores:
@@ -2077,26 +2077,26 @@ On Error GoTo EPonerValoresActauales
 
     cad = "Select * from presupuestos where codmacta='" & txtCta(0).Text & "' AND"
     cad = cad & " anopresu = "
-    I = Year(vParam.fechaini)
+    i = Year(vParam.fechaini)
     'Ejercicio siguiente
-    If Check1.Value = 1 Then I = I + 1
+    If Check1.Value = 1 Then i = i + 1
     
-    cad = cad & I & ";"
-    Set RS = New ADODB.Recordset
-    RS.Open cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    If Not RS.EOF Then
-        While Not RS.EOF
+    cad = cad & i & ";"
+    Set Rs = New ADODB.Recordset
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    If Not Rs.EOF Then
+        While Not Rs.EOF
             'El mes viene en el campo "mespresu"
             'Entonces para el label , k van del 24 al 35
-            I = RS!mespresu + 23
-            Label2(I).Caption = Format(RS!imppresu, FormatoImporte)
+            i = Rs!mespresu + 23
+            Label2(i).Caption = Format(Rs!imppresu, FormatoImporte)
             
             'Sig
-            RS.MoveNext
+            Rs.MoveNext
         Wend
     End If
-    RS.Close
-    Set RS = Nothing
+    Rs.Close
+    Set Rs = Nothing
     
     
     
@@ -2106,9 +2106,9 @@ EPonerValoresActauales:
 End Sub
 
 Private Sub LimpiarLabels()
-    For I = 12 To 35
-        Label2(I).Caption = ""
-    Next I
+    For i = 12 To 35
+        Label2(i).Caption = ""
+    Next i
     
 End Sub
 
@@ -2138,7 +2138,7 @@ Dim Incremento As Currency
     If MsgBox("Desea continuar con la generacion de datos presupuestarios?", vbQuestion + vbYesNo) = vbNo Then Exit Function
     
     Incremento = ImporteSinFormato(txtInc.Text) / 100
-    Set RS = New ADODB.Recordset
+    Set Rs = New ADODB.Recordset
     
     
     'Obtenedre el SQL de  las cuentas
@@ -2163,29 +2163,29 @@ Dim Incremento As Currency
         SQL = SQL & " group by 1,2,3"
     End If
     
-    RS.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     CadenaDesdeOtroForm = "INSERT INTO presupuestos (codmacta, anopresu, mespresu, imppresu) VALUES "
-    I = 0
+    i = 0
     SQL = ""
 
-    While Not RS.EOF
-        I = I + 1
-        VV = DBLet(RS!Debe, "N") - DBLet(RS!Haber, "N")
-        VV = Round((VV * Incremento) + VV, 2)  'importe
+    While Not Rs.EOF
+        i = i + 1
+        VV = DBLet(Rs!Debe, "N") - DBLet(Rs!Haber, "N")
+        VV = Round2((VV * Incremento) + VV, 2)  'importe
         If optEjer(0).Value Then
-            cad = ",('" & RS!codmacta & "'," & RS!Anyo & "," & RS!Mes & "," & TransformaComasPuntos(CStr(VV)) & ")"
+            cad = ",('" & Rs!codmacta & "'," & Rs!Anyo & "," & Rs!Mes & "," & TransformaComasPuntos(CStr(VV)) & ")"
         Else
-            cad = ",('" & RS!codmacta & "'," & RS!Anyo + 1 & "," & RS!Mes & "," & TransformaComasPuntos(CStr(VV)) & ")"
+            cad = ",('" & Rs!codmacta & "'," & Rs!Anyo + 1 & "," & Rs!Mes & "," & TransformaComasPuntos(CStr(VV)) & ")"
         End If
         SQL = SQL & cad
-        If (I Mod 25) = 0 Then
+        If (i Mod 25) = 0 Then
              SQL = CadenaDesdeOtroForm & Mid(SQL, 2)  'QUITO la PRIMERa coma
             Conn.Execute SQL
             SQL = ""
         End If
-        RS.MoveNext
+        Rs.MoveNext
     Wend
-    RS.Close
+    Rs.Close
     If SQL <> "" Then
         SQL = CadenaDesdeOtroForm & Mid(SQL, 2)  'QUITO la PRIMERa coma
          Conn.Execute SQL
@@ -2196,7 +2196,7 @@ EGeneracionMasiva:
     If Err.Number <> 0 Then
         MuestraError Err.Number, Err.Description
     End If
-    Set RS = Nothing
+    Set Rs = Nothing
 End Function
 
 
@@ -2205,17 +2205,17 @@ Private Sub FijarSQLTablaPresu(PeriodoAnterior As Boolean)
     'Ejercicio
     If Year(vParam.fechaini) = Year(vParam.fechafin) Then
         'Año natural
-        I = Year(vParam.fechaini)
-        If optEjer(1).Value Then I = I + 1
-        If PeriodoAnterior Then I = I - 1
-        cad = "anopresu = " & I
+        i = Year(vParam.fechaini)
+        If optEjer(1).Value Then i = i + 1
+        If PeriodoAnterior Then i = i - 1
+        cad = "anopresu = " & i
     Else
-        I = Year(vParam.fechaini)
-        If optEjer(1).Value Then I = I + 1
-        If PeriodoAnterior Then I = I - 1
+        i = Year(vParam.fechaini)
+        If optEjer(1).Value Then i = i + 1
+        If PeriodoAnterior Then i = i - 1
         
-        cad = "(( anopresu = " & I & " AND mespresu >= " & Month(vParam.fechaini) & ") OR "
-        cad = cad & " ( anopresu = " & I + 1 & " AND mespresu <= " & Month(vParam.fechafin) & ")) " ' AND ("
+        cad = "(( anopresu = " & i & " AND mespresu >= " & Month(vParam.fechaini) & ") OR "
+        cad = cad & " ( anopresu = " & i + 1 & " AND mespresu <= " & Month(vParam.fechafin) & ")) " ' AND ("
         
     End If
     

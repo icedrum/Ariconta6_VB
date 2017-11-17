@@ -145,6 +145,9 @@ Private mvarSII_Periodo_DesdeLiq As Boolean
 Private mvarModificarIvaLineasFraCli As Boolean
 
 
+Private mvarPathFicherosInteg As String
+
+
 
 
 '------------------------------------------------
@@ -1085,6 +1088,15 @@ Public Property Get SII_Periodo_DesdeLiq() As Boolean
 End Property
 
 
+Public Property Let PathFicherosInteg(ByVal vData As String)
+     mvarPathFicherosInteg = vData
+End Property
+
+Public Property Get PathFicherosInteg() As String
+     PathFicherosInteg = mvarPathFicherosInteg
+End Property
+
+
 
 '------------------------------------------------
 'FUNCIONES del modulo Cparametros
@@ -1345,6 +1357,11 @@ Dim Nuevos As String
             
             mvarModificarIvaLineasFraCli = (DBLet(Rs!MoficaImporIVALineas, "N") = 1)
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Permite modificar iva lineas factura cliente"
+            
+            mvarPathFicherosInteg = DBLet(Rs!PathFicherosInteg, "T")
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Carpeta fichero integraciones"
+            
+            
             
             
         If Err.Number <> 0 Then Err.Clear

@@ -5,7 +5,7 @@ Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
 Begin VB.Form frmparametros 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Parámetros Contables"
-   ClientHeight    =   6780
+   ClientHeight    =   7455
    ClientLeft      =   45
    ClientTop       =   45
    ClientWidth     =   11880
@@ -14,14 +14,14 @@ Begin VB.Form frmparametros
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   6780
+   ScaleHeight     =   7455
    ScaleWidth      =   11880
    StartUpPosition =   2  'CenterScreen
    Begin VB.Frame Frame13 
       Height          =   465
       Left            =   120
       TabIndex        =   106
-      Top             =   6210
+      Top             =   6840
       Width           =   2565
       Begin VB.Label lblIndicador 
          Alignment       =   2  'Center
@@ -95,19 +95,20 @@ Begin VB.Form frmparametros
       Left            =   10650
       Style           =   1  'Graphical
       TabIndex        =   47
-      Top             =   6270
+      Top             =   6990
       Width           =   1035
    End
    Begin TabDlg.SSTab SSTab1 
-      Height          =   5325
+      Height          =   5925
       Left            =   90
       TabIndex        =   48
       Top             =   840
       Width           =   11745
       _ExtentX        =   20717
-      _ExtentY        =   9393
+      _ExtentY        =   10451
       _Version        =   393216
       Tabs            =   6
+      Tab             =   3
       TabHeight       =   520
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Verdana"
@@ -120,45 +121,32 @@ Begin VB.Form frmparametros
       EndProperty
       TabCaption(0)   =   "Datos Generales"
       TabPicture(0)   =   "frmparametros.frx":000C
-      Tab(0).ControlEnabled=   -1  'True
-      Tab(0).Control(0)=   "Label1(1)"
-      Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "Label1(0)"
-      Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).Control(2)=   "imgFec(0)"
-      Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "imgFec(1)"
-      Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "imgFec(2)"
-      Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "Label1(27)"
-      Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "Text1(1)"
-      Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "Text1(0)"
-      Tab(0).Control(7).Enabled=   0   'False
+      Tab(0).ControlEnabled=   0   'False
+      Tab(0).Control(0)=   "Text1(32)"
+      Tab(0).Control(1)=   "Text1(31)"
+      Tab(0).Control(2)=   "Text1(17)"
+      Tab(0).Control(3)=   "Text1(16)"
+      Tab(0).Control(4)=   "Text1(12)"
+      Tab(0).Control(5)=   "Text1(8)"
+      Tab(0).Control(6)=   "Frame6"
+      Tab(0).Control(7)=   "Frame5"
       Tab(0).Control(8)=   "Frame4"
-      Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).Control(9)=   "Frame5"
-      Tab(0).Control(9).Enabled=   0   'False
-      Tab(0).Control(10)=   "Frame6"
-      Tab(0).Control(10).Enabled=   0   'False
-      Tab(0).Control(11)=   "Text1(8)"
-      Tab(0).Control(11).Enabled=   0   'False
-      Tab(0).Control(12)=   "Text1(12)"
-      Tab(0).Control(12).Enabled=   0   'False
-      Tab(0).Control(13)=   "Text1(16)"
-      Tab(0).Control(13).Enabled=   0   'False
-      Tab(0).Control(14)=   "Text1(17)"
-      Tab(0).Control(14).Enabled=   0   'False
-      Tab(0).Control(15)=   "Text1(31)"
-      Tab(0).Control(15).Enabled=   0   'False
-      Tab(0).ControlCount=   16
+      Tab(0).Control(9)=   "Text1(0)"
+      Tab(0).Control(10)=   "Text1(1)"
+      Tab(0).Control(11)=   "imgPathFich(0)"
+      Tab(0).Control(12)=   "Label1(33)"
+      Tab(0).Control(13)=   "Label1(27)"
+      Tab(0).Control(14)=   "imgFec(2)"
+      Tab(0).Control(15)=   "imgFec(1)"
+      Tab(0).Control(16)=   "imgFec(0)"
+      Tab(0).Control(17)=   "Label1(0)"
+      Tab(0).Control(18)=   "Label1(1)"
+      Tab(0).ControlCount=   19
       TabCaption(1)   =   "Clientes - Proveedores "
       TabPicture(1)   =   "frmparametros.frx":0028
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Frame2"
-      Tab(1).Control(1)=   "Frame3"
+      Tab(1).Control(0)=   "Frame3"
+      Tab(1).Control(1)=   "Frame2"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "I.V.A. - Norma 43"
       TabPicture(2)   =   "frmparametros.frx":0044
@@ -174,18 +162,23 @@ Begin VB.Form frmparametros
       Tab(2).ControlCount=   8
       TabCaption(3)   =   "Inmovilizado"
       TabPicture(3)   =   "frmparametros.frx":0060
-      Tab(3).ControlEnabled=   0   'False
+      Tab(3).ControlEnabled=   -1  'True
       Tab(3).Control(0)=   "Frame7"
+      Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "Frame9"
+      Tab(3).Control(1).Enabled=   0   'False
       Tab(3).Control(2)=   "Frame16"
+      Tab(3).Control(2).Enabled=   0   'False
       Tab(3).Control(3)=   "Frame15"
+      Tab(3).Control(3).Enabled=   0   'False
       Tab(3).Control(4)=   "Frame14"
+      Tab(3).Control(4).Enabled=   0   'False
       Tab(3).ControlCount=   5
       TabCaption(4)   =   "Tesorería I"
       TabPicture(4)   =   "frmparametros.frx":007C
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Frame66"
-      Tab(4).Control(1)=   "FrameValDefecto"
+      Tab(4).Control(0)=   "FrameValDefecto"
+      Tab(4).Control(1)=   "Frame66"
       Tab(4).ControlCount=   2
       TabCaption(5)   =   "Tesorería II"
       TabPicture(5)   =   "frmparametros.frx":0098
@@ -195,6 +188,25 @@ Begin VB.Form frmparametros
       Tab(5).Control(2)=   "FrameTalones(0)"
       Tab(5).Control(3)=   "FrameTalones(1)"
       Tab(5).ControlCount=   4
+      Begin VB.TextBox Text1 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   32
+         Left            =   -72240
+         MaxLength       =   250
+         TabIndex        =   192
+         Tag             =   "Path|T|S|||parametros|PathFicherosInteg|||"
+         Top             =   5400
+         Width           =   8475
+      End
       Begin VB.TextBox Text1 
          Alignment       =   1  'Right Justify
          BeginProperty Font 
@@ -747,7 +759,7 @@ Begin VB.Form frmparametros
          Index           =   0
          Left            =   -74820
          TabIndex        =   150
-         Top             =   2700
+         Top             =   3000
          Width           =   6885
          Begin VB.TextBox Text5 
             BeginProperty Font 
@@ -848,7 +860,7 @@ Begin VB.Form frmparametros
          Index           =   1
          Left            =   -74820
          TabIndex        =   147
-         Top             =   3960
+         Top             =   4320
          Width           =   6885
          Begin VB.TextBox Text6 
             BackColor       =   &H80000018&
@@ -1284,7 +1296,7 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2265
-         Left            =   -74700
+         Left            =   300
          TabIndex        =   118
          Top             =   810
          Width           =   3945
@@ -1383,7 +1395,7 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2265
-         Left            =   -70470
+         Left            =   4530
          TabIndex        =   111
          Top             =   840
          Width           =   6765
@@ -1606,7 +1618,7 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1365
-         Left            =   -70440
+         Left            =   4560
          TabIndex        =   108
          Top             =   3240
          Width           =   6735
@@ -1703,7 +1715,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   360
          Index           =   31
-         Left            =   4830
+         Left            =   -70170
          MaxLength       =   10
          TabIndex        =   2
          Tag             =   "Fecha fin|F|S|||parametros|fechaActiva|dd/mm/yyyy||"
@@ -1869,9 +1881,9 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1845
-         Left            =   -74700
+         Left            =   300
          TabIndex        =   87
-         Top             =   3180
+         Top             =   3360
          Visible         =   0   'False
          Width           =   10545
          Begin VB.TextBox Text1 
@@ -2001,7 +2013,7 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1965
-         Left            =   -74700
+         Left            =   300
          TabIndex        =   82
          Top             =   1020
          Visible         =   0   'False
@@ -2192,7 +2204,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   360
          Index           =   17
-         Left            =   2730
+         Left            =   -72270
          MaxLength       =   8
          TabIndex        =   81
          Text            =   "1"
@@ -2212,7 +2224,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   360
          Index           =   16
-         Left            =   2010
+         Left            =   -72990
          MaxLength       =   8
          TabIndex        =   80
          Text            =   "1"
@@ -2232,7 +2244,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   360
          Index           =   12
-         Left            =   1290
+         Left            =   -73710
          MaxLength       =   8
          TabIndex        =   79
          Text            =   "1"
@@ -2252,7 +2264,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   360
          Index           =   8
-         Left            =   570
+         Left            =   -74430
          MaxLength       =   8
          TabIndex        =   78
          Text            =   "1"
@@ -2272,9 +2284,9 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1815
-         Left            =   -74820
+         Left            =   -74760
          TabIndex        =   49
-         Top             =   3090
+         Top             =   3360
          Width           =   10995
          Begin VB.ComboBox Combo2 
             BeginProperty Font 
@@ -2524,7 +2536,7 @@ Begin VB.Form frmparametros
          Height          =   2685
          Left            =   -74760
          TabIndex        =   75
-         Top             =   2370
+         Top             =   2640
          Width           =   11115
          Begin VB.CheckBox Check1 
             Caption         =   "Se contabiliza apunte de iva 0"
@@ -2895,7 +2907,7 @@ Begin VB.Form frmparametros
       End
       Begin VB.Frame Frame6 
          Height          =   1035
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   72
          Top             =   1560
          Width           =   6765
@@ -2965,7 +2977,7 @@ Begin VB.Form frmparametros
       End
       Begin VB.Frame Frame5 
          Height          =   4305
-         Left            =   7050
+         Left            =   -67950
          TabIndex        =   71
          Top             =   840
          Width           =   4455
@@ -3117,7 +3129,7 @@ Begin VB.Form frmparametros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2505
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   67
          Top             =   2640
          Width           =   6765
@@ -3371,7 +3383,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   480
+         Left            =   -74520
          MaxLength       =   10
          TabIndex        =   0
          Tag             =   "Fecha inicio|F|N|||parametros|fechaini|dd/mm/yyyy|S|"
@@ -3391,7 +3403,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   2385
+         Left            =   -72615
          MaxLength       =   10
          TabIndex        =   1
          Tag             =   "Fecha fin|F|N|||parametros|fechafin|dd/mm/yyyy||"
@@ -3413,7 +3425,7 @@ Begin VB.Form frmparametros
          Height          =   1935
          Left            =   -74820
          TabIndex        =   56
-         Top             =   1110
+         Top             =   1080
          Width           =   10995
          Begin VB.CheckBox Check1 
             Caption         =   "Abonos negativos"
@@ -3668,6 +3680,31 @@ Begin VB.Form frmparametros
             Width           =   555
          End
       End
+      Begin VB.Image imgPathFich 
+         Height          =   240
+         Index           =   0
+         Left            =   -72600
+         Top             =   5400
+         Width           =   240
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Path ficheros integ "
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   33
+         Left            =   -74640
+         TabIndex        =   193
+         Top             =   5400
+         Width           =   1875
+      End
       Begin VB.Label Label1 
          Caption         =   "Importe limite 347"
          BeginProperty Font 
@@ -3717,7 +3754,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   255
          Index           =   27
-         Left            =   4830
+         Left            =   -70170
          TabIndex        =   100
          Top             =   870
          Width           =   1320
@@ -3725,7 +3762,7 @@ Begin VB.Form frmparametros
       Begin VB.Image imgFec 
          Height          =   240
          Index           =   2
-         Left            =   6180
+         Left            =   -68820
          Picture         =   "frmparametros.frx":01DF
          Top             =   870
          Width           =   240
@@ -3733,7 +3770,7 @@ Begin VB.Form frmparametros
       Begin VB.Image imgFec 
          Height          =   240
          Index           =   1
-         Left            =   3390
+         Left            =   -71610
          Picture         =   "frmparametros.frx":026A
          Top             =   870
          Width           =   240
@@ -3741,7 +3778,7 @@ Begin VB.Form frmparametros
       Begin VB.Image imgFec 
          Height          =   240
          Index           =   0
-         Left            =   1680
+         Left            =   -73320
          Picture         =   "frmparametros.frx":02F5
          Top             =   870
          Width           =   240
@@ -3759,7 +3796,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   255
          Index           =   0
-         Left            =   480
+         Left            =   -74520
          TabIndex        =   64
          Top             =   870
          Width           =   1215
@@ -3777,7 +3814,7 @@ Begin VB.Form frmparametros
          EndProperty
          Height          =   255
          Index           =   1
-         Left            =   2385
+         Left            =   -72615
          TabIndex        =   63
          Top             =   870
          Width           =   1020
@@ -3844,7 +3881,7 @@ Begin VB.Form frmparametros
       Height          =   375
       Left            =   9450
       TabIndex        =   46
-      Top             =   6270
+      Top             =   6990
       Width           =   1035
    End
    Begin MSComctlLib.Toolbar ToolbarAyuda 
@@ -3932,10 +3969,12 @@ Private Sub cmdAceptar_Click()
         If DatosOK Then
             'Cambiamos el path
             'CambiaPath True
+            CambiaBarrasPath True
             If InsertarDesdeForm(Me) Then
                 InsertarModificar True
                 PonerModo 0
             End If
+            CambiaBarrasPath False
         End If
     
     Case 4
@@ -3953,6 +3992,7 @@ Private Sub cmdAceptar_Click()
                     cad = " fechaini = '" & Format(vParam.fechaini, FormatoFecha) & "'"
                 End If
             End If
+            CambiaBarrasPath True
             If ModificaClaves Then
                 If ModificaDesdeFormularioClaves(Me, cad) Then
                     ReestableceVPARAM
@@ -3967,6 +4007,7 @@ Private Sub cmdAceptar_Click()
                     End If
                 End If
             End If
+            CambiaBarrasPath False
         End If
 
     End Select
@@ -3978,6 +4019,19 @@ Private Sub cmdAceptar_Click()
 Error1:
     Screen.MousePointer = vbDefault
     If Err.Number <> 0 Then MsgBox Err.Number & " - " & Err.Description, vbExclamation
+End Sub
+
+Private Sub CambiaBarrasPath(paraInsertar As Boolean)
+    If Text1(32).Text = "" Then Exit Sub
+    
+    If paraInsertar Then
+        Text1(32).Text = Replace(Text1(32).Text, "\", "#")
+        Text1(32).Text = Replace(Text1(32).Text, "#", "\\")
+    Else
+        Text1(32).Text = Replace(Text1(32).Text, "\\", "#")
+        Text1(32).Text = Replace(Text1(32).Text, "#", "\")
+    End If
+
 End Sub
 
 
@@ -4043,13 +4097,13 @@ Private Sub Form_Load()
     
     imgCta2(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Image2.Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    imgIVA.Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    imgiva.Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCta2(4).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     For i = 7 To 10
         imgCta2(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Next i
     For i = 0 To 2
-        imgcta(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+        imgCta(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Next i
     For i = 0 To 3
         imgDiario(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
@@ -4061,17 +4115,19 @@ Private Sub Form_Load()
         Image3(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Next i
     
+    imgPathFich(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    
     'Se muestra unicamente si hay tesorería
     Me.SSTab1.TabEnabled(4) = (vEmpresa.TieneTesoreria)
     Me.SSTab1.TabVisible(4) = (vEmpresa.TieneTesoreria)
     Me.SSTab1.TabEnabled(5) = (vEmpresa.TieneTesoreria)
     Me.SSTab1.TabVisible(5) = (vEmpresa.TieneTesoreria)
     
-    adodc1.ConnectionString = Conn
-    adodc1.RecordSource = "Select * from parametros "
-    adodc1.Refresh
+    Adodc1.ConnectionString = Conn
+    Adodc1.RecordSource = "Select * from parametros "
+    Adodc1.Refresh
     Limpiar Me
-    If adodc1.Recordset.EOF Then
+    If Adodc1.Recordset.EOF Then
         'No hay datos
         
         PonerModo 3
@@ -4279,6 +4335,15 @@ Private Sub imgiva_Click()
     Set frmI = Nothing
 End Sub
 
+
+Private Sub imgPathFich_Click(Index As Integer)
+
+    If Modo = 0 Then Exit Sub
+    
+    cad = GetFolder("Carpeta integracion")
+    If cad = "" Then Exit Sub
+    Text1(32).Text = cad
+End Sub
 
 Private Sub Option1_KeyPress(Index As Integer, KeyAscii As Integer)
     KEYpress KeyAscii
@@ -4562,6 +4627,10 @@ Private Sub PonerModo(Kmodo As Integer)
         imgConcep(i).Enabled = Not Valor
     Next i
     
+    BloqueaTXT Text1(32), Modo = 0
+    If Modo > 0 Then Me.imgPathFich(0).Enabled = Not Valor
+    
+    
     'Campos que solo estan habilitados para insercion
     If Not Valor Then
         Text1(0).Locked = (vUsu.Nivel >= 1)
@@ -4581,7 +4650,7 @@ Private Sub PonerContRegIndicador()
 Dim cadReg As String
 
     If (Modo = 2 Or Modo = 0) Then
-        cadReg = PonerContRegistros(Me.adodc1)
+        cadReg = PonerContRegistros(Me.Adodc1)
         If CadB = "" Then
             lblIndicador.Caption = cadReg
         Else
@@ -4597,8 +4666,8 @@ Private Sub PonerCampos()
     Dim tabla As String
     Dim Cod As String
     
-        If adodc1.Recordset.EOF Then Exit Sub
-        If PonerCamposForma(Me, adodc1) Then
+        If Adodc1.Recordset.EOF Then Exit Sub
+        If PonerCamposForma(Me, Adodc1) Then
            'Correcto, ponemos los datos auxiliares
            '----------------------------------------
            ' Diarios
@@ -4765,9 +4834,29 @@ Private Function DatosOK() As Boolean
         End If
     End If
     
+    
+    If B Then
+        If Text1(32).Text <> "" Then B = HacerDir
+    End If
     DatosOK = B
 
 End Function
+
+Private Function HacerDir() As Boolean
+    On Error Resume Next
+    HacerDir = False
+    cad = Dir(Text1(32).Text, vbDirectory)
+    If Err.Number <> 0 Then
+        MuestraError Err.Number
+    Else
+        If cad <> "" Then
+            HacerDir = True
+        Else
+            MsgBox "No existe carpeta", vbExclamation
+        End If
+    End If
+End Function
+
 
 Private Sub Text2_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     KEYdown KeyCode

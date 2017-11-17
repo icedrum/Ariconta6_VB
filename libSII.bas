@@ -426,7 +426,23 @@ Private Function DevuelveClaveTranscendenciaRecibida(ByRef R As ADODB.Recordset)
     ElseIf R!CodOpera = "1" Then
         DevuelveClaveTranscendenciaRecibida = "09"
     Else
+    
+    
         DevuelveClaveTranscendenciaRecibida = "01"
+        
+        
+        'Normal
+        'Si es operaciones de ARRENDAMIENTO
+        'EMITIDAS 11: S/REF C/RET 13 C/REF C/S/RET
+'        If R!codconce340 = "R" Then
+'            If DBLet(R!CatastralREF, "T") = "" Then
+'                DevuelveClaveTranscendenciaEmitida = "11"
+'            Else
+'                DevuelveClaveTranscendenciaEmitida = "13"
+'            End If
+'        Else
+        
+        
     End If
 
     
@@ -542,6 +558,33 @@ Dim FechaPeriodo As Date
     Aux = ""
     If Clave = "R1" Then Aux = "I"  'factura rectificativa por diferencias
     SQL = SQL & DBSet(Clave, "T") & "," & DBSet(Aux, "T", "S") & ","
+    
+    
+    
+    
+'#4.1   No implmentado en ASWSII
+'    If RN!codconce340 = "R" Then
+'        'ARRENDAMIENTO
+'        Aux = DBLet(RN!CatastralREF, "T")
+'        If Aux = "" Then
+'            SQL = SQL & "NULL,NULL,"
+'        Else
+'            Aux = DBLet(RN!CatastralSitu, "N")
+'            If Val(Aux) = "0" Then
+'                Aux = "1"
+ '           Else
+ '               If Val(Aux) < 49 Or Val(Aux) > 52 Then
+ '                   Aux = "1"
+ '               Else
+ '                   Aux = Val(Aux) - 48
+ '               End If
+ '           End If
+ '           SQL = SQL & DBSet(RN!CatastralREF, "T") & "," & Aux & ","
+ '       End If
+ '   Else
+ '       SQL = SQL & "NULL,NULL,"
+ '   End If
+    
     
     
 '#5
@@ -719,6 +762,9 @@ Dim H As Integer
     '#4
     'REG_IDF_NumSerieFacturaEmisor,REG_IDF_NumSerieFacturaEmisorResumenFin,REG_IDF_FechaExpedicionFacturaEmisor,REG_FE_TipoFactura,REG_FE_TipoRectificativa
     Sii_FraPRO_SQL = Sii_FraPRO_SQL & "REG_IDF_NumSerieFacturaEmisor,REG_IDF_NumSerieFacturaEmisorResumenFin,REG_IDF_FechaExpedicionFacturaEmisor,REG_FR_TipoFactura,REG_FR_TipoRectificativa,"
+    
+    '#4.1 NO Implementado en ASWSII
+    'Sii_FraPRO_SQL = Sii_FraPRO_SQL & "REG_FE_DI_DT_ReferenciaCatastral,REG_FE_DI_DT_SituacionInmueble,"
     
     
     '#5

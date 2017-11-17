@@ -3994,7 +3994,6 @@ Dim cad As String
     vCta = vCta & "balances_ctas WHERE pasivo ='" & Pasivo & "' AND codigo = " & Codigo & " AND numbalan = " & NumAsiento
     RC.Open vCta, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
-  
     'Primer mes
     If mess1 < Month(vParam.fechaini) Then
         F1 = CDate(Day(vParam.fechaini) & "/" & Month(vParam.fechaini) & "/" & anyos1 - 1)
@@ -4016,11 +4015,8 @@ Dim cad As String
     End If
     
     Set RN = New ADODB.Recordset
-
-    
     While Not RC.EOF
-                                                                                                                  
-        '
+                                                                                                            
             cad = "SELECT substring(line.codmacta,1," & Len(RC!codmacta)
             cad = cad & ") as codmacta,'' nommacta ,   year(fechaent) anyo,month(fechaent) mes,"
             cad = cad & " sum(coalesce(timported,0)) debe, sum(coalesce(timporteh,0)) haber FROM "
@@ -4060,7 +4056,7 @@ Dim cad As String
             
                 ImCierrH = 0
                 ImCierrD = 0
-
+                If Len(vCta) > 5 Then vCta = RC!codmacta   'Esta situacion se da porque NO ha tenido pyg ni movimientos
                 
                 If F1 < vParam.fechaini Then
                     'Ejercicios cerrados
@@ -4112,7 +4108,7 @@ Dim cad As String
 
 
         If RC!TipSaldo <> "S" Then
-            Debug.Print RC!codmacta
+            'Debug.Print RC!codmacta
             'St op
         End If
         
@@ -5180,22 +5176,29 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     ' iva
     SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente )"
     
-    SQL = SQL & " select " & vUsu.Codigo & ",porciva,coalesce(imporec,0),sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0)), " & Empresa & "," & Periodo & "," & Anyo & ",0 "
+    'SQL = SQL & " select " & vUsu.Codigo & ",porciva,coalesce(imporec,0)"
+    SQL = SQL & " select " & vUsu.Codigo & ",porciva,0"
+    'SQL = SQL & " ,sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))"
+    SQL = SQL & " ,sum(baseimpo),sum(impoiva), 0"
+    SQL = SQL & ", " & Empresa & "," & Periodo & "," & Anyo & ",0 "
     SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
     SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
     SQL = SQL & " and factcli.codopera = 0 " ' tipo de operacion general
     SQL = SQL & " and tipodiva in (0,1) " 'solo iva e igic
     SQL = SQL & " and factcli_totales.codigiva = tiposiva.codigiva "
     SQL = SQL & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
+    'SQL = SQL & " and coalesce(porcerec,0)=0"
     SQL = SQL & " group by 1,2,3"
                     
     Conn.Execute SQL
     
     
     ' recargo de equivalencia
+    ' La cuot a de IVA ya la hemos sumado arriba. Ahora no la volvemos a poner
     SQL = "insert into tmpliquidaiva(codusu,iva,bases,ivas,codempre,periodo,ano,cliente,porcrec)"
     
-    SQL = SQL & " select " & vUsu.Codigo & ",porciva,sum(baseimpo),sum(coalesce(imporec,0))," & Empresa & "," & Periodo & "," & Anyo & ",1 "
+    SQL = SQL & " select " & vUsu.Codigo & ",porciva,sum(baseimpo),sum(coalesce(imporec,0)),"
+    SQL = SQL & Empresa & "," & Periodo & "," & Anyo & ",1 "
     SQL = SQL & " ,coalesce(porcrec,0)"
     SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
     SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"

@@ -1921,8 +1921,9 @@ Dim J As Integer
             End If
         Next
         If C <> "" Then
-            MsgBox "Vencimientos incorrectos" & vbCrLf & C, vbExclamation
-            Exit Function
+            C = "Vencimientos incorrectos. ¿Continuar de igualmente?" & vbCrLf & C
+            
+            If MsgBox(C, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Function
         End If
     
     DatosOK = True
@@ -2893,7 +2894,7 @@ Private Sub HacerToolBar2(Boton As Integer)
                     CadenaDesdeOtroForm = ""
                     Exit Sub
                 Else
-                    CadenaDesdeOtroForm = CadenaDesdeOtroForm & vbCrLf & vbCrLf & "¿seguro que desea contabilizarla?" & vbCrLf
+                    CadenaDesdeOtroForm = CadenaDesdeOtroForm & vbCrLf & vbCrLf & "¿Seguro que desea contabilizarla?" & vbCrLf
                     CadenaDesdeOtroForm = String(70, "*") & vbCrLf & CadenaDesdeOtroForm & vbCrLf & String(70, "*")
                     If MsgBox(CadenaDesdeOtroForm, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
                 End If

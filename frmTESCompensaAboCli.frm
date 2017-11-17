@@ -601,7 +601,7 @@ Private WithEvents frmC As frmCal
 Attribute frmC.VB_VarHelpID = -1
 Private frmMens As frmMensajes
 
-Dim Sql As String
+Dim SQL As String
 Dim RC As String
 Dim Rs As Recordset
 Dim PrimeraVez As Boolean
@@ -650,9 +650,9 @@ End Function
 
 Private Sub cmdCancelar_Click(Index As Integer)
     If Index = 0 Then
-        Frame1.Visible = True
+        Frame1.visible = True
         Frame1.Enabled = True
-        Me.FrameCompensaAbonosCliente.Visible = False
+        Me.FrameCompensaAbonosCliente.visible = False
         Me.FrameCompensaAbonosCliente.Enabled = False
     Else
         Unload Me
@@ -690,24 +690,29 @@ Private Sub cmdCompensar_Click()
             If CONT = 0 Then CONT = i
         End If
     Next
-    
-    If TotalRegistros = 0 Or NumRegElim = 0 Then
-        MsgBox "No hay vencimientos para compensar", vbExclamation
+
+    If TotalRegistros + NumRegElim = 1 Then
+        MsgBox "Debe seleccionar mas de un vencimiento", vbExclamation
         Exit Sub
     End If
+    If TotalRegistros = 0 Or NumRegElim = 0 Then
+        SQL = "-No hay vencimientos para compensar." & vbCrLf & " Va a agrupar los cobros. " & vbCrLf & vbCrLf & "¿Continuar?"
+        If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     
+    End If
+
     i = 0
-    Sql = ""
+    SQL = ""
     If Len(cad) <> 1 Then
         'Ha seleccionado o cero o mas de uno
         If txtimpNoEdit(0).Text <> txtimpNoEdit(1).Text Then
             'importes distintos. Solo puede seleccionar UNO
-            Sql = "Debe selecionar uno(y solo uno) como vencimiento destino"
+            SQL = "Debe selecionar uno(y solo uno) como vencimiento destino"
         End If
     Else
         'Comprobaremos si el selecionado esta tb checked
         If Not lwCompenCli.ListItems(CONT).Checked Then
-            Sql = "El vencimiento seleccionado no esta marcado"
+            SQL = "El vencimiento seleccionado no esta marcado"
         
         Else
             'Si el importe Cobro es mayor que abono, deberia estar
@@ -715,11 +720,11 @@ Private Sub cmdCompensar_Click()
             If Importe <> 0 Then
                 If Importe > 0 Then
                     'Es un abono
-                    If Trim(lwCompenCli.ListItems(CONT).SubItems(6)) = "" Then Sql = "cobro"
+                    If Trim(lwCompenCli.ListItems(CONT).SubItems(6)) = "" Then SQL = "cobro"
                 Else
-                    If Trim(lwCompenCli.ListItems(CONT).SubItems(6)) <> "" Then Sql = "abono"
+                    If Trim(lwCompenCli.ListItems(CONT).SubItems(6)) <> "" Then SQL = "abono"
                 End If
-                If Sql <> "" Then Sql = "Debe marcar un " & Sql & " como destino"
+                If SQL <> "" Then SQL = "Debe marcar un " & SQL & " como destino"
             End If
             
         End If
@@ -730,17 +735,17 @@ Private Sub cmdCompensar_Click()
     'Si hay uno y uno, y no esta el vencimiento destino establecido, lo establezco yo
     If TotalRegistros = 1 And NumRegElim = 1 And CONT = 0 Then
         Importe = CCur(txtimpNoEdit(0).Tag) + CCur(txtimpNoEdit(1).Tag)  'txtimpNoEdit(1).Tag es negativo
-        Sql = ""
+        SQL = ""
         For i = 1 To Me.lwCompenCli.ListItems.Count
             If lwCompenCli.ListItems(i).Checked Then
                 If Importe > 0 Then
                     'Este es el nodo SELECCIONADO
-                    If Trim(lwCompenCli.ListItems(i).SubItems(6)) <> "" Then Sql = "OK"
+                    If Trim(lwCompenCli.ListItems(i).SubItems(6)) <> "" Then SQL = "OK"
                 Else
-                    If Trim(lwCompenCli.ListItems(i).SubItems(6)) = "" Then Sql = "OK"
+                    If Trim(lwCompenCli.ListItems(i).SubItems(6)) = "" Then SQL = "OK"
                 End If
             End If
-            If Sql <> "" Then
+            If SQL <> "" Then
                 'ESTE ES EL NODO A MARCAR
                 
                 Me.lwCompenCli.ListItems(i).Bold = True
@@ -753,7 +758,7 @@ Private Sub cmdCompensar_Click()
                 lwCompenCli.ListItems(i).EnsureVisible
                 CONT = i  'establezco destino
                 cad = "1" 'Para que la funcion de comprbacion no de que debe seleccionar un vencimiento
-                Sql = ""
+                SQL = ""
                 Exit For
             End If
         Next
@@ -767,8 +772,8 @@ Private Sub cmdCompensar_Click()
     
     
     
-    If Sql <> "" Then
-        MsgBox Sql, vbExclamation
+    If SQL <> "" Then
+        MsgBox SQL, vbExclamation
         Exit Sub
     End If
     
@@ -780,7 +785,7 @@ Private Sub cmdCompensar_Click()
     
     
     
-    If TotalRegistros = 0 Or NumRegElim = 0 Then Sql = "Debe selecionar cobro(s) y abono(s)" & vbCrLf & Sql
+    If TotalRegistros = 0 Or NumRegElim = 0 Then SQL = "Debe selecionar cobro(s) y abono(s)" & vbCrLf & SQL
         
     Observaciones = ""
 
@@ -887,7 +892,7 @@ Private Sub Form_Activate()
             
             CadenaDesdeOtroForm = ""
         Else
-            If Not Frame1.Visible Then
+            If Not Frame1.visible Then
                 If CadenaDesdeOtroForm <> "" Then
                     txtCta(17).Text = CadenaDesdeOtroForm
                     txtCta_LostFocus 17
@@ -956,8 +961,8 @@ Dim Img As Image
     H = FrameCompensaAbonosCliente.Height + 120
     W = FrameCompensaAbonosCliente.Width
     
-    FrameCompensaAbonosCliente.Visible = False
-    Me.Frame1.Visible = True
+    FrameCompensaAbonosCliente.visible = False
+    Me.Frame1.visible = True
     
     VerTodos = False
     
@@ -1110,52 +1115,52 @@ Private Sub HacerToolBar2(Boton As Integer)
 End Sub
 
 Private Sub Desplazamiento(Index As Integer)
-    If Data1.Recordset.EOF Then Exit Sub
+    If data1.Recordset.EOF Then Exit Sub
     
     Select Case Index
         Case 0
-            Data1.Recordset.MovePrevious
-            If Data1.Recordset.BOF Then Data1.Recordset.MoveFirst
+            data1.Recordset.MovePrevious
+            If data1.Recordset.BOF Then data1.Recordset.MoveFirst
             
         Case 1
-            Data1.Recordset.MoveNext
-            If Data1.Recordset.EOF Then Data1.Recordset.MoveLast
+            data1.Recordset.MoveNext
+            If data1.Recordset.EOF Then data1.Recordset.MoveLast
     End Select
-    txtCta(17).Text = Data1.Recordset.Fields(0)
-    DtxtCta(17).Text = DBLet(Data1.Recordset.Fields(1), "T")
+    txtCta(17).Text = data1.Recordset.Fields(0)
+    DtxtCta(17).Text = DBLet(data1.Recordset.Fields(1), "T")
     PonerModoUsuarioGnral 0, "ariconta"
     PonerVtosCompensacionCliente
 End Sub
 
 
 Private Sub BotonVerTodos(Limpiar As Boolean)
-Dim Sql As String
+Dim SQL As String
     'Ver todos
     
     VerTodos = True
     
-    Sql = "select distinct cobros.codmacta, cobros.nomclien from cobros  where (1=1) "
-    If Cuentas <> "" Then Sql = Sql & " and cobros.codmacta in (" & Cuentas & ")"
-    Sql = Sql & " and impvenci + coalesce(gastos,0) - coalesce(impcobro,0) < 0"
-    If Limpiar Then Sql = Sql & " and cobros.codmacta is null"
+    SQL = "select distinct cobros.codmacta, cobros.nomclien from cobros  where (1=1) "
+    If Cuentas <> "" Then SQL = SQL & " and cobros.codmacta in (" & Cuentas & ")"
+    SQL = SQL & " and impvenci + coalesce(gastos,0) - coalesce(impcobro,0) < 0"
+    If Limpiar Then SQL = SQL & " and cobros.codmacta is null"
     
     
     
-    If TotalRegistrosConsulta(Sql) = 0 Then
+    If TotalRegistrosConsulta(SQL) = 0 Then
         If Not Limpiar Then MsgBox "No hay cuentas con abonos.", vbExclamation
         
         VerTodos = False
     End If
     
     
-    Data1.ConnectionString = Conn
+    data1.ConnectionString = Conn
     '***** canviar el nom de la PK de la capçalera; repasar codEmpre *************
-    Data1.RecordSource = Sql
-    Data1.Refresh
+    data1.RecordSource = SQL
+    data1.Refresh
     
     If VerTodos Then
-        txtCta(17).Text = Data1.Recordset.Fields(0)
-        DtxtCta(17).Text = Data1.Recordset.Fields(1)
+        txtCta(17).Text = data1.Recordset.Fields(0)
+        DtxtCta(17).Text = data1.Recordset.Fields(1)
     Else
         txtCta(17).Text = ""
         DtxtCta(17).Text = ""
@@ -1167,10 +1172,10 @@ End Sub
 
 Private Sub BotonAnyadir()
 
-    Frame1.Visible = False
+    Frame1.visible = False
     Frame1.Enabled = False
 
-    Me.FrameCompensaAbonosCliente.Visible = True
+    Me.FrameCompensaAbonosCliente.visible = True
     Me.FrameCompensaAbonosCliente.Enabled = True
     
     VerTodos = False
@@ -1231,13 +1236,13 @@ Dim B As Byte
     Case Else
         'DE ULTIMO NIVEL
         Cta = (txtCta(Index).Text)
-        If CuentaCorrectaUltimoNivel(Cta, Sql) Then
+        If CuentaCorrectaUltimoNivel(Cta, SQL) Then
             txtCta(Index).Text = Cta
-            DtxtCta(Index).Text = Sql
+            DtxtCta(Index).Text = SQL
             
             
         Else
-            MsgBox Sql, vbExclamation
+            MsgBox SQL, vbExclamation
             txtCta(Index).Text = ""
             DtxtCta(Index).Text = ""
             txtCta(Index).SetFocus
@@ -1471,7 +1476,7 @@ Dim J As Integer
     'Texto compensacion
     DevfrmCCtas = ""
     
-    RC = "Select " & cad & ", gastos, impvenci, impcobro, fecvenci FROM cobros where (numserie,numfactu,fecfactu,numorden) IN (" & Sql & ")"
+    RC = "Select " & cad & ", gastos, impvenci, impcobro, fecvenci FROM cobros where (numserie,numfactu,fecfactu,numorden) IN (" & SQL & ")"
     miRsAux.Open RC, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If miRsAux.EOF Then
         MsgBox "Error. EOF vencimientos devueltos ", vbExclamation
@@ -1533,7 +1538,7 @@ Dim J As Integer
         
         'Para saber si ha ido bien
         Destino = 0    '0 mal,1 bien
-        If InsertarCobrosRealizados(Sql) Then
+        If InsertarCobrosRealizados(SQL) Then
             If txtimpNoEdit(0).Text = txtimpNoEdit(1).Text Then
                 Destino = 1
             Else
@@ -1542,7 +1547,7 @@ Dim J As Integer
                 
                 cad = ""
                 J = 0
-                Sql = ""
+                SQL = ""
                 
                 
                 Importe = CCur(txtimpNoEdit(0).Tag) + CCur(txtimpNoEdit(1).Tag)  'txtimpNoEdit(1).Tag es negativo
@@ -1551,10 +1556,10 @@ Dim J As Integer
                 RC = RC & ",text33csb=" & DBSet(Txt33Csb, "T")
                 RC = RC & ",text41csb=" & DBSet(Txt41Csb, "T")
                 
-                Sql = RC & Sql
-                Sql = "UPDATE cobros SET " & Sql
+                SQL = RC & SQL
+                SQL = "UPDATE cobros SET " & SQL
                 
-                Sql = Sql & ", observa =concat(coalesce(observa,''),' '," & DBSet(Observaciones, "T") & ")"
+                SQL = SQL & ", observa =concat(coalesce(observa,''),' '," & DBSet(Observaciones, "T") & ")"
                 
                 
                 'WHERE
@@ -1570,7 +1575,7 @@ Dim J As Integer
                     End If
                 Next
                 If RC <> "" Then
-                    cad = Sql & " WHERE " & RC
+                    cad = SQL & " WHERE " & RC
                     If Ejecuta(cad) Then Destino = 1
                 Else
                     MsgBox "No encontrado destino", vbExclamation
@@ -1588,7 +1593,7 @@ Dim J As Integer
 End Function
 
 Private Function InsertarCobrosRealizados(facturas As String) As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim Cade As String
 Dim NumLin As Long
@@ -1597,28 +1602,28 @@ Dim NumLin As Long
 
     InsertarCobrosRealizados = True
 
-    Sql = "select * from cobros where (numserie, numfactu, fecfactu, numorden) in (" & facturas & ")"
+    SQL = "select * from cobros where (numserie, numfactu, fecfactu, numorden) in (" & facturas & ")"
     
     
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     While Not Rs.EOF
         ' actualizamos la cabecera del cobro pq ya no lo eliminamos
-        Sql = "update cobros set situacion = 1, impcobro = impvenci + coalesce(gastos,0),fecultco = " & DBSet(Now, "F")
+        SQL = "update cobros set situacion = 1, impcobro = impvenci + coalesce(gastos,0),fecultco = " & DBSet(Now, "F")
         Cade = DBLet(Rs!observa, "T")
         If Cade <> "" Then Cade = Cade & vbCrLf
         Cade = Cade & Observaciones
-        Sql = Sql & " , observa =" & DBSet(Cade, "T")
-        Sql = Sql & " where numserie = " & DBSet(Rs!NUmSerie, "T")
-        Sql = Sql & " and numfactu = " & DBSet(Rs!NumFactu, "N") & " and fecfactu = " & DBSet(Rs!FecFactu, "F") & " and numorden = " & DBSet(Rs!numorden, "N")
+        SQL = SQL & " , observa =" & DBSet(Cade, "T")
+        SQL = SQL & " where numserie = " & DBSet(Rs!NUmSerie, "T")
+        SQL = SQL & " and numfactu = " & DBSet(Rs!NumFactu, "N") & " and fecfactu = " & DBSet(Rs!FecFactu, "F") & " and numorden = " & DBSet(Rs!numorden, "N")
         
         
         
         
         
-        Conn.Execute Sql
+        Conn.Execute SQL
         
         Rs.MoveNext
     Wend
@@ -1635,7 +1640,7 @@ End Function
 
 Private Sub SQLVtosSeleccionadosCompensacion(ByRef RegistroDestino As Long, SinDestino As Boolean)
 Dim Insertar As Boolean
-    Sql = ""
+    SQL = ""
     For i = 1 To Me.lwCompenCli.ListItems.Count
         If Me.lwCompenCli.ListItems(i).Checked Then
         
@@ -1645,13 +1650,13 @@ Dim Insertar As Boolean
                 If SinDestino Then Insertar = False
             End If
             If Insertar Then
-                Sql = Sql & ", ('" & lwCompenCli.ListItems(i).Text & "'," & lwCompenCli.ListItems(i).SubItems(1)
-                Sql = Sql & ",'" & Format(lwCompenCli.ListItems(i).SubItems(2), FormatoFecha) & "'," & lwCompenCli.ListItems(i).SubItems(3) & ")"
+                SQL = SQL & ", ('" & lwCompenCli.ListItems(i).Text & "'," & lwCompenCli.ListItems(i).SubItems(1)
+                SQL = SQL & ",'" & Format(lwCompenCli.ListItems(i).SubItems(2), FormatoFecha) & "'," & lwCompenCli.ListItems(i).SubItems(3) & ")"
             End If
             
         End If
     Next
-    Sql = Mid(Sql, 2)
+    SQL = Mid(SQL, 2)
             
 End Sub
 

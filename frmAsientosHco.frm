@@ -2787,7 +2787,7 @@ Dim vFe As String
             Exit Sub
         End If
     End If
-    If cmdAux(0).Tag = 4 Then
+    If cmdAux(0).Tag = 0 Then
         'Cuenta normal
         txtaux(4).Text = RecuperaValor(CadenaSeleccion, 1)
         txtAux2(4).Text = RecuperaValor(CadenaSeleccion, 2)

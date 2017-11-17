@@ -110,6 +110,7 @@ Begin VB.Form frmTESCompensaciones
          Height          =   360
          Index           =   0
          Left            =   4530
+         Locked          =   -1  'True
          TabIndex        =   9
          Text            =   "Text3"
          Top             =   6600
@@ -129,6 +130,7 @@ Begin VB.Form frmTESCompensaciones
          Height          =   360
          Index           =   1
          Left            =   6090
+         Locked          =   -1  'True
          TabIndex        =   8
          Text            =   "Text3"
          Top             =   6600
@@ -148,6 +150,7 @@ Begin VB.Form frmTESCompensaciones
          Height          =   360
          Index           =   2
          Left            =   7650
+         Locked          =   -1  'True
          TabIndex        =   7
          Text            =   "Text3"
          Top             =   6600
@@ -1174,7 +1177,7 @@ Dim FrasPro As String
                                 If CambiaIMporteVto Then
                                     'Cambia el importe vto y pone a NULL el cobrado
                                     CadenaUpdate = CadenaUpdate & " impvenci=  " & TransformaComasPuntos(CStr(CCur(Text3(2).Tag))) & ",gastos =NULL, impcobro=NULL"
-                                    CadenaUpdate = CadenaUpdate & " ,obs=trim(concat(if(obs is null, """",obs),""    "",""Compen. " & Format(Now, "dd/mm/yyyy") & " Vto: " & CStr(YaCobrado) & """))"
+                                    CadenaUpdate = CadenaUpdate & " ,observa=trim(concat(if(observa is null, """",observa),""    "",""Compen. " & Format(Now, "dd/mm/yyyy") & " Vto: " & CStr(YaCobrado) & """))"
                                 Else
                                     'No cambial el importe del vecnimiento, lo deja como estaba y lo pone sobre impcobro
      
