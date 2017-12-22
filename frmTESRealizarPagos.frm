@@ -3818,7 +3818,13 @@ Dim SqlBanco As String
         
         If Mid(ColVtosQuePago.Item(i), 1, 2) <> "1:" Then
             'Series 'creadas a mano
-            Aux = Mid(RecuperaValor(CStr(ColVtosQuePago.Item(i)), 1) & Space(10), 1, 10) & " "
+            Aux = RecuperaValor(CStr(ColVtosQuePago.Item(i)), 1)
+            If Len(Aux) > 10 Then
+                Aux = RecuperaValor(CStr(ColVtosQuePago.Item(i)), 1)
+                Aux = Mid(Aux, 3)
+            End If
+            Aux = Mid(Aux & Space(10), 1, 10) & " "
+            
         Else
             Aux = RecuperaValor(CStr(ColVtosQuePago.Item(i)), 1)
             Aux = Mid(Aux, 3)

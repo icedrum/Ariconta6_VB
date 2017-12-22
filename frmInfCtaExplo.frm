@@ -1219,7 +1219,7 @@ Dim cad As String
     If chkComparativo.Value = 0 Then
 
         pb2.visible = True
-        CargarProgres pb2, 6
+        CargarProgres pb2, 8
         
         'Cargamos una temporal para poder exportar a fichero
         SQL = "delete from tmpbalancesumas where codusu = " & vUsu.Codigo
@@ -1227,19 +1227,32 @@ Dim cad As String
     
         IncrementarProgres pb2, 1
         
-        cad = "01/" & cmbFecha(2).ListIndex + 1 & "/" & txtAno(4).Text
+        cad = "01/" & Format(cmbFecha(2).ListIndex + 1, "00") & "/" & txtAno(4).Text
         
         SQL = "insert into tmpbalancesumas (codusu,cta,nomcta,acumAntD,acumAntH) "
         SQL = SQL & " select " & vUsu.Codigo & ", hlinapu.codmacta Cuenta , nommacta Titulo, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) "
-        SQL = SQL & " from hlinapu left join cuentas on hlinapu.codmacta = cuentas.codmacta where hlinapu.codconce<>970 AND mid(hlinapu.codmacta,1,1) IN ('6','7') and hlinapu.fechaent >= '" & Format(Me.txtAno(4).Text, "0000") & "-" & Format(Month(vParam.fechaini), "00") & "-" & Format(Day(vParam.fechaini), "00") & "'"
+        SQL = SQL & " from hlinapu left join cuentas on hlinapu.codmacta = cuentas.codmacta where hlinapu.codconce<>970 AND mid(hlinapu.codmacta,1,1) IN ('6','7')"
+        'NOOOOOOOOOO moni NOOOOOOOOOOOOOOO
+        'SQL = SQL & " and hlinapu.fechaent >= '" & Format(Me.txtAno(4).Text, "0000") & "-" & Format(Month(vParam.fechaini), "00") & "-" & Format(Day(vParam.fechaini), "00") & "'"
+        i = cmbFecha(2).ListIndex + 1
+        If i >= Month(vParam.fechaini) Then
+            i = Val(txtAno(4).Text)
+        Else
+            i = Val(txtAno(4).Text) - 1
+        End If
+        
+        SQL = SQL & " and hlinapu.fechaent >= '" & Format(i, "0000") & "-" & Format(Month(vParam.fechaini), "00") & "-" & Format(Day(vParam.fechaini), "00") & "'"
         SQL = SQL & " and hlinapu.fechaent < " & DBSet(cad, "F")
         SQL = SQL & " group by 1,2,3 "
+        
         SQL = SQL & " order by 1,2,3 "
             
         Conn.Execute SQL
         
         IncrementarProgres pb2, 1
         
+        'Otro ERROR. EN el update de abajo, solo updatea los que hayan.
+        'Si hubiera alguna cuenta que tuviera movimientos del periodo , pero NO anteriores.... EEERROR
         
         i = DiasMes(cmbFecha(2).ListIndex + 1, txtAno(4).Text)
         
@@ -1248,7 +1261,8 @@ Dim cad As String
         SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta)"
         
         Conn.Execute SQL
-        
+        SQL = "UPDATE tmpbalancesumas set acumperd=0 where acumperd is null and codusu = " & vUsu.Codigo
+        Conn.Execute SQL
         IncrementarProgres pb2, 1
         
         SQL = "update tmpbalancesumas set "
@@ -1256,8 +1270,22 @@ Dim cad As String
         SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta)"
         
         Conn.Execute SQL
+        SQL = "UPDATE tmpbalancesumas set acumperh=0 where acumperh is null and codusu = " & vUsu.Codigo
+        Conn.Execute SQL
         
+        
+        'Para subsanar el error anterior, de que ctas del periodo que NO esten en anteriores
         IncrementarProgres pb2, 1
+        
+        SQL = "insert into tmpbalancesumas (codusu,cta,nomcta,acumAntD,acumAntH,acumPerD ,acumPerH) "
+        SQL = SQL & " select " & vUsu.Codigo & ", hlinapu.codmacta Cuenta , nommacta Titulo,0,0, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) "
+        SQL = SQL & " from hlinapu left join cuentas on hlinapu.codmacta = cuentas.codmacta where hlinapu.codconce<>970 AND mid(hlinapu.codmacta,1,1) IN ('6','7')"
+        SQL = SQL & " AND fechaent between " & DBSet(cad, "F") & " and "
+        SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "'"
+        SQL = SQL & " and not hlinapu.codmacta In (select cta from tmpbalancesumas WHERE codusu =" & vUsu.Codigo & " )"
+        SQL = SQL & " group by 1,2,3 "
+        SQL = SQL & " order by 1,2,3 "
+        Conn.Execute SQL
         
         'existencias iniciales
         If txtExplo(0).Text <> "" Or txtExplo(2).Text <> "" Then
@@ -1278,11 +1306,64 @@ Dim cad As String
         End If
         
         IncrementarProgres pb2, 1
+        'Diciembre 2017
+        If Not Me.chkCtaExplo(10).Value = 1 Then
+            'NO es a ultimi nivel
+            SQL = ""
+            For i = 1 To 9
+                If chkCtaExplo(i).Value Then
+                    SQL = i
+                    Exit For
+                End If
+            Next
+            If SQL = "" Then Err.Raise 513, , "Error obteniendo nivel"
+            
+            i = CInt(SQL)
+            
+            SQL = "select mid(cta,1," & i & "),'' nommacta,"
+            SQL = SQL & "  sum(coalesce(acumantd,0)) , sum(coalesce(acumanth,0))"
+            SQL = SQL & " , sum(coalesce(acumPerD, 0)), sum(coalesce(acumPerH,0)),codusu"
+            SQL = SQL & " from tmpbalancesumas  where codusu = " & vUsu.Codigo
+            SQL = SQL & " group by 1"
+            SQL = "INSERT INTO tmpbalancesumas(cta,nomcta,acumAntD,acumAntH,acumPerD,acumPerH,codusu) " & SQL
+            Conn.Execute SQL
+            
+            'Borramos ultimo nivel
+            SQL = "DELETE from tmpbalancesumas where length(cta)=" & vEmpresa.DigitosUltimoNivel & " AND codusu =" & vUsu.Codigo
+            Conn.Execute SQL
+            espera 0.25
+            
+            'Updateamos titulo
+            SQL = "UPDATE tmpbalancesumas,cuentas set nomcta=nommacta WHERE codusu = " & vUsu.Codigo
+            SQL = SQL & " AND cta = codmacta"
+            Conn.Execute SQL
+            
+            
+            
+            
+            
+            
+        End If
         
+        'VA POR SALDOS
+        IncrementarProgres pb2, 1
+        SQL = "update  tmpbalancesumas set TotalD =(acumAntD +acumPerD)-(acumAntH +acumPerH),TotalH=0"
+        SQL = SQL & " Where (acumAntD + acumPerD) > (acumAntH + acumPerH) AND codusu =" & vUsu.Codigo
+        Conn.Execute SQL
+
+        SQL = "update  tmpbalancesumas set Totalh =(acumAnth +acumPerh)-(acumAntd +acumPerd),TotalD=0"
+        SQL = SQL & " Where (acumAntD + acumPerD) < (acumAntH + acumPerH) AND codusu =" & vUsu.Codigo
+        Conn.Execute SQL
+        
+        
+        
+        
+        'Para la cadena consulta
         If chkExplotacion.Value = 1 Then
-            SQL = "select if(cta in ('0000000000','9999999999'),'',cta) Cuenta, nomcta Titulo, coalesce(acumantd,0) AcumAntD, coalesce(acumanth,0) AcumAntH, coalesce(acumperd,0) AcumPerD, coalesce(acumperh,0) AcumPerH from tmpbalancesumas "
+            SQL = "select if(cta in ('0000000000','9999999999'),'',cta) Cuenta, nomcta Titulo,"
+            SQL = SQL & " acumantd,  acumanth AcumAntH, acumperd AcumPerD, acumperh AcumPerH, totalD, totalH from tmpbalancesumas "
         Else
-            SQL = "select if(cta in ('0000000000','9999999999'),'',cta) Cuenta, nomcta Titulo, (coalesce(acumantd,0) + coalesce(acumperd,0)) SaldoD, (coalesce(acumanth,0) + coalesce(acumperH,0)) SaldoH from tmpbalancesumas "
+            SQL = "select if(cta in ('0000000000','9999999999'),'',cta) Cuenta, nomcta Titulo, totalD SaldoD, totalH SaldoH from tmpbalancesumas "
         End If
         SQL = SQL & " where codusu = " & vUsu.Codigo
         SQL = SQL & " and (coalesce(acumantd,0) + coalesce(acumanth,0) + coalesce(acumperd,0) + coalesce(acumperh,0)) <> 0"
@@ -1292,6 +1373,8 @@ Dim cad As String
     
     
     Else ' cuenta de explotacion comparativa
+            If SQL = "" Then Err.Raise 513, , "Error falta proceso"
+                
         If CargarTablaTemporal(vFecha) Then
             SQL = "select aaaaa.cta CtaPasivo, aaaaa.nomcta Titulo, aaaaa.totald '" & Format(CInt(txtAno(4).Text) - 1, "0000") & "', aaaaa.totalh '" & Format(CInt(txtAno(4).Text), "0000") & "'"
             SQL = SQL & ", bbbbb.cta CtaPasivo, bbbbb.nomcta Titulo, bbbbb.totald '" & Format(CInt(txtAno(4).Text) - 1, "0000") & "', bbbbb.totalh '" & Format(CInt(txtAno(4).Text), "0000") & "'"

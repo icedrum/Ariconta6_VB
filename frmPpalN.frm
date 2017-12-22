@@ -3169,8 +3169,24 @@ Dim C As String
             End If
         
         
-            If vParam.PathFicherosInteg <> "" Then hacerDir vParam.PathFicherosInteg
+            If vParam.PathFicherosInteg <> "" Then HacerDir vParam.PathFicherosInteg
+            
+        End If
         
+        If vParamT.ComprobarAlInicio Then
+            If vParamT.PagaresCtaPuente Or vParamT.TalonesCtaPuente Then
+                'Veremos si tiene remesas talon/pagare
+                C = DevuelveDesdeBD("count(*)", "remesas", "tiporem >1 and situacion>='Q' and situacion <'Z' AND 1", "1")
+                If C = "" Then C = "0"
+                If Val(C) > 0 Then
+                    
+                    If HayQueMostrarEliminarRiesgoTalPag Then
+                        Screen.MousePointer = vbHourglass
+                        frmMensajes.Opcion = 63
+                        frmMensajes.Show vbModal
+                    End If
+                End If
+            End If
         End If
     End If
     
@@ -3183,7 +3199,7 @@ Dim C As String
     End If
 End Sub
 
-Private Sub hacerDir(CadenaPath As String)
+Private Sub HacerDir(CadenaPath As String)
 Dim Si As Boolean
     On Error Resume Next
     Si = False
@@ -3220,9 +3236,8 @@ Dim C As String
         
         B = DarAvisoPendientesSII()
         If B > 0 Then
-            If MsgBox("AGENCIA TRIBUTARIA" & vbCrLf & vbCrLf & "Tiene facturas pendientes de comunicar al SII." & vbCrLf & vbCrLf & "¿Verlas ahora?", vbCritical + vbYesNo + vbDefaultButton2) = vbNo Then
-                B = 0
-            End If
+            If MsgBox("AGENCIA TRIBUTARIA" & vbCrLf & vbCrLf & "Tiene facturas pendientes de comunicar al SII." & vbCrLf & vbCrLf & "¿Verlas ahora?", vbCritical + vbYesNoCancel + vbDefaultButton2) <> vbYes Then B = 0
+            
         End If
     
         statusBar.Pane(1).Text = C

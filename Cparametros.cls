@@ -148,6 +148,8 @@ Private mvarModificarIvaLineasFraCli As Boolean
 Private mvarPathFicherosInteg As String
 
 
+Private mvarAplicarFiltrosEnCuentas As Boolean   'Si valor en BD. De momento es que monti NO quiere filtros en cuentas
+
 
 
 '------------------------------------------------
@@ -1096,6 +1098,12 @@ Public Property Get PathFicherosInteg() As String
      PathFicherosInteg = mvarPathFicherosInteg
 End Property
 
+Public Property Get AplicarFiltrosEnCuentas() As Boolean
+     AplicarFiltrosEnCuentas = mvarAplicarFiltrosEnCuentas
+End Property
+
+
+
 
 
 '------------------------------------------------
@@ -1361,6 +1369,7 @@ Dim Nuevos As String
             mvarPathFicherosInteg = DBLet(Rs!PathFicherosInteg, "T")
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Carpeta fichero integraciones"
             
+            mvarAplicarFiltrosEnCuentas = True
             
             
             
@@ -1481,4 +1490,9 @@ eLeerDatosSII:
     Err.Clear
 End Sub
 
+
+Public Sub FijarAplicarFiltrosEnCuentas(ByRef NomEmpresa As String)
+    mvarAplicarFiltrosEnCuentas = True
+    If InStr(1, NomEmpresa, "MONTI") > 0 Then mvarAplicarFiltrosEnCuentas = False
+End Sub
 

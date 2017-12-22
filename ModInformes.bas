@@ -1,5 +1,5 @@
 Attribute VB_Name = "ModInformes"
-Option Explicit
+ Option Explicit
 
 
 Public AbiertoOtroFormEnListado As Boolean  'Para saber si ha abieto un from desde el forms de listados
@@ -25,7 +25,7 @@ Public HaPulsadoImprimir As Boolean
 
 Dim Rs As Recordset
 Dim cad As String
-Dim Sql As String
+Dim SQL As String
 Dim i As Integer
 
 
@@ -110,7 +110,7 @@ Public Sub ponerLabelBotonImpresion(ByRef BotonAcept As CommandButton, ByRef Bot
     Else
         BotonAcept.Caption = "&Aceptar"
     End If
-    BotonImpr.Visible = SelectorImpresion = 0
+    BotonImpr.visible = SelectorImpresion = 0
     
 eponerLabelBotonImpresion:
     If Err.Number <> 0 Then Err.Clear
@@ -233,6 +233,10 @@ Dim i  As Integer
     On Error GoTo eGeneraFicheroCSV
     GeneraFicheroCSV = False
     
+    
+    If Dir(Salida, vbArchive) <> "" Then
+        If MsgBox("El fichero ya existe. ¿Sobreescribir?", vbQuestion + vbYesNo) <> vbYes Then Exit Function
+    End If
     
     Set miRsAux = New ADODB.Recordset
     miRsAux.Open cadSQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -679,7 +683,7 @@ End Function
 
 
 Public Function ExisteARIMAILGES()
-Dim Sql As String
+Dim SQL As String
 
     If Dir(App.Path & "\ArimailGes.exe") = "" Then
         MsgBox "No existe el programa ArimailGes.exe. Llame a Ariadna.", vbExclamation
@@ -693,14 +697,14 @@ End Function
 
 Public Function HayRegParaInforme(cTabla As String, cWhere As String) As Boolean
 'Comprobar si hay registros a Mostrar antes de abrir el Informe
-Dim Sql As String
+Dim SQL As String
     
-    Sql = "Select count(*) FROM " & cTabla
+    SQL = "Select count(*) FROM " & cTabla
     If cWhere <> "" Then
-        Sql = Sql & " WHERE " & cWhere
+        SQL = SQL & " WHERE " & cWhere
     End If
     
-    If TotalRegistros(Sql) = 0 Then
+    If TotalRegistros(SQL) = 0 Then
         MsgBox "No hay datos para mostrar en el Informe.", vbInformation
         HayRegParaInforme = False
     Else
@@ -755,10 +759,10 @@ Dim Lanza As String
         Aux = "Reclamacion.pdf"
     End Select
     
-    Sql = "select tmp347.*, cuentas.razosoci, cuentas.maidatos from tmp347, cuentas "
-    Sql = Sql & " where codusu = " & vUsu.Codigo & " and importe <> 0 and tmp347.cta = cuentas.codmacta"
+    SQL = "select tmp347.*, cuentas.razosoci, cuentas.maidatos from tmp347, cuentas "
+    SQL = SQL & " where codusu = " & vUsu.Codigo & " and importe <> 0 and tmp347.cta = cuentas.codmacta"
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
     
         NombrePDF = App.Path & "\temp\" & Rs!NIF

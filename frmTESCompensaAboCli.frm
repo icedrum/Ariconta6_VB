@@ -654,6 +654,7 @@ Private Sub cmdCancelar_Click(Index As Integer)
         Frame1.Enabled = True
         Me.FrameCompensaAbonosCliente.visible = False
         Me.FrameCompensaAbonosCliente.Enabled = False
+        CargaList
     Else
         Unload Me
     End If
@@ -696,7 +697,11 @@ Private Sub cmdCompensar_Click()
         Exit Sub
     End If
     If TotalRegistros = 0 Or NumRegElim = 0 Then
-        SQL = "-No hay vencimientos para compensar." & vbCrLf & " Va a agrupar los cobros. " & vbCrLf & vbCrLf & "¿Continuar?"
+        If TotalRegistros = 0 And NumRegElim = 0 Then
+            MsgBox "No ha marcado ningun venciminto", vbExclamation
+            Exit Sub
+        End If
+        SQL = "-No va a realizar compensaciones. Va a agrupar los cobros. " & vbCrLf & vbCrLf & "¿Continuar?"
         If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     
     End If

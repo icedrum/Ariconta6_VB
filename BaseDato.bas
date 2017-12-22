@@ -1829,9 +1829,11 @@ End Sub
 '///////////////////////////////////////
 '
 ' Esto es, si son 60 dias pero solo hay que aplicar 20 entonces
-Private Sub CalcularDiasAplicables2()
+Private Sub CalcularDiasAplicables()
+Dim DiasCalculados As Boolean
     
     
+    DiasCalculados = False
     If RT!fechaadq > vFecha2 Then
         If RT!fechaadq > vFecha1 Then
             'Ha comprado incluso despues de
@@ -1842,20 +1844,31 @@ Private Sub CalcularDiasAplicables2()
             A2 = DateDiff("d", RT!fechaadq, vFecha1) + 1
             If A2 > A1 Then A2 = A1
         End If
+        DiasCalculados = True
     Else
         A2 = A1
     End If
     If Not IsNull(RT!fecventa) Then
-        If RT!fecventa > vFecha2 Then
-            'Se ha vendido despues del la ultima amortizacion
-            A2 = DateDiff("d", vFecha2, RT!fecventa)
+    
+        'Una vez comprobadom que vaya todo. Hay que "vovler a hacer " esta funcion.
+    
+        Err.Raise 513, , "Fecha venta no es nula. llame a soporte tecnico. ", vbCritical
+        If RT!fechaadq > vFecha2 Then
+             A2 = DateDiff("d", vFecha2, RT!fecventa)
+        Else
+            If RT!fecventa > vFecha2 Then
+                'Se ha vendido despues del la ultima amortizacion
+                A2 = DateDiff("d", vFecha2, RT!fecventa)
+            End If
         End If
         If RT!fecventa < vFecha2 Then
             'Se ha vendido despues del la ultima amortizacion
             A2 = 0
         End If
+    
     Else
-        A2 = DateDiff("d", vFecha2, vFecha1)
+        If Not DiasCalculados Then A2 = DateDiff("d", vFecha2, vFecha1)
+        
         If A2 > A1 Then
             MsgBox "Error calculando datos. Dias mayor que el maximo del periodo. (DiasAplicables2)", vbExclamation
             A2 = A1
@@ -1978,7 +1991,8 @@ On Error GoTo ECalculaAmortizacion
     Else
         A1 = DateDiff("d", vFecha2, vFecha1)
     End If
-    CalcularDiasAplicables2
+    CalcularDiasAplicables
+    
     
     
     'Ya tenesmo en A1 los dias totales y en a2 los aplicables

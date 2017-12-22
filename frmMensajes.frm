@@ -26,6 +26,243 @@ Begin VB.Form frmMensajes
    ScaleWidth      =   16440
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame FrameAsientoLiquida 
+      Height          =   6645
+      Left            =   30
+      TabIndex        =   133
+      Top             =   60
+      Visible         =   0   'False
+      Width           =   13230
+      Begin VB.CommandButton CmdContabilizar 
+         Caption         =   "Contabilizar"
+         Height          =   375
+         Left            =   9840
+         TabIndex        =   137
+         Top             =   6000
+         Width           =   1455
+      End
+      Begin VB.CommandButton cmdCancelar 
+         Caption         =   "Salir"
+         Height          =   375
+         Left            =   11520
+         TabIndex        =   134
+         Top             =   6000
+         Width           =   1365
+      End
+      Begin MSComctlLib.ListView ListView7 
+         Height          =   4905
+         Left            =   120
+         TabIndex        =   135
+         Top             =   840
+         Width           =   12795
+         _ExtentX        =   22569
+         _ExtentY        =   8652
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483643
+         BorderStyle     =   1
+         Appearance      =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         NumItems        =   0
+      End
+      Begin VB.Label Label7 
+         Caption         =   "Realiza apunte"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000080&
+         Height          =   285
+         Index           =   3
+         Left            =   11160
+         TabIndex        =   165
+         Top             =   480
+         Visible         =   0   'False
+         Width           =   1845
+      End
+      Begin VB.Label Label54 
+         Caption         =   "Asiento Contable"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   375
+         Left            =   120
+         TabIndex        =   136
+         Top             =   390
+         Width           =   3705
+      End
+   End
+   Begin VB.Frame FrameElimiaRiesgoTalPag 
+      Height          =   6855
+      Left            =   1440
+      TabIndex        =   218
+      Top             =   1560
+      Visible         =   0   'False
+      Width           =   12375
+      Begin VB.CheckBox chkVarios 
+         Caption         =   "Agrupar apunte"
+         Height          =   255
+         Index           =   1
+         Left            =   3960
+         TabIndex        =   221
+         Top             =   6060
+         Value           =   1  'Checked
+         Width           =   2175
+      End
+      Begin VB.TextBox txtFecha 
+         Height          =   360
+         Index           =   2
+         Left            =   2040
+         TabIndex        =   220
+         Text            =   "Text2"
+         Top             =   6000
+         Width           =   1635
+      End
+      Begin VB.CommandButton cmdElimRiesgoTalPag 
+         Caption         =   "Elimin&ar"
+         Height          =   375
+         Index           =   1
+         Left            =   9480
+         TabIndex        =   222
+         Top             =   6000
+         Width           =   1215
+      End
+      Begin VB.CommandButton cmdElimRiesgoTalPag 
+         Caption         =   "Salir"
+         Height          =   375
+         Index           =   0
+         Left            =   10800
+         TabIndex        =   223
+         Top             =   6000
+         Width           =   1215
+      End
+      Begin MSComctlLib.ListView ListView13 
+         Height          =   4905
+         Left            =   120
+         TabIndex        =   219
+         Top             =   840
+         Width           =   11955
+         _ExtentX        =   21087
+         _ExtentY        =   8652
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         Checkboxes      =   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483643
+         BorderStyle     =   1
+         Appearance      =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         NumItems        =   7
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Text            =   "Codigo"
+            Object.Width           =   1773
+         EndProperty
+         BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   1
+            Text            =   "Anyo"
+            Object.Width           =   1587
+         EndProperty
+         BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   2
+            Text            =   "Fecha"
+            Object.Width           =   2805
+         EndProperty
+         BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   3
+            Text            =   "Banco"
+            Object.Width           =   4419
+         EndProperty
+         BeginProperty ColumnHeader(5) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   4
+            Text            =   "Descripcion"
+            Object.Width           =   5263
+         EndProperty
+         BeginProperty ColumnHeader(6) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   5
+            Text            =   "Tipo"
+            Object.Width           =   1587
+         EndProperty
+         BeginProperty ColumnHeader(7) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Alignment       =   1
+            SubItemIndex    =   6
+            Text            =   "Importe"
+            Object.Width           =   2723
+         EndProperty
+      End
+      Begin VB.Label lblFecha 
+         Caption         =   "Fecha apunte"
+         Height          =   240
+         Index           =   2
+         Left            =   240
+         TabIndex        =   225
+         Top             =   6060
+         Width           =   1365
+      End
+      Begin VB.Image imgFec 
+         Height          =   240
+         Index           =   2
+         Left            =   1680
+         Picture         =   "frmMensajes.frx":000C
+         Top             =   6060
+         Width           =   240
+      End
+      Begin VB.Label Label52 
+         Caption         =   "Eliminar riesgo talón / pagaré"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   375
+         Index           =   1
+         Left            =   120
+         TabIndex        =   224
+         Top             =   360
+         Width           =   10185
+      End
+   End
    Begin VB.Frame FrameValidaIBAN 
       Height          =   4455
       Left            =   4080
@@ -183,9 +420,9 @@ Begin VB.Form frmMensajes
       End
       Begin VB.ComboBox cboPais 
          Height          =   360
-         ItemData        =   "frmMensajes.frx":000C
+         ItemData        =   "frmMensajes.frx":0097
          Left            =   1080
-         List            =   "frmMensajes.frx":0013
+         List            =   "frmMensajes.frx":009E
          Style           =   2  'Dropdown List
          TabIndex        =   197
          Top             =   960
@@ -293,91 +530,11 @@ Begin VB.Form frmMensajes
          EndProperty
          ForeColor       =   &H00800000&
          Height          =   375
+         Index           =   0
          Left            =   240
          TabIndex        =   132
          Top             =   390
          Width           =   10185
-      End
-   End
-   Begin VB.Frame FrameEliminarRiesgotalPag 
-      Height          =   2895
-      Left            =   7320
-      TabIndex        =   193
-      Top             =   2640
-      Visible         =   0   'False
-      Width           =   6375
-      Begin VB.TextBox txtFecha 
-         Height          =   360
-         Index           =   1
-         Left            =   2040
-         TabIndex        =   189
-         Text            =   "Text2"
-         Top             =   1140
-         Width           =   1635
-      End
-      Begin VB.CommandButton cmdEliminarRiesgoT 
-         Caption         =   "&Aceptar"
-         Height          =   495
-         Index           =   0
-         Left            =   2880
-         TabIndex        =   191
-         Top             =   1920
-         Width           =   1365
-      End
-      Begin VB.CommandButton cmdEliminarRiesgoT 
-         Caption         =   "Cancelar"
-         Height          =   495
-         Index           =   1
-         Left            =   4560
-         TabIndex        =   192
-         Top             =   1920
-         Width           =   1365
-      End
-      Begin VB.CheckBox chkVarios 
-         Caption         =   "Agrupar apunte"
-         Height          =   255
-         Index           =   0
-         Left            =   3960
-         TabIndex        =   190
-         Top             =   1200
-         Value           =   1  'Checked
-         Width           =   2175
-      End
-      Begin VB.Image imgFec 
-         Height          =   240
-         Index           =   1
-         Left            =   1680
-         Picture         =   "frmMensajes.frx":001F
-         Top             =   1200
-         Width           =   240
-      End
-      Begin VB.Label lblFecha 
-         Caption         =   "Fecha apunte"
-         Height          =   240
-         Index           =   1
-         Left            =   240
-         TabIndex        =   195
-         Top             =   1200
-         Width           =   1365
-      End
-      Begin VB.Label Label7 
-         Caption         =   "Eliminar riesgo talón / pagaré"
-         BeginProperty Font 
-            Name            =   "Tahoma"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000080&
-         Height          =   495
-         Index           =   6
-         Left            =   600
-         TabIndex        =   194
-         Top             =   360
-         Width           =   5295
       End
    End
    Begin VB.Frame FrameIntegAsiento 
@@ -1661,97 +1818,6 @@ Begin VB.Form frmMensajes
          TabIndex        =   145
          Top             =   240
          Width           =   9195
-      End
-   End
-   Begin VB.Frame FrameAsientoLiquida 
-      Height          =   6645
-      Left            =   30
-      TabIndex        =   133
-      Top             =   60
-      Visible         =   0   'False
-      Width           =   13230
-      Begin VB.CommandButton CmdContabilizar 
-         Caption         =   "Contabilizar"
-         Height          =   375
-         Left            =   9840
-         TabIndex        =   137
-         Top             =   6000
-         Width           =   1455
-      End
-      Begin VB.CommandButton cmdCancelar 
-         Caption         =   "Salir"
-         Height          =   375
-         Left            =   11520
-         TabIndex        =   134
-         Top             =   6000
-         Width           =   1365
-      End
-      Begin MSComctlLib.ListView ListView7 
-         Height          =   4905
-         Left            =   2760
-         TabIndex        =   135
-         Top             =   840
-         Width           =   12795
-         _ExtentX        =   22569
-         _ExtentY        =   8652
-         View            =   3
-         LabelEdit       =   1
-         LabelWrap       =   -1  'True
-         HideSelection   =   -1  'True
-         FullRowSelect   =   -1  'True
-         _Version        =   393217
-         ForeColor       =   -2147483640
-         BackColor       =   -2147483643
-         BorderStyle     =   1
-         Appearance      =   1
-         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         NumItems        =   0
-      End
-      Begin VB.Label Label7 
-         Caption         =   "Realiza apunte"
-         BeginProperty Font 
-            Name            =   "Tahoma"
-            Size            =   12
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000080&
-         Height          =   285
-         Index           =   3
-         Left            =   11160
-         TabIndex        =   165
-         Top             =   480
-         Visible         =   0   'False
-         Width           =   1845
-      End
-      Begin VB.Label Label54 
-         Caption         =   "Asiento Contable"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   12
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   375
-         Left            =   240
-         TabIndex        =   136
-         Top             =   390
-         Width           =   3705
       End
    End
    Begin VB.Frame FrameRecibos 
@@ -3140,6 +3206,87 @@ Begin VB.Form frmMensajes
          Width           =   12465
       End
    End
+   Begin VB.Frame FrameEliminarRiesgotalPag 
+      Height          =   2895
+      Left            =   7320
+      TabIndex        =   193
+      Top             =   2640
+      Visible         =   0   'False
+      Width           =   6375
+      Begin VB.TextBox txtFecha 
+         Height          =   360
+         Index           =   1
+         Left            =   2040
+         TabIndex        =   189
+         Text            =   "Text2"
+         Top             =   1140
+         Width           =   1635
+      End
+      Begin VB.CommandButton cmdEliminarRiesgoT 
+         Caption         =   "&Aceptar"
+         Height          =   495
+         Index           =   0
+         Left            =   2880
+         TabIndex        =   191
+         Top             =   1920
+         Width           =   1365
+      End
+      Begin VB.CommandButton cmdEliminarRiesgoT 
+         Caption         =   "Cancelar"
+         Height          =   495
+         Index           =   1
+         Left            =   4560
+         TabIndex        =   192
+         Top             =   1920
+         Width           =   1365
+      End
+      Begin VB.CheckBox chkVarios 
+         Caption         =   "Agrupar apunte"
+         Height          =   255
+         Index           =   0
+         Left            =   3960
+         TabIndex        =   190
+         Top             =   1200
+         Value           =   1  'Checked
+         Width           =   2175
+      End
+      Begin VB.Image imgFec 
+         Height          =   240
+         Index           =   1
+         Left            =   1680
+         Picture         =   "frmMensajes.frx":184B3
+         Top             =   1200
+         Width           =   240
+      End
+      Begin VB.Label lblFecha 
+         Caption         =   "Fecha apunte"
+         Height          =   240
+         Index           =   1
+         Left            =   240
+         TabIndex        =   195
+         Top             =   1200
+         Width           =   1365
+      End
+      Begin VB.Label Label7 
+         Caption         =   "Eliminar riesgo talón / pagaré"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   15.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000080&
+         Height          =   495
+         Index           =   6
+         Left            =   600
+         TabIndex        =   194
+         Top             =   360
+         Width           =   5295
+      End
+   End
    Begin VB.Label Label11 
       Caption         =   "="
       BeginProperty Font 
@@ -3290,6 +3437,8 @@ Public Opcion As Byte
         
      '61. Fecha eliminacion riesgo. Pedir agrupar
      '62  Validar IBAN
+    
+     '63 Eliminar riesgo talon/pagare
     
 Public Parametros As String
     '1.- Vendran empipados: Cuenta, PunteadoD, punteadoH, pdteD,PdteH
@@ -3449,7 +3598,7 @@ End Sub
 
 Private Sub InsertarModificarTalones()
 Dim Importe As Currency
-Dim Importe2 As Currency
+Dim importe2 As Currency
 Dim TipForpa As String
 Dim J As Integer
         
@@ -3541,12 +3690,12 @@ Dim J As Integer
         Else
             'Obtengo el importe del vto
             Importe = DevuelveValor("select impcobro from cobros " & MontaWhere(i, True))
-            Importe2 = DevuelveValor("select importe from talones_facturas where codigo = " & DBSet(Codigo, "N") & " and " & MontaWhere(i, False))
+            importe2 = DevuelveValor("select importe from talones_facturas where codigo = " & DBSet(Codigo, "N") & " and " & MontaWhere(i, False))
             
-            If Importe <> Importe2 Then
+            If Importe <> importe2 Then
                 'TODO EL IMPORTE estaba en la linea. Fecultco a NULL
                 J = 1
-                Importe = Importe - Importe2
+                Importe = Importe - importe2
             Else
                 J = 0
             End If
@@ -3881,6 +4030,91 @@ Private Sub cmdEliminarRiesgoT_Click(Index As Integer)
     Unload Me
 End Sub
 
+Private Sub cmdElimRiesgoTalPag_Click(Index As Integer)
+Dim Byt  As Byte
+Dim Forpa As Ctipoformapago
+
+    If Index = 1 Then
+        'Alguna seleccionada
+        Referencia = ""
+        SQL = ""
+        For i = 1 To ListView13.ListItems.Count
+            If ListView13.ListItems(i).Checked Then SQL = SQL & "X"
+        Next
+        If SQL = "" Then Referencia = "-Seleccione alguna remesa para eliminar riesgo"
+        
+                
+        'Fecha seleccionada
+        Codigo = ""
+        i = 2
+        If Me.txtFecha(2).Text = "" Then
+            Codigo = "-Fecha requerida"
+        ElseIf Not IsDate(txtFecha(2).Text) Then
+            Codigo = "-Fecha incorrecta"
+        Else
+            i = CInt(FechaCorrecta2(CDate(txtFecha(2).Text)))
+            If i > 1 Then
+                If i = 2 Then
+                    Codigo = "-" & varTxtFec
+                
+                Else
+                    If i = 3 Then
+                        Codigo = "-El ejercicio al que pertenece la fecha: " & txtFecha(2).Text & " está cerrado."
+                    Else
+                        Codigo = "-Ejercicio para: " & txtFecha(2).Text & " todavía no activo"
+                    End If
+                End If
+            Else
+                i = 0
+            End If
+        End If
+        If Referencia <> "" Then Codigo = vbCrLf & Referencia & vbCrLf & Codigo
+        
+        If Codigo <> "" Then
+            MsgBox Codigo, vbExclamation
+            If i > 0 Then
+                Me.txtFecha(2).Text = ""
+                PonFoco Me.txtFecha(2)
+            End If
+            Exit Sub
+        End If
+        
+        
+        If MsgBox("Continuar con el proceso?", vbQuestion + vbYesNo) <> vbYes Then Exit Sub
+        
+        Screen.MousePointer = vbHourglass
+        Set Forpa = New Ctipoformapago
+        For i = 1 To ListView13.ListItems.Count
+            
+            If ListView13.ListItems(i).Checked Then
+            
+                
+                J = vbPagare
+                If CByte(ListView13.ListItems(i).Tag) = 3 Then J = vbTalon
+            
+                If Forpa.Leer(CInt(J)) = 0 Then
+    
+            
+                    Conn.BeginTrans
+                 
+                 
+                     Byt = RemesasEliminarVtosTalonesPagares(CByte(ListView13.ListItems(i).Tag), ListView13.ListItems(i).Text, ListView13.ListItems(i).SubItems(1), CDate(txtFecha(2).Text), Forpa, Me.chkVarios(1).Value)
+                 
+                    If Byt < 2 Then
+                         Conn.CommitTrans
+                    Else
+                         TirarAtrasTransaccion
+                    End If
+                End If
+            End If
+         Next
+         
+         Screen.MousePointer = vbDefault
+        
+    End If
+    Unload Me
+End Sub
+
 Private Sub cmdEmpresa_Click(Index As Integer)
     CadenaDesdeOtroForm = ""
     If Index = 0 Then
@@ -4097,6 +4331,8 @@ Private Sub Form_Activate()
             CargarFacturasCompensacionesPro
         Case 62
             optIBAN_Intro_Click 0
+        Case 63
+            CargaLW_RemesasRiesgo
         End Select
     End If
     Screen.MousePointer = vbDefault
@@ -4140,7 +4376,7 @@ Dim W As Integer, H As Integer
     FrameIntegAsiento.visible = False
     FrameEliminarRiesgotalPag.visible = False
     FrameValidaIBAN.visible = False
-    
+    FrameElimiaRiesgoTalPag.visible = False
     'YA ESTA DISPONIBLE  PonerFrameVisible
     
     ' botón de dividir vencimiento cuando estamos en talones/pagares pendientes
@@ -4269,14 +4505,14 @@ Dim W As Integer, H As Integer
         
     Case 27 ' cobros de facturas
         Me.Caption = "Facturas de Cliente"
-        Label52.Caption = "Cobros de la Factura " & RecuperaValor(Parametros, 1) & "-" & Format(RecuperaValor(Parametros, 2), "0000000") & " de fecha " & RecuperaValor(Parametros, 3)
+        Label52(0).Caption = "Cobros de la Factura " & RecuperaValor(Parametros, 1) & "-" & Format(RecuperaValor(Parametros, 2), "0000000") & " de fecha " & RecuperaValor(Parametros, 3)
         Me.FrameCobros.visible = True
         W = Me.FrameCobros.Width
         H = Me.FrameCobros.Height + 300
         cmdGenerarVto.visible = False
     Case 28 ' pagos de facturas
         Me.Caption = "Facturas de Proveedor"
-        Label52.Caption = "Pagos de la Factura " & RecuperaValor(Parametros, 1) & "-" & RecuperaValor(Parametros, 3) & " de fecha " & RecuperaValor(Parametros, 4)
+        Label52(0).Caption = "Pagos de la Factura " & RecuperaValor(Parametros, 1) & "-" & RecuperaValor(Parametros, 3) & " de fecha " & RecuperaValor(Parametros, 4)
         Me.FrameCobros.visible = True
         W = Me.FrameCobros.Width
         H = Me.FrameCobros.Height + 300
@@ -4415,6 +4651,12 @@ Dim W As Integer, H As Integer
             Me.txtIbanES(i).Text = ""
         Next
         Me.cboPais.ListIndex = 0
+        
+    Case 63
+        Me.Caption = "Riesgo"
+        PonerFrameVisible FrameElimiaRiesgoTalPag, H, W
+        Me.txtFecha(2).Text = ""
+        cmdElimRiesgoTalPag(0).Cancel = True
     End Select
     
     Me.Width = W + 120
@@ -4425,7 +4667,7 @@ Private Sub PonerFrameVisible(Fr As frame, ByRef H As Integer, ByRef W As Intege
 
     Fr.top = 0
     Fr.Left = 0
-    H = Fr.Height + 60
+    H = Fr.Height + 90
     W = Fr.Width + 60
     Fr.visible = True
     
@@ -6762,6 +7004,7 @@ Private Sub ValidarIBANEspanaSeparado()
 End Sub
 
 Private Sub ValidarIBANEspanaJunto()
+    txtIbanES(5).Text = Replace(txtIbanES(5).Text, " ", "")
     SQL = txtIbanES(5).Text
     If Len(SQL) <> 24 Then
         Errores = "Longitud IBAN debe ser 24"
@@ -6776,6 +7019,18 @@ Private Sub ValidarIBANEspanaJunto()
         Errores = "Deben ser numeros"
         Exit Sub
     End If
+    
+    
+    'CC
+    SQL = Mid(txtIbanES(5).Text, 5, 4) & Mid(txtIbanES(5).Text, 9, 4) & Mid(txtIbanES(5).Text, 15, 10)
+    SQL = CodigoDeControl(SQL)
+    If SQL <> Mid(txtIbanES(5).Text, 13, 2) Then
+        Errores = "Digitos de control  calculado distinto del introducido : " & SQL & " --- " & Mid(txtIbanES(5).Text, 13, 2)
+        Exit Sub
+    End If
+
+    
+    
     SQL = Mid(txtIbanES(5).Text, 5)
     If Not DevuelveIBAN2("ES", SQL, Errores) Then
         Errores = "ERROR"
@@ -6794,3 +7049,41 @@ Private Sub ValidarIBANEspanaJunto()
     Errores = ""
 End Sub
 
+
+
+
+Private Sub CargaLW_RemesasRiesgo()
+Dim IT
+
+    SQL = QueRemesasMostrarEliminarRiesgoTalPag
+    If SQL = "" Then Exit Sub
+    SQL = Mid(SQL, 2)
+    Set Rs = New ADODB.Recordset
+    SQL = " IN (" & SQL & ") ORDER BY fecremesa"
+    SQL = " from remesas,cuentas where remesas.codmacta=cuentas.codmacta and  (codigo,anyo)" & SQL
+    SQL = " if(tiporem=2,'Pagare','Talon'),if(situacion='Y','Elimindos','Abonado'),Descripcion,tiporem " & SQL
+    SQL = "select codigo,anyo,fecremesa,situacion,nommacta,importe," & SQL
+    Me.ListView13.ListItems.Clear
+    
+
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    While Not Rs.EOF
+        Set IT = ListView13.ListItems.Add
+        
+        IT.Text = DBLet(Rs.Fields(0))
+        IT.SubItems(1) = DBLet(Rs.Fields(1))
+        IT.SubItems(2) = DBLet(Rs.Fields(2))
+        IT.SubItems(3) = DBLet(Rs.Fields(4))
+        IT.SubItems(4) = DBLet(Rs.Fields(8))
+        IT.SubItems(5) = DBLet(Rs.Fields(6))
+        IT.SubItems(6) = Format(DBLet(Rs.Fields(5), "N"), "#,##0.00")
+        IT.Tag = Rs!Tiporem
+            
+    
+        Rs.MoveNext
+    Wend
+    Rs.Close
+    Set Rs = Nothing
+    
+    
+End Sub

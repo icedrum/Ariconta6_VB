@@ -18,7 +18,7 @@ Public Function Comprobar_NIF(NIF As String) As Boolean
             '-- Comienza por número
 
             If IsNumeric(Mid(NIF, 9, 1)) Then
-
+        
                 Comprobar_NIF = False
 
                 Exit Function

@@ -620,7 +620,7 @@ Dim nomDocu As String
         RC = "0A"
     Else
         If cmbPeriodo(0).ListIndex >= 1 And cmbPeriodo(0).ListIndex <= 12 Then
-            RC = "0" & cmbPeriodo(0).ListIndex
+            RC = Format(cmbPeriodo(0).ListIndex, "00")    'MOniiiiiiiiiiiiiiiiiii NOOOOOOOOO---> "0" & cmbPeriodo(0).ListIndex Cuando es >=10 desmorcilla todo
         Else
             RC = cmbPeriodo(0).ListIndex - 12 & "T"
         End If

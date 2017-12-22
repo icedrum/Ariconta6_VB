@@ -3766,6 +3766,8 @@ Private Sub cmdAux_Click(Index As Integer)
             Set frmTIva = Nothing
             
             PonFoco txtaux(7)
+            AntiguoText1 = "."
+            If txtaux(7).Text <> "" Then txtAux_LostFocus 7
         Case 2 'cento de coste
             If txtaux(12).Enabled Then
                 Set frmCC = New frmBasico
@@ -5302,6 +5304,7 @@ End Sub
 Private Sub cmdCancelar_Click()
 Dim i As Integer
 Dim v
+Dim Recalcular As Boolean
 
     Select Case Modo
         Case 1, 3 'Búsqueda, Insertar
@@ -5362,6 +5365,9 @@ Dim v
                 End If
                 
             End If
+            
+            Recalcular = True
+            If ModoLineas = 2 Then Recalcular = False
             ModoLineas = 0
             LLamaLineas 1, 0, 0
             
@@ -5376,7 +5382,7 @@ Dim v
                     Modo = 4 'lo pongo por si acaso
                     Exit Sub
                 End If
-                PagosTesoreria
+                If Recalcular Then PagosTesoreria
             Else
                 ' cogemos un nro.de asiento para integrarlo
                 Set Mc = New Contadores
@@ -6624,7 +6630,17 @@ Dim Importe As Currency
     End If
     
     
-    
+    If B And ModoLineas = 2 Then
+        'Si cambia BASE, codigo o importe, hay que recalcular pago factura
+        
+        If Val(txtaux(7).Text) <> DBLet(AdoAux(1).Recordset!codigiva, "N") Then
+            ModificarPagos = True
+        ElseIf ImporteFormateado(txtaux(6).Text) <> DBLet(AdoAux(1).Recordset!Baseimpo, "N") Then
+            ModificarPagos = True
+        ElseIf ImporteFormateado(txtaux(10).Text) <> DBLet(AdoAux(1).Recordset!Impoiva, "N") Then
+            ModificarPagos = True
+        End If
+    End If
     
     
     
@@ -7019,7 +7035,7 @@ Private Sub txtaux_GotFocus(Index As Integer)
 End Sub
 
 
-Private Sub TxtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     KEYdown KeyCode
 End Sub
 
@@ -7845,6 +7861,7 @@ Dim ModEspecial As Boolean
                         
                         
                             CadenaDesdeOtroForm = ""
+                            Ampliacion = ""
                             Conn.Execute "DELETE from tmpfaclin WHERE codusu = " & vUsu.Codigo
                             With frmFacturaModificar
                                 .Cliente = False
@@ -7858,11 +7875,12 @@ Dim ModEspecial As Boolean
                             
                             'Si que ha modificado
                             Screen.MousePointer = vbHourglass
-                            If CadenaDesdeOtroForm <> "" Then
+                            If CadenaDesdeOtroForm <> "" Or Ampliacion <> "" Then
                                 
                                 If ModificaFacturaSiiPresentada Then
-                                    CargaGrid 1, True
-                                
+                                    'CargaGrid 1, True
+                                    PosicionarData
+                                    PonerCampos
                                 End If
                             End If
                             Screen.MousePointer = vbDefault
@@ -8689,16 +8707,28 @@ On Error GoTo eModificaDesdeFormAux
         
     'Borramos de linfact
     '
-    C = ObtenerWhereCP(True)
-    Conn.Execute "DELETE FROM factpro_lineas " & C
+    If CadenaDesdeOtroForm <> "" Then
+        C = ObtenerWhereCP(True)
+        Conn.Execute "DELETE FROM factpro_lineas " & C
+            
         
+        'insertamos  dedesde tmpfaclin
+        'factpro_lineas(numserie,numregis,fecharec,anofactu,numlinea,codmacta,baseimpo,codigiva,porciva,porcrec,impoiva,imporec,aplicret,codccost)
+        C = "INSERT INTO factpro_lineas(numserie,numregis,fecharec,anofactu,numlinea,codmacta,baseimpo,codigiva,porciva,porcrec,impoiva,imporec,aplicret,codccost) VALUES "
+        C = C & CadenaDesdeOtroForm
+        Conn.Execute C
+        
+    End If
     
-    'insertamos  dedesde tmpfaclin
-    'factpro_lineas(numserie,numregis,fecharec,anofactu,numlinea,codmacta,baseimpo,codigiva,porciva,porcrec,impoiva,imporec,aplicret,codccost)
-    C = "INSERT INTO factpro_lineas(numserie,numregis,fecharec,anofactu,numlinea,codmacta,baseimpo,codigiva,porciva,porcrec,impoiva,imporec,aplicret,codccost) VALUES "
-    C = C & CadenaDesdeOtroForm
-    Conn.Execute C
-    
+    If Ampliacion <> "" Then
+        C = Trim(Mid(Ampliacion, 1, 10))
+        C = "UPDATE factpro SET cuereten = " & DBSet(C, "T", "S")
+        Ampliacion = Mid(Ampliacion, 11)
+        C = C & " , observa = " & DBSet(Ampliacion, "T", "S")
+        C = C & " WHERE numregis= " & data1.Recordset!Numregis & " AND numserie =" & DBSet(data1.Recordset!NUmSerie, "T") & " AND anofactu =" & data1.Recordset!anofactu
+        Conn.Execute C
+    End If
+        
     'Borramos lineas apuntes
     Numasien2 = data1.Recordset!NumAsien
     NumDiario = data1.Recordset!NumDiari

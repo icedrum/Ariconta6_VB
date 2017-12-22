@@ -528,7 +528,7 @@ Attribute frmCtas.VB_VarHelpID = -1
 Private frmMens As frmMensajes
 Attribute frmMens.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -586,21 +586,21 @@ Dim MultiEmpresa As Boolean
 '--
 '    ModeloIva False
     Label13.Caption = "Elimina datos anteriores"
-    Label13.Visible = True
+    Label13.visible = True
     Label13.Refresh
     If GeneraLasLiquidaciones Then
         Label13.Caption = ""
         Label13.Refresh
         espera 0.5
         'Periodos
-        Sql = ""
+        SQL = ""
         For i = 0 To 1
-            Sql = Sql & txtperiodo(i).Text & "|"
+            SQL = SQL & txtperiodo(i).Text & "|"
         Next i
-        Sql = Sql & txtAno(0).Text & "|"
+        SQL = SQL & txtAno(0).Text & "|"
         i = 1
         
-        Periodo = Sql & i & "|"
+        Periodo = SQL & i & "|"
         
     
         SqlLog = "Periodo : " & txtAno(0) & " / " & Me.cmbPeriodo(0).Text & vbCrLf
@@ -609,7 +609,7 @@ Dim MultiEmpresa As Boolean
     
         'Empresas para consolidado
         Pregunta = True
-        Sql = ""
+        SQL = ""
         i = EmpresasSeleccionadas
         MultiEmpresa = i > 1
         If Not MultiEmpresa Then
@@ -659,7 +659,7 @@ Dim MultiEmpresa As Boolean
             Next i
         Else
             'Mas de una empresa
-            Sql = "'Empresas seleccionadas:' + Chr(13) "
+            SQL = "'Empresas seleccionadas:' + Chr(13) "
             B = False
             
             
@@ -720,7 +720,7 @@ Dim MultiEmpresa As Boolean
 
     
     End If
-    Label13.Visible = False
+    Label13.visible = False
     Me.Refresh
     Screen.MousePointer = vbDefault
 
@@ -730,7 +730,7 @@ Dim MultiEmpresa As Boolean
 End Sub
 
 Private Function ActualizarLiquidacion(DentroDeTrans As Boolean, NumAsiento As Long, NumDiari As Integer, codempre As Integer) As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim i As Integer
     On Error GoTo eActualizarLiquidacion
 
@@ -739,10 +739,10 @@ Dim i As Integer
     ActualizarLiquidacion = False
     ' actualizamos los parametros
     i = IIf(codempre = 0, vEmpresa.codempre, codempre)
-    Sql = "update ariconta" & i & ".parametros set anofactu = " & DBSet(txtAno(0).Text, "N")
+    SQL = "update ariconta" & i & ".parametros set anofactu = " & DBSet(txtAno(0).Text, "N")
     i = txtperiodo(0)
-    Sql = Sql & ", perfactu = " & DBSet(i, "N")
-    Conn.Execute Sql
+    SQL = SQL & ", perfactu = " & DBSet(i, "N")
+    Conn.Execute SQL
 
     If codempre = 0 Then
         vParam.anofactu = txtAno(0).Text
@@ -753,10 +753,10 @@ Dim i As Integer
         End If
     End If
     
-    Sql = IIf(codempre = 0, vEmpresa.codempre, codempre)
-    Sql = "insert into ariconta" & Sql & ".liqiva (anoliqui,periodo,escomplem,importe,numdiari,numasien,fechaent) values ("
-    Sql = Sql & DBSet(txtAno(0).Text, "N") & "," & DBSet(i, "N") & ",0," & DBSet(ImpLiqui, "N") & "," & DBSet(NumDiari, "N") & "," & DBSet(NumAsiento, "N") & "," & DBSet(txtFecha(2).Text, "F") & ")"
-    Conn.Execute Sql
+    SQL = IIf(codempre = 0, vEmpresa.codempre, codempre)
+    SQL = "insert into ariconta" & SQL & ".liqiva (anoliqui,periodo,escomplem,importe,numdiari,numasien,fechaent) values ("
+    SQL = SQL & DBSet(txtAno(0).Text, "N") & "," & DBSet(i, "N") & ",0," & DBSet(ImpLiqui, "N") & "," & DBSet(NumDiari, "N") & "," & DBSet(NumAsiento, "N") & "," & DBSet(txtFecha(2).Text, "F") & ")"
+    Conn.Execute SQL
     
     If Not DentroDeTrans Then Conn.CommitTrans
     
@@ -803,10 +803,10 @@ Dim NumAsien As Long
     End If
     
     ' insertamos en cabecera
-    Sql = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari, feccreacion, usucreacion, desdeaplicacion ) SELECT " & vParam.numdia303 & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsien, "N")
-    Sql = Sql & ",'Liquidación de " & Me.cmbPeriodo(0).Text & " de " & txtAno(0).Text & "'," & DBSet(Now, "F") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Liquidación'"
-    Sql = Sql & " from parametros "
-    Conn.Execute Sql
+    SQL = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari, feccreacion, usucreacion, desdeaplicacion ) SELECT " & vParam.numdia303 & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsien, "N")
+    SQL = SQL & ",'Liquidación de " & Me.cmbPeriodo(0).Text & " de " & txtAno(0).Text & "'," & DBSet(Now, "F") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Liquidación'"
+    SQL = SQL & " from parametros "
+    Conn.Execute SQL
     
     
     NomConce = DevuelveValor("select nomconce from conceptos where codconce = " & vParam.conce303)
@@ -821,17 +821,17 @@ Dim NumAsien As Long
     MaxPos = DevuelveValor("select max(pos) from tmpconext where codusu = " & DBSet(vUsu.Codigo, "N"))
     
     ' insertamos en lineas
-    Sql = "INSERT INTO hlinapu (numdiari,fechaent,numasien,linliapu,codmacta,numdocum,codconce,ampconce,timporteD,timporteH,ctacontr) SELECT " & vParam.numdia303 & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsien, "N")
-    Sql = Sql & ",pos, cta," & DBSet(Numdocum, "T") & "," & DBSet(vParam.conce303, "N") & "," & DBSet(Ampconce, "T") & ",if(timported=0,null,timported), if(timporteh=0,null,timporteh), "
+    SQL = "INSERT INTO hlinapu (numdiari,fechaent,numasien,linliapu,codmacta,numdocum,codconce,ampconce,timporteD,timporteH,ctacontr) SELECT " & vParam.numdia303 & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsien, "N")
+    SQL = SQL & ",pos, cta," & DBSet(Numdocum, "T") & "," & DBSet(vParam.conce303, "N") & "," & DBSet(Ampconce, "T") & ",if(timported=0,null,timported), if(timporteh=0,null,timporteh), "
     If ImpLiqui > 0 Then
-        Sql = Sql & "if(pos <> " & DBSet(MaxPos, "N") & "," & DBSet(vParam.CtaHPAcreedor, "T") & ",null) "
+        SQL = SQL & "if(pos <> " & DBSet(MaxPos, "N") & "," & DBSet(vParam.CtaHPAcreedor, "T") & ",null) "
     Else
-        Sql = Sql & "if(pos <> " & DBSet(MaxPos, "N") & "," & DBSet(vParam.CtaHPDeudor, "T") & ",null) "
+        SQL = SQL & "if(pos <> " & DBSet(MaxPos, "N") & "," & DBSet(vParam.CtaHPDeudor, "T") & ",null) "
     End If
     
-    Sql = Sql & " from tmpconext where codusu =  " & vUsu.Codigo
-    Sql = Sql & " order by pos "
-    Conn.Execute Sql
+    SQL = SQL & " from tmpconext where codusu =  " & vUsu.Codigo
+    SQL = SQL & " order by pos "
+    Conn.Execute SQL
     
     
     
@@ -859,9 +859,9 @@ Dim vaBien As Boolean
 
     Set Empres = New Collection
     ApunteContableMultiempresa = False
-    Sql = "SELECT distinct numasien from tmpconext where codusu =  " & vUsu.Codigo
+    SQL = "SELECT distinct numasien from tmpconext where codusu =  " & vUsu.Codigo
     Set miRsAux = New ADODB.Recordset
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         Empres.Add CInt(miRsAux!NumAsien)
         miRsAux.MoveNext
@@ -898,7 +898,7 @@ Dim Numdocum As String
 Dim Ampconce As String
 Dim MaxPos As Long
 Dim NomConce As String
-Dim NumAsien As Long
+Dim NumAsi As Long
 Dim Diario As Integer
 Dim CodConce As Integer
 Dim SqlInsert As String
@@ -914,32 +914,33 @@ Dim ImporteTemporal As Currency
     
     i = FechaCorrecta2(CDate(txtFecha(2).Text))
     
-    Sql = "Select * from ariconta" & NumeroConta & ".contadores WHERE TipoRegi = '0' "
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "Select * from ariconta" & NumeroConta & ".contadores WHERE TipoRegi = '0' "
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If i = 0 Then
-        NumAsien = miRsAux!Contado1
-        Sql = "contado1"
+        NumAsi = miRsAux!Contado1
+        SQL = "contado1"
     Else
         'sigiente
-        NumAsien = miRsAux!Contado2
-        Sql = "contado2"
+        NumAsi = miRsAux!Contado2
+        SQL = "contado2"
     End If
-    Sql = "UPDATE ariconta" & NumeroConta & ".contadores SET " & Sql & "= " & NumAsien + 1 & " WHERE TipoRegi = '0' "
+    NumAsi = NumAsi + 1
+    SQL = "UPDATE ariconta" & NumeroConta & ".contadores SET " & SQL & "= " & NumAsi & " WHERE TipoRegi = '0' "
     miRsAux.Close
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     
-    Sql = "diario303"
-    Ampconce = DevuelveDesdeBD("conce303", "ariconta" & NumeroConta & ".parametros", "1", "1", "N", Sql)
-    Diario = Val(Sql)
+    SQL = "diario303"
+    Ampconce = DevuelveDesdeBD("conce303", "ariconta" & NumeroConta & ".parametros", "1", "1", "N", SQL)
+    Diario = Val(SQL)
     CodConce = Val(Ampconce)
     
     
     ' insertamos en cabecera
-    Sql = "INSERT INTO ariconta" & NumeroConta & ".hcabapu (numdiari, fechaent, numasien, obsdiari, feccreacion, usucreacion, desdeaplicacion )"
-    Sql = Sql & " VALUES (" & Diario & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsien, "N")
-    Sql = Sql & ",'Liquidación de " & Me.cmbPeriodo(0).Text & " de " & txtAno(0).Text & "'," & DBSet(Now, "F") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Liquidación')"
-    Conn.Execute Sql
+    SQL = "INSERT INTO ariconta" & NumeroConta & ".hcabapu (numdiari, fechaent, numasien, obsdiari, feccreacion, usucreacion, desdeaplicacion )"
+    SQL = SQL & " VALUES (" & Diario & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsi, "N")
+    SQL = SQL & ",'Liquidación de " & Me.cmbPeriodo(0).Text & " de " & txtAno(0).Text & "'," & DBSet(Now, "F") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Liquidación')"
+    Conn.Execute SQL
     
     
     NomConce = DevuelveValor("select nomconce from ariconta" & NumeroConta & ".conceptos where codconce = " & CodConce)
@@ -954,32 +955,32 @@ Dim ImporteTemporal As Currency
 
     
     ' insertamos en lineas
-    Sql = "SELECT * "
-    Sql = Sql & " from tmpconext where codusu =  " & vUsu.Codigo
-    If NumeroConta <> vEmpresa.codempre Then Sql = Sql & " AND numasien= " & NumeroConta
-    Sql = Sql & " order by pos "
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "SELECT * "
+    SQL = SQL & " from tmpconext where codusu =  " & vUsu.Codigo
+    If NumeroConta <> vEmpresa.codempre Then SQL = SQL & " AND numasien= " & NumeroConta
+    SQL = SQL & " order by pos "
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     SqlInsert = ""
-    k = 0
+    K = 0
     Importe = 0
     While Not miRsAux.EOF
-        k = k + 1
+        K = K + 1
        
         
-        Sql = miRsAux!Cta
+        SQL = miRsAux!Cta
         If NumeroConta = vEmpresa.codempre Then
             'Empresa desde la que lanzamsos
             'Las cuentas de las otras secciones van a partidas pendientes de aplicacion
-            If miRsAux!NumAsien <> vEmpresa.codempre Then Sql = vParamT.Par_pen_apli
+            If miRsAux!NumAsien <> vEmpresa.codempre Then SQL = vParamT.Par_pen_apli
         End If
-        Sql = DBSet(Sql, "T")
-        Sql = ", (" & Diario & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsien, "N") & "," & k & "," & Sql
-        Sql = Sql & "," & DBSet(Numdocum, "T") & "," & CodConce & "," & DBSet(Ampconce, "T") & ","
-        Sql = Sql & IIf(miRsAux!timported = 0, "null", DBSet(miRsAux!timported, "N")) & ","
-        Sql = Sql & IIf(miRsAux!timporteH = 0, "null", DBSet(miRsAux!timporteH, "N")) & ",null)"
+        SQL = DBSet(SQL, "T")
+        SQL = ", (" & Diario & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsi, "N") & "," & K & "," & SQL
+        SQL = SQL & "," & DBSet(Numdocum, "T") & "," & CodConce & "," & DBSet(Ampconce, "T") & ","
+        SQL = SQL & IIf(miRsAux!timported = 0, "null", DBSet(miRsAux!timported, "N")) & ","
+        SQL = SQL & IIf(miRsAux!timporteH = 0, "null", DBSet(miRsAux!timporteH, "N")) & ",null)"
         
         Importe = Importe + miRsAux!timported - miRsAux!timporteH
-        SqlInsert = SqlInsert & Sql
+        SqlInsert = SqlInsert & SQL
         miRsAux.MoveNext
     Wend
     miRsAux.Close
@@ -989,34 +990,34 @@ Dim ImporteTemporal As Currency
     If NumeroConta <> vEmpresa.codempre Then
         'Si NO es la empresa origen hau que cuadrar
         If Importe < 0 Then
-            Sql = "ctahpacreedor"
+            SQL = "ctahpacreedor"
         Else
-            Sql = "ctahpdeudor"
+            SQL = "ctahpdeudor"
         End If
-        Sql = DevuelveDesdeBD(Sql, "ariconta" & NumeroConta & ".parametros", "1", "1", "T")
+        SQL = DevuelveDesdeBD(SQL, "ariconta" & NumeroConta & ".parametros", "1", "1", "T")
         
-        k = k + 1
-        Sql = DBSet(Sql, "T") & "," & DBSet(Numdocum, "T")
-        Sql = ", (" & Diario & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsien, "N") & "," & k & "," & Sql
-        Sql = Sql & "," & DBSet(CodConce, "N") & "," & DBSet(Ampconce, "T") & ","
+        K = K + 1
+        SQL = DBSet(SQL, "T") & "," & DBSet(Numdocum, "T")
+        SQL = ", (" & Diario & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsi, "N") & "," & K & "," & SQL
+        SQL = SQL & "," & DBSet(CodConce, "N") & "," & DBSet(Ampconce, "T") & ","
         If Importe < 0 Then
-            Sql = Sql & DBSet(Abs(Importe), "N") & ",NULL,NULL)"
+            SQL = SQL & DBSet(Abs(Importe), "N") & ",NULL,NULL)"
         Else
-            Sql = Sql & "NULL," & DBSet(Importe, "N") & ",NULL)"
+            SQL = SQL & "NULL," & DBSet(Importe, "N") & ",NULL)"
         End If
             
-        SqlInsert = SqlInsert & Sql
+        SqlInsert = SqlInsert & SQL
         
     End If
     
     Set miRsAux = Nothing
     SqlInsert = Mid(SqlInsert, 2)
-    Sql = "INSERT INTO ariconta" & NumeroConta & ".hlinapu (numdiari,fechaent,numasien,linliapu,codmacta,numdocum,codconce,ampconce,timporteD,timporteH,ctacontr) VALUES " & SqlInsert
-    Conn.Execute Sql
+    SQL = "INSERT INTO ariconta" & NumeroConta & ".hlinapu (numdiari,fechaent,numasien,linliapu,codmacta,numdocum,codconce,ampconce,timporteD,timporteH,ctacontr) VALUES " & SqlInsert
+    Conn.Execute SQL
     
     
     
-    SqlLog = SqlLog & "Asiento contable: " & DBSet(NumAsien, "N") & " - " & txtFecha(2).Text & vbCrLf
+    SqlLog = SqlLog & "Asiento contable: " & DBSet(NumAsi, "N") & " - " & txtFecha(2).Text & vbCrLf
     
     
     If NumeroConta <> vEmpresa.codempre Then
@@ -1027,7 +1028,7 @@ Dim ImporteTemporal As Currency
         'Pongo numeroconta a CERO, porque es la empresa desde la que estan lanzando la liquidacion
         NumeroConta = 0
     End If
-    B = ActualizarLiquidacion(True, NumAsien, Diario, NumeroConta)
+    B = ActualizarLiquidacion(True, NumAsi, Diario, NumeroConta)
     
     'Reeestablezco el importe
     If NumeroConta = 0 Then NumeroConta = vEmpresa.codempre
@@ -1048,7 +1049,7 @@ End Function
 
 
 Private Sub ImprimirAsientoContable()
-Dim Sql As String
+Dim SQL As String
 Dim Rs As ADODB.Recordset
 Dim SqlInsert As String
 Dim SqlInsert2 As String
@@ -1063,12 +1064,12 @@ Dim Aux As String
 
     On Error GoTo eImprimirAsientoContable
     NumConta = vEmpresa.codempre
-    Sql = "delete from ariconta" & NumConta & ".tmpconext where codusu= " & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "delete from ariconta" & NumConta & ".tmpconext where codusu= " & vUsu.Codigo
+    Conn.Execute SQL
     
     ' para visualizar los saldos
-    Sql = "delete from ariconta" & NumConta & ".tmpconextcab where codusu= " & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "delete from ariconta" & NumConta & ".tmpconextcab where codusu= " & vUsu.Codigo
+    Conn.Execute SQL
     
     ' codigo = 0 debe
     '          1 haber
@@ -1076,13 +1077,13 @@ Dim Aux As String
     SqlInsert = "insert into ariconta" & NumConta & ".tmpconext(codusu,pos,cta,timported,timporteh,ampconce,numasien) values "
     SqlInsert2 = "insert into ariconta" & NumConta & ".tmpconextcab(codusu,cta,acumtotT) values "
     
-    Sql = "select codempre,cliente, codmacta, sum(coalesce(ivas,0)) importe from ariconta" & NumConta & ".tmpliquidaiva where codusu = " & vUsu.Codigo
-    Sql = Sql & " group by 1,2,3 "
-    Sql = Sql & " having sum(coalesce(ivas,0)) <> 0"
-    Sql = Sql & " order by 1,2,3 "
+    SQL = "select codempre,cliente, codmacta, sum(coalesce(ivas,0)) importe from ariconta" & NumConta & ".tmpliquidaiva where codusu = " & vUsu.Codigo
+    SQL = SQL & " group by 1,2,3 "
+    SQL = SQL & " having sum(coalesce(ivas,0)) <> 0"
+    SQL = SQL & " order by 1,2,3 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     SqlValues = ""
     i = 0
@@ -1117,12 +1118,12 @@ Dim Aux As String
     
         
         ' cargamos cual es el saldo entre la fecha de inicio de ejercicio y la fecha de liquidacion
-        Sql = "select abs(sum(coalesce(timported,0)) - sum(coalesce(timporteh,0))) from ariconta" & codempre & ".hlinapu where codmacta =  " & DBSet(Rs!codmacta, "T")
-        Sql = Sql & " and fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vFecha2, "F")
+        SQL = "select abs(sum(coalesce(timported,0)) - sum(coalesce(timporteh,0))) from ariconta" & codempre & ".hlinapu where codmacta =  " & DBSet(Rs!codmacta, "T")
+        SQL = SQL & " and fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vFecha2, "F")
     
         
         
-        SqlValues2 = SqlValues2 & "(" & DBSet(vUsu.Codigo, "N") & "," & DBSet(Rs!codmacta, "T") & "," & DBSet(DevuelveValor(Sql), "N") & "),"
+        SqlValues2 = SqlValues2 & "(" & DBSet(vUsu.Codigo, "N") & "," & DBSet(Rs!codmacta, "T") & "," & DBSet(DevuelveValor(SQL), "N") & "),"
         
         Rs.MoveNext
     Wend
@@ -1138,11 +1139,11 @@ Dim Aux As String
         Conn.Execute SqlInsert2 & SqlValues2
         
     
-        Sql = "select sum(timported) from ariconta" & NumConta & ".tmpconext where codusu = " & vUsu.Codigo
-        vDebe = DevuelveValor(Sql)
+        SQL = "select sum(timported) from ariconta" & NumConta & ".tmpconext where codusu = " & vUsu.Codigo
+        vDebe = DevuelveValor(SQL)
         
-        Sql = "select sum(timporteh) from ariconta" & NumConta & ".tmpconext where codusu = " & vUsu.Codigo
-        vHaber = DevuelveValor(Sql)
+        SQL = "select sum(timporteh) from ariconta" & NumConta & ".tmpconext where codusu = " & vUsu.Codigo
+        vHaber = DevuelveValor(SQL)
     
         SqlValues = ""
         i = i + 1
@@ -1232,7 +1233,7 @@ Private Sub Form_Load()
     'FramePeriodo.Visible = (Me.cmbPeriodo(0).ListIndex = 0)
     
     FramePeriodo.Enabled = False
-    FramePeriodo.Visible = False
+    FramePeriodo.visible = False
     
     
     CargarFechas
@@ -1420,19 +1421,19 @@ Dim Rs As ADODB.Recordset
     ' tipo 3:   3 enetero y dos decimales
 
     
-    Sql = "select iva,  bases, ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 0 "
-    Sql = Sql & " order by 1 "
+    SQL = "select iva,  bases, ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 0 "
+    SQL = SQL & " order by 1 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     i = 0
     While Not Rs.EOF
         i = i + 1
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
         DevuelveImporte DBLet(Rs!IVA, "N"), 3
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalClien = TotalClien + DBLet(Rs!ivas, "N")
+        TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1447,19 +1448,19 @@ Dim Rs As ADODB.Recordset
     Set Rs = Nothing
     
     'Adquisiciones intra
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 10 "
+    SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 10 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     HayReg = False
     
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalClien = TotalClien + DBLet(Rs!ivas, "N")
+        TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1470,17 +1471,17 @@ Dim Rs As ADODB.Recordset
     Set Rs = Nothing
     
     ' Inversion de sujeto pasivo
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 12 "
+    SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 12 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     HayReg = False
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalClien = TotalClien + DBLet(Rs!ivas, "N")
+        TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1496,19 +1497,19 @@ Dim Rs As ADODB.Recordset
     
     
     'Los recargos
-    Sql = "select iva,  bases, ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 1 "
-    Sql = Sql & " order by 1 "
+    SQL = "select iva,  bases, ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 1 "
+    SQL = SQL & " order by 1 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     i = 0
     While Not Rs.EOF
         i = i + 1
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
         DevuelveImporte DBLet(Rs!IVA, "N"), 3
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalClien = TotalClien + DBLet(Rs!ivas, "N")
+        TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1536,17 +1537,17 @@ Dim Rs As ADODB.Recordset
     TotalProve = 0
     
 '    'operaciones interiores
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 2 "
+    SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 2 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     HayReg = False
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalProve = TotalProve + DBLet(Rs!ivas, "N")
+        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1557,17 +1558,17 @@ Dim Rs As ADODB.Recordset
     Set Rs = Nothing
     
     'operaciones interiores BIENES INVERSION
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 30 "
+    SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 30 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     HayReg = False
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalProve = TotalProve + DBLet(Rs!ivas, "N")
+        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1578,17 +1579,17 @@ Dim Rs As ADODB.Recordset
     Set Rs = Nothing
     
     'importaciones
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 32 "
+    SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 32 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     HayReg = False
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalProve = TotalProve + DBLet(Rs!ivas, "N")
+        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1599,17 +1600,17 @@ Dim Rs As ADODB.Recordset
     Set Rs = Nothing
     
     'importaciones BIEN INVERSION
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 34 "
+    SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 34 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     HayReg = False
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalProve = TotalProve + DBLet(Rs!ivas, "N")
+        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1622,17 +1623,17 @@ Dim Rs As ADODB.Recordset
     
     
     'adqisiciones intracom
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 36 "
+    SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 36 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     HayReg = False
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalProve = TotalProve + DBLet(Rs!ivas, "N")
+        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1643,17 +1644,17 @@ Dim Rs As ADODB.Recordset
     Set Rs = Nothing
     
     'adqisiciones intracom BIEN INVERSION
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 38 "
+    SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 38 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     HayReg = False
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalProve = TotalProve + DBLet(Rs!ivas, "N")
+        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1667,16 +1668,16 @@ Dim Rs As ADODB.Recordset
     DevuelveImporte 0, 0
     DevuelveImporte 0, 0
 
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 42 "
+    SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 42 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     HayReg = False
     While Not Rs.EOF
         HayReg = True
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalProve = TotalProve + DBLet(Rs!ivas, "N")
+        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1770,22 +1771,22 @@ Dim nomDocu As String
     cadParam = cadParam & "pFecha=""" & txtFecha(2).Text & """|"
     numParam = numParam + 1
     
-    Sql = ""
+    SQL = ""
     If EmpresasSeleccionadas = 1 Then
         For i = 1 To Me.ListView1(1).ListItems.Count
             If ListView1(1).ListItems(i).Checked Then
-                If Me.ListView1(1).ListItems(i).Text <> vEmpresa.nomempre Then Sql = Me.ListView1(1).ListItems(i).SubItems(1)
+                If Me.ListView1(1).ListItems(i).Text <> vEmpresa.nomempre Then SQL = Me.ListView1(1).ListItems(i).SubItems(1)
             End If
         Next i
     Else
         'Mas de una empresa
-        Sql = "'Empresas seleccionadas:' + Chr(13) "
+        SQL = "'Empresas seleccionadas:' + Chr(13) "
         For i = 1 To Me.ListView1(1).ListItems.Count
-            Sql = Sql & " + '        " & Me.ListView1(1).ListItems(i).Text & "' + Chr(13)"
+            SQL = SQL & " + '        " & Me.ListView1(1).ListItems(i).Text & "' + Chr(13)"
         Next i
     End If
     
-    cadParam = cadParam & "empresas = """ & Sql & """|"
+    cadParam = cadParam & "empresas = """ & SQL & """|"
     numParam = numParam + 1
     
 
@@ -1805,24 +1806,24 @@ Dim nomDocu As String
 End Sub
 
 Private Function CargarTemporal() As Boolean
-Dim Sql As String
+Dim SQL As String
 
     On Error GoTo eCargarTemporal
 
     CargarTemporal = False
     
-    Sql = "delete from tmpfaclin where codusu = " & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "delete from tmpfaclin where codusu = " & vUsu.Codigo
+    Conn.Execute SQL
     
-    Sql = "insert into tmpfaclin (codusu, codigo, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
-    Sql = Sql & " recargo, tipoopera, tipoformapago) "
-    Sql = Sql & " select distinct " & vUsu.Codigo & ",0, factcli.numserie, contadores.nomregis, factcli.numfactu, factcli.fecfactu, factcli.codmacta, "
-    Sql = Sql & " factcli.nommacta, factcli.nifdatos, factcli.totbases, factcli.totivas, factcli.totfaccl, factcli.trefaccl, "
-    Sql = Sql & " factcli.totrecargo, tipofpago.descformapago , aa.denominacion"
-    Sql = Sql & " from " & tabla
-    Sql = Sql & " where " & cadselect
+    SQL = "insert into tmpfaclin (codusu, codigo, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
+    SQL = SQL & " recargo, tipoopera, tipoformapago) "
+    SQL = SQL & " select distinct " & vUsu.Codigo & ",0, factcli.numserie, contadores.nomregis, factcli.numfactu, factcli.fecfactu, factcli.codmacta, "
+    SQL = SQL & " factcli.nommacta, factcli.nifdatos, factcli.totbases, factcli.totivas, factcli.totfaccl, factcli.trefaccl, "
+    SQL = SQL & " factcli.totrecargo, tipofpago.descformapago , aa.denominacion"
+    SQL = SQL & " from " & tabla
+    SQL = SQL & " where " & cadselect
     
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     CargarTemporal = True
     Exit Function
@@ -1832,7 +1833,7 @@ eCargarTemporal:
 End Function
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -1842,19 +1843,19 @@ Dim i As Integer
     MontaSQL = False
     
             
-    Sql = ""
+    SQL = ""
     For i = 1 To Me.ListView1(1).ListItems.Count
         If Me.ListView1(1).ListItems(i).Checked Then
-            Sql = Sql & Me.ListView1(1).ListItems(i).Text & ","
+            SQL = SQL & Me.ListView1(1).ListItems(i).Text & ","
         End If
     Next i
     
-    If Sql <> "" Then
+    If SQL <> "" Then
         ' quitamos la ultima coma
-        Sql = Mid(Sql, 1, Len(Sql) - 1)
+        SQL = Mid(SQL, 1, Len(SQL) - 1)
         
-        If Not AnyadirAFormula(cadselect, "factcli_totales.codigiva in (" & Sql & ")") Then Exit Function
-        If Not AnyadirAFormula(cadFormula, "{factcli_totales.codigiva} in [" & Sql & "]") Then Exit Function
+        If Not AnyadirAFormula(cadselect, "factcli_totales.codigiva in (" & SQL & ")") Then Exit Function
+        If Not AnyadirAFormula(cadFormula, "{factcli_totales.codigiva} in [" & SQL & "]") Then Exit Function
     Else
         If Not AnyadirAFormula(cadselect, "factcli_totales.codigiva is null") Then Exit Function
         If Not AnyadirAFormula(cadFormula, "isnull({factcli_totales.codigiva})") Then Exit Function
@@ -2032,12 +2033,12 @@ Private Function DatosOK() As Boolean
         SqlLog = ""
         For i = 1 To ListView1(1).ListItems.Count
             If Me.ListView1(1).ListItems(i).Checked And ListView1(1).ListItems(i).Text <> vEmpresa.codempre Then
-                For k = 1 To 2
+                For K = 1 To 2
                     J = CInt(ListView1(1).ListItems(i).Text)
-                    RC = RecuperaValor("ctahpacreedor|ctahpdeudor|", CInt(k))
+                    RC = RecuperaValor("ctahpacreedor|ctahpdeudor|", CInt(K))
                     RC = DevuelveDesdeBD(RC, "ariconta" & J & ".parametros", "1", "1")
                     If RC <> "" Then RC = DevuelveDesdeBD("codmacta", "ariconta" & J & ".cuentas", "codmacta", RC, "T")
-                    If RC = "" Then SqlLog = SqlLog & "Empresa: " & ListView1(1).ListItems(i).SubItems(1) & RecuperaValor(" ctahpacreedor| ctahpdeudor|", CInt(k)) & " no encontrado" & vbCrLf
+                    If RC = "" Then SqlLog = SqlLog & "Empresa: " & ListView1(1).ListItems(i).SubItems(1) & RecuperaValor(" ctahpacreedor| ctahpdeudor|", CInt(K)) & " no encontrado" & vbCrLf
                 Next
             End If
         Next i
@@ -2057,7 +2058,7 @@ Private Function DatosOK() As Boolean
 End Function
 
 Private Function EmpresasSeleccionadas() As Integer
-Dim Sql As String
+Dim SQL As String
 Dim i As Integer
 Dim NSel As Integer
 
@@ -2074,7 +2075,7 @@ Private Sub CargarListView(Index As Integer)
 'en un ListView
 Dim Rs As ADODB.Recordset
 Dim ItmX As ListItem
-Dim Sql As String
+Dim SQL As String
 
     On Error GoTo ECargarList
 
@@ -2084,18 +2085,18 @@ Dim Sql As String
     ListView1(Index).ColumnHeaders.Add , , "Código", 600
     ListView1(Index).ColumnHeaders.Add , , "Descripción", 3200
     
-    Sql = "SELECT codempre, nomempre, conta "
-    Sql = Sql & " FROM usuarios.empresasariconta "
+    SQL = "SELECT codempre, nomempre, conta "
+    SQL = SQL & " FROM usuarios.empresasariconta "
     
     If Not vParam.EsMultiseccion Then
-        Sql = Sql & " where conta = " & DBSet(Conn.DefaultDatabase, "T")
+        SQL = SQL & " where conta = " & DBSet(Conn.DefaultDatabase, "T")
     Else
-        Sql = Sql & " where mid(conta,1,8) = 'ariconta'"
+        SQL = SQL & " where mid(conta,1,8) = 'ariconta'"
     End If
-    Sql = Sql & " ORDER BY codempre "
+    SQL = SQL & " ORDER BY codempre "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     While Not Rs.EOF
         
@@ -2139,8 +2140,8 @@ Private Function GeneraLasLiquidaciones() As Boolean
     '                   4- Facturas Proveedores no deducible
     
     'Borramos los datos temporales
-    Sql = "DELETE FROM tmpliquidaiva WHERE codusu =" & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "DELETE FROM tmpliquidaiva WHERE codusu =" & vUsu.Codigo
+    Conn.Execute SQL
     
     
     NumRegElim = 0
@@ -2156,9 +2157,9 @@ Private Function GeneraLasLiquidaciones() As Boolean
         End If
     Next i
     'Borraremos todos aquellos IVAS de Base imponible=0
-    Sql = "DELETE From tmpliquidaiva WHERE codusu = " & vUsu.Codigo
-    Sql = Sql & " AND bases = 0"
-    Conn.Execute Sql
+    SQL = "DELETE From tmpliquidaiva WHERE codusu = " & vUsu.Codigo
+    SQL = SQL & " AND bases = 0"
+    Conn.Execute SQL
     
     
     GeneraLasLiquidaciones = True
@@ -2191,57 +2192,57 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     '-----------------------------------------------
     ' iva
     
-    Sql = "insert into tmpliquidaiva(codusu,codmacta,bases,ivas,codempre,periodo,ano,cliente)"
+    SQL = "insert into tmpliquidaiva(codusu,codmacta,bases,ivas,codempre,periodo,ano,cliente)"
     
-    Sql = Sql & " select " & vUsu.Codigo & ",cuenta,sum(base),sum(iva), a, b," & Anyo & ",0    "
-    Sql = Sql & " from ("
+    SQL = SQL & " select " & vUsu.Codigo & ",cuenta,sum(base),sum(iva), a, b," & Anyo & ",0    "
+    SQL = SQL & " from ("
     
-    Sql = Sql & " select " & vUsu.Codigo & ",tiposiva.cuentare cuenta,sum(baseimpo) base,sum(impoiva) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",0 "
-    Sql = Sql & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
-    Sql = Sql & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
-    Sql = Sql & " and tipodiva <> 3 " 'todos menos no deducible
-    Sql = Sql & " and factcli_totales.codigiva = tiposiva.codigiva "
-    Sql = Sql & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
-    Sql = Sql & " group by 1,2"
-    Sql = Sql & " union "
+    SQL = SQL & " select " & vUsu.Codigo & ",tiposiva.cuentare cuenta,sum(baseimpo) base,sum(impoiva) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",0 "
+    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
+    SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " and tipodiva <> 3 " 'todos menos no deducible
+    SQL = SQL & " and factcli_totales.codigiva = tiposiva.codigiva "
+    SQL = SQL & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
+    SQL = SQL & " group by 1,2"
+    SQL = SQL & " union "
     'isp
-    Sql = Sql & " select " & vUsu.Codigo & ",tiposiva.cuentare cuenta,sum(baseimpo) base,sum(impoiva) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",0 "
-    Sql = Sql & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
-    Sql = Sql & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " select " & vUsu.Codigo & ",tiposiva.cuentare cuenta,sum(baseimpo) base,sum(impoiva) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",0 "
+    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
     'Sql = Sql & " and factpro.codopera = 4 " ' tipo de operacion inversion sujeto pasivo
-    Sql = Sql & " and factpro.codopera in (1,4) " ' tipo de operacion inversion sujeto pasivo E intracom
-    Sql = Sql & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
-    Sql = Sql & " and factpro_totales.codigiva = tiposiva.codigiva "
-    Sql = Sql & " group by 1,2"
-    Sql = Sql & " union "
+    SQL = SQL & " and factpro.codopera in (1,4) " ' tipo de operacion inversion sujeto pasivo E intracom
+    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+    SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+    SQL = SQL & " group by 1,2"
+    SQL = SQL & " union "
     'f isp
     
     
     ' recargo de equivalencia
-    Sql = Sql & " select " & vUsu.Codigo & ",tiposiva.cuentarr cuenta,sum(baseimpo) base,sum(coalesce(imporec,0)) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",0 "
-    Sql = Sql & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
-    Sql = Sql & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
-    Sql = Sql & " and tipodiva <> 3 " 'todos menos no deducible
-    Sql = Sql & " and factcli_totales.codigiva = tiposiva.codigiva "
-    Sql = Sql & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
-    Sql = Sql & " group by 1,2"
+    SQL = SQL & " select " & vUsu.Codigo & ",tiposiva.cuentarr cuenta,sum(baseimpo) base,sum(coalesce(imporec,0)) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",0 "
+    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
+    SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " and tipodiva <> 3 " 'todos menos no deducible
+    SQL = SQL & " and factcli_totales.codigiva = tiposiva.codigiva "
+    SQL = SQL & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
+    SQL = SQL & " group by 1,2"
     'isp
-    Sql = Sql & " union "
-    Sql = Sql & " select " & vUsu.Codigo & ",tiposiva.cuentarr cuenta,sum(baseimpo) base,sum(coalesce(imporec,0)) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",0 "
-    Sql = Sql & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
-    Sql = Sql & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
-    Sql = Sql & " and factpro.codopera = 4 " ' tipo de operacion inversion sujeto pasivo
-    Sql = Sql & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
-    Sql = Sql & " and factpro_totales.codigiva = tiposiva.codigiva "
-    Sql = Sql & " group by 1,2"
+    SQL = SQL & " union "
+    SQL = SQL & " select " & vUsu.Codigo & ",tiposiva.cuentarr cuenta,sum(baseimpo) base,sum(coalesce(imporec,0)) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",0 "
+    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " and factpro.codopera = 4 " ' tipo de operacion inversion sujeto pasivo
+    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+    SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+    SQL = SQL & " group by 1,2"
     'f isp
         
     
-    Sql = Sql & " ) aaaaa "
+    SQL = SQL & " ) aaaaa "
     
-    Sql = Sql & " group by 1,2"
+    SQL = SQL & " group by 1,2"
                     
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     
     
@@ -2250,40 +2251,40 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     '-----------------------------------------------
     '           PROVEEDORES
     '-----------------------------------------------
-    Sql = "insert into tmpliquidaiva(codusu,codmacta,bases,ivas,codempre,periodo,ano,cliente) "
+    SQL = "insert into tmpliquidaiva(codusu,codmacta,bases,ivas,codempre,periodo,ano,cliente) "
     
-    Sql = Sql & " select " & vUsu.Codigo & ",cuenta,sum(base),sum(iva), a, b," & Anyo & ",cliente    "
-    Sql = Sql & " from ("
-    Sql = Sql & " select " & vUsu.Codigo & ",tiposiva.cuentaso cuenta,sum(baseimpo) base,sum(impoiva) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",1 cliente"
-    Sql = Sql & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
-    Sql = Sql & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
-    Sql = Sql & " and tipodiva <> 3 " ' todos menos no deducible
-    Sql = Sql & " and factpro_totales.codigiva = tiposiva.codigiva "
-    Sql = Sql & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
-    Sql = Sql & " group by 1,2"
-    Sql = Sql & " union "
+    SQL = SQL & " select " & vUsu.Codigo & ",cuenta,sum(base),sum(iva), a, b," & Anyo & ",cliente    "
+    SQL = SQL & " from ("
+    SQL = SQL & " select " & vUsu.Codigo & ",tiposiva.cuentaso cuenta,sum(baseimpo) base,sum(impoiva) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",1 cliente"
+    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " and tipodiva <> 3 " ' todos menos no deducible
+    SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+    SQL = SQL & " group by 1,2"
+    SQL = SQL & " union "
     ' recargo de equivalencia
-    Sql = Sql & " select " & vUsu.Codigo & ",tiposiva.cuentasr cuenta,sum(baseimpo) base,sum(imporec) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",1 cliente"
-    Sql = Sql & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
-    Sql = Sql & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
-    Sql = Sql & " and tipodiva <> 3 " ' todos menos no deducible
-    Sql = Sql & " and factpro_totales.codigiva = tiposiva.codigiva "
-    Sql = Sql & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
-    Sql = Sql & " group by 1,2"
-    Sql = Sql & " union "
+    SQL = SQL & " select " & vUsu.Codigo & ",tiposiva.cuentasr cuenta,sum(baseimpo) base,sum(imporec) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",1 cliente"
+    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " and tipodiva <> 3 " ' todos menos no deducible
+    SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+    SQL = SQL & " group by 1,2"
+    SQL = SQL & " union "
     ' soportado no deducible
-    Sql = Sql & " select " & vUsu.Codigo & ",tiposiva.cuentasn cuenta,sum(baseimpo) base,sum(impoiva) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",1 cliente"
-    Sql = Sql & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
-    Sql = Sql & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
-    Sql = Sql & " and tipodiva = 3 " ' los no deducibles
-    Sql = Sql & " and factpro_totales.codigiva = tiposiva.codigiva "
-    Sql = Sql & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
-    Sql = Sql & " group by 1,2"
-    Sql = Sql & " ) aaaaa "
+    SQL = SQL & " select " & vUsu.Codigo & ",tiposiva.cuentasn cuenta,sum(baseimpo) base,sum(impoiva) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",1 cliente"
+    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " and tipodiva = 3 " ' los no deducibles
+    SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+    SQL = SQL & " group by 1,2"
+    SQL = SQL & " ) aaaaa "
     
-    Sql = Sql & " group by 1,2"
+    SQL = SQL & " group by 1,2"
                     
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     
     
@@ -2292,12 +2293,12 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     If Me.txtCuota(0).Text <> "" Then
         If Empresa = vEmpresa.codempre Then
             'Es aqui donde hay que insertar la compensacion
-            Sql = vParam.CtaHPDeudor
-            If Sql = "" Then Sql = "COMPENSA"
-            Sql = " VALUES  (" & vUsu.Codigo & "," & DBSet(Sql, "T") & ",1," & DBSet(txtCuota(0).Text, "N")
-            Sql = Sql & "," & Empresa & "," & Periodo & "," & Anyo & ",1 )"
-            Sql = "insert into tmpliquidaiva(codusu,codmacta,bases,ivas,codempre,periodo,ano,cliente)" & Sql
-            Conn.Execute Sql
+            SQL = vParam.CtaHPDeudor
+            If SQL = "" Then SQL = "COMPENSA"
+            SQL = " VALUES  (" & vUsu.Codigo & "," & DBSet(SQL, "T") & ",1," & DBSet(txtCuota(0).Text, "N")
+            SQL = SQL & "," & Empresa & "," & Periodo & "," & Anyo & ",1 )"
+            SQL = "insert into tmpliquidaiva(codusu,codmacta,bases,ivas,codempre,periodo,ano,cliente)" & SQL
+            Conn.Execute SQL
             
         End If
     End If

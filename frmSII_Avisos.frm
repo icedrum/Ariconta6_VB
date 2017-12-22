@@ -744,7 +744,7 @@ Public Sub CreateReportControlPendientes()
     
     If Me.cboTipo.ListIndex = 1 Then
         
-        Set Column = wndReportControl.Columns.Add(2, "F.Recep", 13, True)
+        Set Column = wndReportControl.Columns.Add(2, IIf(vParam.SII_Periodo_DesdeLiq, "F.Liq.", "F.Recep"), 13, True)
         Set Column = wndReportControl.Columns.Add(3, "NºFactura", 15, True)
         Set Column = wndReportControl.Columns.Add(4, "F. Factura", 13, True)
         Set Column = wndReportControl.Columns.Add(5, "Proveedor", 10, True)
@@ -902,21 +902,21 @@ Dim Aux As String
         SQL = SQL & " on factcli.SII_ID = envio_facturas_emitidas.IDEnvioFacturasEmitidas"
        
         Aux = "fecfactu"
-
+        If vParam.SII_Periodo_DesdeLiq Then Aux = "fecliqcl"
         
         
     Else
         'RECIBIDAS
         SQL = " select factpro.numserie,factpro.numfactu, factpro.fecfactu,factpro.codmacta,factpro.nommacta"
         SQL = SQL & " ,codopera, factpro.codconce340,factpro.totfacpr"
-        SQL = SQL & " ,numregis,anofactu,fecharec,SII_ID,nifdatos ,resultado,csv,enviada "
+        SQL = SQL & " ,numregis,anofactu,fecharec,SII_ID,nifdatos ,resultado,csv,enviada,fecliqpr "
         SQL = SQL & " from factpro left join aswsii.envio_facturas_recibidas "
         SQL = SQL & " on factpro.SII_ID = envio_facturas_recibidas.IDEnvioFacturasRecibidas"
        
         
         
         Aux = "fecharec"
-        
+        If vParam.SII_Periodo_DesdeLiq Then Aux = "fecliqpr"
     End If
     SQL = SQL & " WHERE " & Aux & " >=" & DBSet(vParam.SIIFechaInicio, "F")
     SQL = SQL & " AND " & Aux & " <= " & DBSet(Now, "F")
@@ -1198,7 +1198,7 @@ Dim ItemIcon As Integer
         'Check
     Set Item = Record.AddItem("")
     If PuedeEnviar Then
-        Item.Checked = MarcarComoCheck
+        Item.Checked = MarcarComoCheck And Marcadas
         Item.HasCheckbox = i = 0 Or i = 2
     Else
         Item.Checked = False
@@ -1214,15 +1214,15 @@ Dim ItemIcon As Integer
     Item.SortPriority = i
     Item.Caption = ""
     
+        
     
-    
-    
-    
-    
-    
-    
-    Set Item = Record.AddItem(Format(miRsAux!fecharec, "yyyymmdd"))
-    Item.Caption = Format(miRsAux!fecharec, "dd/mm/yyyy")
+    If vParam.SII_Periodo_DesdeLiq Then
+        Set Item = Record.AddItem(Format(miRsAux!fecliqpr, "yyyymmdd"))
+        Item.Caption = Format(miRsAux!fecliqpr, "dd/mm/yyyy")
+    Else
+        Set Item = Record.AddItem(Format(miRsAux!fecharec, "yyyymmdd"))
+        Item.Caption = Format(miRsAux!fecharec, "dd/mm/yyyy")
+    End If
     
     If miRsAux!NUmSerie = "1" Then
         SQL = ""

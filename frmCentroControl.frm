@@ -2440,7 +2440,7 @@ Dim i As Integer
 End Sub
 
 
-Private Sub PonerFrameVisible(ByRef Fr As Frame, ByRef He As Integer, ByRef Wi As Integer)
+Private Sub PonerFrameVisible(ByRef Fr As frame, ByRef He As Integer, ByRef Wi As Integer)
     Fr.top = 30
     Fr.Left = 30
     Fr.visible = True
@@ -3659,6 +3659,7 @@ Private Function HacerInsercionDigitoContable() As Boolean
        vEmpresa.Leer vEmpresa.codempre
        vParam.Leer
        If vEmpresa.TieneTesoreria Then vParamT.Leer
+       vParam.FijarAplicarFiltrosEnCuentas vEmpresa.nomempre
        
        HacerInsercionDigitoContable = True
        

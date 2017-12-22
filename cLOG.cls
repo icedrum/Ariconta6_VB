@@ -52,10 +52,12 @@ Option Explicit
 '       28.- Generar Asiento contabilizacion de factura cliente
 '       29.- Generar Asiento contabilizacion de factura proveedor
 
+'       30. Modificar datos desde traspaso primir semestree SII
+
 Private Const AccionesRegistradas = 29
 Private mvarDatosDescripcion As String
 
-Dim Sql As String
+Dim SQL As String
 
 
 Public Property Let DatosDescripcion(ByVal vData As String)
@@ -79,15 +81,15 @@ Public Function Insertar(Accion As Byte, ByRef ElUsuario As Usuario, Descripcion
     On Error GoTo EI
     Insertar = False
     
-    Sql = "insert into `slog` (`fecha`,`accion`,`usuario`,`pc`,`descripcion`) values ( "
-    Sql = Sql & " now()," & Accion & " ,'" & DevNombreSQL(ElUsuario.Login) & "','"
-    Sql = Sql & DevNombreSQL(ElUsuario.PC) & "',"
+    SQL = "insert into `slog` (`fecha`,`accion`,`usuario`,`pc`,`descripcion`) values ( "
+    SQL = SQL & " now()," & Accion & " ,'" & DevNombreSQL(ElUsuario.Login) & "','"
+    SQL = SQL & DevNombreSQL(ElUsuario.PC) & "',"
     If Descripcion = "" Then
-        Sql = Sql & "NULL)"
+        SQL = SQL & "NULL)"
     Else
-        Sql = Sql & DBSet(Descripcion, "T") & ")"
+        SQL = SQL & DBSet(Descripcion, "T") & ")"
     End If
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     
     Insertar = True
@@ -160,6 +162,9 @@ Dim C As String
                 C = "Generar asiento Fra.Cliente"
             Case 29
                 C = "Generar asiento Fra.Proveedor"
+                
+            Case 30
+                C = "Modif. 1er semestree SII"
         End Select
         
     End If
@@ -168,13 +173,13 @@ End Function
 
 
 Public Function DevuelveAcciones(ByRef ListaAcciones As Collection) As Boolean
-Dim I As Integer
+Dim i As Integer
 
  On Error GoTo EDevuelveAcciones
-    For I = 1 To AccionesRegistradas
-        Sql = I & "|" & DimeAccion(I) & "|"
-        ListaAcciones.Add Sql
-    Next I
+    For i = 1 To AccionesRegistradas
+        SQL = i & "|" & DimeAccion(i) & "|"
+        ListaAcciones.Add SQL
+    Next i
     
     DevuelveAcciones = True
     
@@ -187,7 +192,7 @@ End Function
 
 Public Sub VolcarAFichero2()
 Dim F As Date
-Dim Rs As Adodb.Recordset
+Dim Rs As ADODB.Recordset
 
 
 
@@ -196,7 +201,7 @@ Dim Rs As Adodb.Recordset
 
     
 
-    Set Rs = New Adodb.Recordset
+    Set Rs = New ADODB.Recordset
     F = Now   'Por si acaso esta el reloj mal
     Rs.Open "select curdate()", Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then F = DBLet(Rs.Fields(0), "F")
@@ -212,7 +217,7 @@ Dim Rs As Adodb.Recordset
     F = DateAdd("d", -1, F)
     
     
-    Sql = "Select * from slog where fecha < '" & Format(F, "yyyy-mm-dd") & "' "
+    SQL = "Select * from slog where fecha < '" & Format(F, "yyyy-mm-dd") & "' "
 '    SQL = "INSERT INTO slog_old " & SQL
 '    Conn.Execute SQL
     Conn.Execute "DELETE from slog where fecha <'" & Format(F, "yyyy-mm-dd") & "'"
@@ -224,9 +229,9 @@ Dim Rs As Adodb.Recordset
     
     Exit Sub
 EVolcar:
-    Sql = "Error volcado datos acciones: " & vbCrLf & Err.Description
-    Sql = Sql & vbCrLf & vbCrLf & "El programa continuará." & vbCrLf & vbCrLf & "Avise a soporte técnico."
-    MsgBox Sql, vbExclamation
+    SQL = "Error volcado datos acciones: " & vbCrLf & Err.Description
+    SQL = SQL & vbCrLf & vbCrLf & "El programa continuará." & vbCrLf & vbCrLf & "Avise a soporte técnico."
+    MsgBox SQL, vbExclamation
     Err.Clear
     Set Rs = Nothing
 End Sub

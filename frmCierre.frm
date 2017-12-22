@@ -3690,6 +3690,7 @@ On Error GoTo EHacerElCierre
 EHacerElCierre:
     If Err.Number <> 0 Then MuestraError Err.Number
     vParam.Leer
+    vParam.FijarAplicarFiltrosEnCuentas vEmpresa.nomempre
     If vEmpresa.TieneTesoreria Then vParamT.Leer
     Set Rs = Nothing
 End Function

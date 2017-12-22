@@ -167,3 +167,146 @@ Dim Rs As ADODB.Recordset
 
 End Function
 
+
+
+
+
+
+
+
+Public Function HayQueMostrarEliminarRiesgoTalPag() As Boolean
+Dim SQL As String
+Dim Col As Collection
+    
+    On Error GoTo eHayQueMostrarEliminarRiesgoTalPag
+    HayQueMostrarEliminarRiesgoTalPag = False
+    Set miRsAux = New ADODB.Recordset
+    SQL = "Select codigo,anyo,codmacta,tiporem  from remesas where  tiporem > 1  AND (situacion ='Q' or situacion ='Y') ORDER BY codmacta,1,2 "
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    SQL = ""
+    Set Col = New Collection
+    Msg = ""
+    While Not miRsAux.EOF
+        If Msg <> miRsAux!codmacta Then
+            '
+            '           tiporem|dias                Resto. Remesas
+            If Msg <> "" Then Col.Add SQL
+            
+            
+            SQL = "concat( pagaredias,'|',talondias,'|')"
+            Msg = DevuelveDesdeBD(SQL, "bancos", "codmacta", miRsAux!codmacta, "T")
+            If Msg = "" Then Err.Raise 513, "No existe banco?" & miRsAux!codmacta
+            If miRsAux!tiporem = 2 Then
+                SQL = RecuperaValor(Msg, 1)
+            Else
+                SQL = RecuperaValor(Msg, 2)
+            End If
+            If SQL = "" Then SQL = "0"
+            Msg = Val(SQL) + 1
+            SQL = Format(Msg, "000")
+            Msg = miRsAux!codmacta
+            
+        End If
+        
+        SQL = SQL & ", (" & miRsAux!Codigo & "," & miRsAux!Anyo & ")"
+        miRsAux.MoveNext
+    Wend
+    miRsAux.Close
+    
+    If SQL <> "" Then Col.Add SQL
+        
+        
+    For i = 1 To Col.Count
+        SQL = Col.Item(i)
+        J = Val(Mid(SQL, 1, 3))
+        SQL = Mid(SQL, 5)
+        
+        Msg = "select count(*)"
+        Msg = Msg & " from cobros where (codrem,anyorem) in ("
+        Msg = Msg & SQL
+        Msg = Msg & ") and date_add(fecvenci, interval " & J & " day) <now()"
+        Msg = Msg & " order by fecvenci"
+        miRsAux.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        If Not miRsAux.EOF Then
+            If DBLet(miRsAux.Fields(0), "N") > 0 Then HayQueMostrarEliminarRiesgoTalPag = True
+        End If
+        miRsAux.Close
+        If HayQueMostrarEliminarRiesgoTalPag Then Exit For
+    Next i
+        
+eHayQueMostrarEliminarRiesgoTalPag:
+    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description
+    Set miRsAux = Nothing
+    Set Col = Nothing
+    Msg = ""
+End Function
+
+
+
+Public Function QueRemesasMostrarEliminarRiesgoTalPag() As String
+Dim SQL As String
+Dim Col As Collection
+    
+    On Error GoTo eHayQueMostrarEliminarRiesgoTalPag
+    QueRemesasMostrarEliminarRiesgoTalPag = ""
+    Set miRsAux = New ADODB.Recordset
+    SQL = "Select codigo,anyo,codmacta,tiporem  from remesas where  tiporem > 1  AND (situacion ='Q' or situacion ='Y') ORDER BY codmacta,1,2 "
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    SQL = ""
+    Set Col = New Collection
+    Msg = ""
+    While Not miRsAux.EOF
+        If Msg <> miRsAux!codmacta Then
+            '
+            '           tiporem|dias                Resto. Remesas
+            If Msg <> "" Then Col.Add SQL
+            
+            
+            SQL = "concat( pagaredias,'|',talondias,'|')"
+            Msg = DevuelveDesdeBD(SQL, "bancos", "codmacta", miRsAux!codmacta, "T")
+            If Msg = "" Then Err.Raise 513, "No existe banco?" & miRsAux!codmacta
+            If miRsAux!tiporem = 2 Then
+                SQL = Format(RecuperaValor(Msg, 1), "000")
+            Else
+                SQL = Format(RecuperaValor(Msg, 2), "000")
+            End If
+            Msg = miRsAux!codmacta
+            
+        End If
+        
+        SQL = SQL & ", (" & miRsAux!Codigo & "," & miRsAux!Anyo & ")"
+        miRsAux.MoveNext
+    Wend
+    miRsAux.Close
+    
+    If SQL <> "" Then Col.Add SQL
+        
+        
+    For i = 1 To Col.Count
+        SQL = Col.Item(i)
+        J = Val(Mid(SQL, 1, 3))
+        SQL = Mid(SQL, 5)
+        
+        Msg = "select distinct codrem,anyorem "
+        Msg = Msg & " from cobros where (codrem,anyorem) in ("
+        Msg = Msg & SQL
+        Msg = Msg & ") and date_add(fecvenci, interval " & J & " day) <now()"
+        Msg = Msg & " order by fecvenci"
+        miRsAux.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        While Not miRsAux.EOF
+            QueRemesasMostrarEliminarRiesgoTalPag = QueRemesasMostrarEliminarRiesgoTalPag & ", (" & miRsAux!CodRem & "," & miRsAux!AnyoRem & ")"
+            miRsAux.MoveNext
+        Wend
+        miRsAux.Close
+        
+        
+    Next i
+        
+eHayQueMostrarEliminarRiesgoTalPag:
+    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description
+    Set miRsAux = Nothing
+    Set Col = Nothing
+    Msg = ""
+End Function
+
+

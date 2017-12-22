@@ -1274,12 +1274,12 @@ Dim FrasPro As String
                     
                     Im = ImporteFormateado(.SubItems(4))
                     CadenaUpdate = ""
-                    'Si compensa sobre un vto de cobro
+                    'Si compensa sobre un vto de pago
                     If CompensaSobreCobros = 2 Then
                         
                         If lw1(1).ListItems(NumRegElim).Index = ItmVto.Index Then
                         
-                        
+                           
                             'Nuevo Marzo 2009
                             If Va_a_AumentaElImporteDelVto Then
                                 'Es decir, habia un importe y va a haber otro (mayor)
@@ -1307,7 +1307,11 @@ Dim FrasPro As String
                                 CadenaUpdate = "UPDATE pagos set "
                                 If CambiaIMporteVto Then
                                     CadenaUpdate = CadenaUpdate & "impefect=  " & TransformaComasPuntos(CStr(Abs(CCur(Text3(2).Tag))))
-                                
+                                    CadenaUpdate = CadenaUpdate & ",imppagad= NULL"
+                                    
+                                    
+                                    CadenaUpdate = CadenaUpdate & " ,observa=trim(concat(if(observa is null, """",observa),""    "",""Compen. " & Format(Now, "dd/mm/yyyy") & " Vto: " & CStr(YaCobrado) & """))"
+                                    
                                 Else
                                     CadenaUpdate = CadenaUpdate & "imppagad= " & TransformaComasPuntos(CStr(YaCobrado))
                                     

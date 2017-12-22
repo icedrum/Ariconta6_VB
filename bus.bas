@@ -197,7 +197,7 @@ Public Function LeerEmpresaParametros()
                 End If
             End If
         End If
-        
+        vParam.FijarAplicarFiltrosEnCuentas vEmpresa.nomempre
         'incializamos el objeto
         Set vLog = New cLOG
         
@@ -1904,4 +1904,7 @@ Dim B As Boolean
     End If
     ComprobarIBANCuentaBancaria = B
 End Function
+
+
+
 

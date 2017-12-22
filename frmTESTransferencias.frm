@@ -2355,6 +2355,7 @@ Dim Campo2 As Integer
 End Sub
 
 Private Sub lw1_DblClick()
+    If lw1.SelectedItem Is Nothing Then Exit Sub
     'detalle de facturas
     Set frmMens = New frmMensajes
     
@@ -2612,7 +2613,7 @@ Dim NumLinea As Integer
         SQL = SQL & ", situacion = 0 "
         SQL = SQL & " where numserie = " & DBSet(Rs!NUmSerie, "T") & " and "
         SQL = SQL & " numfactu = " & DBSet(Rs!NumFactu, "T") & " and fecfactu = " & DBSet(Rs!FecFactu, "F") & " and "
-        SQL = SQL & " numorden = " & DBSet(Rs!numorden, "N")
+        SQL = SQL & " numorden = " & DBSet(Rs!numorden, "N") & " AND codmacta = " & DBSet(Rs!codmacta, "T")
                     
         Conn.Execute SQL
     

@@ -29,9 +29,14 @@ Dim C2 As String
     'incio fecha sii
     
     C2 = "select count(*) From factcli  left join aswsii.envio_facturas_emitidas"
-    C2 = C2 & " on factcli.SII_ID = envio_facturas_emitidas.IDEnvioFacturasEmitidas"
-    C2 = C2 & " where fecfactu >=" & DBSet(vParam.SIIFechaInicio, "F")
-    C2 = C2 & " AND fecfactu <= " & DBSet(F, "F")
+    C2 = C2 & " on factcli.SII_ID = envio_facturas_emitidas.IDEnvioFacturasEmitidas where "
+    If vParam.SII_Periodo_DesdeLiq Then
+        C2 = C2 & " fecliqcl >=" & DBSet(vParam.SIIFechaInicio, "F")
+        C2 = C2 & " AND fecliqcl <= " & DBSet(F, "F")
+    Else
+        C2 = C2 & " fecfactu >=" & DBSet(vParam.SIIFechaInicio, "F")
+        C2 = C2 & " AND fecfactu <= " & DBSet(F, "F")
+    End If
     C2 = C2 & " and (csv is null or resultado='AceptadoConErrores')"
 
     Aux = ""
@@ -45,9 +50,14 @@ Dim C2 As String
     If TieneFacturasPendientesSubirSII = 0 Then
         Aux = "0"
         C2 = "Select count(*) From factpro left join aswsii.envio_facturas_recibidas"
-        C2 = C2 & " on factpro.SII_ID = envio_facturas_recibidas.IDEnvioFacturasRecibidas"
-        C2 = C2 & " where fecharec >=" & DBSet(vParam.SIIFechaInicio, "F")
-        C2 = C2 & " AND fecharec <= " & DBSet(F, "F")
+        C2 = C2 & " on factpro.SII_ID = envio_facturas_recibidas.IDEnvioFacturasRecibidas WHERE "
+        If vParam.SII_Periodo_DesdeLiq Then
+            C2 = C2 & " fecliqpr >=" & DBSet(vParam.SIIFechaInicio, "F")
+            C2 = C2 & " AND fecliqpr <= " & DBSet(F, "F")
+        Else
+            C2 = C2 & " fecharec >=" & DBSet(vParam.SIIFechaInicio, "F")
+            C2 = C2 & " AND fecharec <= " & DBSet(F, "F")
+        End If
         C2 = C2 & " and (csv is null or resultado='AceptadoConErrores')"
         RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not RN.EOF Then
@@ -99,7 +109,7 @@ Dim H As Integer
 Dim C1 As String
 Dim C2 As String
 Dim BloqueIVA As Byte
-Dim FechaPeriodo As Date
+Dim FechaPeriodo2 As Date
 
     On Error GoTo eSii_FraCLI
     Sii_FraCLI = False
@@ -114,12 +124,12 @@ Dim FechaPeriodo As Date
     SQL = IDEnvioFacturasEmitidas & ",'ARICONTA'," & DBSet(Now, "FH") & ",1,"
 
 '#2
-    FechaPeriodo = RN!FecFactu
-    If vParam.SII_Periodo_DesdeLiq Then FechaPeriodo = RN!fecliqcl
+    FechaPeriodo2 = RN!FecFactu
+    If vParam.SII_Periodo_DesdeLiq Then FechaPeriodo2 = RN!fecliqcl
     
     'CAB_IDVersionSii , CAB_Titular_NombreRazon, CAB_Titular_NIFRepresentante, CAB_Titular_NIF, REG_PI_Ejercicio, REG_PI_Periodo
-    SQL = SQL & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'A0'," & Year(FechaPeriodo) & ","
-    SQL = SQL & "'" & Format(Month(FechaPeriodo), "00") & "',"
+    SQL = SQL & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'A0'," & Year(FechaPeriodo2) & ","
+    SQL = SQL & "'" & Format(Month(FechaPeriodo2), "00") & "',"
     
 '#3
     'REG_IDF_IDEF_NIF,REG_IDF_NumSerieFacturaEmisor,REG_IDF_NumSerieFacturaEmisorResumenFin,REG_IDF_FechaExpedicionFacturaEmisor,REG_FE_TipoFactura
@@ -132,7 +142,7 @@ Dim FechaPeriodo As Date
     Else
         SQL = SQL & "null"
     End If
-    SQL = SQL & "," & DBSet(RN!FecFactu, "F") & ","
+    SQL = SQL & "," & DBSet(FechaPeriodo2, "F") & ","
     '#3.1
     ',REG_FE_TipoRectificativa,REG_FE_IR_BaseRectificada,REG_FE_IR_CuotaRectificada,REG_FE_IR_CuotaRecargoRectificado,
         
@@ -501,7 +511,7 @@ Dim C2 As String
 Dim TotalDecucible As Currency
 Dim CodOpera As Byte
 Dim InversionSujetoPasivo As Boolean
-Dim FechaPeriodo As Date
+Dim FechaPeriodo2 As Date
     
     
 
@@ -520,10 +530,10 @@ Dim FechaPeriodo As Date
 
 '#2
     'CAB_IDVersionSii , CAB_Titular_NombreRazon, CAB_Titular_NIFRepresentante, CAB_Titular_NIF, REG_PI_Ejercicio, REG_PI_Periodo
-    FechaPeriodo = RN!fecharec
-    If vParam.SII_Periodo_DesdeLiq Then FechaPeriodo = RN!fecliqpr
+    FechaPeriodo2 = RN!fecharec
+    If vParam.SII_Periodo_DesdeLiq Then FechaPeriodo2 = RN!fecliqpr
     
-    SQL = SQL & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'A0'," & Year(FechaPeriodo) & "," & "'" & Format(Month(FechaPeriodo), "00") & "',"
+    SQL = SQL & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'A0'," & Year(FechaPeriodo2) & "," & "'" & Format(Month(FechaPeriodo2), "00") & "',"
     
     
 '#3
@@ -629,7 +639,7 @@ Dim FechaPeriodo As Date
     InversionSujetoPasivo = False
     If CodOpera = 4 Then InversionSujetoPasivo = True
         
-    SQL = SQL & DBSet(RN!FecFactu, "F") & "," & DBSet(RN!fecharec, "F") & ",#@#@#@$$$$"   'Sumaremos el total de cuotas deducibles y luego haremos un replace
+    SQL = SQL & DBSet(RN!FecFactu, "F") & "," & DBSet(FechaPeriodo2, "F") & ",#@#@#@$$$$"   'Sumaremos el total de cuotas deducibles y luego haremos un replace
 
     
     
@@ -662,7 +672,7 @@ Dim FechaPeriodo As Date
             CadenaIVAS = CadenaIVAS & Aux
             NumIVas = NumIVas + 1
             
-            TotalDecucible = RN!Impoiva + DBLet(RN!ImpoRec, "N")
+            TotalDecucible = TotalDecucible + RN!Impoiva + DBLet(RN!ImpoRec, "N")
             
             RN.MoveNext
         Wend

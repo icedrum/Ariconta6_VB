@@ -3229,9 +3229,9 @@ Dim Rs As ADODB.Recordset
         If Not ExisteAlgunCobro(Text1(2).Text, Text1(0).Text, FecFactuAnt, False) Then
     
             SQL = "select ccc.ctabanco,ccc.iban, ddd.nommacta "
-            SQL = SQL & " from cuentas ccc, cuentas ddd "
+            SQL = SQL & " from cuentas ccc left join  cuentas ddd ON ccc.ctabanco = ddd.codmacta "
             SQL = SQL & " where ccc.codmacta = " & DBSet(Text1(4).Text, "T")
-            SQL = SQL & " and ccc.ctabanco = ddd.codmacta "
+            
             
             CtaBanco = ""
             IBAN = ""
@@ -3566,6 +3566,7 @@ Private Sub cmdAux_Click(Index As Integer)
             Set frmTIva = Nothing
             
             PonFoco txtaux(7)
+            If txtaux(7).Text <> "" Then txtAux_LostFocus 7
         Case 2 'cento de coste
             If txtaux(12).Enabled Then
                 Set frmCC = New frmBasico
@@ -6704,7 +6705,7 @@ Private Sub txtaux_GotFocus(Index As Integer)
 End Sub
 
 
-Private Sub TxtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     KEYdown KeyCode
 End Sub
 
@@ -7699,6 +7700,7 @@ Dim ModEspecial As Boolean
                         
                         
                             CadenaDesdeOtroForm = ""
+                            Ampliacion = ""
                             Conn.Execute "DELETE from tmpfaclin WHERE codusu = " & vUsu.Codigo
                             With frmFacturaModificar
                                 .Cliente = True
@@ -7712,11 +7714,11 @@ Dim ModEspecial As Boolean
                             
                             'Si que ha modificado
                             Screen.MousePointer = vbHourglass
-                            If CadenaDesdeOtroForm <> "" Then
+                            If CadenaDesdeOtroForm <> "" Or Ampliacion <> "" Then
                                 
                                 If ModificaFacturaSiiPresentada Then
-                                    CargaGrid 1, True
-                                
+                                    PosicionarData
+                                    PonerCampos
                                 End If
                             End If
                             Screen.MousePointer = vbDefault
@@ -8587,14 +8589,27 @@ On Error GoTo eModificaDesdeFormAux
         
     'Borramos de linfact
     '
-    C = ObtenerWhereCP(True)
-    Conn.Execute "DELETE FROM factcli_lineas " & C
+    If CadenaDesdeOtroForm <> "" Then
+        C = ObtenerWhereCP(True)
+        Conn.Execute "DELETE FROM factcli_lineas " & C
+            
         
+        'insertamos  dedesde tmpfaclin
+        C = "INSERT INTO factcli_lineas(numserie,numfactu,fecfactu,anofactu,numlinea,codmacta,baseimpo,codigiva,porciva,porcrec,impoiva,imporec,aplicret,codccost) VALUES "
+        C = C & CadenaDesdeOtroForm
+        Conn.Execute C
+    End If
     
-    'insertamos  dedesde tmpfaclin
-    C = "INSERT INTO factcli_lineas(numserie,numfactu,fecfactu,anofactu,numlinea,codmacta,baseimpo,codigiva,porciva,porcrec,impoiva,imporec,aplicret,codccost) VALUES "
-    C = C & CadenaDesdeOtroForm
-    Conn.Execute C
+    If Ampliacion <> "" Then
+ 
+        C = Trim(Mid(Ampliacion, 1, 10))
+        C = "UPDATE factcli SET cuereten = " & DBSet(C, "T", "S")
+        Ampliacion = Mid(Ampliacion, 11)
+        C = C & " , observa = " & DBSet(Ampliacion, "T", "S")
+        C = C & " WHERE numfactu= " & data1.Recordset!NumFactu & " AND numserie =" & DBSet(data1.Recordset!NUmSerie, "T") & " AND anofactu =" & data1.Recordset!anofactu
+        Conn.Execute C
+ 
+    End If
     
     'Borramos lineas apuntes
     Numasien2 = data1.Recordset!NumAsien

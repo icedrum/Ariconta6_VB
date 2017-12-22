@@ -2618,8 +2618,10 @@ Private Sub HacerToolBar2(Boton As Integer)
          
         Case 3
             If Not lw1.SelectedItem Is Nothing Then
-                If Asc(lw1.SelectedItem.SubItems(8)) <> Asc("Q") Then
+                If Asc(lw1.SelectedItem.SubItems(8)) < Asc("Q") Then
                     MsgBox "La situacion de la remesa debe ser  contabilizada", vbExclamation
+                    Exit Sub
+                ElseIf Asc(lw1.SelectedItem.SubItems(8)) = Asc("Z") Then
                     Exit Sub
                 End If
             End If
@@ -3045,9 +3047,9 @@ Dim IT
         IT.ListSubItems(6).ToolTipText = DBLet(miRsAux!Descripcion, "T")
         IT.SubItems(7) = Format(miRsAux!Importe, "###,###,##0.00")
         IT.SubItems(8) = miRsAux!Situacion
-        IT.SubItems(9) = miRsAux!Tiporem
+        IT.SubItems(9) = miRsAux!tiporem
         
-        If miRsAux!Tiporem = 2 Then
+        If miRsAux!tiporem = 2 Then
             IT.SubItems(10) = "PAGARE"
         Else
             IT.SubItems(10) = "TALON"

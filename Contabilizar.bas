@@ -2614,7 +2614,7 @@ Dim RequiereCCDiferencia As Boolean
 Dim Obs As String
 Dim TipForpa As String
 
-Stop
+
     On Error GoTo ERemesa_CancelacionCliente3
     EliminarCancelacionTALONPAGARE = False
     
@@ -3451,6 +3451,27 @@ Dim EliminaEnRecepcionDocumentos As String
     End If
 
 
+    
+  
+    'Si es talon pagare el importe lo coje de las lineas de vto, NO de la scobro
+
+    SQL = "select cobros.*,l.importe,l.numserie vto,codigo from  talones_facturas l left join  cobros "
+    SQL = SQL & " on l.numserie=cobros.numserie and l.numfactu=cobros.numfactu and"
+    SQL = SQL & " l.fecfactu=cobros.fecfactu and l.numorden=cobros.numorden"
+    SQL = SQL & " where codrem=" & Codigo & " AND anyorem = " & Anyo
+    SQL = SQL & " AND siturem<>'Z'"
+    SQL = SQL & " ORDER BY codigo" 'Para ir comprobando documento por documento si
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    
+    If Rs.EOF Then
+        SQL = "UPDATE remesas SET situacion= 'Z'"
+        SQL = SQL & " WHERE codigo=" & Codigo & " and anyo=" & Anyo
+        Conn.Execute SQL
+        Rs.Close
+        RemesasEliminarVtosTalonesPagares = 1
+        Exit Function
+    End If
+    
     'La forma de pago
     If CuentaPuente Then
             
@@ -3495,15 +3516,19 @@ Dim EliminaEnRecepcionDocumentos As String
     
     
     
-  
-    'Si es talon pagare el importe lo coje de las lineas de vto, NO de la scobro
-
-    SQL = "select cobros.*,l.importe,l.numserie vto,codigo from  talones_facturas l left join  cobros "
-    SQL = SQL & " on l.numserie=cobros.numserie and l.numfactu=cobros.numfactu and"
-    SQL = SQL & " l.fecfactu=cobros.fecfactu and l.numorden=cobros.numorden"
-    SQL = SQL & " where codrem=" & Codigo & " AND anyorem = " & Anyo
-    SQL = SQL & " ORDER BY codigo" 'Para ir comprobando documento por documento si
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     'Si no lleva cuenta puente, NO contbiliza nada
     If CuentaPuente Then
@@ -3555,13 +3580,7 @@ Dim EliminaEnRecepcionDocumentos As String
                     SumasImportesDocumentos = SumasImportesDocumentos + ImporteDocumento
                     ImporteDocumento = 0
                     
-                    
-
-            
-            
-
-                    
-                    
+                     
                 End If 'rs!id <>ID
                     
                 'Han pasado mas dias de los que poner en paraemtros. Podremos borrar el efecto
@@ -3664,7 +3683,7 @@ Dim EliminaEnRecepcionDocumentos As String
             SQL = SQL & " AND fecfactu = '" & Format(Rs!FecFactu, FormatoFecha) & "' AND numorden = " & Rs!numorden
             If BorrarEfecto Then
                 'YA NO SE BORRAN LOS EFECTOS
-                'Conn.Execute "DELETE FROM scobro " & SQL
+                Conn.Execute "UPDATE cobros set  siturem='Z' " & SQL
                 'Conn.Execute "DELETE FROM sefecdev " & SQL
                 'Debug.Print ""
             Else
@@ -3726,7 +3745,7 @@ Dim EliminaEnRecepcionDocumentos As String
                 End If
                 
             End If  'Borrar efecto
-        End If  'de             If CuentaPuente Then
+        End If  'de             j>0
             
         Rs.MoveNext
     Wend
@@ -3836,6 +3855,7 @@ Dim EliminaEnRecepcionDocumentos As String
                 SQL = SQL & " and fechaent = '" & Format(FechaAbono, FormatoFecha) & "' and numasien = " & Mc.Contador
                 Conn.Execute SQL
             End If
+            
         End If
 
 
@@ -3843,26 +3863,21 @@ Dim EliminaEnRecepcionDocumentos As String
     Linea = Linea - 1 'Empieza en uno, luego el total vtos eliminados es linea-1
                       'En numregelim tengo los vtos totales de la remesa
                       'Si queda alguno o no, haremos unas cosas u otras
-    If NumRegElim > Linea Then
-        AmpRemesa = "Y"
-    
-        'QUEDA ALGUNO
-        SQL = "UPDATE cobros SET"
-        SQL = SQL & " siturem= 'Y'"
-        SQL = SQL & " WHERE codrem=" & Codigo
-        SQL = SQL & " and anyorem=" & Anyo
+    If Linea > 0 Then
+        If NumRegElim > Linea Then
+            AmpRemesa = "Y"
+        
            
+        Else
+            AmpRemesa = "Z"  'TOdos eliminados
+        End If
+        SQL = "UPDATE remesas SET"
+        SQL = SQL & " situacion= '" & AmpRemesa
+        SQL = SQL & "' WHERE codigo=" & Codigo
+        SQL = SQL & " and anyo=" & Anyo
         Conn.Execute SQL
-    Else
-        AmpRemesa = "Z"  'TOdos eliminados
+        
     End If
-    SQL = "UPDATE remesas SET"
-    SQL = SQL & " situacion= '" & AmpRemesa
-    SQL = SQL & "' WHERE codigo=" & Codigo
-    SQL = SQL & " and anyo=" & Anyo
-    Conn.Execute SQL
-    
-    
 '    '-----------------------------------------------
 '    '-----------------------------------------------
 '    'Por ultimo.
