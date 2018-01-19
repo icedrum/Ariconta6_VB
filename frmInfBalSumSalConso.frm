@@ -1762,7 +1762,7 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
     'Balance consolidado
     If vConta >= 0 Then
         
-        SQL = "Select nomempre from Usuarios.empresasariconta where codempre =" & vConta
+        SQL = "Select nomempre from usuarios.empresasariconta where codempre =" & vConta
         Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
         cad = ""
         If Not Rs.EOF Then cad = DBLet(Rs.Fields(0))
@@ -2128,7 +2128,7 @@ Dim Aux As String
     Prohibidas = DevuelveProhibidas
     
     ListView1.ListItems.Clear
-    Aux = "Select * from Usuarios.empresasariconta order by codempre"
+    Aux = "Select * from usuarios.empresasariconta order by codempre"
     
     Rs.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF

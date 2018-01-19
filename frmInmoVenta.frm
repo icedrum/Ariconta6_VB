@@ -1235,8 +1235,8 @@ Private Sub Form_Load()
 
     
     imgElto(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    imgCta(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    imgCta(1).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    imgcta(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    imgcta(1).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCCost(2).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCon(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
@@ -1368,7 +1368,7 @@ Private Sub frmBa_DatoSeleccionado(CadenaSeleccion As String)
     If i = 1 Then
         'Cuenta bancaria
         txtCta(3).Text = RecuperaValor(CadenaSeleccion, 1)
-        txtDescta(3).Text = RecuperaValor(CadenaSeleccion, 2)
+        txtDesCta(3).Text = RecuperaValor(CadenaSeleccion, 2)
     End If
 End Sub
 
@@ -1380,7 +1380,7 @@ End Sub
 
 Private Sub frmCt_DatoSeleccionado(CadenaSeleccion As String)
     txtCta(i).Text = RecuperaValor(CadenaSeleccion, 1)
-    txtDescta(i).Text = RecuperaValor(CadenaSeleccion, 2)
+    txtDesCta(i).Text = RecuperaValor(CadenaSeleccion, 2)
 End Sub
 
 
@@ -1421,7 +1421,7 @@ End Sub
 
 Private Sub frmDpto_DatoSeleccionado(CadenaSeleccion As String)
     If CadenaSeleccion <> "" Then
-        txtdpto(0).Text = RecuperaValor(CadenaSeleccion, 1)
+        txtDpto(0).Text = RecuperaValor(CadenaSeleccion, 1)
         txtDesdpto(0).Text = RecuperaValor(CadenaSeleccion, 2)
     End If
 End Sub
@@ -1485,7 +1485,7 @@ Private Sub imgDpto_Click(Index As Integer)
     Set frmDpto = New frmBasico
     AyudaDepartamentos frmDpto, txtCta(Indice).Text, "codmacta = " & DBSet(txtCta(1).Text, "T")
     Set frmDpto = Nothing
-    PonFoco txtdpto(Indice)
+    PonFoco txtDpto(Indice)
 
 End Sub
 
@@ -1538,10 +1538,10 @@ Private Sub Option1_Click(Index As Integer)
         Text8(2).Text = ""
         Text8(3).Text = ""
         txtCta(3).Text = ""
-        txtDescta(3).Text = ""
+        txtDesCta(3).Text = ""
         txtCta(1).Text = ""
-        txtDescta(1).Text = ""
-        txtdpto(0).Text = ""
+        txtDesCta(1).Text = ""
+        txtDpto(0).Text = ""
         txtDesdpto(0).Text = ""
         txtCodCCost(2).Text = ""
         txtNomCcost(2).Text = ""
@@ -1770,23 +1770,23 @@ Dim SQL As String
 With txtCta(Index)
     .Text = Trim(.Text)
     If .Text = "" Then
-        txtDescta(Index).Text = ""
+        txtDesCta(Index).Text = ""
         Exit Sub
     End If
     ParametrosContabiliza = .Text
     If CuentaCorrectaUltimoNivel(ParametrosContabiliza, cad) Then
         .Text = ParametrosContabiliza
-        txtDescta(Index).Text = cad
+        txtDesCta(Index).Text = cad
         If Index = 3 Then
             cad = DevuelveDesdeBD("codmacta", "bancos", "codmacta", ParametrosContabiliza, "T")
             If cad = "" Then
                 MsgBox "Cuenta no asociada a ningun banco", vbExclamation
                 .Text = ""
-                txtDescta(Index).Text = ""
+                txtDesCta(Index).Text = ""
             End If
         Else
             If Index = 1 Then
-                txtdpto(0).Text = ""
+                txtDpto(0).Text = ""
                 txtDesdpto(0).Text = ""
                 
                 If Me.Option1(0).Value Then
@@ -1800,8 +1800,8 @@ With txtCta(Index)
                         If DBLet(Rs!Forpa, "N") <> 0 Then Text8(0).Text = Format(DBLet(Rs!Forpa, "N"), "000")
                         Text8(1).Text = DBLet(Rs!nomforpa, "T")
                         txtCta(3).Text = DBLet(Rs!CtaBanco, "T")
-                        txtDescta(3).Text = ""
-                        If txtCta(3).Text <> "" Then txtDescta(3).Text = DevuelveValor("select nommacta from cuentas where codmacta = " & DBSet(txtCta(3).Text, "T"))
+                        txtDesCta(3).Text = ""
+                        If txtCta(3).Text <> "" Then txtDesCta(3).Text = DevuelveValor("select nommacta from cuentas where codmacta = " & DBSet(txtCta(3).Text, "T"))
                     End If
                     Set Rs = Nothing
                 Else
@@ -1809,14 +1809,14 @@ With txtCta(Index)
                     Text8(0).Text = ""
                     Text8(1).Text = ""
                     txtCta(3).Text = ""
-                    txtDescta(3).Text = ""
+                    txtDesCta(3).Text = ""
                 End If
             End If
         End If
     Else
         MsgBox cad, vbExclamation
         .Text = ""
-        txtDescta(Index).Text = ""
+        txtDesCta(Index).Text = ""
         .SetFocus
     End If
 
@@ -2293,8 +2293,8 @@ On Error GoTo EVentaElemento
             Aux = Aux & "," & ValorNulo
         End If
         'departamento
-        If txtdpto(0).Text <> "" Then
-            Aux = Aux & "," & DBSet(txtdpto(0).Text, "N")
+        If txtDpto(0).Text <> "" Then
+            Aux = Aux & "," & DBSet(txtDpto(0).Text, "N")
         Else
             Aux = Aux & "," & ValorNulo
         End If
@@ -2531,7 +2531,7 @@ Dim textCSB As String
                 
                 textCSB = "Factura " & Trim(mZ.TipoContador) & "-" & Trim(mZ.Contador) & " de Fecha " & Text4(0).Text
                 
-                SQL = SQL & DBSet(textCSB, "T") & "," & ValorNulo & "," & ValorNulo & "," & DBSet(Text8(2).Text, "N", "S") & "," & DBSet(txtdpto(0).Text, "N", "S") & "," & ValorNulo & ","
+                SQL = SQL & DBSet(textCSB, "T") & "," & ValorNulo & "," & ValorNulo & "," & DBSet(Text8(2).Text, "N", "S") & "," & DBSet(txtDpto(0).Text, "N", "S") & "," & ValorNulo & ","
                 SQL = SQL & DBSet(RsCta!Nommacta, "T", "S") & "," & DBSet(RsCta!dirdatos, "T", "S") & "," & DBSet(RsCta!desPobla, "T", "S") & "," & DBSet(RsCta!codposta, "T", "S") & ","
                 SQL = SQL & DBSet(RsCta!desProvi, "T", "S") & "," & DBSet(RsCta!IBAN, "T", "S")
                 
@@ -2581,7 +2581,7 @@ End Function
 Private Sub EmiteFacturaVentaInmmovilizado()
 
 On Error GoTo EEmiteFacturaVentaInmmovilizado
-    cad = "DELETE FROM Usuarios.z347  WHERE codusu =" & vUsu.Codigo
+    cad = "DELETE FROM usuarios.z347  WHERE codusu =" & vUsu.Codigo
     Conn.Execute cad
     
     'Los datos del encabezado
@@ -2592,12 +2592,12 @@ On Error GoTo EEmiteFacturaVentaInmmovilizado
     Set Rs = New ADODB.Recordset
     cad = "Select * from Cuentas where codmacta='" & txtCta(1).Text & "'"
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    cad = "INSERT INTO Usuarios.z347 (codusu, cliprov, nif, importe, razosoci, dirdatos, codposta, despobla) VALUES (" & vUsu.Codigo
+    cad = "INSERT INTO usuarios.z347 (codusu, cliprov, nif, importe, razosoci, dirdatos, codposta, despobla) VALUES (" & vUsu.Codigo
     If Rs.EOF Then
-        cad = cad & "," & DivMes & ",'nif'," & TransformaComasPuntos(ImporteSinFormato(Text5.Text)) & ",'" & DevNombreSQL(txtDescta(1).Text) & "','Direccion','codpos','Poblacion')"
+        cad = cad & "," & DivMes & ",'nif'," & TransformaComasPuntos(ImporteSinFormato(Text5.Text)) & ",'" & DevNombreSQL(txtDesCta(1).Text) & "','Direccion','codpos','Poblacion')"
     Else
         cad = cad & "," & DivMes & ",'"
-        cad = cad & DBLet(Rs!nifdatos) & "'," & TransformaComasPuntos(ImporteSinFormato(Text5.Text)) & ",'" & DevNombreSQL(txtDescta(1).Text) & "','"
+        cad = cad & DBLet(Rs!nifdatos) & "'," & TransformaComasPuntos(ImporteSinFormato(Text5.Text)) & ",'" & DevNombreSQL(txtDesCta(1).Text) & "','"
         cad = cad & DevNombreSQL(DBLet(Rs!dirdatos)) & "','" & DBLet(Rs!codposta) & "','"
         cad = cad & DevNombreSQL(DBLet(Rs!desPobla)) & "')"
     End If
@@ -2612,7 +2612,7 @@ End Sub
 Private Sub txtDpto_GotFocus(Index As Integer)
 Dim SQL As String
 Dim i As Integer
-    With txtdpto(Index)
+    With txtDpto(Index)
         .SelStart = 0
         .SelLength = Len(.Text)
     End With
@@ -2625,7 +2625,7 @@ Dim i As Integer
                 PonFoco Text5
             Case 1
             Case Else
-                PonFoco txtdpto(0)
+                PonFoco txtDpto(0)
         End Select
     End If
 
@@ -2636,16 +2636,16 @@ Private Sub txtDpto_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtDpto_LostFocus(Index As Integer)
-    txtdpto(Index).Text = Trim(txtdpto(Index).Text)
-    If txtdpto(Index).Text = "" Then
+    txtDpto(Index).Text = Trim(txtDpto(Index).Text)
+    If txtDpto(Index).Text = "" Then
         txtDesdpto(Index).Text = ""
         Exit Sub
     End If
-    cad = DevuelveValor("select descripcion from departamentos where codmacta = " & DBSet(txtCta(1).Text, "T") & " and dpto = " & DBSet(txtdpto(Index).Text, "N"))
+    cad = DevuelveValor("select descripcion from departamentos where codmacta = " & DBSet(txtCta(1).Text, "T") & " and dpto = " & DBSet(txtDpto(Index).Text, "N"))
     If cad = "" Then
-        MsgBox "Departamento NO encontrado: " & txtdpto(Index).Text, vbExclamation
-        txtdpto(Index).Text = ""
-        txtdpto(Index).SetFocus
+        MsgBox "Departamento NO encontrado: " & txtDpto(Index).Text, vbExclamation
+        txtDpto(Index).Text = ""
+        txtDpto(Index).SetFocus
     End If
     txtDesdpto(Index).Text = cad
 

@@ -1834,21 +1834,29 @@ Private Function MontaSQLBuscaAsien() As Boolean
 End Function
 
 Private Sub RecorriendoRecordsetDescuadres()
-
-
+Dim T1 As Single
+Dim C2 As String
+     
+            Label2.Caption = "Leyendo"
+            Label2.Refresh
     If NumCuentas = 0 Then
         
     Else
-        
+        C2 = ""
+        T1 = Timer
         While Not Rs.EOF
-            
-            Label2.Caption = Rs.Fields(0) & " - " & Rs.Fields(2)
-            Label2.Refresh
+           
             
             pb1.Value = Int(((i / NumCuentas)) * 1000)
+            C2 = C2 & ", (" & Rs!NumDiari & "," & DBSet(Rs!FechaEnt, "F") & "," & Rs!NumAsien & ")"
             i = i + 1
-            
-            ObtenerSumas
+            If (i Mod 50) = 0 Then
+                Debug.Print Timer - T1
+                
+                ObtenerSumasAgrupado Mid(C2, 2)
+                C2 = ""
+            End If
+            'ObtenerSumas
             
             'Siguiente
             Rs.MoveNext
@@ -1862,6 +1870,25 @@ Private Sub RecorriendoRecordsetDescuadres()
             End If
         Wend
         Rs.Close
+        If C2 <> "" Then ObtenerSumasAgrupado Mid(C2, 2)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     End If
     If ListView1.ListItems.Count > 0 Then
         PonerCampos 3
@@ -1934,6 +1961,61 @@ Private Function ObtenerSumas() As Boolean
             ItmX.SubItems(3) = Format(Deb, FormatoImporte)
     End If
 End Function
+Private Function ObtenerSumasAgrupado(Asientos As String) As Boolean
+    Dim Deb As Currency
+    Dim hab As Currency
+    Dim RsA As ADODB.Recordset
+
+    Set RsA = New ADODB.Recordset
+    SQL = "SELECT numdiari,fechaent,numasien,Sum(timporteD) AS SumaDetimporteD, Sum(timporteH) AS SumaDetimporteH"
+    SQL = SQL & " From hlinapu "
+    SQL = SQL & " WHERE (numdiari,fechaent,numasien) IN (" & Asientos & ") group by numdiari,fechaent,numasien"
+    
+    RsA.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    
+    While Not RsA.EOF
+        Label2.Caption = RsA.Fields(2) & " - " & RsA.Fields(1)
+        Label2.Refresh
+            
+    
+    
+        
+        Deb = DBLet(RsA!SumaDetimporteD, "N")
+        hab = DBLet(RsA!SumaDetimporteH, "N")
+        
+        
+        
+        
+    
+    
+    
+        'Metemos en DEB el total
+        Deb = Deb - hab
+        If Deb <> 0 Then
+                SQL = Format(RsA!NumAsien, "0000000")
+                SQL = "    " & SQL
+                Set ItmX = ListView1.ListItems.Add(, , SQL)
+                If Opcion <> 1 Then
+                    ItmX.SmallIcon = 2
+                    ItmX.Icon = 2
+                Else
+                    ItmX.SmallIcon = 3
+                    ItmX.Icon = 3
+                End If
+                ItmX.SubItems(1) = Format(RsA!FechaEnt, "dd/mm/yyyy")
+                ItmX.SubItems(2) = RsA!NumDiari
+                ItmX.SubItems(3) = Format(Deb, FormatoImporte)
+        End If
+        RsA.MoveNext
+    Wend
+    RsA.Close
+End Function
+
+
+
+
+
+
 
 
 Private Sub cargaAgrupacion(tabla As String)

@@ -283,6 +283,15 @@ End Function
 
 Public Function CopiarFicheroASalida(csv As Boolean, Salida As String, Optional SinMensaje As Boolean) As Boolean
     CopiarFicheroASalida = False
+    If Dir(Salida, vbArchive) <> "" Then
+        If Not SinMensaje Then
+            If Not csv Then
+                If MsgBox("Fichero ya existe. ¿Reemplazar?", vbQuestion + vbYesNoCancel) <> vbYes Then Exit Function
+            End If
+        End If
+    End If
+    
+    
     If csv Then
         FileCopy App.Path & "\docum.csv", Salida
     Else

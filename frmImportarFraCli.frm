@@ -133,7 +133,7 @@ Begin VB.Form frmImportarUtil
             Strikethrough   =   0   'False
          EndProperty
          Height          =   360
-         Left            =   9960
+         Left            =   9600
          Style           =   2  'Dropdown List
          TabIndex        =   12
          Top             =   840
@@ -207,10 +207,10 @@ Begin VB.Form frmImportarUtil
             Strikethrough   =   0   'False
          EndProperty
          Height          =   735
-         Left            =   13320
+         Left            =   12960
          TabIndex        =   6
          Top             =   600
-         Width           =   2535
+         Width           =   2295
       End
       Begin VB.TextBox Text1 
          BeginProperty Font 
@@ -228,6 +228,24 @@ Begin VB.Form frmImportarUtil
          Top             =   840
          Width           =   8985
       End
+      Begin MSComctlLib.Toolbar ToolbarAyuda 
+         Height          =   390
+         Left            =   15480
+         TabIndex        =   15
+         Top             =   120
+         Width           =   405
+         _ExtentX        =   714
+         _ExtentY        =   688
+         ButtonWidth     =   609
+         ButtonHeight    =   582
+         _Version        =   393216
+         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+            NumButtons      =   1
+            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Ayuda"
+            EndProperty
+         EndProperty
+      End
       Begin VB.Label Label2 
          Caption         =   "Fichero"
          BeginProperty Font 
@@ -240,7 +258,7 @@ Begin VB.Form frmImportarUtil
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   9960
+         Left            =   9600
          TabIndex        =   13
          Top             =   600
          Visible         =   0   'False
@@ -296,6 +314,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Private Const IdPrograma = 1413
+
 
 Private Const NumeroCamposTratarFraCli = 20
 
@@ -311,6 +331,8 @@ Dim NF As Integer
 
 Dim NumeroCamposTratarFraPro As Integer
 
+Dim numProgres As Long
+Dim TotProgres As Long
 
 Private Sub cmdAceptar_Click()
     
@@ -467,12 +489,19 @@ Private Sub Form_Load()
     For NF = 0 To imgppal.Count - 1
         imgppal(NF).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Next
+    
+        ' La Ayuda
+    With Me.ToolbarAyuda
+        .ImageList = frmppal.ImgListComun
+        .Buttons(1).Image = 26
+    End With
+    
     cmdAceptar.visible = False
     Label1.Caption = ""
 
     
     Check2.Value = IIf(vParam.PathFicherosInteg <> "", 1, 0)
-    Check1.Value = IIf(vParam.PathFicherosInteg <> "", 0, 1)
+    check1.Value = IIf(vParam.PathFicherosInteg <> "", 0, 1)
 End Sub
 
 
@@ -840,7 +869,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.Check1.Value = 1 Then cad = ""
+            If Me.check1.Value = 1 Then cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraCli, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
         End If
@@ -1398,6 +1427,7 @@ Dim EsMismaFactura As Boolean
     DiferenciaMinimaPermitida = 0
     If Me.optVarios(1).Value Then
         'Proveedores navarres
+        DiferenciaMinimaPermitida = 0.1
         If Me.cboTipo.ListIndex = 0 Then DiferenciaMinimaPermitida = 0.2
     Else
         DiferenciaMinimaPermitida = 0.2  'Pero sera para el calculo de IVA. Para el total factura NO hay margen
@@ -1491,14 +1521,14 @@ Dim EsMismaFactura As Boolean
         SegundoImporteAuxiliar = Importe - miRsAux!ImpIva
         B = False
         If Abs(SegundoImporteAuxiliar) > DiferenciaMinimaPermitida Then B = True
-        Importe = miRsAux!ImpIva
+        
         If B Then
-            cad = "IVA calculado/fichero " & miRsAux!IVA & "%: " & Importe & " / " & miRsAux!ImpIva
+            cad = "IVA calculado/fichero " & FACTURA & " :" & miRsAux!IVA & "%. " & Importe & " / " & miRsAux!ImpIva
             AnyadeEnErrores "Calculo  IVA"
         
             
         End If
-        
+        Importe = miRsAux!ImpIva
         BaseImponible = BaseImponible + miRsAux!impventa
         IVA = IVA + Importe
         
@@ -1571,6 +1601,9 @@ Dim Tipointegracion As Byte
 
     Set miRsAux = New ADODB.Recordset
     
+    Label1.Caption = "Insertando contabilidad"
+    Label1.Refresh
+    
     
     'Valores por defecto
     cad = DevuelveDesdeBD("codigo", "agentes", "1", "1 ORDER BY codigo")
@@ -1601,8 +1634,24 @@ Dim Tipointegracion As Byte
     cad = "select tmpintefrafracli.*,codpais,nifdatos,desprovi,despobla,codposta,dirdatos,nommacta,cuentas.iban ibancta from tmpintefrafracli left join cuentas ON cta_cli=codmacta"
     cad = cad & " WHERe codusu =" & vUsu.Codigo & " order by codigo"
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    TotProgres = 0
+    While Not miRsAux.EOF
+        TotProgres = TotProgres + 1
+        miRsAux.MoveNext
+    Wend
+    miRsAux.Close
+    
+    
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     FACTURA = ""
     While Not miRsAux.EOF
+    
+        numProgres = numProgres + 1
+        Label1.Caption = "Linea " & numProgres & "/" & TotProgres
+        Label1.Refresh
+    
+    
+    
         If miRsAux!Serie = "" Then
             'Es otra base de la misma factura
             
@@ -1732,6 +1781,8 @@ Dim Tipointegracion As Byte
      Ampliacion = ""
     
     
+    Label1.Caption = ""
+    Label1.Refresh
     
     
     
@@ -1977,7 +2028,7 @@ Private Sub optVarios_Click(Index As Integer)
     If Index = 1 Then
         cboTipo.Clear
         'cboTipo.AddItem "Genérica"
-        cboTipo.AddItem "Navarrés"
+        cboTipo.AddItem "Access(csv)"  'NAVARRES
         
     
         cboTipo.AddItem "Proveedores"
@@ -2220,7 +2271,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.Check1.Value = 1 Then cad = ""
+            If Me.check1.Value = 1 Then cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraPro, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
         End If
@@ -2749,7 +2800,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.Check1.Value = 1 Then cad = ""
+            If Me.check1.Value = 1 Then cad = ""
         Else
             '10 campos a tratar
             If InStr(1, String(10, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
@@ -3413,7 +3464,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.Check1.Value = 1 Then cad = ""
+            If Me.check1.Value = 1 Then cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraPro, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
         End If
@@ -3782,7 +3833,7 @@ On Error GoTo eComprobacionDatosBD
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         cad = miRsAux.Fields(0)
-        AnyadeEnErrores "No existe cta cliente"
+        AnyadeEnErrores "No existe cta proveedor"
         miRsAux.MoveNext
     Wend
     miRsAux.Close
@@ -3950,6 +4001,8 @@ Dim Tipointegracion As Byte
 
     Set miRsAux = New ADODB.Recordset
     
+    Label1.Caption = "Insertando contabilidad"
+    Label1.Refresh
     
     'Valores por defecto
     cad = DevuelveDesdeBD("codigo", "agentes", "1", "1 ORDER BY codigo")
@@ -3974,17 +4027,28 @@ Dim Tipointegracion As Byte
     tCobro = ""
                         
 
-    
-    
+        
     'codusu,Codigo,serie,factura,fecha,cta_cli,fpago,tipo_operacion,ctaret,impret,tipo_ret,ctaventas,Ccoste,impventa,
     'IVA , ImpIva, recargo, imprecargo, TotalFactura, integracion
     
     cad = "select tmpintefrafracli.*,codpais,nifdatos,desprovi,despobla,codposta,dirdatos,nommacta,cuentas.iban ibancta from tmpintefrafracli left join cuentas ON cta_cli=codmacta"
     cad = cad & " WHERe codusu =" & vUsu.Codigo & " order by codigo"
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    While Not miRsAux.EOF
+        TotProgres = TotProgres + 1
+        miRsAux.MoveNext
+    Wend
+    miRsAux.Close
+    
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     FACTURA = ""
+    numProgres = 0
     Set Mc = New Contadores
     While Not miRsAux.EOF
+        numProgres = numProgres + 1
+        Label1.Caption = "Linea " & numProgres & "/" & TotProgres
+        Label1.Refresh
+    
         If DBLet(miRsAux!FACTURA, "T") = "" Then
             'Es otra base de la misma factura
             
@@ -4124,7 +4188,7 @@ Dim Tipointegracion As Byte
      Msg$ = ""
      Ampliacion = ""
     
-    
+    Label1.Caption = ""
     Set Mc = Nothing
     
     
@@ -4249,3 +4313,9 @@ End Function
 
 
 
+Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
+    Select Case Button.Index
+        Case 1
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
+    End Select
+End Sub

@@ -626,7 +626,7 @@ Attribute frmDia.VB_VarHelpID = -1
 Private WithEvents frmC As frmColCtas
 Attribute frmC.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -813,24 +813,24 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    Sql = "select remesas.anyo Año, remesas.codigo, remesas.codmacta Cuenta, cuentas.nommacta Nombre, remesas.fecremesa Fecha,  "
-    Sql = Sql & " remesas.descripcion, wtiposituacionrem.descsituacion Situacion, "
+    SQL = "select remesas.anyo Año, remesas.codigo, remesas.codmacta Cuenta, cuentas.nommacta Nombre, remesas.fecremesa Fecha,  "
+    SQL = SQL & " remesas.descripcion, wtiposituacionrem.descsituacion Situacion, "
     If Me.Check1(0).Value = 1 Then
-        Sql = Sql & "tmpcobros2.numserie, tmpcobros2.numfactu Factura, tmpcobros2.fecfactu Fecha, tmpcobros2.fecvenci FVencim, tmpcobros2.codmacta Cuenta, aaa.nommacta Descripcion, tmpcobros2.iban, tmpcobros2.impvenci Importe"
-        Sql = Sql & " from remesas, cuentas, usuarios.wtiposituacionrem, cuentas aaa, tmpcobros2 "
+        SQL = SQL & "tmpcobros2.numserie, tmpcobros2.numfactu Factura, tmpcobros2.fecfactu Fecha, tmpcobros2.fecvenci FVencim, tmpcobros2.codmacta Cuenta, aaa.nommacta Descripcion, tmpcobros2.iban, tmpcobros2.impvenci Importe"
+        SQL = SQL & " from remesas, cuentas, usuarios.wtiposituacionrem, cuentas aaa, tmpcobros2 "
     Else
-        Sql = Sql & "remesas.importe "
-        Sql = Sql & " from remesas, cuentas, usuarios.wtiposituacionrem"
+        SQL = SQL & "remesas.importe "
+        SQL = SQL & " from remesas, cuentas, usuarios.wtiposituacionrem"
     End If
-    Sql = Sql & " where " & cadselect
+    SQL = SQL & " where " & cadselect
     
-    Sql = Sql & " and remesas.codmacta = cuentas.codmacta and remesas.situacion = wtiposituacionrem.situacio "
+    SQL = SQL & " and remesas.codmacta = cuentas.codmacta and remesas.situacion = wtiposituacionrem.situacio "
     
     
     RC = ""
     If Me.Check1(0).Value = 1 Then
-        Sql = Sql & " and tmpcobros2.codusu = " & vUsu.Codigo
-        Sql = Sql & " and tmpcobros2.codmacta = aaa.codmacta and remesas.anyo = tmpcobros2.anyorem and remesas.codigo = tmpcobros2.codrem "
+        SQL = SQL & " and tmpcobros2.codusu = " & vUsu.Codigo
+        SQL = SQL & " and tmpcobros2.codmacta = aaa.codmacta and remesas.anyo = tmpcobros2.anyorem and remesas.codigo = tmpcobros2.codrem "
         
         
         If optVarios(0).Value Then RC = ""  'pondra el ultimo order by
@@ -841,10 +841,10 @@ Dim Sql2 As String
         
     End If
     
-    Sql = Sql & " ORDER BY 1 desc, 2 " & RC
+    SQL = SQL & " ORDER BY 1 desc, 2 " & RC
         
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -882,7 +882,9 @@ Dim nomDocu As String
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text, (Legalizacion <> "")) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 40
         
     If SoloImprimir Or ExportarPDF Then Unload Me
@@ -891,7 +893,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String

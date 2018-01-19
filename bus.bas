@@ -127,7 +127,8 @@ Public YAnt As Currency
 
 Public HaHabidoCambios As Boolean
 
-
+Public myCol As Collection  'Multiproposito
+                            ' En apuntes. Para cuando llame a apuntes descuadrados. Si esta cargado, que lo grabe de ahi
 
 
 
@@ -214,10 +215,10 @@ End Function
 Public Function GestionaPC2() As Integer
 CadenaDesdeOtroForm = ComputerName
 If CadenaDesdeOtroForm <> "" Then
-    FormatoFecha = DevuelveDesdeBD("codpc", "Usuarios.pcs", "nompc", CadenaDesdeOtroForm, "T")
+    FormatoFecha = DevuelveDesdeBD("codpc", "usuarios.pcs", "nompc", CadenaDesdeOtroForm, "T")
     If FormatoFecha = "" Then
         NumRegElim = 0
-        FormatoFecha = "Select max(codpc) from Usuarios.pcs"
+        FormatoFecha = "Select max(codpc) from usuarios.pcs"
         Set miRsAux = New ADODB.Recordset
         miRsAux.Open FormatoFecha, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not miRsAux.EOF Then
@@ -230,7 +231,7 @@ If CadenaDesdeOtroForm <> "" Then
             MsgBox "Error en numero de PC's activos. Demasiados PC en BD. Llame a soporte técnico.", vbCritical
             End
         End If
-        FormatoFecha = "INSERT INTO Usuarios.pcs (codpc, nompc) VALUES (" & NumRegElim & ", '" & CadenaDesdeOtroForm & "')"
+        FormatoFecha = "INSERT INTO usuarios.pcs (codpc, nompc) VALUES (" & NumRegElim & ", '" & CadenaDesdeOtroForm & "')"
         Conn.Execute FormatoFecha
     Else
         NumRegElim = Val(FormatoFecha)
@@ -1057,10 +1058,10 @@ Dim cad As String
 ComprobarEmpresaBloqueada = False
 
 'Antes de nada, borramos las entradas de usuario, por si hubiera kedado algo
-Conn.Execute "Delete from Usuarios.vBloqBD where codusu=" & codusu
+Conn.Execute "Delete from usuarios.vbloqbd where codusu=" & codusu
 
 'Ahora comprobamos k nadie bloquea la BD
-cad = DevuelveDesdeBD("codusu", "Usuarios.vBloqBD", "conta", Empresa, "T")
+cad = DevuelveDesdeBD("codusu", "usuarios.vbloqbd", "conta", Empresa, "T")
 If cad <> "" Then
     'En teoria esta bloqueada. Puedo comprobar k no se haya kedado el bloqueo a medias
     
@@ -1080,7 +1081,7 @@ If cad <> "" Then
     
     If cad = "" Then
         'Nadie esta utilizando la aplicacion, luego se puede borrar la tabla
-        Conn.Execute "Delete from Usuarios.vBloqBD where conta ='" & Empresa & "'"
+        Conn.Execute "Delete from usuarios.vbloqbd where conta ='" & Empresa & "'"
         
     Else
         MsgBox "BD bloqueada.", vbCritical
@@ -1699,7 +1700,7 @@ Dim Aux As String
     Prohibidas = DevuelveProhibidas
     
     Lis.ListItems.Clear
-    Aux = "Select * from Usuarios.empresas where tesor=1"
+    Aux = "Select * from usuarios.empresas where tesor=1"
     
     miRsAux.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF

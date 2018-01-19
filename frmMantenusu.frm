@@ -955,7 +955,7 @@ Private Sub cmdFrameUsu_Click(Index As Integer)
         i = 0
         If UCase(Label6.Caption) = "NUEVO" Then
             Set miRsAux = New ADODB.Recordset
-            SQL = "Select login from Usuarios.Usuarios where login='" & Text2(0).Text & "'"
+            SQL = "Select login from usuarios.usuarios where login='" & Text2(0).Text & "'"
             miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             SQL = ""
             If Not miRsAux.EOF Then SQL = "Ya existe en la tabla usuarios uno con el login: " & miRsAux.Fields(0)
@@ -1044,7 +1044,7 @@ On Error GoTo EInsertarModificar
     If UCase(Label6.Caption) = "NUEVO" Then
         
         'Nuevo
-        SQL = "Select codusu from Usuarios.Usuarios where codusu > 0"
+        SQL = "Select codusu from usuarios.usuarios where codusu > 0"
         miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         
         Ant = 1
@@ -1070,7 +1070,7 @@ On Error GoTo EInsertarModificar
         miRsAux.Close
 
         
-        SQL = "INSERT INTO Usuarios.usuarios (codusu, nomusu,  nivelusu, login, passwordpropio,dirfich,skin, solotesoreria) VALUES ("
+        SQL = "INSERT INTO usuarios.usuarios (codusu, nomusu,  nivelusu, login, passwordpropio,dirfich,skin, solotesoreria) VALUES ("
         SQL = SQL & i
         SQL = SQL & ",'" & Text2(1).Text & "',"
         'Combo
@@ -1162,7 +1162,7 @@ On Error GoTo EInsertarModificar
         CerrarRsEmpresas
         
     Else
-        SQL = "UPDATE Usuarios.Usuarios Set nomusu='" & Text2(1).Text
+        SQL = "UPDATE usuarios.usuarios Set nomusu='" & Text2(1).Text
         
         'Si el combo es administrador compruebo que no fuera en un principio SUPERUSUARIO
         If Combo2.ListIndex = 2 Then
@@ -1344,13 +1344,13 @@ Dim K As Integer
             SQL = "El usuario " & ListView1.SelectedItem.SubItems(1) & " será eliminado y no tendra acceso a los programas de Ariadna (Ariconta, ariges....) ." & vbCrLf
             SQL = SQL & vbCrLf & "                              ¿Desea continuar?"
             If MsgBox(SQL, vbQuestion + vbYesNo) = vbNo Then Exit Sub
-            SQL = "DELETE from Usuarios.Usuarios where codusu = " & ListView1.SelectedItem.Text
+            SQL = "DELETE from usuarios.usuarios where codusu = " & ListView1.SelectedItem.Text
             
         Else
             SQL = "Al usuario " & ListView1.SelectedItem.SubItems(1) & " no le estará permitido el acceso al programas Ariconta." & vbCrLf
             SQL = SQL & vbCrLf & "                              ¿Desea continuar?"
             If MsgBox(SQL, vbQuestion + vbYesNo) = vbNo Then Exit Sub
-            SQL = "UPDATE Usuarios.usuarios SET nivelusu = -1 WHERE codusu = " & ListView1.SelectedItem.Text
+            SQL = "UPDATE usuarios.usuarios SET nivelusu = -1 WHERE codusu = " & ListView1.SelectedItem.Text
         End If
         Screen.MousePointer = vbHourglass
         
@@ -1550,7 +1550,7 @@ Dim Itm As ListItem
     Set miRsAux = New ADODB.Recordset
     '                               Aquellos usuarios k tengan nivel usu -1 NO son de conta
     '  QUitamos codusu=0 pq es el usuario ROOT
-    SQL = "Select * from Usuarios.Usuarios where nivelusu >=0 "
+    SQL = "Select * from usuarios.usuarios where nivelusu >=0 "
     
     ' solo vemos root si somos root
     If vUsu.Login = "root" Then

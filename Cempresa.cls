@@ -362,7 +362,7 @@ Public Function Leer(Optional CONTA As String) As Byte
     If CONTA <> "" Then
         SQL = SQL & "ariconta" & CONTA & "."
     End If
-    SQL = SQL & "Empresa "
+    SQL = SQL & "empresa "
     Set Rs = New ADODB.Recordset
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     Mens = ""
@@ -445,8 +445,8 @@ Public Function Modificar() As Byte
     Conn.Execute SQL
     
     
-    'Modificamos en la tabla Usuarios.empresa
-    SQL = "UPDATE Usuarios.empresasariconta SET nomempre= '" & mvarnomempre
+    'Modificamos en la tabla usuarios.empresa
+    SQL = "UPDATE usuarios.empresasariconta SET nomempre= '" & mvarnomempre
     SQL = SQL & "', nomresum= '" & mvarnomresum
     SQL = SQL & "' WHERE codempre=" & mvarcodempre
     Conn.Execute SQL

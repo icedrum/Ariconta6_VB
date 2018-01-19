@@ -1191,24 +1191,103 @@ End Sub
 
 Private Sub AccionesCSV()
 Dim Sql2 As String
+Dim NF As Integer
+Dim Rs As ADODB.Recordset
+
+    '********************************************
+    '********************************************
+    '
+    '   Este CSV no lo podemos generar desde
+    '   el "public", ya que hay que el saldo
+    '   inicial NO es cero si la fecha
+    '   no es inicio    ejercicio
+    '
+    '
+    '********************************************
+    '********************************************
+    On Error GoTo eAccionesCSV
 
     'Monto el SQL
-    SQL = "Select hlinapu.codmacta as Código, cuentas.nommacta Denominación, hlinapu.fechaent Fecha, hlinapu.numasien Asiento, hlinapu.numdocum Documento, hlinapu.codconce Concepto, "
-    SQL = SQL & " hlinapu.ampconce Ampliación, hlinapu.ctacontr Contrapartida, hlinapu.codccost CC, hlinapu.timported Debe, hlinapu.timporteh Haber, "
-    SQL = SQL & "if (@cuenta=hlinapu.codmacta, @saldo:= @saldo + (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)), @saldo:= (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) ) as Saldo "
     
-    If Combo1.ListIndex <> 1 Then SQL = SQL & ",if(punteada=1,'SI','') Punteada "
-    
-    SQL = SQL & ", if(@cuenta:=hlinapu.codmacta, '','')  as '' " ' hacemos la asignacion de la variable pero no queremos mostrarla
-    SQL = SQL & " FROM (hlinapu  INNER JOIN tmpconextcab ON hlinapu.codmacta = tmpconextcab.cta and tmpconextcab.codusu = " & vUsu.Codigo & ") INNER JOIN cuentas ON hlinapu.codmacta = cuentas.codmacta, (select @saldo:=0, @cuenta:=null) r "
-    SQL = SQL & " where " & cadselect
-    
-    SQL = SQL & " ORDER BY 1,3,4   "
+    NF = -1
+    NumRegElim = 0
+    'GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    Set miRsAux = New ADODB.Recordset
+    SQL = "select * from tmpconextcab where codusu =" & vUsu.Codigo & " ORDER BY cta"
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Set Rs = New ADODB.Recordset
+    While Not miRsAux.EOF
+        SQL = "Select hlinapu.codmacta as Código, cuentas.nommacta Denominación, hlinapu.fechaent Fecha, hlinapu.numasien Asiento, hlinapu.numdocum Documento, hlinapu.codconce Concepto, "
+        SQL = SQL & " hlinapu.ampconce Ampliación, hlinapu.ctacontr Contrapartida, hlinapu.codccost CC,"
+        'Acumulado periodo anterior
         
-    'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+        SQL = SQL & " hlinapu.timported Debe, hlinapu.timporteh Haber, "
+        SQL = SQL & "if (@cuenta=hlinapu.codmacta, @saldo:= @saldo + (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)), "
+        SQL = SQL & " @saldo:= " & DBSet(miRsAux!acumantt, "N") & " + (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) ) as Saldo "
+        
+        If Combo1.ListIndex <> 1 Then SQL = SQL & ",if(punteada=1,'SI','') Punteada "
+         
+        SQL = SQL & ", if(@cuenta:=hlinapu.codmacta, '','')  as '' " ' hacemos la asignacion de la variable pero no queremos mostrarla
+        SQL = SQL & " FROM (hlinapu  INNER JOIN tmpconextcab ON hlinapu.codmacta = tmpconextcab.cta and tmpconextcab.codusu = " & vUsu.Codigo & ")"
+        SQL = SQL & " INNER JOIN cuentas ON hlinapu.codmacta = cuentas.codmacta,"
+        SQL = SQL & " (select @saldo:=0 , @cuenta:=null) r "
+        SQL = SQL & " where " & cadselect
+        SQL = SQL & " AND  tmpconextcab.cta =" & DBSet(miRsAux!Cta, "T")
+        SQL = SQL & " ORDER BY 1,3,4   "
+        
+        Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        
+        While Not Rs.EOF
+            If NumRegElim = 0 Then
+                If Dir(txtTipoSalida(1).Text, vbArchive) <> "" Then
+                    If MsgBox("El fichero ya existe. ¿Sobreescribir?", vbQuestion + vbYesNo) <> vbYes Then
+                        miRsAux.Close
+                        Rs.Close
+                        GoTo eAccionesCSV
+                    End If
+                End If
+                NumRegElim = NumRegElim + 1
+                'Primer registro
+                NF = FreeFile
+                Open txtTipoSalida(1).Text For Output As #NF
+                       
+                       
+                cad = ""
+                For i = 0 To Rs.Fields.Count - 1
+                    cad = cad & ";""" & Rs.Fields(i).Name & """"
+                Next i
+                Print #NF, Mid(cad, 2)
+                    
+            End If
+ 
+            
+            cad = ""
+            For i = 0 To Rs.Fields.Count - 1
+                cad = cad & ";""" & DBLet(Rs.Fields(i).Value, "T") & """"
+            Next i
+            Print #NF, Mid(cad, 2)
     
+            Rs.MoveNext
+        Wend
+        Rs.Close
+        miRsAux.MoveNext
+    Wend
+    miRsAux.Close
+    
+    
+    If NumRegElim > 0 Then MsgBox "Fichero creado con éxito", vbInformation
+    
+    
+eAccionesCSV:
+    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description
+    If NF > 0 Then Close #NF
+    Set Rs = Nothing
+    Set miRsAux = Nothing
 End Sub
+
+
+
+
 
 
 Private Sub AccionesCrystal()
@@ -1267,7 +1346,9 @@ Dim nomDocu As String
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text, (Legalizacion <> "")) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 60
         
     If SoloImprimir Or ExportarPDF Then Unload Me

@@ -3047,9 +3047,9 @@ Dim IT
         IT.ListSubItems(6).ToolTipText = DBLet(miRsAux!Descripcion, "T")
         IT.SubItems(7) = Format(miRsAux!Importe, "###,###,##0.00")
         IT.SubItems(8) = miRsAux!Situacion
-        IT.SubItems(9) = miRsAux!tiporem
+        IT.SubItems(9) = miRsAux!Tiporem
         
-        If miRsAux!tiporem = 2 Then
+        If miRsAux!Tiporem = 2 Then
             IT.SubItems(10) = "PAGARE"
         Else
             IT.SubItems(10) = "TALON"
@@ -3383,7 +3383,7 @@ Dim R As ADODB.Recordset
     EfectuarRemesa = False
     '---------------------------------------------------
     'Creamos la remesa
-    SQL = "Select nomcta as numeroremesa,cta from tmpCierre1 where codusu = " & vUsu.Codigo
+    SQL = "Select nomcta as numeroremesa,cta from tmpcierre1 where codusu = " & vUsu.Codigo
     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If miRsAux.EOF Then
         MsgBox "Datos remesa NO encontrados.", vbExclamation
@@ -3633,7 +3633,7 @@ Dim Impor As Currency
          
         'Preparamos algunas cosillas
         'Aqui guardaremos cuanto llevamos a cada banco
-        SQL = "Delete from tmpCierre1 where codusu =" & vUsu.Codigo
+        SQL = "Delete from tmpcierre1 where codusu =" & vUsu.Codigo
         Conn.Execute SQL
         
         'Si son talones o pagares NO hay reajuste en bancos

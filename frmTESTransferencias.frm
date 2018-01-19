@@ -2036,7 +2036,7 @@ Dim Img As Image
     Me.imgCuentas(3).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
     For i = 0 To 5
-        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+        Me.imgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
     Next i
     
     ' Botonera Principal
@@ -2802,6 +2802,8 @@ End Sub
 
 Private Sub HacerToolBar2(Boton As Integer)
 
+Dim VtosAgrupados As Integer
+
     Select Case Boton
         Case 1
             If Me.lw1.SelectedItem Is Nothing Then Exit Sub
@@ -2824,11 +2826,33 @@ Private Sub HacerToolBar2(Boton As Integer)
                 Exit Sub
             End If
         
+            
+            'Ene 2018
+            VtosAgrupados = 0
+            If TipoTrans < 2 Then
+                'Transferencias /abonos. Podemos agrupar vtos en fichero
+                CadenaDesdeOtroForm = ""
+                frmMensajes.Parametros = lw1.SelectedItem.Text & "|" & lw1.SelectedItem.SubItems(1) & "|" & TipoTrans & "|"
+                frmMensajes.Opcion = 64
+                frmMensajes.Show vbModal
+                If CadenaDesdeOtroForm = "" Then Exit Sub
+                Fecha = RecuperaValor(CadenaDesdeOtroForm, 1)
+                
+                If RecuperaValor(CadenaDesdeOtroForm, 2) = "1" Then
+                    VtosAgrupados = ComprobacionesAgrupaFicheroTransfer(TipoTrans = 0)
+                    If VtosAgrupados = -1 Then Exit Sub
+                    
+                End If
+                
+                
+                
+            End If
+        
             If BloqueoManual(True, "ModTransfer", CStr(lw1.SelectedItem.Text & "/" & lw1.SelectedItem.SubItems(1))) Then
         
                 CadenaDesdeOtroForm = ""
         
-                GeneraNormaBancaria
+                GeneraNormaBancaria VtosAgrupados
                 
                 
                 'Desbloqueamos
@@ -2915,10 +2939,11 @@ Private Sub HacerToolBar2(Boton As Integer)
 End Sub
 
 
-Private Function GeneraNormaBancaria() As Boolean
+Private Function GeneraNormaBancaria(AgrupaVtos As Integer) As Boolean
 Dim B As Boolean
 Dim NumF As String
 Dim NIF As String
+Dim IdFich As String
 
     On Error GoTo EGeneraNormaBancaria
     GeneraNormaBancaria = False
@@ -2932,7 +2957,7 @@ Dim NIF As String
         NIF = NumF
     End If
     
-    
+   
     
     'Comprobamos las cuentas del banco de los recibos
     Set miRsAux = New ADODB.Recordset
@@ -2941,6 +2966,8 @@ Dim NIF As String
     
     ' tipotrans:  1 = pagos  (transferencias de pagos)
     '             0 = cobros (transferencias de abono)
+    
+   
     If TipoTrans < 2 Then
         If Not comprobarCuentasBancariasPagos(lw1.SelectedItem.Text, lw1.SelectedItem.SubItems(1), TipoTrans = 1) Then
             Set miRsAux = Nothing
@@ -2957,8 +2984,8 @@ Dim NIF As String
         'B = GeneraFicheroNorma34(NIF, Adodc1.Recordset!Fecha, Adodc1.Recordset!codmacta, "9", Adodc1.Recordset!Codigo, Adodc1.Recordset!descripcion, TipoDeFrm <> 0)
         
     If TipoTrans < 2 Then
-        
-        B = GeneraFicheroNorma34(NIF, lw1.SelectedItem.SubItems(2), lw1.SelectedItem.SubItems(5), CStr(lw1.SelectedItem.SubItems(11)), lw1.SelectedItem.Text, lw1.SelectedItem.SubItems(7), TipoTrans = 1, lw1.SelectedItem.SubItems(1))
+            'Estaba como fecha: lw1.SelectedItem.SubItems(2)
+        B = GeneraFicheroNorma34(NIF, Fecha, lw1.SelectedItem.SubItems(5), CStr(lw1.SelectedItem.SubItems(11)), lw1.SelectedItem.Text, lw1.SelectedItem.SubItems(7), TipoTrans = 1, lw1.SelectedItem.SubItems(1), IdFich, AgrupaVtos > 0)
         
     Else
          If TipoTrans = 3 Then ' si es caixa confirmning
@@ -2987,8 +3014,59 @@ Dim NIF As String
             CopiarFicheroNormaBancaria 0, cd1.FileName
             
             CadenaDesdeOtroForm = "OK"
+                        
             
-            NIF = "update transferencias set situacion = 'B' where codigo = " & DBSet(lw1.SelectedItem.Text, "N") & " and anyo = " & DBSet(lw1.SelectedItem.SubItems(1), "N")
+            If TipoTrans < 2 Then
+                Set miRsAux = New ADODB.Recordset
+                SQL = "Select * from transferencias where codigo = " & lw1.ListItems(lw1.SelectedItem.Index).Text
+                SQL = SQL & " and anyo = " & lw1.ListItems(lw1.SelectedItem.Index).SubItems(1)
+                miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+                If Not miRsAux.EOF Then
+                    'Si a estaba generado el fichero, guardo en LOG
+                    If Asc(DBLet(miRsAux!Situacion, "T")) >= Asc("B") Then
+                        'YA se habia generado
+                        SQL = "Transfer: " & Format(miRsAux!Codigo, "0000") & "/" & miRsAux!Anyo & "   Fecha:" & miRsAux!Fecha & vbCrLf
+                        SQL = SQL & DBLet(miRsAux!Descripcion, "T") & vbCrLf
+                        
+                        SQL = SQL & "Banco: " & miRsAux!codmacta & " " & DevuelveDesdeBD("nommacta", "cuentas", "codmacta", miRsAux!codmacta, "T") & vbCrLf
+                        SQL = SQL & "Situacion: " & miRsAux!Situacion & " Importe : " & miRsAux!Importe & "€ "
+                        If TipoTrans = 0 Then
+                            RC = "transfer= " & miRsAux!Codigo & " AND anyorem =" & miRsAux!Anyo & " AND 1"
+                            RC = DevuelveDesdeBD("count(*)", "cobros", RC, "1")
+                        Else
+                            RC = "nrodocum= " & miRsAux!Codigo & " AND anyodocum =" & miRsAux!Anyo & " AND 1"
+                            RC = DevuelveDesdeBD("count(*)", "pagos", RC, "1")
+                        End If
+                        SQL = SQL & " Vtos: " & RC
+                        If DBLet(miRsAux!LlevaAgrupados, "N") > 0 Then SQL = SQL & " Cli/Prov agr: " & miRsAux!LlevaAgrupados
+                        SQL = SQL & vbCrLf
+                        RC = DBLet(miRsAux!IdFicheroSEPA, "T")
+                        If RC <> "" Then
+                            RC = "ID_Fich: " & RC & "       Usuario: " & DBLet(miRsAux!usurioFich, "T")
+                            SQL = SQL & RC
+                        End If
+                        RC = ""
+                        vLog.Insertar 31, vUsu, SQL
+                    End If
+                End If
+                miRsAux.Close
+                Set miRsAux = Nothing
+                
+            End If
+            
+            
+            
+            
+            NIF = "update transferencias set situacion = 'B' "
+            If TipoTrans < 2 Then
+                '`IdFicheroSEPA` `LlevaAgrupados``usurioFich`
+                NIF = NIF & ", IdFicheroSEPA = " & DBSet(IdFich, "T")
+                NIF = NIF & ", LlevaAgrupados = " & DBSet(AgrupaVtos, "T")
+                NIF = NIF & ", usurioFich = " & DBSet(vUsu.Login, "T")
+                NIF = NIF & ", fecha = " & DBSet(Fecha, "F")
+            End If
+            NIF = NIF & " where codigo = " & DBSet(lw1.SelectedItem.Text, "N") & " and anyo = " & DBSet(lw1.SelectedItem.SubItems(1), "N")
+            
 '            Conn.Execute NIF
             
             
@@ -3080,7 +3158,7 @@ Dim Im As Currency
     If Not miRsAux.EOF Then
             While Not miRsAux.EOF
                 SQL = "UPDATE pagos SET fecultpa = '" & Format(lw1.SelectedItem.SubItems(2), FormatoFecha) & "', imppagad = "
-                Im = miRsAux!ImpEfect
+                Im = miRsAux!impefect
                 SQL = SQL & TransformaComasPuntos(CStr(Im))
                 
                 SQL = SQL & " ,situdocum = 'B'"
@@ -3466,7 +3544,7 @@ Dim ImporteTot As Currency
         If Modificar Then IT.Checked = True
     
         Importe = 0
-        Importe = Importe + miRsAux!ImpEfect
+        Importe = Importe + miRsAux!impefect
         
         'Si ya he cobrado algo
         If Not Modificar Then
@@ -3824,7 +3902,7 @@ Dim Sql2 As String
          
         'Preparamos algunas cosillas
         'Aqui guardaremos cuanto llevamos a cada banco
-        SQL = "Delete from tmpCierre1 where codusu =" & vUsu.Codigo
+        SQL = "Delete from tmpcierre1 where codusu =" & vUsu.Codigo
         Conn.Execute SQL
         
         CadenaDesdeOtroForm = ""
@@ -4014,7 +4092,7 @@ Dim Sql2 As String
          
         'Preparamos algunas cosillas
         'Aqui guardaremos cuanto llevamos a cada banco
-        SQL = "Delete from tmpCierre1 where codusu =" & vUsu.Codigo
+        SQL = "Delete from tmpcierre1 where codusu =" & vUsu.Codigo
         Conn.Execute SQL
         
         CadenaDesdeOtroForm = ""
@@ -4624,5 +4702,103 @@ eGenerarTransferencia:
 
     Label2.Caption = ""
     Label2.visible = False
+End Function
+
+
+
+
+
+
+' -1: ERROR     0: Ninguno     1 Si que hay agrupaciones
+Private Function ComprobacionesAgrupaFicheroTransfer(Abonos As Boolean) As Integer
+Dim C As String
+
+    On Error GoTo eComrpobacionesAgrupacionFichero
+    Set miRsAux = New ADODB.Recordset
+    ComprobacionesAgrupaFicheroTransfer = -1
+    
+   
+    
+    If Abonos Then
+        SQL = "select codmacta,count(*) from cobros where"
+        SQL = SQL & " transfer = " & lw1.ListItems(lw1.SelectedItem.Index).Text
+        SQL = SQL & " and anyorem = " & lw1.ListItems(lw1.SelectedItem.Index).SubItems(1)
+
+    Else
+        SQL = "select codmacta,count(*) from pagos where nrodocum = " & lw1.ListItems(lw1.SelectedItem.Index).Text
+        SQL = SQL & " and anyodocum = " & lw1.ListItems(lw1.SelectedItem.Index).SubItems(1)
+    End If
+    SQL = SQL & " group by codmacta having count(*) >1"
+     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Msg = ""
+    RC = ""
+    i = 0
+    While Not miRsAux.EOF
+        i = i + 1
+        Msg = Msg & miRsAux!codmacta & "|"
+        miRsAux.MoveNext
+        
+    Wend
+    miRsAux.Close
+    
+    If i = 0 Then
+        ComprobacionesAgrupaFicheroTransfer = 0
+        Exit Function
+    End If
+    
+    'Comprobare la cuenta IBAN
+    MsgErr = ""
+    K = 0
+    NumRegElim = 0
+    For J = 1 To i
+        SQL = " AND codmacta = '" & RecuperaValor(Msg, CInt(J)) & "' GROUP BY iban "
+        If Abonos Then
+            SQL = " transfer = " & lw1.ListItems(lw1.SelectedItem.Index).Text & " and anyorem = " & lw1.ListItems(lw1.SelectedItem.Index).SubItems(1) & SQL
+            SQL = "select  iban,count(*) ctos from cobros where  " & SQL
+            
+        Else
+            SQL = " nrodocum = " & lw1.ListItems(lw1.SelectedItem.Index).Text & " and anyodocum = " & lw1.ListItems(lw1.SelectedItem.Index).SubItems(1) & SQL
+            SQL = "select iban,count(*) ctos from pagos where  " & SQL
+        End If
+        miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        SQL = ""
+        If miRsAux.EOF Then
+            Err.Raise 513, , "no se encuentran vtos. en select: " & Mid(miRsAux.Source, 30)
+        Else
+            C = DevuelveDesdeBD("concat(codmacta,' ',nommacta)", "cuentas", "codmacta", RecuperaValor(Msg, CInt(J)), "T") & "    Nº:" & Format(miRsAux!ctos, "0000")
+            SQL = miRsAux!IBAN
+            miRsAux.MoveNext
+            If miRsAux.EOF Then
+                'perfeto. SOLO un IBAN
+                RC = RC & "X"
+                NumRegElim = NumRegElim + Val(Right(C, 4))
+                SQL = ""
+            Else
+                SQL = C & vbCrLf & SQL & " // " & miRsAux!IBAN & vbCrLf
+            End If
+        End If
+        If SQL <> "" Then MsgErr = MsgErr & SQL & vbCrLf
+        miRsAux.Close
+    Next J
+    
+    
+    Set miRsAux = Nothing
+    
+    If MsgErr <> "" Then
+        MsgErr = "IBAN distinto para agrupacion por cliente:" & vbCrLf & MsgErr
+        MsgBox MsgErr, vbExclamation
+        
+    Else
+        
+        SQL = "Fecha de pago: " & RecuperaValor(CadenaDesdeOtroForm, 1) & vbCrLf
+        RC = IIf(TipoTrans = 0, "Clientes", "Proveedores") & " agrupados: " & Len(RC) & vbCrLf
+        RC = RC & "Total vencimientos agrupados: " & NumRegElim & vbCrLf
+        SQL = SQL & RC & " ¿Continuar?"
+        If MsgBox(SQL, vbQuestion + vbYesNoCancel) = vbYes Then ComprobacionesAgrupaFicheroTransfer = i
+    End If
+eComrpobacionesAgrupacionFichero:
+    If Err.Number <> 0 Then MuestraError Err.Number, , Err.Description
+    Set miRsAux = Nothing
+    RC = ""
 End Function
 

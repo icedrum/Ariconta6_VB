@@ -413,7 +413,7 @@ Option Explicit
 Private WithEvents frmCCos  As frmBasico
 Attribute frmCCos.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 
 Dim IndCodigo As Integer
 
@@ -600,15 +600,15 @@ End Sub
 Private Sub AccionesCSV()
     
     'Monto el SQL
-    Sql = "Select  ccoste.codccost as codigo ,nomccost as descripcion, ccoste_lineas.linscost as linea, subccost as CC, porccost as porcentaje "
-    Sql = Sql & " FROM ccoste left join ccoste_lineas on ccoste.codccost = ccoste_lineas.codccost "
-    Sql = Sql & " WHERE (1=1) "
+    SQL = "Select  ccoste.codccost as codigo ,nomccost as descripcion, ccoste_lineas.linscost as linea, subccost as CC, porccost as porcentaje "
+    SQL = SQL & " FROM ccoste left join ccoste_lineas on ccoste.codccost = ccoste_lineas.codccost "
+    SQL = SQL & " WHERE (1=1) "
     
-    If cadselect <> "" Then Sql = Sql & " AND " & cadselect
-    Sql = Sql & " ORDER BY 1,3"
+    If cadselect <> "" Then SQL = SQL & " AND " & cadselect
+    SQL = SQL & " ORDER BY 1,3"
         
     'LLamoa a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -636,7 +636,9 @@ Dim nomDocu As String
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 30
         
     If SoloImprimir Or ExportarPDF Then Unload Me

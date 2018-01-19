@@ -510,7 +510,7 @@ Private Function Leer1() As Byte
     
     Leer1 = 1
     
-    SQL = "SELECT * FROM paramTesor"
+    SQL = "SELECT * FROM paramtesor"
     Set Rs = New ADODB.Recordset
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic
     If Rs.EOF Then

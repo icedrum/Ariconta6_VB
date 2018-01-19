@@ -875,7 +875,7 @@ Dim Aux As String
     Prohibidas = DevuelveProhibidas
     
     ListView1(Index).ListItems.Clear
-    Aux = "Select * from Usuarios.empresasariconta where tesor>0 order by codempre"
+    Aux = "Select * from usuarios.empresasariconta where tesor>0 order by codempre"
     
     Rs.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF

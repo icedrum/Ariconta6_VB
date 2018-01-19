@@ -317,7 +317,7 @@ Attribute frmFPago.VB_VarHelpID = -1
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -472,10 +472,10 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    Sql = ""
+    SQL = ""
             
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -497,7 +497,9 @@ Dim nomDocu As String
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text, False) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 36
         
     If SoloImprimir Or ExportarPDF Then Unload Me

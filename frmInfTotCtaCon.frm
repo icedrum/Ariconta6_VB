@@ -712,7 +712,7 @@ Attribute frmC.VB_VarHelpID = -1
 Private WithEvents frmCon  As frmConceptos
 Attribute frmCon.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -1007,11 +1007,11 @@ Dim Hasta As Integer
         Case 0, 1 'Cuentas
             
             RC = txtCuentas(Index).Text
-            If CuentaCorrectaUltimoNivelSIN(RC, Sql) Then
+            If CuentaCorrectaUltimoNivelSIN(RC, SQL) Then
                 txtCuentas(Index) = RC
-                txtNCuentas(Index).Text = Sql
+                txtNCuentas(Index).Text = SQL
             Else
-                MsgBox Sql, vbExclamation
+                MsgBox SQL, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
                 PonFoco txtCuentas(Index)
@@ -1079,24 +1079,24 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    If check1.Value = 0 Then
-        Sql = "Select hlinapu.codconce Concepto, conceptos.nomconce Descripción, hlinapu.codmacta as Cuenta, cuentas.nommacta Título, cuentas.nifdatos NIF, count(*) Número, "
-        Sql = Sql & " sum(coalesce(hlinapu.timported,0)) Debe, sum(coalesce(hlinapu.timporteh,0)) Haber, sum(coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) Saldo "
-        Sql = Sql & " FROM (hlinapu  INNER JOIN cuentas ON hlinapu.codmacta = cuentas.codmacta) INNER JOIN conceptos ON hlinapu.codconce = conceptos.codconce "
-        Sql = Sql & " where " & cadselect
-        Sql = Sql & " GROUP BY 1,2,3,4,5 "
-        Sql = Sql & " ORDER BY 1,2,3,4,5 "
+    If Check1.Value = 0 Then
+        SQL = "Select hlinapu.codconce Concepto, conceptos.nomconce Descripción, hlinapu.codmacta as Cuenta, cuentas.nommacta Título, cuentas.nifdatos NIF, count(*) Número, "
+        SQL = SQL & " sum(coalesce(hlinapu.timported,0)) Debe, sum(coalesce(hlinapu.timporteh,0)) Haber, sum(coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) Saldo "
+        SQL = SQL & " FROM (hlinapu  INNER JOIN cuentas ON hlinapu.codmacta = cuentas.codmacta) INNER JOIN conceptos ON hlinapu.codconce = conceptos.codconce "
+        SQL = SQL & " where " & cadselect
+        SQL = SQL & " GROUP BY 1,2,3,4,5 "
+        SQL = SQL & " ORDER BY 1,2,3,4,5 "
     Else
-        Sql = "Select hlinapu.codconce Concepto, conceptos.nomconce Descripción, hlinapu.codmacta as Cuenta, cuentas.nommacta Título, cuentas.nifdatos NIF, YEAR(hlinapu.fechaent) Año, MONTH(hlinapu.fechaent) Mes, count(*) Número, "
-        Sql = Sql & " sum(coalesce(hlinapu.timported,0)) Debe, sum(coalesce(hlinapu.timporteh,0)) Haber, sum(coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) Saldo "
-        Sql = Sql & " FROM (hlinapu  INNER JOIN cuentas ON hlinapu.codmacta = cuentas.codmacta) INNER JOIN conceptos ON hlinapu.codconce = conceptos.codconce "
-        Sql = Sql & " where " & cadselect
-        Sql = Sql & " GROUP BY 1,2,3,4,5,6,7 "
-        Sql = Sql & " ORDER BY 1,2,3,4,5,6,7 "
+        SQL = "Select hlinapu.codconce Concepto, conceptos.nomconce Descripción, hlinapu.codmacta as Cuenta, cuentas.nommacta Título, cuentas.nifdatos NIF, YEAR(hlinapu.fechaent) Año, MONTH(hlinapu.fechaent) Mes, count(*) Número, "
+        SQL = SQL & " sum(coalesce(hlinapu.timported,0)) Debe, sum(coalesce(hlinapu.timporteh,0)) Haber, sum(coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) Saldo "
+        SQL = SQL & " FROM (hlinapu  INNER JOIN cuentas ON hlinapu.codmacta = cuentas.codmacta) INNER JOIN conceptos ON hlinapu.codconce = conceptos.codconce "
+        SQL = SQL & " where " & cadselect
+        SQL = SQL & " GROUP BY 1,2,3,4,5,6,7 "
+        SQL = SQL & " ORDER BY 1,2,3,4,5,6,7 "
     End If
         
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1108,7 +1108,7 @@ Dim nomDocu As String
     vMostrarTree = False
     conSubRPT = False
         
-    If check1.Value = 1 Then
+    If Check1.Value = 1 Then
         indRPT = "0310-01" '"TotCtaConTotalD.rpt"
     Else
         indRPT = "0310-00" '"TotCtaConTotal.rpt"
@@ -1121,7 +1121,9 @@ Dim nomDocu As String
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 61
         
     If SoloImprimir Or ExportarPDF Then Unload Me
@@ -1130,7 +1132,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -1151,7 +1153,7 @@ Dim RC2 As String
 End Function
 
 
-Private Sub txtFecha_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub txtfecha_KeyPress(Index As Integer, KeyAscii As Integer)
     txtFecha(Index).Text = Trim(txtFecha(Index).Text)
     If txtFecha(Index).Text = "" Then Exit Sub
 

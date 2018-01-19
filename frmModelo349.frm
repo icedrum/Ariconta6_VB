@@ -795,7 +795,7 @@ Private Sub CargarCombo()
     If vParam.periodos = 0 Then
         Me.cmbPeriodo(0).ListIndex = i + 12 - 1
     Else
-        Me.cmbPeriodo(0).ListIndex = i - 1
+        Me.cmbPeriodo(0).ListIndex = i
     End If
     
     CadenaDesdeOtroForm = ""
@@ -1057,25 +1057,28 @@ Private Sub txtAno_GotFocus(Index As Integer)
     ConseguirFoco txtAno(Index), 3
 End Sub
 
-Private Sub txtAnyo_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub txtAno_KeyPress(Index As Integer, KeyAscii As Integer)
     KEYpress KeyAscii
 End Sub
 
-Private Sub txtAnyo_LostFocus(Index As Integer)
+Private Sub txtAno_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 
     txtAno(Index).Text = Trim(txtAno(Index).Text)
-    
+    If txtAno(Index).Text = "" Then Exit Sub
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
     Select Case Index
         Case 0 'Año
-            txtAno(Index).Text = Format(txtAno(Index).Text, "0000")
+            If EsNumerico(txtAno(0).Text) Then
+                txtAno(Index).Text = Format(txtAno(Index).Text, "0000")
             
-            PonerDatosFicheroSalida
-            
+                PonerDatosFicheroSalida
+            Else
+                PonFoco txtAno(Index)
+            End If
             
     End Select
 

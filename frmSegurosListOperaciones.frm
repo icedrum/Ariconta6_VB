@@ -586,7 +586,7 @@ Public numero As String
 Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -716,7 +716,7 @@ Private Sub Form_Load()
 
     
     For i = 0 To 1
-        Me.imgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
     Next i
      
 '    For i = 0 To 0
@@ -764,7 +764,7 @@ Dim Aux As String
     Prohibidas = DevuelveProhibidas
     
     ListView3.ListItems.Clear
-    Aux = "Select * from Usuarios.empresasariconta where tesor>0"
+    Aux = "Select * from usuarios.empresasariconta where tesor>0"
     
     Rs.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
@@ -821,7 +821,7 @@ End Function
 
 
 Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 
@@ -1047,21 +1047,21 @@ Private Function DatosOK() As Boolean
     DatosOK = False
     If txtFecha(1).Text = "" Then
        
-            Sql = "Fecha 'hasta' es campo obligado para considerar la fecha de baja de los asegurados." & vbCrLf
-            Sql = Sql & "En el listado saldrán aquellos que si tienen fecha de baja , es superior al hasta solicitado "
+            SQL = "Fecha 'hasta' es campo obligado para considerar la fecha de baja de los asegurados." & vbCrLf
+            SQL = SQL & "En el listado saldrán aquellos que si tienen fecha de baja , es superior al hasta solicitado "
          
-            MsgBox Sql, vbExclamation
+            MsgBox SQL, vbExclamation
             Exit Function
     End If
     
-    Sql = ""
+    SQL = ""
     For i = 1 To ListView3.ListItems.Count
         If ListView3.ListItems(i).Checked Then
-            Sql = "O"
+            SQL = "O"
             Exit For
         End If
     Next i
-    If Sql = "" Then
+    If SQL = "" Then
         MsgBox "Seleccione al menos una empresa", vbExclamation
         Exit Function
     End If
@@ -1089,36 +1089,36 @@ End Sub
 
 
 Private Function ComunicaDatosSeguro_() As Boolean
-Dim k As Integer
+Dim K As Integer
 
     ComunicaDatosSeguro_ = False
     
     Conn.Execute "DELETE from tmptesoreriacomun WHERE codusu = " & vUsu.Codigo
     NumRegElim = 0
     
-    For k = 1 To Me.ListView3.ListItems.Count
-        If Me.ListView3.ListItems(k).Checked Then
-            DatosSeguroUnaEmpresa CInt(ListView3.ListItems(k).Tag)
+    For K = 1 To Me.ListView3.ListItems.Count
+        If Me.ListView3.ListItems(K).Checked Then
+            DatosSeguroUnaEmpresa CInt(ListView3.ListItems(K).Tag)
       
-            Sql = DevuelveDesdeBD("count(*)", "tmptesoreriacomun", "codusu", vUsu.Codigo)
-            If Sql <> "" Then NumRegElim = Val(Sql)
+            SQL = DevuelveDesdeBD("count(*)", "tmptesoreriacomun", "codusu", vUsu.Codigo)
+            If SQL <> "" Then NumRegElim = Val(SQL)
         End If
     Next
     
     
     
     If NumRegElim > 0 Then
-        Sql = "DELETE from tmptesoreriacomun WHERE codusu = " & vUsu.Codigo
-        Sql = Sql & " AND importe1<=0"
+        SQL = "DELETE from tmptesoreriacomun WHERE codusu = " & vUsu.Codigo
+        SQL = SQL & " AND importe1<=0"
         
         
         
     
     
         '   Conn.Execute SQL
-        Sql = DevuelveDesdeBD("count(*)", "tmptesoreriacomun", "codusu", vUsu.Codigo)
-        If Sql <> "" Then
-            NumRegElim = Val(Sql)
+        SQL = DevuelveDesdeBD("count(*)", "tmptesoreriacomun", "codusu", vUsu.Codigo)
+        If SQL <> "" Then
+            NumRegElim = Val(SQL)
         Else
             NumRegElim = 0
         End If
@@ -1126,25 +1126,25 @@ Dim k As Integer
         
         ComunicaDatosSeguro_ = NumRegElim > 0
         If NumRegElim > 0 Then
-            Sql = "Select texto5 from tmptesoreriacomun WHERE codusu = " & vUsu.Codigo & " GROUP BY 1"
+            SQL = "Select texto5 from tmptesoreriacomun WHERE codusu = " & vUsu.Codigo & " GROUP BY 1"
             Set miRsAux = New ADODB.Recordset
-            miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+            miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
             While Not miRsAux.EOF
-                Sql = miRsAux!texto5
-                If Sql = "" Then
-                    Sql = "ESPAÑA"
+                SQL = miRsAux!texto5
+                If SQL = "" Then
+                    SQL = "ESPAÑA"
                 Else
-                    If InStr(1, Sql, " ") > 0 Then
-                        Sql = Mid(Sql, 3)
+                    If InStr(1, SQL, " ") > 0 Then
+                        SQL = Mid(SQL, 3)
                     Else
-                        Sql = "" 'no updateamos
+                        SQL = "" 'no updateamos
                     End If
                 End If
-                If Sql <> "" Then
+                If SQL <> "" Then
                     'FALTA######
-                    Sql = "UPDATE Usuarios.ztesoreriacomun set texto5='" & DevNombreSQL(Sql) & "' WHERE codusu ="
-                    Sql = Sql & vUsu.Codigo & " AND texto5='" & DevNombreSQL(miRsAux!texto5) & "'"
-                    Conn.Execute Sql
+                    SQL = "UPDATE usuarios.ztesoreriacomun set texto5='" & DevNombreSQL(SQL) & "' WHERE codusu ="
+                    SQL = SQL & vUsu.Codigo & " AND texto5='" & DevNombreSQL(miRsAux!texto5) & "'"
+                    Conn.Execute SQL
                 End If
                 miRsAux.MoveNext
             Wend
@@ -1158,8 +1158,8 @@ End Function
 Private Sub DatosSeguroUnaEmpresa(NumConta As Integer)
 
         
-    Sql = "INSERT INTO tmptesoreriacomun (codusu, codigo, texto1, texto2,texto3,texto4,"
-    Sql = Sql & " importe1,  importe2,texto5) "
+    SQL = "INSERT INTO tmptesoreriacomun (codusu, codigo, texto1, texto2,texto3,texto4,"
+    SQL = SQL & " importe1,  importe2,texto5) "
     
 
 
@@ -1183,8 +1183,8 @@ Private Sub DatosSeguroUnaEmpresa(NumConta As Integer)
     
     
     
-    Sql = Sql & RC
+    SQL = SQL & RC
     
-    Conn.Execute Sql
+    Conn.Execute SQL
 End Sub
 

@@ -758,7 +758,7 @@ Attribute frmF.VB_VarHelpID = -1
 Private WithEvents frmGas As frmBasico
 Attribute frmGas.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -943,7 +943,7 @@ Dim Aux As String
     Prohibidas = DevuelveProhibidas
     
     ListView1(Index).ListItems.Clear
-    Aux = "Select * from Usuarios.empresasariconta where tesor>0"
+    Aux = "Select * from usuarios.empresasariconta where tesor>0"
     
     Rs.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
@@ -999,7 +999,7 @@ Private Sub CargarListViewTipoFPago(Index As Integer)
 'en un ListView
 Dim Rs As ADODB.Recordset
 Dim ItmX As ListItem
-Dim Sql As String
+Dim SQL As String
 
     On Error GoTo ECargarList
 
@@ -1010,12 +1010,12 @@ Dim Sql As String
     ListView1(Index).ColumnHeaders.Add , , "Código", 0
     ListView1(Index).ColumnHeaders.Add , , "Siglas", 0
     
-    Sql = "SELECT descformapago, tipoformapago,siglas  "
-    Sql = Sql & " FROM tipofpago "
-    Sql = Sql & " order by 2 "
+    SQL = "SELECT descformapago, tipoformapago,siglas  "
+    SQL = SQL & " FROM tipofpago "
+    SQL = SQL & " order by 2 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     While Not Rs.EOF
         Set ItmX = ListView1(Index).ListItems.Add
@@ -1042,7 +1042,7 @@ End Sub
 
 
 Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 
@@ -1088,15 +1088,15 @@ End Sub
 
 
 Private Sub imgCuentas_Click(Index As Integer)
-    Sql = ""
+    SQL = ""
     AbiertoOtroFormEnListado = True
     Set frmCCtas = New frmColCtas
     frmCCtas.DatosADevolverBusqueda = True
     frmCCtas.Show vbModal
     Set frmCCtas = Nothing
-    If Sql <> "" Then
-        Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
+    If SQL <> "" Then
+        Me.txtCuentas(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(SQL, 2)
         If txtCuentas(Index).Text <> "" Then
             Me.txtNIF(0).Text = ""
             Me.txtNIF(0).Text = DevuelveDesdeBD("nifdatos", "cuentas", "codmacta", txtCuentas(Index), "T")
@@ -1200,7 +1200,7 @@ Private Sub txtCuentas_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
@@ -1229,18 +1229,18 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
         Case 0 'cuentas
             Cta = (txtCuentas(Index).Text)
                                     '********
-            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
             If B = 0 Then
                 MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
             Else
                 txtCuentas(Index).Text = Cta
-                txtNCuentas(Index).Text = Sql
+                txtNCuentas(Index).Text = SQL
                 If B = 1 Then
                     txtNCuentas(Index).Tag = ""
                 Else
-                    txtNCuentas(Index).Tag = Sql
+                    txtNCuentas(Index).Tag = SQL
                 End If
                 Hasta = -1
                 If Index = 6 Then
@@ -1287,13 +1287,13 @@ Dim Sql2 As String
 
     'Monto el SQL
     
-    Sql = "SELECT `tmptesoreriacomun`.`texto1` Nif , `tmptesoreriacomun`.`texto2` Conta, `tmptesoreriacomun`.`opcion` BD, `tmptesoreriacomun`.`texto5` Nombre, `tmptesoreriacomun`.`texto3` NroFra, `tmptesoreriacomun`.`fecha1` FecFra, `tmptesoreriacomun`.`fecha2` FecVto, `tmptesoreriacomun`.`importe1` Gasto, `tmptesoreriacomun`.`importe2` Recibo"
-    Sql = Sql & " FROM   `tmptesoreriacomun` `tmptesoreriacomun`"
-    Sql = Sql & " WHERE `tmptesoreriacomun`.codusu = " & vUsu.Codigo
-    Sql = Sql & " ORDER BY `tmptesoreriacomun`.`texto1`, `tmptesoreriacomun`.`texto2`, `tmptesoreriacomun`.`opcion`, `tmptesoreriacomun`.`fecha1`"
+    SQL = "SELECT `tmptesoreriacomun`.`texto1` Nif , `tmptesoreriacomun`.`texto2` Conta, `tmptesoreriacomun`.`opcion` BD, `tmptesoreriacomun`.`texto5` Nombre, `tmptesoreriacomun`.`texto3` NroFra, `tmptesoreriacomun`.`fecha1` FecFra, `tmptesoreriacomun`.`fecha2` FecVto, `tmptesoreriacomun`.`importe1` Gasto, `tmptesoreriacomun`.`importe2` Recibo"
+    SQL = SQL & " FROM   `tmptesoreriacomun` `tmptesoreriacomun`"
+    SQL = SQL & " WHERE `tmptesoreriacomun`.codusu = " & vUsu.Codigo
+    SQL = SQL & " ORDER BY `tmptesoreriacomun`.`texto1`, `tmptesoreriacomun`.`texto2`, `tmptesoreriacomun`.`opcion`, `tmptesoreriacomun`.`fecha1`"
     
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1331,7 +1331,7 @@ End Sub
 
 
 Private Function CargarTemporales() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -1342,15 +1342,15 @@ Dim B As Boolean
     
     Label9.Caption = "Preparando tablas"
     Label9.Refresh
-    Sql = "Delete from tmp347 where codusu =" & vUsu.Codigo
-    Conn.Execute Sql
-    Sql = "Delete from tmptesoreriacomun where codusu =" & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "Delete from tmp347 where codusu =" & vUsu.Codigo
+    Conn.Execute SQL
+    SQL = "Delete from tmptesoreriacomun where codusu =" & vUsu.Codigo
+    Conn.Execute SQL
     'tmpfaclin  ... sera para cuando es mas de uno
-    Sql = "Delete from tmpfaclin where codusu =" & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "Delete from tmpfaclin where codusu =" & vUsu.Codigo
+    Conn.Execute SQL
                 
-    Sql = ""
+    SQL = ""
     Screen.MousePointer = vbHourglass
     
     '------------------------------------------
@@ -1362,39 +1362,39 @@ Dim B As Boolean
             Label9.Refresh
             DoEvents
         
-            Sql = "INSERT INTO tmp347 (codusu, cliprov, cta, nif) "
+            SQL = "INSERT INTO tmp347 (codusu, cliprov, cta, nif) "
             
-            Sql = Sql & " select " & vUsu.Codigo & "," & Mid(ListView1(1).ListItems(i).Key, 2) & ", codmacta, nifdatos from "
-            Sql = Sql & "( "
+            SQL = SQL & " select " & vUsu.Codigo & "," & Mid(ListView1(1).ListItems(i).Key, 2) & ", codmacta, nifdatos from "
+            SQL = SQL & "( "
         
-            Sql = Sql & "select cobros.codmacta,nifclien nifdatos from ariconta" & ListView1(1).ListItems(i).Tag & ".cobros where not nifclien is null  "
-            If Me.txtNIF(0).Text <> "" Then Sql = Sql & " and cobros.nifclien = " & DBSet(Me.txtNIF(0).Text, "T")
-            Sql = Sql & " group by  codmacta,nifclien"
-            Sql = Sql & " union "
-            Sql = Sql & "select pagos.codmacta,nifprove nifdatos from ariconta" & ListView1(1).ListItems(i).Tag & ".pagos where not nifprove is null"
-            If Me.txtNIF(0).Text <> "" Then Sql = Sql & " and pagos.nifprove = " & DBSet(Me.txtNIF(0).Text, "T")
-            Sql = Sql & " group by  codmacta,nifprove"
+            SQL = SQL & "select cobros.codmacta,nifclien nifdatos from ariconta" & ListView1(1).ListItems(i).Tag & ".cobros where not nifclien is null  "
+            If Me.txtNIF(0).Text <> "" Then SQL = SQL & " and cobros.nifclien = " & DBSet(Me.txtNIF(0).Text, "T")
+            SQL = SQL & " group by  codmacta,nifclien"
+            SQL = SQL & " union "
+            SQL = SQL & "select pagos.codmacta,nifprove nifdatos from ariconta" & ListView1(1).ListItems(i).Tag & ".pagos where not nifprove is null"
+            If Me.txtNIF(0).Text <> "" Then SQL = SQL & " and pagos.nifprove = " & DBSet(Me.txtNIF(0).Text, "T")
+            SQL = SQL & " group by  codmacta,nifprove"
             
-            Sql = Sql & ") aaaaa "
-            Sql = Sql & " group by 3, 4 "
+            SQL = SQL & ") aaaaa "
+            SQL = SQL & " group by 3, 4 "
             
-            If Not Ejecuta(Sql) Then Exit Function
+            If Not Ejecuta(SQL) Then Exit Function
         End If
     Next i
             
-    If Sql <> "" Then
+    If SQL <> "" Then
         If GeneraCobrosPagosNIF Then
         
-            Sql = ""
+            SQL = ""
             For i = 1 To Me.ListView1(1).ListItems.Count
-                If Me.ListView1(1).ListItems(i).Checked Then Sql = Sql & "1"
+                If Me.ListView1(1).ListItems(i).Checked Then SQL = SQL & "1"
             Next
-            If Len(Sql) > 1 Then
-                Sql = "0"
+            If Len(SQL) > 1 Then
+                SQL = "0"
             Else
-                Sql = "1"
+                SQL = "1"
             End If
-            Sql = "SoloUnaEmpresa= " & Sql & "|"
+            SQL = "SoloUnaEmpresa= " & SQL & "|"
 
         
         End If
@@ -1448,10 +1448,10 @@ Dim QueTipoPago As String
     GeneraCobrosPagosNIF = False
     L = 1
     'Sql = "Select * from tmp347 where codusu =" & vUsu.Codigo & " ORDER BY cliprov,nif"
-    Sql = "Select cliprov,nif from tmp347 where codusu =" & vUsu.Codigo & " GROUP BY cliprov"
+    SQL = "Select cliprov,nif from tmp347 where codusu =" & vUsu.Codigo & " GROUP BY cliprov"
     Set Rs = New ADODB.Recordset
     Set miRsAux = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
 
     While Not Rs.EOF
         If Cancelado Then
@@ -1463,11 +1463,11 @@ Dim QueTipoPago As String
         Label9.Refresh
         
         'SQL insert
-        Sql = "INSERT INTO tmptesoreriacomun (codusu,texto1, codigo,texto2,  texto3,texto4, texto5,fecha1,fecha2,"   'texto5, texto6,
-        Sql = Sql & " importe1, importe2,opcion"
-        Sql = Sql & ") VALUES ("
+        SQL = "INSERT INTO tmptesoreriacomun (codusu,texto1, codigo,texto2,  texto3,texto4, texto5,fecha1,fecha2,"   'texto5, texto6,
+        SQL = SQL & " importe1, importe2,opcion"
+        SQL = SQL & ") VALUES ("
         'NIF      Nombre
-        Sql = Sql & vUsu.Codigo & ",'" & Rs!NIF & "',"
+        SQL = SQL & vUsu.Codigo & ",'" & Rs!NIF & "',"
         
         
         '-------
@@ -1518,7 +1518,7 @@ Dim QueTipoPago As String
             cad = cad & ",0)"
             
             'Ejecutamos
-            cad = Sql & cad
+            cad = SQL & cad
             Ejecuta cad
             
             L = L + 1
@@ -1568,7 +1568,7 @@ Dim QueTipoPago As String
             
             
             'Ejecutamos
-            cad = Sql & cad
+            cad = SQL & cad
             Ejecuta cad
             
             L = L + 1
@@ -1657,27 +1657,27 @@ Private Function DatosOK() As Boolean
         Exit Function
     End If
     
-    Sql = ""
+    SQL = ""
     For i = 1 To ListView1(1).ListItems.Count
         If ListView1(1).ListItems(i).Checked Then
-            Sql = "O"
+            SQL = "O"
             Exit For
         End If
     Next i
-    If Sql = "" Then
+    If SQL = "" Then
         MsgBox "Seleccione al menos una empresa", vbExclamation
         Exit Function
     End If
     
     'Tipos de pago
-    Sql = ""
+    SQL = ""
     For i = 1 To ListView1(0).ListItems.Count
         If ListView1(0).ListItems(i).Checked Then
-            Sql = "O"
+            SQL = "O"
             Exit For
         End If
     Next i
-    If Sql = "" Then
+    If SQL = "" Then
         MsgBox "Seleccione al menos un tipo de pago", vbExclamation
         Exit Function
     End If
@@ -1690,12 +1690,12 @@ End Function
 
 Private Sub txtNIF_LostFocus(Index As Integer)
     If txtNIF(0).Text <> "" Then
-        Sql = "nommacta"
-        RC = DevuelveDesdeBD("codmacta", "cuentas", "nifdatos", txtNIF(0).Text, "T", Sql)
+        SQL = "nommacta"
+        RC = DevuelveDesdeBD("codmacta", "cuentas", "nifdatos", txtNIF(0).Text, "T", SQL)
         If RC = "" Then
             txtNCuentas(0).Text = "NIF no pertenece a ninguan cuenta"
         Else
-            txtNCuentas(0).Text = Sql
+            txtNCuentas(0).Text = SQL
             Me.txtCuentas(0).Text = RC
             PonleFoco Me.cmdAccion
         End If

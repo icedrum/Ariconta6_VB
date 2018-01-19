@@ -2317,6 +2317,7 @@ Private Sub Form_Unload(Cancel As Integer)
     
     vUsu.ActualizarFiltro "ariconta", IdPrograma, Me.cboFiltro.ListIndex
     
+    Set myCol = Nothing
 End Sub
 
 Private Sub Form_Load()
@@ -2466,8 +2467,13 @@ Dim i As Integer
     'Maxima longitud cuentas
     txtaux(3).MaxLength = vEmpresa.DigitosUltimoNivel
     txtaux(6).MaxLength = vEmpresa.DigitosUltimoNivel
+        
+    Set myCol = Nothing
+    
     'CadAncho = False
     PulsadoSalir = False
+
+
 
 End Sub
 
@@ -5419,7 +5425,7 @@ End Sub
 '
 '********************************************************
 Private Function InsertarDesdeFichero() As Boolean
-Dim CADENA As String
+Dim Cadena As String
 Dim Carpeta As String
 Dim Aux As String
 Dim J As Integer
@@ -5454,16 +5460,16 @@ Dim L As Long
     Screen.MousePointer = vbHourglass
 
     J = InStr(1, cd1.FileName, Chr(0))
-    CADENA = cd1.FileName
+    Cadena = cd1.FileName
     TipoDocu = 0
     If InStr(1, cd1.FileName, "pdf") <> 0 Then TipoDocu = 1
-    Fichero = CADENA
+    Fichero = Cadena
         
             
     Screen.MousePointer = vbDefault
     
     txtaux3(4).Text = CCur(DevuelveValor("select max(orden) from hcabapu_fichdocs where numasien = " & DBSet(Text1(0), "N") & " and fechaent = " & DBSet(Text1(1).Text, "F") & " and numdiari = " & DBSet(Text1(2).Text, "N")) + 1)
-    txtaux3(5).Text = Dir(CADENA)
+    txtaux3(5).Text = Dir(Cadena)
     
     C = "Select max(codigo) from hcabapu_fichdocs"
     Set Rs = New ADODB.Recordset

@@ -516,7 +516,7 @@ Dim SQL As String
     
     'Limpiamos datos blanace
     CadenaDesdeOtroForm = " WHERE codusu = " & vUsu.Codigo
-    Conn.Execute "Delete from zBloqueos " & CadenaDesdeOtroForm
+    Conn.Execute "Delete from zbloqueos " & CadenaDesdeOtroForm
     Conn.Execute "Delete from tmpconextcab " & CadenaDesdeOtroForm
     Conn.Execute "Delete from tmpactualizar " & CadenaDesdeOtroForm
     Conn.Execute "Delete from tmptesoreriacomun  " & CadenaDesdeOtroForm
@@ -719,7 +719,7 @@ On Error Resume Next
     Else
         CadenaDesdeOtroForm = " WHERE codusu = " & vUsu.Codigo
     End If
-    Conn.Execute "Delete from zBloqueos " & CadenaDesdeOtroForm
+    Conn.Execute "Delete from zbloqueos " & CadenaDesdeOtroForm
     CadenaDesdeOtroForm = ""
     NumRegElim = 0
     

@@ -789,15 +789,15 @@ End Sub
 
 
 Private Sub Form_Load()
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Asientos Diario"
 
-    For I = 0 To 1
-        Me.imgAsientos(I).Picture = frmPpal.imgIcoForms.ListImages(29).Picture
-        Me.imgDiario(I).Picture = frmPpal.imgIcoForms.ListImages(29).Picture
-    Next I
+    For i = 0 To 1
+        Me.imgAsientos(i).Picture = frmppal.imgIcoForms.ListImages(29).Picture
+        Me.imgDiario(i).Picture = frmppal.imgIcoForms.ListImages(29).Picture
+    Next i
      
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
@@ -836,24 +836,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-         frmPpal.cd1.Filter = "*.csv|*.csv"
+         frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -910,8 +910,8 @@ Private Sub AccionesCSV()
     SQL = SQL & " WHERE asipre.numaspre = asipre_lineas.numaspre and asipre_lineas.codmacta = cuentas.codmacta "
     
     If cadselect <> "" Then SQL = SQL & " AND " & cadselect
-    I = 1
-    SQL = SQL & " ORDER BY " & I
+    i = 1
+    SQL = SQL & " ORDER BY " & i
         
     'LLamoa a la funcion
     GeneraFicheroCSV SQL, txtTipoSalida(1).Text
@@ -936,7 +936,9 @@ Private Sub AccionesCrystal()
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 5
         
     If SoloImprimir Or ExportarPDF Then Unload Me

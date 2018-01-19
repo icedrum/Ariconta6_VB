@@ -3,7 +3,7 @@ Option Explicit
 
     Dim NF As Integer
     Dim Registro As String
-    Dim Sql As String
+    Dim SQL As String
 
     Dim AuxD As String
     Private NumeroTransferencia As Integer
@@ -27,13 +27,13 @@ End Function
 
 'OCT 2015
 '   Si lleva F.Cobro significa que van todos a esa fecha. Si es "" es que es fec vencimientos
-Public Function GrabarDisketteNorma19(NomFichero As String, Remesa As String, FecPre As String, DatosExtra As String, TipoReferenciaCliente As Byte, FecCobro2 As String, BancoEmiteDocumento As Boolean, SepaEmpresasGraboNIF As Boolean, N19_15 As Boolean, FormatoXML As Boolean, esAnticipoCredito As Boolean) As Boolean
+Public Function GrabarDisketteNorma19(NomFichero As String, Remesa As String, FecPre As String, DatosExtra As String, TipoReferenciaCliente As Byte, FecCobro2 As String, BancoEmiteDocumento As Boolean, SepaEmpresasGraboNIF As Boolean, N19_15 As Boolean, FormatoXML As Boolean, esAnticipoCredito As Boolean, IdGrabadoEnFichero As String, AgruparVtos As Boolean) As Boolean
 
     
     If vParamT.NuevasNormasSEPA Then
-                
-        'GrabarDisketteNorma19 = GrabarDisketteNorma19SEPA(NomFichero, Remesa, FecPre, DatosExtra, TipoReferenciaCliente, FecCobro, BancoEmiteDocumento)
-        GrabarDisketteNorma19 = GrabarFicheroNorma19SEPA(NomFichero, Remesa, FecPre, TipoReferenciaCliente, RecuperaValor(DatosExtra, 1), FecCobro2, SepaEmpresasGraboNIF, N19_15, FormatoXML, esAnticipoCredito)
+        GrabarDisketteNorma19 = GrabarFicheroNorma19SEPA(NomFichero, Remesa, FecPre, TipoReferenciaCliente, RecuperaValor(DatosExtra, 1), FecCobro2, SepaEmpresasGraboNIF, N19_15, FormatoXML, esAnticipoCredito, IdGrabadoEnFichero, AgruparVtos)
+    Else
+        MsgBox "Error. NO SEPA", vbCritical
     End If
 End Function
 
@@ -115,22 +115,22 @@ On Error GoTo EcomprobarCuentasBancariasRecibos
 
     comprobarCuentasBancariasRecibos_NIF = False
 
-    Sql = "select * from cobros where codrem = " & RecuperaValor(Remesa, 1)
-    Sql = Sql & " AND anyorem=" & RecuperaValor(Remesa, 2)
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "select * from cobros where codrem = " & RecuperaValor(Remesa, 1)
+    SQL = SQL & " AND anyorem=" & RecuperaValor(Remesa, 2)
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Registro = ""
     NifsVacios = ""
     NF = 0
     While Not miRsAux.EOF
 
         If DBLet(miRsAux!IBAN, "T") = "" Or Len(DBLet(miRsAux!IBAN, "T")) <> 24 Then
-            Sql = ""
+            SQL = ""
         Else
-            Sql = "D"
+            SQL = "D"
         End If
 
     
-        If Sql = "" Then
+        If SQL = "" Then
              Registro = Registro & miRsAux!codmacta & " - " & miRsAux!NUmSerie & "/" & miRsAux!NumFactu & "-" & miRsAux!numorden
              If NF < 2 Then
                 Registro = Registro & "         "
@@ -154,8 +154,8 @@ On Error GoTo EcomprobarCuentasBancariasRecibos
     If NifsVacios <> "" Then NifsVacios = "NIFs vacios: " & vbCrLf & vbCrLf & NifsVacios
     
     If Registro <> "" Then
-        Sql = "Los siguientes vencimientos no tienen la cuenta bancaria con todos los datos." & vbCrLf & Registro
-        MsgBox Sql, vbExclamation
+        SQL = "Los siguientes vencimientos no tienen la cuenta bancaria con todos los datos." & vbCrLf & Registro
+        MsgBox SQL, vbExclamation
         If NifsVacios <> "" Then MsgBox NifsVacios, vbExclamation
 
         Exit Function
@@ -167,34 +167,34 @@ On Error GoTo EcomprobarCuentasBancariasRecibos
     End If
     
     'Si llega aqui es que todos tienen DATOS
-    Sql = "select iban from cobros where codrem = " & RecuperaValor(Remesa, 1)
-    Sql = Sql & " AND anyorem=" & RecuperaValor(Remesa, 2)
-    Sql = Sql & " GROUP BY iban "
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "select iban from cobros where codrem = " & RecuperaValor(Remesa, 1)
+    SQL = SQL & " AND anyorem=" & RecuperaValor(Remesa, 2)
+    SQL = SQL & " GROUP BY iban "
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Registro = ""
     While Not miRsAux.EOF
-                Sql = Mid(miRsAux!IBAN, 5, 4) ' Código de entidad receptora
-                Sql = Sql & Mid(miRsAux!IBAN, 9, 4) ' Código de oficina receptora
+                SQL = Mid(miRsAux!IBAN, 5, 4) ' Código de entidad receptora
+                SQL = SQL & Mid(miRsAux!IBAN, 9, 4) ' Código de oficina receptora
                 
-                Sql = Sql & Mid(miRsAux!IBAN, 15, 10) ' Código de cuenta
+                SQL = SQL & Mid(miRsAux!IBAN, 15, 10) ' Código de cuenta
                 
                 CC = Mid(miRsAux!IBAN, 13, 2) ' Dígitos de control
                 
                 'Este lo mando.
-                Sql = CodigoDeControl(Sql)
-                If Sql <> CC Then
+                SQL = CodigoDeControl(SQL)
+                If SQL <> CC Then
                     
-                    Sql = " - " & Mid(miRsAux!IBAN, 13, 2) & "- " & Mid(miRsAux!IBAN, 15, 10) & " --> CC. correcto:" & Sql
-                    Sql = Mid(miRsAux!IBAN, 5, 4) & " - " & Mid(miRsAux!IBAN, 9, 4) & Sql
-                    Registro = Registro & Sql & vbCrLf
+                    SQL = " - " & Mid(miRsAux!IBAN, 13, 2) & "- " & Mid(miRsAux!IBAN, 15, 10) & " --> CC. correcto:" & SQL
+                    SQL = Mid(miRsAux!IBAN, 5, 4) & " - " & Mid(miRsAux!IBAN, 9, 4) & SQL
+                    Registro = Registro & SQL & vbCrLf
                 End If
                 miRsAux.MoveNext
     Wend
     miRsAux.Close
     
     If Registro <> "" Then
-        Sql = "Las siguientes cuentas no son correctas.:" & vbCrLf & Registro
-        If MsgBox(Sql, vbQuestion + vbYesNo) = vbNo Then Exit Function
+        SQL = "Las siguientes cuentas no son correctas.:" & vbCrLf & Registro
+        If MsgBox(SQL, vbQuestion + vbYesNo) = vbNo Then Exit Function
     End If
     
     
@@ -202,10 +202,10 @@ On Error GoTo EcomprobarCuentasBancariasRecibos
     If vParamT.NuevasNormasSEPA Then
         'Si continuar y esta bien, veremos si todas los bancos tienen BIC asociado
         Registro = ""
-        Sql = "select mid(cobros.iban,5,4) codbanco,bics.entidad from cobros left join bics on mid(cobros.iban,5,4)=bics.entidad WHERE "
-        Sql = Sql & " codrem = " & RecuperaValor(Remesa, 1)
-        Sql = Sql & " AND anyorem=" & RecuperaValor(Remesa, 2) & " group by 1"
-        miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        SQL = "select mid(cobros.iban,5,4) codbanco,bics.entidad from cobros left join bics on mid(cobros.iban,5,4)=bics.entidad WHERE "
+        SQL = SQL & " codrem = " & RecuperaValor(Remesa, 1)
+        SQL = SQL & " AND anyorem=" & RecuperaValor(Remesa, 2) & " group by 1"
+        miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         Registro = ""
         While Not miRsAux.EOF
             If IsNull(miRsAux!Entidad) Then Registro = Registro & "/    " & miRsAux!codbanco & "    "
@@ -214,8 +214,8 @@ On Error GoTo EcomprobarCuentasBancariasRecibos
         miRsAux.Close
         If Registro <> "" Then
             Registro = Mid(Registro, 2) & vbCrLf & vbCrLf & "¿Continuar?"
-            Sql = "Las siguientes bancos no tiene BIC asocidado:" & vbCrLf & vbCrLf & Registro
-            If MsgBox(Sql, vbQuestion + vbYesNo) = vbNo Then Exit Function
+            SQL = "Las siguientes bancos no tiene BIC asocidado:" & vbCrLf & vbCrLf & Registro
+            If MsgBox(SQL, vbQuestion + vbYesNo) = vbNo Then Exit Function
         End If
         
         
@@ -233,18 +233,18 @@ End Function
 'Con lo cual comporbaremos que no esta en blanco
 Private Function ComprobarCampoReferenciaRemesaNorma19(Remesa As String) As Boolean
     ComprobarCampoReferenciaRemesaNorma19 = False
-    Sql = "select codmacta,NUmSerie,numfactu,numorden,referencia from cobros where codrem = " & RecuperaValor(Remesa, 1)
-    Sql = Sql & " AND anyorem=" & RecuperaValor(Remesa, 2) & " ORDER BY codmacta"
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "select codmacta,NUmSerie,numfactu,numorden,referencia from cobros where codrem = " & RecuperaValor(Remesa, 1)
+    SQL = SQL & " AND anyorem=" & RecuperaValor(Remesa, 2) & " ORDER BY codmacta"
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Registro = ""
-    Sql = ""
+    SQL = ""
     NF = 0
     While Not miRsAux.EOF
         If DBLet(miRsAux!Referencia, "T") = "" Then
             Registro = Registro & miRsAux!codmacta & " - " & miRsAux!NUmSerie & "/" & miRsAux!NumFactu & "-" & miRsAux!numorden & vbCrLf
             NF = NF + 1
         Else
-            If Len(miRsAux!Referencia) > 12 Then Sql = Sql & miRsAux!codmacta & " - " & miRsAux!NUmSerie & "/" & miRsAux!NumFactu & "-" & miRsAux!numorden & "(" & miRsAux!Referencia & ")" & vbCrLf
+            If Len(miRsAux!Referencia) > 12 Then SQL = SQL & miRsAux!codmacta & " - " & miRsAux!NUmSerie & "/" & miRsAux!NumFactu & "-" & miRsAux!numorden & "(" & miRsAux!Referencia & ")" & vbCrLf
             
         End If
         miRsAux.MoveNext
@@ -254,8 +254,8 @@ Private Function ComprobarCampoReferenciaRemesaNorma19(Remesa As String) As Bool
         Registro = "Referencias vacias: " & NF & vbCrLf & vbCrLf & Registro
         MsgBox Registro, vbExclamation
     Else
-        If Sql <> "" Then
-            Registro = "Longitud referencia incorrecta: " & vbCrLf & vbCrLf & Sql
+        If SQL <> "" Then
+            Registro = "Longitud referencia incorrecta: " & vbCrLf & vbCrLf & SQL
             Registro = Registro & vbCrLf & "¿Continuar?"
             If MsgBox(Registro, vbQuestion + vbYesNo) = vbNo Then Exit Function
         End If
@@ -289,14 +289,14 @@ Dim B As Boolean
         'Veremos que tipo de fichero es Normal. Ni lleva saltos de linea ni lleva vbcr ni vblf
         B = InStr(1, Registro, vbCrLf) > 0
         If B > 0 Then
-            Sql = vbCrLf 'separaremos por este
+            SQL = vbCrLf 'separaremos por este
         Else
             B = InStr(1, Registro, vbCr) > 0
             If B Then
-                Sql = vbCr
+                SQL = vbCr
             Else
                 B = InStr(1, Registro, vbLf)
-                If B Then Sql = vbLf
+                If B Then SQL = vbLf
             End If
         End If
         
@@ -310,14 +310,14 @@ Dim B As Boolean
         Else
             'El fichero NO va separado correctamente(tipo alzira nuevo WRI)
             Do
-                NumRegElim = InStr(1, Registro, Sql)
+                NumRegElim = InStr(1, Registro, SQL)
                 If NumRegElim = 0 Then
                     'NO DEBERIA PASAR
                     MsgBox "Preproceso fichero banco. Numregelim=0.  Avise soporte tecnico", vbExclamation
                 Else
 
                     LinFichero.Add Mid(Registro, 1, NumRegElim - 1)
-                    NumRegElim = NumRegElim + Len(Sql)
+                    NumRegElim = NumRegElim + Len(SQL)
                     Registro = Mid(Registro, NumRegElim)  'quito el separador
                 End If
                     
@@ -383,55 +383,55 @@ Dim EsFormatoAntiguoDevolucion As Boolean
     ProcesoFicheroDevolucion 1, LinDelFichero  'leo la linea y apunto a la siguiente
     
     'Comproamos ciertas cosas
-    Sql = "Linea 1 vacia"
+    SQL = "Linea 1 vacia"
     If Registro <> "" Then
         
         'NIF
-        Sql = Mid(Registro, 5, 9)
+        SQL = Mid(Registro, 5, 9)
         
         'Tiene valor
         If Len(Registro) <> 162 Then
-            Sql = "Longitud linea incorrecta(162)"
+            SQL = "Longitud linea incorrecta(162)"
         Else
             'Noviembre 2012
             'en lugar de 5190 comprobamos que sea 519
             If Mid(Registro, 1, 3) <> "519" Then
-                Sql = "Cadena control incorrecta(519)"
+                SQL = "Cadena control incorrecta(519)"
             Else
-                Sql = ""
+                SQL = ""
             End If
         End If
     End If
     
-    If Sql = "" Then
+    If SQL = "" Then
     
         'Segunda LINEA.
         'Line Input #nf, Registro
         ProcesoFicheroDevolucion 1, LinDelFichero  'leo la linea y apunto a la siguiente
         
-        Sql = "Linea 2 vacia"
+        SQL = "Linea 2 vacia"
         If Registro <> "" Then
             
             'NIF
-            Sql = Mid(Registro, 5, 9)
+            SQL = Mid(Registro, 5, 9)
             
             
             'Tiene valor
             If Len(Registro) <> 162 Then
-                Sql = "Longitud linea incorrecta(162)"
+                SQL = "Longitud linea incorrecta(162)"
             Else
                 'En lugar de 5390 comprobamos por 539
                 If Mid(Registro, 1, 3) <> "539" Then
-                    Sql = "Cadena control incorrecta(539)"
+                    SQL = "Cadena control incorrecta(539)"
                 Else
                     
-                    Sql = "Falta linea 569"
+                    SQL = "Falta linea 569"
                     Remesa = ""
                     Do
                         ProcesoFicheroDevolucion 2, LinDelFichero  'vemos si es ultima linea
                         
                         If Registro <> "" Then
-                            Sql = "FIN LINEAS. No se ha encontrado linea: 569"
+                            SQL = "FIN LINEAS. No se ha encontrado linea: 569"
                             Remesa = "NO"
                         Else
                             'Line Input #nf, Registro
@@ -442,7 +442,7 @@ Dim EsFormatoAntiguoDevolucion As Boolean
                             If Registro <> "" Then
                                 'Nov 2012   En lugar de 5690 comprobamos 569
                                 If Mid(Registro, 1, 3) = "569" Then
-                                    Sql = ""
+                                    SQL = ""
                                     Remesa = "NO"
                                 End If
                             End If
@@ -451,7 +451,7 @@ Dim EsFormatoAntiguoDevolucion As Boolean
                     Loop Until Remesa <> ""
                     Remesa = ""
                     
-                    If Sql = "" Then
+                    If SQL = "" Then
                         'VAMOS BIEN. Veremos si a partir de los datos del recibo nos dan la remesa
                         'Para ello bucaremos en registro, la cadena que contiene los datos
                         'del vencimiento
@@ -470,35 +470,35 @@ Dim EsFormatoAntiguoDevolucion As Boolean
                                 'Los vtos vienen en estas lineas
                                 Cuantos = Cuantos + 1
                                 Registro = Mid(Registro, 99, 17)
-                                Sql = "Select codrem,anyorem,siturem from cobros where fecfactu='20" & Mid(Registro, 5, 2) & "-" & Mid(Registro, 3, 2) & "-" & Mid(Registro, 1, 2)
-                                aux2 = Sql
+                                SQL = "Select codrem,anyorem,siturem from cobros where fecfactu='20" & Mid(Registro, 5, 2) & "-" & Mid(Registro, 3, 2) & "-" & Mid(Registro, 1, 2)
+                                aux2 = SQL
                                 
                                 'Problemas en alzira
                                 'If Not IsNumeric(Mid(Registro, 17, 1)) Then
                                 'Sept 2013
                                 If Not EsFormatoAntiguoDevolucion Then
-                                    Sql = Sql & "' AND numserie like '" & Trim(Mid(Registro, 7, 1)) & "%' AND numfactu = " & Val(Mid(Registro, 9, 7)) & " AND numorden=" & Mid(Registro, 16, 1)
+                                    SQL = SQL & "' AND numserie like '" & Trim(Mid(Registro, 7, 1)) & "%' AND numfactu = " & Val(Mid(Registro, 9, 7)) & " AND numorden=" & Mid(Registro, 16, 1)
                                     'Problema en herbelca. El numero de vto NO viene con la factura
                                     aux2 = aux2 & "' AND numserie like '" & Trim(Mid(Registro, 7, 1)) & "%' AND numfactu = " & Val(Mid(Registro, 9, 8))
                                     
                                 Else
                                     'El vencimiento si que es el 17
-                                    Sql = Sql & "' AND numserie like '" & Trim(Mid(Registro, 7, 1)) & "%' AND numfactu = " & Val(Mid(Registro, 10, 7)) & " AND numorden=" & Mid(Registro, 17, 1)
+                                    SQL = SQL & "' AND numserie like '" & Trim(Mid(Registro, 7, 1)) & "%' AND numfactu = " & Val(Mid(Registro, 10, 7)) & " AND numorden=" & Mid(Registro, 17, 1)
                                     aux2 = aux2 & "' AND numserie like '" & Trim(Mid(Registro, 7, 1)) & "%' AND numfactu = " & Val(Mid(Registro, 10, 8))
                                     
                                 End If
                                 
-                                miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+                                miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
                                 TodoOk = False
-                                Sql = "Vencimiento no encontrado: " & Registro
+                                SQL = "Vencimiento no encontrado: " & Registro
                                 If Not miRsAux.EOF Then
                                     If IsNull(miRsAux!CodRem) Then
-                                        Sql = "Vencimiento sin Remesa: " & Registro
+                                        SQL = "Vencimiento sin Remesa: " & Registro
                                     Else
-                                        Sql = miRsAux!CodRem & "|" & miRsAux!AnyoRem & "|·"
+                                        SQL = miRsAux!CodRem & "|" & miRsAux!AnyoRem & "|·"
                                         
-                                        If InStr(1, Remesa, Sql) = 0 Then Remesa = Remesa & Sql
-                                        Sql = ""
+                                        If InStr(1, Remesa, SQL) = 0 Then Remesa = Remesa & SQL
+                                        SQL = ""
                                         TodoOk = True
                                     End If
                                 End If
@@ -510,12 +510,12 @@ Dim EsFormatoAntiguoDevolucion As Boolean
                                     miRsAux.Open aux2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
                                     If Not miRsAux.EOF Then
                                         If IsNull(miRsAux!CodRem) Then
-                                            Sql = "Vencimiento sin Remesa: " & Registro
+                                            SQL = "Vencimiento sin Remesa: " & Registro
                                         Else
-                                            Sql = miRsAux!CodRem & "|" & miRsAux!AnyoRem & "|·"
+                                            SQL = miRsAux!CodRem & "|" & miRsAux!AnyoRem & "|·"
                                             
-                                            If InStr(1, Remesa, Sql) = 0 Then Remesa = Remesa & Sql
-                                            Sql = ""
+                                            If InStr(1, Remesa, SQL) = 0 Then Remesa = Remesa & SQL
+                                            SQL = ""
                                             TodoOk = True
                                         End If
                                     End If
@@ -525,8 +525,8 @@ Dim EsFormatoAntiguoDevolucion As Boolean
                                 
                                 
                                 
-                                If Sql <> "" Then
-                                    ErroresVto = ErroresVto & vbCrLf & Sql
+                                If SQL <> "" Then
+                                    ErroresVto = ErroresVto & vbCrLf & SQL
                                 Else
                                     Bien = Bien + 1
                                 End If
@@ -536,8 +536,8 @@ Dim EsFormatoAntiguoDevolucion As Boolean
                                 
                                 If Mid(Registro, 1, 3) = "599" Then
                                     'TOTAL TOTAL
-                                    Sql = Mid(Registro, 105, 10)
-                                    If Val(Sql) <> Cuantos Then ErroresVto = "Fichero: " & Sql & "   Leidos" & Cuantos & vbCrLf & ErroresVto & vbCrLf & Sql
+                                    SQL = Mid(Registro, 105, 10)
+                                    If Val(SQL) <> Cuantos Then ErroresVto = "Fichero: " & SQL & "   Leidos" & Cuantos & vbCrLf & ErroresVto & vbCrLf & SQL
                                 End If
                             End If
                             
@@ -555,7 +555,7 @@ Dim EsFormatoAntiguoDevolucion As Boolean
                         
                         If Cuantos <> Bien Then ErroresVto = ErroresVto & vbCrLf & "Total: " & Cuantos & "   Correctos:" & Bien
                         
-                        Sql = ErroresVto
+                        SQL = ErroresVto
                         Set miRsAux = Nothing
                     
                     End If
@@ -568,23 +568,23 @@ Dim EsFormatoAntiguoDevolucion As Boolean
     End If  'DE SEGUNDA LINEA
     
     ProcesoFicheroDevolucion 3, LinDelFichero
-    If Sql <> "" Then
-        MsgBox Sql, vbExclamation
+    If SQL <> "" Then
+        MsgBox SQL, vbExclamation
     Else
         'Remesa = Mid(Registro, 1, 4) & "|" & Mid(Registro, 5) & "|"
         
         
         'Ahora comprobaremos que para cada remesa  veremos si existe y si la situacion es la contabilizadxa
-        Sql = Remesa
+        SQL = Remesa
         Registro = "" 'Cadena de error de situacion remesas
         Set miRsAux = New ADODB.Recordset
         Do
-            Cuantos = InStr(1, Sql, "·")
+            Cuantos = InStr(1, SQL, "·")
             If Cuantos = 0 Then
-                Sql = ""
+                SQL = ""
             Else
-                aux2 = Mid(Sql, 1, Cuantos - 1)
-                Sql = Mid(Sql, Cuantos + 1)
+                aux2 = Mid(SQL, 1, Cuantos - 1)
+                SQL = Mid(SQL, Cuantos + 1)
                 
                 
                 'En aux2 tendre codrem|anñorem|
@@ -611,7 +611,7 @@ Dim EsFormatoAntiguoDevolucion As Boolean
                 End If
                 miRsAux.Close
             End If
-        Loop Until Sql = ""
+        Loop Until SQL = ""
         Set miRsAux = Nothing
         
         
@@ -684,7 +684,7 @@ Dim bol As Boolean
                     
                 Else
 
-                    Sql = Mid(Registro, 1, NumRegElim - 1)
+                    SQL = Mid(Registro, 1, NumRegElim - 1)
                     NumRegElim = NumRegElim + Len(Aux)
                     Registro = Mid(Registro, NumRegElim)  'quito el separador
                     
@@ -693,41 +693,41 @@ Dim bol As Boolean
                     
                     
                     If EsSepa Then
-                        C2 = Mid(Sql, 1, 2)
+                        C2 = Mid(SQL, 1, 2)
                         If C2 = "23" Then
-                            impo = Val(Mid(Sql, 89, 11)) / 100
+                            impo = Val(Mid(SQL, 89, 11)) / 100
                             SumaComprobacion = SumaComprobacion + impo
                             
                             'Cuestion 2
                             'Datos identifictivos del vencimiento
-                            Sql = Mid(Sql, 21, 35)
-                            Listado.Add Sql
-                            Sql = ""
+                            SQL = Mid(SQL, 21, 35)
+                            Listado.Add SQL
+                            SQL = ""
                         Else
                             If C2 = "99" Then 'antes 5990
                                 Fin = True
-                                impo = Val(Mid(Sql, 3, 17)) / 100
+                                impo = Val(Mid(SQL, 3, 17)) / 100
                             Else
-                                Sql = ""
+                                SQL = ""
                             End If
                         End If
                     Else
-                        C2 = Mid(Sql, 1, 3)
+                        C2 = Mid(SQL, 1, 3)
                         If C2 = "569" Then
-                            impo = Val(Mid(Sql, 89, 10)) / 100
+                            impo = Val(Mid(SQL, 89, 10)) / 100
                             SumaComprobacion = SumaComprobacion + impo
                             
                             'Cuestion 2
                             'Datos identifictivos del vencimiento
-                            Sql = Mid(Sql, 89, 27)
-                            Listado.Add Sql
-                            Sql = ""
+                            SQL = Mid(SQL, 89, 27)
+                            Listado.Add SQL
+                            SQL = ""
                         Else
                             If C2 = "599" Then 'antes 5990
                                 Fin = True
-                                impo = Val(Mid(Sql, 89, 10)) / 100
+                                impo = Val(Mid(SQL, 89, 10)) / 100
                             Else
-                                Sql = ""
+                                SQL = ""
                             End If
                         End If
                     
@@ -747,17 +747,17 @@ Dim bol As Boolean
     'Ahora empezamos
     SumaComprobacion = 0
     Fin = False
-    Sql = ""
+    SQL = ""
     Do
         Line Input #NF, Registro
         If Registro <> "" Then
          
-            Sql = Mid(Registro, 1, 3)
+            SQL = Mid(Registro, 1, 3)
             
             If EsSepa Then
                 bol = Mid(Registro, 1, 4) = "2319"
             Else
-                bol = Sql = "569"
+                bol = SQL = "569"
             End If
             If bol Then
                 'Registro normal de devolucion
@@ -778,18 +778,18 @@ Dim bol As Boolean
                 'Cuestion 2
                 'Datos identifictivos del vencimiento
                 If EsSepa Then
-                    Sql = Mid(Registro, 21, 35)
+                    SQL = Mid(Registro, 21, 35)
                 Else
-                    Sql = Mid(Registro, 89, 27)
+                    SQL = Mid(Registro, 89, 27)
                 End If
-                Listado.Add Sql
-                Sql = ""
+                Listado.Add SQL
+                SQL = ""
             Else
                 
                 If EsSepa Then
                     bol = Mid(Registro, 1, 2) = "99"
                 Else
-                    bol = Sql = "599"
+                    bol = SQL = "599"
                 End If
                     
                 If bol Then
@@ -800,7 +800,7 @@ Dim bol As Boolean
                         impo = Val(Mid(Registro, 89, 10)) / 100
                     End If
                 Else
-                    Sql = ""
+                    SQL = ""
                 End If
             End If
         End If
@@ -808,14 +808,14 @@ Dim bol As Boolean
     Loop Until Fin
     Close #NF
     
-    If Sql = "" Then
+    If SQL = "" Then
         MsgBox "No se ha leido la linea final fichero", vbExclamation
         Set Listado = Nothing
     Else
         'OK salimos
         If impo <> SumaComprobacion Then
-            Sql = "Error leyendo importes. ¿Desea continuar con los datos obtenidos?"
-            If MsgBox(Sql, vbExclamation) = vbNo Then Set Listado = Nothing
+            SQL = "Error leyendo importes. ¿Desea continuar con los datos obtenidos?"
+            If MsgBox(SQL, vbExclamation) = vbNo Then Set Listado = Nothing
         End If
     End If
     
@@ -908,26 +908,22 @@ On Error Resume Next
         If Err.Number <> 0 Then
             MsgBox "Error creando copia fichero. Consulte soporte técnico." & vbCrLf & Err.Description, vbCritical
         Else
-            MsgBox "El fichero esta guardado como: " & cad, vbInformation
+            'MsgBox "El fichero esta guardado como: " & cad, vbInformation
         End If
             
     'End If
 End Function
 
-Public Function GeneraFicheroNorma34(CIF As String, Fecha As Date, CuentaPropia As String, ConceptoTransferencia As String, vNumeroTransferencia As Integer, ByRef ConceptoTr As String, Pagos As Boolean, Anyo As String) As Boolean
+Public Function GeneraFicheroNorma34(CIF As String, Fecha As Date, CuentaPropia As String, ConceptoTransferencia As String, vNumeroTransferencia As Integer, ByRef ConceptoTr As String, Pagos As Boolean, Anyo As String, IdFichero As String, AgrupaVtos As Boolean) As Boolean
     
     
-    If vParamT.NuevasNormasSEPA Then
         If vParamT.NormasFormatoXML Then
-            GeneraFicheroNorma34 = GeneraFicheroNorma34SEPA_XML(CIF, Fecha, CuentaPropia, CLng(vNumeroTransferencia), Pagos, ConceptoTransferencia, Anyo)
-        Else
-'            GeneraFicheroNorma34 = GeneraFicheroNorma34SEPA(CIF, Fecha, CuentaPropia, CLng(vNumeroTransferencia), Pagos, ConceptoTransferencia)
-        End If
-    Else
+            GeneraFicheroNorma34 = GeneraFicheroNorma34SEPA_XML(CIF, Fecha, CuentaPropia, CLng(vNumeroTransferencia), Pagos, ConceptoTransferencia, Anyo, IdFichero, AgrupaVtos)
         
-'        GeneraFicheroNorma34 = GeneraFicheroNorma34_(CIF, Fecha, CuentaPropia, ConceptoTransferencia, vNumeroTransferencia, ConceptoTr, Pagos)
-    End If
-
+        Else
+            MsgBox "NO disponible", vbExclamation
+        End If
+   
 End Function
 
 
@@ -938,28 +934,28 @@ On Error GoTo EcomprobarCuentasBancariasPagos
 
     comprobarCuentasBancariasPagos = False
     If Pagos Then
-        Sql = "select * from pagos where nrodocum = " & Transferencia & " and anyodocum = " & DBSet(Anyo, "N")
+        SQL = "select * from pagos where nrodocum = " & Transferencia & " and anyodocum = " & DBSet(Anyo, "N")
     Else
         'ABONOS
-        Sql = "Select * "
-        Sql = Sql & " FROM cobros where transfer=" & Transferencia
-        Sql = Sql & " and anyorem = " & DBSet(Anyo, "N")
+        SQL = "Select * "
+        SQL = SQL & " FROM cobros where transfer=" & Transferencia
+        SQL = SQL & " and anyorem = " & DBSet(Anyo, "N")
     End If
     
     
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Registro = ""
     NF = 0
     While Not miRsAux.EOF
 
         If DBLet(miRsAux!IBAN, "T") = "" Or Len(DBLet(miRsAux!IBAN, "T")) <> 24 Then
-            Sql = ""
+            SQL = ""
         Else
-            Sql = "D"
+            SQL = "D"
         End If
 
     
-        If Sql = "" Then
+        If SQL = "" Then
              Registro = Registro & miRsAux!codmacta & " - " & miRsAux!NUmSerie & "/" & miRsAux!NumFactu & "-" & miRsAux!numorden
              If NF < 2 Then
                 Registro = Registro & "         "
@@ -975,67 +971,67 @@ On Error GoTo EcomprobarCuentasBancariasPagos
     Wend
     miRsAux.Close
     If Registro <> "" Then
-        Sql = "Los siguientes vencimientos no tienen la cuenta bancaria con todos los datos." & vbCrLf & Registro
-        MsgBox Sql, vbExclamation
+        SQL = "Los siguientes vencimientos no tienen la cuenta bancaria con todos los datos." & vbCrLf & Registro
+        MsgBox SQL, vbExclamation
         Exit Function
     End If
     
     
     'Si llega aqui es que todos tienen DATOS
     If Pagos Then
-        Sql = "select iban from pagos where nrodocum = " & Transferencia & " and anyodocum = " & DBSet(Anyo, "N")
-        Sql = Sql & " GROUP BY mid(iban,5,4),mid(iban,9,4),mid(iban,15,10),mid(iban,13,2)"
+        SQL = "select iban from pagos where nrodocum = " & Transferencia & " and anyodocum = " & DBSet(Anyo, "N")
+        SQL = SQL & " GROUP BY mid(iban,5,4),mid(iban,9,4),mid(iban,15,10),mid(iban,13,2)"
     Else
-        Sql = "SELECT iban"
-        Sql = Sql & " FROM cobros where transfer=" & Transferencia & " and anyorem = " & DBSet(Anyo, "N")
-        Sql = Sql & " GROUP BY mid(iban,5,4),mid(iban,9,4),mid(iban,15,10),mid(iban,13,2)"
+        SQL = "SELECT iban"
+        SQL = SQL & " FROM cobros where transfer=" & Transferencia & " and anyorem = " & DBSet(Anyo, "N")
+        SQL = SQL & " GROUP BY mid(iban,5,4),mid(iban,9,4),mid(iban,15,10),mid(iban,13,2)"
     End If
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Registro = ""
     While Not miRsAux.EOF
-                Sql = Mid(miRsAux!IBAN, 5, 4) ' Código de entidad receptora
-                Sql = Sql & Mid(miRsAux!IBAN, 9, 4) ' Código de oficina receptora
+                SQL = Mid(miRsAux!IBAN, 5, 4) ' Código de entidad receptora
+                SQL = SQL & Mid(miRsAux!IBAN, 9, 4) ' Código de oficina receptora
                 
-                Sql = Sql & Mid(miRsAux!IBAN, 15, 10) ' Código de cuenta
+                SQL = SQL & Mid(miRsAux!IBAN, 15, 10) ' Código de cuenta
                 
                 CC = Mid(miRsAux!IBAN, 13, 2) ' Dígitos de control
                 
                 'Este lo mando.
-                IBAN = Mid(Sql, 1, 8) & CC & Mid(Sql, 9)
+                IBAN = Mid(SQL, 1, 8) & CC & Mid(SQL, 9)
                 
-                Sql = CodigoDeControl(Sql)
-                If Sql <> CC Then
+                SQL = CodigoDeControl(SQL)
+                If SQL <> CC Then
                     
-                    Sql = " - " & Mid(miRsAux!IBAN, 13, 2) & "- " & Mid(miRsAux!IBAN, 15, 10) & " --> CC. correcto:" & Sql
-                    Sql = Mid(miRsAux!IBAN, 5, 4) & " - " & Mid(miRsAux!IBAN, 9, 4) & Sql
-                    Registro = Registro & Sql & vbCrLf
+                    SQL = " - " & Mid(miRsAux!IBAN, 13, 2) & "- " & Mid(miRsAux!IBAN, 15, 10) & " --> CC. correcto:" & SQL
+                    SQL = Mid(miRsAux!IBAN, 5, 4) & " - " & Mid(miRsAux!IBAN, 9, 4) & SQL
+                    Registro = Registro & SQL & vbCrLf
                 End If
                 
                 
                 'Noviembre 2013
                 'IBAN
                 If vParamT.NuevasNormasSEPA Then
-                        Sql = "ES"
-                        If DBLet(miRsAux!IBAN, "T") <> "" Then Sql = Mid(miRsAux!IBAN, 1, 2)
+                        SQL = "ES"
+                        If DBLet(miRsAux!IBAN, "T") <> "" Then SQL = Mid(miRsAux!IBAN, 1, 2)
                     
                 
-                        If Not DevuelveIBAN2(Sql, IBAN, IBAN) Then
+                        If Not DevuelveIBAN2(SQL, IBAN, IBAN) Then
                             
-                            Sql = "Error calculo"
+                            SQL = "Error calculo"
                         Else
-                            Sql = Sql & IBAN
-                            If Mid(DBLet(miRsAux!IBAN, "T"), 1, 4) <> Sql Then
-                                Sql = "Error IBAN. Calculado " & Sql & " / " & Mid(DBLet(miRsAux!IBAN, "T"), 1, 4)
+                            SQL = SQL & IBAN
+                            If Mid(DBLet(miRsAux!IBAN, "T"), 1, 4) <> SQL Then
+                                SQL = "Error IBAN. Calculado " & SQL & " / " & Mid(DBLet(miRsAux!IBAN, "T"), 1, 4)
                             Else
                                 'OK
-                                Sql = ""
+                                SQL = ""
                             End If
                         End If
                         
-                        If Sql <> "" Then
-                            Sql = Sql & " - " & Mid(miRsAux!IBAN, 13, 2) & "- " & Mid(miRsAux!IBAN, 15, 10) & " --> CC. correcto:" & Sql
-                            Sql = Mid(miRsAux!IBAN, 5, 4) & " - " & Mid(miRsAux!IBAN, 9, 4) & Sql
-                            Registro = Registro & "Error obteniendo IBAN: " & Sql & vbCrLf
+                        If SQL <> "" Then
+                            SQL = SQL & " - " & Mid(miRsAux!IBAN, 13, 2) & "- " & Mid(miRsAux!IBAN, 15, 10) & " --> CC. correcto:" & SQL
+                            SQL = Mid(miRsAux!IBAN, 5, 4) & " - " & Mid(miRsAux!IBAN, 9, 4) & SQL
+                            Registro = Registro & "Error obteniendo IBAN: " & SQL & vbCrLf
                         End If
                 End If
                 
@@ -1045,10 +1041,10 @@ On Error GoTo EcomprobarCuentasBancariasPagos
     miRsAux.Close
     
     If Registro <> "" Then
-        Sql = "Generando diskette." & vbCrLf & vbCrLf
-        Sql = Sql & "Las siguientes cuentas no son correctas.:" & vbCrLf & Registro
-        Sql = Sql & vbCrLf & "¿Desea continuar?"
-        If MsgBox(Sql, vbQuestion + vbYesNo) = vbNo Then Exit Function
+        SQL = "Generando diskette." & vbCrLf & vbCrLf
+        SQL = SQL & "Las siguientes cuentas no son correctas.:" & vbCrLf & Registro
+        SQL = SQL & vbCrLf & "¿Desea continuar?"
+        If MsgBox(SQL, vbQuestion + vbYesNo) = vbNo Then Exit Function
     End If
     
     comprobarCuentasBancariasPagos = True
@@ -1210,7 +1206,7 @@ Dim cad As String
                 '*********************************************************
                 
                 Im = DBLet(Rs!imppagad, "N")
-                Im = Rs!ImpEfect - Im
+                Im = Rs!impefect - Im
                 Aux = RellenaABlancos(Rs!nifprove, True, 12)
                 
                     
@@ -1330,21 +1326,23 @@ End Function
 
 'Si viene FECHACOBRO es que todos los vencimientos van a esa FECHA
 '       si no , cada vto lleva su fecha
-
-Private Function GrabarFicheroNorma19SEPA(NomFichero As String, Remesa As String, FecPre As String, TipoReferenciaCliente As Byte, Sufijo As String, FechaCobro As String, SEPA_EmpresasGraboNIF As Boolean, Norma19_15 As Boolean, FormatoXML As Boolean, esAnticipoCredito As Boolean) As Boolean
+' Arupa VTOS .
+Private Function GrabarFicheroNorma19SEPA(NomFichero As String, Remesa As String, FecPre As String, TipoReferenciaCliente As Byte, Sufijo As String, FechaCobro As String, SEPA_EmpresasGraboNIF As Boolean, Norma19_15 As Boolean, FormatoXML As Boolean, esAnticipoCredito As Boolean, IdGrabadoEnFichero As String, AgruparVtos As Boolean) As Boolean
 Dim B As Boolean
+
+
     '-- Genera_Remesa: Esta función genera la remesa indicada, en el fichero correspondiente
 
     Dim DatosBanco As String  'oficina,sucursla,cta, sufijo
     Dim NifEmpresa_ As String
     
     '-- Primero comprobamos que la remesa no haya sido enviada ya
-    Sql = "SELECT * FROM remesas,bancos WHERE codigo = " & RecuperaValor(Remesa, 1)
-    Sql = Sql & " AND anyo = " & RecuperaValor(Remesa, 2) & " AND remesas.codmacta = bancos.codmacta "
+    SQL = "SELECT * FROM remesas,bancos WHERE codigo = " & RecuperaValor(Remesa, 1)
+    SQL = SQL & " AND anyo = " & RecuperaValor(Remesa, 2) & " AND remesas.codmacta = bancos.codmacta "
     
     Set miRsAux = New ADODB.Recordset
     DatosBanco = ""
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If Not miRsAux.EOF Then
         If miRsAux!Situacion >= "C" Then
             MsgBox "La remesa ya figura como enviada", vbCritical
@@ -1376,8 +1374,8 @@ Dim B As Boolean
 
 
     'Ahora cargare el NIF y la empresa
-    Sql = "Select * from empresa2"
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "Select * from empresa2"
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NifEmpresa_ = ""
     If Not miRsAux.EOF Then
         NifEmpresa_ = DBLet(miRsAux!nifempre, "T")
@@ -1391,12 +1389,10 @@ Dim B As Boolean
     'Desde aqui, cada norma sigue su camino, generando un fichero al final
     
     If FormatoXML Then
-        If False Then
-            B = GrabarDisketteNorma19_SEPA_XML_AgrupandoCuentas(NomFichero, Remesa, FecPre, TipoReferenciaCliente, Sufijo, FechaCobro, SEPA_EmpresasGraboNIF, Norma19_15, DatosBanco, NifEmpresa_, esAnticipoCredito)
-        Else
-            'El que habia
-            B = GrabarDisketteNorma19_SEPA_XML(NomFichero, Remesa, FecPre, TipoReferenciaCliente, Sufijo, FechaCobro, SEPA_EmpresasGraboNIF, Norma19_15, DatosBanco, NifEmpresa_, esAnticipoCredito)
-        End If
+        
+        'El que habia
+        B = GrabarDisketteNorma19_SEPA_XML(NomFichero, Remesa, FecPre, TipoReferenciaCliente, Sufijo, FechaCobro, SEPA_EmpresasGraboNIF, Norma19_15, DatosBanco, NifEmpresa_, esAnticipoCredito, IdGrabadoEnFichero, AgruparVtos)
+        
     End If
     GrabarFicheroNorma19SEPA = B
 End Function
@@ -1426,7 +1422,7 @@ Dim cad As String
         'Nomprove
         cad = cad & DatosBasicosDelAcreedor
         'EN SQL llevamos el IBAN completo del acredor, es decir, de la empresa presentardora que le deben los deudores
-        cad = cad & Sql & Space(10)  'El iban son 24 y dejan hasta 34 psociones
+        cad = cad & SQL & Space(10)  'El iban son 24 y dejan hasta 34 psociones
         '
         cad = cad & Space(301)
         
@@ -1562,14 +1558,14 @@ Dim LinDelFichero As Collection
     ProcesoFicheroDevolucion 1, LinDelFichero  'leo la linea y apunto a la siguiente
     
     'Comproamos ciertas cosas
-    Sql = "Linea 1 vacia"
+    SQL = "Linea 1 vacia"
     If Registro <> "" Then
         
         
         
         'Tiene valor
         If Len(Registro) <> 600 Then
-            Sql = "Longitud linea incorrecta(600)"
+            SQL = "Longitud linea incorrecta(600)"
         Else
             'Febrero 2014
             'Devolucion:2119
@@ -1577,20 +1573,20 @@ Dim LinDelFichero As Collection
             'Antes: Mid(Registro, 1, 4) <> "2119"
             
             If Mid(Registro, 2, 3) <> "119" Then
-                Sql = "Cadena control incorrecta(?119)"
+                SQL = "Cadena control incorrecta(?119)"
             Else
-                Sql = ""
+                SQL = ""
             End If
         End If
     End If
     
-    If Sql = "" Then
+    If SQL = "" Then
     
         'Segunda LINEA.
         'Line Input #nf, Registro
         ProcesoFicheroDevolucion 1, LinDelFichero  'leo la linea y apunto a la siguiente
         
-        Sql = "Linea 2 vacia"
+        SQL = "Linea 2 vacia"
         If Registro <> "" Then
             
            
@@ -1598,23 +1594,23 @@ Dim LinDelFichero As Collection
             
             'Tiene valor
             If Len(Registro) <> 600 Then
-                Sql = "Longitud linea incorrecta(600)"
+                SQL = "Longitud linea incorrecta(600)"
             Else
                 'Devolucion:2219
                 'Rechazo:   1119
                 'Antes: Mid(Registro, 1, 4) <> "2119"
                 
                 If Mid(Registro, 2, 3) <> "219" Then
-                    Sql = "Cadena control incorrecta(?219)"
+                    SQL = "Cadena control incorrecta(?219)"
                 Else
                     
-                    Sql = "Falta linea 2319"  'la que lleva los vtos
+                    SQL = "Falta linea 2319"  'la que lleva los vtos
                     Remesa = ""
                     Do
                         ProcesoFicheroDevolucion 2, LinDelFichero  'vemos si es ultima linea
                         
                         If Registro <> "" Then
-                            Sql = "FIN LINEAS. No se ha encontrado linea: 2319"
+                            SQL = "FIN LINEAS. No se ha encontrado linea: 2319"
                             Remesa = "NO"
                         Else
                             'Line Input #nf, Registro
@@ -1626,7 +1622,7 @@ Dim LinDelFichero As Collection
                                 '2319  Lleva los vtos
                                 '1319 en devoluciones
                                 If Mid(Registro, 2, 3) = "319" Then
-                                    Sql = ""
+                                    SQL = ""
                                     Remesa = "NO"
                                 End If
                             End If
@@ -1635,7 +1631,7 @@ Dim LinDelFichero As Collection
                     Loop Until Remesa <> ""
                     Remesa = ""
                     
-                    If Sql = "" Then
+                    If SQL = "" Then
                         'VAMOS BIEN. Veremos si a partir de los datos del recibo nos dan la remesa
                         'Para ello bucaremos en registro, la cadena que contiene los datos
                         'del vencimiento
@@ -1657,22 +1653,22 @@ Dim LinDelFichero As Collection
                                 Cuantos = Cuantos + 1
                                 Registro = Mid(Registro, 21, 35)
                                 'M  0330047820131201001
-                                Sql = "Select codrem,anyorem,siturem from cobros where fecfactu='" & Mid(Registro, 12, 4) & "-" & Mid(Registro, 16, 2) & "-" & Mid(Registro, 18, 2)
+                                SQL = "Select codrem,anyorem,siturem from cobros where fecfactu='" & Mid(Registro, 12, 4) & "-" & Mid(Registro, 16, 2) & "-" & Mid(Registro, 18, 2)
                                 
-                                Sql = Sql & "' AND numserie = '" & Trim(Mid(Registro, 1, 3)) & "' AND numfactu = " & Val(Mid(Registro, 4, 8)) & " AND numorden=" & Mid(Registro, 20, 3)
+                                SQL = SQL & "' AND numserie = '" & Trim(Mid(Registro, 1, 3)) & "' AND numfactu = " & Val(Mid(Registro, 4, 8)) & " AND numorden=" & Mid(Registro, 20, 3)
                                 
                                 
-                                miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+                                miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
                                 TodoOk = False
-                                Sql = "Vencimiento no encontrado: " & Registro
+                                SQL = "Vencimiento no encontrado: " & Registro
                                 If Not miRsAux.EOF Then
                                     If IsNull(miRsAux!CodRem) Then
-                                        Sql = "Vencimiento sin Remesa: " & Registro
+                                        SQL = "Vencimiento sin Remesa: " & Registro
                                     Else
-                                        Sql = miRsAux!CodRem & "|" & miRsAux!AnyoRem & "|·"
+                                        SQL = miRsAux!CodRem & "|" & miRsAux!AnyoRem & "|·"
                                         
-                                        If InStr(1, Remesa, Sql) = 0 Then Remesa = Remesa & Sql
-                                        Sql = ""
+                                        If InStr(1, Remesa, SQL) = 0 Then Remesa = Remesa & SQL
+                                        SQL = ""
                                         TodoOk = True
                                     End If
                                 End If
@@ -1682,8 +1678,8 @@ Dim LinDelFichero As Collection
                                 
                                 
                                 
-                                If Sql <> "" Then
-                                    ErroresVto = ErroresVto & vbCrLf & Sql
+                                If SQL <> "" Then
+                                    ErroresVto = ErroresVto & vbCrLf & SQL
                                 Else
                                     Bien = Bien + 1
                                 End If
@@ -1693,8 +1689,8 @@ Dim LinDelFichero As Collection
                                 
                                 If Mid(Registro, 1, 2) = "99" Then
                                     'TOTAL TOTAL
-                                    Sql = Mid(Registro, 20, 8)
-                                    If Val(Sql) <> Cuantos Then ErroresVto = "Fichero: " & Sql & "   Leidos" & Cuantos & vbCrLf & ErroresVto & vbCrLf & Sql
+                                    SQL = Mid(Registro, 20, 8)
+                                    If Val(SQL) <> Cuantos Then ErroresVto = "Fichero: " & SQL & "   Leidos" & Cuantos & vbCrLf & ErroresVto & vbCrLf & SQL
                                 End If
                             End If
                             
@@ -1712,7 +1708,7 @@ Dim LinDelFichero As Collection
                         
                         If Cuantos <> Bien Then ErroresVto = ErroresVto & vbCrLf & "Total: " & Cuantos & "   Correctos:" & Bien
                         
-                        Sql = ErroresVto
+                        SQL = ErroresVto
                         Set miRsAux = Nothing
                     
                     End If
@@ -1725,23 +1721,23 @@ Dim LinDelFichero As Collection
     End If  'DE SEGUNDA LINEA
     
     ProcesoFicheroDevolucion 4, LinDelFichero
-    If Sql <> "" Then
-        MsgBox Sql, vbExclamation
+    If SQL <> "" Then
+        MsgBox SQL, vbExclamation
     Else
         'Remesa = Mid(Registro, 1, 4) & "|" & Mid(Registro, 5) & "|"
         
         
         'Ahora comprobaremos que para cada remesa  veremos si existe y si la situacion es la contabilizadxa
-        Sql = Remesa
+        SQL = Remesa
         Registro = "" 'Cadena de error de situacion remesas
         Set miRsAux = New ADODB.Recordset
         Do
-            Cuantos = InStr(1, Sql, "·")
+            Cuantos = InStr(1, SQL, "·")
             If Cuantos = 0 Then
-                Sql = ""
+                SQL = ""
             Else
-                aux2 = Mid(Sql, 1, Cuantos - 1)
-                Sql = Mid(Sql, Cuantos + 1)
+                aux2 = Mid(SQL, 1, Cuantos - 1)
+                SQL = Mid(SQL, Cuantos + 1)
                 
                 
                 'En aux2 tendre codrem|anñorem|
@@ -1768,7 +1764,7 @@ Dim LinDelFichero As Collection
                 End If
                 miRsAux.Close
             End If
-        Loop Until Sql = ""
+        Loop Until SQL = ""
         Set miRsAux = Nothing
         
         
@@ -1799,13 +1795,13 @@ Dim NF As Integer
     NF = FreeFile
     Open elpath For Input As #NF
     If Not EOF(NF) Then
-        Line Input #NF, Sql
-        If Sql <> "" Then
+        Line Input #NF, SQL
+        If SQL <> "" Then
             '                 DEVOLUCION                RECHAZO
-            If LCase(Mid(Sql, 1, 5)) = "<?xml" Then
+            If LCase(Mid(SQL, 1, 5)) = "<?xml" Then
                 EsFicheroDevolucionSEPA2 = 2
             Else
-                If Mid(Sql, 1, 2) = "21" Or Mid(Sql, 1, 2) = "11" Then
+                If Mid(SQL, 1, 2) = "21" Or Mid(SQL, 1, 2) = "11" Then
                     EsFicheroDevolucionSEPA2 = 1
                 Else
                     EsFicheroDevolucionSEPA2 = 0
@@ -1910,7 +1906,7 @@ Dim pagosAux As Currency
         While Not Rs.EOF
             
                 Im = DBLet(Rs!imppagad, "N")
-                Im = Rs!ImpEfect - Im
+                Im = Rs!impefect - Im
                 Aux = RellenaABlancos(Rs!nifdatos, True, 12)
             
 
@@ -2035,7 +2031,7 @@ Private Sub Linea4_68(NF As Integer, ByRef CodOrde As String, ByRef RS1 As ADODB
     'De mommento pongo balancos, ya que es para extranjero
     cad = cad & RellenaABlancos(DBLet(RS1!codposta, "T"), True, 9)
     cad = cad & RellenaABlancos(DBLet(RS1!desProvi, "T"), True, 30)   'desprovi,pais
-    cad = cad & RellenaABlancos(DBLet(RS1!codPAIS, "T"), True, 20)   'desprovi,pais
+    cad = cad & RellenaABlancos(DBLet(RS1!codpais, "T"), True, 20)   'desprovi,pais
     cad = RellenaABlancos(cad, True, 100)
     cad = Mid(cad, 1, 100)
     Print #NF, cad

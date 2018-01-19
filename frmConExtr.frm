@@ -1400,11 +1400,11 @@ Private Sub CargaGrid()
     SQL = " codusu, cta, numdiari, Pos, fechaent, numasien, linliapu, nomdocum, contra, ampconce, timporteD, timporteH, saldo,ccost, Punteada"
     If Text3(2).Text <> "" Then
         SQL = SQL & ",nommacta"
-        SQL = "Select " & SQL & " from tmpConExt left join cuentas on tmpConExt.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
+        SQL = "Select " & SQL & " from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
     Else
         'Si esta a "" pongo otro select para que no de error
         SQL = SQL & ",linliapu"
-        SQL = "Select " & SQL & " from tmpConExt where codusu = " & vUsu.Codigo
+        SQL = "Select " & SQL & " from tmpconext where codusu = " & vUsu.Codigo
     End If
     SQL = SQL & " AND cta = '" & Text3(2).Text & "' ORDER BY POS"
     
@@ -1445,12 +1445,12 @@ Dim miRsAux As ADODB.Recordset
     cad = " numasien,fechaent,cta codmacta,nomdocum numdocum,ampconce,timporteD impdebe,timporteH imphaber,ccost codccost"
     cad = cad & ",if(punteada='',' ','*') punteada,nommacta,contra ctacontr,linliapu numlinea, numdiari "
     If Text3(2).Text <> "" Then
-        cad = "Select " & cad & " from tmpConExt left join cuentas on tmpConExt.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
+        cad = "Select " & cad & " from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
         If Me.chkPunteo.Value = 1 Then
             cad = cad & " and punteada = 0"
         End If
     Else
-        cad = "Select " & cad & " from tmpConExt left join cuentas on tmpConExt.contra=cuentas.codmacta  where codusu = " & vUsu.Codigo
+        cad = "Select " & cad & " from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta  where codusu = " & vUsu.Codigo
         If Me.chkPunteo.Value = 1 Then
             cad = cad & " and punteada = 0"
         End If

@@ -1674,7 +1674,7 @@ On Error GoTo EHazSimulacion
     Case 3
         'Trimestral
         M2 = 4
-        I2 = 4
+        I2 = 3   'ENERO2018   Ponia un 4!!!!!!
     Case 4
         'mensual
         M2 = 12
@@ -1701,17 +1701,28 @@ On Error GoTo EHazSimulacion
         FechaCalculoVentaBaja = DateAdd("m", I2, vFecha2)
     '++
     Else
+        M1 = DiasMes(Month(vFecha2), Year(vFecha2))
+        If M1 = Day(vFecha2) Then
+            'Ultmo dia mes
+            M1 = 1
+        Else
+            M1 = 0
+        End If
         vFecha1 = DateAdd("m", I2, vFecha2)
+        
+        If M1 = 1 Then
+            'ULTIMO DIA MES
+            M1 = DiasMes(Month(vFecha1), Year(vFecha1))
+            vFecha1 = CDate(M1 & Format(vFecha1, "/mm/yyyy"))
+            
+        End If
     End If
     
     
     RT.Close
     
     
-    'Borramos temporales
-    'Antes
-    'SQL = "Delete from tmpsimula where codusu=" & vUsu.Codigo
-    'Ahora
+    
     SQL = "Delete from tmpsimulainmo where codusu=" & vUsu.Codigo
     Conn.Execute SQL
     
@@ -1870,7 +1881,7 @@ Dim DiasCalculados As Boolean
         If Not DiasCalculados Then A2 = DateDiff("d", vFecha2, vFecha1)
         
         If A2 > A1 Then
-            MsgBox "Error calculando datos. Dias mayor que el maximo del periodo. (DiasAplicables2)", vbExclamation
+            MsgBox "Error calculando datos. Dias mayor que el maximo del periodo. (DiasAplicables)", vbExclamation
             A2 = A1
         End If
         
@@ -2170,7 +2181,7 @@ Public Function ObtenerparametrosAmortizacion(ByRef DivMes As Integer, ByRef Ult
         'Anual
         M2 = 1
     End Select
-    DivMes = M2
+    DivMes = M2  'En cuantos trozos dividimos el año
     UltmAmort = RT.Fields(3)  'Ultmfechaamort
     RestParametros = RT!intcont & "|"
     If (RT!intcont = 1) Then RestParametros = RestParametros & RT!condebes & "|" & RT!conhaber & "|" & RT!NumDiari & "|"
@@ -2609,7 +2620,7 @@ Private Sub InsertaIVADetallado(Clientes2 As Byte, Nodeducible As Boolean)
     Else
         'Ya esta insertado
         If Not IsNull(miRsAux!Importe1) Then ImpD = miRsAux!Importe1
-        If Not IsNull(miRsAux!Importe2) Then ImpH = miRsAux!Importe2
+        If Not IsNull(miRsAux!importe2) Then ImpH = miRsAux!importe2
         M2 = 1
     End If
     miRsAux.Close
@@ -3573,7 +3584,7 @@ End Function
 Public Function GeneraDatosBalanConfigImpresion(NumBalan As Integer)
 
         SQL = "Delete from "
-        SQL = SQL & "tmpImpBalance where codusu = " & vUsu.Codigo
+        SQL = SQL & "tmpimpbalance where codusu = " & vUsu.Codigo
         Conn.Execute SQL
         Conn.Execute "DELETE FROM tmpimpbalan WHERE codusu = " & vUsu.Codigo
         
@@ -3703,7 +3714,7 @@ Dim AuxPyG As String
         
         'Borramos las temporales
         SQL = "Delete from "
-        SQL = SQL & "tmpImpBalance where codusu = " & vUsu.Codigo
+        SQL = SQL & "tmpimpbalance where codusu = " & vUsu.Codigo
         Conn.Execute SQL
         Conn.Execute "DELETE FROM tmpimpbalan WHERE codusu = " & vUsu.Codigo
         
@@ -3768,7 +3779,7 @@ Dim AuxPyG As String
             
             SQL = "UPDATE "
             If Contabilidad > 0 Then SQL = SQL & "Conta" & Contabilidad & "."
-            SQL = SQL & "tmpImpBalance SET importe1 =" & d
+            SQL = SQL & "tmpimpbalance SET importe1 =" & d
             If M2 > 0 Then
                 H = TransformaComasPuntos(CStr(ImpH))
                 SQL = SQL & ",importe2 = " & H

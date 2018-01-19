@@ -642,7 +642,7 @@ Attribute frmDia.VB_VarHelpID = -1
 Private WithEvents frmC As frmColCtas
 Attribute frmC.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -908,18 +908,18 @@ Dim Sql2 As String
 
     'Monto el SQL
     If Me.optLog(0) Then
-        Sql = "Select  `tmppendientes`.`nomforpa` Fecha, `tmppendientes`.`nombre` Trabajador, `tmppendientes`.`Situacion` Accion, `tmppendientes`.`observa` Detalle"
-        Sql = Sql & "  FROM  `tmppendientes` `tmppendientes`"
-        Sql = Sql & " where codusu = " & vUsu.Codigo
-        Sql = Sql & " order by 1,2,3,4"
+        SQL = "Select  `tmppendientes`.`nomforpa` Fecha, `tmppendientes`.`nombre` Trabajador, `tmppendientes`.`Situacion` Accion, `tmppendientes`.`observa` Detalle"
+        SQL = SQL & "  FROM  `tmppendientes` `tmppendientes`"
+        SQL = SQL & " where codusu = " & vUsu.Codigo
+        SQL = SQL & " order by 1,2,3,4"
     Else
-        Sql = "Select  `tmppendientes`.`nombre` Trabajador, `tmppendientes`.`nomforpa` Fecha,`tmppendientes`.`Situacion` Accion,  `tmppendientes`.`observa` Detalle"
-        Sql = Sql & "  FROM  `tmppendientes` `tmppendientes`"
-        Sql = Sql & " where codusu = " & vUsu.Codigo
-        Sql = Sql & " order by `tmppendientes`.`nombre`, `tmppendientes`.`nomforpa` "
+        SQL = "Select  `tmppendientes`.`nombre` Trabajador, `tmppendientes`.`nomforpa` Fecha,`tmppendientes`.`Situacion` Accion,  `tmppendientes`.`observa` Detalle"
+        SQL = SQL & "  FROM  `tmppendientes` `tmppendientes`"
+        SQL = SQL & " where codusu = " & vUsu.Codigo
+        SQL = SQL & " order by `tmppendientes`.`nombre`, `tmppendientes`.`nomforpa` "
     End If
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -963,7 +963,9 @@ Dim nomDocu As String
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text, (Legalizacion <> "")) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 29
         
     If SoloImprimir Or ExportarPDF Then Unload Me
@@ -972,7 +974,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String

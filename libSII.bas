@@ -722,7 +722,7 @@ Dim FechaPeriodo2 As Date
             
             CadenaIVAS = CadenaIVAS & Aux
             NumIVas = NumIVas + 1
-            TotalDecucible = RN!Impoiva + DBLet(RN!ImpoRec, "N")
+            TotalDecucible = TotalDecucible + RN!Impoiva + DBLet(RN!ImpoRec, "N")
             RN.MoveNext
         
         Wend

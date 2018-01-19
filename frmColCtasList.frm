@@ -790,7 +790,7 @@ Attribute frmCtas.VB_VarHelpID = -1
 Private SQL As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 
 
 Public Sub InicializarVbles(AñadireElDeEmpresa As Boolean)
@@ -866,15 +866,15 @@ End Sub
 
 
 Private Sub Form_Load()
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Cuentas"
     optVarios(0).Value = True
 
-    For I = 0 To 1
-        Me.imgCuentas(I).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To 1
+        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
      
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
@@ -906,7 +906,7 @@ End Sub
 
 
 Private Sub Option1_Click(Index As Integer)
-    Me.Frame2.Visible = Option1(0).Value
+    Me.Frame2.visible = Option1(0).Value
 End Sub
 
 Private Sub optTipoSal_Click(Index As Integer)
@@ -920,24 +920,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-         frmPpal.cd1.Filter = "*.csv|*.csv"
+         frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -1041,7 +1041,7 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
     If Option1(0).Value Then
@@ -1053,9 +1053,9 @@ Dim SQL2 As String
     
     If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
     
-    I = 1
-    If optVarios(1).Value Then I = 2 'nombre
-    SQL = SQL & " ORDER BY " & I
+    i = 1
+    If optVarios(1).Value Then i = 2 'nombre
+    SQL = SQL & " ORDER BY " & i
         
     'LLamos a la funcion
     GeneraFicheroCSV SQL, txtTipoSalida(1).Text
@@ -1098,7 +1098,9 @@ Dim nomDocu As String
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 2
         
     If SoloImprimir Or ExportarPDF Then Unload Me
@@ -1108,7 +1110,7 @@ End Sub
 
 Private Function MontaSQL() As Boolean
 Dim SQL As String
-Dim SQL2 As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
 
@@ -1120,27 +1122,27 @@ Dim RC2 As String
     If cadselect <> "" Then cadselect = "(" & cadselect & ")"
             
     SQL = ""
-    SQL2 = ""
+    Sql2 = ""
     RC = ""
     RC2 = ""
     If Option1(0).Value Then
-        For I = 1 To Check1.Count - 2  'El 10 k es el ultimo nivel no lo quiero
-            If Check1(I).Visible Then
-                If Check1(I).Value = 1 Then
+        For i = 1 To Check1.Count - 2  'El 10 k es el ultimo nivel no lo quiero
+            If Check1(i).visible Then
+                If Check1(i).Value = 1 Then
                     SQL = ""
-                    SQL2 = ""
-                    J = DigitosNivel(I)
+                    Sql2 = ""
+                    J = DigitosNivel(i)
                     For CONT = 1 To J
                         SQL = SQL & "?"
-                        SQL2 = SQL2 & "_"
+                        Sql2 = Sql2 & "_"
                     Next CONT
                     If RC <> "" Then RC = RC & " OR "
                     RC = RC & " ({cuentas.codmacta} like '" & SQL & "')"
                     If RC2 <> "" Then RC2 = RC2 & " OR "
-                    RC2 = RC2 & " (cuentas.codmacta like '" & SQL2 & "')"
+                    RC2 = RC2 & " (cuentas.codmacta like '" & Sql2 & "')"
                 End If
             End If
-        Next I
+        Next i
         If Check1(10).Value Then
             If RC <> "" Then RC = RC & " OR "
             RC = RC & " {cuentas.apudirec}=""S"""
@@ -1178,26 +1180,26 @@ Dim RC2 As String
 End Function
 
 Private Sub PonerNiveles()
-Dim I As Integer
+Dim i As Integer
 Dim J As Integer
 
 
-    Frame2.Visible = True
+    Frame2.visible = True
     Combo2.Clear
-    Check1(10).Visible = True
-    For I = 1 To vEmpresa.numnivel - 1
-        J = DigitosNivel(I)
+    Check1(10).visible = True
+    For i = 1 To vEmpresa.numnivel - 1
+        J = DigitosNivel(i)
         cad = "Digitos: " & J
-        Check1(I).Visible = True
-        Me.Check1(I).Caption = cad
+        Check1(i).visible = True
+        Me.Check1(i).Caption = cad
         
         
-        Combo2.AddItem "Nivel :   " & I
+        Combo2.AddItem "Nivel :   " & i
         Combo2.ItemData(Combo2.NewIndex) = J
-    Next I
-    For I = vEmpresa.numnivel To 9
-        Check1(I).Visible = False
-    Next I
+    Next i
+    For i = vEmpresa.numnivel To 9
+        Check1(i).visible = False
+    Next i
     
 End Sub
 

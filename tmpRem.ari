@@ -2,23 +2,24 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02">
 <CstmrDrctDbtInitn>
 <GrpHdr>
-<MsgId>PRE2017060210191382420RE10000012017</MsgId>
-   <CreDtTm>2017-06-02T10:19:13</CreDtTm>
-   <NbOfTxs>1</NbOfTxs>
-   <CtrlSum>1732.5</CtrlSum>
+<MsgId>PRE2018011918284620310RE30000012018</MsgId>
+   <CreDtTm>2018-01-19T18:28:46</CreDtTm>
+   <NbOfTxs>4</NbOfTxs>
+   <NbOfTxs>4</NbOfTxs>
+   <CtrlSum>20000.00</CtrlSum>
    <InitgPty>
-     <Nm>Agricola de Catadau S.C. Hortofruticola</Nm>
+     <Nm>Materna Servicios y Carburantes SL</Nm>
      <Id>
         <OrgId>
            <Othr>
-              <Id>ES38002F46038881</Id>
+              <Id>ES74009B98734098</Id>
            </Othr>
         </OrgId>
       </Id>
    </InitgPty>
 </GrpHdr>
 <PmtInf>
-   <PmtInfId>RE000012017 02/06/17F46038881</PmtInfId>
+   <PmtInfId>RE000012018 19/01/18B98734098</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -33,17 +34,17 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2017-06-02</ReqdColltnDt>
+   <ReqdColltnDt>2018-01-19</ReqdColltnDt>
    <Cdtr>
-      <Nm>Agricola de Catadau S.C. Hortofruticola</Nm>
+      <Nm>Materna Servicios y Carburantes SL</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
+          <AdrLine>PARTIDA MATERNA 17   </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES5230582268501021006736</IBAN>
+         <IBAN>ES8430587105312720004451</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
@@ -55,7 +56,7 @@
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES38002F46038881</Id>
+                 <Id>ES74009B98734098</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -63,12 +64,55 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>4007202012S  0000001420161230001   </EndToEndId>
+          <EndToEndId>4300007216GRP0000721620160731001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">1732.50</InstdAmt>
+      <InstdAmt Ccy="EUR">61.10</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES0930582268552720000289</MndtId>
+            <MndtId>ES3021002330290100298844</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CAIXESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>RIERA RIBES, MACARI</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>AVDA. SANTOS PATRONOS, 37-9-19</AdrLine>
+              <AdrLine>ALZIRA   46600     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>290100298844</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES3021002330290100298844</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>A3006927 A3008077 Numero Vencimientos   2</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>4300006485A  0301216020161031001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">68.05</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES9330582288112810018358</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
@@ -78,30 +122,116 @@
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>CRESPO VANACLOCHA, SALVADOR</Nm>
+         <Nm>MARTINEZ ALBERT, M. ANGELES</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>C/ CORBELLA, 55</AdrLine>
-              <AdrLine>CARLET   46240     VALENCIA</AdrLine>
+              <AdrLine>CL AZORIN, 7-3-10</AdrLine>
+              <AdrLine>ALBERIC   46260     VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>552720000289</Id>
+                   <Id>112810018358</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES0930582268552720000289</IBAN>
+            <IBAN>ES9330582288112810018358</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>CRESPO VANACLOCHA, SALVADOR</Ustrd>
+         <Ustrd>FACT  A-3012160 31/10/16 de 65.05</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>4300007570GRP0000757020160430001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">915.11</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES4420389934613001498158</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CAHMESMMXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>GRUPO ALZIFRUIT S.L</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ VARA DE REY, 2</AdrLine>
+              <AdrLine>ALZIRA   46600     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>613001498158</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES4420389934613001498158</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>A3003697 A3004762 Numero Vencimientos   2</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>4300007262GRP0000726220160930001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">140.00</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES2101820545990201635069</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BBVAESMMXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>KRZYSZTOF MALEC</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ MARQUESA DE MONTREAL, 48-2-</AdrLine>
+              <AdrLine>CARCAIXENT   46740     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>990201635069</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES2101820545990201635069</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>A3009242 A3010318 GB5001221 Numero Vencimientos   3</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>

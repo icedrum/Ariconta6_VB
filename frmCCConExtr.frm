@@ -849,7 +849,7 @@ Dim ImpH As Currency
 
 Private Sub adodc1_MoveComplete(ByVal adReason As ADODB.EventReasonEnum, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pRecordset As ADODB.Recordset)
     On Error Resume Next
-    Label10.Caption = DBLet(Adodc1.Recordset!Nommacta, "T")
+    Label10.Caption = DBLet(adodc1.Recordset!Nommacta, "T")
     If Err.Number <> 0 Then
         Err.Clear
         Label10.Caption = ""
@@ -1130,7 +1130,7 @@ If Not VieneDeIntroduccion Then
         espera 0.1
         If AsientoConExtModificado = 1 Then
             QuedanLineasDespuesModificar = True
-            NumAsien = Adodc1.Recordset!NumAsien
+            NumAsien = adodc1.Recordset!NumAsien
             'Volvemos a recargar datos
             Screen.MousePointer = vbHourglass
             Me.Refresh
@@ -1138,7 +1138,7 @@ If Not VieneDeIntroduccion Then
             CargarDatos True
             If QuedanLineasDespuesModificar Then
                 'Intentamos buscar el asiento
-                Adodc1.Recordset.Find "numasien = " & NumAsien
+                adodc1.Recordset.Find "numasien = " & NumAsien
             Else
                 'NO QUEDAN LINEAS
                 HacerToolBar 1
@@ -1315,25 +1315,25 @@ End Sub
 Private Sub CargaGrid()
 
 
-    Adodc1.ConnectionString = Conn
+    adodc1.ConnectionString = Conn
     SQL = " codusu, cta, numdiari, Pos, fechaent, numasien, linliapu, nomdocum, contra, ampconce, timporteD, timporteH, saldo,ccost, Punteada"
     If Text3(2).Text <> "" Then
         SQL = SQL & ",nommacta"
-        SQL = "Select " & SQL & " from tmpConExt left join cuentas on tmpConExt.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
+        SQL = "Select " & SQL & " from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
     Else
         'Si esta a "" pongo otro select para que no de error
         SQL = SQL & ",linliapu"
-        SQL = "Select " & SQL & " from tmpConExt where codusu = " & vUsu.Codigo
+        SQL = "Select " & SQL & " from tmpconext where codusu = " & vUsu.Codigo
     End If
     SQL = SQL & " AND cta = '" & Text3(2).Text & "' ORDER BY POS"
     
-    Adodc1.RecordSource = SQL
-    Adodc1.Refresh
+    adodc1.RecordSource = SQL
+    adodc1.Refresh
     
     
     
     Label101.Caption = "Total lineas:   "
-    Label101.Caption = Label101.Caption & Me.Adodc1.Recordset.RecordCount
+    Label101.Caption = Label101.Caption & Me.adodc1.Recordset.RecordCount
     
 End Sub
 
@@ -1366,9 +1366,9 @@ Dim miRsAux As ADODB.Recordset
     cad = " numasien,fechaent,cta codmacta,nomdocum numdocum,ampconce,timporteD impdebe,timporteH imphaber,ccost codccost"
     cad = cad & ",if(punteada=0,' ','*') punteada,nommacta,contra ctacontr,linliapu numlinea, numdiari "
     If Text3(2).Text <> "" Then
-        cad = "Select " & cad & " from tmpConExt left join cuentas on tmpConExt.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
+        cad = "Select " & cad & " from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
     Else
-        cad = "Select " & cad & " from tmpConExt where codusu = " & vUsu.Codigo
+        cad = "Select " & cad & " from tmpconext where codusu = " & vUsu.Codigo
     End If
     cad = cad & " AND cta = '" & Text3(2).Text & "' ORDER BY POS"
     

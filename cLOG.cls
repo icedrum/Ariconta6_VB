@@ -54,7 +54,9 @@ Option Explicit
 
 '       30. Modificar datos desde traspaso primir semestree SII
 
-Private Const AccionesRegistradas = 29
+'       31.  Volver a generar fichero banco. Guardara datos anteriores
+
+Private Const AccionesRegistradas = 31
 Private mvarDatosDescripcion As String
 
 Dim SQL As String
@@ -165,7 +167,12 @@ Dim C As String
                 
             Case 30
                 C = "Modif. 1er semestree SII"
+                
+            Case 31
+                C = "Volver gen. fichero XML banco"
+
         End Select
+        
         
     End If
     DimeAccion = C

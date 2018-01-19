@@ -572,7 +572,7 @@ Attribute frmDia.VB_VarHelpID = -1
 Private WithEvents frmC As frmColCtas
 Attribute frmC.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -816,11 +816,11 @@ Dim Hasta As Integer
     Select Case Index
         Case 0, 1 'Cuentas
             RC = txtCuentas(Index).Text
-            If CuentaCorrectaUltimoNivelSIN(RC, Sql) Then
+            If CuentaCorrectaUltimoNivelSIN(RC, SQL) Then
                 txtCuentas(Index) = RC
-                txtNCuentas(Index).Text = Sql
+                txtNCuentas(Index).Text = SQL
             Else
-                MsgBox Sql, vbExclamation
+                MsgBox SQL, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
                 PonFoco txtCuentas(Index)
@@ -840,19 +840,19 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    Sql = "Select hlinapu.codmacta as Código, cuentas.nommacta Denominación, hlinapu.fechaent Fecha, hlinapu.numasien Asiento, hlinapu.numdocum Documento, hlinapu.codconce Concepto, "
-    Sql = Sql & " hlinapu.ampconce Ampliación, hlinapu.ctacontr Contrapartida, hlinapu.codccost CC, hlinapu.timported Debe, hlinapu.timporteh Haber, "
-    Sql = Sql & "if (@cuenta=hlinapu.codmacta, @saldo:= @saldo + (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)), @saldo:= (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) ) as Saldo "
+    SQL = "Select hlinapu.codmacta as Código, cuentas.nommacta Denominación, hlinapu.fechaent Fecha, hlinapu.numasien Asiento, hlinapu.numdocum Documento, hlinapu.codconce Concepto, "
+    SQL = SQL & " hlinapu.ampconce Ampliación, hlinapu.ctacontr Contrapartida, hlinapu.codccost CC, hlinapu.timported Debe, hlinapu.timporteh Haber, "
+    SQL = SQL & "if (@cuenta=hlinapu.codmacta, @saldo:= @saldo + (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)), @saldo:= (coalesce(hlinapu.timported,0) - coalesce(hlinapu.timporteh,0)) ) as Saldo "
     
     
-    Sql = Sql & ", if(@cuenta:=hlinapu.codmacta, '','')  as '' " ' hacemos la asignacion de la variable pero no queremos mostrarla
-    Sql = Sql & " FROM (hlinapu  INNER JOIN tmpconextcab ON hlinapu.codmacta = tmpconextcab.cta and tmpconextcab.codusu = " & vUsu.Codigo & ") INNER JOIN cuentas ON hlinapu.codmacta = cuentas.codmacta, (select @saldo:=0, @cuenta:=null) r "
-    Sql = Sql & " where " & cadselect
+    SQL = SQL & ", if(@cuenta:=hlinapu.codmacta, '','')  as '' " ' hacemos la asignacion de la variable pero no queremos mostrarla
+    SQL = SQL & " FROM (hlinapu  INNER JOIN tmpconextcab ON hlinapu.codmacta = tmpconextcab.cta and tmpconextcab.codusu = " & vUsu.Codigo & ") INNER JOIN cuentas ON hlinapu.codmacta = cuentas.codmacta, (select @saldo:=0, @cuenta:=null) r "
+    SQL = SQL & " where " & cadselect
     
-    Sql = Sql & " ORDER BY 1,3,4   "
+    SQL = SQL & " ORDER BY 1,3,4   "
         
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -874,7 +874,9 @@ Dim nomDocu As String
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text, (Legalizacion <> "")) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 38
         
     If SoloImprimir Or ExportarPDF Then Unload Me
@@ -883,7 +885,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String

@@ -1641,7 +1641,7 @@ Attribute frmMens2.VB_VarHelpID = -1
 Private frmMens As frmMensajes
 
 Dim SQL As String
-Dim rc As String
+Dim RC As String
 Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
@@ -1777,6 +1777,7 @@ End Sub
 
 Private Function DatosOK(Opcion As Integer) As Boolean
 Dim B As Boolean
+Dim RC As Byte
 
     DatosOK = False
 
@@ -1801,9 +1802,17 @@ Dim B As Boolean
         End If
         
         'VEMOS SI LA FECHA ESTA DENTRO DEL EJERCICIO
-        If FechaCorrecta2(CDate(txtFecha(4).Text), True) > 1 Then
-            PonFoco txtFecha(4)
-            Exit Function
+        RC = FechaCorrecta2(CDate(txtFecha(4).Text), True)
+        If RC > 1 Then
+            B = True 'No salimos
+            If RC = 4 Then
+                'Mayor que fin
+                If Opcion = 0 Then B = False
+            End If
+            If B Then
+                PonFoco txtFecha(4)
+                Exit Function
+            End If
         End If
         
         
@@ -3430,7 +3439,7 @@ Dim Sql2 As String
          
         'Preparamos algunas cosillas
         'Aqui guardaremos cuanto llevamos a cada banco
-        SQL = "Delete from tmpCierre1 where codusu =" & vUsu.Codigo
+        SQL = "Delete from tmpcierre1 where codusu =" & vUsu.Codigo
         Conn.Execute SQL
         
         CadenaDesdeOtroForm = ""

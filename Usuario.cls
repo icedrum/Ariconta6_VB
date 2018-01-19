@@ -334,7 +334,7 @@ Public Function Leer(ByVal vlogin As String) As Byte
 Attribute Leer.VB_Description = "Lee un grupo de formas de cobro en función del código que se le ha pasado. Si devuelve 0 se ha conseguido leer el dato."
 Dim i As Long
     On Error GoTo Err1
-    SQL = "SELECT * FROM Usuarios.Usuarios WHERE login = '" & vlogin & "'"
+    SQL = "SELECT * FROM usuarios.usuarios WHERE login = '" & vlogin & "'"
     Set Rs = New ADODB.Recordset
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     
@@ -550,7 +550,7 @@ Private Function DevuelveAumentoPC() As Long
 
 DevuelveAumentoPC = 32000
 mvarPC = ComputerName
-SQL = DevuelveDesdeBD("codpc", "Usuarios.pcs", "nompc", mvarPC, "T")
+SQL = DevuelveDesdeBD("codpc", "usuarios.pcs", "nompc", mvarPC, "T")
 If SQL <> "" Then DevuelveAumentoPC = Val(SQL) * 1000
 
 End Function

@@ -2,10 +2,10 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
 <CstmrCdtTrfInitn>
    <GrpHdr>
-      <MsgId>TRANABO000076F20170714T124154</MsgId>
-      <CreDtTm>2017-07-14T12:41:54</CreDtTm>
-      <NbOfTxs>1</NbOfTxs>
-      <CtrlSum>500.00</CtrlSum>
+      <MsgId>TRANABO000078F20180119T181650</MsgId>
+      <CreDtTm>2018-01-19T18:16:50</CreDtTm>
+      <NbOfTxs>4</NbOfTxs>
+      <CtrlSum>20000.00</CtrlSum>
       <InitgPty>
          <Nm>Materna Servicios y Carburantes SL</Nm>
          <Id>
@@ -18,9 +18,9 @@
       </InitgPty>
    </GrpHdr>
    <PmtInf>
-      <PmtInfId>20170714124154B98734098</PmtInfId>
+      <PmtInfId>20180119181650B98734098</PmtInfId>
       <PmtMtd>TRF</PmtMtd>
-      <ReqdExctnDt>2017-07-14</ReqdExctnDt>
+      <ReqdExctnDt>2018-01-22</ReqdExctnDt>
       <Dbtr>
          <Nm>Materna Servicios y Carburantes SL</Nm>
          <PstlAdr>
@@ -48,14 +48,90 @@
     </DbtrAgt>
    <CdtTrfTxInf>
       <PmtId>
-         <EndToEndId>A  0000012320170101001</EndToEndId>
+         <EndToEndId>A  0300146220160131001</EndToEndId>
       </PmtId>
       <PmtTpInf>
           <SvcLvl><Cd>SEPA</Cd></SvcLvl>
           <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
        </PmtTpInf>
        <Amt>
-          <InstdAmt Ccy="EUR">500.00</InstdAmt>
+          <InstdAmt Ccy="EUR">81.26</InstdAmt>
+       </Amt>
+       <CdtrAgt>
+          <FinInstnId>
+             <BIC>BSCHESMMXXX</BIC>
+          </FinInstnId>
+       </CdtrAgt>
+       <Cdtr>
+          <Nm>MILLAN LOPEZ, MANUEL.</Nm>
+           <Id>
+               <OrgId>
+                  <Othr>
+                     <Id>21340323A</Id>
+                  </Othr>
+               </OrgId>
+           </Id>
+        </Cdtr>
+        <CdtrAcct>
+           <Id>
+              <IBAN>ES4000494605282195577115</IBAN>
+           </Id>
+        </CdtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACT  A-3001462 31/01/16 de 43.63</Ustrd>
+      </RmtInf>
+   </CdtTrfTxInf>
+   <CdtTrfTxInf>
+      <PmtId>
+         <EndToEndId>A  0300251820160229001</EndToEndId>
+      </PmtId>
+      <PmtTpInf>
+          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
+          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
+       </PmtTpInf>
+       <Amt>
+          <InstdAmt Ccy="EUR">84.00</InstdAmt>
+       </Amt>
+       <CdtrAgt>
+          <FinInstnId>
+             <BIC>BCOEESMM096</BIC>
+          </FinInstnId>
+       </CdtrAgt>
+       <Cdtr>
+          <Nm>RIERA GOMEZ, AMPARO</Nm>
+           <Id>
+               <OrgId>
+                  <Othr>
+                     <Id>20813328F</Id>
+                  </Othr>
+               </OrgId>
+           </Id>
+        </Cdtr>
+        <CdtrAcct>
+           <Id>
+              <IBAN>ES6930960001991579838515</IBAN>
+           </Id>
+        </CdtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACT  A-3002518 29/02/16 de 99.14</Ustrd>
+      </RmtInf>
+   </CdtTrfTxInf>
+   <CdtTrfTxInf>
+      <PmtId>
+         <EndToEndId>A  0300260320160229001</EndToEndId>
+      </PmtId>
+      <PmtTpInf>
+          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
+          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
+       </PmtTpInf>
+       <Amt>
+          <InstdAmt Ccy="EUR">74.00</InstdAmt>
        </Amt>
        <CdtrAgt>
           <FinInstnId>
@@ -63,25 +139,63 @@
           </FinInstnId>
        </CdtrAgt>
        <Cdtr>
-          <Nm>ESPA A MONTALVA, TRINIDAD (SIN</Nm>
+          <Nm>RUANO HERNANDEZ, ANTONIO</Nm>
            <Id>
                <OrgId>
                   <Othr>
-                     <Id>20644775K</Id>
+                     <Id>20857447N</Id>
                   </Othr>
                </OrgId>
            </Id>
         </Cdtr>
         <CdtrAcct>
            <Id>
-              <IBAN>ES7530587105362810003490</IBAN>
+              <IBAN>ES7530582288112810038567</IBAN>
            </Id>
         </CdtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>ESPA A MONTALVA, TRINIDAD (SIN</Ustrd>
+         <Ustrd>FACT  A-3002603 29/02/16 de 112.53</Ustrd>
+      </RmtInf>
+   </CdtTrfTxInf>
+   <CdtTrfTxInf>
+      <PmtId>
+         <EndToEndId>437GR180119181650R002</EndToEndId>
+      </PmtId>
+      <PmtTpInf>
+          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
+          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
+       </PmtTpInf>
+       <Amt>
+          <InstdAmt Ccy="EUR">468.52</InstdAmt>
+       </Amt>
+       <CdtrAgt>
+          <FinInstnId>
+             <BIC>BCOEESMM159</BIC>
+          </FinInstnId>
+       </CdtrAgt>
+       <Cdtr>
+          <Nm>FERRAGUT PARDO, BERNAT</Nm>
+           <Id>
+               <OrgId>
+                  <Othr>
+                     <Id>21340323A</Id>
+                  </Othr>
+               </OrgId>
+           </Id>
+        </Cdtr>
+        <CdtrAcct>
+           <Id>
+              <IBAN>ES1331590054202394756924</IBAN>
+           </Id>
+        </CdtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>Fras  3000267,3001476 Num. Vtos 2</Ustrd>
       </RmtInf>
    </CdtTrfTxInf>
    </PmtInf>

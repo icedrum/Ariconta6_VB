@@ -794,7 +794,7 @@ Private Sub cmbPeriodo_Validate(Index As Integer, Cancel As Boolean)
         txtperiodo(1).Text = cmbPeriodo(0).ListIndex
     End If
     FramePeriodo.Enabled = (cmbPeriodo(0).ListIndex = 0)
-    FramePeriodo.Visible = (cmbPeriodo(0).ListIndex = 0)
+    FramePeriodo.visible = (cmbPeriodo(0).ListIndex = 0)
 End Sub
 
 
@@ -830,7 +830,7 @@ Dim B As Boolean
 '--
 '    ModeloIva False
     Label13.Caption = "Elimina datos anteriores"
-    Label13.Visible = True
+    Label13.visible = True
     Label13.Refresh
     B = GeneraLasLiquidaciones
     If B Then
@@ -869,7 +869,7 @@ Dim B As Boolean
 
         
     End If
-    Label13.Visible = False
+    Label13.visible = False
     Me.Refresh
     Screen.MousePointer = vbDefault
 
@@ -938,13 +938,13 @@ Private Sub Form_Load()
         Me.Caption = "Modelo 390"
         Label3(6).Left = 360
         txtAno(0).Left = 330
-        Label3(7).Visible = False
-        cmbPeriodo(0).Visible = False
+        Label3(7).visible = False
+        cmbPeriodo(0).visible = False
         cmbPeriodo(0).Enabled = False
-        Label3(0).Visible = False
+        Label3(0).visible = False
         txtCuota(0).Enabled = False
-        txtCuota(0).Visible = False
-        Me.ToolbarAyuda.Visible = False
+        txtCuota(0).visible = False
+        Me.ToolbarAyuda.visible = False
         Me.ToolbarAyuda.Enabled = False
         
         txtperiodo(0).Text = 1
@@ -959,7 +959,7 @@ Private Sub Form_Load()
     FrameSeccion.Enabled = vParam.EsMultiseccion
     
     FramePeriodo.Enabled = (Me.cmbPeriodo(0).ListIndex = 0)
-    FramePeriodo.Visible = (Me.cmbPeriodo(0).ListIndex = 0)
+    FramePeriodo.visible = (Me.cmbPeriodo(0).ListIndex = 0)
     
     txtFecha(2).Text = Format(Now, "dd/mm/yyyy")
      
@@ -1227,7 +1227,7 @@ Dim Rs As ADODB.Recordset
     Set Rs = New ADODB.Recordset
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
     Else
         DevuelveImporte 0, 0
     End If
@@ -1287,9 +1287,9 @@ Dim Rs As ADODB.Recordset
         i = i + 1
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
         DevuelveImporte DBLet(Rs!IVA, "N"), 3
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalClien = TotalClien + DBLet(Rs!ivas, "N")
+        TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1314,9 +1314,9 @@ Dim Rs As ADODB.Recordset
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalClien = TotalClien + DBLet(Rs!ivas, "N")
+        TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1335,9 +1335,9 @@ Dim Rs As ADODB.Recordset
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalClien = TotalClien + DBLet(Rs!ivas, "N")
+        TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1363,9 +1363,9 @@ Dim Rs As ADODB.Recordset
         i = i + 1
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
         DevuelveImporte DBLet(Rs!IVA, "N"), 3
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalClien = TotalClien + DBLet(Rs!ivas, "N")
+        TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1405,9 +1405,9 @@ Dim Rs As ADODB.Recordset
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalProve = TotalProve + DBLet(Rs!ivas, "N")
+        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1426,9 +1426,9 @@ Dim Rs As ADODB.Recordset
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalProve = TotalProve + DBLet(Rs!ivas, "N")
+        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1447,9 +1447,9 @@ Dim Rs As ADODB.Recordset
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalProve = TotalProve + DBLet(Rs!ivas, "N")
+        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1468,9 +1468,9 @@ Dim Rs As ADODB.Recordset
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalProve = TotalProve + DBLet(Rs!ivas, "N")
+        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1491,9 +1491,9 @@ Dim Rs As ADODB.Recordset
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalProve = TotalProve + DBLet(Rs!ivas, "N")
+        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1512,9 +1512,9 @@ Dim Rs As ADODB.Recordset
     While Not Rs.EOF
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalProve = TotalProve + DBLet(Rs!ivas, "N")
+        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1537,9 +1537,9 @@ Dim Rs As ADODB.Recordset
     HayReg = False
     While Not Rs.EOF
         HayReg = True
-        DevuelveImporte DBLet(Rs!ivas, "N"), 0
+        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotalProve = TotalProve + DBLet(Rs!ivas, "N")
+        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
     Wend
@@ -1688,7 +1688,9 @@ Dim nomDocu As String
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 19
         
     If SoloImprimir Or ExportarPDF Then Unload Me

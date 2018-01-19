@@ -642,7 +642,7 @@ Attribute frmF.VB_VarHelpID = -1
 Private WithEvents frmCont As frmContadores
 Attribute frmCont.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -761,7 +761,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmDia_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
@@ -769,15 +769,15 @@ Private Sub frmF_Selec(vFecha As Date)
 End Sub
 
 Private Sub imgSerie_Click(Index As Integer)
-    Sql = ""
+    SQL = ""
     AbiertoOtroFormEnListado = True
     Set frmCont = New frmContadores
     frmCont.DatosADevolverBusqueda = "0|1|"
     frmCont.Show vbModal
     Set frmCont = Nothing
-    If Sql <> "" Then
-        Me.txtSerie(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtNSerie(Index).Text = RecuperaValor(Sql, 2)
+    If SQL <> "" Then
+        Me.txtSerie(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtNSerie(Index).Text = RecuperaValor(SQL, 2)
     Else
         QuitarPulsacionMas Me.txtSerie(Index)
     End If
@@ -904,7 +904,7 @@ Private Sub txtSerie_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtSerie(Index).Text = Trim(txtSerie(Index).Text)
@@ -934,16 +934,16 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    Sql = "Select  hcabapu.NumFactu Diario, hcabapu.NumSerie Asiento, hcabapu.FecFactu Fecha, hlinapu.linliapu Linea, hlinapu.codmacta Cuenta, nommacta Descripcion, numdocum Documento, ampconce Ampliacion, timporteD Debe, timporteH Haber"
-    Sql = Sql & " FROM (hcabapu inner join hlinapu on hcabapu.NumFactu = hlinapu.NumFactu and hcabapu.NumSerie = hlinapu.NumSerie and hcabapu.FecFactu = hlinapu.FecFactu)"
-    Sql = Sql & " inner join cuentas on hlinapu.codmacta = cuentas.codmacta "
+    SQL = "Select  hcabapu.NumFactu Diario, hcabapu.NumSerie Asiento, hcabapu.FecFactu Fecha, hlinapu.linliapu Linea, hlinapu.codmacta Cuenta, nommacta Descripcion, numdocum Documento, ampconce Ampliacion, timporteD Debe, timporteH Haber"
+    SQL = SQL & " FROM (hcabapu inner join hlinapu on hcabapu.NumFactu = hlinapu.NumFactu and hcabapu.NumSerie = hlinapu.NumSerie and hcabapu.FecFactu = hlinapu.FecFactu)"
+    SQL = SQL & " inner join cuentas on hlinapu.codmacta = cuentas.codmacta "
     
-    If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
+    If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
     
-    Sql = Sql & " ORDER BY 1,2,3,4"
+    SQL = SQL & " ORDER BY 1,2,3,4"
         
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -965,7 +965,9 @@ Dim nomDocu As String
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 23
         
     If SoloImprimir Or ExportarPDF Then Unload Me
@@ -974,7 +976,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String

@@ -839,7 +839,7 @@ Attribute frmDpto.VB_VarHelpID = -1
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -971,7 +971,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 
@@ -1002,15 +1002,15 @@ Private Sub imgFec_Click(Index As Integer)
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
-    Sql = ""
+    SQL = ""
     AbiertoOtroFormEnListado = True
     Set frmCtas = New frmColCtas
     frmCtas.DatosADevolverBusqueda = True
     frmCtas.Show vbModal
     Set frmCtas = Nothing
-    If Sql <> "" Then
-        Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
+    If SQL <> "" Then
+        Me.txtCuentas(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(SQL, 2)
     Else
         QuitarPulsacionMas Me.txtCuentas(Index)
     End If
@@ -1087,7 +1087,7 @@ Private Sub txtCuentas_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
@@ -1114,18 +1114,18 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
         Case 0, 1 'cuentas
             Cta = (txtCuentas(Index).Text)
                                     '********
-            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
             If B = 0 Then
                 MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
             Else
                 txtCuentas(Index).Text = Cta
-                txtNCuentas(Index).Text = Sql
+                txtNCuentas(Index).Text = SQL
                 If B = 1 Then
                     txtNCuentas(Index).Tag = ""
                 Else
-                    txtNCuentas(Index).Tag = Sql
+                    txtNCuentas(Index).Tag = SQL
                 End If
                 Hasta = -1
                 If Index = 6 Then
@@ -1170,24 +1170,24 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    Sql = "SELECT cobros.codmacta Cuenta, cobros.nomclien Descripcion, hlinapu.fecdevol FecDevol, "
-    Sql = Sql & "cobros.numserie Serie, cobros.numfactu Factura, cobros.fecfactu FecFra, cobros.numorden Vto, hlinapu.timporteh - hlinapu.timported Importe, "
-    Sql = Sql & "hlinapu.gastodev Gastos, hlinapu.coddevol Devol, wdevolucion.descripcion Descripcion "
-    Sql = Sql & " FROM  (cobros INNER JOIN hlinapu ON cobros.numserie = hlinapu.numserie AND "
-    Sql = Sql & " cobros.numfactu = hlinapu.numfaccl AND cobros.fecfactu = hlinapu.fecfactu AND "
-    Sql = Sql & " cobros.numorden = hlinapu.numorden) "
-    Sql = Sql & "  LEFT JOIN usuarios.wdevolucion ON hlinapu.coddevol = wdevolucion.codigo "
+    SQL = "SELECT cobros.codmacta Cuenta, cobros.nomclien Descripcion, hlinapu.fecdevol FecDevol, "
+    SQL = SQL & "cobros.numserie Serie, cobros.numfactu Factura, cobros.fecfactu FecFra, cobros.numorden Vto, hlinapu.timporteh - hlinapu.timported Importe, "
+    SQL = SQL & "hlinapu.gastodev Gastos, hlinapu.coddevol Devol, wdevolucion.descripcion Descripcion "
+    SQL = SQL & " FROM  (cobros INNER JOIN hlinapu ON cobros.numserie = hlinapu.numserie AND "
+    SQL = SQL & " cobros.numfactu = hlinapu.numfaccl AND cobros.fecfactu = hlinapu.fecfactu AND "
+    SQL = SQL & " cobros.numorden = hlinapu.numorden) "
+    SQL = SQL & "  LEFT JOIN usuarios.wdevolucion ON hlinapu.coddevol = wdevolucion.codigo "
     
-    If cadselect <> "" Then Sql = Sql & " where " & cadselect
+    If cadselect <> "" Then SQL = SQL & " where " & cadselect
     
     If optVarios(0).Value Then Sql2 = "1"
     If optVarios(1).Value Then Sql2 = "3"
     
-    Sql = Sql & " ORDER BY " & Sql2
+    SQL = SQL & " ORDER BY " & Sql2
 
             
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1213,7 +1213,7 @@ Dim nomDocu As String
     
     numParam = numParam + 2
         
-    If check1(0).Value Then cadParam = cadParam & "pResumen=1|"
+    If Check1(0).Value Then cadParam = cadParam & "pResumen=1|"
     numParam = numParam + 1
         
     
@@ -1223,7 +1223,9 @@ Dim nomDocu As String
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text, (Legalizacion <> "")) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 41
         
     If SoloImprimir Or ExportarPDF Then Unload Me
@@ -1234,24 +1236,24 @@ Dim nomDocu As String
 End Sub
 
 Private Function CargarTemporal() As Boolean
-Dim Sql As String
+Dim SQL As String
 
     On Error GoTo eCargarTemporal
 
     CargarTemporal = False
     
-    Sql = "delete from tmpfaclin where codusu = " & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "delete from tmpfaclin where codusu = " & vUsu.Codigo
+    Conn.Execute SQL
     
-    Sql = "insert into tmpfaclin (codusu, codigo, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
-    Sql = Sql & " recargo, tipoopera, tipoformapago) "
-    Sql = Sql & " select distinct " & vUsu.Codigo & ",0, factcli.numserie, contadores.nomregis, factcli.numfactu, factcli.fecfactu, factcli.codmacta, "
-    Sql = Sql & " factcli.nommacta, factcli.nifdatos, factcli.totbases, factcli.totivas, factcli.totfaccl, factcli.trefaccl, "
-    Sql = Sql & " factcli.totrecargo, tipofpago.descformapago , aa.denominacion"
-    Sql = Sql & " from " & tabla
-    Sql = Sql & " where " & cadselect
+    SQL = "insert into tmpfaclin (codusu, codigo, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
+    SQL = SQL & " recargo, tipoopera, tipoformapago) "
+    SQL = SQL & " select distinct " & vUsu.Codigo & ",0, factcli.numserie, contadores.nomregis, factcli.numfactu, factcli.fecfactu, factcli.codmacta, "
+    SQL = SQL & " factcli.nommacta, factcli.nifdatos, factcli.totbases, factcli.totivas, factcli.totfaccl, factcli.trefaccl, "
+    SQL = SQL & " factcli.totrecargo, tipofpago.descformapago , aa.denominacion"
+    SQL = SQL & " from " & tabla
+    SQL = SQL & " where " & cadselect
     
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     CargarTemporal = True
     Exit Function
@@ -1261,7 +1263,7 @@ eCargarTemporal:
 End Function
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String

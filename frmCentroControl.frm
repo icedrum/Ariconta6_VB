@@ -2831,7 +2831,7 @@ Dim Final As String
     For NF = 1 To 2
         PonerTabla RecuperaValor(NombreArchivo, NF)
         Final = "fechaent"
-        If NF = 3 Then Final = ""
+        If NF = 2 Then Final = ""
         EjecutaSQLCambio "codmacta", Final
         EjecutaSQLCambio "ctacontr", Final
     Next NF
@@ -2852,9 +2852,9 @@ Dim Final As String
     
     'Lineas de facturas
     PonerTabla "Lineas fracli"
-    EjecutaSQLCambioLineasFras True, "fecfactu"
+    EjecutaSQLCambioLineasFras True, "factcli.fecfactu"
     PonerTabla "Lineas frapro"
-    EjecutaSQLCambioLineasFras False, "fecharec"
+    EjecutaSQLCambioLineasFras False, "factpro.fecharec"
     
     
     'Si tiene tesoreria
@@ -2864,19 +2864,17 @@ Dim Final As String
         PonerTabla "cobros"
         EjecutaSQLCambio "codmacta", "fecvenci"
         EjecutaSQLCambio "ctabanc1", "fecvenci"
-        EjecutaSQLCambio "ctabanc2", "fecvenci"
+       
         
-        PonerTabla "gastfijos"
+        PonerTabla "gastosfijos"
         EjecutaSQLCambio "ctaprevista", ""
         EjecutaSQLCambio "contrapar", ""
-        PonerTabla "shcocob"
-        EjecutaSQLCambio "codmacta", ""
         
         
         PonerTabla "pagos"
         EjecutaSQLCambio "codmacta", "fecefect"
         EjecutaSQLCambio "ctabanc1", "fecefect"
-        EjecutaSQLCambio "ctabanc2", "fecefect"
+       
         
         
         PonerTabla "transferencias"
@@ -2888,7 +2886,7 @@ Dim Final As String
     End If
     
 '++ lo he añadido
-        PonerTabla "tipoiva"
+        PonerTabla "tiposiva"
         EjecutaSQLCambio "cuentare", ""
         EjecutaSQLCambio "cuentarr", ""
         EjecutaSQLCambio "cuentaso", ""
@@ -2951,12 +2949,12 @@ Private Function EjecutaSQLCambioLineasFras(Clientes As Boolean, CampoFecha As S
     Label16.Caption = TablaAnt & "    (" & Tam2 & " / " & Tamanyo & ")"
     Label16.Refresh
     If Clientes Then
-        SQL = "UPDATE factcli,factcli_lineas SET codmacta='" & txtCta(1).Text & "'"
+        SQL = "UPDATE factcli,factcli_lineas SET factcli_lineas.codmacta='" & txtCta(1).Text & "'"
         SQL = SQL & " where factcli.numserie=factcli_lineas.numserie and factcli.numfactu=factcli_lineas.numfactu and"
         SQL = SQL & " factcli.anofactu=factcli_lineas.anofactu"
     Else
-        SQL = "UPDATE factpro,factpro_lineas SET codmacta='" & txtCta(1).Text & "'"
-        SQL = SQL & " where factpro.numregis=factpro_lineas.numregis and"
+        SQL = "UPDATE factpro,factpro_lineas SET factpro_lineas.codmacta='" & txtCta(1).Text & "'"
+        SQL = SQL & " where factpro.numserie=factpro_lineas.numserie and factpro.numregis=factpro_lineas.numregis and"
         SQL = SQL & " factpro.anofactu = factpro_lineas.anofactu"
     End If
     'Si tiene fechas
@@ -2965,7 +2963,7 @@ Private Function EjecutaSQLCambioLineasFras(Clientes As Boolean, CampoFecha As S
     If txtFecha(1).Text <> "" Then SQL = SQL & " AND " & CampoFecha & " <= '" & Format(txtFecha(1).Text, FormatoFecha) & "'"
      
     
-    SQL = SQL & " AND codtbase = '" & txtCta(0).Text & "'"
+    SQL = SQL & " AND " & IIf(Clientes, "factcli", "factpro") & "_lineas.codmacta = '" & txtCta(0).Text & "'"
     
     Conn.Execute SQL
 End Function

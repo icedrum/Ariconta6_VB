@@ -672,7 +672,7 @@ Private WithEvents frmCon  As frmConceptos
 Attribute frmCon.VB_VarHelpID = -1
 Private frmCtas As frmCtasAgrupadas
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -711,7 +711,7 @@ End Sub
 
 
 Private Sub chkBalPerCompa_Click()
-    Frame2.Visible = Me.chkBalPerCompa.Value = 1
+    Frame2.visible = Me.chkBalPerCompa.Value = 1
     Frame2.Enabled = Me.chkBalPerCompa.Value = 1
 End Sub
 
@@ -720,10 +720,10 @@ Private Sub cmdAccion_Click(Index As Integer)
     If Not DatosOK Then Exit Sub
     
     PulsadoCancelar = False
-    Me.cmdCancelarAccion.Visible = True
+    Me.cmdCancelarAccion.visible = True
     Me.cmdCancelarAccion.Enabled = True
     
-    Me.cmdCancelar.Visible = False
+    Me.cmdCancelar.visible = False
     Me.cmdCancelar.Enabled = False
         
     
@@ -768,10 +768,10 @@ Private Sub cmdAccion_Click(Index As Integer)
 
 
 
-    Me.cmdCancelarAccion.Visible = False
+    Me.cmdCancelarAccion.visible = False
     Me.cmdCancelarAccion.Enabled = False
     
-    Me.cmdCancelar.Visible = True
+    Me.cmdCancelar.visible = True
     Me.cmdCancelar.Enabled = True
 
     
@@ -800,11 +800,11 @@ Private Sub cmdAccion_Click(Index As Integer)
     If Legalizacion <> "" Then
         CadenaDesdeOtroForm = "OK"
     End If
-    
+    Screen.MousePointer = vbDefault
 End Sub
 
 Private Sub cmdCancelar_Click()
-    If Me.cmdCancelarAccion.Visible Then Exit Sub
+    If Me.cmdCancelarAccion.visible Then Exit Sub
     HanPulsadoSalir = True
     Unload Me
 End Sub
@@ -845,7 +845,7 @@ Dim F As Date
                 'cmbFecha(3).ListIndex = cmbFecha(2).ListIndex
                 'cmbFecha(1).ListIndex = cmbFecha(0).ListIndex
                 chkBalPerCompa.Value = 1
-                Frame2.Visible = True
+                Frame2.visible = True
                 Frame2.Enabled = True
                 DoEvents
             End If
@@ -889,9 +889,9 @@ Private Sub Form_Load()
     End If
         
     ' solo se muestran si es balance de situacion
-    chk1.Visible = (Opcion = 0)
+    chk1.visible = (Opcion = 0)
     chk1.Enabled = (Opcion = 0)
-    chk2.Visible = (Opcion = 0)
+    chk2.visible = (Opcion = 0)
     chk2.Enabled = (Opcion = 0)
     
 
@@ -924,12 +924,12 @@ Private Sub Form_Load()
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
     
-    Frame2.Visible = False
+    Frame2.visible = False
     Frame2.Enabled = False
     
     
     cmdCancelarAccion.Enabled = False
-    cmdCancelarAccion.Visible = False
+    cmdCancelarAccion.visible = False
     
     If Legalizacion <> "" Then
         PonerBalancePredeterminado
@@ -947,10 +947,10 @@ End Sub
 Private Sub PonerBalancePredeterminado()
 
     'El balance de P y G tiene el campo Perdidas=1
-    Sql = "Select * from balances where predeterminado = 1 AND perdidas =" & Opcion
+    SQL = "Select * from balances where predeterminado = 1 AND perdidas =" & Opcion
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
         Me.txtBalan(0).Text = Rs.Fields(0)
         txtNBalan(0).Text = Rs.Fields(1)
@@ -1118,7 +1118,7 @@ Dim Hasta As Integer
 End Sub
 
 Private Function EsPyG(Balance As Integer) As Boolean
-Dim Sql As String
+Dim SQL As String
 
     EsPyG = DevuelveValor("select perdidas from balances where numbalan = " & DBSet(Balance, "N")) = 1
 
@@ -1126,18 +1126,20 @@ Dim Sql As String
 End Function
 
 Private Sub AccionesCSV()
-Dim Sql2 As String
-Dim Tipo As Byte
+       
+    
+    SQL = "select descripcion 'Nº Cuentas',linea 'Debe (Haber)',"
+    SQL = SQL & " importe1 '" & cmbFecha(2).Text & "'"
+    If Me.chkBalPerCompa.Value = 1 Then SQL = SQL & " , importe2 '" & cmbFecha(3).Text & "'"
+    
+    SQL = SQL & " from tmpimpbalance where codusu = " & vUsu.Codigo & " order by pasivo,codigo"
+    
+      
             
-    Sql = "select cta Cuenta , nomcta Titulo, aperturad, aperturah, case when coalesce(aperturad,0) - coalesce(aperturah,0) > 0 then concat(coalesce(aperturad,0) - coalesce(aperturah,0),'D') when coalesce(aperturad,0) - coalesce(aperturah,0) < 0 then concat(coalesce(aperturah,0) - coalesce(aperturad,0),'H') when coalesce(aperturad,0) - coalesce(aperturah,0) = 0 then 0 end Apertura, "
-    Sql = Sql & " acumantd AcumAnt_deudor, acumanth AcumAnt_acreedor, acumperd AcumPer_deudor, acumperh AcumPer_acreedor, "
-    Sql = Sql & " totald Saldo_deudor, totalh Saldo_acreedor, case when coalesce(totald,0) - coalesce(totalh,0) > 0 then concat(coalesce(totald,0) - coalesce(totalh,0),'D') when coalesce(totald,0) - coalesce(totalh,0) < 0 then concat(coalesce(totalh,0) - coalesce(totald,0),'H') when coalesce(totald,0) - coalesce(totalh,0) = 0 then 0 end Saldo"
-    Sql = Sql & " from tmpbalancesumas where codusu = " & vUsu.Codigo
-    Sql = Sql & " order by 1 "
 
         
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1198,8 +1200,8 @@ Dim optExportar As Integer
     CONT = 1
     RC = 1 'Perdidas y ganancias
     Set Rs = New ADODB.Recordset
-    Sql = "Select * from balances where numbalan=" & Me.txtBalan(0).Text
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "Select * from balances where numbalan=" & Me.txtBalan(0).Text
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
 
             If DBLet(Rs!Aparece, "N") = 0 Then
@@ -1225,8 +1227,8 @@ Dim optExportar As Integer
     End If
     RC = "perdidasyganancias= " & RC & "|"
           
-    Sql = RC & "FechaImp= """ & txtFecha(7).Text & """|"
-    Sql = Sql & "Titulo= """ & Me.txtNBalan(0).Text & """|"
+    SQL = RC & "FechaImp= """ & txtFecha(7).Text & """|"
+    SQL = SQL & "Titulo= """ & Me.txtNBalan(0).Text & """|"
     'PGC 2008 SOlo pone el año, NO el mes
     If vParam.NuevoPlanContable Then
         RC = ""
@@ -1235,7 +1237,7 @@ Dim optExportar As Integer
     End If
     RC = RC & " " & cmbFecha(2).Text 'txtAno(0).Text
     RC = "fec1= """ & RC & """|"
-    Sql = Sql & RC
+    SQL = SQL & RC
     
     
     If Me.chkBalPerCompa.Value = 1 Then
@@ -1247,19 +1249,19 @@ Dim optExportar As Integer
             End If
             RC = RC & " " & cmbFecha(3).Text 'txtAno(1).Text
             RC = "Fec2= """ & RC & """|"
-            Sql = Sql & RC
+            SQL = SQL & RC
             
 
     Else
         'Pong el nombre del mes
         RC = UCase(Mid(cmbFecha(0).Text, 1, 1)) & Mid(cmbFecha(0).Text, 2, 2)
         RC = "vMes= """ & RC & """|"
-        Sql = Sql & RC
+        SQL = SQL & RC
     End If
-    Sql = Sql & "Titulo= """ & Me.txtNBalan(0).Text & """|"
+    SQL = SQL & "Titulo= """ & Me.txtNBalan(0).Text & """|"
 
 
-    cadParam = cadParam & Sql
+    cadParam = cadParam & SQL
     numParam = numParam + 4
 
 
@@ -1270,7 +1272,9 @@ Dim optExportar As Integer
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text, (Legalizacion <> "")
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text, (Legalizacion <> "")) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook optExportar
         
     If SoloImprimir Or ExportarPDF Then Unload Me
@@ -1279,7 +1283,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String

@@ -745,11 +745,11 @@ Dim PrimeraContrapartida As String
     
     A_Donde = "Leyendo lineas factura"
 '    SQL = "Select factcli_lineas.* , cuentas.codmacta FROM factcli_lineas,Cuentas "
-    SQL = "Select cuentas.codmacta, factcli_lineas.codccost, sum(factcli_lineas.baseimpo) baseimpo FROM factcli_lineas,Cuentas "
+    SQL = "Select cuentas.codmacta, factcli_lineas.codccost, sum(factcli_lineas.baseimpo) baseimpo FROM factcli_lineas,cuentas "
     SQL = SQL & " WHERE numserie='" & NUmSerie
     SQL = SQL & "' AND numfactu= " & NumFac
     SQL = SQL & " AND anofactu=" & NumDiari
-    SQL = SQL & " AND factcli_lineas.codmacta = Cuentas.codmacta"
+    SQL = SQL & " AND factcli_lineas.codmacta = cuentas.codmacta"
     SQL = SQL & " group by 1,2 "
     SQL = SQL & " order by 1,2 "
     RF.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText

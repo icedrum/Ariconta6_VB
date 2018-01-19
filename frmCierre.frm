@@ -2504,7 +2504,9 @@ Dim nomDocu As String
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 22
         
     If SoloImprimir Or ExportarPDF Then Unload Me
@@ -3602,13 +3604,13 @@ On Error GoTo EHacerElCierre
     
     HacerElCierre = False
     Set Rs = New ADODB.Recordset
-    Conn.Execute "Delete from tmpCierre"  ' no hace falta codusu pq solo puede haber trabajando uno a la vez
+    Conn.Execute "Delete from tmpcierre"  ' no hace falta codusu pq solo puede haber trabajando uno a la vez
     
     Label10.Caption = "Leyendo datos"
     Label10.Refresh
     If Not GeneraTmpCierre Then Exit Function
     
-    'Esta grabado el fichero tmpCierre con los importes
+    'Esta grabado el fichero tmpcierre con los importes
     'Fijamos la pb3
     SQL = "Select count(*) from tmpcierre where importe<>0"
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -3700,13 +3702,13 @@ Private Function SimulaCierreApertura() As Boolean
 
     SimulaCierreApertura = False
     Set Rs = New ADODB.Recordset
-    Conn.Execute "Delete from tmpCierre"  ' no hace falta codusu pq solo puede haber trabajando uno a la vez
+    Conn.Execute "Delete from tmpcierre"  ' no hace falta codusu pq solo puede haber trabajando uno a la vez
     
     Label10.Caption = "Leyendo datos"
     Label10.Refresh
     If Not GeneraTmpCierre Then Exit Function
     
-    'Esta grabado el fichero tmpCierre con los importes
+    'Esta grabado el fichero tmpcierre con los importes
     'Fijamos la pb3
     SQL = "Select count(*) from tmpcierre where importe<>0"
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -3750,7 +3752,7 @@ On Error GoTo EGeneraTmpCierre
     'Contador
     SQL = "Select -1 * (sum(coalesce(timported,0))-sum(coalesce(timporteh,0))),codmacta " & cad
 
-    SQL = "INSERT INTO tmpCierre " & SQL
+    SQL = "INSERT INTO tmpcierre " & SQL
     Conn.Execute SQL
     
     
@@ -3896,7 +3898,7 @@ Dim Importe As Currency
 Dim Aux As String
     On Error GoTo EGeneraLineasCierre
     GeneraLineasCierre = False
-    Rs.Open "SELECT * from tmpCierre WHERE importe <>0 ORDER By Cta", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open "SELECT * from tmpcierre WHERE importe <>0 ORDER By Cta", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     CONT = 1
     
     ' hlinapu (numdiari, fechaent, numasien, linliapu, codmacta, numdocum,"
@@ -3959,7 +3961,7 @@ Dim Importe As Currency
 Dim Aux As String
     On Error GoTo EGeneraLineasApertura
     GeneraLineasApertura = False
-    Rs.Open "SELECT * from tmpCierre WHERE importe <>0 ORDER BY Cta ", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open "SELECT * from tmpcierre WHERE importe <>0 ORDER BY Cta ", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     CONT = 1
     
     ' hlinapu (numdiari, fechaent, numasien, linliapu, codmacta, numdocum,"

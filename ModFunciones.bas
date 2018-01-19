@@ -1776,7 +1776,7 @@ On Error GoTo EBLOQ
         MsgBox "No se ha definido ninguna clave principal.", vbExclamation
         
     Else
-        Aux = "Insert into zBloqueos(codusu,tabla,clave) VALUES(" & vUsu.Codigo & ",'" & mTag.tabla
+        Aux = "Insert into zbloqueos(codusu,tabla,clave) VALUES(" & vUsu.Codigo & ",'" & mTag.tabla
         Aux = Aux & "',""" & AuxDef & """)"
         Conn.Execute Aux
         BloqueaRegistroForm = True
@@ -1810,7 +1810,7 @@ On Error Resume Next
     Set mTag = New CTag
     mTag.Cargar TextBoxConTag
     If mTag.Cargado Then
-        SQL = "DELETE from zBloqueos where codusu=" & vUsu.Codigo & " and tabla='" & mTag.tabla & "'"
+        SQL = "DELETE from zbloqueos where codusu=" & vUsu.Codigo & " and tabla='" & mTag.tabla & "'"
         Conn.Execute SQL
         If Err.Number <> 0 Then
             Err.Clear
@@ -2634,8 +2634,8 @@ Public Sub PonerLongCamposGnral(ByRef formulario As Form, Modo As Byte, Opcion A
                     Next i
                 
                 Case 3 'para los TXTAUX
-                    For i = 0 To .txtAux.Count - 1
-                        With .txtAux(i)
+                    For i = 0 To .txtaux.Count - 1
+                        With .txtaux(i)
                             If .MaxLength <> 0 Then
                                .HelpContextID = .MaxLength 'guardamos es maxlenth para reestablecerlo despues
                                 .MaxLength = 0 'tamaño infinito
@@ -2656,8 +2656,8 @@ Public Sub PonerLongCamposGnral(ByRef formulario As Form, Modo As Byte, Opcion A
                         End With
                     Next i
                 Case 3 'para los txtAux
-                    For i = 0 To .txtAux.Count - 1
-                        With .txtAux(i)
+                    For i = 0 To .txtaux.Count - 1
+                        With .txtaux(i)
                             If .HelpContextID <> 0 Then
                                 .MaxLength = .HelpContextID 'volvemos a poner el valor real del maxlenth
                                 .HelpContextID = 0

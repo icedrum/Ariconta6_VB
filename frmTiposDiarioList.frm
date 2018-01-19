@@ -538,14 +538,14 @@ End Sub
 
 
 Private Sub Form_Load()
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Tipos Diario"
     optVarios(0).Value = True
 
     For i = 0 To 1
-        Me.imgTiposDiario(i).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
+        Me.imgTiposDiario(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Next i
      
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
@@ -585,24 +585,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-         frmPpal.cd1.Filter = "*.csv|*.csv"
+         frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -625,10 +625,10 @@ Private Sub txtTiposDiario_KeyDown(Index As Integer, KeyCode As Integer, Shift A
 End Sub
 
 
-Private Sub LanzaFormAyuda(Nombre As String, indice As Integer)
+Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
     Select Case Nombre
     Case "imgTiposDiario"
-        ImgTiposDiario_Click indice
+        ImgTiposDiario_Click Indice
     End Select
     
 End Sub
@@ -638,7 +638,7 @@ Private Sub txtTiposDiario_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtTiposDiario_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 
     txtTiposDiario(Index).Text = Trim(txtTiposDiario(Index).Text)
     
@@ -696,7 +696,9 @@ Dim nomDocu As String
     ImprimeGeneral
     
     If optTipoSal(1).Value Then CopiarFicheroASalida True, txtTipoSalida(1).Text
-    If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
+    If optTipoSal(2).Value Then
+        If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text) Then ExportarPDF = False
+    End If
     If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 4
         
     If SoloImprimir Or ExportarPDF Then Unload Me
