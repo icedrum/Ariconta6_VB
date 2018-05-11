@@ -404,7 +404,7 @@ Public CodmactaUnica As String
 Private WithEvents frmC As frmCal
 Attribute frmC.VB_VarHelpID = -1
 
-Dim cad As String
+Dim Cad As String
 Dim Rs As ADODB.Recordset
 Dim ItmX As ListItem
 Dim Fecha As Date
@@ -433,7 +433,7 @@ Dim Orden As Boolean
 Dim Campo2 As Integer
 
 
-
+Dim OrdenEnFicheroXDF As String
 
 
 Private Sub chkReme_Click()
@@ -509,10 +509,11 @@ Private Sub Form_Load()
 '    imgFecha(2).Visible = False 'Para cambiar la fecha de contabilizacion de los pagos
 
     'Cobros y pagos pendientes
-    
+    CampoOrden = ""
+    LeerFiltroOrdenacion True
     
     If Cobros Then
-        CampoOrden = "cobros.fecvenci"
+        
     
         Caption = "Cobros pendientes"
         chkReme.Value = 1
@@ -520,7 +521,7 @@ Private Sub Form_Load()
     Else
         Caption = "Pagos pendientes"
         
-        CampoOrden = "pagos.fecefect"
+        
     End If
     
     
@@ -566,12 +567,12 @@ Dim H As Integer
     ListView1.Tag = ListView1.Width - ListView1.Tag - 320 'Del margen
     For i = 1 To Me.ListView1.ColumnHeaders.Count
         If InStr(1, ListView1.ColumnHeaders(i).Tag, "%") Then
-            cad = (Val(ListView1.ColumnHeaders(i).Tag) * (Val(ListView1.Tag)) / 100)
+            Cad = (Val(ListView1.ColumnHeaders(i).Tag) * (Val(ListView1.Tag)) / 100)
         Else
             'Si no es de % es valor fijo
-            cad = Val(ListView1.ColumnHeaders(i).Tag)
+            Cad = Val(ListView1.ColumnHeaders(i).Tag)
         End If
-        Me.ListView1.ColumnHeaders(i).Width = Val(cad)
+        Me.ListView1.ColumnHeaders(i).Width = Val(Cad)
     Next i
     ListView1.Tag = H
 End Sub
@@ -611,19 +612,19 @@ Dim i As Integer
     End If
         
    For i = 1 To NCols
-        cad = RecuperaValor(Columnas, i)
-        If cad <> "" Then
+        Cad = RecuperaValor(Columnas, i)
+        If Cad <> "" Then
             Set ColX = ListView1.ColumnHeaders.Add()
-            ColX.Text = cad
+            ColX.Text = Cad
             'ANCHO
-            cad = RecuperaValor(Ancho, i)
-            ColX.Tag = cad
+            Cad = RecuperaValor(Ancho, i)
+            ColX.Tag = Cad
             'align
-            cad = Mid(ALIGN, i, 1)
-            If cad = "L" Then
+            Cad = Mid(ALIGN, i, 1)
+            If Cad = "L" Then
                 'NADA. Es valor x defecto
             Else
-                If cad = "D" Then
+                If Cad = "D" Then
                     ColX.Alignment = lvwColumnRight
                 Else
                     'CENTER
@@ -675,7 +676,14 @@ On Error GoTo ECargando
     End If
     
 ECargando:
-    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description
+    If Err.Number <> 0 Then
+        MuestraError Err.Number, Err.Description
+        If Cobros Then
+            CampoOrden = "cobros.fecvenci"
+        Else
+            CampoOrden = "pagos.fecefect"
+        End If
+    End If
     Text2(0).Text = Format(Importe, FormatoImporte)
     Text2(1).Text = Format(Vencido, FormatoImporte)
     
@@ -690,16 +698,16 @@ Private Sub CargaCobros()
 Dim Inserta As Boolean
 
     RiesTalPag = 0
-    cad = DevSQL
+    Cad = DevSQL
     
     'ORDENACION
     If CampoOrden = "" Then CampoOrden = "cobros.fecvenci"
-    cad = cad & " ORDER BY " & CampoOrden
-    If Orden Then cad = cad & " DESC"
-    If CampoOrden <> "cobros.fecvenci" Then cad = cad & ", cobros.fecvenci"
+    Cad = Cad & " ORDER BY " & CampoOrden
+    'If Orden Then Cad = Cad & " DESC"
+    If CampoOrden <> "cobros.fecvenci" Then Cad = Cad & ", cobros.fecvenci"
     
     
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
         Inserta = True
         '[Monica]16/08/2016: solo en el caso de pendientes de cobro no lo veo todo,  situacion = 0
@@ -835,40 +843,40 @@ End Sub
 
 
 Private Function DevSQL() As String
-Dim cad As String
+Dim Cad As String
 
     If Not Cobros Then
-        cad = "SELECT pagos.*, pagos.nomprove nommacta, tipofpago.siglas,pagos.codmacta,ImpEfect-coalesce(imppagad,0) as imppdte  FROM"
-        cad = cad & " pagos, formapago, tipofpago"
-        cad = cad & " Where formapago.tipforpa = tipofpago.tipoformapago"
-        cad = cad & " AND pagos.codforpa = formapago.codforpa"
-        If vSql <> "" Then cad = cad & " AND " & vSql
+        Cad = "SELECT pagos.*, pagos.nomprove nommacta, tipofpago.siglas,pagos.codmacta,ImpEfect-coalesce(imppagad,0) as imppdte  FROM"
+        Cad = Cad & " pagos, formapago, tipofpago"
+        Cad = Cad & " Where formapago.tipforpa = tipofpago.tipoformapago"
+        Cad = Cad & " AND pagos.codforpa = formapago.codforpa"
+        If vSql <> "" Then Cad = Cad & " AND " & vSql
     
     Else
         'cobros
-        cad = "SELECT cobros.*, formapago.nomforpa, tipofpago.descformapago, tipofpago.siglas, "
-        cad = cad & " cobros.nomclien nommacta,cobros.codmacta,tipofpago.tipoformapago, "
-        cad = cad & " coalesce(impvenci,0) + coalesce(gastos,0) - coalesce(impcobro,0) imppdte "
-        cad = cad & " FROM (cobros INNER JOIN formapago ON cobros.codforpa = formapago.codforpa) INNER JOIN tipofpago ON formapago.tipforpa = tipofpago.tipoformapago "
-        If vSql <> "" Then cad = cad & " WHERE " & vSql
+        Cad = "SELECT cobros.*, formapago.nomforpa, tipofpago.descformapago, tipofpago.siglas, "
+        Cad = Cad & " cobros.nomclien nommacta,cobros.codmacta,tipofpago.tipoformapago, "
+        Cad = Cad & " coalesce(impvenci,0) + coalesce(gastos,0) - coalesce(impcobro,0) imppdte "
+        Cad = Cad & " FROM (cobros INNER JOIN formapago ON cobros.codforpa = formapago.codforpa) INNER JOIN tipofpago ON formapago.tipforpa = tipofpago.tipoformapago "
+        If vSql <> "" Then Cad = Cad & " WHERE " & vSql
     End If
     'SQL pedido
-    DevSQL = cad
+    DevSQL = Cad
 End Function
 
 
 Private Sub CargaPagos()
 
-    cad = DevSQL
+    Cad = DevSQL
     
     'ORDENACION
     If CampoOrden = "" Then CampoOrden = "pagos.fecefect"
-    cad = cad & " ORDER BY " & CampoOrden
-    If Orden Then cad = cad & " DESC"
-    If CampoOrden <> "pagos.fecefect" Then cad = cad & ", pagos.fecefect"
+    Cad = Cad & " ORDER BY " & CampoOrden
+    If Orden Then Cad = Cad & " DESC"
+    If CampoOrden <> "pagos.fecefect" Then Cad = Cad & ", pagos.fecefect"
 
 
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
         InsertaItemPago
         Rs.MoveNext
@@ -939,11 +947,16 @@ Private Sub Form_Unload(Cancel As Integer)
     'Por si acaso
     NumeroTalonPagere = ""
     CodmactaUnica = ""
+    
+    
+    
+    LeerFiltroOrdenacion False
+    
 End Sub
 
 
 Private Sub frmC_Selec(vFecha As Date)
-    cad = Format(vFecha, "dd/mm/yyyy")
+    Cad = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
@@ -955,50 +968,54 @@ Private Sub imgFecha_Click(Index As Integer)
             If IsDate(Text1.Text) Then Fecha = CDate(Text1.Text)
         End If
     End Select
-    cad = ""
+    Cad = ""
     Set frmC = New frmCal
     frmC.Fecha = Fecha
     frmC.Show vbModal
     Set frmC = Nothing
-    If cad <> "" Then
+    If Cad <> "" Then
         Select Case Index
         Case 1
-            Text1.Text = cad
+            Text1.Text = Cad
         End Select
     End If
 End Sub
 
 
 
+
+
 Private Sub ListView1_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
 Dim Campo2 As Integer
+
+    
 
     Orden = Not Orden
     If Cobros Then
 '        Columnas = "Serie|Nº Factura|F.Factura|F. VTO|Nº|CLIENTE|Tipo|Importe|Gasto|Cobrado|Pendiente|"
         Select Case ColumnHeader
             Case "Serie"
-                CampoOrden = "cobros.numserie"
-            Case "Nº Factura"
-                CampoOrden = "cobros.numfactu"
+                CampoOrden = "cobros.numserie " & IIf(Orden, "DESC", "") & ",cobros.numfactu"
+            Case "Factura"
+                CampoOrden = "cobros.numfactu " & IIf(Orden, "DESC", "") & ",cobros.fecfactu"
             Case "F.Factura"
-                CampoOrden = "cobros.fecfactu"
+                CampoOrden = "cobros.fecfactu " & IIf(Orden, "DESC", "") & ",cobros.numserie,cobros.numfactu"
             Case "F. VTO"
-                CampoOrden = "cobros.fecvenci"
+                CampoOrden = "cobros.fecvenci " & IIf(Orden, "DESC", "") & ",cobros.fecfactu,cobros.numfactu"
             Case "Nº"
-                CampoOrden = "cobros.numorden"
+                CampoOrden = "cobros.numorden " & IIf(Orden, "DESC", "") & ""
             Case "CLIENTE"
-                CampoOrden = "nommacta"
+                CampoOrden = "nommacta " & IIf(Orden, "DESC", "") & ",cobros.fecfactu,cobros.numfactu"
             Case "Tipo"
-                CampoOrden = "siglas"
+                CampoOrden = "siglas " & IIf(Orden, "DESC", "") & ",cobros.fecfactu,cobros.numfactu"""
             Case "Importe"
-                CampoOrden = "cobros.impvenci"
+                CampoOrden = "cobros.impvenci " & IIf(Orden, "DESC", "") & " ,cobros.fecfactu,cobros.numfactu"
             Case "Gasto"
-                CampoOrden = "cobros.gastos"
+                CampoOrden = "cobros.gastos " & IIf(Orden, "DESC", "") & " ,cobros.fecfactu,cobros.numfactu"
             Case "Cobrado"
-                CampoOrden = "cobros.impcobro"
+                CampoOrden = "cobros.impcobro " & IIf(Orden, "DESC", "") & " ,cobros.fecfactu,cobros.numfactu"
             Case "Pendiente"
-                CampoOrden = "imppdte"
+                CampoOrden = "imppdte " & IIf(Orden, "DESC", "") & " ,cobros.fecfactu,cobros.numfactu"
         End Select
         CargaList
     Else
@@ -1132,3 +1149,82 @@ Private Function ColD(Colu As Integer) As Integer
 End Function
 
 
+
+
+Private Sub LeerFiltroOrdenacion(Leer As Boolean)
+Dim NF As Integer
+Dim C As String
+    On Error GoTo eLeerFiltroOrdenacion
+    
+    
+    
+    
+    NF = FreeFile
+    If Cobros Then
+        
+        
+        
+        
+        C = App.Path & "\OrdenCob.xdf"
+        If Leer Then
+            CampoOrden = "cobros.fecvenci"
+        
+            If Dir(C, vbArchive) <> "" Then
+                Open C For Input As #NF
+                Line Input #NF, C
+                Close #NF
+                CampoOrden = C
+               
+            End If
+            OrdenEnFicheroXDF = CampoOrden
+        Else
+            
+            If OrdenEnFicheroXDF <> CampoOrden Then
+                If CampoOrden = "cobros.fecvenci" Then
+                    If Dir(C, vbArchive) <> "" Then Kill C
+                Else
+                    Open C For Output As #NF
+                    Print #NF, CampoOrden
+                    Close #NF
+                End If
+            
+            End If
+        End If
+        
+    Else
+        C = App.Path & "\Ordenpag.xdf"
+     
+       
+        If Leer Then
+            CampoOrden = "pagos.fecefect"
+        
+            If Dir(C, vbArchive) <> "" Then
+                Open C For Input As #NF
+                Line Input #NF, C
+                Close #NF
+                CampoOrden = C
+                
+            End If
+            
+        Else
+            
+            If OrdenEnFicheroXDF <> CampoOrden Then
+                If CampoOrden = "pagos.fecefect" Then
+                    If Dir(C, vbArchive) <> "" Then Kill C
+                Else
+                    Open C For Output As #NF
+                    Print #NF, CampoOrden
+                    Close #NF
+                End If
+            
+            End If
+        End If
+    
+    End If
+    
+    OrdenEnFicheroXDF = CampoOrden
+    
+    Exit Sub
+eLeerFiltroOrdenacion:
+    Err.Clear
+End Sub

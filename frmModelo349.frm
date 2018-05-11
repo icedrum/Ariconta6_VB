@@ -177,10 +177,12 @@ Begin VB.Form frmModelo349
             _ExtentX        =   7117
             _ExtentY        =   5080
             View            =   3
+            LabelEdit       =   1
             LabelWrap       =   -1  'True
             HideSelection   =   -1  'True
             HideColumnHeaders=   -1  'True
             Checkboxes      =   -1  'True
+            FullRowSelect   =   -1  'True
             _Version        =   393217
             ForeColor       =   -2147483640
             BackColor       =   -2147483643
@@ -1296,7 +1298,9 @@ On Error GoTo EComprobarCuentas349
         
         Importe = Rs!s1
         cad = Asc(Rs!Tipo) & ",'"
-        cad = cad & Rs!codmacta & "','" & Rs!nifdatos & "'," & DBSet(Rs!Nommacta, "T") & "," & DBSet(Rs!dirdatos, "T") & "," & DBSet(Rs!CodPobla, "T") & "," & TransformaComasPuntos(CStr(Importe))
+        cad = cad & Rs!codmacta & "','" & Rs!nifdatos & "'," & DBSet(Rs!Nommacta, "T") & "," & DBSet(Rs!dirdatos, "T") & ","
+        cad = cad & IIf(IsNull(Rs!CodPobla), "0", DBSet(Rs!CodPobla, "T"))
+        cad = cad & "," & TransformaComasPuntos(CStr(Importe))
         cad = SQL & cad & ")"
         Conn.Execute cad
         

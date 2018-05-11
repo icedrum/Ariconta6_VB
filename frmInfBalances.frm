@@ -27,7 +27,7 @@ Begin VB.Form frmInfBalances
       EndProperty
       Height          =   5595
       Left            =   7110
-      TabIndex        =   13
+      TabIndex        =   21
       Top             =   0
       Width           =   4485
       Begin VB.TextBox txtFecha 
@@ -44,7 +44,7 @@ Begin VB.Form frmInfBalances
          Height          =   360
          Index           =   7
          Left            =   1920
-         TabIndex        =   24
+         TabIndex        =   6
          Top             =   750
          Width           =   1485
       End
@@ -61,7 +61,7 @@ Begin VB.Form frmInfBalances
          EndProperty
          Height          =   240
          Left            =   150
-         TabIndex        =   22
+         TabIndex        =   7
          Top             =   1950
          Width           =   4155
       End
@@ -78,7 +78,7 @@ Begin VB.Form frmInfBalances
          EndProperty
          Height          =   495
          Left            =   150
-         TabIndex        =   21
+         TabIndex        =   8
          Top             =   2490
          Value           =   1  'Checked
          Width           =   4035
@@ -86,7 +86,7 @@ Begin VB.Form frmInfBalances
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   3750
-         TabIndex        =   20
+         TabIndex        =   28
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -115,7 +115,7 @@ Begin VB.Form frmInfBalances
          Height          =   195
          Index           =   9
          Left            =   270
-         TabIndex        =   25
+         TabIndex        =   29
          Top             =   780
          Width           =   690
       End
@@ -141,7 +141,7 @@ Begin VB.Form frmInfBalances
       EndProperty
       Height          =   2925
       Left            =   120
-      TabIndex        =   12
+      TabIndex        =   20
       Top             =   0
       Width           =   6915
       Begin VB.ComboBox cmbFecha 
@@ -160,7 +160,7 @@ Begin VB.Form frmInfBalances
          Left            =   2910
          List            =   "frmInfBalances.frx":008D
          Style           =   2  'Dropdown List
-         TabIndex        =   33
+         TabIndex        =   2
          Top             =   1890
          Width           =   1215
       End
@@ -168,7 +168,7 @@ Begin VB.Form frmInfBalances
          BorderStyle     =   0  'None
          Height          =   555
          Left            =   120
-         TabIndex        =   30
+         TabIndex        =   33
          Top             =   2250
          Width           =   4665
          Begin VB.ComboBox cmbFecha 
@@ -187,7 +187,7 @@ Begin VB.Form frmInfBalances
             Left            =   2790
             List            =   "frmInfBalances.frx":0091
             Style           =   2  'Dropdown List
-            TabIndex        =   34
+            TabIndex        =   5
             Top             =   150
             Width           =   1215
          End
@@ -207,7 +207,7 @@ Begin VB.Form frmInfBalances
             Left            =   1110
             List            =   "frmInfBalances.frx":0095
             Style           =   2  'Dropdown List
-            TabIndex        =   31
+            TabIndex        =   4
             Top             =   150
             Width           =   1575
          End
@@ -225,7 +225,7 @@ Begin VB.Form frmInfBalances
             Height          =   195
             Index           =   0
             Left            =   210
-            TabIndex        =   32
+            TabIndex        =   34
             Top             =   210
             Width           =   615
          End
@@ -242,9 +242,9 @@ Begin VB.Form frmInfBalances
             Strikethrough   =   0   'False
          EndProperty
          Height          =   240
-         Left            =   5130
-         TabIndex        =   29
-         Top             =   1950
+         Left            =   5040
+         TabIndex        =   3
+         Top             =   1920
          Width           =   1545
       End
       Begin VB.TextBox txtNBalan 
@@ -262,7 +262,7 @@ Begin VB.Form frmInfBalances
          Index           =   0
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   28
+         TabIndex        =   32
          Top             =   1050
          Width           =   4185
       End
@@ -282,7 +282,7 @@ Begin VB.Form frmInfBalances
          Left            =   1230
          List            =   "frmInfBalances.frx":0099
          Style           =   2  'Dropdown List
-         TabIndex        =   23
+         TabIndex        =   1
          Top             =   1890
          Width           =   1575
       End
@@ -326,7 +326,7 @@ Begin VB.Form frmInfBalances
          Height          =   195
          Index           =   4
          Left            =   330
-         TabIndex        =   19
+         TabIndex        =   27
          Top             =   1950
          Width           =   615
       End
@@ -345,7 +345,7 @@ Begin VB.Form frmInfBalances
          Height          =   195
          Index           =   7
          Left            =   240
-         TabIndex        =   18
+         TabIndex        =   26
          Top             =   690
          Width           =   1200
       End
@@ -364,7 +364,7 @@ Begin VB.Form frmInfBalances
          Height          =   195
          Index           =   8
          Left            =   240
-         TabIndex        =   17
+         TabIndex        =   25
          Top             =   1620
          Width           =   1410
       End
@@ -383,7 +383,7 @@ Begin VB.Form frmInfBalances
       EndProperty
       Height          =   375
       Left            =   10320
-      TabIndex        =   3
+      TabIndex        =   11
       Top             =   5790
       Width           =   1215
    End
@@ -400,7 +400,7 @@ Begin VB.Form frmInfBalances
       Height          =   375
       Index           =   1
       Left            =   8730
-      TabIndex        =   1
+      TabIndex        =   9
       Top             =   5790
       Width           =   1455
    End
@@ -418,7 +418,7 @@ Begin VB.Form frmInfBalances
       Height          =   375
       Index           =   0
       Left            =   120
-      TabIndex        =   2
+      TabIndex        =   10
       Top             =   5730
       Width           =   1335
    End
@@ -435,7 +435,7 @@ Begin VB.Form frmInfBalances
       EndProperty
       Height          =   2655
       Left            =   120
-      TabIndex        =   4
+      TabIndex        =   12
       Top             =   2940
       Width           =   6915
       Begin VB.CommandButton PushButtonImpr 
@@ -451,7 +451,7 @@ Begin VB.Form frmInfBalances
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   16
+         TabIndex        =   24
          Top             =   720
          Width           =   1515
       End
@@ -460,7 +460,7 @@ Begin VB.Form frmInfBalances
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   15
+         TabIndex        =   23
          Top             =   1680
          Width           =   255
       End
@@ -469,7 +469,7 @@ Begin VB.Form frmInfBalances
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   14
+         TabIndex        =   22
          Top             =   1200
          Width           =   255
       End
@@ -487,7 +487,7 @@ Begin VB.Form frmInfBalances
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   11
+         TabIndex        =   19
          Top             =   1680
          Width           =   4665
       End
@@ -505,7 +505,7 @@ Begin VB.Form frmInfBalances
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   10
+         TabIndex        =   18
          Top             =   1200
          Width           =   4665
       End
@@ -523,7 +523,7 @@ Begin VB.Form frmInfBalances
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   9
+         TabIndex        =   17
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -542,7 +542,7 @@ Begin VB.Form frmInfBalances
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   8
+         TabIndex        =   16
          Top             =   2160
          Width           =   975
       End
@@ -560,7 +560,7 @@ Begin VB.Form frmInfBalances
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   7
+         TabIndex        =   15
          Top             =   1680
          Width           =   975
       End
@@ -578,7 +578,7 @@ Begin VB.Form frmInfBalances
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   6
+         TabIndex        =   14
          Top             =   1200
          Width           =   1515
       End
@@ -596,7 +596,7 @@ Begin VB.Form frmInfBalances
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   5
+         TabIndex        =   13
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -605,7 +605,7 @@ Begin VB.Form frmInfBalances
    Begin MSComctlLib.ProgressBar pb2 
       Height          =   285
       Left            =   1830
-      TabIndex        =   26
+      TabIndex        =   30
       Top             =   5760
       Visible         =   0   'False
       Width           =   5205
@@ -628,7 +628,7 @@ Begin VB.Form frmInfBalances
       EndProperty
       Height          =   375
       Left            =   10320
-      TabIndex        =   27
+      TabIndex        =   31
       Top             =   5790
       Width           =   1215
    End
@@ -673,7 +673,7 @@ Attribute frmCon.VB_VarHelpID = -1
 Private frmCtas As frmCtasAgrupadas
 
 Private SQL As String
-Dim cad As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -710,9 +710,17 @@ End Sub
 
 
 
+Private Sub chk1_KeyPress(KeyAscii As Integer)
+    KEYpressGnral KeyAscii, 3, False
+End Sub
+
 Private Sub chkBalPerCompa_Click()
     Frame2.visible = Me.chkBalPerCompa.Value = 1
     Frame2.Enabled = Me.chkBalPerCompa.Value = 1
+End Sub
+
+Private Sub chkBalPerCompa_KeyPress(KeyAscii As Integer)
+     KEYpressGnral KeyAscii, 3, False
 End Sub
 
 Private Sub cmdAccion_Click(Index As Integer)
@@ -744,8 +752,8 @@ Private Sub cmdAccion_Click(Index As Integer)
     
         If Saldo473en470 Then
             'Deberiamos indicar si esta configurado para leer de la 470
-            cad = "codmacta = '4' or codmacta='47' or codmacta like '473%' AND numbalan"
-            RC = DevuelveDesdeBD("concat(pasivo,' ',codigo,': ',codmacta)", "balances_ctas", cad, txtBalan(0).Text & " ORDER BY codmacta")
+            Cad = "codmacta = '4' or codmacta='47' or codmacta like '473%' AND numbalan"
+            RC = DevuelveDesdeBD("concat(pasivo,' ',codigo,': ',codmacta)", "balances_ctas", Cad, txtBalan(0).Text & " ORDER BY codmacta")
             If RC <> "" Then MsgBox "La cuenta 470 ha sido configurada en el balance: " & RC, vbExclamation
                 
         End If
@@ -823,8 +831,8 @@ Dim F As Date
         If Legalizacion <> "" Then
             optTipoSal(2).Value = True
                 
-            cad = RecuperaValor(Legalizacion, 3)
-            F = CDate(cad)
+            Cad = RecuperaValor(Legalizacion, 3)
+            F = CDate(Cad)
             
             cmbFecha(0).ListIndex = Month(F) - 1
             cmbFecha(1).ListIndex = Month(F) - 1
@@ -836,9 +844,9 @@ Dim F As Date
                  
                 
                 
-            cad = RecuperaValor(Legalizacion, 4)
+            Cad = RecuperaValor(Legalizacion, 4)
                         
-            If Val(cad) = 0 Then
+            If Val(Cad) = 0 Then
                 chkBalPerCompa.Value = 0
             Else
                 'txtAno(1).Text = Val(txtAno(0).Text) - 1
@@ -900,7 +908,7 @@ Private Sub Form_Load()
     PrimeraVez = True
      
     'Fecha informe
-    txtFecha(7).Text = Format(Now, "dd/mm/yyyy")
+    txtfecha(7).Text = Format(Now, "dd/mm/yyyy")
     
     CargarComboFecha
     
@@ -934,7 +942,7 @@ Private Sub Form_Load()
     If Legalizacion <> "" Then
         PonerBalancePredeterminado
         
-        txtFecha(7).Text = RecuperaValor(Legalizacion, 1)     'Fecha informe
+        txtfecha(7).Text = RecuperaValor(Legalizacion, 1)     'Fecha informe
             
 '        txtAno(0).Text = Year(CDate(RecuperaValor(Legalizacion, 3)))     'Fin
         PosicionarCombo cmbFecha(2), Year(CDate(RecuperaValor(Legalizacion, 3)))
@@ -970,7 +978,7 @@ Private Sub frmC_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
@@ -984,7 +992,7 @@ Dim cWhere As String
     End If
     
     Set frmC = New frmBasico
-    AyudaBalances frmC, , cWhere
+    AyudaBalances frmC, 0, , cWhere
     Set frmC = Nothing
 
     PonFoco txtBalan(Index)
@@ -1003,10 +1011,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
         
     End Select
     
@@ -1070,7 +1078,7 @@ End Sub
 
 
 Private Sub txtBalan_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim RC As String
 Dim Hasta As Integer
 
@@ -1155,7 +1163,7 @@ Dim optExportar As Integer
     cadParam = cadParam & "pTipo=" & Tipo & "|"
     numParam = numParam + 1
     
-    cadParam = cadParam & "pFecha=""" & txtFecha(7).Text & """|"
+    cadParam = cadParam & "pFecha=""" & txtfecha(7).Text & """|"
     numParam = numParam + 1
     
     cadParam = cadParam & "pDHFecha=""" & cmbFecha(0).Text & " " & cmbFecha(2).Text & """|"
@@ -1227,7 +1235,7 @@ Dim optExportar As Integer
     End If
     RC = "perdidasyganancias= " & RC & "|"
           
-    SQL = RC & "FechaImp= """ & txtFecha(7).Text & """|"
+    SQL = RC & "FechaImp= """ & txtfecha(7).Text & """|"
     SQL = SQL & "Titulo= """ & Me.txtNBalan(0).Text & """|"
     'PGC 2008 SOlo pone el año, NO el mes
     If vParam.NuevoPlanContable Then
@@ -1297,18 +1305,18 @@ End Function
 
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
@@ -1352,7 +1360,7 @@ Private Function DatosOK() As Boolean
 
 
     'Fecha informe
-    If txtFecha(7).Text = "" Then
+    If txtfecha(7).Text = "" Then
         MsgBox "Fecha informe incorrecta.", vbExclamation
         Exit Function
     End If
@@ -1367,9 +1375,9 @@ Dim L As Integer
 
 L = 1
 Do
-    cad = RecuperaValor(Lista, L)
-    If cad <> "" Then
-        i = Val(cad)
+    Cad = RecuperaValor(Lista, L)
+    If Cad <> "" Then
+        i = Val(Cad)
         With cmbFecha(i)
             .Clear
             For CONT = 1 To 12
@@ -1380,7 +1388,7 @@ Do
         End With
     End If
     L = L + 1
-Loop Until cad = ""
+Loop Until Cad = ""
 End Sub
 
 Private Sub txtTipoSalida_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)

@@ -27,7 +27,7 @@ Begin VB.Form frmInmoInfEst
       EndProperty
       Height          =   7065
       Left            =   7110
-      TabIndex        =   20
+      TabIndex        =   24
       Top             =   0
       Width           =   4455
       Begin VB.Frame Frame1 
@@ -43,7 +43,7 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   2025
          Left            =   210
-         TabIndex        =   25
+         TabIndex        =   29
          Top             =   660
          Width           =   4035
          Begin VB.CheckBox ChkTipo 
@@ -60,7 +60,7 @@ Begin VB.Form frmInmoInfEst
             Height          =   255
             Index           =   4
             Left            =   180
-            TabIndex        =   29
+            TabIndex        =   9
             Top             =   1590
             Width           =   3405
          End
@@ -78,7 +78,7 @@ Begin VB.Form frmInmoInfEst
             Height          =   255
             Index           =   2
             Left            =   180
-            TabIndex        =   28
+            TabIndex        =   7
             Top             =   810
             Width           =   3405
          End
@@ -96,7 +96,7 @@ Begin VB.Form frmInmoInfEst
             Height          =   255
             Index           =   3
             Left            =   180
-            TabIndex        =   27
+            TabIndex        =   8
             Top             =   1200
             Width           =   3405
          End
@@ -114,7 +114,7 @@ Begin VB.Form frmInmoInfEst
             Height          =   255
             Index           =   1
             Left            =   180
-            TabIndex        =   26
+            TabIndex        =   6
             Top             =   390
             Value           =   1  'Checked
             Width           =   3405
@@ -152,7 +152,7 @@ Begin VB.Form frmInmoInfEst
       EndProperty
       Height          =   4395
       Left            =   120
-      TabIndex        =   17
+      TabIndex        =   21
       Top             =   0
       Width           =   6915
       Begin VB.TextBox txtNConcepto 
@@ -511,7 +511,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   255
          Index           =   6
          Left            =   270
-         TabIndex        =   24
+         TabIndex        =   28
          Top             =   630
          Width           =   1110
       End
@@ -543,7 +543,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   195
          Index           =   1
          Left            =   270
-         TabIndex        =   19
+         TabIndex        =   23
          Top             =   1380
          Width           =   735
       End
@@ -561,7 +561,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   195
          Index           =   0
          Left            =   270
-         TabIndex        =   18
+         TabIndex        =   22
          Top             =   960
          Width           =   780
       End
@@ -580,7 +580,7 @@ Begin VB.Form frmInmoInfEst
       EndProperty
       Height          =   375
       Left            =   10290
-      TabIndex        =   8
+      TabIndex        =   12
       Top             =   7290
       Width           =   1215
    End
@@ -597,7 +597,7 @@ Begin VB.Form frmInmoInfEst
       Height          =   375
       Index           =   1
       Left            =   8730
-      TabIndex        =   6
+      TabIndex        =   10
       Top             =   7290
       Width           =   1455
    End
@@ -615,7 +615,7 @@ Begin VB.Form frmInmoInfEst
       Height          =   375
       Index           =   0
       Left            =   120
-      TabIndex        =   7
+      TabIndex        =   11
       Top             =   7230
       Width           =   1335
    End
@@ -632,7 +632,7 @@ Begin VB.Form frmInmoInfEst
       EndProperty
       Height          =   2655
       Left            =   120
-      TabIndex        =   9
+      TabIndex        =   13
       Top             =   4410
       Width           =   6915
       Begin VB.CommandButton PushButtonImpr 
@@ -648,7 +648,7 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   23
+         TabIndex        =   27
          Top             =   720
          Width           =   1515
       End
@@ -657,7 +657,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   22
+         TabIndex        =   26
          Top             =   1680
          Width           =   255
       End
@@ -666,7 +666,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   21
+         TabIndex        =   25
          Top             =   1200
          Width           =   255
       End
@@ -684,7 +684,7 @@ Begin VB.Form frmInmoInfEst
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   16
+         TabIndex        =   20
          Top             =   1680
          Width           =   4665
       End
@@ -702,7 +702,7 @@ Begin VB.Form frmInmoInfEst
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   15
+         TabIndex        =   19
          Top             =   1200
          Width           =   4665
       End
@@ -720,7 +720,7 @@ Begin VB.Form frmInmoInfEst
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   14
+         TabIndex        =   18
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -739,7 +739,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   13
+         TabIndex        =   17
          Top             =   2160
          Width           =   975
       End
@@ -757,7 +757,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   12
+         TabIndex        =   16
          Top             =   1680
          Width           =   975
       End
@@ -775,7 +775,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   11
+         TabIndex        =   15
          Top             =   1200
          Width           =   1515
       End
@@ -793,7 +793,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   10
+         TabIndex        =   14
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -834,8 +834,8 @@ Attribute frmCC.VB_VarHelpID = -1
 Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
 
-Private Sql As String
-Dim cad As String
+Private SQL As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -879,7 +879,7 @@ Dim tabla As String
     
     'si es entre fechas enlazamos con el hco de amortizaciones
     tabla = "inmovele"
-    If txtFecha(0).Text <> "" Or txtFecha(1).Text <> "" Then
+    If txtfecha(0).Text <> "" Or txtfecha(1).Text <> "" Then
         tabla = "inmovele INNER JOIN inmovele_his ON inmovele.codinmov = inmovele_his.codinmov"
         
         If Not CargarTablaTemporal(tabla, cadselect) Then Exit Sub
@@ -914,21 +914,21 @@ Dim tabla As String
 End Sub
 
 Private Function CargarTablaTemporal(tabla As String, cadselect As String) As Boolean
-Dim Sql As String
+Dim SQL As String
 
     On Error GoTo eCargarTablaTemporal
     
     CargarTablaTemporal = False
 
-    Sql = "delete from tmpconextcab where codusu = " & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "delete from tmpconextcab where codusu = " & vUsu.Codigo
+    Conn.Execute SQL
     
-    Sql = "insert into tmpconextcab (codusu, cta, acumantD, acumantH) select " & vUsu.Codigo & ", inmovele.codinmov, inmovele.codinmov, sum(imporinm) from  " & tabla
-    Sql = Sql & " where " & cadselect
-    Sql = Sql & " group by 1, 2"
-    Sql = Sql & " order by 1,2 "
+    SQL = "insert into tmpconextcab (codusu, cta, acumantD, acumantH) select " & vUsu.Codigo & ", inmovele.codinmov, inmovele.codinmov, sum(imporinm) from  " & tabla
+    SQL = SQL & " where " & cadselect
+    SQL = SQL & " group by 1, 2"
+    SQL = SQL & " order by 1,2 "
     
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     CargarTablaTemporal = True
     Exit Function
@@ -979,30 +979,30 @@ Private Sub Form_Load()
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
-    Frame2.Visible = vParam.autocoste
+    Frame2.visible = vParam.autocoste
     Frame2.Enabled = vParam.autocoste
     
 End Sub
 
 Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgConcepto_Click(Index As Integer)
     
-    Sql = ""
+    SQL = ""
     AbiertoOtroFormEnListado = True
     Set frmCon = New frmInmoConceptos
     frmCon.DatosADevolverBusqueda = True
     frmCon.Show vbModal
     Set frmCon = Nothing
-    If Sql <> "" Then
-        Me.txtConcepto(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtNConcepto(Index).Text = RecuperaValor(Sql, 2)
+    If SQL <> "" Then
+        Me.txtConcepto(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtNConcepto(Index).Text = RecuperaValor(SQL, 2)
     Else
         QuitarPulsacionMas Me.txtConcepto(Index)
     End If
@@ -1013,12 +1013,12 @@ Private Sub imgConcepto_Click(Index As Integer)
 End Sub
 
 Private Sub frmCC_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 Private Sub ImgCCoste_Click(Index As Integer)
     
-    Sql = ""
+    SQL = ""
     AbiertoOtroFormEnListado = True
     
     Set frmCC = New frmCCCentroCoste
@@ -1027,9 +1027,9 @@ Private Sub ImgCCoste_Click(Index As Integer)
     Set frmCC = Nothing
     
     
-    If Sql <> "" Then
-        Me.txtCCoste(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtNCCoste(Index).Text = RecuperaValor(Sql, 2)
+    If SQL <> "" Then
+        Me.txtCCoste(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtNCCoste(Index).Text = RecuperaValor(SQL, 2)
     Else
         QuitarPulsacionMas Me.txtCCoste(Index)
     End If
@@ -1050,10 +1050,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
         
     End Select
     
@@ -1123,7 +1123,7 @@ Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
 End Sub
 
 Private Sub txtConcepto_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 
     txtConcepto(Index).Text = Trim(txtConcepto(Index).Text)
     
@@ -1146,10 +1146,10 @@ Private Sub txtConcepto_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCCoste_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCCoste(Index).Text = Trim(txtCCoste(Index).Text)
@@ -1170,26 +1170,29 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    If txtFecha(0).Text <> "" Or txtFecha(1).Text <> "" Then
-        Sql = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta,inmovele.valoradq ValorAdquisicion ,inmovele.fechaadq FechaAdquisicion, inmovele_his.fechainm FechaAmortizacion, inmovele_his.imporinm ImporteAmortizacion, inmovele_his.porcinm PorcentajeAmortizacion "
-        Sql = Sql & " FROM (inmovele inner join inmovele_his on inmovele.codinmov = inmovele_his.codinmov) "
+    If txtfecha(0).Text <> "" Or txtfecha(1).Text <> "" Then
+        SQL = "Select inmovele.conconam concepto, inmovcon.nomconam DescConcepto,inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta,"
+        SQL = SQL & " inmovele.fechaadq FechaAdquisicion,inmovele.valoradq ValorAdquisicion,inmovele.amortacu AmorAcumulada , tmpconextcab.acumantH AmortPeridodo , inmovele.valoradq -inmovele.amortacu Pendiente "
+        SQL = SQL & " ,inmovele.impventa Venta, inmovele.fecventa FechaVenta"
+        SQL = SQL & " FROM   (inmovele inmovele INNER JOIN inmovcon inmovcon ON inmovele.conconam=inmovcon.codconam)"
+        SQL = SQL & " INNER JOIN tmpconextcab tmpconextcab ON inmovele.codinmov=tmpconextcab.acumantD"
     
-        If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
+        If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
         
-        Sql = Sql & " ORDER BY 1,2,5,6" ' ordenado por codigo y por fecha de inmovilizado
+        SQL = SQL & " ORDER BY 1,2" ' ordenado por codigo y por fecha de inmovilizado
     
     Else
-        Sql = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta ,inmovele.fechaadq FechaAdquisicion,inmovele.valoradq ValorAdquisicion, inmovele.amortacu Amortizado, coalesce(inmovele.valoradq,0) - coalesce(inmovele.amortacu,0) Pendiente, inmovele.fecventa FechaVta, inmovele.impventa ImpVenta "
-        Sql = Sql & " FROM inmovele "
+        SQL = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta ,inmovele.fechaadq FechaAdquisicion,inmovele.valoradq ValorAdquisicion, inmovele.amortacu Amortizado, coalesce(inmovele.valoradq,0) - coalesce(inmovele.amortacu,0) Pendiente, inmovele.fecventa FechaVta, inmovele.impventa ImpVenta "
+        SQL = SQL & " FROM inmovele "
         
-        If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
+        If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
         
-        Sql = Sql & " ORDER BY 1,2,4" ' ordenado por codigo y por fecha de adquisicion
+        SQL = SQL & " ORDER BY 1,2,4" ' ordenado por codigo y por fecha de adquisicion
     End If
     
         
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1203,7 +1206,7 @@ Dim CADENA As String
     conSubRPT = False
         
     indRPT = "0505-00"
-    If txtFecha(0).Text <> "" Or txtFecha(1).Text <> "" Then
+    If txtfecha(0).Text <> "" Or txtfecha(1).Text <> "" Then
         indRPT = "0505-01"
         cadFormula = "{tmpconextcab.codusu} = " & vUsu.Codigo
     End If
@@ -1242,7 +1245,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -1253,8 +1256,8 @@ Dim Situacion As String
     If Not PonerDesdeHasta("inmovele.conconam", "COI", Me.txtConcepto(0), Me.txtNConcepto(0), Me.txtConcepto(1), Me.txtNConcepto(1), "pDHConcepto=""") Then Exit Function
     If Not PonerDesdeHasta("inmovele.codccost", "CCO", Me.txtCCoste(0), Me.txtNCCoste(0), Me.txtCCoste(1), Me.txtNCCoste(1), "pDHCCoste=""") Then Exit Function
     
-    If txtFecha(0).Text <> "" Or txtFecha(1).Text <> "" Then
-        If Not PonerDesdeHasta("inmovele_his.fechainm", "FEC", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""") Then Exit Function
+    If txtfecha(0).Text <> "" Or txtfecha(1).Text <> "" Then
+        If Not PonerDesdeHasta("inmovele_his.fechainm", "FEC", Me.txtfecha(0), Me.txtfecha(0), Me.txtfecha(1), Me.txtfecha(1), "pDHFecha=""") Then Exit Function
         
     End If
     
@@ -1314,25 +1317,25 @@ End Function
 
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtFecha(Index).Tag, Index
+        LanzaFormAyuda txtfecha(Index).Tag, Index
     End If
 End Sub
 

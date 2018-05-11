@@ -491,8 +491,8 @@ Begin VB.Form frmppal
       EndProperty
    End
    Begin MSComctlLib.ImageList imgIcoForms 
-      Left            =   0
-      Top             =   0
+      Left            =   1320
+      Top             =   120
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
@@ -592,7 +592,7 @@ Attribute statusBar.VB_VarHelpID = -1
 Dim FontSizes(4) As Integer
 Dim RibbonSeHaCreado As Boolean
 Dim Pane As Pane
-Dim cad As String
+Dim Cad As String
 
 'Variables comunes para todos los procedimientos de carga menus en el ribbon
 'Codejock
@@ -609,6 +609,11 @@ Dim Habilitado As Boolean
 Dim PrimeraVez As Boolean
 
 Dim EmpresasQueYaHaComunicadoAsientosDescuadrados As String
+
+
+
+
+
 
 Public Function RibbonBar() As RibbonBar
     Set RibbonBar = CommandBars.ActiveMenuBar
@@ -635,12 +640,12 @@ Public Sub CheckButton(nButton As Integer)
     CommandBars.Actions(nButton).Checked = True
 End Sub
 
-Sub OnThemeChanged(id As Integer)
+Sub OnThemeChanged(Id As Integer)
 Dim N_Skin As Integer
-    CheckButton id
+    CheckButton Id
     
     Dim FlatStyle As Boolean
-    FlatStyle = id >= ID_OPTIONS_STYLESCENIC7 And id <= ID_OPTIONS_STYLEBLACK2010
+    FlatStyle = Id >= ID_OPTIONS_STYLESCENIC7 And Id <= ID_OPTIONS_STYLEBLACK2010
         
         
     Me.BackColor = frmShortBar.wndShortcutBar.PaintManager.SplitterBackgroundColor
@@ -700,8 +705,8 @@ Dim N_Skin As Integer
     DockingPaneManager.PaintManager.ShowCaption = False
     DockingPaneManager.RedrawPanes
         
-    frmShortBar.SetColor id
-    frmInbox.SetColor id
+    frmShortBar.SetColor Id
+    frmInbox.SetColor Id
         
 
     frmPaneCalendar.SetFlatStyle FlatStyle
@@ -715,7 +720,7 @@ Dim N_Skin As Integer
     
     
     LoadIcons
-    N_Skin = id - 2895
+    N_Skin = Id - 2895
     EstablecerSkin N_Skin
     
     'Updatear SKIN usuario
@@ -822,7 +827,7 @@ Dim AbiertoFormulario  As Boolean
     AbiertoFormulario = False
     
 
-    Select Case Control.id
+    Select Case Control.Id
         Case XTPCommandBarsSpecialCommands.XTP_ID_RIBBONCONTROLTAB:
             
         
@@ -841,7 +846,7 @@ Dim AbiertoFormulario  As Boolean
         
         
         Case ID_Licencia_Usuario_Final_txt, ID_Licencia_Usuario_Final_web, ID_Ver_Version_operativa_web
-            OpcionesMenuInformacion Control.id
+            OpcionesMenuInformacion Control.Id
         
         
         
@@ -857,7 +862,7 @@ Dim AbiertoFormulario  As Boolean
             
         Case ID_OPTIONS_FONT_SYSTEM, ID_OPTIONS_FONT_NORMAL, ID_OPTIONS_FONT_LARGE, ID_OPTIONS_FONT_EXTRALARGE
             Dim newFontHeight As Integer
-            newFontHeight = FontSizes(Control.id - ID_OPTIONS_FONT_SYSTEM)
+            newFontHeight = FontSizes(Control.Id - ID_OPTIONS_FONT_SYSTEM)
             RibbonBar.FontHeight = newFontHeight
             
         Case ID_OPTIONS_FONT_AUTORESIZEICONS
@@ -983,7 +988,7 @@ Dim AbiertoFormulario  As Boolean
      
         Case Else
             AbiertoFormulario = True
-            AbrirFormularios Control.id
+            AbrirFormularios Control.Id
             
             
     End Select
@@ -1029,7 +1034,7 @@ Private Sub CommandBars_InitCommandsPopup(ByVal CommandBar As XtremeCommandBars.
             
             Do While Index + 1 <= CommandBar.Controls.Count
                 Set ControlItem = CommandBar.Controls.Item(Index + 1)
-                If ControlItem.id = IDS_ARRANGE_BY Then
+                If ControlItem.Id = IDS_ARRANGE_BY Then
                     ControlItem.Delete
                 Else
                     Exit Do
@@ -1065,7 +1070,7 @@ Private Sub CommandBars_Update(ByVal Control As XtremeCommandBars.ICommandBarCon
     
     
     
-    Select Case Control.id
+    Select Case Control.Id
         Case ID_VIEW_STATUSBAR:
             'Control.Checked = CommandBars.StatusBar.Visible
         
@@ -1123,12 +1128,34 @@ Private Sub DockingPaneManager_AttachPane(ByVal Item As XtremeDockingPane.IPane)
 End Sub
 
 Private Sub Form_Activate()
-    
+Dim res
+
     If PrimeraVez Then
         PrimeraVez = False
         DoEvents
+        
+
+        
         AccionesIncioAbrirProgramaEmpresa
         
+
+'
+'        Res = MsgBoxA("hOLa", vbCritical + vbOK)
+'    'Botones pulsados
+'    'Respuesta
+'    '----------------------------------------------
+'    '    vbOK 1 Botón Aceptar presionado
+'    '    vbCancel 2 Botón Cancelar presionado
+'    '    vbAbort 3 Botón Anular presionado
+'    '    vbRetry 4 Botón Reintentar presionado
+'    '    vbIgnore 5 Botón Ignorar presionado
+'    '    vbYes 6 Botón Sí presionado
+'    '    vbNo 7 Botón No presionado
+'
+'
+'        Debug.Print Format(Now, "hh:mm") & " respuesta: " & Res
+'        Stop
+
     End If
     Screen.MousePointer = vbDefault
 End Sub
@@ -1141,7 +1168,7 @@ Dim AntiguoTab As Integer
     Screen.MousePointer = vbHourglass
     AntiguoTab = -1
     If RibbonSeHaCreado Then
-        If Not RibbonBar.SelectedTab Is Nothing Then AntiguoTab = RibbonBar.SelectedTab.id
+        If Not RibbonBar.SelectedTab Is Nothing Then AntiguoTab = RibbonBar.SelectedTab.Id
     End If
     CreateRibbon
     Screen.MousePointer = vbHourglass
@@ -1288,15 +1315,15 @@ Private Sub Form_Load()
     frmIdentifica.pLabel "Carga skin"
     Screen.MousePointer = vbHourglass
     If vUsu.Skin = 3 Then
-        cad = ID_OPTIONS_STYLEBLACK2010
+        Cad = ID_OPTIONS_STYLEBLACK2010
     Else
         If vUsu.Skin = 2 Then
-            cad = ID_OPTIONS_STYLESILVER2010
+            Cad = ID_OPTIONS_STYLESILVER2010
         Else
-            cad = ID_OPTIONS_STYLEBLUE2010
+            Cad = ID_OPTIONS_STYLEBLUE2010
         End If
     End If
-    CommandBars.FindControl(, cad, , True).Execute
+    CommandBars.FindControl(, Cad, , True).Execute
     
     PrimeraVez = True
 
@@ -1436,7 +1463,7 @@ End Sub
 
 
 Private Sub GuardarDatosUltimaTab()
-    i = RibbonBar.SelectedTab.id
+    i = RibbonBar.SelectedTab.Id
     If i = ID_TAB_CALENDAR_HOME Then Exit Sub 'no guardo este tab
     If i <> vUsu.TabPorDefecto Then
         vUsu.TabPorDefecto = i
@@ -1445,9 +1472,9 @@ Private Sub GuardarDatosUltimaTab()
 End Sub
 
 
-Public Function AddButton(Controls As CommandBarControls, ControlType As XTPControlType, id As Long, Caption As String, Optional BeginGroup As Boolean = False, Optional DescriptionText As String = "", Optional ButtonStyle As XTPButtonStyle = xtpButtonAutomatic, Optional Category As String = "Controls") As CommandBarControl
+Public Function AddButton(Controls As CommandBarControls, ControlType As XTPControlType, Id As Long, Caption As String, Optional BeginGroup As Boolean = False, Optional DescriptionText As String = "", Optional ButtonStyle As XTPButtonStyle = xtpButtonAutomatic, Optional Category As String = "Controls") As CommandBarControl
     Dim Control As CommandBarControl
-    Set Control = Controls.Add(ControlType, id, Caption)
+    Set Control = Controls.Add(ControlType, Id, Caption)
     
     Control.BeginGroup = BeginGroup
     Control.DescriptionText = DescriptionText
@@ -1519,7 +1546,7 @@ Private Sub LoadIcons()
         1, ID_Compensaciones, 1, 1, 1, 1, ID_ConceptosInm, 1, 1, ID_GenerarAmortización, ID_Reclamaciones, 1, 1, 1, 1, _
         ID_ImportarFacturasCliente, 1, 1, ID_Compensarcliente, ID_SumasySaldos, ID_CuentadeExplotación, ID_BalancedeSituación, ID_PérdidasyGanancias, 1, 1, 1, 1, 1, ID_CarteradeCobros, ID_InformeCobrosPendientes, _
         ID_Renumeracióndeasientos, ID_CierredeEjercicio, ID_Deshacercierre, ID_DiarioOficial, ID_PresentaciónTelemáticadeLibros, ID_Traspasodecuentasenapuntes, ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, 1, 1, 1, 1, 1, _
-        ID_Traspasodecuentasenapuntes, ID_Aumentardígitoscontables, 1, 1, 1, 1, 1, ID_LibroFacturasEmitidas, 1, 1, ID_Remesas, 1, 1, 1, 1, _
+        ID_Traspasodecuentasenapuntes, ID_Aumentardígitoscontables, 1, 1, 1, 1, 1, ID_LibroFacturasEmitidas, 1, 1, ID_Remesas, 1, 1, 1, ID_GraficosChart, _
         ID_RecepcionTalónPagare, ID_RemesasTalenPagare, ID_Accionesrealizadas, 1, ID_LiquidacionIVA, 1, 1, 1, ID_AsientosPredefinidos, 1, 1, 1, 1, ID_FrasConso, 1, _
         ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, 1, 1, ID_Asientos, 1)
     
@@ -1579,7 +1606,7 @@ Private Sub LoadIcons()
             Array(ID_GROUP_NEW_APPOINTMENT, ID_GROUP_NEW_MEETING, ID_GROUP_NEW_ITEMS, ID_GROUP_GOTO_TODAY, _
             ID_GROUP_GOTO_NEXT7DAYS, ID_GROUP_ARRANGE_DAY, ID_GROUP_ARRANGE_WORK_WEEK, ID_GROUP_ARRANGE_WEEK, _
             ID_GROUP_ARRANGE_MONTH, ID_GROUP_ARRANGE_SCHEDULE_VIEW, ID_GROUP_MANAGE_CALENDARS_OPEN, ID_GROUP_MANAGE_CALENDARS_GROUPS, _
-            ID_GROUP_SHARE_EMAIL, ID_GROUP_SHARE_SHARE, ID_GROUP_SHARE_PUBLISH, ID_GROUP_SHARE_PERMISSIONS), xtpImageNormal
+            ID_GROUP_SHARE_EMAIL, ID_ConfigurarBalances1, ID_ConfigurarBalances2, ID_ConfigurarBalances3), xtpImageNormal
             
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\RibbonMinimize.png", _
             Array(ID_RIBBON_MINIMIZE, ID_RIBBON_EXPAND), xtpImageNormal
@@ -1742,7 +1769,7 @@ Private Sub CreateCalendarTabOriginal()
     Dim PopupBar As CommandBar
     
     Set TabCalendarHome = RibbonBar.InsertTab(14, "Agenda")
-    TabCalendarHome.id = ID_TAB_CALENDAR_HOME
+    TabCalendarHome.Id = ID_TAB_CALENDAR_HOME
  
     Set GroupNew = TabCalendarHome.Groups.AddGroup("&Nueva", ID_GROUP_NEW)
         
@@ -1894,8 +1921,8 @@ Dim RN As ADODB.Recordset
 
     If RibbonSeHaCreado Then RibbonBar.RemoveAllTabs
     
-    cad = "Select * from menus where aplicacion = 'ariconta' and padre =0 ORDER BY padre,orden "
-    RN.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "Select * from menus where aplicacion = 'ariconta' and padre =0 ORDER BY padre,orden "
+    RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not RN.EOF
     
         
@@ -1997,20 +2024,20 @@ Dim Anterior As Integer
         Anterior = AntiguoTabSeleccionado
     End If
     
-    cad = ""
+    Cad = ""
     For i = 0 To RibbonBar.TabCount - 1
-        J = RibbonBar.Tab(i).id
+        J = RibbonBar.Tab(i).Id
         'Debug.Print J & " " & RibbonBar.Tab(i).Caption
         If J = Anterior Then
             
             RibbonBar.Tab(i).visible = True
             RibbonBar.Tab(i).Selected = True
             Set RibbonBar.SelectedTab = RibbonBar.Tab(i)
-            cad = "OK"
+            Cad = "OK"
             Exit For
         End If
     Next
-    If cad = "" Then
+    If Cad = "" Then
         
         For J = RibbonBar.TabCount To 1 Step -1
             RibbonBar.Tab(J - 1).visible = True
@@ -2025,15 +2052,15 @@ Private Sub CargaMenuConfiguracion(IdMenu As Integer)
 
         'Creamos la TAB
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Configuracion")
-        TabNuevo.id = CLng(IdMenu)
+        TabNuevo.Id = CLng(IdMenu)
         Set GroupNew = TabNuevo.Groups.AddGroup("", 1000000)
         
        
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         While Not Rn2.EOF
          
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2046,10 +2073,16 @@ Private Sub CargaMenuConfiguracion(IdMenu As Integer)
                 End If
            
            
-                    
-                Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
-                Control.Enabled = Habilitado
-             
+                If Rn2!Codigo = ID_ConfigurarBalances Then
+                    Set ControlNew_NewItems = GroupNew.Add(xtpControlButtonPopup, Rn2!Codigo, Rn2!Descripcion)
+                    Set Control = ControlNew_NewItems.CommandBar.Controls.Add(xtpControlButton, ID_ConfigurarBalances1, "Balances")
+                    Set Control = ControlNew_NewItems.CommandBar.Controls.Add(xtpControlButton, ID_ConfigurarBalances2, "Ratios")
+                    'Personalizan
+                    ControlNew_NewItems.Enabled = Habilitado
+                Else
+                    Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                    Control.Enabled = Habilitado
+                End If
             End If
             Rn2.MoveNext
         Wend
@@ -2069,46 +2102,66 @@ End Sub
 
 Private Sub CargaMenuDatosGenerales(IdMenu As Integer)
 Dim SegundoGrupo As RibbonGroup
+
+
+
         'Creamos la TAB
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Datos generales")
-        TabNuevo.id = CLng(IdMenu)
+        TabNuevo.Id = CLng(IdMenu)
         
         
         'En este llevaremos dos solapas, tesoreria y contabilidad (no le ponemos nombres)
-        cad = CStr(IdMenu * 100000)
-        If vEmpresa.TieneContabilidad Then Set GroupNew = TabNuevo.Groups.AddGroup("", cad & "0")
-        If vEmpresa.TieneTesoreria Then Set SegundoGrupo = TabNuevo.Groups.AddGroup("", cad & "1")
+        Cad = CStr(IdMenu * 100000)
+        If vEmpresa.TieneContabilidad Then Set GroupNew = TabNuevo.Groups.AddGroup("", Cad & "0")
+        If vEmpresa.TieneTesoreria Then Set SegundoGrupo = TabNuevo.Groups.AddGroup("", Cad & "1")
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu
+        If Not vEmpresa.TieneTesoreria Then
+            'SOLO CONTA
+            Cad = Cad & " AND tipo = 0"
+        Else
+                                                            'solo tesoreria
+            If Not vEmpresa.TieneContabilidad Then Cad = Cad & " AND tipo = 1"
+        End If
+        Cad = Cad & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         While Not Rn2.EOF
          
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
-                Habilitado = True
-    
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "ariconta") Then
-                    Habilitado = False
-                Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
-                End If
            
-           
-                    
-                If Rn2!Tipo = 1 Then
-                    Set Control = SegundoGrupo.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
-                Else
-                    Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
-                End If
-                 
-                Control.Enabled = Habilitado
-                ' Set ControlNew_NewItems = GroupNew.Add(xtpControlButtonPopup, ID_GROUP_NEW_ITEMS, "New &Items")
-                '     Set Control = ControlNew_NewItems.CommandBar.Controls.Add(xtpControlButton, ID_GROUP_NEW_APPOINTMENT, "&Appointment")
-                '     Set Control = ControlNew_NewItems.CommandBar.Controls.Add(xtpControlButton, ID_GROUP_NEW_ALLDAY, "All Day E&vent")
-                '     Control.BeginGroup = True
-                ' ControlNew_NewItems.KeyboardTip = "V"
-             
+'                Cargamos = True
+'                If Not vEmpresa.TieneContabilidad Then
+'                    If Rn2!Tipo = 0 Then Cargamos = False
+'                End If
+'                If Not vEmpresa.TieneTesoreria Then
+'                    If Rn2!Tipo = 1 Then Cargamos = False
+'                End If
+                
+'                If Cargamos Then
+                     Habilitado = True
+                     If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "ariconta") Then
+                         Habilitado = False
+                     Else
+                         If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
+                     End If
+                
+                
+                         
+                     If Rn2!Tipo = 1 Then
+                         Set Control = SegundoGrupo.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                     Else
+                         Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                     End If
+                      
+                     Control.Enabled = Habilitado
+                     ' Set ControlNew_NewItems = GroupNew.Add(xtpControlButtonPopup, ID_GROUP_NEW_ITEMS, "New &Items")
+                     '     Set Control = ControlNew_NewItems.CommandBar.Controls.Add(xtpControlButton, ID_GROUP_NEW_APPOINTMENT, "&Appointment")
+                     '     Set Control = ControlNew_NewItems.CommandBar.Controls.Add(xtpControlButton, ID_GROUP_NEW_ALLDAY, "All Day E&vent")
+                     '     Control.BeginGroup = True
+                     ' ControlNew_NewItems.KeyboardTip = "V"
+'                End If
             End If
             Rn2.MoveNext
         Wend
@@ -2127,18 +2180,18 @@ Dim GrConsoli As RibbonGroup
 
         'Creamos la TAB
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Diario")
-        TabNuevo.id = CLng(IdMenu)
+        TabNuevo.Id = CLng(IdMenu)
         
-        cad = CStr(IdMenu * 100000)
-        Set GroupNew = TabNuevo.Groups.AddGroup("ASIENTOS", cad & "0")
-        Set GrupSald = TabNuevo.Groups.AddGroup("BALANCES", cad & "1")
-        Set GrOtro = TabNuevo.Groups.AddGroup("", cad & "2")
+        Cad = CStr(IdMenu * 100000)
+        Set GroupNew = TabNuevo.Groups.AddGroup("ASIENTOS", Cad & "0")
+        Set GrupSald = TabNuevo.Groups.AddGroup("BALANCES", Cad & "1")
+        Set GrOtro = TabNuevo.Groups.AddGroup("", Cad & "2")
         
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         While Not Rn2.EOF
         
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2160,7 +2213,7 @@ Dim GrConsoli As RibbonGroup
                     
                 'Consolidado
                 Case 315
-                    Set GrConsoli = TabNuevo.Groups.AddGroup("CONSOLIDADO", cad & "4")
+                    Set GrConsoli = TabNuevo.Groups.AddGroup("CONSOLIDADO", Cad & "4")
                     Set Control = GrConsoli.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
                 Case Else
                     Set Control = GrOtro.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
@@ -2195,12 +2248,12 @@ Dim B As Boolean
         
         'Creamos la TAB
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Facturas")
-        TabNuevo.id = CLng(IdMenu)
+        TabNuevo.Id = CLng(IdMenu)
         
-        cad = CStr(IdMenu * 100000)
-        Set GropCli = TabNuevo.Groups.AddGroup("EMITIDAS", cad & "0")
-        Set GrupPag = TabNuevo.Groups.AddGroup("RECIBIDAS", cad & "1")
-        Set GroupNew = TabNuevo.Groups.AddGroup("I.V.A.", cad & "2")
+        Cad = CStr(IdMenu * 100000)
+        Set GropCli = TabNuevo.Groups.AddGroup("EMITIDAS", Cad & "0")
+        Set GrupPag = TabNuevo.Groups.AddGroup("RECIBIDAS", Cad & "1")
+        Set GroupNew = TabNuevo.Groups.AddGroup("I.V.A.", Cad & "2")
             
 
 '
@@ -2218,9 +2271,11 @@ Dim B As Boolean
 '        413 consolidado
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        
+        
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         While Not Rn2.EOF
         
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2246,13 +2301,16 @@ Dim B As Boolean
                  
                  
             Case 414, 415
-                 If vParamT.TieneOperacionesAseguradas Then
-                        If OpsAseg Is Nothing Then Set OpsAseg = TabNuevo.Groups.AddGroup("OP. ASEGURADAS", CStr(IdMenu * 100000) & "4")
-                        Set Control = OpsAseg.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
-                 Else
+                 If Not vEmpresa.TieneTesoreria Then
                     Insertado = False
-                 End If
-                 
+                 Else
+                    If vParamT.TieneOperacionesAseguradas Then
+                           If OpsAseg Is Nothing Then Set OpsAseg = TabNuevo.Groups.AddGroup("OP. ASEGURADAS", CStr(IdMenu * 100000) & "4")
+                           Set Control = OpsAseg.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                    Else
+                       Insertado = False
+                    End If
+                End If
             Case Else
                 B = True
                 If Rn2!Codigo = ID_SII Then
@@ -2271,7 +2329,7 @@ Dim B As Boolean
             End Select
             
             
-            cad = "NO"
+            Cad = "NO"
             If Insertado Then Control.Enabled = Habilitado
            
             Rn2.MoveNext
@@ -2292,13 +2350,13 @@ Private Sub CargaMenuInmovilizado(IdMenu As Integer)
 
         'Creamos la TAB
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Inmovilizado")
-        TabNuevo.id = CLng(IdMenu)
+        TabNuevo.Id = CLng(IdMenu)
         
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         While Not Rn2.EOF
         
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2311,8 +2369,8 @@ Private Sub CargaMenuInmovilizado(IdMenu As Integer)
                 End If
             End If
             
-            If cad = "" Then Set GroupNew = TabNuevo.Groups.AddGroup("", CStr(IdMenu * 100000) & "0")
-            cad = "NO"
+            If Cad = "" Then Set GroupNew = TabNuevo.Groups.AddGroup("", CStr(IdMenu * 100000) & "0")
+            Cad = "NO"
             'Set Control = GroupNew.Add(xtpControlButton, ID_GROUP_NEW_APPOINTMENT, "&New Appointment")
             Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
             Control.Enabled = Habilitado
@@ -2356,21 +2414,21 @@ Dim GrupRem As RibbonGroup
         
         'Creamos la TAB
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Tesoreria")
-        TabNuevo.id = CLng(IdMenu)
+        TabNuevo.Id = CLng(IdMenu)
         NumRegElim = TabNuevo.Index
         
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         
         
         'Creamos los tres grupos
-        cad = CStr(IdMenu * 100000)
-        Set GrupCob = TabNuevo.Groups.AddGroup("COBROS", cad & "0")
-        Set GrupRem = TabNuevo.Groups.AddGroup("REMESAS", cad & "1")
-        Set GroupNew = TabNuevo.Groups.AddGroup("", cad & "2")
+        Cad = CStr(IdMenu * 100000)
+        Set GrupCob = TabNuevo.Groups.AddGroup("COBROS", Cad & "0")
+        Set GrupRem = TabNuevo.Groups.AddGroup("REMESAS", Cad & "1")
+        Set GroupNew = TabNuevo.Groups.AddGroup("", Cad & "2")
         
         
         While Not Rn2.EOF
@@ -2428,9 +2486,9 @@ Private Sub CargaMenuTesoreriaPagos(IdMenu As Integer)
         
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         
         
         'Los pagos se gargan sobre la solapa de TESORERIA
@@ -2482,12 +2540,12 @@ Private Sub CargaMenuTesoreriaInformes(IdMenu As Integer)
         
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu
         'De momento NO cargamos el 904
-        cad = cad & " AND codigo <>904  ORDER BY padre,orden"
+        Cad = Cad & " AND codigo <>904  ORDER BY padre,orden"
             
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         
         
         'Los informes se gargan sobre la solapa de TESORERIA
@@ -2535,9 +2593,9 @@ Private Sub CargaMenuAnaliticaPResupuestaria(IdMenu As Integer)
         
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         
         
         'Los pagos se gargan sobre la solapa de diario
@@ -2547,12 +2605,12 @@ Private Sub CargaMenuAnaliticaPResupuestaria(IdMenu As Integer)
             If TabNuevo Is Nothing Then
                 
                 Set TabNuevo = RibbonBar.InsertTab(15, "ANALITICA-PRESUPUESTO")
-                TabNuevo.id = 15
+                TabNuevo.Id = 15
                 
             End If
         End If
-        cad = CStr(IdMenu * 100000) & "0"
-        Set GroupNew = TabNuevo.Groups.AddGroup(IIf(IdMenu = 10, "ANALITICA", "PRESUPUESTOS"), cad)
+        Cad = CStr(IdMenu * 100000) & "0"
+        Set GroupNew = TabNuevo.Groups.AddGroup(IIf(IdMenu = 10, "ANALITICA", "PRESUPUESTOS"), Cad)
         
         
         While Not Rn2.EOF
@@ -2596,7 +2654,6 @@ End Sub
 
 
 
-
 Private Sub CargaMenuCierreEjercicio(IdMenu As Integer)
 Dim GropCli As RibbonGroup
 Dim GrupPag As RibbonGroup
@@ -2605,15 +2662,15 @@ Dim GrupPag As RibbonGroup
         
         'Creamos la TAB
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Cierre ejercicio")
-        TabNuevo.id = CLng(IdMenu)
+        TabNuevo.Id = CLng(IdMenu)
         
         Set GroupNew = TabNuevo.Groups.AddGroup("", 13000001)
     
 
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         While Not Rn2.EOF
         
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2645,8 +2702,8 @@ Dim GrupPag As RibbonGroup
 
 End Sub
 
-Private Function DevulevePosicionUtilidades(id As Integer) As Integer
-    Select Case id
+Private Function DevulevePosicionUtilidades(Id As Integer) As Integer
+    Select Case Id
     Case ID_Traspasodecuentasenapuntes
         DevulevePosicionUtilidades = 1
     Case ID_Renumerarregistrosproveedor
@@ -2672,9 +2729,9 @@ Dim Col As Collection
         
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         Set Col = New Collection
         While Not Rn2.EOF
            i = i + 1
@@ -2689,11 +2746,15 @@ Dim Col As Collection
             End If
             
             If Rn2!Codigo = 1414 Then
-                If vParamT.FormaPagoInterTarjeta < 0 Then Habilitado = False
+                If Not vEmpresa.TieneTesoreria Then
+                    Habilitado = False
+                Else
+                    If vParamT.FormaPagoInterTarjeta < 0 Then Habilitado = False
+                End If
             End If
             
             Col.Add Abs(Habilitado) & "|" & Rn2!Codigo & "|" & Rn2!Descripcion & "|"
-            If Habilitado Then cad = "S"
+            If Habilitado Then Cad = "S"
             
             Rn2.MoveNext
         Wend
@@ -2708,11 +2769,11 @@ Dim Col As Collection
             '1414    importacon facturas (de momento consum)
             
         'Ya puedo utilizar numregelim
-        If cad <> "" Then
+        If Cad <> "" Then
             'OK creamos solapa y demas
             'Creamos la TAB
             Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Utilidades")
-            TabNuevo.id = CLng(IdMenu)
+            TabNuevo.Id = CLng(IdMenu)
             Set GroupNew = TabNuevo.Groups.AddGroup("", 14000001)
             For NumRegElim = 1 To Col.Count
                 Habilitado = CStr(RecuperaValor(Col.Item(NumRegElim), 1)) = "1"
@@ -2739,12 +2800,13 @@ End Sub
 '**************************************************************************************************************
 '**************************************************************************************************************
 '**************************************************************************************************************
-'**************************************************************************************************************
+'**********************************************************f****************************************************
 Private Sub AbrirFormularios(Accion As Long)
-    
+   
+   
    
    ' If Accion <> ID_SII Then AbrirFormSII_2 False
-    
+  
     
     Select Case Accion
         Case 101 ' empresa
@@ -2767,9 +2829,19 @@ Private Sub AbrirFormularios(Accion As Long)
             
             frmCentroControl.Opcion = 2
             frmCentroControl.Show vbModal
-        Case 108 'Configurar Balances
+        'Case 108 'Configurar Balances
+        'ID_ConfigurarBalances1 = 120   'balances
+        'ID_ConfigurarBalances2 = 121   'ratios
+        'ID_ConfigurarBalances2 = 122   'personalizables
+        Case ID_ConfigurarBalances1, ID_ConfigurarBalances2, ID_ConfigurarBalances3
             Screen.MousePointer = vbHourglass
-            frmColBalan.Show vbModal, Me
+            'frmColBalan2.TipoVista = 0 'Pyg   y situacion
+            If Accion = 1 Then
+                frmColBalan2.TipoVista = 0 'Pyg   y situacion
+            Else
+                frmColBalan2.TipoVista = 1 'ratios
+            End If
+            frmColBalan2.Show vbModal, Me
             
         Case 199
              frmCalendarCategorias.Show vbModal
@@ -2853,6 +2925,14 @@ Private Sub AbrirFormularios(Accion As Long)
         
         Case 315
             frmInfBalSumSalConso.Show vbModal
+        
+        
+        'Gradficas
+        Case ID_GraficosChart
+            frmGraficos.Show vbModal
+        
+        
+        
         
         Case 401 ' emitidas
             Screen.MousePointer = vbHourglass
@@ -3036,6 +3116,11 @@ Private Sub AbrirFormularios(Accion As Long)
         Case 1103 ' Balance Presupuestario
             frmPresuBal.Show vbModal
             
+            
+            
+            
+            
+            
         ' Consolidado
         Case 1201 ' Sumas y Saldos
             AbrirListado 24, False
@@ -3154,10 +3239,46 @@ Private Sub mnHerrAriadnaCC_Click(Index As Integer)
 End Sub
 
 
+
+
+
+
+Private Sub AbrirMensajeBoxCodejock(QueMsg As Byte, OtrosDatos As String)
+
+    
+    Select Case QueMsg
+    Case 0 To 10
+        'Mensajes standard de la aplicacion
+        
+        
+        
+    Case 11
+        
+        Msg = "Importe descuadre: " & OtrosDatos
+        MuestraMsgCodejock2 "Ariconta6", "Existen asientos descuadrados", Msg, "Revise asientos", "", 0, False
+         
+    
+    Case 12
+        
+        Msg = "Tiene facturas pendientes de comunicar al SII."
+        
+        MuestraMsgCodejock2 "Ariadna software", "A.E.A.T.", Msg, "", "Ver facturas|", 0, False
+        
+
+    End Select
+
+
+    
+End Sub
+
+
+
 Private Sub AccionesIncioAbrirProgramaEmpresa()
 Dim C As String
+
     
-    If vUsu.Nivel = 0 And vUsu.id >= 0 Then
+    
+    If vUsu.Nivel = 0 And vUsu.Id >= 0 Then
         'EmpresasQueYaHaComunicadoAsientosDescuadrados :  Para que solo lo haga una vez
         If InStr(1, EmpresasQueYaHaComunicadoAsientosDescuadrados, "|" & vEmpresa.codempre & "|") = 0 Then
             If EmpresasQueYaHaComunicadoAsientosDescuadrados = "" Then EmpresasQueYaHaComunicadoAsientosDescuadrados = "|"
@@ -3165,7 +3286,13 @@ Dim C As String
             C = "sum(coalesce(timported,0))-sum(coalesce(timporteh,0))"
             C = DevuelveDesdeBD(C, "hlinapu", "fechaent>=" & DBSet(vParam.fechaini, "F") & " AND 1", "1")
             If C <> "" Then
-                If CCur(C) <> 0 Then MsgBox "Existen asientos descuadrados", vbExclamation
+                If CCur(C) <> 0 Then
+                    
+                    AbrirMensajeBoxCodejock 11, Format(CCur(C), FormatoImporte)
+                    'If RespuestaMsgBox = xtpTaskButtonCancel Then Stop
+                
+                    
+                End If
             End If
         
         
@@ -3173,22 +3300,38 @@ Dim C As String
             
         End If
         
-        If vParamT.ComprobarAlInicio Then
-            If vParamT.PagaresCtaPuente Or vParamT.TalonesCtaPuente Then
-                'Veremos si tiene remesas talon/pagare
-                C = DevuelveDesdeBD("count(*)", "remesas", "tiporem >1 and situacion>='Q' and situacion <'Z' AND 1", "1")
-                If C = "" Then C = "0"
-                If Val(C) > 0 Then
-                    
-                    If HayQueMostrarEliminarRiesgoTalPag Then
-                        Screen.MousePointer = vbHourglass
-                        frmMensajes.Opcion = 63
-                        frmMensajes.Show vbModal
+        If vEmpresa.TieneTesoreria Then
+            If vParamT.ComprobarAlInicio Then
+                If vParamT.PagaresCtaPuente Or vParamT.TalonesCtaPuente Then
+                    'Veremos si tiene remesas talon/pagare
+                    C = DevuelveDesdeBD("count(*)", "remesas", "tiporem >1 and situacion>='Q' and situacion <'Z' AND 1", "1")
+                    If C = "" Then C = "0"
+                    If Val(C) > 0 Then
+                        
+                        If HayQueMostrarEliminarRiesgoTalPag Then
+                            Screen.MousePointer = vbHourglass
+                            frmMensajes.Opcion = 63
+                            frmMensajes.Show vbModal
+                        End If
                     End If
                 End If
             End If
+        
+        
+            'Aseguradas.
+            ComprobarOperacionesAseguradas True
+        
         End If
+        
+        
+        
     End If
+    
+    
+    
+    
+    
+    
     
     If vParam.SIITiene Then
         DoEvents
@@ -3198,6 +3341,8 @@ Dim C As String
         AbrirFormSII False
     End If
 End Sub
+
+
 
 Private Sub HacerDir(CadenaPath As String)
 Dim Si As Boolean
@@ -3231,12 +3376,16 @@ Dim C As String
         If vUsu.Nivel > 0 Then Exit Sub
         C = statusBar.Pane(1).Text
         Screen.MousePointer = vbHourglass
-        statusBar.Pane(1).Text = "leyendo SIII....    "
+        statusBar.Pane(1).Text = "leyendo SII....    "
         
         
         B = DarAvisoPendientesSII()
         If B > 0 Then
-            If MsgBox("AGENCIA TRIBUTARIA" & vbCrLf & vbCrLf & "Tiene facturas pendientes de comunicar al SII." & vbCrLf & vbCrLf & "¿Verlas ahora?", vbCritical + vbYesNoCancel + vbDefaultButton2) <> vbYes Then B = 0
+            
+            'MostrarMensaje 9, "A.E.A.T.", "Facturas pendientes de comunicar al SII", False
+            AbrirMensajeBoxCodejock 12, ""
+            'If MsgBox("AGENCIA TRIBUTARIA" & vbCrLf & vbCrLf & "Tiene facturas pendientes de comunicar al SII." & vbCrLf & vbCrLf & "¿Verlas ahora?", vbCritical + vbYesNoCancel + vbDefaultButton2) <> vbYes Then B = 0
+            If RespuestaMsgBox = vbCancel Then B = 0 'NO quiere verlas
             
         End If
     
@@ -3319,9 +3468,9 @@ Private Sub PonerCaption()
 End Sub
 
 
-Public Sub OpcionesMenuInformacion(id As Long)
+Public Sub OpcionesMenuInformacion(Id As Long)
     
-    Select Case id
+    Select Case Id
     Case ID_Licencia_Usuario_Final_txt
         LanzaVisorMimeDocumento Me.hwnd, "c:\programas\Ariadna.rtf"
     Case ID_Licencia_Usuario_Final_web
@@ -3333,4 +3482,33 @@ Public Sub OpcionesMenuInformacion(id As Long)
     End Select
     
 End Sub
+
+Private Sub ComprobarOperacionesAseguradas(AlInicio As Boolean)
+
+        If vParamT.TieneOperacionesAseguradas Then
+            If vUsu.Nivel = 0 Then
+                NumRegElim = 0
+                'Avisos falta
+                If Asegurados_HayAvisos(True) Then NumRegElim = 1
+                'Siniestros
+                If Asegurados_HayAvisos(False) Then NumRegElim = NumRegElim + 2
+                    
+                If NumRegElim > 0 Then
+                    If NumRegElim > 2 Then
+                        frmASeguradoAvisos.Opcion = 0
+                    Else
+                        'Solo uno de los dos
+                        frmASeguradoAvisos.Opcion = CByte(NumRegElim)
+                    End If
+                    frmASeguradoAvisos.Show vbModal
+                
+                Else
+                    'Si se lanza desde el menu (AUN NO ESTA)
+                    If Not AlInicio Then MsgBox "Ningun valor devuelto", vbInformation
+                End If
+            End If
+        End If
+End Sub
+
+
 

@@ -1,0 +1,8 @@
+Nivel: 4
+Cuenta: 4310  -> 431 NO encontrada 
+
+
+Nivel: 4
+Cuenta: 5585  -> 558 NO encontrada 
+
+

@@ -861,6 +861,10 @@ Public Const ID_Usuarios = 105
 Public Const ID_Informes = 106
 Public Const ID_Nuevaempresa = 107
 Public Const ID_ConfigurarBalances = 108
+Public Const ID_ConfigurarBalances1 = 120   'balances
+Public Const ID_ConfigurarBalances2 = 121   'ratios
+Public Const ID_ConfigurarBalances3 = 122   'personalizables
+
 
 '
 Public Const ID_PlanContable = 201
@@ -888,7 +892,7 @@ Public Const ID_EvolucióndeSaldos = 311
 Public Const ID_RatiosyGráficas = 312
 Public Const ID_Punteoextractobancario = 314
 Public Const ID_ConsoBalSums = 315
-
+Public Const ID_GraficosChart = 316
 
 
 
@@ -960,6 +964,8 @@ Public Const ID_CuentadeExplotaciónAnalítica = 1003
 Public Const ID_Detalledeexplotación = 1005
 Public Const ID_Presupuestos = 1101
 Public Const ID_BalancePresupuestario = 1103
+
+
 
 Public Const ID_Renumeracióndeasientos = 1301
 Public Const ID_CierredeEjercicio = 1303

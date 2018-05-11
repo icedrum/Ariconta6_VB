@@ -313,10 +313,6 @@ Dim PrimeraVez As Boolean
 
 
 
-'Dim iconArray(0 To 9) As Long
-'Dim RowExpanded(0 To 49) As Boolean
-'Dim RowVisible(0 To 49) As Boolean
-'Dim MaxRowIndex As Long
 Dim fntBold As StdFont
 Dim fntStrike As StdFont
 
@@ -515,8 +511,13 @@ Dim Todo As Boolean
             
         Else
             'Proveedor
-            wndReportControl.SelectedRows(0).Record(2).Caption = Format(miRsAux!fecharec, "dd/mm/yyyy")
-            wndReportControl.SelectedRows(0).Record(2).Value = Format(miRsAux!fecharec, "yyyymmdd")
+            If vParam.SII_Periodo_DesdeLiq Then
+                wndReportControl.SelectedRows(0).Record(2).Caption = Format(miRsAux!fecliqpr, "dd/mm/yyyy")
+                wndReportControl.SelectedRows(0).Record(2).Value = Format(miRsAux!fecliqpr, "yyyymmdd")
+            Else
+                wndReportControl.SelectedRows(0).Record(2).Caption = Format(miRsAux!fecharec, "dd/mm/yyyy")
+                wndReportControl.SelectedRows(0).Record(2).Value = Format(miRsAux!fecharec, "yyyymmdd")
+            End If
             wndReportControl.SelectedRows(0).Record(3).Value = miRsAux!NumFactu
             wndReportControl.SelectedRows(0).Record(4).Caption = Format(miRsAux!FecFactu, "dd/mm/yyyy")
             wndReportControl.SelectedRows(0).Record(4).Value = Format(miRsAux!FecFactu, "yyyymmdd")
@@ -615,7 +616,9 @@ Private Sub Form_Load()
     End If
     cboTipo.Tag = cboTipo.ListIndex
     
-    FechaRoja = DateAdd("d", -vParam.SIIDiasAviso, Now)  'Han pasado los x Dias en parametros
+    
+    'FechaRoja = DateAdd("d", -vParam.SIIDiasAviso, Now)
+    FechaRoja = UltimaFechaCorrectaSII(vParam.SIIDiasAviso, Now)
     
     CreateReportControl
     
@@ -1022,7 +1025,7 @@ Dim Record As ReportRecord
 Dim PuedeEnviar As Boolean
 Dim ItemToolTip As String
 Dim ItemIcon As Integer
-    
+Dim Color As Long
     On Error GoTo eAddRecord2
 
     'Adds a new Record to the ReportControl's collection of records, this record will
@@ -1134,10 +1137,18 @@ Dim ItemIcon As Integer
     'Adds the PreviewText to the Record.  PreviewText is the text displayed for the ReportRecord while in PreviewMode
     Record.PreviewText = "ID: " & miRsAux!Nommacta
     
-    If miRsAux!FecFactu < FechaRoja And PuedeEnviar Then
-        For J = 2 To Record.ItemCount - 1
-            Record.Item(J).ForeColor = vbRed
-        Next
+    If PuedeEnviar Then
+        Color = -1
+        If miRsAux!FecFactu < FechaRoja Then
+            Color = vbRed
+        Else
+            If miRsAux!FecFactu = FechaRoja Then Color = vbBlue
+        End If
+        If Color <> -1 Then
+            For J = 2 To Record.ItemCount - 1
+                Record.Item(J).ForeColor = Color
+            Next
+        End If
     End If
     
     Exit Sub
@@ -1152,8 +1163,8 @@ Dim Record As ReportRecord
 Dim PuedeEnviar As Boolean
 Dim ItemToolTip As String
 Dim ItemIcon As Integer
-    
-    
+
+Dim Color As Long
     On Error GoTo eAddRecord2
 
     'Adds a new Record to the ReportControl's collection of records, this record will
@@ -1278,10 +1289,25 @@ Dim ItemIcon As Integer
     'Adds the PreviewText to the Record.  PreviewText is the text displayed for the ReportRecord while in PreviewMode
     Record.PreviewText = "ID: " & miRsAux!Nommacta
     
-    
-    If miRsAux!fecharec < FechaRoja And PuedeEnviar Then
+    Color = -1
+    If PuedeEnviar Then
+        If vParam.SII_Periodo_DesdeLiq Then
+            If miRsAux!fecliqpr < FechaRoja Then
+                Color = vbRed
+            Else
+                If miRsAux!fecliqpr = FechaRoja Then Color = vbBlue
+            End If
+        Else
+            If miRsAux!fecharec < FechaRoja Then
+                Color = vbRed
+            Else
+                If miRsAux!fecharec = FechaRoja Then Color = vbBlue
+            End If
+        End If
+    End If
+    If Color <> -1 Then
         For J = 2 To Record.ItemCount - 1
-            Record.Item(J).ForeColor = vbRed
+            Record.Item(J).ForeColor = Color
         Next
     End If
     

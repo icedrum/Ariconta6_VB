@@ -99,48 +99,48 @@ Begin VB.Form frmCuentas
          TabCaption(0)   =   "Datos cuentas"
          TabPicture(0)   =   "frmCuentas2.frx":685E
          Tab(0).ControlEnabled=   0   'False
-         Tab(0).Control(0)=   "Text1(36)"
-         Tab(0).Control(1)=   "Text1(35)"
-         Tab(0).Control(2)=   "Check3"
-         Tab(0).Control(3)=   "Text2(27)"
-         Tab(0).Control(4)=   "Text1(27)"
-         Tab(0).Control(5)=   "Text1(30)"
-         Tab(0).Control(6)=   "Text2(3)"
-         Tab(0).Control(7)=   "Text2(2)"
-         Tab(0).Control(8)=   "Text1(23)"
-         Tab(0).Control(9)=   "Text1(10)"
-         Tab(0).Control(10)=   "Text1(9)"
-         Tab(0).Control(11)=   "Text1(8)"
-         Tab(0).Control(12)=   "Text1(7)"
-         Tab(0).Control(13)=   "Text1(6)"
-         Tab(0).Control(14)=   "Text1(5)"
-         Tab(0).Control(15)=   "Text1(4)"
-         Tab(0).Control(16)=   "Text1(3)"
-         Tab(0).Control(17)=   "Text1(2)"
-         Tab(0).Control(18)=   "Check1"
-         Tab(0).Control(19)=   "Text1(12)"
-         Tab(0).Control(20)=   "ToolbarMail"
-         Tab(0).Control(21)=   "Label1(29)"
-         Tab(0).Control(22)=   "Label1(12)"
-         Tab(0).Control(23)=   "Image1(6)"
-         Tab(0).Control(24)=   "Label1(15)"
-         Tab(0).Control(25)=   "Image1(4)"
-         Tab(0).Control(26)=   "Label1(14)"
-         Tab(0).Control(27)=   "Image1(3)"
-         Tab(0).Control(28)=   "Image1(2)"
-         Tab(0).Control(29)=   "imgWeb(0)"
-         Tab(0).Control(30)=   "imgppal(2)"
-         Tab(0).Control(31)=   "Label1(22)"
-         Tab(0).Control(32)=   "Label1(10)"
-         Tab(0).Control(33)=   "Label1(9)"
-         Tab(0).Control(34)=   "Label1(8)"
-         Tab(0).Control(35)=   "Label1(6)"
-         Tab(0).Control(36)=   "Label1(5)"
-         Tab(0).Control(37)=   "Label1(4)"
-         Tab(0).Control(38)=   "Label1(3)"
-         Tab(0).Control(39)=   "Label1(7)"
-         Tab(0).Control(40)=   "Label1(2)"
-         Tab(0).Control(41)=   "Label1(11)"
+         Tab(0).Control(0)=   "Label1(11)"
+         Tab(0).Control(1)=   "Label1(2)"
+         Tab(0).Control(2)=   "Label1(7)"
+         Tab(0).Control(3)=   "Label1(3)"
+         Tab(0).Control(4)=   "Label1(4)"
+         Tab(0).Control(5)=   "Label1(5)"
+         Tab(0).Control(6)=   "Label1(6)"
+         Tab(0).Control(7)=   "Label1(8)"
+         Tab(0).Control(8)=   "Label1(9)"
+         Tab(0).Control(9)=   "Label1(10)"
+         Tab(0).Control(10)=   "Label1(22)"
+         Tab(0).Control(11)=   "imgppal(2)"
+         Tab(0).Control(12)=   "imgWeb(0)"
+         Tab(0).Control(13)=   "Image1(2)"
+         Tab(0).Control(14)=   "Image1(3)"
+         Tab(0).Control(15)=   "Label1(14)"
+         Tab(0).Control(16)=   "Image1(4)"
+         Tab(0).Control(17)=   "Label1(15)"
+         Tab(0).Control(18)=   "Image1(6)"
+         Tab(0).Control(19)=   "Label1(12)"
+         Tab(0).Control(20)=   "Label1(29)"
+         Tab(0).Control(21)=   "ToolbarMail"
+         Tab(0).Control(22)=   "Text1(12)"
+         Tab(0).Control(23)=   "Check1"
+         Tab(0).Control(24)=   "Text1(2)"
+         Tab(0).Control(25)=   "Text1(3)"
+         Tab(0).Control(26)=   "Text1(4)"
+         Tab(0).Control(27)=   "Text1(5)"
+         Tab(0).Control(28)=   "Text1(6)"
+         Tab(0).Control(29)=   "Text1(7)"
+         Tab(0).Control(30)=   "Text1(8)"
+         Tab(0).Control(31)=   "Text1(9)"
+         Tab(0).Control(32)=   "Text1(10)"
+         Tab(0).Control(33)=   "Text1(23)"
+         Tab(0).Control(34)=   "Text2(2)"
+         Tab(0).Control(35)=   "Text2(3)"
+         Tab(0).Control(36)=   "Text1(30)"
+         Tab(0).Control(37)=   "Text1(27)"
+         Tab(0).Control(38)=   "Text2(27)"
+         Tab(0).Control(39)=   "Check3"
+         Tab(0).Control(40)=   "Text1(35)"
+         Tab(0).Control(41)=   "Text1(36)"
          Tab(0).ControlCount=   42
          TabCaption(1)   =   "Tesorería"
          TabPicture(1)   =   "frmCuentas2.frx":687A
@@ -704,7 +704,7 @@ Begin VB.Form frmCuentas
                Left            =   150
                TabIndex        =   88
                Top             =   1080
-               Width           =   915
+               Width           =   1275
             End
          End
          Begin VB.TextBox Text2 
@@ -3404,7 +3404,7 @@ Dim RC2 As String
     'NIF
     If Text1(7).Text <> "" Then
         'Ha escrito el NIF
-        If Text1(12).Text = "ES" Then
+        If Text1(12).Text = "" Or Text1(12).Text = "ES" Then
             If Not Comprobar_NIF(Text1(7).Text) Then
                 If MsgBox("NIF incorrecto. ¿Continuar?", vbQuestion + vbYesNo) = vbNo Then Exit Function
             End If
@@ -4084,15 +4084,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         

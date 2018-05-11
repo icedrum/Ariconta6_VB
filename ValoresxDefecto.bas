@@ -57,13 +57,65 @@ If ValorDelCheck = 0 Then
     'Hay que eliminar si existe
     EliminaValoresPorDefecto NombreFichero
     Else
-        CrearFichValoresPorDefecto NombreFichero
+        CrearFichValoresPorDefecto NombreFichero, ""
 End If
     
 Exit Sub
 ECheckValueGuardar:
     Err.Clear
 End Sub
+
+
+
+'Cande de texto
+Public Function TextoValueLeer(NombreForm As String) As String
+Dim NombreFichero As String
+Dim NF As Integer
+
+On Error GoTo ECheckValueLeer
+TextoValueLeer = ""  'UNCHECKED
+'Se podria hacer un select para que no lie mucho los nombres en las carpetas
+NombreFichero = DevNombreFichero(NombreForm)
+If NombreFichero <> "" Then
+    If Dir(NombreFichero) <> "" Then
+        NF = FreeFile
+        Open NombreFichero For Input As #NF
+        Line Input #NF, NombreFichero
+        Close #NF
+        TextoValueLeer = NombreFichero
+    End If
+End If
+
+
+Exit Function
+ECheckValueLeer:
+    Err.Clear
+End Function
+
+
+
+Public Sub TextoValueGuardar(NombreForm As String, Valor As String)
+Dim NombreFichero As String
+'Dim ExisteFich As Boolean
+On Error GoTo ECheckValueGuardar
+
+'Se podria hacer un select para que no lie mucho los nombres en las carpetas
+NombreFichero = DevNombreFichero(NombreForm)
+If NombreFichero = "" Then Exit Sub
+'ExisteFich = (Dir(NombreFichero) <> "")
+If Valor = "" Then
+    'Hay que eliminar si existe
+        EliminaValoresPorDefecto NombreFichero
+    Else
+        CrearFichValoresPorDefecto NombreFichero, Valor
+End If
+    
+Exit Sub
+ECheckValueGuardar:
+    Err.Clear
+End Sub
+
+
 
 
 Private Sub EliminaValoresPorDefecto(ByRef vPath As String)
@@ -75,15 +127,16 @@ EeliminavaloresPorDefecto:
 End Sub
 
 
-Private Sub CrearFichValoresPorDefecto(ByRef vPath As String)
+Private Sub CrearFichValoresPorDefecto(ByRef vPath As String, CadenaGuardar As String)
 Dim NF As Integer
 On Error GoTo ECrearFichValoresPorDefecto
-If Dir(vPath, vbArchive) = "" Then
+'If Dir(vPath, vbArchive) = "" Then
     NF = FreeFile
     Open vPath For Output As #NF
-    Print #NF, "Check = True"
+    If CadenaGuardar = "" Then CadenaGuardar = "Check = True"
+    Print #NF, CadenaGuardar
     Close #NF
-End If
+'End If
 Exit Sub
 ECrearFichValoresPorDefecto:
     Err.Clear

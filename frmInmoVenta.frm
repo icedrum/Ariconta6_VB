@@ -1104,6 +1104,39 @@ End Sub
 Private Function ComprobaDatosVentaBajaElemento() As Boolean
 
     ComprobaDatosVentaBajaElemento = False
+    
+    
+    'Por si acaso. Si estamos vendiendo, el elmento no puede estar de baja
+    If Me.Option1(0).Value Then
+        cad = DevuelveDesdeBD("situacio", "inmovele", "codinmov", Me.Text6(0).Text)
+        If cad = "3" Or cad = "2" Or cad = "4" Then
+            If cad = "3" Then
+                cad = "de baja"
+            ElseIf cad = "2" Then
+                cad = "vendido"
+            Else
+                cad = "totalmente amortizado"
+            End If
+            MsgBox "El elmento esta " & cad, vbExclamation
+            Exit Function
+        End If
+    Else
+        cad = DevuelveDesdeBD("situacio", "inmovele", "codinmov", Me.Text6(0).Text)
+        
+        If cad = "3" Then
+            cad = "de baja"
+        ElseIf cad = "2" Then
+            cad = "vendido"
+        Else
+            cad = ""
+        End If
+        If cad <> "" Then
+            MsgBox "El elmento esta " & cad, vbExclamation
+            Exit Function
+        End If
+    End If
+    
+    
     If ObtenerparametrosAmortizacion(DivMes, UltAmor, ParametrosContabiliza) = False Then Exit Function
 
     
@@ -1235,8 +1268,8 @@ Private Sub Form_Load()
 
     
     imgElto(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    imgcta(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    imgcta(1).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    imgCta(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    imgCta(1).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCCost(2).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCon(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
@@ -1617,11 +1650,15 @@ Dim Rs As ADODB.Recordset
             If Index = 0 Then
                 If ParametrosContabiliza = "2" Or ParametrosContabiliza = "3" Or ParametrosContabiliza = "4" Then
                     If ParametrosContabiliza = "4" Then
-                        MsgBox "Elemento totalmente amortizado", vbExclamation
+                        If Option1(0).Value Then
+                            MsgBox "Elemento totalmente amortizado", vbExclamation
+                            cad = ""
+                        End If
                     Else
                         MsgBox "El elemento : " & cad & " ya ha sido vendido o dado de baja", vbExclamation
+                        cad = ""
                     End If
-                    cad = ""
+                    
                 Else
                     If vParam.autocoste Then
                         ' traemos si lo tiene el centro de coste del elemento inmovilizado
@@ -2174,7 +2211,11 @@ On Error GoTo EGeneracabeceraApunte
         Select Case vTipo
         Case 0, 1
             'VENTA
-            cad = cad & txtCon(0).Text
+            If txtCon(0).Text = "" Then
+                cad = cad & DevNombreSQL(IIf(vTipo = 0, "Venta", "Baja") & " elemento " & Me.Text6(0).Text & " " & Text7(0).Text)
+            Else
+                cad = cad & txtCon(0).Text
+            End If
         Case Else
             cad = cad & "Amortización: " & Fecha
         End Select

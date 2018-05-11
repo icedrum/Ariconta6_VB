@@ -38,6 +38,12 @@ Private mvarFiltroCobros As Integer 'filtro de cobros
 Private mvarFiltroPagos As Integer 'filtro de pagos
 Private mvarFiltroGastosFijos As Integer 'filtro de gastos fijos
 
+Private mvarFiltroOrdenacionCobros  As Integer 'Ordenacion
+Private mvarFiltroOrdenacionPagos As Integer 'Ordenacion
+    
+     
+
+
 Private mvarFormulariosConPermisosEspeciales As String
 
 
@@ -435,6 +441,12 @@ Dim Rs As ADODB.Recordset
     mvarFiltroPagos = 0
     mvarFiltroGastosFijos = 0
     
+    
+    mvarFiltroOrdenacionCobros = 1
+    mvarFiltroOrdenacionPagos = 1
+    
+   
+   
    
     
     SQL = "SELECT codigo, filtro FROM menus_usuarios WHERE aplicacion = " & DBSet(aplicacion, "T") & " and codusu = " & DBSet(mvarId, "N")

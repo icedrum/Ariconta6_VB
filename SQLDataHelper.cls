@@ -233,7 +233,7 @@ Public Function CreateRPatternFromRS(pRPatternRS As ADODB.Recordset) As Calendar
     End If
 
     pRPattern.Options.Data1 = pRPatternRS("OptionsData1")
-    pRPattern.Options.Data2 = pRPatternRS("OptionsData2")
+    pRPattern.Options.data2 = pRPatternRS("OptionsData2")
     pRPattern.Options.Data3 = pRPatternRS("OptionsData3")
     pRPattern.Options.Data4 = pRPatternRS("OptionsData4")
     
@@ -266,7 +266,7 @@ Public Sub PutRPatternToRS(pRPattern As CalendarRecurrencePattern, pRPatternRS A
     pRPatternRS("PatternEndAfterOccurrences") = pRPattern.EndAfterOccurrences
     
     pRPatternRS("OptionsData1") = pRPattern.Options.Data1
-    pRPatternRS("OptionsData2") = pRPattern.Options.Data2
+    pRPatternRS("OptionsData2") = pRPattern.Options.data2
     pRPatternRS("OptionsData3") = pRPattern.Options.Data3
     pRPatternRS("OptionsData4") = pRPattern.Options.Data4
     
@@ -288,7 +288,7 @@ Public Sub ReadRPatternExceptions(pPattern As CalendarRecurrencePattern, pConnec
     
     nPatternID = pPattern.id
         
-    strSQL = "SELECT * FROM CalendarEvents WHERE " & vbCrLf
+    strSQL = "SELECT * FROM usuarios.CalendarEvents WHERE " & vbCrLf
     
     strSQL = strSQL + " RecurrenceState = " & xtpCalendarRecurrenceException & " AND " & vbCrLf
     strSQL = strSQL + " RecurrencePatternID = " & nPatternID
@@ -312,7 +312,7 @@ End Sub
 Public Function MakeUpdateEventSQL(pEvent As CalendarEvent) As String
     Dim strSQL As String
   
-    strSQL = "UPDATE CalendarEvents SET " & vbCrLf
+    strSQL = "UPDATE usuarios.CalendarEvents SET " & vbCrLf
     strSQL = strSQL + "Subject = " & MakeSQLstr(pEvent.Subject) & ", " & vbCrLf
     strSQL = strSQL + "Location = " & MakeSQLstr(pEvent.Location) & ", " & vbCrLf
     strSQL = strSQL + "Body = " & MakeSQLstr(pEvent.Body) & ", " & vbCrLf
@@ -361,7 +361,7 @@ End Function
 Public Function MakeCreateEventSQL(pEvent As CalendarEvent) As String
     Dim strSQL As String
   
-    strSQL = "INSERT INTO CalendarEvents ("
+    strSQL = "INSERT INTO usuarios.CalendarEvents ("
     strSQL = strSQL + "Subject, "
     strSQL = strSQL + "Location, "
     strSQL = strSQL + "Body, "
@@ -443,7 +443,7 @@ Public Function MakeUpdatePatternSQL(pRPattern As CalendarRecurrencePattern) As 
 
     Dim strSQL As String
   
-    strSQL = "UPDATE CalendarRecurrencePatterns SET " & vbCrLf
+    strSQL = "UPDATE usuarios.CalendarRecurrencePatterns SET " & vbCrLf
     
     strSQL = strSQL + "MasterEventID = " & pRPattern.MasterEventId & ", " & vbCrLf
     
@@ -457,7 +457,7 @@ Public Function MakeUpdatePatternSQL(pRPattern As CalendarRecurrencePattern) As 
     strSQL = strSQL + "PatternEndAfterOccurrences = " & pRPattern.EndAfterOccurrences & ", " & vbCrLf
     
     strSQL = strSQL + "OptionsData1 = " & pRPattern.Options.Data1 & ", " & vbCrLf
-    strSQL = strSQL + "OptionsData2 = " & pRPattern.Options.Data2 & ", " & vbCrLf
+    strSQL = strSQL + "OptionsData2 = " & pRPattern.Options.data2 & ", " & vbCrLf
     strSQL = strSQL + "OptionsData3 = " & pRPattern.Options.Data3 & ", " & vbCrLf
     strSQL = strSQL + "OptionsData4 = " & pRPattern.Options.Data4 & ", " & vbCrLf
     
@@ -472,7 +472,7 @@ Public Function MakeCreatePatternSQL(pRPattern As CalendarRecurrencePattern) As 
 
     Dim strSQL As String
       
-    strSQL = "INSERT INTO CalendarRecurrencePatterns ("
+    strSQL = "INSERT INTO usuarios.CalendarRecurrencePatterns ("
     
     strSQL = strSQL + "MasterEventID, " & vbCrLf
     
@@ -507,7 +507,7 @@ Public Function MakeCreatePatternSQL(pRPattern As CalendarRecurrencePattern) As 
     strSQL = strSQL & pRPattern.EndAfterOccurrences & ", " & vbCrLf
     
     strSQL = strSQL & pRPattern.Options.Data1 & ", " & vbCrLf
-    strSQL = strSQL & pRPattern.Options.Data2 & ", " & vbCrLf
+    strSQL = strSQL & pRPattern.Options.data2 & ", " & vbCrLf
     strSQL = strSQL & pRPattern.Options.Data3 & ", " & vbCrLf
     strSQL = strSQL & pRPattern.Options.Data4 & ", " & vbCrLf
     
@@ -525,7 +525,7 @@ Public Function MakeRetrieveDayEventsSQL(ByVal dtDay As Date) As String
     nMonth = Month(dtDay)
     nDay = Day(dtDay)
     
-    strSQL = "SELECT * FROM CalendarEvents WHERE " & vbCrLf
+    strSQL = "SELECT * FROM usuarios.CalendarEvents WHERE " & vbCrLf
     
     strSQL = strSQL + " ( RecurrenceState = " & xtpCalendarRecurrenceNotRecurring & " OR " & vbCrLf
     strSQL = strSQL + "   RecurrenceState = " & xtpCalendarRecurrenceMaster & ") AND " & vbCrLf
@@ -563,7 +563,7 @@ Public Function MakeGetUpcomingEventsSQL(ByVal eDBtype As CodeJockCalendarDataTy
     
     Dim strSQL As String
     
-    strSQL = "SELECT * FROM CalendarEvents WHERE " & vbCrLf
+    strSQL = "SELECT * FROM usuarios.CalendarEvents WHERE " & vbCrLf
     
     strSQL = strSQL + "(RecurrenceState = " & xtpCalendarRecurrenceNotRecurring & " OR " & vbCrLf
     strSQL = strSQL + " RecurrenceState = " & xtpCalendarRecurrenceMaster & ") " & vbCrLf
@@ -591,7 +591,7 @@ Public Function MakeGetUpcomingEventsSQL(ByVal eDBtype As CodeJockCalendarDataTy
         strSQL = strSQL + " ( IsReminder <> 0 OR " & vbCrLf
         strSQL = strSQL + "     ( RecurrenceState = " & xtpCalendarRecurrenceMaster & " AND " & vbCrLf
         strSQL = strSQL + "       RecurrencePatternID IN " & vbCrLf
-        strSQL = strSQL + "         ( SELECT RecurrencePatternID  FROM CalendarEvents " & vbCrLf
+        strSQL = strSQL + "         ( SELECT RecurrencePatternID  FROM usuarios.CalendarEvents " & vbCrLf
         strSQL = strSQL + "           WHERE " & vbCrLf
         strSQL = strSQL + "             RecurrenceState = " & xtpCalendarRecurrenceException & " AND " & vbCrLf
         strSQL = strSQL + "             IsReminder <> 0 AND " & vbCrLf

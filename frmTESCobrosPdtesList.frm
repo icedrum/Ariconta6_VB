@@ -208,13 +208,13 @@ Begin VB.Form frmTESCobrosPdtesList
       EndProperty
       Height          =   2655
       Left            =   7140
-      TabIndex        =   44
+      TabIndex        =   49
       Top             =   6360
       Width           =   4785
       Begin VB.Frame Frame3 
          Height          =   735
          Left            =   150
-         TabIndex        =   63
+         TabIndex        =   65
          Top             =   1110
          Width           =   4455
          Begin VB.OptionButton optVarios 
@@ -231,7 +231,7 @@ Begin VB.Form frmTESCobrosPdtesList
             Height          =   240
             Index           =   4
             Left            =   2340
-            TabIndex        =   65
+            TabIndex        =   21
             Top             =   270
             Width           =   1425
          End
@@ -249,7 +249,7 @@ Begin VB.Form frmTESCobrosPdtesList
             Height          =   240
             Index           =   3
             Left            =   510
-            TabIndex        =   64
+            TabIndex        =   20
             Top             =   270
             Width           =   1035
          End
@@ -257,7 +257,7 @@ Begin VB.Form frmTESCobrosPdtesList
       Begin VB.Frame Frame2 
          Height          =   735
          Left            =   150
-         TabIndex        =   59
+         TabIndex        =   64
          Top             =   360
          Width           =   4455
          Begin VB.OptionButton optVarios 
@@ -274,7 +274,7 @@ Begin VB.Form frmTESCobrosPdtesList
             Height          =   240
             Index           =   2
             Left            =   2850
-            TabIndex        =   62
+            TabIndex        =   19
             Top             =   270
             Width           =   1545
          End
@@ -292,7 +292,7 @@ Begin VB.Form frmTESCobrosPdtesList
             Height          =   240
             Index           =   1
             Left            =   1350
-            TabIndex        =   61
+            TabIndex        =   18
             Top             =   270
             Width           =   1365
          End
@@ -310,7 +310,7 @@ Begin VB.Form frmTESCobrosPdtesList
             Height          =   240
             Index           =   0
             Left            =   120
-            TabIndex        =   60
+            TabIndex        =   17
             Top             =   270
             Width           =   1035
          End
@@ -329,7 +329,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   240
          Index           =   2
          Left            =   1980
-         TabIndex        =   17
+         TabIndex        =   23
          Top             =   2070
          Width           =   2295
       End
@@ -347,7 +347,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   240
          Index           =   1
          Left            =   330
-         TabIndex        =   16
+         TabIndex        =   22
          Top             =   2070
          Width           =   1335
       End
@@ -365,7 +365,7 @@ Begin VB.Form frmTESCobrosPdtesList
       EndProperty
       Height          =   6345
       Left            =   120
-      TabIndex        =   21
+      TabIndex        =   27
       Top             =   0
       Width           =   6915
       Begin VB.TextBox txtNAgente 
@@ -383,7 +383,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   0
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   58
+         TabIndex        =   63
          Top             =   4140
          Width           =   4155
       End
@@ -402,7 +402,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   1
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   57
+         TabIndex        =   62
          Top             =   4530
          Width           =   4155
       End
@@ -459,7 +459,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   0
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   54
+         TabIndex        =   59
          Top             =   3060
          Width           =   4155
       End
@@ -478,7 +478,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   1
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   53
+         TabIndex        =   58
          Top             =   3450
          Width           =   4155
       End
@@ -537,7 +537,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   1
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   48
+         TabIndex        =   53
          Top             =   2310
          Width           =   4155
       End
@@ -556,7 +556,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   0
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   47
+         TabIndex        =   52
          Top             =   1920
          Width           =   4155
       End
@@ -575,7 +575,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   1
          Left            =   2010
          Locked          =   -1  'True
-         TabIndex        =   46
+         TabIndex        =   51
          Top             =   5670
          Width           =   4665
       End
@@ -594,7 +594,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Index           =   0
          Left            =   2010
          Locked          =   -1  'True
-         TabIndex        =   45
+         TabIndex        =   50
          Top             =   5280
          Width           =   4665
       End
@@ -782,7 +782,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   20
          Left            =   240
-         TabIndex        =   56
+         TabIndex        =   61
          Top             =   4170
          Width           =   690
       End
@@ -800,7 +800,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   19
          Left            =   240
-         TabIndex        =   55
+         TabIndex        =   60
          Top             =   4530
          Width           =   615
       End
@@ -835,7 +835,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   285
          Index           =   14
          Left            =   240
-         TabIndex        =   52
+         TabIndex        =   57
          Top             =   3840
          Width           =   960
       End
@@ -854,7 +854,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   18
          Left            =   210
-         TabIndex        =   51
+         TabIndex        =   56
          Top             =   510
          Width           =   2280
       End
@@ -872,7 +872,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   17
          Left            =   240
-         TabIndex        =   50
+         TabIndex        =   55
          Top             =   840
          Width           =   690
       End
@@ -890,7 +890,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   16
          Left            =   240
-         TabIndex        =   49
+         TabIndex        =   54
          Top             =   1230
          Width           =   615
       End
@@ -923,7 +923,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   11
          Left            =   240
-         TabIndex        =   37
+         TabIndex        =   43
          Top             =   1620
          Width           =   1890
       End
@@ -941,7 +941,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   10
          Left            =   240
-         TabIndex        =   36
+         TabIndex        =   42
          Top             =   1950
          Width           =   690
       End
@@ -959,7 +959,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   9
          Left            =   240
-         TabIndex        =   35
+         TabIndex        =   41
          Top             =   2340
          Width           =   615
       End
@@ -990,7 +990,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   255
          Index           =   1
          Left            =   2580
-         TabIndex        =   34
+         TabIndex        =   40
          Top             =   2700
          Width           =   4035
       End
@@ -1007,7 +1007,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   255
          Index           =   0
          Left            =   2610
-         TabIndex        =   33
+         TabIndex        =   39
          Top             =   2340
          Width           =   4035
       End
@@ -1039,7 +1039,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   2
          Left            =   240
-         TabIndex        =   32
+         TabIndex        =   38
          Top             =   3450
          Width           =   615
       End
@@ -1057,7 +1057,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   3
          Left            =   240
-         TabIndex        =   31
+         TabIndex        =   37
          Top             =   3090
          Width           =   690
       End
@@ -1075,7 +1075,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   4
          Left            =   3300
-         TabIndex        =   30
+         TabIndex        =   36
          Top             =   1260
          Width           =   615
       End
@@ -1092,7 +1092,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   255
          Index           =   4
          Left            =   2580
-         TabIndex        =   29
+         TabIndex        =   35
          Top             =   3990
          Width           =   4095
       End
@@ -1109,7 +1109,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   255
          Index           =   0
          Left            =   2580
-         TabIndex        =   28
+         TabIndex        =   34
          Top             =   3630
          Width           =   4095
       End
@@ -1127,7 +1127,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   5
          Left            =   3300
-         TabIndex        =   27
+         TabIndex        =   33
          Top             =   900
          Width           =   690
       End
@@ -1146,7 +1146,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   255
          Index           =   7
          Left            =   240
-         TabIndex        =   26
+         TabIndex        =   32
          Top             =   2760
          Width           =   1590
       End
@@ -1165,7 +1165,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   8
          Left            =   3300
-         TabIndex        =   25
+         TabIndex        =   31
          Top             =   540
          Width           =   2280
       End
@@ -1184,7 +1184,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   6
          Left            =   270
-         TabIndex        =   24
+         TabIndex        =   30
          Top             =   4980
          Width           =   960
       End
@@ -1216,7 +1216,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   1
          Left            =   240
-         TabIndex        =   23
+         TabIndex        =   29
          Top             =   5700
          Width           =   735
       End
@@ -1234,7 +1234,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   0
          Left            =   240
-         TabIndex        =   22
+         TabIndex        =   28
          Top             =   5280
          Width           =   780
       End
@@ -1252,7 +1252,7 @@ Begin VB.Form frmTESCobrosPdtesList
       EndProperty
       Height          =   6345
       Left            =   7140
-      TabIndex        =   38
+      TabIndex        =   44
       Top             =   0
       Width           =   4815
       Begin VB.ComboBox Combo3 
@@ -1268,7 +1268,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   360
          Left            =   2340
          Style           =   2  'Dropdown List
-         TabIndex        =   14
+         TabIndex        =   15
          Top             =   4710
          Width           =   2055
       End
@@ -1285,7 +1285,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   360
          Left            =   2340
          Style           =   2  'Dropdown List
-         TabIndex        =   12
+         TabIndex        =   13
          Top             =   3810
          Width           =   2055
       End
@@ -1302,7 +1302,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   360
          Left            =   2340
          Style           =   2  'Dropdown List
-         TabIndex        =   13
+         TabIndex        =   14
          Top             =   4260
          Width           =   2055
       End
@@ -1320,14 +1320,14 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   240
          Index           =   0
          Left            =   270
-         TabIndex        =   15
+         TabIndex        =   16
          Top             =   5730
          Width           =   3075
       End
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   4230
-         TabIndex        =   39
+         TabIndex        =   45
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -1346,7 +1346,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   2310
          Index           =   1
          Left            =   180
-         TabIndex        =   42
+         TabIndex        =   12
          Top             =   1020
          Width           =   4275
          _ExtentX        =   7541
@@ -1421,7 +1421,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   255
          Index           =   15
          Left            =   180
-         TabIndex        =   43
+         TabIndex        =   48
          Top             =   720
          Width           =   1500
       End
@@ -1439,7 +1439,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   195
          Index           =   13
          Left            =   300
-         TabIndex        =   41
+         TabIndex        =   47
          Top             =   4350
          Width           =   900
       End
@@ -1457,7 +1457,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Height          =   255
          Index           =   12
          Left            =   300
-         TabIndex        =   40
+         TabIndex        =   46
          Top             =   3870
          Width           =   870
       End
@@ -1476,7 +1476,7 @@ Begin VB.Form frmTESCobrosPdtesList
       EndProperty
       Height          =   375
       Left            =   10680
-      TabIndex        =   20
+      TabIndex        =   26
       Top             =   9240
       Width           =   1215
    End
@@ -1493,7 +1493,7 @@ Begin VB.Form frmTESCobrosPdtesList
       Height          =   375
       Index           =   1
       Left            =   9120
-      TabIndex        =   18
+      TabIndex        =   24
       Top             =   9240
       Width           =   1455
    End
@@ -1511,7 +1511,7 @@ Begin VB.Form frmTESCobrosPdtesList
       Height          =   375
       Index           =   0
       Left            =   150
-      TabIndex        =   19
+      TabIndex        =   25
       Top             =   9210
       Width           =   1335
    End
@@ -1553,7 +1553,7 @@ Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
 Private SQL As String
-Dim cad As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -1919,7 +1919,7 @@ End Sub
 
 
 Private Sub txtCuentas_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim SQL As String
@@ -2047,7 +2047,7 @@ End Sub
 
 
 Private Sub txtSerie_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim SQL As String
@@ -2063,6 +2063,7 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
     Select Case Index
         Case 0, 1 'tipos de movimiento
             txtNSerie(Index).Text = DevuelveDesdeBD("nomregis", "contadores", "tiporegi", txtSerie(Index), "T")
+            If Index = 1 Then PonerFocoBtn Me.cmdAccion(1)
     End Select
     
 
@@ -2096,7 +2097,7 @@ End Sub
 
 
 Private Sub txtDpto_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim SQL As String
@@ -2139,7 +2140,7 @@ End Sub
 
 
 Private Sub txtAgente_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String
+Dim Cad As String, cadTipo As String
 Dim Cta As String
 Dim B As Boolean
 Dim SQL As String

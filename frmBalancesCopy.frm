@@ -284,7 +284,7 @@ Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
 Dim Cad As String
-Dim Cont As Long
+Dim CONT As Long
 Dim i As Integer
 
 Dim Importe As Currency
@@ -312,7 +312,7 @@ Private Sub cmdCancelarAccion_Click()
 End Sub
 
 Private Sub cmdCanListExtr_Click(Index As Integer)
-    If Me.cmdCancelarAccion.Visible Then Exit Sub
+    If Me.cmdCancelarAccion.visible Then Exit Sub
     HanPulsadoSalir = True
     Unload Me
 End Sub
@@ -400,7 +400,7 @@ Private Sub Form_Load()
 Dim H As Single
 Dim W As Single
 
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
 
     Screen.MousePointer = vbHourglass
     PrimeraVez = True
@@ -408,7 +408,7 @@ Dim W As Single
     
     
     For i = 2 To 3
-        Me.ImgNumBal(i).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
+        Me.ImgNumBal(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Next i
     
     
@@ -418,7 +418,7 @@ Dim W As Single
         TextDescBalance(2).Text = RecuperaValor(CadenaDesdeOtroForm, 2)
         H = FrameCopyBalan.Height
         W = FrameCopyBalan.Width
-        FrameCopyBalan.Visible = True
+        FrameCopyBalan.visible = True
     End Select
     HanPulsadoSalir = False
     
@@ -441,7 +441,7 @@ Dim W As Single
         
         'Ajustaremos el boton para cancelar algunos de los listados k mas puedan costar
         AjustaBotonCancelarAccion
-        cmdCancelarAccion.Visible = False
+        cmdCancelarAccion.visible = False
         cmdCancelarAccion.ZOrder 0
     
     End If
@@ -454,7 +454,7 @@ End Sub
 
 Private Sub AjustaBotonCancelarAccion()
 On Error GoTo EAj
-    Me.cmdCancelarAccion.Top = cmdCanListExtr(i).Top
+    Me.cmdCancelarAccion.top = cmdCanListExtr(i).top
     Me.cmdCancelarAccion.Left = cmdCanListExtr(i).Left + 60
     cmdCancelarAccion.Width = cmdCanListExtr(i).Width
     cmdCancelarAccion.Height = cmdCanListExtr(i).Height + 30
@@ -486,7 +486,7 @@ Private Sub ImgNumBal_Click(Index As Integer)
     RC = Index
     
     Set frmBal = New frmBasico
-    AyudaBalances frmBal
+    AyudaBalances frmBal, 0
     Set frmBal = Nothing
 
     Screen.MousePointer = vbDefault
@@ -520,9 +520,9 @@ Private Sub txtNumBal_KeyPress(Index As Integer, KeyAscii As Integer)
     End If
 End Sub
 
-Private Sub KEYBusqueda2(KeyAscii As Integer, indice As Integer)
+Private Sub KEYBusqueda2(KeyAscii As Integer, Indice As Integer)
     KeyAscii = 0
-    ImgNumBal_Click (indice)
+    ImgNumBal_Click (Indice)
 End Sub
 '++
 

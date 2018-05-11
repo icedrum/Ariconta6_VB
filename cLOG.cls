@@ -56,6 +56,8 @@ Option Explicit
 
 '       31.  Volver a generar fichero banco. Guardara datos anteriores
 
+'       32.   VARIOS.  Multiproposito. Empezar con corchete
+
 Private Const AccionesRegistradas = 31
 Private mvarDatosDescripcion As String
 

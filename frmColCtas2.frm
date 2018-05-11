@@ -662,7 +662,7 @@ Private Sub BotonAnyadir(Cuenta As String)
 End Sub
 
 Private Sub BotonBuscar()
-    CadenaConsulta = GeneraSQL("codmacta= 'David'")  'esto es para que no cargue ningun registro
+    CadenaConsulta = GeneraSQL(" false ")  'esto es para que no cargue ningun registro  Ponia codmacta= 'David'
     CargaGrid
     ParaBusqueda True
     txtaux(0).Text = "": txtaux(1).Text = "": txtaux(2).Text = ""

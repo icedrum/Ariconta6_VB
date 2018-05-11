@@ -7,7 +7,7 @@ Public Sub arregla(ByRef tots As String, ByRef grid As DataGrid, ByRef formu As 
     Dim Mens As String
     Dim difer As Integer
     Dim i As Integer
-    Dim k As Integer
+    Dim K As Integer
     Dim posi As Integer
     Dim posi2 As Integer
     Dim fil As Integer
@@ -46,24 +46,24 @@ Public Sub arregla(ByRef tots As String, ByRef grid As DataGrid, ByRef formu As 
         camp = Left(tots, posi - 1)
         tots = Right(tots, Len(tots) - posi) 'lleve el camp actual
         'For k = 0 To 5
-        For k = 0 To 4
+        For K = 0 To 4
           posi2 = InStr(camp, "|") '1ª posició del |
-          A(k, fil) = Left(camp, posi2 - 1)
+          A(K, fil) = Left(camp, posi2 - 1)
           camp = Right(camp, Len(camp) - posi2) 'lleve l'argument actual
-        Next k 'quan acabe el for tinc en A el camp actual
+        Next K 'quan acabe el for tinc en A el camp actual
         
         'només incremente el nº de la columna si no es un boto
         If A(2, fil) <> "B" Then C = C + 1
         
         If A(0, fil) = "N" Then 'no visible
-            grid.Columns(C).Visible = False
+            grid.Columns(C).visible = False
             grid.Columns(C).Width = 0 'si no es visible, pose a 0 l'ample
         ElseIf A(0, fil) = "S" Then 'visible
             ' ********* CAPTION I WIDTH DE L'OBJECTE ************
             
             Select Case A(2, fil) 'tipo (T, C o B) (o CB=CheckBox ) (DT=DTPicker)
                 Case "T"
-                    grid.Columns(C).Visible = True
+                    grid.Columns(C).visible = True
                     If A(3, fil) <> "" Then grid.Columns(C).Caption = A(3, fil)
                     If A(4, fil) <> "" Then grid.Columns(C).Width = CInt(A(4, fil))
 '                    If A(5, fil) <> "" Then
@@ -73,7 +73,7 @@ Public Sub arregla(ByRef tots As String, ByRef grid As DataGrid, ByRef formu As 
 '                    End If
                     TotalAncho = TotalAncho + CInt(A(4, fil))
                 Case "C"
-                    grid.Columns(C).Visible = True
+                    grid.Columns(C).visible = True
                     If A(3, fil) <> "" Then grid.Columns(C).Caption = A(3, fil)
                     If A(4, fil) <> "" Then grid.Columns(C).Width = CInt(A(4, fil)) - 10
 '                    If A(5, fil) <> "" Then
@@ -86,14 +86,14 @@ Public Sub arregla(ByRef tots As String, ByRef grid As DataGrid, ByRef formu As 
                 
                '=== LAURA (07/04/06): añadir tipo CB=CheckBox
                 Case "CB"
-                    grid.Columns(C).Visible = True
+                    grid.Columns(C).visible = True
                     If A(3, fil) <> "" Then grid.Columns(C).Caption = A(3, fil)
                     If A(4, fil) <> "" Then grid.Columns(C).Width = CInt(A(4, fil))
                     TotalAncho = TotalAncho + CInt(A(4, fil))
                '===============================================
                '=== LAURA (14/07/06): añadir tipo DT=DTPicker
                 Case "DT"
-                    grid.Columns(C).Visible = True
+                    grid.Columns(C).visible = True
                     If A(3, fil) <> "" Then grid.Columns(C).Caption = A(3, fil)
                     If A(4, fil) <> "" Then grid.Columns(C).Width = CInt(A(4, fil))
                     TotalAncho = TotalAncho + CInt(A(4, fil))
@@ -405,7 +405,7 @@ End Function
 Public Function PonerFormatoEntero(ByRef T As TextBox) As Boolean
 'Comprueba que el valor del textbox es un entero y le pone el formato
 Dim mTag As CTag
-Dim cad As String
+Dim Cad As String
 Dim Formato As String
 On Error GoTo EPonerFormato
 
@@ -416,14 +416,14 @@ On Error GoTo EPonerFormato
     Set mTag = New CTag
     mTag.Cargar T
     If mTag.Cargado Then
-       cad = mTag.Nombre 'descripcion del campo
+       Cad = mTag.Nombre 'descripcion del campo
        Formato = mTag.Formato
     End If
     Set mTag = Nothing
 
     If Not EsEntero(T.Text) Then
         PonerFormatoEntero = False
-        MsgBox "El campo " & cad & " tiene que ser numérico.", vbExclamation
+        MsgBox "El campo " & Cad & " tiene que ser numérico.", vbExclamation
         PonFoco T
     Else
          'T.Text = Format(T.Text, Formato)
@@ -496,7 +496,7 @@ End Function
 Public Function FormatoCampo2(ByRef objec As Object) As String
 'Devuelve el formato del campo en el TAg: "0000"
 Dim mTag As CTag
-Dim cad As String
+Dim Cad As String
 
     On Error GoTo EFormatoCampo2
 
@@ -513,7 +513,7 @@ End Function
 
 Public Function TipoCamp(ByRef objec As Object) As String
 Dim mTag As CTag
-Dim cad As String
+Dim Cad As String
 
     On Error GoTo ETipoCamp
 
@@ -1021,13 +1021,17 @@ Public Sub AyudaCuentas(frmBas As frmBasico2, Optional CodActual As String, Opti
     
 End Sub
 
-
-Public Sub AyudaBalances(frmBas As frmBasico, Optional CodActual As String, Optional cWhere As String)
+'PyG_Situacion: seran los menores de 50
+Public Sub AyudaBalances(frmBas As frmBasico, PyG_Situacion As Byte, Optional CodActual As String, Optional cWhere As String)
 
     frmBas.CadenaTots = "S|txtAux(0)|T|Código|870|;S|txtAux(1)|T|Descripción|5230|;"
     frmBas.CadenaConsulta = "SELECT balances.numbalan, balances.nombalan  "
     frmBas.CadenaConsulta = frmBas.CadenaConsulta & " FROM balances "
     frmBas.CadenaConsulta = frmBas.CadenaConsulta & " WHERE (1=1) "
+    If PyG_Situacion = 0 Then
+        If cWhere <> "" Then cWhere = cWhere & " AND "
+        cWhere = cWhere & " numbalan < 50"
+    End If
     If cWhere <> "" Then frmBas.CadenaConsulta = frmBas.CadenaConsulta & " and " & cWhere
     frmBas.Tag1 = "Código|N|N|||balances|numbalan|000|S|"
     frmBas.Tag2 = "Descripcion|T|N|||balances|nombalan|||"

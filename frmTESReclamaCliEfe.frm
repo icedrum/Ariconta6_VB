@@ -2410,7 +2410,7 @@ Dim nomDocu As String
     cadParam = cadParam & "Asunto= """ & txtVarios(0).Text & """|"
     numParam = numParam + 4
     
-    cadFormula = "{tmpentrefechas.codusu}=" & vUsu.Codigo
+    cadFormula = "{tmpentrefechas.codusu}=" & vUsu.Codigo & " AND {cartas.codcarta} = " & txtCarta.Text
     
     ImprimeGeneral
     
@@ -2704,7 +2704,7 @@ Private Function DatosOK() As Boolean
         PonleFoco txtDias
         Exit Function
     End If
-    If txtCarta.Text = "" Then
+    If txtCarta.Text = "" Or Me.txtNCarta.Text = "" Then
         MsgBox "Seleccione la carta a adjuntar.", vbExclamation
         PonleFoco txtCarta
         Exit Function

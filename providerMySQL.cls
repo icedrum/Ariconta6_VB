@@ -77,7 +77,7 @@ On Error GoTo Err1
     
     '-- update Auto EventID
     Dim rsNewID As ADODB.Recordset
-    strSQL = "SELECT MAX(EventID) AS NewEventID FROM CalendarEvents"
+    strSQL = "SELECT MAX(EventID) AS NewEventID FROM usuarios.CalendarEvents"
     
     Set rsNewID = m_Connection.Execute(strSQL)
     NewEventID = rsNewID("NewEventID")
@@ -111,7 +111,7 @@ On Error GoTo Err1
 
     '-- update Auto EventID
     Dim rsNewID As ADODB.Recordset
-    strSQL = "SELECT MAX(RecurrencePatternID) AS NewNewPatternID FROM CalendarRecurrencePatterns"
+    strSQL = "SELECT MAX(RecurrencePatternID) AS NewNewPatternID FROM usuarios.CalendarRecurrencePatterns"
     
     Set rsNewID = m_Connection.Execute(strSQL)
     NewPatternID = rsNewID("NewNewPatternID")
@@ -134,7 +134,7 @@ Private Sub m_pCalendar_DoDeleteEvent(ByVal pEvent As XtremeCalendarControl.Cale
     End If
     
     Dim strSQL As String
-    strSQL = "DELETE FROM CalendarEvents WHERE EventID = " & pEvent.id
+    strSQL = "DELETE FROM usuarios.CalendarEvents WHERE EventID = " & pEvent.id
     
     m_Connection.Execute strSQL, , adExecuteNoRecords
     
@@ -147,7 +147,7 @@ Private Sub m_pCalendar_DoDeleteRPattern(ByVal pPattern As XtremeCalendarControl
     End If
     
     Dim strSQL As String
-    strSQL = "DELETE FROM CalendarRecurrencePatterns WHERE RecurrencePatternID = " & pPattern.id
+    strSQL = "DELETE FROM usuarios.CalendarRecurrencePatterns WHERE RecurrencePatternID = " & pPattern.id
     
     m_Connection.Execute strSQL, , adExecuteNoRecords
     
@@ -196,7 +196,7 @@ Private Sub m_pCalendar_DoReadEvent(ByVal EventID As Long, pEvent As XtremeCalen
     End If
     
     Dim strSQL As String
-    strSQL = "SELECT * FROM CalendarEvents WHERE EventID = " & EventID
+    strSQL = "SELECT * FROM usuarios.CalendarEvents WHERE EventID = " & EventID
         
     Dim rsEvent As ADODB.Recordset
     Set rsEvent = m_Connection.Execute(strSQL)
@@ -210,7 +210,7 @@ Private Sub m_pCalendar_DoReadRPattern(ByVal PatternID As Long, pPattern As Xtre
     End If
     
     Dim strSQL As String
-    strSQL = "SELECT * FROM CalendarRecurrencePatterns "
+    strSQL = "SELECT * FROM usuarios.CalendarRecurrencePatterns "
     strSQL = strSQL + " WHERE RecurrencePatternID = " & PatternID
         
     Dim rsRPattern As ADODB.Recordset

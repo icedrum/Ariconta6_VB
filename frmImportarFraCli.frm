@@ -501,7 +501,7 @@ Private Sub Form_Load()
 
     
     Check2.Value = IIf(vParam.PathFicherosInteg <> "", 1, 0)
-    check1.Value = IIf(vParam.PathFicherosInteg <> "", 0, 1)
+    Check1.Value = IIf(vParam.PathFicherosInteg <> "", 0, 1)
 End Sub
 
 
@@ -869,7 +869,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.check1.Value = 1 Then cad = ""
+            If Me.Check1.Value = 1 Then cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraCli, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
         End If
@@ -1520,9 +1520,13 @@ Dim EsMismaFactura As Boolean
         Importe = Round2(Importe, 2)
         SegundoImporteAuxiliar = Importe - miRsAux!ImpIva
         B = False
-        If Abs(SegundoImporteAuxiliar) > DiferenciaMinimaPermitida Then B = True
+        If Abs(SegundoImporteAuxiliar) > DiferenciaMinimaPermitida Then
+            'St op
+            B = True
+        End If
         
         If B Then
+            NumRegElim = miRsAux!Codigo
             cad = "IVA calculado/fichero " & FACTURA & " :" & miRsAux!IVA & "%. " & Importe & " / " & miRsAux!ImpIva
             AnyadeEnErrores "Calculo  IVA"
         
@@ -2271,7 +2275,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.check1.Value = 1 Then cad = ""
+            If Me.Check1.Value = 1 Then cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraPro, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
         End If
@@ -2800,7 +2804,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.check1.Value = 1 Then cad = ""
+            If Me.Check1.Value = 1 Then cad = ""
         Else
             '10 campos a tratar
             If InStr(1, String(10, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
@@ -3464,7 +3468,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.check1.Value = 1 Then cad = ""
+            If Me.Check1.Value = 1 Then cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraPro, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
         End If

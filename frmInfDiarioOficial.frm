@@ -37,7 +37,7 @@ Begin VB.Form frmInfDiarioOficial
          Top             =   3120
          Width           =   4245
          Begin VB.CheckBox Check1 
-            Caption         =   "Último:  "
+            Caption         =   "Último"
             BeginProperty Font 
                Name            =   "Verdana"
                Size            =   9.75
@@ -911,7 +911,7 @@ Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
 
 Private SQL As String
-Dim cad As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -1113,7 +1113,7 @@ Private Sub Form_Load()
     PonerNiveles
      
     If Legalizacion <> "" Then
-        txtFecha(7).Text = RecuperaValor(Legalizacion, 1)
+        txtfecha(7).Text = RecuperaValor(Legalizacion, 1)
     
         'Fecha inicial
         cmbFecha(0).ListIndex = Month(RecuperaValor(Legalizacion, 2)) - 1
@@ -1128,7 +1128,7 @@ Private Sub Form_Load()
     
     Else
         'Fecha informe
-        txtFecha(7).Text = Format(Now, "dd/mm/yyyy")
+        txtfecha(7).Text = Format(Now, "dd/mm/yyyy")
         'Fecha inicial
         cmbFecha(0).ListIndex = Month(vParam.fechaini) - 1
         cmbFecha(1).ListIndex = Month(vParam.fechafin) - 1
@@ -1159,7 +1159,7 @@ End Sub
 
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
@@ -1179,10 +1179,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
         
     End Select
     
@@ -1276,7 +1276,7 @@ Dim nomDocu As String
         
             
         'Fecha de impresion
-        cadParam = cadParam & "FechaImp= """ & txtFecha(7).Text & """|"
+        cadParam = cadParam & "FechaImp= """ & txtfecha(7).Text & """|"
         'Numero de hoja
         If txtNumRes(1).Text <> "" Then
             i = Val(txtNumRes(1).Text)
@@ -1311,7 +1311,7 @@ Dim nomDocu As String
     Else
         'RESUMEN. Lo que habia
         
-        cadParam = cadParam & "pFecha=""" & txtFecha(7).Text & """|"
+        cadParam = cadParam & "pFecha=""" & txtfecha(7).Text & """|"
         
         'Numero de página
         If txtNumRes(1).Text <> "" Then
@@ -1365,18 +1365,18 @@ End Function
 
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
@@ -1405,10 +1405,10 @@ Private Function DatosOK() As Boolean
     End If
     
     If Not ComparaFechasCombos(2, 3, 0, 1) Then Exit Function
-    If txtFecha(7).Text <> "" Then
-        If Not IsDate(txtFecha(7).Text) Then
+    If txtfecha(7).Text <> "" Then
+        If Not IsDate(txtfecha(7).Text) Then
             MsgBox "Fecha impresión incorrecta", vbExclamation
-            txtFecha(7).SetFocus
+            txtfecha(7).SetFocus
         End If
     End If
     
@@ -1430,8 +1430,8 @@ Private Function DatosOK() As Boolean
     Else
         CONT = Val(cmbFecha(2).Text) - 1
     End If
-    cad = Day(vParam.fechaini) & "/" & Month(vParam.fechaini) & "/" & CONT
-    FechaIncioEjercicio = CDate(cad)
+    Cad = Day(vParam.fechaini) & "/" & Month(vParam.fechaini) & "/" & CONT
+    FechaIncioEjercicio = CDate(Cad)
     
     i = cmbFecha(1).ListIndex + 1
     If i <= Month(vParam.fechafin) Then
@@ -1439,8 +1439,8 @@ Private Function DatosOK() As Boolean
     Else
         CONT = Val(cmbFecha(3).Text) + 1
     End If
-    cad = Day(vParam.fechafin) & "/" & Month(vParam.fechafin) & "/" & CONT
-    FechaFinEjercicio = CDate(cad)
+    Cad = Day(vParam.fechafin) & "/" & Month(vParam.fechafin) & "/" & CONT
+    FechaFinEjercicio = CDate(Cad)
 
     
     
@@ -1529,9 +1529,9 @@ Dim L As Integer
 
 L = 1
 Do
-    cad = RecuperaValor(Lista, L)
-    If cad <> "" Then
-        i = Val(cad)
+    Cad = RecuperaValor(Lista, L)
+    If Cad <> "" Then
+        i = Val(Cad)
         With cmbFecha(i)
             .Clear
             For CONT = 1 To 12
@@ -1542,7 +1542,7 @@ Do
         End With
     End If
     L = L + 1
-Loop Until cad = ""
+Loop Until Cad = ""
 End Sub
 
 
@@ -1575,10 +1575,10 @@ Dim J As Integer
     FrameDigitos.visible = True
     For i = 1 To vEmpresa.numnivel - 1
         J = DigitosNivel(i)
-        cad = "Digitos: " & J
+        Cad = "Digitos: " & J
         Check1(i).visible = True
         Check1(i).Tag = J
-        Me.Check1(i).Caption = cad
+        Me.Check1(i).Caption = Cad
         Me.Check1(i).Value = 0
     Next i
     Check1(10).Tag = vEmpresa.DigitosUltimoNivel
@@ -1744,17 +1744,17 @@ Dim CADENA As String
     
     Set Rs = New ADODB.Recordset
     'Parte comun
-    cad = " from hlinapu,cuentas"
-    cad = cad & " WHERE hlinapu.codmacta = cuentas.codmacta"
+    Cad = " from hlinapu,cuentas"
+    Cad = Cad & " WHERE hlinapu.codmacta = cuentas.codmacta"
     
     RC = cmbFecha(2).Text & "-" & Format(cmbFecha(0).ListIndex + 1, "00") & "-01"
-    cad = cad & " AND fechaent >='" & RC & "'"
+    Cad = Cad & " AND fechaent >='" & RC & "'"
     i = DiasMes(Me.cmbFecha(1).ListIndex + 1, CInt(cmbFecha(3).Text))
     RC = cmbFecha(3).Text & "-" & Format(cmbFecha(1).ListIndex + 1, "00") & "-" & i
-    cad = cad & " AND fechaent <='" & RC & "'"
+    Cad = Cad & " AND fechaent <='" & RC & "'"
     
     'Para el contador
-    SQL = "Select count(*) " & cad
+    SQL = "Select count(*) " & Cad
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Total = 0
     If Not Rs.EOF Then
@@ -1778,7 +1778,7 @@ Dim CADENA As String
     
     'Ya tenemos el total
     SQL = "select fechaent,numasien,linliapu,cuentas.codmacta, cuentas.nommacta,numdocum,"
-    SQL = SQL & "ampconce,timported,timporteh " & cad
+    SQL = SQL & "ampconce,timported,timporteh " & Cad
     SQL = SQL & " ORDER BY fechaent,numasien"
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     
@@ -1816,18 +1816,18 @@ Dim CADENA As String
             Label2(25).Refresh
         End If
         
-        cad = Rs!Nommacta
-        NombreSQL cad
-        cad = ", (" & vUsu.Codigo & "," & NumRegElim & ",'" & Format(Rs!FechaEnt, FormatoFecha) & "','" & Format(CONT, "000000") & "','" & Format(Rs!Linliapu, "0000") & "','" & Rs!codmacta & "','" & cad & "','"
-        cad = cad & DevNombreSQL(DBLet(Rs!Numdocum)) & "','" & DevNombreSQL(DBLet(Rs!Ampconce)) & "',"
+        Cad = Rs!Nommacta
+        NombreSQL Cad
+        Cad = ", (" & vUsu.Codigo & "," & NumRegElim & ",'" & Format(Rs!FechaEnt, FormatoFecha) & "','" & Format(CONT, "000000") & "','" & Format(Rs!Linliapu, "0000") & "','" & Rs!codmacta & "','" & Cad & "','"
+        Cad = Cad & DevNombreSQL(DBLet(Rs!Numdocum)) & "','" & DevNombreSQL(DBLet(Rs!Ampconce)) & "',"
         If Not IsNull(Rs!timported) Then
             RC = TransformaComasPuntos(CStr(Rs!timported))
-            cad = cad & RC & ",NULL)"
+            Cad = Cad & RC & ",NULL)"
         Else
             RC = TransformaComasPuntos(CStr(Rs!timporteH))
-            cad = cad & "NULL," & RC & ")"
+            Cad = Cad & "NULL," & RC & ")"
         End If
-        SQL = SQL & cad
+        SQL = SQL & Cad
        
         'Siguiente
         Pos = Pos + 1

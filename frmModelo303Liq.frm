@@ -273,7 +273,7 @@ Begin VB.Form frmModelo303Liq
       Left            =   7110
       TabIndex        =   15
       Top             =   0
-      Width           =   4455
+      Width           =   4485
       Begin VB.CheckBox chk1 
          Caption         =   "Realizar apunte contable de cancelación"
          BeginProperty Font 
@@ -289,6 +289,7 @@ Begin VB.Form frmModelo303Liq
          Left            =   90
          TabIndex        =   3
          Top             =   4650
+         Value           =   1  'Checked
          Width           =   4335
       End
       Begin VB.Frame FrameSeccion 
@@ -529,7 +530,7 @@ Private frmMens As frmMensajes
 Attribute frmMens.VB_VarHelpID = -1
 
 Private SQL As String
-Dim cad As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -1748,7 +1749,7 @@ Dim Resul As String
         End If
     End Select
     
-    cad = cad & Resul & Format(Importe, Aux)
+    Cad = Cad & Resul & Format(Importe, Aux)
         
 End Sub
 
@@ -1882,7 +1883,7 @@ Private Sub txtAno_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtAno_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 
     txtAno(Index).Text = Trim(txtAno(Index).Text)
     
@@ -1908,7 +1909,7 @@ Private Sub txtCuota_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuota_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 
     txtCuota(Index).Text = Trim(txtCuota(Index).Text)
     
@@ -2000,13 +2001,13 @@ Private Function DatosOK() As Boolean
     End If
 
     'La empresa actual debe estar en la seleccion
-    cad = ""
+    Cad = ""
     For i = 1 To Me.ListView1(1).ListItems.Count
         If Me.ListView1(1).ListItems(i).Checked Then
-            If Me.ListView1(1).ListItems(i).Text = vEmpresa.codempre Then cad = "OK"
+            If Me.ListView1(1).ListItems(i).Text = vEmpresa.codempre Then Cad = "OK"
         End If
     Next
-    If cad = "" Then
+    If Cad = "" Then
         MsgBox "Debe generar la liquidacion desde una de las empresas seleccionadas", vbExclamation
         Exit Function
     End If

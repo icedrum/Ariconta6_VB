@@ -27,13 +27,31 @@ Begin VB.Form frmInfEvolSal
       EndProperty
       Height          =   5565
       Left            =   7110
-      TabIndex        =   14
+      TabIndex        =   29
       Top             =   0
       Width           =   4455
+      Begin VB.CheckBox chkAcumulado 
+         Caption         =   "Acumulado"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   240
+         TabIndex        =   16
+         Top             =   3720
+         Value           =   1  'Checked
+         Width           =   2055
+      End
       Begin VB.Frame Frame1 
          Height          =   735
          Left            =   150
-         TabIndex        =   42
+         TabIndex        =   46
          Top             =   2760
          Width           =   4155
          Begin VB.OptionButton Option3 
@@ -49,7 +67,7 @@ Begin VB.Form frmInfEvolSal
             EndProperty
             Height          =   225
             Left            =   2760
-            TabIndex        =   45
+            TabIndex        =   15
             Top             =   270
             Width           =   1155
          End
@@ -66,7 +84,7 @@ Begin VB.Form frmInfEvolSal
             EndProperty
             Height          =   240
             Left            =   1530
-            TabIndex        =   44
+            TabIndex        =   14
             Top             =   270
             Width           =   1155
          End
@@ -83,7 +101,7 @@ Begin VB.Form frmInfEvolSal
             EndProperty
             Height          =   240
             Left            =   240
-            TabIndex        =   43
+            TabIndex        =   13
             Top             =   270
             Width           =   1155
          End
@@ -101,7 +119,7 @@ Begin VB.Form frmInfEvolSal
          EndProperty
          Height          =   195
          Left            =   270
-         TabIndex        =   40
+         TabIndex        =   44
          Top             =   2970
          Visible         =   0   'False
          Width           =   3975
@@ -109,7 +127,7 @@ Begin VB.Form frmInfEvolSal
       Begin VB.Frame Frame2 
          Height          =   1905
          Left            =   150
-         TabIndex        =   25
+         TabIndex        =   40
          Top             =   750
          Width           =   4185
          Begin VB.CheckBox ChkEvolSaldo 
@@ -126,7 +144,7 @@ Begin VB.Form frmInfEvolSal
             Height          =   240
             Index           =   9
             Left            =   120
-            TabIndex        =   35
+            TabIndex        =   12
             Top             =   1290
             Width           =   1335
          End
@@ -144,7 +162,7 @@ Begin VB.Form frmInfEvolSal
             Height          =   240
             Index           =   8
             Left            =   2850
-            TabIndex        =   34
+            TabIndex        =   11
             Top             =   960
             Width           =   1215
          End
@@ -162,7 +180,7 @@ Begin VB.Form frmInfEvolSal
             Height          =   240
             Index           =   7
             Left            =   1470
-            TabIndex        =   33
+            TabIndex        =   10
             Top             =   960
             Width           =   1305
          End
@@ -180,7 +198,7 @@ Begin VB.Form frmInfEvolSal
             Height          =   240
             Index           =   6
             Left            =   120
-            TabIndex        =   32
+            TabIndex        =   9
             Top             =   930
             Width           =   1305
          End
@@ -198,7 +216,7 @@ Begin VB.Form frmInfEvolSal
             Height          =   240
             Index           =   5
             Left            =   2850
-            TabIndex        =   31
+            TabIndex        =   8
             Top             =   600
             Width           =   1215
          End
@@ -216,7 +234,7 @@ Begin VB.Form frmInfEvolSal
             Height          =   240
             Index           =   4
             Left            =   1470
-            TabIndex        =   30
+            TabIndex        =   7
             Top             =   600
             Width           =   1305
          End
@@ -234,7 +252,7 @@ Begin VB.Form frmInfEvolSal
             Height          =   240
             Index           =   3
             Left            =   120
-            TabIndex        =   29
+            TabIndex        =   6
             Top             =   570
             Width           =   1245
          End
@@ -252,7 +270,7 @@ Begin VB.Form frmInfEvolSal
             Height          =   240
             Index           =   2
             Left            =   2850
-            TabIndex        =   28
+            TabIndex        =   5
             Top             =   240
             Width           =   1185
          End
@@ -270,7 +288,7 @@ Begin VB.Form frmInfEvolSal
             Height          =   240
             Index           =   1
             Left            =   1470
-            TabIndex        =   27
+            TabIndex        =   4
             Top             =   240
             Width           =   1335
          End
@@ -288,7 +306,7 @@ Begin VB.Form frmInfEvolSal
             Height          =   240
             Index           =   10
             Left            =   120
-            TabIndex        =   26
+            TabIndex        =   3
             Top             =   240
             Value           =   1  'Checked
             Width           =   1275
@@ -297,7 +315,7 @@ Begin VB.Form frmInfEvolSal
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   3750
-         TabIndex        =   24
+         TabIndex        =   39
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -326,7 +344,7 @@ Begin VB.Form frmInfEvolSal
       EndProperty
       Height          =   2835
       Left            =   120
-      TabIndex        =   13
+      TabIndex        =   28
       Top             =   0
       Width           =   6915
       Begin VB.TextBox txtNCta 
@@ -344,7 +362,7 @@ Begin VB.Form frmInfEvolSal
          Index           =   6
          Left            =   2550
          Locked          =   -1  'True
-         TabIndex        =   47
+         TabIndex        =   48
          Top             =   1050
          Width           =   4185
       End
@@ -363,7 +381,7 @@ Begin VB.Form frmInfEvolSal
          Index           =   7
          Left            =   2550
          Locked          =   -1  'True
-         TabIndex        =   46
+         TabIndex        =   47
          Top             =   1470
          Width           =   4185
       End
@@ -381,7 +399,7 @@ Begin VB.Form frmInfEvolSal
          Index           =   0
          Left            =   1260
          Style           =   2  'Dropdown List
-         TabIndex        =   38
+         TabIndex        =   2
          Top             =   2220
          Width           =   4095
       End
@@ -438,7 +456,7 @@ Begin VB.Form frmInfEvolSal
          Height          =   285
          Index           =   0
          Left            =   240
-         TabIndex        =   39
+         TabIndex        =   43
          Top             =   2280
          Width           =   960
       End
@@ -455,7 +473,7 @@ Begin VB.Form frmInfEvolSal
          Height          =   255
          Index           =   0
          Left            =   2520
-         TabIndex        =   23
+         TabIndex        =   38
          Top             =   2310
          Width           =   4095
       End
@@ -486,7 +504,7 @@ Begin VB.Form frmInfEvolSal
          Height          =   255
          Index           =   0
          Left            =   2550
-         TabIndex        =   22
+         TabIndex        =   37
          Top             =   990
          Width           =   4095
       End
@@ -503,7 +521,7 @@ Begin VB.Form frmInfEvolSal
          Height          =   255
          Index           =   1
          Left            =   2550
-         TabIndex        =   21
+         TabIndex        =   36
          Top             =   1440
          Width           =   4095
       End
@@ -521,7 +539,7 @@ Begin VB.Form frmInfEvolSal
          Height          =   195
          Index           =   2
          Left            =   240
-         TabIndex        =   20
+         TabIndex        =   35
          Top             =   1440
          Width           =   615
       End
@@ -539,7 +557,7 @@ Begin VB.Form frmInfEvolSal
          Height          =   195
          Index           =   3
          Left            =   240
-         TabIndex        =   19
+         TabIndex        =   34
          Top             =   1080
          Width           =   690
       End
@@ -558,7 +576,7 @@ Begin VB.Form frmInfEvolSal
          Height          =   195
          Index           =   7
          Left            =   240
-         TabIndex        =   18
+         TabIndex        =   33
          Top             =   690
          Width           =   960
       End
@@ -577,7 +595,7 @@ Begin VB.Form frmInfEvolSal
       EndProperty
       Height          =   375
       Left            =   10320
-      TabIndex        =   4
+      TabIndex        =   19
       Top             =   5850
       Width           =   1215
    End
@@ -594,7 +612,7 @@ Begin VB.Form frmInfEvolSal
       Height          =   375
       Index           =   1
       Left            =   8730
-      TabIndex        =   2
+      TabIndex        =   17
       Top             =   5850
       Width           =   1455
    End
@@ -612,7 +630,7 @@ Begin VB.Form frmInfEvolSal
       Height          =   375
       Index           =   0
       Left            =   120
-      TabIndex        =   3
+      TabIndex        =   18
       Top             =   5790
       Width           =   1335
    End
@@ -629,7 +647,7 @@ Begin VB.Form frmInfEvolSal
       EndProperty
       Height          =   2655
       Left            =   120
-      TabIndex        =   5
+      TabIndex        =   20
       Top             =   2910
       Width           =   6915
       Begin VB.CommandButton PushButtonImpr 
@@ -645,7 +663,7 @@ Begin VB.Form frmInfEvolSal
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   17
+         TabIndex        =   32
          Top             =   720
          Width           =   1515
       End
@@ -654,7 +672,7 @@ Begin VB.Form frmInfEvolSal
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   16
+         TabIndex        =   31
          Top             =   1680
          Width           =   255
       End
@@ -663,7 +681,7 @@ Begin VB.Form frmInfEvolSal
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   15
+         TabIndex        =   30
          Top             =   1200
          Width           =   255
       End
@@ -681,7 +699,7 @@ Begin VB.Form frmInfEvolSal
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   12
+         TabIndex        =   27
          Top             =   1680
          Width           =   4665
       End
@@ -699,7 +717,7 @@ Begin VB.Form frmInfEvolSal
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   11
+         TabIndex        =   26
          Top             =   1200
          Width           =   4665
       End
@@ -717,7 +735,7 @@ Begin VB.Form frmInfEvolSal
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   10
+         TabIndex        =   25
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -736,7 +754,7 @@ Begin VB.Form frmInfEvolSal
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   9
+         TabIndex        =   24
          Top             =   2160
          Width           =   975
       End
@@ -754,7 +772,7 @@ Begin VB.Form frmInfEvolSal
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   8
+         TabIndex        =   23
          Top             =   1680
          Width           =   975
       End
@@ -772,7 +790,7 @@ Begin VB.Form frmInfEvolSal
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   7
+         TabIndex        =   22
          Top             =   1200
          Width           =   1515
       End
@@ -790,7 +808,7 @@ Begin VB.Form frmInfEvolSal
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   6
+         TabIndex        =   21
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -799,7 +817,7 @@ Begin VB.Form frmInfEvolSal
    Begin MSComctlLib.ProgressBar pb2 
       Height          =   285
       Left            =   1830
-      TabIndex        =   36
+      TabIndex        =   41
       Top             =   5850
       Visible         =   0   'False
       Width           =   5205
@@ -822,7 +840,7 @@ Begin VB.Form frmInfEvolSal
       EndProperty
       Height          =   375
       Left            =   10320
-      TabIndex        =   37
+      TabIndex        =   42
       Top             =   5850
       Width           =   1215
    End
@@ -839,7 +857,7 @@ Begin VB.Form frmInfEvolSal
       Height          =   255
       Index           =   29
       Left            =   1830
-      TabIndex        =   41
+      TabIndex        =   45
       Top             =   5850
       Width           =   5175
    End
@@ -883,8 +901,8 @@ Private WithEvents frmCon  As frmConceptos
 Attribute frmCon.VB_VarHelpID = -1
 Private frmCtas As frmCtasAgrupadas
 
-Private Sql As String
-Dim cad As String
+Private SQL As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -917,6 +935,10 @@ Public Sub InicializarVbles(AñadireElDeEmpresa As Boolean)
     
 End Sub
 
+Private Sub chkAcumulado_KeyPress(KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
 Private Sub ChkEvolSaldo_Click(Index As Integer)
     If ChkEvolSaldo(Index).Value = 1 Then
         For i = 1 To 10
@@ -940,15 +962,23 @@ End Sub
 
 
 
+Private Sub cmbEjercicios_KeyPress(Index As Integer, KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
+Private Sub cmbEjercicios_LostFocus(Index As Integer)
+    PonerFocoBtn Me.cmdAccion(1)
+End Sub
+
 Private Sub cmdAccion_Click(Index As Integer)
 Dim B As Boolean
     If Not DatosOK Then Exit Sub
     
     PulsadoCancelar = False
-    Me.cmdCancelarAccion.Visible = True
+    Me.cmdCancelarAccion.visible = True
     Me.cmdCancelarAccion.Enabled = True
     
-    Me.cmdCancelar.Visible = False
+    Me.cmdCancelar.visible = False
     Me.cmdCancelar.Enabled = False
         
     
@@ -960,10 +990,10 @@ Dim B As Boolean
     InicializarVbles True
     
 
-    Me.cmdCancelarAccion.Visible = False
+    Me.cmdCancelarAccion.visible = False
     Me.cmdCancelarAccion.Enabled = False
     
-    Me.cmdCancelar.Visible = True
+    Me.cmdCancelar.visible = True
     Me.cmdCancelar.Enabled = True
 
     
@@ -973,14 +1003,14 @@ Dim B As Boolean
     
     
     Screen.MousePointer = vbHourglass
-    Sql = "DELETE FROM tmpconextcab where codusu =" & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "DELETE FROM tmpconextcab where codusu =" & vUsu.Codigo
+    Conn.Execute SQL
     
-    Sql = "DELETE FROM tmpconext where codusu =" & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "DELETE FROM tmpconext where codusu =" & vUsu.Codigo
+    Conn.Execute SQL
     
-    Sql = "DELETE FROM tmpevolsal where codusu =" & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "DELETE FROM tmpevolsal where codusu =" & vUsu.Codigo
+    Conn.Execute SQL
     
     
     
@@ -1016,7 +1046,7 @@ Dim B As Boolean
 End Sub
 
 Private Sub cmdCancelar_Click()
-    If Me.cmdCancelarAccion.Visible Then Exit Sub
+    If Me.cmdCancelarAccion.visible Then Exit Sub
     HanPulsadoSalir = True
     Unload Me
 End Sub
@@ -1059,7 +1089,7 @@ Private Sub Form_Load()
     
     
     cmdCancelarAccion.Enabled = False
-    cmdCancelarAccion.Visible = False
+    cmdCancelarAccion.visible = False
     
     
     PonerNiveles
@@ -1097,6 +1127,10 @@ Private Sub imgCuentas_Click(Index As Integer)
 End Sub
 
 
+
+Private Sub Option2_KeyPress(KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
 
 Private Sub optTipoSal_Click(Index As Integer)
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), Index
@@ -1160,7 +1194,7 @@ End Sub
 
 
 Private Sub txtCta_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim RC As String
 Dim Hasta As Integer
 
@@ -1189,11 +1223,11 @@ Dim Hasta As Integer
         Case 6, 7 'Cuentas
             
             RC = txtCta(Index).Text
-            If CuentaCorrectaUltimoNivelSIN(RC, Sql) Then
+            If CuentaCorrectaUltimoNivelSIN(RC, SQL) Then
                 txtCta(Index) = RC
-                txtNCta(Index).Text = Sql
+                txtNCta(Index).Text = SQL
             Else
-                MsgBox Sql, vbExclamation
+                MsgBox SQL, vbExclamation
                 txtCta(Index).Text = ""
                 txtNCta(Index).Text = ""
                 PonFoco txtCta(Index)
@@ -1217,22 +1251,22 @@ Dim F As Date
     
 
 
-    Sql = "SELECT `tmpevolsal`.`codmacta` cuenta, `tmpevolsal`.`nommacta` nombre , `tmpevolsal`.`apertura` "
+    SQL = "SELECT `tmpevolsal`.`codmacta` cuenta, `tmpevolsal`.`nommacta` nombre , `tmpevolsal`.`apertura` "
     '`tmpevolsal`.`importemes1`, `tmpevolsal`.`importemes2`, `tmpevolsal`.`importemes3`, `tmpevolsal`.`importemes4`, `tmpevolsal`.`importemes5`, `tmpevolsal`.`importemes6`, `tmpevolsal`.`importemes7`, `tmpevolsal`.`importemes8`, `tmpevolsal`.`importemes9`, `tmpevolsal`.`importemes10`, `tmpevolsal`.`importemes11`, `tmpevolsal`.`importemes12`"
     RC = cmbEjercicios(0).List(cmbEjercicios(0).ListIndex)
     RC = Trim(Mid(RC, 1, InStr(1, RC, "-") - 1))
     F = CDate(RC)
     For i = 1 To 12
-        cad = UCase(Format(F, "mmm- yy"))
-        Sql = Sql & ", tmpevolsal.importemes" & i & " as '" & cad & "'"
+        Cad = UCase(Format(F, "mmm- yy"))
+        SQL = SQL & ", tmpevolsal.importemes" & i & " as '" & Cad & "'"
         F = DateAdd("m", 1, F)
     Next
     
-    Sql = Sql & " FROM   `tmpevolsal` `tmpevolsal` where codusu =" & vUsu.Codigo
+    SQL = SQL & " FROM   `tmpevolsal` `tmpevolsal` where codusu =" & vUsu.Codigo
 
         
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1260,7 +1294,8 @@ Dim K1 As Integer
     If txtCta(7).Text <> "" Then RC = RC & " hasta " & txtCta(7).Text & " -" & txtNCta(7).Text
     If RC <> "" Then RC = " " & RC
 
-    
+    nomDocu = IIf(Me.chkAcumulado.Value, "Acumulado", "Detalle mes")
+    RC = nomDocu & " " & RC
     
     cadParam = cadParam & "Cuenta= """ & RC & """|"
     numParam = numParam + 2
@@ -1359,19 +1394,22 @@ Private Function DatosOK() As Boolean
     
     DatosOK = False
     
-    Sql = ""
+    SQL = ""
     For i = 1 To 10
-        If Me.ChkEvolSaldo(i).Visible Then
-            If Me.ChkEvolSaldo(i).Value = 1 Then Sql = Sql & "1"
+        If Me.ChkEvolSaldo(i).visible Then
+            If Me.ChkEvolSaldo(i).Value = 1 Then SQL = SQL & "1"
         End If
     Next i
     
-    If Len(Sql) <> 1 Then
+    If Len(SQL) <> 1 Then
         MsgBox "Eliga un nivel (y solo uno) para el listado de  evolución mesual de saldos", vbExclamation
         Exit Function
     End If
 
-
+    If Me.chkAcumulado.Value = 0 And Not Option3.Value Then
+        MsgBox "Detalle mes solo disponible en SALDO", vbExclamation
+        Exit Function
+    End If
 
     DatosOK = True
 
@@ -1453,18 +1491,18 @@ Dim i As Integer
 Dim J As Integer
 
 
-    Frame2.Visible = True
-    ChkEvolSaldo(10).Visible = True
+    Frame2.visible = True
+    ChkEvolSaldo(10).visible = True
     For i = 1 To vEmpresa.numnivel - 1
         J = DigitosNivel(i)
-        cad = "Digitos:" & J
-        ChkEvolSaldo(i).Visible = True
+        Cad = "Digitos:" & J
+        ChkEvolSaldo(i).visible = True
         ChkEvolSaldo(i).Tag = J
-        Me.ChkEvolSaldo(i).Caption = cad
+        Me.ChkEvolSaldo(i).Caption = Cad
         
     Next i
     For i = vEmpresa.numnivel To 9
-        ChkEvolSaldo(i).Visible = False
+        ChkEvolSaldo(i).visible = False
     Next i
     
     
@@ -1478,12 +1516,12 @@ Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 Dim FechaIncioEjercicio As Date
 Dim FechaFinEjercicio As Date
-Dim cad As String
+Dim Cad As String
         On Error GoTo ECargaComboEjericios
         
         Set Rs = New ADODB.Recordset
-        cad = "Select min(fechaent) from hcabapu"  'FECHA MINIMA
-        Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = "Select min(fechaent) from hcabapu"  'FECHA MINIMA
+        Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         FechaIncioEjercicio = vParam.fechaini
         If Not Rs.EOF Then
             If Not IsNull(Rs.Fields(0)) Then FechaIncioEjercicio = Rs.Fields(0)
@@ -1509,22 +1547,22 @@ Dim cad As String
         cmbEjercicios(Indice).Clear
         CONT = 0
         While FechaIncioEjercicio <= FechaFinEjercicio
-                cad = Format(FechaIncioEjercicio, "dd/mm/yyyy")
+                Cad = Format(FechaIncioEjercicio, "dd/mm/yyyy")
                 FechaIncioEjercicio = DateAdd("yyyy", 1, FechaIncioEjercicio)
                 FechaIncioEjercicio = DateAdd("d", -1, FechaIncioEjercicio)
-                cad = cad & " - " & Format(FechaIncioEjercicio, "dd/mm/yyyy")
+                Cad = Cad & " - " & Format(FechaIncioEjercicio, "dd/mm/yyyy")
                 'Le pongo una marca de actual o ssiguiente
                 i = 0 'pAra memorizar cual es el que apunta
                 If FechaIncioEjercicio > vParam.fechaini Then
                     If FechaIncioEjercicio = vParam.fechafin Then
-                        cad = cad & "     Actual"
+                        Cad = Cad & "     Actual"
                         i = 1
                     Else
-                        cad = cad & "     Siguiente"
+                        Cad = Cad & "     Siguiente"
                     End If
                 End If
                 'Meto en el combo
-                cmbEjercicios(Indice).AddItem cad
+                cmbEjercicios(Indice).AddItem Cad
                 If i = 1 Then CONT = cmbEjercicios(Indice).NewIndex
                 'Paso a inicio del ejercicio siguiente sumandole un dia
                 'al fin del anterior
@@ -1553,15 +1591,15 @@ Dim Tipo As Integer
     '   Con simple mid obtenemos inicio / fin
     
     
-    Sql = cmbEjercicios(0).List(cmbEjercicios(0).ListIndex)
-    RC = Mid(Sql, 1, 10)
+    SQL = cmbEjercicios(0).List(cmbEjercicios(0).ListIndex)
+    RC = Mid(SQL, 1, 10)
     FechaIncioEjercicio = CDate(RC)
-    RC = Mid(Sql, 14, 10)
+    RC = Mid(SQL, 14, 10)
     FechaFinEjercicio = CDate(RC)
     
     
     If Me.ChkEvolSaldo(10).Value Then
-        Sql = "Select hlinapu.codmacta,nommacta from hlinapu left join cuentas on hlinapu.codmacta=cuentas.codmacta "
+        SQL = "Select hlinapu.codmacta,nommacta from hlinapu left join cuentas on hlinapu.codmacta=cuentas.codmacta "
     Else
         CONT = 1
         For i = 1 To 10
@@ -1570,23 +1608,23 @@ Dim Tipo As Integer
                 Exit For
             End If
         Next
-        Sql = "Select substring(hlinapu.codmacta,1," & CONT & ") as codmacta,nommacta from hlinapu left join cuentas on substring(hlinapu.codmacta,1," & CONT & ")=cuentas.codmacta"
+        SQL = "Select substring(hlinapu.codmacta,1," & CONT & ") as codmacta,nommacta from hlinapu left join cuentas on substring(hlinapu.codmacta,1," & CONT & ")=cuentas.codmacta"
     End If
     'Si tienen desde /hasta
-    Sql = Sql & " WHERE TRUE "
-    If txtCta(6).Text <> "" Then Sql = Sql & " AND hlinapu.codmacta >= '" & txtCta(6).Text & "'"
-    If txtCta(7).Text <> "" Then Sql = Sql & " AND hlinapu.codmacta <= '" & txtCta(7).Text & "'"
+    SQL = SQL & " WHERE TRUE "
+    If txtCta(6).Text <> "" Then SQL = SQL & " AND hlinapu.codmacta >= '" & txtCta(6).Text & "'"
+    If txtCta(7).Text <> "" Then SQL = SQL & " AND hlinapu.codmacta <= '" & txtCta(7).Text & "'"
 
     If Year(vParam.fechaini) = Year(vParam.fechafin) Then
         'Año natural
-        Sql = Sql & " AND year(fechaent) = " & Year(FechaIncioEjercicio)
+        SQL = SQL & " AND year(fechaent) = " & Year(FechaIncioEjercicio)
     Else
         'Años fiscales partidos . Coooperativas agricolas
-        Sql = Sql & " AND ( (year(fechaent) = " & Year(FechaIncioEjercicio) & " and month(fechaent) >=" & Month(FechaIncioEjercicio) & ") OR "
-        Sql = Sql & " (year(fechaent) =" & Year(FechaIncioEjercicio) + 1 & " AND month(fechaent) < " & Month(FechaIncioEjercicio) & "))"
+        SQL = SQL & " AND ( (year(fechaent) = " & Year(FechaIncioEjercicio) & " and month(fechaent) >=" & Month(FechaIncioEjercicio) & ") OR "
+        SQL = SQL & " (year(fechaent) =" & Year(FechaIncioEjercicio) + 1 & " AND month(fechaent) < " & Month(FechaIncioEjercicio) & "))"
     End If
     
-     Sql = Sql & " GROUP BY 1"
+     SQL = SQL & " GROUP BY 1"
     
     
     If Option1.Value Then Tipo = 0
@@ -1598,30 +1636,35 @@ Dim Tipo As Integer
     
     QuitarTambienElCierre = FechaIncioEjercicio < vParam.fechaini
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
         FijarValoresEvolucionMensualSaldos FechaIncioEjercicio, FechaFinEjercicio
         
         'PAra el SQL
-        Sql = ""
+        SQL = ""
         If Year(vParam.fechaini) = Year(vParam.fechafin) Then
             'Año natural
-            Sql = Sql & " AND year(fechaent) = " & Year(FechaIncioEjercicio)
+            SQL = SQL & " AND year(fechaent) = " & Year(FechaIncioEjercicio)
         Else
             'Años fiscales partidos . Coooperativas agricolas
             'Sql = Sql & " AND ( (year(fechaent) = " & Year(FechaIncioEjercicio) & " and month(fechaent) >=" & Month(FechaIncioEjercicio) & ") OR "
             'Sql = Sql & " (year(fechaent) =" & Year(FechaIncioEjercicio) + 1 & " AND month(fechaent) < " & Month(FechaIncioEjercicio) & "))"
             
-            Sql = " AND fechaent>=" & DBSet(FechaIncioEjercicio, "F") & " AND fechaent <=" & DBSet(FechaFinEjercicio, "F")
+            SQL = " AND fechaent>=" & DBSet(FechaIncioEjercicio, "F") & " AND fechaent <=" & DBSet(FechaFinEjercicio, "F")
             
         End If
         CONT = 0
         While Not Rs.EOF
             Label2(29).Caption = Rs!codmacta & " " & Mid(Rs!Nommacta, 1, 20) & " ..."
             Me.Refresh
-            DatosEvolucionMensualSaldos2 Rs!codmacta, Rs!Nommacta, Sql, True, False, QuitarTambienElCierre, FechaIncioEjercicio, Tipo
+            DatosEvolucionMensualSaldos Rs!codmacta, Rs!Nommacta, SQL, True, False, QuitarTambienElCierre, FechaIncioEjercicio, Tipo, chkAcumulado.Value = 1
             Rs.MoveNext
             If CONT > 150 Then
+                If Not Me.visible Then
+                    CONT = 0
+                    Set Rs = Nothing
+                    Exit Function
+                End If
                 CONT = 0
                 DoEvents
                 Screen.MousePointer = vbHourglass
@@ -1636,9 +1679,9 @@ Dim Tipo As Integer
     'Hacemos el conteo para ver si tiene o no movimientos
     Label2(29).Caption = "Comprobando valores"
     Label2(29).Refresh
-    Sql = "Select count(*) from tmpconextcab"
-    Sql = Sql & " WHERE codusu =" & vUsu.Codigo
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "Select count(*) from tmpconextcab"
+    SQL = SQL & " WHERE codusu =" & vUsu.Codigo
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     CONT = 0
     If Not Rs.EOF Then CONT = DBLet(Rs.Fields(0), "N")
     Rs.Close

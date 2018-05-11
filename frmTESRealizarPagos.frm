@@ -1142,7 +1142,7 @@ Dim Aux As String
     Else
         i = Val(cad)
     End If
-    If vp.Leer(i) = 1 Then
+    If vp.leer(i) = 1 Then
         'ERROR GRAVE LEYENDO LA FORMA DE PAGO
         Screen.MousePointer = vbDefault
         Set vp = Nothing

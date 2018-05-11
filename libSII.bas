@@ -906,31 +906,77 @@ Dim Resul As Byte
 End Function
 
 
-'    ESTABA ASI
-'    '      1: ariges   2:Ariconta6
-'    DarAvisoPendientesSII = 0
-'    cad = "aplicacion = 2 AND codempre = " & vEmpresa.codempre & " AND login "
-'    cad = DevuelveDesdeBD("ultaviso", "usuarios.wavisoscontabilizacion", cad, vUsu.Login, "T")
-'    If cad = "" Then
-'       FecUltAviso = DateAdd("yyyy", -1, Now)
-'    Else
-'        FecUltAviso = CDate(cad)
-'    End If
+
+
+Public Function UltimaFechaCorrectaSII(DiasAVisoSII As Integer, FechaPresentacion As Date) As Date
+Dim DiaSemanaPresen As Integer
+Dim DiaSemanaUltimoDiaPresentar As Integer
+Dim F As Date
+
+Dim Resta As Integer
+
+    If DiasAVisoSII > 5 Then
+        
+        UltimaFechaCorrectaSII = DateAdd("d", -DiasAVisoSII, FechaPresentacion)
+        
+
+    Else
+        DiaSemanaPresen = WeekDay(FechaPresentacion, vbMonday)
+       
+                
+                
+        If DiaSemanaPresen >= 6 Then
+            'Si presento el sabado o el domingo tengo mas dias ,  1 o dos
+            If DiaSemanaPresen = 6 Then
+                Resta = DiasAVisoSII
+            Else
+                Resta = DiasAVisoSII + 1
+            End If
+        Else
+            F = DateAdd("d", -DiasAVisoSII, FechaPresentacion)
+            DiaSemanaUltimoDiaPresentar = WeekDay(F, vbMonday)
+            
+            If DiaSemanaUltimoDiaPresentar > DiaSemanaPresen Then
+                Resta = DiasAVisoSII + 2
+            
+            Else
+                'Directamente la resta son 4
+                Resta = DiasAVisoSII
+            End If
+        End If
+        UltimaFechaCorrectaSII = DateAdd("d", -Resta, FechaPresentacion)
+    End If
+
+    UltimaFechaCorrectaSII = Format(UltimaFechaCorrectaSII, "dd/mm/yyyy")
+
+End Function
+'************** RUTINA COPMPROBACION
+'   Dim fin As Boolean
+'    fin = False
 '
-'    VerSiDamosAviso = False
-'    If Year(FecUltAviso) - Year(Now) > 1 Then
-'        VerSiDamosAviso = True
-'    Else
-'        'Si hay mas de un dia de diferencia
-'        Horas = DateDiff("d", FecUltAviso, Now)
-'        If Horas > 0 Then
-'            VerSiDamosAviso = True
-'        Else
+'    Dim F As Date
+'    Dim F2 As Date
+'    Dim Cad As String
+'    Dim c2 As String
+'    Dim I As Integer
 '
-'            Horas = DateDiff("h", FecUltAviso, Now)
-'            If Horas > 4 Then VerSiDamosAviso = True
-'        End If
-'    End If
+'    Do
+'        Cad = ""
+'        For I = 1 To 28
+'            F = CDate(Format(I, "00") & "/02/2018")
 '
-'    If Not VerSiDamosAviso Then Exit Function
+'            F2 = UltimaFechaCorrectaSII(3, F)
+'
+'
+'            c2 = F & "  " & Weekday(F, vbMonday) & " --> "
+'            c2 = c2 & F2 & "  " & Weekday(F2, vbMonday)
+'            Cad = Cad & c2 & vbCrLf
+'        Next
+'
+'        MsgBox Cad, vbExclamation
+'
+'
+'
+'
+'    Loop Until fin
 

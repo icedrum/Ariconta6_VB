@@ -27,7 +27,7 @@ Begin VB.Form frmInfCtaExplo
       EndProperty
       Height          =   5505
       Left            =   7110
-      TabIndex        =   20
+      TabIndex        =   33
       Top             =   0
       Width           =   5865
       Begin VB.CheckBox chkPorcentajes 
@@ -43,7 +43,7 @@ Begin VB.Form frmInfCtaExplo
          EndProperty
          Height          =   255
          Left            =   750
-         TabIndex        =   49
+         TabIndex        =   15
          Top             =   3660
          Width           =   4665
       End
@@ -60,7 +60,7 @@ Begin VB.Form frmInfCtaExplo
          EndProperty
          Height          =   255
          Left            =   240
-         TabIndex        =   48
+         TabIndex        =   14
          Top             =   3330
          Width           =   4665
       End
@@ -78,7 +78,7 @@ Begin VB.Form frmInfCtaExplo
          ForeColor       =   &H00000000&
          Height          =   1305
          Left            =   120
-         TabIndex        =   43
+         TabIndex        =   46
          Top             =   4020
          Width           =   5655
          Begin VB.TextBox txtExplo 
@@ -95,7 +95,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   360
             Index           =   0
             Left            =   1350
-            TabIndex        =   3
+            TabIndex        =   16
             Top             =   510
             Width           =   1845
          End
@@ -113,7 +113,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   360
             Index           =   1
             Left            =   3240
-            TabIndex        =   4
+            TabIndex        =   17
             Top             =   510
             Width           =   1875
          End
@@ -131,7 +131,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   360
             Index           =   2
             Left            =   1350
-            TabIndex        =   5
+            TabIndex        =   18
             Top             =   870
             Width           =   1845
          End
@@ -149,7 +149,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   360
             Index           =   3
             Left            =   3240
-            TabIndex        =   6
+            TabIndex        =   19
             Top             =   870
             Width           =   1875
          End
@@ -167,7 +167,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   255
             Index           =   0
             Left            =   90
-            TabIndex        =   47
+            TabIndex        =   50
             Top             =   570
             Width           =   1155
          End
@@ -185,7 +185,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   255
             Index           =   1
             Left            =   90
-            TabIndex        =   46
+            TabIndex        =   49
             Top             =   900
             Width           =   975
          End
@@ -203,7 +203,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   255
             Index           =   2
             Left            =   1470
-            TabIndex        =   45
+            TabIndex        =   48
             Top             =   270
             Width           =   1605
          End
@@ -221,7 +221,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   255
             Index           =   3
             Left            =   3480
-            TabIndex        =   44
+            TabIndex        =   47
             Top             =   270
             Width           =   1545
          End
@@ -239,14 +239,14 @@ Begin VB.Form frmInfCtaExplo
          EndProperty
          Height          =   255
          Left            =   240
-         TabIndex        =   42
+         TabIndex        =   13
          Top             =   3000
          Width           =   4665
       End
       Begin VB.Frame FrameCtasExplo 
          Height          =   1575
          Left            =   120
-         TabIndex        =   32
+         TabIndex        =   45
          Top             =   1290
          Width           =   5655
          Begin VB.CheckBox chkCtaExplo 
@@ -263,7 +263,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   300
             Index           =   9
             Left            =   1530
-            TabIndex        =   41
+            TabIndex        =   12
             Top             =   1140
             Width           =   1425
          End
@@ -281,7 +281,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   300
             Index           =   8
             Left            =   120
-            TabIndex        =   40
+            TabIndex        =   11
             Top             =   1140
             Width           =   1425
          End
@@ -299,7 +299,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   300
             Index           =   7
             Left            =   4260
-            TabIndex        =   39
+            TabIndex        =   10
             Top             =   720
             Width           =   1305
          End
@@ -317,7 +317,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   300
             Index           =   6
             Left            =   2940
-            TabIndex        =   38
+            TabIndex        =   9
             Top             =   720
             Width           =   1425
          End
@@ -335,7 +335,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   300
             Index           =   5
             Left            =   1530
-            TabIndex        =   37
+            TabIndex        =   8
             Top             =   720
             Width           =   1425
          End
@@ -353,7 +353,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   300
             Index           =   4
             Left            =   120
-            TabIndex        =   36
+            TabIndex        =   7
             Top             =   720
             Width           =   1425
          End
@@ -371,7 +371,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   300
             Index           =   3
             Left            =   4260
-            TabIndex        =   35
+            TabIndex        =   6
             Top             =   270
             Width           =   1305
          End
@@ -389,7 +389,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   300
             Index           =   2
             Left            =   2940
-            TabIndex        =   34
+            TabIndex        =   5
             Top             =   270
             Width           =   1425
          End
@@ -407,7 +407,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   300
             Index           =   1
             Left            =   1530
-            TabIndex        =   33
+            TabIndex        =   4
             Top             =   270
             Width           =   1425
          End
@@ -425,7 +425,7 @@ Begin VB.Form frmInfCtaExplo
             Height          =   300
             Index           =   10
             Left            =   120
-            TabIndex        =   7
+            TabIndex        =   3
             Top             =   270
             Value           =   1  'Checked
             Width           =   1425
@@ -452,7 +452,7 @@ Begin VB.Form frmInfCtaExplo
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   5100
-         TabIndex        =   28
+         TabIndex        =   41
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -481,7 +481,7 @@ Begin VB.Form frmInfCtaExplo
          Height          =   195
          Index           =   9
          Left            =   150
-         TabIndex        =   29
+         TabIndex        =   42
          Top             =   780
          Width           =   690
       End
@@ -507,7 +507,7 @@ Begin VB.Form frmInfCtaExplo
       EndProperty
       Height          =   2805
       Left            =   120
-      TabIndex        =   19
+      TabIndex        =   32
       Top             =   0
       Width           =   6915
       Begin VB.ComboBox cmbFecha 
@@ -526,7 +526,7 @@ Begin VB.Form frmInfCtaExplo
          Left            =   600
          List            =   "frmInfCtaExplo.frx":008D
          Style           =   2  'Dropdown List
-         TabIndex        =   50
+         TabIndex        =   0
          Top             =   1230
          Width           =   1095
       End
@@ -563,7 +563,7 @@ Begin VB.Form frmInfCtaExplo
          Height          =   360
          Index           =   4
          Left            =   810
-         TabIndex        =   0
+         TabIndex        =   23
          Text            =   "Text1"
          Top             =   1230
          Width           =   885
@@ -583,7 +583,7 @@ Begin VB.Form frmInfCtaExplo
          Height          =   195
          Index           =   0
          Left            =   600
-         TabIndex        =   31
+         TabIndex        =   44
          Top             =   900
          Width           =   840
       End
@@ -600,7 +600,7 @@ Begin VB.Form frmInfCtaExplo
          Height          =   255
          Index           =   6
          Left            =   2520
-         TabIndex        =   27
+         TabIndex        =   40
          Top             =   1110
          Width           =   4095
       End
@@ -617,7 +617,7 @@ Begin VB.Form frmInfCtaExplo
          Height          =   255
          Index           =   7
          Left            =   2520
-         TabIndex        =   26
+         TabIndex        =   39
          Top             =   1500
          Width           =   4095
       End
@@ -634,7 +634,7 @@ Begin VB.Form frmInfCtaExplo
          Height          =   255
          Index           =   1
          Left            =   2550
-         TabIndex        =   25
+         TabIndex        =   38
          Top             =   1440
          Width           =   4095
       End
@@ -653,7 +653,7 @@ Begin VB.Form frmInfCtaExplo
          Height          =   195
          Index           =   8
          Left            =   1770
-         TabIndex        =   24
+         TabIndex        =   37
          Top             =   900
          Width           =   1410
       End
@@ -672,8 +672,8 @@ Begin VB.Form frmInfCtaExplo
       EndProperty
       Height          =   375
       Left            =   11730
-      TabIndex        =   10
-      Top             =   5670
+      TabIndex        =   22
+      Top             =   5640
       Width           =   1215
    End
    Begin VB.CommandButton cmdAccion 
@@ -689,7 +689,7 @@ Begin VB.Form frmInfCtaExplo
       Height          =   375
       Index           =   1
       Left            =   10140
-      TabIndex        =   8
+      TabIndex        =   20
       Top             =   5670
       Width           =   1455
    End
@@ -707,7 +707,7 @@ Begin VB.Form frmInfCtaExplo
       Height          =   375
       Index           =   0
       Left            =   120
-      TabIndex        =   9
+      TabIndex        =   21
       Top             =   5610
       Width           =   1335
    End
@@ -724,7 +724,7 @@ Begin VB.Form frmInfCtaExplo
       EndProperty
       Height          =   2625
       Left            =   120
-      TabIndex        =   11
+      TabIndex        =   24
       Top             =   2880
       Width           =   6915
       Begin VB.CommandButton PushButtonImpr 
@@ -740,7 +740,7 @@ Begin VB.Form frmInfCtaExplo
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   23
+         TabIndex        =   36
          Top             =   720
          Width           =   1515
       End
@@ -749,7 +749,7 @@ Begin VB.Form frmInfCtaExplo
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   22
+         TabIndex        =   35
          Top             =   1680
          Width           =   255
       End
@@ -758,7 +758,7 @@ Begin VB.Form frmInfCtaExplo
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   21
+         TabIndex        =   34
          Top             =   1200
          Width           =   255
       End
@@ -776,7 +776,7 @@ Begin VB.Form frmInfCtaExplo
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   18
+         TabIndex        =   31
          Top             =   1680
          Width           =   4665
       End
@@ -794,7 +794,7 @@ Begin VB.Form frmInfCtaExplo
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   17
+         TabIndex        =   30
          Top             =   1200
          Width           =   4665
       End
@@ -812,7 +812,7 @@ Begin VB.Form frmInfCtaExplo
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   16
+         TabIndex        =   29
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -831,7 +831,7 @@ Begin VB.Form frmInfCtaExplo
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   15
+         TabIndex        =   28
          Top             =   2160
          Width           =   975
       End
@@ -849,7 +849,7 @@ Begin VB.Form frmInfCtaExplo
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   14
+         TabIndex        =   27
          Top             =   1680
          Width           =   975
       End
@@ -867,7 +867,7 @@ Begin VB.Form frmInfCtaExplo
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   13
+         TabIndex        =   26
          Top             =   1200
          Width           =   1515
       End
@@ -885,7 +885,7 @@ Begin VB.Form frmInfCtaExplo
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   12
+         TabIndex        =   25
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -894,7 +894,7 @@ Begin VB.Form frmInfCtaExplo
    Begin MSComctlLib.ProgressBar pb2 
       Height          =   285
       Left            =   1830
-      TabIndex        =   30
+      TabIndex        =   43
       Top             =   5640
       Visible         =   0   'False
       Width           =   5205
@@ -944,7 +944,7 @@ Private WithEvents frmCon  As frmConceptos
 Attribute frmCon.VB_VarHelpID = -1
 
 Private SQL As String
-Dim cad As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -1018,6 +1018,14 @@ Private Sub cmbFecha_Change(Index As Integer)
     If Index = 0 Then
         txtAno(4).Text = cmbFecha(0).Text
     End If
+End Sub
+
+Private Sub cmbFecha_KeyPress(Index As Integer, KeyAscii As Integer)
+    KEYpressGnral KeyAscii, 3, False
+End Sub
+
+Private Sub cmbFecha_LostFocus(Index As Integer)
+    If Index = 2 Then PonerFocoBtn Me.cmdAccion(1)
 End Sub
 
 Private Sub cmbFecha_Validate(Index As Integer, Cancel As Boolean)
@@ -1210,7 +1218,7 @@ End Sub
 Private Sub AccionesCSV()
 Dim Sql2 As String
 Dim Tipo As Byte
-Dim cad As String
+Dim Cad As String
 
     On Error GoTo eAccionesCSV
 
@@ -1227,7 +1235,7 @@ Dim cad As String
     
         IncrementarProgres pb2, 1
         
-        cad = "01/" & Format(cmbFecha(2).ListIndex + 1, "00") & "/" & txtAno(4).Text
+        Cad = "01/" & Format(cmbFecha(2).ListIndex + 1, "00") & "/" & txtAno(4).Text
         
         SQL = "insert into tmpbalancesumas (codusu,cta,nomcta,acumAntD,acumAntH) "
         SQL = SQL & " select " & vUsu.Codigo & ", hlinapu.codmacta Cuenta , nommacta Titulo, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) "
@@ -1242,7 +1250,7 @@ Dim cad As String
         End If
         
         SQL = SQL & " and hlinapu.fechaent >= '" & Format(i, "0000") & "-" & Format(Month(vParam.fechaini), "00") & "-" & Format(Day(vParam.fechaini), "00") & "'"
-        SQL = SQL & " and hlinapu.fechaent < " & DBSet(cad, "F")
+        SQL = SQL & " and hlinapu.fechaent < " & DBSet(Cad, "F")
         SQL = SQL & " group by 1,2,3 "
         
         SQL = SQL & " order by 1,2,3 "
@@ -1257,7 +1265,7 @@ Dim cad As String
         i = DiasMes(cmbFecha(2).ListIndex + 1, txtAno(4).Text)
         
         SQL = "update tmpbalancesumas set "
-        SQL = SQL & " acumperd = (select sum(coalesce(timported,0)) from hlinapu where fechaent between " & DBSet(cad, "F") & " and "
+        SQL = SQL & " acumperd = (select sum(coalesce(timported,0)) from hlinapu where fechaent between " & DBSet(Cad, "F") & " and "
         SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta)"
         
         Conn.Execute SQL
@@ -1266,7 +1274,7 @@ Dim cad As String
         IncrementarProgres pb2, 1
         
         SQL = "update tmpbalancesumas set "
-        SQL = SQL & " acumperh = (select sum(coalesce(timporteh,0)) from hlinapu where fechaent between " & DBSet(cad, "F") & " and "
+        SQL = SQL & " acumperh = (select sum(coalesce(timporteh,0)) from hlinapu where fechaent between " & DBSet(Cad, "F") & " and "
         SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta)"
         
         Conn.Execute SQL
@@ -1280,7 +1288,7 @@ Dim cad As String
         SQL = "insert into tmpbalancesumas (codusu,cta,nomcta,acumAntD,acumAntH,acumPerD ,acumPerH) "
         SQL = SQL & " select " & vUsu.Codigo & ", hlinapu.codmacta Cuenta , nommacta Titulo,0,0, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) "
         SQL = SQL & " from hlinapu left join cuentas on hlinapu.codmacta = cuentas.codmacta where hlinapu.codconce<>970 AND mid(hlinapu.codmacta,1,1) IN ('6','7')"
-        SQL = SQL & " AND fechaent between " & DBSet(cad, "F") & " and "
+        SQL = SQL & " AND fechaent between " & DBSet(Cad, "F") & " and "
         SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "'"
         SQL = SQL & " and not hlinapu.codmacta In (select cta from tmpbalancesumas WHERE codusu =" & vUsu.Codigo & " )"
         SQL = SQL & " group by 1,2,3 "
@@ -1419,15 +1427,15 @@ Dim nomDocu As String
         
     'Parametros
     cadParam = cadParam & "Digitos=" & CONT & "|"
-    cad = "01/" & cmbFecha(2).ListIndex + 1 & "/" & txtAno(4).Text
-    cadParam = cadParam & "FechaPeriodo=""" & cad & """|"
+    Cad = "01/" & cmbFecha(2).ListIndex + 1 & "/" & txtAno(4).Text
+    cadParam = cadParam & "FechaPeriodo=""" & Cad & """|"
     
     numParam = numParam + 2
     'Existencias iniciales y finales
-    cad = "InicioAcumulada=" & DBSet(txtExplo(0).Text, "N") & "|InicioPeriodo=" & DBSet(txtExplo(2).Text, "N")
-    cadParam = cadParam & cad & "|"
-    cad = "FinAcumulada=" & DBSet(txtExplo(1).Text, "N") & "|FinPeriodo=" & DBSet(txtExplo(3).Text, "N")
-    cadParam = cadParam & cad & "|"
+    Cad = "InicioAcumulada=" & DBSet(txtExplo(0).Text, "N") & "|InicioPeriodo=" & DBSet(txtExplo(2).Text, "N")
+    cadParam = cadParam & Cad & "|"
+    Cad = "FinAcumulada=" & DBSet(txtExplo(1).Text, "N") & "|FinPeriodo=" & DBSet(txtExplo(3).Text, "N")
+    cadParam = cadParam & Cad & "|"
     numParam = numParam + 4
     
     
@@ -1724,7 +1732,7 @@ Private Function DatosOK() As Boolean
     End If
     
     ' Uno y solo uno de los niveles tiene que estar marcado
-    cad = ""
+    Cad = ""
     For i = 1 To 10
         If Me.chkCtaExplo(i).visible Then
             If Me.chkCtaExplo(i).Value = 1 Then
@@ -1733,11 +1741,11 @@ Private Function DatosOK() As Boolean
                 Else
                     CONT = vEmpresa.DigitosUltimoNivel
                 End If
-                cad = cad & "1"
+                Cad = Cad & "1"
             End If
         End If
     Next i
-    If Len(cad) <> 1 Then
+    If Len(Cad) <> 1 Then
         MsgBox "Seleccione uno(y solo uno) de los niveles para el informe.", vbExclamation
         Exit Function
     End If
@@ -1803,9 +1811,9 @@ Dim L As Integer
 
 L = 1
 Do
-    cad = RecuperaValor(Lista, L)
-    If cad <> "" Then
-        i = Val(cad)
+    Cad = RecuperaValor(Lista, L)
+    If Cad <> "" Then
+        i = Val(Cad)
         With cmbFecha(i)
             .Clear
             For CONT = 1 To 12
@@ -1816,7 +1824,7 @@ Do
         End With
     End If
     L = L + 1
-Loop Until cad = ""
+Loop Until Cad = ""
 End Sub
 
 

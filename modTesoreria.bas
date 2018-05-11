@@ -22,7 +22,7 @@ Dim ImpVenci As Currency
     If Not Rsvenci.EOF Then
         If Rsvenci.Fields(0).Value > 0 Then
             '-------- Primer Vencimiento
-            i = 1
+            I = 1
             'FECHA VTO
             FecVenci = CDate(FecFactu)
             FecVenci = DateAdd("d", DBLet(Rsvenci!primerve, "N"), FecVenci)
@@ -38,18 +38,18 @@ Dim ImpVenci As Currency
                     ImpVenci = Round2(ImpVenci + (TotalFac - ImpVenci * Rsvenci.Fields(0).Value), 2)
                 End If
             End If
-            CadValues = "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
+            CadValues = "(" & vUsu.Codigo & "," & DBSet(I, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
             
             'Resto Vencimientos
             '--------------------------------------------------------------------
-            For i = 2 To Rsvenci!numerove
+            For I = 2 To Rsvenci!numerove
                 FecVenci = DateAdd("d", DBLet(Rsvenci!restoven, "N"), FecVenci)
                     
                 'IMPORTE Resto de Vendimientos
                 ImpVenci = Round2(TotalFac / Rsvenci.Fields(0).Value, 2)
                 
-                CadValues = CadValues & "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
-            Next i
+                CadValues = CadValues & "(" & vUsu.Codigo & "," & DBSet(I, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
+            Next I
         End If
     End If
     
@@ -117,15 +117,15 @@ Dim ImpVenci As Currency
             
             'Resto Vencimientos
             '--------------------------------------------------------------------
-            For i = 2 To Rsvenci!numerove
+            For I = 2 To Rsvenci!numerove
                 FecVenci = DateAdd("d", DBLet(Rsvenci!restoven, "N"), FecVenci)
                     
                 'IMPORTE Resto de Vendimientos
                 ImpVenci = Round2(TotalFac / Rsvenci.Fields(0).Value, 2)
                 
                 'CadValues = CadValues & "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
-                ColCobros.Add PartFijaSQL & i & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & ")"
-            Next i
+                ColCobros.Add PartFijaSQL & I & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & ")"
+            Next I
         End If
     End If
     
@@ -196,7 +196,7 @@ Dim Col As Collection
             SQL = "concat( pagaredias,'|',talondias,'|')"
             Msg = DevuelveDesdeBD(SQL, "bancos", "codmacta", miRsAux!codmacta, "T")
             If Msg = "" Then Err.Raise 513, "No existe banco?" & miRsAux!codmacta
-            If miRsAux!tiporem = 2 Then
+            If miRsAux!Tiporem = 2 Then
                 SQL = RecuperaValor(Msg, 1)
             Else
                 SQL = RecuperaValor(Msg, 2)
@@ -216,8 +216,8 @@ Dim Col As Collection
     If SQL <> "" Then Col.Add SQL
         
         
-    For i = 1 To Col.Count
-        SQL = Col.Item(i)
+    For I = 1 To Col.Count
+        SQL = Col.Item(I)
         J = Val(Mid(SQL, 1, 3))
         SQL = Mid(SQL, 5)
         
@@ -232,7 +232,7 @@ Dim Col As Collection
         End If
         miRsAux.Close
         If HayQueMostrarEliminarRiesgoTalPag Then Exit For
-    Next i
+    Next I
         
 eHayQueMostrarEliminarRiesgoTalPag:
     If Err.Number <> 0 Then MuestraError Err.Number, Err.Description
@@ -265,7 +265,7 @@ Dim Col As Collection
             SQL = "concat( pagaredias,'|',talondias,'|')"
             Msg = DevuelveDesdeBD(SQL, "bancos", "codmacta", miRsAux!codmacta, "T")
             If Msg = "" Then Err.Raise 513, "No existe banco?" & miRsAux!codmacta
-            If miRsAux!tiporem = 2 Then
+            If miRsAux!Tiporem = 2 Then
                 SQL = Format(RecuperaValor(Msg, 1), "000")
             Else
                 SQL = Format(RecuperaValor(Msg, 2), "000")
@@ -282,8 +282,8 @@ Dim Col As Collection
     If SQL <> "" Then Col.Add SQL
         
         
-    For i = 1 To Col.Count
-        SQL = Col.Item(i)
+    For I = 1 To Col.Count
+        SQL = Col.Item(I)
         J = Val(Mid(SQL, 1, 3))
         SQL = Mid(SQL, 5)
         
@@ -300,7 +300,7 @@ Dim Col As Collection
         miRsAux.Close
         
         
-    Next i
+    Next I
         
 eHayQueMostrarEliminarRiesgoTalPag:
     If Err.Number <> 0 Then MuestraError Err.Number, Err.Description
@@ -308,5 +308,10 @@ eHayQueMostrarEliminarRiesgoTalPag:
     Set Col = Nothing
     Msg = ""
 End Function
+
+
+
+
+
 
 

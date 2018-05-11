@@ -914,8 +914,7 @@ Private Sub frmC_Selec(vFecha As Date)
 End Sub
 
 Private Sub frmCta_DatoSeleccionado(CadenaSeleccion As String)
-    Text3(2).Text = RecuperaValor(CadenaSeleccion, 1)
-    txtDesCta.Text = RecuperaValor(CadenaSeleccion, 2)
+    SQL = CadenaSeleccion
 End Sub
 
 
@@ -1016,11 +1015,17 @@ Private Sub imgCheck_Click(Index As Integer)
 End Sub
 
 Private Sub imgCuentas_Click()
+    SQL = ""
     Set frmCta = New frmColCtas
     frmCta.DatosADevolverBusqueda = "0|1"
     frmCta.ConfigurarBalances = 3  'NUEVO
     frmCta.Show vbModal
     Set frmCta = Nothing
+    If SQL <> "" Then
+        Text3(2).Text = RecuperaValor(SQL, 1)
+        txtDesCta.Text = RecuperaValor(SQL, 2)
+        Text3_LostFocus 2
+    End If
 End Sub
 
 

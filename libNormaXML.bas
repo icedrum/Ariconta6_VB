@@ -77,7 +77,7 @@ Public Function GeneraFicheroNorma34SEPA_XML(CIF As String, Fecha As Date, Cuent
 Dim Regs As Integer
 Dim Importe As Currency
 Dim Im As Currency
-Dim cad As String
+Dim Cad As String
 Dim Aux As String
 Dim SufijoOEM As String
 Dim NFic As Integer
@@ -95,26 +95,26 @@ Dim LineaInsecionSumatorios As Byte
     
     
     'Cargamos la cuenta
-    cad = "Select * from bancos where codmacta='" & CuentaPropia2 & "'"
+    Cad = "Select * from bancos where codmacta='" & CuentaPropia2 & "'"
     Set miRsAux = New ADODB.Recordset
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If miRsAux.EOF Then
-        cad = ""
+        Cad = ""
     Else
         If IsNull(miRsAux!IBAN) Then
-            cad = ""
+            Cad = ""
         Else
             SufijoOEM = "000" ''Sufijo3414
-            cad = miRsAux!IBAN
+            Cad = miRsAux!IBAN
             If DBLet(miRsAux!Sufijo3414, "T") <> "" Then SufijoOEM = Right("000" & miRsAux!Sufijo3414, 3)
-            CuentaPropia2 = cad
+            CuentaPropia2 = Cad
         End If
         
         
     End If
     miRsAux.Close
   
-    If cad = "" Then
+    If Cad = "" Then
         MsgBox "Error leyendo datos para: " & CuentaPropia2, vbExclamation
         Exit Function
     End If
@@ -128,9 +128,9 @@ Dim LineaInsecionSumatorios As Byte
     cLineas.Add "<Document xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns=""urn:iso:std:iso:20022:tech:xsd:pain.001.001.03"">"
     cLineas.Add "<CstmrCdtTrfInitn>"
     cLineas.Add "   <GrpHdr>"
-    cad = "TRAN" & IIf(Pagos, "PAG", "ABO") & Format(NumeroTransferencia, "000000") & "F" & Format(Now, "yyyymmddThhnnss")
-    IdFich = cad
-    cLineas.Add "      <MsgId>" & cad & "</MsgId>"
+    Cad = "TRAN" & IIf(Pagos, "PAG", "ABO") & Format(NumeroTransferencia, "000000") & "F" & Format(Now, "yyyymmddThhnnss")
+    IdFich = Cad
+    cLineas.Add "      <MsgId>" & Cad & "</MsgId>"
     cLineas.Add "      <CreDtTm>" & Format(Now, "yyyy-mm-ddThh:nn:ss") & "</CreDtTm>"
     LineaInsecionSumatorios = 6
     
@@ -141,18 +141,18 @@ Dim LineaInsecionSumatorios As Byte
     cLineas.Add "      <InitgPty>"
     cLineas.Add "         <Nm>" & XML(vEmpresa.nomempre) & "</Nm>"
     cLineas.Add "         <Id>"
-    cad = Mid(CIF, 1, 1)
+    Cad = Mid(CIF, 1, 1)
     
-    EsPersonaJuridica2 = Not IsNumeric(cad)
+    EsPersonaJuridica2 = Not IsNumeric(Cad)
 
-    cad = "PrvtId"
-    If EsPersonaJuridica2 Then cad = "OrgId"
+    Cad = "PrvtId"
+    If EsPersonaJuridica2 Then Cad = "OrgId"
     
-    cLineas.Add "           <" & cad & ">"
+    cLineas.Add "           <" & Cad & ">"
     cLineas.Add "               <Othr>"
     cLineas.Add "                  <Id>" & CIF & SufijoOEM & "</Id>"
     cLineas.Add "               </Othr>"
-    cLineas.Add "           </" & cad & ">"
+    cLineas.Add "           </" & Cad & ">"
     
     cLineas.Add "         </Id>"
     cLineas.Add "      </InitgPty>"
@@ -167,18 +167,18 @@ Dim LineaInsecionSumatorios As Byte
     
      'Nombre
     miRsAux.Open "Select siglasvia ,direccion ,numero ,codpobla,pobempre,provempre,provincia from empresa2"
-    cad = cad & FrmtStr(vEmpresa.nomempre, 70)
+    Cad = Cad & FrmtStr(vEmpresa.nomempre, 70)
     If miRsAux.EOF Then Err.Raise 513, , "Error obteniendo datos empresa(empresa2)"
     
     cLineas.Add "         <Nm>" & XML(vEmpresa.nomempre) & "</Nm>"
     cLineas.Add "         <PstlAdr>"
     cLineas.Add "            <Ctry>ES</Ctry>"
 
-    cad = DBLet(miRsAux!siglasvia, "T") & " " & miRsAux!Direccion & " " & DBLet(miRsAux!numero, "T") & " "
-    cad = cad & Trim(DBLet(miRsAux!CodPobla, "T") & " " & miRsAux!pobempre) & " "
-    cad = cad & DBLet(miRsAux!provincia, "T")
+    Cad = DBLet(miRsAux!siglasvia, "T") & " " & miRsAux!Direccion & " " & DBLet(miRsAux!numero, "T") & " "
+    Cad = Cad & Trim(DBLet(miRsAux!CodPobla, "T") & " " & miRsAux!pobempre) & " "
+    Cad = Cad & DBLet(miRsAux!provincia, "T")
     miRsAux.Close
-    cLineas.Add "            <AdrLine>" & XML(Trim(cad)) & "</AdrLine>"
+    cLineas.Add "            <AdrLine>" & XML(Trim(Cad)) & "</AdrLine>"
     
     cLineas.Add "         </PstlAdr>"
     cLineas.Add "         <Id>"
@@ -206,9 +206,9 @@ Dim LineaInsecionSumatorios As Byte
     cLineas.Add "    <DbtrAgt>"
     cLineas.Add "       <FinInstnId>"
     
-    cad = Mid(CuentaPropia2, 5, 4)
-    cad = DevuelveDesdeBD("bic", "bics", "entidad", cad)
-    cLineas.Add "          <BIC>" & Trim(cad) & "</BIC>"
+    Cad = Mid(CuentaPropia2, 5, 4)
+    Cad = DevuelveDesdeBD("bic", "bics", "entidad", Cad)
+    cLineas.Add "          <BIC>" & Trim(Cad) & "</BIC>"
     cLineas.Add "       </FinInstnId>"
     cLineas.Add "    </DbtrAgt>"
     
@@ -227,17 +227,17 @@ Dim LineaInsecionSumatorios As Byte
         CuentasAgrupadas = ""
     
     
-        cad = "select codmacta,count(*) from "
+        Cad = "select codmacta,count(*) from "
         If Pagos Then
-            cad = cad & " pagos where nrodocum = " & NumeroTransferencia
-            cad = cad & " and anyodocum = " & Anyo
+            Cad = Cad & " pagos where nrodocum = " & NumeroTransferencia
+            Cad = Cad & " and anyodocum = " & Anyo
         Else
-            cad = cad & " cobros where transfer = " & NumeroTransferencia
-            cad = cad & " and anyorem = " & Anyo
+            Cad = Cad & " cobros where transfer = " & NumeroTransferencia
+            Cad = Cad & " and anyorem = " & Anyo
         End If
                 
-        cad = cad & " group by codmacta having count(*) >1"
-        miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = Cad & " group by codmacta having count(*) >1"
+        miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         While Not miRsAux.EOF
             
             CuentasAgrupadas = CuentasAgrupadas & ", '" & miRsAux!codmacta & "'"
@@ -259,43 +259,43 @@ Dim LineaInsecionSumatorios As Byte
     For nR = 1 To RepeticionBucle
         If Pagos Then
     
-            cad = "Select mid(pagos.iban,5,4) as entidad,mid(pagos.iban,9,4) as oficina,mid(pagos.iban,15,10) cuentaba,mid(pagos.iban,13,2) as CC,pagos.iban, "
-            cad = cad & "nomprove nommacta,domprove dirdatos,cpprove codposta,pobprove despobla,pagos.codmacta,codpais"
+            Cad = "Select mid(pagos.iban,5,4) as entidad,mid(pagos.iban,9,4) as oficina,mid(pagos.iban,15,10) cuentaba,mid(pagos.iban,13,2) as CC,pagos.iban, "
+            Cad = Cad & "nomprove nommacta,domprove dirdatos,cpprove codposta,pobprove despobla,pagos.codmacta,codpais"
             If nR = 1 Then
-                cad = cad & ",impefect,0 Gastos,imppagad,numorden,text1csb,text2csb"
+                Cad = Cad & ",impefect,0 Gastos,imppagad,numorden,text1csb,text2csb"
             Else
-                cad = cad & ",sum(impefect) impefect,0 Gastos,sum(imppagad) imppagad, count(*) numorden,"
-                cad = cad & "GROUP_CONCAT( numfactu separator ',') text1csb,"
-                cad = cad & " concat('Num. Vtos:' , count(*)) text2csb"
+                Cad = Cad & ",sum(impefect) impefect,0 Gastos,sum(imppagad) imppagad, count(*) numorden,"
+                Cad = Cad & "GROUP_CONCAT( numfactu separator ',') text1csb,"
+                Cad = Cad & " concat('Num. Vtos:' , count(*)) text2csb"
             End If
-            cad = cad & ",proprove desprovi,NUmSerie,numfactu,fecfactu,bic,nifprove nifdatos from pagos"
+            Cad = Cad & ",proprove desprovi,NUmSerie,numfactu,fecfactu,bic,nifprove nifdatos from pagos"
             
-            cad = cad & " left join bics on mid(pagos.iban,5,4)=bics.entidad "
-            cad = cad & " WHERE nrodocum =" & NumeroTransferencia & " and anyodocum = " & DBSet(Anyo, "N")
+            Cad = Cad & " left join bics on mid(pagos.iban,5,4)=bics.entidad "
+            Cad = Cad & " WHERE nrodocum =" & NumeroTransferencia & " and anyodocum = " & DBSet(Anyo, "N")
         Else
             'ABONOS
             
-            cad = "Select mid(cobros.iban,5,4) as entidad,mid(cobros.iban,9,4) as oficina,mid(cobros.iban,15,10) cuentaba,mid(cobros.iban,13,2) as CC,cobros.iban"
-            cad = cad & ",nomclien nommacta,domclien dirdatos,cpclien codposta,pobclien despobla,cobros.codmacta,codpais,proclien desprovi"
-            cad = cad & " ,NUmSerie,numfactu,fecfactu,bic,nifclien nifdatos,"
+            Cad = "Select mid(cobros.iban,5,4) as entidad,mid(cobros.iban,9,4) as oficina,mid(cobros.iban,15,10) cuentaba,mid(cobros.iban,13,2) as CC,cobros.iban"
+            Cad = Cad & ",nomclien nommacta,domclien dirdatos,cpclien codposta,pobclien despobla,cobros.codmacta,codpais,proclien desprovi"
+            Cad = Cad & " ,NUmSerie,numfactu,fecfactu,bic,nifclien nifdatos,"
             If nR = 1 Then
-                cad = cad & "impvenci,gastos,impcobro,numorden,text33csb,text41csb"
+                Cad = Cad & "impvenci,gastos,impcobro,numorden,text33csb,text41csb"
             Else
-                cad = cad & "sum(impvenci) impvenci,sum(coalesce(Gastos,0)) Gastos,sum(impcobro) impcobro, count(*) numorden,"
-                cad = cad & "GROUP_CONCAT( numfactu separator ',') text33csb,"
-                cad = cad & " concat('Num. Vtos:' , count(*)) text41csb"
+                Cad = Cad & "sum(impvenci) impvenci,sum(coalesce(Gastos,0)) Gastos,sum(impcobro) impcobro, count(*) numorden,"
+                Cad = Cad & "GROUP_CONCAT( numfactu separator ',') text33csb,"
+                Cad = Cad & " concat('Num. Vtos:' , count(*)) text41csb"
             End If
-            cad = cad & " from cobros LEFT JOIN bics on mid(cobros.iban,5,4)=bics.entidad "
-            cad = cad & " WHERE transfer =" & NumeroTransferencia & " and anyorem = " & DBSet(Anyo, "N")
+            Cad = Cad & " from cobros LEFT JOIN bics on mid(cobros.iban,5,4)=bics.entidad "
+            Cad = Cad & " WHERE transfer =" & NumeroTransferencia & " and anyorem = " & DBSet(Anyo, "N")
         End If
         
         If AgrupaVtos Then
-            cad = cad & " AND "
-            If nR = 1 Then cad = cad & " NOT "
-            cad = cad & "codmacta IN  (" & CuentasAgrupadas & ")"
-            If nR = 2 Then cad = cad & " GROUP BY codmacta"
+            Cad = Cad & " AND "
+            If nR = 1 Then Cad = Cad & " NOT "
+            Cad = Cad & "codmacta IN  (" & CuentasAgrupadas & ")"
+            If nR = 2 Then Cad = Cad & " GROUP BY codmacta"
         End If
-        miRsAux.Open cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+        miRsAux.Open Cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
     
         While Not miRsAux.EOF
             cLineas.Add "   <CdtTrfTxInf>"
@@ -321,19 +321,25 @@ Dim LineaInsecionSumatorios As Byte
             cLineas.Add "         <EndToEndId>" & Aux & "</EndToEndId>"
             cLineas.Add "      </PmtId>"
             cLineas.Add "      <PmtTpInf>"
+            'Enero 2018.
+                'Esto NO ex correcto.
+                ' Lo que hay que llevar es impvenci,cobro ya que los pagos -cobros no hay parcial. Simplemente ha que
+                
             If Pagos Then
-                Im = DBLet(miRsAux!imppagad, "N")
+                'Im = DBLet(miRsAux!imppagad, "N")
+                Im = 0
                 Im = miRsAux!impefect - Im
                 Aux = miRsAux!codmacta
     
             Else
-                Im = Abs(miRsAux!ImpVenci + DBLet(miRsAux!Gastos, "N")) - DBLet(miRsAux!impcobro, "N")
+                'Im = Abs(miRsAux!ImpVenci + DBLet(miRsAux!Gastos, "N") - DBLet(miRsAux!impcobro, "N"))
+                Im = Abs(miRsAux!ImpVenci + DBLet(miRsAux!Gastos, "N"))
                 Aux = miRsAux!codmacta
             End If
             
             'Persona fisica o juridica
-            cad = Mid(miRsAux!nifdatos, 1, 1)
-            EsPersonaJuridica2 = Not IsNumeric(cad)
+            Cad = Mid(miRsAux!nifdatos, 1, 1)
+            EsPersonaJuridica2 = Not IsNumeric(Cad)
             'Como da problemas Cajamar, siempre ponemos Perosna juridica. Veremos
             EsPersonaJuridica2 = True
             
@@ -353,13 +359,13 @@ Dim LineaInsecionSumatorios As Byte
             cLineas.Add "          <CtgyPurp><Cd>" & Aux & "</Cd></CtgyPurp>"
             cLineas.Add "       </PmtTpInf>"
             cLineas.Add "       <Amt>"
-            cad = Format(Im, "#.00")
-            cLineas.Add "          <InstdAmt Ccy=""EUR"">" & TransformaComasPuntos(cad) & "</InstdAmt>"
+            Cad = Format(Im, "#.00")
+            cLineas.Add "          <InstdAmt Ccy=""EUR"">" & TransformaComasPuntos(Cad) & "</InstdAmt>"
             cLineas.Add "       </Amt>"
             cLineas.Add "       <CdtrAgt>"
             cLineas.Add "          <FinInstnId>"
-            cad = DBLet(miRsAux!BIC, "T")
-            If cad = "" Then Err.Raise 513, , "No existe BIC: " & miRsAux!Nommacta & vbCrLf & "Entidad: " & miRsAux!Entidad
+            Cad = DBLet(miRsAux!BIC, "T")
+            If Cad = "" Then Err.Raise 513, , "No existe BIC: " & miRsAux!Nommacta & vbCrLf & "Entidad: " & miRsAux!Entidad
             cLineas.Add "             <BIC>" & DBLet(miRsAux!BIC, "T") & "</BIC>"
             cLineas.Add "          </FinInstnId>"
             cLineas.Add "       </CdtrAgt>"
@@ -722,7 +728,7 @@ End Sub
 Private Function PosicionEnFichero(ByVal Inicio As Long, ContenidoDelFichero As String, QueBusco As String) As Long
     PosicionEnFichero = InStr(Inicio, ContenidoDelFichero, QueBusco)
     If PosicionEnFichero = 0 Then
-        Err.Raise 513, "No se encuentra cadena: " & QueBusco
+        Err.Raise 513, , "No se encuentra cadena: " & QueBusco
     Else
         If InStr(1, QueBusco, "</") Then
             'PosicionEnFichero = PosicionEnFichero - Len(QueBusco)
@@ -805,6 +811,8 @@ Dim Rs As ADODB.Recordset
 
 Dim RegistroErroneo As Boolean
 Dim RemesasNoContabilizadas As String
+Dim TipoPopular As Boolean
+Dim EtiquetaBuscar As String
 
     On Error GoTo eLeerLineaDevolucionSEPA_XML
     Remesa = ""
@@ -830,29 +838,50 @@ Dim RemesasNoContabilizadas As String
     posicion = PosicionEnFichero(1, ContenidoFichero, "<OrgnlPmtInfAndSts>")
     L2 = PosicionEnFichero(posicion, ContenidoFichero, "</OrgnlPmtInfAndSts>")
     If posicion > 0 And L2 > 0 Then
-        '
-        aux2 = Mid(ContenidoFichero, posicion, L2 - posicion)
-        posicion = PosicionEnFichero(1, aux2, "<StsRsnInf>")
-        L2 = PosicionEnFichero(posicion, aux2, "</StsRsnInf>")
-        
-        If posicion > 0 And L2 > 0 Then
-            aux2 = Mid(aux2, posicion, L2 - posicion)
-            posicion = PosicionEnFichero(1, aux2, "<Id>ES")   'de momento todos los clientes seran de españa
-            L2 = PosicionEnFichero(posicion, aux2, "</Id>")
     
-            aux2 = Mid(aux2, posicion, L2 - posicion)
-            If Len(aux2) > 5 Then
-                SQL = DevuelveDesdeBD("nifempre", "empresa2", "1", "1")
-                'Es CCSSSNNNNNN
-                '   contro
-                '     SUFIJO
-                '        NIF
-                aux2 = Mid(aux2, 6)
-                If aux2 <> SQL Then
-
-                    Err.Raise 513, , "NIF empresa del fichero no coincide con el de la empresa en Ariconta"
-                End If
+    
+        'Mayo 2018. Devoluciones tipo CAIXA POPULAR
+        'Llevan una cadena dentro del GrpHdr /GrpHdr
+        ' InitgPty
+        aux2 = "NIFMAL"
+        TipoPopular = True
+        If Not DevolucionTipoPopular(ContenidoFichero, aux2) Then
+            TipoPopular = False
+            
+            'DEVOLUCION NORMAL.
+            'LO que haciamos antes de mayo. NO se ha tocado nada
+            
+            '
+            aux2 = Mid(ContenidoFichero, posicion, L2 - posicion)
+            posicion = PosicionEnFichero(1, aux2, "<StsRsnInf>")
+            L2 = PosicionEnFichero(posicion, aux2, "</StsRsnInf>")
+            
+            If posicion > 0 And L2 > 0 Then
+                aux2 = Mid(aux2, posicion, L2 - posicion)
+                posicion = PosicionEnFichero(1, aux2, "<Id>ES")   'de momento todos los clientes seran de españa
+                L2 = PosicionEnFichero(posicion, aux2, "</Id>")
+        
+                aux2 = Mid(aux2, posicion, L2 - posicion)
+            Else
+                aux2 = "NIFMAL"
+                
             End If
+        End If
+        
+        If aux2 = "NIFMAL" Then Err.Raise 513, , "NIF empresa no encontrado en el fichero "
+        
+        If Len(aux2) > 5 Then
+            SQL = DevuelveDesdeBD("nifempre", "empresa2", "1", "1")
+            'Es CCSSSNNNNNN
+            '   contro
+            '     SUFIJO
+            '        NIF
+            aux2 = Mid(aux2, 6)
+            If aux2 <> SQL Then
+
+                Err.Raise 513, , "NIF empresa del fichero no coincide con el de la empresa en Ariconta"
+            End If
+
         End If
     End If
     
@@ -874,15 +903,21 @@ Dim RemesasNoContabilizadas As String
     
     
     'Voy a buscar el numero total de vencimientos que devuelven y el importe total(comproabacion ultima
+    
+    
     posicion = PosicionEnFichero(posicion, ContenidoFichero, "<OrgnlPmtInfAndSts>")
-    posicion = PosicionEnFichero(posicion, ContenidoFichero, "<OrgnlNbOfTxs>")
-    '<OrgnlNbOfTxs>1</OrgnlNbOfTxs>
-    L2 = PosicionEnFichero(posicion, ContenidoFichero, "</OrgnlNbOfTxs>")
+    'NORMAL:<OrgnlNbOfTxs>1</OrgnlNbOfTxs>        POLUPAR:<DtldNbOfTxs>1</DtldNbOfTxs>
+    EtiquetaBuscar = IIf(TipoPopular, "<DtldNbOfTxs>", "<OrgnlNbOfTxs>")
+    posicion = PosicionEnFichero(posicion, ContenidoFichero, EtiquetaBuscar)
+    EtiquetaBuscar = Replace(EtiquetaBuscar, "<", "</")
+    L2 = PosicionEnFichero(posicion, ContenidoFichero, EtiquetaBuscar)
     CadenaComprobacionDevueltos = Mid(ContenidoFichero, posicion, L2 - posicion) & "|"
     
-    '<OrgnlCtrlSum>5180.98</OrgnlCtrlSum>
-    posicion = PosicionEnFichero(posicion, ContenidoFichero, "<OrgnlCtrlSum>")
-    L2 = PosicionEnFichero(posicion, ContenidoFichero, "</OrgnlCtrlSum>")
+    'NORMAL:<OrgnlCtrlSum>5180.98</OrgnlCtrlSum>     POPULAR:<DtldCtrlSum>2891.15</DtldCtrlSum>
+    EtiquetaBuscar = IIf(TipoPopular, "<DtldCtrlSum>", "<OrgnlCtrlSum>")
+    posicion = PosicionEnFichero(posicion, ContenidoFichero, EtiquetaBuscar)
+    EtiquetaBuscar = Replace(EtiquetaBuscar, "<", "</")
+    L2 = PosicionEnFichero(posicion, ContenidoFichero, EtiquetaBuscar)
     CadenaComprobacionDevueltos = CadenaComprobacionDevueltos & Mid(ContenidoFichero, posicion, L2 - posicion) & "|"
             
     'Primera comprobacion. Existe la remesa obtenida
@@ -1048,7 +1083,7 @@ Dim RemesasNoContabilizadas As String
     Exit Sub
 eLeerLineaDevolucionSEPA_XML:
     Remesa = ""
-    MuestraError Err.Number, "Procesando fichero devolucion SEPA XML" & vbCrLf & Err.Description
+    MuestraError Err.Number, "Procesando fichero devolucion SEPA XML" & vbCrLf, Err.Description
     Set miRsAux = Nothing
     Set Rs = New ADODB.Recordset
            
@@ -1079,7 +1114,7 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
 
     
     Dim EsPersonaJuridica As Boolean
-    Dim J As Integer
+    Dim J As Long
     
     
     Dim RepeticionBucle As Byte   'Si lleva agrupacion serán dos veces. 1los normales 2 Los agrupados
@@ -1595,3 +1630,32 @@ Err_Remesa19sepa:
 End Function
 
 
+Private Function DevolucionTipoPopular(TextoFichero As String, NIF As String) As Boolean
+Dim Cad As String
+Dim N As Integer
+On Error GoTo eDevolucionTipoPopular
+    DevolucionTipoPopular = False
+    N = InStr(1, TextoFichero, "<GrpHdr>")
+    If N > 0 Then
+        N = InStr(N + 5, TextoFichero, "</GrpHdr>")
+        If N > 0 Then
+            Cad = Mid(TextoFichero, 1, N)
+            N = InStr(1, Cad, "<InitgPty>")
+            If N > 0 Then
+                Cad = Mid(Cad, N + 3)
+                'Ejemplo: <Id>ES74000B98734098</Id>
+                N = InStr(1, Cad, "<Id>ES")
+                Cad = Mid(Cad, N + 11)
+                N = InStr(1, Cad, "</Id>")
+                If N > 0 Then
+                    NIF = Mid(Cad, 1, N - 1)
+                    DevolucionTipoPopular = True
+                End If
+                
+            End If
+        End If
+    End If
+    Exit Function
+eDevolucionTipoPopular:
+    MuestraError Err.Number, Err.Description
+End Function

@@ -147,8 +147,16 @@ Private mvarModificarIvaLineasFraCli As Boolean
 
 Private mvarPathFicherosInteg As String
 
+Private mvarPathAlbaranesProv As String
+Private mvarPathFacturasProv As String
+
+
 
 Private mvarAplicarFiltrosEnCuentas As Boolean   'Si valor en BD. De momento es que monti NO quiere filtros en cuentas
+
+
+'No lleva campo en BD. Cuando lee los parametros hace el select
+Private mvarFechaMinimaEnHlinapu As Date
 
 
 
@@ -641,116 +649,35 @@ End Property
 
 
 
-''''Public Property Let intfaccl(ByVal vData As String)
-'''''se usa cuando se asigna un valor a la propiedad, en el
-'''''lado izquierdo de la asignacion
-'''''Syntax: X.intfaccl = 5
-''''     mvarintfaccl = vData
-''''End Property
-''''
-''''Public Property Get intfaccl() As String
-'''''se usa cuando se asigna un valor a la propiedad, en el
-'''''lado derecho de la asignacion
-'''''Syntax: Debug.Print X.intfaccl
-''''     intfaccl = mvarintfaccl
-''''End Property
-''''
-''''
-''''Public Property Let intfacpr(ByVal vData As String)
-'''''se usa cuando se asigna un valor a la propiedad, en el
-'''''lado izquierdo de la asignacion
-'''''Syntax: X.intfacpr = 5
-''''     mvarintfacpr = vData
-''''End Property
-''''
-''''Public Property Get intfacpr() As String
-'''''se usa cuando se asigna un valor a la propiedad, en el
-'''''lado derecho de la asignacion
-'''''Syntax: Debug.Print X.intfacpr
-''''     intfacpr = mvarintfacpr
-''''End Property
-''''
-''''
-''''Public Property Let intliapu(ByVal vData As String)
-'''''se usa cuando se asigna un valor a la propiedad, en el
-'''''lado izquierdo de la asignacion
-'''''Syntax: X.intliapu = 5
-''''     mvarintliapu = vData
-''''End Property
-''''
-''''Public Property Get intliapu() As String
-'''''se usa cuando se asigna un valor a la propiedad, en el
-'''''lado derecho de la asignacion
-'''''Syntax: Debug.Print X.intliapu
-''''     intliapu = mvarintliapu
-''''End Property
-''''
-''''
-''''Public Property Let intlihap(ByVal vData As String)
-'''''se usa cuando se asigna un valor a la propiedad, en el
-'''''lado izquierdo de la asignacion
-'''''Syntax: X.intlihap = 5
-''''     mvarintlihap = vData
-''''End Property
-''''
-''''Public Property Get intlihap() As String
-'''''se usa cuando se asigna un valor a la propiedad, en el
-'''''lado derecho de la asignacion
-'''''Syntax: Debug.Print X.intlihap
-''''     intlihap = mvarintlihap
-''''End Property
-
-
 Public Property Let grupoord(ByVal vData As String)
-'se usa cuando se asigna un valor a la propiedad, en el
-'lado izquierdo de la asignacion
-'Syntax: X.grupoord = 5
      mvargrupoord = vData
 End Property
 
 Public Property Get grupoord() As String
-'se usa cuando se asigna un valor a la propiedad, en el
-'lado derecho de la asignacion
-'Syntax: Debug.Print X.grupoord
      grupoord = mvargrupoord
 End Property
 
 
 Public Property Let tinumfac(ByVal vData As String)
-'se usa cuando se asigna un valor a la propiedad, en el
-'lado izquierdo de la asignacion
-'Syntax: X.tinumfac = 5
      mvartinumfac = vData
 End Property
 
 Public Property Get tinumfac() As String
-'se usa cuando se asigna un valor a la propiedad, en el
-'lado derecho de la asignacion
-'Syntax: Debug.Print X.tinumfac
      tinumfac = mvartinumfac
 End Property
 
 
 Public Property Let modhcofa(ByVal vData As Boolean)
-'se usa cuando se asigna un valor a la propiedad, en el
-'lado izquierdo de la asignacion
-'Syntax: X.modhcofa = 5
      mvarmodhcofa = vData
 End Property
 
 Public Property Get modhcofa() As Boolean
-'se usa cuando se asigna un valor a la propiedad, en el
-'lado derecho de la asignacion
-'Syntax: Debug.Print X.modhcofa
      modhcofa = mvarmodhcofa
 End Property
 
 
 
 Public Property Let anofactu(ByVal vData As Integer)
-'se usa cuando se asigna un valor a la propiedad, en el
-'lado izquierdo de la asignacion
-'Syntax: X.anofactu = 5
      mvaranofactu = vData
 End Property
 
@@ -1103,6 +1030,19 @@ Public Property Get AplicarFiltrosEnCuentas() As Boolean
 End Property
 
 
+'SOLO GET
+Public Property Get FechaMinimaEnHlinapu() As Date
+     FechaMinimaEnHlinapu = mvarFechaMinimaEnHlinapu
+End Property
+
+Public Property Get PathAlbaranesProv() As String
+     PathAlbaranesProv = mvarPathAlbaranesProv
+End Property
+
+Public Property Get PathFacturasProv() As String
+     PathFacturasProv = mvarPathFacturasProv
+End Property
+
 
 
 
@@ -1276,6 +1216,7 @@ Public Function Leer() As Byte
     
                     'Para que lea si hay bloqueo de cuentas
     If Leer = 0 Then ObtenerCuentasBloqueadas
+    If Leer = 0 Then MinimaFechaEnApuntes
     
     
     Set Rs = Nothing
@@ -1309,6 +1250,11 @@ Dim Nuevos As String
             mvarEnviarPorOutlook = False
             mvarEsMultiseccion = False
             mvarContabApteIva0 = False
+            mvarModificarIvaLineasFraCli = False
+            mvarEsMultiseccion = False
+            mvarPathFicherosInteg = ""
+            mvarPathAlbaranesProv = ""
+            mvarPathFacturasProv = ""
             Nuevos = ""
             
             
@@ -1368,6 +1314,15 @@ Dim Nuevos As String
             
             mvarPathFicherosInteg = DBLet(Rs!PathFicherosInteg, "T")
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Carpeta fichero integraciones"
+            
+           
+            mvarPathAlbaranesProv = DBLet(Rs!PathAlbaranesProv, "T")
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Carpeta fichero albaranes"
+            
+            mvarPathFacturasProv = DBLet(Rs!PathFacturasProv, "T")
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Carpeta ficheros facturas PDF"
+            
+            
             
             mvarAplicarFiltrosEnCuentas = True
             
@@ -1458,6 +1413,28 @@ EmvarCuentasBloqueadas:
 
 End Sub
 
+
+Private Sub MinimaFechaEnApuntes()
+
+    
+    On Error GoTo EmvarCuentasBloqueadas
+    
+    mvarFechaMinimaEnHlinapu = mvarfechaini
+    Set Rs = Nothing
+    Set Rs = New ADODB.Recordset
+    SQL = "Select min(fechaent) from hlinapu WHERE fechaent<'" & Format(mvarfechaini, "yyyy-mm-dd") & "'"
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Not Rs.EOF Then
+        If Not IsNull(Rs.Fields(0)) Then mvarFechaMinimaEnHlinapu = Rs.Fields(0)
+    End If
+    Rs.Close
+    
+    
+EmvarCuentasBloqueadas:
+    If Err.Number <> 0 Then MuestraError Err.Number, "Obtener CuentasBloqueadas"
+
+
+End Sub
 
 
 Private Sub LeerDatosSII()

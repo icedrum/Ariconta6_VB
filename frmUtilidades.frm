@@ -169,7 +169,7 @@ Begin VB.Form frmUtilidades
          EndProperty
          Height          =   360
          Left            =   3150
-         MaxLength       =   1
+         MaxLength       =   3
          TabIndex        =   24
          Top             =   420
          Width           =   525
@@ -827,6 +827,23 @@ Begin VB.Form frmUtilidades
          Width           =   555
       End
    End
+   Begin VB.Label lbAnte 
+      Caption         =   "Resultado búsqueda anterior"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   -1  'True
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Left            =   7080
+      TabIndex        =   50
+      Top             =   240
+      Width           =   2535
+   End
    Begin VB.Image imgCheck 
       Height          =   240
       Index           =   0
@@ -948,15 +965,20 @@ Private Sub HacerBusqueda()
     Select Case Estado
     Case 0
         ListView1.ListItems.Clear
+        
         Select Case Opcion
         Case 0
             NumCuentas = 1
             MontarBusqueda
             If NumCuentas = 0 Then Exit Sub
+            
+            'Abril 2018
+            CadenaDesdeOtroForm = "N"
+            
             'Solo para esto.
             frameBus2.visible = True
             cmdCancel.Enabled = False
-
+    
             QuitarHlinApu 0   ' Hco apuntes
             QuitarHlinApu 3   ' Facturas clientes
             QuitarHlinApu 4   ' Facturas proveedores
@@ -1018,7 +1040,7 @@ Private Sub HacerBusqueda()
             Screen.MousePointer = vbDefault
         Case Else
             'Buscar asiento descuadrado
-            
+            Set myCol = New Collection
             If MontaSQLBuscaAsien Then
                 Me.FrameDescuadre.visible = False
                 PonerCampos 1
@@ -1204,7 +1226,25 @@ Private Sub Form_Activate()
             End If
             PonFocus Text2(0)
         Case 1
-            Text1(0).SetFocus
+        
+            If myCol Is Nothing Then
+                PonFoco Text1(0)
+            Else
+                ListView1.ListItems.Clear
+                For i = 1 To myCol.Count
+                                
+                    Set ItmX = ListView1.ListItems.Add(, , RecuperaValor(myCol.Item(i), 1))
+                   
+                    ItmX.SmallIcon = 3
+                    ItmX.Icon = 3
+                    ItmX.SubItems(1) = RecuperaValor(myCol.Item(i), 2)
+                    ItmX.SubItems(2) = RecuperaValor(myCol.Item(i), 3)
+                    ItmX.SubItems(3) = Format(RecuperaValor(myCol.Item(i), 4), FormatoImporte)
+
+                Next i
+               lbAnte.visible = True
+               SePuedeCErrar = True
+            End If
         Case 4, 7
             txtHuecoCta.SetFocus
         Case 5, 6
@@ -1254,7 +1294,7 @@ Private Sub Form_Load()
     Me.FrameAccionesCtas.visible = False
     Me.FrameSaldos.visible = False
     
-    
+    lbAnte.visible = False
     
     VisualizarSeleccionar False
     
@@ -1515,6 +1555,7 @@ Dim T As Long
 Dim t2 As Long
 Dim codmacta1 As String
 Dim Sql2 As String
+Dim HaBorrado As Boolean
 
     'Opcion
     ' 0 .- Hlinapu
@@ -1523,6 +1564,7 @@ Dim Sql2 As String
     Select Case vOpcion
     Case 0
         SQL = "hlinapu"
+        Sql2 = "Apuntes"
     Case 3, 4
         SQL = "factcli"
         If vOpcion = 4 Then SQL = "factpro"
@@ -1548,7 +1590,7 @@ Dim Sql2 As String
     'TESORERIA
     Case 21
         SQL = "slicaja"
-    
+        
     Case 22
         codmacta1 = "ctacaja"
         SQL = "susucaja"
@@ -1569,20 +1611,39 @@ Dim Sql2 As String
     End Select
     Label4.Tag = Sql2
     Label4.Caption = "buscando datos " & Sql2
+    Label4.Refresh
     pb2.Value = 0
     Me.Refresh
     
-    SQL = "Select " & codmacta1 & " from " & SQL
     
-    'Si es de hsaldos entonces tenemos k buscar solo en las k sean de ultmo nivel
-    If vOpcion = 8 Or vOpcion = 7 Then _
-        SQL = SQL & " WHERE codmacta like '" & Mid("__________", 1, vEmpresa.DigitosUltimoNivel) & "'"
     
-    SQL = SQL & " group by " & codmacta1
+    'ANTES ABRIL 2018. Estaba fataaaaaaaaaaaaaaaaal. Leia todo hlinapum, todofaccli, todo.....
+    If False Then
     
-    'having
-    SQL = SQL & " HAVING NOT (" & codmacta1 & " IS NULL)"
+        SQL = "Select " & codmacta1 & " from " & SQL
+        
+        'Si es de hsaldos entonces tenemos k buscar solo en las k sean de ultmo nivel
+        If vOpcion = 8 Or vOpcion = 7 Then _
+            SQL = SQL & " WHERE codmacta like '" & Mid("__________", 1, vEmpresa.DigitosUltimoNivel) & "'"
+        
+        SQL = SQL & " group by " & codmacta1
+        
+        'having
+        SQL = SQL & " HAVING NOT (" & codmacta1 & " IS NULL)"
+        
     
+    Else
+            
+        SQL = "Select distinct " & codmacta1 & " from " & SQL
+        
+        'Si es de hsaldos entonces tenemos k buscar solo en las k sean de ultmo nivel
+        If vOpcion = 8 Or vOpcion = 7 Then Stop
+        
+        SQL = SQL & " WHERE " & codmacta1 & " IN (select codmacta from tmpbussinmov)"
+        
+        
+    End If
+    HaBorrado = False
     Set Rs = New ADODB.Recordset
     'Primro el contador
     Rs.Open SQL, Conn, adOpenKeyset, adLockPessimistic, adCmdText
@@ -1596,6 +1657,7 @@ Dim Sql2 As String
         Rs.MoveFirst
         Label4.Caption = Label4.Tag
         Label4.Refresh
+        HaBorrado = True
         t2 = 0
         T = T + 1
         While Not Rs.EOF
@@ -1608,6 +1670,11 @@ Dim Sql2 As String
     End If
     Rs.Close
     Label4.Caption = ""
+    Label4.Refresh
+    If HaBorrado Then
+        'Rs.Open SQL, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    End If
+    
     Set Rs = Nothing
 End Sub
 
@@ -1758,16 +1825,16 @@ End Sub
 
 
 Private Sub Eliminar()
-Dim cad As String
+Dim Cad As String
     SQL = "DELETE FROM cuentas where codmacta = '"
     For i = ListView1.ListItems.Count To 1 Step -1
         If ListView1.ListItems(i).Checked Then
-            cad = BorrarCuenta(ListView1.ListItems(i).Text, Me.Label2)
-            If cad = "" Then
+            Cad = BorrarCuenta(ListView1.ListItems(i).Text, Me.Label2)
+            If Cad = "" Then
                 If EliminaCuenta(ListView1.ListItems(i).Text) Then ListView1.ListItems.Remove i
             Else
-                cad = ListView1.ListItems(i).Text & " - " & ListView1.ListItems(i).SubItems(1) & vbCrLf & cad & vbCrLf
-                MsgBox cad, vbExclamation
+                Cad = ListView1.ListItems(i).Text & " - " & ListView1.ListItems(i).SubItems(1) & vbCrLf & Cad & vbCrLf
+                MsgBox Cad, vbExclamation
             End If
         End If
     Next i
@@ -1849,14 +1916,19 @@ Dim C2 As String
             
             pb1.Value = Int(((i / NumCuentas)) * 1000)
             C2 = C2 & ", (" & Rs!NumDiari & "," & DBSet(Rs!FechaEnt, "F") & "," & Rs!NumAsien & ")"
+            
+            Label2.Caption = Rs.Fields(2) & " - " & Rs.Fields(0)
+            Label2.Refresh
+
+            
             i = i + 1
-            If (i Mod 50) = 0 Then
+            If (i Mod 80) = 0 Then
                 Debug.Print Timer - T1
                 
                 ObtenerSumasAgrupado Mid(C2, 2)
                 C2 = ""
             End If
-            'ObtenerSumas
+            
             
             'Siguiente
             Rs.MoveNext
@@ -1871,29 +1943,12 @@ Dim C2 As String
         Wend
         Rs.Close
         If C2 <> "" Then ObtenerSumasAgrupado Mid(C2, 2)
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+            
     End If
     If ListView1.ListItems.Count > 0 Then
         PonerCampos 3
     Else
-        MsgBox "Ningun asiento descuadrado.", vbExclamation
+        MsgBox "Ningún asiento descuadrado.", vbExclamation
         
         If Opcion = 1 Then
             If NumCuentas = 0 Then
@@ -1967,15 +2022,13 @@ Private Function ObtenerSumasAgrupado(Asientos As String) As Boolean
     Dim RsA As ADODB.Recordset
 
     Set RsA = New ADODB.Recordset
-    SQL = "SELECT numdiari,fechaent,numasien,Sum(timporteD) AS SumaDetimporteD, Sum(timporteH) AS SumaDetimporteH"
+    SQL = "SELECT numdiari,fechaent,numasien,Sum(coalesce(timporteD,0)) AS SumaDetimporteD, Sum(coalesce(timporteH,0)) AS SumaDetimporteH"
     SQL = SQL & " From hlinapu "
     SQL = SQL & " WHERE (numdiari,fechaent,numasien) IN (" & Asientos & ") group by numdiari,fechaent,numasien"
-    
+    SQL = SQL & " having Sum(coalesce(timporteD,0)) - Sum(coalesce(timporteH,0)) <>0"
     RsA.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     
     While Not RsA.EOF
-        Label2.Caption = RsA.Fields(2) & " - " & RsA.Fields(1)
-        Label2.Refresh
             
     
     
@@ -2005,6 +2058,9 @@ Private Function ObtenerSumasAgrupado(Asientos As String) As Boolean
                 ItmX.SubItems(1) = Format(RsA!FechaEnt, "dd/mm/yyyy")
                 ItmX.SubItems(2) = RsA!NumDiari
                 ItmX.SubItems(3) = Format(Deb, FormatoImporte)
+                
+                myCol.Add ItmX.Text & "|" & ItmX.SubItems(1) & "|" & ItmX.SubItems(2) & "|" & ItmX.SubItems(3) & "|"
+            
         End If
         RsA.MoveNext
     Wend
@@ -2302,7 +2358,7 @@ End Sub
 
 
 Private Sub CargarRecordSetCtasLibres()
-Dim cad As String
+Dim Cad As String
 Dim J As Long
 Dim Multiplicador As Long
 Dim vFormato As String
@@ -2311,7 +2367,7 @@ Dim CadenaInsert As String
     i = vEmpresa.DigitosUltimoNivel - lblHuecoCta.Tag
     vFormato = Mid("00000000000", 1, i)
     Multiplicador = i
-    cad = Me.txtHuecoCta.Text & Mid("0000000000", 1, i)
+    Cad = Me.txtHuecoCta.Text & Mid("0000000000", 1, i)
     i = 1   'Primer Numero de cuenta
     
     Set Rs = New ADODB.Recordset
@@ -2343,8 +2399,8 @@ Dim CadenaInsert As String
         Rs.Close
         'Cojemos desde la ultima
         i = vEmpresa.DigitosUltimoNivel - lblHuecoCta.Tag
-        cad = Mid("999999999", 1, i)
-        i = Val(cad) 'Utlima cta del subgrupo
+        Cad = Mid("999999999", 1, i)
+        i = Val(Cad) 'Utlima cta del subgrupo
         
         If NumCuentas < i Then
             NumCuentas = NumCuentas + 1
@@ -2375,14 +2431,14 @@ End Sub
 
 Private Sub InsertaCtasLibres(Cta As String, Descripcion As String, CadenaInsert2 As String)
 Dim Insertar As Boolean
-Dim cad As String
+Dim Cad As String
 
     If Cta <> "" Then
         Insertar = False
-        cad = Me.txtHuecoCta.Text & Cta
-        cad = "('" & cad & "','" & Descripcion & "')"
+        Cad = Me.txtHuecoCta.Text & Cta
+        Cad = "('" & Cad & "','" & Descripcion & "')"
         
-        CadenaInsert2 = CadenaInsert2 & ", " & cad
+        CadenaInsert2 = CadenaInsert2 & ", " & Cad
         If Len(CadenaInsert2) > 300 Then Insertar = True
     Else
         Insertar = True
@@ -2439,7 +2495,7 @@ End Sub
 
 
 Private Sub BuscarFacturasSaltos()
-Dim cad As String
+Dim Cad As String
 Dim Aux As String
 Dim Anyo As Integer
 Dim J As Integer
@@ -2450,11 +2506,11 @@ Dim J As Integer
     
     If Opcion = 5 Then
         SQL = "numserie,anofactu as ano,numfactu as codigo"
-        cad = "fecfactu"
+        Cad = "fecfactu"
         SQL = SQL & " FROM factcli"
     Else
         SQL = "numserie, anofactu as ano,numregis as codigo"
-        cad = "fecharec"
+        Cad = "fecharec"
         SQL = SQL & " FROM factpro"
     End If
     
@@ -2465,11 +2521,11 @@ Dim J As Integer
         Exit Sub
     End If
     Aux = ""
-    Aux = cad & " >= '" & Format(Text1(3).Text, FormatoFecha) & "'"
+    Aux = Cad & " >= '" & Format(Text1(3).Text, FormatoFecha) & "'"
     
     
     Aux = Aux & " AND "
-    Aux = Aux & cad & " <= '" & Format(Text1(2).Text, FormatoFecha) & "'"
+    Aux = Aux & Cad & " <= '" & Format(Text1(2).Text, FormatoFecha) & "'"
     
     
     
@@ -2523,10 +2579,10 @@ Dim J As Integer
             
             If Rs!Codigo - i >= 2 Then
                 'SALTO
-                cad = Format(Rs!Codigo - 1, "000000000")
+                Cad = Format(Rs!Codigo - 1, "000000000")
 '                If opcion = 5 Then
                     Set ItmX = ListView1.ListItems.Add(, , Rs!NUmSerie)
-                    ItmX.SubItems(1) = cad
+                    ItmX.SubItems(1) = Cad
                     J = 2
 '                Else
 '                    Set ItmX = ListView1.ListItems.Add(, , Cad)
@@ -2539,10 +2595,10 @@ Dim J As Integer
                 
             Else
                 'HUECO
-                cad = Format(i, "000000000")
+                Cad = Format(i, "000000000")
 '                If opcion = 5 Then
                     Set ItmX = ListView1.ListItems.Add(, , Rs!NUmSerie)
-                    ItmX.SubItems(1) = cad
+                    ItmX.SubItems(1) = Cad
                     J = 2
 '                Else
 '                    Set ItmX = ListView1.ListItems.Add(, , Cad)
@@ -2927,7 +2983,7 @@ Private Sub ApuntesSinFacturaNew()
     espera 0.2
         
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-
+    i = 0
     While Not Rs.EOF
         Label7(1).Caption = i & " de " & NumRegElim
         Label7(1).Refresh

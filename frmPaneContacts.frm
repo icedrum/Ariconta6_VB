@@ -34,6 +34,7 @@ Begin VB.Form frmPaneContacts2
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+      Scroll          =   0   'False
       Appearance      =   6
       IconSize        =   16
       ShowBorder      =   0   'False
@@ -117,7 +118,7 @@ Dim Prohibidas As String
 Dim Rs As ADODB.Recordset
 Dim Rs2 As ADODB.Recordset
 Dim cad As String
-Dim Sql As String
+Dim SQL As String
 
 Dim N
 
@@ -239,11 +240,11 @@ Sub UpdateLayout()
     
     top = ItemCaption.top + ItemCaption.Height
     If ItemCaption.Expanded Then
-        tree.Visible = True
+        tree.visible = True
         tree.top = 80 + top
         top = 80 + top + tree.Height
     Else
-        tree.Visible = False
+        tree.visible = False
     End If
 
 End Sub

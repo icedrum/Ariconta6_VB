@@ -306,10 +306,12 @@ Begin VB.Form frmModelo303
             _ExtentX        =   7117
             _ExtentY        =   5080
             View            =   3
+            LabelEdit       =   1
             LabelWrap       =   -1  'True
             HideSelection   =   -1  'True
             HideColumnHeaders=   -1  'True
             Checkboxes      =   -1  'True
+            FullRowSelect   =   -1  'True
             _Version        =   393217
             ForeColor       =   -2147483640
             BackColor       =   -2147483643
@@ -755,7 +757,7 @@ Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
 Private SQL As String
-Dim cad As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -961,7 +963,7 @@ Private Sub Form_Load()
     FramePeriodo.Enabled = (Me.cmbPeriodo(0).ListIndex = 0)
     FramePeriodo.visible = (Me.cmbPeriodo(0).ListIndex = 0)
     
-    txtFecha(2).Text = Format(Now, "dd/mm/yyyy")
+    txtfecha(2).Text = Format(Now, "dd/mm/yyyy")
      
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     
@@ -1031,7 +1033,7 @@ End Sub
 
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
@@ -1070,10 +1072,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
         
     End Select
     
@@ -1146,27 +1148,27 @@ Dim Es_A_Compensar As Byte
 Dim CadenaImportes As String
 
     'Generamos la cadena con los importes a mostrar
-    cad = ""
+    Cad = ""
     GeneraCadenaImportes
 
-    CadenaImportes = CStr(cad)
+    CadenaImportes = CStr(Cad)
 
 
     'Si el importe es negativo tendriamos que preguntar si quiere realizar
     'compensacion o ingreso/devolucion
     If CCur(ImpTotal) < 0 Then
         'NEGATIVO
-        cad = "Importe a devolver / compensar." & vbCrLf & vbCrLf & _
+        Cad = "Importe a devolver / compensar." & vbCrLf & vbCrLf & _
             "¿ Desea que sea a compensar ?"
-        i = MsgBox(cad, vbQuestion + vbYesNoCancel)
+        i = MsgBox(Cad, vbQuestion + vbYesNoCancel)
         If i = vbCancel Then Exit Sub
         Es_A_Compensar = 0
         If i = vbYes Then Es_A_Compensar = 1
         
     Else
-        cad = "Ingreso por cta banco?" & vbCrLf & vbCrLf
+        Cad = "Ingreso por cta banco?" & vbCrLf & vbCrLf
         '
-        i = MsgBox(cad, vbQuestion + vbYesNoCancel)
+        i = MsgBox(Cad, vbQuestion + vbYesNoCancel)
         If i = vbCancel Then Exit Sub
         Es_A_Compensar = 2
         If i = vbYes Then Es_A_Compensar = 3
@@ -1175,12 +1177,12 @@ Dim CadenaImportes As String
 
     'Generamos la cadena para el ultimo registro de la presentacion
     'Registro <T30303>
-    cad = ""
+    Cad = ""
     CadenaAdicional303_Nuevo
 
 
     'Ahora enviamos a generar fichero IVA
-    If GenerarFicheroIVA_303_2014(CadenaImportes, ImpTotal, CDate(txtFecha(2).Text), Periodo, Es_A_Compensar, cad) Then
+    If GenerarFicheroIVA_303_2017(CadenaImportes, ImpTotal, CDate(txtfecha(2).Text), Periodo, Es_A_Compensar, Cad) Then
     
     GuardarComo
     End If
@@ -1204,7 +1206,7 @@ Dim Rs As ADODB.Recordset
     Else
         DevuelveImporte 0, 0
     End If
-    
+    Rs.Close
     
     'Exportaciones y asimiladas todas las facturas que sean de
 '    DevuelveImporte 37, 0  'base
@@ -1217,12 +1219,15 @@ Dim Rs As ADODB.Recordset
     Else
         DevuelveImporte 0, 0
     End If
-
+    Rs.Close
     
     'DE estos dos NO hay text
     '---------------------
     'Op no sujetas o con conversion del sujeto pasivo
-    SQL = "select  sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 12 "
+    'CASILL 61 en modelo oficial
+    'Segun MC, el punto en la liquidacion de esto solo afecta a aquellas ventas extentas de IVA.
+    'AÑADO FALSE para que no entre
+    SQL = "select  sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 12  AND FALSE"
     
     Set Rs = New ADODB.Recordset
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -1231,30 +1236,47 @@ Dim Rs As ADODB.Recordset
     Else
         DevuelveImporte 0, 0
     End If
+    Rs.Close
+    
+    'Adiconal criterio de caja.
+    Cad = Cad & String(17, "0")
+    Cad = Cad & String(17, "0")
+    Cad = Cad & String(17, "0")
+    Cad = Cad & String(17, "0")
+    
+    'Reegularizacion cuotas
+    Cad = Cad & String(17, "0")
     
     'Diferencia antes de aplicar las
-    DevuelveImporte ImpTotal, 0
-     
+    DevuelveImporte ImpTotal * 1, 0
+    
     
     'Atribuible a la admon del estado
-    DevuelveImporte 31, 0  '%
-    DevuelveImporte ImpTotal * (-1), 0
+    'DevuelveImporte 31, 0   '%  PONIA 31 antes de ene 18
+    Cad = Cad & "10000" '100%
+    Cad = Cad & "0000"
+    DevuelveImporte Abs(ImpTotal * 1), 0
+
+
+    'IVA a la importación liquidado por la Aduana pendiente de ingreso  [77]
+    Cad = Cad & String(17, "0")
 
     'A compensar de otros periodos
     ImpCompensa = ImporteSinFormato(ComprobarCero(txtCuota(0).Text))
-    DevuelveImporte ImpCompensa, 0  'base
+    DevuelveImporte ImpCompensa * 1, 0  'base
     
     'DE estos dos NO hay text
     'Diputacion foral
-    cad = cad & String(17, "0")
+    Cad = Cad & String(17, "0")
     
-    'Campo13. Resultado
+    'Campo19. Resultado
     DevuelveImporte ImpTotal - ImpCompensa, 0
 
-    'Campo14. A deducor
-    DevuelveImporte ImpTotal - ImpCompensa, 0
+    'Campo20. A deducor
+    'DevuelveImporte ImpTotal - ImpCompensa, 0
+    DevuelveImporte 0, 0
 
-    'Campo15. Resultado de la liquidacion
+    'Campo21. Resultado de la liquidacion
     DevuelveImporte ImpTotal - ImpCompensa, 0
 
 End Sub
@@ -1267,7 +1289,9 @@ Dim TotalClien As Currency
 Dim TotalProve As Currency
 Dim HayReg As Boolean
 Dim Rs As ADODB.Recordset
-
+    
+    
+    
     TotalClien = 0
 
     'En devuelveimporte
@@ -1275,33 +1299,66 @@ Dim Rs As ADODB.Recordset
     ' Tipo 1:   2 ente y 2 decimales
     ' Tipo 2:   1 entero y 2 decimales
     ' tipo 3:   3 enetero y dos decimales
-
+    
     
     SQL = "select iva,  bases, ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 0 "
     SQL = SQL & " order by 1 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    i = 0
-    While Not Rs.EOF
-        i = i + 1
-        DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!IVA, "N"), 3
-        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
+    Rs.Open SQL, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    If Not Rs.EOF Then
+        Msg = ""
+        J = 0 'IVAS que si tengo
+        K = 0 'Ivas que proceso
+        While Not Rs.EOF
+            Msg = Msg & "  " & Format(Rs!IVA, FormatoImporte) & "%"
+            J = J + 1
+            Rs.MoveNext
+        Wend
+        Rs.MoveFirst
+        Msg = "IVAs en contabilidad:  " & Msg & vbCrLf & vbCrLf & "Procesados: "
+        For i = 1 To 3
+           
+            
+            'primero el 4  despues el 10 despues el 21
+            SQL = RecuperaValor("4|10|21|", i)
+            Rs.Find "IVA = " & DBSet(SQL, "N"), , adSearchForward, 1
+            
+            If Rs.EOF Then
+                DevuelveImporte 0, 0
+                DevuelveImporte 0, 3
+                DevuelveImporte 0, 0
+            Else
+                Msg = Msg & "  " & Format(Rs!IVA, FormatoImporte) & "%"
+                K = K + 1
+                DevuelveImporte DBLet(Rs!Bases, "N"), 0
+                DevuelveImporte DBLet(Rs!IVA, "N"), 3
+                DevuelveImporte DBLet(Rs!Ivas, "N"), 0
+            
+                TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
+            End If
+            
+        Next
+        If K <> J Then
+            SQL = "Error en IVAS regimen general. Existen " & vbCrLf & Msg
+            MsgBox SQL, vbQuestion
+        End If
         
-        TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
-        
-        Rs.MoveNext
-    Wend
+    Else
+        'No hay IVA normal
+        For J = 1 To 3
+            DevuelveImporte 0, 0
+            DevuelveImporte 0, 3
+            DevuelveImporte 0, 0
+        Next J
+    End If
+    Rs.Close
     
-    'por si hay menos de 3 porcentajes de iva hay que rellenarlos a ceros
-    For J = i + 1 To 3
-        DevuelveImporte 0, 0
-        DevuelveImporte 0, 3
-        DevuelveImporte 0, 0
-    Next J
     
     Set Rs = Nothing
+    
+    
+    
     
     'Adquisiciones intra
     SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 10 "
@@ -1357,26 +1414,57 @@ Dim Rs As ADODB.Recordset
     SQL = SQL & " order by 1 "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    i = 0
-    While Not Rs.EOF
-        i = i + 1
-        DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!IVA, "N"), 3
-        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
-        
-        TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
-        
-        Rs.MoveNext
-    Wend
+    Rs.Open SQL, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    If Not Rs.EOF Then
+        Msg = ""
+        J = 0 'IVAS que si tengo
+        K = 0 'Ivas que proceso
+        While Not Rs.EOF
+            Msg = Msg & "  " & Format(Rs!IVA, FormatoImporte) & "%"
+            J = J + 1
+            Rs.MoveNext
+        Wend
+        Rs.MoveFirst
+        Msg = "IVAs en contabilidad:  " & Msg & vbCrLf & vbCrLf & "Procesados: "
     
-    'por si hay menos de 3 porcentajes de iva hay que rellenarlos a ceros
-    For J = i + 1 To 3
-        DevuelveImporte 0, 0
-        DevuelveImporte 0, 3
-        DevuelveImporte 0, 0
-    Next J
     
+        For i = 1 To 3
+            
+            
+            'primero el 4  despues el 10 despues el 21
+            SQL = RecuperaValor("4|10|21|", i)
+            Rs.Find "IVA = " & DBSet(SQL, "N"), , adSearchForward, 1
+            
+            If Rs.EOF Then
+                DevuelveImporte 0, 0
+                DevuelveImporte 0, 3
+                DevuelveImporte 0, 0
+            Else
+                Msg = Msg & "  " & Format(Rs!IVA, FormatoImporte) & "%"
+                K = K + 1
+                DevuelveImporte DBLet(Rs!Bases, "N"), 0
+                DevuelveImporte DBLet(Rs!IVA, "N"), 3
+                DevuelveImporte DBLet(Rs!Ivas, "N"), 0
+            
+                TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
+            End If
+            
+        Next
+        If K <> J Then
+            SQL = "Error en IVAS recargo equivalencia. Existen " & Msg
+            
+        End If
+    
+    Else
+    
+        For J = 1 To 3
+            DevuelveImporte 0, 0
+            DevuelveImporte 0, 3
+            DevuelveImporte 0, 0
+        Next J
+        
+    End If
+    Rs.Close
     Set Rs = Nothing
     
     'modificacion bases y cuotas del recargo de equivalencia (no tenemos)
@@ -1387,7 +1475,7 @@ Dim Rs As ADODB.Recordset
     'total
 '--
 '    DevuelveImporte 33, 0
-    DevuelveImporte TotalClien, 0
+    DevuelveImporte 1 * TotalClien, 0
     
     '------------------------------------------------------------------------
     '------------------------------------------------------------------------
@@ -1398,6 +1486,8 @@ Dim Rs As ADODB.Recordset
 
     '[Monica]24/06/2016: en las facturas de proveedores faltaba añadir las fras de ISP, he añadido el 12
     SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente in ( 2, 12 )  "
+
+    
     
     Set Rs = New ADODB.Recordset
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -1554,7 +1644,7 @@ Dim Rs As ADODB.Recordset
 
     
     'total a deducir
-    DevuelveImporte TotalProve, 0
+    DevuelveImporte 1 * TotalProve, 0
     
     
     'Diferencia
@@ -1611,7 +1701,7 @@ Dim Resul As String
         End If
     End Select
     
-    cad = cad & Resul & Format(Importe, Aux)
+    Cad = Cad & Resul & Format(Importe, Aux)
         
 End Sub
 
@@ -1631,7 +1721,7 @@ Dim nomDocu As String
     
     cadNomRPT = nomDocu ' "FacturasCliFecha.rpt"
 
-    cadParam = cadParam & "pFecha=""" & txtFecha(2).Text & """|"
+    cadParam = cadParam & "pFecha=""" & txtfecha(2).Text & """|"
     numParam = numParam + 1
     
     cadParam = cadParam & "pTitulo=""" & Me.Caption & """|"
@@ -1774,7 +1864,7 @@ Private Sub txtAno_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtAno_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 
     txtAno(Index).Text = Trim(txtAno(Index).Text)
     
@@ -1801,7 +1891,7 @@ Private Sub txtCuota_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuota_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 
     txtCuota(Index).Text = Trim(txtCuota(Index).Text)
     
@@ -1830,25 +1920,25 @@ End Sub
 
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtFecha(Index).Tag, Index
+        LanzaFormAyuda txtfecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
@@ -2084,11 +2174,12 @@ Private Sub GuardarComo()
     On Error GoTo EGuardarComo
 
 
-
+cd1.FileName = ""
     cd1.ShowSave
-    cad = cd1.FileName
-    If cad <> "" Then
-        FileCopy App.Path & "\miIVA.txt", cad
+    Cad = cd1.FileName
+    If Cad <> "" Then
+        FileCopy App.Path & "\miIVA.txt", Cad
+        MsgBox "Fichero creado con éxito" & vbCrLf & vbCrLf & Cad, vbInformation
     End If
     Exit Sub
 EGuardarComo:

@@ -131,6 +131,8 @@ Public myCol As Collection  'Multiproposito
                             ' En apuntes. Para cuando llame a apuntes descuadrados. Si esta cargado, que lo grabe de ahi
 
 
+Public RespuestaMsgBox As Integer  'Para el msgbox del codejock
+
 
     'Para los asientos k vemos desde la consulta de extractos
     '  0.- NADA
@@ -177,14 +179,14 @@ End Sub
 Public Function LeerEmpresaParametros()
         'Abrimos la empresa
         Set vEmpresa = New Cempresa
-        If vEmpresa.Leer = 1 Then
+        If vEmpresa.leer = 1 Then
             MsgBox "No se han podido cargar datos empresa. Debe configurar la aplicación.", vbExclamation
             Set vEmpresa = Nothing
         End If
             
            
         Set vParam = New Cparametros
-        If vParam.Leer() = 1 Then
+        If vParam.leer() = 1 Then
             MsgBox "No se han podido cargar los parámetros. Debe configurar la aplicación.", vbExclamation
             Set vParam = Nothing
         End If
@@ -192,7 +194,7 @@ Public Function LeerEmpresaParametros()
         If Not vEmpresa Is Nothing And Not vParam Is Nothing Then
             If vEmpresa.TieneTesoreria Then
                 Set vParamT = New CparametrosT
-                If vParamT.Leer() = 1 Then
+                If vParamT.leer() = 1 Then
                     MsgBox "No se han podido cargar los parámetros de tesoreria. Debe configurar la aplicación.", vbExclamation
                     Set vParamT = Nothing
                 End If

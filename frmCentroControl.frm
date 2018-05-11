@@ -17,7 +17,7 @@ Begin VB.Form frmCentroControl
    Begin VB.Frame FrameRenumFRAPRO 
       Height          =   4965
       Left            =   0
-      TabIndex        =   68
+      TabIndex        =   70
       Top             =   -60
       Width           =   7155
       Begin VB.TextBox txtRenumFrapro 
@@ -33,7 +33,7 @@ Begin VB.Form frmCentroControl
          Height          =   360
          Index           =   2
          Left            =   5220
-         TabIndex        =   94
+         TabIndex        =   75
          Top             =   2730
          Width           =   1305
       End
@@ -50,7 +50,7 @@ Begin VB.Form frmCentroControl
          Height          =   360
          Index           =   0
          Left            =   1980
-         TabIndex        =   93
+         TabIndex        =   74
          Top             =   2730
          Width           =   1275
       End
@@ -70,7 +70,7 @@ Begin VB.Form frmCentroControl
          Index           =   0
          Left            =   2550
          Locked          =   -1  'True
-         TabIndex        =   92
+         TabIndex        =   96
          Text            =   "Text1"
          Top             =   2040
          Width           =   3975
@@ -88,7 +88,7 @@ Begin VB.Form frmCentroControl
          EndProperty
          Height          =   375
          Left            =   4470
-         TabIndex        =   70
+         TabIndex        =   76
          Top             =   4320
          Width           =   1095
       End
@@ -105,7 +105,7 @@ Begin VB.Form frmCentroControl
          Height          =   360
          Index           =   1
          Left            =   1620
-         TabIndex        =   69
+         TabIndex        =   73
          Top             =   2040
          Width           =   855
       End
@@ -123,14 +123,14 @@ Begin VB.Form frmCentroControl
          Height          =   375
          Index           =   5
          Left            =   5670
-         TabIndex        =   71
+         TabIndex        =   77
          Top             =   4320
          Width           =   1095
       End
       Begin VB.Frame Frame1 
          Height          =   735
          Left            =   330
-         TabIndex        =   76
+         TabIndex        =   82
          Top             =   660
          Width           =   6075
          Begin VB.OptionButton optFrapro 
@@ -147,7 +147,7 @@ Begin VB.Form frmCentroControl
             Height          =   255
             Index           =   1
             Left            =   3300
-            TabIndex        =   78
+            TabIndex        =   72
             Top             =   300
             Width           =   1395
          End
@@ -165,7 +165,7 @@ Begin VB.Form frmCentroControl
             Height          =   255
             Index           =   0
             Left            =   630
-            TabIndex        =   77
+            TabIndex        =   71
             Top             =   300
             Value           =   -1  'True
             Width           =   1395
@@ -175,7 +175,7 @@ Begin VB.Form frmCentroControl
          Height          =   390
          Index           =   2
          Left            =   6570
-         TabIndex        =   83
+         TabIndex        =   87
          Top             =   270
          Width           =   405
          _ExtentX        =   714
@@ -204,7 +204,7 @@ Begin VB.Form frmCentroControl
          Height          =   255
          Index           =   2
          Left            =   3510
-         TabIndex        =   95
+         TabIndex        =   97
          Top             =   2760
          Width           =   1695
       End
@@ -237,7 +237,7 @@ Begin VB.Form frmCentroControl
          Height          =   255
          Index           =   1
          Left            =   360
-         TabIndex        =   75
+         TabIndex        =   81
          Top             =   3900
          Width           =   3255
       End
@@ -255,7 +255,7 @@ Begin VB.Form frmCentroControl
          Height          =   255
          Index           =   0
          Left            =   360
-         TabIndex        =   74
+         TabIndex        =   80
          Top             =   3540
          Width           =   3255
       End
@@ -273,7 +273,7 @@ Begin VB.Form frmCentroControl
          Height          =   255
          Index           =   1
          Left            =   360
-         TabIndex        =   73
+         TabIndex        =   79
          Top             =   2040
          Width           =   855
       End
@@ -291,9 +291,340 @@ Begin VB.Form frmCentroControl
          Height          =   255
          Index           =   0
          Left            =   360
-         TabIndex        =   72
+         TabIndex        =   78
          Top             =   2760
          Width           =   1575
+      End
+   End
+   Begin VB.Frame FrameCeros 
+      Height          =   5415
+      Left            =   120
+      TabIndex        =   45
+      Top             =   0
+      Width           =   5415
+      Begin VB.TextBox Text2 
+         Alignment       =   1  'Right Justify
+         Enabled         =   0   'False
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   8
+         Left            =   2760
+         TabIndex        =   47
+         Text            =   "Text2"
+         Top             =   2838
+         Width           =   765
+      End
+      Begin VB.TextBox Text2 
+         Alignment       =   1  'Right Justify
+         Enabled         =   0   'False
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   7
+         Left            =   2760
+         TabIndex        =   46
+         Text            =   "Text2"
+         Top             =   2316
+         Width           =   765
+      End
+      Begin VB.TextBox Text2 
+         Alignment       =   1  'Right Justify
+         BackColor       =   &H80000018&
+         Enabled         =   0   'False
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   6
+         Left            =   2760
+         TabIndex        =   94
+         Text            =   "Text2"
+         Top             =   3360
+         Width           =   765
+      End
+      Begin MSComctlLib.ProgressBar pb1 
+         Height          =   375
+         Left            =   120
+         TabIndex        =   56
+         Top             =   4320
+         Visible         =   0   'False
+         Width           =   5115
+         _ExtentX        =   9022
+         _ExtentY        =   661
+         _Version        =   393216
+         Appearance      =   1
+      End
+      Begin VB.TextBox Text2 
+         Alignment       =   1  'Right Justify
+         BackColor       =   &H80000018&
+         Enabled         =   0   'False
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   5
+         Left            =   2760
+         TabIndex        =   55
+         Text            =   "Text2"
+         Top             =   1794
+         Width           =   765
+      End
+      Begin VB.TextBox Text2 
+         Alignment       =   1  'Right Justify
+         BackColor       =   &H80000018&
+         Enabled         =   0   'False
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   4
+         Left            =   2760
+         TabIndex        =   54
+         Text            =   "Text2"
+         Top             =   1272
+         Width           =   765
+      End
+      Begin VB.TextBox Text2 
+         Alignment       =   1  'Right Justify
+         BackColor       =   &H80000018&
+         Enabled         =   0   'False
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   3
+         Left            =   2760
+         TabIndex        =   53
+         Text            =   "Text2"
+         Top             =   750
+         Width           =   765
+      End
+      Begin VB.CommandButton cmdCeros 
+         Caption         =   "&Aceptar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Left            =   2760
+         TabIndex        =   48
+         Top             =   4920
+         Width           =   1095
+      End
+      Begin VB.CommandButton cmdCancelar 
+         Caption         =   "Cancelar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   3
+         Left            =   4080
+         TabIndex        =   49
+         Top             =   4920
+         Width           =   1095
+      End
+      Begin MSComctlLib.Toolbar ToolbarAyuda 
+         Height          =   390
+         Index           =   3
+         Left            =   4890
+         TabIndex        =   88
+         Top             =   210
+         Width           =   405
+         _ExtentX        =   714
+         _ExtentY        =   688
+         ButtonWidth     =   609
+         ButtonHeight    =   582
+         _Version        =   393216
+         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+            NumButtons      =   1
+            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Ayuda"
+            EndProperty
+         EndProperty
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Posición"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   14
+         Left            =   360
+         TabIndex        =   99
+         Top             =   2925
+         Width           =   2295
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Dígitos a insertar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   1
+         Left            =   360
+         TabIndex        =   98
+         Top             =   2355
+         Width           =   2295
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Dígitos resultante"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   0
+         Left            =   360
+         TabIndex        =   95
+         Top             =   3480
+         Width           =   2295
+      End
+      Begin VB.Label Label3 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   2
+         Left            =   180
+         TabIndex        =   89
+         Top             =   3960
+         Width           =   1215
+      End
+      Begin VB.Label Label3 
+         Caption         =   "*"
+         Height          =   255
+         Index           =   0
+         Left            =   1800
+         TabIndex        =   57
+         Top             =   3960
+         Width           =   3135
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Dígitos nivel anterior"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   13
+         Left            =   360
+         TabIndex        =   52
+         Top             =   1815
+         Width           =   2295
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Dígitos último nivel"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   12
+         Left            =   360
+         TabIndex        =   51
+         Top             =   1260
+         Width           =   2115
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Nº Niveles"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   5
+         Left            =   360
+         TabIndex        =   50
+         Top             =   750
+         Width           =   1095
       End
    End
    Begin VB.Frame FrameMovCtas 
@@ -491,7 +822,7 @@ Begin VB.Form frmCentroControl
          Height          =   390
          Index           =   0
          Left            =   7110
-         TabIndex        =   79
+         TabIndex        =   83
          Top             =   270
          Width           =   405
          _ExtentX        =   714
@@ -521,7 +852,7 @@ Begin VB.Form frmCentroControl
          Height          =   195
          Index           =   1
          Left            =   300
-         TabIndex        =   82
+         TabIndex        =   86
          Top             =   600
          Width           =   960
       End
@@ -540,7 +871,7 @@ Begin VB.Form frmCentroControl
          Height          =   195
          Index           =   6
          Left            =   300
-         TabIndex        =   81
+         TabIndex        =   85
          Top             =   1890
          Width           =   960
       End
@@ -717,260 +1048,6 @@ Begin VB.Form frmCentroControl
          Picture         =   "frmCentroControl.frx":01AD
          Top             =   2190
          Width           =   240
-      End
-   End
-   Begin VB.Frame FrameCeros 
-      Height          =   3975
-      Left            =   120
-      TabIndex        =   45
-      Top             =   0
-      Width           =   5415
-      Begin VB.TextBox Text2 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H80000018&
-         Enabled         =   0   'False
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   6
-         Left            =   2760
-         TabIndex        =   90
-         Text            =   "Text2"
-         Top             =   2190
-         Width           =   765
-      End
-      Begin MSComctlLib.ProgressBar pb1 
-         Height          =   375
-         Left            =   120
-         TabIndex        =   54
-         Top             =   2760
-         Visible         =   0   'False
-         Width           =   5115
-         _ExtentX        =   9022
-         _ExtentY        =   661
-         _Version        =   393216
-         Appearance      =   1
-      End
-      Begin VB.TextBox Text2 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H80000018&
-         Enabled         =   0   'False
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   5
-         Left            =   2760
-         TabIndex        =   53
-         Text            =   "Text2"
-         Top             =   1710
-         Width           =   765
-      End
-      Begin VB.TextBox Text2 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H80000018&
-         Enabled         =   0   'False
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   4
-         Left            =   2760
-         TabIndex        =   52
-         Text            =   "Text2"
-         Top             =   1230
-         Width           =   765
-      End
-      Begin VB.TextBox Text2 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H80000018&
-         Enabled         =   0   'False
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   3
-         Left            =   2760
-         TabIndex        =   51
-         Text            =   "Text2"
-         Top             =   750
-         Width           =   765
-      End
-      Begin VB.CommandButton cmdCeros 
-         Caption         =   "&Aceptar"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Left            =   2880
-         TabIndex        =   47
-         Top             =   3360
-         Width           =   1095
-      End
-      Begin VB.CommandButton cmdCancelar 
-         Caption         =   "Cancelar"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Index           =   3
-         Left            =   4080
-         TabIndex        =   46
-         Top             =   3360
-         Width           =   1095
-      End
-      Begin MSComctlLib.Toolbar ToolbarAyuda 
-         Height          =   390
-         Index           =   3
-         Left            =   4890
-         TabIndex        =   84
-         Top             =   210
-         Width           =   405
-         _ExtentX        =   714
-         _ExtentY        =   688
-         ButtonWidth     =   609
-         ButtonHeight    =   582
-         _Version        =   393216
-         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-            NumButtons      =   1
-            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Object.ToolTipText     =   "Ayuda"
-            EndProperty
-         EndProperty
-      End
-      Begin VB.Label Label4 
-         Caption         =   "Dígitos resultante"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Index           =   0
-         Left            =   360
-         TabIndex        =   91
-         Top             =   2235
-         Width           =   2295
-      End
-      Begin VB.Label Label3 
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Index           =   2
-         Left            =   180
-         TabIndex        =   85
-         Top             =   3360
-         Width           =   1095
-      End
-      Begin VB.Label Label3 
-         Height          =   255
-         Index           =   0
-         Left            =   240
-         TabIndex        =   55
-         Top             =   2520
-         Width           =   4815
-      End
-      Begin VB.Label Label4 
-         Caption         =   "Dígitos nivel anterior"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Index           =   13
-         Left            =   360
-         TabIndex        =   50
-         Top             =   1755
-         Width           =   2295
-      End
-      Begin VB.Label Label4 
-         Caption         =   "Dígitos último nivel"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Index           =   12
-         Left            =   360
-         TabIndex        =   49
-         Top             =   1230
-         Width           =   2115
-      End
-      Begin VB.Label Label4 
-         Caption         =   "Nº Niveles"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Index           =   5
-         Left            =   360
-         TabIndex        =   48
-         Top             =   750
-         Width           =   1095
       End
    End
    Begin VB.Frame frameNuevaEmpresa 
@@ -1244,7 +1321,7 @@ Begin VB.Form frmCentroControl
          Height          =   390
          Index           =   1
          Left            =   6780
-         TabIndex        =   80
+         TabIndex        =   84
          Top             =   600
          Width           =   405
          _ExtentX        =   714
@@ -1515,7 +1592,7 @@ Begin VB.Form frmCentroControl
    Begin VB.Frame FrameCambioIVA 
       Height          =   4575
       Left            =   60
-      TabIndex        =   56
+      TabIndex        =   58
       Top             =   0
       Visible         =   0   'False
       Width           =   5055
@@ -1532,7 +1609,7 @@ Begin VB.Form frmCentroControl
          Height          =   360
          Index           =   5
          Left            =   3570
-         TabIndex        =   60
+         TabIndex        =   62
          Text            =   "00/00/0000"
          Top             =   2700
          Width           =   1245
@@ -1550,7 +1627,7 @@ Begin VB.Form frmCentroControl
          Height          =   360
          Index           =   4
          Left            =   1200
-         TabIndex        =   59
+         TabIndex        =   61
          Text            =   "00/00/0000"
          Top             =   2700
          Width           =   1245
@@ -1568,7 +1645,7 @@ Begin VB.Form frmCentroControl
          EndProperty
          Height          =   375
          Left            =   2520
-         TabIndex        =   61
+         TabIndex        =   63
          Top             =   3960
          Width           =   1095
       End
@@ -1586,7 +1663,7 @@ Begin VB.Form frmCentroControl
          Height          =   375
          Index           =   4
          Left            =   3720
-         TabIndex        =   62
+         TabIndex        =   64
          Top             =   3960
          Width           =   1095
       End
@@ -1605,7 +1682,7 @@ Begin VB.Form frmCentroControl
          Height          =   360
          Index           =   1
          Left            =   1200
-         TabIndex        =   64
+         TabIndex        =   66
          Text            =   "Text1"
          Top             =   1860
          Width           =   3645
@@ -1623,7 +1700,7 @@ Begin VB.Form frmCentroControl
          Height          =   360
          Index           =   1
          Left            =   480
-         TabIndex        =   58
+         TabIndex        =   60
          Text            =   "Text1"
          Top             =   1860
          Width           =   645
@@ -1643,7 +1720,7 @@ Begin VB.Form frmCentroControl
          Height          =   360
          Index           =   0
          Left            =   1200
-         TabIndex        =   63
+         TabIndex        =   65
          Text            =   "Text1"
          Top             =   900
          Width           =   3645
@@ -1661,7 +1738,7 @@ Begin VB.Form frmCentroControl
          Height          =   360
          Index           =   0
          Left            =   480
-         TabIndex        =   57
+         TabIndex        =   59
          Text            =   "Text1"
          Top             =   900
          Width           =   645
@@ -1670,7 +1747,7 @@ Begin VB.Form frmCentroControl
          Height          =   390
          Index           =   4
          Left            =   4500
-         TabIndex        =   89
+         TabIndex        =   93
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -1700,7 +1777,7 @@ Begin VB.Form frmCentroControl
          Height          =   285
          Index           =   5
          Left            =   180
-         TabIndex        =   88
+         TabIndex        =   92
          Top             =   2370
          Width           =   780
       End
@@ -1719,7 +1796,7 @@ Begin VB.Form frmCentroControl
          Height          =   285
          Index           =   4
          Left            =   180
-         TabIndex        =   87
+         TabIndex        =   91
          Top             =   1500
          Width           =   870
       End
@@ -1738,7 +1815,7 @@ Begin VB.Form frmCentroControl
          Height          =   285
          Index           =   3
          Left            =   150
-         TabIndex        =   86
+         TabIndex        =   90
          Top             =   540
          Width           =   780
       End
@@ -1766,7 +1843,7 @@ Begin VB.Form frmCentroControl
          Height          =   240
          Index           =   18
          Left            =   2610
-         TabIndex        =   67
+         TabIndex        =   69
          Top             =   2730
          Width           =   570
       End
@@ -1794,7 +1871,7 @@ Begin VB.Form frmCentroControl
          Height          =   240
          Index           =   16
          Left            =   180
-         TabIndex        =   66
+         TabIndex        =   68
          Top             =   2760
          Width           =   600
       End
@@ -1811,7 +1888,7 @@ Begin VB.Form frmCentroControl
          EndProperty
          Height          =   255
          Left            =   210
-         TabIndex        =   65
+         TabIndex        =   67
          Top             =   3510
          Width           =   4695
       End
@@ -1870,6 +1947,8 @@ Dim NumTablas As Integer
 Dim ParaElLog As String
 Dim Insert As String
 Dim Campos()
+Dim posicion As Integer
+Dim Ceros As String
 
 Private Sub KEYpress(KeyAscii As Integer)
 Dim cerrar As Boolean
@@ -1908,31 +1987,51 @@ Dim B As Boolean
 
     B = False
 
-    If UsuariosConectados("Desbloqueando asientos" & vbCrLf, True) Then Exit Sub
-    
-    SQL = "Este programa aumentará el número de dígitos a último nivel" & vbCrLf
-    SQL = SQL & vbCrLf & vbCrLf & "Debería hacer una copia de seguridad." & vbCrLf & vbCrLf
-    SQL = SQL & "             ¿ Desea continuar?    "
-    If MsgBox(SQL, vbQuestion + vbYesNoCancel + vbDefaultButton2) <> vbYes Then Exit Sub
-    
-    
-    
-    
+    'Comprobacion 1
+    SQL = ""
+    If Text2(7).Text = "" Then
+        SQL = SQL & "- Numero de digitos a insertar obligatorio"
+    Else
+        SQL = ""
         
-    SQL = InputBox("Escriba password de seguridad", "CLAVE")
-    If UCase(SQL) <> "ARIADNA" Then
-        If SQL <> "" Then MsgBox "Clave incorrecta", vbExclamation
+        If (Val(Text2(7).Text) + Val(Text2(4).Text)) > 10 Then SQL = "Excede de 10 digitos contables"
+    
+    End If
+    If Text2(8).Text = "" Then
+        SQL = SQL & "- Posicion insercion obligatorio"
+    Else
+        If Val(Text2(8).Text) < 4 Or Val(Text2(8).Text) > Val(Text2(4).Text) Then SQL = "Error posicion insercion. Entre 4 y " & Val(Text2(4).Text)
+    End If
+    If SQL <> "" Then
+        MsgBox SQL, vbExclamation
         Exit Sub
     End If
     
+
+
+
+    If UsuariosConectados("Aumentando digitos contables" & vbCrLf, True) Then Exit Sub
+    
+       
+    '****
+    CadenaDesdeOtroForm = ""
+    frmMensajes.Opcion = 65
+    frmMensajes.Parametros = Text2(7).Text & "|" & Text2(8).Text & "|"   'Digitos a insertar y posicion
+    frmMensajes.Show vbModal
+    
+    If CadenaDesdeOtroForm = "" Then Exit Sub
+        
+    
+    
     
     Screen.MousePointer = vbHourglass
-    If ComprobarOk(CByte(Text2(5).Text)) Then
+    If Comprobar_Ok() Then
         Label3(2).Caption = ""
         Label3(2).visible = True
         pb1.Value = 0
         Me.pb1.Max = 1000
         Me.pb1.visible = True
+               
         B = HacerInsercionDigitoContable
         pb1.visible = False
         Label3(2).visible = False
@@ -1940,10 +2039,22 @@ Dim B As Boolean
         'Insertamos el LOG
         ParaElLog = "Nº nivel: " & Text2(3).Text & vbCrLf
         ParaElLog = ParaElLog & "Digitos último nivel: " & Text2(4).Text & vbCrLf
-        ParaElLog = ParaElLog & "Digitos nivel anterior: " & Text2(5).Text & vbCrLf
-        ParaElLog = "Aumentar CERO (" & CStr(B) & ")" & vbCrLf & ParaElLog
+        ParaElLog = ParaElLog & "Poscion insercion: " & Text2(8).Text & vbCrLf
+        ParaElLog = ParaElLog & "Ceros : " & Text2(7).Text & vbCrLf
+        ParaElLog = "Aumentar CERO (" & IIf(B, "Correcto", "ERROR") & ")" & vbCrLf & ParaElLog & vbCrLf & vbCrLf
+        
+        ParaElLog = ParaElLog & "  UPDATE tabla SET codmacta = concat(substring(codmacta,1," & posicion & "),'" & Ceros & "',substring(codmacta," & posicion + 1 & "))"
+       
+        
         vLog.Insertar 22, vUsu, ParaElLog
         ParaElLog = ""
+        
+        If B Then
+            MsgBox "Proceso finalizado con éxito", vbInformation
+        Else
+            MsgBox "ERROR. Avise soporte técnico. ", vbCritical
+            End
+        End If
         
     End If
     Screen.MousePointer = vbDefault
@@ -2049,7 +2160,7 @@ Private Sub cmdMovercta_Click()
             Exit Sub
         End If
         
-        If txtFecha(0).Text = "" Then
+        If txtfecha(0).Text = "" Then
             MsgBox "Ponga la fecha ""Desde""", vbExclamation
             Exit Sub
         End If
@@ -2111,7 +2222,7 @@ Dim T As TextBox
         Exit Sub
     End If
     
-    If Not IsDate(txtFecha(3).Text) Then
+    If Not IsDate(txtfecha(3).Text) Then
         MsgBox "Fecha inicio incorrecta", vbExclamation
         Exit Sub
     End If
@@ -2174,7 +2285,7 @@ Dim Ok As Boolean
     Me.LabelIndF(0).Caption = ""
     Me.LabelIndF(1).Caption = ""
     
-    If MsgBox("Debería hacer una copia de seguridad." & vbCrLf & vbCrLf & vbCrLf & "El proceso puede durar muchísimo tiempo. ¿Desea continuar igualmente?", vbQuestion + vbYesNo) <> vbYes Then Exit Sub
+    If MsgBox("Debería hacer una copia de seguridad." & vbCrLf & vbCrLf & vbCrLf & "El proceso puede durar MUCHO tiempo. ¿Desea continuar igualmente?", vbQuestion + vbYesNo) <> vbYes Then Exit Sub
         
     If UsuariosConectados("Renumerar nºReg. en factura proveedor" & vbCrLf, True) Then Exit Sub
 
@@ -2274,12 +2385,13 @@ Private Sub Form_Activate()
         Case 0
             CargarAsientosBloqueados
         Case 1
-            txtFecha(0).Text = Format(vParam.fechaini, "dd/mm/yyyy")
-            txtFecha(1).Text = Format(Now, "dd/mm/yyyy")
+            txtfecha(0).Text = Format(vParam.fechaini, "dd/mm/yyyy")
+            txtfecha(1).Text = Format(Now, "dd/mm/yyyy")
         Case 2
             SugerirValoresNuevaEmpresa
         Case 3
             'Cargo los valores
+            Label3(0).Caption = ""
             Text2(3).Text = vEmpresa.numnivel
             Text2(4).Text = vEmpresa.DigitosUltimoNivel
             Text2(6).Text = vEmpresa.DigitosUltimoNivel + 1
@@ -2290,12 +2402,18 @@ Private Sub Form_Activate()
             i = DigitosNivel(i)
             Text2(5).Text = i
             
+            Text2(7).Enabled = True
+            Text2(7).Text = 1
+            BloqueaTXT Text2(7), False
+            Text2(8).Enabled = True
+            Text2(8).Text = Text2(5).Text
+            BloqueaTXT Text2(8), False
             
             If vEmpresa.DigitosUltimoNivel = 10 Then
                 MsgBox "La contabilidad ya está a 10 dígitos contables.", vbExclamation
                 cmdCeros.Enabled = False
             End If
-            
+            PonleFoco Text2(7)
         Case 4
             PonleFoco txtIVA(0)
         Case 5
@@ -2308,7 +2426,7 @@ Private Sub Form_Activate()
             
             
             PonerValoresCalculos
-            
+            PonFoco txtRenumFrapro(1)
         End Select
     End If
 End Sub
@@ -2365,7 +2483,7 @@ Dim i As Integer
     Limpiar Me
     
     For i = 0 To 1
-        Me.imgcta(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+        Me.imgCta(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Next i
 
     ' La Ayuda
@@ -2523,12 +2641,12 @@ Private Sub imgFecha_Click(Index As Integer)
     Set frmC = New frmCal
     SQL = ""
     frmC.Fecha = Now
-    If txtFecha(Index).Text <> "" Then frmC.Fecha = CDate(txtFecha(Index).Text)
+    If txtfecha(Index).Text <> "" Then frmC.Fecha = CDate(txtfecha(Index).Text)
     frmC.Show vbModal
     If SQL <> "" Then
-        txtFecha(Index).Text = SQL
+        txtfecha(Index).Text = SQL
         SQL = ""
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
     End If
     Set frmC = Nothing
     
@@ -2546,7 +2664,7 @@ Private Sub imgiva_Click(Index As Integer)
         If Index = 0 Then
             PonFoco txtIVA(1)
         Else
-            PonFoco txtFecha(4)
+            PonFoco txtfecha(4)
         End If
     End If
 End Sub
@@ -2575,6 +2693,12 @@ Private Sub optFrapro_KeyPress(Index As Integer, KeyAscii As Integer)
     KEYpress KeyAscii
 End Sub
 
+Private Sub Text2_GotFocus(Index As Integer)
+    If Text2(Index).Enabled Then
+        If Not Text2(Index).Locked Then ConseguirFoco Text2(Index), 3
+    End If
+End Sub
+
 Private Sub Text2_KeyPress(Index As Integer, KeyAscii As Integer)
     KEYpress KeyAscii
 End Sub
@@ -2593,6 +2717,36 @@ Private Sub Text2_LostFocus(Index As Integer)
             End If
             If Text2(2).Text = "" Then PonleFoco Text2(2)
         End If
+    
+    ElseIf (Index = 7 Or Index = 8) Then
+        
+        If Text2(Index).Text <> "" Then
+            If Not PonerFormatoEntero(Text2(Index)) Then
+                Text2(Index).Text = ""
+            Else
+                If Text2(Index).Text >= 10 Then Text2(Index).Text = ""
+            End If
+        End If
+        
+        If Text2(Index).Text = "" Then Text2(Index).Text = IIf(Index = 7, 1, Text2(5).Text)
+        
+        If Index = 7 Then
+            If (Val(Text2(7).Text) + Val(Text2(4).Text)) > 10 Then
+                MsgBox "Excede de 10 digitos contables", vbExclamation
+                Text2(7).Text = 1
+            End If
+            
+            Text2(6).Text = Val(Text2(7).Text) + Val(Text2(4).Text)
+            
+        Else
+            'la posicion irá entre la 3 y la digitos nivel menos 1
+            If Val(Text2(8).Text) < 4 Or Val(Text2(8).Text) > Val(Text2(4).Text) Then
+                MsgBox "Error posicion insercion. Entre 4 y " & Val(Text2(4).Text), vbExclamation
+                Text2(8).Text = Text2(5).Text
+            End If
+            
+        End If
+        
     End If
 End Sub
 
@@ -2681,7 +2835,7 @@ End Sub
 
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
@@ -2730,12 +2884,12 @@ End Sub
 '++
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index))
-    If txtFecha(Index) = "" Then Exit Sub
-    If Not EsFechaOK(txtFecha(Index)) Then
-        MsgBox "Fecha incorrecta: " & txtFecha(Index), vbExclamation
-        txtFecha(Index).Text = ""
-        PonFoco txtFecha(Index)
+    txtfecha(Index).Text = Trim(txtfecha(Index))
+    If txtfecha(Index) = "" Then Exit Sub
+    If Not EsFechaOK(txtfecha(Index)) Then
+        MsgBox "Fecha incorrecta: " & txtfecha(Index), vbExclamation
+        txtfecha(Index).Text = ""
+        PonFoco txtfecha(Index)
     End If
 End Sub
 
@@ -2898,16 +3052,16 @@ Dim Final As String
         EjecutaSQLCambio "ctahpacreedor", ""
     
     
-    If txtFecha(2).Text <> "" Then
-        SQL = "UPDATE cuentas SET fecbloq = '" & Format(txtFecha(2).Text, FormatoFecha)
+    If txtfecha(2).Text <> "" Then
+        SQL = "UPDATE cuentas SET fecbloq = '" & Format(txtfecha(2).Text, FormatoFecha)
         SQL = SQL & "' WHERE codmacta = '" & Me.txtCta(0).Text & "'"
         Conn.Execute SQL
     End If
     
     ParaElLog = "Origen: " & txtCta(0).Text & " " & Me.DtxtCta(0).Text & vbCrLf
     ParaElLog = ParaElLog & "Destino: " & txtCta(1).Text & " " & Me.DtxtCta(1).Text & vbCrLf & vbCrLf
-    ParaElLog = ParaElLog & "Fechas: " & txtFecha(0).Text & " - " & txtFecha(1).Text & vbCrLf
-    If txtFecha(2).Text <> "" Then ParaElLog = ParaElLog & "Bloqueo: " & txtFecha(2).Text
+    ParaElLog = ParaElLog & "Fechas: " & txtfecha(0).Text & " - " & txtfecha(1).Text & vbCrLf
+    If txtfecha(2).Text <> "" Then ParaElLog = ParaElLog & "Bloqueo: " & txtfecha(2).Text
     ParaElLog = "MOVER CTAS" & vbCrLf & ParaElLog
     vLog.Insertar 20, vUsu, ParaElLog
     ParaElLog = ""
@@ -2935,8 +3089,8 @@ Private Function EjecutaSQLCambio(Campo As String, CampoFecha As String) As Bool
     'Si tiene fechas
     If CampoFecha <> "" Then
         
-        SQL = SQL & " AND " & CampoFecha & " >= '" & Format(txtFecha(0).Text, FormatoFecha) & "'"
-        If txtFecha(1).Text <> "" Then SQL = SQL & " AND " & CampoFecha & " <= '" & Format(txtFecha(1).Text, FormatoFecha) & "'"
+        SQL = SQL & " AND " & CampoFecha & " >= '" & Format(txtfecha(0).Text, FormatoFecha) & "'"
+        If txtfecha(1).Text <> "" Then SQL = SQL & " AND " & CampoFecha & " <= '" & Format(txtfecha(1).Text, FormatoFecha) & "'"
     End If
     Conn.Execute SQL
 End Function
@@ -2959,8 +3113,8 @@ Private Function EjecutaSQLCambioLineasFras(Clientes As Boolean, CampoFecha As S
     End If
     'Si tiene fechas
     
-    SQL = SQL & " AND " & CampoFecha & " >= '" & Format(txtFecha(0).Text, FormatoFecha) & "'"
-    If txtFecha(1).Text <> "" Then SQL = SQL & " AND " & CampoFecha & " <= '" & Format(txtFecha(1).Text, FormatoFecha) & "'"
+    SQL = SQL & " AND " & CampoFecha & " >= '" & Format(txtfecha(0).Text, FormatoFecha) & "'"
+    If txtfecha(1).Text <> "" Then SQL = SQL & " AND " & CampoFecha & " <= '" & Format(txtfecha(1).Text, FormatoFecha) & "'"
      
     
     SQL = SQL & " AND " & IIf(Clientes, "factcli", "factpro") & "_lineas.codmacta = '" & txtCta(0).Text & "'"
@@ -3362,11 +3516,11 @@ Dim F As Date
     
     
         'En parametros
-        F = CDate(txtFecha(3).Text)
+        F = CDate(txtfecha(3).Text)
         F = DateAdd("yyyy", 1, F)
         F = DateAdd("d", -1, F)
 
-            SQL = "UPDATE " & Insert & "parametros SET fechaini='" & Format(txtFecha(3).Text, "yyyy-mm-dd")
+            SQL = "UPDATE " & Insert & "parametros SET fechaini='" & Format(txtfecha(3).Text, "yyyy-mm-dd")
             SQL = SQL & "', fechafin='" & Format(F, "yyyy-mm-dd") & "'"
             Conn.Execute SQL
       
@@ -3411,11 +3565,11 @@ End Sub
 '
 '--------------------------------------------------------------------
 
-Private Function ComprobarOk(ByRef vNivelAnterior As Byte) As Boolean
+Private Function Comprobar_Ok() As Boolean
 Dim vE As String
 Dim UltimoNivel As Byte
     On Error GoTo EComprobarOk
-    ComprobarOk = False
+    Comprobar_Ok = False
     '----------------------------------------------------------------------
     '----------------------------------------------------------------------
     '----------------------------------------------------------------------
@@ -3441,19 +3595,28 @@ Dim UltimoNivel As Byte
                 If NumTablas = 10 Then
                     vE = "No se puede ampliar el último nivel. Ya es 10"
                 Else
-                    'Fale vamos a devolver el nivel anterior al ultimo
-                    vNivelAnterior = CByte(DBLet(miRsAux.Fields(3 + UltimoNivel - 1)))
-                    If vNivelAnterior < 3 Or vNivelAnterior > 10 Then vE = "Error obteniendo nivel anterior"
+                    
+                    'Establecemos las variables
+                    posicion = Val(Text2(8).Text) - 1  'Moveremos el substring N-1
+                    Ceros = String(Val(Text2(7).Text), "0")
                 End If
             End If
         End If
     End If
     miRsAux.Close
+    
+    
     If vE <> "" Then
         MsgBox vE, vbExclamation
         Exit Function
     End If
-    ComprobarOk = True
+    
+    
+    
+    
+    
+    
+    Comprobar_Ok = True
     Exit Function
 EComprobarOk:
     MuestraError Err.Number, "ComprobarOk." & Err.Description
@@ -3565,13 +3728,13 @@ Dim Tipo As Integer
 End Sub
 
 Private Function CambioCta(Cta As String) As String
-Dim cad As String
+Dim Cad As String
 
 
 
-    cad = Mid(Cta, 1, CInt(Text2(5).Text))
-    cad = cad & "0" & Mid(Cta, CInt(Text2(5).Text) + 1)
-    CambioCta = cad
+    Cad = Mid(Cta, 1, CInt(Text2(5).Text))
+    Cad = Cad & "0" & Mid(Cta, CInt(Text2(5).Text) + 1)
+    CambioCta = Cad
 End Function
 
 Private Function HacerInsercionDigitoContable() As Boolean
@@ -3580,8 +3743,12 @@ Private Function HacerInsercionDigitoContable() As Boolean
     HacerInsercionDigitoContable = False
     
     'Agregamos las cuentas nuevas con el numero correspondiente
-    If AgregarCuentasNuevas Then
-        Me.Refresh
+    'If AgregarCuentasNuevas Then
+    '    Me.Refresh
+        
+        
+     Conn.Execute "SET FOREIGN_KEY_CHECKS=0;"
+        
         'Ahora hemos creado las cuentas con un digito mas
         'Ahora tendremos k ir tabla por tabla cambiando las cuentas a nivel nuevo
             
@@ -3608,8 +3775,8 @@ Private Function HacerInsercionDigitoContable() As Boolean
        CambiaTabla "inmovele_rep", "codmacta2|", 1
        CambiaTabla "inmovele", "codprove|codmact1|codmact2|codmact3|", 4
        CambiaTabla "norma43", "codmacta|", 1
-       CambiaTabla "bancos", "ctagastos|ctaingreso|ctaefectosdesc|ctagastostarj|", 4
-       
+       CambiaTabla "bancos", "ctagastos|ctaingreso|ctaefectosdesc|ctagastostarj|codmacta|", 5
+         
        'Tipos de iva
        CambiaTabla "tiposiva", "cuentare|cuentarr|cuentaso|cuentasr|cuentasn|", 5
    
@@ -3619,13 +3786,16 @@ Private Function HacerInsercionDigitoContable() As Boolean
        If vEmpresa.TieneTesoreria Then
 
             '
-            CambiaTabla "paramtesor", "RemesaCancelacion|RemesaConfirmacion|pagarecta|taloncta|pagarectaPRO|talonctaPRO|ctaefectcomerciales|", 7
+            CambiaTabla "paramtesor", "RemesaCancelacion|RemesaConfirmacion|pagarecta|taloncta|pagarectaPRO|talonctaPRO|ctaefectcomerciales|par_pen_apli|ctabenbanc|", 9
+                                        
             CambiaTabla "cobros", "codmacta|ctabanc1|", 2
             CambiaTabla "remesas", "codmacta|", 1
             CambiaTabla "talones", "codmacta|", 1
             CambiaTabla "gastosfijos", "ctaprevista|contrapar|", 2
             
             CambiaTabla "compensa", "codmacta|", 1
+            CambiaTabla "compensapro", "codmacta|", 1
+            
             'CambiaTabla "compensa_facturas", "codmacta|ctabanc1|ctabanc2|", 3    no lleva compensacion
             
             CambiaTabla "reclama", "codmacta|", 1
@@ -3633,24 +3803,27 @@ Private Function HacerInsercionDigitoContable() As Boolean
             
             CambiaTabla "pagos", "codmacta|ctabanc1|", 2
             CambiaTabla "transferencias", "codmacta|", 1
+            CambiaTabla "talones", "codmacta|", 1
             
-       End If
+        End If
             
-       'Quitamos las cuentas 'S'
-       SQL = "Delete from Cuentas where apudirec='S'"
-       Conn.Execute SQL
-       
-       'Las k eran apuntes directos P pasan a ser S
-       SQL = "UPDATE Cuentas SET apudirec='S' where apudirec='P'"
-       Conn.Execute SQL
+        'CUENTAS
+        
+        SQL = "UPDATE cuentas SET codmacta = concat(substring(codmacta,1," & posicion & "),'" & Ceros & "',substring(codmacta," & posicion + 1 & "))"
+        SQL = SQL & " WHERE apudirec='S'"
+        Conn.Execute SQL
+   
+            
        
        'Actualizamos en empresas
        AumentarEmpresaDigitoUltimoNivel
        
        
+        Conn.Execute "SET FOREIGN_KEY_CHECKS=1;"
        
        'Creamos las cuentas de subnivel
-       CrearSubNivel
+       'estudiando esto
+       'CrearSubNivel
        pb1.Value = 0
        Label3(2).Caption = ""
        Label3(2).Refresh
@@ -3662,7 +3835,7 @@ Private Function HacerInsercionDigitoContable() As Boolean
        HacerInsercionDigitoContable = True
        
        
-    End If
+    'End If   de crear cuentas. Ene18  Ya no las creamos. UPDATEAMOS
     Exit Function
 EHacerInsercionDigitoContable:
     MuestraError Err.Number, "Errorfatal." & vbCrLf & Err.Description
@@ -3680,10 +3853,14 @@ Dim i As Integer
     Next i
     
     Label3(2).Caption = tabla
-    pb1.Value = 0
+    Label3(2).Refresh
+     pb1.Value = pb1.Value + 40
+    PonerProgressBar pb1.Value
+    pb1.Refresh
+    'CambiaValores tabla, NCampos
+    ActualizaTabla tabla, NCampos
     Me.Refresh
-    CambiaValores tabla, NCampos
-
+    
 End Function
 
 
@@ -3693,24 +3870,19 @@ Private Sub AumentarEmpresaDigitoUltimoNivel()
     
     
     i = vEmpresa.numnivel
-    SQL = "UPDATE empresa SET numdigi" & CStr(i) & " = "
-    i = CInt(Text2(5).Text) + 1
-    SQL = SQL & CStr(i)
-    i = vEmpresa.numnivel + 1
-    SQL = SQL & ", numdigi" & CStr(i) & " = " & vEmpresa.DigitosUltimoNivel + 1
-    SQL = SQL & ", numnivel = numnivel +1"
-    
+    SQL = "UPDATE empresa SET numdigi" & CStr(i) & " = " & Text2(6).Text
+    'SQL = SQL & ", numdigi" & CStr(i) & " = " & vEmpresa.DigitosUltimoNivel + 1
+    'SQL = SQL & ", numnivel = numnivel +1"
    
-    
     Conn.Execute SQL
 End Sub
 
 
 Private Function CambiaValores(tabla As String, numCta As Integer)
 Dim SQL As String
-Dim cad As String
+Dim Cad As String
 Dim i As Integer
-    cad = ""
+    Cad = ""
     SQL = ""
     On Error GoTo ECambia
     
@@ -3737,8 +3909,8 @@ Dim i As Integer
                 NumRegElim = NumRegElim + 1
                 PonerProgressBar Val((NumRegElim / Tamanyo) * 1000)
                 If Not IsNull(miRsAux.Fields(0)) Then
-                    cad = CambioCta(miRsAux.Fields(0))
-                    SQL = "UPDATE " & tabla & " SET " & Campos(i) & " = '" & cad & "'"
+                    Cad = CambioCta(miRsAux.Fields(0))
+                    SQL = "UPDATE " & tabla & " SET " & Campos(i) & " = '" & Cad & "'"
                     SQL = SQL & " WHERE " & Campos(i) & " = '" & miRsAux.Fields(0) & "'"
                     Conn.Execute SQL
                 End If
@@ -3753,12 +3925,26 @@ ECambia:
     MuestraError Err.Number, Err.Description
 End Function
 
+
+Private Sub ActualizaTabla(tabla As String, numCta As Integer)
+        
+    For i = 1 To numCta
+        'Update en codmacta   posicion: establecida en _OK
+        '  Mid(Rs!codmacta, 1, J) & Errores & Mid(Rs!codmacta, J + 1)
+        
+        SQL = "UPDATE " & tabla & " SET " & Campos(i) & " = concat(substring(" & Campos(i) & ",1," & posicion & "),'" & Ceros & "',substring(" & Campos(i) & "," & posicion + 1 & "))"
+        Conn.Execute SQL
+    Next
+End Sub
+
+
+
 Private Sub PonerProgressBar(Valor As Long)
     If Valor <= 1000 Then pb1.Value = Valor
 End Sub
 
-
-Private Sub CrearSubNivel()
+'No utilizado. Borrar
+Private Sub CrearSubNivel2()
 Dim Col As Collection
 
     Label3(2).Caption = "Subniveles a crear (leyendo)"
@@ -3774,7 +3960,8 @@ Dim Col As Collection
     Wend
     miRsAux.Close
     
-    
+    'St op
+    Exit Sub
     'Ya tengo los subniveles que tengo que crear
     
     Label3(2).Caption = "Subniveles a crear (insertando)"
@@ -3837,7 +4024,7 @@ Private Function HacerCambioIVA() As Boolean
             'EL LOG
             ParaElLog = "IVA origen:     " & txtIVA(0).Text & "  -  " & txtDescIVA(0).Text & vbCrLf
             ParaElLog = ParaElLog & "IVA destino:    " & txtIVA(1).Text & "  -   " & txtDescIVA(1).Text & vbCrLf
-            ParaElLog = ParaElLog & "Fechas: " & txtFecha(4).Text & " - " & txtFecha(5).Text
+            ParaElLog = ParaElLog & "Fechas: " & txtfecha(4).Text & " - " & txtfecha(5).Text
             ParaElLog = "CAMBIO IVA" & vbCrLf & ParaElLog
             vLog.Insertar 16, vUsu, ParaElLog
             ParaElLog = ""
@@ -3873,8 +4060,8 @@ Private Function CambioIVA(Clientes As Boolean) As Boolean
             SQL = SQL & " WHERE codigiva = " & txtIVA(0).Text
             TablaAnt = "fecharec"
         End If
-        If txtFecha(4).Text <> "" Then SQL = SQL & " AND " & TablaAnt & ">= '" & Format(txtFecha(4).Text, FormatoFecha) & "'"
-        If txtFecha(5).Text <> "" Then SQL = SQL & " AND " & TablaAnt & "<= '" & Format(txtFecha(5).Text, FormatoFecha) & "'"
+        If txtfecha(4).Text <> "" Then SQL = SQL & " AND " & TablaAnt & ">= '" & Format(txtfecha(4).Text, FormatoFecha) & "'"
+        If txtfecha(5).Text <> "" Then SQL = SQL & " AND " & TablaAnt & "<= '" & Format(txtfecha(5).Text, FormatoFecha) & "'"
     
     
         If Not EjecutaSQL(SQL) Then

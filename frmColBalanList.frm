@@ -532,7 +532,7 @@ End Sub
 Private Sub ImgBalan_Click(Index As Integer)
     Set frmBal = New frmBasico
     
-    AyudaBalances frmBal
+    AyudaBalances frmBal, 0
     
     Set frmBal = Nothing
     
@@ -597,7 +597,7 @@ Private Sub txtBalan_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtBalan_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim SQL As String

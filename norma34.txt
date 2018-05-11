@@ -2,10 +2,10 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
 <CstmrCdtTrfInitn>
    <GrpHdr>
-      <MsgId>TRANABO000078F20180119T181650</MsgId>
-      <CreDtTm>2018-01-19T18:16:50</CreDtTm>
+      <MsgId>TRANPAG000077F20180420T105413</MsgId>
+      <CreDtTm>2018-04-20T10:54:14</CreDtTm>
       <NbOfTxs>4</NbOfTxs>
-      <CtrlSum>20000.00</CtrlSum>
+      <CtrlSum>1483.26</CtrlSum>
       <InitgPty>
          <Nm>Materna Servicios y Carburantes SL</Nm>
          <Id>
@@ -18,9 +18,9 @@
       </InitgPty>
    </GrpHdr>
    <PmtInf>
-      <PmtInfId>20180119181650B98734098</PmtInfId>
+      <PmtInfId>20180420105424B98734098</PmtInfId>
       <PmtMtd>TRF</PmtMtd>
-      <ReqdExctnDt>2018-01-22</ReqdExctnDt>
+      <ReqdExctnDt>2018-04-20</ReqdExctnDt>
       <Dbtr>
          <Nm>Materna Servicios y Carburantes SL</Nm>
          <PstlAdr>
@@ -48,90 +48,14 @@
     </DbtrAgt>
    <CdtTrfTxInf>
       <PmtId>
-         <EndToEndId>A  0300146220160131001</EndToEndId>
+         <EndToEndId>1         20171201001</EndToEndId>
       </PmtId>
       <PmtTpInf>
           <SvcLvl><Cd>SEPA</Cd></SvcLvl>
           <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
        </PmtTpInf>
        <Amt>
-          <InstdAmt Ccy="EUR">81.26</InstdAmt>
-       </Amt>
-       <CdtrAgt>
-          <FinInstnId>
-             <BIC>BSCHESMMXXX</BIC>
-          </FinInstnId>
-       </CdtrAgt>
-       <Cdtr>
-          <Nm>MILLAN LOPEZ, MANUEL.</Nm>
-           <Id>
-               <OrgId>
-                  <Othr>
-                     <Id>21340323A</Id>
-                  </Othr>
-               </OrgId>
-           </Id>
-        </Cdtr>
-        <CdtrAcct>
-           <Id>
-              <IBAN>ES4000494605282195577115</IBAN>
-           </Id>
-        </CdtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>FACT  A-3001462 31/01/16 de 43.63</Ustrd>
-      </RmtInf>
-   </CdtTrfTxInf>
-   <CdtTrfTxInf>
-      <PmtId>
-         <EndToEndId>A  0300251820160229001</EndToEndId>
-      </PmtId>
-      <PmtTpInf>
-          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
-          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
-       </PmtTpInf>
-       <Amt>
-          <InstdAmt Ccy="EUR">84.00</InstdAmt>
-       </Amt>
-       <CdtrAgt>
-          <FinInstnId>
-             <BIC>BCOEESMM096</BIC>
-          </FinInstnId>
-       </CdtrAgt>
-       <Cdtr>
-          <Nm>RIERA GOMEZ, AMPARO</Nm>
-           <Id>
-               <OrgId>
-                  <Othr>
-                     <Id>20813328F</Id>
-                  </Othr>
-               </OrgId>
-           </Id>
-        </Cdtr>
-        <CdtrAcct>
-           <Id>
-              <IBAN>ES6930960001991579838515</IBAN>
-           </Id>
-        </CdtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>FACT  A-3002518 29/02/16 de 99.14</Ustrd>
-      </RmtInf>
-   </CdtTrfTxInf>
-   <CdtTrfTxInf>
-      <PmtId>
-         <EndToEndId>A  0300260320160229001</EndToEndId>
-      </PmtId>
-      <PmtTpInf>
-          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
-          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
-       </PmtTpInf>
-       <Amt>
-          <InstdAmt Ccy="EUR">74.00</InstdAmt>
+          <InstdAmt Ccy="EUR">1000.00</InstdAmt>
        </Amt>
        <CdtrAgt>
           <FinInstnId>
@@ -139,37 +63,113 @@
           </FinInstnId>
        </CdtrAgt>
        <Cdtr>
-          <Nm>RUANO HERNANDEZ, ANTONIO</Nm>
+          <Nm>DALQUIMIC INTERNACIONAL, SL</Nm>
            <Id>
                <OrgId>
                   <Othr>
-                     <Id>20857447N</Id>
+                     <Id>B98513955</Id>
                   </Othr>
                </OrgId>
            </Id>
         </Cdtr>
         <CdtrAcct>
            <Id>
-              <IBAN>ES7530582288112810038567</IBAN>
+              <IBAN>ES7930582014382720004026</IBAN>
            </Id>
         </CdtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>FACT  A-3002603 29/02/16 de 112.53</Ustrd>
+         <Ustrd>ASdAsd ASDASDASd</Ustrd>
       </RmtInf>
    </CdtTrfTxInf>
    <CdtTrfTxInf>
       <PmtId>
-         <EndToEndId>437GR180119181650R002</EndToEndId>
+         <EndToEndId>170446    20170418001</EndToEndId>
       </PmtId>
       <PmtTpInf>
           <SvcLvl><Cd>SEPA</Cd></SvcLvl>
           <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
        </PmtTpInf>
        <Amt>
-          <InstdAmt Ccy="EUR">468.52</InstdAmt>
+          <InstdAmt Ccy="EUR">154.88</InstdAmt>
+       </Amt>
+       <CdtrAgt>
+          <FinInstnId>
+             <BIC>CCRIES2AXXX</BIC>
+          </FinInstnId>
+       </CdtrAgt>
+       <Cdtr>
+          <Nm>DALQUIMIC INTERNACIONAL, SL</Nm>
+           <Id>
+               <OrgId>
+                  <Othr>
+                     <Id>B98513955</Id>
+                  </Othr>
+               </OrgId>
+           </Id>
+        </Cdtr>
+        <CdtrAcct>
+           <Id>
+              <IBAN>ES7930582014382720004026</IBAN>
+           </Id>
+        </CdtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>170446 - 18/04/2017 Vto a fecha  03/05/2017</Ustrd>
+      </RmtInf>
+   </CdtTrfTxInf>
+   <CdtTrfTxInf>
+      <PmtId>
+         <EndToEndId>3006      20170412001</EndToEndId>
+      </PmtId>
+      <PmtTpInf>
+          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
+          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
+       </PmtTpInf>
+       <Amt>
+          <InstdAmt Ccy="EUR">31.58</InstdAmt>
+       </Amt>
+       <CdtrAgt>
+          <FinInstnId>
+             <BIC>CAIXESBBXXX</BIC>
+          </FinInstnId>
+       </CdtrAgt>
+       <Cdtr>
+          <Nm>GLEAM ESSENCE, S.L</Nm>
+           <Id>
+               <OrgId>
+                  <Othr>
+                     <Id>B98225774</Id>
+                  </Othr>
+               </OrgId>
+           </Id>
+        </Cdtr>
+        <CdtrAcct>
+           <Id>
+              <IBAN>ES2700930310030066310408</IBAN>
+           </Id>
+        </CdtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>3006 - 12/04/2017 Vto a fecha  12/05/2017</Ustrd>
+      </RmtInf>
+   </CdtTrfTxInf>
+   <CdtTrfTxInf>
+      <PmtId>
+         <EndToEndId>17000202  20170404001</EndToEndId>
+      </PmtId>
+      <PmtTpInf>
+          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
+          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
+       </PmtTpInf>
+       <Amt>
+          <InstdAmt Ccy="EUR">296.80</InstdAmt>
        </Amt>
        <CdtrAgt>
           <FinInstnId>
@@ -177,25 +177,25 @@
           </FinInstnId>
        </CdtrAgt>
        <Cdtr>
-          <Nm>FERRAGUT PARDO, BERNAT</Nm>
+          <Nm>INSTAL.LACIONS I SERVICIS ALZIRA</Nm>
            <Id>
                <OrgId>
                   <Othr>
-                     <Id>21340323A</Id>
+                     <Id>B98537087</Id>
                   </Othr>
                </OrgId>
            </Id>
         </Cdtr>
         <CdtrAcct>
            <Id>
-              <IBAN>ES1331590054202394756924</IBAN>
+              <IBAN>ES8131590054212298516325</IBAN>
            </Id>
         </CdtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>Fras  3000267,3001476 Num. Vtos 2</Ustrd>
+         <Ustrd>17000202 - 04/04/2017 Vto a fecha  30/04/2017</Ustrd>
       </RmtInf>
    </CdtTrfTxInf>
    </PmtInf>

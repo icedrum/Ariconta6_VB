@@ -76,7 +76,7 @@ On Error GoTo Salida '
 
     GenerarFicheroIVA_303 = False
     Linea = ""
-    Linea = Linea & "<T30301> "
+    Linea = Linea & "<T30301000> "
 
     
     
@@ -116,7 +116,7 @@ On Error GoTo Salida '
         Linea = Linea & Format(i, "00")
     End If
     
-    '2008. Importes. Se queda en el punto: Resultado. Falta; a deducir, resultado de la declracion, a compensar
+    
     Linea = Linea & CadenaImportes
     
     
@@ -128,7 +128,7 @@ On Error GoTo Salida '
     Linea = Linea & Format(Day(vFecha), "00")
     Linea = Linea & DatosTexto(Format(vFecha, "mmmm"), 10)
     Linea = Linea & Format(vFecha, "yyyy")
-    Linea = Linea & "</T30301>"
+    Linea = Linea & "</T30301000>"
     Linea = Linea & Chr(13)
     Linea = Linea & Chr(10)
     
@@ -141,23 +141,24 @@ Salida:
 End Function
 
 
-Public Function GenerarFicheroIVA_303_2014(ByRef CadenaImportes As String, Importe As Currency, vFecha As Date, vPeriodo As String, EsACompensar As Byte, CadRegistroAdicional03 As String) As Boolean
+Public Function GenerarFicheroIVA_303_2017(ByRef CadenaImportes As String, Importe As Currency, vFecha As Date, vPeriodo As String, EsACompensar As Byte, CadRegistroAdicional03 As String) As Boolean
 Dim Aux As String
+Dim Periodo As String
 Dim K As Integer
 On Error GoTo Salida '
 
-    GenerarFicheroIVA_303_2014 = False
+    GenerarFicheroIVA_303_2017 = False
     Linea = ""
     Linea = Linea & "<T3030"
     Linea = Linea & RecuperaValor(vPeriodo, 3)  'AÑO
     i = CInt(RecuperaValor(vPeriodo, 1)) 'El periodo
     If vParam.periodos = 0 Then
         'Trimestral
-        Linea = Linea & i & "T"
+        Periodo = i & "T"
     Else
-        Linea = Linea & Format(i, "00")
+        Periodo = Format(i, "00")
     End If
-    Linea = Linea & "0000><AUX>"
+    Linea = Linea & Periodo & "0000><AUX>"
     
     'Blancos
     Linea = Linea & Space(70)  'reservado admon
@@ -179,24 +180,11 @@ On Error GoTo Salida '
     Linea = Linea & "</AUX>"
     
     
-    'Abril 2015. Suprime vector paginas
-    'VECTOR PAGINAS
-    'Una pagina 1,  una pagina 3   NOSOTROS no consolidamos modelos. Es nuestro antiguo 303
-    'Aux = "00100010030001FIN"
-   '
-   ' Linea = Linea & DatosTexto(Aux, 300)
-   ' Linea = Linea & "</VECTOR>"
-
     
-    '***  No se imprimen las lineas, se imprimira una unica linea al final
-    
-    '************************************
-    'AHORA YA VAN LAS DECLARACIONES
-    'RESGISTRO >T30301
     
    
     
-    Linea = Linea & "<T30301>"
+    Linea = Linea & "<T30301000> "   'una pos en blanco
     
     Select Case EsACompensar
     Case 0
@@ -221,7 +209,7 @@ On Error GoTo Salida '
     '       U=DOMICILIACION DEL INGRESO EN CCC
     
     If Not Generaidentificacion(False) Then GoTo Salida
-   
+    Linea = Linea & RecuperaValor(vPeriodo, 3) & Periodo
     Linea = Linea & "2"  'Inscrito en el registro de devol mensual  1.Si   2:NO
     Linea = Linea & "3"  'tributa exclusiva  1.Si   2:NO (Regimen gnral + simplifa)    3: Sol Reg Gnral
     Linea = Linea & "2"  'autoliquidacion conjunta  1.Si   2:NO
@@ -231,92 +219,91 @@ On Error GoTo Salida '
     Linea = Linea & "2"  'Criterio de caja 1.Si   2:NO
     Linea = Linea & "222"  'resto opciones critero caja
     
-    'PEriodo devengo
-    'Campo 19
-    Linea = Linea & RecuperaValor(vPeriodo, 3)  'AÑO
-    i = CInt(RecuperaValor(vPeriodo, 1)) 'El periodo
-    If vParam.periodos = 0 Then
-        'Trimestral
-        Linea = Linea & i & "T"
-    Else
-        Linea = Linea & Format(i, "00")
-    End If
+ 
     
     'Cadena importes ivas deducible y devengado
     Linea = Linea & CadenaImportes
     
     
+    'Exonerados del 390
+    Linea = Linea & "0"
+    'Sujeto pasivo que tributa exclusivamente a una Administración tributaria Foral con IVA a
+    'la importación liquidado por la Aduana pendiente de ingreso  1Si 2no
+    'EL 2 NO FUNCIONABA-->> 13 Abril 2018. YA funciona
+    Linea = Linea & "2"
+    '¿Ha llevado voluntariamente los Libros registro del IVA a través de la Sede electrónica de la AEAT durante el ejercicio?
+    Linea = Linea & "2"
+    
+    
     'Final IVA
-    Linea = Linea & Space(582)  'reservado para la AEAT
+    Linea = Linea & Space(579)  'reservado para la AEAT
     Linea = Linea & Space(13)  'reservado para el sello de la AEAT
     
-    Linea = Linea & "</T30301>" & Chr(13) & Chr(10)
+    Linea = Linea & "</T30301000>"
+    'Linea = Linea & Chr(13) & Chr(10)
     
-    
-    
-    
+
        
     '***************************************************
     'Registro adicional 303_03    el que lleva los totales
+    If True Then
+        Linea = Linea & "<T30303000>"
+        
+        
+        Linea = Linea & CadRegistroAdicional03
+        
+        
+        'Campo 22. Declaracion complementaria y numero justificante anterior
+        Linea = Linea & " " & Space(13)
+        'Sin actividad
+        Linea = Linea & " "
+        
+        
+        'Domiciliacion devolucion . bic IBAN
+        Linea = Linea & String(11, " ")
+        Linea = Linea & String(34, " ")
+        
+        
+        
+        'Informacion aadicional unicamente a cumplimentar en el utlimo trimestre
+        ' 6 parejas de "0" +  "    "  '4pos
+        For K = 1 To 6
+            Linea = Linea & "0    "
+        Next K
+        
+        'Información adicional - Exclusivamente a cumplimentar en el último periodo exonerados de la Declaración-re
+        Linea = Linea & " "
+        
+        'Campos del 40-48
+        'Decimales
+        For K = 1 To 9
+            Linea = Linea & String(17, "0")
+        Next K
+        
+        
+        
+        'Campo 49. Reservado AEAT
+        Linea = Linea & "0"
+        
+        'TRIBUTACIONES ALVA.-GIPUZCU... NAVARRA
+        For K = 1 To 4
+            Linea = Linea & String(5, "0")
+        Next K
+        
+        
+        'Campos del 54-59  Información adicional - Exclusivamente a cumplimentar en el último period....
+        For K = 1 To 6
+            Linea = Linea & String(17, "0")
+        Next K
+        
+        'rESERVADO aeat
+        Linea = Linea & Space(468)
+        
+        Linea = Linea & "</T30303000>"
+        'Linea = Linea & Chr(13) & Chr(10)
+    End If
     
    
-    
-    Linea = Linea & "<T30303>"
-    
-    
-    Linea = Linea & CadRegistroAdicional03
-    
-    
-    'Campo 16 . Liquidacion adicional y campos 17 18 19
-    For K = 1 To 4
-        Linea = Linea & String(17, "0")
-    Next K
-    
-    
-    'Campo 20. Declaracion complementaria y numero justificante anterior
-    Linea = Linea & " " & Space(13)
-    'Sin actividad
-    Linea = Linea & " "
-    
-    
-    'Domiciliacion devolucion . IBAN
-    Linea = Linea & Space(34)
-    
-    
-    
-    'Informacion aadicional unicamente a cumplimentar en el utlimo trimestre
-    ' 6 parejas de "0" +  "    "  '4pos
-    For K = 1 To 6
-        Linea = Linea & "0    "
-    Next K
-    
-    'Información adicional - Exclusivamente a cumplimentar en el último periodo exonerados de la Declaración-re
-    Linea = Linea & " "
-    
-    'Campos del 37 al 47
-    'Decimales
-    For K = 1 To 11
-        Linea = Linea & String(17, "0")
-    Next K
-    
-    
-    '2015. Ya no lleva esto
-    '    If Not GeneraPIE_303(Importe, EsACompensar) Then GoTo Salida
-    
-    'Campo 23. Reservado AEAT
-    Linea = Linea & Space(573)
-    
-    
-    Linea = Linea & "</T30303>" & Chr(13) & Chr(10)
-       
-    
-    
-    
-    
-    
-    
-    
-    
     
     'Final GENERAL
     Linea = Linea & "</T3030"
@@ -332,7 +319,7 @@ On Error GoTo Salida '
     
     If Not ImprimeFichero Then GoTo Salida
     
-    GenerarFicheroIVA_303_2014 = True
+    GenerarFicheroIVA_303_2017 = True
 Salida:
     If Err.Number <> 0 Then MuestraError Err.Number
     
@@ -521,10 +508,9 @@ Private Function Generaidentificacion(Modelo300 As Boolean) As Boolean
             
         Else
             Linea = Linea & DatosTexto(DBLet(Rs!nifempre), 9)
-            Linea = Linea & DatosTexto(vEmpresa.NombreEmpresaOficial, 30)
-            Linea = Linea & DatosTexto(DBLet(Rs!apoderado), 15)
-            Linea = Linea & "2"  'Inscrito en el registro de devol mensual  1.Si   2:NO
-        End If
+            Linea = Linea & DatosTexto(vEmpresa.NombreEmpresaOficial, 60)
+            Linea = Linea & DatosTexto(DBLet(Rs!apoderado), 20)
+           End If
         Generaidentificacion = True
     End If
     Rs.Close
@@ -793,12 +779,12 @@ End Function
 'dEL 347
 Private Function PrimerosPasos(Anyo As Integer) As Boolean
 Dim Importe As Currency
-Dim cad As String
+Dim Cad As String
 Dim YaMostrado As Boolean
 Dim RI As ADODB.Recordset
 Dim importe2 As Currency
 Dim NombreFormateado As String
-
+Dim ErroresRegistros As String
     On Error GoTo EGen347
     PrimerosPasos = False
     
@@ -834,7 +820,7 @@ Dim NombreFormateado As String
 
     NF = FreeFile
     
-    Open App.Path & "\docum.pdf" For Output As #NF
+    Open App.Path & "\347.txt" For Output As #NF
     
     IdentificacionPresentador = ""
     Linea = "347"
@@ -870,8 +856,8 @@ Dim NombreFormateado As String
     Linea = Linea & DatosNumeroDec340((0), 16)
     
     
-    cad = Space(500 - Len(Linea))
-    Linea = Linea & cad
+    Cad = Space(500 - Len(Linea))
+    Linea = Linea & Cad
     Print #NF, Linea
     Rs.Close
     
@@ -888,6 +874,7 @@ Dim NombreFormateado As String
     Linea = Linea & " ORDER BY cliprov,nif"
     Rs.Open Linea, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     YaMostrado = False 'varable que nos indicara si han llegado datos incorrectos al 347 en el campo cliprov
+    ErroresRegistros = ""
     While Not Rs.EOF
         Linea = "2" 'Obligado
         Linea = Linea & IdentificacionPresentador
@@ -910,11 +897,11 @@ Dim NombreFormateado As String
         
         
         If Rs!cliprov = 48 Then
-            cad = "B"  'ventas
+            Cad = "B"  'ventas
             
         Else
             If Rs!cliprov = 49 Then
-                cad = "A"  'compras
+                Cad = "A"  'compras
                 
             Else
                 'Agencias
@@ -926,7 +913,7 @@ Dim NombreFormateado As String
                         YaMostrado = True
                     End If
                 End If
-                cad = Chr(Rs!cliprov)
+                Cad = Chr(Rs!cliprov)
             End If
         End If
         
@@ -934,7 +921,7 @@ Dim NombreFormateado As String
         
         
         
-        Linea = Linea & cad
+        Linea = Linea & Cad
         
         
         'LINEA = LINEA & DatosTexto3((RS!Importe * 100), 16)
@@ -950,49 +937,48 @@ Dim NombreFormateado As String
         
         'Nuevo Febrero 2012
         'Los IVAs trimiestrales
-        cad = "SELECT * FROM tmp347trimestral WHERE codusu=" & vUsu.Codigo
-        cad = cad & " AND cliprov =" & Rs!cliprov & " AND nif = '" & Rs!NIF & "'"
+        Cad = "SELECT * FROM tmp347trimestral WHERE codusu=" & vUsu.Codigo
+        Cad = Cad & " AND cliprov =" & Rs!cliprov & " AND nif = '" & Rs!NIF & "'"
         importe2 = 0
-        RI.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        RI.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not RI.EOF Then
         
         
                     'Febrero 2009
             ' Importe en metalico e importe por trasmisiones sujetas a IVA
             importe2 = DBLet(RI!metalico, "N")
-            cad = "0"
-            If importe2 > 0 Then cad = Anyo
+            Cad = "0"
+            If importe2 > 0 Then Cad = Anyo
                 
             Linea = Linea & DatosNumeroDec(importe2, 15)   'metalico
             Linea = Linea & " " & DatosTexto3(0, 15)   'trasmisiones
-            Linea = Linea & DatosTexto3(CCur(cad), 4)    'ejercicio  NUEVO Febrero 2011
+            Linea = Linea & DatosTexto3(CCur(Cad), 4)    'ejercicio  NUEVO Febrero 2011
         
         
         
             importe2 = RI!trim1 + RI!trim2 + RI!trim3 + RI!trim4
             If importe2 <> Rs!Importe Then
-                cad = "Importe total y por trimestres distinto" & vbCrLf
-                cad = cad & "Total " & Importe & vbCrLf
-                cad = cad & "T1 " & RI!trim1 & "     " & "T2 " & RI!trim2 & "     "
-                cad = cad & "T3 " & RI!trim3 & "     " & "T4 " & RI!trim4 & "     "
-                Err.Raise 513, cad
+                Cad = Rs!NIF & "   Total " & Rs!Importe & "   T1 " & RI!trim1 & "     " & "T2 " & RI!trim2 & "     "
+                Cad = Cad & "T3 " & RI!trim3 & "     " & "T4 " & RI!trim4 & "     "
+                ErroresRegistros = ErroresRegistros & Cad & vbCrLf
+                
             End If
               
             'OK pintamos los trimestrales
-            cad = DatosNumeroDec340(RI!trim1, 16)
-            cad = cad & " " & DatosTexto3(0, 15)   'trim 1 inmueble
-            cad = cad & DatosNumeroDec340(RI!trim2, 16)
-            cad = cad & " " & DatosTexto3(0, 15)   'trim 2 inmueble
-            cad = cad & DatosNumeroDec340(RI!trim3, 16)
-            cad = cad & " " & DatosTexto3(0, 15)   'trim 3 inmueble
-            cad = cad & DatosNumeroDec340(RI!trim4, 16)
-            cad = cad & " " & DatosTexto3(0, 15)   'trim 4 inmueble
+            Cad = DatosNumeroDec340(RI!trim1, 16)
+            Cad = Cad & " " & DatosTexto3(0, 15)   'trim 1 inmueble
+            Cad = Cad & DatosNumeroDec340(RI!trim2, 16)
+            Cad = Cad & " " & DatosTexto3(0, 15)   'trim 2 inmueble
+            Cad = Cad & DatosNumeroDec340(RI!trim3, 16)
+            Cad = Cad & " " & DatosTexto3(0, 15)   'trim 3 inmueble
+            Cad = Cad & DatosNumeroDec340(RI!trim4, 16)
+            Cad = Cad & " " & DatosTexto3(0, 15)   'trim 4 inmueble
         Else
-            cad = "No se encuentran valores trimestrales para: " & Rs!razosoci
-            Err.Raise 513, cad
+            Cad = "No se encuentran valores trimestrales para: " & Rs!razosoci
+            Err.Raise 513, , Cad
         End If
         RI.Close
-        Linea = Linea & cad
+        Linea = Linea & Cad
         
         
         'Febrero 2017
@@ -1003,8 +989,8 @@ Dim NombreFormateado As String
         
         'Hasta final de lineas
        
-        cad = Space(300)
-        Linea = Mid(Linea & cad, 1, 500)
+        Cad = Space(300)
+        Linea = Mid(Linea & Cad, 1, 500)
         Print #NF, Linea
         
         
@@ -1012,12 +998,19 @@ Dim NombreFormateado As String
         Rs.MoveNext
     Wend
     Rs.Close
-    
     Close #NF
-    PrimerosPasos = True
+    If ErroresRegistros <> "" Then
+        Cad = "Importe total y por trimestres distinto" & vbCrLf & String(50, "-")
+        Cad = Cad & vbCrLf & ErroresRegistros
+        MsgBox Cad, vbExclamation
+    Else
+        PrimerosPasos = True
+    End If
+    
+    
 EGen347:
     If Err.Number <> 0 Then
-        MuestraError Err.Number, "Generando datos 347"
+        MuestraError Err.Number, "Generando datos 347", Err.Description
         If NF <> 0 Then Close #NF
     End If
     Set Rs = Nothing
@@ -1137,7 +1130,7 @@ End Function
 Private Function PrimerosPasos349(presentacion As Byte, vPeriodo As String, AnyoPres As Integer) As Boolean
 Dim Importe As Currency
 Dim Contador As Integer
-Dim cad As String
+Dim Cad As String
 
 
     On Error GoTo EGen347
@@ -1223,9 +1216,9 @@ Dim cad As String
     'Case Else
     '    Cad = "T"
     'End Select
-    cad = "T"
+    Cad = "T"
        
-    Linea = Linea & cad
+    Linea = Linea & Cad
     Linea = Linea & DatosTexto(DBLet(Rs!telefono), 9)
     Linea = Linea & DatosTexto(DBLet(Rs!contacto), 40)
     Linea = Linea & "3490000000000"   'Numero justificante la declaracion. Empieza por 343. ENERO> 349
@@ -1265,10 +1258,10 @@ Dim cad As String
         Linea = Linea & DatosTexto(" ", 58)
      
         
-        cad = DBLet(Rs!desPobla) & "  "   'Llevara el pais
-        cad = Trim(Mid(cad, 1, 2)) & Rs!NIF
+        Cad = DBLet(Rs!desPobla) & "  "   'Llevara el pais
+        Cad = Trim(Mid(Cad, 1, 2)) & Rs!NIF
         
-        Linea = Linea & DatosTexto(cad, 17)
+        Linea = Linea & DatosTexto(Cad, 17)
         Linea = Linea & DatosTexto(Rs!razosoci, 40)
         
 
@@ -1279,11 +1272,11 @@ Dim cad As String
         'end If
         If Rs!cliprov < 65 Or Rs!cliprov > 90 Then
             MsgBox "Error codigo intracomunitaria" & Linea, vbExclamation
-            cad = "X"
+            Cad = "X"
         Else
-            cad = Chr(Rs!cliprov)
+            Cad = Chr(Rs!cliprov)
         End If
-        Linea = Linea & cad
+        Linea = Linea & Cad
         
         Linea = Linea & DatosTexto3((Rs!Importe * 100), 13)
         
@@ -1574,7 +1567,7 @@ Dim aux2 As String
             End If
                 
             '`codpais`,`idenpais`,`nifresidencia`
-            PAIS = UCase(DBLet(Rs!codPAIS, "T"))
+            PAIS = UCase(DBLet(Rs!codpais, "T"))
             If PAIS = "" Then PAIS = "ES"
             
             If PAIS = "ES" Then
@@ -1767,7 +1760,7 @@ Dim SqlNew As String
             
                 
             '`codpais`,`idenpais`,`nifresidencia`
-            PAIS = UCase(DBLet(Rs!codPAIS, "T"))
+            PAIS = UCase(DBLet(Rs!codpais, "T"))
             If PAIS = "" Then PAIS = "ES"
             
             
@@ -1990,7 +1983,7 @@ Dim SqlNew As String
             
                 
             '`codpais`,`idenpais`,`nifresidencia`
-            PAIS = UCase(DBLet(Rs!codPAIS, "T"))
+            PAIS = UCase(DBLet(Rs!codpais, "T"))
             If PAIS = "" Then PAIS = "ESPAÑA"
             
             If PAIS = "ESPAÑA" Then
@@ -2361,13 +2354,13 @@ Dim aux2 As String
         'Razosoci
         Linea = Linea & DatosTexto(Rs!razosoci, 40)
         'Pais,idenpais,niresidencia                 'Dira que es el documento  del id en pais de referencia (nif, passporte...)
-        Linea = Linea & DatosTexto(Rs!codPAIS, 2)
+        Linea = Linea & DatosTexto(Rs!codpais, 2)
         Linea = Linea & DBLet(Rs!idenpais, "N")
         If Val(DBLet(Rs!idenpais, "N")) > 1 Then
-            If Mid(Rs!nifresidencia, 1, 2) = Rs!codPAIS Then
+            If Mid(Rs!nifresidencia, 1, 2) = Rs!codpais Then
                 aux2 = DatosTexto(DBLet(Rs!nifresidencia), 20)
             Else
-                aux2 = DatosTexto(Rs!codPAIS, 2) & DatosTexto(DBLet(Rs!nifresidencia), 18)
+                aux2 = DatosTexto(Rs!codpais, 2) & DatosTexto(DBLet(Rs!nifresidencia), 18)
             End If
             Linea = Linea & aux2
         Else
@@ -2559,7 +2552,7 @@ Private Function ComprobarNifs340(Minimo As Long, maximo As Long) As Integer
     Rs.Open Linea, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Linea = ""
     While Not Rs.EOF
-        If Rs!codPAIS = "ES" Then
+        If Rs!codpais = "ES" Then
             'ESPAÑA. Comprobamos NIF"
             If Not Comprobar_NIF(Rs!nifdeclarado) Then
                 Linea = Linea & DevFacturasTmp340DeEseNIF(Rs!nifdeclarado)
@@ -2753,13 +2746,13 @@ Dim F2 As Date
 End Sub
 
 'REULTILIZO LINEA
-Private Sub InsertaMultipleTMP340(cad As String)
+Private Sub InsertaMultipleTMP340(Cad As String)
 
-    If cad = "" Then Exit Sub
+    If Cad = "" Then Exit Sub
     
-    cad = Mid(cad, 2) 'quitamos la primera coma
+    Cad = Mid(Cad, 2) 'quitamos la primera coma
     Linea = DevuelveInsertTmp340(0)
-    Linea = Linea & cad
+    Linea = Linea & Cad
     
     
     Conn.Execute Linea
@@ -2785,7 +2778,7 @@ Dim Aux As String
            
                 
             '`codpais`,`idenpais`,`nifresidencia`
-            Aux = UCase(DBLet(R!codPAIS, "T"))
+            Aux = UCase(DBLet(R!codpais, "T"))
             If Aux = "" Then Aux = "ESPAÑA"
             
             If Aux = "ESPAÑA" Then
@@ -2855,7 +2848,7 @@ Dim CADENA As String
            
                 
             '`codpais`,`idenpais`,`nifresidencia`
-            Linea = Linea & "'" & Rs!codPAIS & "','" & Rs!idenpais & "','" & DBLet(Rs!nifresidencia, "T") & "'"
+            Linea = Linea & "'" & Rs!codpais & "','" & Rs!idenpais & "','" & DBLet(Rs!nifresidencia, "T") & "'"
             
             
             '`clavelibro`,`claveoperacion`,   !!!ATENCION!!!! POnemos como clave libro una Z  <<<<---- UNA z

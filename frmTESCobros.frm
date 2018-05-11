@@ -48,7 +48,7 @@ Begin VB.Form frmTESCobros
       EndProperty
       Height          =   375
       Left            =   13470
-      TabIndex        =   136
+      TabIndex        =   42
       Top             =   10200
       Width           =   1035
    End
@@ -66,14 +66,14 @@ Begin VB.Form frmTESCobros
       EndProperty
       Height          =   375
       Left            =   14610
-      TabIndex        =   137
+      TabIndex        =   43
       Top             =   10200
       Width           =   1035
    End
    Begin VB.Frame FrameFiltro 
       Height          =   705
       Left            =   9480
-      TabIndex        =   82
+      TabIndex        =   95
       Top             =   30
       Width           =   3255
       Begin VB.ComboBox cboFiltro 
@@ -91,7 +91,7 @@ Begin VB.Form frmTESCobros
          Left            =   90
          List            =   "frmTESCobros.frx":0019
          Style           =   2  'Dropdown List
-         TabIndex        =   83
+         TabIndex        =   96
          Top             =   210
          Width           =   3075
       End
@@ -99,13 +99,13 @@ Begin VB.Form frmTESCobros
    Begin VB.Frame FrameBotonGnral 
       Height          =   705
       Left            =   120
-      TabIndex        =   79
+      TabIndex        =   92
       Top             =   30
       Width           =   3585
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   330
          Left            =   240
-         TabIndex        =   80
+         TabIndex        =   93
          Top             =   180
          Width           =   3135
          _ExtentX        =   5530
@@ -162,13 +162,13 @@ Begin VB.Form frmTESCobros
    Begin VB.Frame FrameDesplazamiento 
       Height          =   705
       Left            =   6720
-      TabIndex        =   77
+      TabIndex        =   90
       Top             =   30
       Width           =   2415
       Begin MSComctlLib.Toolbar ToolbarDes 
          Height          =   330
          Left            =   150
-         TabIndex        =   78
+         TabIndex        =   91
          Top             =   180
          Width           =   1965
          _ExtentX        =   3466
@@ -212,7 +212,7 @@ Begin VB.Form frmTESCobros
       EndProperty
       Height          =   270
       Left            =   13200
-      TabIndex        =   0
+      TabIndex        =   44
       Top             =   270
       Visible         =   0   'False
       Width           =   1785
@@ -220,16 +220,16 @@ Begin VB.Form frmTESCobros
    Begin VB.Frame FrameBotonGnral2 
       Height          =   705
       Left            =   3810
-      TabIndex        =   75
+      TabIndex        =   88
       Top             =   30
       Width           =   2805
       Begin MSComctlLib.Toolbar Toolbar2 
          Height          =   330
-         Left            =   210
-         TabIndex        =   76
+         Left            =   240
+         TabIndex        =   89
          Top             =   180
-         Width           =   1635
-         _ExtentX        =   2884
+         Width           =   2235
+         _ExtentX        =   3942
          _ExtentY        =   582
          ButtonWidth     =   609
          ButtonHeight    =   582
@@ -308,7 +308,7 @@ Begin VB.Form frmTESCobros
    Begin TabDlg.SSTab SSTab1 
       Height          =   8235
       Left            =   90
-      TabIndex        =   42
+      TabIndex        =   55
       Top             =   1740
       Width           =   15585
       _ExtentX        =   27490
@@ -451,7 +451,7 @@ Begin VB.Form frmTESCobros
          EndProperty
          Height          =   3435
          Left            =   240
-         TabIndex        =   119
+         TabIndex        =   128
          Top             =   1170
          Visible         =   0   'False
          Width           =   9375
@@ -470,7 +470,7 @@ Begin VB.Form frmTESCobros
             Index           =   36
             Left            =   2040
             Locked          =   -1  'True
-            TabIndex        =   127
+            TabIndex        =   129
             Text            =   "Text4"
             Top             =   2250
             Width           =   3345
@@ -488,7 +488,7 @@ Begin VB.Form frmTESCobros
             Height          =   360
             Index           =   36
             Left            =   1470
-            TabIndex        =   125
+            TabIndex        =   36
             Tag             =   "País|T|S|||cobros|codpais|||"
             Top             =   2250
             Width           =   465
@@ -506,10 +506,10 @@ Begin VB.Form frmTESCobros
             Height          =   360
             Index           =   37
             Left            =   1470
-            TabIndex        =   126
+            TabIndex        =   37
             Tag             =   "Nif|T|S|||cobros|nifclien|||"
             Top             =   2820
-            Width           =   1350
+            Width           =   1470
          End
          Begin VB.TextBox Text1 
             BeginProperty Font 
@@ -524,7 +524,7 @@ Begin VB.Form frmTESCobros
             Height          =   360
             Index           =   38
             Left            =   1470
-            TabIndex        =   124
+            TabIndex        =   35
             Tag             =   "Provincia|T|S|||cobros|proclien|||"
             Top             =   1770
             Width           =   7800
@@ -542,7 +542,7 @@ Begin VB.Form frmTESCobros
             Height          =   360
             Index           =   39
             Left            =   4020
-            TabIndex        =   123
+            TabIndex        =   34
             Tag             =   "Poblacion|T|S|||cobros|pobclien|||"
             Top             =   1320
             Width           =   5250
@@ -560,7 +560,7 @@ Begin VB.Form frmTESCobros
             Height          =   360
             Index           =   40
             Left            =   1470
-            TabIndex        =   122
+            TabIndex        =   33
             Tag             =   "CP|T|S|||cobros|cpclien|||"
             Top             =   1290
             Width           =   1320
@@ -578,7 +578,7 @@ Begin VB.Form frmTESCobros
             Height          =   360
             Index           =   41
             Left            =   1470
-            TabIndex        =   121
+            TabIndex        =   32
             Tag             =   "Dirección|T|S|||cobros|domclien|||"
             Top             =   840
             Width           =   7800
@@ -596,7 +596,7 @@ Begin VB.Form frmTESCobros
             Height          =   360
             Index           =   42
             Left            =   1470
-            TabIndex        =   120
+            TabIndex        =   31
             Tag             =   "Nombre|T|S|||cobros|nomclien|||"
             Top             =   390
             Width           =   7800
@@ -623,7 +623,7 @@ Begin VB.Form frmTESCobros
             Height          =   255
             Index           =   28
             Left            =   300
-            TabIndex        =   134
+            TabIndex        =   136
             Top             =   2310
             Width           =   555
          End
@@ -642,7 +642,7 @@ Begin VB.Form frmTESCobros
             Height          =   255
             Index           =   29
             Left            =   300
-            TabIndex        =   133
+            TabIndex        =   135
             Top             =   1830
             Width           =   1395
          End
@@ -661,7 +661,7 @@ Begin VB.Form frmTESCobros
             Height          =   255
             Index           =   30
             Left            =   3000
-            TabIndex        =   132
+            TabIndex        =   134
             Top             =   1350
             Width           =   1545
          End
@@ -680,7 +680,7 @@ Begin VB.Form frmTESCobros
             Height          =   255
             Index           =   31
             Left            =   300
-            TabIndex        =   131
+            TabIndex        =   133
             Top             =   2880
             Width           =   1065
          End
@@ -699,7 +699,7 @@ Begin VB.Form frmTESCobros
             Height          =   255
             Index           =   32
             Left            =   300
-            TabIndex        =   130
+            TabIndex        =   132
             Top             =   1350
             Width           =   855
          End
@@ -718,7 +718,7 @@ Begin VB.Form frmTESCobros
             Height          =   255
             Index           =   36
             Left            =   300
-            TabIndex        =   129
+            TabIndex        =   131
             Top             =   900
             Width           =   1545
          End
@@ -737,7 +737,7 @@ Begin VB.Form frmTESCobros
             Height          =   255
             Index           =   37
             Left            =   300
-            TabIndex        =   128
+            TabIndex        =   130
             Top             =   450
             Width           =   1545
          End
@@ -745,13 +745,12 @@ Begin VB.Form frmTESCobros
       Begin TabDlg.SSTab SSTab2 
          Height          =   2475
          Left            =   360
-         TabIndex        =   84
+         TabIndex        =   97
          Top             =   5550
          Width           =   14775
          _ExtentX        =   26061
          _ExtentY        =   4366
          _Version        =   393216
-         Tab             =   1
          TabHeight       =   520
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "Verdana"
@@ -764,19 +763,20 @@ Begin VB.Form frmTESCobros
          EndProperty
          TabCaption(0)   =   "Cobros Realizados"
          TabPicture(0)   =   "frmTESCobros.frx":006C
-         Tab(0).ControlEnabled=   0   'False
+         Tab(0).ControlEnabled=   -1  'True
          Tab(0).Control(0)=   "FrameAux0"
+         Tab(0).Control(0).Enabled=   0   'False
          Tab(0).ControlCount=   1
          TabCaption(1)   =   "Devoluciones"
          TabPicture(1)   =   "frmTESCobros.frx":0088
-         Tab(1).ControlEnabled=   -1  'True
+         Tab(1).ControlEnabled=   0   'False
          Tab(1).Control(0)=   "FrameAux1"
-         Tab(1).Control(0).Enabled=   0   'False
          Tab(1).ControlCount=   1
          TabCaption(2)   =   "Fechas Op.Asegurada"
          TabPicture(2)   =   "frmTESCobros.frx":00A4
          Tab(2).ControlEnabled=   0   'False
          Tab(2).Control(0)=   "FrameSeguro"
+         Tab(2).Control(0).Enabled=   0   'False
          Tab(2).ControlCount=   1
          Begin VB.Frame FrameAux0 
             BorderStyle     =   0  'None
@@ -790,8 +790,8 @@ Begin VB.Form frmTESCobros
                Strikethrough   =   0   'False
             EndProperty
             Height          =   2085
-            Left            =   -74850
-            TabIndex        =   103
+            Left            =   150
+            TabIndex        =   112
             Top             =   330
             Width           =   14475
             Begin VB.TextBox txtaux 
@@ -808,7 +808,7 @@ Begin VB.Form frmTESCobros
                Height          =   350
                Index           =   14
                Left            =   12000
-               TabIndex        =   112
+               TabIndex        =   121
                Tag             =   "Banco Talon/Pag|T|S|||cobros_realizados|bancotalonpag|||"
                Text            =   "Banco"
                Top             =   1050
@@ -829,7 +829,7 @@ Begin VB.Form frmTESCobros
                Height          =   350
                Index           =   13
                Left            =   11370
-               TabIndex        =   111
+               TabIndex        =   120
                Tag             =   "Ref. Talon/Pag|T|S|||cobros_realizados|reftalonpag|||"
                Text            =   "ref"
                Top             =   1050
@@ -850,7 +850,7 @@ Begin VB.Form frmTESCobros
                Height          =   350
                Index           =   12
                Left            =   6870
-               TabIndex        =   107
+               TabIndex        =   116
                Tag             =   "Cta.Real Cobro|T|S|||cobros_realizados|ctabanc2|||"
                Text            =   "cta.cobro"
                Top             =   1080
@@ -901,7 +901,7 @@ Begin VB.Form frmTESCobros
                Height          =   315
                Index           =   11
                Left            =   9870
-               TabIndex        =   109
+               TabIndex        =   118
                Tag             =   "F.Realizado|F|S|||cobros_realizados|fecrealizado|dd/mm/yyyy||"
                Text            =   "FRealizado"
                Top             =   1080
@@ -922,7 +922,7 @@ Begin VB.Form frmTESCobros
                Height          =   315
                Index           =   10
                Left            =   10620
-               TabIndex        =   110
+               TabIndex        =   119
                Tag             =   "Tipo|T|S|||tipofpago|siglas|||"
                Text            =   "T FP"
                Top             =   1080
@@ -986,7 +986,7 @@ Begin VB.Form frmTESCobros
                Height          =   350
                Index           =   9
                Left            =   12810
-               TabIndex        =   113
+               TabIndex        =   122
                Tag             =   "Importe Cobro|T|S|||cobros_realizados|impcobro|###,##0.00||"
                Text            =   "importe"
                Top             =   1050
@@ -1010,7 +1010,7 @@ Begin VB.Form frmTESCobros
                Index           =   0
                Left            =   720
                MaxLength       =   3
-               TabIndex        =   118
+               TabIndex        =   127
                Tag             =   "Serie|T|N|||cobros_devolucion|numserie||S|"
                Text            =   "ser"
                Top             =   1090
@@ -1034,7 +1034,7 @@ Begin VB.Form frmTESCobros
                Index           =   4
                Left            =   2340
                MaxLength       =   4
-               TabIndex        =   117
+               TabIndex        =   126
                Tag             =   "Linea|N|N|0||cobros_devolucion|numlinea||S|"
                Text            =   "lin"
                Top             =   1090
@@ -1058,7 +1058,7 @@ Begin VB.Form frmTESCobros
                Index           =   1
                Left            =   1125
                MaxLength       =   10
-               TabIndex        =   116
+               TabIndex        =   125
                Tag             =   "Nº Factura|N|N|||cobros_devolucion|numfactul|000000|S|"
                Text            =   "fac"
                Top             =   1090
@@ -1082,7 +1082,7 @@ Begin VB.Form frmTESCobros
                Index           =   2
                Left            =   1515
                MaxLength       =   10
-               TabIndex        =   115
+               TabIndex        =   124
                Tag             =   "Fecha Factura|F|N|||cobros_devolucion|fecfactu|dd/mm/yyyy|S|"
                Text            =   "Fec"
                Top             =   1090
@@ -1106,7 +1106,7 @@ Begin VB.Form frmTESCobros
                Index           =   3
                Left            =   1905
                MaxLength       =   30
-               TabIndex        =   114
+               TabIndex        =   123
                Tag             =   "Nº Vencimiento|N|N|0||cobros_devolucion|numorden||S|"
                Text            =   "vto"
                Top             =   1090
@@ -1127,7 +1127,7 @@ Begin VB.Form frmTESCobros
                Height          =   350
                Index           =   8
                Left            =   8250
-               TabIndex        =   108
+               TabIndex        =   117
                Tag             =   "Usuario Cobro|T|S|||cobros_realizados|usuariocobro|||"
                Text            =   "usuario"
                Top             =   1080
@@ -1148,7 +1148,7 @@ Begin VB.Form frmTESCobros
                Height          =   350
                Index           =   7
                Left            =   5550
-               TabIndex        =   106
+               TabIndex        =   115
                Tag             =   "Nº asiento|N|S|0||cobros_realizados|numasien|00000000||"
                Text            =   "asiento"
                Top             =   1080
@@ -1169,7 +1169,7 @@ Begin VB.Form frmTESCobros
                Height          =   350
                Index           =   6
                Left            =   4200
-               TabIndex        =   105
+               TabIndex        =   114
                Tag             =   "Fecha entrada|F|S|||cobros_realizados|fechaent|dd/mm/yyyy||"
                Text            =   "fecha"
                Top             =   1090
@@ -1190,7 +1190,7 @@ Begin VB.Form frmTESCobros
                Height          =   350
                Index           =   5
                Left            =   2850
-               TabIndex        =   104
+               TabIndex        =   113
                Tag             =   "Diario|N|S|0||cobros_realizados|numdiari|00||"
                Text            =   "diario"
                Top             =   1090
@@ -1323,7 +1323,7 @@ Begin VB.Form frmTESCobros
             EndProperty
             Height          =   945
             Left            =   -74910
-            TabIndex        =   94
+            TabIndex        =   107
             Top             =   540
             Width           =   11415
             Begin VB.TextBox Text1 
@@ -1340,7 +1340,7 @@ Begin VB.Form frmTESCobros
                Height          =   360
                Index           =   23
                Left            =   2010
-               TabIndex        =   98
+               TabIndex        =   38
                Tag             =   "Fecha Aviso falta pago|F|S|||cobros|feccomunica|dd/mm/yyyy||"
                Text            =   "Text1"
                Top             =   300
@@ -1360,7 +1360,7 @@ Begin VB.Form frmTESCobros
                Height          =   360
                Index           =   22
                Left            =   4710
-               TabIndex        =   97
+               TabIndex        =   39
                Tag             =   "Aviso prorroga|F|S|||cobros|fecprorroga|dd/mm/yyyy||"
                Text            =   "Text1"
                Top             =   300
@@ -1380,7 +1380,7 @@ Begin VB.Form frmTESCobros
                Height          =   360
                Index           =   21
                Left            =   7110
-               TabIndex        =   96
+               TabIndex        =   40
                Tag             =   "Aviso siniestro|F|S|||cobros|fecsiniestro|dd/mm/yyyy||"
                Text            =   "Text1"
                Top             =   300
@@ -1400,7 +1400,7 @@ Begin VB.Form frmTESCobros
                Height          =   360
                Index           =   20
                Left            =   9900
-               TabIndex        =   95
+               TabIndex        =   41
                Tag             =   "Fecha ult ejecucion|F|S|||cobros|fecejecutiva|dd/mm/yyyy||"
                Text            =   "Text1"
                Top             =   300
@@ -1420,7 +1420,7 @@ Begin VB.Form frmTESCobros
                Height          =   225
                Index           =   24
                Left            =   210
-               TabIndex        =   102
+               TabIndex        =   111
                Top             =   330
                Width           =   1455
             End
@@ -1438,7 +1438,7 @@ Begin VB.Form frmTESCobros
                Height          =   255
                Index           =   25
                Left            =   3480
-               TabIndex        =   101
+               TabIndex        =   110
                Top             =   330
                Width           =   915
             End
@@ -1456,7 +1456,7 @@ Begin VB.Form frmTESCobros
                Height          =   195
                Index           =   26
                Left            =   6210
-               TabIndex        =   100
+               TabIndex        =   109
                Top             =   330
                Width           =   555
             End
@@ -1474,7 +1474,7 @@ Begin VB.Form frmTESCobros
                Height          =   285
                Index           =   27
                Left            =   8610
-               TabIndex        =   99
+               TabIndex        =   108
                Top             =   300
                Width           =   945
             End
@@ -1523,8 +1523,8 @@ Begin VB.Form frmTESCobros
                Strikethrough   =   0   'False
             EndProperty
             Height          =   1995
-            Left            =   150
-            TabIndex        =   85
+            Left            =   -74850
+            TabIndex        =   98
             Top             =   330
             Width           =   14295
             Begin VB.TextBox txtaux1 
@@ -1705,7 +1705,7 @@ Begin VB.Form frmTESCobros
                Index           =   8
                Left            =   4830
                MaxLength       =   255
-               TabIndex        =   135
+               TabIndex        =   137
                Text            =   "nomconcedevol"
                Top             =   780
                Visible         =   0   'False
@@ -1727,7 +1727,7 @@ Begin VB.Form frmTESCobros
                Index           =   6
                Left            =   2850
                MaxLength       =   10
-               TabIndex        =   92
+               TabIndex        =   105
                Tag             =   "Código Devolucion|T|S|||hlinapu|coddevol|||"
                Text            =   "CodDev"
                Top             =   780
@@ -1751,7 +1751,7 @@ Begin VB.Form frmTESCobros
                Index           =   0
                Left            =   45
                MaxLength       =   3
-               TabIndex        =   91
+               TabIndex        =   104
                Tag             =   "Serie|T|N|||hlinapu|numserie||S|"
                Text            =   "ser"
                Top             =   765
@@ -1774,7 +1774,7 @@ Begin VB.Form frmTESCobros
                Index           =   7
                Left            =   7560
                MaxLength       =   255
-               TabIndex        =   90
+               TabIndex        =   103
                Text            =   "Tipo"
                Top             =   780
                Visible         =   0   'False
@@ -1797,7 +1797,7 @@ Begin VB.Form frmTESCobros
                Index           =   1
                Left            =   450
                MaxLength       =   10
-               TabIndex        =   89
+               TabIndex        =   102
                Tag             =   "Nº Factura|N|N|||hlinapu|numfaccl|000000|S|"
                Text            =   "fac"
                Top             =   750
@@ -1821,7 +1821,7 @@ Begin VB.Form frmTESCobros
                Index           =   2
                Left            =   840
                MaxLength       =   10
-               TabIndex        =   88
+               TabIndex        =   101
                Tag             =   "Fecha Factura|F|N|||hlinapu|fecfactu|dd/mm/yyyy|S|"
                Text            =   "Fec"
                Top             =   750
@@ -1845,7 +1845,7 @@ Begin VB.Form frmTESCobros
                Index           =   3
                Left            =   1230
                MaxLength       =   30
-               TabIndex        =   87
+               TabIndex        =   100
                Tag             =   "Nº Vencimiento|N|N|0||hlinapu|numorden||S|"
                Text            =   "vto"
                Top             =   750
@@ -1869,7 +1869,7 @@ Begin VB.Form frmTESCobros
                Index           =   5
                Left            =   2100
                MaxLength       =   10
-               TabIndex        =   86
+               TabIndex        =   99
                Tag             =   "Fecha Devolucion|F|N|||hlinapu|fecdevol|||"
                Text            =   "fec"
                Top             =   750
@@ -1929,7 +1929,7 @@ Begin VB.Form frmTESCobros
                Height          =   1335
                Index           =   1
                Left            =   0
-               TabIndex        =   93
+               TabIndex        =   106
                Top             =   570
                Width           =   13545
                _ExtentX        =   23892
@@ -2003,7 +2003,7 @@ Begin VB.Form frmTESCobros
          Enabled         =   0   'False
          Height          =   1335
          Left            =   9660
-         TabIndex        =   54
+         TabIndex        =   67
          Top             =   3270
          Width           =   5715
          Begin VB.TextBox Text1 
@@ -2020,7 +2020,7 @@ Begin VB.Form frmTESCobros
             Index           =   27
             Left            =   4170
             MaxLength       =   10
-            TabIndex        =   25
+            TabIndex        =   26
             Tag             =   "Transferencia|N|S|0||cobros|transfer|0000000000||"
             Text            =   "Text1"
             Top             =   840
@@ -2041,7 +2041,7 @@ Begin VB.Form frmTESCobros
             Left            =   1290
             List            =   "frmTESCobros.frx":0306
             Style           =   2  'Dropdown List
-            TabIndex        =   24
+            TabIndex        =   25
             Top             =   840
             Width           =   2835
          End
@@ -2060,7 +2060,7 @@ Begin VB.Form frmTESCobros
             Left            =   1290
             List            =   "frmTESCobros.frx":0315
             Style           =   2  'Dropdown List
-            TabIndex        =   21
+            TabIndex        =   22
             Tag             =   "Remesa|N|S|0||cobros|tiporem|||"
             Top             =   240
             Width           =   1455
@@ -2079,7 +2079,7 @@ Begin VB.Form frmTESCobros
             Index           =   15
             Left            =   1320
             MaxLength       =   4
-            TabIndex        =   31
+            TabIndex        =   47
             Tag             =   "Situacion|T|S|||cobros|siturem|||"
             Text            =   "Text1"
             Top             =   870
@@ -2100,7 +2100,7 @@ Begin VB.Form frmTESCobros
             Index           =   14
             Left            =   4170
             MaxLength       =   4
-            TabIndex        =   23
+            TabIndex        =   24
             Tag             =   "Año remesa|N|S|0||cobros|anyorem|||"
             Text            =   "Text"
             Top             =   240
@@ -2120,7 +2120,7 @@ Begin VB.Form frmTESCobros
             Index           =   35
             Left            =   2820
             MaxLength       =   30
-            TabIndex        =   22
+            TabIndex        =   23
             Tag             =   "Remesa|N|S|0||cobros|codrem|||"
             Text            =   "Text1"
             Top             =   240
@@ -2178,7 +2178,7 @@ Begin VB.Form frmTESCobros
             Height          =   195
             Index           =   17
             Left            =   60
-            TabIndex        =   58
+            TabIndex        =   71
             Top             =   870
             Width           =   1080
          End
@@ -2195,7 +2195,7 @@ Begin VB.Form frmTESCobros
             EndProperty
             Height          =   255
             Left            =   60
-            TabIndex        =   57
+            TabIndex        =   70
             Top             =   270
             Width           =   855
          End
@@ -2213,7 +2213,7 @@ Begin VB.Form frmTESCobros
             Height          =   195
             Index           =   16
             Left            =   4170
-            TabIndex        =   56
+            TabIndex        =   69
             Top             =   0
             Width           =   540
          End
@@ -2231,7 +2231,7 @@ Begin VB.Form frmTESCobros
             Height          =   195
             Index           =   15
             Left            =   2850
-            TabIndex        =   55
+            TabIndex        =   68
             Top             =   0
             Width           =   1170
          End
@@ -2251,7 +2251,7 @@ Begin VB.Form frmTESCobros
          Index           =   8
          Left            =   13830
          MaxLength       =   30
-         TabIndex        =   19
+         TabIndex        =   20
          Tag             =   "Importe|N|S|||cobros|impcobro|#,##0.00||"
          Text            =   "1.999.999.00"
          Top             =   2130
@@ -2271,7 +2271,7 @@ Begin VB.Form frmTESCobros
          Height          =   360
          Index           =   7
          Left            =   13980
-         TabIndex        =   17
+         TabIndex        =   18
          Tag             =   "Fecha ult. pago|F|S|||cobros|fecultco|dd/mm/yyyy||"
          Text            =   "99/99/9999"
          Top             =   1380
@@ -2291,7 +2291,7 @@ Begin VB.Form frmTESCobros
          Index           =   11
          Left            =   360
          MaxLength       =   80
-         TabIndex        =   12
+         TabIndex        =   13
          Tag             =   "CSB|T|S|||cobros|text33csb|||"
          Text            =   "WWW4567890WWW4567890WWW4567890WWW456789WWWW4567890WWW4567890WWW4567890WWW456789J"
          Top             =   3510
@@ -2311,7 +2311,7 @@ Begin VB.Form frmTESCobros
          Index           =   12
          Left            =   360
          MaxLength       =   60
-         TabIndex        =   13
+         TabIndex        =   14
          Tag             =   "T|T|S|||cobros|text41csb|||"
          Top             =   4200
          Width           =   9225
@@ -2331,7 +2331,7 @@ Begin VB.Form frmTESCobros
          EndProperty
          Height          =   360
          Left            =   13830
-         TabIndex        =   66
+         TabIndex        =   79
          Text            =   "Text4"
          Top             =   2850
          Width           =   1425
@@ -2350,7 +2350,7 @@ Begin VB.Form frmTESCobros
          Height          =   360
          Index           =   34
          Left            =   360
-         TabIndex        =   8
+         TabIndex        =   9
          Tag             =   "Agente|N|S|0||cobros|agente|||"
          Text            =   "Text1"
          Top             =   2130
@@ -2371,7 +2371,7 @@ Begin VB.Form frmTESCobros
          Index           =   5
          Left            =   1200
          Locked          =   -1  'True
-         TabIndex        =   63
+         TabIndex        =   76
          Text            =   "Text2"
          Top             =   2130
          Width           =   3735
@@ -2380,7 +2380,7 @@ Begin VB.Form frmTESCobros
          BorderStyle     =   0  'None
          Height          =   975
          Left            =   9720
-         TabIndex        =   62
+         TabIndex        =   75
          Top             =   4560
          Width           =   5355
          Begin VB.CheckBox Check1 
@@ -2416,7 +2416,7 @@ Begin VB.Form frmTESCobros
             Height          =   255
             Index           =   4
             Left            =   3480
-            TabIndex        =   29
+            TabIndex        =   30
             Tag             =   "s|N|S|||cobros|noremesar|||"
             Top             =   420
             Width           =   1545
@@ -2435,7 +2435,7 @@ Begin VB.Form frmTESCobros
             Height          =   255
             Index           =   0
             Left            =   60
-            TabIndex        =   27
+            TabIndex        =   29
             Tag             =   "Recibido|N|S|||cobros|recedocu|||"
             Top             =   450
             Width           =   2505
@@ -2454,7 +2454,7 @@ Begin VB.Form frmTESCobros
             Height          =   255
             Index           =   3
             Left            =   60
-            TabIndex        =   26
+            TabIndex        =   27
             Tag             =   "s|N|S|||cobros|situacionjuri|||"
             Top             =   150
             Width           =   2535
@@ -2473,7 +2473,7 @@ Begin VB.Form frmTESCobros
             Height          =   255
             Index           =   1
             Left            =   300
-            TabIndex        =   30
+            TabIndex        =   46
             Top             =   480
             Visible         =   0   'False
             Width           =   2205
@@ -2494,7 +2494,7 @@ Begin VB.Form frmTESCobros
          Left            =   360
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
-         TabIndex        =   14
+         TabIndex        =   15
          Tag             =   "obs|T|S|||cobros|observa|||"
          Text            =   "frmTESCobros.frx":0334
          Top             =   4920
@@ -2515,7 +2515,7 @@ Begin VB.Form frmTESCobros
          Index           =   16
          Left            =   10950
          MaxLength       =   30
-         TabIndex        =   20
+         TabIndex        =   21
          Tag             =   "Gastos|N|S|||cobros|gastos|#,###,##0.00||"
          Text            =   "1.999.999.00"
          Top             =   2850
@@ -2535,7 +2535,7 @@ Begin VB.Form frmTESCobros
          Height          =   360
          Index           =   32
          Left            =   7710
-         TabIndex        =   11
+         TabIndex        =   12
          Tag             =   "Ultima reclamacion|F|S|||cobros|ultimareclamacion|dd/mm/yyyy||"
          Text            =   "99/99/9999"
          Top             =   2850
@@ -2556,7 +2556,7 @@ Begin VB.Form frmTESCobros
          Index           =   4
          Left            =   1560
          Locked          =   -1  'True
-         TabIndex        =   52
+         TabIndex        =   65
          Text            =   "Text2"
          Top             =   1440
          Width           =   8025
@@ -2575,7 +2575,7 @@ Begin VB.Form frmTESCobros
          Height          =   360
          Index           =   33
          Left            =   360
-         TabIndex        =   7
+         TabIndex        =   8
          Tag             =   "departamento|N|S|||cobros|departamento|||"
          Text            =   "Text1"
          Top             =   1440
@@ -2594,7 +2594,7 @@ Begin VB.Form frmTESCobros
          Height          =   360
          Index           =   10
          Left            =   5100
-         TabIndex        =   9
+         TabIndex        =   10
          Text            =   "0000"
          Top             =   2130
          Width           =   4395
@@ -2614,7 +2614,7 @@ Begin VB.Form frmTESCobros
          Index           =   3
          Left            =   7410
          Locked          =   -1  'True
-         TabIndex        =   46
+         TabIndex        =   59
          Text            =   "Text2"
          Top             =   720
          Width           =   2235
@@ -2633,7 +2633,7 @@ Begin VB.Form frmTESCobros
          Height          =   360
          Index           =   9
          Left            =   360
-         TabIndex        =   10
+         TabIndex        =   11
          Tag             =   "Cta prevista|T|N|||cobros|ctabanc1|||"
          Text            =   "Text1"
          Top             =   2850
@@ -2654,7 +2654,7 @@ Begin VB.Form frmTESCobros
          Index           =   2
          Left            =   1740
          Locked          =   -1  'True
-         TabIndex        =   45
+         TabIndex        =   58
          Text            =   "Text2"
          Top             =   2850
          Width           =   5925
@@ -2674,7 +2674,7 @@ Begin VB.Form frmTESCobros
          Index           =   6
          Left            =   10950
          MaxLength       =   30
-         TabIndex        =   18
+         TabIndex        =   19
          Tag             =   "Importe|N|N|||cobros|impvenci|#,###,##0.00||"
          Text            =   "1.999.999.00"
          Top             =   2130
@@ -2694,7 +2694,7 @@ Begin VB.Form frmTESCobros
          Height          =   360
          Index           =   5
          Left            =   11160
-         TabIndex        =   16
+         TabIndex        =   17
          Tag             =   "Fecha vencimiento|F|N|||cobros|fecvenci|dd/mm/yyyy||"
          Text            =   "99/99/9999"
          Top             =   1380
@@ -2714,7 +2714,7 @@ Begin VB.Form frmTESCobros
          Height          =   360
          Index           =   0
          Left            =   9720
-         TabIndex        =   15
+         TabIndex        =   16
          Tag             =   "Forma Pago|N|N|0||cobros|codforpa|000||"
          Text            =   "Text1"
          Top             =   720
@@ -2735,7 +2735,7 @@ Begin VB.Form frmTESCobros
          Index           =   1
          Left            =   10500
          Locked          =   -1  'True
-         TabIndex        =   44
+         TabIndex        =   57
          Text            =   "Text2"
          Top             =   720
          Width           =   4785
@@ -2754,7 +2754,7 @@ Begin VB.Form frmTESCobros
          Height          =   360
          Index           =   4
          Left            =   360
-         TabIndex        =   5
+         TabIndex        =   7
          Tag             =   "Cta. cliente|T|N|||cobros|codmacta|||"
          Text            =   "Text1"
          Top             =   720
@@ -2775,7 +2775,7 @@ Begin VB.Form frmTESCobros
          Index           =   0
          Left            =   1740
          Locked          =   -1  'True
-         TabIndex        =   43
+         TabIndex        =   56
          Text            =   "Text2"
          Top             =   720
          Width           =   5625
@@ -2816,7 +2816,7 @@ Begin VB.Form frmTESCobros
          Left            =   5190
          List            =   "frmTESCobros.frx":0347
          Style           =   2  'Dropdown List
-         TabIndex        =   6
+         TabIndex        =   45
          Tag             =   "Situación|N|N|||cobros|situacion|||"
          Top             =   720
          Width           =   2175
@@ -2885,7 +2885,7 @@ Begin VB.Form frmTESCobros
          Height          =   285
          Index           =   8
          Left            =   12510
-         TabIndex        =   74
+         TabIndex        =   87
          Top             =   2130
          Width           =   1200
       End
@@ -2903,7 +2903,7 @@ Begin VB.Form frmTESCobros
          Height          =   255
          Index           =   7
          Left            =   12510
-         TabIndex        =   73
+         TabIndex        =   86
          Top             =   1410
          Width           =   1185
       End
@@ -2921,7 +2921,7 @@ Begin VB.Form frmTESCobros
          Height          =   195
          Index           =   35
          Left            =   360
-         TabIndex        =   72
+         TabIndex        =   85
          Top             =   3960
          Width           =   1335
       End
@@ -2939,7 +2939,7 @@ Begin VB.Form frmTESCobros
          Height          =   195
          Index           =   34
          Left            =   360
-         TabIndex        =   71
+         TabIndex        =   84
          Top             =   3270
          Width           =   1335
       End
@@ -2957,7 +2957,7 @@ Begin VB.Form frmTESCobros
          Height          =   195
          Index           =   33
          Left            =   5160
-         TabIndex        =   70
+         TabIndex        =   83
          Top             =   1860
          Width           =   780
       End
@@ -2974,7 +2974,7 @@ Begin VB.Form frmTESCobros
          EndProperty
          Height          =   255
          Left            =   12510
-         TabIndex        =   67
+         TabIndex        =   80
          Top             =   2880
          Width           =   1245
       End
@@ -2999,7 +2999,7 @@ Begin VB.Form frmTESCobros
          Height          =   240
          Index           =   14
          Left            =   360
-         TabIndex        =   64
+         TabIndex        =   77
          Top             =   1860
          Width           =   705
       End
@@ -3016,7 +3016,7 @@ Begin VB.Form frmTESCobros
          EndProperty
          Height          =   255
          Left            =   360
-         TabIndex        =   61
+         TabIndex        =   74
          Top             =   4620
          Width           =   1455
       End
@@ -3034,7 +3034,7 @@ Begin VB.Form frmTESCobros
          Height          =   195
          Index           =   18
          Left            =   9720
-         TabIndex        =   60
+         TabIndex        =   73
          Top             =   2850
          Width           =   780
       End
@@ -3052,7 +3052,7 @@ Begin VB.Form frmTESCobros
          Height          =   195
          Index           =   11
          Left            =   7770
-         TabIndex        =   59
+         TabIndex        =   72
          Top             =   2580
          Width           =   1485
       End
@@ -3078,7 +3078,7 @@ Begin VB.Form frmTESCobros
          Height          =   240
          Index           =   12
          Left            =   360
-         TabIndex        =   53
+         TabIndex        =   66
          Top             =   1140
          Width           =   1395
       End
@@ -3104,7 +3104,7 @@ Begin VB.Form frmTESCobros
          Height          =   240
          Index           =   9
          Left            =   360
-         TabIndex        =   51
+         TabIndex        =   64
          Top             =   2580
          Width           =   2220
       End
@@ -3122,7 +3122,7 @@ Begin VB.Form frmTESCobros
          Height          =   285
          Index           =   6
          Left            =   9720
-         TabIndex        =   50
+         TabIndex        =   63
          Top             =   2130
          Width           =   780
       End
@@ -3140,7 +3140,7 @@ Begin VB.Form frmTESCobros
          Height          =   195
          Index           =   5
          Left            =   9720
-         TabIndex        =   49
+         TabIndex        =   62
          Top             =   1440
          Width           =   1125
       End
@@ -3166,7 +3166,7 @@ Begin VB.Form frmTESCobros
          Height          =   240
          Index           =   0
          Left            =   9750
-         TabIndex        =   48
+         TabIndex        =   61
          Top             =   420
          Width           =   1470
       End
@@ -3192,7 +3192,7 @@ Begin VB.Form frmTESCobros
          Height          =   240
          Index           =   3
          Left            =   360
-         TabIndex        =   47
+         TabIndex        =   60
          Top             =   420
          Width           =   1455
       End
@@ -3200,7 +3200,7 @@ Begin VB.Form frmTESCobros
    Begin VB.Frame Frame1 
       Height          =   540
       Left            =   120
-      TabIndex        =   35
+      TabIndex        =   48
       Top             =   10050
       Width           =   4095
       Begin VB.Label lblIndicador 
@@ -3217,7 +3217,7 @@ Begin VB.Form frmTESCobros
          EndProperty
          Height          =   255
          Left            =   240
-         TabIndex        =   36
+         TabIndex        =   49
          Top             =   210
          Width           =   3675
       End
@@ -3227,7 +3227,7 @@ Begin VB.Form frmTESCobros
       Caption         =   "Frame3"
       Height          =   765
       Left            =   120
-      TabIndex        =   37
+      TabIndex        =   50
       Top             =   870
       Width           =   15555
       Begin VB.TextBox Text1 
@@ -3244,7 +3244,7 @@ Begin VB.Form frmTESCobros
          Index           =   25
          Left            =   10500
          MaxLength       =   15
-         TabIndex        =   32
+         TabIndex        =   5
          Tag             =   "Referencia1|T|S|||cobros|referencia1|||"
          Text            =   "Text1"
          Top             =   270
@@ -3264,7 +3264,7 @@ Begin VB.Form frmTESCobros
          Index           =   24
          Left            =   12840
          MaxLength       =   15
-         TabIndex        =   34
+         TabIndex        =   6
          Tag             =   "Referencia2|T|S|||cobros|referencia2|||"
          Text            =   "Text1"
          Top             =   270
@@ -3284,7 +3284,7 @@ Begin VB.Form frmTESCobros
          Index           =   18
          Left            =   8100
          MaxLength       =   15
-         TabIndex        =   33
+         TabIndex        =   4
          Tag             =   "Referencia|T|S|0||cobros|referencia|||"
          Text            =   "Text1"
          Top             =   270
@@ -3305,7 +3305,7 @@ Begin VB.Form frmTESCobros
          Index           =   13
          Left            =   120
          MaxLength       =   30
-         TabIndex        =   1
+         TabIndex        =   0
          Tag             =   "Serie|T|N|||cobros|numserie||S|"
          Text            =   "Text1"
          Top             =   270
@@ -3325,7 +3325,7 @@ Begin VB.Form frmTESCobros
          Height          =   360
          Index           =   1
          Left            =   1200
-         TabIndex        =   2
+         TabIndex        =   1
          Tag             =   "Nº Factura|N|N|||cobros|numfactu|0000000|S|"
          Text            =   "Text1"
          Top             =   270
@@ -3346,7 +3346,7 @@ Begin VB.Form frmTESCobros
          Index           =   3
          Left            =   4440
          MaxLength       =   30
-         TabIndex        =   4
+         TabIndex        =   3
          Tag             =   "Nº Vencimiento|N|N|0||cobros|numorden||S|"
          Text            =   "Text1"
          Top             =   270
@@ -3367,7 +3367,7 @@ Begin VB.Form frmTESCobros
          Index           =   2
          Left            =   2880
          MaxLength       =   10
-         TabIndex        =   3
+         TabIndex        =   2
          Tag             =   "Fecha Factura|F|N|||cobros|fecfactu|dd/mm/yyyy|S|"
          Text            =   "Text1"
          Top             =   270
@@ -3395,7 +3395,7 @@ Begin VB.Form frmTESCobros
          Height          =   225
          Index           =   22
          Left            =   10500
-         TabIndex        =   69
+         TabIndex        =   82
          Top             =   0
          Width           =   1740
       End
@@ -3413,7 +3413,7 @@ Begin VB.Form frmTESCobros
          Height          =   225
          Index           =   23
          Left            =   12840
-         TabIndex        =   68
+         TabIndex        =   81
          Top             =   0
          Width           =   1770
       End
@@ -3437,7 +3437,7 @@ Begin VB.Form frmTESCobros
          Height          =   195
          Index           =   20
          Left            =   8100
-         TabIndex        =   65
+         TabIndex        =   78
          Top             =   0
          Width           =   1710
       End
@@ -3455,7 +3455,7 @@ Begin VB.Form frmTESCobros
          Height          =   195
          Index           =   13
          Left            =   240
-         TabIndex        =   41
+         TabIndex        =   54
          Top             =   0
          Width           =   540
       End
@@ -3473,7 +3473,7 @@ Begin VB.Form frmTESCobros
          Height          =   240
          Index           =   1
          Left            =   1260
-         TabIndex        =   40
+         TabIndex        =   53
          Top             =   0
          Width           =   1155
       End
@@ -3491,7 +3491,7 @@ Begin VB.Form frmTESCobros
          Height          =   195
          Index           =   2
          Left            =   4410
-         TabIndex        =   39
+         TabIndex        =   52
          Top             =   0
          Width           =   1860
       End
@@ -3509,7 +3509,7 @@ Begin VB.Form frmTESCobros
          Height          =   195
          Index           =   4
          Left            =   2880
-         TabIndex        =   38
+         TabIndex        =   51
          Top             =   0
          Width           =   975
       End
@@ -3517,7 +3517,7 @@ Begin VB.Form frmTESCobros
    Begin MSComctlLib.Toolbar ToolbarAyuda 
       Height          =   390
       Left            =   15060
-      TabIndex        =   81
+      TabIndex        =   94
       Top             =   210
       Width           =   405
       _ExtentX        =   714
@@ -3692,13 +3692,19 @@ Private Sub Check1_Click(Index As Integer)
 End Sub
 
 Private Sub Check1_KeyPress(Index As Integer, KeyAscii As Integer)
+    If Index = 4 Then
+        If KeyAscii = 13 Then
+            PonerFocoBtn Me.cmdAceptar
+            KeyAscii = 0
+        End If
+    End If
     KEYpress KeyAscii
 End Sub
 
 
 
 Private Sub cmdAceptar_Click()
-    Dim cad As String
+    Dim Cad As String
     Dim i As Integer
     
     Screen.MousePointer = vbHourglass
@@ -3712,7 +3718,7 @@ Private Sub cmdAceptar_Click()
             '-----------------------------------------
             'Hacemos insertar
             If InsertarDesdeForm2(Me, 1) Then
-                Data1.RecordSource = "Select * from " & NombreTabla & ObtenerWhereCab(True) & Ordenacion
+                data1.RecordSource = "Select * from " & NombreTabla & ObtenerWhereCab(True) & Ordenacion
                 PosicionarData
                 PonerCampos
             End If
@@ -3728,13 +3734,13 @@ Private Sub cmdAceptar_Click()
                 If SituarData Then
                 
                     Text1_LostFocus 0
-                    cad = vTipForpa 'para que no pierda el valor
+                    Cad = vTipForpa 'para que no pierda el valor
                     PonerModo 2
-                    vTipForpa = cad
-                    cad = ""
+                    vTipForpa = Cad
+                    Cad = ""
                     PonPendiente
                     '-- Esto permanece para saber donde estamos
-                    lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
+                    lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
 
                 Else
                     LimpiarCampos
@@ -3831,7 +3837,7 @@ Private Function SituarData() As Boolean
     On Error GoTo ESituarData1
         SituarData = False
                     
-        With Data1
+        With data1
             'Vemos poscion
             posicion = .Recordset.AbsolutePosition - 1
             'Actualizamos el recordset
@@ -3874,7 +3880,7 @@ Private Sub BotonAnyadir()
     lblIndicador.Caption = "INSERTANDO"
     
     'metemos el codusu
-    Text1(43).Text = vUsu.id
+    Text1(43).Text = vUsu.Id
     
     Combo1.ListIndex = 0
     Text2(3).Text = Combo1.Text
@@ -3898,7 +3904,7 @@ Private Sub BotonBuscar()
         PonFoco Text1(13)
         Else
             HacerBusqueda
-            If Data1.Recordset.EOF Then
+            If data1.Recordset.EOF Then
                  '### A mano
                 Text1(kCampo).Text = ""
                 Text1(kCampo).BackColor = vbYellow
@@ -3923,21 +3929,21 @@ Private Sub BotonVerTodos()
 End Sub
 
 Private Sub Desplazamiento(Index As Integer)
-    If Data1.Recordset.EOF Then Exit Sub
+    If data1.Recordset.EOF Then Exit Sub
     Select Case Index
         Case 1
-            Data1.Recordset.MoveFirst
+            data1.Recordset.MoveFirst
         Case 2
-            Data1.Recordset.MovePrevious
-            If Data1.Recordset.BOF Then Data1.Recordset.MoveFirst
+            data1.Recordset.MovePrevious
+            If data1.Recordset.BOF Then data1.Recordset.MoveFirst
         Case 3
-            Data1.Recordset.MoveNext
-            If Data1.Recordset.EOF Then Data1.Recordset.MoveLast
+            data1.Recordset.MoveNext
+            If data1.Recordset.EOF Then data1.Recordset.MoveLast
         Case 4
-            Data1.Recordset.MoveLast
+            data1.Recordset.MoveLast
     End Select
     PonerCampos
-    lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
+    lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
 End Sub
 
 Private Sub BotonModificar()
@@ -3977,7 +3983,7 @@ Dim N As Byte
         
         
         'Si es una remesa de talon/pagare tb dejare modificar el numero de talon pagare
-        If Val(DBLet(Data1.Recordset!Tiporem)) > 1 Then
+        If Val(DBLet(data1.Recordset!Tiporem)) > 1 Then
             Text1(27).Locked = False
             Text1(27).BackColor = vbWhite
         End If
@@ -4001,31 +4007,31 @@ Dim N As Byte
 End Sub
 
 Private Sub BotonEliminar()
-    Dim cad As String
+    Dim Cad As String
     Dim i As Integer
     Dim SQL As String
     Dim SqlLog As String
     
 
     'Ciertas comprobaciones
-    If Data1.Recordset.EOF Then Exit Sub
+    If data1.Recordset.EOF Then Exit Sub
     
     'Comprobamos si se puede eliminar
     i = SePuedeEliminar2
     If i < 3 Then Exit Sub
     '### a mano
-    cad = "Seguro que desea eliminar de la BD el registro actual:"
-    cad = cad & vbCrLf & Data1.Recordset.Fields(0) & "  " & Data1.Recordset.Fields(1) & " "
-    cad = cad & Data1.Recordset.Fields(2) & "  " & Data1.Recordset.Fields(3)
-    i = MsgBox(cad, vbQuestion + vbYesNoCancel + vbDefaultButton2)
+    Cad = "Seguro que desea eliminar de la BD el registro actual:"
+    Cad = Cad & vbCrLf & data1.Recordset.Fields(0) & "  " & data1.Recordset.Fields(1) & " "
+    Cad = Cad & data1.Recordset.Fields(2) & "  " & data1.Recordset.Fields(3)
+    i = MsgBox(Cad, vbQuestion + vbYesNoCancel + vbDefaultButton2)
     'Borramos
     If i = vbYes Then
         'Borro el elemento
-        SQL = "Delete from cobros  WHERE numserie = '" & Data1.Recordset!NUmSerie & "' AND numfactu = " & Data1.Recordset!NumFactu
-        SQL = SQL & " AND fecfactu = " & DBSet(Data1.Recordset!FecFactu, "F") & " AND numorden =" & Data1.Recordset!numorden
+        SQL = "Delete from cobros  WHERE numserie = '" & data1.Recordset!NUmSerie & "' AND numfactu = " & data1.Recordset!NumFactu
+        SQL = SQL & " AND fecfactu = " & DBSet(data1.Recordset!FecFactu, "F") & " AND numorden =" & data1.Recordset!numorden
         
         DataGridAux(1).Enabled = False
-        NumRegElim = Data1.Recordset.AbsolutePosition
+        NumRegElim = data1.Recordset.AbsolutePosition
         Conn.Execute SQL
 
         SqlLog = "Serie      : " & Text1(13).Text
@@ -4038,18 +4044,18 @@ Private Sub BotonEliminar()
         vLog.Insertar 23, vUsu, SqlLog
 
 
-        Data1.Refresh
-        If Data1.Recordset.EOF Then
+        data1.Refresh
+        If data1.Recordset.EOF Then
             'Solo habia un registro
             LimpiarCampos
             CargaList 0, False
             PonerModo 0
             Else
-                Data1.Recordset.MoveFirst
+                data1.Recordset.MoveFirst
                 NumRegElim = NumRegElim - 1
                 If NumRegElim > 1 Then
                     For i = 1 To NumRegElim - 1
-                        Data1.Recordset.MoveNext
+                        data1.Recordset.MoveNext
                     Next i
                 End If
                 PonerCampos
@@ -4063,10 +4069,10 @@ Error2:
 End Sub
 
 Private Sub cmdRegresar_Click()
-Dim cad As String
+Dim Cad As String
 Dim impo As Currency
     
-    If Data1.Recordset.EOF Then
+    If data1.Recordset.EOF Then
         MsgBox "Ningún registro devuelto.", vbExclamation
         Exit Sub
     End If
@@ -4095,14 +4101,14 @@ Dim impo As Currency
     
     'Devolvera muuuuchas cosas
     'serie factura fecfac numvto
-    cad = Text1(13).Text & "|" & Format(Text1(1).Text, "0000000") & "|" & Text1(2).Text & "|" & Text1(3).Text & "|"
+    Cad = Text1(13).Text & "|" & Format(Text1(1).Text, "0000000") & "|" & Text1(2).Text & "|" & Text1(3).Text & "|"
     'Codmacta nommacta codforpa   nomforpa   importe
-    cad = cad & Text1(4).Text & "|" & Text2(0).Text & "|" & Text1(0).Text & "|" & Text2(1).Text & "|" & CStr(impo) & "|"
+    Cad = Cad & Text1(4).Text & "|" & Text2(0).Text & "|" & Text1(0).Text & "|" & Text2(1).Text & "|" & CStr(impo) & "|"
     'Lo que lleva cobrado
-    cad = cad & Text1(8).Text & "|"
+    Cad = Cad & Text1(8).Text & "|"
     
     
-    RaiseEvent DatoSeleccionado(cad)
+    RaiseEvent DatoSeleccionado(Cad)
     Unload Me
 End Sub
 
@@ -4154,7 +4160,7 @@ Dim i As Integer
         .DisabledImageList = frmppal.imgListComun_BN
         .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 47
-        .Buttons(2).Image = 47
+        .Buttons(2).Image = 13
         .Buttons(3).Image = 44
         .Buttons(4).Image = 37
     End With
@@ -4238,9 +4244,9 @@ Dim i As Integer
     'Vemos como esta guardado el valor del check
     chkVistaPrevia.Value = CheckValueLeer(Name)
     'ASignamos un SQL al DATA1
-    Data1.ConnectionString = Conn
-    Data1.RecordSource = "Select * from " & NombreTabla
-    Data1.Refresh
+    data1.ConnectionString = Conn
+    data1.RecordSource = "Select * from " & NombreTabla & " WHERE FALSE"
+    data1.Refresh
     If DatosADevolverBusqueda = "" Then
         PonerModo 0
     Else
@@ -4282,7 +4288,7 @@ Private Sub frmA_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmB_Selecionado(CadenaDevuelta As String)
-Dim cad As String
+Dim Cad As String
 
     If CadenaDevuelta <> "" Then
         If DevfrmCCtas <> "" Then
@@ -4296,14 +4302,14 @@ Dim cad As String
             'Sabemos que campos son los que nos devuelve
             'Creamos una cadena consulta y ponemos los datos
             DevfrmCCtas = ValorDevueltoFormGrid(Text1(4), CadenaDevuelta, 1)
-            cad = DevfrmCCtas
+            Cad = DevfrmCCtas
             DevfrmCCtas = ValorDevueltoFormGrid(Text1(1), CadenaDevuelta, 2)
-            cad = cad & " AND " & DevfrmCCtas
+            Cad = Cad & " AND " & DevfrmCCtas
             DevfrmCCtas = ValorDevueltoFormGrid(Text1(2), CadenaDevuelta, 3)
-            cad = cad & " AND " & DevfrmCCtas
+            Cad = Cad & " AND " & DevfrmCCtas
             DevfrmCCtas = ValorDevueltoFormGrid(Text1(3), CadenaDevuelta, 4)
-            cad = cad & " AND " & DevfrmCCtas
-            DevfrmCCtas = cad
+            Cad = Cad & " AND " & DevfrmCCtas
+            DevfrmCCtas = Cad
             If DevfrmCCtas = "" Then Exit Sub
             '   Como la clave principal es unica, con poner el sql apuntando
             '   al valor devuelto sobre la clave ppal es suficiente
@@ -4318,16 +4324,16 @@ Dim cad As String
 End Sub
 
 Private Sub PonerDatoDevuelto(CadenaDevuelta As String)
-Dim cad As String
+Dim Cad As String
     DevfrmCCtas = ValorDevueltoFormGrid(Text1(13), CadenaDevuelta, 1)
-    cad = DevfrmCCtas
+    Cad = DevfrmCCtas
     DevfrmCCtas = ValorDevueltoFormGrid(Text1(1), CadenaDevuelta, 2)
-    cad = cad & " AND " & DevfrmCCtas
+    Cad = Cad & " AND " & DevfrmCCtas
     DevfrmCCtas = ValorDevueltoFormGrid(Text1(2), CadenaDevuelta, 3)
-    cad = cad & " AND " & DevfrmCCtas
+    Cad = Cad & " AND " & DevfrmCCtas
     DevfrmCCtas = ValorDevueltoFormGrid(Text1(3), CadenaDevuelta, 4)
-    cad = cad & " AND " & DevfrmCCtas
-    DevfrmCCtas = cad
+    Cad = Cad & " AND " & DevfrmCCtas
+    DevfrmCCtas = Cad
     If DevfrmCCtas = "" Then Exit Sub
     'Se muestran en el mismo form
     CadenaConsulta = "select * from " & NombreTabla & " WHERE " & DevfrmCCtas & " " & Ordenacion
@@ -4559,12 +4565,12 @@ Private Sub Text1_KeyPress(Index As Integer, KeyAscii As Integer)
             Case 36: KEYPPal KeyAscii, 1
         End Select
     Else
-        If Index = 24 Then
-            'Despues de la fecha prorroga va el btn
-            PonleFoco Me.cmdAceptar
-        Else
+        'If Index = 24 Then
+        '    'Despues de la fecha prorroga va el btn
+        '    'PonleFoco Me.cmdAceptar
+        'Else
             KEYpress KeyAscii
-        End If
+        'End If
     End If
 End Sub
 
@@ -4653,7 +4659,7 @@ Private Sub Text1_LostFocus(Index As Integer)
             If Modo > 2 And Index = 4 Then
                 SQL = ""
                 If Modo = 4 Then
-                    SQL = DBLet(Data1.Recordset!IBAN)
+                    SQL = DBLet(data1.Recordset!IBAN)
                 Else
                     SQL = Text1(19).Text
                 End If
@@ -4702,7 +4708,7 @@ Private Sub Text1_LostFocus(Index As Integer)
                     If Trim(Text1(Index).Text) <> CtaAnt Then CargarDatosCuenta Text1(Index), False
                 Else
                     If Modo = 4 Then
-                        If Text1(Index).Text <> CStr(Data1.Recordset!codmacta) Then
+                        If Text1(Index).Text <> CStr(data1.Recordset!codmacta) Then
                             Text1(42).Text = ""
                             CtaAnt = ""
                         End If
@@ -4859,7 +4865,7 @@ End Function
 
 
 Private Sub HacerBusqueda()
-Dim cad As String
+Dim Cad As String
 
 
     Text1(19).Text = Text1(10).Text
@@ -4954,7 +4960,7 @@ Dim frmTESVerCobPag As frmTESVerCobrosPagos
     
     If CadenaDesdeOtroForm <> "" Then
         PonerDatoDevuelto CadenaDesdeOtroForm
-        If (Not Data1.Recordset.EOF) And DatosADevolverBusqueda <> "" Then cmdRegresar_Click
+        If (Not data1.Recordset.EOF) And DatosADevolverBusqueda <> "" Then cmdRegresar_Click
     Else   'de ha devuelto datos, es decir NO ha devuelto datos
         ' Text1(kCampo).SetFocus
         PonerFoco Text1(kCampo)
@@ -4967,16 +4973,16 @@ Private Sub PonerCadenaBusqueda()
 Screen.MousePointer = vbHourglass
 On Error GoTo EEPonerBusq
 
-Data1.RecordSource = CadenaConsulta
-Data1.Refresh
-If Data1.Recordset.RecordCount <= 0 Then
+data1.RecordSource = CadenaConsulta
+data1.Refresh
+If data1.Recordset.RecordCount <= 0 Then
     MsgBox "No hay ningún registro en la tabla " & NombreTabla, vbInformation
     Screen.MousePointer = vbDefault
     Exit Sub
 
     Else
         PonerModo 2
-        Data1.Recordset.MoveFirst
+        data1.Recordset.MoveFirst
         PonerCampos
 End If
 
@@ -4994,8 +5000,8 @@ Private Sub PonerCampos()
     Dim mTag As CTag
     Dim SQL As String
 
-    If Data1.Recordset.EOF Then Exit Sub
-    PonerCamposForma2 Me, Data1, 1
+    If data1.Recordset.EOF Then Exit Sub
+    PonerCamposForma2 Me, data1, 1
 '    PonerCtasIVA
     
     Text2(0).Text = PonerNombreDeCod(Text1(4), "cuentas", "nommacta", "codmacta", "T")
@@ -5038,7 +5044,7 @@ Private Sub PonerCampos()
     PonPendiente
     
     '-- Esto permanece para saber donde estamos
-    lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
+    lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
     
 End Sub
 
@@ -5048,7 +5054,7 @@ Dim Importe As Currency
 
     On Error GoTo EPonPendiente
     'Pendiente
-    Importe = Data1.Recordset!ImpVenci + DBLet(Data1.Recordset!Gastos, "N") - DBLet(Data1.Recordset!impcobro, "N")
+    Importe = data1.Recordset!ImpVenci + DBLet(data1.Recordset!Gastos, "N") - DBLet(data1.Recordset!impcobro, "N")
     txtPendiente.Text = Format(Importe, FormatoImporte)
     
 EPonPendiente:
@@ -5096,8 +5102,8 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
        
     'Modo 2. Hay datos y estamos visualizandolos
     B = (Kmodo = 2)
-    If Not Data1.Recordset Is Nothing Then
-        DespalzamientoVisible B And (Data1.Recordset.RecordCount > 1)
+    If Not data1.Recordset Is Nothing Then
+        DespalzamientoVisible B And (data1.Recordset.RecordCount > 1)
     End If
     
     If DatosADevolverBusqueda <> "" Then
@@ -5301,7 +5307,7 @@ Dim Tipo As Integer
     Text1(19).Text = Replace(Text1(10).Text, " ", "")
     
         If Modo = 4 Then
-            If DBLet(Me.Data1.Recordset!recedocu, "N") = 1 Then
+            If DBLet(Me.data1.Recordset!recedocu, "N") = 1 Then
                 'Tiene la marca de documento recibido
                 'Veremos si se la ha quitado
                 If Me.Check1(0).Value = 0 Then
@@ -5413,13 +5419,13 @@ Private Function SePuedeEliminar2() As Byte
     SePuedeEliminar2 = 0 'NO se puede eliminar
 
     SePuedeEliminar2 = 1
-    If Val(DBLet(Data1.Recordset!CodRem)) > 0 Then
+    If Val(DBLet(data1.Recordset!CodRem)) > 0 Then
         MsgBox "Pertenece a una remesa", vbExclamation
         'Noviembre 2009
         If vUsu.Nivel < 2 Then
-            If CStr(Data1.Recordset!siturem) = "Q" Or CStr(Data1.Recordset!siturem) = "Y" Then
+            If CStr(data1.Recordset!siturem) = "Q" Or CStr(data1.Recordset!siturem) = "Y" Then
                 'DEJO ELIMINARLO
-                If MsgBox("Efecto remesado. Situacion: " & Data1.Recordset!siturem & vbCrLf & "¿Continuar?", vbQuestion + vbYesNo) = vbNo Then
+                If MsgBox("Efecto remesado. Situacion: " & data1.Recordset!siturem & vbCrLf & "¿Continuar?", vbQuestion + vbYesNo) = vbNo Then
                     SePuedeEliminar2 = 0
                     Exit Function
                 End If
@@ -5435,21 +5441,21 @@ Private Function SePuedeEliminar2() As Byte
     End If
     
     'Si no esta en transferencia
-    If Val(DBLet(Data1.Recordset!transfer)) > 0 Then
+    If Val(DBLet(data1.Recordset!transfer)) > 0 Then
         MsgBox "Pertenece a una transferencia", vbExclamation
         Exit Function
     End If
     
     
     'Si  tiene documento recibido
-    If Val(DBLet(Data1.Recordset!recedocu)) > 0 Then
+    If Val(DBLet(data1.Recordset!recedocu)) > 0 Then
         'Documento recibido
         '
-        DevfrmCCtas = "numserie='" & Data1.Recordset!NUmSerie
-        DevfrmCCtas = DevfrmCCtas & "' AND fecfactu='" & Format(Data1.Recordset!FecFactu, FormatoFecha)
-        DevfrmCCtas = DevfrmCCtas & "' AND numfactu=" & Data1.Recordset!NumFactu
+        DevfrmCCtas = "numserie='" & data1.Recordset!NUmSerie
+        DevfrmCCtas = DevfrmCCtas & "' AND fecfactu='" & Format(data1.Recordset!FecFactu, FormatoFecha)
+        DevfrmCCtas = DevfrmCCtas & "' AND numfactu=" & data1.Recordset!NumFactu
         DevfrmCCtas = DevfrmCCtas & " AND numorden"
-        DevfrmCCtas = DevuelveDesdeBD("codigo", "talones_facturas", DevfrmCCtas, Data1.Recordset!numorden)
+        DevfrmCCtas = DevuelveDesdeBD("codigo", "talones_facturas", DevfrmCCtas, data1.Recordset!numorden)
         If DevfrmCCtas <> "" Then
             DevfrmCCtas = "Esta en la recepcion de documentos. Numero: " & DevfrmCCtas
             MsgBox DevfrmCCtas, vbExclamation
@@ -5553,21 +5559,21 @@ End Sub
 Private Sub DividirVencimiento()
 Dim Im As Currency
 
-    If Data1.Recordset Is Nothing Then Exit Sub
-    If Data1.Recordset.EOF Then Exit Sub
+    If data1.Recordset Is Nothing Then Exit Sub
+    If data1.Recordset.EOF Then Exit Sub
     
     'Si esta totalmente cobrado pues no podemos desdoblar ekl vto
     
     
     
-    If Val(DBLet(Data1.Recordset!transfer, "N")) = 1 Then
+    If Val(DBLet(data1.Recordset!transfer, "N")) = 1 Then
         MsgBox "Pertenece a una transferencia", vbExclamation
         Exit Sub
     End If
     
     
-    Im = Data1.Recordset!ImpVenci + DBLet(Data1.Recordset!Gastos, "N")
-    Im = Im - DBLet(Data1.Recordset!impcobro, "N")
+    Im = data1.Recordset!ImpVenci + DBLet(data1.Recordset!Gastos, "N")
+    Im = Im - DBLet(data1.Recordset!impcobro, "N")
     If Im = 0 Then
         MsgBox "NO puede dividir el vencimiento. Importe totalmente cobrado", vbExclamation
         Exit Sub
@@ -5579,9 +5585,9 @@ Dim Im As Currency
         '           2.- Numero vto
         '           3.- Importe maximo
     
-    CadenaDesdeOtroForm = "numserie = '" & Data1.Recordset!NUmSerie & "' AND numfactu = " & Data1.Recordset!NumFactu
-    CadenaDesdeOtroForm = CadenaDesdeOtroForm & " AND fecfactu = '" & Format(Data1.Recordset!FecFactu, FormatoFecha) & "'|"
-    CadenaDesdeOtroForm = CadenaDesdeOtroForm & Data1.Recordset!numorden & "|"
+    CadenaDesdeOtroForm = "numserie = '" & data1.Recordset!NUmSerie & "' AND numfactu = " & data1.Recordset!NumFactu
+    CadenaDesdeOtroForm = CadenaDesdeOtroForm & " AND fecfactu = '" & Format(data1.Recordset!FecFactu, FormatoFecha) & "'|"
+    CadenaDesdeOtroForm = CadenaDesdeOtroForm & data1.Recordset!numorden & "|"
     CadenaDesdeOtroForm = CadenaDesdeOtroForm & CStr(Im) & "|"
     
     
@@ -5590,10 +5596,10 @@ Dim Im As Currency
     frmTESCobrosDivVto.Label4(56).Caption = Text2(0).Text
     frmTESCobrosDivVto.txtCodigo(2).Text = Text1(5).Text
     
-    frmTESCobrosDivVto.Label4(57).Caption = Data1.Recordset!NUmSerie & Format(Data1.Recordset!NumFactu, "000000") & " / " & Data1.Recordset!numorden & "      de " & Format(Data1.Recordset!FecFactu, "dd/mm/yyyy")
+    frmTESCobrosDivVto.Label4(57).Caption = data1.Recordset!NUmSerie & Format(data1.Recordset!NumFactu, "000000") & " / " & data1.Recordset!numorden & "      de " & Format(data1.Recordset!FecFactu, "dd/mm/yyyy")
     
     'Si ya ha cobrado algo...
-    Im = DBLet(Data1.Recordset!impcobro, "N")
+    Im = DBLet(data1.Recordset!impcobro, "N")
     'If Im > 0 Then frmTESCobrosDivVto.txtCodigo(1).Text = txtPendiente.Text
     frmTESCobrosDivVto.txtCodigo(1).Text = txtPendiente.Text
     
@@ -5607,9 +5613,9 @@ Dim Im As Currency
     frmTESCobrosDivVto.Show vbModal
     If CadenaDesdeOtroForm <> "" Then
         CadenaConsulta = "Select * from cobros WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1) 'CadenaConsulta
-        Data1.RecordSource = CadenaConsulta
-        Data1.Refresh
-        If Data1.Recordset.RecordCount <= 0 Then
+        data1.RecordSource = CadenaConsulta
+        data1.Refresh
+        If data1.Recordset.RecordCount <= 0 Then
             MsgBox "No hay ningún registro en la tabla " & NombreTabla, vbInformation
         Else
             DevfrmCCtas = ""
@@ -5625,8 +5631,31 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1 'Datos Fiscales
             Me.FrameDatosFiscales.visible = Not Me.FrameDatosFiscales.visible
-           
+            If Me.FrameDatosFiscales.visible Then
+                If Modo = 1 Or Modo = 2 Or Modo = 3 Then PonerFoco Text1(42)
+            End If
         Case 2
+            If Modo <> 2 Then Exit Sub
+            If Text1(13).Text = "" Then Exit Sub
+            
+            Msg = "numserie=" & DBSet(Text1(13).Text, "T") & " and numfactu=" & DBSet(Text1(1).Text, "N") & " AND anofactu"
+            Msg = DevuelveDesdeBD("numfactu", "factcli", Msg, Year(CDate(Text1(2).Text)), "F")
+            If Msg = "" Then
+                MsgBox "No existe la factura en el registro de facturas emitidas", vbExclamation
+            Else
+                frmFacturasCli.FACTURA = Text1(13).Text & "|" & Text1(1).Text & "|" & Year(CDate(Text1(2).Text)) & "||"
+                frmFacturasCli.Show vbModal
+                Screen.MousePointer = vbHourglass
+                If Not SituarData Then
+                    PonerModo 0
+                Else
+                    PonerCampos
+                End If
+                Screen.MousePointer = vbDefault
+            End If
+            
+            
+        Case 3
             'dividir vencimientos
             If Text1(13).Text = "" Then Exit Sub
             
@@ -5634,12 +5663,12 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
         
         
         
-        Case 3
+        Case 4
             'Generar Cobros
-            If Me.Data1.Recordset.EOF Then Exit Sub
+            If Me.data1.Recordset.EOF Then Exit Sub
             If Modo <> 2 Then Exit Sub
             If vTipForpa <> "" Then
-                If (Val(vTipForpa) <> vbTipoPagoRemesa) Or (Val(vTipForpa) = vbTipoPagoRemesa And Val(DBLet(Data1.Recordset!CodRem)) = 0) Then
+                If (Val(vTipForpa) <> vbTipoPagoRemesa) Or (Val(vTipForpa) = vbTipoPagoRemesa And Val(DBLet(data1.Recordset!CodRem)) = 0) Then
                     If SePuedeEliminar2 < 3 Then Exit Sub
                 
                     'Bloqueamos
@@ -5657,7 +5686,7 @@ End Sub
 
 Private Sub CargaList(Index As Integer, Enlaza As Boolean)
 Dim IT
-Dim cad As String
+Dim Cad As String
 
     lwCobros.ListItems.Clear
     If Not Enlaza Then Exit Sub  'marzo 2017
@@ -5665,22 +5694,22 @@ Dim cad As String
     Set Me.lwCobros.SmallIcons = frmppal.imgListComun16 'imgListComun 'ImgListviews
     Set miRsAux = New ADODB.Recordset
     
-    cad = "SELECT  hlinapu.numdiari, hlinapu.fechaent, "
-    cad = cad & " hlinapu.numasien, hlinapu.ctacontr, "
-    cad = cad & " hcabapu.usucreacion, hcabapu.feccreacion, tipofpago.siglas, "
-    cad = cad & " hlinapu.reftalonpag, hlinapu.bancotalonpag, "
-    cad = cad & " (coalesce(hlinapu.timporteh,0) - coalesce(hlinapu.timported,0)) impcobro, hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden,  hlinapu.codrem "
-    cad = cad & " FROM (hlinapu INNER JOIN tipofpago ON hlinapu.tipforpa = tipofpago.tipoformapago)  INNER JOIN hcabapu ON hlinapu.numdiari = hcabapu.numdiari and hlinapu.fechaent = hcabapu.fechaent and hlinapu.numasien = hcabapu.numasien  "
+    Cad = "SELECT  hlinapu.numdiari, hlinapu.fechaent, "
+    Cad = Cad & " hlinapu.numasien, hlinapu.ctacontr, "
+    Cad = Cad & " hcabapu.usucreacion, hcabapu.feccreacion, tipofpago.siglas, "
+    Cad = Cad & " hlinapu.reftalonpag, hlinapu.bancotalonpag, "
+    Cad = Cad & " (coalesce(hlinapu.timporteh,0) - coalesce(hlinapu.timported,0)) impcobro, hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden,  hlinapu.codrem "
+    Cad = Cad & " FROM (hlinapu INNER JOIN tipofpago ON hlinapu.tipforpa = tipofpago.tipoformapago)  INNER JOIN hcabapu ON hlinapu.numdiari = hcabapu.numdiari and hlinapu.fechaent = hcabapu.fechaent and hlinapu.numasien = hcabapu.numasien  "
     If Enlaza Then
-        cad = cad & Replace(Replace(ObtenerWhereCab(True), "cobros", "hlinapu"), "numfactu", "numfaccl")
+        Cad = Cad & Replace(Replace(ObtenerWhereCab(True), "cobros", "hlinapu"), "numfactu", "numfaccl")
     Else
         'cad = cad & " WHERE hlinapu.codmacta is null"
-        cad = cad & " WHERE false"  'aunque aqui ya no entra
+        Cad = Cad & " WHERE false"  'aunque aqui ya no entra
     End If
-    cad = cad & " ORDER BY hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden, hlinapu.fechaent, hlinapu.numasien "
+    Cad = Cad & " ORDER BY hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden, hlinapu.fechaent, hlinapu.numasien "
     
     
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         Set IT = lwCobros.ListItems.Add()
         IT.Text = DBLet(miRsAux!NumDiari, "N")
@@ -5814,12 +5843,12 @@ Dim vWhere As String
 End Function
 
 Private Sub PosicionarData()
-Dim cad As String, Indicador As String
+Dim Cad As String, Indicador As String
 
-    cad = "(numserie=" & DBSet(Text1(13).Text, "T") & " and numfactu = " & DBSet(Text1(1).Text, "N") & " and fecfactu = " & DBSet(Text1(2).Text, "F") & " and numorden = " & DBSet(Text1(3).Text, "N") & ") "
+    Cad = "(numserie=" & DBSet(Text1(13).Text, "T") & " and numfactu = " & DBSet(Text1(1).Text, "N") & " and fecfactu = " & DBSet(Text1(2).Text, "F") & " and numorden = " & DBSet(Text1(3).Text, "N") & ") "
     
     ' *** gastar SituarData o SituarDataMULTI depenent de si la PK es simple o composta ***
-    If SituarDataMULTI(Data1, cad, Indicador) Then
+    If SituarDataMULTI(data1, Cad, Indicador) Then
         If ModoLineas <> 1 Then PonerModo 2
         lblIndicador.Caption = Indicador
     Else
@@ -5831,15 +5860,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
@@ -5852,8 +5881,9 @@ Dim cad As String
         Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 0 Or Modo = 2)
         
         Me.Toolbar2.Buttons(1).Enabled = DBLet(Rs!especial, "N") And (Modo <> 0 And Modo <> 5)
-        Me.Toolbar2.Buttons(2).Enabled = DBLet(Rs!especial, "N") And Modo = 2
+        Me.Toolbar2.Buttons(2).Enabled = vEmpresa.TieneContabilidad And Modo = 2
         Me.Toolbar2.Buttons(3).Enabled = DBLet(Rs!especial, "N") And Modo = 2
+        Me.Toolbar2.Buttons(4).Enabled = DBLet(Rs!especial, "N") And Modo = 2
         
         
             ToolbarAux.Buttons(1).Enabled = DBLet(Rs!especial, "N") And (Modo = 2) And Not Me.AdoAux(0).Recordset.EOF
@@ -6070,9 +6100,9 @@ Dim Eliminar As Boolean
         'Creo que no hace falta volver a situar el datagrid
         'If SituarData1(0) Then
         If True Then
-            lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
+            lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
             
-            Data1.Refresh
+            data1.Refresh
             PonerModo 2
         Else
             PonerModo 0
@@ -6364,7 +6394,7 @@ Private Sub InsertarLinea()
 Dim nomframe As String
 Dim B As Boolean
 Dim Limp As Boolean
-Dim cad As String
+Dim Cad As String
 
 
 
@@ -6393,7 +6423,7 @@ Dim cad As String
                 Conn.RollbackTrans
             End If
             
-            B = BLOQUEADesdeFormulario2(Me, Data1, 1)
+            B = BLOQUEADesdeFormulario2(Me, data1, 1)
             
             Select Case NumTabMto
                 Case 0, 1 ' *** els index de les llinies en grid (en o sense tab) ***
@@ -6426,7 +6456,7 @@ Private Sub ModificarLinea_Dev()
 'Modifica registre en les taules de Llínies
 Dim nomframe As String
 Dim v As Integer
-Dim cad As String
+Dim Cad As String
 Dim B As Boolean
 
     On Error Resume Next
@@ -6438,15 +6468,15 @@ Dim B As Boolean
     ' **************************************************************
 
     'If DatosOkLlin(nomframe) Then
-    cad = ""
+    Cad = ""
     If txtaux1(6).Text = "" Then
-        cad = "Motivo de devolucion"
+        Cad = "Motivo de devolucion"
     Else
-        If txtaux1(8).Text = "" Then cad = "No existe motivo de devolucion"
+        If txtaux1(8).Text = "" Then Cad = "No existe motivo de devolucion"
     End If
     
-    If cad <> "" Then
-        MsgBox cad, vbExclamation
+    If Cad <> "" Then
+        MsgBox Cad, vbExclamation
         
     Else
     
@@ -6456,19 +6486,19 @@ Dim B As Boolean
         
         B = True
         
-        cad = AdoAux(1).RecordSource
-        v = InStr(1, cad, " WHERE ")
-        cad = Mid(cad, v)
+        Cad = AdoAux(1).RecordSource
+        v = InStr(1, Cad, " WHERE ")
+        Cad = Mid(Cad, v)
         
-        v = InStr(1, cad, " ORDER BY ")
-        cad = Mid(cad, 1, v - 1)
+        v = InStr(1, Cad, " ORDER BY ")
+        Cad = Mid(Cad, 1, v - 1)
         
-        cad = "UPDATE hlinapu SET coddevol = " & DBSet(txtaux1(6).Text, "T") & " " & cad
+        Cad = "UPDATE hlinapu SET coddevol = " & DBSet(txtaux1(6).Text, "T") & " " & Cad
         
 '        If B And ModificaDesdeFormulario2(Me, 2, nomframe) Then
 '
 '            B = RecalcularTotalesCobros
-        B = Ejecuta(cad)
+        B = Ejecuta(Cad)
         If B Then
             Conn.CommitTrans
             

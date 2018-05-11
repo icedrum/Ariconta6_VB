@@ -1445,7 +1445,7 @@ Dim NF2 As Integer
     Line Input #NF, Linea
     
     
-    Depuracion = True
+    Depuracion = False
     If Depuracion Then
         NF2 = NF + 1
         Open "c:\navarr.dat" For Output As #NF2
@@ -1470,7 +1470,8 @@ Dim NF2 As Integer
                 SQL = Mid(Linea, 1, 220)
                 ColLineas.Add SQL
                 If Depuracion Then
-                    If Mid(Linea, 66, 2) = "02" Then Print #NF2, SQL
+                    'If Mid(Linea, 66, 2) = "02" Then Print #NF2, SQL
+                     Print #NF2, SQL
                 End If
                 Linea = Mid(Linea, 221)
             End If
@@ -1819,7 +1820,7 @@ Dim LinDebug As String
        ImprimeLinea = False
        LinDebug = ""
         
-       If miRsAux!seccion = 3 Then
+       If miRsAux!seccion = 16 Then
              
             ImprimeLinea = True
         End If
@@ -1857,8 +1858,10 @@ Dim LinDebug As String
         PreCoste = miRsAux!precosteud / 1000
         ImprimeLineaDebug LinDebug, PreCoste, 8
         
+        'Coste * uDs
         PreCoste = Round2(PreCoste * Unidades, 2)
-   
+        ImprimeLineaDebug LinDebug, PreCoste, 8
+        
         'DEBGU: Venta   Imp. Coste  IVA Vta s/iva   Imp. V.s/iva    Margen  Cuota 5%    Base Imp.   IVA Total
         'PVP sin IVA.   Octubre 2016 UNITARIO
         Base = miRsAux!precioventa / 100
@@ -1866,19 +1869,25 @@ Dim LinDebug As String
         Base = Round(((Base / Unidades) / (1 + IVA)) * Unidades, 3)
         
         'Debug. Im`porte coste:
-        ImprimeLineaDebug LinDebug, PreCoste, 8
+        ImprimeLineaDebug LinDebug, Base, 8 'PVP sin iva
         ImprimeLineaDebug LinDebug, IVA * 100, 10
         
         'BaseImponible = Base * Unidades
         BaseImponible = Round2(Base * Unidades, 2)
+        ImprimeLineaDebug LinDebug, BaseImponible, 8
     
         'Intermedio = Base - PreCoste
-        Intermedio = BaseImponible - PreCoste
+        'Intermedio = BaseImponible - PreCoste
         Intermedio = Round2(BaseImponible - PreCoste, 2)
         
+        ImprimeLineaDebug LinDebug, Intermedio, 8
+        
+        
         Margen = (Intermedio * PorcenFranquicia)
+        ImprimeLineaDebug LinDebug, Margen, 8
+        
         Margen = Intermedio - Margen
-       
+        ImprimeLineaDebug LinDebug, Margen, 8  'margen burot
        
         'Base = Round(PreCoste + (Intermedio * PorcenFranquicia), 2)
         
@@ -1912,9 +1921,6 @@ Dim LinDebug As String
     'ANTES
     'SQL = SQL & "select seccion,(porceniva + 0)/100,truncate(sum(basecalculada+coste),2),round(sum(ivacalculado),2),0,tipoiva"
     SQL = SQL & "select seccion,(porceniva + 0)/100,truncate(sum(basecalculada+coste),2),round(sum(ivacalculado),2),0,tipoiva"
-    
-    
-    
     SQL = SQL & " from importnavtmp group by 1,2"
     'Conn.Execute SQL
     
@@ -1931,6 +1937,7 @@ Dim LinDebug As String
         Intermedio = miRsAux!margenB
         PreCoste = PreCoste + Margen - Intermedio
         Intermedio = (IVA * PreCoste) / 100
+        
         SQL = SQL & ", (" & miRsAux!seccion & "," & TransformaComasPuntos(CStr(miRsAux!porceiva)) & ","
         SQL = SQL & TransformaComasPuntos(CStr(PreCoste)) & "," & TransformaComasPuntos(CStr(Intermedio))
         SQL = SQL & ",0," & miRsAux!TipoIva & ")"

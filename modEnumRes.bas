@@ -87,7 +87,7 @@ Private Const LR_LOADMAP3DCOLORS As Long = &H1000
 'Private Const LR_VGACOLOR As Long = &H80
 
 '/ mie
-Private Declare Function LoadImage Lib "user32" Alias "LoadImageA" (ByVal hInst As Long, ByVal lpsz As String, ByVal dwImageType As Long, ByVal dwDesiredWidth As Long, ByVal dwDesiredHeight As Long, ByVal dwFlags As Long) As Long
+Public Declare Function LoadImage Lib "user32" Alias "LoadImageA" (ByVal hInst As Long, ByVal lpsz As String, ByVal dwImageType As Long, ByVal dwDesiredWidth As Long, ByVal dwDesiredHeight As Long, ByVal dwFlags As Long) As Long
 'Private Declare Function DrawIconEx Lib "user32.dll" (ByVal hdc As Long, ByVal xLeft As Long, ByVal yTop As Long, ByVal hIcon As Long, ByVal cxWidth As Long, ByVal cyWidth As Long, ByVal istepIfAniCur As Long, ByVal hbrFlickerFreeDraw As Long, ByVal diFlags As Long) As Long
 'Private Declare Function DestroyIcon Lib "user32" (ByVal hIcon As Long) As Long
 'Private Declare Function GetLastError Lib "kernel32.dll" () As Long
@@ -112,8 +112,8 @@ Private Type PictDesc
     yExt As Long
 End Type
 Private Type GUID
-    Data1 As Long
-    Data2 As Integer
+    data1 As Long
+    data2 As Integer
     Data3 As Integer
     Data4(0 To 7) As Byte
 End Type
@@ -186,8 +186,8 @@ Private Function IconToPicture(ByVal hIcon As Long) As StdPicture
         .hImage = hIcon
     End With
     With IGuid
-        .Data1 = &H7BF80980
-        .Data2 = &HBF32
+        .data1 = &H7BF80980
+        .data2 = &HBF32
         .Data3 = &H101A
         .Data4(0) = &H8B
         .Data4(1) = &HBB

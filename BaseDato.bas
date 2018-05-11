@@ -13,6 +13,9 @@ Dim H As String
 'Para los balances
 Dim M1 As Integer   ' años y kmeses para el balance
 Dim M2 As Integer
+
+Dim M22 As Long
+
 Dim M3 As Integer
 Dim A1 As Integer
 Dim A2 As Integer
@@ -87,7 +90,7 @@ End Sub
 
 'EsClave: Si es clave, en los char NO forzaremos los *
 Public Function SeparaCampoBusqueda(Tipo As String, Campo As String, CADENA As String, ByRef DevSQL As String, EsClave As Boolean) As Byte
-Dim cad As String
+Dim Cad As String
 Dim Aux As String
 Dim Ch As String
 Dim Fin As Boolean
@@ -96,7 +99,7 @@ Dim i, J As String
 On Error GoTo ErrSepara
 SeparaCampoBusqueda = 1
 DevSQL = ""
-cad = ""
+Cad = ""
 Select Case Tipo
 Case "N"
     '----------------  NUMERICO  ---------------------
@@ -106,12 +109,12 @@ Case "N"
     i = InStr(1, CADENA, ":")
     If i > 0 Then
         'Intervalo numerico
-        cad = Mid(CADENA, 1, i - 1)
+        Cad = Mid(CADENA, 1, i - 1)
         Aux = Mid(CADENA, i + 1)
-        If Not IsNumeric(cad) Or Not IsNumeric(Aux) Then Exit Function  'No son numeros
+        If Not IsNumeric(Cad) Or Not IsNumeric(Aux) Then Exit Function  'No son numeros
         'Intervalo correcto
         'Construimos la cadena
-        DevSQL = Campo & " >= " & cad & " AND " & Campo & " <= " & Aux
+        DevSQL = Campo & " >= " & Cad & " AND " & Campo & " <= " & Aux
         '----
         'ELSE
         Else
@@ -122,12 +125,12 @@ Case "N"
              Else
                     Fin = False
                     i = 1
-                    cad = ""
+                    Cad = ""
                     Aux = "NO ES NUMERO"
                     While Not Fin
                         Ch = Mid(CADENA, i, 1)
                         If Ch = ">" Or Ch = "<" Or Ch = "=" Then
-                            cad = cad & Ch
+                            Cad = Cad & Ch
                             Else
                                 Aux = Mid(CADENA, i)
                                 Fin = True
@@ -138,8 +141,8 @@ Case "N"
                     'En aux debemos tener el numero
                     If Not IsNumeric(Aux) Then Exit Function
                     'Si que es numero. Entonces, si Cad="" entronces le ponemos =
-                    If cad = "" Then cad = " = "
-                    DevSQL = Campo & " " & cad & " " & Aux
+                    If Cad = "" Then Cad = " = "
+                    DevSQL = Campo & " " & Cad & " " & Aux
             End If
         End If
 Case "F"
@@ -150,16 +153,16 @@ Case "F"
     i = InStr(1, CADENA, ":")
     If i > 0 Then
         'Intervalo de fechas
-        cad = Mid(CADENA, 1, i - 1)
+        Cad = Mid(CADENA, 1, i - 1)
         Aux = Mid(CADENA, i + 1)
-        If Not EsFechaOKString(cad) Or Not EsFechaOKString(Aux) Then Exit Function  'Fechas incorrectas
+        If Not EsFechaOKString(Cad) Or Not EsFechaOKString(Aux) Then Exit Function  'Fechas incorrectas
         'Intervalo correcto
         'Construimos la cadena
-        cad = Format(cad, FormatoFecha)
+        Cad = Format(Cad, FormatoFecha)
         Aux = Format(Aux, FormatoFecha)
         'En my sql es la ' no el #
         'DevSQL = Campo & " >=#" & Cad & "# AND " & Campo & " <= #" & AUX & "#"
-        DevSQL = Campo & " >='" & cad & "' AND " & Campo & " <= '" & Aux & "'"
+        DevSQL = Campo & " >='" & Cad & "' AND " & Campo & " <= '" & Aux & "'"
         '----
         'ELSE
         Else
@@ -169,12 +172,12 @@ Case "F"
             Else
                 Fin = False
                 i = 1
-                cad = ""
+                Cad = ""
                 Aux = "NO ES FECHA"
                 While Not Fin
                     Ch = Mid(CADENA, i, 1)
                     If Ch = ">" Or Ch = "<" Or Ch = "=" Then
-                        cad = cad & Ch
+                        Cad = Cad & Ch
                         Else
                             Aux = Mid(CADENA, i)
                             Fin = True
@@ -186,8 +189,8 @@ Case "F"
                 If Not EsFechaOKString(Aux) Then Exit Function
                 'Si que es numero. Entonces, si Cad="" entronces le ponemos =
                 Aux = "'" & Format(Aux, FormatoFecha) & "'"
-                If cad = "" Then cad = " = "
-                DevSQL = Campo & " " & cad & " " & Aux
+                If Cad = "" Then Cad = " = "
+                DevSQL = Campo & " " & Cad & " " & Aux
             End If
         End If
     
@@ -210,16 +213,16 @@ Case "T"
     If i > 0 Then
         'Intervalo numerico
 
-        cad = Mid(CADENA, 1, i - 1)
+        Cad = Mid(CADENA, 1, i - 1)
         Aux = Mid(CADENA, i + 1)
         
         'Intervalo correcto
         'Construimos la cadena
-        cad = DevNombreSQL(cad)
+        Cad = DevNombreSQL(Cad)
         Aux = DevNombreSQL(Aux)
         'En my sql es la ' no el #
         'DevSQL = Campo & " >=#" & Cad & "# AND " & Campo & " <= #" & AUX & "#"
-        DevSQL = Campo & " >='" & cad & "' AND " & Campo & " <= '" & Aux & "'"
+        DevSQL = Campo & " >='" & Cad & "' AND " & Campo & " <= '" & Aux & "'"
     
     
     Else
@@ -247,8 +250,8 @@ Case "T"
             i = InStr(1, Aux, "?")
             If i > 0 Then Aux = Mid(Aux, 1, i - 1) & "_" & Mid(Aux, i + 1)
         Wend
-        cad = Mid(CADENA, 1, 2)
-        If cad = "<>" Then
+        Cad = Mid(CADENA, 1, 2)
+        If Cad = "<>" Then
             Aux = Mid(CADENA, 3)
             DevSQL = Campo & " not LIKE '" & Aux & "'"
             Else
@@ -268,10 +271,10 @@ Case "B"
     i = InStr(1, CADENA, "<>")
     If i = 0 Then
         'IGUAL A valor
-        cad = " = "
+        Cad = " = "
         Else
             'Distinto a valor
-        cad = " <> "
+        Cad = " <> "
     End If
     'Verdadero o falso
     i = InStr(1, CADENA, "V")
@@ -281,7 +284,7 @@ Case "B"
             Aux = "False"
     End If
     'Ponemos la cadena
-    DevSQL = Campo & " " & cad & " " & Aux
+    DevSQL = Campo & " " & Cad & " " & Aux
     
 Case Else
     'No hacemos nada
@@ -1923,8 +1926,8 @@ End Sub
 
 
 Private Sub CalcularDiasAplicablesSimulacion(EsEnVentabaja As Boolean, FechaVtaBaja As Date)
-    
-    
+
+    A2 = -1
     If RT!fechaadq > vFecha2 Then
         If RT!fechaadq > vFecha1 Then
             'Ha comprado incluso despues de
@@ -1943,18 +1946,22 @@ Private Sub CalcularDiasAplicablesSimulacion(EsEnVentabaja As Boolean, FechaVtaB
     
     If EsEnVentabaja Then
         'Aqui veremos cuantos dias hay que aplicar la amortizacion
-        A2 = DateDiff("d", vFecha2, FechaVtaBaja)
+        If A2 < 0 Then A2 = DateDiff("d", vFecha2, FechaVtaBaja)
     Else
-        
-        If Not IsNull(RT!fecventa) Then
-            If RT!fecventa >= vFecha2 Then
-                'Se ha vendido despues del la ultima amortizacion
-                A2 = DateDiff("d", vFecha2, RT!fecventa)
-            Else
-                A2 = 0
+        If A2 < 0 Then
+            If Not IsNull(RT!fecventa) Then
+                If RT!fecventa >= vFecha2 Then
+                    'Se ha vendido despues del la ultima amortizacion
+                    A2 = DateDiff("d", vFecha2, RT!fecventa)
+                Else
+                    A2 = 0
+                End If
             End If
         End If
     End If
+    
+    If A2 = -1 Then Err.Raise 513, , "Calculando dias aplicables"
+    
 End Sub
 
 
@@ -2793,7 +2800,7 @@ Public Sub FijaValoresLibroResumen(FIni As Date, fFin As Date, Nivel As Integer,
         
         
     'M2 sera el contador para cada registro
-    M2 = 1
+    M22 = 122222
 End Sub
 
 
@@ -3078,12 +3085,11 @@ Private Sub InsertaParaListadoDiarioResum2(DebeHaber As String)
 Dim C As String
 
 ' clave, fecha, asiento, cuenta, titulo, concepto, debe, haber)
-C = SQL & M2 & ",'" & Format(VFecha3, "dd/mm/yyyy") & "'," & NumAsiento & "," & vCta
+C = SQL & M22 & ",'" & Format(VFecha3, "dd/mm/yyyy") & "'," & NumAsiento & "," & vCta
 C = C & ",'" & Codigo & DebeHaber & "'," & d & "," & H & ")"
-On Error Resume Next
+
 Conn.Execute C
-If Err.Number <> 0 Then MuestraError Err.Number, "Insertando en temporal para informes:" & C
-M2 = M2 + 1
+M22 = M22 + 1
 End Sub
 
 
@@ -3149,7 +3155,7 @@ End Sub
 'En nombres iran empipaditos nommacta y nomccost
 Public Sub Cta_por_CC(ByRef vCuenta As String, vCCos As String, Nombres As String)
 Dim miSQL As String
-Dim cad As String
+Dim Cad As String
     vCta = vCuenta
     Codigo = vCCos
     Set RT = New ADODB.Recordset
@@ -3199,8 +3205,8 @@ Dim cad As String
     miSQL = SQL & "'" & Codigo & "','" & vCta & "',"
     While Not RT.EOF
         A1 = A1 + 1
-        cad = A1 & ",'" & DevNombreSQL(DBLet(RT!Numdocum)) & "','"
-        cad = cad & Format(RT!FechaEnt, FormatoFecha) & "','" & DevNombreSQL(DBLet(RT!Ampconce)) & "',"
+        Cad = A1 & ",'" & DevNombreSQL(DBLet(RT!Numdocum)) & "','"
+        Cad = Cad & Format(RT!FechaEnt, FormatoFecha) & "','" & DevNombreSQL(DBLet(RT!Ampconce)) & "',"
         If IsNull(RT!timported) Then
             ImpD = 0
             d = "NULL"
@@ -3217,7 +3223,7 @@ Dim cad As String
             ImpH = RT!timporteH
             H = TransformaComasPuntos(CStr(RT!timporteH))
         End If
-        cad = cad & d & "," & H & ","
+        Cad = Cad & d & "," & H & ","
         
         ImPerD = ImPerD + ImpD
         ImPerH = ImPerH + ImpH
@@ -3226,20 +3232,20 @@ Dim cad As String
         ImCierrH = ImpD - ImpH
         ImCierrD = ImCierrD + ImCierrH
         H = TransformaComasPuntos(CStr(ImCierrD))
-        cad = cad & H
+        Cad = Cad & H
         
         
         'Ctra partida
         If IsNull(RT!ctacontr) Then
-            cad = cad & ",'',''"
+            Cad = Cad & ",'',''"
         Else
-            cad = cad & ",'" & RT!ctacontr & "','" & DevNombreSQL(DBLet(RT!Nommacta)) & "'"
+            Cad = Cad & ",'" & RT!ctacontr & "','" & DevNombreSQL(DBLet(RT!Nommacta)) & "'"
         End If
         
         
-        cad = cad & ")"
+        Cad = Cad & ")"
         'Ejecutamos
-        Conn.Execute miSQL & cad
+        Conn.Execute miSQL & Cad
     
         'Sig
         RT.MoveNext
@@ -3251,17 +3257,17 @@ Dim cad As String
     'La cabecera
     '->INSERT INTO zcabccexplo (codusu, codccost, codmacta, nommacta, nomccost,
     '-->acumD, acumH, acumS, totD, totH, totS) VALUES (
-    cad = "'" & Codigo & "','" & vCta & "','" & DevNombreSQL(RecuperaValor(Nombres, 1))
-    cad = cad & "','" & DevNombreSQL(RecuperaValor(Nombres, 2)) & "',"
+    Cad = "'" & Codigo & "','" & vCta & "','" & DevNombreSQL(RecuperaValor(Nombres, 1))
+    Cad = Cad & "','" & DevNombreSQL(RecuperaValor(Nombres, 2)) & "',"
     
     '-----------------------------------------
     'Acumulado anterior
     If ImAcD = 0 And ImAcH = 0 Then
-        cad = cad & """"""
+        Cad = Cad & """"""
     Else
-        cad = cad & """S"""
+        Cad = Cad & """S"""
     End If
-    cad = cad & ","
+    Cad = Cad & ","
     If ImAcH = 0 Then
         H = "NULL"
     Else
@@ -3273,7 +3279,7 @@ Dim cad As String
     Else
         d = TransformaComasPuntos(CStr(ImAcD))
     End If
-    cad = cad & d & "," & H
+    Cad = Cad & d & "," & H
     
     
         
@@ -3286,18 +3292,18 @@ Dim cad As String
     Else
         H = TransformaComasPuntos(CStr(ImAcD))
     End If
-    cad = cad & "," & H
+    Cad = Cad & "," & H
 
     '--------------------- TOTALES
     d = TransformaComasPuntos(CStr(ImPerD))
     H = TransformaComasPuntos(CStr(ImPerH))
-    cad = cad & "," & d & "," & H
+    Cad = Cad & "," & d & "," & H
     
     'Saldo final
     d = TransformaComasPuntos(CStr(ImCierrD))
-    cad = cad & "," & d & ")"
+    Cad = Cad & "," & d & ")"
     
-    Conn.Execute Aux & cad
+    Conn.Execute Aux & Cad
     
 End Sub
 
@@ -4008,7 +4014,7 @@ Dim B1 As Byte
 
 Dim ColImportes As Collection
 Dim RN As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
 
 
     Set RC = New ADODB.Recordset
@@ -4042,23 +4048,23 @@ Dim cad As String
     Set RN = New ADODB.Recordset
     While Not RC.EOF
                                                                                                             
-            cad = "SELECT substring(line.codmacta,1," & Len(RC!codmacta)
-            cad = cad & ") as codmacta,'' nommacta ,   year(fechaent) anyo,month(fechaent) mes,"
-            cad = cad & " sum(coalesce(timported,0)) debe, sum(coalesce(timporteh,0)) haber FROM "
-            If Contabilidad >= 0 Then cad = cad & "ariconta" & Contabilidad & "."
-            cad = cad & "hlinapu"
-            cad = cad & " as line "
-            cad = cad & " WHERE codmacta like '" & Trim(RC!codmacta) & "%'"
-            cad = cad & " AND fechaent between " & DBSet(F1, "F") & " AND " & DBSet(F2, "F")
-            cad = cad & " GROUP BY 1,anyo,mes "
-            cad = cad & " ORDER By 1 ,anyo,mes"
+            Cad = "SELECT substring(line.codmacta,1," & Len(RC!codmacta)
+            Cad = Cad & ") as codmacta,'' nommacta ,   year(fechaent) anyo,month(fechaent) mes,"
+            Cad = Cad & " sum(coalesce(timported,0)) debe, sum(coalesce(timporteh,0)) haber FROM "
+            If Contabilidad >= 0 Then Cad = Cad & "ariconta" & Contabilidad & "."
+            Cad = Cad & "hlinapu"
+            Cad = Cad & " as line "
+            Cad = Cad & " WHERE codmacta like '" & Trim(RC!codmacta) & "%'"
+            Cad = Cad & " AND fechaent between " & DBSet(F1, "F") & " AND " & DBSet(F2, "F")
+            Cad = Cad & " GROUP BY 1,anyo,mes "
+            Cad = Cad & " ORDER By 1 ,anyo,mes"
 
             Set ColImportes = Nothing
             Set ColImportes = New Collection
-            RN.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             While Not RN.EOF
-                cad = RN!Anyo & Format(RN!Mes, "00") & "|" & RN!Debe & "|" & RN!Haber & "|"
-                ColImportes.Add cad
+                Cad = RN!Anyo & Format(RN!Mes, "00") & "|" & RN!Debe & "|" & RN!Haber & "|"
+                ColImportes.Add Cad
                 RN.MoveNext
             Wend
             RN.Close
@@ -4166,12 +4172,12 @@ End Function
 'Obteiene la diferencia de la 6y7 para pintarla en el balnace de situacion
 
 Private Sub OntenerPyGActual(ByRef fec1 As Date, ByRef fec2 As Date)
-Dim cad As String
+Dim Cad As String
 Dim RT As ADODB.Recordset
     Set RT = New ADODB.Recordset
-    cad = "select sum(if(timported is null,0,timported)),sum(if(timporteh is null,0,timporteh)  )"
-    cad = cad & " from hlinapu where substring(codmacta,1,1) IN ('6','7') and fechaent >=" & DBSet(fec1, "F") & " and fechaent <=" & DBSet(fec2, "F")
-    RT.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "select sum(if(timported is null,0,timported)),sum(if(timporteh is null,0,timporteh)  )"
+    Cad = Cad & " from hlinapu where substring(codmacta,1,1) IN ('6','7') and fechaent >=" & DBSet(fec1, "F") & " and fechaent <=" & DBSet(fec2, "F")
+    RT.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not RT.EOF Then
         ImCierrH = DBLet(RT.Fields(0), "N")
         ImCierrD = DBLet(RT.Fields(1), "N")
@@ -4458,7 +4464,7 @@ Public Sub FijarValoresEvolucionMensualSaldos(fec1 As Date, fec2 As Date)
     
 End Sub
 
-Public Function DatosEvolucionMensualSaldos2(ByRef Cuenta As String, ByRef DescCuenta As String, vSql As String, MostrarTodosMeses As Boolean, EsEnHlinapu1 As Boolean, QuitarCierre As Boolean, Optional FechaInicio As Date, Optional Tipo As Integer) As Byte
+Public Function DatosEvolucionMensualSaldos(ByRef Cuenta As String, ByRef DescCuenta As String, vSql As String, MostrarTodosMeses As Boolean, EsEnHlinapu1 As Boolean, QuitarCierre As Boolean, Optional FechaInicio As Date, Optional Tipo As Integer, Optional Acumular As Boolean) As Byte
 Dim NuloApertura As Boolean
 Dim HacerAñoAnterior As Boolean
 Dim importeCierreD As Currency
@@ -4565,8 +4571,9 @@ Dim importeCierreH As Currency
                     
                         
                     For M3 = M1 To M2 - 1
+                        
                         VFecha3 = CDate("01/" & M3 & "/" & Year(vFecha1))
-                        InsertaLineaEvolucion Tipo
+                        InsertaLineaEvolucion Tipo, Acumular
                     Next M3
                     M1 = M2
                                 
@@ -4579,20 +4586,20 @@ Dim importeCierreH As Currency
                                          'El ultimo mes en meterse fue el anterior
                         For M3 = M1 To M2 - 1
                             VFecha3 = CDate("01/" & M3 & "/" & A1)
-                            InsertaLineaEvolucion Tipo
+                            InsertaLineaEvolucion Tipo, Acumular
                         Next M3
                         
                         
                     Else
                         For M3 = M1 To 12
                             VFecha3 = CDate("01/" & M3 & "/" & A1)
-                            InsertaLineaEvolucion Tipo
+                            InsertaLineaEvolucion Tipo, Acumular
                         Next M3
                         
                         A1 = A2 'cambiamos año
                         For M3 = 1 To M2 - 1
                             VFecha3 = CDate("01/" & M3 & "/" & A1)
-                            InsertaLineaEvolucion Tipo
+                            InsertaLineaEvolucion Tipo, Acumular
                         Next M3
                         
                     End If
@@ -4628,6 +4635,7 @@ Dim importeCierreH As Currency
         ImCierrD = ImCierrD + ImpD
         ImCierrH = ImCierrH + ImpH
         
+        
         If MostrarTodosMeses Then
             M3 = 1
         Else
@@ -4638,7 +4646,7 @@ Dim importeCierreH As Currency
             End If
         End If
         
-        If M3 = 1 Then InsertaLineaEvolucion Tipo
+        If M3 = 1 Then InsertaLineaEvolucion Tipo, Acumular
         
         M1 = M1 + 1
         If Year(vFecha1) <> Year(vFecha2) Then   'Si años partidos
@@ -4678,7 +4686,7 @@ Dim importeCierreH As Currency
                 'Año natural
                 For M3 = M1 To 12
                     VFecha3 = CDate("01/" & M3 & "/" & A2)
-                    InsertaLineaEvolucion Tipo
+                    InsertaLineaEvolucion Tipo, Acumular
                 Next M3
             End If
         Else
@@ -4696,7 +4704,7 @@ Dim importeCierreH As Currency
              
                     For M3 = M1 To 12
                         VFecha3 = CDate("01/" & M3 & "/" & A2)
-                        InsertaLineaEvolucion Tipo
+                        InsertaLineaEvolucion Tipo, Acumular
                     Next M3
                     M1 = 1
                     M2 = Month(vFecha2)
@@ -4711,7 +4719,7 @@ Dim importeCierreH As Currency
                 
                 For M3 = M1 To M2
                     VFecha3 = CDate("01/" & M3 & "/" & Year(vFecha2))
-                    InsertaLineaEvolucion Tipo
+                    InsertaLineaEvolucion Tipo, Acumular
                 Next M3
 
             End If
@@ -4733,7 +4741,7 @@ Dim importeCierreH As Currency
 End Function
 
 
-Private Sub InsertaLineaEvolucion(Tipo As Integer)
+Private Sub InsertaLineaEvolucion(Tipo As Integer, Acumulado As Boolean)
 Dim Importe As Currency
 Dim vAux As Long
 
@@ -4744,6 +4752,9 @@ Dim vAux As Long
     ImPerD = ImPerD + (ImpD - ImpH)
     Codigo = Codigo & TransformaComasPuntos(CStr(ImPerD)) & ")"
     Conn.Execute Codigo
+    
+    
+    
     
     Dim Sql2 As String
     Dim Rs As ADODB.Recordset
@@ -4761,6 +4772,8 @@ Dim vAux As Long
         Case 2
             Importe = ImPerD 'ImpD - ImpH
     End Select
+    
+    If Not Acumulado Then ImPerD = 0
     
     
     If Not Rs.EOF Then

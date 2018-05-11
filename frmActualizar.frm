@@ -527,7 +527,7 @@ EIntegraFactura:
 End Function
 
 Private Function IntegraLaFactura(ByRef A_Donde As String) As Boolean
-Dim cad As String
+Dim Cad As String
 Dim Cad2 As String
 Dim Cad3 As String
 Dim Amplia2 As String
@@ -582,24 +582,24 @@ Dim PrimeraContrapartida As String
         SQL = SQL & ","
         'Marzo 2010
         'Si tiene observaciones las llevo al apunte
-        cad = DBLet(RF!observa, "T")
-        If cad = "" Then
-            cad = "NULL,"
+        Cad = DBLet(RF!observa, "T")
+        If Cad = "" Then
+            Cad = "NULL,"
         Else
-            cad = "'" & DevNombreSQL(cad) & "',"
+            Cad = "'" & DevNombreSQL(Cad) & "',"
         End If
-        cad = cad & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6:Contab. Fra cli " & NUmSerie & Format(NumFac, "0000000") & " " & Fecha & "')"
+        Cad = Cad & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6:Contab. Fra cli " & NUmSerie & Format(NumFac, "0000000") & " " & Fecha & "')"
         
         
-        SQL = SQL & cad
+        SQL = SQL & Cad
         Conn.Execute SQL
     End If
     
     'Lineas fijas, es decir la linea de cliente, importes y tal y tal
     'Para el sql
-    cad = "INSERT INTO hlinapu (numdiari, fechaent, numasien, linliapu, codmacta, numdocum, "
-    cad = cad & "codconce,ampconce, timporteD, timporteH,codccost, ctacontr, idcontab, punteada)"
-    cad = cad & " VALUES (" & DiarioFacturas & ",'" & Fecha & "'," & NumAsiento & ","
+    Cad = "INSERT INTO hlinapu (numdiari, fechaent, numasien, linliapu, codmacta, numdocum, "
+    Cad = Cad & "codconce,ampconce, timporteD, timporteH,codccost, ctacontr, idcontab, punteada)"
+    Cad = Cad & " VALUES (" & DiarioFacturas & ",'" & Fecha & "'," & NumAsiento & ","
     Mes = 1 'Contador de lineas
     
     
@@ -660,7 +660,7 @@ Dim PrimeraContrapartida As String
     SQL = SQL & ",'FRACLI',0)"
     
     
-    Conn.Execute cad & SQL
+    Conn.Execute Cad & SQL
     Mes = Mes + 1 'Es el contador de lineaapunteshco
     
     ' cuentas de iva ahora se sacan de las tablas de totales
@@ -684,11 +684,11 @@ Dim PrimeraContrapartida As String
             'dependiendo de si ContabilizarAptIva0 = 1 se contabiliza o no el iva
             If Importe0 Then
                 If vParam.ContabApteIva0 Then
-                    Conn.Execute cad & SQL
+                    Conn.Execute Cad & SQL
                     Mes = Mes + 1
                 End If
             Else
-                Conn.Execute cad & SQL
+                Conn.Execute Cad & SQL
                 Mes = Mes + 1
             End If
             
@@ -700,7 +700,7 @@ Dim PrimeraContrapartida As String
                     SQL = SQL & "," & Cad2 & ","
                     SQL = SQL & "NULL,'" & DBLet(RF!codmacta, "T") & "','FRACLI',0)"
                     If Not Importe0 Then
-                        Conn.Execute cad & SQL
+                        Conn.Execute Cad & SQL
                         Mes = Mes + 1
                     End If
             End If
@@ -724,7 +724,7 @@ Dim PrimeraContrapartida As String
         SQL = SQL & "," & Cad2 & ","
         SQL = SQL & "NULL,NULL,'FRACLI',0)"
        
-        Conn.Execute cad & SQL
+        Conn.Execute Cad & SQL
         Mes = Mes + 1 'Es el contador de lineaapunteshco
     End If
     
@@ -770,7 +770,7 @@ Dim PrimeraContrapartida As String
         
         SQL = SQL & Cad2 & ",'" & DBLet(Cuenta, "T") & "','FRACLI',0)"
     
-        Conn.Execute cad & SQL
+        Conn.Execute Cad & SQL
         Mes = Mes + 1 'Es el contador de lineaapunteshco
         
         'Siguiente
@@ -822,7 +822,7 @@ End Function
 '
 '           Facturas proveedores
 Private Function IntegraLaFacturaProv(ByRef A_Donde As String) As Boolean
-Dim cad As String
+Dim Cad As String
 Dim Cad2 As String
 Dim Cad3 As String
 Dim DocConcAmp As String
@@ -883,16 +883,16 @@ Dim TipoDIva As Byte
         
         'Marzo 2010
         'Si tiene observaciones las llevo al apunte
-        cad = DBLet(RF!observa, "T")
-        If cad = "" Then
-            cad = "NULL,"
+        Cad = DBLet(RF!observa, "T")
+        If Cad = "" Then
+            Cad = "NULL,"
         Else
-            cad = "'" & DevNombreSQL(cad) & "',"
+            Cad = "'" & DevNombreSQL(Cad) & "',"
         End If
         
-        cad = cad & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Fra.Pro Reg:" & Format(NumFac, "000000") & " " & Fecha & "')"
+        Cad = Cad & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Fra.Pro Reg:" & Format(NumFac, "000000") & " " & Fecha & "')"
         
-        SQL = SQL & "," & cad
+        SQL = SQL & "," & Cad
         
         Conn.Execute SQL
         
@@ -902,9 +902,9 @@ Dim TipoDIva As Byte
     
     'Lineas fijas, es decir la linea de cliente, importes y tal y tal
     'Para el sql
-    cad = "INSERT INTO hlinapu (numdiari, fechaent, numasien, linliapu, codmacta, numdocum, "
-    cad = cad & "codconce,ampconce, timporteD, timporteH,codccost, ctacontr, idcontab, punteada)"
-    cad = cad & " VALUES (" & DiarioFacturas & ",'" & Fecha & "'," & NumAsiento & ","
+    Cad = "INSERT INTO hlinapu (numdiari, fechaent, numasien, linliapu, codmacta, numdocum, "
+    Cad = Cad & "codconce,ampconce, timporteD, timporteH,codccost, ctacontr, idcontab, punteada)"
+    Cad = Cad & " VALUES (" & DiarioFacturas & ",'" & Fecha & "'," & NumAsiento & ","
     Mes = 1 'Contador de lineas
     PrimeraContrapartida = ""
     
@@ -975,7 +975,7 @@ Dim TipoDIva As Byte
     End If
     SQL = SQL & ",'FRAPRO',0)"
     
-    Conn.Execute cad & SQL
+    Conn.Execute Cad & SQL
     Mes = Mes + 1 'Es el contador de lineaapunteshco
     
     ' cuentas de iva ahora se sacan de las tablas de totales
@@ -1015,13 +1015,13 @@ Dim TipoDIva As Byte
             If Importe0 Then
                 If vParam.ContabApteIva0 Then
                     If Not EsImportacion Then
-                        Conn.Execute cad & SQL
+                        Conn.Execute Cad & SQL
                         Mes = Mes + 1
                     End If
                 End If
             Else
                 If Not EsImportacion Then
-                    Conn.Execute cad & SQL
+                    Conn.Execute Cad & SQL
                     Mes = Mes + 1
                 End If
             End If
@@ -1034,7 +1034,7 @@ Dim TipoDIva As Byte
                 SQL = SQL & "," & Cad2 & ","
                 SQL = SQL & "NULL,'" & RF!codmacta & "','FRAPRO',0)"
                 If Not Importe0 Then
-                    Conn.Execute cad & SQL
+                    Conn.Execute Cad & SQL
                     Mes = Mes + 1
                 End If
             End If
@@ -1051,7 +1051,7 @@ Dim TipoDIva As Byte
                 SQL = SQL & "," & Cad2 & ","
                 SQL = SQL & "NULL,'" & RF!codmacta & "','FRAPRO',0)"
                 'If Not Importe0 Then
-                    Conn.Execute cad & SQL
+                    Conn.Execute Cad & SQL
                     Mes = Mes + 1
                 'End If
                
@@ -1062,7 +1062,7 @@ Dim TipoDIva As Byte
                     SQL = SQL & "," & Cad2 & ","
                     SQL = SQL & "NULL,'" & RF!codmacta & "','FRAPRO',0)"
                     If Not Importe0 Then
-                        Conn.Execute cad & SQL
+                        Conn.Execute Cad & SQL
                         Mes = Mes + 1
                     End If
                 End If
@@ -1090,7 +1090,7 @@ Dim TipoDIva As Byte
         SQL = SQL & "," & Cad2 & ","
         SQL = SQL & "NULL,NULL,'FRAPRO',0)"
        
-        Conn.Execute cad & SQL
+        Conn.Execute Cad & SQL
         Mes = Mes + 1 'Es el contador de lineaapunteshco
     End If
     
@@ -1135,7 +1135,7 @@ Dim TipoDIva As Byte
         
         SQL = SQL & Cad2 & ",'" & Cuenta & "','FRAPRO',0)"
     
-        Conn.Execute cad & SQL
+        Conn.Execute Cad & SQL
         Mes = Mes + 1 'Es el contador de lineaapunteshco
         
         'Siguiente

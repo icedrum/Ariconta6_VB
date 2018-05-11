@@ -27,7 +27,7 @@ Begin VB.Form frmFacturasProListado
       EndProperty
       Height          =   2655
       Left            =   7140
-      TabIndex        =   45
+      TabIndex        =   54
       Top             =   6750
       Width           =   4455
       Begin VB.OptionButton optVarios 
@@ -44,7 +44,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   240
          Index           =   4
          Left            =   390
-         TabIndex        =   59
+         TabIndex        =   18
          Top             =   1791
          Width           =   2295
       End
@@ -62,7 +62,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   240
          Index           =   3
          Left            =   390
-         TabIndex        =   52
+         TabIndex        =   15
          Top             =   600
          Width           =   1755
       End
@@ -80,7 +80,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   240
          Index           =   2
          Left            =   390
-         TabIndex        =   51
+         TabIndex        =   17
          Top             =   1394
          Width           =   2295
       End
@@ -98,7 +98,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   240
          Index           =   1
          Left            =   390
-         TabIndex        =   48
+         TabIndex        =   19
          Top             =   2190
          Width           =   1725
       End
@@ -116,7 +116,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   240
          Index           =   0
          Left            =   390
-         TabIndex        =   47
+         TabIndex        =   16
          Top             =   997
          Width           =   1755
       End
@@ -134,7 +134,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   240
          Index           =   1
          Left            =   2460
-         TabIndex        =   46
+         TabIndex        =   20
          Top             =   2220
          Width           =   1335
       End
@@ -152,7 +152,7 @@ Begin VB.Form frmFacturasProListado
       EndProperty
       Height          =   6705
       Left            =   120
-      TabIndex        =   22
+      TabIndex        =   32
       Top             =   0
       Width           =   6915
       Begin VB.TextBox txtNCuentas 
@@ -170,7 +170,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   1
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   56
+         TabIndex        =   58
          Top             =   5160
          Width           =   4215
       End
@@ -189,7 +189,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   0
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   55
+         TabIndex        =   57
          Top             =   4740
          Width           =   4215
       End
@@ -208,7 +208,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   1
          Left            =   2040
          Locked          =   -1  'True
-         TabIndex        =   54
+         TabIndex        =   56
          Top             =   1380
          Width           =   4665
       End
@@ -227,7 +227,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   0
          Left            =   2040
          Locked          =   -1  'True
-         TabIndex        =   53
+         TabIndex        =   55
          Top             =   960
          Width           =   4665
       End
@@ -419,7 +419,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   195
          Index           =   14
          Left            =   270
-         TabIndex        =   42
+         TabIndex        =   52
          Top             =   5730
          Width           =   960
       End
@@ -438,7 +438,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   195
          Index           =   11
          Left            =   240
-         TabIndex        =   37
+         TabIndex        =   47
          Top             =   4380
          Width           =   960
       End
@@ -456,7 +456,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   195
          Index           =   10
          Left            =   240
-         TabIndex        =   36
+         TabIndex        =   46
          Top             =   4770
          Width           =   690
       End
@@ -474,7 +474,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   195
          Index           =   9
          Left            =   240
-         TabIndex        =   35
+         TabIndex        =   45
          Top             =   5130
          Width           =   615
       End
@@ -522,7 +522,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   195
          Index           =   2
          Left            =   270
-         TabIndex        =   34
+         TabIndex        =   44
          Top             =   2640
          Width           =   615
       End
@@ -540,7 +540,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   195
          Index           =   3
          Left            =   270
-         TabIndex        =   33
+         TabIndex        =   43
          Top             =   2280
          Width           =   690
       End
@@ -558,7 +558,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   195
          Index           =   4
          Left            =   270
-         TabIndex        =   32
+         TabIndex        =   42
          Top             =   3930
          Width           =   615
       End
@@ -576,7 +576,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   195
          Index           =   5
          Left            =   270
-         TabIndex        =   31
+         TabIndex        =   41
          Top             =   3570
          Width           =   690
       End
@@ -595,7 +595,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   285
          Index           =   7
          Left            =   270
-         TabIndex        =   30
+         TabIndex        =   40
          Top             =   1890
          Width           =   960
       End
@@ -614,7 +614,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   375
          Index           =   8
          Left            =   270
-         TabIndex        =   29
+         TabIndex        =   39
          Top             =   3210
          Width           =   2670
       End
@@ -633,7 +633,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   195
          Index           =   6
          Left            =   240
-         TabIndex        =   28
+         TabIndex        =   38
          Top             =   630
          Width           =   960
       End
@@ -665,7 +665,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   195
          Index           =   1
          Left            =   240
-         TabIndex        =   24
+         TabIndex        =   34
          Top             =   1380
          Width           =   735
       End
@@ -683,7 +683,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   195
          Index           =   0
          Left            =   240
-         TabIndex        =   23
+         TabIndex        =   33
          Top             =   960
          Width           =   780
       End
@@ -701,7 +701,7 @@ Begin VB.Form frmFacturasProListado
       EndProperty
       Height          =   6705
       Left            =   7140
-      TabIndex        =   38
+      TabIndex        =   48
       Top             =   0
       Width           =   4455
       Begin VB.ComboBox Combo1 
@@ -720,7 +720,7 @@ Begin VB.Form frmFacturasProListado
          Left            =   150
          List            =   "frmFacturasProListado.frx":0118
          Style           =   2  'Dropdown List
-         TabIndex        =   57
+         TabIndex        =   13
          Top             =   2370
          Width           =   4110
       End
@@ -738,7 +738,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   240
          Index           =   2
          Left            =   180
-         TabIndex        =   50
+         TabIndex        =   12
          Top             =   1770
          Width           =   3915
       End
@@ -756,7 +756,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   240
          Index           =   0
          Left            =   180
-         TabIndex        =   49
+         TabIndex        =   11
          Top             =   1380
          Width           =   3075
       End
@@ -801,7 +801,7 @@ Begin VB.Form frmFacturasProListado
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   3750
-         TabIndex        =   39
+         TabIndex        =   49
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -820,7 +820,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   3360
          Index           =   1
          Left            =   150
-         TabIndex        =   43
+         TabIndex        =   14
          Top             =   3180
          Width           =   4035
          _ExtentX        =   7117
@@ -858,7 +858,7 @@ Begin VB.Form frmFacturasProListado
          EndProperty
          Height          =   255
          Left            =   150
-         TabIndex        =   58
+         TabIndex        =   59
          Top             =   2070
          Width           =   1380
       End
@@ -894,7 +894,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   255
          Index           =   15
          Left            =   150
-         TabIndex        =   44
+         TabIndex        =   53
          Top             =   2880
          Width           =   870
       End
@@ -920,7 +920,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   195
          Index           =   13
          Left            =   150
-         TabIndex        =   41
+         TabIndex        =   51
          Top             =   450
          Width           =   690
       End
@@ -938,7 +938,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   255
          Index           =   12
          Left            =   150
-         TabIndex        =   40
+         TabIndex        =   50
          Top             =   960
          Width           =   870
       End
@@ -957,7 +957,7 @@ Begin VB.Form frmFacturasProListado
       EndProperty
       Height          =   375
       Left            =   10410
-      TabIndex        =   13
+      TabIndex        =   23
       Top             =   9540
       Width           =   1215
    End
@@ -974,7 +974,7 @@ Begin VB.Form frmFacturasProListado
       Height          =   375
       Index           =   1
       Left            =   8850
-      TabIndex        =   11
+      TabIndex        =   21
       Top             =   9540
       Width           =   1455
    End
@@ -992,7 +992,7 @@ Begin VB.Form frmFacturasProListado
       Height          =   375
       Index           =   0
       Left            =   120
-      TabIndex        =   12
+      TabIndex        =   22
       Top             =   9480
       Width           =   1335
    End
@@ -1009,7 +1009,7 @@ Begin VB.Form frmFacturasProListado
       EndProperty
       Height          =   2655
       Left            =   120
-      TabIndex        =   14
+      TabIndex        =   24
       Top             =   6750
       Width           =   6915
       Begin VB.CommandButton PushButtonImpr 
@@ -1025,7 +1025,7 @@ Begin VB.Form frmFacturasProListado
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   27
+         TabIndex        =   37
          Top             =   720
          Width           =   1515
       End
@@ -1034,7 +1034,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   26
+         TabIndex        =   36
          Top             =   1680
          Width           =   255
       End
@@ -1043,7 +1043,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   25
+         TabIndex        =   35
          Top             =   1200
          Width           =   255
       End
@@ -1061,7 +1061,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   21
+         TabIndex        =   31
          Top             =   1680
          Width           =   4665
       End
@@ -1079,7 +1079,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   20
+         TabIndex        =   30
          Top             =   1200
          Width           =   4665
       End
@@ -1097,7 +1097,7 @@ Begin VB.Form frmFacturasProListado
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   19
+         TabIndex        =   29
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -1116,7 +1116,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   18
+         TabIndex        =   28
          Top             =   2160
          Width           =   975
       End
@@ -1134,7 +1134,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   17
+         TabIndex        =   27
          Top             =   1680
          Width           =   975
       End
@@ -1152,7 +1152,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   16
+         TabIndex        =   26
          Top             =   1200
          Width           =   1515
       End
@@ -1170,7 +1170,7 @@ Begin VB.Form frmFacturasProListado
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   15
+         TabIndex        =   25
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -1209,7 +1209,7 @@ Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
 Private SQL As String
-Dim cad As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -1236,6 +1236,10 @@ End Sub
 
 
 
+Private Sub Check1_KeyPress(Index As Integer, KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
 Private Sub cmdAccion_Click(Index As Integer)
 
     If Not DatosOK Then Exit Sub
@@ -1244,6 +1248,12 @@ Private Sub cmdAccion_Click(Index As Integer)
     'Exportacion a PDF
     If optTipoSal(3).Value + optTipoSal(2).Value + optTipoSal(1).Value Then
         If Not EliminarDocum(optTipoSal(2).Value) Then Exit Sub
+    End If
+    'Si no ex exportacion, y la opcion seleccionada es PROVEEDOR NO sustituye el NIF por la cuenta
+    If optTipoSal(0).Value Then
+        If optVarios(1).Value Then
+            If Me.Check1(0).Value = 1 Then MsgBox "Agrupando por proveedor siempre será por cuenta contable", vbExclamation
+        End If
     End If
     
     
@@ -1284,6 +1294,10 @@ End Sub
 
 Private Sub cmdCancelar_Click()
     Unload Me
+End Sub
+
+Private Sub Combo1_KeyPress(Index As Integer, KeyAscii As Integer)
+    KEYpress KeyAscii
 End Sub
 
 Private Sub Form_KeyPress(KeyAscii As Integer)
@@ -1340,23 +1354,23 @@ Private Sub Form_Load()
     optVarios(4).visible = vParam.IvaEnFechaPago
     optVarios_Click (0)
     
-    txtFecha(0).Text = vParam.fechaini
-    txtFecha(1).Text = vParam.fechafin
+    txtfecha(0).Text = vParam.fechaini
+    txtfecha(1).Text = vParam.fechafin
     If Not vParam.FecEjerAct Then
-        txtFecha(1).Text = Format(DateAdd("yyyy", 1, vParam.fechafin), "dd/mm/yyyy")
+        txtfecha(1).Text = Format(DateAdd("yyyy", 1, vParam.fechafin), "dd/mm/yyyy")
     End If
     
     
-    txtFecha(2).Text = Format(Now, "dd/mm/yyyy")
+    txtfecha(2).Text = Format(Now, "dd/mm/yyyy")
     txtPag2(0).Text = "1"
      
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
     If Legalizacion <> "" Then
-        txtFecha(2).Text = RecuperaValor(Legalizacion, 1)
-        txtFecha(0).Text = RecuperaValor(Legalizacion, 2)
-        txtFecha(1).Text = RecuperaValor(Legalizacion, 3)
+        txtfecha(2).Text = RecuperaValor(Legalizacion, 1)
+        txtfecha(0).Text = RecuperaValor(Legalizacion, 2)
+        txtfecha(1).Text = RecuperaValor(Legalizacion, 3)
     End If
     
     CargarCombo
@@ -1380,7 +1394,7 @@ Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
@@ -1428,10 +1442,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
         
     End Select
     
@@ -1538,7 +1552,7 @@ Private Sub txtCuentas_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuentas_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim SQL As String
@@ -1651,7 +1665,7 @@ Private Sub txtNumFactu_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtNumFactu_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 
     txtNumFactu(Index).Text = Trim(txtNumFactu(Index).Text)
     
@@ -1690,7 +1704,7 @@ Private Sub txtSerie_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtSerie_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim SQL As String
@@ -1724,7 +1738,7 @@ Dim Sql2 As String
 
     'Monto el SQL
     SQL = "Select factpro.numserie Serie, tmpfaclin.nomserie Descripcion, factpro.numfactu Factura,factpro.numregis Registro, factpro.fecfactu Fecha, factpro.fecharec FRecep ,factpro.codmacta Cuenta, "
-    SQL = SQL & " factpro.nommacta Titulo, tmpfaclin.tipoformapago TipoPago, "
+    SQL = SQL & " factpro.nommacta Titulo,nifdatos NIF , tmpfaclin.tipoformapago TipoPago, "
     SQL = SQL & " tmpfaclin.tipoopera TOperacion, factpro.codconce340 TFra, factpro.trefacpr Retencion, "
     SQL = SQL & " factpro_totales.baseimpo BaseImp,factpro_totales.codigiva IVA,factpro_totales.porciva PorcIva,factpro_totales.porcrec PorcRec,"
     SQL = SQL & " factpro_totales.impoiva ImpIva,factpro_totales.imporec ImpRec "
@@ -1764,11 +1778,11 @@ Dim nomDocu As String
     
     cadParam = cadParam & "pNumPag=" & ComprobarCero(txtPag2(0).Text) & "|"
     numParam = numParam + 1
-    cadParam = cadParam & "pFecha=""" & txtFecha(2).Text & """|"
+    cadParam = cadParam & "pFecha=""" & txtfecha(2).Text & """|"
     numParam = numParam + 1
     
     If optVarios(3).Value Then cadParam = cadParam & "pOrden={tmpfaclin.Numfac}|" ' nro de registro
-    If optVarios(0).Value Then cadParam = cadParam & "pOrden={tmpfaclin.ctabase}|" ' fecha factura
+    If optVarios(0).Value Then cadParam = cadParam & "pOrden={tmpfaclin.fecha}|"   'ctabase --> YA NO
     If optVarios(2).Value Then cadParam = cadParam & "pOrden={tmpfaclin.fecha}|" ' fecha de recepcion
     
     numParam = numParam + 1
@@ -1818,7 +1832,10 @@ Dim SQL As String
     SQL = SQL & " factpro.codopera, " ',
     
     SQL = SQL & " CASE factpro.codopera WHEN 0 THEN 0 WHEN 3 THEN 0 WHEN 1 THEN 1 WHEN 2 THEN 2 WHEN 4 THEN 3 WHEN 5 THEN 4 END "
-    SQL = SQL & ",fecfactu"
+    'SQL = SQL & ", fecfactu   "  'DATE_FORMAT(fecfactu,'%d/%m/%Y") "
+    
+    SQL = SQL & ", DATE_FORMAT(" & IIf(optVarios(0).Value, "factpro.fecharec", "factpro.fecfactu") & ",'%d/%m/%Y') "
+    
     SQL = SQL & " from " & tabla
     SQL = SQL & " where " & cadselect
     
@@ -1844,12 +1861,12 @@ Dim i As Integer
     If Not PonerDesdeHasta("factpro.NumSerie", "SER", Me.txtSerie(0), Me.txtNSerie(0), Me.txtSerie(1), Me.txtNSerie(1), "pDHSerie=""") Then Exit Function
     
     If Me.optVarios(0).Value Then
-        If Not PonerDesdeHasta("factpro.fecfactu", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""factura:") Then Exit Function
+        If Not PonerDesdeHasta("factpro.fecfactu", "F", Me.txtfecha(0), Me.txtfecha(0), Me.txtfecha(1), Me.txtfecha(1), "pDHFecha=""factura:") Then Exit Function
     Else
         If Me.optVarios(4).Value Then
-            If Not PonerDesdeHasta("factpro.fecliqpr", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""liquidación: ") Then Exit Function
+            If Not PonerDesdeHasta("factpro.fecliqpr", "F", Me.txtfecha(0), Me.txtfecha(0), Me.txtfecha(1), Me.txtfecha(1), "pDHFecha=""liquidación: ") Then Exit Function
         Else
-            If Not PonerDesdeHasta("factpro.fecharec", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""recepción: ") Then Exit Function
+            If Not PonerDesdeHasta("factpro.fecharec", "F", Me.txtfecha(0), Me.txtfecha(0), Me.txtfecha(1), Me.txtfecha(1), "pDHFecha=""recepción: ") Then Exit Function
         End If
     End If
     
@@ -1903,25 +1920,25 @@ Dim i As Integer
 End Function
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtFecha(Index).Tag, Index
+        LanzaFormAyuda txtfecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If

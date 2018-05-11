@@ -906,7 +906,7 @@ Private vp As Ctipoformapago
 Private SubItemVto As Integer
 
 Private DescripcionTransferencia As String
-Private GastosTransferencia As Currency
+Private GastosTransferencia2 As Currency
 
 
 
@@ -919,7 +919,7 @@ Dim CtaAntBan As String
 Dim DesdeCtaCliente As Byte '0. Cta cliente    1 Cta generica (Check)
 
 Dim FrasMarcadas As Collection
-
+Dim ColumnaFiltroOrigen As Byte
 
 Private Sub chkAsiento_Click(Index As Integer)
    'Es incompatible asiento por pago y agrupar apunte bancario
@@ -1020,6 +1020,7 @@ Dim TipoAnt As Integer
             PonFoco Me.txtCta(5)
             Exit Sub
         End If
+    
     End If
     
     
@@ -1028,7 +1029,8 @@ Dim TipoAnt As Integer
     'Alguna comprobacion
     'Si es un cobro, por tarjeta y tiene gastos
     'entonces tendra que ir todo en un unico apunte
-    If (Combo1.ItemData(Combo1.ListIndex) = 6 Or Combo1.ItemData(Combo1.ListIndex) = 0) And vParamT.FormaPagoInterTarjeta >= 0 Then
+    
+    If vParamT.FormaPagoInterTarjeta >= 0 And (Combo1.ItemData(Combo1.ListIndex) = 6 Or Combo1.ItemData(Combo1.ListIndex) = 0) Then
         cad = ""
         '-----------------------------------------------------
         If Me.chkAsiento(0).Value Then
@@ -1579,6 +1581,9 @@ Private Sub Form_Load()
      
     DevuelveCadenaPorTipo False, cad
     LeerparametrosContabilizacion
+
+    vUsu.LeerFiltros "ariconta", IdPrograma
+
 
     'Efectuar cobros
     FrameRemesar.visible = True
@@ -2260,7 +2265,7 @@ Dim J As Long
 Dim FechaContab As Date
 Dim FechaFinEjercicios As Date
 Dim vGasto As Currency
-
+Dim C2 As String
     
     InsertarPagosEnTemporal2 = False
     
@@ -2268,14 +2273,14 @@ Dim vGasto As Currency
     Conn.Execute "DELETE FROM tmpfaclin" & C
 
     '++
-    GastosTransferencia = CCur(ComprobarCero(Text3(6).Text))
+    GastosTransferencia2 = CCur(ComprobarCero(Text3(6).Text))
 
 
     'Fechas fin ejercicios
     FechaFinEjercicios = DateAdd("yyyy", 1, vParam.fechafin)
 
 
-    Aux = "INSERT INTO tmpfaclin (codusu, codigo, Fecha,Numfactura, cta, Cliente, NIF, Imponible,  Total) "
+    Aux = "INSERT INTO tmpfaclin (codusu, codigo, Fecha,Numfactura, cta, Cliente, NIF, Imponible,  Total,ctabase) "
     Aux = Aux & "VALUES (" & vUsu.Codigo & ","
     For J = 1 To ListView1.ListItems.Count
         If ListView1.ListItems(J).Checked Then
@@ -2329,7 +2334,7 @@ Dim vGasto As Currency
             impo = ImporteFormateado(ListView1.ListItems(J).SubItems(i))
             riesgo = ImporteFormateado(ListView1.ListItems(J).SubItems(i - 2))
             impo = impo - riesgo
-            C = C & TransformaComasPuntos(CStr(impo)) & "," & TransformaComasPuntos(CStr(riesgo)) & ")"
+            C = C & TransformaComasPuntos(CStr(impo)) & "," & TransformaComasPuntos(CStr(riesgo)) & ",NULL)"
 
 
             'Lo meto en la BD
@@ -2340,52 +2345,81 @@ Dim vGasto As Currency
 
     'Si es por tarjeta hay una opcion para meter el gasto total
     'que a partir de la cuenta de banco gasto tarjeta crear una linea mas
-    If Combo1.ItemData(Combo1.ListIndex) = 6 And vParamT.FormaPagoInterTarjeta >= 0 Then
-        'Agosto 2014
-        'Pagos credito NAVARRES  --> NO llevan esta linea
+    If Combo1.ItemData(Combo1.ListIndex) = 6 Then
         
-        If vParamT.IntereseCobrosTarjeta2 = 0 Then
-            Err.Raise 513, "Leyendo datos pagos tarjeta banco"
-            cad = DevuelveDesdeBD("ctagastostarj", "bancos", "codmacta", txtCta(4).Text, "T")
+        If vParamT.FormaPagoInterTarjeta >= 0 Then
+            'Agosto 2014
+            'Pagos credito NAVARRES  --> NO llevan esta linea
             
-            FechaContab = CDate(Text3(0).Text)
-            C = "'" & Format(FechaContab, FormatoFecha) & "'"
-            C = C & "," & C
-            C = J & "," & C & ",'" & cad & "','"
-            'Serie factura |FECHAfactura| ----> pondre: "gastos" | fecha contab
-            C = C & "GASTOS|" & FechaContab & "|','" & cad & "',"
-            'Dinerito
-            'riesgo es GASTO
-            impo = -vParamT.IntereseCobrosTarjeta2
-            C = C & TransformaComasPuntos(CStr(impo)) & ",0)"
-            C = Aux & C
-            Conn.Execute C
+            If vParamT.IntereseCobrosTarjeta2 = 0 Then
+                Err.Raise 513, "Leyendo datos pagos tarjeta banco"
+                cad = DevuelveDesdeBD("ctagastostarj", "bancos", "codmacta", txtCta(4).Text, "T")
+                
+                FechaContab = CDate(Text3(0).Text)
+                C = "'" & Format(FechaContab, FormatoFecha) & "'"
+                C = C & "," & C
+                C = J & "," & C & ",'" & cad & "','"
+                'Serie factura |FECHAfactura| ----> pondre: "gastos" | fecha contab
+                C = C & "GASTOS|" & FechaContab & "|','" & cad & "',"
+                'Dinerito
+                'riesgo es GASTO
+                impo = -vParamT.IntereseCobrosTarjeta2
+                C = C & TransformaComasPuntos(CStr(impo)) & ",0,null)"
+                C = Aux & C
+                Conn.Execute C
+            End If
+
+        Else
+            If GastosTransferencia2 > 0 Then
+                C = "concat(GastRemDescontad,coalesce(codccost,''))"
+                cad = DevuelveDesdeBD("ctagastostarj", "bancos", "codmacta", txtCta(4).Text, "T", C)
+               ' If Mid(C, 1, 1) = "1" Then 'crea un apunte separado
+                    C2 = Mid(C, 2) 'ccoste
+                    FechaContab = CDate(Text3(0).Text)
+                    C = "'" & Format(FechaContab, FormatoFecha) & "'"
+                    C = C & "," & C
+                    C = J & "," & C & ",'" & cad & "','"
+                    'Serie factura |FECHAfactura| ----> pondre: "gastos" | fecha contab
+                    C = C & "GASTOS|" & FechaContab & "|','" & cad & "',"
+                    'Dinerito
+                    'riesgo es GASTO
+                    impo = -GastosTransferencia2
+                    
+                    C = C & TransformaComasPuntos(CStr(impo)) & ",0," & DBSet(C2, "T", "S") & ")"
+                    C = Aux & C
+                    Conn.Execute C
+                
+                'End If
+            
+            End If
         End If
-    
+        
+    Else
+        'Para el resto. Si lleva gastos tambien hago lo mismo que para navarres
+        ' si los gastos NO van descontados en el importe del banco
+        If GastosTransferencia2 > 0 Then
+            C = "concat(GastRemDescontad,coalesce(codccost,''))"
+            cad = DevuelveDesdeBD("ctagastos", "bancos", "codmacta", txtCta(4).Text, "T", C)
+            If Mid(C, 1, 1) = "1" Then 'crea un apunte separado
+                C2 = Mid(C, 2)
+                FechaContab = CDate(Text3(0).Text)
+                C = "'" & Format(FechaContab, FormatoFecha) & "'"
+                C = C & "," & C
+                C = J & "," & C & ",'" & cad & "','"
+                'Serie factura |FECHAfactura| ----> pondre: "gastos" | fecha contab
+                C = C & "GASTOS|" & FechaContab & "|','" & cad & "',"
+                'Dinerito
+                'riesgo es GASTO
+                impo = -GastosTransferencia2
+                C = C & TransformaComasPuntos(CStr(impo)) & ",0," & DBSet(C2, "T", "S") & ")"
+                C = Aux & C
+                Conn.Execute C
+            
+            End If
+        End If
     End If
     
-    'Gastos contabilizacion transferencia
-'    If Combo1.ItemData(Combo1.ListIndex) = 1 And GastosTransferencia <> 0 Then
- '   If GastosTransferencia <> 0 And Combo1.ItemData(Combo1.S) Then
-        'aqui ira los gastos asociados a la transferencia
-        'Hay que ver los lados
-        'FALTA####
-        'cad = DevuelveDesdeBD("ctagastos", "bancos", "codmacta", txtCta(4).Text, "T")
-       '
-       ' FechaContab = CDate(Text3(0).Text)
-       ' C = "'" & Format(FechaContab, FormatoFecha) & "'"
-       ' C = C & "," & C
-       ' C = J & "," & C & ",'" & cad & "','"
-       ' 'Serie factura |FECHAfactura| ----> pondre: "gastos" | fecha contab
-       ' C = C & "TRA" & Format(SegundoParametro, "0000000") & "|" & FechaContab & "|','" & cad & "',"
-       ' 'Dinerito
-       ' 'riesgo es GASTO
-       ' impo = -GastosTransferencia
-       ' C = C & TransformaComasPuntos(CStr(impo)) & ",0)"
-       ' C = Aux & C
-       ' Conn.Execute C
-       '
-  '  End If
+    
     
     InsertarPagosEnTemporal2 = True
     
@@ -2411,7 +2445,7 @@ Dim CierraAsiento As Boolean
 Dim NumLinea As Integer
 Dim ImpBanco As Currency
 Dim NumVtos As Integer
-Dim GastosTransDescontados As Boolean
+Dim GastosTransDescontados_ As Boolean
 Dim LineaUltima As Integer
 Dim bol As Boolean
 
@@ -2422,7 +2456,7 @@ Dim bol As Boolean
     PonerCuentaGenerica = False
     AgrupaCuenta = False
     CampoFecha = "numfactura"
-    GastosTransDescontados = False 'por lo que pueda pasar
+    GastosTransDescontados_ = False 'por lo que pueda pasar
     
     
     'Si va agrupado por cta
@@ -2432,11 +2466,13 @@ Dim bol As Boolean
         If chkGenerico(0).Value Then PonerCuentaGenerica = True
         
         'Si lleva GastosTransferencia entonce AGRUPAMOS banco
-        If GastosTransferencia <> 0 Then
+        If GastosTransferencia2 <> 0 Then
             
             'gastos tramtiaacion transferenca descontados importe
-            SQL = DevuelveDesdeBD("GastTransDescontad", "bancos", "codmacta", txtCta(4).Text, "T")
-            GastosTransDescontados = SQL = "1"
+            'ENE18  Estaba el comentado
+            'SQL = DevuelveDesdeBD("GastTransDescontad", "bancos", "codmacta", txtCta(4).Text, "T")
+            SQL = DevuelveDesdeBD("GastRemDescontad", "bancos", "codmacta", txtCta(4).Text, "T")
+            GastosTransDescontados_ = SQL = "0"
             
             AgrupaCuenta = False
         Else
@@ -2448,7 +2484,14 @@ Dim bol As Boolean
         If Me.chkAsiento(0).Value Then UnAsientoPorCuenta = True
         If chkGenerico(0).Value Then PonerCuentaGenerica = True
         If Me.chkVtoCuenta(0).Value Then AgrupaCuenta = True
-
+        
+         If GastosTransferencia2 <> 0 Then
+            
+            'GastRemDescontad
+            SQL = DevuelveDesdeBD("GastRemDescontad", "bancos", "codmacta", txtCta(4).Text, "T")
+            GastosTransDescontados_ = SQL = "0"
+        
+        End If
     End If
     
     If PonerCuentaGenerica Then
@@ -2459,7 +2502,7 @@ Dim bol As Boolean
     'EL SQL lo empezamos aquin
     SQL = CampoCuenta & " AS cliprov,"
     'Selecciona
-    SQL = "select count(*) as numvtos,codigo,numfactura,fecha,cliente," & SQL & "sum(imponible) as importe,sum(total) as gastos from tmpfaclin"
+    SQL = "select count(*) as numvtos,codigo,numfactura,fecha,cliente," & SQL & "sum(imponible) as importe,sum(total) as gastos,ctabase from tmpfaclin"
     SQL = SQL & " where codusu =" & vUsu.Codigo & " GROUP BY "
     cad = ""
     If AgrupaCuenta Then
@@ -2564,10 +2607,11 @@ Dim bol As Boolean
             ImpBanco = 0
             'Reservo la primera linea para el banco
             If vParamT.IntereseCobrosTarjeta2 = 0 Then
-                If GastosTransferencia <> 0 Then
-                    NumLinea = 2
-                    If Not GastosTransDescontados Then
-                        If GastosTransferencia > 0.001 Then ImpBanco = -GastosTransferencia
+                If GastosTransferencia2 <> 0 Then
+                    
+                    If GastosTransDescontados_ Then
+                        NumLinea = 2
+                        If GastosTransferencia2 > 0.001 Then ImpBanco = -GastosTransferencia2
                     End If
                 End If
             Else
@@ -2618,27 +2662,36 @@ Dim bol As Boolean
                 'Cierro el apunte, del banco
                 'Si fuera una transferenicia con gastos descontados, me he dejado el numlinea=1
                 'si no, no hago nada
-                If GastosTransferencia <> 0 Then
-                    If Not GastosTransDescontados Then NumLinea = 1
-                End If
                 impo = ImpBanco
+                
+                If GastosTransferencia2 <> 0 Then
+                    If GastosTransDescontados_ Then NumLinea = 1
+                    impo = ImpBanco + GastosTransferencia2
+                    
+                End If
+                
                 InsertarEnAsientosDesdeTemp Rs, MiCon, 2, NumLinea, NumVtos
                 
                 'SI no es pago tarjeta, EN NAVARRES
                 bol = False
 
-                If GastosTransferencia <> 0 Then
-                    If Not GastosTransDescontados Then
-                         If Combo1.ItemData(Combo1.ListIndex) <> 6 Then
+                If GastosTransferencia2 <> 0 Then
+                    If Not GastosTransDescontados_ Then
+                        If Combo1.ItemData(Combo1.ListIndex) <> 6 Then
                             bol = True
                         Else
-                            If vParamT.IntereseCobrosTarjeta2 = 0 Then bol = True
+                            If vParamT.IntereseCobrosTarjeta2 > 0 Then
+                                'NAVARRES
+                            Else
+                                bol = True
+                            End If
                         End If
+                 
                     End If
                 End If
                 If bol Then
                     NumLinea = LineaUltima + 1
-                    impo = GastosTransferencia
+                    impo = -GastosTransferencia2
                     InsertarEnAsientosDesdeTemp Rs, MiCon, 2, NumLinea, NumVtos
                 End If
                 
@@ -3153,7 +3206,11 @@ Dim Bo As Boolean
                  End If
              
                 'CENTRO DE COSTE
-                SQL = SQL & "NULL,"
+                If DBLet(RS1!CtaBase, "T") = "" Then
+                    SQL = SQL & "NULL,"
+                Else
+                    SQL = SQL & DBSet(RS1!CtaBase, "T") & ","
+                End If
                 
                 'SI pone contrapardida
                 If PonerContrPartida Then
@@ -3244,7 +3301,7 @@ Dim Bo As Boolean
                      'AMPLIACION
                      Ampliacion = ""
                      
-                     'Si estoy contabilizando pag de UN unico proveedor entonces NumeroTalonPageretendra valor
+                     'Si estoy contabilizando pag de UN unico cli entonces NumeroTalonPageretendra valor
                      Bo = True
                      If NumVtos2 > 1 Then
                         Bo = False

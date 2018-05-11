@@ -27,7 +27,7 @@ Begin VB.Form frmPresuBal
       EndProperty
       Height          =   4995
       Left            =   7080
-      TabIndex        =   14
+      TabIndex        =   26
       Top             =   0
       Width           =   4455
       Begin VB.ComboBox cmbFecha 
@@ -46,7 +46,7 @@ Begin VB.Form frmPresuBal
          Left            =   1230
          List            =   "frmPresuBal.frx":0002
          Style           =   2  'Dropdown List
-         TabIndex        =   39
+         TabIndex        =   2
          Top             =   690
          Width           =   1935
       End
@@ -63,14 +63,14 @@ Begin VB.Form frmPresuBal
          EndProperty
          Height          =   255
          Left            =   540
-         TabIndex        =   37
+         TabIndex        =   3
          Top             =   1260
          Width           =   2505
       End
       Begin VB.Frame Frame2 
          Height          =   1815
          Left            =   150
-         TabIndex        =   22
+         TabIndex        =   34
          Top             =   2370
          Width           =   4185
          Begin VB.CheckBox Check1 
@@ -87,7 +87,7 @@ Begin VB.Form frmPresuBal
             Height          =   240
             Index           =   9
             Left            =   120
-            TabIndex        =   32
+            TabIndex        =   13
             Top             =   1290
             Width           =   1335
          End
@@ -105,7 +105,7 @@ Begin VB.Form frmPresuBal
             Height          =   240
             Index           =   8
             Left            =   2850
-            TabIndex        =   31
+            TabIndex        =   12
             Top             =   960
             Width           =   1215
          End
@@ -123,7 +123,7 @@ Begin VB.Form frmPresuBal
             Height          =   240
             Index           =   7
             Left            =   1470
-            TabIndex        =   30
+            TabIndex        =   11
             Top             =   960
             Width           =   1305
          End
@@ -141,7 +141,7 @@ Begin VB.Form frmPresuBal
             Height          =   240
             Index           =   6
             Left            =   120
-            TabIndex        =   29
+            TabIndex        =   10
             Top             =   930
             Width           =   1305
          End
@@ -159,7 +159,7 @@ Begin VB.Form frmPresuBal
             Height          =   240
             Index           =   5
             Left            =   2850
-            TabIndex        =   28
+            TabIndex        =   9
             Top             =   600
             Width           =   1215
          End
@@ -177,7 +177,7 @@ Begin VB.Form frmPresuBal
             Height          =   240
             Index           =   4
             Left            =   1470
-            TabIndex        =   27
+            TabIndex        =   8
             Top             =   600
             Width           =   1305
          End
@@ -195,7 +195,7 @@ Begin VB.Form frmPresuBal
             Height          =   240
             Index           =   3
             Left            =   120
-            TabIndex        =   26
+            TabIndex        =   7
             Top             =   570
             Width           =   1245
          End
@@ -213,7 +213,7 @@ Begin VB.Form frmPresuBal
             Height          =   240
             Index           =   2
             Left            =   2850
-            TabIndex        =   25
+            TabIndex        =   6
             Top             =   240
             Width           =   1185
          End
@@ -231,7 +231,7 @@ Begin VB.Form frmPresuBal
             Height          =   240
             Index           =   1
             Left            =   1470
-            TabIndex        =   24
+            TabIndex        =   5
             Top             =   240
             Width           =   1335
          End
@@ -249,7 +249,7 @@ Begin VB.Form frmPresuBal
             Height          =   240
             Index           =   10
             Left            =   120
-            TabIndex        =   23
+            TabIndex        =   4
             Top             =   240
             Value           =   1  'Checked
             Width           =   1155
@@ -258,7 +258,7 @@ Begin VB.Form frmPresuBal
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   3750
-         TabIndex        =   21
+         TabIndex        =   33
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -287,7 +287,7 @@ Begin VB.Form frmPresuBal
          Height          =   195
          Index           =   0
          Left            =   540
-         TabIndex        =   36
+         TabIndex        =   38
          Top             =   750
          Width           =   690
       End
@@ -305,7 +305,7 @@ Begin VB.Form frmPresuBal
       EndProperty
       Height          =   2295
       Left            =   120
-      TabIndex        =   13
+      TabIndex        =   25
       Top             =   0
       Width           =   6915
       Begin VB.TextBox txtNCta 
@@ -323,7 +323,7 @@ Begin VB.Form frmPresuBal
          Index           =   6
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   35
+         TabIndex        =   37
          Top             =   1050
          Width           =   4185
       End
@@ -342,7 +342,7 @@ Begin VB.Form frmPresuBal
          Index           =   7
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   34
+         TabIndex        =   36
          Top             =   1470
          Width           =   4185
       End
@@ -412,7 +412,7 @@ Begin VB.Form frmPresuBal
          Height          =   195
          Index           =   2
          Left            =   240
-         TabIndex        =   20
+         TabIndex        =   32
          Top             =   1440
          Width           =   615
       End
@@ -430,7 +430,7 @@ Begin VB.Form frmPresuBal
          Height          =   195
          Index           =   3
          Left            =   240
-         TabIndex        =   19
+         TabIndex        =   31
          Top             =   1080
          Width           =   690
       End
@@ -449,7 +449,7 @@ Begin VB.Form frmPresuBal
          Height          =   195
          Index           =   7
          Left            =   240
-         TabIndex        =   18
+         TabIndex        =   30
          Top             =   690
          Width           =   960
       End
@@ -468,7 +468,7 @@ Begin VB.Form frmPresuBal
       EndProperty
       Height          =   375
       Left            =   10320
-      TabIndex        =   4
+      TabIndex        =   16
       Top             =   5160
       Width           =   1215
    End
@@ -485,7 +485,7 @@ Begin VB.Form frmPresuBal
       Height          =   375
       Index           =   1
       Left            =   8730
-      TabIndex        =   2
+      TabIndex        =   14
       Top             =   5160
       Width           =   1455
    End
@@ -503,7 +503,7 @@ Begin VB.Form frmPresuBal
       Height          =   375
       Index           =   0
       Left            =   120
-      TabIndex        =   3
+      TabIndex        =   15
       Top             =   5130
       Width           =   1335
    End
@@ -520,7 +520,7 @@ Begin VB.Form frmPresuBal
       EndProperty
       Height          =   2655
       Left            =   120
-      TabIndex        =   5
+      TabIndex        =   17
       Top             =   2340
       Width           =   6915
       Begin VB.CommandButton PushButtonImpr 
@@ -536,7 +536,7 @@ Begin VB.Form frmPresuBal
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   17
+         TabIndex        =   29
          Top             =   720
          Width           =   1515
       End
@@ -545,7 +545,7 @@ Begin VB.Form frmPresuBal
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   16
+         TabIndex        =   28
          Top             =   1680
          Width           =   255
       End
@@ -554,7 +554,7 @@ Begin VB.Form frmPresuBal
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   15
+         TabIndex        =   27
          Top             =   1200
          Width           =   255
       End
@@ -572,7 +572,7 @@ Begin VB.Form frmPresuBal
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   12
+         TabIndex        =   24
          Top             =   1680
          Width           =   4665
       End
@@ -590,7 +590,7 @@ Begin VB.Form frmPresuBal
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   11
+         TabIndex        =   23
          Top             =   1200
          Width           =   4665
       End
@@ -608,7 +608,7 @@ Begin VB.Form frmPresuBal
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   10
+         TabIndex        =   22
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -627,7 +627,7 @@ Begin VB.Form frmPresuBal
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   9
+         TabIndex        =   21
          Top             =   2160
          Width           =   975
       End
@@ -645,7 +645,7 @@ Begin VB.Form frmPresuBal
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   8
+         TabIndex        =   20
          Top             =   1680
          Width           =   975
       End
@@ -663,7 +663,7 @@ Begin VB.Form frmPresuBal
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   7
+         TabIndex        =   19
          Top             =   1200
          Width           =   1515
       End
@@ -681,7 +681,7 @@ Begin VB.Form frmPresuBal
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   6
+         TabIndex        =   18
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -700,14 +700,14 @@ Begin VB.Form frmPresuBal
       EndProperty
       Height          =   375
       Left            =   10320
-      TabIndex        =   33
+      TabIndex        =   35
       Top             =   5160
       Width           =   1215
    End
    Begin MSComctlLib.ProgressBar pb4 
       Height          =   285
       Left            =   1560
-      TabIndex        =   38
+      TabIndex        =   39
       Top             =   5160
       Visible         =   0   'False
       Width           =   5475
@@ -758,7 +758,7 @@ Attribute frmCon.VB_VarHelpID = -1
 Private frmCtas As frmCtasAgrupadas
 
 Private SQL As String
-Dim cad As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -926,16 +926,16 @@ On Error GoTo EGeneraBalancePresupuestario
         If SQL <> "" Then Aux = Aux & " where " & SQL
         Aux = Aux & " group by codmacta"
         
-        cad = "select sum(coalesce(timported,0)),sum(coalesce(timporteh,0)) from hlinapu where fechaent between " & DBSet(vFecIni, "F") & " and " & DBSet(vFecFin, "F")
-        cad = cad & " and codmacta = '"
+        Cad = "select sum(coalesce(timported,0)),sum(coalesce(timporteh,0)) from hlinapu where fechaent between " & DBSet(vFecIni, "F") & " and " & DBSet(vFecFin, "F")
+        Cad = Cad & " and codmacta = '"
 
     Else
         Aux = "select codmacta,imppresu,mespresu, anopresu from presupuestos where " & SQL
         If cmbFecha(0).ListIndex <> 0 Then Aux = Aux & " and mespresu = " & cmbFecha(0).ListIndex 'txtMes(2).Text
         Aux = Aux & " ORDER BY codmacta,mespresu"
-        cad = "select sum(coalesce(timported,0)),sum(coalesce(timporteh,0)) from hlinapu where fechaent between " & DBSet(vFecIni, "F") & " and " & DBSet(vFecFin, "F")
-        If cmbFecha(0).ListIndex <> 0 Then cad = cad & " and month(fechaent)= " & cmbFecha(0).ListIndex  'txtMes(2).Text
-        cad = cad & " and codmacta = '"
+        Cad = "select sum(coalesce(timported,0)),sum(coalesce(timporteh,0)) from hlinapu where fechaent between " & DBSet(vFecIni, "F") & " and " & DBSet(vFecFin, "F")
+        If cmbFecha(0).ListIndex <> 0 Then Cad = Cad & " and month(fechaent)= " & cmbFecha(0).ListIndex  'txtMes(2).Text
+        Cad = Cad & " and codmacta = '"
        
     End If
     
@@ -984,7 +984,7 @@ On Error GoTo EGeneraBalancePresupuestario
              
                     Aux = Aux & ",0,"
                     
-                    aux2 = cad & Rs!codmacta & "'"
+                    aux2 = Cad & Rs!codmacta & "'"
                     aux2 = aux2 & " AND month(fechaent) =" & i
                     
                     Importe = ImporteBalancePresupuestario(aux2)
@@ -1015,7 +1015,7 @@ On Error GoTo EGeneraBalancePresupuestario
         Aux = Aux & "," & TransformaComasPuntos(CStr(Rs.Fields(1))) & ","
         
         'SQL
-        aux2 = cad & Rs!codmacta & "'"
+        aux2 = Cad & Rs!codmacta & "'"
         If Me.cmbFecha(0).ListIndex > 0 Then
             aux2 = aux2 & " AND month(fechaent) =" & Rs!mespresu
             'AUmento el mes
@@ -1060,22 +1060,22 @@ On Error GoTo EGeneraBalancePresupuestario
             RC = Mid(RC, 2)
             Aux = " AND codmacta IN (" & RC & ")"
             
-            cad = "SELECT codmacta cta,sum(coalesce(timported,0))-sum(coalesce(timporteh,0)) as importe"
-            cad = cad & " from hlinapu where codconce=970 and fechaent='" & Format(vParam.fechaini, FormatoFecha) & "'"
-            cad = cad & Aux
-            cad = cad & " GROUP BY 1"
-            Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            Cad = "SELECT codmacta cta,sum(coalesce(timported,0))-sum(coalesce(timporteh,0)) as importe"
+            Cad = Cad & " from hlinapu where codconce=970 and fechaent='" & Format(vParam.fechaini, FormatoFecha) & "'"
+            Cad = Cad & Aux
+            Cad = Cad & " GROUP BY 1"
+            Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             While Not Rs.EOF
-                cad = "UPDATE tmppresu2 SET realizado=realizado-" & TransformaComasPuntos(CStr(Rs!Importe))
+                Cad = "UPDATE tmppresu2 SET realizado=realizado-" & TransformaComasPuntos(CStr(Rs!Importe))
                 
-                cad = cad & " WHERE codusu = " & vUsu.Codigo & " AND cta = '" & Rs!Cta & "' AND mes = "
+                Cad = Cad & " WHERE codusu = " & vUsu.Codigo & " AND cta = '" & Rs!Cta & "' AND mes = "
 '                If Me.chkPreMensual.Value = 1 Then
                 If Me.cmbFecha(0).ListIndex > 0 Then
-                    cad = cad & " 1"
+                    Cad = Cad & " 1"
                 Else
-                    cad = cad & " 0"
+                    Cad = Cad & " 0"
                 End If
-                Conn.Execute cad
+                Conn.Execute Cad
                 Rs.MoveNext
             Wend
             Rs.Close
@@ -1305,7 +1305,7 @@ End Sub
 
 
 Private Sub txtCta_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim RC As String
 Dim Hasta As Integer
 
@@ -1387,19 +1387,19 @@ Dim nomDocu As String
         If Check1(i).visible Then
             If Check1(i).Value = 1 Then
                 If i = 10 Then
-                    cad = vEmpresa.DigitosUltimoNivel
+                    Cad = vEmpresa.DigitosUltimoNivel
                 Else
-                    cad = CStr(DigitosNivel(i))
+                    Cad = CStr(DigitosNivel(i))
                 End If
             End If
         End If
     Next i
-    cad = "numeroniveles= " & CONT & "|"
-    SQL = SQL & cad
+    Cad = "numeroniveles= " & CONT & "|"
+    SQL = SQL & Cad
     'Otro parametro mas
-    cad = "vUltimoNivel= " & UltimoNivel & "|"
+    Cad = "vUltimoNivel= " & UltimoNivel & "|"
     
-    cadParam = cadParam & cad
+    cadParam = cadParam & Cad
     numParam = numParam + 2
 
     
@@ -1545,9 +1545,9 @@ Dim J As Integer
     Check1(10).visible = True
     For i = 1 To vEmpresa.numnivel - 1
         J = DigitosNivel(i)
-        cad = "Digitos: " & J
+        Cad = "Digitos: " & J
         Check1(i).visible = True
-        Me.Check1(i).Caption = cad
+        Me.Check1(i).Caption = Cad
     Next i
     
     For i = vEmpresa.numnivel To 9
@@ -1567,9 +1567,9 @@ Dim L As Integer
 
 L = 1
 Do
-    cad = RecuperaValor(Lista, L)
-    If cad <> "" Then
-        i = Val(cad)
+    Cad = RecuperaValor(Lista, L)
+    If Cad <> "" Then
+        i = Val(Cad)
         With cmbFecha(i)
             .Clear
             RC = ""
@@ -1582,5 +1582,5 @@ Do
         End With
     End If
     L = L + 1
-Loop Until cad = ""
+Loop Until Cad = ""
 End Sub
