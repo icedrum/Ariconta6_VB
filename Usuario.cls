@@ -181,17 +181,17 @@ Public Property Get PC() As String
 End Property
 
 
-Public Property Let id(ByVal vData As Long)
+Public Property Let Id(ByVal vData As Long)
 'se usa cuando se asigna un valor a una propiedad, en el lado izquierdo de la asignación.
 'Syntax: X.Codigo= 5
     mvarId = vData
 End Property
 
 
-Public Property Get id() As Long
+Public Property Get Id() As Long
 'se usa cuando se asigna un valor a una propiedad, en el lado derecho de la asignación.
 'Syntax: Debug.Print X.Codigo
-    id = mvarId
+    Id = mvarId
 End Property
 
 
@@ -399,7 +399,7 @@ Public Sub LeerTabPorDefecto()
 End Sub
 
 Public Sub GuardarTabPorDefecto()
-    
+    On Error GoTo eGuardarTabPorDefecto
     'En todas las contabilidades
     SQL = "SELECT codempre conta FROM usuarios.empresasariconta "
     SQL = SQL & " where mid(conta,1,8) = 'ariconta'"
@@ -407,19 +407,23 @@ Public Sub GuardarTabPorDefecto()
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Rs.EOF Then
         'SOLO en esta. Deberia dar error
-        SQL = "UPDATE menus_usuarios SET filtro=if(codigo=" & vUsu.TabPorDefecto & ",1,0) WHERE codusu = " & vUsu.id
+        SQL = "UPDATE menus_usuarios SET filtro=if(codigo=" & vUsu.TabPorDefecto & ",1,0) WHERE codusu = " & vUsu.Id
         SQL = SQL & " AND aplicacion = 'ariconta' AND codigo <=14"
         Conn.Execute SQL
     Else
         While Not Rs.EOF
             SQL = "UPDATE ariconta" & Rs!CONTA & ".menus_usuarios "
-            SQL = SQL & " SET filtro=if(codigo=" & vUsu.TabPorDefecto & ",1,0) WHERE codusu = " & vUsu.id
+            SQL = SQL & " SET filtro=if(codigo=" & vUsu.TabPorDefecto & ",1,0) WHERE codusu = " & vUsu.Id
             SQL = SQL & " AND aplicacion = 'ariconta' AND codigo <=14"
             Conn.Execute SQL
             Rs.MoveNext
         Wend
     End If
     Rs.Close
+    
+eGuardarTabPorDefecto:
+    If Err.Number <> 0 Then Err.Clear
+
     Set Rs = Nothing
     
 End Sub
@@ -575,13 +579,13 @@ End Function
 
 
 Public Sub ActualizarSkin()
-    SQL = "UPDATE usuarios.usuarios SET skin=" & mvarSkin & " WHERE codusu = " & vUsu.id
+    SQL = "UPDATE usuarios.usuarios SET skin=" & mvarSkin & " WHERE codusu = " & vUsu.Id
     
     EjecutarSQL SQL
 End Sub
 
 Public Sub ActualizarSoloTesoreria()
-    SQL = "UPDATE usuarios.usuarios SET solotesoreria=" & mvarSoloTesoreria & " WHERE codusu = " & vUsu.id
+    SQL = "UPDATE usuarios.usuarios SET solotesoreria=" & mvarSoloTesoreria & " WHERE codusu = " & vUsu.Id
     
     EjecutarSQL SQL
 End Sub

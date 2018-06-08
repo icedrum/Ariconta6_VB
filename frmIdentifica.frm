@@ -7,6 +7,7 @@ Begin VB.Form frmIdentifica
    ClientTop       =   0
    ClientWidth     =   9705
    ForeColor       =   &H8000000B&
+   KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
@@ -38,7 +39,7 @@ Begin VB.Form frmIdentifica
       PasswordChar    =   "*"
       TabIndex        =   2
       Text            =   "aritel"
-      Top             =   5070
+      Top             =   4920
       Width           =   2655
    End
    Begin VB.ComboBox Combo1 
@@ -83,6 +84,35 @@ Begin VB.Form frmIdentifica
       Top             =   4170
       Visible         =   0   'False
       Width           =   2655
+   End
+   Begin VB.Label Label1 
+      BackStyle       =   0  'Transparent
+      Caption         =   "Tecla Bloq. Mayús esta activada"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00C0C0C0&
+      Height          =   375
+      Index           =   4
+      Left            =   4920
+      TabIndex        =   7
+      Top             =   5280
+      Visible         =   0   'False
+      Width           =   3375
+   End
+   Begin VB.Image Image2 
+      Height          =   240
+      Left            =   7680
+      Picture         =   "frmIdentifica.frx":0004
+      Top             =   4920
+      Visible         =   0   'False
+      Width           =   240
    End
    Begin VB.Label Label1 
       BackStyle       =   0  'Transparent
@@ -139,9 +169,9 @@ Begin VB.Form frmIdentifica
       ForeColor       =   &H00765341&
       Height          =   375
       Index           =   1
-      Left            =   4950
+      Left            =   4920
       TabIndex        =   4
-      Top             =   4680
+      Top             =   4560
       Width           =   2175
    End
    Begin VB.Label Label1 
@@ -194,7 +224,7 @@ End Sub
 
 Private Sub KEYpress(KeyAscii As Integer)
 Dim cerrar As Boolean
-
+    
     KEYpressGnral KeyAscii, 0, cerrar
     If cerrar Then Unload Me
 End Sub
@@ -288,12 +318,16 @@ Private Sub Form_Activate()
         End If
         
         
-        
+        LeeMayusculas_
     End If
     Screen.MousePointer = vbDefault
 End Sub
 
 
+
+Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
+    LeeMayusculas_
+End Sub
 
 Private Sub Form_Load()
     Screen.MousePointer = vbHourglass
@@ -312,6 +346,7 @@ Private Sub Form_Load()
     CargaImagen
     Me.Height = 5625 '5535
     Me.Width = 9705 ' 7935
+    
     
 '    '?????????????? QUITAR ESTO
 '    If Combo1.Text = "root" Then Text1(1).Text = "aritel"
@@ -412,6 +447,7 @@ Dim Ok As Byte
         Else
             MsgBox "Usuario-Clave Incorrecto", vbExclamation
         End If
+        LeeMayusculas_
         
         Text1(1).Text = ""
         If Ok = 2 Then
@@ -561,31 +597,31 @@ End Sub
 'a la que ha entrado, y el usuario
 Private Sub NumeroEmpresaMemorizar(Leer As Boolean)
 Dim NF As Integer
-Dim cad As String
+Dim Cad As String
 On Error GoTo ENumeroEmpresaMemorizar
 
 
-    cad = App.Path & "\ultusu.dat"
+    Cad = App.Path & "\ultusu.dat"
     
     
     
     If Leer Then
-        If Dir(cad) <> "" Then
+        If Dir(Cad) <> "" Then
             NF = FreeFile
-            Open cad For Input As #NF
-            Line Input #NF, cad
+            Open Cad For Input As #NF
+            Line Input #NF, Cad
             Close #NF
-            cad = Trim(cad)
+            Cad = Trim(Cad)
                 
                 
                 'El primer pipe es el usuario
-                Text1(0).Text = cad
+                Text1(0).Text = Cad
         End If
     Else 'Escribir
         NF = FreeFile
-        Open cad For Output As #NF
-        cad = Text1(0).Text
-        Print #NF, cad
+        Open Cad For Output As #NF
+        Cad = Text1(0).Text
+        Print #NF, Cad
         Close #NF
     End If
 ENumeroEmpresaMemorizar:
@@ -737,4 +773,33 @@ Private Sub Timer1_Timer()
             Label1(2).Refresh
          End If
     End If
+End Sub
+
+
+
+Private Sub LeeMayusculas_()
+Dim Tmp
+Dim keys(0 To 255) As Byte
+Dim VK_CAPITAL 'As Byte
+    On Error GoTo el
+    Image2.visible = False
+    Me.Label1(4).visible = False
+    
+    
+       ' Tmp = GetKeyState(vbKeyCapital)
+       ' If Tmp = 1 Then
+       '     Image2.visible = True
+       '     Me.Label1(4).visible = True
+       ' End If
+        
+        GetKeyboardState keys(0)
+        VK_CAPITAL = &H14
+       ' Debug.Print Timer & " " & keys(VK_CAPITAL)
+        If keys(VK_CAPITAL) = 1 Or keys(VK_CAPITAL) = 129 Then
+            Image2.visible = True
+            Me.Label1(4).visible = True
+        End If
+   
+el:
+    Err.Clear
 End Sub

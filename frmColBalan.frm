@@ -392,7 +392,18 @@ Private Sub Form_Load()
     
     CargaCombo
     
-   
+    
+    
+    ' 0 .-    Balances perdidas y ganancias    y situacion
+    ' 1 .-    Ratios
+    ' 2 .-    Flujo de caja...
+    ' 2 .-    Agrupar cuentas para sacar un informe de Auditoria (MANO de OBRA, ...)  Ejemplo picassent
+    Select Case TipoVista
+    Case 1
+        Me.Caption = "Ratios"
+    Case Else
+    
+    End Select
 End Sub
 
 
@@ -427,6 +438,8 @@ Dim SQL As String
         End If
         If SQL <> "" Then SQL = " AND Perdidas = " & SQL
         SQL = " WHERE numbalan < 50 " & SQL
+    ElseIf TipoVista = 1 Then
+        SQL = " WHERE numbalan between 50 and 59"
     End If
     SQL = SQL & " ORDER BY Numbalan"
     SQL = "select numbalan,nombalan, if(perdidas=1,'SI','NO') as Perd ,if(predeterminado=1,'*','') as Pre  from balances " & SQL

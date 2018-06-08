@@ -1789,13 +1789,18 @@ On Error GoTo eCmdAceptar_Click
     End If
     
     
+    
+    
+    NombreArchivoDestino False
+    Aux = Msg
+    
     Msg = ""
     
     If Dir(App.Path & "\pdftk.exe", vbArchive) = "" Then Msg = Msg & "No existe el programa concatenar PDFs " & vbCrLf
     
     If Dir(Me.txtNomFich.Tag, vbArchive) = "" Then Msg = Msg & "No existe el PDF origen: " & txtNomFich.Tag & vbCrLf
     
-    If Dir(CarpetaDestino & "\" & txtNomFich.Text, vbArchive) <> "" Then Msg = Msg & "YA existe el PDF en el destino: " & CarpetaDestino & "\" & txtNomFich.Text & vbCrLf
+    If Dir(CarpetaDestino & "\" & Aux, vbArchive) <> "" Then Msg = Msg & "YA existe el PDF en el destino: " & CarpetaDestino & "\" & txtNomFich.Text & vbCrLf
     
     If Msg <> "" Then
         MsgBox Msg, vbExclamation
@@ -2313,6 +2318,7 @@ Dim Id As String
                         End If
                     Else
                         Id = Text1(Index).Text
+                        If Index = 1 And Text1(0).Text <> "" Then Exit Sub
                     End If
                     If Id <> "" Then
                         'Proveedor distinto
@@ -2320,7 +2326,8 @@ Dim Id As String
                         Limpi = False
                         PonerNombreCuentaNIF Index = 0, Id
                                                 
-                        If Text1(2).Text <> "" Then PonFoco Text1(3)
+                        'If Text1(2).Text <> "" Then
+                        PonFoco Text1(3)
                         
                         If Text1(0).Text <> Text1(0).Tag Then
                                 Me.ListView1.ListItems.Clear
@@ -2356,6 +2363,18 @@ Dim Id As String
                     Label1(8).Tag = 0
                     Label1(8).Caption = ""
                 End If
+        
+        
+        Case 3
+            '*?"|
+            Limpi = False
+            For i = 1 To 4
+                If InStr(1, Text1(3).Text, Mid("*?""<>|", i, 1)) > 0 Then Limpi = True
+            Next i
+            If Limpi Then
+                MsgBox "El numero de factura no pude contaener los siguientes caracteres:  *?""<>| ", vbExclamation
+                Text1(3).Text = ""
+            End If
         Case 11
             
           
@@ -2410,7 +2429,7 @@ Dim Id As String
                     'Fecha dentro de ejercicios
                     ComprobarPeriodo False, Index
                     
-                    If Index = 9 And Text1(0).Text Then
+                    If Index = 9 And Text1(0).Text <> "" Then
                         If EstaLaCuentaBloqueada(Text1(0).Text, CDate(Text1(9).Text)) Then
                             MsgBox "Cuenta bloqueada", vbExclamation
                             Text1(9).Text = ""
@@ -2449,18 +2468,32 @@ Private Sub PonerNombreCuentaNIF(Cuenta As Boolean, Id As String)
     
     Msg = "Select codmacta,nommacta,nifdatos,codforpa,nomforpa from cuentas left join formapago on cuentas.forpa=formapago.codforpa"
     Msg = Msg & " WHERE " & IIf(Cuenta, "codmacta", "nifdatos") & " = " & DBSet(Id, "T")
-    Rs.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Msg, Conn, adOpenKeyset, adLockPessimistic, adCmdText
     If Rs.EOF Then
         Msg = ""
+        K = -1
     Else
-        Text1(0).Text = Rs!codmacta
-        Text1(1).Text = DBLet(Rs!nifdatos, "T")
-        Text1(2).Text = DBLet(Rs!Nommacta, "T")
-        Text1(7).Text = DBLet(Rs!Codforpa, "T")
-        Text1(8).Text = DBLet(Rs!nomforpa, "T")
+        
+        K = 0
+        While Not Rs.EOF
+            K = K + 1
+            Rs.MoveNext
+        Wend
+        Rs.MoveFirst
+        If K > 1 Then
+            MsgBox "Mas de una cuenta contable  para este dato: " & Id, vbExclamation
+            Msg = ""
+        Else
+            
+            Text1(0).Text = Rs!codmacta
+            Text1(1).Text = DBLet(Rs!nifdatos, "T")
+            Text1(2).Text = DBLet(Rs!Nommacta, "T")
+            Text1(7).Text = DBLet(Rs!Codforpa, "T")
+            Text1(8).Text = DBLet(Rs!nomforpa, "T")
+        End If
     End If
     If Msg = "" Then
-        MsgBox "No existe ninguna cuenta vinculada al " & IIf(Cuenta, "codigo", "NIF") & " " & Id, vbExclamation
+        If K < 0 Then MsgBox "No existe ninguna cuenta vinculada al " & IIf(Cuenta, "codigo", "NIF") & " " & Id, vbExclamation
         Text1(0).Text = ""
         Text1(1).Text = ""
         Text1(7).Text = ""
@@ -3549,9 +3582,9 @@ Dim Mc As Contadores
     'factpro_fichdocs(codigo,numserie,numregis,anofactu,numfactu,orden,fechacrea,usucrea,docum,campo)
     
     
-    NombreArchvioDestino 'EN MSG
-    i = InStrRev(Msg, "\")
-    SQL = Mid(Msg, i + 1)
+    NombreArchivoDestino False
+    
+    SQL = Msg
     'codigo,numserie,numregis,anofactu
     SqlValues = NumRegElim & "," & Mc.TipoContador & "," & Mc.Contador & "," & Year(CDate((Text1(5).Text))) & ","
     'numfactu,orden,fechacrea,usucrea,docum,campo
@@ -3571,6 +3604,8 @@ Dim Mc As Contadores
     Adodc1.RecordSource = SqlValues
     Adodc1.Refresh
 '
+    NombreArchivoDestino True
+
     If Adodc1.Recordset.EOF Then
         'MAAAAAAAAAAAAL
 
@@ -3585,7 +3620,7 @@ Dim Mc As Contadores
     
     
     
-
+    NombreArchivoDestino True
     FileCopy Msg, SqlInsert
     
     
@@ -3608,15 +3643,22 @@ On Error GoTo eBorraAlbaranes
     For i = 1 To Me.ListView1.ListItems.Count
         If ListView1.ListItems(i).Checked Then
             '\\PCDAVID\Programas\zBorrame\FraPendientes\00003 Seccion Almazar
+            
             SQL = CarpetaAlbaranes & "\" & ListView1.ListItems(i).Tag
             ElminarAlbaran
+            
+            
             
             SQL = "DELETE FROM factproalbaranes WHERE id = " & Mid(ListView1.ListItems(i).Key, 2)
             Ejecuta SQL
         End If
     Next i
     
+    If vParam.EliminaPdfOriginal Then
     
+        Kill txtNomFich.Tag
+    
+    End If
     
 eBorraAlbaranes:
     If Err.Number <> 0 Then MuestraError Err.Number, Err.Description
@@ -3670,7 +3712,7 @@ Private Function ComprobarArchivosSeleccionados() As Boolean
     
     Else
         'El archvivo que voy a crear
-        NombreArchvioDestino
+        NombreArchivoDestino True
         If Dir(Msg, vbArchive) <> "" Then Kill Msg
         ComprobarArchivosSeleccionados = True
     End If
@@ -3680,8 +3722,16 @@ eTraerArchivosSeleccionados:
 End Function
 
 
-Private Sub NombreArchvioDestino()
-    Msg = App.Path & "\Temp\" & Text1(0).Text & "_" & Mid(Replace(Text1(2).Text, " ", ""), 1, 13) & "_" & Text1(3).Text & ".pdf"
+Private Sub NombreArchivoDestino(DesdeTemp As Boolean)
+    Msg = Text1(3).Text
+    'No pude contener los siguientes caracteres
+    'los reemplazamos
+    For K = 1 To 9
+        '/\:*?"<>|
+        Msg = Replace(Msg, Mid("/\:*?""<>|", K, 1), "")
+    Next K
+    Msg = Text1(0).Text & "_" & Mid(Replace(Text1(2).Text, " ", ""), 1, 13) & "_" & Msg & ".pdf"
+    If DesdeTemp Then Msg = App.Path & "\Temp\" & Msg
     
 End Sub
 
@@ -3707,7 +3757,7 @@ Dim AlgunoSeleccionado As Boolean
         End If
     Next
     
-    NombreArchvioDestino
+    NombreArchivoDestino True
     C = """" & App.Path & "\pdftk.exe"" " & SQL & " cat output """ & Msg & """ verbose"
     Shell C, vbMaximizedFocus
     
@@ -3715,7 +3765,11 @@ Dim AlgunoSeleccionado As Boolean
     Do
         espera 1
         If Dir(Msg, vbArchive) <> "" Then
-            i = 100
+            If FileLen(Msg) > 0 Then
+                i = 100
+            Else
+                i = i + 1
+            End If
         Else
             i = i + 1
             DoEvents
@@ -3958,7 +4012,7 @@ Dim Cerrado As Boolean
         
     If vParam.SIITiene Then
         
-        Stop
+        
         Cerrado = False
         If EsEnDatosOK Then
             F = CDate(Text1(5).Text)
@@ -3996,3 +4050,5 @@ Dim Cerrado As Boolean
 eComprobarPeriodo:
     MuestraError Err.Number, Err.Description
 End Function
+
+

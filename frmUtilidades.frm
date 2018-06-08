@@ -950,6 +950,10 @@ Dim PrimeraVez As Boolean
 
 Dim SePuedeCErrar As Boolean
 
+Dim FechaHastaRsDescuadres As Date
+
+
+
 Private Sub cmdBus_Click()
     SePuedeCErrar = False
     HacerBusqueda
@@ -1044,6 +1048,7 @@ Private Sub HacerBusqueda()
             If MontaSQLBuscaAsien Then
                 Me.FrameDescuadre.visible = False
                 PonerCampos 1
+                i = 0
                 HanPulsadoCancelar = False
                 RecorriendoRecordsetDescuadres
             End If
@@ -1376,6 +1381,7 @@ Private Sub PonerCampos(NuevoEstado As Byte)
     Else
         Me.frameBusASiento.visible = NuevoEstado = 3
         If Opcion = 1 Then
+            DoEvents
             Me.FrameSaldos.visible = (NuevoEstado = 3)
             If NuevoEstado = 3 Then
                 CargarSaldos
@@ -1874,12 +1880,17 @@ Private Function MontaSQLBuscaAsien() As Boolean
     End If
     If SQL <> "" Then SQL = " WHERE " & SQL
     
-    SQL = "Select numasien,numdiari,fechaent from hlinapu " & SQL
-    SQL = SQL & " group by numasien,numdiari,fechaent"
     
-    If Opcion = 1 Then SQL = SQL & " order by fechaent, numasien "
+    'Antes estaba opcion  JUNIO18
+    
+  '  SQL = "Select numasien,numdiari,fechaent from hlinapu " & SQL
+   ' SQL = SQL & " group by numasien,numdiari,fechaent"
+   ' If Opcion = 1 Then SQL = SQL & " order by fechaent, numasien "
+    
+    SQL = "Select fechaent,count(*) ctos from hlinapu " & SQL & " GROUP BY 1 ORDER BY 1"
     
     Rs.Open SQL, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    
     NumCuentas = 0
     i = 0
     While Not Rs.EOF
@@ -1893,9 +1904,13 @@ Private Function MontaSQLBuscaAsien() As Boolean
         Exit Function
     End If
     Rs.MoveFirst
+    FechaHastaRsDescuadres = Rs.Fields(0) 'Inicio busqyeda
+    
+    
     pb1.visible = True
     Label2.Caption = ""
     pb1.Value = 0
+    pb1.Max = NumCuentas    'Como mucho son 350 dias por año, casi cogeria 10 años
     Me.Refresh
     MontaSQLBuscaAsien = True
 End Function
@@ -1903,9 +1918,11 @@ End Function
 Private Sub RecorriendoRecordsetDescuadres()
 Dim T1 As Single
 Dim C2 As String
-     
-            Label2.Caption = "Leyendo"
-            Label2.Refresh
+    
+Dim Lineas As Long
+
+    Label2.Caption = "Leyendo"
+    Label2.Refresh
     If NumCuentas = 0 Then
         
     Else
@@ -1913,20 +1930,20 @@ Dim C2 As String
         T1 = Timer
         While Not Rs.EOF
            
+                    
             
-            pb1.Value = Int(((i / NumCuentas)) * 1000)
-            C2 = C2 & ", (" & Rs!NumDiari & "," & DBSet(Rs!FechaEnt, "F") & "," & Rs!NumAsien & ")"
             
-            Label2.Caption = Rs.Fields(2) & " - " & Rs.Fields(0)
+            Label2.Caption = Rs.Fields(0) & " - " & Rs.Fields(1)
             Label2.Refresh
-
-            
+            Lineas = Lineas + Rs.Fields(1)
+            pb1.Value = pb1.Value + 1
             i = i + 1
-            If (i Mod 80) = 0 Then
+            If Lineas > 10000 Then
                 Debug.Print Timer - T1
-                
-                ObtenerSumasAgrupado Mid(C2, 2)
-                C2 = ""
+                C2 = Rs.Fields(0) 'Fecha en la que estamos
+                ObtenerSumasAgrupado C2
+                Lineas = 0
+               
             End If
             
             
@@ -1942,7 +1959,10 @@ Dim C2 As String
             End If
         Wend
         Rs.Close
-        If C2 <> "" Then ObtenerSumasAgrupado Mid(C2, 2)
+        If Lineas > 0 Then
+            C2 = Text1(1).Text
+            ObtenerSumasAgrupado Mid(C2, 2)
+        End If
             
     End If
     If ListView1.ListItems.Count > 0 Then
@@ -2021,10 +2041,17 @@ Private Function ObtenerSumasAgrupado(Asientos As String) As Boolean
     Dim hab As Currency
     Dim RsA As ADODB.Recordset
 
+    
+    Label2.Caption = FechaHastaRsDescuadres & " - " & Asientos
+    Label2.Refresh
+
     Set RsA = New ADODB.Recordset
     SQL = "SELECT numdiari,fechaent,numasien,Sum(coalesce(timporteD,0)) AS SumaDetimporteD, Sum(coalesce(timporteH,0)) AS SumaDetimporteH"
-    SQL = SQL & " From hlinapu "
-    SQL = SQL & " WHERE (numdiari,fechaent,numasien) IN (" & Asientos & ") group by numdiari,fechaent,numasien"
+    SQL = SQL & " From hlinapu WHERE  "
+    'Antes JUNIO18
+    'SQL = SQL & " (numdiari,fechaent,numasien) IN (" & Asientos & ") "
+    SQL = SQL & " fechaent between " & DBSet(FechaHastaRsDescuadres, "F") & " AND " & DBSet(Asientos, "F")
+    SQL = SQL & " GROUP BY numdiari,fechaent,numasien"
     SQL = SQL & " having Sum(coalesce(timporteD,0)) - Sum(coalesce(timporteH,0)) <>0"
     RsA.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     
@@ -2065,6 +2092,10 @@ Private Function ObtenerSumasAgrupado(Asientos As String) As Boolean
         RsA.MoveNext
     Wend
     RsA.Close
+    
+    'Sumamos un dia
+    FechaHastaRsDescuadres = CDate(Asientos)
+    FechaHastaRsDescuadres = DateAdd("d", 1, FechaHastaRsDescuadres)
 End Function
 
 

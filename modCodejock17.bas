@@ -891,8 +891,13 @@ Public Const ID_Totalesporconcepto = 310
 Public Const ID_EvolucióndeSaldos = 311
 Public Const ID_RatiosyGráficas = 312
 Public Const ID_Punteoextractobancario = 314
-Public Const ID_ConsoBalSums = 315
+Public Const ID_Consolidado = 315
 Public Const ID_GraficosChart = 316
+
+Public Const ID_ConsoSumasSaldos = 331
+Public Const ID_ConsoCtaExplota = 332
+Public Const ID_ConsoPyG = 333
+Public Const ID_ConsoSitu = 334
 
 
 

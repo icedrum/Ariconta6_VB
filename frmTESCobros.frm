@@ -228,8 +228,8 @@ Begin VB.Form frmTESCobros
          Left            =   240
          TabIndex        =   89
          Top             =   180
-         Width           =   2235
-         _ExtentX        =   3942
+         Width           =   2355
+         _ExtentX        =   4154
          _ExtentY        =   582
          ButtonWidth     =   609
          ButtonHeight    =   582
@@ -237,7 +237,7 @@ Begin VB.Form frmTESCobros
          Style           =   1
          _Version        =   393216
          BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-            NumButtons      =   4
+            NumButtons      =   5
             BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
                Object.ToolTipText     =   "Datos Fiscales"
             EndProperty
@@ -254,6 +254,9 @@ Begin VB.Form frmTESCobros
             EndProperty
             BeginProperty Button4 {66833FEA-8583-11D1-B16A-00C0F0283628} 
                Object.ToolTipText     =   "Generar Cobro"
+            EndProperty
+            BeginProperty Button5 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Cobros agentes"
             EndProperty
          EndProperty
       End
@@ -776,7 +779,6 @@ Begin VB.Form frmTESCobros
          TabPicture(2)   =   "frmTESCobros.frx":00A4
          Tab(2).ControlEnabled=   0   'False
          Tab(2).Control(0)=   "FrameSeguro"
-         Tab(2).Control(0).Enabled=   0   'False
          Tab(2).ControlCount=   1
          Begin VB.Frame FrameAux0 
             BorderStyle     =   0  'None
@@ -4163,6 +4165,7 @@ Dim i As Integer
         .Buttons(2).Image = 13
         .Buttons(3).Image = 44
         .Buttons(4).Image = 37
+        .Buttons(5).Image = 48
     End With
 
 
@@ -5296,7 +5299,10 @@ Dim Tipo As Integer
                     End If
                 End If
             End If
-            If Not B Then Exit Function
+            If Not B Then
+                PonFoco Text1(10)
+                Exit Function
+            End If
             
     Else
         If Tipo = vbTipoPagoRemesa Then
@@ -5680,6 +5686,11 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
                     MsgBox "Lo pagos a cuenta no se realizan sobre RECIBOS BANCARIOS Remesados", vbExclamation
                 End If
             End If
+            
+            
+        Case 5
+            frmTesCobrosAgente.Show vbModal
+
     End Select
 
 End Sub

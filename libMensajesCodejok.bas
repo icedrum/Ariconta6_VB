@@ -4,7 +4,7 @@ Option Explicit
 
 
 
-Public Function MsgBoxA(TEXTO As String, Botones As Long, Optional Titulo As String, Optional Extendido As Boolean) As Long
+Public Function MsgBoxC(TEXTO As String, Botones As Long, Optional Titulo As String, Optional Extendido As Boolean) As Long
 '   Botones
 '--------------------------------------------------------
 '    vbOKOnly 0 Sólo el botón Aceptar (predeterminado)
@@ -29,8 +29,43 @@ Public Function MsgBoxA(TEXTO As String, Botones As Long, Optional Titulo As Str
     
     MuestraMsgCodejock2 "Ariconta6", Titulo, TEXTO, "", miBoton, Botones, Extendido
         
-    MsgBoxA = RespuestaMsgBox
+    MsgBoxC = RespuestaMsgBox
     
+
+    
+End Function
+
+
+
+
+
+Public Function MsgBoxA(TEXTO As String, Botones As Long, Optional Titulo As String, Optional Extendido As Boolean) As Long
+'   Botones
+'--------------------------------------------------------
+'    vbOKOnly 0 Sólo el botón Aceptar (predeterminado)
+'    vbOKCancel 1 Los botones Aceptar y Cancelar
+'    vbYesNoCancel 3 Los botones Sí, No y Cancelar.
+'    VbYesNo 4 Los botones Sí y No
+'   vbCritical 16 Mensaje crítico
+'   vbQuestion 32 Consulta de advertencia
+'   vbExclamation 48 Mensaje de advertencia
+'   vbInformation 64 Mensaje de información
+    
+    Dim B As Boolean
+    Dim miBoton As String
+    If Botones = vbInformation Then
+        'Solo quiere el boton de aceptar
+         miBoton = "Aceptar|"
+    Else
+        miBoton = ""
+    End If
+    
+    
+    
+    'MuestraMsgCodejock2 "Ariconta6", Titulo, TEXTO, "", miBoton, Botones, Extendido
+     
+    MuestraMsgAriadna "Ariconta6", Titulo, TEXTO, "", miBoton, Botones, Extendido
+    MsgBoxA = RespuestaMsgBox
 End Function
 
 
@@ -260,6 +295,229 @@ Dim BtnPorDefecto As Long
     'Stop
     
 End Sub
+
+
+
+
+
+
+'SOLO ACEPTAMOS 2 botones personalizados
+Public Sub MuestraMsgAriadna(Titulo As String, Ppal As String, Contenido As String, Pie As String, BtnPersonalizados As String, Botones As Long, Extendido As Boolean)
+Dim B As Boolean
+Dim i As Integer
+Dim K As Integer
+Dim C As String
+Dim Icono As Long
+Dim N As Integer
+Dim BtnPorDefecto As Long
+
+
+    Load frmMenBoxAriadna
+
+    frmMenBoxAriadna.Limpiar
+    
+    If Titulo <> "" Then frmMenBoxAriadna.Caption = Titulo
+    
+    
+    'If Extendido Then frmMenBox.TaskDialog1.DialogWidth = 250
+    
+    'frmMenBox.TaskDialog1.MainInstructionText = Ppal
+    frmMenBoxAriadna.lblTitulo.Caption = Ppal
+    frmMenBoxAriadna.lblTexto.Caption = Contenido
+    frmMenBoxAriadna.lblPie.Caption = Pie
+    
+    
+    
+    RespuestaMsgBox = -1   'Ya la establezco aqui
+    
+    If BtnPersonalizados <> "" Then
+        'Botones personalizados + cancel
+        N = 1
+        i = 1
+        Do
+            K = InStr(i, BtnPersonalizados, "|")
+            If K > 0 Then
+                C = Mid(BtnPersonalizados, i, K - i)
+                If N < 3 Then
+                    'frmMenBox.TaskDialog1.AddButton C, 30000 + i    'Int(listCustomCommandButtons.ListItems(i).ListSubItems(1).Text)
+                    
+                    frmMenBoxAriadna.cmdOtro(N).Caption = C
+                    frmMenBoxAriadna.cmdOtro(N).Width = IIf(Len(C) > 11, 1500, 1335)
+                    frmMenBoxAriadna.cmdOtro(N).Tag = 30000 + i
+                    If N = 1 Then
+                        frmMenBoxAriadna.cmdOtro1visible = True
+                    Else
+                        frmMenBoxAriadna.cmdOtro2visible = True
+                    End If
+                    N = N + 1
+                Else
+                    MsgBox "2 botones personalizados", vbCritical
+                End If
+                i = K + 1
+            End If
+        Loop Until K = 0
+        If Botones <> 64 Then
+            'No lleva el vbinformation
+            'frmMenBox.TaskDialog1.CommonButtons = frmMenBox.TaskDialog1.CommonButtons Or xtpTaskButtonCancel
+            'frmMenBox.TaskDialog1.DefaultButton = xtpTaskButtonCancel
+            frmMenBoxAriadna.cmdCancelvisible = True
+            frmMenBoxAriadna.cmdCancel.Default = True
+        End If
+    Else
+        
+        If Botones = 0 Then
+            'Solo OK
+            'frmMenBox.TaskDialog1.CommonButtons = frmMenBox.TaskDialog1.CommonButtons Or xtpTaskButtonOk
+            'frmMenBox.TaskDialog1.DefaultButton = xtpTaskButtonOk
+                frmMenBoxAriadna.cmdOkvisible = True
+                frmMenBoxAriadna.cmdOk.Default = True
+                
+        Else
+           'Dependera de lo que hay enviado en botones
+           '    vbOKOnly 0 Sólo el botón Aceptar (predeterminado)
+            '    vbOKCancel 1 Los botones Aceptar y Cancelar
+            '    vbYesNoCancel 3 Los botones Sí, No y Cancelar.
+            '    VbYesNo 4 Los botones Sí y No
+            BtnPorDefecto = -1
+            If (Botones And 0) > 0 Then
+                'frmMenBox.TaskDialog1.CommonButtons = frmMenBox.TaskDialog1.CommonButtons Or xtpTaskButtonOk
+                frmMenBoxAriadna.cmdOkvisible = True
+                frmMenBoxAriadna.cmdOk.Default = True
+                BtnPorDefecto = xtpTaskButtonOk
+            End If
+            B = (Botones And 4) = 4 Or (Botones And 3) = 3
+            If B Then
+                'frmMenBox.TaskDialog1.CommonButtons = frmMenBox.TaskDialog1.CommonButtons Or xtpTaskButtonYes
+                frmMenBoxAriadna.cmdYesvisible = True
+                If BtnPorDefecto < 0 Then
+                    BtnPorDefecto = xtpTaskButtonYes
+                    frmMenBoxAriadna.cmdYes.Default = True
+                End If
+            End If
+            B = (Botones And 4) = 4 Or (Botones And 3) = 3
+            If B Then
+                'frmMenBox.TaskDialog1.CommonButtons = frmMenBox.TaskDialog1.CommonButtons Or xtpTaskButtonNo
+                frmMenBoxAriadna.cmdNovisible = True
+                If BtnPorDefecto < 0 Then
+                    frmMenBoxAriadna.cmdNo.Default = True
+                    BtnPorDefecto = xtpTaskButtonNo
+                End If
+            End If
+            B = (Botones And 1) = 1 Or (Botones And 3) = 3
+            If B Then
+                'frmMenBox.TaskDialog1.CommonButtons = frmMenBox.TaskDialog1.CommonButtons Or xtpTaskButtonCancel
+                frmMenBoxAriadna.cmdCancelvisible = True
+                If BtnPorDefecto < 0 Then
+                    BtnPorDefecto = xtpTaskButtonCancel
+                    frmMenBoxAriadna.cmdCancel.Default = True
+                End If
+            End If
+
+
+            If BtnPorDefecto = -1 Then
+                frmMenBoxAriadna.cmdOkvisible = True
+                frmMenBoxAriadna.cmdOk.Default = True
+            End If
+        End If
+        
+    End If
+   
+    
+    
+    
+    
+    
+    If BtnPersonalizados <> "" Then
+        'frmMenBox.TaskDialog1.DefaultButton = 30000 + 1
+        
+    Else
+        
+        If Botones - 256 >= 0 Then
+            'Ha seleecionado el boton pordefecto
+            'Si es mayor que 256 es el boton 2 por defecto
+            ' si es mayor=512 en tonces es el cancelar
+            B = True
+            If Botones - 512 >= 0 Then
+                'Tercer boton,. el de cancelar
+                'frmMenBox.TaskDialog1.DefaultButton = xtpTaskButtonCancel
+                frmMenBoxAriadna.cmdCancel.Default = True
+            Else
+                'frmMenBox.TaskDialog1.DefaultButton = xtpTaskButtonNo
+                frmMenBoxAriadna.cmdNo.Default = True
+            End If
+                  
+        Else
+            If BtnPorDefecto >= 0 Then
+                'frmMenBox.TaskDialog1.DefaultButton = BtnPorDefecto
+            End If
+        End If
+    End If
+    
+    '-------------------------------------------------------------------------
+    ' Icons tab.
+    '-------------------------------------------------------------------------
+    
+    '   vbCritical 16 Mensaje crítico
+    '   vbQuestion 32 Consulta de advertencia
+    '   vbExclamation 48 Mensaje de advertencia
+    '   vbInformation 64 Mensaje de información
+    
+    'cmbMainIcon.AddItem "None", xtpTaskIconNone
+    'cmbMainIcon.AddItem "Warning Icon", xtpTaskIconWarning
+    'cmbMainIcon.AddItem "Error Icon", xtpTaskIconError
+    'cmbMainIcon.AddItem "Information Icon", xtpTaskIconInformation
+    'cmbMainIcon.AddItem "Shield Icon", xtpTaskIconShield
+    'cmbMainIcon.AddItem "Question Icon", xtpTaskIconQuestion
+        
+        
+    If Botones > 256 Then Botones = Botones - IIf(Botones > 511, 512, 256)
+    If Botones >= 64 Then
+        'Icono = xtpTaskIconInformation
+        Icono = 0
+    ElseIf Botones >= 48 Then
+        'Icono = xtpTaskIconWarning
+        Icono = 2
+    ElseIf Botones >= 32 Then
+        'Icono = xtpTaskIconQuestion
+        Icono = 1
+    ElseIf Botones >= 16 Then
+        'Icono = xtpTaskIconError
+        Icono = 3
+    Else
+        Icono = 4 'Icono de Ariadna
+    End If
+    
+    'frmMenBox.TaskDialog1.MainIcon = Icono
+    frmMenBoxAriadna.Image1(Icono).visible = True
+    
+    
+    frmMenBoxAriadna.AjustaTamañosYPosicion
+'    frmMenBox.Show vbModal
+    frmMenBoxAriadna.Show vbModal
+    
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Function LoadIcon(Path As String, cx As Long, cy As Long) As Long
 Dim LR_LOADFROMFILE As Long

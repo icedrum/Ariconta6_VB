@@ -319,12 +319,12 @@ Attribute frmA.VB_VarHelpID = -1
 Private WithEvents frmP As frmFormaPago
 Attribute frmP.VB_VarHelpID = -1
 
-Dim Sql As String
+Dim SQL As String
 Dim RC As String
 Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
-Dim cad As String
+Dim Cad As String
 Dim CONT As Long
 Dim i As Integer
 Dim TotalRegistros As Long
@@ -380,13 +380,18 @@ Dim vImpvto As Currency
 Dim vVtos As Integer
 Dim vTotal As Currency
 Dim J As Integer
-Dim k As Integer
+Dim K As Integer
 Dim ImportePagado As Currency
 Dim vFecVenci As Date
 Dim FecVenci As Date
 
 Dim Dias As Integer
 Dim EnteroAux As Integer
+Dim TIeneGastos As Boolean
+Dim IMporteGastos As Currency
+Dim FijadoIMporte As Boolean 'Si ha indrodicido un importe para dividir vencimiiento. Entonces pondremos el gasto en el otro
+Dim IMporteCobrado As Currency
+
     On Error GoTo ecmdDivVto
 
 
@@ -468,6 +473,10 @@ Dim EnteroAux As Integer
     FecVenci = CDate(txtCodigo(2))
     
     
+    FijadoIMporte = False
+    If txtCodigo(1).Text <> "" Then
+        If txtCodigo(0).Text = "" Then FijadoIMporte = True
+    End If
   
     Dim vVtos2 As Integer
     Dim FV2 As Date
@@ -476,9 +485,9 @@ Dim EnteroAux As Integer
     
     
     J = DiasMes(Month(FecVenci), Year(FecVenci))
-    Sql = J & "/" & Format(Month(FecVenci), "00") & "/" & Year(FecVenci)
+    SQL = J & "/" & Format(Month(FecVenci), "00") & "/" & Year(FecVenci)
     FinalMes = False
-    If CDate(Sql) = FecVenci Then FinalMes = True
+    If CDate(SQL) = FecVenci Then FinalMes = True
     
     
     FV2 = FecVenci
@@ -487,7 +496,7 @@ Dim EnteroAux As Integer
     
     'Para la confirmacion
     vTotal = 0
-    Sql = ""
+    SQL = ""
     For J = 1 To vVtos2 - 1
         vTotal = vTotal + vImpvto
         If Me.chkDiaFijo.Value = 0 Then
@@ -497,26 +506,67 @@ Dim EnteroAux As Integer
             'Final de mes
             FV2 = DateAdd("m", 1, FV2)
             If FinalMes Then
-                k = DiasMes(Month(FV2), Year(FV2))
-                cad = k & "/" & Format(Month(FV2), "00") & "/" & Year(FV2)
-                FV2 = CDate(cad)
+                K = DiasMes(Month(FV2), Year(FV2))
+                Cad = K & "/" & Format(Month(FV2), "00") & "/" & Year(FV2)
+                FV2 = CDate(Cad)
             End If
         End If
         
         '           10 primeros fecha  Resto importe
-        Sql = Sql & Format(FV2, "dd/mm/yyyy") & Format(vImpvto, FormatoImporte) & "|"
+        SQL = SQL & Format(FV2, "dd/mm/yyyy") & Format(vImpvto, FormatoImporte) & "|"
         
     Next J
-    cad = ""
+   
+    TIeneGastos = False
+    IMporteGastos = 0
+    IMporteCobrado = 0
+    
+    Set Rs = New ADODB.Recordset
+    
+    'Si el vencimiento origen tiene gastos, el resultado del vencimiento NO puede ser menor que el gasto
+    Cad = "Select coalesce(gastos,0), coalesce(impcobro,0)  from cobros WHERE "
+    Cad = Cad & RecuperaValor(CadenaDesdeOtroForm, 1) & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Rs.EOF Then
+        Set Rs = Nothing
+        MsgBox "Vencimiento no encontrado: " & vbCrLf & RecuperaValor(CadenaDesdeOtroForm, 1), vbExclamation
+        Exit Sub
+    End If
+    
+    If Rs.Fields(0) <> 0 Then
+        TIeneGastos = True
+        IMporteGastos = Rs.Fields(0)
+    End If
+    
+    If Rs.Fields(1) <> 0 Then IMporteCobrado = Rs.Fields(1)
+    Rs.Close
+    Set Rs = Nothing
+    
+    
     If vTotal <> Importe Then
         vTotal = Importe - vTotal
-        Sql = Format(FecVenci, "dd/mm/yyyy") & Format(vTotal, FormatoImporte) & "|" & Sql
+        
+        If TIeneGastos Then
+       
+            If IMporteGastos > vTotal Then
+                MsgBox "Tiene gastos el vencimiento." & vbCrLf & "Importe minimo del vencimiento final debe ser " & IMporteGastos, vbExclamation
+                Exit Sub
+            End If
+        End If
+        
+        If IMporteCobrado > 0 Then
+            If IMporteCobrado > vTotal Then
+                MsgBox "Tiene cobro realizado." & vbCrLf & "Importe minimo del vencimiento final debe ser " & IMporteCobrado + IMporteGastos, vbExclamation
+                Exit Sub
+            End If
+        End If
+        SQL = Format(FecVenci, "dd/mm/yyyy") & Format(vTotal, FormatoImporte) & "|" & SQL
     End If
-    MensajeVtos = Sql
+    MensajeVtos = SQL
+    Cad = ""
     
-    
-    Sql = ""
-    If Sql = "" Then
+    SQL = ""
+    If SQL = "" Then
         Set Rs = New ADODB.Recordset
         
         
@@ -528,16 +578,19 @@ Dim EnteroAux As Integer
         RC = "Select max(numorden) from cobros WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
         Rs.Open RC, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Rs.EOF Then
-            Sql = "Error. Vencimiento NO encontrado: " & CadenaDesdeOtroForm
+            SQL = "Error. Vencimiento NO encontrado: " & CadenaDesdeOtroForm
         Else
             i = Rs.Fields(0) '+ 1
         End If
         Rs.Close
+        
+        
+      
         Set Rs = Nothing
     End If
     
-    If Sql <> "" Then
-        MsgBox Sql, vbExclamation
+    If SQL <> "" Then
+        MsgBox SQL, vbExclamation
         PonFoco txtCodigo(1)
         Exit Sub
         
@@ -547,6 +600,7 @@ Dim EnteroAux As Integer
         'If MsgBox(MensajeVtos, vbQuestion + vbYesNoCancel + vbDefaultButton3) <> vbYes Then Exit Sub
         'Como cadenadesde otroform YA esta ocupada. Cojo otra
         Ampliacion = "" 'Varaiable GLOBAL
+        frmTesDividVtoResult.TIeneGastos = TIeneGastos
         frmTesDividVtoResult.Vtos = MensajeVtos
         frmTesDividVtoResult.Show vbModal
         If Ampliacion = "" Then Exit Sub
@@ -560,7 +614,7 @@ Dim EnteroAux As Integer
     vFecVenci = FecVenci
     'OK.  a desdoblar
     vTotal = 0
-    k = i + 1
+    K = i + 1
     For J = 1 To vVtos - 1
     
         vTotal = vTotal + vImpvto
@@ -575,8 +629,8 @@ Dim EnteroAux As Integer
             vFecVenci = DateAdd("m", 1, vFecVenci)
             If FinalMes Then
                 EnteroAux = DiasMes(Month(vFecVenci), Year(vFecVenci))
-                cad = EnteroAux & "/" & Format(Month(vFecVenci), "00") & "/" & Year(vFecVenci)
-                vFecVenci = CDate(cad)
+                Cad = EnteroAux & "/" & Format(Month(vFecVenci), "00") & "/" & Year(vFecVenci)
+                vFecVenci = CDate(Cad)
             End If
         End If
     
@@ -586,51 +640,50 @@ Dim EnteroAux As Integer
     
     
     
-        Sql = "INSERT INTO cobros (`numorden`,`gastos`,impvenci,`fecultco`,`impcobro`,`recedocu`,"
-        Sql = Sql & "`tiporem`,`codrem`,`anyorem`,`siturem`,"
-        Sql = Sql & "`numserie`,`numfactu`,`fecfactu`,`codmacta`,`codforpa`,`fecvenci`,`ctabanc1`,"
-        Sql = Sql & "`text33csb`,`text41csb`,`ultimareclamacion`,`agente`,`departamento`,`Devuelto`,`situacionjuri`,"
-        Sql = Sql & "`noremesar`,`observa`,`nomclien`,`domclien`,`pobclien`,`cpclien`,`proclien`,`codpais`,`nifclien`,iban, codusu) "
+        SQL = "INSERT INTO cobros (`numorden`,`gastos`,impvenci,`fecultco`,`impcobro`,`recedocu`,"
+        SQL = SQL & "`tiporem`,`codrem`,`anyorem`,`siturem`,"
+        SQL = SQL & "`numserie`,`numfactu`,`fecfactu`,`codmacta`,`codforpa`,`fecvenci`,`ctabanc1`,"
+        SQL = SQL & "`text33csb`,`text41csb`,`ultimareclamacion`,`agente`,`departamento`,`Devuelto`,`situacionjuri`,"
+        SQL = SQL & "`noremesar`,`observa`,`nomclien`,`domclien`,`pobclien`,`cpclien`,`proclien`,`codpais`,`nifclien`,iban, codusu) "
         'Valores
-        Sql = Sql & " SELECT " & k & ",NULL," & TransformaComasPuntos(CStr(vImpvto)) & ",NULL,NULL,0,"
-        Sql = Sql & "NULL,NULL,NULL,NULL,"
-        Sql = Sql & "`numserie`,`numfactu`,`fecfactu`,`codmacta`,`codforpa`,"
-        Sql = Sql & DBSet(vFecVenci, "F") & ","
-        Sql = Sql & "`ctabanc1`,`text33csb`,`text41csb`,"
+        SQL = SQL & " SELECT " & K & ",NULL," & TransformaComasPuntos(CStr(vImpvto)) & ",NULL,NULL,0,"
+        SQL = SQL & "NULL,NULL,NULL,NULL,"
+        SQL = SQL & "`numserie`,`numfactu`,`fecfactu`,`codmacta`,`codforpa`,"
+        SQL = SQL & DBSet(vFecVenci, "F") & ","
+        SQL = SQL & "`ctabanc1`,`text33csb`,`text41csb`,"
         'text83csb`,
-        Sql = Sql & "`ultimareclamacion`,`agente`,`departamento`,`Devuelto`,`situacionjuri`,`noremesar`,`observa`,`nomclien`,`domclien`,`pobclien`,`cpclien`,`proclien`,`codpais`,`nifclien`,iban "
-        Sql = Sql & "," & DBSet(vUsu.id, "N")
-        Sql = Sql & " FROM "
-        Sql = Sql & " cobros WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
-        Sql = Sql & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
+        SQL = SQL & "`ultimareclamacion`,`agente`,`departamento`,`Devuelto`,`situacionjuri`,`noremesar`,`observa`,`nomclien`,`domclien`,`pobclien`,`cpclien`,`proclien`,`codpais`,`nifclien`,iban "
+        SQL = SQL & "," & DBSet(vUsu.Id, "N")
+        SQL = SQL & " FROM "
+        SQL = SQL & " cobros WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
+        SQL = SQL & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
     
-        Conn.Execute Sql
+        Conn.Execute SQL
     
-        k = k + 1
+        K = K + 1
     
     Next J
     
     
     ' actualizamos el primer vencimiento
-    vTotal = vTotal + vImpvto
-        
-    Sql = "update cobros set impvenci = coalesce(impcobro,0) + " & DBSet(vImpvto, "N")
-    Sql = Sql & ", fecvenci = " & DBSet(FecVenci, "F")
+    vTotal = Importe - vTotal
     
-    Sql = Sql & " WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
-    Sql = Sql & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
-    
-    Conn.Execute Sql
-    
-    ' en el ultimo dejamos la diferencia
-    If vTotal <> Importe Then
-        Sql = "update cobros set impvenci = impvenci + " & DBSet(Importe - vTotal, "N")
-        
-        Sql = Sql & " WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
-        Sql = Sql & " AND numorden = " & DBSet(k - 1, "N")
-        
-        Conn.Execute Sql
+    If TIeneGastos Then
+        vTotal = vTotal - IMporteGastos
     End If
+    vTotal = vTotal + IMporteCobrado
+    
+    SQL = "update cobros set impvenci = " & DBSet(vTotal, "N")
+    
+    
+    SQL = SQL & ", fecvenci = " & DBSet(FecVenci, "F")
+    
+    SQL = SQL & " WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
+    SQL = SQL & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
+    
+    Conn.Execute SQL
+    
+    
     
     'Insertamos el LOG
     ParaElLog = "Dividir Vto.Fra.: " & Me.Label4(57).Caption & vbCrLf
@@ -651,11 +704,11 @@ ecmdDivVto:
         Conn.RollbackTrans
     Else
         Conn.CommitTrans
-        CadenaDesdeOtroForm = CadenaDesdeOtroForm & k & "|"
+        CadenaDesdeOtroForm = CadenaDesdeOtroForm & K & "|"
         MsgBox "Proceso realizado correctamente", vbExclamation
         Unload Me
     End If
-    
+    Set Rs = Nothing
 End Sub
 
 
@@ -679,7 +732,7 @@ Dim Img As Image
     'Limpiamos el tag
     PrimeraVez = True
     
-    FrameDividVto.Visible = False
+    FrameDividVto.visible = False
     
     CommitConexion
     
@@ -691,7 +744,7 @@ Dim Img As Image
             '           3.- Importe maximo
             H = FrameDividVto.Height + 120
             W = FrameDividVto.Width
-            FrameDividVto.Visible = True
+            FrameDividVto.visible = True
             Me.Caption = "Dividir Vencimiento"
     End Select
     
@@ -740,7 +793,7 @@ Dim cerrar As Boolean
 End Sub
 
 Private Sub txtcodigo_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim B As Boolean
 
     'Quitar espacios en blanco por los lados

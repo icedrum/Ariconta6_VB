@@ -1,15 +1,19 @@
 VERSION 5.00
 Object = "{05BFD3F1-6319-4F30-B752-C7A22889BCC4}#1.0#0"; "AcroPDF.dll"
 Begin VB.Form frmAlfresQ 
+   BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Albaranes"
    ClientHeight    =   9165
-   ClientLeft      =   120
-   ClientTop       =   450
-   ClientWidth     =   14805
+   ClientLeft      =   45
+   ClientTop       =   375
+   ClientWidth     =   15075
    LinkTopic       =   "Form1"
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
    ScaleHeight     =   9165
-   ScaleWidth      =   14805
-   StartUpPosition =   3  'Windows Default
+   ScaleWidth      =   15075
+   ShowInTaskbar   =   0   'False
+   StartUpPosition =   2  'CenterScreen
    Begin VB.CommandButton cmdAceptar 
       Caption         =   "&Aceptar"
       BeginProperty Font 
@@ -23,11 +27,12 @@ Begin VB.Form frmAlfresQ
       EndProperty
       Height          =   495
       Left            =   12120
-      TabIndex        =   18
+      TabIndex        =   5
       Top             =   8520
       Width           =   1155
    End
    Begin VB.CommandButton cmdCancelar 
+      Cancel          =   -1  'True
       Caption         =   "&Cancelar"
       BeginProperty Font 
          Name            =   "Verdana"
@@ -40,7 +45,7 @@ Begin VB.Form frmAlfresQ
       EndProperty
       Height          =   495
       Left            =   13440
-      TabIndex        =   17
+      TabIndex        =   6
       Top             =   8520
       Width           =   1155
    End
@@ -59,7 +64,7 @@ Begin VB.Form frmAlfresQ
       Left            =   480
       Locked          =   -1  'True
       OLEDropMode     =   1  'Manual
-      TabIndex        =   7
+      TabIndex        =   9
       Text            =   "Text1"
       Top             =   240
       Width           =   7695
@@ -68,7 +73,7 @@ Begin VB.Form frmAlfresQ
       DragMode        =   1  'Automatic
       Height          =   8415
       Left            =   120
-      TabIndex        =   5
+      TabIndex        =   7
       Top             =   600
       Width           =   8175
       _cx             =   5080
@@ -77,9 +82,9 @@ Begin VB.Form frmAlfresQ
    Begin VB.Frame Frame1 
       Height          =   5415
       Left            =   8880
-      TabIndex        =   6
+      TabIndex        =   8
       Top             =   480
-      Width           =   5655
+      Width           =   6015
       Begin VB.TextBox Text1 
          Alignment       =   1  'Right Justify
          BeginProperty Font 
@@ -93,11 +98,11 @@ Begin VB.Form frmAlfresQ
          EndProperty
          Height          =   375
          Index           =   5
-         Left            =   1920
+         Left            =   240
          TabIndex        =   4
          Text            =   "Text1"
-         Top             =   4920
-         Width           =   2055
+         Top             =   4680
+         Width           =   2175
       End
       Begin VB.TextBox Text1 
          BeginProperty Font 
@@ -111,10 +116,10 @@ Begin VB.Form frmAlfresQ
          EndProperty
          Height          =   375
          Index           =   4
-         Left            =   1920
+         Left            =   2760
          TabIndex        =   3
          Text            =   "Text1"
-         Top             =   4320
+         Top             =   3600
          Width           =   1695
       End
       Begin VB.TextBox Text1 
@@ -128,15 +133,15 @@ Begin VB.Form frmAlfresQ
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   975
+         Height          =   375
          Index           =   2
-         Left            =   1800
+         Left            =   240
          Locked          =   -1  'True
          MultiLine       =   -1  'True
-         TabIndex        =   16
+         TabIndex        =   18
          Text            =   "frmAlfresQ.frx":0000
-         Top             =   1920
-         Width           =   3495
+         Top             =   1800
+         Width           =   5535
       End
       Begin VB.TextBox Text1 
          BeginProperty Font 
@@ -150,12 +155,12 @@ Begin VB.Form frmAlfresQ
          EndProperty
          Height          =   375
          Index           =   1
-         Left            =   1800
+         Left            =   2640
          MaxLength       =   15
          TabIndex        =   1
          Text            =   "Text1"
-         Top             =   1320
-         Width           =   1935
+         Top             =   960
+         Width           =   2055
       End
       Begin VB.TextBox Text1 
          BeginProperty Font 
@@ -169,11 +174,11 @@ Begin VB.Form frmAlfresQ
          EndProperty
          Height          =   375
          Index           =   3
-         Left            =   1920
+         Left            =   240
          MaxLength       =   10
          TabIndex        =   2
          Text            =   "Text1"
-         Top             =   3720
+         Top             =   3600
          Width           =   2175
       End
       Begin VB.TextBox Text1 
@@ -188,23 +193,23 @@ Begin VB.Form frmAlfresQ
          EndProperty
          Height          =   375
          Index           =   0
-         Left            =   1800
+         Left            =   240
          TabIndex        =   0
          Text            =   "Text1"
-         Top             =   720
+         Top             =   960
          Width           =   1935
       End
       Begin VB.Image Image1 
          Height          =   240
          Index           =   2
-         Left            =   960
+         Left            =   3600
          Picture         =   "frmAlfresQ.frx":0006
-         Top             =   4320
+         Top             =   3360
          Width           =   240
       End
       Begin VB.Label Label1 
          AutoSize        =   -1  'True
-         Caption         =   "Total imponible"
+         Caption         =   "Total(Base imponible)"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -217,9 +222,9 @@ Begin VB.Form frmAlfresQ
          Height          =   240
          Index           =   7
          Left            =   240
-         TabIndex        =   15
-         Top             =   4920
-         Width           =   1485
+         TabIndex        =   17
+         Top             =   4440
+         Width           =   2250
       End
       Begin VB.Label Label1 
          AutoSize        =   -1  'True
@@ -235,14 +240,14 @@ Begin VB.Form frmAlfresQ
          EndProperty
          Height          =   240
          Index           =   6
-         Left            =   240
-         TabIndex        =   14
-         Top             =   4320
+         Left            =   2760
+         TabIndex        =   16
+         Top             =   3360
          Width           =   600
       End
       Begin VB.Label Label1 
          AutoSize        =   -1  'True
-         Caption         =   "Nº Albaran"
+         Caption         =   "Numero"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -255,9 +260,9 @@ Begin VB.Form frmAlfresQ
          Height          =   240
          Index           =   5
          Left            =   240
-         TabIndex        =   13
-         Top             =   3720
-         Width           =   1050
+         TabIndex        =   15
+         Top             =   3360
+         Width           =   735
       End
       Begin VB.Label Label1 
          AutoSize        =   -1  'True
@@ -274,8 +279,8 @@ Begin VB.Form frmAlfresQ
          Height          =   240
          Index           =   4
          Left            =   240
-         TabIndex        =   12
-         Top             =   1920
+         TabIndex        =   14
+         Top             =   1560
          Width           =   735
       End
       Begin VB.Label Label1 
@@ -293,8 +298,8 @@ Begin VB.Form frmAlfresQ
          Height          =   270
          Index           =   2
          Left            =   240
-         TabIndex        =   11
-         Top             =   3240
+         TabIndex        =   13
+         Top             =   3000
          Width           =   945
       End
       Begin VB.Label Label1 
@@ -311,9 +316,9 @@ Begin VB.Form frmAlfresQ
          EndProperty
          Height          =   240
          Index           =   1
-         Left            =   240
-         TabIndex        =   10
-         Top             =   1200
+         Left            =   2640
+         TabIndex        =   12
+         Top             =   720
          Width           =   330
       End
       Begin VB.Label Label1 
@@ -331,7 +336,7 @@ Begin VB.Form frmAlfresQ
          Height          =   240
          Index           =   0
          Left            =   240
-         TabIndex        =   9
+         TabIndex        =   11
          Top             =   720
          Width           =   705
       End
@@ -350,15 +355,15 @@ Begin VB.Form frmAlfresQ
          Height          =   270
          Index           =   3
          Left            =   240
-         TabIndex        =   8
-         Top             =   240
+         TabIndex        =   10
+         Top             =   360
          Width           =   1275
       End
       Begin VB.Image Image1 
          Height          =   240
          Index           =   1
          Left            =   1680
-         Top             =   240
+         Top             =   360
          Width           =   240
       End
    End
@@ -710,7 +715,8 @@ End Sub
 
 
 Private Function ProcesoInsAlb() As Boolean
-    
+
+
     Msg = DevuelveDesdeBD("max(id)", "factproalbaranes", "1", "1")
     i = Val(Msg) + 1
     Msg = "Insert into factproalbaranes(id,codmacta,numalbar,fechaalb,BIMponible,nombre) VALUES (" & i & ","
@@ -722,10 +728,21 @@ Private Function ProcesoInsAlb() As Boolean
     'copiapmops
     On Error Resume Next
     FileCopy Me.txtNomFich.Tag, Carpeta & "\" & txtNomFich.Text
-    
+        
     If Err.Number <> 0 Then
         MuestraError Err.Number, Err.Description
         Ejecuta "DELETE FROM factproalbaranes WHERE id=" & i
+    
+    Else
+        'Ha ido bien.
+        'Si tiene parametro borramos albaran
+        
+        
+        If vParam.EliminaPdfOriginal Then Kill txtNomFich.Tag
+        If Err.Number <> 0 Then
+            MsgBox "Error eliminando fichero: " & txtNomFich.Tag & vbCrLf & " Programa continua", vbExclamation
+            Err.Clear
+        End If
         
     End If
     ProcesoInsAlb = True

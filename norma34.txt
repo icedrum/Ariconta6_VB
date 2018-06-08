@@ -2,136 +2,60 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
 <CstmrCdtTrfInitn>
    <GrpHdr>
-      <MsgId>TRANPAG000077F20180420T105413</MsgId>
-      <CreDtTm>2018-04-20T10:54:14</CreDtTm>
-      <NbOfTxs>4</NbOfTxs>
-      <CtrlSum>1483.26</CtrlSum>
+      <MsgId>TRANPAG000005F20180607T223958</MsgId>
+      <CreDtTm>2018-06-07T22:39:58</CreDtTm>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>112.05</CtrlSum>
       <InitgPty>
-         <Nm>Materna Servicios y Carburantes SL</Nm>
+         <Nm>Radio Taxi Metropolitano de Valencia SLU</Nm>
          <Id>
            <OrgId>
                <Othr>
-                  <Id>B98734098AT0</Id>
+                  <Id>B98877806000</Id>
                </Othr>
            </OrgId>
          </Id>
       </InitgPty>
    </GrpHdr>
    <PmtInf>
-      <PmtInfId>20180420105424B98734098</PmtInfId>
+      <PmtInfId>20180607223958B98877806</PmtInfId>
       <PmtMtd>TRF</PmtMtd>
-      <ReqdExctnDt>2018-04-20</ReqdExctnDt>
+      <ReqdExctnDt>2018-06-07</ReqdExctnDt>
       <Dbtr>
-         <Nm>Materna Servicios y Carburantes SL</Nm>
+         <Nm>Radio Taxi Metropolitano de Valencia SLU</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-            <AdrLine>CL PARTIDA MATERNA 17  VALENCIA</AdrLine>
+            <AdrLine>CARRER DELS GREMIS 8  VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <OrgId>
                <Othr>
-                  <Id>B98734098AT0</Id>
+                  <Id>B98877806000</Id>
                </Othr>
             </OrgId>
          </Id>
     </Dbtr>
     <DbtrAcct>
        <Id>
-          <IBAN>ES8430587105312720004451</IBAN>
+          <IBAN>ES8121005375140200020715</IBAN>
        </Id>
        <Ccy>EUR</Ccy>
     </DbtrAcct>
     <DbtrAgt>
        <FinInstnId>
-          <BIC>CCRIES2AXXX</BIC>
+          <BIC>CAIXESBBXXX</BIC>
        </FinInstnId>
     </DbtrAgt>
    <CdtTrfTxInf>
       <PmtId>
-         <EndToEndId>1         20171201001</EndToEndId>
+         <EndToEndId>C/3217475120171004001</EndToEndId>
       </PmtId>
       <PmtTpInf>
           <SvcLvl><Cd>SEPA</Cd></SvcLvl>
           <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
        </PmtTpInf>
        <Amt>
-          <InstdAmt Ccy="EUR">1000.00</InstdAmt>
-       </Amt>
-       <CdtrAgt>
-          <FinInstnId>
-             <BIC>CCRIES2AXXX</BIC>
-          </FinInstnId>
-       </CdtrAgt>
-       <Cdtr>
-          <Nm>DALQUIMIC INTERNACIONAL, SL</Nm>
-           <Id>
-               <OrgId>
-                  <Othr>
-                     <Id>B98513955</Id>
-                  </Othr>
-               </OrgId>
-           </Id>
-        </Cdtr>
-        <CdtrAcct>
-           <Id>
-              <IBAN>ES7930582014382720004026</IBAN>
-           </Id>
-        </CdtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>ASdAsd ASDASDASd</Ustrd>
-      </RmtInf>
-   </CdtTrfTxInf>
-   <CdtTrfTxInf>
-      <PmtId>
-         <EndToEndId>170446    20170418001</EndToEndId>
-      </PmtId>
-      <PmtTpInf>
-          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
-          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
-       </PmtTpInf>
-       <Amt>
-          <InstdAmt Ccy="EUR">154.88</InstdAmt>
-       </Amt>
-       <CdtrAgt>
-          <FinInstnId>
-             <BIC>CCRIES2AXXX</BIC>
-          </FinInstnId>
-       </CdtrAgt>
-       <Cdtr>
-          <Nm>DALQUIMIC INTERNACIONAL, SL</Nm>
-           <Id>
-               <OrgId>
-                  <Othr>
-                     <Id>B98513955</Id>
-                  </Othr>
-               </OrgId>
-           </Id>
-        </Cdtr>
-        <CdtrAcct>
-           <Id>
-              <IBAN>ES7930582014382720004026</IBAN>
-           </Id>
-        </CdtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>170446 - 18/04/2017 Vto a fecha  03/05/2017</Ustrd>
-      </RmtInf>
-   </CdtTrfTxInf>
-   <CdtTrfTxInf>
-      <PmtId>
-         <EndToEndId>3006      20170412001</EndToEndId>
-      </PmtId>
-      <PmtTpInf>
-          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
-          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
-       </PmtTpInf>
-       <Amt>
-          <InstdAmt Ccy="EUR">31.58</InstdAmt>
+          <InstdAmt Ccy="EUR">112.05</InstdAmt>
        </Amt>
        <CdtrAgt>
           <FinInstnId>
@@ -139,63 +63,25 @@
           </FinInstnId>
        </CdtrAgt>
        <Cdtr>
-          <Nm>GLEAM ESSENCE, S.L</Nm>
+          <Nm>JESUS ESTEVE S.L.</Nm>
            <Id>
                <OrgId>
                   <Othr>
-                     <Id>B98225774</Id>
+                     <Id>B96713490</Id>
                   </Othr>
                </OrgId>
            </Id>
         </Cdtr>
         <CdtrAcct>
            <Id>
-              <IBAN>ES2700930310030066310408</IBAN>
+              <IBAN>ES5421004337820200008465</IBAN>
            </Id>
         </CdtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>3006 - 12/04/2017 Vto a fecha  12/05/2017</Ustrd>
-      </RmtInf>
-   </CdtTrfTxInf>
-   <CdtTrfTxInf>
-      <PmtId>
-         <EndToEndId>17000202  20170404001</EndToEndId>
-      </PmtId>
-      <PmtTpInf>
-          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
-          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
-       </PmtTpInf>
-       <Amt>
-          <InstdAmt Ccy="EUR">296.80</InstdAmt>
-       </Amt>
-       <CdtrAgt>
-          <FinInstnId>
-             <BIC>BCOEESMM159</BIC>
-          </FinInstnId>
-       </CdtrAgt>
-       <Cdtr>
-          <Nm>INSTAL.LACIONS I SERVICIS ALZIRA</Nm>
-           <Id>
-               <OrgId>
-                  <Othr>
-                     <Id>B98537087</Id>
-                  </Othr>
-               </OrgId>
-           </Id>
-        </Cdtr>
-        <CdtrAcct>
-           <Id>
-              <IBAN>ES8131590054212298516325</IBAN>
-           </Id>
-        </CdtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>17000202 - 04/04/2017 Vto a fecha  30/04/2017</Ustrd>
+         <Ustrd>Factura C/32174751 de Fecha 31/10/2017</Ustrd>
       </RmtInf>
    </CdtTrfTxInf>
    </PmtInf>

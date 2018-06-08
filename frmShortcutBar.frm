@@ -120,7 +120,7 @@ End Sub
 
 Private Sub wndShortcutBar_SelectedChanged(ByVal Item As XtremeShortcutBar.IShortcutBarItem)
 Dim TabNuevo As RibbonTab
-    Select Case Item.id
+    Select Case Item.Id
         Case SHORTCUT_CONTACTS:
 
             frmInbox.CalendarControl.visible = False
@@ -179,17 +179,17 @@ Public Sub Form_Resize()
 End Sub
 
 
-Public Sub SetColor(id As Integer)
+Public Sub SetColor(Id As Integer)
     Set wndShortcutBar.Icons = CommandBarsGlobalSettings.Icons
     Me.BackColor = wndShortcutBar.PaintManager.PaneBackgroundColor
    ' Me.Image1.Visible = vUsu.Skin = 2
     Me.Image1.visible = True 'vUsu.Skin <> 2
     
     
-    If id = ID_OPTIONS_STYLEBLACK2010 Then
+    If Id = ID_OPTIONS_STYLEBLACK2010 Then
         Label1.ForeColor = vbWhite
         Label2.ForeColor = &HE0E0E0
-    ElseIf id = ID_OPTIONS_STYLESILVER2010 Then
+    ElseIf Id = ID_OPTIONS_STYLESILVER2010 Then
         'HexColor = &H73716B
         Label1.ForeColor = vbBlack
         Label2.ForeColor = vbWhite

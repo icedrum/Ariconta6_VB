@@ -78,13 +78,13 @@ Begin VB.Form frmTesDividVtoResult
       NumItems        =   2
       BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          Text            =   "Fecha"
-         Object.Width           =   2893
+         Object.Width           =   3246
       EndProperty
       BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          Alignment       =   1
          SubItemIndex    =   1
          Text            =   "Importe"
-         Object.Width           =   3881
+         Object.Width           =   3528
       EndProperty
    End
    Begin VB.Label Label3 
@@ -113,7 +113,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Public Vtos As String
-
+Public TIeneGastos As Boolean
 
 
 
@@ -142,11 +142,19 @@ Dim N As Integer
             Vtos = Mid(Vtos, i + 1)
             N = N + 1
             ListView1.ListItems.Add , , Mid(Msg, 1, 10)
+            
             Msg = Mid(Msg, 11)
             ListView1.ListItems(N).SubItems(1) = Msg
             
-        
+            If N = 1 And TIeneGastos Then
+                ListView1.ListItems(N).Bold = True
+                ListView1.ListItems(N).ToolTipText = "Tiene gastos"
+            End If
         End If
     Loop Until Vtos = ""
     
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    TIeneGastos = False
 End Sub

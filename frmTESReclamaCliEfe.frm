@@ -28,7 +28,7 @@ Begin VB.Form frmTESReclamaCliEfe
       EndProperty
       Height          =   2655
       Left            =   120
-      TabIndex        =   58
+      TabIndex        =   61
       Top             =   6360
       Width           =   6915
       Begin VB.OptionButton optTipoSal 
@@ -45,7 +45,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   68
+         TabIndex        =   71
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -64,7 +64,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   67
+         TabIndex        =   70
          Top             =   1200
          Width           =   1515
       End
@@ -82,7 +82,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   66
+         TabIndex        =   69
          Top             =   1680
          Width           =   975
       End
@@ -100,7 +100,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   65
+         TabIndex        =   68
          Top             =   2160
          Width           =   975
       End
@@ -118,7 +118,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   64
+         TabIndex        =   67
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -137,7 +137,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   63
+         TabIndex        =   66
          Top             =   1200
          Width           =   4665
       End
@@ -155,7 +155,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   62
+         TabIndex        =   65
          Top             =   1680
          Width           =   4665
       End
@@ -164,7 +164,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   61
+         TabIndex        =   64
          Top             =   1200
          Width           =   255
       End
@@ -173,7 +173,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   60
+         TabIndex        =   63
          Top             =   1680
          Width           =   255
       End
@@ -190,7 +190,7 @@ Begin VB.Form frmTESReclamaCliEfe
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   59
+         TabIndex        =   62
          Top             =   720
          Width           =   1515
       End
@@ -208,7 +208,7 @@ Begin VB.Form frmTESReclamaCliEfe
       EndProperty
       Height          =   6345
       Left            =   120
-      TabIndex        =   25
+      TabIndex        =   28
       Top             =   0
       Width           =   6915
       Begin VB.TextBox txtNAgente 
@@ -226,7 +226,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Index           =   0
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   57
+         TabIndex        =   60
          Top             =   4140
          Width           =   4155
       End
@@ -245,7 +245,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Index           =   1
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   56
+         TabIndex        =   59
          Top             =   4530
          Width           =   4155
       End
@@ -302,7 +302,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Index           =   0
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   53
+         TabIndex        =   56
          Top             =   3060
          Width           =   4155
       End
@@ -321,7 +321,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Index           =   1
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   52
+         TabIndex        =   55
          Top             =   3480
          Width           =   4155
       End
@@ -380,7 +380,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Index           =   1
          Left            =   2550
          Locked          =   -1  'True
-         TabIndex        =   47
+         TabIndex        =   50
          Top             =   2340
          Width           =   4155
       End
@@ -399,7 +399,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Index           =   0
          Left            =   2550
          Locked          =   -1  'True
-         TabIndex        =   46
+         TabIndex        =   49
          Top             =   1920
          Width           =   4155
       End
@@ -418,7 +418,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Index           =   1
          Left            =   2040
          Locked          =   -1  'True
-         TabIndex        =   45
+         TabIndex        =   48
          Top             =   5700
          Width           =   4665
       End
@@ -437,7 +437,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Index           =   0
          Left            =   2040
          Locked          =   -1  'True
-         TabIndex        =   44
+         TabIndex        =   47
          Top             =   5280
          Width           =   4665
       End
@@ -625,7 +625,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   20
          Left            =   240
-         TabIndex        =   55
+         TabIndex        =   58
          Top             =   4170
          Width           =   690
       End
@@ -643,7 +643,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   19
          Left            =   240
-         TabIndex        =   54
+         TabIndex        =   57
          Top             =   4530
          Width           =   615
       End
@@ -678,7 +678,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   285
          Index           =   14
          Left            =   240
-         TabIndex        =   51
+         TabIndex        =   54
          Top             =   3840
          Width           =   960
       End
@@ -697,7 +697,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   18
          Left            =   270
-         TabIndex        =   50
+         TabIndex        =   53
          Top             =   510
          Width           =   2280
       End
@@ -715,7 +715,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   17
          Left            =   270
-         TabIndex        =   49
+         TabIndex        =   52
          Top             =   870
          Width           =   690
       End
@@ -733,7 +733,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   16
          Left            =   270
-         TabIndex        =   48
+         TabIndex        =   51
          Top             =   1230
          Width           =   615
       End
@@ -766,7 +766,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   11
          Left            =   240
-         TabIndex        =   41
+         TabIndex        =   44
          Top             =   1620
          Width           =   1890
       End
@@ -784,7 +784,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   10
          Left            =   240
-         TabIndex        =   40
+         TabIndex        =   43
          Top             =   1950
          Width           =   690
       End
@@ -802,7 +802,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   9
          Left            =   240
-         TabIndex        =   39
+         TabIndex        =   42
          Top             =   2310
          Width           =   615
       End
@@ -833,7 +833,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   255
          Index           =   1
          Left            =   2580
-         TabIndex        =   38
+         TabIndex        =   41
          Top             =   2700
          Width           =   4035
       End
@@ -850,7 +850,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   255
          Index           =   0
          Left            =   2610
-         TabIndex        =   37
+         TabIndex        =   40
          Top             =   2340
          Width           =   4035
       End
@@ -882,7 +882,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   2
          Left            =   240
-         TabIndex        =   36
+         TabIndex        =   39
          Top             =   3450
          Width           =   615
       End
@@ -900,7 +900,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   3
          Left            =   240
-         TabIndex        =   35
+         TabIndex        =   38
          Top             =   3090
          Width           =   690
       End
@@ -918,7 +918,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   4
          Left            =   3300
-         TabIndex        =   34
+         TabIndex        =   37
          Top             =   1260
          Width           =   615
       End
@@ -935,7 +935,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   255
          Index           =   4
          Left            =   2580
-         TabIndex        =   33
+         TabIndex        =   36
          Top             =   3990
          Width           =   4095
       End
@@ -952,7 +952,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   255
          Index           =   0
          Left            =   2580
-         TabIndex        =   32
+         TabIndex        =   35
          Top             =   3630
          Width           =   4095
       End
@@ -970,7 +970,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   5
          Left            =   3300
-         TabIndex        =   31
+         TabIndex        =   34
          Top             =   900
          Width           =   690
       End
@@ -989,7 +989,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   255
          Index           =   7
          Left            =   240
-         TabIndex        =   30
+         TabIndex        =   33
          Top             =   2760
          Width           =   1770
       End
@@ -1008,7 +1008,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   8
          Left            =   3300
-         TabIndex        =   29
+         TabIndex        =   32
          Top             =   540
          Width           =   2280
       End
@@ -1027,7 +1027,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   6
          Left            =   210
-         TabIndex        =   28
+         TabIndex        =   31
          Top             =   4980
          Width           =   960
       End
@@ -1059,7 +1059,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   1
          Left            =   210
-         TabIndex        =   27
+         TabIndex        =   30
          Top             =   5700
          Width           =   735
       End
@@ -1077,7 +1077,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   0
          Left            =   210
-         TabIndex        =   26
+         TabIndex        =   29
          Top             =   5280
          Width           =   780
       End
@@ -1095,9 +1095,26 @@ Begin VB.Form frmTESReclamaCliEfe
       EndProperty
       Height          =   9015
       Left            =   7140
-      TabIndex        =   42
+      TabIndex        =   45
       Top             =   0
       Width           =   4815
+      Begin VB.CheckBox chkAbonos 
+         Caption         =   "Inlcuir abonos"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Left            =   2520
+         TabIndex        =   19
+         Top             =   6840
+         Width           =   1995
+      End
       Begin VB.TextBox txtVarios 
          BeginProperty Font 
             Name            =   "Verdana"
@@ -1153,7 +1170,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   285
          Index           =   1
          Left            =   4980
-         TabIndex        =   76
+         TabIndex        =   77
          Text            =   "Text1"
          Top             =   5070
          Width           =   2775
@@ -1190,7 +1207,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   360
          Left            =   1080
          Locked          =   -1  'True
-         TabIndex        =   73
+         TabIndex        =   74
          Top             =   4230
          Width           =   3405
       End
@@ -1207,7 +1224,7 @@ Begin VB.Form frmTESReclamaCliEfe
          EndProperty
          Height          =   240
          Left            =   270
-         TabIndex        =   72
+         TabIndex        =   23
          Top             =   8520
          Width           =   4095
       End
@@ -1224,7 +1241,7 @@ Begin VB.Form frmTESReclamaCliEfe
          EndProperty
          Height          =   240
          Left            =   270
-         TabIndex        =   71
+         TabIndex        =   22
          Top             =   8100
          Width           =   4095
       End
@@ -1241,7 +1258,7 @@ Begin VB.Form frmTESReclamaCliEfe
          EndProperty
          Height          =   240
          Left            =   270
-         TabIndex        =   20
+         TabIndex        =   21
          Top             =   7680
          Width           =   4095
       End
@@ -1258,7 +1275,7 @@ Begin VB.Form frmTESReclamaCliEfe
          EndProperty
          Height          =   240
          Left            =   270
-         TabIndex        =   19
+         TabIndex        =   20
          Top             =   7260
          Width           =   4275
       End
@@ -1312,13 +1329,13 @@ Begin VB.Form frmTESReclamaCliEfe
          Left            =   270
          TabIndex        =   18
          Top             =   6840
-         Width           =   3075
+         Width           =   1995
       End
       Begin MSComctlLib.ListView ListView1 
          Height          =   2190
          Index           =   1
          Left            =   180
-         TabIndex        =   21
+         TabIndex        =   27
          Top             =   780
          Width           =   4275
          _ExtentX        =   7541
@@ -1357,7 +1374,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   255
          Index           =   24
          Left            =   240
-         TabIndex        =   78
+         TabIndex        =   79
          Top             =   6120
          Width           =   840
       End
@@ -1375,7 +1392,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   255
          Index           =   21
          Left            =   270
-         TabIndex        =   77
+         TabIndex        =   78
          Top             =   5400
          Width           =   840
       End
@@ -1393,7 +1410,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   13
          Left            =   270
-         TabIndex        =   75
+         TabIndex        =   76
          Top             =   4740
          Width           =   840
       End
@@ -1411,7 +1428,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   12
          Left            =   240
-         TabIndex        =   74
+         TabIndex        =   75
          Top             =   3960
          Width           =   630
       End
@@ -1435,7 +1452,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   23
          Left            =   2850
-         TabIndex        =   70
+         TabIndex        =   73
          Top             =   3210
          Width           =   1800
       End
@@ -1453,7 +1470,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   195
          Index           =   22
          Left            =   270
-         TabIndex        =   69
+         TabIndex        =   72
          Top             =   3210
          Width           =   1800
       End
@@ -1497,7 +1514,7 @@ Begin VB.Form frmTESReclamaCliEfe
          Height          =   255
          Index           =   15
          Left            =   240
-         TabIndex        =   43
+         TabIndex        =   46
          Top             =   480
          Width           =   1500
       End
@@ -1516,7 +1533,7 @@ Begin VB.Form frmTESReclamaCliEfe
       EndProperty
       Height          =   375
       Left            =   10680
-      TabIndex        =   24
+      TabIndex        =   26
       Top             =   9120
       Width           =   1215
    End
@@ -1533,7 +1550,7 @@ Begin VB.Form frmTESReclamaCliEfe
       Height          =   375
       Index           =   1
       Left            =   9150
-      TabIndex        =   22
+      TabIndex        =   25
       Top             =   9120
       Width           =   1425
    End
@@ -1550,9 +1567,9 @@ Begin VB.Form frmTESReclamaCliEfe
       EndProperty
       Height          =   375
       Index           =   0
-      Left            =   150
-      TabIndex        =   23
-      Top             =   9090
+      Left            =   120
+      TabIndex        =   24
+      Top             =   9120
       Width           =   1335
    End
 End
@@ -1595,7 +1612,7 @@ Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
 Private SQL As String
-Dim cad As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -1624,6 +1641,32 @@ End Sub
 
 
 
+Private Sub chkAbonos_KeyPress(KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
+Private Sub chkExcluirConEmail_KeyPress(KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
+Private Sub chkInsertarReclamas_KeyPress(KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
+Private Sub chkMarcarUtlRecla_KeyPress(KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
+Private Sub chkMostrarCta_KeyPress(KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
+
+
+Private Sub chkReclamaDevueltos_KeyPress(KeyAscii As Integer)
+KEYpress KeyAscii
+End Sub
+
 Private Sub cmdAccion_Click(Index As Integer)
 Dim Rs As ADODB.Recordset
 Dim indRPT As String
@@ -1646,20 +1689,20 @@ Dim nomDocu As String
     ' si es por email
     If Me.optTipoSal(3).Value Then
         
-        cad = "DELETE FROM tmp347 WHERE codusu =" & vUsu.Codigo
-        Conn.Execute cad
+        Cad = "DELETE FROM tmp347 WHERE codusu =" & vUsu.Codigo
+        Conn.Execute Cad
         
         Set Rs = New ADODB.Recordset
         
-        cad = "SELECT fechaadq,maidatos,razosoci,nommacta FROM tmpentrefechas,cuentas WHERE"
-        cad = cad & " fechaadq=codmacta AND    CodUsu = " & vUsu.Codigo
-        cad = cad & " GROUP BY fechaadq ORDER BY maidatos"
-        Rs.Open cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+        Cad = "SELECT fechaadq,maidatos,razosoci,nommacta FROM tmpentrefechas,cuentas WHERE"
+        Cad = Cad & " fechaadq=codmacta AND    CodUsu = " & vUsu.Codigo
+        Cad = Cad & " GROUP BY fechaadq ORDER BY maidatos"
+        Rs.Open Cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
         
-        cad = "pFechaIMP= """ & txtFecha(4).Text & """|"
-        cad = cad & "pverCCC= " & Abs(Me.chkMostrarCta) & "|"
+        Cad = "pFechaIMP= """ & txtFecha(4).Text & """|"
+        Cad = Cad & "pverCCC= " & Abs(Me.chkMostrarCta) & "|"
         
-        cadParam = cadParam & cad
+        cadParam = cadParam & Cad
         numParam = numParam + 2
         
         SQL = "{tmpentrefechas.codusu}=" & vUsu.Codigo
@@ -2168,7 +2211,7 @@ Private Sub txtCuentas_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuentas_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim SQL As String
@@ -2268,7 +2311,7 @@ Private Sub txtSerie_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtSerie_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim SQL As String
@@ -2310,7 +2353,7 @@ End Sub
 
 
 Private Sub txtCarta_LostFocus()
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim SQL As String
@@ -2345,7 +2388,7 @@ Private Sub txtAgente_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtAgente_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String
+Dim Cad As String, cadTipo As String
 Dim Cta As String
 Dim B As Boolean
 Dim SQL As String
@@ -2367,7 +2410,7 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim Sql2 As String
+Dim SQL2 As String
 
     'Monto el SQL
     SQL = "Select cobros.codmacta Cliente, cobros.nomclien Nombre, cobros.fecfactu FFactura, cobros.fecvenci FVenci, "
@@ -2381,7 +2424,7 @@ Dim Sql2 As String
             
             
 
-    SQL = SQL & " ORDER BY " & Sql2
+    SQL = SQL & " ORDER BY " & SQL2
 
             
     'LLamos a la funcion
@@ -2432,6 +2475,7 @@ Dim Rs As ADODB.Recordset
 Dim i As Long
 Dim Importe As Currency
 Dim Dpto As Long
+Dim Inse As Boolean
 
     On Error GoTo eCargarTemporal
 
@@ -2469,8 +2513,8 @@ Dim Dpto As Long
     
     'No enlazamos por NIF, si no k en NIF guardaremos codmacta
     'codinmov, nominmov, fechaadq, valoradq, amortacu, fecventa, impventa, impperiodo) VALUES (
-    cad = "DELETE FROM tmpentrefechas WHERE codusu = " & vUsu.Codigo
-    Conn.Execute cad
+    Cad = "DELETE FROM tmpentrefechas WHERE codusu = " & vUsu.Codigo
+    Conn.Execute Cad
     
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     SQL = "INSERT INTO tmpentrefechas(codusu,codigo,codccost,nomccost,fecventa,conconam,fechaadq"
@@ -2487,27 +2531,33 @@ Dim Dpto As Long
         
         Importe = Rs!ImpVenci + DBLet(Rs!Gastos, "N") - DBLet(Rs!impcobro, "N")
         If DBLet(Rs!recedocu, "N") = 1 Then Importe = 0
-        If Importe > 0 Then
-            cad = i & ",'" & Rs!NUmSerie & "','"
-            cad = cad & Rs!NumFactu & "','"
-            cad = cad & Format(Rs!FecFactu, FormatoFecha) & "',"
-            cad = cad & Rs!numorden & ",'"
-            cad = cad & Rs!codmacta & "','"
-            cad = cad & Rs!FecVenci & "',"
-            cad = cad & TransformaComasPuntos(CStr(Rs!ImpVenci)) & ","
+        If Me.chkAbonos.Value = 0 Then
+            Inse = Importe > 0
+        Else
+            Inse = Importe <> 0
+        End If
+        'If Importe > 0 Then
+        If Inse Then
+            Cad = i & ",'" & Rs!NUmSerie & "','"
+            Cad = Cad & Rs!NumFactu & "','"
+            Cad = Cad & Format(Rs!FecFactu, FormatoFecha) & "',"
+            Cad = Cad & Rs!numorden & ",'"
+            Cad = Cad & Rs!codmacta & "','"
+            Cad = Cad & Rs!FecVenci & "',"
+            Cad = Cad & TransformaComasPuntos(CStr(Rs!ImpVenci)) & ","
             If IsNull(Rs!impcobro) Then
-                cad = cad & "NULL"
+                Cad = Cad & "NULL"
             Else
-                cad = cad & TransformaComasPuntos(CStr(Rs!impcobro))
+                Cad = Cad & TransformaComasPuntos(CStr(Rs!impcobro))
             End If
             'ValorADQ=GASTOS
-            cad = cad & "," & TransformaComasPuntos(CStr(DBLet(Rs!Gastos, "N")))
+            Cad = Cad & "," & TransformaComasPuntos(CStr(DBLet(Rs!Gastos, "N")))
             
             'Febrero 2010
             'Departamento
-            cad = cad & "," & DBLet(Rs!departamento, "N")
-            cad = SQL & cad & ")"
-            Conn.Execute cad
+            Cad = Cad & "," & DBLet(Rs!departamento, "N")
+            Cad = SQL & Cad & ")"
+            Conn.Execute Cad
             
             i = i + 1
             
@@ -2541,21 +2591,21 @@ Dim Dpto As Long
     
     
     
-    cad = "DELETE FROM tmpcuentas  where codusu = " & vUsu.Codigo
-    Conn.Execute cad
+    Cad = "DELETE FROM tmpcuentas  where codusu = " & vUsu.Codigo
+    Conn.Execute Cad
     
-    cad = "SELECT fechaadq,codinmov FROM tmpentrefechas WHERE codusu = " & vUsu.Codigo & " GROUP BY fechaadq,codinmov"
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "SELECT fechaadq,codinmov FROM tmpentrefechas WHERE codusu = " & vUsu.Codigo & " GROUP BY fechaadq,codinmov"
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     'Datos contables
     Set miRsAux = New ADODB.Recordset
     CONT = 0
     While Not Rs.EOF
         'BUSCAMOS DATOS
-        cad = "SELECT * from cuentas where codmacta='" & Rs.Fields(0) & "'"
+        Cad = "SELECT * from cuentas where codmacta='" & Rs.Fields(0) & "'"
     
         'Insertar datos en z347
-        miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         'Nuevo. Ya no llevamos NIF, llevaremos departamento
         RC = "" 'SERA EL NIF. Sera el DPTO
         i = 1
@@ -2582,9 +2632,9 @@ Dim Dpto As Long
             SQL = SQL & DBLet(miRsAux!nifdatos, "T") & "','" 'En nommacta meto el NIF del cliente
                 
                 
-            cad = DBLet(miRsAux!IBAN, "T")
+            Cad = DBLet(miRsAux!IBAN, "T")
             
-            cad = cad & "','"
+            Cad = Cad & "','"
             'El dpto si tiene
         '    cad = cad & DevNombreSQL(DevuelveDesdeBD("descripcion", "departamentos", "codmacta = '" & miRsAux!codmacta & "' AND dpto", CStr(Dpto)))
         '    cad = cad & "'," & Dpto
@@ -2622,7 +2672,7 @@ End Function
 
 Private Function MontaSQL() As Boolean
 Dim SQL As String
-Dim Sql2 As String
+Dim SQL2 As String
 Dim RC As String
 Dim RC2 As String
 Dim Rs As ADODB.Recordset
@@ -2777,7 +2827,8 @@ Private Sub MontaSQLReclamacion()
         SQL = SQL & " AND devuelto = 1"
     Else
         'QUE FALTE POR PAGAR
-        SQL = SQL & " AND ((impvenci + coalesce(gastos,0) - coalesce(impcobro,0) > 0) or (devuelto = 1))"
+        SQL = SQL & " AND ((impvenci + coalesce(gastos,0) - coalesce(impcobro,0)  )" & IIf(Me.chkAbonos.Value = 1, "<>", ">")
+        SQL = SQL & "0 or (devuelto = 1))"
     End If
     
     'Marzo2015
@@ -2788,10 +2839,10 @@ Private Sub MontaSQLReclamacion()
     
     
     'Select
-    cad = "Select cobros.*, cuentas.codmacta FROM cobros,cuentas,formapago "
-    cad = cad & " WHERE  formapago.codforpa=cobros.codforpa AND cobros.codmacta = cuentas.codmacta"
-    cad = cad & " AND formapago.codforpa=cobros.codforpa "
-    SQL = cad & SQL
+    Cad = "Select cobros.*, cuentas.codmacta FROM cobros,cuentas,formapago "
+    Cad = Cad & " WHERE  formapago.codforpa=cobros.codforpa AND cobros.codmacta = cuentas.codmacta"
+    Cad = Cad & " AND formapago.codforpa=cobros.codforpa "
+    SQL = Cad & SQL
     
     
 End Sub

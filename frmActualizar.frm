@@ -297,6 +297,15 @@ Dim Contabilizada As String
         Cuenta = "DELETE from factpro_totales " & SQL
         Conn.Execute Cuenta
         
+        
+        Donde = "Documentos asociados"
+        Cuenta = "DELETE from factpro_fichdocs " & SQL
+        Conn.Execute Cuenta
+        
+        
+        
+        
+        
         Contabilizada = "select count(*) from pagos where numserie = " & DBSet(LEtra, "T") & " and codmacta = " & DBSet(Proveedor, "T") & " and numfactu = " & DBSet(FACTURA, "T") & " and fecfactu = " & DBSet(FechaFactura, "F") & " and imppagad <> 0 and not imppagad is null "
         
         If TotalRegistros(Contabilizada) <> 0 Then

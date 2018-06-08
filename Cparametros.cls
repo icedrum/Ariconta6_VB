@@ -149,7 +149,7 @@ Private mvarPathFicherosInteg As String
 
 Private mvarPathAlbaranesProv As String
 Private mvarPathFacturasProv As String
-
+Private mvarEliminaPdfOriginal As Boolean
 
 
 Private mvarAplicarFiltrosEnCuentas As Boolean   'Si valor en BD. De momento es que monti NO quiere filtros en cuentas
@@ -1043,6 +1043,10 @@ Public Property Get PathFacturasProv() As String
      PathFacturasProv = mvarPathFacturasProv
 End Property
 
+Public Property Get EliminaPdfOriginal() As Boolean
+     EliminaPdfOriginal = mvarEliminaPdfOriginal
+End Property
+
 
 
 
@@ -1255,6 +1259,7 @@ Dim Nuevos As String
             mvarPathFicherosInteg = ""
             mvarPathAlbaranesProv = ""
             mvarPathFacturasProv = ""
+            mvarEliminaPdfOriginal = False
             Nuevos = ""
             
             
@@ -1321,6 +1326,12 @@ Dim Nuevos As String
             
             mvarPathFacturasProv = DBLet(Rs!PathFacturasProv, "T")
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Carpeta ficheros facturas PDF"
+            
+            mvarEliminaPdfOriginal = (DBLet(Rs!EliminaPdfOriginal, "N") = 1)
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Parametro eliminar albaranes/facturas PDF"
+            
+            
+            
             
             
             

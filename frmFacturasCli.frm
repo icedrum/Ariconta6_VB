@@ -4759,7 +4759,7 @@ Private Sub BotonModificar()
     If InStr(1, data1.Recordset.Source, "numasien") Then
         MsgBoxA "Busque la factura por su numero de factura", vbExclamation
         Numasien2 = -1
-        Exit Sub
+        
     End If
     
 
@@ -4770,6 +4770,9 @@ Private Sub BotonModificar()
             Exit Sub
         End If
         Text1(8).Text = ""
+    Else
+        PonerModo 2
+        Exit Sub
     End If
     
     If Mc Is Nothing Then Set Mc = New Contadores
@@ -4879,6 +4882,30 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
             Set Mc = New Contadores
             Mc.DevolverContador CStr(DBLet(data1.Recordset!NUmSerie)), (Fec <= vParam.fechafin), i
             Set Mc = Nothing
+            
+            
+            
+            
+            'MAYO 2018
+            SQL = "select count(*) from cobros where numserie = " & DBSet(data1.Recordset!NUmSerie, "T") & " and"
+            SQL = SQL & " numfactu = " & data1.Recordset!NumFactu & " and fecfactu = " & DBSet(data1.Recordset!FecFactu, "F")
+            SQL = SQL & " and impcobro <> 0 and not impcobro is null "
+            
+            If TotalRegistros(SQL) <> 0 Then
+                MsgBox "Hay cobros que ya se han efectuado. Revise cartera y contabilidad.", vbExclamation
+            Else
+
+                
+                SQL = "DELETE from cobros where  numserie = " & DBSet(data1.Recordset!NUmSerie, "T") & " and"
+                SQL = SQL & " numfactu = " & data1.Recordset!NumFactu & " and fecfactu = " & DBSet(data1.Recordset!FecFactu, "F")
+                Ejecuta SQL
+            End If
+            
+            
+            
+            
+            
+            
         Else
             AlgunAsientoActualizado = False
             Conn.RollbackTrans
@@ -6661,7 +6688,7 @@ Dim Cad As String
     On Error Resume Next
 
     Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
     Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -7491,11 +7518,11 @@ Dim Contador As Integer
     Else
         Set IT = lw1.ListItems.Add()
 
-        IT.Text = Me.adodc1.Recordset!Orden '"Nuevo " & Contador
+        IT.Text = Me.Adodc1.Recordset!Orden '"Nuevo " & Contador
         
-        IT.SubItems(1) = Me.adodc1.Recordset.Fields(5)  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
+        IT.SubItems(1) = Me.Adodc1.Recordset.Fields(5)  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
         IT.SubItems(2) = vpaz
-        IT.SubItems(3) = Me.adodc1.Recordset.Fields(0)
+        IT.SubItems(3) = Me.Adodc1.Recordset.Fields(0)
         
         Set IT = Nothing
     End If
@@ -8311,8 +8338,9 @@ Dim Sql4 As String
     SQL = "INSERT INTO hcabapu (numdiari, fechaent, numasien,feccreacion,usucreacion,desdeaplicacion, obsdiari) VALUES ("
     SQL = SQL & FP.diaricli
     SQL = SQL & ",'" & Format(FechaCobro, FormatoFecha) & "'," & Mc.Contador & "," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Contabilización Cobro Facturas Cliente ',"
-    Sql1 = DBSet("Generado desde Facturas de Cliente el " & Format(Now, "dd/mm/yyyy hh:mm") & " por " & vUsu.Nombre, "T")
+    Sql1 = "Generado desde Facturas de Cliente el " & Format(Now, "dd/mm/yyyy hh:mm") & " por " & vUsu.Nombre
     If TotImpo < 0 Then Sql1 = Sql1 & "  (ABONO)"
+    Sql1 = DBSet(Sql1, "T")
     Conn.Execute SQL & Sql1 & ")"
     
     Linea = 0
@@ -8408,6 +8436,16 @@ Dim Sql4 As String
     Ampliacion = ""
     'CLIENTES
      'Si el apunte va al debe, el contrapunte va al haber
+     Debe = True
+     If TotImpo < 0 Then
+        If Not vParam.abononeg Then
+            Debe = False
+            TotImpo = Abs(TotImpo)
+        End If
+    End If
+    
+        
+     
      If Not Debe Then
          Conce = FP.ampdecli
          LlevaContr = FP.ctrdecli = 1
@@ -8420,7 +8458,7 @@ Dim Sql4 As String
            
            
     If Conce = 2 Then
-       Ampliacion = Ampliacion & DBLet(Rs!FecVenci)  'Fecha vto
+       Ampliacion = Ampliacion & DBLet(Text4(4).Text, "T")  'Fecha vto
     ElseIf Conce = 4 Then
         'Contra partida
         Ampliacion = DevNombreSQL(Text1(2).Text)
@@ -8438,9 +8476,8 @@ Dim Sql4 As String
     
     
     Cad = Linea & "," & DBSet(CtaBanco, "T") & ",'" & Numdocum & "'," & Conce & ",'" & Ampliacion & "',"
-    'Importe cliente
-    'Si el cobro/pago va al debe el contrapunte ira al haber
-    If Not Debe Then
+    
+    If Debe Then
         'al debe
         Cad = Cad & TransformaComasPuntos(CStr(TotImpo)) & ",NULL"
     Else
@@ -8548,7 +8585,7 @@ Dim SQL As String
         End If
         
         ' falta el codusu
-        SQL = SQL & "," & DBSet(vUsu.id, "N")
+        SQL = SQL & "," & DBSet(vUsu.Id, "N")
         
         
         CadValues = CadValues & "(" & SQL & "),"

@@ -183,15 +183,15 @@ Public Sub Form_Resize()
 
 End Sub
 
-Public Sub SetColor(id As Integer)
+Public Sub SetColor(Id As Integer)
 
    
    
     Dim HexColor As Long
-    If id = ID_OPTIONS_STYLEBLACK2010 Then
+    If Id = ID_OPTIONS_STYLEBLACK2010 Then
         'HexColor = &H393839
         HexColor = &H949294
-    ElseIf id = ID_OPTIONS_STYLESILVER2010 Then
+    ElseIf Id = ID_OPTIONS_STYLESILVER2010 Then
         'HexColor = &H73716B
         HexColor = &HBDB2AD
     Else
@@ -400,7 +400,7 @@ Private Sub CalendarControl_MouseMove(Button As Integer, Shift As Integer, X As 
       ' Debug.Print "MouseMove. HitTest = "; HitTest.ViewEvent.Event.Subject
        
        If ToolTips_Mode = 1 Then
-           CalendarControl.ToolTipText = "[" & HitTest.ViewEvent.Event.id & "]  " & HitTest.ViewEvent.Event.Subject
+           CalendarControl.ToolTipText = "[" & HitTest.ViewEvent.Event.Id & "]  " & HitTest.ViewEvent.Event.Subject
        Else
            CalendarControl.ToolTipText = ""
            Me.Refresh

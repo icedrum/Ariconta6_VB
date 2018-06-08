@@ -1138,23 +1138,8 @@ Dim res
         
         AccionesIncioAbrirProgramaEmpresa
         
+        
 
-'
-'        Res = MsgBoxA("hOLa", vbCritical + vbOK)
-'    'Botones pulsados
-'    'Respuesta
-'    '----------------------------------------------
-'    '    vbOK 1 Botón Aceptar presionado
-'    '    vbCancel 2 Botón Cancelar presionado
-'    '    vbAbort 3 Botón Anular presionado
-'    '    vbRetry 4 Botón Reintentar presionado
-'    '    vbIgnore 5 Botón Ignorar presionado
-'    '    vbYes 6 Botón Sí presionado
-'    '    vbNo 7 Botón No presionado
-'
-'
-'        Debug.Print Format(Now, "hh:mm") & " respuesta: " & Res
-'        Stop
 
     End If
     Screen.MousePointer = vbDefault
@@ -1521,7 +1506,7 @@ Private Sub LoadIcons()
     
     'Pequeños
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\mail_16x16.bmp", _
-            Array(ID_ConsoBalSums, 1, 1, 1, ID_EstadísticaInmovilizado, ID_SimulaciónAmortización, ID_DeshacerAmortización, 1, 1, ID_VentaBajainmovilizado), xtpImageNormal
+            Array(1, 1, 1, 1, ID_EstadísticaInmovilizado, ID_SimulaciónAmortización, ID_DeshacerAmortización, 1, 1, ID_VentaBajainmovilizado), xtpImageNormal
         
     'Pequeños diario
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\quickstepsgallery.png", _
@@ -1542,13 +1527,13 @@ Private Sub LoadIcons()
     T = Array(1, ID_Conceptos, ID_TiposdeIVA, ID_Bancos, ID_FormasdePago, ID_FacturasRecibidas, 1, ID_FacturasEmitidas, ID_LibroFacturasRecibidas, 1, 1, 1, 1, 1, 1, _
         ID_RelaciónClientesporcuenta, ID_RelacionProveedoresporcuenta, 1, 1, 1, ID_RealizarCobro, ID_RealizarPago, 1, ID_Elementos, 1, 1, 1, 1, 1, ID_Punteoextractobancario, _
         1, ID_InformePagospendientes, 1, 1, ID_Empresa, ID_ParametrosContabilidad, 1, ID_Contadores, ID_Extractos, ID_CarteradePagos, 1, 1, 1, ID_Punteo, 1, _
-        1, ID_PlanContable, 1, 1, 1, ID_Informes, 1, ID_Usuarios, 1, 1, 1, 1, ID_Nuevaempresa, ID_ConfigurarBalances, 1, _
-        1, ID_Compensaciones, 1, 1, 1, 1, ID_ConceptosInm, 1, 1, ID_GenerarAmortización, ID_Reclamaciones, 1, 1, 1, 1, _
+        1, ID_PlanContable, 1, ID_ConsoPyG, 1, ID_Informes, 1, ID_Usuarios, 1, 1, 1, 1, ID_Nuevaempresa, ID_ConfigurarBalances, 1, _
+        ID_ConsoSitu, ID_Compensaciones, 1, 1, 1, 1, ID_ConceptosInm, 1, 1, ID_GenerarAmortización, ID_Reclamaciones, 1, 1, 1, 1, _
         ID_ImportarFacturasCliente, 1, 1, ID_Compensarcliente, ID_SumasySaldos, ID_CuentadeExplotación, ID_BalancedeSituación, ID_PérdidasyGanancias, 1, 1, 1, 1, 1, ID_CarteradeCobros, ID_InformeCobrosPendientes, _
         ID_Renumeracióndeasientos, ID_CierredeEjercicio, ID_Deshacercierre, ID_DiarioOficial, ID_PresentaciónTelemáticadeLibros, ID_Traspasodecuentasenapuntes, ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, 1, 1, 1, 1, 1, _
-        ID_Traspasodecuentasenapuntes, ID_Aumentardígitoscontables, 1, 1, 1, 1, 1, ID_LibroFacturasEmitidas, 1, 1, ID_Remesas, 1, 1, 1, ID_GraficosChart, _
+        ID_Traspasodecuentasenapuntes, ID_Aumentardígitoscontables, 1, 1, 1, 1, 1, ID_LibroFacturasEmitidas, 1, 1, ID_Remesas, 1, ID_Consolidado, 1, ID_GraficosChart, _
         ID_RecepcionTalónPagare, ID_RemesasTalenPagare, ID_Accionesrealizadas, 1, ID_LiquidacionIVA, 1, 1, 1, ID_AsientosPredefinidos, 1, 1, 1, 1, ID_FrasConso, 1, _
-        ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, 1, 1, ID_Asientos, 1)
+        ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, ID_ConsoSumasSaldos, ID_ConsoCtaExplota, ID_Asientos, 1)
     
      
     
@@ -2175,6 +2160,7 @@ Private Sub CargaMenuDiarios(IdMenu As Integer)
 Dim GrupSald As RibbonGroup
 Dim GrOtro As RibbonGroup
 Dim GrConsoli As RibbonGroup
+Dim OtroCon
 
         If Not vEmpresa.TieneContabilidad Then Exit Sub
 
@@ -2214,7 +2200,18 @@ Dim GrConsoli As RibbonGroup
                 'Consolidado
                 Case 315
                     Set GrConsoli = TabNuevo.Groups.AddGroup("CONSOLIDADO", Cad & "4")
-                    Set Control = GrConsoli.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                    
+                    Set ControlNew_NewItems = GrConsoli.Add(xtpControlButtonPopup, Rn2!Codigo, "Informes") 'Rn2!Descripcion
+                    'Set Control = GrConsoli.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                    
+                    Set OtroCon = ControlNew_NewItems.CommandBar.Controls.Add(xtpControlButton, ID_ConsoSumasSaldos, "Balance sumas y saldos")
+                    Set OtroCon = ControlNew_NewItems.CommandBar.Controls.Add(xtpControlButton, ID_ConsoCtaExplota, "Cuenta explotacion")
+                    Set OtroCon = ControlNew_NewItems.CommandBar.Controls.Add(xtpControlButton, ID_ConsoPyG, "Pérdidas y ganancias")
+                    Set OtroCon = ControlNew_NewItems.CommandBar.Controls.Add(xtpControlButton, ID_ConsoSitu, "Balance de situacion")
+                    'Dos consolidados
+                    
+                    ControlNew_NewItems.Enabled = Habilitado
+                    
                 Case Else
                     Set Control = GrOtro.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
                                         
@@ -2802,8 +2799,7 @@ End Sub
 '**************************************************************************************************************
 '**********************************************************f****************************************************
 Private Sub AbrirFormularios(Accion As Long)
-   
-   
+  
    
    ' If Accion <> ID_SII Then AbrirFormSII_2 False
   
@@ -2836,7 +2832,7 @@ Private Sub AbrirFormularios(Accion As Long)
         Case ID_ConfigurarBalances1, ID_ConfigurarBalances2, ID_ConfigurarBalances3
             Screen.MousePointer = vbHourglass
             'frmColBalan2.TipoVista = 0 'Pyg   y situacion
-            If Accion = 1 Then
+            If Accion = 120 Then
                 frmColBalan2.TipoVista = 0 'Pyg   y situacion
             Else
                 frmColBalan2.TipoVista = 1 'ratios
@@ -2924,8 +2920,14 @@ Private Sub AbrirFormularios(Accion As Long)
             frmPunteoBanco.Show vbModal
         
         Case 315
+            'frmInfBalSumSalConso.Show vbModal
+        Case ID_ConsoSumasSaldos, ID_ConsoCtaExplota
+            frmInfBalSumSalConso.Opcion = IIf(Accion = ID_ConsoSumasSaldos, 0, 1)
             frmInfBalSumSalConso.Show vbModal
         
+        Case ID_ConsoPyG, ID_ConsoSitu
+            frmInfConsBalan.Opcion = IIf(Accion = ID_ConsoPyG, 1, 0)
+            frmInfConsBalan.Show vbModal
         
         'Gradficas
         Case ID_GraficosChart
@@ -3255,16 +3257,28 @@ Private Sub AbrirMensajeBoxCodejock(QueMsg As Byte, OtrosDatos As String)
     Case 11
         
         Msg = "Importe descuadre: " & OtrosDatos
-        MuestraMsgCodejock2 "Ariconta6", "Existen asientos descuadrados", Msg, "Revise asientos", "", 0, False
+        'MuestraMsgCodejock2 "Ariconta6", "Existen asientos descuadrados", Msg, "Revise asientos", "", 0, False
          
-    
+        MuestraMsgAriadna "Ariconta6", "Existen asientos descuadrados", Msg, "Revise asientos", "", 0, False
     Case 12
         
-        Msg = "Tiene facturas pendientes de comunicar al SII."
+        Msg = "Limite: " & UltimaFechaCorrectaSII(vParam.SIIDiasAviso, Now)
         
-        MuestraMsgCodejock2 "Ariadna software", "A.E.A.T.", Msg, "", "Ver facturas|", 0, False
+        'MuestraMsgCodejock2 "Ariadna software", "A.E.A.T.", Msg, "", "Ver facturas|Continuar|", 0, False
+        MuestraMsgAriadna "Ariadna software", "A.E.A.T.", "Tiene facturas pendientes de comunicar al SII." & vbCrLf, Msg, "Continuar|Ver facturas|", 64, False
         
+   '     Msg = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut elit sit amet quam tristique pretium ultricies ut nisl. Donec ultricies ante sodales bibendum dapibus. Suspendisse tincidunt tellus vel ante blandit, at lacinia enim tincidunt. Vivamus lectus libero, gravida eget augue a, lacinia finibus mi. Ut varius orci vehicula ipsum placerat cursus a quis nisi. Vivamus ut placerat lacus. Vivamus at euismod turpis, tincidunt commodo velit. Quisque a elementum erat. Nunc a malesuada urna, nec pretium ipsum. Nulla egestas metus vel lacus lobortis ullamcorper. Integer mollis tortor at velit pharetra aliquet sit amet et augue. Donec gravida imperdiet dui, a pretium leo pretium nec. In facilisis nunc arcu, non volutpat nibh ultricies in. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In et accumsan ligula."
 
+   ' Msg = Msg & " Proin gravida posuere convallis. Nunc eu diam in massa efficitur tristique vel porttitor metus. Nunc interdum urna metus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur in tempus ex. Etiam sagittis placerat neque, non iaculis lorem faucibus et. Sed posuere purus in malesuada condimentum. Morbi nec commodo odio. Vivamus a vehicula ante, eget pulvinar quam. Praesent tristique purus mi, quis feugiat velit lobortis id. Suspendisse potenti. Donec volutpat cursus imperdiet. Curabitur ornare porta sem. Nunc fringilla dolor orci, nec rhoncus sapien tincidunt vitae."
+
+   ' Msg = Msg & " Proin auctor quis massa non ornare. Sed ut aliquam nulla. Donec ornare consequat neque in dapibus. Aliquam volutpat aliquet lectus vel scelerisque. Donec fermentum iaculis tempor. Aliquam erat volutpat. Nulla ut magna urna. Nam semper non leo sit amet eleifend. Praesent sed dictum quam. Aenean ullamcorper elit neque. Vestibulum vehicula nulla sit amet scelerisque varius. Nam blandit turpis sed dolor finibus vehicula et vitae leo. Vivamus egestas elit a iaculis facilisis. Sed mollis at velit ac finibus. In fermentum ipsum ac massa eleifend, ut suscipit augue tincidunt."
+
+   ' Msg = Msg & " Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque vel auctor sapien, ut bibendum massa. Phasellus tincidunt metus risus, eget accumsan arcu viverra ut. Nunc rhoncus augue at laoreet rutrum. Phasellus et tempus odio. In eleifend placerat justo, et posuere lorem. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam vel erat in odio placerat tincidunt. Etiam finibus purus turpis, non volutpat tellus finibus consequat. Phasellus ultrices magna congue metus dignissim hendrerit. Suspendisse nec massa nisl. Quisque sit amet nunc quis ligula tempus vulputate vel eget nunc. Nunc tincidunt arcu est, nec pellentesque velit dapibus at. Donec metus ex, tempus non lorem in, facilisis congue metus. Etiam porttitor rutrum tortor. Maecenas sollicitudin lacinia ornare."
+      
+       ' MuestraMsgAriadna "Ariadna software", "", Msg, "", "Ver facturas|Continuar|", 0, False
+        
+        
+       ' MsgBoxA Msg, vbQuestion
     End Select
 
 
@@ -3385,7 +3399,7 @@ Dim C As String
             'MostrarMensaje 9, "A.E.A.T.", "Facturas pendientes de comunicar al SII", False
             AbrirMensajeBoxCodejock 12, ""
             'If MsgBox("AGENCIA TRIBUTARIA" & vbCrLf & vbCrLf & "Tiene facturas pendientes de comunicar al SII." & vbCrLf & vbCrLf & "¿Verlas ahora?", vbCritical + vbYesNoCancel + vbDefaultButton2) <> vbYes Then B = 0
-            If RespuestaMsgBox = vbCancel Then B = 0 'NO quiere verlas
+            If RespuestaMsgBox = 30001 Then B = 0 'NO quiere verlas
             
         End If
     

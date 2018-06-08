@@ -692,8 +692,8 @@ Attribute frmConta.VB_VarHelpID = -1
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private Sql As String
-Dim cad As String
+Private SQL As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -819,12 +819,12 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
@@ -839,10 +839,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
     End Select
     
     Screen.MousePointer = vbDefault
@@ -850,15 +850,15 @@ Private Sub imgFec_Click(Index As Integer)
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
-    Sql = ""
+    SQL = ""
     AbiertoOtroFormEnListado = True
     Set frmCtas = New frmColCtas
     frmCtas.DatosADevolverBusqueda = True
     frmCtas.Show vbModal
     Set frmCtas = Nothing
-    If Sql <> "" Then
-        Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
+    If SQL <> "" Then
+        Me.txtCuentas(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(SQL, 2)
     Else
         QuitarPulsacionMas Me.txtCuentas(Index)
     End If
@@ -932,10 +932,10 @@ Private Sub txtCuentas_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuentas_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
@@ -962,18 +962,18 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
         Case 0, 1 'cuentas
             Cta = (txtCuentas(Index).Text)
                                     '********
-            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
             If B = 0 Then
                 MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
             Else
                 txtCuentas(Index).Text = Cta
-                txtNCuentas(Index).Text = Sql
+                txtNCuentas(Index).Text = SQL
                 If B = 1 Then
                     txtNCuentas(Index).Tag = ""
                 Else
-                    txtNCuentas(Index).Tag = Sql
+                    txtNCuentas(Index).Tag = SQL
                 End If
                 Hasta = -1
                 If Index = 6 Then
@@ -1018,17 +1018,17 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    Sql = "SELECT pagos.ctabanc1, pagos.fecefect, pagos.codmacta Proveedor, pagos.nomprove Descripcion, pagos.numserie Serie, pagos.numfactu Fra., pagos.fecfactu FecFact, "
-    Sql = Sql & "pagos.numorden Vto, pagos.impefect - coalesce(pagos.imppagad,0) Importe "
-    Sql = Sql & " FROM  pagos "
+    SQL = "SELECT pagos.ctabanc1, pagos.fecefect, pagos.codmacta Proveedor, pagos.nomprove Descripcion, pagos.numserie Serie, pagos.numfactu Fra., pagos.fecfactu FecFact, "
+    SQL = SQL & "pagos.numorden Vto, pagos.impefect - coalesce(pagos.imppagad,0) Importe "
+    SQL = SQL & " FROM  pagos "
     
-    If cadselect <> "" Then Sql = Sql & " where " & cadselect
+    If cadselect <> "" Then SQL = SQL & " where " & cadselect
     
-    Sql = Sql & " ORDER BY 1, 2, 4"
+    SQL = SQL & " ORDER BY 1, 2, 4"
 
             
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1037,7 +1037,7 @@ Private Sub AccionesCrystal()
 Dim indRPT As String
 Dim nomDocu As String
     
-    vMostrarTree = False
+    vMostrarTree = Me.Check1(0).Value = 1
     conSubRPT = False
         
     
@@ -1063,7 +1063,7 @@ Dim nomDocu As String
 End Sub
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -1072,11 +1072,15 @@ Dim i As Integer
 
     MontaSQL = False
     
-    If Not PonerDesdeHasta("pagos.fecefect", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""") Then Exit Function
+    If Not PonerDesdeHasta("pagos.fecefect", "F", Me.txtfecha(0), Me.txtfecha(0), Me.txtfecha(1), Me.txtfecha(1), "pDHFecha=""") Then Exit Function
     If Not PonerDesdeHasta("pagos.ctabanc1", "CTA", Me.txtCuentas(0), Me.txtNCuentas(0), Me.txtCuentas(1), Me.txtNCuentas(1), "pDHCuentas=""") Then Exit Function
             
-    If Not AnyadirAFormula(cadFormula, "(isnull({pagos.imppagad}) or ({pagos.impefect}-{pagos.imppagad})<>0)") Then Exit Function
-    If Not AnyadirAFormula(cadselect, "(pagos.impefect - coalesce(pagos.imppagad,0)) <> 0") Then Exit Function
+    'Ver implicaciones
+    'If Not AnyadirAFormula(cadFormula, "(isnull({pagos.imppagad}) or ({pagos.impefect}-{pagos.imppagad})<>0)") Then Exit Function
+    'If Not AnyadirAFormula(cadselect, "(pagos.impefect - coalesce(pagos.imppagad,0)) <> 0") Then Exit Function
+    
+    If Not AnyadirAFormula(cadFormula, "{pagos.situacion}=0") Then Exit Function
+    If Not AnyadirAFormula(cadselect, "pagos.situacion =0") Then Exit Function
     
     
     If Check1(0).Value = 1 And Check1(1).Value = 1 Then
@@ -1094,24 +1098,24 @@ Dim i As Integer
 End Function
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtFecha(Index).Tag, Index
+        LanzaFormAyuda txtfecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If

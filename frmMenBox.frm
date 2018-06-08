@@ -36,6 +36,9 @@ Option Explicit
 
 
 Private Sub Form_Activate()
+Dim Cad As String
+    Cad = TaskDialog1.MainInstructionText
+   
     frmMenBox.TaskDialog1.ShowDialog
     Unload Me
 End Sub

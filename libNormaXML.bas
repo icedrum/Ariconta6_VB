@@ -328,7 +328,7 @@ Dim LineaInsecionSumatorios As Byte
             If Pagos Then
                 'Im = DBLet(miRsAux!imppagad, "N")
                 Im = 0
-                Im = miRsAux!impefect - Im
+                Im = miRsAux!ImpEfect - Im
                 Aux = miRsAux!codmacta
     
             Else
@@ -871,13 +871,14 @@ Dim EtiquetaBuscar As String
         If aux2 = "NIFMAL" Then Err.Raise 513, , "NIF empresa no encontrado en el fichero "
         
         If Len(aux2) > 5 Then
+        
+            
+        
             SQL = DevuelveDesdeBD("nifempre", "empresa2", "1", "1")
-            'Es CCSSSNNNNNN
-            '   contro
-            '     SUFIJO
-            '        NIF
-            aux2 = Mid(aux2, 6)
-            If aux2 <> SQL Then
+            
+            
+            
+            If InStr(1, aux2, SQL) = 0 Then
 
                 Err.Raise 513, , "NIF empresa del fichero no coincide con el de la empresa en Ariconta"
             End If

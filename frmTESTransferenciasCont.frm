@@ -529,7 +529,7 @@ Private Function HacerNuevaContabilizacion() As Boolean
     'Primero leemos la forma de pago, el tipo perdon
     Set vp = New Ctipoformapago
     
-    Dim cad As String
+    Dim Cad As String
     
     
     'en vtextos, en el 3 tenemos la forpa
@@ -576,7 +576,7 @@ Dim vGasto As Currency
 
 Dim Sql1 As String
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
 
     InsertarPagosEnTemporal2 = False
     
@@ -673,14 +673,14 @@ Dim cad As String
             'Hay que ver los lados
             
             'Cad = DevuelveDesdeBD("ctagastostarj", "ctabancaria", "codmacta", Text3(1).Tag, "T")
-            cad = DevuelveDesdeBD("ctagastos", "bancos", "codmacta", RecuperaValor(NumeroDocumento, 4), "T")
+            Cad = DevuelveDesdeBD("ctagastos", "bancos", "codmacta", RecuperaValor(NumeroDocumento, 4), "T")
             
             FechaContab = CDate(Text1(10).Text)
             C = "'" & Format(FechaContab, FormatoFecha) & "'"
             C = C & "," & C
-            C = J & "," & C & ",'" & cad & "','"
+            C = J & "," & C & ",'" & Cad & "','"
             'Serie factura |FECHAfactura| ----> pondre: "gastos" | fecha contab
-            C = C & "TRA" & Format(RecuperaValor(NumeroDocumento, 1), "0000000") & "|" & FechaContab & "|','" & cad & "',"
+            C = C & "TRA" & Format(RecuperaValor(NumeroDocumento, 1), "0000000") & "|" & FechaContab & "|','" & Cad & "',"
             'Dinerito
             'riesgo es GASTO
             impo = GastosTransferencia
@@ -715,7 +715,7 @@ Dim NumVtos As Integer
 Dim GastosTransDescontados As Boolean
 Dim LineaUltima As Integer
 
-Dim cad As String
+Dim Cad As String
 
     'Valores por defecto
     ContraPartidaPorLinea = False
@@ -750,24 +750,24 @@ Dim cad As String
     'Selecciona
     SQL = "select count(*) as numvtos,codigo,numfactura,fecha,cliente," & SQL & "sum(imponible) as importe,sum(total) as gastos from tmpfaclin"
     SQL = SQL & " where codusu =" & vUsu.Codigo & " GROUP BY "
-    cad = ""
+    Cad = ""
     If AgrupaCuenta Then
        If PonerCuentaGenerica Then
-            cad = "nif" 'La columna NIF lleva los datos de la cuenta generica
+            Cad = "nif" 'La columna NIF lleva los datos de la cuenta generica
         Else
-            cad = "cta"
+            Cad = "cta"
         End If
         'Como estamos agrupando por cuenta, marcaremos tb la fecha
         'Ya que si tienen fechas distintas son apuntes distintos
-        cad = cad & "," & CampoFecha
+        Cad = Cad & "," & CampoFecha
     End If
     
     'Si no agrupo por nada agrupare por codigo(es decir como si no agrupara)
-    If cad = "" Then cad = "codigo"
+    If Cad = "" Then Cad = "codigo"
     
     'La ordenacion
-    cad = cad & " ORDER BY " & CampoFecha
-    If Not PonerCuentaGenerica Then cad = cad & ",cta"
+    Cad = Cad & " ORDER BY " & CampoFecha
+    If Not PonerCuentaGenerica Then Cad = Cad & ",cta"
         
     
     'Tanto si agrupamos por cuenta (Generica o no)
@@ -776,9 +776,9 @@ Dim cad As String
     'Es decir. Que si agrupo no tengo que ir moviendome por el recodset mirando a ver si
     'las cuentas son iguales.
     'Ya que al hacer group by ya lo estaran
-    cad = SQL & cad
+    Cad = SQL & Cad
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
     'Inicializamos variables
     Fecha = CDate("01/01/1900")
     GeneraAsiento = False
@@ -957,9 +957,9 @@ Dim cad As String
         AgrupaCuenta = False
         
         
-        cad = " select sum(imponible-total),'" & CStr(ImporteGastosTarjeta_) & "' as cliprov, 'LLEV.BANCO||' as cliente"
-        cad = cad & " from tmpfaclin WHERE codusu = " & vUsu.Codigo & " group by codusu"
-        Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = " select sum(imponible-total),'" & CStr(ImporteGastosTarjeta_) & "' as cliprov, 'LLEV.BANCO||' as cliente"
+        Cad = Cad & " from tmpfaclin WHERE codusu = " & vUsu.Codigo & " group by codusu"
+        Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Err.Number = 0 Then
             If Not Rs.EOF Then
                 impo = Rs.Fields(0)
@@ -1012,28 +1012,28 @@ End Sub
 '   que si la fechas estan fuera de ejercicios o de ambito
 '   y si hay cuentas bloquedas
 Private Function ComprobarCuentasBloquedasYFechasVencimientos() As Boolean
-Dim cad As String
+Dim Cad As String
 
     ComprobarCuentasBloquedasYFechasVencimientos = False
     On Error GoTo EComprobarCuentasBloquedasYFechasVencimientos
     Set Rs = New ADODB.Recordset
     
 
-    cad = "select codmacta,nommacta,numfac,fecha,fecbloq,cliente from tmpfaclin,cuentas where codusu=" & vUsu.Codigo & " and cta=codmacta and not (fecbloq is null )"
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    cad = ""
+    Cad = "select codmacta,nommacta,numfac,fecha,fecbloq,cliente from tmpfaclin,cuentas where codusu=" & vUsu.Codigo & " and cta=codmacta and not (fecbloq is null )"
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = ""
     While Not Rs.EOF
-        If CDate(Rs!NumFac) > Rs!FecBloq Then cad = cad & Rs!codmacta & "    " & Rs!FecBloq & "     " & Format(Rs!NumFac, "dd/mm/yyyy") & Space(15) & RecuperaValor(Rs!Cliente, 1) & vbCrLf
+        If CDate(Rs!NumFac) > Rs!FecBloq Then Cad = Cad & Rs!codmacta & "    " & Rs!FecBloq & "     " & Format(Rs!NumFac, "dd/mm/yyyy") & Space(15) & RecuperaValor(Rs!Cliente, 1) & vbCrLf
         Rs.MoveNext
     Wend
     Rs.Close
 
 
-    If cad <> "" Then
-        cad = vbCrLf & String(90, "-") & vbCrLf & cad
-        cad = "Cta           Fec. Bloq            Fecha contab         Factura" & cad
-        cad = "Cuentas bloqueadas: " & vbCrLf & vbCrLf & vbCrLf & cad
-        MsgBox cad, vbExclamation
+    If Cad <> "" Then
+        Cad = vbCrLf & String(90, "-") & vbCrLf & Cad
+        Cad = "Cta           Fec. Bloq            Fecha contab         Factura" & Cad
+        Cad = "Cuentas bloqueadas: " & vbCrLf & vbCrLf & vbCrLf & Cad
+        MsgBox Cad, vbExclamation
     Else
         ComprobarCuentasBloquedasYFechasVencimientos = True
     End If
@@ -1726,7 +1726,11 @@ Dim TipForpa As Byte
                     Case 0, 1
                         TipForpa = vbTransferencia
                     Case 2, 3
-                        TipForpa = vbConfirming
+                        If TipoTrans = 2 Then
+                            TipForpa = vbConfirming
+                        Else
+                            TipForpa = vbPagoDomiciliado
+                        End If
                 End Select
             
                 ' nuevos campos de la factura

@@ -36,7 +36,6 @@ Begin VB.Form frmProAlbaranres
       Left            =   12240
       TabIndex        =   4
       Top             =   7680
-      Visible         =   0   'False
       Width           =   1035
    End
    Begin VB.Frame FrameBotonGnral 
@@ -164,7 +163,7 @@ Public Sub CreateReportControlPendientes()
      
     
         
-    Set Column = wndReportControl.Columns.Add(2, "Cuenta", 75, False)
+    Set Column = wndReportControl.Columns.Add(2, "Cuenta", 95, False)
     Set Column = wndReportControl.Columns.Add(3, "Proveedor", 10, True)
     Set Column = wndReportControl.Columns.Add(4, "Albaran", 5, True)
     Set Column = wndReportControl.Columns.Add(5, "Fecha", 95, False)

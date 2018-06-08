@@ -2016,7 +2016,7 @@ Dim VarieAnt As String
 Private DiarioPorDefecto As String 'Si solo tiene un diario que lo ponga
 
 ' VARIABLES DOCUMENTOS ASOCIADOS
-Dim It As ListItem
+Dim IT As ListItem
 Dim Contador As Integer
 Dim Fichero As String
 Dim TipoDocu As Byte
@@ -2453,7 +2453,7 @@ Dim i As Integer
     'ASignamos un SQL al DATA1
     data1.ConnectionString = Conn
     '***** canviar el nom de la PK de la capçalera; repasar codEmpre *************
-    data1.RecordSource = "Select * from " & NombreTabla & " where numasien='-1'"
+    data1.RecordSource = "Select * from " & NombreTabla & " where false"
     data1.Refresh
        
     
@@ -5542,7 +5542,7 @@ End Sub
 Private Sub CargaDatosLW2()
 Dim Cad As String
 Dim Rs As ADODB.Recordset
-Dim It As ListItem
+Dim IT As ListItem
 Dim ElIcono As Integer
 Dim GroupBy As String
 Dim Orden As String
@@ -5575,15 +5575,15 @@ Dim C As String
     
     
     While Not Rs.EOF
-        Set It = lw1.ListItems.Add
+        Set IT = lw1.ListItems.Add
 
-        It.Text = Rs!Orden '"Nuevo " & Contador
+        IT.Text = Rs!Orden '"Nuevo " & Contador
 
-        It.SubItems(1) = Rs!DOCUM  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
-        It.SubItems(2) = App.Path & "\" & CarpetaIMG & "\" & Rs!DOCUM
-        It.SubItems(3) = Rs!Codigo
+        IT.SubItems(1) = Rs!DOCUM  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
+        IT.SubItems(2) = App.Path & "\" & CarpetaIMG & "\" & Rs!DOCUM
+        IT.SubItems(3) = Rs!Codigo
 
-        Set It = Nothing
+        Set IT = Nothing
 
         Rs.MoveNext
     Wend
@@ -5665,20 +5665,20 @@ End Sub
 Private Sub AnyadirAlListview(vpaz As String, DesdeBD As Boolean)
 Dim J As Integer
 Dim Aux As String
-Dim It As ListItem
+Dim IT As ListItem
 Dim Contador As Integer
     If Dir(vpaz, vbArchive) = "" Then
 '        MsgBox "No existe el archivo: " & vpaz, vbExclamation
     Else
-        Set It = lw1.ListItems.Add()
+        Set IT = lw1.ListItems.Add()
 
-        It.Text = Me.Adodc1.Recordset!Orden '"Nuevo " & Contador
+        IT.Text = Me.Adodc1.Recordset!Orden '"Nuevo " & Contador
         
-        It.SubItems(1) = Me.Adodc1.Recordset.Fields(5)  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
-        It.SubItems(2) = vpaz
-        It.SubItems(3) = Me.Adodc1.Recordset.Fields(0)
+        IT.SubItems(1) = Me.Adodc1.Recordset.Fields(5)  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
+        IT.SubItems(2) = vpaz
+        IT.SubItems(3) = Me.Adodc1.Recordset.Fields(0)
         
-        Set It = Nothing
+        Set IT = Nothing
     End If
 End Sub
 
@@ -5854,7 +5854,7 @@ Private Sub CompruebaColectionDescuadrados()
            
         For i = myCol.Count To 1 Step -1
             cadParam = "numasien = " & RecuperaValor(myCol.Item(i), 1) & " AND fechaent= " & DBSet(RecuperaValor(myCol.Item(i), 2), "F") & " AND numdiari"
-            cadParam = DevuelveDesdeBD("Sum(timporteD)-Sum(timporteH)", "hlinapu", cadParam, RecuperaValor(myCol.Item(i), 3))
+            cadParam = DevuelveDesdeBD("Sum(coalesce(timporteD,0))-Sum(coalesce(timporteH,0))", "hlinapu", cadParam, RecuperaValor(myCol.Item(i), 3))
             If cadParam = "" Then
                 MsgBoxA "Apunte(importe) no encontrado: " & RecuperaValor(myCol.Item(i), 1), vbExclamation
             Else
