@@ -114,7 +114,7 @@ Dim Cad As String
     UpdateLayout
 End Sub
 
-Private Sub BuscaEmpresas()
+Public Sub BuscaEmpresas()
 Dim Prohibidas As String
 Dim Rs As ADODB.Recordset
 Dim Rs2 As ADODB.Recordset
@@ -126,59 +126,47 @@ Dim N
 'Cargamos las prohibidas
 Prohibidas = DevuelveProhibidas
 
-'Cargamos las empresas
-Set Rs = New ADODB.Recordset
-
-'[Monica]11/04/2014: solo debe de salir las ariconta
-Rs.Open "Select * from usuarios.empresasariconta where conta like 'ariconta%' ORDER BY Codempre", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-
-While Not Rs.EOF
-    Cad = "|" & Rs!codempre & "|"
-    If InStr(1, Prohibidas, Cad) = 0 Then
-        Cad = Rs!nomempre
-        Set N = tree.Nodes.Add(, , CStr("N" & Rs!codempre), Rs!nomempre)
-        
-        
-        
-        'ItmX.SubItems(1) = Rs!nomresum
-        'Set N = tree.Nodes.Add("NP", tvwChild, "NN" & Rs!codempre, Rs!nomresum)
-        ' sacamos las fechas de inicio y fin
-        'Sql = "select fechaini, fechafin from " & Trim(Rs!CONTA) & ".parametros"
-        'Set Rs2 = New ADODB.Recordset
-        'Rs2.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-        'If Not Rs2.EOF Then
-        '    ItmX.SubItems(2) = Rs2!fechaini & " - " & Rs2!fechafin
-        'End If
-        'Set Rs2 = Nothing
+    'Cargamos las empresas
+    Set Rs = New ADODB.Recordset
+    
+    '[Monica]11/04/2014: solo debe de salir las ariconta
+    Rs.Open "Select * from usuarios.empresasariconta where conta like 'ariconta%' ORDER BY Codempre", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    tree.Nodes.Clear
+    
+    While Not Rs.EOF
+        Cad = "|" & Rs!codempre & "|"
+        If InStr(1, Prohibidas, Cad) = 0 Then
+            Cad = Rs!nomempre
+            Set N = tree.Nodes.Add(, , CStr("N" & Rs!codempre), Rs!nomresum)   'nomempre
         
             
-        Cad = Rs!CONTA & "|" & Rs!nomresum '& "|" & Rs!Usuario & "|" & Rs!Pass & "|"
-        
-        If Rs!codempre = vEmpresa.codempre Then
-            N.Bold = True
-            Set tree.SelectedItem = N
+            
+            'ItmX.SubItems(1) = Rs!nomresum
+            'Set N = tree.Nodes.Add("NP", tvwChild, "NN" & Rs!codempre, Rs!nomresum)
+            ' sacamos las fechas de inicio y fin
+            'Sql = "select fechaini, fechafin from " & Trim(Rs!CONTA) & ".parametros"
+            'Set Rs2 = New ADODB.Recordset
+            'Rs2.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+            'If Not Rs2.EOF Then
+            '    ItmX.SubItems(2) = Rs2!fechaini & " - " & Rs2!fechafin
+            'End If
+            'Set Rs2 = Nothing
+            
+                
+            Cad = Rs!CONTA & "|" & Rs!nomresum '& "|" & Rs!Usuario & "|" & Rs!Pass & "|"
+            
+            If Rs!codempre = vEmpresa.codempre Then
+                N.Bold = True
+                Set tree.SelectedItem = N
+            End If
+                
+       
         End If
-            
-       ' ItmX.Tag = Cad
-       ' ItmX.ToolTipText = Rs!CONTA
-        
-        
-        'Si el codconta > 100 son empresas que viene del cambio del plan contable.
-        'Atenuare su visibilidad
-        'If Rs!codempre > 100 Then
-        '    ItmX.ForeColor = &H808080
-        '    ItmX.ListSubItems(1).ForeColor = &H808080
-        '    ItmX.ListSubItems(2).ForeColor = &H808080
-        '    ItmX.ListSubItems(3).ForeColor = &H808080
-        '    ItmX.SmallIcon = 2
-        'Else
-        '    'normal
-        '    ItmX.SmallIcon = 1
-        'End If
-    End If
-    Rs.MoveNext
-Wend
-Rs.Close
+        Rs.MoveNext
+    Wend
+    Rs.Close
+    
+    
 End Sub
 
 

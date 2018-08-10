@@ -822,7 +822,7 @@ Dim ImpAux As Currency
     End If
     If Rs!FecVenci < Fecha Then
         'LO DEBE
-        ItmX.SmallIcon = 1
+        If impo <> 0 Then ItmX.SmallIcon = 1
         Vencido = Vencido + impo
     Else
 '        ItmX.SmallIcon = 2
@@ -910,8 +910,12 @@ Dim J As Byte
     End If
     If Rs!fecefect < Fecha Then
         'LO DEBE
-        ItmX.SmallIcon = 1
+        If impo <> 0 Then
+            ItmX.SmallIcon = 1
+            ItmX.ToolTipText = "Pendiente"
+        End If
         Vencido = Vencido + impo
+        
     Else
 '        ItmX.SmallIcon = 2
     End If
@@ -934,7 +938,7 @@ Dim J As Byte
         For J = 1 To ListView1.ColumnHeaders.Count - 1
             ItmX.ListSubItems(J).ForeColor = vbRed
         Next J
-        If DBLet(Rs!Referencia, "T") = "" Then ItmX.ListSubItems(4).ForeColor = vbMagenta
+        'If DBLet(Rs!Referencia, "T") = "" Then ItmX.ListSubItems(4).ForeColor = vbMagenta
     End If
 
 

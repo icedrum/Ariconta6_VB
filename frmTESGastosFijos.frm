@@ -311,12 +311,12 @@ Private frmMens As frmMensajes
 
 Dim SQL As String
 Dim RC As String
-Dim RS As Recordset
+Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
-Dim cad As String
+Dim Cad As String
 Dim CONT As Long
-Dim I As Integer
+Dim i As Integer
 Dim TotalReg As Long
 
 Dim Importe As Currency
@@ -390,7 +390,7 @@ Private Sub Form_Activate()
         CargaList
         If lw1.ListItems.Count > 0 Then lw1.ListItems(1).EnsureVisible
         CargaList2
-
+        PonleFoco lw1
     End If
     Screen.MousePointer = vbDefault
 End Sub
@@ -402,14 +402,14 @@ Dim Img As Image
 
 
     Limpiar Me
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
     
     
     ' Botonera Principal
     With Me.Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.imgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 3
         .Buttons(2).Image = 4
         .Buttons(3).Image = 5
@@ -419,9 +419,9 @@ Dim Img As Image
     End With
     
     With Me.ToolbarAux
-        .HotImageList = frmPpal.imgListComun_OM16
-        .DisabledImageList = frmPpal.imgListComun_BN16
-        .ImageList = frmPpal.imgListComun16
+        .HotImageList = frmppal.imgListComun_OM16
+        .DisabledImageList = frmppal.imgListComun_BN16
+        .ImageList = frmppal.imgListComun16
         .Buttons(1).Image = 3
         .Buttons(2).Image = 4
         .Buttons(3).Image = 5
@@ -430,7 +430,7 @@ Dim Img As Image
     
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmPpal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
     
@@ -441,7 +441,7 @@ Dim Img As Image
     CommitConexion  'Porque son listados. No hay nada dentro transaccion
     
 
-    
+    Me.lblIndicador.Caption = ""
     
     Orden = True
     CampoOrden = "gastosfijos.codigo"
@@ -517,7 +517,7 @@ Dim frmTESGtosList As frmTESGastosFijosList
             'Imprimir factura
             Set frmTESGtosList = New frmTESGastosFijosList
             
-            If Not lw1.SelectedItem Is Nothing Then frmTESGtosList.Numero = lw1.SelectedItem.Text
+            If Not lw1.SelectedItem Is Nothing Then frmTESGtosList.numero = lw1.SelectedItem.Text
             frmTESGtosList.Tipo = Me.cboFiltro.ListIndex
             
             frmTESGtosList.Show vbModal
@@ -546,6 +546,10 @@ Private Sub lw1_ItemClick(ByVal Item As MSComctlLib.ListItem)
         Me.lblIndicador.Caption = lw1.SelectedItem.Index & " de " & Me.lw1.ListItems.Count
         CargaList2
     End If
+End Sub
+
+Private Sub lw1_KeyPress(KeyAscii As Integer)
+    If KeyAscii = 27 Then Unload Me
 End Sub
 
 Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
@@ -700,7 +704,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -714,35 +718,35 @@ End Sub
 
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
-Dim RS As ADODB.Recordset
-Dim cad As String
+Dim Rs As ADODB.Recordset
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
-    Set RS = New ADODB.Recordset
-    RS.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Set Rs = New ADODB.Recordset
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
-    If Not RS.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(RS!creareliminar, "N")
-        Toolbar1.Buttons(2).Enabled = DBLet(RS!Modificar, "N") And (lw1.ListItems.Count > 0)
-        Toolbar1.Buttons(3).Enabled = DBLet(RS!creareliminar, "N") And (lw1.ListItems.Count > 0)
+    If Not Rs.EOF Then
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N")
+        Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (lw1.ListItems.Count > 0)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (lw1.ListItems.Count > 0)
         
         Toolbar1.Buttons(5).Enabled = False 'DBLet(RS!Ver, "N") And (Modo = 0 Or Modo = 2) And DesdeNorma43 = 0
-        Toolbar1.Buttons(6).Enabled = DBLet(RS!Ver, "N")
+        Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N")
         
-        Toolbar1.Buttons(8).Enabled = DBLet(RS!Imprimir, "N")
+        Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N")
         
-        ToolbarAux.Buttons(1).Enabled = DBLet(RS!creareliminar, "N") And (Not lw1.SelectedItem Is Nothing)
-        ToolbarAux.Buttons(2).Enabled = DBLet(RS!Modificar, "N") And lw2.ListItems.Count > 0
-        ToolbarAux.Buttons(3).Enabled = DBLet(RS!creareliminar, "N") And lw2.ListItems.Count > 0
+        ToolbarAux.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Not lw1.SelectedItem Is Nothing)
+        ToolbarAux.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And lw2.ListItems.Count > 0
+        ToolbarAux.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And lw2.ListItems.Count > 0
    
     End If
     
-    RS.Close
-    Set RS = Nothing
+    Rs.Close
+    Set Rs = Nothing
     
 End Sub
 
@@ -751,16 +755,16 @@ Private Sub CargaList()
 Dim IT
 
     lw1.ListItems.Clear
-    Set Me.lw1.SmallIcons = frmPpal.ImgListviews
+    Set Me.lw1.SmallIcons = frmppal.ImgListviews
     Set miRsAux = New ADODB.Recordset
     
-    cad = "Select gastosfijos.codigo, gastosfijos.descripcion, gastosfijos.ctaprevista,  gastosfijos.contrapar, cuentas1.nommacta, cuentas2.nommacta "
-    cad = cad & " from gastosfijos, cuentas cuentas1, cuentas cuentas2 "
-    cad = cad & " where cuentas1.codmacta = gastosfijos.ctaprevista and cuentas2.codmacta = gastosfijos.contrapar "
+    Cad = "Select gastosfijos.codigo, gastosfijos.descripcion, gastosfijos.ctaprevista,  gastosfijos.contrapar, cuentas1.nommacta, cuentas2.nommacta "
+    Cad = Cad & " from gastosfijos, cuentas cuentas1, cuentas cuentas2 "
+    Cad = Cad & " where cuentas1.codmacta = gastosfijos.ctaprevista and cuentas2.codmacta = gastosfijos.contrapar "
     
     If CampoOrden = "" Then CampoOrden = "gastosfijos.codigo " 'gastos fijos
-    cad = cad & " ORDER BY " & CampoOrden ' remesas.anyo desc,
-    If Orden Then cad = cad & " DESC"
+    Cad = Cad & " ORDER BY " & CampoOrden ' remesas.anyo desc,
+    If Orden Then Cad = Cad & " DESC"
     
     lw1.ColumnHeaders.Clear
     
@@ -772,7 +776,7 @@ Dim IT
     lw1.ColumnHeaders.Add , , "Nombre Contrapartida", 0
     
     
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         Set IT = lw1.ListItems.Add()
         IT.Text = DBLet(miRsAux!Codigo, "N")
@@ -819,25 +823,25 @@ Dim IT
 
     If lw1.SelectedItem Is Nothing Then Exit Sub
 
-    Set Me.lw2.SmallIcons = frmPpal.ImgListviews
+    Set Me.lw2.SmallIcons = frmppal.ImgListviews
     Set miRsAux = New ADODB.Recordset
     
-    cad = "Select gastosfijos_recibos.codigo, gastosfijos_recibos.fecha, gastosfijos_recibos.importe, gastosfijos_recibos.contabilizado "
-    cad = cad & " from gastosfijos_recibos "
-    cad = cad & " where gastosfijos_recibos.codigo = " & lw1.SelectedItem.Text
+    Cad = "Select gastosfijos_recibos.codigo, gastosfijos_recibos.fecha, gastosfijos_recibos.importe, gastosfijos_recibos.contabilizado "
+    Cad = Cad & " from gastosfijos_recibos "
+    Cad = Cad & " where gastosfijos_recibos.codigo = " & lw1.SelectedItem.Text
     ' añadido el filtro
     
     CargarSqlFiltro
     
     
-    If cadFiltro <> "" Then cad = cad & " and " & cadFiltro
+    If cadFiltro <> "" Then Cad = Cad & " and " & cadFiltro
     
     If CampoOrden2 = "" Then CampoOrden2 = "gastosfijos_recibos.fecha " 'gastos fijos
-    cad = cad & " ORDER BY " & CampoOrden2 ' remesas.anyo desc,
-    If Orden2 Then cad = cad & " DESC"
+    Cad = Cad & " ORDER BY " & CampoOrden2 ' remesas.anyo desc,
+    If Orden2 Then Cad = Cad & " DESC"
     
     
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         Set IT = lw2.ListItems.Add()
         IT.Text = DBLet(miRsAux!Fecha, "F")

@@ -125,11 +125,11 @@ Begin VB.Form frmTESParciales
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   1680
+         Left            =   1560
          TabIndex        =   0
          Text            =   "Text2"
-         Top             =   1470
-         Width           =   1215
+         Top             =   1440
+         Width           =   1455
       End
       Begin VB.TextBox txtDescCta 
          BackColor       =   &H80000018&
@@ -149,7 +149,7 @@ Begin VB.Form frmTESParciales
          Locked          =   -1  'True
          TabIndex        =   16
          Text            =   "Text2"
-         Top             =   1470
+         Top             =   1440
          Width           =   4785
       End
       Begin VB.TextBox Text1 
@@ -372,7 +372,7 @@ Begin VB.Form frmTESParciales
          ForeColor       =   &H00800000&
          Height          =   240
          Index           =   56
-         Left            =   270
+         Left            =   240
          TabIndex        =   21
          Top             =   360
          Width           =   6150
@@ -391,7 +391,7 @@ Begin VB.Form frmTESParciales
          ForeColor       =   &H00000000&
          Height          =   240
          Index           =   57
-         Left            =   270
+         Left            =   240
          TabIndex        =   20
          Top             =   720
          Width           =   6270
@@ -434,7 +434,7 @@ Begin VB.Form frmTESParciales
          ForeColor       =   &H00000000&
          Height          =   240
          Index           =   7
-         Left            =   270
+         Left            =   240
          TabIndex        =   17
          Top             =   1470
          Width           =   1050
@@ -442,7 +442,7 @@ Begin VB.Form frmTESParciales
       Begin VB.Image imgCuentas 
          Height          =   240
          Index           =   1
-         Left            =   1380
+         Left            =   1320
          Picture         =   "frmTESParciales.frx":0004
          Top             =   1530
          Width           =   240
@@ -774,7 +774,7 @@ End Sub
 
 Private Sub CargarListView()
 Dim Rs As ADODB.Recordset
-Dim It As ListItem
+Dim IT As ListItem
     
     On Error GoTo ECargarlistview
     
@@ -815,12 +815,12 @@ Dim It As ListItem
     Cad = ""
     While Not Rs.EOF
                     
-        Set It = ListView8.ListItems.Add
+        Set IT = ListView8.ListItems.Add
         
-        It.Text = DBLet(Rs.Fields(0))
-        It.SubItems(1) = DBLet(Rs.Fields(1))
-        It.SubItems(2) = DBLet(Rs.Fields(2))
-        It.SubItems(3) = Format(DBLet(Rs.Fields(3)), "###,###,##0.00")
+        IT.Text = DBLet(Rs.Fields(0))
+        IT.SubItems(1) = DBLet(Rs.Fields(1))
+        IT.SubItems(2) = DBLet(Rs.Fields(2))
+        IT.SubItems(3) = Format(DBLet(Rs.Fields(3)), "###,###,##0.00")
         
         'Siguiente
         Rs.MoveNext
@@ -1476,6 +1476,7 @@ Dim ImporteCtaCliente As Currency
     Cad = "3,'" & txtCta(1).Text & "','" & Numdocum & "'," & Conce & ",'" & Ampliacion & "',"
     'Importe cliente
     'Si el cobro/pago va al debe el contrapunte ira al haber
+    If Not vParamT.abononeg Then Importe = Abs(Importe)
     If Not Debe Then
         'al debe
         Cad = Cad & TransformaComasPuntos(CStr(Importe)) & ",NULL"
@@ -1649,6 +1650,7 @@ Dim ImporteCtaCliente As Currency
     
         SQL = "update cobros set "
         SQL = SQL & " situacion = " & DBSet(Situacion, "N")
+        If Situacion = 1 Then SQL = SQL & " , ctabanc1 = " & DBSet(txtCta(1).Text, "T")
         SQL = SQL & " where numserie = " & DBSet(RecuperaValor(Vto, 1), "T") & " and numfactu = " & DBSet(RecuperaValor(Vto, 2), "N")
         SQL = SQL & " and fecfactu = " & DBSet(RecuperaValor(Vto, 3), "F") & " and numorden = " & DBSet(RecuperaValor(Vto, 4), "N")
     
@@ -1675,6 +1677,7 @@ Dim ImporteCtaCliente As Currency
     
         SQL = "update pagos set "
         SQL = SQL & " situacion = " & DBSet(Situacion, "N")
+        If Situacion = 1 Then SQL = SQL & " , ctabanc1 = " & DBSet(txtCta(1).Text, "T")
         SQL = SQL & " where numserie = " & DBSet(RecuperaValor(Vto, 1), "T") & " and numfactu = " & DBSet(RecuperaValor(Vto, 2), "T")
         SQL = SQL & " and fecfactu = " & DBSet(RecuperaValor(Vto, 3), "F") & " and numorden = " & DBSet(RecuperaValor(Vto, 4), "N")
         SQL = SQL & " and codmacta = " & DBSet(RecuperaValor(Cta, 1), "T")

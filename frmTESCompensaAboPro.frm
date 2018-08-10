@@ -434,6 +434,7 @@ Begin VB.Form frmTESCompensaAboPro
       Visible         =   0   'False
       Width           =   12735
       Begin VB.CommandButton cmdCancelar 
+         Cancel          =   -1  'True
          Caption         =   "&Cancelar"
          BeginProperty Font 
             Name            =   "Verdana"
@@ -655,7 +656,7 @@ Private Sub cmdCancelar_Click(Index As Integer)
         Frame1.visible = True
         Frame1.Enabled = True
         Me.FrameCompensaAbonosProveedor.visible = False
-
+        cmdCancelar(1).Cancel = True
     Else
         Unload Me
     End If
@@ -695,8 +696,10 @@ Private Sub cmdCompensar_Click()
     Next
     
     If TotalRegistros = 0 Or NumRegElim = 0 Then
-        MsgBox "Debe seleccionar pagos/abonos para compensar", vbExclamation
-        Exit Sub
+        If TotalRegistros = 0 And NumRegElim = 0 Then
+            MsgBox "Debe seleccionar pagos/abonos para compensar", vbExclamation
+            Exit Sub
+        End If
     End If
     
     
@@ -873,7 +876,7 @@ Private Sub Form_Activate()
             BotonVerTodos False
             
             BotonAnyadir
-            
+            VerTodos = True
             txtCta_LostFocus (17)
             
             CadenaDesdeOtroForm = ""
@@ -888,6 +891,7 @@ Private Sub Form_Activate()
                 CadenaDesdeOtroForm = ""
             End If
             CargaList
+             cmdCancelar(1).Cancel = True
         End If
     End If
     Screen.MousePointer = vbDefault
@@ -1170,7 +1174,7 @@ Private Sub BotonAnyadir()
 
     Me.FrameCompensaAbonosProveedor.visible = True
     Me.FrameCompensaAbonosProveedor.Enabled = True
-    
+    cmdCancelar(0).Cancel = True
     VerTodos = False
     
     PonleFoco txtCta(17)
@@ -1369,7 +1373,7 @@ Dim IT
         IT.SubItems(5) = miRsAux!nomforpa
     
         Importe = 0
-        Importe = Importe + miRsAux!ImpEfect
+        Importe = Importe + miRsAux!impefect
         
         'Si ya he cobrado algo
         If Not IsNull(miRsAux!imppagad) Then Importe = Importe - miRsAux!imppagad
@@ -1498,13 +1502,13 @@ Dim J As Integer
         End If
         
         RC = "INSERT INTO compensapro_facturas (codigo,linea,destino," & Cad & ",impefect,imppagad,fecefect) VALUES (" & CONT & "," & i & "," & Destino & "," & DBSet(miRsAux!NUmSerie, "T")
-        RC = RC & "," & DBSet(miRsAux!NumFactu, "T") & "," & DBSet(miRsAux!FecFactu, "F") & "," & DBSet(miRsAux!numorden, "N") & "," & DBSet(miRsAux!ImpEfect, "N")
+        RC = RC & "," & DBSet(miRsAux!NumFactu, "T") & "," & DBSet(miRsAux!FecFactu, "F") & "," & DBSet(miRsAux!numorden, "N") & "," & DBSet(miRsAux!impefect, "N")
         RC = RC & "," & DBSet(miRsAux!imppagad, "N") & "," & DBSet(miRsAux!fecefect, "F") & ")"
         Conn.Execute RC
         
         'Para las observaciones de despues
         Importe = 0
-        Importe = Importe + miRsAux!ImpEfect
+        Importe = Importe + miRsAux!impefect
         'Si ya he cobrado algo
         If Not IsNull(miRsAux!imppagad) Then Importe = Importe - miRsAux!imppagad
         
@@ -1588,7 +1592,7 @@ End Function
 
 Private Function InsertarPagosRealizados(facturas As String) As Boolean
 Dim SQL As String
-Dim SQL2 As String
+Dim Sql2 As String
 Dim CadInsert As String
 Dim CadValues As String
 Dim NumLin As Long

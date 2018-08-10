@@ -97,6 +97,7 @@ Begin VB.Form frmTESNorma57
          Width           =   1095
       End
       Begin VB.CommandButton cmdCancelar 
+         Cancel          =   -1  'True
          Caption         =   "&Cancelar"
          BeginProperty Font 
             Name            =   "Verdana"
@@ -421,7 +422,7 @@ Dim RC As String
 Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
-Dim cad As String
+Dim Cad As String
 Dim CONT As Long
 Dim i As Integer
 Dim TotalRegistros As Long
@@ -477,7 +478,7 @@ Dim frmTESRealCob As frmTESRealizarCobros
     ' ventanilla que devuelve el banco y contabilizamos en funcion de esa fecha
             
             
-    cad = Format(Now, "dd/mm/yyyy") & "|" & Me.txtCtaBanc(5).Text & "|" & Me.txtDescBanc(5).Text & "|0|"  'efectivo
+    Cad = Format(Now, "dd/mm/yyyy") & "|" & Me.txtCtaBanc(5).Text & "|" & Me.txtDescBanc(5).Text & "|0|"  'efectivo
 
     Set frmTESRealCob = New frmTESRealizarCobros
 
@@ -491,7 +492,7 @@ Dim frmTESRealCob As frmTESRealizarCobros
         '.Tipo = 0
         .SegundoParametro = ""
         'Los textos
-        .vTextos = cad
+        .vTextos = Cad
         .CodmactaUnica = ""
         .VieneDesdeNorma57 = True
         .Show vbModal
@@ -510,7 +511,7 @@ Private Sub cmdNoram57Fich_Click()
         If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     End If
     
-    Me.cmdContabilizarNorma57.Visible = False
+    Me.cmdContabilizarNorma57.visible = False
     
     cd1.FileName = ""
     cd1.ShowOpen
@@ -534,7 +535,7 @@ Private Sub cmdNoram57Fich_Click()
     
     
     
-            Me.cmdContabilizarNorma57.Visible = Me.lwNorma57Importar(0).ListItems.Count > 0
+            Me.cmdContabilizarNorma57.visible = Me.lwNorma57Importar(0).ListItems.Count > 0
         End If
     End If
     Screen.MousePointer = vbDefault
@@ -562,7 +563,7 @@ Dim Img As Image
     
     'Limpiamos el tag
     PrimeraVez = True
-    FrameNorma57Importar.Visible = False
+    FrameNorma57Importar.visible = False
     CommitConexion  'Porque son listados. No hay nada dentro transaccion
     
     ' La Ayuda
@@ -578,7 +579,7 @@ Dim Img As Image
     Case 42
         H = FrameNorma57Importar.Height + 120
         W = FrameNorma57Importar.Width
-        FrameNorma57Importar.Visible = True
+        FrameNorma57Importar.visible = True
     
     
     End Select
@@ -599,7 +600,7 @@ Private Sub PonerFrameProgreso()
 Dim i As Integer
 
     'Ponemos el frame al pricnipio de todo
-    FrameProgreso.Visible = False
+    FrameProgreso.visible = False
     FrameProgreso.ZOrder 0
     
     'lo ubicamos
@@ -677,22 +678,22 @@ Private Sub txtCtaBanc_LostFocus(Index As Integer)
         Exit Sub
     End If
     
-    cad = txtCtaBanc(Index).Text
-    i = CuentaCorrectaUltimoNivelSIN(cad, SQL)
+    Cad = txtCtaBanc(Index).Text
+    i = CuentaCorrectaUltimoNivelSIN(Cad, SQL)
     If i = 0 Then
         MsgBox "NO existe la cuenta: " & txtCtaBanc(Index).Text, vbExclamation
         SQL = ""
-        cad = ""
+        Cad = ""
     Else
-        cad = DevuelveDesdeBD("codmacta", "bancos", "codmacta", cad, "T")
-        If cad = "" Then
+        Cad = DevuelveDesdeBD("codmacta", "bancos", "codmacta", Cad, "T")
+        If Cad = "" Then
             MsgBox "Cuenta no asoaciada a ningun banco", vbExclamation
             SQL = ""
             i = 0
         End If
     End If
     
-    txtCtaBanc(Index).Text = cad
+    txtCtaBanc(Index).Text = Cad
     Me.txtDescBanc(Index).Text = SQL
     If i = 0 Then PonFoco txtCtaBanc(Index)
     
@@ -764,7 +765,7 @@ Private Sub PonerFrameProgressVisible(Optional TEXTO As String)
         Me.lblPPAL.Caption = TEXTO
         Me.lbl2.Caption = ""
         Me.ProgressBar1.Value = 0
-        Me.FrameProgreso.Visible = True
+        Me.FrameProgreso.visible = True
         Me.Refresh
 End Sub
 
@@ -834,7 +835,7 @@ Dim Estado As Byte  '0  esperando cabcerea
                     Fecha = CDate(RC)
                     'IMporte
                     RC = Mid(SQL, 37, 12)
-                    cad = CStr(CCur(Val(RC) / 100))
+                    Cad = CStr(CCur(Val(RC) / 100))
                     'FRA
                     RC = Mid(SQL, 77, 11)
                     CONT = Val(RC)
@@ -844,10 +845,10 @@ Dim Estado As Byte  '0  esperando cabcerea
                     'Insertamos en tmp
                     TotalRegistros = TotalRegistros + 1
                     SQL = "INSERT INTO tmpconext(codusu,cta,fechaent,Pos,TimporteD,linliapu) VALUES (" & vUsu.Codigo & ",'"
-                    SQL = SQL & RC & "','" & Format(Fecha, FormatoFecha) & "'," & CONT & "," & TransformaComasPuntos(cad) & "," & TotalRegistros & ")"
+                    SQL = SQL & RC & "','" & Format(Fecha, FormatoFecha) & "'," & CONT & "," & TransformaComasPuntos(Cad) & "," & TotalRegistros & ")"
                     Conn.Execute SQL
                     
-                    Importe = Importe + CCur(TransformaPuntosComas(cad))
+                    Importe = Importe + CCur(TransformaPuntosComas(Cad))
                 ElseIf RC = "8070" Then
                     'OK. Final de linea.
                     '
@@ -858,19 +859,19 @@ Dim Estado As Byte  '0  esperando cabcerea
                     RC = ""
                     
                     'numero registros
-                    cad = Val(Mid(SQL, 24, 5))
-                    If Val(cad) = 0 Then
+                    Cad = Val(Mid(SQL, 24, 5))
+                    If Val(Cad) = 0 Then
                         RC = RC = RC & vbCrLf & "Linea totales. Nº registros cero. " & SQL
                     Else
-                        If Val(cad) - 2 <> TotalRegistros Then RC = "Contador de registros incorrecto"
+                        If Val(Cad) - 2 <> TotalRegistros Then RC = "Contador de registros incorrecto"
                     End If
                     'Suma importes
-                    cad = CStr(CCur(Mid(SQL, 37, 12) / 100))
+                    Cad = CStr(CCur(Mid(SQL, 37, 12) / 100))
                     
-                    If CCur(cad) = 0 Then
+                    If CCur(Cad) = 0 Then
                         RC = RC = RC & vbCrLf & "Linea totales. Suma importes cero. " & SQL
                     Else
-                        If CCur(cad) <> Importe Then RC = RC & vbCrLf & "Suma importes incorrecta"
+                        If CCur(Cad) <> Importe Then RC = RC & vbCrLf & "Suma importes incorrecta"
                     End If
                     
                     If RC <> "" Then
@@ -943,14 +944,14 @@ On Error GoTo eVtosNorma57Escalona
         RN.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         CONT = 0
         If RN.EOF Then
-            cad = "NO encontrado"
+            Cad = "NO encontrado"
             NoEncontrado = 2
         Else
             'OK encontrado.
             Fin = False
             i = 0
             NoEncontrado = 1
-            cad = ""
+            Cad = ""
             
             While Not Fin
             
@@ -976,9 +977,9 @@ On Error GoTo eVtosNorma57Escalona
             SQL = SQL & "', numdiari = " & i
             SQL = SQL & ", contra = '" & RC & "'"
         Else
-            If i > 1 Then cad = "(+1) " & cad
+            If i > 1 Then Cad = "(+1) " & Cad
             SQL = SQL & " numasien=  " & NoEncontrado  'para vtos no encontrados o erroneos
-            SQL = SQL & ", ampconce ='" & DevNombreSQL(cad) & "'"
+            SQL = SQL & ", ampconce ='" & DevNombreSQL(Cad) & "'"
             If NoEncontrado = 2 Then AlgunVtoNoEncontrado = True
         End If
         SQL = SQL & " WHERE codusu =" & vUsu.Codigo & " AND linliapu = " & miRsAux!Linliapu
@@ -1049,23 +1050,23 @@ Private Sub Norma57VencimientoEncontradoEsCorrecto(ByRef Rss As ADODB.Recordset,
         
         'Ha encontrado el vencimiento. Falta ver si no esta en remesa....
         If Not IsNull(Rss!CodRem) Then
-            cad = "En la remesa " & Rss!CodRem
+            Cad = "En la remesa " & Rss!CodRem
         
         Else
             If Not IsNull(Rss!transfer) Then
-                cad = "Transferencia " & Rss!transfer
+                Cad = "Transferencia " & Rss!transfer
             Else
                 Importe = Rss!ImpVenci + DBLet(Rss!Gastos, "N") - DBLet(Rss!impcobro, "N")
                 If Importe <> miRsAux!timported Then
                     'Importe distinto
                     'Veamos si es que esta
-                    cad = "Importe distinto"
+                    Cad = "Importe distinto"
                 Else
                     'OK. Misma factura, socio, importe. SAlimos ya poniendo ""
                     Fecha = Rss!FecFactu
                     DevfrmCCtas = Rss!NUmSerie
                     i = Rss!numorden
-                    cad = ""
+                    Cad = ""
                     Final = True
                     CONT = 1
                 End If

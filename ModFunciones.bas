@@ -528,7 +528,16 @@ Public Function PonerCamposForma(ByRef formulario As Form, ByRef vData As Adodc)
                 mTag.Cargar Control
                 If mTag.Cargado Then
                     Campo = mTag.Columna
-                    Valor = vData.Recordset.Fields(Campo)
+                    
+                    If mTag.Vacio = "S" Then
+                        If IsNull(vData.Recordset.Fields(Campo)) Then
+                            Valor = -1
+                        Else
+                            Valor = vData.Recordset.Fields(Campo)
+                        End If
+                    Else
+                        Valor = vData.Recordset.Fields(Campo)
+                    End If
                     i = 0
                     For i = 0 To Control.ListCount - 1
                         If Control.ItemData(i) = Val(Valor) Then
@@ -963,14 +972,14 @@ Public Function ModificaDesdeFormulario(ByRef formulario As Form) As Boolean
 Dim Control As Object
 Dim mTag As CTag
 Dim Aux As String
-Dim CadWhere As String
+Dim cadWhere As String
 Dim cadUPDATE As String
 
 On Error GoTo EModificaDesdeFormulario
     ModificaDesdeFormulario = False
     Set mTag = New CTag
     Aux = ""
-    CadWhere = ""
+    cadWhere = ""
     For Each Control In formulario.Controls
         'Si es texto monta esta parte de sql
         If TypeOf Control Is TextBox Then
@@ -985,8 +994,8 @@ On Error GoTo EModificaDesdeFormulario
                         'dentro del WHERE
                         If mTag.EsClave Then
                             'Lo pondremos para el WHERE
-                             If CadWhere <> "" Then CadWhere = CadWhere & " AND "
-                             CadWhere = CadWhere & "(" & mTag.Columna & " = " & Aux & ")"
+                             If cadWhere <> "" Then cadWhere = cadWhere & " AND "
+                             cadWhere = cadWhere & "(" & mTag.Columna & " = " & Aux & ")"
                              
                         Else
                             If cadUPDATE <> "" Then cadUPDATE = cadUPDATE & " , "
@@ -1034,12 +1043,12 @@ On Error GoTo EModificaDesdeFormulario
     'SET ImportePedido = ImportePedido * 1.1,
     'Cargo = Cargo * 1.03
     'WHERE PaísDestinatario = 'México';
-    If CadWhere = "" Then
+    If cadWhere = "" Then
         MsgBox "No se ha definido ninguna clave principal.", vbExclamation
         Exit Function
     End If
     Aux = "UPDATE " & mTag.tabla
-    Aux = Aux & " SET " & cadUPDATE & " WHERE " & CadWhere
+    Aux = Aux & " SET " & cadUPDATE & " WHERE " & cadWhere
     Conn.Execute Aux, , adCmdText
 
 
@@ -1055,14 +1064,14 @@ Public Function ModificaDesdeFormulario2(ByRef formulario As Form, Optional opci
 Dim Control As Object
 Dim mTag As CTag
 Dim Aux As String
-Dim CadWhere As String
+Dim cadWhere As String
 Dim cadUPDATE As String
 
 On Error GoTo EModificaDesdeFormulario
     ModificaDesdeFormulario2 = False
     Set mTag = New CTag
     Aux = ""
-    CadWhere = ""
+    cadWhere = ""
     For Each Control In formulario.Controls
         'Si es texto monta esta parte de sql
         If TypeOf Control Is TextBox Then
@@ -1077,8 +1086,8 @@ On Error GoTo EModificaDesdeFormulario
                             'dentro del WHERE
                             If mTag.EsClave Then
                                 'Lo pondremos para el WHERE
-                                 If CadWhere <> "" Then CadWhere = CadWhere & " AND "
-                                 CadWhere = CadWhere & "(" & mTag.Columna & " = " & Aux & ")"
+                                 If cadWhere <> "" Then cadWhere = cadWhere & " AND "
+                                 cadWhere = cadWhere & "(" & mTag.Columna & " = " & Aux & ")"
     
                             Else
                                 If cadUPDATE <> "" Then cadUPDATE = cadUPDATE & " , "
@@ -1124,8 +1133,8 @@ On Error GoTo EModificaDesdeFormulario
                         'dentro del WHERE
                         If mTag.EsClave Then
                             'Lo pondremos para el WHERE
-                             If CadWhere <> "" Then CadWhere = CadWhere & " AND "
-                             CadWhere = CadWhere & "(" & mTag.Columna & " = " & Aux & ")"
+                             If cadWhere <> "" Then cadWhere = cadWhere & " AND "
+                             cadWhere = cadWhere & "(" & mTag.Columna & " = " & Aux & ")"
                         Else
                             If cadUPDATE <> "" Then cadUPDATE = cadUPDATE & " , "
                             cadUPDATE = cadUPDATE & "" & mTag.Columna & " = " & Aux
@@ -1150,8 +1159,8 @@ On Error GoTo EModificaDesdeFormulario
                             'dentro del WHERE
                               If mTag.EsClave Then
                                   'Lo pondremos para el WHERE
-                                   If CadWhere <> "" Then CadWhere = CadWhere & " AND "
-                                   CadWhere = CadWhere & "(" & mTag.Columna & " = " & Aux & ")"
+                                   If cadWhere <> "" Then cadWhere = cadWhere & " AND "
+                                   cadWhere = cadWhere & "(" & mTag.Columna & " = " & Aux & ")"
                               Else
                                   If cadUPDATE <> "" Then cadUPDATE = cadUPDATE & " , "
                                   cadUPDATE = cadUPDATE & "" & mTag.Columna & " = " & Aux
@@ -1164,12 +1173,12 @@ On Error GoTo EModificaDesdeFormulario
         End If
     Next Control
 
-    If CadWhere = "" Then
+    If cadWhere = "" Then
         MsgBox "No se ha definido ninguna clave principal.", vbExclamation
         Exit Function
     End If
     Aux = "UPDATE " & mTag.tabla
-    Aux = Aux & " SET " & cadUPDATE & " WHERE " & CadWhere
+    Aux = Aux & " SET " & cadUPDATE & " WHERE " & cadWhere
     Conn.Execute Aux, , adCmdText
 
     ' ### [Monica] 18/12/2006
@@ -1436,7 +1445,7 @@ Public Function ModificaDesdeFormularioClaves(ByRef formulario As Form, Claves A
 Dim Control As Object
 Dim mTag As CTag
 Dim Aux As String
-Dim CadWhere As String
+Dim cadWhere As String
 Dim cadUPDATE As String
 Dim i As Integer
 
@@ -1444,7 +1453,7 @@ On Error GoTo EModificaDesdeFormulario
     ModificaDesdeFormularioClaves = False
     Set mTag = New CTag
     Aux = ""
-    CadWhere = ""
+    cadWhere = ""
     For Each Control In formulario.Controls
         'Si es texto monta esta parte de sql
         If TypeOf Control Is TextBox Then
@@ -1491,14 +1500,14 @@ On Error GoTo EModificaDesdeFormulario
             End If
         End If
     Next Control
-    CadWhere = Claves
+    cadWhere = Claves
     'Construimos el SQL
-    If CadWhere = "" Then
+    If cadWhere = "" Then
         MsgBox "No se ha definido ninguna clave principal.", vbExclamation
         Exit Function
     End If
     Aux = "UPDATE " & mTag.tabla
-    Aux = Aux & " SET " & cadUPDATE & " WHERE " & CadWhere
+    Aux = Aux & " SET " & cadUPDATE & " WHERE " & cadWhere
     Conn.Execute Aux, , adCmdText
 
 
@@ -1627,14 +1636,14 @@ Public Function BLOQUEADesdeFormulario(ByRef formulario As Form) As Boolean
 Dim Control As Object
 Dim mTag As CTag
 Dim Aux As String
-Dim CadWhere As String
+Dim cadWhere As String
 Dim AntiguoCursor As Byte
 
 On Error GoTo EBLOQUEADesdeFormulario
     BLOQUEADesdeFormulario = False
     Set mTag = New CTag
     Aux = ""
-    CadWhere = ""
+    cadWhere = ""
     AntiguoCursor = Screen.MousePointer
     Screen.MousePointer = vbHourglass
     For Each Control In formulario.Controls
@@ -1650,20 +1659,20 @@ On Error GoTo EBLOQUEADesdeFormulario
                     'dentro del WHERE
                     If mTag.EsClave Then
                         'Lo pondremos para el WHERE
-                         If CadWhere <> "" Then CadWhere = CadWhere & " AND "
-                         CadWhere = CadWhere & "(" & mTag.Columna & " = " & Aux & ")"
+                         If cadWhere <> "" Then cadWhere = cadWhere & " AND "
+                         cadWhere = cadWhere & "(" & mTag.Columna & " = " & Aux & ")"
                     End If
                 End If
             End If
         End If
     Next Control
     
-    If CadWhere = "" Then
+    If cadWhere = "" Then
         MsgBox "No se ha definido ninguna clave principal.", vbExclamation
         
     Else
         Aux = "select * FROM " & mTag.tabla
-        Aux = Aux & " WHERE " & CadWhere & " FOR UPDATE"
+        Aux = Aux & " WHERE " & cadWhere & " FOR UPDATE"
         
         'Intenteamos bloquear
         PreparaBloquear
@@ -1683,7 +1692,7 @@ Public Function BLOQUEADesdeFormulario2(ByRef formulario As Form, ByRef ado As A
 Dim Control As Object
 Dim mTag As CTag
 Dim Aux As String
-Dim CadWhere As String
+Dim cadWhere As String
 Dim AntiguoCursor As Byte
 Dim nomcamp As String
 
@@ -1692,7 +1701,7 @@ Dim nomcamp As String
     BLOQUEADesdeFormulario2 = False
     Set mTag = New CTag
     Aux = ""
-    CadWhere = ""
+    cadWhere = ""
     AntiguoCursor = Screen.MousePointer
     Screen.MousePointer = vbHourglass
     For Each Control In formulario.Controls
@@ -1709,8 +1718,8 @@ Dim nomcamp As String
                         If mTag.EsClave Then
                             Aux = ValorParaSQL(CStr(ado.Recordset.Fields(mTag.Columna)), mTag)
                             'Lo pondremos para el WHERE
-                             If CadWhere <> "" Then CadWhere = CadWhere & " AND "
-                             CadWhere = CadWhere & "(" & mTag.Columna & " = " & Aux & ")"
+                             If cadWhere <> "" Then cadWhere = cadWhere & " AND "
+                             cadWhere = cadWhere & "(" & mTag.Columna & " = " & Aux & ")"
                         End If
                     End If
                 End If
@@ -1718,11 +1727,11 @@ Dim nomcamp As String
         End If
     Next Control
 
-    If CadWhere = "" Then
+    If cadWhere = "" Then
         MsgBox "No se ha definido ninguna clave principal.", vbExclamation
     Else
         Aux = "select * FROM " & mTag.tabla
-        Aux = Aux & " WHERE " & CadWhere & " FOR UPDATE"
+        Aux = Aux & " WHERE " & cadWhere & " FOR UPDATE"
 
         'Intenteamos bloquear
         PreparaBloquear
@@ -1837,7 +1846,7 @@ Public Sub KEYpressGnral(KeyAscii As Integer, Modo As Byte, cerrar As Boolean)
         CreateObject("WScript.Shell").SendKeys "{tab}"
     ElseIf KeyAscii = 27 Then 'ESC
         If (Modo = 0 Or Modo = 2) Then cerrar = True
-    End If
+        End If
 End Sub
 
 
@@ -1954,14 +1963,14 @@ Dim i As Integer
 End Function
 
 
-Public Function BloqueaRegistro(cadtabla As String, CadWhere As String) As Boolean
+Public Function BloqueaRegistro(cadtabla As String, cadWhere As String) As Boolean
 Dim Aux As String
 
     On Error GoTo EBloqueaRegistro
         
     BloqueaRegistro = False
     Aux = "select * FROM " & cadtabla
-    Aux = Aux & " WHERE " & CadWhere & " FOR UPDATE"
+    Aux = Aux & " WHERE " & cadWhere & " FOR UPDATE"
 
     'Intenteamos bloquear
     PreparaBloquear

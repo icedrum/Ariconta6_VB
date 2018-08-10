@@ -1307,7 +1307,7 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 Dim Tipo As Byte
     MsgBox "Falta", vbExclamation
     Exit Sub
@@ -1382,7 +1382,7 @@ End Sub
 
 Private Function MontaSQL() As Boolean
 Dim SQL As String
-Dim SQL2 As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
 
@@ -2465,7 +2465,7 @@ End Function
 Private Function ListadoExplotacion(Digitos As Integer, Optional Contabilidad As Integer) As Boolean
 Dim Cad As String
 Dim F As Date
-Dim SQL2 As String
+Dim Sql2 As String
 Dim importesL(3) As Currency   '0 anteriro d   anterior h     periodo d     periodoh
 
 
@@ -2542,7 +2542,7 @@ Dim importesL(3) As Currency   '0 anteriro d   anterior h     periodo d     peri
     'Movimientos
     SQL = ""
     
-    SQL2 = ""
+    Sql2 = ""
     importesL(0) = 0: importesL(1) = 0: importesL(2) = 0: importesL(3) = 0
     i = Rs!Periodo
     importesL((i * 2)) = Rs.Fields(2)
@@ -2557,7 +2557,7 @@ Dim importesL(3) As Currency   '0 anteriro d   anterior h     periodo d     peri
             CONT = CONT + 1
             If Cuenta = Rs.Fields(0) Then
                 'Es la misma cuenta
-               ' Stop
+               ' St op
             Else
             
                     'tmpbalanceconsolidado(codempre,nomempre,codusu,cta,nomcta,acumAntD,acumAntH,acumPerD,acumPerH)
@@ -2566,7 +2566,7 @@ Dim importesL(3) As Currency   '0 anteriro d   anterior h     periodo d     peri
                         SQL = SQL & ", " & DBSet(importesL(i), "N")
                     Next
                     
-                    SQL2 = SQL2 & SQL & ")"
+                    Sql2 = Sql2 & SQL & ")"
     
                 importesL(0) = 0: importesL(1) = 0: importesL(2) = 0: importesL(3) = 0
                 Cuenta = Rs.Fields(0)
@@ -2601,9 +2601,9 @@ Dim importesL(3) As Currency   '0 anteriro d   anterior h     periodo d     peri
     Label21.Caption = "Insertando"
     Label21.Refresh
     
-    SQL2 = SQL2 & SQL & ")"
-    SQL2 = Mid(SQL2, 2)
-    SQL = "INSERT INTO tmpbalanceconsolidado(codempre,nomempre,codusu,cta,nomcta,acumAntD,acumAntH,acumPerD,acumPerH) VALUES " & SQL2
+    Sql2 = Sql2 & SQL & ")"
+    Sql2 = Mid(Sql2, 2)
+    SQL = "INSERT INTO tmpbalanceconsolidado(codempre,nomempre,codusu,cta,nomcta,acumAntD,acumAntH,acumPerD,acumPerH) VALUES " & Sql2
     Conn.Execute SQL
     
     

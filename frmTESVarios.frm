@@ -668,7 +668,7 @@ Attribute frmP.VB_VarHelpID = -1
 
 
 Dim Rs As ADODB.Recordset
-Dim Sql As String
+Dim SQL As String
 Dim i As Integer
 Dim IT As ListItem  'Comun
 Dim PrimeraVez As Boolean
@@ -718,18 +718,18 @@ End Sub
 
 
 Private Sub cmdEliminarReclama_Click()
-    Sql = ""
+    SQL = ""
     For i = 1 To Me.ListView6.ListItems.Count
-        If Me.ListView6.ListItems(i).Checked Then Sql = Sql & "X"
+        If Me.ListView6.ListItems(i).Checked Then SQL = SQL & "X"
     Next
     
-    If Sql = "" Then Exit Sub
-    Sql = "Desea quitar de la reclamacion las cuentas seleccionadas(" & Len(Sql) & ") ?"
-    If MsgBox(Sql, vbQuestion + vbYesNo) = vbYes Then
-        Sql = "DELETE FROM  tmpentrefechas WHERE codUsu = " & vUsu.Codigo & " AND fechaadq = '"
+    If SQL = "" Then Exit Sub
+    SQL = "Desea quitar de la reclamacion las cuentas seleccionadas(" & Len(SQL) & ") ?"
+    If MsgBox(SQL, vbQuestion + vbYesNo) = vbYes Then
+        SQL = "DELETE FROM  tmpentrefechas WHERE codUsu = " & vUsu.Codigo & " AND fechaadq = '"
         For i = Me.ListView6.ListItems.Count To 1 Step -1
             If ListView6.ListItems(i).Checked Then
-                CuentasCC = Sql & ListView6.ListItems(i).Text & "'"
+                CuentasCC = SQL & ListView6.ListItems(i).Text & "'"
                 Conn.Execute CuentasCC
                 ListView6.ListItems.Remove i
             End If
@@ -748,8 +748,8 @@ Private Sub cmdInsertaCta_Click()
         MsgBox "Ya la ha añadido", vbExclamation
     Else
         CuentasCC = CuentasCC & txtCtaNormal(5).Text & "|"
-        Sql = txtCtaNormal(5).Text & "      " & txtDCtaNormal(5).Text
-        List1.AddItem Sql
+        SQL = txtCtaNormal(5).Text & "      " & txtDCtaNormal(5).Text
+        List1.AddItem SQL
         txtCtaNormal(5).Text = ""
         txtDCtaNormal(5).Text = ""
     End If
@@ -760,11 +760,11 @@ End Sub
 
 Private Sub cmdModRemTal_Click()
     If Text1(27).Text = "" And Me.txtCta(8).Text = "" Then Exit Sub
-    Sql = ""
-    If Text1(27).Text <> "" Then Sql = Sql & vbCrLf & "Fecha: " & Text1(27).Text
-    If txtCta(8).Text <> "" Then Sql = Sql & vbCrLf & "Cuenta: " & txtCta(8).Text & " " & txtDescCta(8).Text
-    Sql = "Desea actualizar a los valores indicados?"
-    If MsgBox(Sql, vbQuestion + vbYesNo) = vbNo Then Exit Sub
+    SQL = ""
+    If Text1(27).Text <> "" Then SQL = SQL & vbCrLf & "Fecha: " & Text1(27).Text
+    If txtCta(8).Text <> "" Then SQL = SQL & vbCrLf & "Cuenta: " & txtCta(8).Text & " " & txtDescCta(8).Text
+    SQL = "Desea actualizar a los valores indicados?"
+    If MsgBox(SQL, vbQuestion + vbYesNo) = vbNo Then Exit Sub
     CadenaDesdeOtroForm = Text1(27).Text & "|" & Me.txtCta(8).Text & "|"
     Unload Me
 End Sub
@@ -776,27 +776,27 @@ Private Sub cmdReclamas_Click()
     
     'Borraremos los que tienen mail erroneo
     Set Rs = New ADODB.Recordset
-    Sql = "SELECT fechaadq FROM  tmpentrefechas,cuentas WHERE fechaadq=codmacta  "
-    Sql = Sql & " AND codUsu = " & vUsu.Codigo & " AND "
-    Sql = Sql & " coalesce(maidatos,'')='' GROUP BY fechaadq  "
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    Sql = ""
+    SQL = "SELECT fechaadq FROM  tmpentrefechas,cuentas WHERE fechaadq=codmacta  "
+    SQL = SQL & " AND codUsu = " & vUsu.Codigo & " AND "
+    SQL = SQL & " coalesce(maidatos,'')='' GROUP BY fechaadq  "
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = ""
     While Not Rs.EOF
-        Sql = Sql & ", '" & Rs!fechaadq & "'"
+        SQL = SQL & ", '" & Rs!fechaadq & "'"
         Rs.MoveNext
     Wend
     Rs.Close
     Set Rs = Nothing
     
     
-    If Sql <> "" Then
-        Sql = "DELETE FROM  tmpentrefechas WHERE codUsu = " & vUsu.Codigo & " AND  fechaadq IN (" & Mid(Sql, 2) & ")"
-        Conn.Execute Sql
+    If SQL <> "" Then
+        SQL = "DELETE FROM  tmpentrefechas WHERE codUsu = " & vUsu.Codigo & " AND  fechaadq IN (" & Mid(SQL, 2) & ")"
+        Conn.Execute SQL
     End If
         
         
-    Sql = DevuelveDesdeBD("count(*)", "tmpentrefechas", "codusu", CStr(vUsu.Codigo))
-    If Val(Sql) = 0 Then
+    SQL = DevuelveDesdeBD("count(*)", "tmpentrefechas", "codusu", CStr(vUsu.Codigo))
+    If Val(SQL) = 0 Then
         MsgBox "Ninguna reclamacion a enviar", vbExclamation
     Else
         CadenaDesdeOtroForm = "OK"
@@ -810,19 +810,19 @@ End Sub
 
 Private Function SugerirCodigoSiguienteTransferencia() As String
     
-    Sql = "Select Max(codigo) from stransfer"
-    If SubTipo = 0 Then Sql = Sql & "cob"
+    SQL = "Select Max(codigo) from stransfer"
+    If SubTipo = 0 Then SQL = SQL & "cob"
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, , , adCmdText
-    Sql = "1"
+    Rs.Open SQL, Conn, , , adCmdText
+    SQL = "1"
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then
-            Sql = CStr(Rs.Fields(0) + 1)
+            SQL = CStr(Rs.Fields(0) + 1)
         End If
     End If
     Rs.Close
     Set Rs = Nothing
-    SugerirCodigoSiguienteTransferencia = Sql
+    SugerirCodigoSiguienteTransferencia = SQL
 End Function
 
 
@@ -869,9 +869,9 @@ Dim W As Integer
     
     
     
-    FrameAgregarCuentas.Visible = False
-    FrameModiRemeTal.Visible = False
-    FrameReclamaEmail.Visible = False
+    FrameAgregarCuentas.visible = False
+    FrameModiRemeTal.visible = False
+    FrameReclamaEmail.visible = False
     
     Select Case Opcion
         
@@ -879,19 +879,19 @@ Dim W As Integer
         
     Case 21
         Caption = "Seleccionar cuentas"
-        FrameAgregarCuentas.Visible = True
+        FrameAgregarCuentas.visible = True
         W = Me.FrameAgregarCuentas.Width
         H = Me.FrameAgregarCuentas.Height + 200
-        imgCtaNorma(6).Visible = False
+        imgCtaNorma(6).visible = False
     Case 25
         Caption = "Remesas"
-        FrameModiRemeTal.Visible = True
+        FrameModiRemeTal.visible = True
         W = Me.FrameModiRemeTal.Width
         H = Me.FrameModiRemeTal.Height + 100
     Case 31
         
         Caption = "Reclamacion"
-        FrameReclamaEmail.Visible = True
+        FrameReclamaEmail.visible = True
         W = Me.FrameReclamaEmail.Width
         H = Me.FrameReclamaEmail.Height + 100
         SubTipo = 1 'Para que cuando le de al ASPA del forma NO cierre
@@ -914,7 +914,7 @@ End Sub
 
 
 Private Sub frmB_Selecionado(CadenaDevuelta As String)
-    Sql = RecuperaValor(CadenaDevuelta, 1)
+    SQL = RecuperaValor(CadenaDevuelta, 1)
 End Sub
 
 
@@ -944,17 +944,17 @@ End Sub
 
 
 Private Sub frmBa_DatoSeleccionado(CadenaSeleccion As String)
-    i = CInt(imgCuentas(0).Tag)
+    i = CInt(imgCuentas(8).Tag)
     Me.txtCta(i).Text = RecuperaValor(CadenaSeleccion, 1)
     Me.txtDescCta(i).Text = RecuperaValor(CadenaSeleccion, 2)
 End Sub
 
 Private Sub frmC_Selec(vFecha As Date)
-    Text1(CInt(Image1(0).Tag)).Text = Format(vFecha, "dd/mm/yyyy")
+    Text1(CInt(Image1(27).Tag)).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = RecuperaValor(CadenaSeleccion, 1)
+    SQL = RecuperaValor(CadenaSeleccion, 1)
 End Sub
 
 
@@ -962,7 +962,7 @@ Private Sub Image1_Click(Index As Integer)
     Set frmC = New frmCal
     frmC.Fecha = Now
     If Text1(Index).Text <> "" Then frmC.Fecha = CDate(Text1(Index).Text)
-    Image1(0).Tag = Index
+    Image1(27).Tag = Index
     frmC.Show vbModal
     Set frmC = Nothing
     If Text1(Index).Text <> "" Then PonerFoco Text1(Index)
@@ -1010,13 +1010,13 @@ Private Sub imgCtaNorma_Click(Index As Integer)
         If Index <> 6 Then
 
                Set frmCCtas = New frmColCtas
-               Sql = ""
+               SQL = ""
                frmCCtas.DatosADevolverBusqueda = "0"
                frmCCtas.Show vbModal
                
                Set frmCCtas = Nothing
-               If Sql <> "" Then
-                   txtCtaNormal(Index).Text = Sql
+               If SQL <> "" Then
+                   txtCtaNormal(Index).Text = SQL
                    txtCtaNormal_LostFocus Index
                End If
             
@@ -1041,7 +1041,7 @@ End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
 
-    imgCuentas(0).Tag = Index
+    imgCuentas(8).Tag = Index
     Set frmBa = New frmBanco
     frmBa.DatosADevolverBusqueda = "OK"
     frmBa.Show vbModal
@@ -1053,15 +1053,15 @@ End Sub
 Private Sub imgEliminarCta_Click()
     If List1.SelCount = 0 Then Exit Sub
     
-    Sql = "Desea quitar la(s) cuenta(s): " & vbCrLf
+    SQL = "Desea quitar la(s) cuenta(s): " & vbCrLf
     For i = 0 To List1.ListCount - 1
-        If List1.Selected(i) Then Sql = Sql & List1.List(i) & vbCrLf
+        If List1.Selected(i) Then SQL = SQL & List1.List(i) & vbCrLf
     Next i
-    If MsgBox(Sql, vbQuestion + vbYesNoCancel) = vbYes Then
+    If MsgBox(SQL, vbQuestion + vbYesNoCancel) = vbYes Then
         For i = List1.ListCount - 1 To 0 Step -1
             If List1.Selected(i) Then
-                Sql = Trim(Mid(List1.List(i), 1, vEmpresa.DigitosUltimoNivel + 2))
-                NumRegElim = InStr(1, CuentasCC, Sql)
+                SQL = Trim(Mid(List1.List(i), 1, vEmpresa.DigitosUltimoNivel + 2))
+                NumRegElim = InStr(1, CuentasCC, SQL)
                 If NumRegElim > 0 Then CuentasCC = Mid(CuentasCC, 1, NumRegElim - 1) & Mid(CuentasCC, NumRegElim + vEmpresa.DigitosUltimoNivel + 1) 'para que quite el pipe final
                 List1.RemoveItem i
             End If
@@ -1076,7 +1076,7 @@ End Sub
 
 Private Sub optReclama_Click(Index As Integer)
     ReclamacionGargarList
-    cmdEliminarReclama.Visible = Index = 1
+    cmdEliminarReclama.visible = Index = 1
 End Sub
 
 Private Sub Text1_GotFocus(Index As Integer)
@@ -1108,7 +1108,7 @@ Private Sub CargaList()
     
 
 
-        Sql = DevuelveDesdeBD("descformapago", "stipoformapago", "tipoformapago", CStr(SubTipo), "N")
+        SQL = DevuelveDesdeBD("descformapago", "stipoformapago", "tipoformapago", CStr(SubTipo), "N")
                 
         
 End Sub
@@ -1131,25 +1131,25 @@ Dim DevfrmCCtas As String
         DevfrmCCtas = txtCta(Index).Text
         i = 0
         If DevfrmCCtas <> "" Then
-            If CuentaCorrectaUltimoNivel(DevfrmCCtas, Sql) Then
+            If CuentaCorrectaUltimoNivel(DevfrmCCtas, SQL) Then
                 DevfrmCCtas = DevuelveDesdeBD("codmacta", "bancos", "codmacta", DevfrmCCtas, "T")
                 If DevfrmCCtas = "" Then
-                    Sql = ""
+                    SQL = ""
                     MsgBox "La cuenta contable no esta asociada a ninguna cuenta bancaria", vbExclamation
                 End If
             Else
-                MsgBox Sql, vbExclamation
+                MsgBox SQL, vbExclamation
                 DevfrmCCtas = ""
-                Sql = ""
+                SQL = ""
             End If
             i = 1
         Else
-            Sql = ""
+            SQL = ""
         End If
         
         
         txtCta(Index).Text = DevfrmCCtas
-        txtDescCta(Index).Text = Sql
+        txtDescCta(Index).Text = SQL
         If DevfrmCCtas = "" And i = 1 Then
 
             PonerFoco txtCta(Index)
@@ -1174,7 +1174,7 @@ On Error GoTo ECopiarArchivo
             Kill cd1.FileName
         End If
         'Hacemos la copia
-        FileCopy Sql, cd1.FileName
+        FileCopy SQL, cd1.FileName
         CopiarArchivo = True
     End If
     
@@ -1215,23 +1215,23 @@ Dim DevfrmCCtas As String
         DevfrmCCtas = Trim(txtCtaNormal(Index).Text)
         i = 0
         If DevfrmCCtas <> "" Then
-            If CuentaCorrectaUltimoNivel(DevfrmCCtas, Sql) Then
+            If CuentaCorrectaUltimoNivel(DevfrmCCtas, SQL) Then
                 
             Else
-                MsgBox Sql, vbExclamation
+                MsgBox SQL, vbExclamation
                 If Index < 3 Or Index = 9 Or Index = 10 Or Index = 11 Then
                     DevfrmCCtas = ""
-                    Sql = ""
+                    SQL = ""
                 End If
             End If
             i = 1
         Else
-            Sql = ""
+            SQL = ""
         End If
         
         
         txtCtaNormal(Index).Text = DevfrmCCtas
-        txtDCtaNormal(Index).Text = Sql
+        txtDCtaNormal(Index).Text = SQL
         If DevfrmCCtas = "" And i = 1 Then
             PonerFoco txtCtaNormal(Index)
         End If
@@ -1264,9 +1264,9 @@ Private Sub PonerCuentasCC()
 
     CuentasCC = ""
     If vParam.autocoste Then
-        Sql = "Select * from parametros"
+        SQL = "Select * from parametros"
         Set miRsAux = New ADODB.Recordset
-        miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         'NO PUEDE SER EOF
         CuentasCC = "|" & miRsAux!grupogto & "|" & miRsAux!grupovta & "|"
         miRsAux.Close
@@ -1281,8 +1281,8 @@ Dim B As Boolean
     B = False
     If vParam.autocoste Then
         If txtCtaNormal(0).Text <> "" Then
-                Sql = "|" & Mid(txtCtaNormal(0).Text, 1, 1) & "|"
-                If InStr(1, CuentasCC, Sql) > 0 Then B = True
+                SQL = "|" & Mid(txtCtaNormal(0).Text, 1, 1) & "|"
+                If InStr(1, CuentasCC, SQL) > 0 Then B = True
         End If
     End If
    ' Label1(14).Visible = B
@@ -1295,11 +1295,11 @@ Private Sub CargalistaCuentas()
         Do
             i = InStr(1, CadenaDesdeOtroForm, "|")
             If i > 0 Then
-                Sql = Mid(CadenaDesdeOtroForm, 1, i - 1)
+                SQL = Mid(CadenaDesdeOtroForm, 1, i - 1)
                 CadenaDesdeOtroForm = Mid(CadenaDesdeOtroForm, i + 1)
-                CuentaCorrectaUltimoNivel Sql, CuentasCC
-                Sql = Sql & "      " & CuentasCC
-                List1.AddItem Sql
+                CuentaCorrectaUltimoNivel SQL, CuentasCC
+                SQL = SQL & "      " & CuentasCC
+                List1.AddItem SQL
             End If
         Loop Until i = 0
         CadenaDesdeOtroForm = ""
@@ -1307,8 +1307,8 @@ Private Sub CargalistaCuentas()
         'Genero Cuentas CC  (por no declarar mas variables vamos)
         CuentasCC = ""
         For i = 0 To List1.ListCount - 1
-            Sql = Mid(List1.List(i), 1, vEmpresa.DigitosUltimoNivel)
-            CuentasCC = CuentasCC & Sql & "|"
+            SQL = Mid(List1.List(i), 1, vEmpresa.DigitosUltimoNivel)
+            CuentasCC = CuentasCC & SQL & "|"
         Next i
     Else
         CuentasCC = ""
@@ -1320,17 +1320,17 @@ Private Sub CargaGrupo()
 
     On Error GoTo ECargaGrupo
     
-    Sql = "Select codmacta,nommacta FROM cuentas where grupotesoreria ='" & DevNombreSQL(Sql) & "'"
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "Select codmacta,nommacta FROM cuentas where grupotesoreria ='" & DevNombreSQL(SQL) & "'"
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     i = 0
     While Not miRsAux.EOF
-        Sql = miRsAux!codmacta
-        If InStr(1, CuentasCC, Sql & "|") > 0 Then
+        SQL = miRsAux!codmacta
+        If InStr(1, CuentasCC, SQL & "|") > 0 Then
             i = 1
         Else
-            CuentasCC = CuentasCC & Sql & "|"
-            Sql = Sql & "      " & miRsAux!Nommacta
-            List1.AddItem Sql
+            CuentasCC = CuentasCC & SQL & "|"
+            SQL = SQL & "      " & miRsAux!Nommacta
+            List1.AddItem SQL
         End If
         miRsAux.MoveNext
     Wend
@@ -1362,23 +1362,23 @@ On Error GoTo EEliminarEnRecepcionDocumentos
         J = 0
         For i = 0 To 1
             ' contatalonpte
-            Sql = "pagarecta"
-            If i = 1 Then Sql = "contatalonpte"
-            CtaPte = (DevuelveDesdeBD(Sql, "paramtesor", "codigo", "1") = "1")
+            SQL = "pagarecta"
+            If i = 1 Then SQL = "contatalonpte"
+            CtaPte = (DevuelveDesdeBD(SQL, "paramtesor", "codigo", "1") = "1")
             
             'Repetiremos el proceso dos veces
-            Sql = "Select * from scarecepdoc where fechavto<='" & Format(Text1(17).Text, FormatoFecha) & "'"
-            Sql = Sql & " AND   talon = " & i
-            Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            SQL = "Select * from scarecepdoc where fechavto<='" & Format(Text1(17).Text, FormatoFecha) & "'"
+            SQL = SQL & " AND   talon = " & i
+            Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             While Not Rs.EOF
                     'Si lleva cta puente habra que ver si esta contbilizada
                     J = 0
                     If CtaPte Then
                         If Val(Rs!Contabilizada) = 0 Then
                             'Veo si tiene lineas. S
-                            Sql = DevuelveDesdeBD("count(*)", "slirecepdoc", "id", CStr(Rs!Codigo))
-                            If Sql = "" Then Sql = "0"
-                            If Val(Sql) > 0 Then
+                            SQL = DevuelveDesdeBD("count(*)", "slirecepdoc", "id", CStr(Rs!Codigo))
+                            If SQL = "" Then SQL = "0"
+                            If Val(SQL) > 0 Then
                                 CuentasCC = CuentasCC & Rs!Codigo & " - No contabilizada" & vbCrLf
                                 J = 1
                             End If
@@ -1387,9 +1387,9 @@ On Error GoTo EEliminarEnRecepcionDocumentos
                     If J = 0 Then
                         'Si va benee
                         If Val(DBLet(Rs!llevadobanco, "N")) = 0 Then
-                            Sql = DevuelveDesdeBD("count(*)", "slirecepdoc", "id", CStr(Rs!Codigo))
-                            If Sql = "" Then Sql = "0"
-                            If Val(Sql) > 0 Then
+                            SQL = DevuelveDesdeBD("count(*)", "slirecepdoc", "id", CStr(Rs!Codigo))
+                            If SQL = "" Then SQL = "0"
+                            If Val(SQL) > 0 Then
                                 CuentasCC = CuentasCC & Rs!Codigo & " - Sin llevar a banco" & vbCrLf
                                 J = 1
                             End If
@@ -1425,24 +1425,24 @@ On Error GoTo EEliminarEnRecepcionDocumentos
         'Si k hay para borrar
         CualesEliminar = Mid(CualesEliminar, 2)
         J = 1
-        Sql = "X"
+        SQL = "X"
         Do
             i = InStr(J, CualesEliminar, ",")
             If i > 0 Then
                 J = i + 1
-                Sql = Sql & "X"
+                SQL = SQL & "X"
             End If
         Loop Until i = 0
         
-        Sql = "Va a eliminar " & Len(Sql) & " registros de la recepcion de documentos." & vbCrLf & vbCrLf & vbCrLf
+        SQL = "Va a eliminar " & Len(SQL) & " registros de la recepcion de documentos." & vbCrLf & vbCrLf & vbCrLf
         If CuentasCC <> "" Then CuentasCC = "No se puede eliminar de la recepcion de documentos los siguientes registros: " & vbCrLf & vbCrLf & CuentasCC
-        Sql = Sql & vbCrLf & CuentasCC
-        If MsgBox(Sql, vbQuestion + vbYesNo) = vbYes Then
-            Sql = "DELETE from slirecepdoc where id in (" & CualesEliminar & ")"
-            Conn.Execute Sql
+        SQL = SQL & vbCrLf & CuentasCC
+        If MsgBox(SQL, vbQuestion + vbYesNo) = vbYes Then
+            SQL = "DELETE from slirecepdoc where id in (" & CualesEliminar & ")"
+            Conn.Execute SQL
             
-            Sql = "DELETE from scarecepdoc where codigo in (" & CualesEliminar & ")"
-            Conn.Execute Sql
+            SQL = "DELETE from scarecepdoc where codigo in (" & CualesEliminar & ")"
+            Conn.Execute SQL
     
         End If
 
@@ -1460,20 +1460,20 @@ End Sub
 Private Sub ReclamacionGargarList()
     ListView6.ListItems.Clear
     
-    Sql = "SELECT fechaadq,maidatos,razosoci,nommacta FROM  tmpentrefechas,cuentas WHERE fechaadq=codmacta  "
-    Sql = Sql & " AND codUsu = " & vUsu.Codigo & " AND "
+    SQL = "SELECT fechaadq,maidatos,razosoci,nommacta FROM  tmpentrefechas,cuentas WHERE fechaadq=codmacta  "
+    SQL = SQL & " AND codUsu = " & vUsu.Codigo & " AND "
     If Me.optReclama(0).Value Then
         'Sin email
-        Sql = Sql & " coalesce(maidatos,'')='' "
+        SQL = SQL & " coalesce(maidatos,'')='' "
         ListView6.Checkboxes = False
     Else
-        Sql = Sql & " maidatos<>'' "
+        SQL = SQL & " maidatos<>'' "
         ListView6.Checkboxes = True
     End If
-    Sql = Sql & " GROUP BY fechaadq  "
+    SQL = SQL & " GROUP BY fechaadq  "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
         Set IT = ListView6.ListItems.Add
         IT.Text = Rs!fechaadq
@@ -1494,26 +1494,26 @@ Private Sub LeerGuardarBancoDefectoEntidad(Leer As Boolean)
 On Error GoTo eLeerGuardarBancoDefectoEntidad
 
     i = -1
-    Sql = App.Path & "\BancRemEn.xdf"
+    SQL = App.Path & "\BancRemEn.xdf"
     If Leer Then
         txtCta(3).Text = ""
-        If Dir(Sql, vbArchive) <> "" Then
+        If Dir(SQL, vbArchive) <> "" Then
             i = FreeFile
-            Open Sql For Input As #i
+            Open SQL For Input As #i
             If Not EOF(i) Then
-                Line Input #i, Sql
-                txtCta(3).Text = Sql
-                txtCta(3).Tag = Sql
+                Line Input #i, SQL
+                txtCta(3).Text = SQL
+                txtCta(3).Tag = SQL
             End If
         End If
     
     Else
         'Guardar
         If Me.txtCta(3).Text = "" Then
-            If Dir(Sql, vbArchive) <> "" Then Kill Sql
+            If Dir(SQL, vbArchive) <> "" Then Kill SQL
         Else
             i = FreeFile
-            Open Sql For Output As #i
+            Open SQL For Output As #i
             Print #i, txtCta(3).Text
             
         End If

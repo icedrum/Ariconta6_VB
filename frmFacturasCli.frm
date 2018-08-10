@@ -3029,6 +3029,10 @@ Private Sub cboFiltro_Click()
     'HacerBusqueda2
 End Sub
 
+Private Sub cboFiltro_KeyPress(KeyAscii As Integer)
+    If Modo = 0 And KeyAscii = 27 Then Unload Me
+End Sub
+
 Private Sub chkAux_KeyPress(Index As Integer, KeyAscii As Integer)
     KEYpress KeyAscii
 End Sub
@@ -3699,12 +3703,11 @@ Private Sub Form_Activate()
         VieneDeDesactualizar = B
 '        CargaGrid 1, (Modo = 2)
         If Modo <> 2 Then
+ 
+            If FACTURA <> "" Then MsgBoxA "Proceso de sistema. Frm_Activate", vbExclamation
             
-            'ESTO LO HE CAMBIADO HOY 9 FEB 2006
-            'Antes no estaba el IF
-            If FACTURA <> "" Then
-                MsgBoxA "Proceso de sistema. Frm_Activate", vbExclamation
-            End If
+           
+            
         Else
 
         End If
@@ -4695,7 +4698,7 @@ Private Sub BotonAnyadir()
     Combo1(1).ListIndex = 0
     Combo1(2).ListIndex = 0
     
-    Text1(1).Text = Format(Now, "dd/mm/yyyy")
+    If Now <= DateAdd("yyyy", 1, vParam.fechafin) Then Text1(1).Text = Format(Now, "dd/mm/yyyy")
     Text1(9).Text = "0,00"
     
     FrameDatosFiscales.visible = False
@@ -5399,6 +5402,7 @@ Dim Rs As ADODB.Recordset
             i = 0
             If vParam.IvaEnFechaPago Then
                 If Index = 23 Then i = 1
+                i = 1
             Else
                 If Index = 1 Then i = 1
             End If
@@ -5494,7 +5498,7 @@ Dim Rs As ADODB.Recordset
                     If InStr(1, SQL, "No existe la cuenta :") > 0 Then
                         'NO EXISTE LA CUENTA
                             RC = RellenaCodigoCuenta(Text1(Index).Text)
-                            SQL = "La cuenta: " & RC & " no existe. ¿Desea crearla?"
+                            SQL = "La cuenta: " & RC & " no existe.       ¿Desea crearla?"
                             If MsgBoxA(SQL, vbQuestion + vbYesNoCancel) = vbYes Then
                                 CadenaDesdeOtroForm = RC
                                 cmdAux(0).Tag = Indice
@@ -6244,6 +6248,9 @@ Dim Importe As Currency
 
     Mens = ""
     DatosOkLlin = False
+
+    'Si  no tiene analitica, garaantizo el CCOST a vacio
+    If Not vParam.autocoste Then txtaux(12).Text = ""
 
     B = CompForm2(Me, 2, nomframe) 'Comprovar formato datos ok
     If Not B Then Exit Function
@@ -7776,9 +7783,10 @@ Dim ModEspecial As Boolean
         
         
         If Modo > 2 Then
-            If DateDiff("d", CDate(Text1(Indice).Text), Now) > vParam.SIIDiasAviso Then
-                MensajeSII = String(70, "*") & vbCrLf
-                MensajeSII = MensajeSII & "SII.  Excede del maximo dias permitido para comunicar la factura" & vbCrLf & MensajeSII
+            'If DateDiff("d", CDate(Text1(Indice).Text), Now) > vParam.SIIDiasAviso Then
+            If UltimaFechaCorrectaSII(vParam.SIIDiasAviso, Now) > CDate(Text1(Indice).Text) Then
+                MensajeSII = "" 'String(70, "*") & vbCrLf
+                MensajeSII = MensajeSII & "SII." & vbCrLf & vbCrLf & "Excede del máximo dias permitido para comunicar la factura" & vbCrLf & MensajeSII
             End If
         End If
     End If
@@ -8305,6 +8313,7 @@ Dim Rs As ADODB.Recordset
 Dim impo As Currency
 Dim Cad As String
 Dim Sql4 As String
+Dim fecefect As Date
     
     On Error GoTo ECon
     
@@ -8344,12 +8353,17 @@ Dim Sql4 As String
     Conn.Execute SQL & Sql1 & ")"
     
     Linea = 0
+    fecefect = CDate("01/01/2100")
     While Not Rs.EOF
         
         Linea = Linea + 1
         
         'importe
         impo = ImporteFormateado(DBLet(Rs!ImpVenci))
+        
+        
+        If Rs!FecVenci < fecefect Then fecefect = Rs!FecVenci
+        
         
         'Inserto en las lineas de apuntes
         SQL = "INSERT INTO hlinapu (numdiari, fechaent, numasien, linliapu, "
@@ -8458,7 +8472,9 @@ Dim Sql4 As String
            
            
     If Conce = 2 Then
-       Ampliacion = Ampliacion & DBLet(Text4(4).Text, "T")  'Fecha vto
+       'Ampliacion = Ampliacion & DBLet(Text4(4).Text, "T")  'Fecha vto
+       Ampliacion = Ampliacion & "Fec.Vto: " & Format(fecefect, "dd/mm/yyyy") 'Fecha efecto
+       
     ElseIf Conce = 4 Then
         'Contra partida
         Ampliacion = DevNombreSQL(Text1(2).Text)

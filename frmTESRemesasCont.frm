@@ -661,6 +661,16 @@ Dim W As Integer
         If Opcion = 8 Then
             Me.Caption = "Abono remesa"
             Label5(2).Caption = "Remesa : " & RecuperaValor(NumeroDocumento, 1) & "/" & RecuperaValor(NumeroDocumento, 2) & vbCrLf & " Banco : " & RecuperaValor(NumeroDocumento, 4) & vbCrLf & " Importe: " & RecuperaValor(NumeroDocumento, 5)
+            CuentasCC = " codigo = " & RecuperaValor(NumeroDocumento, 1) & " AND anyo = " & RecuperaValor(NumeroDocumento, 2) & " AND 1"
+            CuentasCC = DevuelveDesdeBD("fecremesa", "remesas", CuentasCC, "1")
+            H = 0
+            If CDate(CuentasCC) >= vParam.fechaini Then
+                If CDate(CuentasCC) <= vParam.fechafin Then
+                    If CDate(CuentasCC) >= vParam.FechaActiva Then H = 1
+                End If
+            End If
+            If H = 0 Then CuentasCC = Now
+            Text1(10).Text = Format(CuentasCC, "dd/mm/yyyy")
         End If
         
         CuentasCC = ""

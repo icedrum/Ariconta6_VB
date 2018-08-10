@@ -83,6 +83,11 @@ Dim Obs As String
         'CtaParametros = "pagarecta"
         CuentaPuente = vParamT.PagaresCtaPuente
         
+    ElseIf TipoRemesa = 5 Then
+        Linea = vbConfirming
+        Cuenta = "Confriming"
+        'CtaParametros = "pagarecta"
+        CuentaPuente = vParamT.PagosConfirmingCaixa
     Else
         Linea = vbTalon
         Cuenta = "Talones"
@@ -807,6 +812,9 @@ Dim LINAPU As String
             Linea = vbPagare
             SQL = "pagarecta"
             
+        ElseIf TipoRemesa = 5 Then
+            Linea = vbConfirming
+            SQL = "confirmingcta"
         Else
             Linea = vbTalon
             SQL = "taloncta"
@@ -1310,6 +1318,11 @@ Dim Obs As String
         SQL = "pagarecta"
         CuentaPuente = vParamT.PagaresCtaPuente
         
+    ElseIf TipoRemesa2 = 5 Then
+        Linea = vbConfirming
+        SQL = "confirmingcta"
+        CuentaPuente = vParamT.ConfirmingCtaPuente
+    
     Else
         Linea = vbTalon
         SQL = "taloncta"
@@ -2062,8 +2075,8 @@ End Function
 '       o como esta, el numero de talon pagare
 
 
-
-Public Function RemesasCancelacionTALONPAGARE_(Talones As Boolean, IdRecepcion As Integer, FechaAbono As Date, DiarioConcepto As String) As Boolean
+' 0 Pagare  1talon  2 Confirming
+Public Function RemesasCancelacionTALONPAGARE(TalonTipoDoc As Byte, IdRecepcion As Integer, FechaAbono As Date, DiarioConcepto As String) As Boolean
 'Dim Cuenta As String
 Dim Mc As Contadores
 Dim Linea As Integer
@@ -2089,12 +2102,14 @@ Dim Obs As String
 Dim TipForpa As Byte
 
     On Error GoTo ERemesa_CancelacionCliente2
-    RemesasCancelacionTALONPAGARE_ = False
+    RemesasCancelacionTALONPAGARE = False
     
 
-    If Talones Then
+    If TalonTipoDoc = 1 Then
         'Sobre talones
         Cuenta = "taloncta"
+    ElseIf TalonTipoDoc = 2 Then
+        Cuenta = "confirmingcta"
     Else
         Cuenta = "pagarecta"
     End If
@@ -2192,9 +2207,12 @@ Dim TipForpa As Byte
     
     'La forma de pago
     Set vCP = New Ctipoformapago
-    If Talones Then
+    If TalonTipoDoc = 1 Then
         SQL = CStr(vbTalon)
         Ampliacion = "Talones"
+    ElseIf TalonTipoDoc = 2 Then
+        SQL = CStr(vbConfirming)
+        Ampliacion = "Confirming"
     Else
         SQL = CStr(vbPagare)
         Ampliacion = "Pagarés"
@@ -2420,8 +2438,10 @@ Dim TipForpa As Byte
         SQL = Linea & ",'" & CtaCancelacion & "','Nº" & Format(IdRecepcion, "00000000") & "'," & vCP.condecli
         
         'Ampliacion
-        If Talones Then
+        If TalonTipoDoc = 1 Then
             aux2 = " Tal nº: " & Ampliacion
+        ElseIf TalonTipoDoc = 2 Then
+            aux2 = " Confi. nº: " & Ampliacion
         Else
             aux2 = " Pag. nº: " & Ampliacion
         End If
@@ -2480,8 +2500,10 @@ Dim TipForpa As Byte
                 
                 SQL = Linea & "," & Cuenta & ",'Nº" & Format(IdRecepcion, "00000000") & "'," & vCP.conhacli
                 
-                 If Talones Then
+                If TalonTipoDoc = 1 Then
                     aux2 = " Tal nº: " & Ampliacion
+                ElseIf TalonTipoDoc = 2 Then
+                    aux2 = " Confi. nº: " & Ampliacion
                 Else
                     aux2 = " Pag. nº: " & Ampliacion
                 End If
@@ -2544,7 +2566,7 @@ Dim TipForpa As Byte
     InsertaTmpActualizar Mc.Contador, vCP.diaricli, FechaAbono
     
     'Todo OK
-    RemesasCancelacionTALONPAGARE_ = True
+    RemesasCancelacionTALONPAGARE = True
     
     
 ERemesa_CancelacionCliente2:
@@ -2589,7 +2611,9 @@ End Function
 '                           hacemos   43.1 y 43.2   contra la suma en 431.1
 ' Septiembre 2009
 '           El quinto y sexto pipe llevaran, si necesario, cta dodne poner el benefic po perd del talon y si requiere cc
-Public Function EliminarCancelacionTALONPAGARE(Talones As Boolean, IdRecepcion As Integer, FechaAbono As Date, DiarioConcepto As String) As Boolean
+' Talones   0 Pagare   1 Talon   2 Confirming
+Public Function EliminarCancelacionTALONPAGARE(Talones2 As Byte, IdRecepcion As Integer, FechaAbono As Date, DiarioConcepto As String) As Boolean
+
 'Dim Cuenta As String
 Dim Mc As Contadores
 Dim Linea As Integer
@@ -2619,9 +2643,11 @@ Dim TipForpa As String
     EliminarCancelacionTALONPAGARE = False
     
 
-    If Talones Then
+    If Talones2 = 1 Then
         'Sobre talones
         Cuenta = "taloncta"
+    ElseIf Talones2 = 2 Then
+        Cuenta = "confirmingcta"
     Else
         Cuenta = "pagarecta"
     End If
@@ -2719,9 +2745,12 @@ Dim TipForpa As String
     
     'La forma de pago
     Set vCP = New Ctipoformapago
-    If Talones Then
+    If Talones2 = 1 Then
         SQL = CStr(vbTalon)
         Ampliacion = "Talones"
+    ElseIf Talones2 = 2 Then
+        SQL = CStr(vbConfirming)
+        Ampliacion = "Confirming"
     Else
         SQL = CStr(vbPagare)
         Ampliacion = "Pagarés"
@@ -2921,8 +2950,10 @@ Dim TipForpa As String
         SQL = Linea & ",'" & CtaCancelacion & "','Nº" & Format(IdRecepcion, "00000000") & "'," & vCP.conhacli
         
         'Ampliacion
-        If Talones Then
+        If Talones2 = 1 Then
             aux2 = " Tal nº: " & Ampliacion
+        ElseIf Talones2 = 2 Then
+            aux2 = " Conf. nº: " & Ampliacion
         Else
             aux2 = " Pag. nº: " & Ampliacion
         End If
@@ -2981,8 +3012,10 @@ Dim TipForpa As String
                 
                 SQL = Linea & "," & Cuenta & ",'Nº" & Format(IdRecepcion, "00000000") & "'," & vCP.conhacli
                 
-                 If Talones Then
+                 If Talones2 = 1 Then
                     aux2 = " Tal nº: " & Ampliacion
+                ElseIf Talones2 = 2 Then
+                    aux2 = " Conf. nº: " & Ampliacion
                 Else
                     aux2 = " Pag. nº: " & Ampliacion
                 End If
@@ -3382,11 +3415,14 @@ Dim EliminaEnRecepcionDocumentos As String
     If TipoRemesa = 3 Then
         'Sobre talones
         Cuenta = "taloncta"
-        
         CuentaPuente = vParamT.TalonesCtaPuente
        
     ElseIf TipoRemesa = 2 Then
         CuentaPuente = vParamT.PagaresCtaPuente
+        Cuenta = "pagarecta"
+    
+    ElseIf TipoRemesa = 5 Then
+        CuentaPuente = vParamT.ConfirmingCtaPuente
         Cuenta = "pagarecta"
     Else
         'Efectos. Viene de cancelacion

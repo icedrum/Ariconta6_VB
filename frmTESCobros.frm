@@ -2060,7 +2060,7 @@ Begin VB.Form frmTESCobros
             Height          =   360
             ItemData        =   "frmTESCobros.frx":0308
             Left            =   1290
-            List            =   "frmTESCobros.frx":0315
+            List            =   "frmTESCobros.frx":0318
             Style           =   2  'Dropdown List
             TabIndex        =   22
             Tag             =   "Remesa|N|S|0||cobros|tiporem|||"
@@ -2498,7 +2498,7 @@ Begin VB.Form frmTESCobros
          ScrollBars      =   2  'Vertical
          TabIndex        =   15
          Tag             =   "obs|T|S|||cobros|observa|||"
-         Text            =   "frmTESCobros.frx":0334
+         Text            =   "frmTESCobros.frx":0343
          Top             =   4920
          Width           =   9225
       End
@@ -2814,9 +2814,9 @@ Begin VB.Form frmTESCobros
             Strikethrough   =   0   'False
          EndProperty
          Height          =   360
-         ItemData        =   "frmTESCobros.frx":033A
+         ItemData        =   "frmTESCobros.frx":0349
          Left            =   5190
-         List            =   "frmTESCobros.frx":0347
+         List            =   "frmTESCobros.frx":0356
          Style           =   2  'Dropdown List
          TabIndex        =   45
          Tag             =   "Situación|N|N|||cobros|situacion|||"
@@ -2853,7 +2853,7 @@ Begin VB.Form frmTESCobros
          Height          =   240
          Index           =   3
          Left            =   9270
-         Picture         =   "frmTESCobros.frx":037E
+         Picture         =   "frmTESCobros.frx":038D
          Top             =   2580
          Width           =   240
       End
@@ -2861,7 +2861,7 @@ Begin VB.Form frmTESCobros
          Height          =   240
          Index           =   2
          Left            =   13710
-         Picture         =   "frmTESCobros.frx":0409
+         Picture         =   "frmTESCobros.frx":0418
          Top             =   1410
          Width           =   240
       End
@@ -2869,7 +2869,7 @@ Begin VB.Form frmTESCobros
          Height          =   240
          Index           =   1
          Left            =   10890
-         Picture         =   "frmTESCobros.frx":0494
+         Picture         =   "frmTESCobros.frx":04A3
          Top             =   1410
          Width           =   240
       End
@@ -3379,7 +3379,7 @@ Begin VB.Form frmTESCobros
          Height          =   240
          Index           =   0
          Left            =   4020
-         Picture         =   "frmTESCobros.frx":051F
+         Picture         =   "frmTESCobros.frx":052E
          Top             =   0
          Width           =   240
       End

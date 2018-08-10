@@ -2,60 +2,60 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
 <CstmrCdtTrfInitn>
    <GrpHdr>
-      <MsgId>TRANPAG000005F20180607T223958</MsgId>
-      <CreDtTm>2018-06-07T22:39:58</CreDtTm>
-      <NbOfTxs>1</NbOfTxs>
-      <CtrlSum>112.05</CtrlSum>
+      <MsgId>TRANPAG000119F20180720T103323</MsgId>
+      <CreDtTm>2018-07-20T10:33:23</CreDtTm>
+      <NbOfTxs>3</NbOfTxs>
+      <CtrlSum>15442.23</CtrlSum>
       <InitgPty>
-         <Nm>Radio Taxi Metropolitano de Valencia SLU</Nm>
+         <Nm>Herbelca S.L.</Nm>
          <Id>
            <OrgId>
                <Othr>
-                  <Id>B98877806000</Id>
+                  <Id>B46135372000</Id>
                </Othr>
            </OrgId>
          </Id>
       </InitgPty>
    </GrpHdr>
    <PmtInf>
-      <PmtInfId>20180607223958B98877806</PmtInfId>
+      <PmtInfId>20180720103323B46135372</PmtInfId>
       <PmtMtd>TRF</PmtMtd>
-      <ReqdExctnDt>2018-06-07</ReqdExctnDt>
+      <ReqdExctnDt>2018-07-31</ReqdExctnDt>
       <Dbtr>
-         <Nm>Radio Taxi Metropolitano de Valencia SLU</Nm>
+         <Nm>Herbelca S.L.</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-            <AdrLine>CARRER DELS GREMIS 8  VALENCIA</AdrLine>
+            <AdrLine>CL Azagador de la Torre 93  VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <OrgId>
                <Othr>
-                  <Id>B98877806000</Id>
+                  <Id>B46135372000</Id>
                </Othr>
             </OrgId>
          </Id>
     </Dbtr>
     <DbtrAcct>
        <Id>
-          <IBAN>ES8121005375140200020715</IBAN>
+          <IBAN>ES2800810693600002093621</IBAN>
        </Id>
        <Ccy>EUR</Ccy>
     </DbtrAcct>
     <DbtrAgt>
        <FinInstnId>
-          <BIC>CAIXESBBXXX</BIC>
+          <BIC>BSABESBBXXX</BIC>
        </FinInstnId>
     </DbtrAgt>
    <CdtTrfTxInf>
       <PmtId>
-         <EndToEndId>C/3217475120171004001</EndToEndId>
+         <EndToEndId>103579    20180315001</EndToEndId>
       </PmtId>
       <PmtTpInf>
           <SvcLvl><Cd>SEPA</Cd></SvcLvl>
           <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
        </PmtTpInf>
        <Amt>
-          <InstdAmt Ccy="EUR">112.05</InstdAmt>
+          <InstdAmt Ccy="EUR">8719.47</InstdAmt>
        </Amt>
        <CdtrAgt>
           <FinInstnId>
@@ -63,25 +63,101 @@
           </FinInstnId>
        </CdtrAgt>
        <Cdtr>
-          <Nm>JESUS ESTEVE S.L.</Nm>
+          <Nm>KME SPAIN, S.A.</Nm>
            <Id>
                <OrgId>
                   <Othr>
-                     <Id>B96713490</Id>
+                     <Id>A33001504</Id>
                   </Othr>
                </OrgId>
            </Id>
         </Cdtr>
         <CdtrAcct>
            <Id>
-              <IBAN>ES5421004337820200008465</IBAN>
+              <IBAN>ES0821008633810200032580</IBAN>
            </Id>
         </CdtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>Factura C/32174751 de Fecha 31/10/2017</Ustrd>
+         <Ustrd>Factura num.  103579-15/03/2018 Vto a fecha  14/05/2018</Ustrd>
+      </RmtInf>
+   </CdtTrfTxInf>
+   <CdtTrfTxInf>
+      <PmtId>
+         <EndToEndId>103767    20180409001</EndToEndId>
+      </PmtId>
+      <PmtTpInf>
+          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
+          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
+       </PmtTpInf>
+       <Amt>
+          <InstdAmt Ccy="EUR">4312.44</InstdAmt>
+       </Amt>
+       <CdtrAgt>
+          <FinInstnId>
+             <BIC>CAIXESBBXXX</BIC>
+          </FinInstnId>
+       </CdtrAgt>
+       <Cdtr>
+          <Nm>KME SPAIN, S.A.</Nm>
+           <Id>
+               <OrgId>
+                  <Othr>
+                     <Id>A33001504</Id>
+                  </Othr>
+               </OrgId>
+           </Id>
+        </Cdtr>
+        <CdtrAcct>
+           <Id>
+              <IBAN>ES0821008633810200032580</IBAN>
+           </Id>
+        </CdtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>Factura num.  103767-09/04/2018 Vto a fecha  08/06/2018</Ustrd>
+      </RmtInf>
+   </CdtTrfTxInf>
+   <CdtTrfTxInf>
+      <PmtId>
+         <EndToEndId>103849    20180419001</EndToEndId>
+      </PmtId>
+      <PmtTpInf>
+          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
+          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
+       </PmtTpInf>
+       <Amt>
+          <InstdAmt Ccy="EUR">2410.32</InstdAmt>
+       </Amt>
+       <CdtrAgt>
+          <FinInstnId>
+             <BIC>CAIXESBBXXX</BIC>
+          </FinInstnId>
+       </CdtrAgt>
+       <Cdtr>
+          <Nm>KME SPAIN, S.A.</Nm>
+           <Id>
+               <OrgId>
+                  <Othr>
+                     <Id>A33001504</Id>
+                  </Othr>
+               </OrgId>
+           </Id>
+        </Cdtr>
+        <CdtrAcct>
+           <Id>
+              <IBAN>ES0821008633810200032580</IBAN>
+           </Id>
+        </CdtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>Factura num.  103849-19/04/2018 Vto a fecha  18/06/2018</Ustrd>
       </RmtInf>
    </CdtTrfTxInf>
    </PmtInf>

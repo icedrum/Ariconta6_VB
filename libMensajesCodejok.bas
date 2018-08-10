@@ -292,7 +292,7 @@ Dim BtnPorDefecto As Long
     'End If
     
     frmMenBox.Show vbModal
-    'Stop
+    'St op
     
 End Sub
 

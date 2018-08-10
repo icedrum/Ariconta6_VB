@@ -1381,14 +1381,17 @@ Private Sub PonerCampos(NuevoEstado As Byte)
     Else
         Me.frameBusASiento.visible = NuevoEstado = 3
         If Opcion = 1 Then
-            DoEvents
+            
             Me.FrameSaldos.visible = (NuevoEstado = 3)
+            DoEvents
+            Me.Refresh
             If NuevoEstado = 3 Then
                 CargarSaldos
             Else
                 LimpiarSaldos
             End If
             Me.FrameDescuadre.visible = (NuevoEstado = 0)
+            
         End If
     End If
     Me.cmdBus.Enabled = (NuevoEstado <> 1)
@@ -1403,6 +1406,10 @@ Dim Rs2 As ADODB.Recordset
 
     Set Rs2 = New ADODB.Recordset
     
+    
+    Screen.MousePointer = vbHourglass
+    Text4.Text = "Leyendo bd"
+    Text4.Refresh
     Sql2 = ""
     'Fecha inicio
     If Text1(0).Text <> "" Then Sql2 = " fechaent >= '" & Format(Text1(0).Text, FormatoFecha) & "'"
@@ -1420,8 +1427,10 @@ Dim Rs2 As ADODB.Recordset
         Text4.Text = Format(DBLet(Rs2.Fields(0).Value, "N"), "###,###,##0.00")
         Text3.Text = Format(DBLet(Rs2.Fields(1).Value, "N"), "###,###,##0.00")
         Text5.Text = Format(DBLet(Rs2.Fields(2).Value, "N"), "###,###,##0.00")
+    Else
+        Text4.Text = ""
     End If
-
+    Screen.MousePointer = vbDefault
 End Sub
 
 
@@ -1961,7 +1970,7 @@ Dim Lineas As Long
         Rs.Close
         If Lineas > 0 Then
             C2 = Text1(1).Text
-            ObtenerSumasAgrupado Mid(C2, 2)
+            ObtenerSumasAgrupado C2
         End If
             
     End If

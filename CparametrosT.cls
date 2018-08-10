@@ -25,7 +25,7 @@ Private mvarautocoste As Boolean
 
 Private mvarPagaresCtaPuente As Boolean
 Private mvarTalonesCtaPuente As Boolean
-
+Private mvarConfirmingCtaPuente As Boolean
 
 Private mvarComprobarAlInicio As Boolean
 
@@ -148,6 +148,23 @@ Public Property Let TalonesCtaPuente(ByVal vData As Boolean)
 'Syntax: X.fechafin = 5
      mvarTalonesCtaPuente = vData
 End Property
+
+
+Public Property Get ConfirmingCtaPuente() As Boolean
+     ConfirmingCtaPuente = mvarConfirmingCtaPuente
+End Property
+
+Public Property Let ConfirmingCtaPuente(ByVal vData As Boolean)
+     mvarConfirmingCtaPuente = vData
+End Property
+
+
+
+
+
+
+
+
 
 Public Property Let fechaini(ByVal vData As Date)
 'se usa cuando se asigna un valor a la propiedad, en el
@@ -548,11 +565,16 @@ Private Function ParametrosTesoreriaNuevos()
 
     SQL = "contapagarepte"
     mvarPagaresCtaPuente = (DBLet(Rs.Fields(SQL), "N") = 1)
-
+    
 
     SQL = "contatalonpte"
     mvarTalonesCtaPuente = (DBLet(Rs.Fields(SQL), "N") = 1)
 
+    
+    SQL = "contaconfirmpte"
+    mvarConfirmingCtaPuente = (DBLet(Rs.Fields(SQL), "N") = 1)
+
+    
     
     SQL = "comprobarinicio"
     mvarComprobarAlInicio = (DBLet(Rs.Fields(SQL), "N") = 1)

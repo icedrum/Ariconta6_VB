@@ -2130,7 +2130,7 @@ Dim F As Date
         End If
         SQL = SQL & DBSet(vParam.fechafin, "F")
         SQL = SQL & " group by numdiari, numasien, fechaent "
-        'SQL = SQL & " having sum(coalesce(timported,0)) <> sum(coalesce(timporteh,0))  "
+        SQL = SQL & " having sum(coalesce(timported,0)) <> sum(coalesce(timporteh,0))  "
         SQL = SQL & " order by numdiari, numasien, fechaent "
         Label10.Caption = Label10.Caption & F
         Label10.Refresh

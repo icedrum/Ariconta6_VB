@@ -108,9 +108,9 @@ Begin VB.Form frmIdentifica
    End
    Begin VB.Image Image2 
       Height          =   240
-      Left            =   7680
+      Left            =   4680
       Picture         =   "frmIdentifica.frx":0004
-      Top             =   4920
+      Top             =   5040
       Visible         =   0   'False
       Width           =   240
    End
@@ -127,12 +127,12 @@ Begin VB.Form frmIdentifica
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00FFFFFF&
-      Height          =   375
+      Height          =   372
       Index           =   3
-      Left            =   4350
+      Left            =   4200
       TabIndex        =   6
       Top             =   2340
-      Width           =   1575
+      Width           =   1572
    End
    Begin VB.Label Label1 
       BackStyle       =   0  'Transparent
@@ -344,8 +344,12 @@ Private Sub Form_Load()
     
     PrimeraVez = True
     CargaImagen
+    Me.BackColor = vbWhite
+    i = 9705
+    If Screen.TwipsPerPixelX = 12 Then i = 7715
+        
     Me.Height = 5625 '5535
-    Me.Width = 9705 ' 7935
+    Me.Width = i ' 7935
     
     
 '    '?????????????? QUITAR ESTO

@@ -898,15 +898,23 @@ On Error Resume Next
         Case 1
             FileCopy App.Path & "\norma34.txt", Cad
         Case 2
+        'ANTES JUNIO18
+'            If vParamT.PagosConfirmingCaixa Then
+'                FileCopy App.Path & "\normaCaixa.txt", Cad
+'            Else
+'                FileCopy App.Path & "\norma68.txt", Cad
+'            End If
+            FileCopy App.Path & "\norma68.txt", Cad
+        Case 3
             If vParamT.PagosConfirmingCaixa Then
                 FileCopy App.Path & "\normaCaixa.txt", Cad
             Else
                 FileCopy App.Path & "\norma68.txt", Cad
             End If
-            
         End Select
         If Err.Number <> 0 Then
             MsgBox "Error creando copia fichero. Consulte soporte técnico." & vbCrLf & Err.Description, vbCritical
+            Err.Clear
         Else
             'MsgBox "El fichero esta guardado como: " & cad, vbInformation
         End If
@@ -1205,9 +1213,10 @@ Dim Cad As String
                 'Suposicion 1,. TODOS son nacionales
                 '*********************************************************
                 
-                Im = DBLet(Rs!imppagad, "N")
+                'Im = DBLet(Rs!imppagad, "N")
+                Im = 0
                 Im = Rs!ImpEfect - Im
-                Aux = RellenaABlancos(Rs!nifprove, True, 12)
+                Aux = RellenaABlancos(Rs!NifProve, True, 12)
                 
                     
                 'Reg 010
@@ -1223,25 +1232,25 @@ Dim Cad As String
            
                 'nomprove  domprove  pobprove  cpprove  proprove  nifprove  codpais
                 'OBligaorio 011   Nombre
-                Aux = RellenaABlancos(Rs!nifprove, True, 12)
+                Aux = RellenaABlancos(Rs!NifProve, True, 12)
                 Aux = "0656" & CodigoOrdenante & Aux & "011"
                 Aux = Aux & FrmtStr(DBLet(Rs!nomprove, "T"), 36) & Space(7)
                 Print #NFich, Aux
            
                 'OBligaorio 012   direccion
-                Aux = RellenaABlancos(Rs!nifprove, True, 12)
+                Aux = RellenaABlancos(Rs!NifProve, True, 12)
                 Aux = "0656" & CodigoOrdenante & Aux & "012"
                 Aux = Aux & FrmtStr(DBLet(Rs!domprove, "T"), 36) & Space(7)
                 Print #NFich, Aux
            
                 'OBligaorio 014   cpos provi
-                Aux = RellenaABlancos(Rs!nifprove, True, 12)
+                Aux = RellenaABlancos(Rs!NifProve, True, 12)
                 Aux = "0656" & CodigoOrdenante & Aux & "014"
                 Aux = Aux & FrmtStr(DBLet(Rs!cpprove, "N"), 5) & FrmtStr(DBLet(Rs!pobprove, "T"), 31) & Space(7)
                 Print #NFich, Aux
                 
                 'OBligaorio 016   ID factura
-                Aux = RellenaABlancos(Rs!nifprove, True, 12)
+                Aux = RellenaABlancos(Rs!NifProve, True, 12)
                 Aux = "0656" & CodigoOrdenante & Aux & "016"
                 Aux = Aux & "T" & Format(Rs!FecFactu, "ddmmyy") & FrmtStr(Rs!NumFactu, 15) & Format(Rs!fecefect, "ddmmyy") & Space(15)
                 Print #NFich, Aux
@@ -2097,6 +2106,223 @@ Private Sub Totales68(NF As Integer, ByRef CodOrde As String, Total As Currency,
     Print #NF, Cad
 End Sub
 
+
+'**************************************************************************************************************
+'**************************************************************************************************************
+'
+'   CONFIRMING estandar.
+'
+'**************************************************************************************************************
+'**************************************************************************************************************
+'**************************************************************************************************************
+
+Public Function GeneraFicheroConfirmingSt(CIF As String, Fecha As Date, CuentaPropia As String, vNumeroTransferencia As Integer, ByRef ConceptoTr As String, vAnyoTransferencia As String) As Boolean
+Dim NFich As Integer
+Dim Regs As Integer
+Dim CodigoOrdenante2 As String
+Dim Importe As Currency
+Dim Im As Currency
+Dim Rs As ADODB.Recordset
+Dim Aux As String
+Dim Cad As String
+Dim NifProve As String
+Dim IbanPRov As String   'Para garantizar que estan todos lo de un proveedor al mismo  IBAN
+Dim Fin As Boolean
+
+
+    On Error GoTo EGen
+    GeneraFicheroConfirmingSt = False
+    
+    NumeroTransferencia = vNumeroTransferencia
+    
+        
+    'Cargamos la cuenta
+    Cad = "Select * from bancos where codmacta='" & CuentaPropia & "'"
+    Set Rs = New ADODB.Recordset
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Aux = Right("    " & CIF, 9)
+    Aux = Mid(CIF & Space(10), 1, 9)
+    If Rs.EOF Then
+        Cad = ""
+    Else
+        If IsNull(Rs!IBAN) Then
+            Cad = ""
+        Else
+            CuentaPropia = Rs!IBAN
+             
+        End If
+    End If
+    Rs.Close
+    
+    If Cad = "" Then Err.Raise 513, , "Error leyendo datos para: " & CuentaPropia
+        
+    
+    NFich = FreeFile
+    Open App.Path & "\norma68.txt" For Output As #NFich
+    
+    
+    
+    Aux = Right(Space(10) & CIF, 10)
+    CIF = Aux
+    
+    'CABECERA
+    '-----------------------------------------------------
+    CodigoOrdenante2 = "13" & "70" & CIF & "000" & Space(9)    '000-> sufijo      Libre(9)
+        
+        
+    '1er registro 001
+    Aux = DevuelveDesdeBDNew(cConta, "transferencias", "fecha", "codigo", CStr(vNumeroTransferencia), "N", , "anyo", vAnyoTransferencia, "N")
+    Aux = CodigoOrdenante2 & "001" & Format(Now, "ddmmyyyy") & Format(Aux, "ddmmyyyy")
+    Aux = Aux & Mid(CuentaPropia, 5, 4) & Mid(CuentaPropia, 9, 4) & Mid(CuentaPropia, 15, 10) & " " & "  "   'F7 dos carcateres alfa pactados con
+    Aux = Aux & " " & Mid(CuentaPropia, 13, 2) & Space(3)
+    Print #NFich, Aux
+        
+    ' Registro 2 al 4
+    Cad = DBSet(vEmpresa.nomempre, "T")
+                '   noempres              direccion                       codposta prob prov
+    Cad = "select " & Cad & " , concat(direccion,' ',numero) , concat(codpos,' ',poblacion,' ',provincia) From empresa2"
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Rs.EOF Then Err.Raise 513, , "Error leyendo datos empresa"
+    
+    For i = 0 To 2
+        Aux = DBLet(Rs.Fields(i), "T")
+        Aux = CodigoOrdenante2 & Format(i + 2, "000") & RellenaABlancos(Aux, True, 36) & Space(7)
+        Print #NFich, Aux
+    Next
+    Rs.Close
+    Regs = 4  'Numero total de registros (incluidos cabecera y pie). Llevamos 4 ya
+    
+    'Imprimimos las lineas
+    
+    Aux = "Select pagos.*,nommacta,dirdatos,codposta,dirdatos,despobla,nifdatos,razosoci,desprovi,cuentas.codpais from pagos,cuentas"
+    Aux = Aux & " where pagos.codmacta=cuentas.codmacta and nrodocum =" & NumeroTransferencia
+    Aux = Aux & " and anyodocum =" & vAnyoTransferencia
+    Aux = Aux & " ORDER BY nifprove"
+    Rs.Open Aux, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    Importe = 0
+    If Rs.EOF Then
+        'No hay ningun registro
+        
+    Else
+        
+        NifProve = ""
+        J = 0  'Numero total de 010
+        While Not Rs.EOF
+            
+            'PARA CADA PROVEEDOR
+            If NifProve <> Rs!NifProve Then
+                
+                
+                'Vamos a ver el importe total del proveedor, y comprobaremos su IBAN
+                Im = 0
+                Fin = False
+                Cad = Rs!NifProve 'A tratar
+                While Not Fin
+                    Im = Im + Rs!ImpEfect
+                    Rs.MoveNext
+                    If Rs.EOF Then
+                        Fin = True
+                    Else
+                        If Rs!NifProve <> Cad Then Fin = True
+                    End If
+                Wend
+                'Dejamos el cursor(recordset) andestaba
+                If NifProve = "" Then
+                    'Es el primer proveedor
+                    Rs.MoveFirst
+                Else
+                    Do
+                        Rs.MovePrevious
+                    Loop Until Rs!NifProve = NifProve  'encontramos el ultimo anterior
+                    Rs.MoveNext
+                End If
+                
+                Cad = RellenaABlancos(Rs!nifdatos, True, 12)
+                CodigoOrdenante2 = "16" & "70" & CIF & Cad   '26 comunes a todas las lineas
+                
+                'Registro bene 1
+                Aux = CStr(Im * 100)
+                Cad = CodigoOrdenante2 & "010" & RellenaAceros(Aux, False, 12)
+                
+                If DBLet(Rs!IBAN, "T") = "" Then Err.Raise 513, , "IBAN incorrecto.  Factura " & Rs!NumFactu & "   " & Rs!nomprove
+                Aux = Mid(Rs!IBAN, 5, 4) & Mid(Rs!IBAN, 9, 4) & Mid(Rs!IBAN, 15, 10)
+                Cad = Cad & Aux & "2" & "T" & " " & Mid(Rs!IBAN, 13, 2) & Space(8)  'F5 , F6 ,F7,F8
+                Print #NFich, Cad
+                
+                'Registro bene 2
+                Print #NFich, CodigoOrdenante2 & "011" & RellenaABlancos(Rs!nomprove, True, 36) & Space(7)
+                'Registro bene 3
+                Print #NFich, CodigoOrdenante2 & "012" & RellenaABlancos(Rs!domprove, True, 36) & Space(7)
+                'Registro bene  5
+                Aux = DBLet(Rs!cpprove, "T") & " " & DBLet(Rs!pobprove, "T")
+                Print #NFich, CodigoOrdenante2 & "014" & RellenaABlancos(Aux, True, 36) & Space(7)
+                Regs = Regs + 4
+                'Opcional 6 proveincia
+                If DBLet(Rs!proprove, "T") <> "" Then
+                    If Rs!proprove <> DBLet(Rs!pobprove, "T") Then
+                        'Provincia distionto pioblacion
+                        Cad = CodigoOrdenante2 & "015" & RellenaABlancos(Rs!proprove, True, 26)
+                        Cad = Cad & RellenaAceros(Rs!NifProve, False, 10) & Space(7)
+                        Print #NFich, Cad
+                        Regs = Regs + 1
+                    End If
+                End If
+                    
+                
+                Cad = RellenaABlancos(Rs!nifdatos, True, 12)
+                CodigoOrdenante2 = "17" & "70" & CIF & Cad   '26 comunes a todas las lineas de factura
+                
+                NifProve = Rs!NifProve
+                IbanPRov = Rs!IBAN
+                J = J + 1 'Total de beneficiarios
+                i = 0
+            End If
+            'Comprobacion
+            If IbanPRov <> Rs!IBAN Then Err.Raise 513, , "Iban distinto: " & Rs!nomprove
+            'Contadores
+            Im = Rs!ImpEfect
+            Importe = Importe + Im
+            Regs = Regs + 1
+            i = i + 1 'Como mucho podemos pagar 275 vtos
+            Aux = CStr(Im * 100)
+            
+        
+            
+            Cad = CodigoOrdenante2 & Format(i, "000")
+            Cad = Cad & Format(Rs!FecFactu, "ddmmyyyy") & Format(Rs!fecefect, "ddmmyyyy")
+            Cad = Cad & RellenaABlancos(Rs!NumFactu, True, 14) & RellenaAceros(Aux, False, 12) & IIf(Im < 0, "-", " ")
+            Print #NFich, Cad
+            
+            Rs.MoveNext
+        Wend
+        
+        'Imprimimos totales
+        Regs = Regs + 1
+        Cad = "18" & "70" & CIF & Space(12) & Space(3)
+        Aux = CStr(Importe * 100)
+        Cad = Cad & RellenaAceros(Aux, False, 12) & RellenaAceros(CStr(J), False, 8) & RellenaAceros(CStr(Regs), False, 10) & Space(6) & Space(7)
+        Print #NFich, Cad
+    End If
+    Rs.Close
+    Set Rs = Nothing
+    Close (NFich)
+    If Regs > 0 Then
+        GeneraFicheroConfirmingSt = True
+    Else
+        MsgBox "No se han leido registros en la tabla de pagos", vbExclamation
+    End If
+    Exit Function
+EGen:
+    MuestraError Err.Number, Err.Description
+    Set Rs = Nothing
+    IntentaCerrar NFich
+End Function
+
+Private Sub IntentaCerrar(NumeroFichero As Integer)
+ On Error Resume Next
+ Close (NumeroFichero)
+ Err.Clear
+End Sub
 
 
 

@@ -2861,8 +2861,9 @@ End Sub
 Private Sub BotonModificar()
 Dim N As Byte
 Dim BloquearClave As Boolean
+Dim Confirming As Boolean
 
-    N = SePuedeEliminar()
+    N = SePuedeEliminar(False)
     If N = 0 Then Exit Sub
     
     If PertenceAlgunoDocumentoEmitido Then Exit Sub
@@ -2879,12 +2880,19 @@ Dim BloquearClave As Boolean
     
     'Si se puede modificar entonces habilito todooos los campos
     PonerModo 4
+    Confirming = DBLet(data1.Recordset!ctaconfirm, "T") <> ""
+    
     
     'Si tiene algun pago hehco, NO puede modiciar ningun campo de la clave ppal
-    BloquearClave = False
-    If DBLet(data1.Recordset!imppagad, "N") <> 0 Then BloquearClave = True
-        'Tiene importes pagados. NO dejo cambiar la clave
+    If Confirming Then
+        BloquearClave = True
+    Else
+        BloquearClave = False
+        If DBLet(data1.Recordset!imppagad, "N") <> 0 Then BloquearClave = True
+         'Tiene importes pagados. NO dejo cambiar la clave
         'numserie codmacta numfactu fecfactu numorden
+    
+    End If
     
     '13 1 2 3 4
     BloqueaTXT Me.Text1(1), BloquearClave
@@ -2894,7 +2902,7 @@ Dim BloquearClave As Boolean
     BloqueaTXT Me.Text1(13), BloquearClave
         
         
-        
+    
         
         
     
@@ -2925,8 +2933,20 @@ Dim BloquearClave As Boolean
             
         PonerFoco Text1(10)
     Else
-        PonerFoco Text1(6)
+        If Confirming Then
+            PonerFoco Text1(5)
+        Else
+            PonerFoco Text1(6)
+        End If
     End If
+    
+    If Confirming Then
+        'TAMPOCO dejo cambiar, importes ni forma de pago
+        BloqueaTXT Me.Text1(6), Confirming
+        BloqueaTXT Me.Text1(7), Confirming
+        BloqueaTXT Me.Text1(8), Confirming
+    End If
+    
     
 
     'Escondemos el navegador y ponemos insertando
@@ -2952,7 +2972,7 @@ Private Sub BotonEliminar()
     If data1.Recordset.EOF Then Exit Sub
     
     'Comprobamos si se puede eliminar
-    If Not SePuedeEliminar Then Exit Sub
+    If Not SePuedeEliminar(True) Then Exit Sub
     If PertenceAlgunoDocumentoEmitido Then Exit Sub
     
     
@@ -3014,7 +3034,7 @@ Dim impo As Currency
     End If
     
     
-    If Not SePuedeEliminar Then Exit Sub
+    If Not SePuedeEliminar(True) Then Exit Sub
     If PertenceAlgunoDocumentoEmitido Then Exit Sub
     
 
@@ -3933,6 +3953,7 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
     
     FrameRemesa.Enabled = Kmodo = 1
     Text1(27).Enabled = Kmodo = 1
+    Text1(31).Enabled = Kmodo = 1
     
     B = Modo <> 0 And Modo <> 2
     cmdCancelar.visible = B
@@ -3970,7 +3991,7 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
         Text1(i).Locked = B
     Next i
     
-    cboSituRem.Locked = B
+    cboSituRem.Locked = Not Modo = 1
 
     frameContene.Enabled = Not B
     
@@ -4156,14 +4177,14 @@ End Sub
 'Si no esta en transferencia o en una remesa
 'entonces dejare que modifique algun dato basico
 'Realmente solo la cta bancaria
-Private Function SePuedeEliminar() As Byte
+Private Function SePuedeEliminar(EsparaEliminar As Boolean) As Byte
     
     SePuedeEliminar = False
 
     If Not IsNull(Me.data1.Recordset!nrodocum) Then
         If Val(Me.data1.Recordset!nrodocum) > 0 Then
-            MsgBox "Pertenece a una transferencia.", vbExclamation
-            Exit Function
+            MsgBox "Pertenece a una transferencia/confirming.", vbExclamation
+            If EsparaEliminar Then Exit Function
         End If
     End If
     
@@ -4237,8 +4258,8 @@ Dim Im As Currency
     
     
     
-    If Val(DBLet(data1.Recordset!nrodocum, "N")) = 1 Then
-        MsgBox "Pertenece a una transferencia", vbExclamation
+    If Val(DBLet(data1.Recordset!nrodocum, "N")) > 0 Then
+        MsgBox "Pertenece a una transferencia/confirming", vbExclamation
         Exit Sub
     End If
     
@@ -4309,8 +4330,14 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
             If Modo <> 2 Then Exit Sub
             If Text1(13).Text = "" Then Exit Sub
             'numserie fecfactu numfactu codmacta
-            Msg = "numserie=" & DBSet(Text1(13).Text, "T") & " and numfactu=" & DBSet(Text1(1).Text, "T")
-            Msg = Msg & " AND codmacta=" & DBSet(Text1(4).Text, "T") & " AND anofactu"
+            Msg = ObtenerWhereCab(False) & " AND 1"
+            Msg = DevuelveDesdeBD("ctaconfirm", "pagos", Msg, "1")
+            If Msg = "" Then Msg = Text1(4).Text
+            Msg = " AND codmacta=" & DBSet(Msg, "T") & " AND anofactu"
+            
+            Msg = "numserie=" & DBSet(Text1(13).Text, "T") & " and numfactu=" & DBSet(Text1(1).Text, "T") & Msg
+            
+            
             Msg = DevuelveDesdeBD("numregis", "factpro", Msg, Year(CDate(Text1(2).Text)))
             If Msg = "" Then
                 MsgBox "No existe la factura en el registro de facturas recibidas", vbExclamation
@@ -4342,7 +4369,7 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
             If Modo <> 2 Then Exit Sub
             If vTipForpa <> "" Then
                 If (Val(vTipForpa) <> vbTransferencia) Or (Val(vTipForpa) = vbTransferencia And Val(DBLet(data1.Recordset!nrodocum)) = 0) Then
-                    If Not SePuedeEliminar Then Exit Sub
+                    If Not SePuedeEliminar(True) Then Exit Sub
                 
                     If PertenceAlgunoDocumentoEmitido Then Exit Sub
                         

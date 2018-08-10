@@ -959,6 +959,10 @@ Private Sub Check1_Click()
     imgppal(0).Enabled = (Check1.Value = 1)
 End Sub
 
+Private Sub Check1_KeyPress(KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
 Private Sub cmdAceptar_Click()
     Dim i As String
     Dim NReg As Long
@@ -1305,13 +1309,13 @@ Private Sub Text1_LostFocus(Index As Integer)
                 End If
                 MsgBox RC, vbExclamation
                 Text1(Index).Text = ""
-                If Index = 1 Then Text1(14).Text = ""
+                'If Index = 1 Then Text1(14).Text = ""
                 PonFoco Text1(Index)
                 Exit Sub
             End If
             
             Text1(Index).Text = Format(Text1(Index).Text, "dd/mm/yyyy")
-            
+            PonleFoco cmdRegresar
     End Select
     
 

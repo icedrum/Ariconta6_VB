@@ -3038,6 +3038,10 @@ Private Sub cboFiltro_Click()
     'HacerBusqueda2
 End Sub
 
+Private Sub cboFiltro_KeyPress(KeyAscii As Integer)
+    If Modo = 0 And KeyAscii = 27 Then Unload Me
+End Sub
+
 Private Sub chkAux_KeyPress(Index As Integer, KeyAscii As Integer)
     KEYpress KeyAscii
 End Sub
@@ -5073,7 +5077,7 @@ Private Sub BotonAnyadir()
     Combo1(1).ListIndex = 0
     Combo1(2).ListIndex = 0
     
-    Text1(1).Text = Format(Now, "dd/mm/yyyy")
+    If Now <= DateAdd("yyyy", 1, vParam.fechafin) Then Text1(1).Text = Format(Now, "dd/mm/yyyy")
     Text1(9).Text = "0,00"
     
     ' por defecto para todos cuando insertamos es 1
@@ -5802,6 +5806,7 @@ Dim J As Integer
                 Exit Sub
             End If
             ModificandoLineas = FechaCorrecta2(CDate(Text1(Index).Text))
+            If Modo = 1 Then ModificandoLineas = 0
             If ModificandoLineas > 1 Then
                 If ModificandoLineas = 2 Then
                     RC = varTxtFec
@@ -5821,7 +5826,7 @@ Dim J As Integer
             End If
             
             Text1(Index).Text = Format(Text1(Index).Text, "dd/mm/yyyy")
-            If Index = 1 Then Text1(14).Text = Year(CDate(Text1(Index).Text))
+            If Index = 1 And Modo <> 1 Then Text1(14).Text = Year(CDate(Text1(Index).Text))
             
             i = 0  'No actualiza fecha liquidacion
             If Index = 1 Then
@@ -5837,8 +5842,7 @@ Dim J As Integer
             
             'Si que pertenece a ejerccios en curso. Por lo tanto comprobaremos
             'que el periodo de liquidacion del IVA no ha pasado.
-
-            If Not ComprobarPeriodo2(Index, IIf(Index = 1, 0, 1)) Then PonFoco Text1(Indice)
+            If Modo <> 1 Then If Not ComprobarPeriodo2(Index, IIf(Index = 1, 0, 1)) Then PonFoco Text1(Indice)
     
 
         Case 2 ' Serie
@@ -6778,6 +6782,15 @@ Dim Importe As Currency
 
     Mens = ""
     DatosOkLlin = False
+
+
+    'Si  no tiene analitica, garaantizo el CCOST a vacio
+    If Not vParam.autocoste Then txtaux(12).Text = ""
+    
+    
+
+
+
 
     B = CompForm2(Me, 2, nomframe) 'Comprovar formato datos ok
     If Not B Then Exit Function
@@ -8169,9 +8182,9 @@ Dim ModEspecial As Boolean
             
             
             If Modo > 2 Then
-                If DateDiff("d", CDate(Text1(Indice).Text), Now) > vParam.SIIDiasAviso Then
-                    MensajeSII = String(70, "*") & vbCrLf
-                    MensajeSII = MensajeSII & "SII.  Excede del maximo dias permitido para comunicar la factura" & vbCrLf & MensajeSII
+                If UltimaFechaCorrectaSII(vParam.SIIDiasAviso, Now) > CDate(Text1(Indice).Text) Then
+                    MensajeSII = ""  'String(70, "*") & vbCrLf
+                    MensajeSII = MensajeSII & "SII." & vbCrLf & vbCrLf & "Excede del maximo dias permitido para comunicar la factura" & vbCrLf & MensajeSII
                 End If
             End If
         
@@ -8657,7 +8670,7 @@ Dim Rs As ADODB.Recordset
 Dim impo As Currency
 Dim Cad As String
 Dim Sql4 As String
-    
+Dim fecefect As Date
     On Error GoTo ECon
     
     ContabilizarPagos = False
@@ -8691,14 +8704,19 @@ Dim Sql4 As String
     SQL = "INSERT INTO hcabapu (numdiari, fechaent, numasien, feccreacion, usucreacion, desdeaplicacion, obsdiari) VALUES ("
     SQL = SQL & FP.diaricli
     SQL = SQL & ",'" & Format(FechaPago, FormatoFecha) & "'," & Mc.Contador & "," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Contabilización Pago Facturas Proveedor',"
-    Sql1 = DBSet("Generado desde Facturas de Proveedor el " & Format(Now, "dd/mm/yyyy hh:mm") & " por " & vUsu.Nombre, "T")
+    Sql1 = "Generado desde Facturas de Proveedor el " & Format(Now, "dd/mm/yyyy hh:mm") & " por " & vUsu.Nombre
     If TotImpo < 0 Then Sql1 = Sql1 & "  (CARGO)"
-    Conn.Execute SQL & Sql1 & ")"
+    Conn.Execute SQL & DBSet(Sql1, "T") & ")"
     
+    fecefect = CDate("2100/01/01") 'Para que coja el primero
     Linea = 0
     While Not Rs.EOF
         
         Linea = Linea + 1
+        
+        
+        'Fecefc para el contapunte del banco(si ha elegido ese concepto)
+        If Rs!fecefect < fecefect Then fecefect = Rs!fecefect
         
         'importe
         impo = ImporteFormateado(DBLet(Rs!imppagad))
@@ -8712,7 +8730,9 @@ Dim Sql4 As String
         
         
         'numdocum
-        Numdocum = Text1(2).Text & "-" & Text1(25).Text  ' letra de serie y factura
+        Numdocum = ""
+        If Text1(2).Text <> "1" Then Numdocum = Text1(2).Text & "-"
+        Numdocum = Numdocum & Text1(25).Text  ' letra de serie y factura
         
         'Concepto y ampliacion del apunte
         Ampliacion = ""
@@ -8756,7 +8776,7 @@ Dim Sql4 As String
         
         'Ahora ponemos linliapu codmacta numdocum codconce ampconce timported timporte codccost ctacontr idcontab punteada
         'Cuenta Cliente/proveedor
-        Cad = Linea & ",'" & Trim(Text1(4).Text) & "','" & Numdocum & "'," & Conce & ",'" & DevNombreSQL(Ampliacion) & "',"
+        Cad = Linea & ",'" & Trim(Text1(4).Text) & "'," & DBSet(Numdocum, "T") & "," & Conce & ",'" & DevNombreSQL(Ampliacion) & "',"
         'Importe cobro-pago
         ' nos lo dire "debe"
         If Not Debe Then
@@ -8789,20 +8809,20 @@ Dim Sql4 As String
      'Concepto y ampliacion del apunte
     Ampliacion = ""
     'CLIENTES
-     'Si el apunte va al debe, el contrapunte va al haber
-     If Not Debe Then
+    'Si el apunte va al debe, el contrapunte va al haber
+    If Not Debe Then
          Conce = FP.ampdepro
          LlevaContr = FP.ctrdepro = 1
          ElConcepto = FP.condepro
-     Else
+    Else
          ElConcepto = FP.conhapro
          Conce = FP.amphacli
          LlevaContr = FP.ctrhapro = 1
-     End If
-           
+    End If
+    If Not vParam.abononeg Then TotImpo = Abs(TotImpo) 'El lado(D/H) ya lo ha configurado arriba
            
     If Conce = 2 Then
-       Ampliacion = Ampliacion & DBLet(Rs!fecefect)  'Fecha efecto
+           Ampliacion = Ampliacion & "Fec.Vto: " & Format(fecefect, "dd/mm/yyyy") 'Fecha efecto
     ElseIf Conce = 4 Then
         'Contra partida
         Ampliacion = DevNombreSQL(Text1(2).Text)

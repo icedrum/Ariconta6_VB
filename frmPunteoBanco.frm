@@ -1092,7 +1092,7 @@ Dim NF As Integer
 Dim FicheroPpal As String
 Dim Cta As String
 Dim Saldo As Currency
-Dim cad As String
+Dim Cad As String
 
 
 Private Sub Check1_Click()
@@ -1117,7 +1117,7 @@ Private Sub ConfirmarDatos(DesdeCuenta As Boolean)
         If SQL <> "" Then
             'Bloqueamos manualamente la tabla, con esa cuenta
             If Not BloqueoManual(True, "PUNTEOB", Text1.Text) Then
-                MsgBox "Imposible acceder a puntear la cuenta. Esta bloqueada"
+                MsgBox "Imposible acceder a puntear la cuenta. Esta bloqueada", vbExclamation
             Else
                 Text3(0).Text = "": Text3(1).Text = "": Text3(2).Text = ""
                 'Datos ok. Vamos a ver los resultados
@@ -1188,6 +1188,7 @@ Dim Sql1 As String
         Exit Sub
     End If
     
+   
     'Generamos el asiento en errores
     If Not IsDate(txtFec(2).Text) Then
         MsgBox "Fecha incorrecta", vbExclamation
@@ -1326,6 +1327,16 @@ Private Sub CrearAsiento()
         MsgBox "Extracto ya esta punteado", vbExclamation
         Exit Sub
     End If
+    
+     
+    If Text1.Text = "" Then
+        MsgBoxA "Cuenta banco VACIA", vbExclamation
+        PonFoco Text4
+        Exit Sub
+    End If
+    
+    
+    
     
     'Deshabilitamos
     Me.FrameDatos.Enabled = False
@@ -2172,7 +2183,7 @@ Private Sub PonFoco(ByRef T As TextBox)
 End Sub
 
 Private Function GenerarCabecera(NumAsi As Long) As Boolean
-Dim cad As String
+Dim Cad As String
 
     On Error GoTo EGenerarCabecera
     GenerarCabecera = False
@@ -2202,53 +2213,53 @@ Dim cad As String
     SQL = SQL & DBSet(Text11.Text, "T") & ","
     
     'Ampliacion concepto
-    cad = Mid(Text7.Text & " " & Text8.Text, 1, 30)
-    SQL = SQL & DBSet(cad, "T") & ","
+    Cad = Mid(Text7.Text & " " & Text8.Text, 1, 30)
+    SQL = SQL & DBSet(Cad, "T") & ","
     
     'Concepto
     SQL = SQL & Text6.Text & ","
     
     'El importe
     Importe = CCur(ListView1.SelectedItem.SubItems(1))
-    cad = "1,'" & Text1.Text & "',"
+    Cad = "1,'" & Text1.Text & "',"
     If ListView1.SelectedItem.SubItems(2) = "H" Then
         'Va al debe
-        cad = cad & TransformaComasPuntos(CStr(Importe)) & ",NULL"
+        Cad = Cad & TransformaComasPuntos(CStr(Importe)) & ",NULL"
     Else
-        cad = cad & "NULL," & TransformaComasPuntos(CStr(Importe))
+        Cad = Cad & "NULL," & TransformaComasPuntos(CStr(Importe))
     End If
     
     'Contrapartida
     If Text4.Text <> "" Then
-        cad = cad & ",'" & Text4.Text & "'"
+        Cad = Cad & ",'" & Text4.Text & "'"
     Else
-        cad = cad & ",NULL"
+        Cad = Cad & ",NULL"
     End If
     
     'y la punteamos
-    cad = SQL & cad & ",NULL,'CONTAB',1)"
-    Conn.Execute cad
+    Cad = SQL & Cad & ",NULL,'CONTAB',1)"
+    Conn.Execute Cad
     
     'Si tiene contrapartida entonces genero la segunda linea de apuntes
     ' k sera la de la contrapartida, con el importe el mismo al lado contrario
     ' el mismo concepto
     If Text4.Text <> "" Then
         'SI TIENE
-            cad = "2,'" & Text4.Text & "',"
+            Cad = "2,'" & Text4.Text & "',"
             'En la de arriba es igual a H
             If ListView1.SelectedItem.SubItems(2) = "D" Then
                 'Va al debe
-                cad = cad & TransformaComasPuntos(CStr(Importe)) & ",NULL"
+                Cad = Cad & TransformaComasPuntos(CStr(Importe)) & ",NULL"
             Else
-                cad = cad & "NULL," & TransformaComasPuntos(CStr(Importe))
+                Cad = Cad & "NULL," & TransformaComasPuntos(CStr(Importe))
             End If
             
             'Contrapartida es la del banco
-            cad = cad & ",'" & Text1.Text & "'"
+            Cad = Cad & ",'" & Text1.Text & "'"
             
             'y NO la punteamos
-            cad = SQL & cad & ",NULL,'CONTAB',0)"
-            Conn.Execute cad
+            Cad = SQL & Cad & ",NULL,'CONTAB',0)"
+            Conn.Execute Cad
     End If
     GenerarCabecera = True
     Exit Function
@@ -2284,7 +2295,7 @@ End Sub
 
 Private Function ProcesarFichero() As Boolean
 Dim Fin As Boolean
-Dim cad As String
+Dim Cad As String
 
 On Error GoTo EProcesarFichero
     'Abrimos el fichero para lectura
@@ -2638,25 +2649,25 @@ Dim L As String
     
     L = TransformaPuntosComas(L)
     L = Format(L, FormatoImporte)
-    cad = "              "
+    Cad = "              "
     If NF = 0 Then
         'Debe
-        txtDatos.Text = txtDatos.Text & "  " & Right("              " & L, 14) & "    " & cad
+        txtDatos.Text = txtDatos.Text & "  " & Right("              " & L, 14) & "    " & Cad
     Else
-        txtDatos.Text = txtDatos.Text & "  " & cad & "    " & Right("              " & L, 14)
+        txtDatos.Text = txtDatos.Text & "  " & Cad & "    " & Right("              " & L, 14)
     End If
     vSql = vSql & "," & RecuperaValor(CadenaDesdeOtroForm, 4)
     
     'El concepto lo saco de la linea de aqui
-    cad = DevNombreSQL(Trim(Ampliacion))  '30 como mucho
-    vSql = vSql & ",'" & cad & "',"
+    Cad = DevNombreSQL(Trim(Ampliacion))  '30 como mucho
+    vSql = vSql & ",'" & Cad & "',"
     txtDatos.Text = txtDatos.Text & "    " & Ampliacion & vbCrLf
         
     'NumDocum
     vSql = vSql & "'" & RecuperaValor(CadenaDesdeOtroForm, 5) & "'"
     Saldo = Saldo - Importe
-    cad = TransformaComasPuntos(CStr(Saldo))
-    vSql = vSql & "," & cad & ")"
+    Cad = TransformaComasPuntos(CStr(Saldo))
+    vSql = vSql & "," & Cad & ")"
     'Para la BD
     ContadorMYSQL = ContadorMYSQL + 1
     
@@ -2682,40 +2693,40 @@ Dim Debe As Boolean
     ProcesaLineaASiento = False
     CadenaDesdeOtroForm = ""
     'Fecha operacion
-    cad = Mid(Lin, 11, 6)
-    cad = "20" & Mid(cad, 1, 2) & "/" & Mid(cad, 3, 2) & "/" & Mid(cad, 5, 2)
-    If Not IsDate(cad) Then
+    Cad = Mid(Lin, 11, 6)
+    Cad = "20" & Mid(Cad, 1, 2) & "/" & Mid(Cad, 3, 2) & "/" & Mid(Cad, 5, 2)
+    If Not IsDate(Cad) Then
         MsgBox "Formato fecha incorrecto", vbExclamation
         Exit Function
     End If
-    CadenaDesdeOtroForm = Format(cad, FormatoFecha) & "|"
+    CadenaDesdeOtroForm = Format(Cad, FormatoFecha) & "|"
     
     'Fecha valor
-    cad = Mid(Lin, 17, 6)
-    cad = "20" & Mid(cad, 1, 2) & "/" & Mid(cad, 3, 2) & "/" & Mid(cad, 5, 2)
-    If Not IsDate(cad) Then
+    Cad = Mid(Lin, 17, 6)
+    Cad = "20" & Mid(Cad, 1, 2) & "/" & Mid(Cad, 3, 2) & "/" & Mid(Cad, 5, 2)
+    If Not IsDate(Cad) Then
         MsgBox "Formato fecha incorrecto", vbExclamation
         Exit Function
     End If
-    CadenaDesdeOtroForm = CadenaDesdeOtroForm & Format(cad, FormatoFecha) & "|"
+    CadenaDesdeOtroForm = CadenaDesdeOtroForm & Format(Cad, FormatoFecha) & "|"
     
     
     'Importe
-    cad = Mid(Lin, 28, 1)
-    Debe = cad = "1"
-    cad = Mid(Lin, 29, 14)
-    If Not IsNumeric(cad) Then
-        MsgBox "Importe registro 22 incorrecto: " & cad, vbExclamation
+    Cad = Mid(Lin, 28, 1)
+    Debe = Cad = "1"
+    Cad = Mid(Lin, 29, 14)
+    If Not IsNumeric(Cad) Then
+        MsgBox "Importe registro 22 incorrecto: " & Cad, vbExclamation
         Exit Function
     End If
-    Importe = Val(cad) / 100
-    cad = TransformaComasPuntos(CStr(Importe))
+    Importe = Val(Cad) / 100
+    Cad = TransformaComasPuntos(CStr(Importe))
     
     'Importe debe / haber
     If Debe Then
-        CadenaDesdeOtroForm = CadenaDesdeOtroForm & cad & "|NULL|"
+        CadenaDesdeOtroForm = CadenaDesdeOtroForm & Cad & "|NULL|"
     Else
-        CadenaDesdeOtroForm = CadenaDesdeOtroForm & "NULL|" & cad & "|"
+        CadenaDesdeOtroForm = CadenaDesdeOtroForm & "NULL|" & Cad & "|"
     End If
     
     
@@ -2767,9 +2778,9 @@ Dim InsercionesActuales As Integer
     Set Rs = New ADODB.Recordset
     HacerComprobaciones = False
     InsercionesActuales = NumRegElim - 1
-    cad = "Select max(orden) from tmpnorma43 where codusu =" & vUsu.Codigo
-    cad = cad & " AND codmacta ='" & Cta & "'"
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "Select max(orden) from tmpnorma43 where codusu =" & vUsu.Codigo
+    Cad = Cad & " AND codmacta ='" & Cta & "'"
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NF = 0
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then NF = Rs.Fields(0)
@@ -2795,32 +2806,32 @@ Dim InsercionesActuales As Integer
     
     If NumRegElim > 0 Then
         'Obtengo la suma de importes
-        cad = "Select sum(importeD)as debe,sum(importeH) as haber,sum(importeD)-sum(importeH) from tmpnorma43 where codusu = " & vUsu.Codigo
-        cad = cad & " AND codmacta ='" & Cta & "'"
+        Cad = "Select sum(importeD)as debe,sum(importeH) as haber,sum(importeD)-sum(importeH) from tmpnorma43 where codusu = " & vUsu.Codigo
+        Cad = Cad & " AND codmacta ='" & Cta & "'"
         'Enero 2009.
         'Estamos admitiendo ficheros que , aun siendo de la misma cuenta, tran mas de una entrada 11| (cabecera de cuenta
         NF = ContadorRegistrosBanco - InsercionesActuales
-        cad = cad & " AND orden >" & NF
-        Rs.Open cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+        Cad = Cad & " AND orden >" & NF
+        Rs.Open Cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
         If Not Rs.EOF Then
-            cad = CStr(Val(Mid(Lin, 26, 14)) / 100)
+            Cad = CStr(Val(Mid(Lin, 26, 14)) / 100)
             CadenaDesdeOtroForm = DBLet(Rs.Fields(0), "N")
-            Ok = (cad = CadenaDesdeOtroForm)
+            Ok = (Cad = CadenaDesdeOtroForm)
             If Ok Then
-                cad = CStr(Val(Mid(Lin, 45, 14)) / 100)
+                Cad = CStr(Val(Mid(Lin, 45, 14)) / 100)
                 CadenaDesdeOtroForm = DBLet(Rs.Fields(1), "N")
-                Ok = (cad = CadenaDesdeOtroForm)
+                Ok = (Cad = CadenaDesdeOtroForm)
             End If
             If Ok Then
                 Importe = Val(Mid(Lin, 60, 14)) / 100
                 If Mid(Lin, 59, 1) = "2" Then Importe = Importe * -1
                 
                 If ContadorRegistrosBanco = 0 Then
-                    cad = "Fichero de comprobación de saldos: " & vbCrLf & vbCrLf
-                    cad = cad & "Saldo: " & CStr(Importe)
-                    cad = cad & vbCrLf & vbCrLf & vbCrLf
-                    cad = cad & "¿Desea eliminar el archivo?"
-                    If MsgBox(cad, vbQuestion + vbYesNo) = vbYes Then
+                    Cad = "Fichero de comprobación de saldos: " & vbCrLf & vbCrLf
+                    Cad = Cad & "Saldo: " & CStr(Importe)
+                    Cad = Cad & vbCrLf & vbCrLf & vbCrLf
+                    Cad = Cad & "¿Desea eliminar el archivo?"
+                    If MsgBox(Cad, vbQuestion + vbYesNo) = vbYes Then
                         If Dir(Text12.Text, vbArchive) <> "" Then
                             Kill Text12.Text
                             Text12.Text = ""
@@ -2880,18 +2891,18 @@ Dim Codigo As Long
     SQL = "INSERT INTO norma43 (codigo, codmacta, fecopera, fecvalor, importeD,"
     SQL = SQL & "importeH, concepto, numdocum, saldo, punteada) VALUES ("
     While Not Rs.EOF
-        cad = Codigo & ",'" & Rs!codmacta & "','" & Format(Rs!fecopera, FormatoFecha)
-        cad = cad & "','" & Format(Rs!fecvalor, FormatoFecha) & "',"
+        Cad = Codigo & ",'" & Rs!codmacta & "','" & Format(Rs!fecopera, FormatoFecha)
+        Cad = Cad & "','" & Format(Rs!fecvalor, FormatoFecha) & "',"
         If IsNull(Rs!ImporteD) Then
-            cad = cad & "NULL," & TransformaComasPuntos(CStr(Rs!ImporteH))
+            Cad = Cad & "NULL," & TransformaComasPuntos(CStr(Rs!ImporteH))
         Else
-            cad = cad & TransformaComasPuntos(CStr(Rs!ImporteD)) & ",NULL"
+            Cad = Cad & TransformaComasPuntos(CStr(Rs!ImporteD)) & ",NULL"
         End If
-        cad = cad & ",'" & DevNombreSQL(DBLet(Rs!Concepto)) & "','" & Rs!Numdocum & "',"
-        cad = cad & TransformaComasPuntos(CStr(Rs!Saldo)) & ",0);"
-        cad = SQL & cad
+        Cad = Cad & ",'" & DevNombreSQL(DBLet(Rs!Concepto)) & "','" & Rs!Numdocum & "',"
+        Cad = Cad & TransformaComasPuntos(CStr(Rs!Saldo)) & ",0);"
+        Cad = SQL & Cad
         'Ejecutamos SQL
-        Conn.Execute cad
+        Conn.Execute Cad
         Codigo = Codigo + 1
         Rs.MoveNext
     Wend

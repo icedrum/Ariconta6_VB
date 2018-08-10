@@ -318,11 +318,33 @@ Private Sub cmdCanListExtr_Click(Index As Integer)
 End Sub
 
 Private Sub cmdCopyBalan_Click()
+    
+    Cad = ""
     If txtNumBal(3).Text = "" Then
-        MsgBox "Seleccione el balance origen", vbExclamation
-        Exit Sub
+        Cad = "Seleccione el balance origen"
+        
+    Else
+        If txtNumBal(3).Text = txtNumBal(2).Text Then
+            Cad = "Origen y destion igual"
+        Else
+            If Val(txtNumBal(2).Text) < 50 Then
+                If Val(txtNumBal(3).Text) > 49 Then Cad = "Balances (<50)"
+            Else
+                If Val(txtNumBal(2).Text) < 60 Then
+                    If Val(txtNumBal(3).Text) < 49 Or Val(txtNumBal(3).Text) > 59 Then Cad = "Ratios (50:59)"
+                Else
+                    If Val(txtNumBal(2).Text) < 100 Then
+                        If Val(txtNumBal(3).Text) < 49 Or Val(txtNumBal(3).Text) > 59 Then Cad = "Ratios (50:59)"
+                    End If
+                End If
+            End If
+         End If
     End If
     
+    If Cad <> "" Then
+        MsgBox Cad, vbExclamation
+        Exit Sub
+    End If
     
     Cad = "Va a copiar los datos del balance: " & vbCrLf & vbCrLf
     Cad = Cad & txtNumBal(3).Text & " - " & Me.TextDescBalance(3).Text & vbCrLf
@@ -482,11 +504,23 @@ End Sub
 
 Private Sub ImgNumBal_Click(Index As Integer)
     Screen.MousePointer = vbHourglass
+    J = 0
+    If Val(txtNumBal(2).Text) < 50 Then
+        J = 0
+    Else
+        If Val(txtNumBal(2).Text) < 60 Then
+           J = 1
+        Else
+            J = 2
+        End If
+    End If
+
+
 
     RC = Index
     
     Set frmBal = New frmBasico
-    AyudaBalances frmBal, 0
+    AyudaBalances frmBal, CByte(J)
     Set frmBal = Nothing
 
     Screen.MousePointer = vbDefault

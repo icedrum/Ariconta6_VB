@@ -388,6 +388,8 @@ Public Sub CreateReportControlPendientes()
         Column.Alignment = xtpAlignmentRight
         Set Column = wndReportControl.Columns.Add(10, "Gastos€", 0, False)
         Column.visible = False
+        
+        Set Column = wndReportControl.Columns.Add(11, "Obs", 40, False)
     
 
     wndReportControl.PaintManager.MaxPreviewLines = 1
@@ -424,7 +426,7 @@ Dim impo As Currency
     
     SQL = "select id,cobros_parciales.numserie,cobros_parciales.numfactu,cobros_parciales.fecfactu,cobros_parciales.numorden,"
     SQL = SQL & " cobros_parciales.tipoformapago,descformapago,fecha,impcobrado,cobros_parciales.codusu,cobros_parciales.observa,codmacta,nomclien,"
-    SQL = SQL & " impvenci+coalesce(gastos,0)-coalesce(impcobro,0) Pdte,gastos "
+    SQL = SQL & " impvenci+coalesce(gastos,0)-coalesce(impcobro,0) Pdte,gastos, cobros_parciales.observa "
     
     
     SQL = SQL & " from cobros_parciales left join cobros on  cobros_parciales.numserie =cobros.numserie"
@@ -557,8 +559,10 @@ Dim Impor As Currency
     End If
     Set Item = Record.AddItem(DBLet(miRsAux!Gastos, "N"))
     
+    SQL = DBLet(miRsAux!observa, "T")
     
-    
+    Set Item = Record.AddItem(SQL)
+    Item.Caption = IIf(SQL = "", "", "*")
     
     Record.Tag = miRsAux!Id
                 
@@ -643,6 +647,10 @@ Dim B As Boolean
             Cad = Cad & "," & DBSet(wndReportControl.Records(i).Item(3).Caption, "T")  ' fecha factura
             Cad = Cad & "," & DBSet(wndReportControl.Records(i).Item(6).Caption, "N")  ' importe pdte factura
             Cad = Cad & "," & DBSet(wndReportControl.Records(i).Item(7).Caption, "T")   ' usuario
+            
+            'text41csb: observa
+            Cad = Cad & "," & DBSet(wndReportControl.Records(i).Item(11).Value, "T")   ' observa
+            
             Cad = Cad & ")"
         End If
         'Ejecut sql
@@ -653,7 +661,7 @@ Dim B As Boolean
             If i = wndReportControl.Records.Count - 1 Then B = True
         End If
         If B Then
-            Msg = " INSERT INTO tmpcobros2(codusu,numserie,numfactu,fecfactu,numorden,codmacta,codforpa,referencia,cliente,fecvenci,impvenci,reftalonpag,gastos,text33csb)  "
+            Msg = " INSERT INTO tmpcobros2(codusu,numserie,numfactu,fecfactu,numorden,codmacta,codforpa,referencia,cliente,fecvenci,impvenci,reftalonpag,gastos,text33csb,text41csb)  "
             Cad = Mid(Cad, 2)
             Cad = Msg & " VALUES " & Cad
             Conn.Execute Cad
@@ -862,7 +870,23 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
     End If
 End Sub
 
+Private Function HayGastosVto() As Boolean
 
+
+    HayGastosVto = False
+    Cad = ""
+    For i = 0 To Me.wndReportControl.Records.Count - 1
+        If wndReportControl.Records(i).Item(0).Checked Then
+            If wndReportControl.Records(i).Item(10).Value <> 0 Then
+                HayGastosVto = True
+                Exit For
+            End If
+        End If
+    Next i
+
+
+    
+End Function
 
 Private Function ContabilizarCobros(FechaApunte As Date, CtaBanco As String) As Boolean
 Dim B As Boolean
@@ -884,11 +908,13 @@ Dim ImporteApunte As Currency
     On Error GoTo eContabilizarCobros
     ContabilizarCobros = False
     
+        CtaIngresosBanco = ""
+        If HayGastosVto Then
     
-    
-        CtaIngresosBanco = DevuelveDesdeBD("ctaingreso", "bancos", "codmacta", CtaBanco, "T")
-        If CtaIngresosBanco = "" Then Err.Raise 513, , "Cuenta intresos banco sin configurar"
-    
+            CtaIngresosBanco = DevuelveDesdeBD("ctaingreso", "bancos", "codmacta", CtaBanco, "T")
+            If CtaIngresosBanco = "" Then Err.Raise 513, , "Cuenta ingresos banco sin configurar"
+        End If
+        
         Set Mc = New Contadores
         Mc.ConseguirContador "0", FechaApunte <= vParam.fechaini, True
         
@@ -1197,4 +1223,12 @@ Dim impo As Currency
     impo = Text1.Tag + impo
     Text1.Tag = impo
     Text1.Text = Format(impo, FormatoImporte)
+End Sub
+
+Private Sub wndReportControl_RowDblClick(ByVal Row As XtremeReportControl.IReportRow, ByVal Item As XtremeReportControl.IReportRecordItem)
+    
+    
+    If Row.Record(11).Caption = "*" Then
+        MsgBoxA Row.Record(11).Value & vbCrLf, vbInformation
+    End If
 End Sub

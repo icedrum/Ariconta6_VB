@@ -2001,7 +2001,9 @@ Dim TipoFicheroDevolucion As Byte
             
         
         Case 28
-            vSql = " and (codrem,anyorem) in (select codrem, anyorem from cobros where codmacta = " & DBSet(txtCtaNormal(11).Text, "T") & " and siturem ='Q' and not codrem is null) "
+            '                                                                                                                        antes   siturem ='Q'"
+            vSql = " and (codrem,anyorem) in (select codrem, anyorem from cobros where codmacta = " & DBSet(txtCtaNormal(11).Text, "T") & " and siturem IN ('Q','Y','Z')"
+            vSql = vSql & " and not codrem is null) "
             vSql = " AND codmacta = " & DBSet(txtCtaNormal(11).Text, "T") & vSql
     End Select
     
@@ -2227,6 +2229,8 @@ Dim DevfrmCCtas As String
             Opcion = 28
             LimpiarLin Me, "FrameDevDesdeFichero"
             LimpiarLin Me, "FrameDevDesdeRemesa"
+            Remesa = 0
+            AñoRem = 0
             CargaList
         End If
         

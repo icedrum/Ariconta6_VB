@@ -2,26 +2,26 @@ VERSION 5.00
 Object = "{7CAC59E5-B703-4CCF-B326-8B956D962F27}#17.2#0"; "Codejock.ReportControl.v17.2.0.ocx"
 Begin VB.Form frmASeguradoAvisos 
    BorderStyle     =   3  'Fixed Dialog
-   ClientHeight    =   8745
-   ClientLeft      =   45
-   ClientTop       =   435
-   ClientWidth     =   15765
+   ClientHeight    =   10380
+   ClientLeft      =   48
+   ClientTop       =   432
+   ClientWidth     =   19788
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   8745
-   ScaleWidth      =   15765
+   ScaleHeight     =   10380
+   ScaleWidth      =   19788
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin XtremeReportControl.ReportControl wndReportControl 
-      Height          =   6735
+      Height          =   8655
       Left            =   120
       TabIndex        =   3
       Top             =   840
-      Width           =   15495
+      Width           =   19335
       _Version        =   1114114
-      _ExtentX        =   27331
-      _ExtentY        =   11880
+      _ExtentX        =   34105
+      _ExtentY        =   15266
       _StockProps     =   64
       MultipleSelection=   0   'False
       FreezeColumnsAbs=   0   'False
@@ -30,17 +30,27 @@ Begin VB.Form frmASeguradoAvisos
    Begin VB.CommandButton Command1 
       Cancel          =   -1  'True
       Caption         =   "Cerrar"
+      Default         =   -1  'True
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.6
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
-      Left            =   14280
+      Left            =   18240
       TabIndex        =   2
-      Top             =   7920
+      Top             =   9840
       Width           =   1215
    End
    Begin VB.OptionButton Option1 
       Caption         =   "Aviso siniestro"
       BeginProperty Font 
          Name            =   "Verdana"
-         Size            =   12
+         Size            =   14.4
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -58,7 +68,7 @@ Begin VB.Form frmASeguradoAvisos
       Caption         =   "Aviso falta de pago"
       BeginProperty Font 
          Name            =   "Verdana"
-         Size            =   12
+         Size            =   14.4
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -67,7 +77,7 @@ Begin VB.Form frmASeguradoAvisos
       EndProperty
       Height          =   375
       Index           =   0
-      Left            =   1200
+      Left            =   240
       TabIndex        =   0
       Top             =   240
       Value           =   -1  'True
@@ -77,7 +87,7 @@ Begin VB.Form frmASeguradoAvisos
       AutoSize        =   -1  'True
       Caption         =   "Origen"
       BeginProperty Font 
-         Name            =   "Tahoma"
+         Name            =   "Verdana"
          Size            =   12
          Charset         =   0
          Weight          =   700
@@ -86,11 +96,11 @@ Begin VB.Form frmASeguradoAvisos
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00800000&
-      Height          =   285
+      Height          =   270
       Left            =   240
       TabIndex        =   4
-      Top             =   7800
-      Width           =   810
+      Top             =   9840
+      Width           =   10965
    End
 End
 Attribute VB_Name = "frmASeguradoAvisos"
@@ -217,7 +227,7 @@ Dim Column As ReportColumn
     wndReportControl.Populate
     
     wndReportControl.SetCustomDraw xtpCustomBeforeDrawRow
-
+    
     
 
     Set Column = wndReportControl.Columns.Add(COLUMN_IMPORTANCE, "", 18, False)
@@ -347,6 +357,7 @@ Dim Record As ReportRecord
 Dim Item As ReportRecordItem
 Dim F As Date
 Dim Dias As Integer
+Dim Rojo As Boolean
 
     On Error GoTo eAddRecord2
 
@@ -370,26 +381,42 @@ Dim Dias As Integer
     
     
     i = 5
+    Rojo = False
     If Option1(0).Value Then
-        F = DateAdd("d", vParamT.DiasMaxAvisoH, miRsAux!FecVenci)  'teneia que avisar F dia
-        Dias = DateDiff("d", Now, F)  'hace dias
-    
-    
+        If vParamT.FechaSeguroEsFra Then
+            F = miRsAux!FecFactu
+        Else
+            F = miRsAux!FecVenci
+        End If
+        Dias = DateDiff("d", F, Now)  'hace dias
+        If Dias > vParamT.DiasMaxAvisoH Then Rojo = True
     Else
         'SINIESTRO
         If IsNull(miRsAux!fecprorroga) Then
-           ' IT.SubItems(i) = " "
-            F = DateAdd("d", vParamT.DiasMaxSiniestroH, miRsAux!FecVenci)   'teneia que avisar F dia
+            'NO ha prorrogado
+            If vParamT.FechaSeguroEsFra Then
+                F = miRsAux!FecFactu
+            Else
+                F = miRsAux!FecVenci
+            End If
+            Dias = DateDiff("d", F, Now)  'hace dias
+            If Dias > vParamT.DiasMaxSiniestroH Then Rojo = True
+            
         Else
-           ' IT.SubItems(i) = miRsAux!fecprorroga
-            F = DateAdd("d", vParamT.DiasAvisoDesdeProrroga, miRsAux!fecprorroga)    'teneia que avisar F dia
+           
+            Dias = DateDiff("d", miRsAux!fecprorroga, Now)  'hace dias
+            If Dias > vParamT.DiasAvisoDesdeProrroga Then Rojo = True
+             
         End If
         i = 6
         
-        Dias = DateDiff("d", Now, F)  'hace dias
+        
         
     End If
     
+    
+    
+        
     
     
     Set Item = Record.AddItem(Format(Dias, "000000"))
@@ -428,6 +455,12 @@ Dim Dias As Integer
     
     Record.AddItem (CStr(miRsAux!numorden))
     
+    
+    If Rojo Then
+        For i = 1 To Record.ItemCount
+            Record.Item(i).ForeColor = vbRed
+        Next
+    End If
     
     
     'Adds the PreviewText to the Record.  PreviewText is the text displayed for the ReportRecord while in PreviewMode

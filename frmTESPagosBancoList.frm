@@ -1083,7 +1083,7 @@ Dim i As Integer
     If Not AnyadirAFormula(cadselect, "pagos.situacion =0") Then Exit Function
     
     
-    If Check1(0).Value = 1 And Check1(1).Value = 1 Then
+    If Check1(1).Value = 0 Then
         If cadFormula <> "" Then cadFormula = cadFormula & " and "
         If cadselect <> "" Then cadselect = cadselect & " and "
         

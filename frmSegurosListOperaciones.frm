@@ -28,9 +28,71 @@ Begin VB.Form frmSegurosListComunicacion
       EndProperty
       Height          =   2415
       Left            =   120
-      TabIndex        =   18
+      TabIndex        =   21
       Top             =   0
       Width           =   6945
+      Begin VB.Frame FrameTipoListado 
+         Height          =   735
+         Left            =   600
+         TabIndex        =   31
+         Top             =   1440
+         Width           =   6135
+         Begin VB.OptionButton optAsegAvisos 
+            Caption         =   "Siniestro"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   315
+            Index           =   2
+            Left            =   4440
+            TabIndex        =   4
+            Top             =   240
+            Width           =   1335
+         End
+         Begin VB.OptionButton optAsegAvisos 
+            Caption         =   "Prórroga"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   315
+            Index           =   1
+            Left            =   2520
+            TabIndex        =   3
+            Top             =   240
+            Width           =   1215
+         End
+         Begin VB.OptionButton optAsegAvisos 
+            Caption         =   "Falta de pago"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   315
+            Index           =   0
+            Left            =   120
+            TabIndex        =   2
+            Top             =   240
+            Value           =   -1  'True
+            Width           =   1935
+         End
+      End
       Begin VB.TextBox txtFecha 
          Alignment       =   1  'Right Justify
          BeginProperty Font 
@@ -48,7 +110,7 @@ Begin VB.Form frmSegurosListComunicacion
          MaxLength       =   10
          TabIndex        =   1
          Tag             =   "imgConcepto"
-         Top             =   1267
+         Top             =   900
          Width           =   1305
       End
       Begin VB.TextBox txtFecha 
@@ -64,11 +126,11 @@ Begin VB.Form frmSegurosListComunicacion
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   1350
+         Left            =   1920
          MaxLength       =   10
          TabIndex        =   0
          Tag             =   "imgConcepto"
-         Top             =   1267
+         Top             =   900
          Width           =   1305
       End
       Begin VB.Label lblFecha 
@@ -84,7 +146,7 @@ Begin VB.Form frmSegurosListComunicacion
          Height          =   255
          Index           =   0
          Left            =   2580
-         TabIndex        =   25
+         TabIndex        =   27
          Top             =   3630
          Width           =   4095
       End
@@ -101,7 +163,7 @@ Begin VB.Form frmSegurosListComunicacion
          Height          =   255
          Index           =   4
          Left            =   2580
-         TabIndex        =   24
+         TabIndex        =   26
          Top             =   3990
          Width           =   4095
       End
@@ -116,26 +178,9 @@ Begin VB.Form frmSegurosListComunicacion
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Index           =   0
-         Left            =   2520
-         TabIndex        =   23
-         Top             =   2040
-         Width           =   4035
-      End
-      Begin VB.Label lblNumFactu 
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
          Index           =   1
          Left            =   2580
-         TabIndex        =   22
+         TabIndex        =   25
          Top             =   2700
          Width           =   4035
       End
@@ -143,14 +188,14 @@ Begin VB.Form frmSegurosListComunicacion
          Height          =   240
          Index           =   1
          Left            =   4680
-         Top             =   1320
+         Top             =   960
          Width           =   240
       End
       Begin VB.Image ImgFec 
          Height          =   240
          Index           =   0
-         Left            =   1080
-         Top             =   1327
+         Left            =   1560
+         Top             =   960
          Width           =   240
       End
       Begin VB.Label Label3 
@@ -166,9 +211,9 @@ Begin VB.Form frmSegurosListComunicacion
          EndProperty
          Height          =   195
          Index           =   16
-         Left            =   3990
-         TabIndex        =   21
-         Top             =   1350
+         Left            =   3960
+         TabIndex        =   24
+         Top             =   990
          Width           =   615
       End
       Begin VB.Label Label3 
@@ -184,13 +229,14 @@ Begin VB.Form frmSegurosListComunicacion
          EndProperty
          Height          =   195
          Index           =   17
-         Left            =   390
-         TabIndex        =   20
-         Top             =   1350
+         Left            =   720
+         TabIndex        =   23
+         Top             =   990
          Width           =   690
       End
       Begin VB.Label Label3 
-         Caption         =   "Fecha factura"
+         AutoSize        =   -1  'True
+         Caption         =   "Fecha "
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -201,12 +247,12 @@ Begin VB.Form frmSegurosListComunicacion
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00800000&
-         Height          =   195
+         Height          =   240
          Index           =   18
-         Left            =   360
-         TabIndex        =   19
-         Top             =   720
-         Width           =   2280
+         Left            =   240
+         TabIndex        =   22
+         Top             =   480
+         Width           =   690
       End
    End
    Begin VB.Frame FrameTipoSalida 
@@ -222,7 +268,7 @@ Begin VB.Form frmSegurosListComunicacion
       EndProperty
       Height          =   2655
       Left            =   120
-      TabIndex        =   7
+      TabIndex        =   10
       Top             =   2520
       Width           =   6915
       Begin VB.OptionButton optTipoSal 
@@ -239,7 +285,7 @@ Begin VB.Form frmSegurosListComunicacion
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   17
+         TabIndex        =   20
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -258,7 +304,7 @@ Begin VB.Form frmSegurosListComunicacion
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   16
+         TabIndex        =   19
          Top             =   1200
          Width           =   1515
       End
@@ -276,7 +322,7 @@ Begin VB.Form frmSegurosListComunicacion
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   15
+         TabIndex        =   18
          Top             =   1680
          Width           =   975
       End
@@ -294,7 +340,7 @@ Begin VB.Form frmSegurosListComunicacion
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   14
+         TabIndex        =   17
          Top             =   2160
          Width           =   975
       End
@@ -312,7 +358,7 @@ Begin VB.Form frmSegurosListComunicacion
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   13
+         TabIndex        =   16
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -331,7 +377,7 @@ Begin VB.Form frmSegurosListComunicacion
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   12
+         TabIndex        =   15
          Top             =   1200
          Width           =   4665
       End
@@ -349,7 +395,7 @@ Begin VB.Form frmSegurosListComunicacion
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   11
+         TabIndex        =   14
          Top             =   1680
          Width           =   4665
       End
@@ -358,7 +404,7 @@ Begin VB.Form frmSegurosListComunicacion
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   10
+         TabIndex        =   13
          Top             =   1200
          Width           =   255
       End
@@ -367,7 +413,7 @@ Begin VB.Form frmSegurosListComunicacion
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   9
+         TabIndex        =   12
          Top             =   1680
          Width           =   255
       End
@@ -384,7 +430,7 @@ Begin VB.Form frmSegurosListComunicacion
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   8
+         TabIndex        =   11
          Top             =   720
          Width           =   1515
       End
@@ -402,13 +448,13 @@ Begin VB.Form frmSegurosListComunicacion
       EndProperty
       Height          =   5145
       Left            =   7110
-      TabIndex        =   6
+      TabIndex        =   9
       Top             =   0
       Width           =   4665
       Begin MSComctlLib.ListView ListView3 
          Height          =   3540
          Left            =   240
-         TabIndex        =   2
+         TabIndex        =   5
          Top             =   1440
          Width           =   4305
          _ExtentX        =   7594
@@ -437,7 +483,7 @@ Begin VB.Form frmSegurosListComunicacion
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   3960
-         TabIndex        =   28
+         TabIndex        =   30
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -484,7 +530,7 @@ Begin VB.Form frmSegurosListComunicacion
          Height          =   255
          Index           =   15
          Left            =   240
-         TabIndex        =   26
+         TabIndex        =   28
          Top             =   1080
          Width           =   1110
       End
@@ -503,7 +549,7 @@ Begin VB.Form frmSegurosListComunicacion
       EndProperty
       Height          =   375
       Left            =   10440
-      TabIndex        =   4
+      TabIndex        =   7
       Top             =   5340
       Width           =   1215
    End
@@ -520,7 +566,7 @@ Begin VB.Form frmSegurosListComunicacion
       Height          =   375
       Index           =   1
       Left            =   8880
-      TabIndex        =   3
+      TabIndex        =   6
       Top             =   5340
       Width           =   1455
    End
@@ -538,7 +584,7 @@ Begin VB.Form frmSegurosListComunicacion
       Height          =   375
       Index           =   0
       Left            =   150
-      TabIndex        =   5
+      TabIndex        =   8
       Top             =   5310
       Width           =   1335
    End
@@ -555,7 +601,7 @@ Begin VB.Form frmSegurosListComunicacion
       EndProperty
       Height          =   255
       Left            =   1980
-      TabIndex        =   27
+      TabIndex        =   29
       Top             =   5400
       Width           =   6270
    End
@@ -582,12 +628,14 @@ Private Const IdPrograma = 415
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
 Public numero As String
+    ' 0.- Comunicacion seguro
+    ' 1.- Avisos aseguradora
 
 Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
 
 Private SQL As String
-Dim cad As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -617,21 +665,9 @@ Public Sub InicializarVbles(AñadireElDeEmpresa As Boolean)
     
 End Sub
 
-Private Function MontaSQL() As Boolean
-'Dim Sql As String
-'Dim RC2 As String
-'Dim RC As String
-'Dim i As Integer
 
-    MontaSQL = False
-    
-    
-   
-    If Not PonerDesdeHasta("#@#", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDH=""") Then Exit Function
-    
 
-    MontaSQL = True
-End Function
+
 
 
 Private Sub cmdAccion_Click(Index As Integer)
@@ -654,10 +690,7 @@ Dim B As Boolean
     InicializarVbles True
     
     tabla = " "
-    
-    If Not MontaSQL Then Exit Sub
-    
-    
+ 
     Screen.MousePointer = vbHourglass
     B = ComunicaDatosSeguro_ 'CargarTemporales
     Screen.MousePointer = vbDefault
@@ -712,17 +745,21 @@ Private Sub Form_Load()
     Me.Icon = frmppal.Icon
         
     'Otras opciones
-    Me.Caption = "Listado operaciones aseguradas"
-
+    FrameTipoListado.visible = False
+    If numero = 0 Then
+        Me.Caption = "Listado operaciones aseguradas"
+        Label3(18).Caption = "Fecha factura"
+    Else
+        FrameTipoListado.BorderStyle = 0
+        FrameTipoListado.visible = True
+        Me.Caption = "Listado avisos seguro"
+        Label3(18).Caption = "Fecha aviso"
+    End If
     
     For i = 0 To 1
         Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
     Next i
      
-'    For i = 0 To 0
-'        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-'    Next i
-'
     ' La Ayuda
     With Me.ToolbarAyuda
         .ImageList = frmppal.ImgListComun
@@ -733,12 +770,12 @@ Private Sub Form_Load()
     
      
     CargarListViewEmpresas 1
-
-    Me.txtFecha(1).Text = Format(DateAdd("d", -1, Now), "dd/mm/yyyy")
+    If numero = 1 Then Me.txtfecha(0).Text = "01" & Format(Now, "/mm/yyyy")
+    Me.txtfecha(1).Text = Format(DateAdd("d", 0, Now), "dd/mm/yyyy")
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
-    
+
     
 End Sub
 
@@ -827,7 +864,7 @@ End Sub
 
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
@@ -880,10 +917,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
     End Select
     
     Screen.MousePointer = vbDefault
@@ -977,12 +1014,12 @@ Dim nomDocu As String
     conSubRPT = False
         
     
-    indRPT = Format(IdPrograma, "0000") & "-00"
-
+    indRPT = Format(IdPrograma, "0000") & "-" & Format(numero, "00")
+    
+  
     
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     
-
     cadNomRPT = nomDocu
     
     cadFormula = "{tmptesoreriacomun.codusu} = " & vUsu.Codigo
@@ -1019,24 +1056,24 @@ End Function
 
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtFecha(Index).Tag, Index
+        LanzaFormAyuda txtfecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
@@ -1045,7 +1082,10 @@ End Sub
 Private Function DatosOK() As Boolean
     
     DatosOK = False
-    If txtFecha(1).Text = "" Then
+    
+
+    
+    If txtfecha(1).Text = "" Then
        
             SQL = "Fecha 'hasta' es campo obligado para considerar la fecha de baja de los asegurados." & vbCrLf
             SQL = SQL & "En el listado saldrán aquellos que si tienen fecha de baja , es superior al hasta solicitado "
@@ -1093,6 +1133,7 @@ Dim K As Integer
 
     ComunicaDatosSeguro_ = False
     
+    CONT = 0
     Conn.Execute "DELETE from tmptesoreriacomun WHERE codusu = " & vUsu.Codigo
     NumRegElim = 0
     
@@ -1125,7 +1166,7 @@ Dim K As Integer
         
         
         ComunicaDatosSeguro_ = NumRegElim > 0
-        If NumRegElim > 0 Then
+        If numero = 0 And NumRegElim > 0 Then
             SQL = "Select texto5 from tmptesoreriacomun WHERE codusu = " & vUsu.Codigo & " GROUP BY 1"
             Set miRsAux = New ADODB.Recordset
             miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
@@ -1156,35 +1197,151 @@ Dim K As Integer
 End Function
 
 Private Sub DatosSeguroUnaEmpresa(NumConta As Integer)
-
+Dim Importe As Currency
+Dim B As Boolean
+   
+    
+    If numero = 0 Then
+        'Listado facturas
+        SQL = "INSERT INTO tmptesoreriacomun (codusu, codigo, texto1, texto2,texto3,texto4,"
+        SQL = SQL & " importe1,  importe2,texto5) "
+        RC = "select " & vUsu.Codigo & ",@rownum:=@rownum+1, numpoliz,factcli.nifdatos,concat(numserie,right(concat('0000000',numfactu),8)),"
+        RC = RC & " factcli.nommacta, totfaccl ,credicon,if(cuentas.codpais is null,'',cuentas.codpais) from"
+        RC = RC & " ariconta" & NumConta & ".factcli,ariconta" & NumConta & ".cuentas,(SELECT @rownum:=" & NumRegElim & ") r "
+        RC = RC & " WHERE factcli.codmacta=cuentas.codmacta  and numpoliz<>''  and  (fecbajcre  is null or fecbajcre>'') and fecfactu>= fecconce"
         
-    SQL = "INSERT INTO tmptesoreriacomun (codusu, codigo, texto1, texto2,texto3,texto4,"
-    SQL = SQL & " importe1,  importe2,texto5) "
+        
+        RC = RC & " AND (fecbajcre  is null or fecbajcre>'" & Format(txtfecha(1).Text, FormatoFecha) & "')"
+        
+        'Contemplamos facturas desde la fecha de concesion
+        RC = RC & " and fecfactu>= fecconce"
+         
+        'D/H fecha
+        If Me.txtfecha(0).Text <> "" Then RC = RC & " AND fecfactu >='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
+        If Me.txtfecha(1).Text <> "" Then RC = RC & " AND fecfactu <='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
     
-
-
-    RC = "select " & vUsu.Codigo & ",@rownum:=@rownum+1, numpoliz,factcli.nifdatos,concat(numserie,right(concat('0000000',numfactu),8)),"
-    RC = RC & " factcli.nommacta, totfaccl ,credicon,if(cuentas.codpais is null,'',cuentas.codpais) from"
-    RC = RC & " ariconta" & NumConta & ".factcli,ariconta" & NumConta & ".cuentas,(SELECT @rownum:=" & NumRegElim & ") r "
-    RC = RC & " WHERE factcli.codmacta=cuentas.codmacta  and numpoliz<>''  and  (fecbajcre  is null or fecbajcre>'') and fecfactu>= fecconce"
+        
+        
+        
+        
+        
+        SQL = SQL & RC & " ORDER BY numserie,fecfactu,numfactu"
+        
+        Conn.Execute SQL
+        
+        
+    Else
     
+        'feccomunica,fecprorroga,fecsiniestro
+        SQL = ""
+        If Me.optAsegAvisos(0).Value Then
+            Cad = "feccomunica"
+        ElseIf Me.optAsegAvisos(1).Value Then
+            Cad = "fecprorroga"
+        Else
+            Cad = "fecsiniestro"
+        End If
+        RC = ""
+        Msg = ""
+        If Me.txtfecha(0).Text <> "" Then
+            RC = RC & " AND " & Cad & ">='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
+            Msg = Msg & " desde " & txtfecha(0).Text
+        End If
+        If Me.txtfecha(1).Text <> "" Then
+            RC = RC & " AND " & Cad & "<='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
+            Msg = Msg & " hasta " & txtfecha(1).Text
+        End If
+        If RC = "" Then RC = " AND " & Cad & ">='1900-01-01'"
+        SQL = RC
+        
+        If Me.optAsegAvisos(0).Value Then
+            Cad = "falta pago"
+      
+        Else
+            If Me.optAsegAvisos(1).Value Then
+            Cad = "prorroga"
+            Else
+                Cad = "siniestro"
+            End If
+        End If
+        If Msg <> "" Then
+            Msg = "Fecha " & Cad & " " & Msg
+        Else
+            Msg = ""
+        End If
+        cadParam = cadParam & "Titulo= """ & UCase(Cad) & """|cuenta= """ & Msg & """|"
+        numParam = numParam + 2
+        
+        'RC = CampoABD(txtCta(11), "T", "scobro.codmacta", True)
+        'If RC <> "" Then SQL = SQL & " AND " & RC
+        'RC = CampoABD(txtCta(12), "T", "scobro.codmacta", False)
+        'If RC <> "" Then SQL = SQL & " AND " & RC
+        
+        
+        'ORDENACION
+        If Me.optAsegAvisos(0).Value Then
+            RC = "feccomunica"
+        ElseIf Me.optAsegAvisos(1).Value Then
+            RC = "fecprorroga"
+        Else
+            RC = "fecsiniestro"
+        End If
+        
+        Cad = "Select numserie,numfactu,numorden,fecvenci,impvenci,impcobro,gastos,fecfactu,devuelto,cobros.codmacta,nommacta,numpoliz"
+        Cad = Cad & ",credicon," & RC & " LaFecha" 'alias
+        Cad = Cad & "  FROM cobros,cuentas,formapago where cobros.codmacta= cuentas.codmacta AND numpoliz<>"""""
+        Cad = Cad & " and cobros.codforpa=formapago.codforpa "
+        If SQL <> "" Then Cad = Cad & SQL
     
-    RC = RC & " AND (fecbajcre  is null or fecbajcre>'" & Format(txtFecha(1).Text, FormatoFecha) & "')"
+        Cad = Cad & " ORDER BY " & RC & ",cobros.codmacta"
+      
     
-    'Contemplamos facturas desde la fecha de concesion
-    RC = RC & " and fecfactu>= fecconce"
-     
-    'D/H fecha factura
-    If Me.txtFecha(0).Text <> "" Then RC = RC & " AND fecfactu >='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
-    If Me.txtFecha(1).Text <> "" Then RC = RC & " AND fecfactu <='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
+      
+        miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
+       'Seran:                                                     codmac,nomma,credicon,numfac,fecfac,faviso,fvto,impvto,disponible,vencida
+        Cad = "INSERT INTO tmptesoreriacomun (codusu, codigo,texto1,texto2,texto3,texto4,fecha1,fecha2,fecha3,importe1,importe2,opcion) VALUES "
+        RC = ""
+        
+        While Not miRsAux.EOF
+            
+            CONT = CONT + 1
+            SQL = ", (" & vUsu.Codigo & "," & CONT & ",'" & miRsAux!codmacta & "','" & DevNombreSQL(miRsAux!Nommacta) & "','"
+            SQL = SQL & DevNombreSQL(miRsAux!numpoliz) & "'"
+            SQL = SQL & ",'" & miRsAux!NUmSerie & Format(miRsAux!NumFactu, "00000000") & "',"  'texto4
+            'Fecha fac
+            SQL = SQL & DBSet(miRsAux!FecFactu, "F") & ","
+            'Fecha aviso
+            SQL = SQL & DBSet(miRsAux!lafecha, "F") & ","
+            'Fecha vto
+            SQL = SQL & DBSet(miRsAux!FecVenci, "F")
+            
+            SQL = SQL & "," & TransformaComasPuntos(CStr(miRsAux!ImpVenci))
+            SQL = SQL & "," & TransformaComasPuntos(CStr(DBLet(miRsAux!Gastos, "N")))
+            'Devuelto
+            SQL = SQL & "," & DBLet(miRsAux!Devuelto, "N") & ")"
+        
+            RC = RC & SQL
+            miRsAux.MoveNext
+            
+            If miRsAux.EOF Then
+                B = True
+            Else
+                B = Len(RC) > 2000
+            End If
+            If B Then
+                RC = Mid(RC, 2)
+                Conn.Execute Cad & RC
+                RC = ""
+            End If
+            
+            
+        Wend
+        miRsAux.Close
     
-    
-    
-    
-    
-    SQL = SQL & RC
-    
-    Conn.Execute SQL
+        
+      
+      
+    End If
 End Sub
 

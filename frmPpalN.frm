@@ -964,6 +964,12 @@ Dim AbiertoFormulario  As Boolean
             'falta### frmEditEvent.AllDayOverride = True
             frmInbox.mnuNewEvent
             frmInbox.CalendarControl.Options.DayViewCurrentTimeMarkVisible = True
+        Case ID_GROUP_SHARE_SHARE
+            frmInbox.CalendarControl.PrintOptions.Footer.TextCenter = vEmpresa.nomempre
+            frmInbox.CalendarControl.PrintOptions.Footer.TextLeft = "Ariconta6. Ariadna SW"
+            frmInbox.CalendarControl.PrintOptions.Footer.TextRight = Format(Now, "dd/mm/yyyy hh:mm")
+            frmInbox.CalendarControl.PrintPreviewOptions.Title = "Ariconta6 " & vEmpresa.nomempre
+            frmInbox.CalendarControl.PrintPreview True
             
         Case ID_CALENDAREVENT_CHANGE_TIMEZONE:
             frmInbox.mnuChangeTimeZone
@@ -1146,7 +1152,7 @@ Dim res
 End Sub
 
 
-Private Sub CargaDatosMenusDemas()
+Private Sub CargaDatosMenusDemas(DesdeLoad As Boolean)
 Dim AntiguoTab As Integer
     
     
@@ -1164,7 +1170,7 @@ Dim AntiguoTab As Integer
     If vEmpresa.TieneTesoreria And vUsu.SoloTesoreria = 1 Then
         vEmpresa.SoloTesoreria
     Else
-        vEmpresa.Leer vEmpresa.codempre
+        If Not DesdeLoad Then vEmpresa.Leer vEmpresa.codempre
     End If
     'vEmpresa.TieneContabilidad = False
     '??????
@@ -1225,7 +1231,7 @@ Dim RB As RibbonBar
     PonerCaption
     
     Screen.MousePointer = vbHourglass
-   CargaDatosMenusDemas
+   CargaDatosMenusDemas True
    frmPaneContacts.SeleccionarNodoEmpresa vEmpresa.codempre
    pageBackstageHelp.Label9.Caption = vEmpresa.nomempre
    pageBackstageHelp.tabPage(0).visible = False
@@ -1261,7 +1267,7 @@ Private Sub Form_Load()
     CommandBarsGlobalSettings.App = App
             
     frmIdentifica.pLabel "Leyendo menus usuario"
-    CargaDatosMenusDemas
+    CargaDatosMenusDemas True
     
     ShowEventInPane = False
        
@@ -1533,7 +1539,7 @@ Private Sub LoadIcons()
         ID_Renumeracióndeasientos, ID_CierredeEjercicio, ID_Deshacercierre, ID_DiarioOficial, ID_PresentaciónTelemáticadeLibros, ID_Traspasodecuentasenapuntes, ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, 1, 1, 1, 1, 1, _
         ID_Traspasodecuentasenapuntes, ID_Aumentardígitoscontables, 1, 1, 1, 1, 1, ID_LibroFacturasEmitidas, 1, 1, ID_Remesas, 1, ID_Consolidado, 1, ID_GraficosChart, _
         ID_RecepcionTalónPagare, ID_RemesasTalenPagare, ID_Accionesrealizadas, 1, ID_LiquidacionIVA, 1, 1, 1, ID_AsientosPredefinidos, 1, 1, 1, 1, ID_FrasConso, 1, _
-        ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, ID_ConsoSumasSaldos, ID_ConsoCtaExplota, ID_Asientos, 1)
+        ID_Renumerarregistrosproveedor, ID_GROUP_SHARE_SHARE, 1, ID_ConsoSumasSaldos, ID_ConsoCtaExplota, ID_Asientos, ID_TraspasocodigosdeIVA, 1)
     
      
     
@@ -1591,7 +1597,7 @@ Private Sub LoadIcons()
             Array(ID_GROUP_NEW_APPOINTMENT, ID_GROUP_NEW_MEETING, ID_GROUP_NEW_ITEMS, ID_GROUP_GOTO_TODAY, _
             ID_GROUP_GOTO_NEXT7DAYS, ID_GROUP_ARRANGE_DAY, ID_GROUP_ARRANGE_WORK_WEEK, ID_GROUP_ARRANGE_WEEK, _
             ID_GROUP_ARRANGE_MONTH, ID_GROUP_ARRANGE_SCHEDULE_VIEW, ID_GROUP_MANAGE_CALENDARS_OPEN, ID_GROUP_MANAGE_CALENDARS_GROUPS, _
-            ID_GROUP_SHARE_EMAIL, ID_ConfigurarBalances1, ID_ConfigurarBalances2, ID_ConfigurarBalances3), xtpImageNormal
+            1, ID_ConfigurarBalances1, ID_ConfigurarBalances2, ID_ConfigurarBalances3), xtpImageNormal
             
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\RibbonMinimize.png", _
             Array(ID_RIBBON_MINIMIZE, ID_RIBBON_EXPAND), xtpImageNormal
@@ -1760,8 +1766,13 @@ Private Sub CreateCalendarTabOriginal()
         
     Set Control = GroupNew.Add(xtpControlButton, ID_GROUP_NEW_APPOINTMENT, "&Evento")
     Control.Enabled = False
+    Control.visible = False
     Set Control = GroupNew.Add(xtpControlButton, ID_GROUP_NEW_MEETING, "&Cita")
     Control.Enabled = True
+    Set Control = GroupNew.Add(xtpControlButton, ID_GROUP_SHARE_SHARE, "&Imprimir")
+    Control.Enabled = True
+    
+    
     
     '------------------------------------
     'Set ControlNew_NewItems = GroupNew.Add(xtpControlButtonPopup, ID_GROUP_NEW_ITEMS, "New &Items")
@@ -2062,6 +2073,8 @@ Private Sub CargaMenuConfiguracion(IdMenu As Integer)
                     Set ControlNew_NewItems = GroupNew.Add(xtpControlButtonPopup, Rn2!Codigo, Rn2!Descripcion)
                     Set Control = ControlNew_NewItems.CommandBar.Controls.Add(xtpControlButton, ID_ConfigurarBalances1, "Balances")
                     Set Control = ControlNew_NewItems.CommandBar.Controls.Add(xtpControlButton, ID_ConfigurarBalances2, "Ratios")
+                    If vUsu.Login = "root" Then Set Control = ControlNew_NewItems.CommandBar.Controls.Add(xtpControlButton, ID_ConfigurarBalances3, "Personalizables")
+                    
                     'Personalizan
                     ControlNew_NewItems.Enabled = Habilitado
                 Else
@@ -2087,7 +2100,7 @@ End Sub
 
 Private Sub CargaMenuDatosGenerales(IdMenu As Integer)
 Dim SegundoGrupo As RibbonGroup
-
+Dim B As Boolean
 
 
         'Creamos la TAB
@@ -2097,17 +2110,20 @@ Dim SegundoGrupo As RibbonGroup
         
         'En este llevaremos dos solapas, tesoreria y contabilidad (no le ponemos nombres)
         Cad = CStr(IdMenu * 100000)
-        If vEmpresa.TieneContabilidad Then Set GroupNew = TabNuevo.Groups.AddGroup("", Cad & "0")
+        'If vEmpresa.TieneContabilidad Then Set GroupNew = TabNuevo.Groups.AddGroup("", Cad & "0")
+        Set GroupNew = TabNuevo.Groups.AddGroup("", Cad & "0")
         If vEmpresa.TieneTesoreria Then Set SegundoGrupo = TabNuevo.Groups.AddGroup("", Cad & "1")
         
         'todos los hijos que cuelgan en la tab
         Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu
         If Not vEmpresa.TieneTesoreria Then
             'SOLO CONTA
-            Cad = Cad & " AND tipo = 0"
+            Cad = Cad & " AND tipo <> 1"  '=0
         Else
                                                             'solo tesoreria
-            If Not vEmpresa.TieneContabilidad Then Cad = Cad & " AND tipo = 1"
+            If Not vEmpresa.TieneContabilidad Then
+                Cad = Cad & " AND  tipo <> 0 "                  '=1
+            End If
         End If
         Cad = Cad & " ORDER BY padre,orden"
         Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -2132,7 +2148,7 @@ Dim SegundoGrupo As RibbonGroup
                          If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
                      End If
                 
-                
+                    
                          
                      If Rn2!Tipo = 1 Then
                          Set Control = SegundoGrupo.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
@@ -2265,8 +2281,12 @@ Dim B As Boolean
 '        410 "Modelo 347"    0
 '        411 "Modelo 349"    0
 '        412 "Liquidacion I.V.A."    18
-'        413 consolidado
-        
+'        413 consolidad
+'        414 ID_AseguClientes
+'        415 AseguComunicaSeguro
+'        416 SII
+'        417 ID_AseguComunicaSeguroAvisos
+'        418 ID_AseguComprobarVtos
         'todos los hijos que cuelgan en la tab
         Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
         
@@ -2297,7 +2317,7 @@ Dim B As Boolean
                 Set Control = Consoli.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
                  
                  
-            Case 414, 415
+            Case ID_AseguClientes, ID_AseguComunicaSeguro, ID_AseguComunicaSeguroAvisos, ID_AseguComprobarVtos
                  If Not vEmpresa.TieneTesoreria Then
                     Insertado = False
                  Else
@@ -2822,9 +2842,21 @@ Private Sub AbrirFormularios(Accion As Long)
             frmCrystal.Show vbModal
         Case 107 ' crear nueva empresa
             If vUsu.Nivel > 1 Then Exit Sub
-            
+            CadenaDesdeOtroForm = ""
             frmCentroControl.Opcion = 2
             frmCentroControl.Show vbModal
+            If CadenaDesdeOtroForm <> "" Then
+                If Val(CadenaDesdeOtroForm) > 0 Then
+                    Cad = "update ariconta" & CadenaDesdeOtroForm & ".tiposdiario set numdiari=numdiari where numdiari<0"
+                    If EjecutaSQL(Cad) Then
+                        Cad = ""
+                        CambiarEmpresa CInt(CadenaDesdeOtroForm)
+                    End If
+                    Cad = ""
+                End If
+            End If
+            
+            
         'Case 108 'Configurar Balances
         'ID_ConfigurarBalances1 = 120   'balances
         'ID_ConfigurarBalances2 = 121   'ratios
@@ -2834,8 +2866,10 @@ Private Sub AbrirFormularios(Accion As Long)
             'frmColBalan2.TipoVista = 0 'Pyg   y situacion
             If Accion = 120 Then
                 frmColBalan2.TipoVista = 0 'Pyg   y situacion
-            Else
+            ElseIf Accion = 121 Then
                 frmColBalan2.TipoVista = 1 'ratios
+            Else
+                frmColBalan2.TipoVista = 2 'personalizales
             End If
             frmColBalan2.Show vbModal, Me
             
@@ -2972,9 +3006,13 @@ Private Sub AbrirFormularios(Accion As Long)
         Case ID_AseguClientes   '414
             frmSegurosListClientes.Show vbModal
             
-        Case ID_AseguComunicaSeguro '415
+        Case ID_AseguComunicaSeguro, ID_AseguComunicaSeguroAvisos '415,417
+            frmSegurosListComunicacion.numero = IIf(Accion = ID_AseguComunicaSeguroAvisos, 1, 0)
             frmSegurosListComunicacion.Show vbModal
         
+        Case ID_AseguComprobarVtos
+            ComprobarOperacionesAseguradas False
+            
         Case ID_SII
             AbrirFormSII True
         
@@ -3292,7 +3330,7 @@ Dim C As String
 
     
     
-    If vUsu.Nivel = 0 And vUsu.Id >= 0 Then
+    If vUsu.Nivel = 0 And vUsu.Id >= 0 And vEmpresa.TieneContabilidad Then
         'EmpresasQueYaHaComunicadoAsientosDescuadrados :  Para que solo lo haga una vez
         If InStr(1, EmpresasQueYaHaComunicadoAsientosDescuadrados, "|" & vEmpresa.codempre & "|") = 0 Then
             If EmpresasQueYaHaComunicadoAsientosDescuadrados = "" Then EmpresasQueYaHaComunicadoAsientosDescuadrados = "|"
@@ -3303,7 +3341,7 @@ Dim C As String
                 If CCur(C) <> 0 Then
                     
                     AbrirMensajeBoxCodejock 11, Format(CCur(C), FormatoImporte)
-                    'If RespuestaMsgBox = xtpTaskButtonCancel Then Stop
+                    'If RespuestaMsgBox = xtpTaskButtonCancel Then St op
                 
                     
                 End If

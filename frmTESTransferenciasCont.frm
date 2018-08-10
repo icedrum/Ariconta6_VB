@@ -265,6 +265,11 @@ Dim CC As String
 Dim Opt As Byte
 Dim AgrupaCance As Boolean
 Dim ContabilizacionEspecialNorma19 As Boolean
+Dim CtaConfirmingBanco As String
+Dim DiasConfirming As Integer
+Dim SobreFecVto As Boolean
+Dim CambiaFechaVtoConfirming As Boolean
+Dim FechaConf As Date
 
 
 'Dim ImporteEnRecepcion As Currency
@@ -311,6 +316,10 @@ Dim ContabilizacionEspecialNorma19 As Boolean
     'Tiene valor
     SQL = ""
     B = AdelanteConLaTransferencia()
+       
+     
+    
+    
     ContabilizacionEspecialNorma19 = False
     
     If Cobros Then
@@ -377,18 +386,35 @@ Dim ContabilizacionEspecialNorma19 As Boolean
     SQL = SQL & "|" & CC & "|"
       
       
-      'Añado, si tiene, la cuenta de ingresos
-      CC = DevuelveDesdeBD("ctaingreso", "bancos", "codmacta", Rs!codmacta, "T")
-      If CC = "" Then
-          If Importe > 0 Then
-              MsgBox "Falta configurar la cuenta de ingresos del banco:" & Rs!codmacta, vbExclamation
-              Set Rs = Nothing
-              Exit Sub
-          End If
-      End If
-      
-      SQL = SQL & CC & "|"   'La
-      
+    'Añado, si tiene, la cuenta de ingresos
+    CtaConfirmingBanco = "concat(ctaconfirming,'|',diasaplazConfi,'|',AplzSobreFecVenc,'|')"
+    CC = DevuelveDesdeBD("ctaingreso", "bancos", "codmacta", Rs!codmacta, "T", CtaConfirmingBanco)
+    If CC = "" Then
+        If Importe > 0 Then
+            MsgBox "Falta configurar la cuenta de ingresos del banco:" & Rs!codmacta, vbExclamation
+            Set Rs = Nothing
+            Exit Sub
+        End If
+    End If
+    
+    If TipoTrans = 3 Then
+        '"concat(ctaconfirming,'|',diasaplazConfi,'|',AplzSobreFecVenc,'|')"
+        SobreFecVto = RecuperaValor(CtaConfirmingBanco, 3) = 0
+        DiasConfirming = RecuperaValor(CtaConfirmingBanco, 2)
+        CtaConfirmingBanco = RecuperaValor(CtaConfirmingBanco, 1)
+    
+        If CtaConfirmingBanco = "" Then
+            MsgBox "Falta configurar cuenta confirming en el banco", vbExclamation
+            Exit Sub
+        End If
+        
+        'Si el confirming es pronto pago, suma los dias (a la fecha vto o la fecha confirming
+        CambiaFechaVtoConfirming = DBLet(Rs!solopago, "N") = 1
+        FechaConf = Rs!Fecha
+    End If
+    
+    SQL = SQL & CC & "|"   'La
+    
 
     SQL = Rs!codmacta & "|" & SQL
     
@@ -416,6 +442,11 @@ Dim ContabilizacionEspecialNorma19 As Boolean
                 CC = CC & " el pago domiciliado: " & Rs!Codigo & " / " & Rs!Anyo & vbCrLf & vbCrLf
             Case 3
                 CC = CC & " el confirming: " & Rs!Codigo & " / " & Rs!Anyo & vbCrLf & vbCrLf
+                
+                If CambiaFechaVtoConfirming Then
+                    If DiasConfirming > 0 Then CC = CC & "Serán modificadas las fechas de vencimiento"
+                End If
+                
         End Select
         CC = CC & Space(30) & "¿Continuar?"
         If SubTipo = 2 Then
@@ -476,11 +507,28 @@ Dim ContabilizacionEspecialNorma19 As Boolean
             If Not Ejecuta(SQL) Then MsgBox "Error actualizando tabla cobros.", vbExclamation
         
         Else
-            SQL = "update pagos set situdocum = 'Q', situacion = 1 "
+            SQL = "update pagos set situdocum = 'Q', situacion = " 'para los confirming estara a 0 denuveo. Ya que lo dejamos pendiente
             
             'IMPPAGAD y fec
-            SQL = SQL & ", fecultpa=" & DBSet(Text1(10).Text, "F") & " ,imppagad =impefect"
-            
+            If TipoTrans = 3 Then
+                SQL = SQL & "0, fecultpa=null ,imppagad =null"
+                SQL = SQL & ", ctaconfirm=codmacta ,codmacta=" & DBSet(CtaConfirmingBanco, "T")
+                SQL = SQL & ", emitdocum=1"
+                If CambiaFechaVtoConfirming Then
+                    If SobreFecVto Then
+                        'El vto lo incrementamos en n dias sobre el mismo
+                        SQL = SQL & ",fecefect=DATE_ADD(fecefect, INTERVAL " & DiasConfirming & " day)"
+                    Else
+                        'Incrementamos en N dias sobre la fecha de generacion
+                        'Esa fecha es F
+                        
+                        SQL = SQL & ",fecefect= '" & Format(DateAdd("d", DiasConfirming, FechaConf), FormatoFecha) & "'"
+                    End If
+                End If
+            Else
+                'Para el resto (NO condirm) lo damos por "pagado". Es el uno ese
+                SQL = SQL & "1, fecultpa=" & DBSet(Text1(10).Text, "F") & " ,imppagad =impefect"
+            End If
             SQL = SQL & " WHERE nrodocum=" & RecuperaValor(NumeroDocumento, 1)
             SQL = SQL & " and anyodocum=" & RecuperaValor(NumeroDocumento, 2)
             
@@ -489,7 +537,7 @@ Dim ContabilizacionEspecialNorma19 As Boolean
         End If
         
         
-        'Ahora actualizamos los registros que estan en tmpactualziar
+       
         Screen.MousePointer = vbDefault
         'Cerramos
         'RS.Close
@@ -502,7 +550,7 @@ Dim ContabilizacionEspecialNorma19 As Boolean
 
     
     
-    Rs.Close
+   ' Rs.Close
     Set Rs = Nothing
     Screen.MousePointer = vbDefault
 End Sub

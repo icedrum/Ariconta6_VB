@@ -509,7 +509,7 @@ EIntegraFactura:
             'Esta actualizando varias a la vez
             InsertaError Donde & " - " & Err.Description
         Else
-            MuestraError Err.Number, "Integra factura(I)" & vbCrLf & Donde
+            MuestraError Err.Number, "Integra factura(I)" & vbCrLf & Donde & Err.Description
         End If
         Err.Clear
         B = False

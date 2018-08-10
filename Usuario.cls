@@ -487,6 +487,7 @@ Dim Rs As ADODB.Recordset
 Err1:
     Mens = "Error: " & Err.Number & " : " & Err.Description
     MsgBox Mens, vbExclamation
+    
     Rs.Close
 
 End Sub

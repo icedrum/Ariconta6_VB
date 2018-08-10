@@ -47,9 +47,9 @@ Private Sub MontaSQLAvisosFalta(ByRef SQ As String)
 
     SQ = " FROM cobros,cuentas WHERE cobros.codmacta = cuentas.codmacta AND cuentas.numpoliz<>'' and situacionjuri=0"
     'Fecha factura > que cuando implantamos el sistema de asegurados
-    '2012 Mayo 17
+
     'No es desde inicio aseguradoras, sino desde inicio SOCIO asegurado
-'    SQ = SQ & " AND fecfaccl >= '" & Format(vParam.FechaIniSeg, FormatoFecha) & "'"
+    SQ = SQ & " AND fecfactu >= '" & Format(vParamT.FechaIniSeg, FormatoFecha) & "'"
     SQ = SQ & " AND fecfactu >= fecconce "
     
     'Que no esten avisados ya
@@ -62,18 +62,17 @@ Private Sub MontaSQLAvisosFalta(ByRef SQ As String)
     
     If vParamT.FechaSeguroEsFra Then
         'ALZIRA
-        SQ = SQ & " AND DATEDIFF(curdate(),fecfactu) > " & vParamT.DiasMaxAvisoD
+        SQ = SQ & " AND DATEDIFF(curdate(),fecfactu) >= " & vParamT.DiasMaxAvisoD
     Else
         'HERBELCA
-        SQ = SQ & " AND DATEDIFF(curdate(),fecvenci) > " & vParamT.DiasMaxAvisoD
+        SQ = SQ & " AND DATEDIFF(curdate(),fecvenci) >= " & vParamT.DiasMaxAvisoD
     End If
     
     'Mayo 2012
     SQ = SQ & " AND if(fecbajcre is null,True,fecfactu<=fecbajcre)"
     
-    'Solo importes positivos
-    SQ = SQ & " AND impvenci>0"
-    
+    'Solo importes positivos, que esten pendientes de pago
+    SQ = SQ & " AND impvenci>0   AND impvenci+coalesce(gastos,0)>coalesce(impcobro,0)"
     
 End Sub
 
@@ -81,23 +80,17 @@ End Sub
 Private Sub MontaSQLAvisoSiniestro(ByRef SQ As String)
 Dim F As Date
     SQ = " FROM cobros,cuentas WHERE cobros.codmacta = cuentas.codmacta AND cuentas.numpoliz<>'' and situacionjuri=0"
-    'Fecha factura > que cuando implantamos el sistema de asegurados
-    '2012 Mayo 17
-    'No es desde inicio aseguradoras, sino desde inicio SOCIO asegurado
-'    SQ = SQ & " AND fecfaccl >= '" & Format(vParam.FechaIniSeg, FormatoFecha) & "'"
     SQ = SQ & " AND fecfactu >= fecconce "
+    SQ = SQ & " AND if(fecbajcre is null,True,fecfactu<=fecbajcre)"
+    SQ = SQ & " AND fecsiniestro is null  AND impvenci+coalesce(gastos,0)>coalesce(impcobro,0)"
     
-    SQ = SQ & " AND fecsiniestro is null  AND impvenci>0"
-    'O tienen fecccomunicado
-    F = DateAdd("d", vParamT.DiasMaxSiniestroD, Now)
-    SQ = SQ & " and ( feccomunica<='" & Format(F, FormatoFecha) & "'"
-    F = DateAdd("d", vParamT.DiasAvisoDesdeProrroga, Now)
-    SQ = SQ & " or fecprorroga<='" & Format(F, FormatoFecha) & "')"
+    'Que ya ha sido comunicado o prorrogado
+    SQ = SQ & " AND (not feccomunica is null or not fecprorroga is null)"
     
+    'Segun fecacmunica o prroroga
+    SQ = SQ & " and  DATEDIFF(curdate(),if(feccomunica is null,fecprorroga,feccomunica )) >=if(feccomunica is null," & vParamT.DiasAvisoDesdeProrroga & "," & vParamT.DiasMaxSiniestroD & ")"
     
  
-    'Mayo 2012
-    SQ = SQ & " AND if(fecbajcre is null,True,fecfactu<=fecbajcre)"
     
     
 End Sub

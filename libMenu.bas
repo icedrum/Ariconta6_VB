@@ -13,7 +13,7 @@ Private Const CoordY = "30,04725|1665,071|3300,095|4935,118|6570,142|"
 
   
 Public Sub CargaMenu(aplicacion As String, ByRef Tr1 As TreeView)
-Dim cad As String
+Dim Cad As String
 Dim RN As ADODB.Recordset
 Dim N As Node
 Dim NodoPadre As String
@@ -28,8 +28,8 @@ Dim SQL As String
     Tr1.Nodes.Clear
     
     
-    cad = "Select * from menus where aplicacion = '" & aplicacion & "' ORDER BY padre,orden"
-    RN.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "Select * from menus where aplicacion = '" & aplicacion & "' ORDER BY padre,orden"
+    RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not RN.EOF
     
         If aplicacion = "introcon" Then
@@ -547,7 +547,9 @@ Dim Excepcion As String
     End If
      
     If Not vEmpresa.TieneContabilidad Then
-        SQL = SQL & " and not codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & " and tipo = 0)"
+        SQL = SQL & " and not codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & " and tipo = 0"
+        'El 2 debe mostrarse ya que son datos generales, y necestiamos ver Cuentas y bancos
+        SQL = SQL & " and codigo <>2)"
     End If
     
     MenuVisibleUsuario = (DevuelveValor(SQL) = 1)

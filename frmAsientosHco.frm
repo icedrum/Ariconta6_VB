@@ -1998,9 +1998,9 @@ Dim CadB2 As String
 Dim PulsadoSalir As Boolean
 Dim CadAncho As Boolean  'Para cuando llamemos al al form de lineas
 Dim ActualizandoAsiento As Boolean   'Para k no devuelv el contador
-Dim VieneDeDesactualizar As Boolean
+Dim VieneDeConext As Boolean
 
-Dim B As Boolean
+Dim B2 As Boolean
 
 Private BuscaChekc As String
 
@@ -2194,8 +2194,8 @@ Dim Cta As String
     If Index = 0 Then
         SaldoHistorico SQL, "", Cta, False
     Else
-        If VieneDeDesactualizar Then
-            MsgBoxA "Acaba de desactualizar asientos. No puede hacer consulta desde aqui.", vbExclamation
+        If VieneDeConext Then
+            MsgBoxA "Esta en la consulta de extractos.   No puede realizar esta acción ", vbExclamation
         Else
             Screen.MousePointer = vbHourglass
             frmConExtr.EjerciciosCerrados = False
@@ -2212,9 +2212,9 @@ Private Sub Form_Activate()
 '    If PrimeraVez Then PrimeraVez = False
     
     If PrimeraVez Then
-        B = False
+        B2 = False
         If ASIENTO <> "" Then
-            B = True
+            B2 = True
             Modo = 2
             SQL = "Select * from hcabapu "
             SQL = SQL & " WHERE numasien = " & RecuperaValor(ASIENTO, 3)
@@ -2241,7 +2241,7 @@ Private Sub Form_Activate()
         CargarSqlFiltro
         
         PonerModo CInt(Modo)
-        VieneDeDesactualizar = B
+        VieneDeConext = B2
         If Modo <> 2 Then
             
             If ASIENTO <> "" Then
@@ -3206,7 +3206,7 @@ Error2:
         Screen.MousePointer = vbDefault
         If Not EliminarDesdeActualizar Then
         Else
-           If VieneDeDesactualizar Then
+           If VieneDeConext Then
                 PulsadoSalir = True
                 Unload Me
            End If
@@ -3440,6 +3440,7 @@ Dim RC As Byte
                 'MsgBox "Fecha incorrecta", vbExclamation
                 SQL = "mal"
             Else
+                If Modo = 1 Then Exit Sub
                 RC = FechaCorrecta2(CDate(Text1(1).Text))
                 SQL = ""
                 If RC > 1 Then
@@ -4654,7 +4655,7 @@ Private Sub txtAux_LostFocus(Index As Integer)
                     PonFoco txtaux(7)
                     Exit Sub
                 End If
-                
+                If Modo = 1 Then Exit Sub
                 If Val(txtaux(7).Text) >= 900 Then
                     If vUsu.Nivel > 1 Then
                         MsgBoxA "Los conceptos superiores a 900 se los reserva la aplicación.", vbExclamation

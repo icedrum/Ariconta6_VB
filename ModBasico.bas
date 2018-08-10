@@ -1021,7 +1021,11 @@ Public Sub AyudaCuentas(frmBas As frmBasico2, Optional CodActual As String, Opti
     
 End Sub
 
-'PyG_Situacion: seran los menores de 50
+'PyG_Situacion:
+'           0:  seran los menores de 50
+'           1: Ratios
+'           2: Personalizables
+
 Public Sub AyudaBalances(frmBas As frmBasico, PyG_Situacion As Byte, Optional CodActual As String, Optional cWhere As String)
 
     frmBas.CadenaTots = "S|txtAux(0)|T|Código|870|;S|txtAux(1)|T|Descripción|5230|;"
@@ -1031,6 +1035,13 @@ Public Sub AyudaBalances(frmBas As frmBasico, PyG_Situacion As Byte, Optional Co
     If PyG_Situacion = 0 Then
         If cWhere <> "" Then cWhere = cWhere & " AND "
         cWhere = cWhere & " numbalan < 50"
+    ElseIf PyG_Situacion = 1 Then
+        If cWhere <> "" Then cWhere = cWhere & " AND "
+        cWhere = cWhere & " numbalan between 50 AND 59 "
+    
+    ElseIf PyG_Situacion = 2 Then
+        If cWhere <> "" Then cWhere = cWhere & " AND "
+        cWhere = cWhere & " numbalan between 60 AND 99 "
     End If
     If cWhere <> "" Then frmBas.CadenaConsulta = frmBas.CadenaConsulta & " and " & cWhere
     frmBas.Tag1 = "Código|N|N|||balances|numbalan|000|S|"

@@ -14,6 +14,416 @@ Begin VB.Form frmCentroControl
    ScaleHeight     =   6510
    ScaleWidth      =   10470
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame frameNuevaEmpresa 
+      Height          =   5955
+      Left            =   0
+      TabIndex        =   23
+      Top             =   -60
+      Width           =   7425
+      Begin VB.CheckBox Check1 
+         Caption         =   "Formas de pago"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   7
+         Left            =   3690
+         TabIndex        =   35
+         Top             =   4410
+         Value           =   1  'Checked
+         Width           =   2325
+      End
+      Begin VB.CommandButton cmdCancelar 
+         Caption         =   "Cancelar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   2
+         Left            =   5160
+         TabIndex        =   37
+         Top             =   5370
+         Width           =   1095
+      End
+      Begin VB.TextBox txtFecha 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   3
+         Left            =   1770
+         TabIndex        =   27
+         Text            =   "Text1"
+         Top             =   2040
+         Width           =   1435
+      End
+      Begin VB.TextBox Text2 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   0
+         Left            =   1800
+         TabIndex        =   24
+         Text            =   "Text2"
+         Top             =   480
+         Width           =   4815
+      End
+      Begin VB.TextBox Text2 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   1
+         Left            =   1770
+         TabIndex        =   25
+         Text            =   "Text2"
+         Top             =   1000
+         Width           =   2085
+      End
+      Begin VB.TextBox Text2 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   2
+         Left            =   1770
+         TabIndex        =   26
+         Text            =   "Text2"
+         Top             =   1520
+         Width           =   825
+      End
+      Begin VB.CommandButton cmdNuevaEmpresa 
+         Caption         =   "&Aceptar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   0
+         Left            =   3840
+         TabIndex        =   36
+         Top             =   5370
+         Width           =   1095
+      End
+      Begin VB.CheckBox Check1 
+         Caption         =   "Copia plan contable"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   270
+         Index           =   0
+         Left            =   240
+         TabIndex        =   28
+         Top             =   3300
+         Value           =   1  'Checked
+         Width           =   2475
+      End
+      Begin VB.CheckBox Check1 
+         Caption         =   "Copia conceptos"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   1
+         Left            =   240
+         TabIndex        =   30
+         Top             =   3690
+         Value           =   1  'Checked
+         Width           =   2475
+      End
+      Begin VB.CheckBox Check1 
+         Caption         =   "Copia diarios"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   2
+         Left            =   240
+         TabIndex        =   32
+         Top             =   4050
+         Value           =   1  'Checked
+         Width           =   2475
+      End
+      Begin VB.CheckBox Check1 
+         Caption         =   "Copia Tipos IVA"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   3
+         Left            =   3690
+         TabIndex        =   33
+         Top             =   4050
+         Value           =   1  'Checked
+         Width           =   2295
+      End
+      Begin VB.CheckBox Check1 
+         Caption         =   "Asientos predefinidos"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   4
+         Left            =   3690
+         TabIndex        =   29
+         Top             =   3330
+         Value           =   1  'Checked
+         Width           =   2745
+      End
+      Begin VB.CheckBox Check1 
+         Caption         =   "Copia centros de coste"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   5
+         Left            =   3690
+         TabIndex        =   31
+         Top             =   3690
+         Value           =   1  'Checked
+         Width           =   2685
+      End
+      Begin VB.CheckBox Check1 
+         Caption         =   "Copia configuracion balances"
+         Enabled         =   0   'False
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   270
+         Index           =   6
+         Left            =   240
+         TabIndex        =   34
+         Top             =   4410
+         Value           =   1  'Checked
+         Width           =   3255
+      End
+      Begin MSComctlLib.Toolbar ToolbarAyuda 
+         Height          =   390
+         Index           =   1
+         Left            =   6780
+         TabIndex        =   84
+         Top             =   480
+         Width           =   405
+         _ExtentX        =   714
+         _ExtentY        =   688
+         ButtonWidth     =   609
+         ButtonHeight    =   582
+         _Version        =   393216
+         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+            NumButtons      =   1
+            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Ayuda"
+            EndProperty
+         EndProperty
+      End
+      Begin VB.Image imgFecha 
+         Height          =   240
+         Index           =   3
+         Left            =   1500
+         Picture         =   "frmCentroControl.frx":000C
+         Top             =   2040
+         Width           =   240
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Nombre empresa"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   11
+         Left            =   270
+         TabIndex        =   44
+         Top             =   540
+         Width           =   1335
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Nombre corto"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   10
+         Left            =   270
+         TabIndex        =   43
+         Top             =   1050
+         Width           =   1335
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Número empresa"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   7
+         Left            =   270
+         TabIndex        =   42
+         Top             =   1560
+         Width           =   1335
+      End
+      Begin VB.Label Label2 
+         AutoSize        =   -1  'True
+         Caption         =   "Insertar datos"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   18
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   435
+         Index           =   5
+         Left            =   240
+         TabIndex        =   41
+         Top             =   2610
+         Width           =   2775
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Fecha inicio"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   285
+         Index           =   6
+         Left            =   270
+         TabIndex        =   40
+         Top             =   2070
+         Width           =   1305
+      End
+      Begin VB.Label Label5 
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   315
+         Left            =   240
+         TabIndex        =   39
+         Top             =   2760
+         Width           =   5715
+      End
+      Begin VB.Label Label6 
+         Height          =   195
+         Left            =   360
+         TabIndex        =   38
+         Top             =   4980
+         Width           =   2835
+      End
+   End
    Begin VB.Frame FrameRenumFRAPRO 
       Height          =   4965
       Left            =   0
@@ -212,7 +622,7 @@ Begin VB.Form frmCentroControl
          Height          =   240
          Index           =   0
          Left            =   1680
-         Picture         =   "frmCentroControl.frx":000C
+         Picture         =   "frmCentroControl.frx":0097
          Top             =   2760
          Width           =   240
       End
@@ -879,7 +1289,7 @@ Begin VB.Form frmCentroControl
          Height          =   240
          Index           =   2
          Left            =   3480
-         Picture         =   "frmCentroControl.frx":0097
+         Picture         =   "frmCentroControl.frx":0122
          Top             =   3540
          Width           =   240
       End
@@ -1037,7 +1447,7 @@ Begin VB.Form frmCentroControl
          Height          =   240
          Index           =   1
          Left            =   1410
-         Picture         =   "frmCentroControl.frx":0122
+         Picture         =   "frmCentroControl.frx":01AD
          Top             =   2640
          Width           =   240
       End
@@ -1045,419 +1455,9 @@ Begin VB.Form frmCentroControl
          Height          =   240
          Index           =   0
          Left            =   1410
-         Picture         =   "frmCentroControl.frx":01AD
+         Picture         =   "frmCentroControl.frx":0238
          Top             =   2190
          Width           =   240
-      End
-   End
-   Begin VB.Frame frameNuevaEmpresa 
-      Height          =   5955
-      Left            =   0
-      TabIndex        =   23
-      Top             =   -60
-      Width           =   7425
-      Begin VB.CheckBox Check1 
-         Caption         =   "Formas de pago"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   240
-         Index           =   7
-         Left            =   3690
-         TabIndex        =   35
-         Top             =   4410
-         Value           =   1  'Checked
-         Width           =   2325
-      End
-      Begin VB.CommandButton cmdCancelar 
-         Caption         =   "Cancelar"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Index           =   2
-         Left            =   5160
-         TabIndex        =   37
-         Top             =   5370
-         Width           =   1095
-      End
-      Begin VB.TextBox txtFecha 
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   3
-         Left            =   1770
-         TabIndex        =   27
-         Text            =   "Text1"
-         Top             =   1890
-         Width           =   1435
-      End
-      Begin VB.TextBox Text2 
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   0
-         Left            =   1770
-         TabIndex        =   24
-         Text            =   "Text2"
-         Top             =   630
-         Width           =   4815
-      End
-      Begin VB.TextBox Text2 
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   1
-         Left            =   1770
-         TabIndex        =   25
-         Text            =   "Text2"
-         Top             =   1050
-         Width           =   2085
-      End
-      Begin VB.TextBox Text2 
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   360
-         Index           =   2
-         Left            =   1770
-         TabIndex        =   26
-         Text            =   "Text2"
-         Top             =   1470
-         Width           =   825
-      End
-      Begin VB.CommandButton cmdNuevaEmpresa 
-         Caption         =   "&Aceptar"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   375
-         Index           =   0
-         Left            =   3840
-         TabIndex        =   36
-         Top             =   5370
-         Width           =   1095
-      End
-      Begin VB.CheckBox Check1 
-         Caption         =   "Copia plan contable"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   270
-         Index           =   0
-         Left            =   240
-         TabIndex        =   28
-         Top             =   3300
-         Value           =   1  'Checked
-         Width           =   2475
-      End
-      Begin VB.CheckBox Check1 
-         Caption         =   "Copia conceptos"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   240
-         Index           =   1
-         Left            =   240
-         TabIndex        =   30
-         Top             =   3690
-         Value           =   1  'Checked
-         Width           =   2475
-      End
-      Begin VB.CheckBox Check1 
-         Caption         =   "Copia diarios"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   240
-         Index           =   2
-         Left            =   240
-         TabIndex        =   32
-         Top             =   4050
-         Value           =   1  'Checked
-         Width           =   2475
-      End
-      Begin VB.CheckBox Check1 
-         Caption         =   "Copia Tipos IVA"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   240
-         Index           =   3
-         Left            =   3690
-         TabIndex        =   33
-         Top             =   4050
-         Value           =   1  'Checked
-         Width           =   2295
-      End
-      Begin VB.CheckBox Check1 
-         Caption         =   "Asientos predefinidos"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   240
-         Index           =   4
-         Left            =   3690
-         TabIndex        =   29
-         Top             =   3330
-         Value           =   1  'Checked
-         Width           =   2745
-      End
-      Begin VB.CheckBox Check1 
-         Caption         =   "Copia centros de coste"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   240
-         Index           =   5
-         Left            =   3690
-         TabIndex        =   31
-         Top             =   3690
-         Value           =   1  'Checked
-         Width           =   2685
-      End
-      Begin VB.CheckBox Check1 
-         Caption         =   "Copia configuracion balances"
-         Enabled         =   0   'False
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   270
-         Index           =   6
-         Left            =   240
-         TabIndex        =   34
-         Top             =   4410
-         Value           =   1  'Checked
-         Width           =   3255
-      End
-      Begin MSComctlLib.Toolbar ToolbarAyuda 
-         Height          =   390
-         Index           =   1
-         Left            =   6780
-         TabIndex        =   84
-         Top             =   600
-         Width           =   405
-         _ExtentX        =   714
-         _ExtentY        =   688
-         ButtonWidth     =   609
-         ButtonHeight    =   582
-         _Version        =   393216
-         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-            NumButtons      =   1
-            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Object.ToolTipText     =   "Ayuda"
-            EndProperty
-         EndProperty
-      End
-      Begin VB.Image imgFecha 
-         Height          =   240
-         Index           =   3
-         Left            =   1500
-         Picture         =   "frmCentroControl.frx":0238
-         Top             =   1890
-         Width           =   240
-      End
-      Begin VB.Label Label4 
-         Caption         =   "Nombre empresa"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Index           =   11
-         Left            =   270
-         TabIndex        =   44
-         Top             =   690
-         Width           =   1335
-      End
-      Begin VB.Label Label4 
-         Caption         =   "Nombre corto"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Index           =   10
-         Left            =   270
-         TabIndex        =   43
-         Top             =   1110
-         Width           =   1335
-      End
-      Begin VB.Label Label4 
-         Caption         =   "Número empresa"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Index           =   7
-         Left            =   270
-         TabIndex        =   42
-         Top             =   1530
-         Width           =   1335
-      End
-      Begin VB.Label Label2 
-         AutoSize        =   -1  'True
-         Caption         =   "Insertar datos"
-         BeginProperty Font 
-            Name            =   "Tahoma"
-            Size            =   18
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   435
-         Index           =   5
-         Left            =   240
-         TabIndex        =   41
-         Top             =   2610
-         Width           =   2775
-      End
-      Begin VB.Label Label4 
-         Caption         =   "Fecha inicio"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   285
-         Index           =   6
-         Left            =   270
-         TabIndex        =   40
-         Top             =   1890
-         Width           =   1305
-      End
-      Begin VB.Label Label5 
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   315
-         Left            =   240
-         TabIndex        =   39
-         Top             =   2760
-         Width           =   5715
-      End
-      Begin VB.Label Label6 
-         Height          =   195
-         Left            =   360
-         TabIndex        =   38
-         Top             =   4980
-         Width           =   2835
       End
    End
    Begin VB.Frame FrDesbloq 
@@ -2203,7 +2203,7 @@ Private Sub cmdNuevaEmpresa_Click(Index As Integer)
 Dim Ok As Boolean
 Dim T As TextBox
 
-
+    CadenaDesdeOtroForm = ""
     For Each T In Text2
         If T.visible Then
             T = Trim(T)
@@ -2263,9 +2263,12 @@ Dim T As TextBox
     Ok = GeneracionNuevaBD
     
     Label6.Caption = ""
+    CadenaDesdeOtroForm = ""
     Screen.MousePointer = vbDefault
     If Ok Then
-        MsgBox "Proceso finalizado correctamente.", vbExclamation
+        MsgBoxA "Proceso finalizado correctamente.", vbInformation
+        frmPaneContacts.BuscaEmpresas
+        CadenaDesdeOtroForm = Text2(2).Text
         Unload Me
     End If
 
@@ -3186,10 +3189,10 @@ End Function
 Private Function GeneraNuevaBD() As Boolean
 On Error Resume Next
        GeneraNuevaBD = False
-        SQL = "CREATE DATABASE conta" & Text2(2).Text
+        SQL = "CREATE DATABASE ariconta" & Text2(2).Text
         Conn.Execute SQL
         If Err.Number <> 0 Then
-            MuestraError Err.Number, "Creando BD"
+            MuestraError Err.Number, "Creando BD" & vbCrLf & Err.Description
         Else
             GeneraNuevaBD = True
         End If
@@ -3243,7 +3246,7 @@ Dim Bucle As Integer
             SQL = Replace(SQL, "`", "")
             SQL = Trim(Mid(SQL, 13))
             'LE añado el contax.
-            SQL = "CREATE TABLE conta" & Text2(2).Text & "." & SQL
+            SQL = "CREATE TABLE ariconta" & Text2(2).Text & "." & SQL
             
             Label6.Caption = "[" & Bucle & "]" & TablaAnt & " (" & Tam2 & " /" & Tamanyo & ")"
             Label6.Refresh
@@ -3266,7 +3269,7 @@ Dim Bucle As Integer
     'Aqui ya tiene que a ver finalizado
     If ColCreate.Count > 0 Then
         'Algo va mal
-        MsgBox "ALGO HA IDO MAL. "
+        MsgBoxA "Errores generando datos.  Consulte soporte técnico", vbExclamation
     Else
         CrearEstructura = True
     End If
@@ -3351,6 +3354,22 @@ Dim F As Date
     End If
     
     
+    
+    'Diarios
+    i = 2
+    If Check1(i).Value Then
+        Linea = "tiposdiario"
+        Label6.Caption = Check1(i).Caption
+        Label6.Refresh
+        Conn.Execute "DELETE FROM " & Insert & Linea
+        
+        SQL = "INSERT INTO " & Insert & Linea
+        SQL = SQL & " SELECT * FROM " & Origen & Linea
+        Conn.Execute SQL
+    End If
+    
+    
+    
     'Centros de coste
     i = 5
     If Check1(i).Value Then
@@ -3370,6 +3389,18 @@ Dim F As Date
         
     End If
     
+    'Tipos IVA
+    i = 3
+    If Check1(i).Value Then
+        Linea = "tiposiva"
+        Label6.Caption = Check1(i).Caption
+        Label6.Refresh
+        SQL = "INSERT INTO " & Insert & Linea
+        SQL = SQL & " SELECT * FROM " & Origen & Linea
+        Conn.Execute SQL
+
+        
+    End If
     
     
     
@@ -3526,12 +3557,49 @@ Dim F As Date
       
         
         
+        If vEmpresa.TieneTesoreria Then
+            Linea = "paramtesor"
+            Label6.Caption = "Parámetros tesoreria"
+            Label6.Refresh
+            SQL = "INSERT INTO " & Insert & Linea
+            SQL = SQL & " SELECT * FROM " & Origen & Linea
+            Conn.Execute SQL
+                    
+            
+        End If
+        
+        
      End If
         
     'Y actualizamos a los valores k nuevos
     SQL = "UPDATE " & Insert & "empresa SET nomempre= '" & Text2(0).Text & "', nomresum= '" & Text2(1).Text & "',codempre =" & Text2(2).Text
     Conn.Execute SQL
-        
+            
+            
+            
+    'JULIO18
+    'Menus
+    'Conceptos
+    
+    Linea = "menus"
+    Label6.Caption = Check1(i).Caption
+    Label6.Refresh
+    Conn.Execute "DELETE FROM " & Insert & Linea
+    
+    SQL = "INSERT INTO " & Insert & Linea
+    SQL = SQL & " SELECT * FROM " & Origen & Linea
+    Conn.Execute SQL
+    
+    
+    Linea = "menus_usuarios"
+    Label6.Caption = Check1(i).Caption
+    Label6.Refresh
+    Conn.Execute "DELETE FROM " & Insert & Linea
+    
+    SQL = "INSERT INTO " & Insert & Linea
+    SQL = SQL & " SELECT * FROM " & Origen & Linea
+    Conn.Execute SQL
+            
         
         
     InsercionDatos = True

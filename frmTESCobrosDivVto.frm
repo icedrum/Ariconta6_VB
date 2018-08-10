@@ -391,6 +391,8 @@ Dim TIeneGastos As Boolean
 Dim IMporteGastos As Currency
 Dim FijadoIMporte As Boolean 'Si ha indrodicido un importe para dividir vencimiiento. Entonces pondremos el gasto en el otro
 Dim IMporteCobrado As Currency
+Dim TotalCobrado As Boolean
+
 
     On Error GoTo ecmdDivVto
 
@@ -667,6 +669,7 @@ Dim IMporteCobrado As Currency
     
     ' actualizamos el primer vencimiento
     vTotal = Importe - vTotal
+    TotalCobrado = vTotal = 0
     
     If TIeneGastos Then
         vTotal = vTotal - IMporteGastos
@@ -674,7 +677,7 @@ Dim IMporteCobrado As Currency
     vTotal = vTotal + IMporteCobrado
     
     SQL = "update cobros set impvenci = " & DBSet(vTotal, "N")
-    
+    If TotalCobrado Then SQL = SQL & ", situacion=1"
     
     SQL = SQL & ", fecvenci = " & DBSet(FecVenci, "F")
     

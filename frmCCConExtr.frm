@@ -849,7 +849,7 @@ Dim ImpH As Currency
 
 Private Sub adodc1_MoveComplete(ByVal adReason As ADODB.EventReasonEnum, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pRecordset As ADODB.Recordset)
     On Error Resume Next
-    Label10.Caption = DBLet(adodc1.Recordset!Nommacta, "T")
+    Label10.Caption = DBLet(Adodc1.Recordset!Nommacta, "T")
     If Err.Number <> 0 Then
         Err.Clear
         Label10.Caption = ""
@@ -1130,7 +1130,7 @@ If Not VieneDeIntroduccion Then
         espera 0.1
         If AsientoConExtModificado = 1 Then
             QuedanLineasDespuesModificar = True
-            NumAsien = adodc1.Recordset!NumAsien
+            NumAsien = Adodc1.Recordset!NumAsien
             'Volvemos a recargar datos
             Screen.MousePointer = vbHourglass
             Me.Refresh
@@ -1138,7 +1138,7 @@ If Not VieneDeIntroduccion Then
             CargarDatos True
             If QuedanLineasDespuesModificar Then
                 'Intentamos buscar el asiento
-                adodc1.Recordset.Find "numasien = " & NumAsien
+                Adodc1.Recordset.Find "numasien = " & NumAsien
             Else
                 'NO QUEDAN LINEAS
                 HacerToolBar 1
@@ -1315,7 +1315,7 @@ End Sub
 Private Sub CargaGrid()
 
 
-    adodc1.ConnectionString = Conn
+    Adodc1.ConnectionString = Conn
     SQL = " codusu, cta, numdiari, Pos, fechaent, numasien, linliapu, nomdocum, contra, ampconce, timporteD, timporteH, saldo,ccost, Punteada"
     If Text3(2).Text <> "" Then
         SQL = SQL & ",nommacta"
@@ -1327,13 +1327,13 @@ Private Sub CargaGrid()
     End If
     SQL = SQL & " AND cta = '" & Text3(2).Text & "' ORDER BY POS"
     
-    adodc1.RecordSource = SQL
-    adodc1.Refresh
+    Adodc1.RecordSource = SQL
+    Adodc1.Refresh
     
     
     
     Label101.Caption = "Total lineas:   "
-    Label101.Caption = Label101.Caption & Me.adodc1.Recordset.RecordCount
+    Label101.Caption = Label101.Caption & Me.Adodc1.Recordset.RecordCount
     
 End Sub
 
@@ -1349,7 +1349,7 @@ Dim Pinta As Boolean
 
 Dim NumAto As Long  'el numero de asiento por si viene de los asientos
 
-Dim cad As String
+Dim Cad As String
 Dim miRsAux As ADODB.Recordset
 
     Me.ListView1.ListItems.Clear
@@ -1363,18 +1363,18 @@ Dim miRsAux As ADODB.Recordset
     
     
     
-    cad = " numasien,fechaent,cta codmacta,nomdocum numdocum,ampconce,timporteD impdebe,timporteH imphaber,ccost codccost"
-    cad = cad & ",if(punteada=0,' ','*') punteada,nommacta,contra ctacontr,linliapu numlinea, numdiari "
+    Cad = " numasien,fechaent,cta codmacta,nomdocum numdocum,ampconce,timporteD impdebe,timporteH imphaber,ccost codccost"
+    Cad = Cad & ",if(punteada=0,' ','*') punteada,nommacta,contra ctacontr,linliapu numlinea, numdiari "
     If Text3(2).Text <> "" Then
-        cad = "Select " & cad & " from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
+        Cad = "Select " & Cad & " from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
     Else
-        cad = "Select " & cad & " from tmpconext where codusu = " & vUsu.Codigo
+        Cad = "Select " & Cad & " from tmpconext where codusu = " & vUsu.Codigo
     End If
-    cad = cad & " AND cta = '" & Text3(2).Text & "' ORDER BY POS"
+    Cad = Cad & " AND cta = '" & Text3(2).Text & "' ORDER BY POS"
     
     
 
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If miRsAux.EOF Then
     
@@ -1457,13 +1457,13 @@ Dim miRsAux As ADODB.Recordset
     miRsAux.Close
         
     Dim Rs As ADODB.Recordset
-    cad = "SELECT codccost, sum(coalesce(perd,0)) impdebe,sum(coalesce(perh,0)) imphaber"
-    cad = cad & " from tmplinccexplo "
-    cad = cad & " where tmplinccexplo.codccost=" & DBSet(Text3(2).Text, "T") & " AND fechaent>=" & DBSet(vParam.fechaini, "F") '& " and fechaent <= " & DBSet(F2, "F")  '2013-01-01'"
-    cad = cad & " and codusu = " & DBSet(vUsu.Codigo, "N")
-    cad = cad & " group by 1 "
+    Cad = "SELECT codccost, sum(coalesce(perd,0)) impdebe,sum(coalesce(perh,0)) imphaber"
+    Cad = Cad & " from tmplinccexplo "
+    Cad = Cad & " where tmplinccexplo.codccost=" & DBSet(Text3(2).Text, "T") & " AND fechaent>=" & DBSet(vParam.fechaini, "F") '& " and fechaent <= " & DBSet(F2, "F")  '2013-01-01'"
+    Cad = Cad & " and codusu = " & DBSet(vUsu.Codigo, "N")
+    Cad = Cad & " group by 1 "
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Me.Text6(6).Text = Format(DBLet(Rs!impdebe, "N"), FormatoImporte)
@@ -1529,16 +1529,16 @@ End Sub
 
 Private Sub CargarColumnas()
 Dim i As Integer
-Dim cad As String
+Dim Cad As String
 
     
-    cad = "1300|1150|2005|2214|1400|2420|1950|1950|1950|350|"  '0|0|0|"
+    Cad = "1300|1150|2005|2214|1400|2420|1950|1950|1950|350|"  '0|0|0|"
     'tieneanalitica
     Me.LabelCab(5).visible = False  '(vParam.autocoste)
     
     
     For i = 1 To Me.ListView1.ColumnHeaders.Count
-        ListView1.ColumnHeaders.Item(i).Width = RecuperaValor(cad, i)
+        ListView1.ColumnHeaders.Item(i).Width = RecuperaValor(Cad, i)
         If i > 6 Then Me.LabelCab(i - 1).Width = ListView1.ColumnHeaders(i).Width
 
         Me.LabelCab(i - 1).Left = ListView1.ColumnHeaders.Item(i).Left + 120
@@ -1733,15 +1733,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 0 Or Modo = 2)
@@ -1765,6 +1765,8 @@ Dim ImporteTot As Currency
 Dim ImporteLinea As Currency
 Dim UltSubCC As String
 Dim Nregs As Long
+Dim B2 As Boolean
+Dim Prueba1 As String
 
     On Error GoTo eHacerRepartoSubcentrosCoste
 
@@ -1795,10 +1797,12 @@ Dim Nregs As Long
         Set Rs2 = New ADODB.Recordset
 
         Rs2.Open Sql2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Prueba1 = ""
         While Not Rs2.EOF
-            SQL = "insert into tmplinccexplo (codusu,numdiari,numasien,codccost,codmacta,linapu,docum,fechaent,ampconce,ctactra,desctra,perD,perH,desdoblado) values ("
-            SQL = SQL & vUsu.Codigo & "," & DBSet(Rs!NumDiari, "N") & "," & DBSet(Rs!NumAsien, "N") & "," & DBSet(Rs2!subccost, "T") & "," & DBSet(Rs!codmacta, "T") & "," & DBSet(Rs!LINAPU, "T") & ","
-            SQL = SQL & DBSet(Rs!DOCUM, "T") & "," & DBSet(Rs!FechaEnt, "F") & "," & DBSet(Rs!Ampconce, "T") & "," & DBSet(Rs!ctactra, "T") & ","
+            'SQL = "insert into tmplinccexplo (codusu,numdiari,numasien,codccost,codmacta,linapu,docum,fechaent,ampconce,ctactra,desctra,perD,perH,desdoblado) values "
+            SQL = ""
+            SQL = SQL & "(" & vUsu.Codigo & "," & DBSet(Rs!NumDiari, "N") & "," & DBSet(Rs!NumAsien, "N") & "," & DBSet(Rs2!subccost, "T") & "," & DBSet(Rs!codmacta, "T") & "," & DBSet(Rs!LINAPU, "T") & ","
+            SQL = SQL & DBSet(Rs!DOCUM, "T", "N") & "," & DBSet(Rs!FechaEnt, "F") & "," & DBSet(Rs!Ampconce, "T") & "," & DBSet(Rs!ctactra, "T") & ","
             SQL = SQL & DBSet(Rs!desctra, "T") & ","
 
             If DBLet(Rs!perd, "N") <> 0 Then
@@ -1809,13 +1813,28 @@ Dim Nregs As Long
                 SQL = SQL & "null," & DBSet(ImporteLinea, "N") & ",1)"
             End If
 
-            Conn.Execute SQL
+
+            Prueba1 = Prueba1 & ", " & SQL
+
+
+            
 
             ImporteTot = ImporteTot + ImporteLinea
 
             UltSubCC = Rs2!subccost
 
             Rs2.MoveNext
+            
+            If Rs2.EOF Then
+                B2 = True
+            Else
+                If Len(Prueba1) > 5000 Then B2 = True
+            End If
+            If B2 Then
+                Prueba1 = Mid(Prueba1, 2)
+                SQL = "insert into tmplinccexplo (codusu,numdiari,numasien,codccost,codmacta,linapu,docum,fechaent,ampconce,ctactra,desctra,perD,perH,desdoblado) values " & Prueba1
+                Conn.Execute SQL
+            End If
         Wend
 
         If DBLet(Rs!perd, "N") <> 0 Then

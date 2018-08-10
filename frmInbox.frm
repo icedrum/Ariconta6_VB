@@ -345,7 +345,7 @@ Private Sub CalendarControl_ContextMenu(ByVal X As Single, ByVal Y As Single)
            Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_5, "&5 Minutes")
            Popup.ShowPopup
         Else
-           Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_NEW, "&New Event")
+           Set Control = Popup.Controls.Add(xtpControlButton, ID_CALENDAREVENT_NEW, "&Nuevo evento")
            Popup.ShowPopup
         End If
 End Sub

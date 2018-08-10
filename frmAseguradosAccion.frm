@@ -1,22 +1,22 @@
 VERSION 5.00
 Begin VB.Form frmAseguradosAccion 
    BorderStyle     =   3  'Fixed Dialog
-   ClientHeight    =   2850
+   ClientHeight    =   3420
    ClientLeft      =   45
    ClientTop       =   435
-   ClientWidth     =   6285
+   ClientWidth     =   7980
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   2850
-   ScaleWidth      =   6285
+   ScaleHeight     =   3420
+   ScaleWidth      =   7980
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin VB.CommandButton cmdCancelar 
       Cancel          =   -1  'True
       Caption         =   "&Cancelar"
       BeginProperty Font 
-         Name            =   "Tahoma"
+         Name            =   "Verdana"
          Size            =   9
          Charset         =   0
          Weight          =   400
@@ -25,15 +25,15 @@ Begin VB.Form frmAseguradosAccion
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   4800
+      Left            =   6000
       TabIndex        =   4
-      Top             =   2280
-      Width           =   1215
+      Top             =   2640
+      Width           =   1335
    End
    Begin VB.CommandButton cmdProrroga 
       Caption         =   "Prorroga"
       BeginProperty Font 
-         Name            =   "Tahoma"
+         Name            =   "Verdana"
          Size            =   9
          Charset         =   0
          Weight          =   400
@@ -42,15 +42,15 @@ Begin VB.Form frmAseguradosAccion
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   2520
+      Left            =   3120
       TabIndex        =   2
-      Top             =   2280
-      Width           =   1215
+      Top             =   2640
+      Width           =   1695
    End
    Begin VB.CommandButton cmdAviso 
       Caption         =   "Aviso"
       BeginProperty Font 
-         Name            =   "Tahoma"
+         Name            =   "Verdana"
          Size            =   9
          Charset         =   0
          Weight          =   400
@@ -61,12 +61,13 @@ Begin VB.Form frmAseguradosAccion
       Height          =   495
       Left            =   360
       TabIndex        =   1
-      Top             =   2280
-      Width           =   1215
+      Top             =   2640
+      Width           =   1815
    End
    Begin VB.TextBox Text3 
+      Alignment       =   2  'Center
       BeginProperty Font 
-         Name            =   "Tahoma"
+         Name            =   "Verdana"
          Size            =   9.75
          Charset         =   0
          Weight          =   400
@@ -76,18 +77,27 @@ Begin VB.Form frmAseguradosAccion
       EndProperty
       Height          =   405
       Index           =   0
-      Left            =   2520
+      Left            =   3240
       TabIndex        =   0
       Top             =   1680
-      Width           =   1095
+      Width           =   1455
    End
    Begin VB.CommandButton cmdSiniestro 
       Caption         =   "Siniestro"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   495
-      Left            =   2520
+      Left            =   3240
       TabIndex        =   3
-      Top             =   2280
-      Width           =   1215
+      Top             =   2640
+      Width           =   1455
    End
    Begin VB.Label lblTitulo 
       Alignment       =   2  'Center
@@ -103,22 +113,39 @@ Begin VB.Form frmAseguradosAccion
       EndProperty
       ForeColor       =   &H00008000&
       Height          =   495
-      Left            =   240
+      Left            =   360
       TabIndex        =   7
       Top             =   120
-      Width           =   5775
+      Width           =   7095
    End
    Begin VB.Image Image2 
       Height          =   240
       Index           =   0
-      Left            =   2160
-      Top             =   1680
+      Left            =   2880
+      Top             =   1800
       Width           =   240
    End
    Begin VB.Label Label2 
       Caption         =   "Label2"
       BeginProperty Font 
-         Name            =   "Tahoma"
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   240
+      TabIndex        =   6
+      Top             =   1200
+      Width           =   7335
+   End
+   Begin VB.Label Label1 
+      Caption         =   "Label1"
+      BeginProperty Font 
+         Name            =   "Verdana"
          Size            =   9.75
          Charset         =   0
          Weight          =   700
@@ -128,26 +155,9 @@ Begin VB.Form frmAseguradosAccion
       EndProperty
       Height          =   375
       Left            =   240
-      TabIndex        =   6
-      Top             =   1080
-      Width           =   5775
-   End
-   Begin VB.Label Label1 
-      Caption         =   "Label1"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   255
-      Left            =   240
       TabIndex        =   5
       Top             =   720
-      Width           =   5655
+      Width           =   7215
    End
 End
 Attribute VB_Name = "frmAseguradosAccion"
@@ -170,8 +180,8 @@ Dim Aux As String
 
 Private Sub cmdAviso_Click()
     If Text3(0).Text = "" Then Exit Sub
-    Aux = "Aviso de falta de pago el: " & Text3(0).Text & "   ¿Continuar?"
-    If MsgBox(Aux, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+    Aux = "Aviso de falta de pago el: " & Text3(0).Text & vbCrLf & vbCrLf & "¿Continuar?"
+    If MsgBoxA(Aux, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     
     Aux = "UPDATE cobros SET feccomunica = '" & Format(Text3(0).Text, FormatoFecha) & "' WHERE " & SQLVto
     If Ejecuta(Aux) Then
@@ -190,8 +200,8 @@ End Sub
 
 Private Sub cmdProrroga_Click()
     If Text3(0).Text = "" Then Exit Sub
-    Aux = "Prorrogar  el vencimiento en aseguradoras. Fecha: " & Text3(0).Text & "   ¿Continuar?"
-    If MsgBox(Aux, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+    Aux = "Prorrogar  el vencimiento en aseguradoras. Fecha: " & Text3(0).Text & vbCrLf & vbCrLf & "¿Continuar?"
+    If MsgBoxA(Aux, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     
     Aux = "UPDATE cobros SET fecprorroga = '" & Format(Text3(0).Text, FormatoFecha) & "' WHERE " & SQLVto
     If Ejecuta(Aux) Then

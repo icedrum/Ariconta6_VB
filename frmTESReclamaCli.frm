@@ -60,6 +60,7 @@ Begin VB.Form frmTESReclamaCli
          End
       End
       Begin VB.CommandButton cmdCancelar 
+         Cancel          =   -1  'True
          Caption         =   "&Cancelar"
          BeginProperty Font 
             Name            =   "Verdana"
@@ -74,7 +75,7 @@ Begin VB.Form frmTESReclamaCli
          Index           =   1
          Left            =   11550
          TabIndex        =   15
-         Top             =   6300
+         Top             =   6360
          Width           =   975
       End
       Begin VB.Frame Frame2 
@@ -735,12 +736,12 @@ Attribute frmF.VB_VarHelpID = -1
 Private frmMens As frmMensajes
 Attribute frmMens.VB_VarHelpID = -1
 
-Dim Sql As String
+Dim SQL As String
 Dim RC As String
 Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
-Dim cad As String
+Dim Cad As String
 Dim CONT As Long
 Dim i As Integer
 Dim TotalRegistros As Long
@@ -785,14 +786,15 @@ End Function
 
 Private Sub cmdCancelar_Click(Index As Integer)
     If Index = 0 Then
-        Frame1.Visible = True
+        Frame1.visible = True
         Frame1.Enabled = True
         
-        FrameReclamacionesCliente.Visible = False
+        FrameReclamacionesCliente.visible = False
         FrameReclamacionesCliente.Enabled = False
         
         CargaList True
         Codigo = ComprobarCero(Text1(5))
+        Me.cmdCancelar(1).Cancel = True
     Else
         Unload Me
     End If
@@ -926,7 +928,7 @@ End Sub
 Private Sub Form_Activate()
     If PrimeraVez Then
         PrimeraVez = False
-        If Not Frame1.Visible Then
+        If Not Frame1.visible Then
             If CadenaDesdeOtroForm <> "" Then
                 Text1(2).Text = CadenaDesdeOtroForm
                 Text1_LostFocus 2
@@ -988,8 +990,8 @@ Dim Img As Image
     H = FrameReclamacionesCliente.Height + 120
     W = FrameReclamacionesCliente.Width
     
-    FrameReclamacionesCliente.Visible = False
-    Me.Frame1.Visible = True
+    FrameReclamacionesCliente.visible = False
+    Me.Frame1.visible = True
     
     VerTodos = False
     
@@ -1003,7 +1005,7 @@ Dim Img As Image
     Orden = True
     
     CargaCombo
-
+Me.cmdCancelar(1).Cancel = True
 End Sub
 
 
@@ -1142,7 +1144,7 @@ Private Sub HacerToolBar(Boton As Integer)
 End Sub
 
 Private Sub BotonEliminar()
-Dim Sql As String
+Dim SQL As String
 Dim temp As Boolean
 
     On Error GoTo Error2
@@ -1150,20 +1152,20 @@ Dim temp As Boolean
     If Me.lw1.SelectedItem = "" Then Exit Sub
         
     '*************** canviar els noms i el DELETE **********************************
-    Sql = "¿Seguro que desea eliminar la Reclamación?"
-    Sql = Sql & vbCrLf & "Código: " & lw1.SelectedItem.SubItems(6)
-    Sql = Sql & vbCrLf & " de fecha: " & lw1.SelectedItem.Text
-    Sql = Sql & vbCrLf & " de " & lw1.SelectedItem.SubItems(1) & "-" & lw1.SelectedItem.SubItems(2)
+    SQL = "¿Seguro que desea eliminar la Reclamación?"
+    SQL = SQL & vbCrLf & "Código: " & lw1.SelectedItem.SubItems(6)
+    SQL = SQL & vbCrLf & " de fecha: " & lw1.SelectedItem.Text
+    SQL = SQL & vbCrLf & " de " & lw1.SelectedItem.SubItems(1) & "-" & lw1.SelectedItem.SubItems(2)
     
-    If MsgBox(Sql, vbQuestion + vbYesNo) = vbYes Then
+    If MsgBox(SQL, vbQuestion + vbYesNo) = vbYes Then
         'Hay que eliminar
         NumRegElim = lw1.SelectedItem.SubItems(6)
         
-        Sql = "Delete from reclama_facturas where codigo=" & lw1.SelectedItem.SubItems(6)
-        Conn.Execute Sql
+        SQL = "Delete from reclama_facturas where codigo=" & lw1.SelectedItem.SubItems(6)
+        Conn.Execute SQL
         
-        Sql = "Delete from reclama where codigo=" & lw1.SelectedItem.SubItems(6)
-        Conn.Execute Sql
+        SQL = "Delete from reclama where codigo=" & lw1.SelectedItem.SubItems(6)
+        Conn.Execute SQL
         
         
         lw1.ListItems.Remove (lw1.SelectedItem.Index)
@@ -1186,19 +1188,19 @@ Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
 End Sub
 
 Private Sub Desplazamiento(Index As Integer)
-    If Data1.Recordset.EOF Then Exit Sub
+    If data1.Recordset.EOF Then Exit Sub
     
     Select Case Index
         Case 0
-            Data1.Recordset.MovePrevious
-            If Data1.Recordset.BOF Then Data1.Recordset.MoveFirst
+            data1.Recordset.MovePrevious
+            If data1.Recordset.BOF Then data1.Recordset.MoveFirst
             
         Case 1
-            Data1.Recordset.MoveNext
-            If Data1.Recordset.EOF Then Data1.Recordset.MoveLast
+            data1.Recordset.MoveNext
+            If data1.Recordset.EOF Then data1.Recordset.MoveLast
     End Select
-    Text1(2).Text = Data1.Recordset.Fields(0)
-    Text1(3).Text = Data1.Recordset.Fields(1)
+    Text1(2).Text = data1.Recordset.Fields(0)
+    Text1(3).Text = data1.Recordset.Fields(1)
     PonerModoUsuarioGnral 0, "ariconta"
     PonerVtosReclamacionCliente False
 End Sub
@@ -1209,10 +1211,10 @@ End Sub
 
 Private Sub BotonAnyadir()
 
-    Frame1.Visible = False
+    Frame1.visible = False
     Frame1.Enabled = False
 
-    Me.FrameReclamacionesCliente.Visible = True
+    Me.FrameReclamacionesCliente.visible = True
     Me.FrameReclamacionesCliente.Enabled = True
     
     VerTodos = False
@@ -1250,10 +1252,10 @@ Private Sub BotonModificar()
 
     If lw1.SelectedItem = "" Then Exit Sub
 
-    Frame1.Visible = False
+    Frame1.visible = False
     Frame1.Enabled = False
 
-    Me.FrameReclamacionesCliente.Visible = True
+    Me.FrameReclamacionesCliente.visible = True
     Me.FrameReclamacionesCliente.Enabled = True
     
     VerTodos = False
@@ -1287,10 +1289,10 @@ Dim B As Boolean
     ' la cuenta no se puede modificar pq cambiarian las líneas
     Text1(2).Locked = (Modo = 4)
     Text1(3).Locked = (Modo = 4)
-    Image3(1).Visible = (Modo = 3)
+    Image3(1).visible = (Modo = 3)
     Image3(1).Enabled = (Modo = 3)
     Me.Frame4.Enabled = (Modo = 3)
-    
+    Me.cmdCancelar(0).Cancel = (Modo >= 3)
 End Sub
 
 Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
@@ -1359,13 +1361,13 @@ Dim B As Byte
             Case Else
                 'DE ULTIMO NIVEL
                 Cta = (Text1(Index).Text)
-                If CuentaCorrectaUltimoNivel(Cta, Sql) Then
+                If CuentaCorrectaUltimoNivel(Cta, SQL) Then
                     Text1(Index).Text = Cta
-                    Text1(3).Text = Sql
+                    Text1(3).Text = SQL
                     
                     
                 Else
-                    MsgBox Sql, vbExclamation
+                    MsgBox SQL, vbExclamation
                     Text1(Index).Text = ""
                     Text1(3).Text = ""
                     Text1(Index).SetFocus
@@ -1476,22 +1478,22 @@ Dim ImporteTot As Currency
     Set miRsAux = New ADODB.Recordset
     
     If Modificar Then
-        cad = "Select reclama_facturas.numlinea,reclama_facturas.numserie,reclama_facturas.numfactu,reclama_facturas.fecfactu,reclama_facturas.numorden,reclama_facturas.impvenci importe,"
-        cad = cad & " cobros.codforpa,cobros.fecvenci, cobros.gastos, cobros.impvenci, cobros.impcobro,nomforpa from reclama_facturas,cobros,formapago where cobros.codforpa=formapago.codforpa "
-        cad = cad & " and reclama_facturas.numserie = cobros.numserie "
-        cad = cad & " and reclama_facturas.numfactu = cobros.numfactu "
-        cad = cad & " and reclama_facturas.fecfactu = cobros.fecfactu "
-        cad = cad & " and reclama_facturas.numorden = cobros.numorden "
-        cad = cad & " AND reclama_facturas.codigo = " & Me.Text1(5).Text
-        cad = cad & " ORDER BY 1"
+        Cad = "Select reclama_facturas.numlinea,reclama_facturas.numserie,reclama_facturas.numfactu,reclama_facturas.fecfactu,reclama_facturas.numorden,reclama_facturas.impvenci importe,"
+        Cad = Cad & " cobros.codforpa,cobros.fecvenci, cobros.gastos, cobros.impvenci, cobros.impcobro,nomforpa from reclama_facturas,cobros,formapago where cobros.codforpa=formapago.codforpa "
+        Cad = Cad & " and reclama_facturas.numserie = cobros.numserie "
+        Cad = Cad & " and reclama_facturas.numfactu = cobros.numfactu "
+        Cad = Cad & " and reclama_facturas.fecfactu = cobros.fecfactu "
+        Cad = Cad & " and reclama_facturas.numorden = cobros.numorden "
+        Cad = Cad & " AND reclama_facturas.codigo = " & Me.Text1(5).Text
+        Cad = Cad & " ORDER BY 1"
     Else
-        cad = "Select cobros.*,nomforpa from cobros,formapago where cobros.codforpa=formapago.codforpa "
-        cad = cad & " AND codmacta = '" & Me.Text1(2).Text & "'"
-        cad = cad & " AND (transfer =0 or transfer is null) and codrem is null"
-        cad = cad & " and recedocu=0 and situacion = 0" ' pendientes de cobro
-        cad = cad & " ORDER BY fecvenci"
+        Cad = "Select cobros.*,nomforpa from cobros,formapago where cobros.codforpa=formapago.codforpa "
+        Cad = Cad & " AND codmacta = '" & Me.Text1(2).Text & "'"
+        Cad = Cad & " AND (transfer =0 or transfer is null) and codrem is null"
+        Cad = Cad & " and recedocu=0 and situacion = 0" ' pendientes de cobro
+        Cad = Cad & " ORDER BY fecvenci"
     End If
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         Set IT = lwReclamCli.ListItems.Add()
         IT.Text = miRsAux!NUmSerie
@@ -1534,7 +1536,7 @@ End Sub
 
 Private Sub SQLVtosSeleccionadosCompensacion(ByRef RegistroDestino As Long, SinDestino As Boolean)
 Dim Insertar As Boolean
-    Sql = ""
+    SQL = ""
     For i = 1 To Me.lwReclamCli.ListItems.Count
         If Me.lwReclamCli.ListItems(i).Checked Then
         
@@ -1544,20 +1546,20 @@ Dim Insertar As Boolean
                 If SinDestino Then Insertar = False
             End If
             If Insertar Then
-                Sql = Sql & ", ('" & lwReclamCli.ListItems(i).Text & "'," & lwReclamCli.ListItems(i).SubItems(1)
-                Sql = Sql & ",'" & Format(lwReclamCli.ListItems(i).SubItems(2), FormatoFecha) & "'," & lwReclamCli.ListItems(i).SubItems(3) & ")"
+                SQL = SQL & ", ('" & lwReclamCli.ListItems(i).Text & "'," & lwReclamCli.ListItems(i).SubItems(1)
+                SQL = SQL & ",'" & Format(lwReclamCli.ListItems(i).SubItems(2), FormatoFecha) & "'," & lwReclamCli.ListItems(i).SubItems(3) & ")"
             End If
             
         End If
     Next
-    Sql = Mid(Sql, 2)
+    SQL = Mid(SQL, 2)
             
 End Sub
 
 
 Private Sub FijaCadenaSQLCobrosCompen()
 
-    cad = "numserie, numfactu, fecfactu, numorden "
+    Cad = "numserie, numfactu, fecfactu, numorden "
     
 End Sub
 
@@ -1565,15 +1567,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N")
@@ -1604,15 +1606,15 @@ Dim IT
     Set miRsAux = New ADODB.Recordset
     lblIndicador.Caption = "Leyendo"
     lblIndicador.Refresh
-    cad = "Select codigo,fecreclama,codmacta,nommacta,carta,CASE carta WHEN 0 THEN 'Carta' WHEN 1 THEN 'EMail' WHEN 2 THEN 'Teléfono' END as TCarta,importes,observaciones from reclama "
+    Cad = "Select codigo,fecreclama,codmacta,nommacta,carta,CASE carta WHEN 0 THEN 'Carta' WHEN 1 THEN 'EMail' WHEN 2 THEN 'Teléfono' END as TCarta,importes,observaciones from reclama "
     
-    If SoloUnAnyo Then cad = cad & " WHERE fecreclama > " & DBSet(DateAdd("yyyy", -1, Now), "F")
+    If SoloUnAnyo Then Cad = Cad & " WHERE fecreclama > " & DBSet(DateAdd("yyyy", -1, Now), "F")
     
     If CampoOrden = "" Then CampoOrden = "reclama.fecreclama"
-    cad = cad & " ORDER BY " & CampoOrden
-    If Orden Then cad = cad & " DESC"
+    Cad = Cad & " ORDER BY " & CampoOrden
+    If Orden Then Cad = Cad & " DESC"
     
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     i = 0
     J = 0
     While Not miRsAux.EOF

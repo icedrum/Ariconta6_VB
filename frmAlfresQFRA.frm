@@ -40,23 +40,23 @@ Begin VB.Form frmAlfresQFRA
       TabCaption(1)   =   "Datos extendidos"
       TabPicture(1)   =   "frmAlfresQFRA.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lw1(0)"
-      Tab(1).Control(1)=   "Text1(14)"
-      Tab(1).Control(2)=   "Text1(13)"
-      Tab(1).Control(3)=   "Text1(12)"
-      Tab(1).Control(4)=   "Combo1(2)"
-      Tab(1).Control(5)=   "Text4(11)"
-      Tab(1).Control(6)=   "Text1(11)"
-      Tab(1).Control(7)=   "Text1(10)"
+      Tab(1).Control(0)=   "Label1(10)"
+      Tab(1).Control(1)=   "Label1(11)"
+      Tab(1).Control(2)=   "Image1(6)"
+      Tab(1).Control(3)=   "Label6(0)"
+      Tab(1).Control(4)=   "Label1(12)"
+      Tab(1).Control(5)=   "Label6(1)"
+      Tab(1).Control(6)=   "Label6(2)"
+      Tab(1).Control(7)=   "Text1(16)"
       Tab(1).Control(8)=   "Text1(15)"
-      Tab(1).Control(9)=   "Text1(16)"
-      Tab(1).Control(10)=   "Label6(2)"
-      Tab(1).Control(11)=   "Label6(1)"
-      Tab(1).Control(12)=   "Label1(12)"
-      Tab(1).Control(13)=   "Label6(0)"
-      Tab(1).Control(14)=   "Image1(6)"
-      Tab(1).Control(15)=   "Label1(11)"
-      Tab(1).Control(16)=   "Label1(10)"
+      Tab(1).Control(9)=   "Text1(10)"
+      Tab(1).Control(10)=   "Text1(11)"
+      Tab(1).Control(11)=   "Text4(11)"
+      Tab(1).Control(12)=   "Combo1(2)"
+      Tab(1).Control(13)=   "Text1(12)"
+      Tab(1).Control(14)=   "Text1(13)"
+      Tab(1).Control(15)=   "Text1(14)"
+      Tab(1).Control(16)=   "lw1(0)"
       Tab(1).ControlCount=   17
       Begin MSComctlLib.ListView lw1 
          Height          =   1785
@@ -1764,7 +1764,7 @@ On Error GoTo eCmdAceptar_Click
         
         If Me.Text1(11).Text <> "" Or Text4(11).Text <> "" Then Aux = "M"
         If Me.Text1(10).Text <> "" Then Aux = "M"
-        If Aux <> "" Then Msg = Msg & vbCrLf & vbCrLf & " NO lleva retencion indique. No indique resto de campos retencion"
+        If Aux <> "" Then Msg = Msg & vbCrLf & vbCrLf & " NO lleva retencion . No debe indicar resto de campos retencion"
     End If
     
     If Me.Combo1(2).ListIndex = 0 And Text1(15).Text <> "" Then Msg = "Sin tipo de retencion, pero importe calculado:" & Text1(15).Text
@@ -1800,7 +1800,7 @@ On Error GoTo eCmdAceptar_Click
     
     If Dir(Me.txtNomFich.Tag, vbArchive) = "" Then Msg = Msg & "No existe el PDF origen: " & txtNomFich.Tag & vbCrLf
     
-    If Dir(CarpetaDestino & "\" & Aux, vbArchive) <> "" Then Msg = Msg & "YA existe el PDF en el destino: " & CarpetaDestino & "\" & txtNomFich.Text & vbCrLf
+    If Dir(CarpetaDestino & "\" & Aux, vbArchive) <> "" Then Msg = Msg & "YA existe el PDF en el destino: " & CarpetaDestino & "\" & Aux & vbCrLf
     
     If Msg <> "" Then
         MsgBox Msg, vbExclamation
@@ -1818,6 +1818,10 @@ On Error GoTo eCmdAceptar_Click
         MsgBox "Ya existe la factura en el registro de IVA", vbExclamation
         Exit Function
     End If
+        
+    'Ultimas comprobaciones
+        
+            
         
         
         
@@ -3471,7 +3475,7 @@ Dim Mc As Contadores
     SqlValues = Mc.TipoContador & "," & Mc.Contador & "," & DBSet(Text1(5).Text, "F") & "," & DBSet(Text1(3).Text, "T") & "," & DBSet(Text1(4).Text, "F") & ","
     
     'codconce340,codopera,codmacta,anofactu,
-    SqlValues = SqlValues & Me.Combo1(1).ItemData(Combo1(1).ListIndex) & "," & Me.Combo1(2).ItemData(Combo1(2).ListIndex) & ","
+    SqlValues = SqlValues & Me.Combo1(0).ItemData(Combo1(0).ListIndex) & "," & Me.Combo1(1).ItemData(Combo1(1).ListIndex) & ","
     SqlValues = SqlValues & DBSet(Text1(0).Text, "T") & "," & Year(CDate(Text1(5).Text)) & ","
     
     'codforpa,observa
@@ -3489,7 +3493,7 @@ Dim Mc As Contadores
         'If Me.Text1(11).Text = "" Xor Text4(11).Text = "" Then Aux = "M"
         'If Me.Text1(10).Text = "" Then Aux = "M"
         SqlValues = SqlValues & DBSet(Text1(10).Text, "N") & "," & DBSet(Text1(15).Text, "N", "S") & ","
-        SqlValues = SqlValues & DBSet(Text1(11).Text, "T") & "," & Combo1(2).ItemData(Combo1(2).ListIndex) & ","
+        SqlValues = SqlValues & DBSet(Text1(11).Text, "T") & "," & Combo1(2).ItemData(Combo1(2).ListIndex)
     Else
         SqlValues = SqlValues & "null,null,null,0"
     End If
@@ -3829,7 +3833,7 @@ End Sub
 
 'TOTALES
 Private Function CalculaTotales() As Boolean
-Dim It
+Dim IT
 
 Dim SQL As String
 Dim SqlInsert As String
@@ -3873,20 +3877,20 @@ Dim TipoRetencion As Integer
     J = 0
     While Not Rs.EOF
         
-        Set It = lw1(0).ListItems.Add
+        Set IT = lw1(0).ListItems.Add
         J = J + 1
-        It.Text = J
-        It.SubItems(1) = Format(Rs!TipoIva, "000")
-        It.SubItems(2) = DevuelveDesdeBD("nombriva", "tiposiva", "codigiva", Rs!TipoIva)
-        It.SubItems(3) = Format(Rs!Baseimpo, "###,###,##0.00")
-        It.SubItems(4) = Format(Rs!Imporiva, "###,###,##0.00")
+        IT.Text = J
+        IT.SubItems(1) = Format(Rs!TipoIva, "000")
+        IT.SubItems(2) = DevuelveDesdeBD("nombriva", "tiposiva", "codigiva", Rs!TipoIva)
+        IT.SubItems(3) = Format(Rs!Baseimpo, "###,###,##0.00")
+        IT.SubItems(4) = Format(Rs!Imporiva, "###,###,##0.00")
         If DBLet(Rs!imporrec) <> 0 Then
-            It.SubItems(5) = Format(Rs!imporrec, "###,###,##0.00")
+            IT.SubItems(5) = Format(Rs!imporrec, "###,###,##0.00")
         Else
-            It.SubItems(5) = " "
+            IT.SubItems(5) = " "
         End If
         
-        Set It = Nothing
+        Set IT = Nothing
         
         
         Baseimpo = Baseimpo + DBLet(Rs!Baseimpo, "N")

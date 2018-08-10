@@ -892,7 +892,7 @@ Dim ImpH As Currency
 
 Private Sub adodc1_MoveComplete(ByVal adReason As ADODB.EventReasonEnum, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pRecordset As ADODB.Recordset)
     On Error Resume Next
-    Label10.Caption = DBLet(adodc1.Recordset!Nommacta, "T")
+    Label10.Caption = DBLet(Adodc1.Recordset!Nommacta, "T")
     If Err.Number <> 0 Then
         Err.Clear
         Label10.Caption = ""
@@ -1048,6 +1048,10 @@ End Sub
 
 Private Sub cmdVer_Click()
     RefrescarDatos2
+End Sub
+
+Private Sub cmdVer_KeyPress(KeyAscii As Integer)
+    If KeyAscii = 27 Then Unload Me
 End Sub
 
 Private Sub Form_Activate()
@@ -1396,7 +1400,7 @@ End Function
 Private Sub CargaGrid()
 
 
-    adodc1.ConnectionString = Conn
+    Adodc1.ConnectionString = Conn
     SQL = " codusu, cta, numdiari, Pos, fechaent, numasien, linliapu, nomdocum, contra, ampconce, timporteD, timporteH, saldo,ccost, Punteada"
     If Text3(2).Text <> "" Then
         SQL = SQL & ",nommacta"
@@ -1408,13 +1412,13 @@ Private Sub CargaGrid()
     End If
     SQL = SQL & " AND cta = '" & Text3(2).Text & "' ORDER BY POS"
     
-    adodc1.RecordSource = SQL
-    adodc1.Refresh
+    Adodc1.RecordSource = SQL
+    Adodc1.Refresh
     
     
     
     Label101.Caption = "Total lineas:   "
-    Label101.Caption = Label101.Caption & Me.adodc1.Recordset.RecordCount
+    Label101.Caption = Label101.Caption & Me.Adodc1.Recordset.RecordCount
     
 End Sub
 
@@ -1427,7 +1431,7 @@ Dim Pinta As Boolean
 
 Dim NumAto As Long  'el numero de asiento por si viene de los asientos
 
-Dim cad As String
+Dim Cad As String
 Dim miRsAux As ADODB.Recordset
 
     Me.ListView1.ListItems.Clear
@@ -1442,23 +1446,23 @@ Dim miRsAux As ADODB.Recordset
        
     
     
-    cad = " numasien,fechaent,cta codmacta,nomdocum numdocum,ampconce,timporteD impdebe,timporteH imphaber,ccost codccost"
-    cad = cad & ",if(punteada='',' ','*') punteada,nommacta,contra ctacontr,linliapu numlinea, numdiari "
+    Cad = " numasien,fechaent,cta codmacta,nomdocum numdocum,ampconce,timporteD impdebe,timporteH imphaber,ccost codccost"
+    Cad = Cad & ",if(punteada='',' ','*') punteada,nommacta,contra ctacontr,linliapu numlinea, numdiari "
     If Text3(2).Text <> "" Then
-        cad = "Select " & cad & " from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
+        Cad = "Select " & Cad & " from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
         If Me.chkPunteo.Value = 1 Then
-            cad = cad & " and punteada = 0"
+            Cad = Cad & " and punteada = 0"
         End If
     Else
-        cad = "Select " & cad & " from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta  where codusu = " & vUsu.Codigo
+        Cad = "Select " & Cad & " from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta  where codusu = " & vUsu.Codigo
         If Me.chkPunteo.Value = 1 Then
-            cad = cad & " and punteada = 0"
+            Cad = Cad & " and punteada = 0"
         End If
     End If
-    cad = cad & " AND cta = '" & Text3(2).Text & "' ORDER BY fechaent,numasien,linliapu  " ' ORDER BY POS"
+    Cad = Cad & " AND cta = '" & Text3(2).Text & "' ORDER BY fechaent,numasien,linliapu  " ' ORDER BY POS"
     
     
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If miRsAux.EOF Then
     
@@ -1547,12 +1551,12 @@ Dim miRsAux As ADODB.Recordset
     miRsAux.Close
         
     Dim Rs As ADODB.Recordset
-    cad = "SELECT codmacta, sum(coalesce(timporteD,0)) impdebe,sum(coalesce(timporteH,0)) imphaber"
-    cad = cad & " from hlinapu "
-    cad = cad & " where hlinapu.codmacta=" & DBSet(Text3(2).Text, "T") & " AND fechaent>=" & DBSet(vParam.fechaini, "F") '& " and fechaent <= " & DBSet(F2, "F")  '2013-01-01'"
-    cad = cad & " group by 1 "
+    Cad = "SELECT codmacta, sum(coalesce(timporteD,0)) impdebe,sum(coalesce(timporteH,0)) imphaber"
+    Cad = Cad & " from hlinapu "
+    Cad = Cad & " where hlinapu.codmacta=" & DBSet(Text3(2).Text, "T") & " AND fechaent>=" & DBSet(vParam.fechaini, "F") '& " and fechaent <= " & DBSet(F2, "F")  '2013-01-01'"
+    Cad = Cad & " group by 1 "
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Me.Text6(6).Text = Format(DBLet(Rs!impdebe, "N"), FormatoImporte)
@@ -1618,16 +1622,16 @@ End Sub
 
 Private Sub CargarColumnas()
 Dim i As Integer
-Dim cad As String
+Dim Cad As String
 
     
-    cad = "1300|1150|2005|3714|1500|820|1950|1950|1950|350|"  '0|0|0|"
+    Cad = "1300|1150|2005|3714|1500|820|1950|1950|1950|350|"  '0|0|0|"
     'tieneanalitica
     Me.LabelCab(5).visible = (vParam.autocoste)
     
     
     For i = 1 To Me.ListView1.ColumnHeaders.Count
-        ListView1.ColumnHeaders.Item(i).Width = RecuperaValor(cad, i)
+        ListView1.ColumnHeaders.Item(i).Width = RecuperaValor(Cad, i)
         If i > 6 Then Me.LabelCab(i - 1).Width = ListView1.ColumnHeaders(i).Width
 
         Me.LabelCab(i - 1).Left = ListView1.ColumnHeaders.Item(i).Left + 120
@@ -1843,15 +1847,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 0 Or Modo = 2)
