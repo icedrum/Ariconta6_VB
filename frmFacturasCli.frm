@@ -3022,6 +3022,7 @@ Dim AntLetraSer As String
 
 Dim ModificarCobros As Boolean
 
+Dim HaCambiadoTipoIva As Boolean  'Modificando lineas. Si ya ha cambiado el tipo de iva una vez, siempre tendra que calcular el IVA
 
 Private Sub cboFiltro_Click()
     If PrimeraVez Then Exit Sub
@@ -4570,6 +4571,7 @@ Private Sub HacerBusqueda()
     
     CadB1 = ObtenerBusqueda2(Me, , 2, "FrameAux1")
     
+    If CadB = "" And CadB1 = "" Then Exit Sub
     HacerBusqueda2
     
 End Sub
@@ -6168,7 +6170,7 @@ Private Sub BotonModificarLinea(Index As Integer)
             txtAux2(12).Text = DataGridAux(Index).Columns(16).Text 'nombre centro de coste
                  
             IvaCuenta = DevuelveDesdeBD("codigiva", "cuentas", "codmacta", txtaux(5).Text, "N")
-            
+            HaCambiadoTipoIva = False
     End Select
 
     LLamaLineas Index, ModoLineas, anc
@@ -6740,7 +6742,7 @@ Private Sub txtaux_GotFocus(Index As Integer)
 End Sub
 
 
-Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub TxtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     KEYdown KeyCode
 End Sub
 
@@ -6864,7 +6866,11 @@ Private Sub txtAux_LostFocus(Index As Integer)
             
              If Modo = 5 And ModoLineas = 2 Then
                 If txtaux(7).Text <> "" Then
-                    If Val(txtaux(Index).Text) = Val(DBLet(AdoAux(1).Recordset!codigiva, "N")) Then CalcularElIva = False
+                    If Val(txtaux(Index).Text) = Val(DBLet(AdoAux(1).Recordset!codigiva, "N")) Then
+                        If Not HaCambiadoTipoIva Then CalcularElIva = False
+                    Else
+                        HaCambiadoTipoIva = True
+                    End If
                 End If
             End If
             
@@ -7961,7 +7967,7 @@ Dim Aux As Currency
     Else
         'txtAux(11).Text = Format(Round((Aux * Base), 2), FormatoImporte)
         txtaux(11).Text = Format(Round2((Aux * Base), 2), FormatoImporte)
-    End
+            ' End
     End If
 
 End Sub

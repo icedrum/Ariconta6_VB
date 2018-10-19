@@ -85,9 +85,8 @@ Dim Obs As String
         
     ElseIf TipoRemesa = 5 Then
         Linea = vbConfirming
-        Cuenta = "Confriming"
-        'CtaParametros = "pagarecta"
-        CuentaPuente = vParamT.PagosConfirmingCaixa
+        Cuenta = "Confirming"
+        CuentaPuente = vParamT.ConfirmingCtaPuente
     Else
         Linea = vbTalon
         Cuenta = "Talones"
@@ -542,7 +541,7 @@ Dim Obs As String
         Ampliacion = "'RE" & Format(Codigo, "0000") & Format(Anyo, "0000") & "'," & vCP.condecli & ",'" & Ampliacion & "',"
         Ampliacion = Linea & ",'" & RecuperaValor(CtaBanco, 2) & "'," & Ampliacion
         
-        Ampliacion = Ampliacion & TransformaComasPuntos(CStr(GastosBancarios)) & ",NULL,"
+        Ampliacion = Ampliacion & DBSet(GastosBancarios, "N") & ",NULL,"
         'CENTRO DE COSTE
         If vParam.autocoste Then
             Ampliacion = Ampliacion & "'" & RecuperaValor(CtaBanco, 3) & "'"
@@ -3390,7 +3389,7 @@ Dim RaizCuentasCancelacion As String
 Dim CuentaUnica As Boolean
 Dim LCta As Integer
 Dim Dias1 As Integer 'Si no llega al limite
-Dim J As Integer
+Dim J As Long
 Dim F As Date
 Dim CuentaPuente As Boolean
 Dim BorrarEfecto As Boolean
@@ -3401,7 +3400,8 @@ Dim ParaLineasDocumentosRecibidos As String
 Dim vId As Integer
 Dim ImporteDocumento As Currency
 Dim SumasImportesDocumentos As Currency
-
+Dim EfectosEliminados As Boolean   'Realmente no se borran. Updateados
+Dim EfectosEliminados_ As Integer   'Realmente no se borran. Updateados
 Dim EliminaEnRecepcionDocumentos As String
 
     On Error GoTo ERemesa_Elivto
@@ -3577,8 +3577,9 @@ Dim EliminaEnRecepcionDocumentos As String
     NumRegElim = 0 'Total registro
     SumasImportesDocumentos = 0
     EliminaEnRecepcionDocumentos = "|"
+    EfectosEliminados_ = 0
     While Not Rs.EOF
-        J = DateDiff("d", Rs!FecVenci, FechaAbono)
+        J = DateDiff("d", Rs!FecVenci, Now)
         J = J - Dias1
         NumRegElim = NumRegElim + 1
         If J > 0 Then
@@ -3596,7 +3597,7 @@ Dim EliminaEnRecepcionDocumentos As String
                     If vId > 0 Then
                         'Conseguimos importe documento
                         Cuenta = "codmacta"
-                        Ampliacion = DevuelveDesdeBD("importe", "scarecepdoc", "codigo", CStr(vId), "N", Cuenta)
+                        Ampliacion = DevuelveDesdeBD("importe", "talones", "codigo", CStr(vId), "N", Cuenta)
                         ImporteVto = CCur(Ampliacion)
                         'Comprobamos con el importe parcial.
                         If ImporteVto <> ImporteDocumento Then
@@ -3720,6 +3721,7 @@ Dim EliminaEnRecepcionDocumentos As String
             If BorrarEfecto Then
                 'YA NO SE BORRAN LOS EFECTOS
                 Conn.Execute "UPDATE cobros set  siturem='Z' " & SQL
+                EfectosEliminados_ = EfectosEliminados_ + 1
                 'Conn.Execute "DELETE FROM sefecdev " & SQL
                 'Debug.Print ""
             Else
@@ -3883,7 +3885,7 @@ Dim EliminaEnRecepcionDocumentos As String
             
             'Muestro un mesaje diciendo que Ningun vto ha sido eliminado. No deberia pasar pero por si acaso
             'compruebo que tenga vtos
-            If NumRegElim > 0 Then MsgBox "No se ha podido eliminar ningun vencimiento de la remesa " & Codigo & " / " & Anyo, vbInformation
+            'If NumRegElim > 0 Then MsgBox "No se ha podido eliminar ningun vencimiento de la remesa " & Codigo & " / " & Anyo, vbInformation
             RemesasEliminarVtosTalonesPagares = 0
             
             If CuentaPuente Then
@@ -3891,6 +3893,10 @@ Dim EliminaEnRecepcionDocumentos As String
                 SQL = SQL & " and fechaent = '" & Format(FechaAbono, FormatoFecha) & "' and numasien = " & Mc.Contador
                 Conn.Execute SQL
             End If
+            
+                        
+          
+
             
         End If
 
@@ -3900,7 +3906,7 @@ Dim EliminaEnRecepcionDocumentos As String
                       'En numregelim tengo los vtos totales de la remesa
                       'Si queda alguno o no, haremos unas cosas u otras
     If Linea > 0 Then
-        If NumRegElim > Linea Then
+        If NumRegElim <> EfectosEliminados_ Then
             AmpRemesa = "Y"
         
            

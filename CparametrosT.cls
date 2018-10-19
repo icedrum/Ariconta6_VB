@@ -74,9 +74,7 @@ Private mvarIntereseCobrosTarjeta As Currency
 
 Private mvarNorma57 As Byte ' 0.- NO LLEVA     1.- ESCALONA
 
-Private mvarPagosConfirmingNorma As Boolean
-
-
+Private mvarPagosConfirmingTipo As Byte  '0.- Standard   1.- la caixa     2.- SAntander   --- >LO COGE DEL BANCO. HABRA QUE QUITAR DE PARAMETROS
 
 
 Private mvarRemesasPorEntidad As Boolean
@@ -459,9 +457,10 @@ Public Property Get Norma57() As Byte
      Norma57 = mvarNorma57
 End Property
 
-'Solo get
-Public Property Get PagosConfirmingCaixa() As Boolean
-     PagosConfirmingCaixa = mvarPagosConfirmingNorma
+'Solo get'  STANDARD    1.-LA caixa      2.-GR santander
+'Borrar en BD y quitar este parametro
+Public Property Get PagosConfirmingTipo2() As Byte
+     PagosConfirmingTipo2 = mvarPagosConfirmingTipo
 End Property
 
 
@@ -631,7 +630,7 @@ Private Function ParametrosTesoreriaNuevos()
     
     'Marzo 2015
     SQL = "Pagos confirming"
-    mvarPagosConfirmingNorma = DBLet(Rs!CaixaConfirming, "N") = 1
+    mvarPagosConfirmingTipo = DBLet(Rs!caixaconfirming, "N")
     
     'Mayo 2015
     mvarRemesasPorEntidad = (DBLet(Rs!RemesasEntidad, "N") = 1)

@@ -72,7 +72,7 @@ Begin VB.Form frmTESCobros
    End
    Begin VB.Frame FrameFiltro 
       Height          =   705
-      Left            =   9480
+      Left            =   9960
       TabIndex        =   95
       Top             =   30
       Width           =   3255
@@ -161,9 +161,9 @@ Begin VB.Form frmTESCobros
    End
    Begin VB.Frame FrameDesplazamiento 
       Height          =   705
-      Left            =   6720
+      Left            =   7440
       TabIndex        =   90
-      Top             =   30
+      Top             =   0
       Width           =   2415
       Begin MSComctlLib.Toolbar ToolbarDes 
          Height          =   330
@@ -211,7 +211,7 @@ Begin VB.Form frmTESCobros
          Strikethrough   =   0   'False
       EndProperty
       Height          =   270
-      Left            =   13200
+      Left            =   13320
       TabIndex        =   44
       Top             =   270
       Visible         =   0   'False
@@ -222,14 +222,14 @@ Begin VB.Form frmTESCobros
       Left            =   3810
       TabIndex        =   88
       Top             =   30
-      Width           =   2805
+      Width           =   3525
       Begin MSComctlLib.Toolbar Toolbar2 
          Height          =   330
          Left            =   240
          TabIndex        =   89
          Top             =   180
-         Width           =   2355
-         _ExtentX        =   4154
+         Width           =   3075
+         _ExtentX        =   5424
          _ExtentY        =   582
          ButtonWidth     =   609
          ButtonHeight    =   582
@@ -237,7 +237,7 @@ Begin VB.Form frmTESCobros
          Style           =   1
          _Version        =   393216
          BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-            NumButtons      =   5
+            NumButtons      =   6
             BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
                Object.ToolTipText     =   "Datos Fiscales"
             EndProperty
@@ -257,6 +257,9 @@ Begin VB.Form frmTESCobros
             EndProperty
             BeginProperty Button5 {66833FEA-8583-11D1-B16A-00C0F0283628} 
                Object.ToolTipText     =   "Cobros agentes"
+            EndProperty
+            BeginProperty Button6 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Impresion recibo"
             EndProperty
          EndProperty
       End
@@ -3518,7 +3521,7 @@ Begin VB.Form frmTESCobros
    End
    Begin MSComctlLib.Toolbar ToolbarAyuda 
       Height          =   390
-      Left            =   15060
+      Left            =   15240
       TabIndex        =   94
       Top             =   210
       Width           =   405
@@ -5257,6 +5260,12 @@ Dim Tipo As Integer
     B = CompForm2(Me, 1)
     If Not B Then Exit Function
     
+    
+    If CDate(Text1(5).Text) < "01/01/2000" Then
+        MsgBox "Fecha vencimiento incorrecta. ", vbExclamation
+        Exit Function
+    End If
+    
     'NUmero serie
     DevfrmCCtas = DevuelveDesdeBD("tiporegi", "contadores", "tiporegi", Text1(13).Text, "T")
     If DevfrmCCtas = "" Then
@@ -6180,23 +6189,45 @@ Private Sub BotonVerAsiento()
 End Sub
 
 Private Sub BotonImprimirRecibo()
+Dim ImpresionDesdeApu As Boolean
 
-    If lwCobros.SelectedItem Is Nothing Then Exit Sub
-
-
-    CargarTemporal
-
-    frmTESImpRecibo.documentoDePago = ""
-    frmTESImpRecibo.pImporte = lwCobros.SelectedItem.SubItems(9) 'Me.AdoAux(0).Recordset.Fields(14)
-    frmTESImpRecibo.pFechaRec = lwCobros.SelectedItem.SubItems(1) 'Me.AdoAux(0).Recordset.Fields(6)
-    frmTESImpRecibo.pFecFactu = lwCobros.SelectedItem.SubItems(12) 'Me.AdoAux(0).Recordset.Fields(2)
-    frmTESImpRecibo.pNumFactu = lwCobros.SelectedItem.SubItems(11) 'Me.AdoAux(0).Recordset.Fields(1)
-    frmTESImpRecibo.pNumSerie = lwCobros.SelectedItem.SubItems(10) 'Me.AdoAux(0).Recordset.Fields(0)
-    frmTESImpRecibo.pNumOrden = lwCobros.SelectedItem.SubItems(13) 'Me.AdoAux(0).Recordset.Fields(3)
-    frmTESImpRecibo.pNumlinea = lwCobros.SelectedItem.SubItems(14) 'Me.AdoAux(0).Recordset.Fields(4)
+    If Modo <> 2 Then Exit Sub
     
-    frmTESImpRecibo.Show vbModal
+    ImpresionDesdeApu = False
+    If lwCobros.ListItems.Count > 0 Then
+        ImpresionDesdeApu = True
+        If lwCobros.SelectedItem Is Nothing Then Exit Sub
+    End If
+    
+    
+    If ImpresionDesdeApu Then
+        'Lo que hcaqi antes
 
+        CargarTemporal
+    
+        frmTESImpRecibo.documentoDePago = ""
+        frmTESImpRecibo.pImporte = lwCobros.SelectedItem.SubItems(9) 'Me.AdoAux(0).Recordset.Fields(14)
+        frmTESImpRecibo.pFechaRec = lwCobros.SelectedItem.SubItems(1) 'Me.AdoAux(0).Recordset.Fields(6)
+        frmTESImpRecibo.pFecFactu = lwCobros.SelectedItem.SubItems(12) 'Me.AdoAux(0).Recordset.Fields(2)
+        frmTESImpRecibo.pNumFactu = lwCobros.SelectedItem.SubItems(11) 'Me.AdoAux(0).Recordset.Fields(1)
+        frmTESImpRecibo.pNumSerie = lwCobros.SelectedItem.SubItems(10) 'Me.AdoAux(0).Recordset.Fields(0)
+        frmTESImpRecibo.pNumOrden = lwCobros.SelectedItem.SubItems(13) 'Me.AdoAux(0).Recordset.Fields(3)
+        frmTESImpRecibo.pNumlinea = lwCobros.SelectedItem.SubItems(14) 'Me.AdoAux(0).Recordset.Fields(4)
+        
+        frmTESImpRecibo.Show vbModal
+    
+    Else
+        If GeneraDatosImpresion Then
+            If PonerParamRPT("0603-02", cadNomRPT) Then
+                 vMostrarTree = False
+                 cadFormula = "{tmptesoreriacomun.codusu}=" & vUsu.Codigo
+                 cadParam = ""
+                 numParam = 0
+                
+                 ImprimeGeneral
+             End If
+        End If
+    End If
 
 End Sub
 
@@ -6758,4 +6789,175 @@ Private Sub txtAux1_LostFocus(Index As Integer)
                 
     End Select
 End Sub
+
+
+
+
+Private Function GeneraDatosImpresion() As Boolean
+Dim SQL As String
+Dim MostrarDelRs  As Boolean
+Dim Cad As String
+Dim Importe As Currency
+
+    On Error GoTo eGeneraDatosImpresion
+    
+    GeneraDatosImpresion = False
+
+    'Limpiamos
+    Msg = "Delete from tmptesoreriacomun where codusu = " & vUsu.Codigo
+    Conn.Execute Msg
+
+
+    'Guardamos datos empresa
+    Msg = "Delete from tmptesoreria2 where codusu = " & vUsu.Codigo
+    Conn.Execute Msg
+    
+    Msg = "INSERT INTO tmptesoreria2 (codusu, nif, razosoci, dirdatos, codposta, despobla, otralineadir, saludos, "
+    Msg = Msg & "parrafo1, parrafo2, parrafo3, parrafo4, parrafo5, despedida, contacto, Asunto, Referencia)"
+    Msg = Msg & " VALUES (" & vUsu.Codigo & ", "
+    
+    'Estos datos ya veremos com, y cuadno los relleno
+    Set miRsAux = New ADODB.Recordset
+    SQL = "select nifempre,siglasvia,direccion,numero,escalera,piso,puerta,codpos,poblacion,provincia from empresa2"
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    'sql= "'1234567890A','Ariadna Software ','Franco Tormo 3, Bajo Izda','46007','Valencia'"
+    SQL = "'##########','" & vEmpresa.nomempre & "','#############','######','##########','##########'"
+    If Not miRsAux.EOF Then
+        SQL = ""
+        For J = 1 To 6
+            SQL = SQL & DBLet(miRsAux.Fields(J), "T") & " "
+        Next J
+        SQL = Trim(SQL)
+        SQL = "'" & DBLet(miRsAux!nifempre, "T") & "','" & DevNombreSQL(vEmpresa.nomempre) & "','" & DevNombreSQL(SQL) & "'"
+        SQL = SQL & ",'" & DBLet(miRsAux!codpos, "T") & "','" & DevNombreSQL(DBLet(miRsAux!Poblacion, "T")) & "','" & DevNombreSQL(DBLet(miRsAux!Poblacion, "T")) & "'"
+        'Poblacion = DevNombreSQL(DBLet(miRsAux!Poblacion, "T"))
+        
+    End If
+    miRsAux.Close
+ 
+    Msg = Msg & SQL
+    'otralinea,saludos
+    Msg = Msg & ",NULL"
+    'parrafo1
+        
+    SQL = "X"
+    
+
+    Msg = Msg & ",'" & SQL & "'"
+    
+
+    
+    
+    '------------------------------------------------------------------------
+    Msg = Msg & ",NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"
+    Conn.Execute Msg
+
+    'Empezamos
+    SQL = "INSERT INTO tmptesoreriacomun (codusu, codigo, texto1, texto2, texto3, texto4, texto5, "
+    SQL = SQL & "texto6, importe1, importe2, fecha1, fecha2, fecha3, observa1, observa2, opcion)"
+    SQL = SQL & " VALUES (" & vUsu.Codigo & ",1,"
+
+
+    
+    If Text1(42).Text = "" Then
+        'Traigo los datos de la cuenta
+        Cad = "select razosoci,dirdatos,codposta,despobla,desprovi"
+        Cad = Cad & " from cuentas where cuentas.codmacta =" & Text1(4).Text
+        Set miRsAux = New ADODB.Recordset
+        miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        MostrarDelRs = True
+    Else
+       MostrarDelRs = False
+    End If
+        
+        'texto1 , texto2, texto3, texto4, texto5,
+        'texto6, importe1, importe2, fecha1, fecha2, fecha3, observa1, observa2, opcion
+        
+            
+        'Textos
+        '---------
+        '1.- Recibo nª
+        Cad = "'" & Text1(13).Text & "/" & Format(Text1(1).Text, "0000") & "'"
+        
+        'Lugar Vencimiento
+        Cad = Cad & ",'" & DevuelveDesdeBD("pobempre", "empresa2", "1", "1") & "'"
+        Cad = Cad & ",'" & DevNombreSQL(Text1(37).Text) & "',"
+        
+        Cad = Cad & DBSet(Text1(10).Text, "T") & ","
+    
+    
+    
+    
+
+        If Not MostrarDelRs Then
+            Cad = Cad & DBSet(Text1(42).Text, "T") & "," & DBSet(Text1(41).Text, "T")
+        Else
+            Cad = Cad & "'" & DevNombreSQL(DBLet(miRsAux!razosoci, "T")) & "','" & DevNombreSQL(DBLet(miRsAux!dirdatos, "T")) & "'"
+        End If
+        
+        Importe = 0
+        If Text1(16).Text <> "" Then Importe = ImporteFormateado(Text1(16).Text) 'gastos
+        Importe = ImporteFormateado(Text1(6).Text)
+        
+        'IMPORTES
+        '--------------------
+        Cad = Cad & "," & TransformaComasPuntos(CStr(Importe))
+        
+        'El segundo importe NULL   Abril 2014. Tarjetas NAVARRES. Llevara los gastos
+        Msg = "NULL"
+        'Aux = .SubItems(8)
+        Cad = Cad & "," & TransformaComasPuntos(CStr(Msg))
+        
+        'FECFAS
+        '--------------
+        'Ahora
+        Cad = Cad & ",'" & Format(Text1(5).Text, FormatoFecha) & "'"
+        Cad = Cad & ",'" & Format(Text1(2).Text, FormatoFecha) & "'"
+        
+        '3era fecha  NULL
+        Cad = Cad & ",NULL"
+        
+        'OBSERVACIONES
+        '------------------
+        Msg = EscribeImporteLetra(Importe)
+        
+        Msg = "       ** " & Msg
+        Cad = Cad & ",'" & Msg & "**',"
+        
+        
+        'Observa 2
+        '         observa2:    cpclien  pobclien    + vbcrlf + proclien
+        If Not MostrarDelRs Then
+            Msg = DBLet(Text1(40).Text, "T") & "      " & DevNombreSQL(DBLet(Text1(39).Text, "T"))
+            Msg = Trim(Msg)
+            If Msg <> "" Then Msg = Msg & vbCrLf
+            Msg = Msg & " " & DevNombreSQL(DBLet(Text1(38).Text, "T"))
+        Else
+            Msg = DBLet(miRsAux!codposta, "T") & "      " & DevNombreSQL(DBLet(miRsAux!desPobla, "T"))
+            Msg = Trim(Msg)
+            If Msg <> "" Then Msg = Msg & vbCrLf
+            Msg = Msg & " " & DevNombreSQL(DBLet(miRsAux!desProvi, "T"))
+        End If
+        Msg = "'" & Msg & "'"
+    
+        Cad = Cad & Msg
+        
+        
+        
+        'OPCION
+        '--------------
+        Cad = Cad & ",NULL)"
+        Conn.Execute SQL & Cad
+        
+    
+    
+    If MostrarDelRs Then miRsAux.Close
+    
+    GeneraDatosImpresion = True
+eGeneraDatosImpresion:
+    If Err.Number <> 0 Then MuestraError Err.Number, , Err.Description
+    
+    Set miRsAux = Nothing
+End Function
+
 

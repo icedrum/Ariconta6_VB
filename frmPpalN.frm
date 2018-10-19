@@ -3327,7 +3327,7 @@ End Sub
 
 Private Sub AccionesIncioAbrirProgramaEmpresa()
 Dim C As String
-
+Dim Tiene_A_cancelar As Byte    '0: NO    1:  Cobros      2 : Pagos     3 Los dos
     
     
     If vUsu.Nivel = 0 And vUsu.Id >= 0 And vEmpresa.TieneContabilidad Then
@@ -3354,19 +3354,53 @@ Dim C As String
         
         If vEmpresa.TieneTesoreria Then
             If vParamT.ComprobarAlInicio Then
-                If vParamT.PagaresCtaPuente Or vParamT.TalonesCtaPuente Then
+                Tiene_A_cancelar = 0
+                If vParamT.TalonesCtaPuente Or vParamT.TalonesCtaPuente Then
                     'Veremos si tiene remesas talon/pagare
                     C = DevuelveDesdeBD("count(*)", "remesas", "tiporem >1 and situacion>='Q' and situacion <'Z' AND 1", "1")
                     If C = "" Then C = "0"
-                    If Val(C) > 0 Then
-                        
-                        If HayQueMostrarEliminarRiesgoTalPag Then
-                            Screen.MousePointer = vbHourglass
-                            frmMensajes.Opcion = 63
-                            frmMensajes.Show vbModal
-                        End If
-                    End If
+                    If Val(C) > 0 Then Tiene_A_cancelar = 1
                 End If
+                
+                
+                'Si lleva confirming con cuenta puente
+                If vParamT.ConfirmingCtaPuente Then
+                    'Cta puente general
+                    C = "transferencias.codmacta=bancos.codmacta  and transferencias.tipotrans = 0 and "
+                    C = C & " transferencias.subtipo = 2 and situacion>='Q' and situacion <'Z' AND 1"
+                    C = DevuelveDesdeBD("count(*)", "transferencias, bancos", C, "1")
+                    
+                Else
+                
+                    
+ 
+
+
+
+                
+                
+                    C = " transferencias.tipotrans = 0 and transferencias.subtipo = 2 and situacion>='Q' and situacion <'Z'"
+                    C = C & " AND (codigo,anyo) IN (select distinct nrodocum,anyodocum "
+                    C = C & " from pagos, bancos  where bancos.codmacta =pagos.ctabanc1 and ctaconfirming<>'' and"
+                    C = C & " DATE_ADD(now() , INTERVAL coalesce(confirmingriesgo,0) DAY) >fecefect"
+                    C = C & " AND situacion=0 and situdocum>='Q' and situdocum <'Z') AND 1"
+                    C = DevuelveDesdeBD("count(*)", "transferencias", C, "1")
+                    
+                End If
+                If Val(C) > 0 Then Tiene_A_cancelar = Tiene_A_cancelar + 2
+
+                
+                
+                If Tiene_A_cancelar > 0 Then
+                    
+                   ' If HayQueMostrarEliminarRiesgoTalPag Then
+                        Screen.MousePointer = vbHourglass
+                        frmMensajes.Tipo = CStr(Tiene_A_cancelar)
+                        frmMensajes.Opcion = 63
+                        frmMensajes.Show vbModal
+                   ' End If
+                End If
+                
             End If
         
         

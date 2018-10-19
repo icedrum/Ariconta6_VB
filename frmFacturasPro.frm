@@ -4955,6 +4955,9 @@ Private Sub HacerBusqueda()
     
     CadB1 = ObtenerBusqueda2(Me, , 2, "FrameAux1")
     
+    
+    If CadB = "" And CadB1 = "" Then Exit Sub
+    
     HacerBusqueda3 True
     
 End Sub
@@ -5549,6 +5552,7 @@ Dim Cad As String
     
     
     
+    
     If Combo1(0).ListIndex = 0 Then
         Text1(22).Text = "0"
     Else
@@ -5565,6 +5569,7 @@ Dim Cad As String
     Cad = ""
     If CDate(Text1(1).Text) < CDate(Text1(26).Text) Then Cad = Cad & vbCrLf & " - Fecha recepción"
     If CDate(Text1(23).Text) < CDate(Text1(26).Text) Then Cad = Cad & vbCrLf & " - Fecha liquidación"
+       
     If Cad <> "" Then
         Cad = "Error en fechas factura proveedor. " & vbCrLf & Cad & vbCrLf & vbCrLf
         Cad = Cad & "No puede ser inferior a fecha emisión factura."
@@ -5572,8 +5577,10 @@ Dim Cad As String
         Exit Function
     End If
     
-    
-    
+    If CDate(Text1(26).Text) < "01/01/2000" Or CDate(Text1(26).Text) > CDate("01/01/" & Year(vParam.fechafin) + 5) Then
+        MsgBoxA "Fecha emisión factura incorrecta *****", vbExclamation
+        Exit Function
+    End If
     ' NOV 2007
     ' NUEVA ambitode fecha activa
     '       0 .- Año actual
@@ -7319,7 +7326,7 @@ Private Sub txtaux_GotFocus(Index As Integer)
 End Sub
 
 
-Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub TxtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     KEYdown KeyCode
 End Sub
 

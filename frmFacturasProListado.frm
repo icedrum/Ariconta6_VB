@@ -1761,8 +1761,10 @@ Dim nomDocu As String
     vMostrarTree = False
     conSubRPT = False
         
-    
     indRPT = "0405-00"
+    If optVarios(3).Value Then indRPT = "0405-03"  'Numero registro
+    
+    
     If optVarios(1).Value Then indRPT = "0405-01"
     If Check1(1).Value And optVarios(1).Value Then indRPT = "0405-02"
     
@@ -1783,7 +1785,7 @@ Dim nomDocu As String
     
     If optVarios(3).Value Then cadParam = cadParam & "pOrden={tmpfaclin.Numfac}|" ' nro de registro
     If optVarios(0).Value Then cadParam = cadParam & "pOrden={tmpfaclin.fecha}|"   'ctabase --> YA NO
-    If optVarios(2).Value Then cadParam = cadParam & "pOrden={tmpfaclin.fecha}|" ' fecha de recepcion
+    If optVarios(2).Value Then cadParam = cadParam & "pOrden={tmpfaclin.total}|" ' fecha de recepcion
     
     numParam = numParam + 1
     

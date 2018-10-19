@@ -290,14 +290,14 @@ Private Sub Form_Activate()
         CargaCombo
         PosicionarCombo2 Combo1, Text1(0)
          
-        If CodPC > 0 Then
-            If ActualizarVersion Then
-                Set Conn = Nothing
-               Unload Me
-               End
-               Exit Sub
-            End If
-        End If
+'        If CodPC > 0 Then
+'            If ActualizarVersion Then
+'                Set Conn = Nothing
+'               Unload Me
+'               End
+'               Exit Sub
+'            End If
+'        End If
          
         T1 = T1 + 2.5 - Timer
         If T1 > 0 Then espera T1
@@ -633,60 +633,60 @@ ENumeroEmpresaMemorizar:
 End Sub
 
 
-Private Function ActualizarVersion() As Boolean
-Dim Version As Integer
-    ActualizarVersion = 0
-    If Dir(App.Path & "\Actualizar.exe", vbArchive) <> "" Then
-        Set miRsAux = New ADODB.Recordset
-        Version = HayQueActualizar
-        If Version > 0 Then
-            CadenaDesdeOtroForm = "Estan disponibles actualizaciones para instalarse en esta maquina. ¿Desea continuar?"
-            If MsgBox(CadenaDesdeOtroForm, vbQuestion + vbYesNo) = vbYes Then
-                'LANZAMOS EL actualizador
-                CadenaDesdeOtroForm = App.Path & "\Actualizar.exe "
-                '       Parametros
-                '       applicacion    version   PC
-                CadenaDesdeOtroForm = CadenaDesdeOtroForm & " CONTA " & Version & " " & CodPC
-                Shell CadenaDesdeOtroForm, vbNormalNoFocus
-                ActualizarVersion = True
-            End If
-        End If
-        Set miRsAux = Nothing
-        CadenaDesdeOtroForm = ""
-    End If
-End Function
+'''Private Function ActualizarVersion() As Boolean
+'''Dim Version As Integer
+'''    ActualizarVersion = 0
+'''    If Dir(App.Path & "\Actualizar.exe", vbArchive) <> "" Then
+'''        Set miRsAux = New ADODB.Recordset
+'''        Version = HayQueActualizar
+'''        If Version > 0 Then
+'''            CadenaDesdeOtroForm = "Estan disponibles actualizaciones para instalarse en esta maquina. ¿Desea continuar?"
+'''            If MsgBox(CadenaDesdeOtroForm, vbQuestion + vbYesNo) = vbYes Then
+'''                'LANZAMOS EL actualizador
+'''                CadenaDesdeOtroForm = App.Path & "\Actualizar.exe "
+'''                '       Parametros
+'''                '       applicacion    version   PC
+'''                CadenaDesdeOtroForm = CadenaDesdeOtroForm & " CONTA " & Version & " " & CodPC
+'''                Shell CadenaDesdeOtroForm, vbNormalNoFocus
+'''                ActualizarVersion = True
+'''            End If
+'''        End If
+'''        Set miRsAux = Nothing
+'''        CadenaDesdeOtroForm = ""
+'''    End If
+'''End Function
 
 
-Private Function HayQueActualizar() As Integer
-Dim v As Integer
-    On Error GoTo EA
-    HayQueActualizar = 0
-    
-    CadenaDesdeOtroForm = "Select max(ver) from yVersion where app='CONTA'"
-    miRsAux.Open CadenaDesdeOtroForm, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    v = 0
-    If Not miRsAux.EOF Then v = DBLet(miRsAux.Fields(0), "N")
-    miRsAux.Close
-    If v = 0 Then Exit Function
-    
-    
-    'YA TENGO LA ULTIMA VERSION disponible. Voy a ver cual tengo
-    CadenaDesdeOtroForm = DevuelveDesdeBD("Conta", "PCs", "codpc", CStr(CodPC), "N")
-    If CadenaDesdeOtroForm = "" Then CadenaDesdeOtroForm = 0
-    NumRegElim = Val(CadenaDesdeOtroForm)
-    If v > NumRegElim Then
-        'OK esta desactualizado.
-        'Veo cual es la version qe hay que lanzar.
-        HayQueActualizar = NumRegElim + 1
-    End If
-        
-    
-    Exit Function
-EA:
-    Err.Clear
-    Err.Clear
-    Set miRsAux = Nothing
-End Function
+'''Private Function HayQueActualizar() As Integer
+'''Dim v As Integer
+'''    On Error GoTo EA
+'''    HayQueActualizar = 0
+'''
+'''    CadenaDesdeOtroForm = "Select max(ver) from yVersion where app='CONTA'"
+'''    miRsAux.Open CadenaDesdeOtroForm, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+'''    v = 0
+'''    If Not miRsAux.EOF Then v = DBLet(miRsAux.Fields(0), "N")
+'''    miRsAux.Close
+'''    If v = 0 Then Exit Function
+'''
+'''
+'''    'YA TENGO LA ULTIMA VERSION disponible. Voy a ver cual tengo
+'''    CadenaDesdeOtroForm = DevuelveDesdeBD("Conta", "PCs", "codpc", CStr(CodPC), "N")
+'''    If CadenaDesdeOtroForm = "" Then CadenaDesdeOtroForm = 0
+'''    NumRegElim = Val(CadenaDesdeOtroForm)
+'''    If v > NumRegElim Then
+'''        'OK esta desactualizado.
+'''        'Veo cual es la version qe hay que lanzar.
+'''        HayQueActualizar = NumRegElim + 1
+'''    End If
+'''
+'''
+'''    Exit Function
+'''EA:
+'''    Err.Clear
+'''    Err.Clear
+'''    Set miRsAux = Nothing
+'''End Function
 
 
 

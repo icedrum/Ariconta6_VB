@@ -868,49 +868,26 @@ On Error Resume Next
 
     CopiarEnDisquette = False
     
- '   If A_disquetera Then
- '       For I = 1 To Intentos
- '           Cad = "Introduzca un disco vacio. (" & I & ")"
- '           MsgBox Cad, vbInformation
- '           FileCopy App.Path & "\norma34.txt", "a:\norma34.txt"
- '           If Err.Number <> 0 Then
- '               MuestraError Err.Number, "Copiar En Disquette"
- '           Else
- '               CopiarEnDisquette = True
- '               Exit For
- '           End If
- '       Next I
- '   Else
+ 
         If AuxD = "" Then
             Cad = Format(Now, "ddmmyyhhnn")
             Cad = App.Path & "\" & Cad & ".txt"
         Else
             Cad = AuxD
         End If
-        'If Es34 Then
-        '    FileCopy App.Path & "\norma34.txt", Cad
-        'Else
-        '    FileCopy App.Path & "\norma68.txt", Cad
-        'End If
         Select Case TipoFichero
         Case 0
             FileCopy App.Path & "\norma34.txt", Cad
         Case 1
             FileCopy App.Path & "\norma34.txt", Cad
         Case 2
-        'ANTES JUNIO18
-'            If vParamT.PagosConfirmingCaixa Then
-'                FileCopy App.Path & "\normaCaixa.txt", Cad
-'            Else
-'                FileCopy App.Path & "\norma68.txt", Cad
-'            End If
+ 
             FileCopy App.Path & "\norma68.txt", Cad
         Case 3
-            If vParamT.PagosConfirmingCaixa Then
-                FileCopy App.Path & "\normaCaixa.txt", Cad
-            Else
-                FileCopy App.Path & "\norma68.txt", Cad
-            End If
+            'vbConfirmingStd
+            
+            FileCopy App.Path & "\confirming.txt", Cad
+            
         End Select
         If Err.Number <> 0 Then
             MsgBox "Error creando copia fichero. Consulte soporte técnico." & vbCrLf & Err.Description, vbCritical
@@ -1142,7 +1119,7 @@ Dim Cad As String
             'Guardare el numero de contrato de CAIXACONFIRMING
             ' Sera, un char de 14
             ' Si no pone nada sera oficnacuenta  Total 14 posiciones
-            ConceptoTr_ = Trim(DBLet(Rs!CaixaConfirming, "T"))
+            ConceptoTr_ = Trim(DBLet(Rs!caixaconfirming, "T"))
             If ConceptoTr_ = "" Then ConceptoTr_ = Mid(CodigoOrdenante, 5, 4) & Mid(CodigoOrdenante, 11, 10)
             
             '                ENTIDAD
@@ -1159,7 +1136,7 @@ Dim Cad As String
     End If
     
     NFich = FreeFile
-    Open App.Path & "\normaCaixa.txt" For Output As #NFich
+    Open App.Path & "\confirming.txt" For Output As #NFich
     
     
     
@@ -1287,6 +1264,189 @@ EGen:
     MuestraError Err.Number, Err.Description
 
 End Function
+
+
+
+
+
+
+'Grupos santander. Confirming
+'******************************************************************************************************************
+'******************************************************************************************************************
+'
+'       Genera fichero CAIXACONFIRMING
+'
+'Cuenta propia tendra empipados entidad|sucursal|cc|cuenta|
+Public Function GeneraFicheroGrSantanderConfirming(CIF As String, Fecha As Date, CuentaPropia As String, vNumeroTransferencia As Integer, ByVal ConceptoTr_ As String, vAnyoTransferencia As String) As Boolean
+Dim NFich As Integer
+Dim Regs As Integer
+Dim CodigoOrdenante As String
+Dim Importe As Currency
+Dim Im As Currency
+Dim Rs As ADODB.Recordset
+Dim Aux As String
+Dim Cad As String
+
+
+    On Error GoTo EGen
+    GeneraFicheroGrSantanderConfirming = False
+    
+    NumeroTransferencia = vNumeroTransferencia
+    NFich = -1
+    
+    'Cargamos la cuenta
+    Cad = "Select * from bancos where codmacta='" & CuentaPropia & "'"
+    Set Rs = New ADODB.Recordset
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Aux = Right("    " & CIF, 9)
+    Aux = Mid(CIF & Space(10), 1, 9)
+    If Rs.EOF Then
+        Cad = ""
+    Else
+
+            
+            'CodigoOrdenante = Mid(DBLet(Rs!IBAN), 4, 20) 'Format(RS!Entidad, "0000") & Format(DBLet(RS!oficina, "N"), "0000") & Format(DBLet(RS!Control, "N"), "00") & Format(DBLet(RS!CtaBanco, "T"), "0000000000")
+            
+            'If Not DevuelveIBAN2("ES", CodigoOrdenante, Cad) Then Cad = ""
+            'CuentaPropia = "ES" & Cad & CodigoOrdenante
+                        
+            'Esta variable NO se utiliza. La cojo "prestada"
+            'Guardare el numero de contrato de CAIXACONFIRMING
+            ' Sera, un char de 14
+            ' Si no pone nada sera oficnacuenta  Total 14 posiciones
+            'ConceptoTr_ = Trim(DBLet(Rs!caixaconfirming, "T"))
+            'If ConceptoTr_ = "" Then ConceptoTr_ = Mid(CodigoOrdenante, 5, 4) & Mid(CodigoOrdenante, 11, 10)
+           '
+            '                ENTIDAD
+            'ConceptoTr_ = Mid(CodigoOrdenante, 1, 4) & ConceptoTr_
+       
+            CodigoOrdenante = Mid(DBLet(Rs!caixaconfirming, "T") & Space(16), 1, 16)
+        
+    End If
+    Rs.Close
+    Set Rs = Nothing
+    If Cad = "" Then
+        MsgBox "Error leyendo datos para: " & CuentaPropia, vbExclamation
+        Exit Function
+    End If
+    
+    NFich = FreeFile
+    Open App.Path & "\confirming.txt" For Output As #NFich
+    
+    
+    '1PPK             B20899563                EULER POMPAK, S.L. EULER POMPAK, S.L.   20181001CONF.LIKSUR30OCTEUR
+                                             ' 1234567890123456789012345678901234567890
+    
+    'Resgristro 1 de cabecera
+    
+    
+    Aux = Mid(Aux & Space(25), 1, 25)   'CIF +25
+    Aux = "1" & CodigoOrdenante & Aux
+    Aux = Aux & Mid(vEmpresa.NombreEmpresaOficial & Space(40), 1, 40)
+    Aux = Aux & Format(Fecha, "yyyymmdd") & ConceptoTr_ & "EUR"
+    Aux = Mid(Aux & Space(578), 1, 578)
+    Print #NFich, Aux
+    
+    
+    
+    
+    Set Rs = New ADODB.Recordset
+    
+    
+    
+    'Imprimimos las lineas
+    Cad = "Abriendo RS"
+    Aux = "Select pagos.*,maidatos ,telefonocta from pagos left join cuentas on cuentas.codmacta=pagos.codmacta"
+    Aux = Aux & " where  nrodocum =" & NumeroTransferencia
+    Aux = Aux & " and anyodocum = " & DBSet(vAnyoTransferencia, "N")
+    Rs.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Importe = 0
+    If Rs.EOF Then
+        'No hayningun registro
+        
+    Else
+        Regs = 0
+        While Not Rs.EOF
+                '*********************************************************
+                'Suposicion 1,. TODOS son nacionales
+                '*********************************************************
+               
+                Im = 0
+                Im = Rs!ImpEfect - Im
+                
+                Cad = "NIF"
+                Aux = "2" & RellenaABlancos(Rs!NifProve, True, 15)   'pos :16
+                Aux = Aux & "1" & RellenaABlancos(Rs!NifProve, True, 22)   'pos :16
+                
+                Cad = "NOmbre prov"
+                Aux = Aux & "J" & RellenaABlancos(Rs!nomprove, True, 90)
+                'Pos:131
+                Aux = Aux & "ESCL"
+                'Pos:135
+                Aux = Aux & RellenaABlancos(DBLet(Rs!domprove, "T"), True, 88)
+                'Pos:223
+                Aux = Aux & RellenaABlancos(DBLet(Rs!pobprove, "T"), True, 25)
+                'Pos:248
+                Aux = Aux & RellenaABlancos(DBLet(Rs!cpprove, "T"), True, 8)
+                'Pos:256
+                Aux = Aux & RellenaABlancos(DBLet(Rs!proprove, "T"), True, 25)
+                '
+                Aux = Aux & "ES" & RellenaABlancos(DBLet(Rs!telefonocta, "T"), True, 28)
+                '311
+                Aux = Aux & RellenaABlancos(DBLet(Rs!maidatos, "T"), True, 60)
+                Aux = Aux & "T" & Space(42)
+                '414
+                Cad = "IBAN"
+                Aux = Aux & RellenaABlancos(Rs!IBAN, True, 47)
+                Cad = "Nº factura"
+                Aux = Aux & "EUR" & "F" & RellenaABlancos(Rs!NumFactu, True, 15)
+                
+                
+                
+                '480
+                Aux = Aux & RellenaAceros(CStr(Im * 100), False, 15)
+                '495
+                Cad = "Fecha factura-vto"
+                Aux = Aux & Format(Rs!FecFactu, "yyyymmdd") & Format(Rs!fecefect, "yyyymmdd")
+                Aux = Aux & Space(45) & "E" & Space(21)
+                        
+                Print #NFich, Aux
+                
+               'Totales
+               Importe = Importe + Im
+               Regs = Regs + 1
+               Rs.MoveNext
+        Wend
+        'Imprimimos totales
+        Aux = "3"
+        Aux = Aux & RellenaAceros(CStr(Regs), False, 6)
+        Aux = Aux & RellenaAceros(CStr(Importe * 100), False, 15)
+        Aux = Aux & Space(555)
+        Print #NFich, Aux
+        
+        
+    End If
+    Rs.Close
+    Set Rs = Nothing
+    Close (NFich)
+    NFich = -1
+    If Regs > 0 Then
+        GeneraFicheroGrSantanderConfirming = True
+    Else
+        MsgBox "No se han leido registros en la tabla de pagos", vbExclamation
+    End If
+    Exit Function
+EGen:
+    MuestraError Err.Number, Err.Description, Cad
+     If NFich > 0 Then Close (NFich)
+End Function
+
+
+
+
+
+
+
 
 
 
@@ -2140,6 +2300,7 @@ Dim Fin As Boolean
     Cad = "Select * from bancos where codmacta='" & CuentaPropia & "'"
     Set Rs = New ADODB.Recordset
     Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    CodigoOrdenante2 = "000"
     Aux = Right("    " & CIF, 9)
     Aux = Mid(CIF & Space(10), 1, 9)
     If Rs.EOF Then
@@ -2151,6 +2312,7 @@ Dim Fin As Boolean
             CuentaPropia = Rs!IBAN
              
         End If
+        If Not IsNull(Rs!sufijoconfirming) Then CodigoOrdenante2 = Mid(Rs!sufijoconfirming & CodigoOrdenante2, 1, 3)
     End If
     Rs.Close
     
@@ -2158,7 +2320,7 @@ Dim Fin As Boolean
         
     
     NFich = FreeFile
-    Open App.Path & "\norma68.txt" For Output As #NFich
+    Open App.Path & "\confirming.txt" For Output As #NFich
     
     
     
@@ -2167,7 +2329,8 @@ Dim Fin As Boolean
     
     'CABECERA
     '-----------------------------------------------------
-    CodigoOrdenante2 = "13" & "70" & CIF & "000" & Space(9)    '000-> sufijo      Libre(9)
+    
+    CodigoOrdenante2 = "13" & "70" & CIF & CodigoOrdenante2 & Space(9)    '000-> sufijo      Libre(9)
         
         
     '1er registro 001
@@ -2315,10 +2478,10 @@ Dim Fin As Boolean
 EGen:
     MuestraError Err.Number, Err.Description
     Set Rs = Nothing
-    IntentaCerrar NFich
+    IntentaCErrar NFich
 End Function
 
-Private Sub IntentaCerrar(NumeroFichero As Integer)
+Private Sub IntentaCErrar(NumeroFichero As Integer)
  On Error Resume Next
  Close (NumeroFichero)
  Err.Clear

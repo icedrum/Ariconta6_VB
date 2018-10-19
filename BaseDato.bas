@@ -1568,41 +1568,41 @@ End Sub
 'El ctaSQL es para no tener que copiar el SQL de insertar
 
 
-
-'Calculamos los importes de los cierres para obtener la consulta sin ellos
-Private Sub CalcularImporteCierreCtaExplotacion(Cerrados As Boolean, ByRef fFin As Date)
-
-    SQL = "Select SUM(timporteD),sum(timporteH) from "
-    If Contabilidad > 0 Then SQL = SQL & "conta" & Contabilidad & "."
-    SQL = SQL & "hlinapu"
-    If Cerrados Then SQL = SQL & "1"
-    SQL = SQL & " WHERE codmacta  like '" & vCta
-    If Len(vCta) <> vEmpresa.DigitosUltimoNivel Then SQL = SQL & "%"
-    SQL = SQL & "' and codconce ="
-    d = Mid(vCta, 1, 1)
-    If d = vParam.grupogto Or d = vParam.grupovta Or d = vParam.grupoord Then
-        SQL = SQL & "960" 'perdidas y ganacias
-    Else
-        SQL = SQL & "980" ' cierre
-    End If
-    SQL = SQL & " AND fechaent = '" & Format(fFin, FormatoFecha) & "'"
-    SQL = SQL & ";"
-
-    
-    RT.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    If IsNull(RT.Fields(0)) Then
-        ImCierrD = 0
-    Else
-        ImCierrD = RT.Fields(0)
-    End If
-    If IsNull(RT.Fields(1)) Then
-        ImCierrH = 0
-    Else
-        ImCierrH = RT.Fields(1)
-    End If
-
-    RT.Close
-End Sub
+'''''''''''
+''''''''''''Calculamos los importes de los cierres para obtener la consulta sin ellos
+'''''''''''Private Sub CalcularImporteCierreCtaExplotacion(Cerrados As Boolean, ByRef fFin As Date)
+'''''''''''
+'''''''''''    SQL = "Select SUM(timporteD),sum(timporteH) from "
+'''''''''''    If Contabilidad > 0 Then SQL = SQL & "conta" & Contabilidad & "."
+'''''''''''    SQL = SQL & "hlinapu"
+'''''''''''    If Cerrados Then SQL = SQL & "1"
+'''''''''''    SQL = SQL & " WHERE codmacta  like '" & vCta
+'''''''''''    If Len(vCta) <> vEmpresa.DigitosUltimoNivel Then SQL = SQL & "%"
+'''''''''''    SQL = SQL & "' and codconce ="
+'''''''''''    d = Mid(vCta, 1, 1)
+'''''''''''    If d = vParam.grupogto Or d = vParam.grupovta Or d = vParam.grupoord Then
+'''''''''''        SQL = SQL & "960" 'perdidas y ganacias
+'''''''''''    Else
+'''''''''''        SQL = SQL & "980" ' cierre
+'''''''''''    End If
+'''''''''''    SQL = SQL & " AND fechaent = '" & Format(fFin, FormatoFecha) & "'"
+'''''''''''    SQL = SQL & ";"
+'''''''''''
+'''''''''''
+'''''''''''    RT.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+'''''''''''    If IsNull(RT.Fields(0)) Then
+'''''''''''        ImCierrD = 0
+'''''''''''    Else
+'''''''''''        ImCierrD = RT.Fields(0)
+'''''''''''    End If
+'''''''''''    If IsNull(RT.Fields(1)) Then
+'''''''''''        ImCierrH = 0
+'''''''''''    Else
+'''''''''''        ImCierrH = RT.Fields(1)
+'''''''''''    End If
+'''''''''''
+'''''''''''    RT.Close
+'''''''''''End Sub
 
 
 
@@ -3618,7 +3618,7 @@ Public Function GeneraDatosBalanConfigImpresion(NumBalan As Integer)
  
  
         SQL = "Select * from "
-        If Contabilidad > 0 Then SQL = SQL & "Conta" & Contabilidad & "."
+        If Contabilidad > 0 Then SQL = SQL & "ariconta" & Contabilidad & "."
         SQL = SQL & "balances_texto where numbalan=" & NumBalan & " AND padre"
         Aux = "INSERT INTO tmpimpbalan (codusu, Pasivo, codigo, descripcion, linea, importe1, importe2, negrita,LibroCD,QueCuentas) VALUES (" & vUsu.Codigo
         Codigo = "Select importe1,importe2,quecuentas from "
@@ -3759,7 +3759,7 @@ Dim AuxPyG As String
         'Cuando termina de cargar el arbol vamos calculando las sumas
         SQL = "SELECT * FROM "
         'Al ponerle Conta?.   lo k damos a entender es k lee la configuracion de su PROIPA sperdi
-        If Contabilidad > 0 Then SQL = SQL & "Conta" & Contabilidad & "."
+        If Contabilidad > 0 Then SQL = SQL & "ariconta" & Contabilidad & "."
         SQL = SQL & "balances_texto where numbalan=" & NumBalan & " AND tipo = 1"
         SQL = SQL & " ORDER BY orden"
         
@@ -3784,7 +3784,7 @@ Dim AuxPyG As String
             
             
             SQL = "UPDATE "
-            If Contabilidad > 0 Then SQL = SQL & "Conta" & Contabilidad & "."
+            If Contabilidad > 0 Then SQL = SQL & "ariconta" & Contabilidad & "."
             SQL = SQL & "tmpimpbalance SET importe1 =" & d
             If M2 > 0 Then
                 H = TransformaComasPuntos(CStr(ImpH))
@@ -3806,11 +3806,11 @@ Dim AuxPyG As String
         '-----------------------------------------------------------------------------
         
         SQL = "Select * from "
-        If Contabilidad > 0 Then SQL = SQL & "Conta" & Contabilidad & "."
+        If Contabilidad > 0 Then SQL = SQL & "ariconta" & Contabilidad & "."
         SQL = SQL & "balances_texto where numbalan=" & NumBalan & " AND padre"
         Aux = "INSERT INTO tmpimpbalan (codusu, Pasivo, codigo, descripcion, linea, importe1, importe2, negrita,LibroCD,QueCuentas) VALUES (" & vUsu.Codigo
         Codigo = "Select importe1,importe2,quecuentas from "
-        If Contabilidad > 0 Then Codigo = Codigo & "Conta" & Contabilidad & "."
+        If Contabilidad > 0 Then Codigo = Codigo & "ariconta" & Contabilidad & "."
         Codigo = Codigo & "tmpimpbalance where codusu=" & vUsu.Codigo & " AND pasivo='"
         M1 = 1
         
@@ -4427,7 +4427,7 @@ Dim Rs As Recordset
         Else
             Set Rs = New ADODB.Recordset
             C = "Select count(*) from "
-            If Contabilidad > 0 Then C = C & "Conta" & Contabilidad & "."
+            If Contabilidad > 0 Then C = C & "ariconta" & Contabilidad & "."
             C = C & "hlinapu where (codconce=960 or codconce = 980) and fechaent>='" & Format(vParam.fechaini, FormatoFecha)
             C = C & "' AND fechaent <='" & Format(vParam.fechafin, FormatoFecha) & "'"
             Rs.Open C, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -5311,7 +5311,7 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     '-----------------------------------------------
     SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
     
-    SQL = SQL & " select " & vUsu.Codigo & ",porciva,porcrec,sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & Periodo & "," & Anyo & ",2 "
+    SQL = SQL & " select " & vUsu.Codigo & ",porciva,coalesce(porcrec,0),sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & Periodo & "," & Anyo & ",2 "
     SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
     SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
     SQL = SQL & " and factpro.codopera = 0 " ' tipo de operacion general

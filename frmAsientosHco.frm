@@ -2981,6 +2981,9 @@ Private Sub HacerBusqueda()
     
     CadB1 = ObtenerBusqueda2(Me, , 2, "FrameAux1")
     
+    
+    If CadB = "" And CadB1 = "" Then Exit Sub
+    
     HacerBusqueda2
     
 End Sub
@@ -4433,7 +4436,7 @@ Private Sub txtaux_GotFocus(Index As Integer)
     If Index = 8 Then txtaux(Index).SelStart = Len(txtaux(Index).Text)
 End Sub
 
-Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub TxtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = 112 Then
         'Esto sera k hemos pulsado el ENTER
         txtAux_LostFocus Index

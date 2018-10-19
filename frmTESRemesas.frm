@@ -3354,7 +3354,12 @@ Dim PrVezColumn As Boolean
         IT.Text = DBLet(miRsAux!Codigo, "N")
         IT.SubItems(1) = DBLet(miRsAux!Anyo, "N")
         IT.SubItems(2) = Format(miRsAux!fecremesa, "dd/mm/yyyy")
-        IT.SubItems(3) = DBLet(miRsAux!descsituacion, "T")
+        Cad = DBLet(miRsAux!descsituacion, "T")
+        Cad = Replace(Cad, "EFECTOS", "")
+        Cad = Replace(Cad, "CLIENTE", "CLI.")
+        Cad = Replace(Cad, "CONTABILIZADOS", "CONT.")
+
+        IT.SubItems(3) = Cad
         IT.ListSubItems(3).ToolTipText = DBLet(miRsAux!descsituacion, "T")
         IT.SubItems(4) = miRsAux!codmacta
         IT.SubItems(5) = DBLet(miRsAux!Nommacta, "T")

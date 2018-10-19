@@ -1162,8 +1162,18 @@ Dim CadenaImportes As String
             "¿ Desea que sea a compensar ?"
         i = MsgBox(Cad, vbQuestion + vbYesNoCancel)
         If i = vbCancel Then Exit Sub
+        
         Es_A_Compensar = 0
         If i = vbYes Then Es_A_Compensar = 1
+        
+        
+        If Es_A_Compensar = 0 Then
+            Cad = DevuelveDesdeBD("iban1", "empresa2", "1", "1")
+            If Cad = "" Then
+                MsgBox "Falta configurar IBAN para la deolucion", vbExclamation
+                Exit Sub
+            End If
+        End If
         
     Else
         Cad = "Ingreso por cta banco?" & vbCrLf & vbCrLf
@@ -1255,7 +1265,7 @@ Dim Rs As ADODB.Recordset
     'DevuelveImporte 31, 0   '%  PONIA 31 antes de ene 18
     Cad = Cad & "10000" '100%
     Cad = Cad & "0000"
-    DevuelveImporte Abs(ImpTotal * 1), 0
+    DevuelveImporte ImpTotal * 1, 0
 
 
     'IVA a la importación liquidado por la Aduana pendiente de ingreso  [77]
@@ -1671,6 +1681,7 @@ Dim Resul As String
     If Importe < 0 Then
         Aux = ""
         Resul = "N"
+        Importe = Importe * -1
     Else
         Aux = "0"
     End If

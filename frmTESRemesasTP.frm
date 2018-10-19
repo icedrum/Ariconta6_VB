@@ -1361,7 +1361,7 @@ Begin VB.Form frmTESRemesasTP
                   Object.ToolTipText     =   "Devolución"
                EndProperty
                BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Eliminar riesgo"
+                  Object.ToolTipText     =   "Cancelación remesas cuentas puente"
                EndProperty
             EndProperty
          End
@@ -2668,7 +2668,7 @@ Private Sub HacerToolBar2(Boton As Integer)
         Case 3
             If Not lw1.SelectedItem Is Nothing Then
                 If Asc(lw1.SelectedItem.SubItems(8)) < Asc("Q") Then
-                    MsgBox "La situacion de la remesa debe ser  contabilizada", vbExclamation
+                    MsgBox "La situacion de la remesa debe ser  contabilizada/abonada", vbExclamation
                     Exit Sub
                 ElseIf Asc(lw1.SelectedItem.SubItems(8)) = Asc("Z") Then
                     Exit Sub
@@ -3047,6 +3047,7 @@ End Sub
 
 Private Sub CargaList()
 Dim IT
+Dim N As Integer
 
     Screen.MousePointer = vbHourglass
     
@@ -3070,11 +3071,11 @@ Dim IT
     lw1.ColumnHeaders.Add , , "Código", 950
     lw1.ColumnHeaders.Add , , "Año", 700
     lw1.ColumnHeaders.Add , , "Fecha", 1350
-    lw1.ColumnHeaders.Add , , "Situación", 1640
-    lw1.ColumnHeaders.Add , , "Cuenta", 1440
-    lw1.ColumnHeaders.Add , , "Nombre", 2940
+    lw1.ColumnHeaders.Add , , "Situación", 2400
+    lw1.ColumnHeaders.Add , , "Cuenta", 1400
+    lw1.ColumnHeaders.Add , , "Nombre", 2500
     lw1.ColumnHeaders.Add , , "Descripción", 2940
-    lw1.ColumnHeaders.Add , , "Importe", 1940, 1
+    lw1.ColumnHeaders.Add , , "Importe", 1640, 1
     lw1.ColumnHeaders.Add , , "S", 0, 1
     lw1.ColumnHeaders.Add , , "T", 0, 1
     lw1.ColumnHeaders.Add , , "Tipo", 1300
@@ -3087,10 +3088,21 @@ Dim IT
         IT.Text = DBLet(miRsAux!Codigo, "N")
         IT.SubItems(1) = DBLet(miRsAux!Anyo, "N")
         IT.SubItems(2) = Format(miRsAux!fecremesa, "dd/mm/yyyy")
-        IT.SubItems(3) = DBLet(miRsAux!descsituacion, "T")
+        
+        Cad = DBLet(miRsAux!descsituacion, "T")
+        If InStr(1, Cad, "EFECT") > 0 Then
+            N = InStr(1, Cad, " ")
+            If N > 0 Then Cad = Mid(Cad, N + 1)
+        Else
+            N = InStr(1, Cad, "CLIE")
+            If N > 0 Then Cad = Replace(Cad, "CLIENTE", "CLI.")
+        End If
+        Cad = Replace(Cad, "CONTABILIZADOS", "CONT.")
+        
+        IT.SubItems(3) = Cad
         IT.ListSubItems(3).ToolTipText = DBLet(miRsAux!descsituacion, "T")
         IT.SubItems(4) = miRsAux!codmacta
-        IT.SubItems(5) = DBLet(miRsAux!Nommacta, "T")
+        IT.SubItems(5) = Mid(DBLet(miRsAux!Nommacta, "T"), 1, 18)
         IT.ListSubItems(5).ToolTipText = DBLet(miRsAux!Nommacta, "T")
         IT.SubItems(6) = Trim(DBLet(miRsAux!Descripcion, "T"))
         IT.ListSubItems(6).ToolTipText = DBLet(miRsAux!Descripcion, "T")
@@ -3865,6 +3877,7 @@ Dim Byt As Byte
       
         
     CadenaDesdeOtroForm = ""
+    CadenaDesdeOtroForm = lw1.SelectedItem.SubItems(2)
     frmMensajes.Opcion = 61
     frmMensajes.Show vbModal
     If CadenaDesdeOtroForm = "" Then Seguir = False

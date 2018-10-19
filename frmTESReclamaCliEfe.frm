@@ -1699,7 +1699,7 @@ Dim nomDocu As String
         Cad = Cad & " GROUP BY fechaadq ORDER BY maidatos"
         Rs.Open Cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
         
-        Cad = "pFechaIMP= """ & txtFecha(4).Text & """|"
+        Cad = "pFechaIMP= """ & txtfecha(4).Text & """|"
         Cad = Cad & "pverCCC= " & Abs(Me.chkMostrarCta) & "|"
         
         cadParam = cadParam & Cad
@@ -1782,9 +1782,9 @@ Dim nomDocu As String
              
              espera 0.5
              
-             SQL = "Reclamacion fecha: " & txtFecha(4).Text & "|"
+             SQL = "Reclamacion fecha: " & txtfecha(4).Text & "|"
              
-             SQL = SQL & "Reclamación pago facturas efectuada el : " & txtFecha(4).Text & "|"
+             SQL = SQL & "Reclamación pago facturas efectuada el : " & txtfecha(4).Text & "|"
              
              'Escalona
              SQL = txtVarios(0).Text & "|Recuerde: En el archivo adjunto le enviamos información de su interés.|"
@@ -1870,7 +1870,7 @@ Dim CONT As Long
     CONT = 0
     If Not Rs.EOF Then CONT = DBLet(Rs.Fields(0), "N")
     Rs.Close
-    CONT = CONT + 1
+  
 
     SQL = "SELECT tmpentrefechas.nomconam,cuentas.nommacta from tmpentrefechas, cuentas where codusu = " & vUsu.Codigo
     SQL = SQL & " and tmpentrefechas.nomconam = cuentas.codmacta "
@@ -1879,8 +1879,10 @@ Dim CONT As Long
     
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
+        CONT = CONT + 1
+        
         SQL = "INSERT INTO reclama (codigo, fecreclama, codmacta, nommacta, carta, importes, observaciones)"
-        SQL = SQL & " VALUES (" & DBSet(CONT, "N") & "," & "'" & Format(txtFecha(4).Text, FormatoFecha) & "'," & DBSet(Rs!nomconam, "T")
+        SQL = SQL & " VALUES (" & DBSet(CONT, "N") & "," & "'" & Format(txtfecha(4).Text, FormatoFecha) & "'," & DBSet(Rs!nomconam, "T")
         SQL = SQL & "," & DBSet(Rs!Nommacta, "T") & ","
     
         If optTipoSal(3).Value = 1 Then
@@ -1890,7 +1892,7 @@ Dim CONT As Long
         End If
     
         SQL = SQL & "0,"
-        SQL = SQL & "'Reclamación de Fecha:" & txtFecha(4).Text & "')"
+        SQL = SQL & "'Reclamación de Fecha:" & txtfecha(4).Text & "')"
         
         Conn.Execute SQL
         
@@ -1931,7 +1933,7 @@ Dim SQL As String
     End If
 
 
-    SQL = "update cobros, tmpentrefechas set cobros.ultimareclamacion = " & DBSet(txtFecha(4).Text, "F")
+    SQL = "update cobros, tmpentrefechas set cobros.ultimareclamacion = " & DBSet(txtfecha(4).Text, "F")
     SQL = SQL & " where tmpentrefechas.codusu = " & DBSet(vUsu.Codigo, "N")
     SQL = SQL & " and tmpentrefechas.codccost = cobros.numserie "
     SQL = SQL & " and tmpentrefechas.nomccost = cobros.numfactu "
@@ -2032,7 +2034,7 @@ Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCarta_Click()
@@ -2101,10 +2103,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
     End Select
     
     Screen.MousePointer = vbDefault
@@ -2410,7 +2412,7 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim SQL2 As String
+Dim Sql2 As String
 
     'Monto el SQL
     SQL = "Select cobros.codmacta Cliente, cobros.nomclien Nombre, cobros.fecfactu FFactura, cobros.fecvenci FVenci, "
@@ -2424,7 +2426,7 @@ Dim SQL2 As String
             
             
 
-    SQL = SQL & " ORDER BY " & SQL2
+    SQL = SQL & " ORDER BY " & Sql2
 
             
     'LLamos a la funcion
@@ -2446,7 +2448,7 @@ Dim nomDocu As String
     
     cadNomRPT = nomDocu ' "reclama.rpt"
 
-    cadParam = cadParam & "pFechaIMP= """ & txtFecha(4).Text & """|"
+    cadParam = cadParam & "pFechaIMP= """ & txtfecha(4).Text & """|"
     cadParam = cadParam & "pverCCC= " & Abs(Me.chkMostrarCta) & "|"
     cadParam = cadParam & "firmante= """ & txtVarios(2).Text & """|"
     cadParam = cadParam & "cargo= """ & txtVarios(3).Text & """|"
@@ -2486,7 +2488,7 @@ Dim Inse As Boolean
     'Ahora haremos todo el proceso
     i = Val(txtDias.Text)
     i = i * -1
-    Fecha = CDate(txtFecha(4).Text)
+    Fecha = CDate(txtfecha(4).Text)
     Fecha = DateAdd("d", i, Fecha)
     
     'Ya tenemos en F la fecha a partir de la cual reclamamos
@@ -2672,7 +2674,7 @@ End Function
 
 Private Function MontaSQL() As Boolean
 Dim SQL As String
-Dim SQL2 As String
+Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
 Dim Rs As ADODB.Recordset
@@ -2684,8 +2686,8 @@ Dim Importe As Currency
     MontaSQL = False
     
     If Not PonerDesdeHasta("cobros.NumSerie", "SER", Me.txtSerie(0), Me.txtNSerie(0), Me.txtSerie(1), Me.txtNSerie(1), "pDHSerie=""") Then Exit Function
-    If Not PonerDesdeHasta("cobros.FecFactu", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""") Then Exit Function
-    If Not PonerDesdeHasta("cobros.Fecvenci", "F", Me.txtFecha(2), Me.txtFecha(2), Me.txtFecha(3), Me.txtFecha(3), "pDHFecVto=""") Then Exit Function
+    If Not PonerDesdeHasta("cobros.FecFactu", "F", Me.txtfecha(0), Me.txtfecha(0), Me.txtfecha(1), Me.txtfecha(1), "pDHFecha=""") Then Exit Function
+    If Not PonerDesdeHasta("cobros.Fecvenci", "F", Me.txtfecha(2), Me.txtfecha(2), Me.txtfecha(3), Me.txtfecha(3), "pDHFecVto=""") Then Exit Function
     If Not PonerDesdeHasta("cobros.codmacta", "CTA", Me.txtCuentas(0), Me.txtNCuentas(0), Me.txtCuentas(1), Me.txtNCuentas(1), "pDHCuentas=""") Then Exit Function
     If Not PonerDesdeHasta("cobros.agente", "AGE", Me.txtAgente(0), Me.txtNAgente(0), Me.txtAgente(1), Me.txtNAgente(1), "pDHAgente=""") Then Exit Function
             
@@ -2717,24 +2719,24 @@ Dim Importe As Currency
 End Function
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtFecha(Index).Tag, Index
+        LanzaFormAyuda txtfecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
@@ -2744,9 +2746,9 @@ Private Function DatosOK() As Boolean
     
     DatosOK = False
     
-    If txtFecha(4).Text = "" Then
+    If txtfecha(4).Text = "" Then
         MsgBox "Introduzca la Fecha de Reclamación.", vbExclamation
-        PonleFoco txtFecha(4)
+        PonleFoco txtfecha(4)
         Exit Function
     End If
     If txtDias.Text = "" Then

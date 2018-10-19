@@ -210,7 +210,13 @@ On Error GoTo Salida '
     
     If Not Generaidentificacion(False) Then GoTo Salida
     Linea = Linea & RecuperaValor(vPeriodo, 3) & Periodo
-    Linea = Linea & "2"  'Inscrito en el registro de devol mensual  1.Si   2:NO
+    'Inscrito en el registro de devol mensual  1.Si   2:NO
+    Aux = DevuelveDesdeBD("letraseti", "empresa2", "1", "1")
+    If Aux = "S" Then
+        Linea = Linea & "1"
+    Else
+        Linea = Linea & "2"  'Inscrito en el registro de devol mensual  1.Si   2:NO
+    End If
     Linea = Linea & "3"  'tributa exclusiva  1.Si   2:NO (Regimen gnral + simplifa)    3: Sol Reg Gnral
     Linea = Linea & "2"  'autoliquidacion conjunta  1.Si   2:NO
     Linea = Linea & "2"  'declarado concurso acreedores 1.Si   2:NO
@@ -260,9 +266,16 @@ On Error GoTo Salida '
         
         
         'Domiciliacion devolucion . bic IBAN
-        Linea = Linea & String(11, " ")
-        Linea = Linea & String(34, " ")
-        
+        If EsACompensar = 0 Then
+            Aux = DevuelveDesdeBD("iban1", "empresa2", "1", "1")
+            
+            Linea = Linea & String(11, " ")
+            Linea = Linea & DatosTexto(Aux, 34)
+            
+        Else
+            Linea = Linea & String(11, " ")
+            Linea = Linea & String(34, " ")
+        End If
         
         
         'Informacion aadicional unicamente a cumplimentar en el utlimo trimestre

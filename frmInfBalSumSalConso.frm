@@ -2402,13 +2402,14 @@ Dim Tablas As String
      
      
     Set Rs = New ADODB.Recordset
+    RC = ""
     For i = 1 To ListView1.ListItems.Count
         If ListView1.ListItems(i).Checked Then
             SQL = "Select * from ariconta" & ListView1.ListItems(i).Tag & ".empresa"
             Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             Cad = ""
             If Not Rs.EOF Then
-                For CONT = 4 To Rs.Fields.Count - 2  'Menos dos pq empieza en 0 y el ultimo nivel no cuenta
+                For CONT = 4 To 12  'Menos dos pq empieza en 0 y el ultimo nivel no cuenta
                     Cad = Cad & DBLet(Rs.Fields(CONT), "N")
                 Next CONT
             End If
@@ -2418,7 +2419,7 @@ Dim Tablas As String
             
             Rs.Close
             
-            If i = 1 Then
+            If RC = "" Then
                 'La primera asignamos cad a rc, para comparar en el futuro
                 RC = Cad
                 Tablas = ListView1.ListItems(i).Text

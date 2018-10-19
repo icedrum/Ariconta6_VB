@@ -214,71 +214,38 @@ Begin VB.Form frmempresa
       TabPicture(1)   =   "frmempresa.frx":0028
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Label1(18)"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Label1(6)"
-      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "Label1(5)"
-      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "Label1(3)"
-      Tab(1).Control(3).Enabled=   0   'False
       Tab(1).Control(4)=   "Label1(2)"
-      Tab(1).Control(4).Enabled=   0   'False
       Tab(1).Control(5)=   "Label1(19)"
-      Tab(1).Control(5).Enabled=   0   'False
       Tab(1).Control(6)=   "Label1(21)"
-      Tab(1).Control(6).Enabled=   0   'False
       Tab(1).Control(7)=   "Label1(22)"
-      Tab(1).Control(7).Enabled=   0   'False
       Tab(1).Control(8)=   "Label1(23)"
-      Tab(1).Control(8).Enabled=   0   'False
       Tab(1).Control(9)=   "Label1(24)"
-      Tab(1).Control(9).Enabled=   0   'False
       Tab(1).Control(10)=   "Label1(25)"
-      Tab(1).Control(10).Enabled=   0   'False
       Tab(1).Control(11)=   "Label1(26)"
-      Tab(1).Control(11).Enabled=   0   'False
       Tab(1).Control(12)=   "Label1(28)"
-      Tab(1).Control(12).Enabled=   0   'False
       Tab(1).Control(13)=   "Label1(30)"
-      Tab(1).Control(13).Enabled=   0   'False
       Tab(1).Control(14)=   "Label1(20)"
-      Tab(1).Control(14).Enabled=   0   'False
       Tab(1).Control(15)=   "Label1(31)"
-      Tab(1).Control(15).Enabled=   0   'False
       Tab(1).Control(16)=   "Text1(18)"
-      Tab(1).Control(16).Enabled=   0   'False
       Tab(1).Control(17)=   "Text1(6)"
-      Tab(1).Control(17).Enabled=   0   'False
       Tab(1).Control(18)=   "Text1(5)"
-      Tab(1).Control(18).Enabled=   0   'False
       Tab(1).Control(19)=   "Text1(4)"
-      Tab(1).Control(19).Enabled=   0   'False
       Tab(1).Control(20)=   "Text1(3)"
-      Tab(1).Control(20).Enabled=   0   'False
       Tab(1).Control(21)=   "Text1(19)"
-      Tab(1).Control(21).Enabled=   0   'False
       Tab(1).Control(22)=   "Text1(21)"
-      Tab(1).Control(22).Enabled=   0   'False
       Tab(1).Control(23)=   "Text1(22)"
-      Tab(1).Control(23).Enabled=   0   'False
       Tab(1).Control(24)=   "Text1(23)"
-      Tab(1).Control(24).Enabled=   0   'False
       Tab(1).Control(25)=   "Text1(24)"
-      Tab(1).Control(25).Enabled=   0   'False
       Tab(1).Control(26)=   "Text1(25)"
-      Tab(1).Control(26).Enabled=   0   'False
       Tab(1).Control(27)=   "Text1(26)"
-      Tab(1).Control(27).Enabled=   0   'False
       Tab(1).Control(28)=   "Text1(20)"
-      Tab(1).Control(28).Enabled=   0   'False
       Tab(1).Control(29)=   "Text1(31)"
-      Tab(1).Control(29).Enabled=   0   'False
       Tab(1).Control(30)=   "Text1(32)"
-      Tab(1).Control(30).Enabled=   0   'False
       Tab(1).Control(31)=   "Text1(33)"
-      Tab(1).Control(31).Enabled=   0   'False
       Tab(1).Control(32)=   "Text1(34)"
-      Tab(1).Control(32).Enabled=   0   'False
       Tab(1).ControlCount=   33
       TabCaption(2)   =   "Presentación IVA"
       TabPicture(2)   =   "frmempresa.frx":0044
@@ -683,12 +650,12 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   28
-         Left            =   -69150
-         MaxLength       =   4
+         Left            =   -68670
+         MaxLength       =   1
          TabIndex        =   31
          Tag             =   "Letras|T|S|||empresa2|letraseti|||"
          Text            =   "Text1"
-         Top             =   1500
+         Top             =   2040
          Width           =   855
       End
       Begin VB.TextBox Text1 
@@ -743,12 +710,12 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   27
-         Left            =   -71880
+         Left            =   -68790
          MaxLength       =   5
          TabIndex        =   30
          Tag             =   "Admon|T|S|||empresa2|administracion|||"
          Text            =   "Text1"
-         Top             =   1500
+         Top             =   1560
          Width           =   975
       End
       Begin VB.TextBox Text1 
@@ -1314,7 +1281,8 @@ Begin VB.Form frmempresa
          Width           =   1215
       End
       Begin VB.Label Label1 
-         Caption         =   "Letras etiqueta"
+         AutoSize        =   -1  'True
+         Caption         =   "Registro de devolución mensual (Art. 30 RIVA)  (S-N)"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -1324,12 +1292,12 @@ Begin VB.Form frmempresa
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   285
+         Height          =   240
          Index           =   29
-         Left            =   -70770
+         Left            =   -74160
          TabIndex        =   54
-         Top             =   1560
-         Width           =   1590
+         Top             =   2040
+         Width           =   5295
       End
       Begin VB.Label Label1 
          Caption         =   "Teléfono"
@@ -1386,7 +1354,7 @@ Begin VB.Form frmempresa
          Width           =   1815
       End
       Begin VB.Label Label1 
-         Caption         =   "Codigo Administración"
+         Caption         =   "Codigo administracion agencia tributaria"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -1396,12 +1364,12 @@ Begin VB.Form frmempresa
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   285
+         Height          =   240
          Index           =   27
          Left            =   -74190
          TabIndex        =   49
          Top             =   1560
-         Width           =   2160
+         Width           =   3960
       End
       Begin VB.Label Label1 
          Caption         =   "Teléfono"
@@ -2039,8 +2007,13 @@ Private Function DatosOK() As Boolean
         K = J
     Next i
     
-    
-    
+    'letraseti   Es si esta inscrita en el regimend e dolucion
+    If Text1(28).Text <> "" Then
+        If Text1(28).Text <> "S" And Text1(28).Text <> "N" Then
+            MsgBox "Registro de devolución mensual (Art. 30 RIVA)" & vbCrLf & vbCrLf & " Valores posibles: S ó N"
+            Exit Function
+        End If
+    End If
     DatosOK = True
 End Function
 

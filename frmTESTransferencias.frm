@@ -1877,6 +1877,14 @@ Private Function ComprobarObjeto(ByRef T As TextBox) As Boolean
     Set miTag = Nothing
 End Function
 
+Private Sub cboConcepto_KeyPress(KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
+Private Sub cboConcepto2_KeyPress(KeyAscii As Integer)
+    KEYpress KeyAscii
+End Sub
+
 Private Sub cboFiltro_Click()
     If PrimeraVez Then Exit Sub
     
@@ -2036,12 +2044,16 @@ Dim J As Integer
         
         'Confirming
         If TipoTrans = 3 Then
+        
+            'NO HACE FALTA configurar la cuenta confirmnng.
+            'Si no la tiene el preoceso de generacion NO updatea  la codmacta
+        
             'El banco tienen que tener confuigurada la cuenta confirming
-            SQL = DevuelveDesdeBD("ctaConfirming", "bancos", "codmacta", txtCuentas(2).Text, "T")
-            If SQL = "" Then
-                MsgBox "No esta bien configurado el banco. Falta cuenta confirming", vbExclamation
-                Exit Function
-            End If
+            'SQL = DevuelveDesdeBD("ctaConfirming", "bancos", "codmacta", txtCuentas(2).Text, "T")
+            'If SQL = "" Then
+            '    MsgBox "No esta bien configurado el banco. Falta cuenta confirming", vbExclamation
+            '    Exit Function
+            'End If
             
             
             If Me.chkCompensarAbonos.Value = 1 And Me.chkIncluirAbonos.Value = 1 Then
@@ -2152,6 +2164,7 @@ Dim J As Integer
         End If
      
     
+        
         C = ""
         For J = 1 To Me.lwCobros.ListItems.Count
             If lwCobros.ListItems(J).ListSubItems(3).Tag = "NO" And lwCobros.ListItems(J).Checked Then
@@ -2632,7 +2645,12 @@ Private Sub lw1_DblClick()
     
     If TipoTrans = 0 Then ' transferencias de abonos
         frmMens.Opcion = 55
+    ElseIf TipoTrans = 3 Then ' confirming
+        frmMens.Opcion = 66
+    ElseIf TipoTrans = 2 Then ' Pago domiciliado
+        frmMens.Opcion = 67
     Else
+        'transferencias de abonos
         frmMens.Opcion = 56
     End If
     frmMens.Parametros = lw1.SelectedItem.Text & "|" & lw1.SelectedItem.SubItems(1) & "|"
@@ -3207,7 +3225,15 @@ Dim VtosAgrupados As Integer
             
             CadenaDesdeOtroForm = ""
             If lw1.SelectedItem.SubItems(9) = "A" Then
-                CadenaDesdeOtroForm = SQL
+                If TipoTrans = 3 Then
+                    Msg = DevuelveDesdeBD("ctaConfirming", "bancos", "codmacta", lw1.SelectedItem.SubItems(5), "T")
+                    If Msg <> "" Then
+                        'Va por confirming, con cuenta, dias palazamiento...
+                        CadenaDesdeOtroForm = SQL
+                    End If
+                Else
+                    CadenaDesdeOtroForm = SQL
+                End If
             End If
             
             If lw1.SelectedItem.SubItems(9) = "Q" Then
@@ -3254,8 +3280,10 @@ Dim VtosAgrupados As Integer
                 'Confirming
                 CadenaDesdeOtroForm = DevuelveDesdeBD("ctaconfirming", "bancos", "codmacta", lw1.SelectedItem.SubItems(5), "T")
                 If CadenaDesdeOtroForm = "" Then
-                    MsgBox "Cuenta confirming vacia.", vbExclamation
-                    Exit Sub
+                    'MsgBox "Cuenta confirming vacia.", vbExclamation
+                    'Exit Sub
+                    'SQL = "|||" 'NO lleva sistema completo de confirming. Hara, ctaprove contra ctabanco. Y ya
+                    'SQL = SQL & "|||"
                 Else
                      SQL = lw1.SelectedItem.Text & "|" & lw1.SelectedItem.SubItems(1) & "|" & lw1.SelectedItem.SubItems(4) & "|" & CadenaDesdeOtroForm & "|" & lw1.SelectedItem.SubItems(8) & "|"
                 End If
@@ -3280,6 +3308,8 @@ Dim B As Boolean
 Dim NumF As String
 Dim NIF As String
 Dim IdFich As String
+Dim Tipoconfirming As Integer  '0 Stand    1Caixa    2Santander
+
 
     On Error GoTo EGeneraNormaBancaria
     GeneraNormaBancaria = False
@@ -3326,8 +3356,16 @@ Dim IdFich As String
     Else
          If TipoTrans = 3 Then ' si es caixa confirmning
             'Van por una "norma" de la caixa. De momento picassent
-            If vParamT.PagosConfirmingCaixa Then
+             SQL = DevuelveDesdeBD("TipoFichConfi", "bancos", "codmacta", lw1.SelectedItem.SubItems(5), "T")
+             Tipoconfirming = Val(SQL)
+             
+             
+            If Tipoconfirming = vbConfirmingCaixa Then
                 B = GeneraFicheroCaixaConfirming(NIF, lw1.SelectedItem.SubItems(2), lw1.SelectedItem.SubItems(5), lw1.SelectedItem.Text, lw1.SelectedItem.SubItems(7), lw1.SelectedItem.SubItems(1))
+            
+            ElseIf Tipoconfirming = vbConfirmingSantander Then
+                B = GeneraFicheroGrSantanderConfirming(NIF, lw1.SelectedItem.SubItems(2), lw1.SelectedItem.SubItems(5), lw1.SelectedItem.Text, lw1.SelectedItem.SubItems(7), lw1.SelectedItem.SubItems(1))
+            
             Else
                 B = GeneraFicheroConfirmingSt(NIF, lw1.SelectedItem.SubItems(2), lw1.SelectedItem.SubItems(5), lw1.SelectedItem.Text, lw1.SelectedItem.SubItems(7), lw1.SelectedItem.SubItems(1))
             End If
@@ -4527,7 +4565,7 @@ Dim colCtas As Collection
         i = 0
         Set colCtas = New Collection
         While Not Rs.EOF
-            If i < 15 Then
+            If i < 8 Then
                 Cad = Cad & vbCrLf & Rs!codmacta & " " & Rs!Nommacta & "  " & Rs!NUmSerie & Format(Rs!NumFactu, "000000") & "   -> " & Format(Rs!ImpEfect, FormatoImporte)
             End If
             i = i + 1
@@ -4539,7 +4577,7 @@ Dim colCtas As Collection
         If Cad <> "" Then
             If chkCompensarAbonos.Value = 0 Then
             
-                If i >= 15 Then Cad = Cad & vbCrLf & "....  y " & i & " vencimientos más"
+                If i >= 9 Then Cad = Cad & vbCrLf & "....  y " & i & " vencimientos más"
                 Cad = "Proveedores con abonos. " & vbCrLf & Cad & vbCrLf & " ¿Continuar?"
                 If MsgBoxA(Cad, vbQuestion + vbYesNoCancel) <> vbYes Then
                     Set Rs = Nothing

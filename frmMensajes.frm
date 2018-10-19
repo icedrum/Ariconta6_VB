@@ -26,6 +26,162 @@ Begin VB.Form frmMensajes
    ScaleWidth      =   16440
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame FrameElimiaRiesgoTalPag 
+      Height          =   6855
+      Left            =   1440
+      TabIndex        =   218
+      Top             =   1560
+      Visible         =   0   'False
+      Width           =   12375
+      Begin VB.ComboBox cboRiesgoYelConfirming 
+         Height          =   360
+         ItemData        =   "frmMensajes.frx":000C
+         Left            =   7320
+         List            =   "frmMensajes.frx":000E
+         Style           =   2  'Dropdown List
+         TabIndex        =   241
+         Top             =   360
+         Width           =   4695
+      End
+      Begin VB.CheckBox chkVarios 
+         Caption         =   "Agrupar apunte"
+         Height          =   255
+         Index           =   1
+         Left            =   3960
+         TabIndex        =   221
+         Top             =   6060
+         Value           =   1  'Checked
+         Width           =   2175
+      End
+      Begin VB.TextBox txtFecha 
+         Height          =   360
+         Index           =   2
+         Left            =   2040
+         TabIndex        =   220
+         Text            =   "Text2"
+         Top             =   6000
+         Width           =   1635
+      End
+      Begin VB.CommandButton cmdElimRiesgoTalPag 
+         Caption         =   "&Contabilizar"
+         Height          =   375
+         Index           =   1
+         Left            =   8760
+         TabIndex        =   222
+         Top             =   6000
+         Width           =   1695
+      End
+      Begin VB.CommandButton cmdElimRiesgoTalPag 
+         Caption         =   "Salir"
+         Height          =   375
+         Index           =   0
+         Left            =   10560
+         TabIndex        =   223
+         Top             =   6000
+         Width           =   1455
+      End
+      Begin MSComctlLib.ListView ListView13 
+         Height          =   4905
+         Left            =   120
+         TabIndex        =   219
+         Top             =   840
+         Width           =   11955
+         _ExtentX        =   21087
+         _ExtentY        =   8652
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         Checkboxes      =   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483643
+         BorderStyle     =   1
+         Appearance      =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         NumItems        =   7
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Text            =   "Codigo"
+            Object.Width           =   1773
+         EndProperty
+         BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   1
+            Text            =   "Anyo"
+            Object.Width           =   1587
+         EndProperty
+         BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   2
+            Text            =   "Fecha"
+            Object.Width           =   2805
+         EndProperty
+         BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   3
+            Text            =   "Banco"
+            Object.Width           =   4419
+         EndProperty
+         BeginProperty ColumnHeader(5) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   4
+            Text            =   "Descripcion"
+            Object.Width           =   5263
+         EndProperty
+         BeginProperty ColumnHeader(6) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   5
+            Text            =   "Tipo"
+            Object.Width           =   1587
+         EndProperty
+         BeginProperty ColumnHeader(7) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Alignment       =   1
+            SubItemIndex    =   6
+            Text            =   "Importe"
+            Object.Width           =   2723
+         EndProperty
+      End
+      Begin VB.Label lblFecha 
+         Caption         =   "Fecha apunte"
+         Height          =   240
+         Index           =   2
+         Left            =   240
+         TabIndex        =   225
+         Top             =   6060
+         Width           =   1365
+      End
+      Begin VB.Image imgFec 
+         Height          =   240
+         Index           =   2
+         Left            =   1680
+         Picture         =   "frmMensajes.frx":0010
+         Top             =   6060
+         Width           =   240
+      End
+      Begin VB.Label Label52 
+         Caption         =   " x"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   375
+         Index           =   1
+         Left            =   120
+         TabIndex        =   224
+         Top             =   360
+         Width           =   6825
+      End
+   End
    Begin VB.Frame frameCtasBalance 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -116,7 +272,7 @@ Begin VB.Form frmMensajes
       Begin VB.Image Image3 
          Height          =   240
          Left            =   1290
-         Picture         =   "frmMensajes.frx":000C
+         Picture         =   "frmMensajes.frx":009B
          Top             =   1920
          Width           =   240
       End
@@ -292,152 +448,6 @@ Begin VB.Form frmMensajes
          Width           =   7695
       End
    End
-   Begin VB.Frame FrameElimiaRiesgoTalPag 
-      Height          =   6855
-      Left            =   1440
-      TabIndex        =   218
-      Top             =   1560
-      Visible         =   0   'False
-      Width           =   12375
-      Begin VB.CheckBox chkVarios 
-         Caption         =   "Agrupar apunte"
-         Height          =   255
-         Index           =   1
-         Left            =   3960
-         TabIndex        =   221
-         Top             =   6060
-         Value           =   1  'Checked
-         Width           =   2175
-      End
-      Begin VB.TextBox txtFecha 
-         Height          =   360
-         Index           =   2
-         Left            =   2040
-         TabIndex        =   220
-         Text            =   "Text2"
-         Top             =   6000
-         Width           =   1635
-      End
-      Begin VB.CommandButton cmdElimRiesgoTalPag 
-         Caption         =   "Elimin&ar"
-         Height          =   375
-         Index           =   1
-         Left            =   9480
-         TabIndex        =   222
-         Top             =   6000
-         Width           =   1215
-      End
-      Begin VB.CommandButton cmdElimRiesgoTalPag 
-         Caption         =   "Salir"
-         Height          =   375
-         Index           =   0
-         Left            =   10800
-         TabIndex        =   223
-         Top             =   6000
-         Width           =   1215
-      End
-      Begin MSComctlLib.ListView ListView13 
-         Height          =   4905
-         Left            =   120
-         TabIndex        =   219
-         Top             =   840
-         Width           =   11955
-         _ExtentX        =   21087
-         _ExtentY        =   8652
-         View            =   3
-         LabelEdit       =   1
-         LabelWrap       =   -1  'True
-         HideSelection   =   -1  'True
-         Checkboxes      =   -1  'True
-         FullRowSelect   =   -1  'True
-         _Version        =   393217
-         ForeColor       =   -2147483640
-         BackColor       =   -2147483643
-         BorderStyle     =   1
-         Appearance      =   1
-         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         NumItems        =   7
-         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Text            =   "Codigo"
-            Object.Width           =   1773
-         EndProperty
-         BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            SubItemIndex    =   1
-            Text            =   "Anyo"
-            Object.Width           =   1587
-         EndProperty
-         BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            SubItemIndex    =   2
-            Text            =   "Fecha"
-            Object.Width           =   2805
-         EndProperty
-         BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            SubItemIndex    =   3
-            Text            =   "Banco"
-            Object.Width           =   4419
-         EndProperty
-         BeginProperty ColumnHeader(5) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            SubItemIndex    =   4
-            Text            =   "Descripcion"
-            Object.Width           =   5263
-         EndProperty
-         BeginProperty ColumnHeader(6) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            SubItemIndex    =   5
-            Text            =   "Tipo"
-            Object.Width           =   1587
-         EndProperty
-         BeginProperty ColumnHeader(7) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Alignment       =   1
-            SubItemIndex    =   6
-            Text            =   "Importe"
-            Object.Width           =   2723
-         EndProperty
-      End
-      Begin VB.Label lblFecha 
-         Caption         =   "Fecha apunte"
-         Height          =   240
-         Index           =   2
-         Left            =   240
-         TabIndex        =   225
-         Top             =   6060
-         Width           =   1365
-      End
-      Begin VB.Image imgFec 
-         Height          =   240
-         Index           =   2
-         Left            =   1680
-         Picture         =   "frmMensajes.frx":0A0E
-         Top             =   6060
-         Width           =   240
-      End
-      Begin VB.Label Label52 
-         Caption         =   "Eliminar riesgo talón / pagaré"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   12
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   375
-         Index           =   1
-         Left            =   120
-         TabIndex        =   224
-         Top             =   360
-         Width           =   10185
-      End
-   End
    Begin VB.Frame FrameValidaIBAN 
       Height          =   4455
       Left            =   4080
@@ -595,9 +605,9 @@ Begin VB.Form frmMensajes
       End
       Begin VB.ComboBox cboPais 
          Height          =   360
-         ItemData        =   "frmMensajes.frx":0A99
+         ItemData        =   "frmMensajes.frx":0A9D
          Left            =   1080
-         List            =   "frmMensajes.frx":0AA0
+         List            =   "frmMensajes.frx":0AA4
          Style           =   2  'Dropdown List
          TabIndex        =   197
          Top             =   960
@@ -738,7 +748,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   2280
-         Picture         =   "frmMensajes.frx":0AAC
+         Picture         =   "frmMensajes.frx":0AB0
          Top             =   1200
          Width           =   240
       End
@@ -756,7 +766,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   1
          Left            =   2280
-         Picture         =   "frmMensajes.frx":14AE
+         Picture         =   "frmMensajes.frx":14B2
          Top             =   2160
          Width           =   240
       End
@@ -783,7 +793,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   2280
-         Picture         =   "frmMensajes.frx":1EB0
+         Picture         =   "frmMensajes.frx":1EB4
          Top             =   1680
          Width           =   240
       End
@@ -865,7 +875,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   1800
-         Picture         =   "frmMensajes.frx":28B2
+         Picture         =   "frmMensajes.frx":28B6
          Top             =   1200
          Width           =   240
       End
@@ -910,7 +920,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   1920
-         Picture         =   "frmMensajes.frx":293D
+         Picture         =   "frmMensajes.frx":2941
          Top             =   2280
          Width           =   240
       End
@@ -1063,15 +1073,15 @@ Begin VB.Form frmMensajes
          BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
             NumListImages   =   3
             BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":333F
+               Picture         =   "frmMensajes.frx":3343
                Key             =   ""
             EndProperty
             BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":8B31
+               Picture         =   "frmMensajes.frx":8B35
                Key             =   ""
             EndProperty
             BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":9543
+               Picture         =   "frmMensajes.frx":9547
                Key             =   ""
             EndProperty
          EndProperty
@@ -1235,7 +1245,7 @@ Begin VB.Form frmMensajes
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   55
-         Text            =   "frmMensajes.frx":9995
+         Text            =   "frmMensajes.frx":9999
          Top             =   900
          Width           =   4365
       End
@@ -1246,7 +1256,7 @@ Begin VB.Form frmMensajes
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   54
-         Text            =   "frmMensajes.frx":999B
+         Text            =   "frmMensajes.frx":999F
          Top             =   900
          Width           =   4125
       End
@@ -1326,15 +1336,15 @@ Begin VB.Form frmMensajes
          BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
             NumListImages   =   3
             BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":99A1
+               Picture         =   "frmMensajes.frx":99A5
                Key             =   ""
             EndProperty
             BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":F193
+               Picture         =   "frmMensajes.frx":F197
                Key             =   ""
             EndProperty
             BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":FBA5
+               Picture         =   "frmMensajes.frx":FBA9
                Key             =   ""
             EndProperty
          EndProperty
@@ -1517,15 +1527,15 @@ Begin VB.Form frmMensajes
          BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
             NumListImages   =   3
             BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":FFF7
+               Picture         =   "frmMensajes.frx":FFFB
                Key             =   ""
             EndProperty
             BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":157E9
+               Picture         =   "frmMensajes.frx":157ED
                Key             =   ""
             EndProperty
             BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":161FB
+               Picture         =   "frmMensajes.frx":161FF
                Key             =   ""
             EndProperty
          EndProperty
@@ -1678,7 +1688,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   2
          Left            =   6480
-         Picture         =   "frmMensajes.frx":1664D
+         Picture         =   "frmMensajes.frx":16651
          Top             =   330
          Width           =   240
       End
@@ -1686,7 +1696,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   3
          Left            =   6120
-         Picture         =   "frmMensajes.frx":16797
+         Picture         =   "frmMensajes.frx":1679B
          Top             =   330
          Width           =   240
       End
@@ -2232,7 +2242,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   5820
-         Picture         =   "frmMensajes.frx":168E1
+         Picture         =   "frmMensajes.frx":168E5
          Top             =   1605
          Width           =   240
       End
@@ -2240,7 +2250,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   1
          Left            =   5820
-         Picture         =   "frmMensajes.frx":172E3
+         Picture         =   "frmMensajes.frx":172E7
          Top             =   2070
          Width           =   240
       End
@@ -2390,7 +2400,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   4920
-         Picture         =   "frmMensajes.frx":17CE5
+         Picture         =   "frmMensajes.frx":17CE9
          ToolTipText     =   "Quitar seleccion"
          Top             =   720
          Width           =   240
@@ -2399,7 +2409,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   1
          Left            =   4920
-         Picture         =   "frmMensajes.frx":17E2F
+         Picture         =   "frmMensajes.frx":17E33
          ToolTipText     =   "Todos"
          Top             =   1080
          Width           =   240
@@ -2764,7 +2774,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   6
          Left            =   13440
-         Picture         =   "frmMensajes.frx":17F79
+         Picture         =   "frmMensajes.frx":17F7D
          ToolTipText     =   "Puntear al Debe"
          Top             =   690
          Width           =   240
@@ -2773,7 +2783,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   7
          Left            =   13080
-         Picture         =   "frmMensajes.frx":180C3
+         Picture         =   "frmMensajes.frx":180C7
          ToolTipText     =   "Quitar al Debe"
          Top             =   690
          Width           =   240
@@ -2845,7 +2855,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   1
          Left            =   1680
-         Picture         =   "frmMensajes.frx":1820D
+         Picture         =   "frmMensajes.frx":18211
          Top             =   1200
          Width           =   240
       End
@@ -2926,7 +2936,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   3
          Left            =   1800
-         Picture         =   "frmMensajes.frx":18298
+         Picture         =   "frmMensajes.frx":1829C
          Top             =   1380
          Width           =   240
       End
@@ -3180,7 +3190,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   5
          Left            =   7620
-         Picture         =   "frmMensajes.frx":18323
+         Picture         =   "frmMensajes.frx":18327
          ToolTipText     =   "Quitar al Debe"
          Top             =   720
          Width           =   240
@@ -3189,7 +3199,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   4
          Left            =   7980
-         Picture         =   "frmMensajes.frx":1846D
+         Picture         =   "frmMensajes.frx":18471
          ToolTipText     =   "Puntear al Debe"
          Top             =   720
          Width           =   240
@@ -3296,7 +3306,7 @@ Begin VB.Form frmMensajes
          MultiLine       =   -1  'True
          TabIndex        =   94
          Tag             =   "Observaciones|T|S|||cuentas|obsdatos|||"
-         Text            =   "frmMensajes.frx":185B7
+         Text            =   "frmMensajes.frx":185BB
          Top             =   720
          Width           =   7665
       End
@@ -3308,7 +3318,7 @@ Begin VB.Form frmMensajes
          MultiLine       =   -1  'True
          TabIndex        =   93
          Tag             =   "Observaciones|T|S|||cuentas|obsdatos|||"
-         Text            =   "frmMensajes.frx":185BD
+         Text            =   "frmMensajes.frx":185C1
          Top             =   720
          Width           =   1005
       End
@@ -3329,7 +3339,7 @@ Begin VB.Form frmMensajes
          ScrollBars      =   2  'Vertical
          TabIndex        =   90
          Tag             =   "Observaciones|T|S|||cuentas|obsdatos|||"
-         Text            =   "frmMensajes.frx":185C3
+         Text            =   "frmMensajes.frx":185C7
          Top             =   1320
          Width           =   8775
       End
@@ -3663,6 +3673,9 @@ Public Opcion As Byte
      
      '65 Mensaje Aumento digito contable
      
+     '66 'Como el 55,56 Pero para confirming  ( Facturas Transferencias de pagos)
+     '67 'Como el 55,56 Pero para PAGO DOMICILIADO ( Facturas Transferencias de pagos)
+     
 Public Parametros As String
     '1.- Vendran empipados: Cuenta, PunteadoD, punteadoH, pdteD,PdteH
 
@@ -3706,6 +3719,11 @@ Private Sub cboAumento_Click()
     If PrimeraVez Then Exit Sub
     
     CargaResultadoCuentasIncrementar
+End Sub
+
+Private Sub cboRiesgoYelConfirming_Click()
+    If PrimeraVez Then Exit Sub
+    ponerDatosRiesgoTalPag_Confir
 End Sub
 
 Private Sub chkVarios_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -4278,8 +4296,11 @@ End Sub
 Private Sub cmdElimRiesgoTalPag_Click(Index As Integer)
 Dim Byt  As Byte
 Dim Forpa As Ctipoformapago
+Dim Salir As Boolean
 
     If Index = 1 Then
+        Salir = False
+        
         'Alguna seleccionada
         Referencia = ""
         SQL = ""
@@ -4329,6 +4350,7 @@ Dim Forpa As Ctipoformapago
         
         Screen.MousePointer = vbHourglass
         Set Forpa = New Ctipoformapago
+        Byt = 100
         For i = 1 To ListView13.ListItems.Count
             
             If ListView13.ListItems(i).Checked Then
@@ -4336,7 +4358,7 @@ Dim Forpa As Ctipoformapago
                 
                 J = vbPagare
                 If CByte(ListView13.ListItems(i).Tag) = 3 Then J = vbTalon
-                If CByte(ListView13.ListItems(i).Tag) = 5 Then J = vbConfirming
+                If CByte(ListView13.ListItems(i).Tag) = 127 Then J = vbConfirming
             
                 If Forpa.Leer(CInt(J)) = 0 Then
     
@@ -4348,17 +4370,36 @@ Dim Forpa As Ctipoformapago
                  
                     If Byt < 2 Then
                          Conn.CommitTrans
+                         
                     Else
                          TirarAtrasTransaccion
                     End If
+                    Exit For
                 End If
             End If
          Next
-         
+         If Byt <> 100 Then
+            If Byt < 2 Then
+                'Ha ido bien. Volvemos a cargar
+                Screen.MousePointer = vbHourglass
+                ponerDatosRiesgoTalPag_Confir
+                If ListView13.ListItems.Count = 0 Then Salir = True
+            End If
+        End If
          Screen.MousePointer = vbDefault
-        
+    Else
+        Salir = True
     End If
-    Unload Me
+    
+    
+    
+    
+    
+    If Salir Then
+        Unload Me
+    Else
+    
+    End If
 End Sub
 
 Private Sub cmdEmpresa_Click(Index As Integer)
@@ -4601,7 +4642,7 @@ Private Sub Form_Activate()
         Case 55
             CargarFacturasTransfAbonos
         Case 56
-            CargarFacturasTransfPagos
+            CargarFacturasTransfPagos 0
         Case 57
             CargarFacturasCompensaciones
         Case 58
@@ -4609,12 +4650,14 @@ Private Sub Form_Activate()
         Case 62
             optIBAN_Intro_Click 0
         Case 63
-            CargaLW_RemesasRiesgo
+            ponerDatosRiesgoTalPag_Confir
             
         Case 64
             ValoresTransferencia
         Case 65
             CargaResultadoCuentasIncrementar
+        Case 66, 67
+            CargarFacturasTransfPagos 0
         End Select
     End If
     Screen.MousePointer = vbDefault
@@ -4876,10 +4919,16 @@ Dim W As Integer, H As Integer
     
         Orden = True
         CampoOrden = "fecfactu"
-    
-    Case 56 ' facturas de transferencias de pagos
-        Me.Caption = "Facturas de Transferencia de Pagos"
-        Me.Label30.Caption = "Transferencia " & RecuperaValor(Parametros, 1) & " / " & RecuperaValor(Parametros, 2)
+
+    Case 56, 66, 67 ' facturas de transferencias de pagos
+        If Opcion = 56 Then
+            Me.Caption = "Facturas de Transferencia de Pagos"
+            Me.Label30.Caption = "Transferencia " & RecuperaValor(Parametros, 1) & " / " & RecuperaValor(Parametros, 2)
+        Else
+            CampoOrden = IIf(Opcion = 66, "confirming", "pagos domiciliado")
+            Me.Caption = "Facturas de " & CampoOrden & "s"
+            Me.Label30.Caption = UCase(CampoOrden) & ": " & RecuperaValor(Parametros, 1) & " / " & RecuperaValor(Parametros, 2)
+        End If
         TamayoFrameReclama False
         Me.FrameReclamaciones.visible = True
         W = Me.FrameReclamaciones.Width
@@ -4928,7 +4977,8 @@ Dim W As Integer, H As Integer
     Case 61
         Me.Caption = "Riesgo"
         PonerFrameVisible FrameEliminarRiesgotalPag, H, W
-        Me.txtfecha(1).Text = Format(Now, "dd/mm/yyyy")
+        Me.txtfecha(1).Text = Format(CadenaDesdeOtroForm, "dd/mm/yyyy")
+        CadenaDesdeOtroForm = ""
         cmdEliminarRiesgoT(1).Cancel = True
     Case 62
         Me.Caption = "IBAN"
@@ -4943,6 +4993,19 @@ Dim W As Integer, H As Integer
         Me.Caption = "Riesgo"
         PonerFrameVisible FrameElimiaRiesgoTalPag, H, W
         Me.txtfecha(2).Text = ""
+        
+        cboRiesgoYelConfirming.Clear
+        i = CInt(Tipo)
+        If i <> 2 Then
+            cboRiesgoYelConfirming.AddItem "Remesas talón - pagaré"
+            cboRiesgoYelConfirming.ItemData(cboRiesgoYelConfirming.NewIndex) = 1
+        End If
+        If i <> 1 Then
+            cboRiesgoYelConfirming.AddItem "Pago confirming vencidos"
+            cboRiesgoYelConfirming.ItemData(cboRiesgoYelConfirming.NewIndex) = 2
+        End If
+        cboRiesgoYelConfirming.ListIndex = 0
+        ponerDatosRiesgoTalPag_Confir
         cmdElimRiesgoTalPag(0).Cancel = True
     
     Case 64
@@ -5281,6 +5344,16 @@ End Sub
 Private Sub ListView12_ItemCheck(ByVal Item As MSComctlLib.ListItem)
  '   If Item.Tag = 1 Then Item.Checked = True
     SumaTotales
+End Sub
+
+Private Sub ListView13_ItemCheck(ByVal Item As MSComctlLib.ListItem)
+    For i = 1 To ListView13.ListItems.Count
+        If Item.Index <> i Then
+            ListView13.ListItems(i).Checked = False
+        Else
+            txtfecha(2).Text = ListView13.ListItems(i).SubItems(2)
+        End If
+    Next
 End Sub
 
 Private Sub ListView9_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
@@ -6686,7 +6759,7 @@ ECargarFacturas:
 End Sub
 
 
-Private Sub CargarFacturasTransfPagos()
+Private Sub CargarFacturasTransfPagos(Tipo As Byte)
 Dim IT As ListItem
 Dim TotalArray  As Long
 Dim SERVER As String
@@ -7416,39 +7489,113 @@ Private Sub ValidarIBANEspanaJunto()
 End Sub
 
 
+Private Sub ponerDatosRiesgoTalPag_Confir()
+Dim TalonPagare As Boolean
+    
+    TalonPagare = cboRiesgoYelConfirming.ItemData(cboRiesgoYelConfirming.ListIndex) = 1
+    SQL = "Confirming vencidos"
+    If TalonPagare Then SQL = "Cancelación remesas cuentas puente"
+    
+    Label52(1).Caption = SQL
+    Label52(1).Refresh
+    cmdElimRiesgoTalPag(1).visible = TalonPagare
+    lblFecha(2).visible = TalonPagare
+    ImgFec(2).visible = TalonPagare
+    txtfecha(2).visible = TalonPagare
+    chkVarios(1).visible = TalonPagare
+    If PrimeraVez Then Exit Sub
+    ListView13.Checkboxes = TalonPagare
+    CargaLW_RemesasRiesgo TalonPagare
+End Sub
 
 
-Private Sub CargaLW_RemesasRiesgo()
+
+Private Sub CargaLW_RemesasRiesgo(TalonPagare As Boolean)
 Dim IT
-
-    SQL = QueRemesasMostrarEliminarRiesgoTalPag
-    If SQL = "" Then Exit Sub
-    SQL = Mid(SQL, 2)
     Set Rs = New ADODB.Recordset
-    SQL = " IN (" & SQL & ") ORDER BY fecremesa"
-    SQL = " from remesas,cuentas where remesas.codmacta=cuentas.codmacta and  (codigo,anyo)" & SQL
-    SQL = " if(tiporem=2,'Pagare','Talon'),if(situacion='Y','Elimindos','Abonado'),Descripcion,tiporem " & SQL
-    SQL = "select codigo,anyo,fecremesa,situacion,nommacta,importe," & SQL
     Me.ListView13.ListItems.Clear
+    If TalonPagare Then
     
-
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    While Not Rs.EOF
-        Set IT = ListView13.ListItems.Add
+        SQL = QueRemesasMostrarEliminarRiesgoTalPag
+        If SQL = "" Then Exit Sub
+        SQL = Mid(SQL, 2)
         
-        IT.Text = DBLet(Rs.Fields(0))
-        IT.SubItems(1) = DBLet(Rs.Fields(1))
-        IT.SubItems(2) = DBLet(Rs.Fields(2))
-        IT.SubItems(3) = DBLet(Rs.Fields(4))
-        IT.SubItems(4) = DBLet(Rs.Fields(8))
-        IT.SubItems(5) = DBLet(Rs.Fields(6))
-        IT.SubItems(6) = Format(DBLet(Rs.Fields(5), "N"), "#,##0.00")
-        IT.Tag = Rs!Tiporem
-            
+        SQL = " IN (" & SQL & ") ORDER BY fecremesa"
+        SQL = " from remesas,cuentas where remesas.codmacta=cuentas.codmacta and  (codigo,anyo)" & SQL
+        SQL = " if(tiporem=2,'Pagare','Talon'),if(situacion='Y','Elimindos','Abonado'),Descripcion,tiporem " & SQL
+        SQL = "select codigo,anyo,fecremesa,situacion,nommacta,importe," & SQL
+        
+        
     
-        Rs.MoveNext
-    Wend
-    Rs.Close
+        Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        While Not Rs.EOF
+            Set IT = ListView13.ListItems.Add
+            
+            IT.Text = DBLet(Rs.Fields(0))
+            IT.SubItems(1) = DBLet(Rs.Fields(1))
+            IT.SubItems(2) = DBLet(Rs.Fields(2))
+            IT.SubItems(3) = DBLet(Rs.Fields(4))
+            IT.SubItems(4) = DBLet(Rs.Fields(8))
+            IT.SubItems(5) = DBLet(Rs.Fields(6))
+            IT.SubItems(6) = Format(DBLet(Rs.Fields(5), "N"), "#,##0.00")
+            IT.Tag = Rs!Tiporem
+                
+        
+            Rs.MoveNext
+        Wend
+        Rs.Close
+        
+        
+    Else
+    
+        'Veremos si hay riesgo CONFIRMING
+        SQL = "select codigo,anyo,fecha,situacion,nommacta,importe,"
+        SQL = SQL & " 'Confirming',if(situacion='Y','Elimindos','Abonado'),transferencias.Descripcion,127 subtipo  "
+        
+        SQL = SQL & " FROM transferencias, bancos,cuentas WHERE transferencias.codmacta=bancos.codmacta "
+        SQL = SQL & " AND transferencias.codmacta=cuentas.codmacta and "
+        SQL = SQL & " transferencias.tipotrans = 0 and transferencias.subtipo = 2 and situacion>='Q' and situacion <'Z' "
+        
+        If vParamT.ConfirmingCtaPuente Then
+            'Nada
+        Else
+            SQL = SQL & " and ctaconfirming<>'' "  'Solo si lleva cta confirming
+            SQL = SQL & "  AND (codigo,anyo) IN (Select distinct nrodocum,anyodocum  from pagos, bancos  where bancos.codmacta =pagos.ctabanc1"
+            SQL = SQL & "  and ctaconfirming<>'' and DATE_ADD(now() , INTERVAL coalesce(confirmingriesgo,0) DAY) >fecefect AND situacion=0 and situdocum>='Q' and situdocum <'Z' )"
+            
+        End If
+        
+        
+        
+        Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        While Not Rs.EOF
+            Set IT = ListView13.ListItems.Add
+            
+            IT.Text = DBLet(Rs.Fields(0))
+            IT.SubItems(1) = DBLet(Rs.Fields(1))
+            IT.SubItems(2) = DBLet(Rs.Fields(2))
+            IT.SubItems(3) = DBLet(Rs.Fields(4))
+            IT.SubItems(4) = DBLet(Rs.Fields(8))
+            IT.SubItems(5) = DBLet(Rs.Fields(6))
+            IT.SubItems(6) = Format(DBLet(Rs.Fields(5), "N"), "#,##0.00")
+            IT.Tag = Rs!SubTipo
+                
+        
+            Rs.MoveNext
+        Wend
+        Rs.Close
+        
+    End If
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
     Set Rs = Nothing
     
     

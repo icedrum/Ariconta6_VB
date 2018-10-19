@@ -3,7 +3,7 @@ Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form frmTESTransferenciasCont 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "1"
-   ClientHeight    =   4365
+   ClientHeight    =   4935
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   5640
@@ -11,7 +11,7 @@ Begin VB.Form frmTESTransferenciasCont
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   4365
+   ScaleHeight     =   4935
    ScaleWidth      =   5640
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
@@ -23,11 +23,63 @@ Begin VB.Form frmTESTransferenciasCont
       _Version        =   393216
    End
    Begin VB.Frame FrameContabilRem2 
-      Height          =   4215
+      Height          =   4815
       Left            =   30
       TabIndex        =   0
       Top             =   30
       Width           =   5535
+      Begin VB.Frame Frame1 
+         Caption         =   "Frame1"
+         Height          =   735
+         Left            =   120
+         TabIndex        =   10
+         Top             =   2880
+         Width           =   5175
+         Begin VB.TextBox Text1 
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   360
+            Index           =   0
+            Left            =   2550
+            TabIndex        =   4
+            Text            =   "Text1"
+            Top             =   240
+            Width           =   1365
+         End
+         Begin VB.Image Image1 
+            Height          =   240
+            Index           =   0
+            Left            =   2190
+            Top             =   300
+            Width           =   240
+         End
+         Begin VB.Label Label3 
+            Caption         =   "F. vencimientos"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   -1  'True
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00800000&
+            Height          =   195
+            Index           =   1
+            Left            =   360
+            TabIndex        =   11
+            Top             =   270
+            Width           =   1800
+         End
+      End
       Begin VB.CheckBox chkAgrupaCancelacion 
          Caption         =   "Agrupa cancelacion"
          BeginProperty Font 
@@ -40,9 +92,9 @@ Begin VB.Form frmTESTransferenciasCont
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   450
-         TabIndex        =   6
-         Top             =   3120
+         Left            =   480
+         TabIndex        =   5
+         Top             =   3720
          Width           =   2535
       End
       Begin VB.CommandButton cmdContabRemesa 
@@ -58,8 +110,8 @@ Begin VB.Form frmTESTransferenciasCont
          EndProperty
          Height          =   375
          Left            =   2490
-         TabIndex        =   4
-         Top             =   3600
+         TabIndex        =   6
+         Top             =   4200
          Width           =   1425
       End
       Begin VB.TextBox txtImporte 
@@ -112,9 +164,9 @@ Begin VB.Form frmTESTransferenciasCont
          EndProperty
          Height          =   375
          Index           =   8
-         Left            =   4020
-         TabIndex        =   5
-         Top             =   3600
+         Left            =   4080
+         TabIndex        =   7
+         Top             =   4200
          Width           =   1245
       End
       Begin VB.Label Label3 
@@ -132,7 +184,7 @@ Begin VB.Form frmTESTransferenciasCont
          Height          =   315
          Index           =   0
          Left            =   450
-         TabIndex        =   8
+         TabIndex        =   9
          Top             =   2490
          Width           =   2070
       End
@@ -151,7 +203,7 @@ Begin VB.Form frmTESTransferenciasCont
          Height          =   195
          Index           =   18
          Left            =   450
-         TabIndex        =   7
+         TabIndex        =   8
          Top             =   1950
          Width           =   1800
       End
@@ -286,6 +338,22 @@ Dim FechaConf As Date
     'Fecha pertenece a ejercicios contbles
     If FechaCorrecta2(CDate(Text1(10).Text), True) > 1 Then Exit Sub
     
+    If Frame1.visible Then
+        If Text1(0).Text = "" Then
+            MsgBox "Indique nueva fecha vencimiento de los pagos", vbExclamation
+            Exit Sub
+        End If
+        If CDate(Text1(0).Text) < Now Then
+            MsgBox "Fecha inferior a la actual.", vbExclamation
+            Exit Sub
+        End If
+        If CDate(Text1(0).Text) > DateAdd("yyyy", 3, Now) Then
+            MsgBox "Fecha incorrecta.   ****  " & Text1(0).Text & " ****", vbExclamation
+            Exit Sub
+
+        End If
+    End If
+    
     
     'Ahora miramos la remesa. En que sitaucion , y de que tipo es
     SQL = "Select * from transferencias where codigo =" & RecuperaValor(NumeroDocumento, 1)
@@ -398,16 +466,23 @@ Dim FechaConf As Date
     End If
     
     If TipoTrans = 3 Then
-        '"concat(ctaconfirming,'|',diasaplazConfi,'|',AplzSobreFecVenc,'|')"
-        SobreFecVto = RecuperaValor(CtaConfirmingBanco, 3) = 0
-        DiasConfirming = RecuperaValor(CtaConfirmingBanco, 2)
-        CtaConfirmingBanco = RecuperaValor(CtaConfirmingBanco, 1)
-    
+        CambiaFechaVtoConfirming = False
         If CtaConfirmingBanco = "" Then
-            MsgBox "Falta configurar cuenta confirming en el banco", vbExclamation
-            Exit Sub
-        End If
+            'OK, no esta configurado la cuenta puent. NO pasa nada.
+            
+            
+        Else
+            
+            
+            SobreFecVto = RecuperaValor(CtaConfirmingBanco, 3) = 0
+            DiasConfirming = RecuperaValor(CtaConfirmingBanco, 2)
+            CtaConfirmingBanco = RecuperaValor(CtaConfirmingBanco, 1)
         
+            If CtaConfirmingBanco = "" Then
+                MsgBox "Falta configurar cuenta confirming en el banco", vbExclamation
+                Exit Sub
+            End If
+        End If
         'Si el confirming es pronto pago, suma los dias (a la fecha vto o la fecha confirming
         CambiaFechaVtoConfirming = DBLet(Rs!solopago, "N") = 1
         FechaConf = Rs!Fecha
@@ -443,10 +518,17 @@ Dim FechaConf As Date
             Case 3
                 CC = CC & " el confirming: " & Rs!Codigo & " / " & Rs!Anyo & vbCrLf & vbCrLf
                 
-                If CambiaFechaVtoConfirming Then
-                    If DiasConfirming > 0 Then CC = CC & "Serán modificadas las fechas de vencimiento"
-                End If
                 
+                
+                
+                If CambiaFechaVtoConfirming Then
+                    If Text1(0).Text <> "" Then
+                        CC = CC & "    ***  La fecha de vencimiento de los pagos será: " & Text1(0).Text & "  ***" & vbCrLf & vbCrLf
+                    Else
+                        If DiasConfirming > 0 Then CC = CC & "Serán modificadas las fechas de vencimiento"
+                    End If
+                End If
+
         End Select
         CC = CC & Space(30) & "¿Continuar?"
         If SubTipo = 2 Then
@@ -511,18 +593,27 @@ Dim FechaConf As Date
             
             'IMPPAGAD y fec
             If TipoTrans = 3 Then
-                SQL = SQL & "0, fecultpa=null ,imppagad =null"
-                SQL = SQL & ", ctaconfirm=codmacta ,codmacta=" & DBSet(CtaConfirmingBanco, "T")
-                SQL = SQL & ", emitdocum=1"
-                If CambiaFechaVtoConfirming Then
-                    If SobreFecVto Then
-                        'El vto lo incrementamos en n dias sobre el mismo
-                        SQL = SQL & ",fecefect=DATE_ADD(fecefect, INTERVAL " & DiasConfirming & " day)"
-                    Else
-                        'Incrementamos en N dias sobre la fecha de generacion
-                        'Esa fecha es F
-                        
-                        SQL = SQL & ",fecefect= '" & Format(DateAdd("d", DiasConfirming, FechaConf), FormatoFecha) & "'"
+                If CtaConfirmingBanco = "" Then
+                    'Antigua contabilizacion. No hace nada. Simplemente lo da como pagado
+                    SQL = SQL & "1, fecultpa=" & DBSet(Text1(10).Text, "F") & ", emitdocum=1"
+                    
+                Else
+                    'Lleva cuenta confirming
+                    SQL = SQL & "0, fecultpa=null ,imppagad =null"
+                
+                    SQL = SQL & ", ctaconfirm=codmacta ,codmacta=" & DBSet(CtaConfirmingBanco, "T")
+                    SQL = SQL & ", emitdocum=1"
+                    If CambiaFechaVtoConfirming Then
+                        If SobreFecVto Then
+                            'El vto lo incrementamos en n dias sobre el mismo
+                            SQL = SQL & ",fecefect=DATE_ADD(fecefect, INTERVAL " & DiasConfirming & " day)"
+                        Else
+                            'Incrementamos en N dias sobre la fecha de generacion
+                            'Esa fecha es F
+                            '11-octubre-18
+                            'SQL = SQL & ",fecefect= '" & Format(DateAdd("d", DiasConfirming, FechaConf), FormatoFecha) & "'"
+                            SQL = SQL & ",fecefect= '" & Format(Text1(0).Text, FormatoFecha) & "'"
+                        End If
                     End If
                 End If
             Else
@@ -566,12 +657,12 @@ Private Function HacerNuevaContabilizacion() As Boolean
     
     ContabTransfer = True
     
-    If Cobros Then
-        GastosTransferencia = DBSet(txtImporte(0).Text, "N") * (-1)
-    Else
-        GastosTransferencia = DBSet(txtImporte(0).Text, "N")
+    GastosTransferencia = 0
+    If txtImporte(0).Text <> "" Then
+        GastosTransferencia = ImporteFormateado(txtImporte(0).Text)
+        If Cobros Then GastosTransferencia = GastosTransferencia * -1
+        
     End If
-    
     
     'Si el parametro dice k van todos en el mismo asiento, pues eso, todos en el mismo asiento
     'Primero leemos la forma de pago, el tipo perdon
@@ -1162,6 +1253,8 @@ End Sub
 Private Sub Form_Load()
 Dim H As Integer
 Dim W As Integer
+Dim C1 As String
+
     Limpiar Me
     PrimeraVez = True
     Me.Icon = frmppal.Icon
@@ -1171,6 +1264,8 @@ Dim W As Integer
     CargaImagenesAyudas Me.Image1, 2
     
     FrameContabilRem2.visible = False
+    Frame1.visible = False
+    Frame1.BorderStyle = 0
     
     Select Case Opcion
     Case 8, 22, 23
@@ -1191,9 +1286,12 @@ Dim W As Integer
         cmdContabRemesa.Caption = CuentasCC
         
         If Opcion = 8 Then
+            C1 = ""
+            Text1(0).Text = ""
             If Cobros Then
                 Me.Caption = "Abono transferencia"
             Else
+                C1 = RecuperaValor(NumeroDocumento, 4)
                 Select Case TipoTrans
                     Case 0, 1
                         Me.Caption = "Contabilización Transferencia"
@@ -1204,9 +1302,23 @@ Dim W As Integer
                     Case 3
                         Me.Caption = "Contabilización Confirming"
                         Label5(2).Caption = "Confirming : "
+                                            
+                                
+                        C1 = "codigo =" & RecuperaValor(NumeroDocumento, 1) & " AND anyo =" & RecuperaValor(NumeroDocumento, 2) & " AND 1"
+                        C1 = DevuelveDesdeBD("codmacta", "transferencias", C1, "1")
+                                
+                        If C1 <> "" Then frameConfirmingDiasVto C1
                 End Select
+                
+                
+                
+                
+                
+                C1 = "bancos.codmacta=cuentas.codmacta AND bancos.codmacta = '" & C1 & "' AND 1"
+                C1 = DevuelveDesdeBD("coalesce(descripcion,nommacta)", "bancos,cuentas", C1, "1")
+                C1 = "  " & C1
             End If
-            Label5(2).Caption = Label5(2).Caption & RecuperaValor(NumeroDocumento, 1) & "/" & RecuperaValor(NumeroDocumento, 2) & vbCrLf & " Banco : " & RecuperaValor(NumeroDocumento, 4) & vbCrLf & " Importe: " & RecuperaValor(NumeroDocumento, 5)
+            Label5(2).Caption = Label5(2).Caption & RecuperaValor(NumeroDocumento, 1) & "/" & RecuperaValor(NumeroDocumento, 2) & vbCrLf & Mid("Banco: " & RecuperaValor(NumeroDocumento, 4) & C1, 1, 30) & vbCrLf & " Importe: " & RecuperaValor(NumeroDocumento, 5)
         End If
         
         CuentasCC = ""
@@ -1774,7 +1886,7 @@ Dim TipForpa As Byte
                     Case 0, 1
                         TipForpa = vbTransferencia
                     Case 2, 3
-                        If TipoTrans = 2 Then
+                        If TipoTrans = 3 Then
                             TipForpa = vbConfirming
                         Else
                             TipForpa = vbPagoDomiciliado
@@ -1896,3 +2008,37 @@ Dim TipForpa As Byte
 End Function
 
 
+
+Private Sub frameConfirmingDiasVto(Codmac As String)
+Dim Aux As String
+
+    On Error GoTo eframeConfirmingDiasVto
+    
+    Aux = "concat(coalesce(diasaplazConfi,0),'|',coalesce(AplzSobreFecVenc,0),'|')"
+    Aux = DevuelveDesdeBD(Aux, "bancos", "codmacta", Codmac, "T")
+    i = Val(RecuperaValor(Aux, 1))
+    If i > 0 Then
+        'Lleva dias aplazamiento
+        Aux = RecuperaValor(Aux, 2)
+        If Aux = "0" Then
+            'El aplazamiento es sobre fecha de confirming
+            Aux = "codigo =" & RecuperaValor(NumeroDocumento, 1)
+            Aux = Aux & " AND anyo =" & RecuperaValor(NumeroDocumento, 2) & " AND 1"
+            
+            CuentasCC = "solopago"
+            Aux = DevuelveDesdeBD("fecha", "transferencias", Aux, "1", "N", CuentasCC)
+            If Aux <> "" Then
+                If CuentasCC = "1" Then 'CAMBIARA LAS FECHAS
+                    Fecha = CDate(Aux)
+                    Fecha = DateAdd("d", i, Fecha)
+                    Text1(0).Text = Format(Fecha, "dd/mm/yyyy")
+                    Frame1.visible = True
+                End If
+            End If
+            CuentasCC = ""
+        End If
+    End If
+    
+eframeConfirmingDiasVto:
+    If Err.Number <> 0 Then Err.Clear
+End Sub

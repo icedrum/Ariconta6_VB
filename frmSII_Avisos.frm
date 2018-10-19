@@ -1370,7 +1370,7 @@ Dim Record As ReportRecord
     Set Item = Record.AddItem(miRsAux!Impor * 100)
     Item.Caption = Format(miRsAux!Impor, FormatoImporte)
     
-    Record.Tag = miRsAux!id 'CLAVE
+    Record.Tag = miRsAux!Id 'CLAVE
                 
     
     'Adds the PreviewText to the Record.  PreviewText is the text displayed for the ReportRecord while in PreviewMode

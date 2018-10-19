@@ -340,7 +340,7 @@ Public Function Leer(ByVal vlogin As String) As Byte
 Attribute Leer.VB_Description = "Lee un grupo de formas de cobro en función del código que se le ha pasado. Si devuelve 0 se ha conseguido leer el dato."
 Dim i As Long
     On Error GoTo Err1
-    SQL = "SELECT * FROM usuarios.usuarios WHERE login = '" & vlogin & "'"
+    SQL = "SELECT * FROM usuarios.usuarios WHERE ucase(login) = '" & UCase(vlogin) & "'"
     Set Rs = New ADODB.Recordset
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     

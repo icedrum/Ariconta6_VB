@@ -4029,6 +4029,16 @@ Dim Tipo As Integer
     B = CompForm2(Me, 1)
     If Not B Then Exit Function
     
+    
+    If CDate(Text1(5).Text) < "01/01/2000" Then
+        MsgBox "Fecha vencimiento incorrecta. ", vbExclamation
+        Exit Function
+    End If
+    
+    
+    
+    
+    
     'NUmero serie
     DevfrmCCtas = DevuelveDesdeBD("tiporegi", "contadores", "tiporegi", Text1(13).Text, "T")
     If DevfrmCCtas = "" Then

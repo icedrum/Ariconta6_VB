@@ -1416,7 +1416,7 @@ Private Sub Combo1_Validate(Cancel As Boolean)
                  i = 1
                  Cad = RecuperaValor(vTextos, 5) 'Dira si es PAGO DOMICILIADO
                  If Cad <> "" Then
-                     If vParamT.PagosConfirmingCaixa Then
+                     If vParamT.PagosConfirmingTipo2 = 0 Then
                      Else
                      End If
                  Else
