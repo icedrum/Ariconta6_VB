@@ -104,6 +104,7 @@ Public Const ContCreditoNav = 3
 Public Const vbConfirmingStd = 0        'Fichero STD de confirming
 Public Const vbConfirmingCaixa = 1      ' "       LA CAIXA
 Public Const vbConfirmingSantander = 2  ' "   grupo santander
+Public Const vbSabadell = 3  ' "   grupo santander
 
 
 

@@ -3366,6 +3366,8 @@ Dim Tipoconfirming As Integer  '0 Stand    1Caixa    2Santander
             ElseIf Tipoconfirming = vbConfirmingSantander Then
                 B = GeneraFicheroGrSantanderConfirming(NIF, lw1.SelectedItem.SubItems(2), lw1.SelectedItem.SubItems(5), lw1.SelectedItem.Text, lw1.SelectedItem.SubItems(7), lw1.SelectedItem.SubItems(1))
             
+            ElseIf Tipoconfirming = vbSabadell Then
+                B = GeneraFicheroSabadellConfirming(NIF, lw1.SelectedItem.SubItems(2), lw1.SelectedItem.SubItems(5), lw1.SelectedItem.Text, lw1.SelectedItem.SubItems(7), lw1.SelectedItem.SubItems(1))
             Else
                 B = GeneraFicheroConfirmingSt(NIF, lw1.SelectedItem.SubItems(2), lw1.SelectedItem.SubItems(5), lw1.SelectedItem.Text, lw1.SelectedItem.SubItems(7), lw1.SelectedItem.SubItems(1))
             End If

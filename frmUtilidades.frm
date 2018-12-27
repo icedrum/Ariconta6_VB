@@ -2823,7 +2823,7 @@ Private Sub FacturasNoContabilizadas()
     
     SQL = SQL & " ORDER BY numdiari,numasien,fechaent"
     
-    
+    NumRegElim = TotalRegistrosConsulta(SQL)
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     'Recorremos las facturas
@@ -2848,7 +2848,19 @@ Private Sub FacturasNoContabilizadas()
             End If
             
             
-            If TotalRegistros(SQL) = 0 Then InsertaItemsFacturasContabilizadas True
+            If TotalRegistros(SQL) = 0 Then
+                
+                
+                'Vamos a probar una cosa
+                SQL = "select * from hlinapu where numasien = " & DBSet(Rs!NumAsien, "N") & " and fechaent = " & DBSet(Rs!FechaEnt, "F")
+                SQL = SQL & " and numdiari = " & DBSet(Rs!NumDiari, "N") & " AND idcontab='FRA"
+                If Opcion = 5 Then
+                    SQL = SQL & "CLI'"
+                Else
+                    SQL = SQL & "PRO'"
+                End If
+                If TotalRegistros(SQL) = 0 Then InsertaItemsFacturasContabilizadas True
+            End If
             
         End If
         
@@ -2999,6 +3011,8 @@ End Sub
 
 
 Private Sub ApuntesSinFacturaNew()
+Dim F As Date
+
     Label7(0).Caption = "Asientos"
     Label7(1).Caption = "Obteniendo registros"
     Me.Refresh
@@ -3023,7 +3037,7 @@ Private Sub ApuntesSinFacturaNew()
     espera 0.2
         
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    i = 0
+    i = 1
     While Not Rs.EOF
         Label7(1).Caption = i & " de " & NumRegElim
         Label7(1).Refresh
@@ -3043,7 +3057,20 @@ Private Sub ApuntesSinFacturaNew()
             SQL = SQL & " and numdiari = " & DBSet(Rs!NumDiari, "N")
         End If
         If TotalRegistrosConsulta(SQL) = 0 Then
-             InsertaItemsFacturasContabilizadas False
+             'Voy a probar una cosa
+                     
+            SQL = "Select numasien,numdiari,fechaent "
+            SQL = SQL & " FROM factpro"
+            SQL = SQL & " WHERE numasien= " & DBSet(Rs!NumAsien, "N")
+            SQL = SQL & " and numdiari = " & DBSet(Rs!NumDiari, "N")
+            F = Rs!FechaEnt
+            F = DateAdd("m", -2, F)
+            If F < vParam.fechaini Then F = vParam.fechaini
+            SQL = SQL & " and fechaent between  " & DBSet(F, "F")
+            F = DateAdd("m", 2, Rs!FechaEnt)
+            If F > vParam.fechafin Then F = vParam.fechafin
+            SQL = SQL & " and " & DBSet(F, "F")
+            If TotalRegistrosConsulta(SQL) = 0 Then InsertaItemsFacturasContabilizadas False
         End If
         Rs.MoveNext
         i = i + 1

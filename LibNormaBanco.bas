@@ -1343,7 +1343,7 @@ Dim Cad As String
     Aux = Mid(Aux & Space(25), 1, 25)   'CIF +25
     Aux = "1" & CodigoOrdenante & Aux
     Aux = Aux & Mid(vEmpresa.NombreEmpresaOficial & Space(40), 1, 40)
-    Aux = Aux & Format(Fecha, "yyyymmdd") & ConceptoTr_ & "EUR"
+    Aux = Aux & Format(Fecha, "yyyymmdd") & Mid(ConceptoTr_ & Space(16), 1, 16) & "EUR"
     Aux = Mid(Aux & Space(578), 1, 578)
     Print #NFich, Aux
     
@@ -1394,21 +1394,32 @@ Dim Cad As String
                 Aux = Aux & "ES" & RellenaABlancos(DBLet(Rs!telefonocta, "T"), True, 28)
                 '311
                 Aux = Aux & RellenaABlancos(DBLet(Rs!maidatos, "T"), True, 60)
-                Aux = Aux & "T" & Space(42)
+                
+                'NOVIEMBRE 2018
+                Cad = Mid(Mid(Rs!IBAN, 5) & Space(30), 1, 30)
+                Aux = Aux & "T" & Cad
+                
+                
+                ' Si se indica IBAN en las posiciones 414 a 461,
+                'entonces debéis indicar también el swfit.
+                
+                Cad = Mid(Rs!IBAN, 5, 4)
+                Cad = DevuelveDesdeBD("bic", "bics", "entidad", Cad)
+                If Cad = "" Then Err.Raise 513, , "Error obteniendo BIC para IBAN " & Rs!IBAN
+                Aux = Aux & RellenaABlancos(Cad, True, 12)
+                
                 '414
                 Cad = "IBAN"
                 Aux = Aux & RellenaABlancos(Rs!IBAN, True, 47)
                 Cad = "Nº factura"
                 Aux = Aux & "EUR" & "F" & RellenaABlancos(Rs!NumFactu, True, 15)
                 
-                
-                
                 '480
                 Aux = Aux & RellenaAceros(CStr(Im * 100), False, 15)
                 '495
                 Cad = "Fecha factura-vto"
                 Aux = Aux & Format(Rs!FecFactu, "yyyymmdd") & Format(Rs!fecefect, "yyyymmdd")
-                Aux = Aux & Space(45) & "E" & Space(21)
+                Aux = Aux & Space(45) & "E" & Space(22)
                         
                 Print #NFich, Aux
                 
@@ -1421,7 +1432,7 @@ Dim Cad As String
         Aux = "3"
         Aux = Aux & RellenaAceros(CStr(Regs), False, 6)
         Aux = Aux & RellenaAceros(CStr(Importe * 100), False, 15)
-        Aux = Aux & Space(555)
+        Aux = Mid(Aux & Space(560), 1, 578)
         Print #NFich, Aux
         
         
@@ -1440,6 +1451,188 @@ EGen:
     MuestraError Err.Number, Err.Description, Cad
      If NFich > 0 Then Close (NFich)
 End Function
+
+
+
+
+Public Function GeneraFicheroSabadellConfirming(CIF As String, Fecha As Date, CuentaPropia As String, vNumeroTransferencia As Integer, ByVal ConceptoTr_ As String, vAnyoTransferencia As String) As Boolean
+Dim NFich As Integer
+Dim Regs As Integer
+Dim miBanco As String
+Dim Importe As Currency
+Dim CodigoOrdenante As String
+Dim Im As Currency
+Dim Rs As ADODB.Recordset
+Dim Aux As String
+Dim Cad As String
+
+
+    On Error GoTo EGen
+    GeneraFicheroSabadellConfirming = False
+    
+    NumeroTransferencia = vNumeroTransferencia
+    NFich = -1
+    
+    'Cargamos la cuenta
+    Cad = "Select * from bancos where codmacta='" & CuentaPropia & "'"
+    Set Rs = New ADODB.Recordset
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Aux = Right("    " & CIF, 9)
+    Aux = Mid(CIF & Space(10), 1, 9)
+    If Rs.EOF Then
+        Cad = ""
+    Else
+
+        miBanco = Mid(Rs!IBAN, 5)
+       
+        CodigoOrdenante = Mid(DBLet(Rs!caixaconfirming, "T") & Space(12), 1, 12)
+        
+    End If
+    Rs.Close
+    Set Rs = Nothing
+    If Cad = "" Then
+        MsgBox "Error leyendo datos para: " & CuentaPropia, vbExclamation
+        Exit Function
+    End If
+    
+    NFich = FreeFile
+    Open App.Path & "\confirming.txt" For Output As #NFich
+    
+    
+    
+    'Resgristro 1 de cabecera
+    
+    
+    Aux = "1  "
+    Aux = Aux & Mid(vEmpresa.NombreEmpresaOficial & Space(40), 1, 40)
+    Aux = Aux & Format(Fecha, "yyyymmdd") & RellenaABlancos(vEmpresa.NIF, True, 9)
+    
+    Aux = Aux & "65B" & miBanco & CodigoOrdenante & "KF01" & "EUR" & Space(198)
+    
+    
+    Print #NFich, Aux
+    
+    
+    
+    
+    Set Rs = New ADODB.Recordset
+    
+    
+    
+    'Imprimimos las lineas
+    Cad = "Abriendo RS"
+    Aux = "Select pagos.*,maidatos ,telefonocta from pagos left join cuentas on cuentas.codmacta=pagos.codmacta"
+    Aux = Aux & " where  nrodocum =" & NumeroTransferencia
+    Aux = Aux & " and anyodocum = " & DBSet(vAnyoTransferencia, "N")
+    Rs.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Importe = 0
+    If Rs.EOF Then
+        'No hayningun registro
+        
+    Else
+        Regs = 0
+        While Not Rs.EOF
+                '*********************************************************
+                'Suposicion 1,. TODOS son nacionales
+                '*********************************************************
+               
+                Im = 0
+                Im = Rs!ImpEfect - Im
+                
+                Cad = "Identificador"
+                Aux = "2" & RellenaABlancos(Rs!codmacta, True, 15)
+                Aux = Aux & "01" & RellenaABlancos(Rs!NifProve, True, 12)
+                
+                Aux = Aux & "T" 'transferencia
+                
+                Cad = "Cuenta abono prov"
+                Aux = Aux & Mid(Mid(Rs!IBAN, 5) & Space(20), 1, 20) 'CCC
+                
+                'Numero e importe factura
+                Aux = Aux & RellenaABlancos(Rs!NumFactu, True, 15)
+                Aux = Aux & RellenaAceros(CStr(Abs(Im) * 100), False, 14)
+                Aux = Aux & IIf(Im < 0, "-", "+")
+                
+                '495
+                Cad = "Fecha factura-vto"
+                Aux = Aux & Format(Rs!FecFactu, "yyyymmdd") & Format(Rs!fecefect, "yyyymmdd")
+                
+                
+                Aux = Aux & Space(30) & "N" & Space(16)   'Posiciones  98 a 137
+                Aux = Aux & "N"
+                
+                
+                '414
+                Cad = "IBAN"
+                Aux = Aux & RellenaABlancos(Rs!IBAN, True, 30)
+                
+                Aux = Mid(Aux & Space(300), 1, 300)
+                        
+                Print #NFich, Aux
+                
+                
+                
+                'Datos complemntarios
+                Cad = "Datos complementarios"
+                Aux = "3"
+                Cad = "NOmbre prov"
+                Aux = Aux & RellenaABlancos(Rs!nomprove, True, 40)
+                Aux = Aux & "08"
+                
+                Aux = Aux & RellenaABlancos(DBLet(Rs!domprove, "T"), True, 67)
+                'Pos:223
+                Aux = Aux & RellenaABlancos(DBLet(Rs!pobprove, "T"), True, 40)
+                'Pos:248
+                Aux = Aux & RellenaABlancos(DBLet(Rs!cpprove, "T"), True, 5)
+                Aux = Aux & Space(6) 'reservador la 156
+                Aux = Aux & RellenaABlancos(DBLet(Rs!telefonocta, "T"), True, 15)
+                Aux = Aux & RellenaABlancos("", True, 15)
+                
+                Aux = Aux & RellenaABlancos(DBLet(Rs!maidatos, "T"), True, 60)
+                Aux = Aux & "1" 'correo
+                Aux = Aux & "ES"
+                Aux = Aux & Space(46) 'pais residencia y reservado
+                
+               
+                
+                Print #NFich, Aux
+                
+               'Totales
+               Importe = Importe + Im
+               Regs = Regs + 1
+               Rs.MoveNext
+        Wend
+        'Imprimimos totales
+        Aux = "5"
+        Aux = Aux & RellenaABlancos(vEmpresa.NIF, True, 9)
+        Aux = Aux & RellenaAceros(CStr(Regs), False, 7)
+        Aux = Aux & RellenaAceros(CStr(Importe * 100), False, 14) & "+"
+        Aux = Aux & Space(268)
+        Print #NFich, Aux
+        
+        
+    End If
+    Rs.Close
+    Set Rs = Nothing
+    Close (NFich)
+    NFich = -1
+    If Regs > 0 Then
+        GeneraFicheroSabadellConfirming = True
+    Else
+        MsgBox "No se han leido registros en la tabla de pagos", vbExclamation
+    End If
+    Exit Function
+EGen:
+    MuestraError Err.Number, Err.Description, Cad
+     If NFich > 0 Then Close (NFich)
+End Function
+
+
+
+
+
+
+
 
 
 

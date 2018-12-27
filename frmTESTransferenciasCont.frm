@@ -474,7 +474,7 @@ Dim FechaConf As Date
         Else
             
             
-            SobreFecVto = RecuperaValor(CtaConfirmingBanco, 3) = 0
+            SobreFecVto = RecuperaValor(CtaConfirmingBanco, 3) = 1   'O: CONFIRMINF   1: VTO
             DiasConfirming = RecuperaValor(CtaConfirmingBanco, 2)
             CtaConfirmingBanco = RecuperaValor(CtaConfirmingBanco, 1)
         
@@ -2018,6 +2018,9 @@ Dim Aux As String
     Aux = DevuelveDesdeBD(Aux, "bancos", "codmacta", Codmac, "T")
     i = Val(RecuperaValor(Aux, 1))
     If i > 0 Then
+    
+       
+       
         'Lleva dias aplazamiento
         Aux = RecuperaValor(Aux, 2)
         If Aux = "0" Then

@@ -1081,7 +1081,7 @@ Private frmCtas As frmCtasAgrupadas
 Private SQL As String
 Dim Cad As String
 Dim RC As String
-Dim i As Integer
+Dim i As Long
 Dim IndCodigo As Integer
 Dim PrimeraVez As String
 Dim Rs As ADODB.Recordset
@@ -1227,7 +1227,7 @@ Private Sub cmdAccion_Click(Index As Integer)
      
         
         'Fecha informe
-        If txtfecha(7).Text = "" Then txtfecha(7).Text = Format(Now, "dd/mm/yyyy")
+        If txtFecha(7).Text = "" Then txtFecha(7).Text = Format(Now, "dd/mm/yyyy")
         
         
         EmpezarBalanceNuevo2 -1, pb2  'La -1 es balance normal
@@ -1349,7 +1349,7 @@ Private Sub Form_Load()
     End With
     
     'Fecha informe
-    txtfecha(7).Text = Format(Now, "dd/mm/yyyy")
+    txtFecha(7).Text = Format(Now, "dd/mm/yyyy")
     'Fecha inicial
     cmbFecha(0).ListIndex = Month(vParam.fechaini) - 1
     cmbFecha(1).ListIndex = Month(vParam.fechafin) - 1
@@ -1375,7 +1375,7 @@ Private Sub Form_Load()
     PonerNiveles
     
     If Legalizacion <> "" Then
-        txtfecha(7).Text = RecuperaValor(Legalizacion, 1)     'Fecha informe
+        txtFecha(7).Text = RecuperaValor(Legalizacion, 1)     'Fecha informe
             
         cmbFecha(2).Text = Year(CDate(RecuperaValor(Legalizacion, 2)))     'Inicio
         cmbFecha(3).Text = Year(CDate(RecuperaValor(Legalizacion, 3)))     'Fin
@@ -1402,7 +1402,7 @@ Private Sub frmC_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
@@ -1445,10 +1445,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
+        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtfecha(Index)
+        PonFoco txtFecha(Index)
         
     End Select
     
@@ -1667,7 +1667,7 @@ Dim nomDocu As String
     cadParam = cadParam & "pTipo=" & Tipo & "|"
     numParam = numParam + 1
     
-    cadParam = cadParam & "pFecha=""" & txtfecha(7).Text & """|"
+    cadParam = cadParam & "pFecha=""" & txtFecha(7).Text & """|"
     
     'Numero de página
     If txtPag2(0).Text <> "" Then
@@ -1718,7 +1718,7 @@ Dim nomDocu As String
                 If i = 10 Then
                     Cad = vEmpresa.DigitosUltimoNivel
                 Else
-                    Cad = CStr(DigitosNivel(i))
+                    Cad = CStr(DigitosNivel(CInt(i)))
                 End If
                 If TieneCuentasEnTmpBalance(Cad) Then
                     CONT = CONT + 1
@@ -1773,18 +1773,18 @@ End Function
 
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
+    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtfecha(Index)
+    PonerFormatoFecha txtFecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtfecha(Index), 3
+    ConseguirFoco txtFecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
@@ -1821,7 +1821,7 @@ Dim J As Integer
     
     
     For i = 1 To vEmpresa.numnivel - 1
-        J = DigitosNivel(i)
+        J = DigitosNivel(CInt(i))
         Check1(i).visible = True
         Check1(i).Caption = "Digitos: " & J
     Next i
@@ -1872,7 +1872,7 @@ Dim vImport As Currency
 Dim CodMactaEnProceso As String
 Dim NomactaEnProceso As String
 Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará yyyymm|imported|importeh|
-
+Dim Cont2 As Long
 
     Screen.MousePointer = vbHourglass
     
@@ -1937,7 +1937,7 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
             
             If vConta = -1 Then
                 'Balance normal
-                If Check1(i).Value = 1 Then LenPrimerNivelCalculado = DigitosNivel(i)
+                If Check1(i).Value = 1 Then LenPrimerNivelCalculado = DigitosNivel(CInt(i))
                 
             Else
 
@@ -1991,15 +1991,15 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
     
     'Comprobamos si hay que quitar el pyg y el cierre
     QuitarSaldos2 = 0   'No hay k kitar
-    CONT = 0
+    Cont2 = 0
     
-        CONT = 1  'Ambos
+        Cont2 = 1  'Ambos
         'Si el mes contiene el cierre, entonces adelante
         If Month(vParam.fechafin) = Me.cmbFecha(IndiceCombo + 1).ListIndex + 1 Then
             'Si estamos en ejercicios cerrados seguro que hay asiento de cierre y p y g
                 'Si no lo comprobamos. Concepto=960 y 980
                 Agrupa = HayAsientoCierre((Me.cmbFecha(IndiceCombo + 1).ListIndex + 1), CInt(cmbFecha(3).Text))
-                If Agrupa Then QuitarSaldos2 = CONT
+                If Agrupa Then QuitarSaldos2 = Cont2
         End If
     
     'Agruparemos si esta seleccionado el chekc de agrupar y esta seleccionado
@@ -2030,7 +2030,7 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
             Exit Sub
         End If
         Agrupa = False
-        CONT = -1
+        Cont2 = -1
       
     Else
     
@@ -2041,16 +2041,16 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
             'Esta chequeado ultimo nivel
             'Veamos si tiene seleccionado alguno mas
             SQL = "1"
-            For CONT = 1 To 9
-                If Check1(CInt(CONT)).Value = 1 Then SQL = SQL & "1"
-            Next CONT
+            For Cont2 = 1 To 9
+                If Check1(CInt(Cont2)).Value = 1 Then SQL = SQL & "1"
+            Next Cont2
         End If
         PreCargarCierre = Len(SQL) = 1
     
         'Mostramos el frame de resultados
-        CONT = 0
+        Cont2 = 0
         While Not Rs.EOF
-            CONT = CONT + 1
+            Cont2 = Cont2 + 1
             Rs.MoveNext
         Wend
         PB.visible = True
@@ -2110,7 +2110,7 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
             If PulsadoCancelar Then
                 Rs.MoveLast
             Else
-                 PB.Value = Round((C1 / CONT), 3) * 1000
+                 PB.Value = Round((C1 / Cont2), 3) * 1000
                 PB.Refresh
                 DoEvents
             End If
@@ -2209,7 +2209,7 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
     For i = LenPrimerNivelCalculado - 1 To 1 Step -1
         If vConta = -1 Then
             'Balance normal
-            If Check1(i).Value = 1 Then LenNivelCalculado = DigitosNivel(i)
+            If Check1(i).Value = 1 Then LenNivelCalculado = DigitosNivel(CInt(i))
             
         Else
 '                'Balance consolidado
@@ -2255,22 +2255,22 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
     
     
     'Ninguna entrada
-    If CONT <= 0 Then Exit Sub
+    If Cont2 <= 0 Then Exit Sub
     
     'Realizar agrupacion
     If Agrupa Then
         PB.Value = 0
         Rs.Open "Select count(*) from ctaagrupadas", Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        CONT = DBLet(Rs.Fields(0), "N")
+        Cont2 = DBLet(Rs.Fields(0), "N")
         Rs.Close
-        If CONT > 0 Then
+        If Cont2 > 0 Then
             SQL = "Select ctaagrupadas.codmacta,nommacta from ctaagrupadas,cuentas where ctaagrupadas.codmacta =cuentas.codmacta "
             Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             i = 0
             While Not Rs.EOF
                 If AgrupacionCtasBalance(Rs.Fields(0), Rs.Fields(1)) Then
                     i = i + 1
-                    PB.Value = Round((i / CONT), 3) * 1000
+                    PB.Value = Round((i / Cont2), 3) * 1000
                     Rs.MoveNext
                 Else
                     Rs.Close
@@ -2305,7 +2305,7 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
         
         SQL = "Select count(*) from tmpbalancesumas where codusu = " & vUsu.Codigo
         Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-        CONT = DBLet(Rs.Fields(0), "N")
+        Cont2 = DBLet(Rs.Fields(0), "N")
         Rs.Close
     
         
@@ -2317,7 +2317,7 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
         SQL = "INSERT INTO usuarios.ztmpbalanceconsolidado (codempre, nomempre, codusu, cta, nomcta, aperturaD, aperturaH, acumAntD, acumAntH, acumPerD, acumPerH, TotalD, TotalH) VALUES ("
         SQL = SQL & vConta & ",'" & Cad & "',"
         While Not Rs.EOF
-            PB.Value = Round((i / CONT), 3) * 1000
+            PB.Value = Round((i / Cont2), 3) * 1000
             BACKUP_Tabla Rs, Cade
             Cade = Mid(Cade, 2)
             Cade = SQL & Cade
@@ -2328,13 +2328,13 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
         Wend
         Rs.Close
         'Ponemos CONT=0 para k no entre en el if de abajo
-        CONT = 0
+        Cont2 = 0
     End If
     
     Set Rs = Nothing
     
     'Si hay datos los mostramos
-    If CONT > 0 Then
+    If Cont2 > 0 Then
         'Las fechas
         SQL = "Fechas= ""Desde " & cmbFecha(0).ListIndex + 1 & "/" & cmbFecha(2).Text & "   hasta "
         SQL = SQL & cmbFecha(1).ListIndex + 1 & "/" & cmbFecha(3).Text & """|"
@@ -2353,7 +2353,7 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
         SQL = SQL & "Cuenta= """ & Cad & """|"
         
         'Fecha de impresion
-        SQL = SQL & "FechaImp= """ & txtfecha(7).Text & """|"
+        SQL = SQL & "FechaImp= """ & txtFecha(7).Text & """|"
         
         
         'Salto
@@ -2387,7 +2387,7 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
         '------------------------------
         'Numero de niveles
         'Para cada nivel marcado veremos si tiene cuentas en la tmp
-        CONT = 0
+        Cont2 = 0
         UltimoNivel = 0
         For i = 1 To 10
             If Check1(i).visible Then
@@ -2396,16 +2396,16 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
                     If i = 10 Then
                         Cad = vEmpresa.DigitosUltimoNivel
                     Else
-                        Cad = CStr(DigitosNivel(i))
+                        Cad = CStr(DigitosNivel(CInt(i)))
                     End If
                     If TieneCuentasEnTmpBalance(Cad) Then
-                        CONT = CONT + 1
+                        Cont2 = Cont2 + 1
                         UltimoNivel = CByte(Cad)
                     End If
                 End If
             End If
         Next i
-        Cad = "numeroniveles= " & CONT & "|"
+        Cad = "numeroniveles= " & Cont2 & "|"
         SQL = SQL & Cad
         'Otro parametro mas
         Cad = "vUltimoNivel= " & UltimoNivel & "|"
@@ -2607,7 +2607,7 @@ Private Sub HacerBalanceInicio()
                     If i = 10 Then
                         Cad = vEmpresa.DigitosUltimoNivel
                     Else
-                        Cad = CStr(DigitosNivel(i))
+                        Cad = CStr(DigitosNivel(CInt(i)))
                     End If
                     If TieneCuentasEnTmpBalance(Cad) Then CONT = CONT + 1
                 End If
@@ -2618,7 +2618,7 @@ Private Sub HacerBalanceInicio()
         
         
         'Fecha de impresion
-        SQL = SQL & "FechaImp= """ & txtfecha(7).Text & """|"
+        SQL = SQL & "FechaImp= """ & txtFecha(7).Text & """|"
         
         
         'Remarcar

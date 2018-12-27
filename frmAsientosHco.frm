@@ -3051,7 +3051,7 @@ Private Sub cmdRegresar_Click()
 Dim Cad As String
 Dim Aux As String
 Dim i As Integer
-Dim J As Integer
+Dim j As Integer
     
     Unload Me
     
@@ -3875,7 +3875,7 @@ Dim SQL As String
 
     Dim anc As Single
     Dim i As Integer
-    Dim J As Integer
+    Dim j As Integer
 
     If AdoAux(Index).Recordset.EOF Then Exit Sub
     If AdoAux(Index).Recordset.RecordCount < 1 Then Exit Sub
@@ -4436,7 +4436,7 @@ Private Sub txtaux_GotFocus(Index As Integer)
     If Index = 8 Then txtaux(Index).SelStart = Len(txtaux(Index).Text)
 End Sub
 
-Private Sub TxtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = 112 Then
         'Esto sera k hemos pulsado el ENTER
         txtAux_LostFocus Index
@@ -5452,7 +5452,7 @@ Private Function InsertarDesdeFichero() As Boolean
 Dim CADENA As String
 Dim Carpeta As String
 Dim Aux As String
-Dim J As Integer
+Dim j As Integer
 Dim C As String
 Dim Rs As ADODB.Recordset
 Dim L As Long
@@ -5483,7 +5483,7 @@ Dim L As Long
 '    '******* Cambiamos cursor
     Screen.MousePointer = vbHourglass
 
-    J = InStr(1, cd1.FileName, Chr(0))
+    j = InStr(1, cd1.FileName, Chr(0))
     CADENA = cd1.FileName
     TipoDocu = 0
     If InStr(1, cd1.FileName, "pdf") <> 0 Then TipoDocu = 1
@@ -5607,7 +5607,7 @@ Private Sub CargarArchivos()
 Dim C As String
 Dim L As Long
 
-
+    
     ProcesarCarpetaImagenes
 
 
@@ -5667,7 +5667,7 @@ EProcesarCarpetaImagenes:
 End Sub
 
 Private Sub AnyadirAlListview(vpaz As String, DesdeBD As Boolean)
-Dim J As Integer
+Dim j As Integer
 Dim Aux As String
 Dim IT As ListItem
 Dim Contador As Integer
@@ -5690,7 +5690,9 @@ End Sub
 Private Sub ImprimirImagen()
 Dim NFic As Long
 Dim vAdobe As String
-
+    
+   If lw1.SelectedItem Is Nothing Then Exit Sub
+    
    CargarArchivos
    
    Call ShellExecute(Me.hwnd, "Open", Me.lw1.SelectedItem.SubItems(2), "", "", 1)

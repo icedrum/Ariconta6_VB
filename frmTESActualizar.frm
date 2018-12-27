@@ -1,6 +1,5 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
-Object = "{FE0065C0-1B7B-11CF-9D53-00AA003C9CB6}#1.1#0"; "comct232.ocx"
 Begin VB.Form frmTESActualizar 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Actualizar diario"
@@ -20,7 +19,7 @@ Begin VB.Form frmTESActualizar
       BorderStyle     =   0  'None
       Height          =   4815
       Left            =   0
-      TabIndex        =   5
+      TabIndex        =   4
       Top             =   0
       Visible         =   0   'False
       Width           =   5115
@@ -28,14 +27,14 @@ Begin VB.Form frmTESActualizar
          Caption         =   "Salir"
          Height          =   375
          Left            =   3840
-         TabIndex        =   6
+         TabIndex        =   5
          Top             =   4200
          Width           =   975
       End
       Begin MSComctlLib.ListView ListView1 
          Height          =   3495
          Left            =   60
-         TabIndex        =   10
+         TabIndex        =   9
          Top             =   360
          Width           =   4815
          _ExtentX        =   8493
@@ -76,7 +75,7 @@ Begin VB.Form frmTESActualizar
          EndProperty
          Height          =   375
          Left            =   360
-         TabIndex        =   8
+         TabIndex        =   7
          Top             =   1920
          Width           =   3735
       End
@@ -93,7 +92,7 @@ Begin VB.Form frmTESActualizar
          EndProperty
          Height          =   255
          Left            =   60
-         TabIndex        =   7
+         TabIndex        =   6
          Top             =   60
          Width           =   855
       End
@@ -105,18 +104,6 @@ Begin VB.Form frmTESActualizar
       TabIndex        =   0
       Top             =   0
       Width           =   4815
-      Begin ComCtl2.Animation Animation1 
-         Height          =   735
-         Left            =   600
-         TabIndex        =   4
-         Top             =   1800
-         Width           =   3615
-         _ExtentX        =   6376
-         _ExtentY        =   1296
-         _Version        =   327681
-         FullWidth       =   241
-         FullHeight      =   49
-      End
       Begin MSComctlLib.ProgressBar ProgressBar1 
          Height          =   375
          Left            =   600
@@ -142,7 +129,7 @@ Begin VB.Form frmTESActualizar
          ForeColor       =   &H00800000&
          Height          =   375
          Left            =   240
-         TabIndex        =   9
+         TabIndex        =   8
          Top             =   120
          Width           =   3975
       End
@@ -217,7 +204,7 @@ Private Mes As Integer
 Private Anyo As Integer
 Dim Fecha As String  'TENDRA la fecha ya formateada en yyy-mm-dd
 Dim PrimeraVez As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Rs As Recordset
 
 Dim INC As Long
@@ -297,7 +284,7 @@ If Dir(App.Path & "\ErrActua.txt") = "" Then
     Exit Sub
 End If
 
-Me.frameResultados.Visible = True
+Me.frameResultados.visible = True
 'Los encabezados
 ListView1.ColumnHeaders.Clear
 ListView1.ColumnHeaders.Add , , "Diario", 800
@@ -372,7 +359,7 @@ Dim B As Boolean
     Limpiar Me
  
     PrimeraVez = True
-    Me.frameResultados.Visible = False
+    Me.frameResultados.visible = False
     NumErrores = 0
     ListView1.ListItems.Clear
     Select Case OpcionActualizar
@@ -423,8 +410,8 @@ Dim B As Boolean
     Case 12
 
     End Select
-    Me.frame1Asiento.Visible = B
-    Me.Animation1.Visible = B
+    Me.frame1Asiento.visible = B
+   ' Me.Animation1.visible = B
 End Sub
 
 
@@ -456,7 +443,7 @@ End Sub
 ' se generaran desde TESORERIA.
 'YA los hemos metido en tmoactualziar
 Private Function ObtenerRegistrosParaActualizar() As Boolean
-Dim cad As String
+Dim Cad As String
     Label1.Caption = "Prepara proceso."
     Label1.Refresh
     ObtenerRegistrosParaActualizar = False
@@ -483,7 +470,7 @@ Dim cad As String
     End If
     
     'Ponemos en marcha la peli
-    If NumAsiento > 20 Then PonerAVI 1
+    'If NumAsiento > 20 Then PonerAVI 1
     
     
     
@@ -491,7 +478,7 @@ Dim cad As String
     Label1.Caption = "Obtener registros actualización."
     lblAsiento.Caption = ""
     Me.Height = 3315
-    Me.frame1Asiento.Visible = True
+    Me.frame1Asiento.visible = True
     Me.Refresh
     Me.Height = 3315
     Me.Refresh
@@ -505,14 +492,14 @@ Dim cad As String
         NumDiari = Rs!NumDiari
         'No esta bloqueado
         'Comprobamos que esta cuadrado
-        cad = RegistroCuadrado
-        If cad <> "" Then
-            InsertaError cad
+        Cad = RegistroCuadrado
+        If Cad <> "" Then
+            InsertaError Cad
             'Borramos de tmpactualizar
-            cad = "delete from tmpactualizar where codusu =" & vUsu.Codigo
-            cad = cad & " AND numdiari =" & Rs!NumDiari & " AND numasien =" & Rs!NumAsien
-            cad = cad & " AND fechaent ='" & Format(Rs!FechaEnt, FormatoFecha) & "'"
-            Conn.Execute cad
+            Cad = "delete from tmpactualizar where codusu =" & vUsu.Codigo
+            Cad = Cad & " AND numdiari =" & Rs!NumDiari & " AND numasien =" & Rs!NumAsien
+            Cad = Cad & " AND fechaent ='" & Format(Rs!FechaEnt, FormatoFecha) & "'"
+            Conn.Execute Cad
         End If
         
 
@@ -527,9 +514,9 @@ Dim cad As String
 
     'Ahora si todo ha ido bien mostraremos datos de las actualizaciones
     Me.Height = 4965
-    frame1Asiento.Visible = False
+    frame1Asiento.visible = False
     
-    Me.frameResultados.Visible = True
+    Me.frameResultados.visible = True
     Me.Refresh
     Screen.MousePointer = vbHourglass
     If NumErrores > 0 Then
@@ -545,19 +532,7 @@ Dim cad As String
 End Function
 
 
-Private Sub PonerAVI(NumAVI As Integer)
-On Error GoTo EPonerAVI
-    If NumAVI = 1 Then
-        Me.Animation1.Open App.Path & "\actua.avi"
-        Me.Animation1.Play
-        Me.Animation1.Visible = True
-    Else
-    
-    End If
-Exit Sub
-EPonerAVI:
-    MuestraError Err.Number, "Poner Video"
-End Sub
+
 
 
 Private Function RegistroCuadrado() As String
@@ -569,17 +544,17 @@ Private Function RegistroCuadrado() As String
     RegistroCuadrado = "" 'Todo bien
     
     Set RSUM = New ADODB.Recordset
-    Sql = "SELECT Sum(hlinapu.timporteD) AS SumaDetimporteD, Sum(hlinapu.timporteH) AS SumaDetimporteH"
-    Sql = Sql & " ,hlinapu.numdiari,hlinapu.fechaent,hlinapu.numasien"
-    Sql = Sql & " From hlinapu GROUP BY hlinapu.numdiari, hlinapu.fechaent, hlinapu.numasien "
-    Sql = Sql & " HAVING (((hlinapu.numdiari)=" & NumDiari
-    Sql = Sql & ") AND ((hlinapu.fechaent)='" & Fecha
-    Sql = Sql & "') AND ((hlinapu.numasien)=" & NumAsiento
-    Sql = Sql & "));"
+    SQL = "SELECT Sum(hlinapu.timporteD) AS SumaDetimporteD, Sum(hlinapu.timporteH) AS SumaDetimporteH"
+    SQL = SQL & " ,hlinapu.numdiari,hlinapu.fechaent,hlinapu.numasien"
+    SQL = SQL & " From hlinapu GROUP BY hlinapu.numdiari, hlinapu.fechaent, hlinapu.numasien "
+    SQL = SQL & " HAVING (((hlinapu.numdiari)=" & NumDiari
+    SQL = SQL & ") AND ((hlinapu.fechaent)='" & Fecha
+    SQL = SQL & "') AND ((hlinapu.numasien)=" & NumAsiento
+    SQL = SQL & "));"
     
     
     
-    RSUM.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    RSUM.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If Not RSUM.EOF Then
         Deb = DBLet(RSUM.Fields(0), "N")
         'Deb = Round(Deb, 2)
@@ -641,9 +616,9 @@ End If
 INC = 1
 
 
-Sql = "Select * from tmpactualizar where codusu=" & vUsu.Codigo
+SQL = "Select * from tmpactualizar where codusu=" & vUsu.Codigo
 Set RT = New ADODB.Recordset
-RT.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+RT.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
 While Not RT.EOF
     NumAsiento = RT!NumAsien
     FechaAsiento = RT!FechaEnt

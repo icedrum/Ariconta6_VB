@@ -3576,7 +3576,7 @@ Dim SQL As String
         
         SQL = SQL & DBSet(textCSB, "T") & "," & ValorNulo & "," & ValorNulo & "," & ValorNulo & "," & DBSet(IBAN, "T", "S") & ","
         
-        SQL = SQL & DBSet(Text1(15).Text, "T", "S") & "," & DBSet(Text1(16).Text, "T", "S") & "," & DBSet(Text1(17).Text, "T", "S") & "," & DBSet(Text1(18).Text, "T", "S") & ","
+        SQL = SQL & DBSet(Text1(15).Text, "T", "S") & "," & DBSet(Text1(16).Text, "T", "S") & "," & DBSet(Text1(18).Text, "T", "S") & "," & DBSet(Text1(17).Text, "T", "S") & ","
         SQL = SQL & DBSet(Text1(19).Text, "T", "S") & "," & DBSet(Text1(20).Text, "T", "S") & "," & DBSet(Text1(21).Text, "T", "S") & ","
         
         If Pagado Then
@@ -3721,6 +3721,7 @@ Dim i As Long
     i = 0
     Mens = "Insertando Pagos: " & vbCrLf & vbCrLf
     B = InsertaPagos(Rs, i, Mens)
+    If Not B Then MsgBox Mens, vbExclamation
     
     Set Rs = Nothing
     
@@ -4840,7 +4841,7 @@ Dim CuentaAntes As String
         ' vamos al historico de apuntes
         Set frmAsi = New frmAsientosHco
         
-        frmAsi.ASIENTO = data1.Recordset!NumDiari & "|" & data1.Recordset!fecharec & "|" & data1.Recordset!NumAsien & "|"
+        frmAsi.ASIENTO = data1.Recordset!NumDiari & "|" & data1.Recordset!FechaEnt & "|" & data1.Recordset!NumAsien & "|"
         frmAsi.SoloImprimir = True
         frmAsi.Show vbModal
         
@@ -5097,8 +5098,6 @@ End Sub
 
 
 Private Sub BotonModificar()
-
-'    If Not SePuedeModificarAsiento(True) Then Exit Sub
 
     
     '---------
@@ -7326,7 +7325,7 @@ Private Sub txtaux_GotFocus(Index As Integer)
 End Sub
 
 
-Private Sub TxtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     KEYdown KeyCode
 End Sub
 
@@ -7997,49 +7996,7 @@ Dim Aux As String
 End Sub
     
 
-Private Function SePuedeModificarAsiento(MostrarMensaje As Boolean) As Boolean
-Dim CadFac As String
 
-        CadFac = ""
-        
-        SePuedeModificarAsiento = False
-      
-        If Me.AdoAux(1).Recordset.EOF Then Exit Function
-        
-        'Primero comprobamos si esta cerrado el ejercicio
-        varFecOk = FechaCorrecta2(AdoAux(1).Recordset!FechaEnt)
-        If varFecOk >= 2 Then
-            If varFecOk = 2 Then
-                If MostrarMensaje Then MsgBox varTxtFec, vbExclamation
-            Else
-                If MostrarMensaje Then MsgBox "El asiento pertenece a un ejercicio cerrado.", vbExclamation
-            End If
-            Exit Function
-        End If
-        
-        'Cojo prestado esta variabel un momento CadenaDesdeOtroForm
-        If Not IsNull(AdoAux(1).Recordset!idcontab) Then
-            If AdoAux(1).Recordset!idcontab = "FRACLI" Then
-                CadFac = "FRACLI"
-                CadenaDesdeOtroForm = " clientes "
-            Else
-                If AdoAux(1).Recordset!idcontab = "FRAPRO" Then
-                    CadFac = "FRAPRO"
-                    CadenaDesdeOtroForm = " proveedores "
-                End If
-            End If
-        End If
-        If CadFac <> "" Then
-                If MostrarMensaje Then MsgBox "Este apunte pertenece a una factura de " & CadenaDesdeOtroForm & " y solo se puede modificar en el registro" & _
-                    " de facturas de " & CadenaDesdeOtroForm & ".", vbExclamation
-                i = -1
-            Exit Function
-        Else
-            SePuedeModificarAsiento = True
-        End If
-
-
-End Function
 
 Private Sub CargarCombo()
 Dim Rs As ADODB.Recordset
@@ -8600,7 +8557,18 @@ Private Function IntegrarFactura_(DentroTrans As Boolean) As Boolean
         .DiarioFacturas = NumDiario
         .NumAsiento = Numasien2
         .Show vbModal
-        If AlgunAsientoActualizado Then IntegrarFactura_ = True
+        If AlgunAsientoActualizado Then
+            IntegrarFactura_ = True
+            'NOVIEMBRE 18
+            'PUEDE HABER CAMBIADO LA FECHA
+            If Not IsNull(data1.Recordset!FechaEnt) Then
+                If Format(data1.Recordset!FechaEnt) <> Text1(1).Text Then
+                    Ejecuta "UPDATE factpro set fechaent=" & DBSet(Text1(1).Text, "F") & ObtenerWhereCab(True), False
+                    
+                
+                End If
+            End If
+        End If
         Screen.MousePointer = vbHourglass
         Me.Refresh
     End With

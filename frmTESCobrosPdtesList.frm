@@ -1706,7 +1706,7 @@ Private Sub Form_Load()
     Next i
     
     For i = 0 To 3
-        Me.imgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
     Next i
      
     ' La Ayuda
@@ -1724,15 +1724,15 @@ Private Sub Form_Load()
     
     Combo1.ListIndex = 0
     Combo2.ListIndex = 2
-    Combo3.ListIndex = 2
+    Combo3.ListIndex = 0
      
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
     If Legalizacion <> "" Then
-        txtFecha(2).Text = RecuperaValor(Legalizacion, 1)
-        txtFecha(0).Text = RecuperaValor(Legalizacion, 2)
-        txtFecha(1).Text = RecuperaValor(Legalizacion, 3)
+        txtfecha(2).Text = RecuperaValor(Legalizacion, 1)
+        txtfecha(0).Text = RecuperaValor(Legalizacion, 2)
+        txtfecha(1).Text = RecuperaValor(Legalizacion, 3)
     End If
     
     optVarios(0).Value = True
@@ -1769,7 +1769,7 @@ Private Sub frmDpto_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
@@ -1841,10 +1841,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
     End Select
     
     Screen.MousePointer = vbDefault
@@ -2192,10 +2192,24 @@ Dim Sql2 As String
         SQL = SQL & ", cobros.noremesar NoRemesar, cobros.situacionjuri SitJuridica, cobros.Devuelto Devuelto, cobros.recedocu Recepcion, cobros.observa Observaciones "
     End If
     
+    
+    RC = ""
+    SQL_Combo Combo1, RC 'recibido
+    SQL_Combo Combo2, RC 'devuelto
+    SQL_Combo Combo3, RC    'situ juridica
+    
+    
+    
+    
     SQL = SQL & " FROM (cobros inner join formapago on cobros.codforpa = formapago.codforpa) "
     SQL = SQL & " inner join tipofpago on formapago.tipforpa = tipofpago.tipoformapago "
     SQL = SQL & " WHERE cobros.situacion = 0 and (cobros.impvenci + coalesce(cobros.gastos,0) - coalesce(cobros.impcobro,0)) <> 0 "
     If cadselect <> "" Then SQL = SQL & " AND " & cadselect
+            
+            
+    
+            
+            
             
     Sql2 = ""
             
@@ -2232,14 +2246,14 @@ End Sub
 
 
 Private Sub AccionesCrystal()
-Dim indRPT As String
+Dim indRPT_ As String
 Dim nomDocu As String
     
     vMostrarTree = False
     conSubRPT = False
         
     
-    indRPT = "0602-00"
+    indRPT_ = "0602-00"
     
 
     If optVarios(0).Value Then
@@ -2297,14 +2311,14 @@ Dim nomDocu As String
 
     If optVarios(0).Value Or optVarios(1).Value Then
         'formato extendido
-        If Check1(2).Value Then indRPT = "0602-01"
+        If Check1(2).Value Then indRPT_ = "0602-01"
     End If
     If optVarios(2).Value Then
-        indRPT = "0602-02"
-        If Check1(2).Value Then indRPT = "0602-03"
+        indRPT_ = "0602-02"
+        If Check1(2).Value Then indRPT_ = "0602-03"
     End If
     
-    If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
+    If Not PonerParamRPT(indRPT_, nomDocu) Then Exit Sub
     
     cadNomRPT = nomDocu ' "CobrosPdtes.rpt"
 
@@ -2324,57 +2338,58 @@ Dim nomDocu As String
     
 End Sub
 
-Private Function CargarTemporal() As Boolean
-Dim SQL As String
-
-    On Error GoTo eCargarTemporal
-
-    CargarTemporal = False
-    
-    SQL = "delete from tmpfaclin where codusu = " & vUsu.Codigo
-    Conn.Execute SQL
-    
-    SQL = "insert into tmpfaclin (codusu, codigo, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
-    SQL = SQL & " recargo, tipoopera, tipoformapago) "
-    SQL = SQL & " select distinct " & vUsu.Codigo & ",0, factcli.numserie, contadores.nomregis, factcli.numfactu, factcli.fecfactu, factcli.codmacta, "
-    SQL = SQL & " factcli.nommacta, factcli.nifdatos, factcli.totbases, factcli.totivas, factcli.totfaccl, factcli.trefaccl, "
-    SQL = SQL & " factcli.totrecargo, tipofpago.descformapago , aa.denominacion"
-    SQL = SQL & " from " & tabla
-    SQL = SQL & " where " & cadselect
-    
-    Conn.Execute SQL
-    
-    CargarTemporal = True
-    Exit Function
-    
-eCargarTemporal:
-    MuestraError Err.Number, "Cargar Temporal Resumen", Err.Description
-End Function
+'Private Function CargarTemporal() As Boolean
+'Dim SQL As String
+'
+'    On Error GoTo eCargarTemporal
+'
+'    CargarTemporal = False
+'
+'    SQL = "delete from tmpfaclin where codusu = " & vUsu.Codigo
+'    Conn.Execute SQL
+'
+'    SQL = "insert into tmpfaclin (codusu, codigo, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
+'    SQL = SQL & " recargo, tipoopera, tipoformapago) "
+'    SQL = SQL & " select distinct " & vUsu.Codigo & ",0, factcli.numserie, contadores.nomregis, factcli.numfactu, factcli.fecfactu, factcli.codmacta, "
+'    SQL = SQL & " factcli.nommacta, factcli.nifdatos, factcli.totbases, factcli.totivas, factcli.totfaccl, factcli.trefaccl, "
+'    SQL = SQL & " factcli.totrecargo, tipofpago.descformapago , aa.denominacion"
+'    SQL = SQL & " from " & tabla
+'    SQL = SQL & " where " & cadselect
+'
+'    Conn.Execute SQL
+'
+'    CargarTemporal = True
+'    Exit Function
+'
+'eCargarTemporal:
+'    MuestraError Err.Number, "Cargar Temporal Resumen", Err.Description
+'End Function
 
 Private Function MontaSQL() As Boolean
 Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
-Dim i As Integer
+Dim J As Integer
 
 
     MontaSQL = False
     
     If Not PonerDesdeHasta("cobros.NumSerie", "SER", Me.txtSerie(0), Me.txtNSerie(0), Me.txtSerie(1), Me.txtNSerie(1), "pDHSerie=""") Then Exit Function
-    If Not PonerDesdeHasta("cobros.FecFactu", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""") Then Exit Function
-    If Not PonerDesdeHasta("cobros.Fecvenci", "F", Me.txtFecha(2), Me.txtFecha(2), Me.txtFecha(3), Me.txtFecha(3), "pDHFecVto=""") Then Exit Function
+    If Not PonerDesdeHasta("cobros.FecFactu", "F", Me.txtfecha(0), Me.txtfecha(0), Me.txtfecha(1), Me.txtfecha(1), "pDHFecha=""") Then Exit Function
+    If Not PonerDesdeHasta("cobros.Fecvenci", "F", Me.txtfecha(2), Me.txtfecha(2), Me.txtfecha(3), Me.txtfecha(3), "pDHFecVto=""") Then Exit Function
     If Not PonerDesdeHasta("cobros.codmacta", "CTA", Me.txtCuentas(0), Me.txtNCuentas(0), Me.txtCuentas(1), Me.txtNCuentas(1), "pDHCuentas=""") Then Exit Function
     If Not PonerDesdeHasta("cobros.agente", "AGE", Me.txtAgente(0), Me.txtNAgente(0), Me.txtAgente(1), Me.txtNAgente(1), "pDHAgente=""") Then Exit Function
     If Not PonerDesdeHasta("cobros.departamento", "DPTO", Me.txtDpto(0), Me.txtNDpto(0), Me.txtDpto(1), Me.txtNDpto(1), "pDHDpto=""") Then Exit Function
             
     SQL = ""
-    For i = 1 To Me.ListView1(1).ListItems.Count
-        If Me.ListView1(1).ListItems(i).Checked Then
-            SQL = SQL & Me.ListView1(1).ListItems(i).SubItems(2) & ","
+    For J = 1 To Me.ListView1(1).ListItems.Count
+        If Me.ListView1(1).ListItems(J).Checked Then
+            SQL = SQL & Me.ListView1(1).ListItems(J).SubItems(2) & ","
         End If
-    Next i
+    Next J
     
+        
     If SQL <> "" Then
         ' quitamos la ultima coma
         SQL = Mid(SQL, 1, Len(SQL) - 1)
@@ -2386,11 +2401,41 @@ Dim i As Integer
         If Not AnyadirAFormula(cadFormula, "isnull({formapago.tipforpa})") Then Exit Function
     End If
     
+    'Octubre 2018
+    'NO HABIA NINGUN COMBO PUESTO
+    RC = ""
+    SQL_Combo Combo1, RC 'recibido
+    SQL_Combo Combo2, RC 'devuelto
+    SQL_Combo Combo3, RC    'situ juridica
+    
+    If RC <> "" Then
+        i = InStr(1, cadParam, "|pDHFecVto=""")
+        If i = 0 Then
+            cadParam = cadParam & "pDHFecVto=""" & RC & """|"
+        Else
+            J = InStr(i + 10, cadParam, "|")
+            If J = 0 Then
+                MsgBox "Imposible poner etiqueta en informe. El programa continuará. Avise soporte", vbExclamation
+            Else
+                RC2 = Mid(cadParam, J + 1)
+                SQL = Mid(cadParam, i + 12, J - i - 13)
+                SQL = SQL & "       " & RC
+                SQL = "pDHFecVto=""Fecha vto. " & SQL & """|"
+                RC = Mid(cadParam, 1, i)
+                
+                cadParam = RC & SQL & RC2
+                
+            End If
+            
+            
+        End If
+    End If
+
+    
     
     ' Añadimos la condicion de que la situacion = 0 y que el importe pendiente <> 0
     If Check1(3).Value = 0 Then
         'LO que habia, antes Junio18
-        
         If Not AnyadirAFormula(cadselect, "cobros.situacion = 0") Then Exit Function
         If Not AnyadirAFormula(cadFormula, "{cobros.situacion} = 0") Then Exit Function
         
@@ -2413,25 +2458,72 @@ Dim i As Integer
     MontaSQL = True
 End Function
 
+Private Sub SQL_Combo(ByRef Cbo As ComboBox, ByRef CadenaDH As String)
+Dim Aux As String
+
+    If Cbo.ListIndex <> 2 Then
+        Aux = Right(Cbo.Name, 1)
+        If Aux = "2" Then
+            'Copmbo2
+            Aux = "{cobros.Devuelto}"
+        ElseIf Aux = "3" Then
+            'Combo3
+            Aux = "{cobros.situacionjuri}"
+        Else
+            'Combo1
+            Aux = "{cobros.recedocu}"
+        End If
+        
+        
+        Aux = Aux & " = " & IIf(Cbo.ListIndex = 1, 1, 0)
+        If Not AnyadirAFormula(cadFormula, Aux) Then Exit Sub
+        Aux = Replace(Aux, "{", "")
+        Aux = Replace(Aux, "}", "")
+        If Not AnyadirAFormula(cadselect, Aux) Then Exit Sub
+        
+    
+    
+        Aux = Right(Cbo.Name, 1)
+        If Aux = "2" Then
+            'Copmbo2
+            Aux = "Devuelto:"
+        ElseIf Aux = "3" Then
+            'Combo3
+            Aux = "Situacion jurídica:"
+        Else
+            'Combo1
+            Aux = "Recepcion:"
+        End If
+        Aux = "    " & Aux & IIf(Cbo.ListIndex = 1, "Si", "No")
+        CadenaDH = Trim(CadenaDH & Aux)
+    End If
+End Sub
+
+
+
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
+
+
+
+
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtFecha(Index).Tag, Index
+        LanzaFormAyuda txtfecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If

@@ -28,7 +28,7 @@ Begin VB.Form frmBanco
       Height          =   360
       ItemData        =   "frmBanco.frx":000C
       Left            =   9840
-      List            =   "frmBanco.frx":0019
+      List            =   "frmBanco.frx":001C
       Style           =   2  'Dropdown List
       TabIndex        =   20
       Tag             =   "Aplazamiento sobre|N|S|0||bancos|TipoFichConfi|||"
@@ -49,9 +49,9 @@ Begin VB.Form frmBanco
    End
    Begin VB.ComboBox Combo1 
       Height          =   360
-      ItemData        =   "frmBanco.frx":003C
+      ItemData        =   "frmBanco.frx":0049
       Left            =   7200
-      List            =   "frmBanco.frx":0046
+      List            =   "frmBanco.frx":0053
       Style           =   2  'Dropdown List
       TabIndex        =   19
       Tag             =   "Aplazamiento sobre|N|S|0||bancos|AplzSobreFecVenc|||"
@@ -1100,7 +1100,7 @@ Begin VB.Form frmBanco
    Begin VB.Image imgCC 
       Height          =   240
       Left            =   7620
-      Picture         =   "frmBanco.frx":006F
+      Picture         =   "frmBanco.frx":007C
       Top             =   8880
       Width           =   240
    End

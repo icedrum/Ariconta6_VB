@@ -1088,12 +1088,7 @@ Dim Aux As String
     Cad = "Desea contabilizar los vencimientos seleccionados?"
     If Combo1.ItemData(Combo1.ListIndex) = 1 Then
         i = 0
-        'If Not Cobros Then
-        
             If Not ContabTransfer2 Then i = 1
-        'Else
-        '    If Not ContabTransfer And SegundoParametro <> "" Then i = 1
-        'End If
         If i = 1 Then
             'Estamos creando la transferencia o el pago domiciliado
             Cad = RecuperaValor(Me.vTextos, 5)
@@ -1287,7 +1282,7 @@ Private Function HacerNuevaContabilizacion() As Boolean
     
     Exit Function
 EHacer:
-    MuestraError Err.Number, "Contabilizando"
+    MuestraError Err.Number, "Contabilizando" & Err.Description
 End Function
 
 

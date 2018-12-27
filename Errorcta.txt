@@ -1,5 +1,0 @@
- *****  Cuentas NO numericas o con espacios en blanco
-
-
-
- - 7300 

@@ -2,23 +2,23 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02">
 <CstmrDrctDbtInitn>
 <GrpHdr>
-<MsgId>PRE2018101811410006250RE30000752018</MsgId>
-   <CreDtTm>2018-10-18T11:41:00</CreDtTm>
+<MsgId>FSDD2018112310033802730RE30002332018</MsgId>
+   <CreDtTm>2018-11-23T10:03:38</CreDtTm>
    <NbOfTxs>1</NbOfTxs>
-   <CtrlSum>861.03</CtrlSum>
+   <CtrlSum>11092.12</CtrlSum>
    <InitgPty>
-     <Nm>Alzicoop Secci n Suministros y Servicios</Nm>
+     <Nm>EULER</Nm>
      <Id>
         <OrgId>
            <Othr>
-              <Id>ES94011F46024196</Id>
+              <Id>ES68   B20899563</Id>
            </Othr>
         </OrgId>
       </Id>
    </InitgPty>
 </GrpHdr>
 <PmtInf>
-   <PmtInfId>RE000752018 18/10/18F46024196</PmtInfId>
+   <PmtInfId>RE002332018 23/11/18B20899563</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -33,29 +33,29 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2018-10-18</ReqdColltnDt>
+   <ReqdColltnDt>2018-11-23</ReqdColltnDt>
    <Cdtr>
-      <Nm>Alzicoop Secci n Suministros y Servicios</Nm>
+      <Nm>EULER</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>PARTIDA MATERNA 17   </AdrLine>
+          <AdrLine>ELBARRENA AUZOA 15   </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES4830587105342712000027</IBAN>
+         <IBAN>ES1201820334170201513611</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
       <FinInstnId>
-         <BIC>CCRIES2AXXX</BIC>
+         <BIC>BBVAESMMXXX</BIC>
       </FinInstnId>
    </CdtrAgt>
    <CdtrSchmeId>
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES94011F46024196</Id>
+                 <Id>ES68   B20899563</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -63,45 +63,45 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>5420006161M  0000616120170915002   </EndToEndId>
+          <EndToEndId>430000683 E  0180013120180730001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">861.03</InstdAmt>
+      <InstdAmt Ccy="EUR">11092.12</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES8201829502290208506746</MndtId>
+            <MndtId>ES6331182061732720002349</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>BBVAESMMXXX</BIC>
+            <BIC>BCOEESMM118</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>RUMARFRUIT, S.L.</Nm>
+         <Nm>CCRR FORATA DE MONTSERRAT</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>AV SANTS PATRONS   12 -7-13</AdrLine>
-              <AdrLine>ALZIRA   46600     VALENCIA</AdrLine>
+              <AdrLine>C/ ING. LLOMBART, 19 B</AdrLine>
+              <AdrLine>MONSERRAT   46192     VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>290208506746</Id>
+                   <Id>732720002349</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES8201829502290208506746</IBAN>
+            <IBAN>ES6331182061732720002349</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>2  de 5 cuotas pr st. 3.986,24 euros 797,25 euros capital + (Euribor + 2 ) Capital pendiente 3.188,99, nuevo capital pendiente 2.391,74</Ustrd>
+         <Ustrd>FACTURA  E-1800131 de Fecha 30 jul 2018</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>

@@ -74,7 +74,7 @@ Private mvarIntereseCobrosTarjeta As Currency
 
 Private mvarNorma57 As Byte ' 0.- NO LLEVA     1.- ESCALONA
 
-Private mvarPagosConfirmingTipo As Byte  '0.- Standard   1.- la caixa     2.- SAntander   --- >LO COGE DEL BANCO. HABRA QUE QUITAR DE PARAMETROS
+Private mvarPagosConfirmingTipo As Byte  '0.- Standard   1.- la caixa     2.- SAntander 3 sabadeel  --- >LO COGE DEL BANCO. HABRA QUE QUITAR DE PARAMETROS
 
 
 Private mvarRemesasPorEntidad As Boolean

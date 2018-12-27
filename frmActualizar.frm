@@ -1,6 +1,5 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
-Object = "{FE0065C0-1B7B-11CF-9D53-00AA003C9CB6}#1.1#0"; "COMCT232.OCX"
 Begin VB.Form frmActualizar 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Actualizar diario"
@@ -23,18 +22,6 @@ Begin VB.Form frmActualizar
       TabIndex        =   0
       Top             =   60
       Width           =   4815
-      Begin ComCtl2.Animation Animation1 
-         Height          =   735
-         Left            =   600
-         TabIndex        =   4
-         Top             =   1800
-         Width           =   3615
-         _ExtentX        =   6376
-         _ExtentY        =   1296
-         _Version        =   327681
-         FullWidth       =   241
-         FullHeight      =   49
-      End
       Begin MSComctlLib.ProgressBar ProgressBar1 
          Height          =   375
          Left            =   600
@@ -60,7 +47,7 @@ Begin VB.Form frmActualizar
          ForeColor       =   &H00800000&
          Height          =   375
          Left            =   210
-         TabIndex        =   5
+         TabIndex        =   4
          Top             =   120
          Width           =   4335
       End
@@ -452,7 +439,7 @@ Dim B As Boolean
         
     End Select
     Me.frame1Asiento.visible = B
-    Me.Animation1.visible = B
+   ' Me.Animation1.visible = B
 End Sub
 
 
