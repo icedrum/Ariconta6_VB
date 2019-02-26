@@ -26,6 +26,79 @@ Begin VB.Form frmMensajes
    ScaleWidth      =   16440
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame FrameCobros 
+      Height          =   6720
+      Left            =   0
+      TabIndex        =   129
+      Top             =   30
+      Visible         =   0   'False
+      Width           =   13410
+      Begin VB.CommandButton cmdGenerarVto 
+         Caption         =   "Generar"
+         Height          =   375
+         Left            =   360
+         TabIndex        =   196
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   1335
+      End
+      Begin VB.CommandButton CmdSalir 
+         Caption         =   "Salir"
+         Height          =   375
+         Left            =   12000
+         TabIndex        =   130
+         Top             =   6120
+         Width           =   1215
+      End
+      Begin MSComctlLib.ListView ListView5 
+         Height          =   4905
+         Left            =   225
+         TabIndex        =   131
+         Top             =   1005
+         Width           =   13035
+         _ExtentX        =   22992
+         _ExtentY        =   8652
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483643
+         BorderStyle     =   1
+         Appearance      =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         NumItems        =   0
+      End
+      Begin VB.Label Label52 
+         Caption         =   "Cobros de la factura "
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   375
+         Index           =   0
+         Left            =   240
+         TabIndex        =   132
+         Top             =   390
+         Width           =   10185
+      End
+   End
    Begin VB.Frame FrameElimiaRiesgoTalPag 
       Height          =   6855
       Left            =   1440
@@ -3060,79 +3133,6 @@ Begin VB.Form frmMensajes
          Width           =   3705
       End
    End
-   Begin VB.Frame FrameCobros 
-      Height          =   6720
-      Left            =   0
-      TabIndex        =   129
-      Top             =   30
-      Visible         =   0   'False
-      Width           =   13410
-      Begin VB.CommandButton cmdGenerarVto 
-         Caption         =   "Generar"
-         Height          =   375
-         Left            =   360
-         TabIndex        =   196
-         Top             =   6120
-         Visible         =   0   'False
-         Width           =   1335
-      End
-      Begin VB.CommandButton CmdSalir 
-         Caption         =   "Salir"
-         Height          =   375
-         Left            =   12000
-         TabIndex        =   130
-         Top             =   6120
-         Width           =   1215
-      End
-      Begin MSComctlLib.ListView ListView5 
-         Height          =   4905
-         Left            =   225
-         TabIndex        =   131
-         Top             =   1005
-         Width           =   13035
-         _ExtentX        =   22992
-         _ExtentY        =   8652
-         View            =   3
-         LabelEdit       =   1
-         LabelWrap       =   -1  'True
-         HideSelection   =   -1  'True
-         FullRowSelect   =   -1  'True
-         _Version        =   393217
-         ForeColor       =   -2147483640
-         BackColor       =   -2147483643
-         BorderStyle     =   1
-         Appearance      =   1
-         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         NumItems        =   0
-      End
-      Begin VB.Label Label52 
-         Caption         =   "Cobros de la factura "
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   12
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   375
-         Index           =   0
-         Left            =   240
-         TabIndex        =   132
-         Top             =   390
-         Width           =   10185
-      End
-   End
    Begin VB.Frame FrameBancosRemesas 
       Height          =   6720
       Left            =   0
@@ -3675,6 +3675,7 @@ Public Opcion As Byte
      
      '66 'Como el 55,56 Pero para confirming  ( Facturas Transferencias de pagos)
      '67 'Como el 55,56 Pero para PAGO DOMICILIADO ( Facturas Transferencias de pagos)
+     '68 'Recibos anticipados.  Como abonos, pero en tiporans=2
      
 Public Parametros As String
     '1.- Vendran empipados: Cuenta, PunteadoD, punteadoH, pdteD,PdteH
@@ -3699,7 +3700,8 @@ Private WithEvents frmD As frmTiposDiario
 Attribute frmD.VB_VarHelpID = -1
 Private WithEvents frmPag As frmFacturasProPag
 Attribute frmPag.VB_VarHelpID = -1
-
+Private WithEvents frmCob As frmFacturasCliCob
+Attribute frmCob.VB_VarHelpID = -1
 
 Private PrimeraVez As Boolean
 
@@ -3866,7 +3868,7 @@ Dim J As Integer
                 SQL = SQL & "`numorden`,`importe`,`contabilizado`) VALUES ("
                 SQL = SQL & DBSet(Codigo, "N") & "," & DBSet(ListView12.ListItems(i).Text, "T") & "," & DBSet(ListView12.ListItems(i).SubItems(1), "N") & ","
                 SQL = SQL & DBSet(ListView12.ListItems(i).SubItems(2), "F") & "," & DBSet(ListView12.ListItems(i).SubItems(4), "N") & ","
-                SQL = SQL & DBSet(ListView12.ListItems(i).SubItems(9), "N") & ",0) "
+                SQL = SQL & DBSet(Trim(ListView12.ListItems(i).SubItems(9)), "N") & ",0) "
 
                 Conn.Execute SQL
                 
@@ -3881,7 +3883,7 @@ Dim J As Integer
                 
                 'actualizamos cobros
                 SQL = "UPDATE cobros SET recedocu=1 "
-                SQL = SQL & ", impcobro = coalesce(impcobro,0) + " & DBSet(ListView12.ListItems(i).SubItems(9), "N")
+                SQL = SQL & ", impcobro = coalesce(impcobro,0) + " & DBSet(Trim(ListView12.ListItems(i).SubItems(9)), "N")
                 SQL = SQL & ", fecultco = " & DBSet(FecCobro, "F")
                 'Fecha vencimiento tb le pongo la de la recpcion
                 SQL = SQL & ", fecvenci = " & DBSet(FecVenci, "F")
@@ -4259,36 +4261,36 @@ Private Sub cmdEliminarRiesgoT_Click(Index As Integer)
     CadenaDesdeOtroForm = ""
     If Index = 0 Then
         Codigo = ""
-        If Me.txtfecha(1).Text = "" Then
+        If Me.txtFecha(1).Text = "" Then
             Codigo = "Fecha requerida"
-        ElseIf Not IsDate(txtfecha(1).Text) Then
+        ElseIf Not IsDate(txtFecha(1).Text) Then
             Codigo = "Fecha incorrecta"
         Else
-            i = CInt(FechaCorrecta2(CDate(txtfecha(1).Text)))
+            i = CInt(FechaCorrecta2(CDate(txtFecha(1).Text)))
             If i > 1 Then
                 If i = 2 Then
                     Codigo = varTxtFec
                 
                 Else
                     If i = 3 Then
-                        Codigo = "El ejercicio al que pertenece la fecha: " & txtfecha(1).Text & " está cerrado."
+                        Codigo = "El ejercicio al que pertenece la fecha: " & txtFecha(1).Text & " está cerrado."
                     Else
-                        Codigo = "Ejercicio para: " & txtfecha(1).Text & " todavía no activo"
+                        Codigo = "Ejercicio para: " & txtFecha(1).Text & " todavía no activo"
                     End If
                 End If
             End If
         End If
         If Codigo <> "" Then
             MsgBox Codigo, vbExclamation
-            Me.txtfecha(1).Text = ""
-            PonFoco Me.txtfecha(1)
+            Me.txtFecha(1).Text = ""
+            PonFoco Me.txtFecha(1)
             Exit Sub
         End If
         
         'LLEGA aqui, todo OK. Continuar?
         If MsgBox("Continuar?", vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
         
-        CadenaDesdeOtroForm = Me.txtfecha(1).Text & "|" & Me.chkVarios(0).Value & "|"
+        CadenaDesdeOtroForm = Me.txtFecha(1).Text & "|" & Me.chkVarios(0).Value & "|"
     End If
     Unload Me
 End Sub
@@ -4313,21 +4315,21 @@ Dim Salir As Boolean
         'Fecha seleccionada
         Codigo = ""
         i = 2
-        If Me.txtfecha(2).Text = "" Then
+        If Me.txtFecha(2).Text = "" Then
             Codigo = "-Fecha requerida"
-        ElseIf Not IsDate(txtfecha(2).Text) Then
+        ElseIf Not IsDate(txtFecha(2).Text) Then
             Codigo = "-Fecha incorrecta"
         Else
-            i = CInt(FechaCorrecta2(CDate(txtfecha(2).Text)))
+            i = CInt(FechaCorrecta2(CDate(txtFecha(2).Text)))
             If i > 1 Then
                 If i = 2 Then
                     Codigo = "-" & varTxtFec
                 
                 Else
                     If i = 3 Then
-                        Codigo = "-El ejercicio al que pertenece la fecha: " & txtfecha(2).Text & " está cerrado."
+                        Codigo = "-El ejercicio al que pertenece la fecha: " & txtFecha(2).Text & " está cerrado."
                     Else
-                        Codigo = "-Ejercicio para: " & txtfecha(2).Text & " todavía no activo"
+                        Codigo = "-Ejercicio para: " & txtFecha(2).Text & " todavía no activo"
                     End If
                 End If
             Else
@@ -4339,8 +4341,8 @@ Dim Salir As Boolean
         If Codigo <> "" Then
             MsgBox Codigo, vbExclamation
             If i > 0 Then
-                Me.txtfecha(2).Text = ""
-                PonFoco Me.txtfecha(2)
+                Me.txtFecha(2).Text = ""
+                PonFoco Me.txtFecha(2)
             End If
             Exit Sub
         End If
@@ -4366,7 +4368,7 @@ Dim Salir As Boolean
                     Conn.BeginTrans
                  
                  
-                     Byt = RemesasEliminarVtosTalonesPagares(CByte(ListView13.ListItems(i).Tag), ListView13.ListItems(i).Text, ListView13.ListItems(i).SubItems(1), CDate(txtfecha(2).Text), Forpa, Me.chkVarios(1).Value)
+                     Byt = RemesasEliminarVtosTalonesPagares(CByte(ListView13.ListItems(i).Tag), ListView13.ListItems(i).Text, ListView13.ListItems(i).SubItems(1), CDate(txtFecha(2).Text), Forpa, Me.chkVarios(1).Value)
                  
                     If Byt < 2 Then
                          Conn.CommitTrans
@@ -4429,31 +4431,61 @@ End Sub
 
 Private Sub cmdGenerarVto_Click()
     
-    If Opcion <> 28 Then Exit Sub
+  
 
-
     
-    SQL = "delete from tmppagos where codusu = " & DBSet(vUsu.Codigo, "N")
-    Conn.Execute SQL
-    SQL = ""
-    frmFacturasPro.CargarPagosTemporal RecuperaValor(Codigo, 1), RecuperaValor(Codigo, 2), CCur(RecuperaValor(Codigo, 3))
-    Set frmPag = frmFacturasProPag
-    ContinuarPago = False
-    frmPag.CodigoActual = cmdGenerarVto.Tag
-                
-    frmPag.Show vbModal
-    Set frmPag = Nothing
-    If SQL <> "" Then
-    
-    
-        frmFacturasPro.EstablecerValoresSeleccionPago SQL
-        If ContinuarPago Then
-            frmFacturasPro.InsertarPagos ""
+    If Opcion = 28 Then
+        'PAGOS
+            SQL = "delete from tmppagos where codusu = " & DBSet(vUsu.Codigo, "N")
+            Conn.Execute SQL
+            SQL = ""
+            frmFacturasPro.CargarPagosTemporal RecuperaValor(Codigo, 1), RecuperaValor(Codigo, 2), CCur(RecuperaValor(Codigo, 3))
+            Set frmPag = frmFacturasProPag
             ContinuarPago = False
-            CargaPagosFactura
-            If frmFacturasPro.HayQueContabilizarDesdePantallaPagos Then frmFacturasPro.ContabilizarPagos
-        End If
+            frmPag.CodigoActual = cmdGenerarVto.Tag
+                        
+            frmPag.Show vbModal
+            Set frmPag = Nothing
+            If SQL <> "" Then
+            
+            
+                frmFacturasPro.EstablecerValoresSeleccionPago SQL
+                If ContinuarPago Then
+                    frmFacturasPro.InsertarPagos ""
+                    ContinuarPago = False
+                    CargaPagosFactura
+                    If frmFacturasPro.HayQueContabilizarDesdePantallaPagos Then frmFacturasPro.ContabilizarPagos
+                End If
+            End If
+    ElseIf Opcion = 27 Then
+        'COBROS
+        SQL = "delete from tmpcobros where codusu = " & DBSet(vUsu.Codigo, "N")
+        Conn.Execute SQL
         
+        'If CargarCobrosTemporal(Text1(5).Text, Text1(1).Text, ImporteFormateado(Text1(13).Text)) Then
+        If CargarCobrosTemporal(RecuperaValor(Codigo, 1), RecuperaValor(Codigo, 2), CCur(RecuperaValor(Codigo, 3))) Then
+    
+
+            
+            Set frmCob = frmFacturasCliCob
+            ContinuarCobro = False
+            
+             'SQL = Data1.Recordset!totfaccl
+            frmCob.CodigoActual = Me.cmdGenerarVto.Tag
+            frmCob.Show vbModal
+            Set frmCob = Nothing
+    
+            frmFacturasCli.EstableceValoresCobro CStr(SQL)
+            If ContinuarCobro Then
+                SQL = ""
+                If frmFacturasCli.InsertarCobros(SQL) Then
+                    CargaCobrosFactura
+                    If frmFacturasCli.HayQueContabilizarDesdePantallaCobros Then frmFacturasCli.ContabilizarCobros
+                Else
+                    MsgBox SQL, vbExclamation
+                End If
+            End If
+        End If
     End If
 
 End Sub
@@ -4464,23 +4496,23 @@ Private Sub cmdGeneraTransfer_Click(Index As Integer)
         
     Else
         SQL = ""
-        If txtfecha(3).Text = "" Then
+        If txtFecha(3).Text = "" Then
             SQL = "Fecha cobro debe tener valor"
         Else
-            If Not EsFechaOK(txtfecha(3)) Then
+            If Not EsFechaOK(txtFecha(3)) Then
                 SQL = "Fecha incorrecta"
             Else
-                If CDate(txtfecha(3).Text) < CDate(Format(Now, "dd/mm/yyyy")) Then SQL = "Fecha debe ser igual o superior a hoy"
+                If CDate(txtFecha(3).Text) < CDate(Format(Now, "dd/mm/yyyy")) Then SQL = "Fecha debe ser igual o superior a hoy"
             End If
         End If
             
         If SQL <> "" Then
             MsgBox SQL, vbExclamation
-            PonFoco txtfecha(3)
+            PonFoco txtFecha(3)
             Exit Sub
         End If
 
-        CadenaDesdeOtroForm = txtfecha(3).Text & "|" & Me.chkVarios(2).Value & "|"
+        CadenaDesdeOtroForm = txtFecha(3).Text & "|" & Me.chkVarios(2).Value & "|"
         
     End If
     Unload Me
@@ -4515,14 +4547,14 @@ End Sub
 
 Private Sub cmdIntegFraNav_Click(Index As Integer)
     If Index = 1 Then
-        If Me.txtCodmacta(0).Text = "" Or Me.txtfecha(0).Text = "" Then
+        If Me.txtCodmacta(0).Text = "" Or Me.txtFecha(0).Text = "" Then
             MsgBox "Campos requeridos", vbExclamation
             Exit Sub
         End If
         
           
           
-        i = CInt(FechaCorrecta2(CDate(txtfecha(0).Text), True))
+        i = CInt(FechaCorrecta2(CDate(txtFecha(0).Text), True))
         If i > 2 Then Exit Sub 'fuera ejercicios
         If i = 2 Then
             If vUsu.Nivel > 0 Then Exit Sub
@@ -4532,7 +4564,7 @@ Private Sub cmdIntegFraNav_Click(Index As Integer)
         If MsgBox("Desea continuar con los datos introducidos?", vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
         
         
-        CadenaDesdeOtroForm = Me.txtCodmacta(0).Text & "|" & Me.txtfecha(0).Text & "|" & Abs(Me.chkPagos.Value) & "|"
+        CadenaDesdeOtroForm = Me.txtCodmacta(0).Text & "|" & Me.txtFecha(0).Text & "|" & Abs(Me.chkPagos.Value) & "|"
         
     End If
     Unload Me
@@ -4639,7 +4671,7 @@ Private Sub Form_Activate()
             CargarRecibosConCobrosParciales
         Case 54
             CargarTalonesPagaresPendientes
-        Case 55
+        Case 55, 68
             CargarFacturasTransfAbonos
         Case 56
             CargarFacturasTransfPagos 0
@@ -4909,9 +4941,15 @@ Dim W As Integer, H As Integer
         W = Me.FrameTalPagPdtes.Width
         H = Me.FrameTalPagPdtes.Height + 300
             
-    Case 55 ' facturas de transferencias de abonos
-        Me.Caption = "Facturas de Transferencia de Abonos"
-        Me.Label30.Caption = "Transferencia " & RecuperaValor(Parametros, 1) & " / " & RecuperaValor(Parametros, 2)
+    Case 55, 68 ' facturas de transferencias de abonos  o recibos anticipados
+        If Opcion = 1 Then
+            Me.Caption = "Facturas de Transferencia de Abonos"
+            Me.Label30.Caption = "Transferencia " & RecuperaValor(Parametros, 1) & " / " & RecuperaValor(Parametros, 2)
+        Else
+            Me.Caption = "Facturas de anticipadas"
+            Me.Label30.Caption = "Registro anticipo: " & RecuperaValor(Parametros, 1) & " / " & RecuperaValor(Parametros, 2)
+        End If
+        
         TamayoFrameReclama False
         Me.FrameReclamaciones.visible = True
         W = Me.FrameReclamaciones.Width
@@ -4977,7 +5015,7 @@ Dim W As Integer, H As Integer
     Case 61
         Me.Caption = "Riesgo"
         PonerFrameVisible FrameEliminarRiesgotalPag, H, W
-        Me.txtfecha(1).Text = Format(CadenaDesdeOtroForm, "dd/mm/yyyy")
+        Me.txtFecha(1).Text = Format(CadenaDesdeOtroForm, "dd/mm/yyyy")
         CadenaDesdeOtroForm = ""
         cmdEliminarRiesgoT(1).Cancel = True
     Case 62
@@ -4992,7 +5030,7 @@ Dim W As Integer, H As Integer
     Case 63
         Me.Caption = "Riesgo"
         PonerFrameVisible FrameElimiaRiesgoTalPag, H, W
-        Me.txtfecha(2).Text = ""
+        Me.txtFecha(2).Text = ""
         
         cboRiesgoYelConfirming.Clear
         i = CInt(Tipo)
@@ -5205,6 +5243,10 @@ Private Sub frmC_DatoSeleccionado(CadenaSeleccion As String)
     SQL = CadenaSeleccion
 End Sub
 
+Private Sub frmCob_DatoSeleccionado(CadenaSeleccion As String)
+    SQL = CadenaSeleccion
+End Sub
+
 Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
     SQL = CadenaSeleccion
 End Sub
@@ -5324,11 +5366,11 @@ End Sub
 Private Sub imgFec_Click(Index As Integer)
     Set frmF = New frmCal
     frmF.Fecha = Now
-    If Me.txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
+    If Me.txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
     SQL = ""
     frmF.Show vbModal
     Set frmF = Nothing
-    If SQL <> "" Then txtfecha(Index).Text = Format(SQL, "dd/mm/yyyy")
+    If SQL <> "" Then txtFecha(Index).Text = Format(SQL, "dd/mm/yyyy")
 End Sub
 
 Private Sub ListView10_ItemCheck(ByVal Item As MSComctlLib.ListItem)
@@ -5351,7 +5393,7 @@ Private Sub ListView13_ItemCheck(ByVal Item As MSComctlLib.ListItem)
         If Item.Index <> i Then
             ListView13.ListItems(i).Checked = False
         Else
-            txtfecha(2).Text = ListView13.ListItems(i).SubItems(2)
+            txtFecha(2).Text = ListView13.ListItems(i).SubItems(2)
         End If
     Next
 End Sub
@@ -5944,6 +5986,63 @@ Dim Equipo As String
     Wend
     NumRegElim = 0
     Rs.Close
+    
+    
+    
+    
+    'ENERO
+      
+    If ListView5.ListItems.Count = 0 Then
+        'NO hay pagos.
+        'Si la factura NO es trasapasada, permitiré generera el pago desde aqui
+        Cad = " select estraspasada,factcli.codmacta,factcli.nommacta, codforpa,ctabanco,iban,totfaccl,FecFactu"
+        Cad = Cad & " from (factcli left join cuentas on factcli.codmacta= cuentas.codmacta)  "
+        
+
+        Cad = Cad & " where factcli.numserie = " & DBSet(RecuperaValor(Parametros, 1), "T")
+        Cad = Cad & " and factcli.numfactu = " & DBSet(RecuperaValor(Parametros, 2), "T")
+        Cad = Cad & " and factcli.fecfactu = " & DBSet(RecuperaValor(Parametros, 3), "F")
+        Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        
+        cmdGenerarVto.Tag = ""
+        Codigo = ""
+        If Not Rs.EOF Then
+            If DBLet(Rs!estraspasada, "N") = 0 Then
+                'OK , pongo en el tag lo que necesito
+                Cad = ""
+                If DBLet(Rs!CtaBanco, "T") <> "" Then
+                    Cad = "bancos.codmacta=cuentas.codmacta and bancos.codmacta = " & DBSet(Rs!CtaBanco, "T") & " AND 1"
+                    Cad = DevuelveDesdeBD("if(descripcion is null, nommacta,descripcion)", "bancos,cuentas", Cad, "1")
+                End If
+                'CtaBanco & "|" & "|" & "|" & "|" & "|" & IBAN & "|" & TipForpa & "|" & NomBanco & "|" & DBLet(Data1.Recordset!totfacpr, "N") & "|"
+                cmdGenerarVto.Tag = DBLet(Rs!CtaBanco, "T") & "|||||" & DBLet(Rs!IBAN, "T") & "|0"
+                cmdGenerarVto.Tag = cmdGenerarVto.Tag & "|" & Cad & "|" & DBLet(Rs!totfaccl, "N") & "|"
+                
+                Codigo = DBLet(Rs!Codforpa, "N") & "|" & Rs!FecFactu & "|" & Rs!totfaccl & "|"
+            End If
+        End If
+        Rs.Close
+        
+        
+        cmdGenerarVto.visible = cmdGenerarVto.Tag <> ""
+    Else
+        cmdGenerarVto.visible = False
+    End If
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     Set Rs = Nothing
     
     Exit Sub
@@ -7354,7 +7453,7 @@ Private Sub txtDiario_LostFocus(Index As Integer)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtfecha(Index), 3
+    ConseguirFoco txtFecha(Index), 3
 End Sub
 
 Private Sub txtfecha_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -7363,7 +7462,7 @@ End Sub
 
 Private Sub txtfecha_LostFocus(Index As Integer)
     '
-    If Not PonerFormatoFecha(txtfecha(Index)) Then txtfecha(Index).Text = ""
+    If Not PonerFormatoFecha(txtFecha(Index)) Then txtFecha(Index).Text = ""
 End Sub
 
 Private Sub txtIbanES_GotFocus(Index As Integer)
@@ -7500,8 +7599,8 @@ Dim TalonPagare As Boolean
     Label52(1).Refresh
     cmdElimRiesgoTalPag(1).visible = TalonPagare
     lblFecha(2).visible = TalonPagare
-    ImgFec(2).visible = TalonPagare
-    txtfecha(2).visible = TalonPagare
+    imgFec(2).visible = TalonPagare
+    txtFecha(2).visible = TalonPagare
     chkVarios(1).visible = TalonPagare
     If PrimeraVez Then Exit Sub
     ListView13.Checkboxes = TalonPagare
@@ -7616,10 +7715,10 @@ Private Sub ValoresTransferencia()
     
     If Rs.EOF Then
         Me.cmdGeneraTransfer(0).Enabled = False
-        txtfecha(3).Text = ""
+        txtFecha(3).Text = ""
     Else
         'fecha,LlevaAgrupados
-        txtfecha(3).Text = Format(Rs!Fecha, "dd/mm/yyyy")
+        txtFecha(3).Text = Format(Rs!Fecha, "dd/mm/yyyy")
         chkVarios(2).Value = DBLet(Rs!LlevaAgrupados, "N")
     End If
     Rs.Close

@@ -987,12 +987,22 @@ End Sub
 Private Sub imgCheck_Click(Index As Integer)
 Dim IT
 Dim i As Integer
+    
+    txtimpNoEdit(0).Tag = 0
+    txtimpNoEdit(1).Tag = 0
     For i = 1 To Me.lwCompenCli.ListItems.Count
         Set IT = lwCompenCli.ListItems(i)
         lwCompenCli.ListItems(i).Checked = (Index = 1)
         lwCompenCli_ItemCheck (IT)
         Set IT = Nothing
     Next i
+    
+    If Index = 0 Then
+        txtimpNoEdit(0).Tag = 0
+        txtimpNoEdit(1).Tag = 0
+        txtimpNoEdit(0).Text = ""
+        txtimpNoEdit(1).Text = ""
+    End If
 End Sub
 
 Private Sub lw1_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
@@ -1373,7 +1383,7 @@ Dim IT
         IT.SubItems(5) = miRsAux!nomforpa
     
         Importe = 0
-        Importe = Importe + miRsAux!impefect
+        Importe = Importe + miRsAux!ImpEfect
         
         'Si ya he cobrado algo
         If Not IsNull(miRsAux!imppagad) Then Importe = Importe - miRsAux!imppagad
@@ -1462,6 +1472,7 @@ Dim J As Integer
     RealizarProcesoCompensacionAbonos = False
 
 
+
     'Vamos a seleccionar los vtos
     '(numserie,codfaccl,fecfaccl,numorden)
     'EN SQL
@@ -1475,7 +1486,7 @@ Dim J As Integer
     'Texto compensacion
     DevfrmCCtas = ""
     
-    RC = "Select " & Cad & ",  impefect, imppagad, fecefect FROM pagos where (numserie,numfactu,fecfactu,numorden) IN (" & SQL & ")"
+    RC = "Select " & Cad & ",  impefect, imppagad, fecefect FROM pagos where (numserie,codmacta,numfactu,fecfactu,numorden) IN (" & SQL & ")"
     miRsAux.Open RC, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If miRsAux.EOF Then
         MsgBox "Error. EOF vencimientos devueltos ", vbExclamation
@@ -1501,14 +1512,14 @@ Dim J As Integer
             End If
         End If
         
-        RC = "INSERT INTO compensapro_facturas (codigo,linea,destino," & Cad & ",impefect,imppagad,fecefect) VALUES (" & CONT & "," & i & "," & Destino & "," & DBSet(miRsAux!NUmSerie, "T")
-        RC = RC & "," & DBSet(miRsAux!NumFactu, "T") & "," & DBSet(miRsAux!FecFactu, "F") & "," & DBSet(miRsAux!numorden, "N") & "," & DBSet(miRsAux!impefect, "N")
+        RC = "INSERT INTO compensapro_facturas (codigo,linea,destino,numserie,  numfactu, fecfactu, numorden ,impefect,imppagad,fecefect) VALUES (" & CONT & "," & i & "," & Destino & "," & DBSet(miRsAux!NUmSerie, "T")
+        RC = RC & "," & DBSet(miRsAux!NumFactu, "T") & "," & DBSet(miRsAux!FecFactu, "F") & "," & DBSet(miRsAux!numorden, "N") & "," & DBSet(miRsAux!ImpEfect, "N")
         RC = RC & "," & DBSet(miRsAux!imppagad, "N") & "," & DBSet(miRsAux!fecefect, "F") & ")"
         Conn.Execute RC
         
         'Para las observaciones de despues
         Importe = 0
-        Importe = Importe + miRsAux!impefect
+        Importe = Importe + miRsAux!ImpEfect
         'Si ya he cobrado algo
         If Not IsNull(miRsAux!imppagad) Then Importe = Importe - miRsAux!imppagad
         
@@ -1569,6 +1580,7 @@ Dim J As Integer
                         RC = RC & "' AND numfactu = '" & Me.lwCompenCli.ListItems(J).SubItems(1)
                         RC = RC & "' AND fecfactu = '" & Format(Me.lwCompenCli.ListItems(J).SubItems(2), FormatoFecha)
                         RC = RC & "' AND numorden = " & Val(Me.lwCompenCli.ListItems(J).SubItems(3))
+                        RC = RC & " AND codmacta = '" & txtCta(17).Text & "'"
                         Exit For
                     End If
                 Next
@@ -1601,7 +1613,7 @@ Dim NumLin As Long
 
     InsertarPagosRealizados = True
 
-    SQL = "select * from pagos where (numserie, numfactu, fecfactu, numorden) in (" & facturas & ")"
+    SQL = "select * from pagos where (numserie, codmacta, numfactu, fecfactu, numorden) in (" & facturas & ")"
     
     CadValues = ""
     
@@ -1618,7 +1630,7 @@ Dim NumLin As Long
         SQL = SQL & " , observa =" & DBSet(CadInsert, "T")
         SQL = SQL & " where numserie = " & DBSet(Rs!NUmSerie, "T")
         SQL = SQL & " and numfactu = " & DBSet(Rs!NumFactu, "T") & " and fecfactu = " & DBSet(Rs!FecFactu, "F") & " and numorden = " & DBSet(Rs!numorden, "N")
-        
+        SQL = SQL & " AND codmacta = " & DBSet(Rs!codmacta, "T")  'Febrero 2019
         Conn.Execute SQL
         
         Rs.MoveNext
@@ -1652,7 +1664,8 @@ Dim Insertar As Boolean
                 If SinDestino Then Insertar = False
             End If
             If Insertar Then
-                SQL = SQL & ", ('" & lwCompenCli.ListItems(i).Text & "','" & lwCompenCli.ListItems(i).SubItems(1)
+                SQL = SQL & ", ('" & lwCompenCli.ListItems(i).Text & "','" & Me.txtCta(17).Text
+                SQL = SQL & "','" & lwCompenCli.ListItems(i).SubItems(1)
                 SQL = SQL & "','" & Format(lwCompenCli.ListItems(i).SubItems(2), FormatoFecha) & "'," & lwCompenCli.ListItems(i).SubItems(3) & ")"
             End If
             
@@ -1665,7 +1678,7 @@ End Sub
 
 Private Sub FijaCadenaSQLCobrosCompen()
 
-    Cad = "numserie, numfactu, fecfactu, numorden "
+    Cad = "numserie, codmacta,  numfactu, fecfactu, numorden "
     
 End Sub
 

@@ -687,7 +687,7 @@ Private Sub BotonModificar()
     ParaBusqueda False
     CadenaDesdeOtroForm = ""
     frmCuentas.vModo = 2
-    frmCuentas.CodCta = Adodc1.Recordset!codmacta
+    frmCuentas.CodCta = adodc1.Recordset!codmacta
     frmCuentas.Show vbModal
     If CadenaDesdeOtroForm <> "" Then
         CargaGrid
@@ -700,35 +700,35 @@ Dim SQL As String
     On Error GoTo Error2
     ParaBusqueda False
     'Ciertas comprobaciones
-    If Adodc1.Recordset.EOF Then Exit Sub
+    If adodc1.Recordset.EOF Then Exit Sub
     '### a mano
     SQL = "Seguro que desea eliminar la cuenta:"
-    SQL = SQL & vbCrLf & "Código: " & Adodc1.Recordset.Fields(0)
-    SQL = SQL & vbCrLf & "Denominación: " & Adodc1.Recordset.Fields(1)
+    SQL = SQL & vbCrLf & "Código: " & adodc1.Recordset.Fields(0)
+    SQL = SQL & vbCrLf & "Denominación: " & adodc1.Recordset.Fields(1)
     If MsgBox(SQL, vbQuestion + vbYesNoCancel) = vbYes Then
-        SQL = Adodc1.Recordset.Fields(0)
+        SQL = adodc1.Recordset.Fields(0)
         Screen.MousePointer = vbHourglass
         If SepuedeEliminarCuenta(SQL) Then
             'Hay que eliminar
             Screen.MousePointer = vbHourglass
             
-            SQL = "Delete from departamentos where codmacta = " & DBSet(Adodc1.Recordset!codmacta, "T")
+            SQL = "Delete from departamentos where codmacta = " & DBSet(adodc1.Recordset!codmacta, "T")
             Conn.Execute SQL
             
-            SQL = "Delete from cuentas where codmacta='" & Adodc1.Recordset!codmacta & "'"
+            SQL = "Delete from cuentas where codmacta='" & adodc1.Recordset!codmacta & "'"
             Conn.Execute SQL
             Screen.MousePointer = vbHourglass
             espera 0.5
             'Cancelamos el adodc1
             DataGrid1.Enabled = False
-            NumRegElim = Adodc1.Recordset.AbsolutePosition - 1
+            NumRegElim = adodc1.Recordset.AbsolutePosition - 1
             CargaGrid
             DataGrid1.Enabled = True
             If NumRegElim > 0 Then
-                If NumRegElim >= Adodc1.Recordset.RecordCount Then
-                    Adodc1.Recordset.MoveLast
+                If NumRegElim >= adodc1.Recordset.RecordCount Then
+                    adodc1.Recordset.MoveLast
                 Else
-                    Adodc1.Recordset.Move NumRegElim
+                    adodc1.Recordset.Move NumRegElim
                     'DataGrid1.Bookmark = Adodc1.Recordset.AbsolutePosition
                 End If
             End If
@@ -756,7 +756,7 @@ End Sub
 
 
 Private Sub adodc1_MoveComplete(ByVal adReason As ADODB.EventReasonEnum, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pRecordset As ADODB.Recordset)
-    If adReason = adRsnMove And adStatus = adStatusOK Then PonLblIndicador Me.lblIndicador, Adodc1
+    If adReason = adRsnMove And adStatus = adStatusOK Then PonLblIndicador Me.lblIndicador, adodc1
         
 End Sub
 
@@ -863,7 +863,7 @@ Dim SQL As String
         CadenaConsulta = GeneraSQL(SQL)
         CargaGrid
         Screen.MousePointer = vbDefault
-        If Adodc1.Recordset.EOF Then
+        If adodc1.Recordset.EOF Then
             MsgBox "Ningún resultado para la búsqueda.", vbExclamation
             Exit Sub
         Else
@@ -877,17 +877,17 @@ Dim SQL As String
 End Sub
 
 Private Sub cmdRegresar_Click()
-    If Adodc1.Recordset Is Nothing Then
+    If adodc1.Recordset Is Nothing Then
         BotonBuscar
         Screen.MousePointer = vbDefault
         Exit Sub
     End If
     
-    If Adodc1.Recordset.EOF Then
+    If adodc1.Recordset.EOF Then
         MsgBox "Ningún registro devuelto.", vbExclamation
         Exit Sub
     End If
-    RaiseEvent DatoSeleccionado(Adodc1.Recordset!codmacta & "|" & Adodc1.Recordset!Nommacta & "|" & Adodc1.Recordset!bloqueada & "|")
+    RaiseEvent DatoSeleccionado(adodc1.Recordset!codmacta & "|" & adodc1.Recordset!Nommacta & "|" & adodc1.Recordset!bloqueada & "|")
     Unload Me
 End Sub
 
@@ -897,12 +897,12 @@ Private Sub DataGrid1_DblClick()
         cmdRegresar_Click
     Else
     
-        If Adodc1.Recordset Is Nothing Then Exit Sub
-        If Adodc1.Recordset.EOF Then Exit Sub
+        If adodc1.Recordset Is Nothing Then Exit Sub
+        If adodc1.Recordset.EOF Then Exit Sub
     
         'Vemos todos los valores de la cuenta
         frmCuentas.vModo = 0
-        frmCuentas.CodCta = Adodc1.Recordset!codmacta
+        frmCuentas.CodCta = adodc1.Recordset!codmacta
         frmCuentas.Show vbModal
     End If
 End Sub
@@ -923,14 +923,22 @@ End Sub
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 113 Then  ' si pulsa F2 vamos a consulta de extractos
     
-        If Me.Adodc1.Recordset.EOF Then Exit Sub
+        If Me.adodc1.Recordset.EOF Then Exit Sub
         
-        Set frmCExt = New frmConExtr
+        Aux = DBSet(vParam.fechaini, "F") & " AND " & DBSet(DateAdd("yyyy", i, vParam.fechafin), "F")
+        Aux = Aux & " AND codmacta  "
+        Aux = DevuelveDesdeBD("count(*)", "hlinapu", Aux, adodc1.Recordset!codmacta, "T")
+        If Val(Aux) = 0 Then
+             MsgBox "La cuenta " & adodc1.Recordset!codmacta & " NO tiene movimientos en las fechas", vbExclamation
         
-        frmCExt.Cuenta = Me.Adodc1.Recordset.Fields(0).Value
-        frmCExt.Show vbModal
-        
-        Set frmCExt = Nothing
+        Else
+            Set frmCExt = New frmConExtr
+            
+            frmCExt.Cuenta = Me.adodc1.Recordset.Fields(0).Value
+            frmCExt.Show vbModal
+            
+            Set frmCExt = Nothing
+        End If
         KeyCode = 0
         Exit Sub
     End If
@@ -1206,7 +1214,7 @@ Dim B As Boolean
     DataGrid1.Enabled = B
     
     
-    lblComprobar(2).visible = Not Me.Adodc1.Recordset.EOF
+    lblComprobar(2).visible = Not Me.adodc1.Recordset.EOF
     
 End Sub
 
@@ -1216,7 +1224,7 @@ Private Sub CargaGrid2()
     Dim i As Integer
     Dim SQL As String
     Dim B As Boolean
-    Adodc1.ConnectionString = Conn
+    adodc1.ConnectionString = Conn
     B = DataGrid1.Enabled
     DataGrid1.Enabled = False
     SQL = CadenaConsulta
@@ -1227,10 +1235,10 @@ Private Sub CargaGrid2()
     Else
         SQL = SQL & " nommacta"
     End If
-    Adodc1.RecordSource = SQL
-    Adodc1.CursorType = adOpenDynamic
-    Adodc1.LockType = adLockOptimistic
-    Adodc1.Refresh
+    adodc1.RecordSource = SQL
+    adodc1.CursorType = adOpenDynamic
+    adodc1.LockType = adLockOptimistic
+    adodc1.Refresh
     
     DataGrid1.AllowRowSizing = False
     DataGrid1.RowHeight = 350
@@ -1275,15 +1283,15 @@ Private Sub CargaGrid2()
                
     'Habilitamos modificar y eliminar
     Toolbar1.Buttons(4).Enabled = vUsu.Nivel < 3
-    Toolbar1.Buttons(7).Enabled = Not Adodc1.Recordset.EOF
+    Toolbar1.Buttons(7).Enabled = Not adodc1.Recordset.EOF
     If vUsu.Nivel < 2 Then
-        Toolbar1.Buttons(8).Enabled = Not Adodc1.Recordset.EOF
+        Toolbar1.Buttons(8).Enabled = Not adodc1.Recordset.EOF
     Else
         Toolbar1.Buttons(8).Enabled = False
     End If
    
     'Para k la barra de desplazamiento sea mas alta
-    If Not Adodc1.Recordset.EOF Then
+    If Not adodc1.Recordset.EOF Then
             DataGrid1.ScrollBars = dbgVertical
     End If
     DataGrid1.Enabled = B
@@ -1417,10 +1425,10 @@ End Function
 
 Private Sub SituaGrid(CADENA As String)
 On Error GoTo ESituaGrid
-If Adodc1.Recordset.EOF Then Exit Sub
+If adodc1.Recordset.EOF Then Exit Sub
 
-Adodc1.Recordset.Find " codmacta =  " & CADENA & ""
-If Adodc1.Recordset.EOF Then Adodc1.Recordset.MoveFirst
+adodc1.Recordset.Find " codmacta =  " & CADENA & ""
+If adodc1.Recordset.EOF Then adodc1.Recordset.MoveFirst
 
 Exit Sub
 ESituaGrid:
@@ -1483,7 +1491,7 @@ On Error GoTo EComprobarCuentas
     
     
     'NO hay cuentas
-    If Me.Adodc1.Recordset.EOF Then Exit Sub
+    If Me.adodc1.Recordset.EOF Then Exit Sub
     'Buscando datos
     If txtaux(0).visible Then Exit Sub
     'Para cada nivel n comprobaremos si existe la cuenta en un

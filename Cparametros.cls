@@ -32,7 +32,7 @@ Private mvarlimimpcl As Currency 'copia local
 Private mvarperiodos As String 'copia local
 Private mvargrupogto As String 'copia local
 Private mvargrupovta As String 'copia local
-Private mvarctaperga As String 'copia local
+Private mvarctaperga As String 'copia local4
 Private mvarabononeg As Boolean 'copia local
 Private mvargrupoord As String 'copia local
 Private mvartinumfac As String 'copia local
@@ -154,9 +154,16 @@ Private mvarEliminaPdfOriginal As Boolean
 
 Private mvarAplicarFiltrosEnCuentas As Boolean   'Si valor en BD. De momento es que monti NO quiere filtros en cuentas
 
+'Ene 19
+Private mvarOrdenIvas303Aeat As String
+Private mvarTextoInmoSubencionado As String
+
 
 'No lleva campo en BD. Cuando lee los parametros hace el select
 Private mvarFechaMinimaEnHlinapu As Date
+
+
+
 
 
 
@@ -1048,6 +1055,14 @@ Public Property Get EliminaPdfOriginal() As Boolean
 End Property
 
 
+Public Property Get OrdenIvas303Aeat() As String
+     OrdenIvas303Aeat = mvarOrdenIvas303Aeat
+End Property
+
+Public Property Get TextoInmoSubencionado() As String
+     TextoInmoSubencionado = mvarTextoInmoSubencionado
+End Property
+
 
 
 '------------------------------------------------
@@ -1329,8 +1344,16 @@ Dim Nuevos As String
             
             mvarEliminaPdfOriginal = (DBLet(Rs!EliminaPdfOriginal, "N") = 1)
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Parametro eliminar albaranes/facturas PDF"
+                
+                    
             
+            mvarOrdenIvas303Aeat = DBLet(Rs!OrdenIvas303Aeat, "T")
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "IVAS 303"
+            If mvarOrdenIvas303Aeat = "" Then mvarOrdenIvas303Aeat = "4|10|21|"
             
+            mvarTextoInmoSubencionado = DBLet(Rs!TextoInmoSubencionado, "T")
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Lbl subnceionado"
+            If mvarTextoInmoSubencionado = "" Then mvarTextoInmoSubencionado = "Subvencionado"
             
             
             

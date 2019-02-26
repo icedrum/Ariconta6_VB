@@ -950,6 +950,7 @@ Public Const ID_RecepcionTalónPagare = 611
 Public Const ID_RemesasTalenPagare = 612
 Public Const ID_Norma57Pagosventanilla = 613
 Public Const ID_TransferenciasAbonos = 614
+Public Const ID_AnticipoFacturas = 615
 
 Public Const ID_CarteradePagos = 801
 Public Const ID_InformePagospendientes = 802

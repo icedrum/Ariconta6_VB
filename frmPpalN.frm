@@ -1534,7 +1534,7 @@ Private Sub LoadIcons()
         ID_RelaciónClientesporcuenta, ID_RelacionProveedoresporcuenta, 1, 1, 1, ID_RealizarCobro, ID_RealizarPago, 1, ID_Elementos, 1, 1, 1, 1, 1, ID_Punteoextractobancario, _
         1, ID_InformePagospendientes, 1, 1, ID_Empresa, ID_ParametrosContabilidad, 1, ID_Contadores, ID_Extractos, ID_CarteradePagos, 1, 1, 1, ID_Punteo, 1, _
         1, ID_PlanContable, 1, ID_ConsoPyG, 1, ID_Informes, 1, ID_Usuarios, 1, 1, 1, 1, ID_Nuevaempresa, ID_ConfigurarBalances, 1, _
-        ID_ConsoSitu, ID_Compensaciones, 1, 1, 1, 1, ID_ConceptosInm, 1, 1, ID_GenerarAmortización, ID_Reclamaciones, 1, 1, 1, 1, _
+        ID_ConsoSitu, ID_Compensaciones, 1, 1, 1, 1, ID_ConceptosInm, 1, 1, ID_GenerarAmortización, 1, 1, 1, 1, 1, _
         ID_ImportarFacturasCliente, 1, 1, ID_Compensarcliente, ID_SumasySaldos, ID_CuentadeExplotación, ID_BalancedeSituación, ID_PérdidasyGanancias, 1, 1, 1, 1, 1, ID_CarteradeCobros, ID_InformeCobrosPendientes, _
         ID_Renumeracióndeasientos, ID_CierredeEjercicio, ID_Deshacercierre, ID_DiarioOficial, ID_PresentaciónTelemáticadeLibros, ID_Traspasodecuentasenapuntes, ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, 1, 1, 1, 1, 1, _
         ID_Traspasodecuentasenapuntes, ID_Aumentardígitoscontables, 1, 1, 1, 1, 1, ID_LibroFacturasEmitidas, 1, 1, ID_Remesas, 1, ID_Consolidado, 1, ID_GraficosChart, _
@@ -1576,7 +1576,7 @@ Private Sub LoadIcons()
     ' ID_Compensaciones ID_Reclamaciones  ID_InformeImpagados ID_RemesasTalenPagare ID_Norma57Pagosventanilla  ID_TransferenciasAbonos
     ' ID_InformePagosbancos ID_Transferencias ID_Pagosdomiciliados ID_GastosFijos ID_Compensarproveedor ID_Confirming
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\mail_16x16.bmp", _
-            Array(1, ID_Reclamaciones, ID_InformeImpagados, ID_RemesasTalenPagare, ID_Norma57Pagosventanilla, ID_TransferenciasAbonos, ID_Confirming, _
+            Array(ID_AnticipoFacturas, ID_Reclamaciones, ID_InformeImpagados, ID_RemesasTalenPagare, ID_Norma57Pagosventanilla, ID_TransferenciasAbonos, ID_Confirming, _
             ID_Pagosdomiciliados, ID_GastosFijos, ID_Compensarproveedor), xtpImageNormal
     
     
@@ -2425,7 +2425,7 @@ Dim GrupRem As RibbonGroup
 '    612 "Remesas Talón-Pagaré"
 '    613 "Norma 57 - Pagos ventanilla"
 '    614 "Transferencias Abonos"
-        
+'615 Anticipos facturas
         
         If Not vEmpresa.TieneTesoreria Then Exit Sub
         
@@ -2463,7 +2463,7 @@ Dim GrupRem As RibbonGroup
 
 
             Select Case Rn2!Codigo
-            Case 601, 602, 604, 607, 608, 610, 613, 614
+            Case 601, 602, 604, 607, 608, 610, 613, 614, ID_AnticipoFacturas
                 'Solapa cobros
                 Set Control = GrupCob.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
             
@@ -3087,7 +3087,12 @@ Private Sub AbrirFormularios(Accion As Long)
             frmTESNorma57.Show vbModal
             
         Case 614 ' transferencia abonos
-            frmTESTransferencias.TipoTrans = 0 ' de abonos
+
+            frmTESTransferencias.TipoTrans2 = 0
+            frmTESTransferencias.Show vbModal
+            
+        Case ID_AnticipoFacturas
+            frmTESTransferencias.TipoTrans2 = 4
             frmTESTransferencias.Show vbModal
             
         Case 709 ' Abono remesa
@@ -3103,10 +3108,10 @@ Private Sub AbrirFormularios(Accion As Long)
         Case 804 ' Realizar Pago
             frmTESRealizarPagos.Show vbModal
         Case 805 ' Transferencias
-            frmTESTransferencias.TipoTrans = 1 ' de pagos
+            frmTESTransferencias.TipoTrans2 = 1 ' de pagos
             frmTESTransferencias.Show vbModal
         Case 806 ' Pagos domiciliados
-            frmTESTransferencias.TipoTrans = 2 ' pagos domiciliados
+            frmTESTransferencias.TipoTrans2 = 2 ' pagos domiciliados
             frmTESTransferencias.Show vbModal
         
         Case 807 ' Gastos Fijos
@@ -3119,7 +3124,7 @@ Private Sub AbrirFormularios(Accion As Long)
             frmTESCompensaAboPro.Show vbModal
         
         Case 810 ' Confirming
-            frmTESTransferencias.TipoTrans = 3 ' confirming
+            frmTESTransferencias.TipoTrans2 = 3 ' confirming
             frmTESTransferencias.Show vbModal
         
         Case 901 ' Informe por NIF
@@ -3336,7 +3341,7 @@ Dim Tiene_A_cancelar As Byte    '0: NO    1:  Cobros      2 : Pagos     3 Los do
             If EmpresasQueYaHaComunicadoAsientosDescuadrados = "" Then EmpresasQueYaHaComunicadoAsientosDescuadrados = "|"
             EmpresasQueYaHaComunicadoAsientosDescuadrados = EmpresasQueYaHaComunicadoAsientosDescuadrados & vEmpresa.codempre & "|"
             C = "sum(coalesce(timported,0))-sum(coalesce(timporteh,0))"
-            C = DevuelveDesdeBD(C, "hlinapu", "fechaent>=" & DBSet(vParam.fechaini, "F") & " AND 1", "1")
+            C = DevuelveDesdeBD(C, "hlinapu", "numdiari>0 and numasien>=0 AND fechaent>=" & DBSet(vParam.fechaini, "F") & " AND 1", "1")
             If C <> "" Then
                 If CCur(C) <> 0 Then
                     

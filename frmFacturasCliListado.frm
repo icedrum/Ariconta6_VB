@@ -30,6 +30,24 @@ Begin VB.Form frmFacturasCliListado
       TabIndex        =   54
       Top             =   6960
       Width           =   4455
+      Begin VB.CheckBox Check1 
+         Caption         =   "Adquisiciones intracomunitarias"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   2
+         Left            =   360
+         TabIndex        =   60
+         Top             =   1800
+         Width           =   3855
+      End
       Begin VB.OptionButton optVarios 
          Caption         =   "Cliente"
          BeginProperty Font 
@@ -79,9 +97,9 @@ Begin VB.Form frmFacturasCliListado
          EndProperty
          Height          =   240
          Index           =   1
-         Left            =   2460
+         Left            =   360
          TabIndex        =   16
-         Top             =   1380
+         Top             =   1200
          Width           =   1335
       End
    End
@@ -1338,23 +1356,23 @@ Private Sub Form_Load()
     
     optVarios_Click (0)
     
-    txtfecha(0).Text = vParam.fechaini
-    txtfecha(1).Text = vParam.fechafin
+    txtFecha(0).Text = vParam.fechaini
+    txtFecha(1).Text = vParam.fechafin
     If Not vParam.FecEjerAct Then
-        txtfecha(1).Text = Format(DateAdd("yyyy", 1, vParam.fechafin), "dd/mm/yyyy")
+        txtFecha(1).Text = Format(DateAdd("yyyy", 1, vParam.fechafin), "dd/mm/yyyy")
     End If
     
     
-    txtfecha(2).Text = Format(Now, "dd/mm/yyyy")
+    txtFecha(2).Text = Format(Now, "dd/mm/yyyy")
     txtPag2(0).Text = "1"
      
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
     If Legalizacion <> "" Then
-        txtfecha(2).Text = RecuperaValor(Legalizacion, 1)
-        txtfecha(0).Text = RecuperaValor(Legalizacion, 2)
-        txtfecha(1).Text = RecuperaValor(Legalizacion, 3)
+        txtFecha(2).Text = RecuperaValor(Legalizacion, 1)
+        txtFecha(0).Text = RecuperaValor(Legalizacion, 2)
+        txtFecha(1).Text = RecuperaValor(Legalizacion, 3)
     End If
     
     
@@ -1377,7 +1395,7 @@ Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
@@ -1425,10 +1443,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
+        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtfecha(Index)
+        PonFoco txtFecha(Index)
         
     End Select
     
@@ -1460,6 +1478,7 @@ End Sub
 
 Private Sub optVarios_Click(Index As Integer)
     Check1(1).Enabled = optVarios(1).Value
+    Check1(2).Enabled = Not optVarios(1).Value
     If Not Check1(1).Enabled Then Check1(1).Value = 0
 End Sub
 
@@ -1747,15 +1766,17 @@ Dim nomDocu As String
     
     cadParam = cadParam & "pNumPag=" & ComprobarCero(txtPag2(0).Text) & "|"
     numParam = numParam + 1
-    cadParam = cadParam & "pFecha=""" & txtfecha(2).Text & """|"
+    cadParam = cadParam & "pFecha=""" & txtFecha(2).Text & """|"
+    numParam = numParam + 1
+    cadParam = cadParam & "OcultarIntracom=" & IIf(Check1(2).Value, 0, 1) & "|"
     numParam = numParam + 1
     
-    If txtfecha(0).Text <> "" Then
-        cadParam = cadParam & "pFecDes=Date(" & Year(txtfecha(0).Text) & "," & Month(txtfecha(0).Text) & "," & Day(txtfecha(0).Text) & ")|"
+    If txtFecha(0).Text <> "" Then
+        cadParam = cadParam & "pFecDes=Date(" & Year(txtFecha(0).Text) & "," & Month(txtFecha(0).Text) & "," & Day(txtFecha(0).Text) & ")|"
         numParam = numParam + 1
     End If
-    If txtfecha(1).Text <> "" Then
-        cadParam = cadParam & "pFecHas=Date(" & Year(txtfecha(1).Text) & "," & Month(txtfecha(1).Text) & "," & Day(txtfecha(1).Text) & ")|"
+    If txtFecha(1).Text <> "" Then
+        cadParam = cadParam & "pFecHas=Date(" & Year(txtFecha(1).Text) & "," & Month(txtFecha(1).Text) & "," & Day(txtFecha(1).Text) & ")|"
         numParam = numParam + 1
     End If
     vMostrarTree = optVarios(1).Value
@@ -1809,7 +1830,7 @@ Dim i As Integer
     MontaSQL = False
     
     If Not PonerDesdeHasta("factcli.NumSerie", "SER", Me.txtSerie(0), Me.txtNSerie(0), Me.txtSerie(1), Me.txtNSerie(1), "pDHSerie=""") Then Exit Function
-    If Not PonerDesdeHasta("factcli.FecFactu", "F", Me.txtfecha(0), Me.txtfecha(0), Me.txtfecha(1), Me.txtfecha(1), "pDHFecha=""") Then Exit Function
+    If Not PonerDesdeHasta("factcli.FecFactu", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""") Then Exit Function
     If Not PonerDesdeHasta("factcli.NumFactu", "FRA", Me.txtNumFactu(0), Me.txtNumFactu(0), Me.txtNumFactu(1), Me.txtNumFactu(1), "pDHFactura=""") Then Exit Function
     If Not PonerDesdeHasta("factcli.codmacta", "CTA", Me.txtCuentas(0), Me.txtNCuentas(0), Me.txtCuentas(1), Me.txtNCuentas(1), "pDHCuentas=""") Then Exit Function
             
@@ -1859,25 +1880,25 @@ Dim i As Integer
 End Function
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
+    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtfecha(Index)
+    PonerFormatoFecha txtFecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtfecha(Index), 3
+    ConseguirFoco txtFecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtfecha(Index).Tag, Index
+        LanzaFormAyuda txtFecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If

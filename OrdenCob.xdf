@@ -1,1 +1,1 @@
-cobros.numfactu DESC,cobros.fecfactu
+nommacta DESC,cobros.fecfactu,cobros.numfactu

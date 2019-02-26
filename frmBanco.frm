@@ -24,6 +24,40 @@ Begin VB.Form frmBanco
    ScaleWidth      =   12030
    StartUpPosition =   2  'CenterScreen
    Tag             =   "Digitos 1er nivel|N|N|||empresa|numdigi1|||"
+   Begin VB.TextBox Text1 
+      Height          =   360
+      Index           =   32
+      Left            =   6000
+      MaxLength       =   15
+      TabIndex        =   22
+      Tag             =   "Dias cadencia anticipo recibo|N|S|0||bancos|DiaCadenciaAnticipoRecibos|||"
+      Text            =   "Text1"
+      Top             =   5550
+      Width           =   555
+   End
+   Begin VB.TextBox Text1 
+      Alignment       =   1  'Right Justify
+      Height          =   360
+      Index           =   31
+      Left            =   120
+      MaxLength       =   30
+      TabIndex        =   21
+      Tag             =   "Cta.abono recibos anticipados|T|S|||bancos|CtaAnticipoRecibos|||"
+      Text            =   "Text1"
+      Top             =   5550
+      Width           =   1305
+   End
+   Begin VB.TextBox Text2 
+      BackColor       =   &H80000018&
+      Height          =   360
+      Index           =   31
+      Left            =   1470
+      Locked          =   -1  'True
+      TabIndex        =   88
+      Text            =   "Text2"
+      Top             =   5550
+      Width           =   4395
+   End
    Begin VB.ComboBox Combo2 
       Height          =   360
       ItemData        =   "frmBanco.frx":000C
@@ -32,7 +66,7 @@ Begin VB.Form frmBanco
       Style           =   2  'Dropdown List
       TabIndex        =   20
       Tag             =   "Aplazamiento sobre|N|S|0||bancos|TipoFichConfi|||"
-      Top             =   5280
+      Top             =   4800
       Width           =   1935
    End
    Begin VB.TextBox Text1 
@@ -44,7 +78,7 @@ Begin VB.Form frmBanco
       TabIndex        =   12
       Tag             =   "Cedante|T|S|||bancos|sufijoconfirming|||"
       Text            =   "Tex"
-      Top             =   3000
+      Top             =   2640
       Width           =   1005
    End
    Begin VB.ComboBox Combo1 
@@ -55,7 +89,7 @@ Begin VB.Form frmBanco
       Style           =   2  'Dropdown List
       TabIndex        =   19
       Tag             =   "Aplazamiento sobre|N|S|0||bancos|AplzSobreFecVenc|||"
-      Top             =   5280
+      Top             =   4800
       Width           =   2535
    End
    Begin VB.TextBox Text1 
@@ -66,7 +100,7 @@ Begin VB.Form frmBanco
       TabIndex        =   18
       Tag             =   "Dias aplazamiento confirming|N|S|0||bancos|diasaplazConfi|||"
       Text            =   "Text1"
-      Top             =   5280
+      Top             =   4800
       Width           =   555
    End
    Begin VB.TextBox Text2 
@@ -75,9 +109,9 @@ Begin VB.Form frmBanco
       Index           =   28
       Left            =   1470
       Locked          =   -1  'True
-      TabIndex        =   78
+      TabIndex        =   80
       Text            =   "Text2"
-      Top             =   5280
+      Top             =   4800
       Width           =   4395
    End
    Begin VB.TextBox Text1 
@@ -89,7 +123,7 @@ Begin VB.Form frmBanco
       TabIndex        =   17
       Tag             =   "Cta. gastos|T|S|||bancos|ctaconfirming|||"
       Text            =   "Text1"
-      Top             =   5280
+      Top             =   4800
       Width           =   1305
    End
    Begin VB.TextBox Text1 
@@ -97,10 +131,10 @@ Begin VB.Form frmBanco
       Index           =   27
       Left            =   6120
       MaxLength       =   45
-      TabIndex        =   26
+      TabIndex        =   28
       Tag             =   "Pag|T|S|||bancos|DocPagare|||"
       Text            =   "Text1"
-      Top             =   7080
+      Top             =   7200
       Width           =   5505
    End
    Begin VB.TextBox Text1 
@@ -108,10 +142,10 @@ Begin VB.Form frmBanco
       Index           =   26
       Left            =   240
       MaxLength       =   40
-      TabIndex        =   25
+      TabIndex        =   27
       Tag             =   "DocT|T|S|||bancos|DocTalon|||"
       Text            =   "Text1"
-      Top             =   7080
+      Top             =   7200
       Width           =   5505
    End
    Begin VB.CheckBox chkBanco 
@@ -119,7 +153,7 @@ Begin VB.Form frmBanco
       Height          =   255
       Index           =   3
       Left            =   120
-      TabIndex        =   33
+      TabIndex        =   35
       Tag             =   "Cta Transferencia Clientes|N|N|0|1|bancos|ctatransfercli|||"
       Top             =   9480
       Width           =   5685
@@ -136,13 +170,13 @@ Begin VB.Form frmBanco
       EndProperty
       Height          =   705
       Left            =   3810
-      TabIndex        =   71
-      Top             =   180
+      TabIndex        =   73
+      Top             =   0
       Width           =   2415
       Begin MSComctlLib.Toolbar ToolbarDes 
          Height          =   330
          Left            =   240
-         TabIndex        =   72
+         TabIndex        =   74
          Top             =   180
          Width           =   1965
          _ExtentX        =   3466
@@ -185,13 +219,13 @@ Begin VB.Form frmBanco
       EndProperty
       Height          =   705
       Left            =   120
-      TabIndex        =   69
-      Top             =   180
+      TabIndex        =   71
+      Top             =   0
       Width           =   3585
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   330
          Left            =   240
-         TabIndex        =   70
+         TabIndex        =   72
          Top             =   180
          Width           =   3135
          _ExtentX        =   5530
@@ -262,7 +296,7 @@ Begin VB.Form frmBanco
       TabIndex        =   11
       Tag             =   "Cedante|T|S|||bancos|Sufijo3414|||"
       Text            =   "Tex"
-      Top             =   3000
+      Top             =   2640
       Width           =   1005
    End
    Begin VB.CheckBox chkBanco 
@@ -270,7 +304,7 @@ Begin VB.Form frmBanco
       Height          =   255
       Index           =   1
       Left            =   120
-      TabIndex        =   32
+      TabIndex        =   34
       Tag             =   "G.transfer|N|S|||bancos|GastTransDescontad|||"
       Top             =   9120
       Width           =   5925
@@ -288,7 +322,7 @@ Begin VB.Form frmBanco
       EndProperty
       Height          =   825
       Left            =   6240
-      TabIndex        =   67
+      TabIndex        =   69
       Top             =   8760
       Width           =   5685
    End
@@ -297,7 +331,7 @@ Begin VB.Form frmBanco
       Height          =   255
       Index           =   0
       Left            =   120
-      TabIndex        =   31
+      TabIndex        =   33
       Tag             =   "G.Rem.|N|S|||bancos|GastRemDescontad|||"
       Top             =   8760
       Width           =   5925
@@ -315,7 +349,7 @@ Begin VB.Form frmBanco
       EndProperty
       Height          =   855
       Left            =   120
-      TabIndex        =   62
+      TabIndex        =   64
       Top             =   7680
       Width           =   11715
       Begin VB.TextBox Text1 
@@ -323,7 +357,7 @@ Begin VB.Form frmBanco
          Index           =   22
          Left            =   5970
          MaxLength       =   15
-         TabIndex        =   29
+         TabIndex        =   31
          Tag             =   "Talon dias|N|S|0||bancos|remesadiasmenor|||"
          Text            =   "Text1"
          Top             =   330
@@ -334,7 +368,7 @@ Begin VB.Form frmBanco
          Index           =   21
          Left            =   8400
          MaxLength       =   15
-         TabIndex        =   28
+         TabIndex        =   30
          Tag             =   "Talon dias|N|S|0||bancos|remesadiasmayor|||"
          Text            =   "Text1"
          Top             =   930
@@ -346,7 +380,7 @@ Begin VB.Form frmBanco
          Index           =   19
          Left            =   1710
          MaxLength       =   15
-         TabIndex        =   27
+         TabIndex        =   29
          Tag             =   "Riesgo|N|S|0||bancos|remesariesgo|#,##0.00||"
          Text            =   "Text1"
          Top             =   330
@@ -358,7 +392,7 @@ Begin VB.Form frmBanco
          Index           =   18
          Left            =   9900
          MaxLength       =   15
-         TabIndex        =   30
+         TabIndex        =   32
          Tag             =   "Riesgo|N|S|0||bancos|remesamaximo|#,##0.00||"
          Text            =   "Text1"
          Top             =   330
@@ -369,7 +403,7 @@ Begin VB.Form frmBanco
          Height          =   285
          Index           =   22
          Left            =   4500
-         TabIndex        =   66
+         TabIndex        =   68
          Top             =   360
          Width           =   2055
       End
@@ -378,7 +412,7 @@ Begin VB.Form frmBanco
          Height          =   285
          Index           =   21
          Left            =   6630
-         TabIndex        =   65
+         TabIndex        =   67
          Top             =   960
          Width           =   1815
       End
@@ -387,7 +421,7 @@ Begin VB.Form frmBanco
          Height          =   285
          Index           =   19
          Left            =   270
-         TabIndex        =   64
+         TabIndex        =   66
          Top             =   360
          Width           =   1575
       End
@@ -396,7 +430,7 @@ Begin VB.Form frmBanco
          Height          =   285
          Index           =   18
          Left            =   8250
-         TabIndex        =   63
+         TabIndex        =   65
          Top             =   360
          Width           =   1620
       End
@@ -414,15 +448,15 @@ Begin VB.Form frmBanco
       EndProperty
       Height          =   855
       Left            =   6060
-      TabIndex        =   59
-      Top             =   5850
+      TabIndex        =   61
+      Top             =   6000
       Width           =   5775
       Begin VB.TextBox Text1 
          Height          =   360
          Index           =   17
          Left            =   1470
          MaxLength       =   15
-         TabIndex        =   23
+         TabIndex        =   25
          Tag             =   "Talon dias|N|S|0||bancos|pagaredias|||"
          Text            =   "Text1"
          Top             =   330
@@ -434,7 +468,7 @@ Begin VB.Form frmBanco
          Index           =   16
          Left            =   3960
          MaxLength       =   15
-         TabIndex        =   24
+         TabIndex        =   26
          Tag             =   "Riesgo|N|S|0||bancos|pagareriesgo|#,##0.00||"
          Text            =   "Text1"
          Top             =   330
@@ -445,7 +479,7 @@ Begin VB.Form frmBanco
          Height          =   315
          Index           =   17
          Left            =   240
-         TabIndex        =   61
+         TabIndex        =   63
          Top             =   360
          Width           =   1185
       End
@@ -454,7 +488,7 @@ Begin VB.Form frmBanco
          Height          =   255
          Index           =   16
          Left            =   2280
-         TabIndex        =   60
+         TabIndex        =   62
          Top             =   360
          Width           =   1770
       End
@@ -472,8 +506,8 @@ Begin VB.Form frmBanco
       EndProperty
       Height          =   855
       Left            =   120
-      TabIndex        =   56
-      Top             =   5850
+      TabIndex        =   58
+      Top             =   6000
       Width           =   5745
       Begin VB.TextBox Text1 
          Alignment       =   1  'Right Justify
@@ -481,7 +515,7 @@ Begin VB.Form frmBanco
          Index           =   15
          Left            =   4050
          MaxLength       =   15
-         TabIndex        =   22
+         TabIndex        =   24
          Tag             =   "Riesgo|N|S|0||bancos|talonriesgo|#,##0.00||"
          Text            =   "Text1"
          Top             =   330
@@ -492,7 +526,7 @@ Begin VB.Form frmBanco
          Index           =   14
          Left            =   1440
          MaxLength       =   15
-         TabIndex        =   21
+         TabIndex        =   23
          Tag             =   "Talon dias|N|S|0||bancos|talondias|||"
          Text            =   "Text1"
          Top             =   330
@@ -503,7 +537,7 @@ Begin VB.Form frmBanco
          Height          =   285
          Index           =   15
          Left            =   2370
-         TabIndex        =   58
+         TabIndex        =   60
          Top             =   360
          Width           =   1650
       End
@@ -512,7 +546,7 @@ Begin VB.Form frmBanco
          Height          =   255
          Index           =   14
          Left            =   270
-         TabIndex        =   57
+         TabIndex        =   59
          Top             =   360
          Width           =   1125
       End
@@ -526,7 +560,7 @@ Begin VB.Form frmBanco
       TabIndex        =   16
       Tag             =   "Cta. gastos|T|S|||bancos|ctaefectosdesc|||"
       Text            =   "Text1"
-      Top             =   4500
+      Top             =   4020
       Width           =   1305
    End
    Begin VB.TextBox Text2 
@@ -535,9 +569,9 @@ Begin VB.Form frmBanco
       Index           =   13
       Left            =   7380
       Locked          =   -1  'True
-      TabIndex        =   54
+      TabIndex        =   56
       Text            =   "Text2"
-      Top             =   4500
+      Top             =   4020
       Width           =   4455
    End
    Begin VB.TextBox Text1 
@@ -549,7 +583,7 @@ Begin VB.Form frmBanco
       TabIndex        =   15
       Tag             =   "Cta. gastos|T|S|||bancos|ctagastostarj|||"
       Text            =   "Text1"
-      Top             =   4500
+      Top             =   4020
       Width           =   1305
    End
    Begin VB.TextBox Text2 
@@ -558,9 +592,9 @@ Begin VB.Form frmBanco
       Index           =   12
       Left            =   1470
       Locked          =   -1  'True
-      TabIndex        =   52
+      TabIndex        =   54
       Text            =   "Text2"
-      Top             =   4500
+      Top             =   4020
       Width           =   4395
    End
    Begin VB.TextBox Text2 
@@ -569,9 +603,9 @@ Begin VB.Form frmBanco
       Index           =   10
       Left            =   7380
       Locked          =   -1  'True
-      TabIndex        =   50
+      TabIndex        =   52
       Text            =   "Text2"
-      Top             =   3810
+      Top             =   3330
       Width           =   4455
    End
    Begin VB.TextBox Text1 
@@ -583,7 +617,7 @@ Begin VB.Form frmBanco
       TabIndex        =   14
       Tag             =   "Cta. gastos|T|S|||bancos|ctaingreso|||"
       Text            =   "Text1"
-      Top             =   3810
+      Top             =   3330
       Width           =   1305
    End
    Begin VB.TextBox Text1 
@@ -595,7 +629,7 @@ Begin VB.Form frmBanco
       TabIndex        =   10
       Tag             =   "Sufijo OEM|T|S|||bancos|sufijoem|||"
       Text            =   "Tex"
-      Top             =   3000
+      Top             =   2640
       Width           =   1005
    End
    Begin VB.TextBox Text2 
@@ -604,7 +638,7 @@ Begin VB.Form frmBanco
       Index           =   2
       Left            =   7440
       Locked          =   -1  'True
-      TabIndex        =   47
+      TabIndex        =   49
       Text            =   "Text2"
       Top             =   9120
       Width           =   3795
@@ -614,7 +648,7 @@ Begin VB.Form frmBanco
       Index           =   8
       Left            =   6270
       MaxLength       =   4
-      TabIndex        =   36
+      TabIndex        =   38
       Tag             =   "Centro Coste|T|S|||bancos|codccost|||"
       Text            =   "Text"
       Top             =   9120
@@ -628,7 +662,7 @@ Begin VB.Form frmBanco
       TabIndex        =   9
       Tag             =   "Contrato Confirming|T|S|||bancos|CaixaConfirming|||"
       Text            =   "Text1"
-      Top             =   3030
+      Top             =   2670
       Width           =   5685
    End
    Begin VB.Frame Frame2 
@@ -643,8 +677,8 @@ Begin VB.Form frmBanco
       EndProperty
       Height          =   915
       Left            =   6000
-      TabIndex        =   45
-      Top             =   1110
+      TabIndex        =   47
+      Top             =   750
       Width           =   5715
       Begin VB.TextBox Text1 
          Alignment       =   2  'Center
@@ -717,7 +751,7 @@ Begin VB.Form frmBanco
          Height          =   195
          Index           =   24
          Left            =   120
-         TabIndex        =   68
+         TabIndex        =   70
          Top             =   180
          Width           =   540
       End
@@ -731,7 +765,7 @@ Begin VB.Form frmBanco
       TabIndex        =   13
       Tag             =   "Cta. gastos|T|S|||bancos|ctagastos|||"
       Text            =   "Text1"
-      Top             =   3810
+      Top             =   3330
       Width           =   1305
    End
    Begin VB.TextBox Text2 
@@ -740,9 +774,9 @@ Begin VB.Form frmBanco
       Index           =   5
       Left            =   1470
       Locked          =   -1  'True
-      TabIndex        =   43
+      TabIndex        =   45
       Text            =   "Text2"
-      Top             =   3810
+      Top             =   3330
       Width           =   4395
    End
    Begin VB.TextBox Text1 
@@ -753,7 +787,7 @@ Begin VB.Form frmBanco
       TabIndex        =   1
       Tag             =   "Cta. contable|T|N|||bancos|codmacta||S|"
       Text            =   "0000000000"
-      Top             =   1530
+      Top             =   1170
       Width           =   1305
    End
    Begin VB.TextBox Text2 
@@ -762,9 +796,9 @@ Begin VB.Form frmBanco
       Index           =   4
       Left            =   1470
       Locked          =   -1  'True
-      TabIndex        =   41
+      TabIndex        =   43
       Text            =   "Text2"
-      Top             =   1530
+      Top             =   1170
       Width           =   4425
    End
    Begin VB.TextBox Text1 
@@ -775,7 +809,7 @@ Begin VB.Form frmBanco
       TabIndex        =   8
       Tag             =   "Descripcion|T|S|||bancos|descripcion|||"
       Text            =   "Text1"
-      Top             =   2370
+      Top             =   2010
       Width           =   5715
    End
    Begin VB.Frame Frame1 
@@ -790,7 +824,7 @@ Begin VB.Form frmBanco
       EndProperty
       Height          =   540
       Left            =   90
-      TabIndex        =   38
+      TabIndex        =   40
       Top             =   9840
       Width           =   3495
       Begin VB.Label lblIndicador 
@@ -798,7 +832,7 @@ Begin VB.Form frmBanco
          Caption         =   "Label2"
          Height          =   255
          Left            =   240
-         TabIndex        =   39
+         TabIndex        =   41
          Top             =   210
          Width           =   2955
       End
@@ -808,7 +842,7 @@ Begin VB.Form frmBanco
       Caption         =   "&Cancelar"
       Height          =   375
       Left            =   10800
-      TabIndex        =   35
+      TabIndex        =   37
       Top             =   9945
       Width           =   1035
    End
@@ -816,7 +850,7 @@ Begin VB.Form frmBanco
       Caption         =   "&Aceptar"
       Height          =   375
       Left            =   9600
-      TabIndex        =   34
+      TabIndex        =   36
       Top             =   9945
       Width           =   1035
    End
@@ -871,7 +905,7 @@ Begin VB.Form frmBanco
       Caption         =   "&Regresar"
       Height          =   375
       Left            =   10800
-      TabIndex        =   37
+      TabIndex        =   39
       Top             =   9960
       Visible         =   0   'False
       Width           =   1035
@@ -879,7 +913,7 @@ Begin VB.Form frmBanco
    Begin MSComctlLib.Toolbar ToolbarAyuda 
       Height          =   390
       Left            =   11310
-      TabIndex        =   73
+      TabIndex        =   75
       Top             =   240
       Width           =   405
       _ExtentX        =   714
@@ -899,10 +933,10 @@ Begin VB.Form frmBanco
       Index           =   11
       Left            =   2940
       MaxLength       =   10
-      TabIndex        =   74
+      TabIndex        =   76
       Tag             =   "idnorma34|T|S|||bancos|idnorma34|||"
       Text            =   "Text1"
-      Top             =   3030
+      Top             =   2670
       Width           =   1875
    End
    Begin VB.TextBox Text1 
@@ -910,35 +944,71 @@ Begin VB.Form frmBanco
       Index           =   20
       Left            =   6840
       MaxLength       =   40
-      TabIndex        =   75
+      TabIndex        =   77
       Tag             =   "Iban|T|S|||bancos|iban|||"
       Text            =   "Text"
-      Top             =   1290
+      Top             =   930
       Width           =   4290
+   End
+   Begin VB.Label Label1 
+      Caption         =   "Dias de cadencia recibo anticipado"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   315
+      Index           =   28
+      Left            =   6720
+      TabIndex        =   90
+      Top             =   5580
+      Width           =   3585
+   End
+   Begin VB.Image imgCuentas 
+      Height          =   240
+      Index           =   31
+      Left            =   3000
+      ToolTipText     =   "Cuenta tarjeta"
+      Top             =   5280
+      Width           =   240
+   End
+   Begin VB.Label Label1 
+      AutoSize        =   -1  'True
+      Caption         =   "Cta abono recibo anticipado"
+      Height          =   240
+      Index           =   27
+      Left            =   120
+      TabIndex        =   89
+      Top             =   5280
+      Width           =   2895
    End
    Begin VB.Label Label1 
       Caption         =   "Tipo fichero"
       Height          =   315
       Index           =   26
-      Left            =   9860
-      TabIndex        =   85
-      Top             =   5010
+      Left            =   9855
+      TabIndex        =   87
+      Top             =   4530
       Width           =   1905
    End
    Begin VB.Line Line1 
       BorderColor     =   &H8000000F&
       X1              =   120
       X2              =   11760
-      Y1              =   5010
-      Y2              =   5010
+      Y1              =   4530
+      Y2              =   4530
    End
    Begin VB.Label Label1 
       Caption         =   "Confirm."
       Height          =   255
       Index           =   25
       Left            =   10680
-      TabIndex        =   84
-      Top             =   2760
+      TabIndex        =   86
+      Top             =   2400
       Width           =   855
    End
    Begin VB.Label Label1 
@@ -946,8 +1016,8 @@ Begin VB.Form frmBanco
       Height          =   255
       Index           =   23
       Left            =   9240
-      TabIndex        =   83
-      Top             =   2760
+      TabIndex        =   85
+      Top             =   2400
       Width           =   855
    End
    Begin VB.Label Label1 
@@ -955,8 +1025,8 @@ Begin VB.Form frmBanco
       Height          =   255
       Index           =   20
       Left            =   7920
-      TabIndex        =   82
-      Top             =   2760
+      TabIndex        =   84
+      Top             =   2400
       Width           =   855
    End
    Begin VB.Label Label1 
@@ -964,8 +1034,8 @@ Begin VB.Form frmBanco
       Height          =   240
       Index           =   11
       Left            =   6600
-      TabIndex        =   81
-      Top             =   5310
+      TabIndex        =   83
+      Top             =   4830
       Width           =   465
    End
    Begin VB.Label Label1 
@@ -973,8 +1043,8 @@ Begin VB.Form frmBanco
       Height          =   315
       Index           =   7
       Left            =   6000
-      TabIndex        =   80
-      Top             =   5010
+      TabIndex        =   82
+      Top             =   4530
       Width           =   1905
    End
    Begin VB.Label Label1 
@@ -983,8 +1053,8 @@ Begin VB.Form frmBanco
       Height          =   240
       Index           =   6
       Left            =   120
-      TabIndex        =   79
-      Top             =   5010
+      TabIndex        =   81
+      Top             =   4530
       Width           =   1425
    End
    Begin VB.Image imgCuentas 
@@ -992,7 +1062,7 @@ Begin VB.Form frmBanco
       Index           =   28
       Left            =   1680
       ToolTipText     =   "Cuenta tarjeta"
-      Top             =   5040
+      Top             =   4560
       Width           =   240
    End
    Begin VB.Label Label1 
@@ -1001,8 +1071,8 @@ Begin VB.Form frmBanco
       Height          =   240
       Index           =   4
       Left            =   6120
-      TabIndex        =   77
-      Top             =   6840
+      TabIndex        =   79
+      Top             =   6960
       Width           =   1860
    End
    Begin VB.Label Label1 
@@ -1011,8 +1081,8 @@ Begin VB.Form frmBanco
       Height          =   240
       Index           =   2
       Left            =   240
-      TabIndex        =   76
-      Top             =   6840
+      TabIndex        =   78
+      Top             =   6960
       Width           =   1680
    End
    Begin VB.Image imgCuentas 
@@ -1020,7 +1090,7 @@ Begin VB.Form frmBanco
       Index           =   13
       Left            =   8580
       ToolTipText     =   "Cta efectos descontados"
-      Top             =   4260
+      Top             =   3780
       Width           =   240
    End
    Begin VB.Label Label1 
@@ -1029,8 +1099,8 @@ Begin VB.Form frmBanco
       Height          =   240
       Index           =   13
       Left            =   6030
-      TabIndex        =   55
-      Top             =   4260
+      TabIndex        =   57
+      Top             =   3780
       Width           =   2505
    End
    Begin VB.Image imgCuentas 
@@ -1038,7 +1108,7 @@ Begin VB.Form frmBanco
       Index           =   12
       Left            =   1980
       ToolTipText     =   "Cuenta tarjeta"
-      Top             =   4260
+      Top             =   3780
       Width           =   240
    End
    Begin VB.Label Label1 
@@ -1047,8 +1117,8 @@ Begin VB.Form frmBanco
       Height          =   240
       Index           =   12
       Left            =   120
-      TabIndex        =   53
-      Top             =   4260
+      TabIndex        =   55
+      Top             =   3780
       Width           =   1830
    End
    Begin VB.Label Label1 
@@ -1057,8 +1127,8 @@ Begin VB.Form frmBanco
       Height          =   240
       Index           =   10
       Left            =   6030
-      TabIndex        =   51
-      Top             =   3570
+      TabIndex        =   53
+      Top             =   3090
       Width           =   1230
    End
    Begin VB.Image imgCuentas 
@@ -1066,7 +1136,7 @@ Begin VB.Form frmBanco
       Index           =   10
       Left            =   7260
       ToolTipText     =   "Cuenta ingresos"
-      Top             =   3570
+      Top             =   3090
       Width           =   240
    End
    Begin VB.Label Label1 
@@ -1083,8 +1153,8 @@ Begin VB.Form frmBanco
       Height          =   255
       Index           =   9
       Left            =   6030
-      TabIndex        =   49
-      Top             =   2790
+      TabIndex        =   51
+      Top             =   2430
       Width           =   1785
    End
    Begin VB.Label Label1 
@@ -1093,7 +1163,7 @@ Begin VB.Form frmBanco
       Height          =   240
       Index           =   8
       Left            =   6270
-      TabIndex        =   48
+      TabIndex        =   50
       Top             =   8865
       Width           =   1290
    End
@@ -1109,8 +1179,8 @@ Begin VB.Form frmBanco
       Height          =   255
       Index           =   0
       Left            =   150
-      TabIndex        =   46
-      Top             =   2790
+      TabIndex        =   48
+      Top             =   2430
       Width           =   2895
    End
    Begin VB.Image imgCuentas 
@@ -1118,7 +1188,7 @@ Begin VB.Form frmBanco
       Index           =   5
       Left            =   1230
       ToolTipText     =   "Cuenta gastos"
-      Top             =   3570
+      Top             =   3090
       Width           =   240
    End
    Begin VB.Label Label1 
@@ -1127,8 +1197,8 @@ Begin VB.Form frmBanco
       Height          =   240
       Index           =   5
       Left            =   120
-      TabIndex        =   44
-      Top             =   3570
+      TabIndex        =   46
+      Top             =   3090
       Width           =   1110
    End
    Begin VB.Image imgCuentas 
@@ -1136,7 +1206,7 @@ Begin VB.Form frmBanco
       Index           =   4
       Left            =   1770
       ToolTipText     =   "Cuenta contable"
-      Top             =   1230
+      Top             =   870
       Width           =   240
    End
    Begin VB.Label Label1 
@@ -1145,8 +1215,8 @@ Begin VB.Form frmBanco
       Height          =   240
       Index           =   3
       Left            =   120
-      TabIndex        =   42
-      Top             =   1215
+      TabIndex        =   44
+      Top             =   855
       Width           =   1635
    End
    Begin VB.Label Label1 
@@ -1154,8 +1224,8 @@ Begin VB.Form frmBanco
       Height          =   255
       Index           =   1
       Left            =   120
-      TabIndex        =   40
-      Top             =   2130
+      TabIndex        =   42
+      Top             =   1770
       Width           =   2025
    End
    Begin VB.Menu mnOpciones 
@@ -1556,7 +1626,7 @@ Dim i As Integer
     imgCuentas(12).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCuentas(13).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCuentas(28).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    
+    imgCuentas(31).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     DespalzamientoVisible False
 
 
@@ -1705,6 +1775,7 @@ Private Sub Text1_KeyPress(Index As Integer, KeyAscii As Integer)
             Case 12: KEYCta KeyAscii, 12
             Case 13: KEYCta KeyAscii, 13
             Case 28: KEYCta KeyAscii, 13
+            Case 31: KEYCta KeyAscii, 13
         End Select
     Else
         KEYpress KeyAscii
@@ -1787,7 +1858,7 @@ Private Sub Text1_LostFocus(Index As Integer)
         Case 20  'IBAN ya no se ve
             
             
-        Case 4, 5, 10, 12, 13, 28
+        Case 4, 5, 10, 12, 13, 28, 31
             
             If Modo >= 2 Or Modo <= 4 Then
                 If Text1(Index).Text = "" Then
@@ -1823,13 +1894,14 @@ Private Sub Text1_LostFocus(Index As Integer)
             End If
             Text2(2).Text = DevfrmCCtas
             
-        Case 14, 17, 21, 22, 29
+        Case 14, 17, 21, 22, 29, 32
             'Dias
             Text1(Index).Text = Trim(Text1(Index).Text)
             If Text1(Index).Text = "" Then Exit Sub
             If Not IsNumeric(Text1(Index).Text) Then
                 MsgBox "Campo numérico: " & Text1(Index).Text, vbExclamation
                 Text1(Index).Text = ""
+                PonerFoco Text1(Index)
             Else
                 Text1(Index).Text = Abs(Val(Text1(Index).Text))
             End If
@@ -2166,6 +2238,13 @@ Dim RC2 As String
         End If
     End If
             
+    'Anticipar recibos
+    If Text1(31).Text <> "" And Text1(32).Text = "" Then
+        MsgBox "Debe indicar los dias de cadencia para el anticipo de recibo", vbExclamation
+        PonerFoco Text1(32)
+        Exit Function
+    End If
+    
     
     'Si el idNorma34 son espacios en blanco entonces pong "", para que en la BD vaya un NULL
     If Trim(Text1(11).Text) = "" Then Text1(11).Text = ""
@@ -2239,6 +2318,7 @@ On Error GoTo EPonerCtasIVA
     Text1_LostFocus 12
     Text1_LostFocus 13
     Text1_LostFocus 28
+    Text1_LostFocus 31
 Exit Sub
 EPonerCtasIVA:
     MuestraError Err.Number, "Poniendo valores ctas.", Err.Description

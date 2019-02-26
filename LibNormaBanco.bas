@@ -2321,7 +2321,7 @@ Dim pagosAux As Currency
     If Regs > 0 Then
         GeneraFicheroNorma68 = True
     Else
-        MsgBox "No se han leido registros en la tabala de pagos", vbExclamation
+        MsgBox "No se han leido registros en la tabla de pagos", vbExclamation
     End If
     Exit Function
 EGen:

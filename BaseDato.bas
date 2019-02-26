@@ -4175,8 +4175,9 @@ Private Sub OntenerPyGActual(ByRef fec1 As Date, ByRef fec2 As Date)
 Dim Cad As String
 Dim RT As ADODB.Recordset
     Set RT = New ADODB.Recordset
-    Cad = "select sum(if(timported is null,0,timported)),sum(if(timporteh is null,0,timporteh)  )"
-    Cad = Cad & " from hlinapu where substring(codmacta,1,1) IN ('6','7') and fechaent >=" & DBSet(fec1, "F") & " and fechaent <=" & DBSet(fec2, "F")
+    Cad = "select sum(if(timported is null,0,timported)),sum(if(timporteh is null,0,timporteh)  ) FROM "
+    If Contabilidad >= 0 Then Cad = Cad & " ariconta" & Contabilidad & "."
+    Cad = Cad & "hlinapu where substring(codmacta,1,1) IN ('6','7') and fechaent >=" & DBSet(fec1, "F") & " and fechaent <=" & DBSet(fec2, "F")
     RT.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not RT.EOF Then
         ImCierrH = DBLet(RT.Fields(0), "N")

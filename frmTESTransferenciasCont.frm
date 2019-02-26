@@ -260,11 +260,12 @@ Public NumeroDocumento As String
 Public vTextos As String
 
 Public Cobros As Boolean
-Public TipoTrans As Byte ' 0=transferencia de abonos
+Public TipoTrans2 As Byte ' 0=transferencia de abonos
                          ' 1=transferencias de pagos
                          ' 2=pagos domiciliados
                          ' 3=confirming
-    
+                          '4=Anticpo facturas
+                          
 Public ImporteGastosTarjeta_ As Currency   'Para cuando viene de recepciondocumentos pondre el importe que le falta
     
     
@@ -359,7 +360,11 @@ Dim FechaConf As Date
     SQL = "Select * from transferencias where codigo =" & RecuperaValor(NumeroDocumento, 1)
     SQL = SQL & " AND anyo =" & RecuperaValor(NumeroDocumento, 2)
     If Cobros Then
-        SQL = SQL & " and tipotrans = 1 "
+        If TipoTrans2 = 4 Then
+            SQL = SQL & " and tipotrans = 2"
+        Else
+            SQL = SQL & " and tipotrans = 1 "
+        End If
     Else
         SQL = SQL & " and tipotrans = 0 "
     End If
@@ -367,13 +372,16 @@ Dim FechaConf As Date
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
 
     If Rs.EOF Then
-        Select Case TipoTrans
+        Select Case TipoTrans2
             Case 0, 1
                 MsgBox "Ninguna transferencia con esos valores", vbExclamation
             Case 2
                 MsgBox "Ningún pago domiciliado con esos valores", vbExclamation
             Case 3
                 MsgBox "Ningún confirming con esos valores", vbExclamation
+            Case 4
+                
+                MsgBox "Ningún anticipo de facturas con este valor", vbExclamation
         End Select
         Rs.Close
         Set Rs = Nothing
@@ -465,7 +473,7 @@ Dim FechaConf As Date
         End If
     End If
     
-    If TipoTrans = 3 Then
+    If TipoTrans2 = 3 Then
         CambiaFechaVtoConfirming = False
         If CtaConfirmingBanco = "" Then
             'OK, no esta configurado la cuenta puent. NO pasa nada.
@@ -510,7 +518,7 @@ Dim FechaConf As Date
         Case 23
             CC = "Procede a realizar la confirmacion de"
         End Select
-        Select Case TipoTrans
+        Select Case TipoTrans2
             Case 0, 1
                 CC = CC & " la transferencia: " & Rs!Codigo & " / " & Rs!Anyo & vbCrLf & vbCrLf
             Case 2
@@ -528,7 +536,9 @@ Dim FechaConf As Date
                         If DiasConfirming > 0 Then CC = CC & "Serán modificadas las fechas de vencimiento"
                     End If
                 End If
-
+            Case 4
+                'Anticipo facturas
+                CC = CC & " el anticipo de facturas: " & Rs!Codigo & " / " & Rs!Anyo & vbCrLf & vbCrLf
         End Select
         CC = CC & Space(30) & "¿Continuar?"
         If SubTipo = 2 Then
@@ -582,7 +592,8 @@ Dim FechaConf As Date
         If Not Ejecuta(SQL) Then MsgBox "Error actualizando tabla transferencias.", vbExclamation
         
         If Cobros Then
-            SQL = "update cobros set siturem = 'Q', situacion = 1 "
+            SQL = "update cobros set siturem = 'Q'"
+            If TipoTrans2 <> 4 Then SQL = SQL & "   , situacion = 1 "
             SQL = SQL & " WHERE transfer=" & RecuperaValor(NumeroDocumento, 1)
             SQL = SQL & " and anyorem=" & RecuperaValor(NumeroDocumento, 2)
         
@@ -592,7 +603,7 @@ Dim FechaConf As Date
             SQL = "update pagos set situdocum = 'Q', situacion = " 'para los confirming estara a 0 denuveo. Ya que lo dejamos pendiente
             
             'IMPPAGAD y fec
-            If TipoTrans = 3 Then
+            If TipoTrans2 = 3 Then
                 If CtaConfirmingBanco = "" Then
                     'Antigua contabilizacion. No hace nada. Simplemente lo da como pagado
                     SQL = SQL & "1, fecultpa=" & DBSet(Text1(10).Text, "F") & ", emitdocum=1"
@@ -1195,25 +1206,29 @@ Dim C As String
     SQL = ""
     
     If Rs!Situacion = "A" Then
-        Select Case TipoTrans
+        Select Case TipoTrans2
             Case 0, 1
                 SQL = "Transferencia abierta. Sin llevar al banco."
             Case 2
                 SQL = "Pago domiciliado abierto. Sin llevar al banco."
             Case 3
                 SQL = "Confirming abierto. Sin llevar al banco."
+            Case 4
+                SQL = "Anticipo sin llevar al banco."
         End Select
     End If
     
     'Ya contabilizada
     If Rs!Situacion = "Q" Then
-        Select Case TipoTrans
+        Select Case TipoTrans2
             Case 0, 1
                 SQL = "Transferencia abonada."
             Case 2
                 SQL = "Pago domiciliado abonado."
             Case 3
                 SQL = "Confirming abonado."
+            Case 4
+                SQL = "Anticipo abonado."
         End Select
     End If
     If SQL <> "" Then Exit Function
@@ -1289,10 +1304,15 @@ Dim C1 As String
             C1 = ""
             Text1(0).Text = ""
             If Cobros Then
-                Me.Caption = "Abono transferencia"
+                If TipoTrans2 = 0 Then
+                    Me.Caption = "Abono transferencia"
+                Else
+                    Me.Caption = "Abono anticipo facturas"
+                    Label5(2).Caption = "Abono anticipo facturas: "
+                End If
             Else
                 C1 = RecuperaValor(NumeroDocumento, 4)
-                Select Case TipoTrans
+                Select Case TipoTrans2
                     Case 0, 1
                         Me.Caption = "Contabilización Transferencia"
                         Label5(2).Caption = "Transferencia : "
@@ -1308,6 +1328,9 @@ Dim C1 As String
                         C1 = DevuelveDesdeBD("codmacta", "transferencias", C1, "1")
                                 
                         If C1 <> "" Then frameConfirmingDiasVto C1
+                    Case 4
+                        Me.Caption = "Abono anticipos facturas"
+                        Label5(2).Caption = "Anticipo : "
                 End Select
                 
                 
@@ -1882,15 +1905,17 @@ Dim TipForpa As Byte
             If Cabecera = 1 And Mid(RS1!Cliente, 1, 3) <> "TRA" Then
             
                 '--TipForpa = DevuelveDesdeBD("tipforpa", "formapago", "codforpa", RS!codforpa, "N")
-                Select Case TipoTrans
+                Select Case TipoTrans2
                     Case 0, 1
                         TipForpa = vbTransferencia
                     Case 2, 3
-                        If TipoTrans = 3 Then
+                        If TipoTrans2 = 3 Then
                             TipForpa = vbConfirming
                         Else
                             TipForpa = vbPagoDomiciliado
                         End If
+                    Case 4
+                        TipForpa = vbPagoDomiciliado
                 End Select
             
                 ' nuevos campos de la factura

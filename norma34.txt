@@ -2,10 +2,10 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
 <CstmrCdtTrfInitn>
    <GrpHdr>
-      <MsgId>TRANPAG000119F20180720T103323</MsgId>
-      <CreDtTm>2018-07-20T10:33:23</CreDtTm>
-      <NbOfTxs>3</NbOfTxs>
-      <CtrlSum>15442.23</CtrlSum>
+      <MsgId>TRANPAG000009F20190221T172059</MsgId>
+      <CreDtTm>2019-02-21T17:20:59</CreDtTm>
+      <NbOfTxs>2</NbOfTxs>
+      <CtrlSum>22.20</CtrlSum>
       <InitgPty>
          <Nm>Herbelca S.L.</Nm>
          <Id>
@@ -18,9 +18,9 @@
       </InitgPty>
    </GrpHdr>
    <PmtInf>
-      <PmtInfId>20180720103323B46135372</PmtInfId>
+      <PmtInfId>20190221172059B46135372</PmtInfId>
       <PmtMtd>TRF</PmtMtd>
-      <ReqdExctnDt>2018-07-31</ReqdExctnDt>
+      <ReqdExctnDt>2019-03-14</ReqdExctnDt>
       <Dbtr>
          <Nm>Herbelca S.L.</Nm>
          <PstlAdr>
@@ -37,127 +37,89 @@
     </Dbtr>
     <DbtrAcct>
        <Id>
-          <IBAN>ES2800810693600002093621</IBAN>
+          <IBAN>ES6400491827832010389247</IBAN>
        </Id>
        <Ccy>EUR</Ccy>
     </DbtrAcct>
     <DbtrAgt>
        <FinInstnId>
-          <BIC>BSABESBBXXX</BIC>
+          <BIC>BSCHESMMXXX</BIC>
        </FinInstnId>
     </DbtrAgt>
    <CdtTrfTxInf>
       <PmtId>
-         <EndToEndId>103579    20180315001</EndToEndId>
+         <EndToEndId>14904591  20141230001</EndToEndId>
       </PmtId>
       <PmtTpInf>
           <SvcLvl><Cd>SEPA</Cd></SvcLvl>
           <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
        </PmtTpInf>
        <Amt>
-          <InstdAmt Ccy="EUR">8719.47</InstdAmt>
+          <InstdAmt Ccy="EUR">.76</InstdAmt>
        </Amt>
        <CdtrAgt>
           <FinInstnId>
-             <BIC>CAIXESBBXXX</BIC>
+             <BIC>BSABESBBXXX</BIC>
           </FinInstnId>
        </CdtrAgt>
        <Cdtr>
-          <Nm>KME SPAIN, S.A.</Nm>
+          <Nm>SOTRALENTZ-HABITAT SPAIN,S.A.U</Nm>
            <Id>
                <OrgId>
                   <Othr>
-                     <Id>A33001504</Id>
+                     <Id>A01167204</Id>
                   </Othr>
                </OrgId>
            </Id>
         </Cdtr>
         <CdtrAcct>
            <Id>
-              <IBAN>ES0821008633810200032580</IBAN>
+              <IBAN>ES8300815565940001820787</IBAN>
            </Id>
         </CdtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>Factura num.  103579-15/03/2018 Vto a fecha  14/05/2018</Ustrd>
+         <Ustrd>Factura 14904591 de Fecha 30/12/2014</Ustrd>
       </RmtInf>
    </CdtTrfTxInf>
    <CdtTrfTxInf>
       <PmtId>
-         <EndToEndId>103767    20180409001</EndToEndId>
+         <EndToEndId>8         20180228001</EndToEndId>
       </PmtId>
       <PmtTpInf>
           <SvcLvl><Cd>SEPA</Cd></SvcLvl>
           <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
        </PmtTpInf>
        <Amt>
-          <InstdAmt Ccy="EUR">4312.44</InstdAmt>
+          <InstdAmt Ccy="EUR">21.44</InstdAmt>
        </Amt>
        <CdtrAgt>
           <FinInstnId>
-             <BIC>CAIXESBBXXX</BIC>
+             <BIC>CCRIES2AXXX</BIC>
           </FinInstnId>
        </CdtrAgt>
        <Cdtr>
-          <Nm>KME SPAIN, S.A.</Nm>
+          <Nm>MERCEDES ESPA A CORRAL</Nm>
            <Id>
                <OrgId>
                   <Othr>
-                     <Id>A33001504</Id>
+                     <Id>19894515K</Id>
                   </Othr>
                </OrgId>
            </Id>
         </Cdtr>
         <CdtrAcct>
            <Id>
-              <IBAN>ES0821008633810200032580</IBAN>
+              <IBAN>ES2030582131802810025887</IBAN>
            </Id>
         </CdtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>Factura num.  103767-09/04/2018 Vto a fecha  08/06/2018</Ustrd>
-      </RmtInf>
-   </CdtTrfTxInf>
-   <CdtTrfTxInf>
-      <PmtId>
-         <EndToEndId>103849    20180419001</EndToEndId>
-      </PmtId>
-      <PmtTpInf>
-          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
-          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
-       </PmtTpInf>
-       <Amt>
-          <InstdAmt Ccy="EUR">2410.32</InstdAmt>
-       </Amt>
-       <CdtrAgt>
-          <FinInstnId>
-             <BIC>CAIXESBBXXX</BIC>
-          </FinInstnId>
-       </CdtrAgt>
-       <Cdtr>
-          <Nm>KME SPAIN, S.A.</Nm>
-           <Id>
-               <OrgId>
-                  <Othr>
-                     <Id>A33001504</Id>
-                  </Othr>
-               </OrgId>
-           </Id>
-        </Cdtr>
-        <CdtrAcct>
-           <Id>
-              <IBAN>ES0821008633810200032580</IBAN>
-           </Id>
-        </CdtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>Factura num.  103849-19/04/2018 Vto a fecha  18/06/2018</Ustrd>
+         <Ustrd>MERCEDES ESPA A CORRAL</Ustrd>
       </RmtInf>
    </CdtTrfTxInf>
    </PmtInf>

@@ -27,9 +27,28 @@ Begin VB.Form frmInmoInfEst
       EndProperty
       Height          =   7065
       Left            =   7110
-      TabIndex        =   24
+      TabIndex        =   25
       Top             =   0
       Width           =   4455
+      Begin VB.ComboBox cboSubvencion 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         ItemData        =   "frmInmoInfEst.frx":0000
+         Left            =   240
+         List            =   "frmInmoInfEst.frx":000D
+         Style           =   2  'Dropdown List
+         TabIndex        =   10
+         Top             =   3120
+         Width           =   1440
+      End
       Begin VB.Frame Frame1 
          Caption         =   "Tipo de Elementos"
          BeginProperty Font 
@@ -43,7 +62,7 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   2025
          Left            =   210
-         TabIndex        =   29
+         TabIndex        =   30
          Top             =   660
          Width           =   4035
          Begin VB.CheckBox ChkTipo 
@@ -123,7 +142,7 @@ Begin VB.Form frmInmoInfEst
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   3870
-         TabIndex        =   37
+         TabIndex        =   38
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -137,6 +156,23 @@ Begin VB.Form frmInmoInfEst
                Object.ToolTipText     =   "Ayuda"
             EndProperty
          EndProperty
+      End
+      Begin VB.Label lblSubnvecnion 
+         Caption         =   "X"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   270
+         TabIndex        =   43
+         Top             =   2880
+         Width           =   3180
       End
    End
    Begin VB.Frame FrameConcepto 
@@ -152,7 +188,7 @@ Begin VB.Form frmInmoInfEst
       EndProperty
       Height          =   4395
       Left            =   120
-      TabIndex        =   21
+      TabIndex        =   22
       Top             =   0
       Width           =   6915
       Begin VB.TextBox txtNConcepto 
@@ -170,7 +206,7 @@ Begin VB.Form frmInmoInfEst
          Index           =   0
          Left            =   2580
          Locked          =   -1  'True
-         TabIndex        =   39
+         TabIndex        =   40
          Top             =   960
          Width           =   4095
       End
@@ -189,7 +225,7 @@ Begin VB.Form frmInmoInfEst
          Index           =   1
          Left            =   2580
          Locked          =   -1  'True
-         TabIndex        =   38
+         TabIndex        =   39
          Top             =   1380
          Width           =   4095
       End
@@ -198,7 +234,7 @@ Begin VB.Form frmInmoInfEst
          Caption         =   "Frame2"
          Height          =   1455
          Left            =   90
-         TabIndex        =   33
+         TabIndex        =   34
          Top             =   2880
          Width           =   6675
          Begin VB.TextBox txtNCCoste 
@@ -216,7 +252,7 @@ Begin VB.Form frmInmoInfEst
             Index           =   0
             Left            =   2520
             Locked          =   -1  'True
-            TabIndex        =   41
+            TabIndex        =   42
             Top             =   480
             Width           =   4155
          End
@@ -235,7 +271,7 @@ Begin VB.Form frmInmoInfEst
             Index           =   1
             Left            =   2520
             Locked          =   -1  'True
-            TabIndex        =   40
+            TabIndex        =   41
             Top             =   900
             Width           =   4155
          End
@@ -292,7 +328,7 @@ Begin VB.Form frmInmoInfEst
             Height          =   195
             Index           =   7
             Left            =   210
-            TabIndex        =   36
+            TabIndex        =   37
             Top             =   150
             Width           =   2310
          End
@@ -310,7 +346,7 @@ Begin VB.Form frmInmoInfEst
             Height          =   195
             Index           =   3
             Left            =   210
-            TabIndex        =   35
+            TabIndex        =   36
             Top             =   540
             Width           =   690
          End
@@ -328,7 +364,7 @@ Begin VB.Form frmInmoInfEst
             Height          =   195
             Index           =   2
             Left            =   210
-            TabIndex        =   34
+            TabIndex        =   35
             Top             =   900
             Width           =   615
          End
@@ -440,7 +476,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   195
          Index           =   8
          Left            =   300
-         TabIndex        =   32
+         TabIndex        =   33
          Top             =   1770
          Width           =   960
       End
@@ -458,7 +494,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   195
          Index           =   5
          Left            =   300
-         TabIndex        =   31
+         TabIndex        =   32
          Top             =   2130
          Width           =   690
       End
@@ -476,7 +512,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   195
          Index           =   4
          Left            =   300
-         TabIndex        =   30
+         TabIndex        =   31
          Top             =   2490
          Width           =   615
       End
@@ -484,7 +520,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   240
          Index           =   0
          Left            =   990
-         Picture         =   "frmInmoInfEst.frx":0000
+         Picture         =   "frmInmoInfEst.frx":0020
          Top             =   2100
          Width           =   240
       End
@@ -492,7 +528,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   240
          Index           =   1
          Left            =   990
-         Picture         =   "frmInmoInfEst.frx":008B
+         Picture         =   "frmInmoInfEst.frx":00AB
          Top             =   2490
          Width           =   240
       End
@@ -511,7 +547,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   255
          Index           =   6
          Left            =   270
-         TabIndex        =   28
+         TabIndex        =   29
          Top             =   630
          Width           =   1110
       End
@@ -543,7 +579,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   195
          Index           =   1
          Left            =   270
-         TabIndex        =   23
+         TabIndex        =   24
          Top             =   1380
          Width           =   735
       End
@@ -561,7 +597,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   195
          Index           =   0
          Left            =   270
-         TabIndex        =   22
+         TabIndex        =   23
          Top             =   960
          Width           =   780
       End
@@ -580,7 +616,7 @@ Begin VB.Form frmInmoInfEst
       EndProperty
       Height          =   375
       Left            =   10290
-      TabIndex        =   12
+      TabIndex        =   13
       Top             =   7290
       Width           =   1215
    End
@@ -597,7 +633,7 @@ Begin VB.Form frmInmoInfEst
       Height          =   375
       Index           =   1
       Left            =   8730
-      TabIndex        =   10
+      TabIndex        =   11
       Top             =   7290
       Width           =   1455
    End
@@ -615,7 +651,7 @@ Begin VB.Form frmInmoInfEst
       Height          =   375
       Index           =   0
       Left            =   120
-      TabIndex        =   11
+      TabIndex        =   12
       Top             =   7230
       Width           =   1335
    End
@@ -632,7 +668,7 @@ Begin VB.Form frmInmoInfEst
       EndProperty
       Height          =   2655
       Left            =   120
-      TabIndex        =   13
+      TabIndex        =   14
       Top             =   4410
       Width           =   6915
       Begin VB.CommandButton PushButtonImpr 
@@ -648,7 +684,7 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   27
+         TabIndex        =   28
          Top             =   720
          Width           =   1515
       End
@@ -657,7 +693,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   26
+         TabIndex        =   27
          Top             =   1680
          Width           =   255
       End
@@ -666,7 +702,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   25
+         TabIndex        =   26
          Top             =   1200
          Width           =   255
       End
@@ -684,7 +720,7 @@ Begin VB.Form frmInmoInfEst
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   20
+         TabIndex        =   21
          Top             =   1680
          Width           =   4665
       End
@@ -702,7 +738,7 @@ Begin VB.Form frmInmoInfEst
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   19
+         TabIndex        =   20
          Top             =   1200
          Width           =   4665
       End
@@ -720,7 +756,7 @@ Begin VB.Form frmInmoInfEst
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   18
+         TabIndex        =   19
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -739,7 +775,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   17
+         TabIndex        =   18
          Top             =   2160
          Width           =   975
       End
@@ -757,7 +793,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   16
+         TabIndex        =   17
          Top             =   1680
          Width           =   975
       End
@@ -775,7 +811,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   15
+         TabIndex        =   16
          Top             =   1200
          Width           =   1515
       End
@@ -793,7 +829,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   14
+         TabIndex        =   15
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -879,7 +915,7 @@ Dim tabla As String
     
     'si es entre fechas enlazamos con el hco de amortizaciones
     tabla = "inmovele"
-    If txtfecha(0).Text <> "" Or txtfecha(1).Text <> "" Then
+    If txtFecha(0).Text <> "" Or txtFecha(1).Text <> "" Then
         tabla = "inmovele INNER JOIN inmovele_his ON inmovele.codinmov = inmovele_his.codinmov"
         
         If Not CargarTablaTemporal(tabla, cadselect) Then Exit Sub
@@ -975,7 +1011,8 @@ Private Sub Form_Load()
     Next i
      
     Me.ChkTipo(1).Value = 1
-     
+    Me.lblSubnvecnion.Caption = vParam.TextoInmoSubencionado
+    Me.cboSubvencion.ListIndex = 0
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
@@ -989,7 +1026,7 @@ Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgConcepto_Click(Index As Integer)
@@ -1050,10 +1087,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
+        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtfecha(Index)
+        PonFoco txtFecha(Index)
         
     End Select
     
@@ -1170,7 +1207,7 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    If txtfecha(0).Text <> "" Or txtfecha(1).Text <> "" Then
+    If txtFecha(0).Text <> "" Or txtFecha(1).Text <> "" Then
         SQL = "Select inmovele.conconam concepto, inmovcon.nomconam DescConcepto,inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta,"
         SQL = SQL & " inmovele.fechaadq FechaAdquisicion,inmovele.valoradq ValorAdquisicion,inmovele.amortacu AmorAcumulada , tmpconextcab.acumantH AmortPeridodo , inmovele.valoradq -inmovele.amortacu Pendiente "
         SQL = SQL & " ,inmovele.impventa Venta, inmovele.fecventa FechaVenta"
@@ -1206,7 +1243,7 @@ Dim CADENA As String
     conSubRPT = False
         
     indRPT = "0505-00"
-    If txtfecha(0).Text <> "" Or txtfecha(1).Text <> "" Then
+    If txtFecha(0).Text <> "" Or txtFecha(1).Text <> "" Then
         indRPT = "0505-01"
         cadFormula = "{tmpconextcab.codusu} = " & vUsu.Codigo
     End If
@@ -1227,11 +1264,22 @@ Dim CADENA As String
     If Me.ChkTipo(2).Value = 1 Then CADENA = CADENA & "Baja,"
     If Me.ChkTipo(3).Value = 1 Then CADENA = CADENA & "Vendido,"
     If Me.ChkTipo(4).Value = 1 Then CADENA = CADENA & "Amort.,"
+    
+    
     If CADENA <> "" Then
         CADENA = Mid(CADENA, 1, Len(CADENA) - 1)
-        cadParam = cadParam & "pTipo=""Situación: " & CADENA & """|"
-        numParam = numParam + 1
+        If CADENA <> "" Then CADENA = "Situacion: " & CADENA
     End If
+    If Me.cboSubvencion.ListIndex > 0 Then
+        If CADENA <> "" Then CADENA = CADENA & "       "
+        CADENA = CADENA & "       " & Me.lblSubnvecnion.Caption & ": " & cboSubvencion.Text
+    End If
+    
+    
+    
+    cadParam = cadParam & "pTipo=""" & CADENA & """|"
+    numParam = numParam + 1
+
 
     ImprimeGeneral
     
@@ -1256,8 +1304,8 @@ Dim Situacion As String
     If Not PonerDesdeHasta("inmovele.conconam", "COI", Me.txtConcepto(0), Me.txtNConcepto(0), Me.txtConcepto(1), Me.txtNConcepto(1), "pDHConcepto=""") Then Exit Function
     If Not PonerDesdeHasta("inmovele.codccost", "CCO", Me.txtCCoste(0), Me.txtNCCoste(0), Me.txtCCoste(1), Me.txtNCCoste(1), "pDHCCoste=""") Then Exit Function
     
-    If txtfecha(0).Text <> "" Or txtfecha(1).Text <> "" Then
-        If Not PonerDesdeHasta("inmovele_his.fechainm", "FEC", Me.txtfecha(0), Me.txtfecha(0), Me.txtfecha(1), Me.txtfecha(1), "pDHFecha=""") Then Exit Function
+    If txtFecha(0).Text <> "" Or txtFecha(1).Text <> "" Then
+        If Not PonerDesdeHasta("inmovele_his.fechainm", "FEC", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""") Then Exit Function
         
     End If
     
@@ -1273,6 +1321,16 @@ Dim Situacion As String
         If Not AnyadirAFormula(cadFormula, "{inmovele.situacio} in [" & Situacion & "]") Then Exit Function
         If Not AnyadirAFormula(cadselect, "inmovele.situacio in (" & Situacion & ")") Then Exit Function
     End If
+            
+            
+    If Me.cboSubvencion.ListIndex > 0 Then
+        RC = IIf(cboSubvencion.ListIndex = 1, 1, 0)
+        If Not AnyadirAFormula(cadFormula, "{inmovele.subvencionado} = " & RC) Then Exit Function
+        If Not AnyadirAFormula(cadselect, "inmovele.subvencionado = " & RC) Then Exit Function
+    End If
+                    
+            
+            
             
     If cadFormula <> "" Then cadFormula = "(" & cadFormula & ")"
     If cadselect <> "" Then cadselect = "(" & cadselect & ")"
@@ -1317,25 +1375,25 @@ End Function
 
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
+    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtfecha(Index)
+    PonerFormatoFecha txtFecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtfecha(Index), 3
+    ConseguirFoco txtFecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtfecha(Index).Tag, Index
+        LanzaFormAyuda txtFecha(Index).Tag, Index
     End If
 End Sub
 

@@ -1701,7 +1701,7 @@ End Sub
 Private Sub Text4_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 107 Or KeyCode = 187 Then
         KeyCode = 0
-        Text1.Text = ""
+        Text4.Text = ""
         Image3_Click
     Else
         KEYdown KeyCode
@@ -2305,6 +2305,41 @@ On Error GoTo EProcesarFichero
     Open Text12.Text For Input As #NF
     While Not EOF(NF)
         Line Input #NF, SQL
+        
+        If Len(FicheroPpal) = 1 Then
+            'Primera linea.
+            'A veces, el fichhero esta grabado en UTF8
+            'Par ello quitaremos los tres primeros caracteres, o hasta llegar a un NUMERO
+            K = 0
+            Cad = "OK"
+            For i = 1 To Len(SQL)
+                J = Asc(Mid(SQL, i, 1))
+                If J > 90 Then
+                    'nada
+                    Cad = "N"
+                Else
+                    Cad = ""
+                    K = i
+                    Exit For
+                End If
+                
+            Next
+            
+            If K > 1 Then SQL = Mid(SQL, K)
+                
+   
+        End If
+        
+        If InStr(1, SQL, vbCrLf) = 0 Then
+            'No hay salto de linea y return
+            If InStr(1, SQL, vbLf) > 0 Then
+                If K = 1 Then
+                    'Solo tiene una linea, y viene con saltos de linea vbLF
+                    SQL = Replace(SQL, vbLf, "|")
+                End If
+            End If
+        End If
+        
         If SQL <> "" Then
                                         'Separador de lineas
             FicheroPpal = FicheroPpal & SQL & "|"
@@ -2367,7 +2402,7 @@ Dim ContadorRegistrosBanco As Integer
         
         NF = InStr(Comienzo, FicheroPpal, Linea)
         If NF = 0 Then
-            MsgBox "imposible situar datos."
+            MsgBox "Imposible situar datos.", vbExclamation
             Exit Sub
         End If
         

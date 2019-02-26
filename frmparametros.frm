@@ -145,29 +145,29 @@ Begin VB.Form frmparametros
       TabCaption(1)   =   "Clientes - Proveedores "
       TabPicture(1)   =   "frmparametros.frx":0028
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Frame2"
-      Tab(1).Control(1)=   "Frame3"
+      Tab(1).Control(0)=   "Frame3"
+      Tab(1).Control(1)=   "Frame2"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "I.V.A. - Norma 43"
       TabPicture(2)   =   "frmparametros.frx":0044
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Label1(14)"
-      Tab(2).Control(1)=   "Label1(13)"
-      Tab(2).Control(2)=   "Frame1"
-      Tab(2).Control(3)=   "Frame8"
-      Tab(2).Control(4)=   "Frame17"
-      Tab(2).Control(5)=   "Text1(14)"
-      Tab(2).Control(6)=   "Text1(15)"
-      Tab(2).Control(7)=   "Text1(13)"
+      Tab(2).Control(0)=   "Text1(13)"
+      Tab(2).Control(1)=   "Text1(15)"
+      Tab(2).Control(2)=   "Text1(14)"
+      Tab(2).Control(3)=   "Frame17"
+      Tab(2).Control(4)=   "Frame8"
+      Tab(2).Control(5)=   "Frame1"
+      Tab(2).Control(6)=   "Label1(13)"
+      Tab(2).Control(7)=   "Label1(14)"
       Tab(2).ControlCount=   8
       TabCaption(3)   =   "Inmovilizado"
       TabPicture(3)   =   "frmparametros.frx":0060
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Frame7"
-      Tab(3).Control(1)=   "Frame9"
+      Tab(3).Control(0)=   "Frame14"
+      Tab(3).Control(1)=   "Frame15"
       Tab(3).Control(2)=   "Frame16"
-      Tab(3).Control(3)=   "Frame15"
-      Tab(3).Control(4)=   "Frame14"
+      Tab(3).Control(3)=   "Frame9"
+      Tab(3).Control(4)=   "Frame7"
       Tab(3).ControlCount=   5
       TabCaption(4)   =   "Tesorería I"
       TabPicture(4)   =   "frmparametros.frx":007C
@@ -1397,11 +1397,30 @@ Begin VB.Form frmparametros
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   2265
+         Height          =   2745
          Left            =   -74700
          TabIndex        =   118
          Top             =   810
          Width           =   3945
+         Begin VB.TextBox Text1 
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   360
+            Index           =   37
+            Left            =   240
+            MaxLength       =   40
+            TabIndex        =   199
+            Tag             =   "T|T|S|0||parametros|TextoInmoSubencionado|||"
+            Top             =   2160
+            Width           =   3240
+         End
          Begin VB.TextBox Text2 
             BeginProperty Font 
                Name            =   "Verdana"
@@ -1414,10 +1433,10 @@ Begin VB.Form frmparametros
             EndProperty
             Height          =   360
             Index           =   0
-            Left            =   270
+            Left            =   240
             TabIndex        =   120
             Text            =   "Text2"
-            Top             =   1620
+            Top             =   1440
             Width           =   1435
          End
          Begin VB.ComboBox Combo3 
@@ -1436,15 +1455,33 @@ Begin VB.Form frmparametros
             List            =   "frmparametros.frx":00C4
             Style           =   2  'Dropdown List
             TabIndex        =   119
-            Top             =   720
+            Top             =   600
             Width           =   2355
+         End
+         Begin VB.Label Label2 
+            Caption         =   "Etiqueta tipo inmovilizado"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Index           =   1
+            Left            =   240
+            TabIndex        =   200
+            Top             =   1920
+            Width           =   2565
          End
          Begin VB.Image Image1 
             Height          =   240
             Index           =   0
             Left            =   1590
             Picture         =   "frmparametros.frx":00EF
-            Top             =   1320
+            Top             =   1080
             Width           =   240
          End
          Begin VB.Label Label2 
@@ -1460,9 +1497,9 @@ Begin VB.Form frmparametros
             EndProperty
             Height          =   255
             Index           =   0
-            Left            =   300
+            Left            =   240
             TabIndex        =   137
-            Top             =   1320
+            Top             =   1200
             Width           =   1245
          End
          Begin VB.Label Label1 
@@ -1481,7 +1518,7 @@ Begin VB.Form frmparametros
             Index           =   28
             Left            =   270
             TabIndex        =   135
-            Top             =   450
+            Top             =   360
             Width           =   2055
          End
       End
@@ -4199,7 +4236,7 @@ Private Sub Form_Load()
     
     imgCta2(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Image2.Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    imgIVA.Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    imgiva.Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCta2(4).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCta2(1).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     For i = 7 To 10
@@ -4252,7 +4289,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmC_Selec(vFecha As Date)
-    ImgFec(1).Tag = vFecha
+    imgFec(1).Tag = vFecha
 End Sub
 
 Private Sub frmCo_DatoSeleccionado(CadenaSeleccion As String)
@@ -4416,9 +4453,9 @@ Private Sub imgFec_Click(Index As Integer)
     Dim F As Date
     'En los tag
     'En el 0 tendremos quien lo ha llamado y en el 1 el valor que devuelve
-    ImgFec(0).Tag = Index
+    imgFec(0).Tag = Index
     F = Now
-    ImgFec(1).Tag = ""
+    imgFec(1).Tag = ""
     If Text1(Index).Text <> "" Then
         If IsDate(Text1(Index).Text) Then F = Text1(Index).Text
     End If
@@ -4426,8 +4463,8 @@ Private Sub imgFec_Click(Index As Integer)
     frmC.Fecha = F
     frmC.Show vbModal
     Set frmC = Nothing
-    If ImgFec(1).Tag <> "" Then
-        If IsDate(ImgFec(1).Tag) Then Text1(Index).Text = Format(CDate(ImgFec(1).Tag), "dd/mm/yyyy")
+    If imgFec(1).Tag <> "" Then
+        If IsDate(imgFec(1).Tag) Then Text1(Index).Text = Format(CDate(imgFec(1).Tag), "dd/mm/yyyy")
     End If
 End Sub
 
@@ -4739,8 +4776,8 @@ Private Sub PonerModo(Kmodo As Integer)
         Text1(0).Locked = (vUsu.Nivel >= 1)
         Text1(1).Locked = (vUsu.Nivel >= 1)
     End If
-    For i = 0 To ImgFec.Count - 1
-        ImgFec(i).Enabled = Not Text1(0).Locked
+    For i = 0 To imgFec.Count - 1
+        imgFec(i).Enabled = Not Text1(0).Locked
     Next i
     
     PonerModoUsuarioGnral Modo, "ariconta"
@@ -5240,7 +5277,7 @@ On Error GoTo EInsertarModificar
         Cad = Cad & ", contatalonpte =" & DBSet(Check5(3).Value, "N")
         Cad = Cad & ", contapagarepte =" & DBSet(Check5(4).Value, "N")
         Cad = Cad & ", contaefecpte =" & DBSet(Check5(5).Value, "N")
-        Cad = Cad & ", confirmingcta =" & DBSet(Text5(8).Text, "T", "S")
+        Cad = Cad & ", confirmingcta =" & DBSet(Text5(1).Text, "T", "S")
         Cad = Cad & ", contaconfirmpte =" & DBSet(Check5(6).Value, "N")
         
         Cad = Cad & " WHERE codigo=1"

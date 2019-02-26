@@ -3295,10 +3295,12 @@ Dim F As Date
     
     
     'Datos basico
-    Tam2 = 2
-    TablaAnt = "contadores|scryst|"
-
-    
+    Tam2 = 3
+    TablaAnt = "contadores|scryst|cartas|"
+    If vEmpresa.TieneTesoreria Then
+        TablaAnt = TablaAnt & "tipofpago|bics|"
+        Tam2 = 5
+    End If
     For i = 1 To Tam2
         SQL = RecuperaValor(TablaAnt, i)
         Label6.Caption = "Datos básicos: " & SQL & " (" & i & "/" & Tam2 & ")"

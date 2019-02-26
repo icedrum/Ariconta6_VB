@@ -24,7 +24,7 @@ Begin VB.Form frmTESRealizarCobros
       MaskColor       =   12632256
       _Version        =   393216
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   3
+         NumListImages   =   4
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmTESRealizarCobros.frx":000C
             Key             =   ""
@@ -35,6 +35,10 @@ Begin VB.Form frmTESRealizarCobros
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
             Picture         =   "frmTESRealizarCobros.frx":6B88
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "frmTESRealizarCobros.frx":6EA2
             Key             =   ""
          EndProperty
       EndProperty
@@ -64,9 +68,9 @@ Begin VB.Form frmTESRealizarCobros
                Strikethrough   =   0   'False
             EndProperty
             Height          =   360
-            ItemData        =   "frmTESRealizarCobros.frx":6EA2
+            ItemData        =   "frmTESRealizarCobros.frx":7296
             Left            =   11460
-            List            =   "frmTESRealizarCobros.frx":6EA4
+            List            =   "frmTESRealizarCobros.frx":7298
             Style           =   2  'Dropdown List
             TabIndex        =   36
             Tag             =   "Tipo de pago|N|N|||formapago|tipforpa|||"
@@ -155,9 +159,9 @@ Begin VB.Form frmTESRealizarCobros
                Strikethrough   =   0   'False
             EndProperty
             Height          =   360
-            ItemData        =   "frmTESRealizarCobros.frx":6EA6
+            ItemData        =   "frmTESRealizarCobros.frx":729A
             Left            =   8520
-            List            =   "frmTESRealizarCobros.frx":6EA8
+            List            =   "frmTESRealizarCobros.frx":729C
             Style           =   2  'Dropdown List
             TabIndex        =   3
             Tag             =   "Tipo de pago|N|N|||formapago|tipforpa|||"
@@ -533,7 +537,7 @@ Begin VB.Form frmTESRealizarCobros
             Height          =   240
             Index           =   1
             Left            =   3930
-            Picture         =   "frmTESRealizarCobros.frx":6EAA
+            Picture         =   "frmTESRealizarCobros.frx":729E
             Top             =   360
             Width           =   240
          End
@@ -541,7 +545,7 @@ Begin VB.Form frmTESRealizarCobros
             Height          =   240
             Index           =   2
             Left            =   6780
-            Picture         =   "frmTESRealizarCobros.frx":6F35
+            Picture         =   "frmTESRealizarCobros.frx":7329
             Top             =   360
             Width           =   240
          End
@@ -549,7 +553,7 @@ Begin VB.Form frmTESRealizarCobros
             Height          =   240
             Index           =   0
             Left            =   960
-            Picture         =   "frmTESRealizarCobros.frx":6FC0
+            Picture         =   "frmTESRealizarCobros.frx":73B4
             ToolTipText     =   "Cambiar fecha contabilizacion"
             Top             =   330
             Width           =   240
@@ -558,7 +562,7 @@ Begin VB.Form frmTESRealizarCobros
             Height          =   240
             Index           =   1
             Left            =   16800
-            Picture         =   "frmTESRealizarCobros.frx":7302
+            Picture         =   "frmTESRealizarCobros.frx":76F6
             ToolTipText     =   "Seleccionar todos"
             Top             =   1590
             Width           =   240
@@ -567,7 +571,7 @@ Begin VB.Form frmTESRealizarCobros
             Height          =   240
             Index           =   0
             Left            =   16410
-            Picture         =   "frmTESRealizarCobros.frx":744C
+            Picture         =   "frmTESRealizarCobros.frx":7840
             ToolTipText     =   "Quitar seleccion"
             Top             =   1590
             Width           =   240
@@ -620,7 +624,7 @@ Begin VB.Form frmTESRealizarCobros
       Begin VB.CommandButton cmdImpresionRecibostandar 
          Height          =   375
          Left            =   1800
-         Picture         =   "frmTESRealizarCobros.frx":7596
+         Picture         =   "frmTESRealizarCobros.frx":798A
          Style           =   1  'Graphical
          TabIndex        =   39
          ToolTipText     =   "Imprimir recibo"
@@ -973,12 +977,14 @@ Private Sub Generar2()
 Dim Contador2 As Integer
 Dim F2 As Date
 Dim TipoAnt As Integer
-    
+Dim RecibosAnticipados As Integer
+
     Cad = ""
+    RecibosAnticipados = 0
     For i = 1 To Me.ListView1.ListItems.Count
         If ListView1.ListItems(i).Checked Then
             Cad = Cad & "1"
-            Exit For
+            If ListView1.ListItems(i).SubItems(11) = 1 Then RecibosAnticipados = RecibosAnticipados + 1
         End If
     Next i
     If Cad = "" Then
@@ -1092,6 +1098,9 @@ Dim TipoAnt As Integer
     
     
     Cad = "Desea contabilizar los vencimientos seleccionados?"
+    
+    If RecibosAnticipados > 0 Then Cad = "Existen " & RecibosAnticipados & " recibos anticipados." & vbCrLf & vbCrLf & Cad
+    
     If Combo1.ItemData(Combo1.ListIndex) = 1 Then
         i = 0
         If Not ContabTransfer And SegundoParametro <> "" Then i = 1
@@ -1680,9 +1689,9 @@ Dim i As Integer
 
     ListView1.ColumnHeaders.Clear
     NCols = 13 '11
-    Columnas = "Serie|Factura|F.Factura|F. VTO|Nº|CLIENTE|Tipo|Importe|Gasto|Cobrado|Pendiente|"
-    Ancho = "1000|10%|11%|11%|520|23%|840|12%|8%|11%|12%|0%|0%|"
-    ALIGN = "LLLLLLLDDDDDD"
+    Columnas = "Serie|Factura|F.Factura|F. VTO|Nº|CLIENTE|Tipo|Importe|Gasto|Cobrado|Pendiente|ReciboAnticipado|"
+    Ancho = "1000|10%|11%|11%|520|23%|840|12%|8%|11%|12%|0%|0%|0%|"
+    ALIGN = "LLLLLLLDDDDDDD"
     
     
     ListView1.Tag = 2200  'La suma de los valores fijos. Para k ajuste los campos k pueden crecer
@@ -1809,6 +1818,8 @@ Private Sub InsertaItemCobro()
 Dim vImporte As Currency
 Dim DiasDif As Long
 Dim ImpAux As Currency
+Dim Icono As Integer
+
 
     Set ItmX = ListView1.ListItems.Add()
     
@@ -1878,13 +1889,24 @@ Dim ImpAux As Currency
         End If
     End If
     
+    Icono = 0
+    ItmX.SubItems(11) = 0
+    If DBLet(Rs!reciboanticipado, "N") = 1 Then
+    
+        Icono = 4
+        ItmX.ToolTipText = "Recibo anticipado"
+        ItmX.SubItems(11) = 1
+    End If
     If Rs!FecVenci < Fecha Then
         'LO DEBE
-        ItmX.SmallIcon = 1
+        If Icono = 0 Then Icono = 1
         Vencido = Vencido + impo
     Else
 '        ItmX.SmallIcon = 2
     End If
+    
+    If Icono > 0 Then ItmX.SmallIcon = Icono
+    
     Importe = Importe + impo
     
     ItmX.Tag = Rs!codmacta
@@ -2920,7 +2942,7 @@ Dim SQL As String
                     
                 Else
                     MsgBox SQL, vbExclamation
-                    If Index < 3 Or Index = 9 Or Index = 10 Or Index = 11 Then
+                    If Index < 3 Or Index = 5 Or Index = 9 Or Index = 10 Or Index = 11 Then
                         DevfrmCCtas = ""
                         SQL = ""
                     End If

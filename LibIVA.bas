@@ -231,18 +231,22 @@ On Error GoTo Salida '
     Linea = Linea & CadenaImportes
     
     
-    'Exonerados del 390
-    Linea = Linea & "0"
-    'Sujeto pasivo que tributa exclusivamente a una Administración tributaria Foral con IVA a
-    'la importación liquidado por la Aduana pendiente de ingreso  1Si 2no
-    'EL 2 NO FUNCIONABA-->> 13 Abril 2018. YA funciona
-    Linea = Linea & "2"
-    '¿Ha llevado voluntariamente los Libros registro del IVA a través de la Sede electrónica de la AEAT durante el ejercicio?
-    Linea = Linea & "2"
+    'ENERo 2019
+    '68 Num Identificación (1) - ¿Existe volumen de operaciones (art. 121 LIVA)?        Nota 3
+    '69 Sujeto pasivo que tributa exclusivamente a una Administración tributaria Foral con IVA a la importación liquidado por la Aduana pendiente de ingreso
+    '70 ¿Ha llevado voluntariamente los Libros registro del IVA a través de la Sede electrónica de la AEAT durante el ejercicio?
+    Linea = Linea & "022"
     
+    
+    
+    
+    
+    'Exonerados del 390
+    Linea = Linea & "2"
+   
     
     'Final IVA
-    Linea = Linea & Space(579)  'reservado para la AEAT
+    Linea = Linea & Space(578)  'reservado para la AEAT
     Linea = Linea & Space(13)  'reservado para el sello de la AEAT
     
     Linea = Linea & "</T30301000>"
@@ -309,11 +313,16 @@ On Error GoTo Salida '
             Linea = Linea & String(17, "0")
         Next K
         
+        
+        'Enero 2019
+        'Información de la tributación por razón de territorio: Territorio común [107]   5,2
+         Linea = Linea & "00000"
+        
         'rESERVADO aeat
-        Linea = Linea & Space(468)
+        Linea = Linea & Space(463)
         
         Linea = Linea & "</T30303000>"
-        'Linea = Linea & Chr(13) & Chr(10)
+       
     End If
     
    

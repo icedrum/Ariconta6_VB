@@ -30,6 +30,25 @@ Begin VB.Form frmTESTransferenciasList
       Top             =   30
       Width           =   4455
       Begin VB.CheckBox Check1 
+         Caption         =   "Informe banco"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   1
+         Left            =   420
+         TabIndex        =   33
+         Top             =   1200
+         Visible         =   0   'False
+         Width           =   3075
+      End
+      Begin VB.CheckBox Check1 
          Caption         =   "Desglosar recibos"
          BeginProperty Font 
             Name            =   "Verdana"
@@ -621,6 +640,7 @@ Public EsTransfAbonos As Boolean
 Public TipoTransfPagos As Byte ' 0= transferencias de pagos
                                ' 1= transferencias de pagos domiciliados
                                ' 2= transferencias de confirming
+                               ' 3= Recibos cobros anticipados
 
 Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
@@ -629,8 +649,8 @@ Attribute frmDia.VB_VarHelpID = -1
 Private WithEvents frmC As frmColCtas
 Attribute frmC.VB_VarHelpID = -1
 
-Private Sql As String
-Dim cad As String
+Private SQL As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -725,9 +745,16 @@ Private Sub Form_Load()
     Me.Icon = frmppal.Icon
         
     'Otras opciones
-    If EsTransfAbonos Or TipoTransfPagos = 0 Then
-        Me.Caption = "Listado de Transferencias"
-        Label3(8).Caption = "Nro.Transferencia"
+    If EsTransfAbonos Then
+        If TipoTransfPagos = 0 Then
+            Me.Caption = "Listado de Transferencias"
+            Label3(8).Caption = "Nro.Transferencia"
+        Else
+            Me.Caption = "Listado de pagos anticipados"
+            Label3(8).Caption = "Nro. anticipo generado"
+            Check1(1).visible = True
+            Check1(1).Value = 1
+        End If
     Else
         If TipoTransfPagos = 1 Then
             Me.Caption = "Listado de Pagos Domiciliados"
@@ -811,7 +838,7 @@ End Sub
 
 
 Private Sub txtNum_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim RC As String
 Dim Hasta As Integer
 
@@ -833,30 +860,30 @@ Dim Sql2 As String
     
     If EsTransfAbonos Then
     
-        Sql = "Select transferencias.codigo,transferencias.anyo, transferencias.fecha, "
+        SQL = "Select transferencias.codigo,transferencias.anyo, transferencias.fecha, "
         'CASE situacion WHEN 0 THEN 'ABIERTA' WHEN 1 THEN 'GENERADO FICHERO' WHEN 2 THEN 'CONTABILIZADA' END as descsituacion,"
-        Sql = Sql & " wtiposituacionrem.descsituacion Situacion, "
-        Sql = Sql & " CASE concepto WHEN 0 THEN 'PENSION' WHEN 1 THEN 'NOMINA' WHEN 9 THEN 'ORDINARIA' END as Concepto, "
-        Sql = Sql & " transferencias.codmacta Cuenta ,cuentas.nommacta Nombre,"
-        Sql = Sql & " transferencias.descripcion, Importe "
+        SQL = SQL & " wtiposituacionrem.descsituacion Situacion, "
+        SQL = SQL & " CASE concepto WHEN 0 THEN 'PENSION' WHEN 1 THEN 'NOMINA' WHEN 9 THEN 'ORDINARIA' END as Concepto, "
+        SQL = SQL & " transferencias.codmacta Cuenta ,cuentas.nommacta Nombre,"
+        SQL = SQL & " transferencias.descripcion, Importe "
         If Me.Check1(0).Value = 1 Then
-            Sql = Sql & " ,tmpcobros2.numserie, tmpcobros2.numfactu Factura, tmpcobros2.fecfactu Fecha, tmpcobros2.fecvenci FVencim, tmpcobros2.codmacta Cuenta, tmpcobros2.cliente Descripcion, tmpcobros2.iban, tmpcobros2.impvenci Importe"
-            Sql = Sql & " from transferencias, cuentas, usuarios.wtiposituacionrem, tmpcobros2 "
+            SQL = SQL & " ,tmpcobros2.numserie, tmpcobros2.numfactu Factura, tmpcobros2.fecfactu Fecha, tmpcobros2.fecvenci FVencim, tmpcobros2.codmacta Cuenta, tmpcobros2.cliente Descripcion, tmpcobros2.iban, tmpcobros2.impvenci Importe"
+            SQL = SQL & " from transferencias, cuentas, usuarios.wtiposituacionrem, tmpcobros2 "
         Else
             'Sql = Sql & "transferencias.importe "
-            Sql = Sql & " from transferencias, cuentas, usuarios.wtiposituacionrem "
+            SQL = SQL & " from transferencias, cuentas, usuarios.wtiposituacionrem "
         End If
         
-        Sql = Sql & " where " & cadselect
+        SQL = SQL & " where " & cadselect
         
-        Sql = Sql & " and transferencias.codmacta = cuentas.codmacta  "
-        Sql = Sql & " and transferencias.situacion  = wtiposituacionrem.situacio  "
+        SQL = SQL & " and transferencias.codmacta = cuentas.codmacta  "
+        SQL = SQL & " and transferencias.situacion  = wtiposituacionrem.situacio  "
         
         
         RC = ""   'para el order by
         If Me.Check1(0).Value = 1 Then
-            Sql = Sql & " and tmpcobros2.codusu = " & vUsu.Codigo
-            Sql = Sql & " and transferencias.anyo = tmpcobros2.anyorem and transferencias.codigo = tmpcobros2.codrem "
+            SQL = SQL & " and tmpcobros2.codusu = " & vUsu.Codigo
+            SQL = SQL & " and transferencias.anyo = tmpcobros2.anyorem and transferencias.codigo = tmpcobros2.codrem "
             
             If optVarios(0).Value Then RC = ""  'pondra el ultimo order by
             If optVarios(1).Value Then RC = " tmpcobros2.codmacta, "
@@ -865,36 +892,36 @@ Dim Sql2 As String
             RC = "," & RC & " tmpcobros2.numserie, tmpcobros2.numfactu"
         End If
         
-        Sql = Sql & " ORDER BY 2 desc, 1 " & RC
+        SQL = SQL & " ORDER BY 2 desc, 1 " & RC
         
     Else
     
-        Sql = "Select transferencias.codigo,transferencias.anyo, transferencias.fecha, "
+        SQL = "Select transferencias.codigo,transferencias.anyo, transferencias.fecha, "
         'CASE situacion WHEN 0 THEN 'ABIERTA' WHEN 1 THEN 'GENERADO FICHERO' WHEN 2 THEN 'CONTABILIZADA' END as descsituacion,"
-        Sql = Sql & " wtiposituacionrem.descsituacion Situacion, "
+        SQL = SQL & " wtiposituacionrem.descsituacion Situacion, "
         If TipoTransfPagos = 0 Then
-            Sql = Sql & " CASE concepto WHEN 0 THEN 'PENSION' WHEN 1 THEN 'NOMINA' WHEN 9 THEN 'ORDINARIA' END as Concepto, "
+            SQL = SQL & " CASE concepto WHEN 0 THEN 'PENSION' WHEN 1 THEN 'NOMINA' WHEN 9 THEN 'ORDINARIA' END as Concepto, "
         Else
-            Sql = Sql & " if (concepto = 0,'Vencimiento','Fecha intro.') as Tipo, "
+            SQL = SQL & " if (concepto = 0,'Vencimiento','Fecha intro.') as Tipo, "
         End If
-        Sql = Sql & " transferencias.codmacta Cuenta ,cuentas.nommacta Nombre,"
-        Sql = Sql & " transferencias.descripcion, Importe "
+        SQL = SQL & " transferencias.codmacta Cuenta ,cuentas.nommacta Nombre,"
+        SQL = SQL & " transferencias.descripcion, Importe "
         If Me.Check1(0).Value = 1 Then
-            Sql = Sql & ", tmppagos2.numserie, tmppagos2.numfactu Factura, tmppagos2.fecfactu Fecha, tmppagos2.fecefect FVencim, tmppagos2.codmacta Cuenta, tmppagos2.proveedor Descripcion, tmppagos2.iban, tmppagos2.impefect Importe"
-            Sql = Sql & " from transferencias, cuentas, usuarios.wtiposituacionrem, tmppagos2 "
+            SQL = SQL & ", tmppagos2.numserie, tmppagos2.numfactu Factura, tmppagos2.fecfactu Fecha, tmppagos2.fecefect FVencim, tmppagos2.codmacta Cuenta, tmppagos2.proveedor Descripcion, tmppagos2.iban, tmppagos2.impefect Importe"
+            SQL = SQL & " from transferencias, cuentas, usuarios.wtiposituacionrem, tmppagos2 "
         Else
-            Sql = Sql & "transferencias.importe "
-            Sql = Sql & " from transferencias, cuentas "
+            SQL = SQL & "transferencias.importe "
+            SQL = SQL & " from transferencias, cuentas "
         End If
         
-        Sql = Sql & " where " & cadselect
+        SQL = SQL & " where " & cadselect
         
-        Sql = Sql & " and transferencias.codmacta = cuentas.codmacta  "
-        Sql = Sql & " and transferencias.situacion  = wtiposituacionrem.situacio  "
+        SQL = SQL & " and transferencias.codmacta = cuentas.codmacta  "
+        SQL = SQL & " and transferencias.situacion  = wtiposituacionrem.situacio  "
         RC = ""
         If Me.Check1(0).Value = 1 Then
-            Sql = Sql & " and tmppagos2.codusu = " & vUsu.Codigo
-            Sql = Sql & " and transferencias.anyo = tmppagos2.anyodocum and transferencias.codigo = tmppagos2.nrodocum "
+            SQL = SQL & " and tmppagos2.codusu = " & vUsu.Codigo
+            SQL = SQL & " and transferencias.anyo = tmppagos2.anyodocum and transferencias.codigo = tmppagos2.nrodocum "
                     
             If optVarios(0).Value Then RC = ""  'pondra el ultimo order by
             If optVarios(1).Value Then RC = " tmppagos2.codmacta, "
@@ -904,12 +931,12 @@ Dim Sql2 As String
         
         End If
         
-        Sql = Sql & " ORDER BY 2 desc, 1 " & RC
+        SQL = SQL & " ORDER BY 2 desc, 1 " & RC
     
     End If
         
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -922,7 +949,14 @@ Dim nomDocu As String
     conSubRPT = True
         
     If EsTransfAbonos Then
-        indRPT = "0614-00" '"Transferencias.rpt"
+        If TipoTransfPagos = 3 Then
+            indRPT = "0614-01" 'Listado anticipos
+        Else
+            indRPT = "0614-00" '"Transferencias.rpt"
+        End If
+        
+
+        
     Else
         indRPT = "0805-00" '"TransferenciasPag.rpt"
     End If
@@ -971,7 +1005,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -986,7 +1020,11 @@ Dim SubTipo As Byte ' 0 = pagos
     If Not PonerDesdeHasta("transferencias.anyo", "ANYO", Me.txtAnyo(0), Me.txtAnyo(0), Me.txtAnyo(1), Me.txtAnyo(1), "pDHAnyo=""") Then Exit Function
     
     If EsTransfAbonos Then
-        Tipo = 1
+        If TipoTransfPagos = 3 Then
+            Tipo = 2     'EN BD , en transferencias , el 2 es el anticipo de credito
+        Else
+            Tipo = 1
+        End If
     Else
         Tipo = 0
     End If
@@ -1008,7 +1046,7 @@ Dim SubTipo As Byte ' 0 = pagos
 End Function
 
 Private Function CargarTemporal() As Boolean
-Dim cad As String
+Dim Cad As String
 Dim SqlInsert As String
 Dim SqlValues As String
 
@@ -1018,33 +1056,41 @@ Dim SqlValues As String
 
     If EsTransfAbonos Then
 
-        cad = "delete from tmpcobros2 where codusu= " & DBSet(vUsu.Codigo, "N")
-        Conn.Execute cad
+        Cad = "delete from tmpcobros2 where codusu= " & DBSet(vUsu.Codigo, "N")
+        Conn.Execute Cad
         
         SqlInsert = "insert into tmpcobros2 (codusu,numserie,numfactu,fecfactu,numorden,fecvenci,codmacta,cliente,iban,gastos,impvenci,esdevol,codrem,anyorem)  "
         
-        cad = "select " & vUsu.Codigo & ",cobros.numserie, cobros.numfactu, cobros.fecfactu, cobros.numorden, cobros.fecvenci ,cobros.codmacta, cobros.nomclien, cobros.iban, cobros.gastos, cobros.impvenci importe, 0 esdevol, transfer, anyorem "
-        cad = cad & " from cobros "
-        cad = cad & " where (transfer,anyorem) in (select codigo, anyo from transferencias where (1=1) "
-        If cadselect <> "" Then cad = cad & " and " & cadselect
-        cad = cad & ")"
+
         
-        Conn.Execute SqlInsert & cad
+        Cad = "select " & vUsu.Codigo & ",cobros.numserie, cobros.numfactu, cobros.fecfactu, cobros.numorden,cobros.fecvenci,"
+        If TipoTransfPagos = 3 Then
+            Cad = Cad & " cobros.nifclien "
+        Else
+            Cad = Cad & " cobros.codmacta "
+        End If
+        Cad = Cad & " ,cobros.nomclien, cobros.iban, cobros.gastos, cobros.impvenci importe, 0 esdevol, transfer, anyorem "
+        Cad = Cad & " from cobros "
+        Cad = Cad & " where (transfer,anyorem) in (select codigo, anyo from transferencias where (1=1) "
+        If cadselect <> "" Then Cad = Cad & " and " & cadselect
+        Cad = Cad & ")"
+        
+        Conn.Execute SqlInsert & Cad
         
     Else
         
-        cad = "delete from tmppagos2 where codusu= " & DBSet(vUsu.Codigo, "N")
-        Conn.Execute cad
+        Cad = "delete from tmppagos2 where codusu= " & DBSet(vUsu.Codigo, "N")
+        Conn.Execute Cad
         
         SqlInsert = "insert into tmppagos2 (codusu,numserie,numfactu,fecfactu,numorden,fecefect,codmacta,proveedor,iban,impefect,nrodocum,anyodocum)  "
         
-        cad = "select " & vUsu.Codigo & ", pagos.numserie, pagos.numfactu, pagos.fecfactu, pagos.numorden, pagos.fecefect, pagos.codmacta, pagos.nomprove, pagos.iban, pagos.impefect importe, nrodocum, anyodocum "
-        cad = cad & " from pagos "
-        cad = cad & " where (nrodocum,anyodocum) in (select codigo, anyo from transferencias where (1=1) "
-        If cadselect <> "" Then cad = cad & " and " & cadselect
-        cad = cad & ") "
+        Cad = "select " & vUsu.Codigo & ", pagos.numserie, pagos.numfactu, pagos.fecfactu, pagos.numorden, pagos.fecefect, pagos.codmacta, pagos.nomprove, pagos.iban, pagos.impefect importe, nrodocum, anyodocum "
+        Cad = Cad & " from pagos "
+        Cad = Cad & " where (nrodocum,anyodocum) in (select codigo, anyo from transferencias where (1=1) "
+        If cadselect <> "" Then Cad = Cad & " and " & cadselect
+        Cad = Cad & ") "
         
-        Conn.Execute SqlInsert & cad
+        Conn.Execute SqlInsert & Cad
     
     End If
         
@@ -1084,8 +1130,10 @@ End Sub
 Private Function DatosOK() As Boolean
     
     DatosOK = False
-    
-
+    If TipoTransfPagos = 3 Then
+        'Si es formato banco, va desglosado SEGURO
+        If Me.Check1(1).Value = 1 Then Check1(0).Value = 1
+    End If
     DatosOK = True
 
 End Function

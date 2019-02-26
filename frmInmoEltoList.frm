@@ -26,9 +26,28 @@ Begin VB.Form frmInmoEltoList
       EndProperty
       Height          =   6405
       Left            =   7110
-      TabIndex        =   18
+      TabIndex        =   19
       Top             =   0
       Width           =   4455
+      Begin VB.ComboBox cboSubvencion 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         ItemData        =   "frmInmoEltoList.frx":0000
+         Left            =   240
+         List            =   "frmInmoEltoList.frx":000D
+         Style           =   2  'Dropdown List
+         TabIndex        =   28
+         Top             =   4200
+         Width           =   1560
+      End
       Begin VB.Frame Frame1 
          Caption         =   "Tipo de Elementos"
          BeginProperty Font 
@@ -42,7 +61,7 @@ Begin VB.Form frmInmoEltoList
          EndProperty
          Height          =   2025
          Left            =   210
-         TabIndex        =   28
+         TabIndex        =   29
          Top             =   660
          Width           =   4035
          Begin VB.CheckBox ChkTipo 
@@ -59,7 +78,7 @@ Begin VB.Form frmInmoEltoList
             Height          =   255
             Index           =   4
             Left            =   180
-            TabIndex        =   32
+            TabIndex        =   33
             Top             =   1590
             Width           =   3405
          End
@@ -77,7 +96,7 @@ Begin VB.Form frmInmoEltoList
             Height          =   255
             Index           =   2
             Left            =   180
-            TabIndex        =   31
+            TabIndex        =   32
             Top             =   810
             Width           =   3405
          End
@@ -95,7 +114,7 @@ Begin VB.Form frmInmoEltoList
             Height          =   255
             Index           =   3
             Left            =   180
-            TabIndex        =   30
+            TabIndex        =   31
             Top             =   1200
             Width           =   3405
          End
@@ -113,7 +132,7 @@ Begin VB.Form frmInmoEltoList
             Height          =   255
             Index           =   1
             Left            =   180
-            TabIndex        =   29
+            TabIndex        =   30
             Top             =   390
             Value           =   1  'Checked
             Width           =   3405
@@ -132,7 +151,7 @@ Begin VB.Form frmInmoEltoList
          EndProperty
          Height          =   255
          Left            =   270
-         TabIndex        =   27
+         TabIndex        =   2
          Top             =   3450
          Width           =   3405
       End
@@ -149,9 +168,26 @@ Begin VB.Form frmInmoEltoList
          EndProperty
          Height          =   255
          Left            =   270
-         TabIndex        =   26
+         TabIndex        =   27
          Top             =   3030
          Width           =   3405
+      End
+      Begin VB.Label lblSubnvecnion 
+         Caption         =   "X"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   270
+         TabIndex        =   38
+         Top             =   3960
+         Width           =   3180
       End
    End
    Begin VB.Frame FrameConcepto 
@@ -167,7 +203,7 @@ Begin VB.Form frmInmoEltoList
       EndProperty
       Height          =   3585
       Left            =   120
-      TabIndex        =   15
+      TabIndex        =   16
       Top             =   0
       Width           =   6915
       Begin VB.TextBox txtNElemento 
@@ -185,7 +221,7 @@ Begin VB.Form frmInmoEltoList
          Index           =   0
          Left            =   2490
          Locked          =   -1  'True
-         TabIndex        =   36
+         TabIndex        =   37
          Top             =   2220
          Width           =   4185
       End
@@ -204,7 +240,7 @@ Begin VB.Form frmInmoEltoList
          Index           =   1
          Left            =   2490
          Locked          =   -1  'True
-         TabIndex        =   35
+         TabIndex        =   36
          Top             =   2640
          Width           =   4185
       End
@@ -223,7 +259,7 @@ Begin VB.Form frmInmoEltoList
          Index           =   0
          Left            =   2490
          Locked          =   -1  'True
-         TabIndex        =   34
+         TabIndex        =   35
          Top             =   960
          Width           =   4185
       End
@@ -242,7 +278,7 @@ Begin VB.Form frmInmoEltoList
          Index           =   1
          Left            =   2490
          Locked          =   -1  'True
-         TabIndex        =   33
+         TabIndex        =   34
          Top             =   1380
          Width           =   4185
       End
@@ -298,7 +334,7 @@ Begin VB.Form frmInmoEltoList
          Height          =   360
          Index           =   1
          Left            =   1260
-         TabIndex        =   3
+         TabIndex        =   4
          Tag             =   "imgConcepto"
          Top             =   2640
          Width           =   1215
@@ -317,7 +353,7 @@ Begin VB.Form frmInmoEltoList
          Height          =   360
          Index           =   0
          Left            =   1260
-         TabIndex        =   2
+         TabIndex        =   3
          Tag             =   "imgConcepto"
          Top             =   2220
          Width           =   1215
@@ -350,7 +386,7 @@ Begin VB.Form frmInmoEltoList
          Height          =   195
          Index           =   2
          Left            =   270
-         TabIndex        =   25
+         TabIndex        =   26
          Top             =   2640
          Width           =   615
       End
@@ -368,7 +404,7 @@ Begin VB.Form frmInmoEltoList
          Height          =   195
          Index           =   3
          Left            =   270
-         TabIndex        =   24
+         TabIndex        =   25
          Top             =   2280
          Width           =   690
       End
@@ -387,7 +423,7 @@ Begin VB.Form frmInmoEltoList
          Height          =   195
          Index           =   7
          Left            =   270
-         TabIndex        =   23
+         TabIndex        =   24
          Top             =   1890
          Width           =   1110
       End
@@ -406,7 +442,7 @@ Begin VB.Form frmInmoEltoList
          Height          =   255
          Index           =   6
          Left            =   240
-         TabIndex        =   22
+         TabIndex        =   23
          Top             =   630
          Width           =   1080
       End
@@ -438,7 +474,7 @@ Begin VB.Form frmInmoEltoList
          Height          =   195
          Index           =   1
          Left            =   240
-         TabIndex        =   17
+         TabIndex        =   18
          Top             =   1380
          Width           =   735
       End
@@ -456,7 +492,7 @@ Begin VB.Form frmInmoEltoList
          Height          =   195
          Index           =   0
          Left            =   240
-         TabIndex        =   16
+         TabIndex        =   17
          Top             =   960
          Width           =   780
       End
@@ -475,7 +511,7 @@ Begin VB.Form frmInmoEltoList
       EndProperty
       Height          =   375
       Left            =   10320
-      TabIndex        =   6
+      TabIndex        =   7
       Top             =   6600
       Width           =   1215
    End
@@ -492,7 +528,7 @@ Begin VB.Form frmInmoEltoList
       Height          =   375
       Index           =   1
       Left            =   8760
-      TabIndex        =   4
+      TabIndex        =   5
       Top             =   6600
       Width           =   1455
    End
@@ -510,7 +546,7 @@ Begin VB.Form frmInmoEltoList
       Height          =   375
       Index           =   0
       Left            =   150
-      TabIndex        =   5
+      TabIndex        =   6
       Top             =   6540
       Width           =   1335
    End
@@ -527,7 +563,7 @@ Begin VB.Form frmInmoEltoList
       EndProperty
       Height          =   2655
       Left            =   120
-      TabIndex        =   7
+      TabIndex        =   8
       Top             =   3720
       Width           =   6915
       Begin VB.CommandButton PushButtonImpr 
@@ -543,7 +579,7 @@ Begin VB.Form frmInmoEltoList
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   21
+         TabIndex        =   22
          Top             =   720
          Width           =   1515
       End
@@ -552,7 +588,7 @@ Begin VB.Form frmInmoEltoList
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   20
+         TabIndex        =   21
          Top             =   1680
          Width           =   255
       End
@@ -561,7 +597,7 @@ Begin VB.Form frmInmoEltoList
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   19
+         TabIndex        =   20
          Top             =   1200
          Width           =   255
       End
@@ -579,7 +615,7 @@ Begin VB.Form frmInmoEltoList
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   14
+         TabIndex        =   15
          Top             =   1680
          Width           =   4665
       End
@@ -597,7 +633,7 @@ Begin VB.Form frmInmoEltoList
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   13
+         TabIndex        =   14
          Top             =   1200
          Width           =   4665
       End
@@ -615,7 +651,7 @@ Begin VB.Form frmInmoEltoList
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   12
+         TabIndex        =   13
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -634,7 +670,7 @@ Begin VB.Form frmInmoEltoList
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   11
+         TabIndex        =   12
          Top             =   2160
          Width           =   975
       End
@@ -652,7 +688,7 @@ Begin VB.Form frmInmoEltoList
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   10
+         TabIndex        =   11
          Top             =   1680
          Width           =   975
       End
@@ -670,7 +706,7 @@ Begin VB.Form frmInmoEltoList
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   9
+         TabIndex        =   10
          Top             =   1200
          Width           =   1515
       End
@@ -688,7 +724,7 @@ Begin VB.Form frmInmoEltoList
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   8
+         TabIndex        =   9
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -725,8 +761,8 @@ Attribute frmCon.VB_VarHelpID = -1
 Private WithEvents frmEle As frmInmoElto
 Attribute frmEle.VB_VarHelpID = -1
 
-Private Sql As String
-Dim cad As String
+Private SQL As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -753,7 +789,7 @@ End Sub
 
 
 Private Sub chkSaltoPag_Click()
-    Me.check1.Enabled = (chkSaltoPag.Value = 0)
+    Me.Check1.Enabled = (chkSaltoPag.Value = 0)
 End Sub
 
 Private Sub cmdAccion_Click(Index As Integer)
@@ -822,27 +858,28 @@ Private Sub Form_Load()
     Next i
      
     Me.ChkTipo(1).Value = 1
-     
+    Me.lblSubnvecnion.Caption = vParam.TextoInmoSubencionado
+    Me.cboSubvencion.ListIndex = 0
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
 End Sub
 
 Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 Private Sub imgConcepto_Click(Index As Integer)
     
-    Sql = ""
+    SQL = ""
     AbiertoOtroFormEnListado = True
     Set frmCon = New frmInmoConceptos
     frmCon.DatosADevolverBusqueda = True
     frmCon.Show vbModal
     Set frmCon = Nothing
-    If Sql <> "" Then
-        Me.txtConcepto(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtNConcepto(Index).Text = RecuperaValor(Sql, 2)
+    If SQL <> "" Then
+        Me.txtConcepto(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtNConcepto(Index).Text = RecuperaValor(SQL, 2)
     Else
         QuitarPulsacionMas Me.txtConcepto(Index)
     End If
@@ -853,20 +890,20 @@ Private Sub imgConcepto_Click(Index As Integer)
 End Sub
 
 Private Sub frmEle_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 Private Sub imgElemento_Click(Index As Integer)
     
-    Sql = ""
+    SQL = ""
     AbiertoOtroFormEnListado = True
     Set frmEle = New frmInmoElto
     frmEle.DatosADevolverBusqueda = "0|1|"
     frmEle.Show vbModal
     Set frmEle = Nothing
-    If Sql <> "" Then
-        Me.txtElemento(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtNElemento(Index).Text = RecuperaValor(Sql, 2)
+    If SQL <> "" Then
+        Me.txtElemento(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtNElemento(Index).Text = RecuperaValor(SQL, 2)
     Else
         QuitarPulsacionMas Me.txtElemento(Index)
     End If
@@ -932,7 +969,7 @@ Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
 End Sub
 
 Private Sub txtConcepto_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 
     txtConcepto(Index).Text = Trim(txtConcepto(Index).Text)
     
@@ -955,10 +992,10 @@ Private Sub txtConcepto_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtElemento_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtElemento(Index).Text = Trim(txtElemento(Index).Text)
@@ -980,15 +1017,15 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    Sql = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta,inmovele.valoradq ValorAdquisicion ,inmovele.fechaadq FechaAdquisicion, inmovele_his.fechainm FechaAmortizacion, inmovele_his.imporinm ImporteAmortizacion, inmovele_his.porcinm PorcentajeAmortizacion "
-    Sql = Sql & " FROM (inmovele inner join inmovele_his on inmovele.codinmov = inmovele_his.codinmov) "
+    SQL = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta,inmovele.valoradq ValorAdquisicion ,inmovele.fechaadq FechaAdquisicion, inmovele_his.fechainm FechaAmortizacion, inmovele_his.imporinm ImporteAmortizacion, inmovele_his.porcinm PorcentajeAmortizacion "
+    SQL = SQL & " FROM (inmovele inner join inmovele_his on inmovele.codinmov = inmovele_his.codinmov) "
     
-    If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
+    If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
     
-    Sql = Sql & " ORDER BY 1,2,5" ' ordenado por codigo y por fecha de inmovilizado
+    SQL = SQL & " ORDER BY 1,2,5" ' ordenado por codigo y por fecha de inmovilizado
         
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1003,14 +1040,14 @@ Dim CADENA As String
         
     
     indRPT = "0503-00"
-    If check1.Value Then indRPT = "0503-01" ' resumido
+    If Check1.Value Then indRPT = "0503-01" ' resumido
     
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     
     cadNomRPT = nomDocu ' "fichaelto.rpt"
 
     ' si no es resumido miramos si saltamos pagina o no
-    If check1.Value = 0 Then
+    If Check1.Value = 0 Then
         cadParam = cadParam & "pSaltoPag=" & chkSaltoPag.Value & "|"
         numParam = numParam + 1
     End If
@@ -1021,11 +1058,21 @@ Dim CADENA As String
     If Me.ChkTipo(2).Value = 1 Then CADENA = CADENA & "Baja,"
     If Me.ChkTipo(3).Value = 1 Then CADENA = CADENA & "Vendido,"
     If Me.ChkTipo(4).Value = 1 Then CADENA = CADENA & "Amort.,"
+    
+    
+    
+    
+    
     If CADENA <> "" Then
         CADENA = Mid(CADENA, 1, Len(CADENA) - 1)
-        cadParam = cadParam & "pTipo=""Situación: " & CADENA & """|"
-        numParam = numParam + 1
+        If CADENA <> "" Then CADENA = "Situacion: " & CADENA
     End If
+    If Me.cboSubvencion.ListIndex > 0 Then
+        If CADENA <> "" Then CADENA = CADENA & "       "
+        CADENA = CADENA & "       " & Me.lblSubnvecnion.Caption & ": " & cboSubvencion.Text
+    End If
+    cadParam = cadParam & "pTipo=""" & CADENA & """|"
+    numParam = numParam + 1
 
     ImprimeGeneral
     
@@ -1039,7 +1086,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -1060,6 +1107,12 @@ Dim Situacion As String
         Situacion = Mid(Situacion, 1, Len(Situacion) - 1)
         If Not AnyadirAFormula(cadFormula, "{inmovele.situacio} in [" & Situacion & "]") Then Exit Function
         If Not AnyadirAFormula(cadselect, "inmovele.situacio in (" & Situacion & ")") Then Exit Function
+    End If
+            
+    If Me.cboSubvencion.ListIndex > 0 Then
+        RC = IIf(cboSubvencion.ListIndex = 1, 1, 0)
+        If Not AnyadirAFormula(cadFormula, "{inmovele.subvencionado} = " & RC) Then Exit Function
+        If Not AnyadirAFormula(cadselect, "inmovele.subvencionado = " & RC) Then Exit Function
     End If
             
     If cadFormula <> "" Then cadFormula = "(" & cadFormula & ")"

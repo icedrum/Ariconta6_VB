@@ -18,8 +18,8 @@ Begin VB.Form frmTESCompensaAboCli
    ScaleWidth      =   13050
    StartUpPosition =   2  'CenterScreen
    Begin MSComDlg.CommonDialog cd1 
-      Left            =   4800
-      Top             =   0
+      Left            =   8760
+      Top             =   1680
       _ExtentX        =   847
       _ExtentY        =   847
       _Version        =   393216
@@ -29,7 +29,7 @@ Begin VB.Form frmTESCompensaAboCli
       Height          =   6885
       Left            =   120
       TabIndex        =   0
-      Top             =   0
+      Top             =   80
       Visible         =   0   'False
       Width           =   12735
       Begin VB.Frame FrameBotonGnral 
@@ -324,7 +324,7 @@ Begin VB.Form frmTESCompensaAboCli
          Index           =   0
          Left            =   11820
          Picture         =   "frmTESCompensaAboCli.frx":000C
-         ToolTipText     =   "Quitar al Debe"
+         ToolTipText     =   "Quitar seleccion"
          Top             =   1620
          Width           =   240
       End
@@ -333,7 +333,7 @@ Begin VB.Form frmTESCompensaAboCli
          Index           =   1
          Left            =   12180
          Picture         =   "frmTESCompensaAboCli.frx":0156
-         ToolTipText     =   "Puntear al Debe"
+         ToolTipText     =   "Seleccionar todos"
          Top             =   1620
          Width           =   240
       End
@@ -433,6 +433,32 @@ Begin VB.Form frmTESCompensaAboCli
       Top             =   -30
       Visible         =   0   'False
       Width           =   12735
+      Begin VB.Frame FrameFiltro 
+         Height          =   705
+         Left            =   3960
+         TabIndex        =   21
+         Top             =   180
+         Width           =   2445
+         Begin VB.ComboBox cboFiltro 
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   360
+            ItemData        =   "frmTESCompensaAboCli.frx":02A0
+            Left            =   120
+            List            =   "frmTESCompensaAboCli.frx":02AD
+            Style           =   2  'Dropdown List
+            TabIndex        =   22
+            Top             =   210
+            Width           =   2235
+         End
+      End
       Begin VB.CommandButton cmdCancelar 
          Caption         =   "&Cancelar"
          BeginProperty Font 
@@ -647,6 +673,11 @@ Private Function ComprobarObjeto(ByRef T As TextBox) As Boolean
 End Function
 
 
+
+Private Sub cboFiltro_Click()
+    If PrimeraVez Then Exit Sub
+    CargaList
+End Sub
 
 Private Sub cmdCancelar_Click(Index As Integer)
     If Index = 0 Then
@@ -957,10 +988,12 @@ Dim Img As Image
         .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
-    
-    
-    'Limpiamos el tag
+        'Limpiamos el tag
     PrimeraVez = True
+    CargaFiltrosEjer Me.cboFiltro
+    cboFiltro.ListIndex = 1
+    
+
     CommitConexion  'Porque son listados. No hay nada dentro transaccion
     
     H = FrameCompensaAbonosCliente.Height + 120
@@ -1003,12 +1036,28 @@ End Sub
 Private Sub imgCheck_Click(Index As Integer)
 Dim IT
 Dim i As Integer
+    
+    txtimpNoEdit(0).Tag = 0
+    txtimpNoEdit(1).Tag = 0
     For i = 1 To Me.lwCompenCli.ListItems.Count
         Set IT = lwCompenCli.ListItems(i)
         lwCompenCli.ListItems(i).Checked = (Index = 1)
         lwCompenCli_ItemCheck (IT)
         Set IT = Nothing
     Next i
+    
+
+    
+    If Index = 0 Then
+        txtimpNoEdit(0).Tag = 0
+        txtimpNoEdit(1).Tag = 0
+        txtimpNoEdit(0).Text = ""
+        txtimpNoEdit(1).Text = ""
+    End If
+    
+    
+    
+    
 End Sub
 
 Private Sub lw1_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
@@ -1064,7 +1113,7 @@ Dim Cobro As Boolean
     If Not Cobro Then i = 1
     
     Me.txtimpNoEdit(i).Tag = Me.txtimpNoEdit(i).Tag + C
-    txtimpNoEdit(i).Text = Format(Abs(txtimpNoEdit(i).Tag))
+    txtimpNoEdit(i).Text = Format(Abs(txtimpNoEdit(i).Tag), FormatoImporte)
     txtimpNoEdit(2).Text = Format(CCur(txtimpNoEdit(0).Tag) + CCur(txtimpNoEdit(1).Tag), FormatoImporte)
             
     If ComprobarCero(txtimpNoEdit(0).Text) = 0 Then txtimpNoEdit(0).Text = ""
@@ -1713,13 +1762,18 @@ End Sub
 Private Sub CargaList()
 Dim IT
 
+
+    Screen.MousePointer = vbHourglass
     lw1.ListItems.Clear
     Set Me.lw1.SmallIcons = frmppal.ImgListviews
     Set miRsAux = New ADODB.Recordset
     
-    Cad = "Select codigo,fecha,codmacta,nommacta from compensa "
+    
+    Cad = DevuelveFechaFiltros(cboFiltro, "fecha")
+    If Cad <> "" Then Cad = " WHERE " & Cad
     
     
+    Cad = "Select codigo,fecha,codmacta,nommacta from compensa " & Cad
     If CampoOrden = "" Then CampoOrden = "compensa.codigo"
     Cad = Cad & " ORDER BY " & CampoOrden
     If Orden Then Cad = Cad & " DESC"
@@ -1746,6 +1800,9 @@ Dim IT
     End If
     
     PonerModoUsuarioGnral Modo, "ariconta"
-    
+    Screen.MousePointer = vbDefault
 End Sub
+
+
+
 

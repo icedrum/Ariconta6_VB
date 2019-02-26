@@ -1420,7 +1420,7 @@ Dim Rs As ADODB.Recordset
     
     
     'Los recargos
-    SQL = "select iva,  bases, ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 1 "
+    SQL = "select iva,  bases, ivas,porcrec from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 1 "
     SQL = SQL & " order by 1 "
     
     Set Rs = New ADODB.Recordset
@@ -1442,7 +1442,7 @@ Dim Rs As ADODB.Recordset
             
             
             'primero el 4  despues el 10 despues el 21
-            SQL = RecuperaValor("4|10|21|", i)
+            SQL = RecuperaValor(vParam.OrdenIvas303Aeat, i)
             Rs.Find "IVA = " & DBSet(SQL, "N"), , adSearchForward, 1
             
             If Rs.EOF Then
@@ -1453,7 +1453,7 @@ Dim Rs As ADODB.Recordset
                 Msg = Msg & "  " & Format(Rs!IVA, FormatoImporte) & "%"
                 K = K + 1
                 DevuelveImporte DBLet(Rs!Bases, "N"), 0
-                DevuelveImporte DBLet(Rs!IVA, "N"), 3
+                DevuelveImporte DBLet(Rs!porcrec, "N"), 3   'DevuelveImporte DBLet(Rs!IVA, "N"), 3
                 DevuelveImporte DBLet(Rs!Ivas, "N"), 0
             
                 TotalClien = TotalClien + DBLet(Rs!Ivas, "N")

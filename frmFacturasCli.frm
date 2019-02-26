@@ -2926,8 +2926,9 @@ Dim PosicionGrid As Integer
 Dim Linliapu As Long
 Dim FicheroAEliminar As String
 
-Dim Numasien2 As Long
+Dim NumAsien As Long
 Dim NumDiario As Integer
+Dim ContabilizaApunte As Boolean
 
 
 Private Modo As Byte
@@ -3076,8 +3077,7 @@ Private Sub cmdAceptar_Click()
                         data1.RecordSource = "Select * from " & NombreTabla & ObtenerWhereCP(True) & Ordenacion
                         PosicionarData
                         PonerCampos
-                        '[Monica]14/05/2015 añado numasien
-                        Numasien2 = 0
+                        NumAsien = 0
                         BotonAnyadirLinea 1, True
                     Else
                         'SI NO INSERTA debemos devolver el contador
@@ -3114,14 +3114,17 @@ Private Sub cmdAceptar_Click()
                     '--DesBloqueaRegistroForm Me.Text1(0)
                     TerminaBloquear
                     
-                    If Numasien2 > 0 Then
+                    If NumAsien > 0 Then  'ContabilizaApunte
+                        
                         If IntegrarFactura(False) Then
-                            Text1(8).Text = Format(Numasien2, "0000000")
-                            Numasien2 = -1
+                            Text1(8).Text = Format(NumAsien, "0000000")
+                            NumAsien = -1
                             NumDiario = 0
+                            
                         Else
                             B = False
                         End If
+                    
                     End If
                     
                     If Not ModificarCobros Then
@@ -3169,10 +3172,10 @@ Private Sub cmdAceptar_Click()
                             '**** parte de contabilizacion de la factura
                             TerminaBloquear
                             
-                            If Numasien2 > 0 Then
+                            If NumAsien > 0 Then
                                 If IntegrarFactura(False) Then
-                                    Text1(8).Text = Format(Numasien2, "0000000")
-                                    Numasien2 = -1
+                                    Text1(8).Text = Format(NumAsien, "0000000")
+                                    NumAsien = -1
                                     NumDiario = 0
                                 Else
                                     B = False
@@ -3774,7 +3777,7 @@ Dim i As Integer
     PulsadoSalir = False
     CadAncho = False
     ActualizandoAsiento = False
-    
+    ContabilizaApunte = True  'por defecto
     ' Botonera Principal
     With Me.Toolbar1
         .HotImageList = frmppal.imgListComun_OM
@@ -4447,13 +4450,19 @@ Dim CuentaAnt As String
         
     Case 6
         ' vamos al historico de apuntes
-        Set frmAsi = New frmAsientosHco
         
-        frmAsi.ASIENTO = data1.Recordset!NumDiari & "|" & data1.Recordset!FecFactu & "|" & data1.Recordset!NumAsien & "|"
-        frmAsi.SoloImprimir = True
-        frmAsi.Show vbModal
         
-        Set frmAsi = Nothing
+        If IsNull(data1.Recordset!NumDiari) Or IsNull(data1.Recordset!FechaEnt) Then
+            'NADA
+            MsgBox "Diario /o fecha de apunte son nulos", vbExclamation
+        Else
+            Set frmAsi = New frmAsientosHco
+            frmAsi.ASIENTO = DBLet(data1.Recordset!NumDiari, "N") & "|" & data1.Recordset!FecFactu & "|" & data1.Recordset!NumAsien & "|"
+            frmAsi.SoloImprimir = True
+            frmAsi.Show vbModal
+            Set frmAsi = Nothing
+        End If
+       
         
     Case 7
         'Fecha de liquidacion
@@ -4745,36 +4754,47 @@ Private Sub BotonModificar()
     
     
     NumDiario = 0
+    ContabilizaApunte = True
     'Comprobamos que no esta actualizada ya
     If Not IsNull(data1.Recordset!NumAsien) Then
-        Numasien2 = data1.Recordset!NumAsien
-        If Numasien2 = 0 Then
+        NumAsien = data1.Recordset!NumAsien
+        If NumAsien = 0 Then
             MsgBoxA "Contabilizacion de facturas especial. No puede modificarse", vbExclamation
             Exit Sub
         End If
-
-        Numasien2 = data1.Recordset!NumAsien
-        NumDiario = data1.Recordset!NumDiari
+      
+        
+        'If Val(DBLet(data1.Recordset!no_modifica_apunte, "N")) = 1 Then
+        If False Then
+            ContabilizaApunte = False
+            NumAsien = data1.Recordset!NumAsien
+        Else
+            NumAsien = data1.Recordset!NumAsien
+            NumDiario = data1.Recordset!NumDiari
+        End If
     Else
-        Numasien2 = -1
+        NumAsien = -1
     End If
         
         
      'Si viene a esta factura buscando por un campo k no sea clave entonces no le dejo seguir
     If InStr(1, data1.Recordset.Source, "numasien") Then
         MsgBoxA "Busque la factura por su numero de factura", vbExclamation
-        Numasien2 = -1
+        NumAsien = -1
         
     End If
     
 
-    If Numasien2 >= 0 Then
+    If NumAsien >= 0 Then
+       
         'Tengo desintegrar la factura del hco
         If Not Desintegrar Then
             TerminaBloquear
             Exit Sub
         End If
+        
         Text1(8).Text = ""
+        If Not ContabilizaApunte Then Text1(8).Text = NumAsien
     Else
         PonerModo 2
         Exit Sub
@@ -5063,7 +5083,7 @@ Dim v
 
         Case 4  'Modificar
             Modo = 2   'Para que el lostfocus NO haga nada
-            If Numasien2 > 0 Then
+            If NumAsien > 0 Then
                 'Ha cancelado. Tendre que situar los campos correctamente
                 'Es decir. Anofacl
                 Text1(1).Text = data1.Recordset!FecFactu
@@ -5109,7 +5129,7 @@ Dim v
             LLamaLineas 1, 0, 0
             
             Modo = 2   'Para que el lostfocus NO haga nada
-            If Numasien2 > 0 Then
+            If NumAsien > 0 Then
                 'Ha cancelado. Tendre que situar los campos correctamente
                 'Es decir. Anofacl
                 Text1(1).Text = data1.Recordset!FecFactu
@@ -5127,7 +5147,8 @@ Dim v
                 i = FechaCorrecta2(CDate(Text1(1).Text))
                 If Mc.ConseguirContador("0", (i = 0), False) = 0 Then
                     Text1(8).Text = Format(Mc.Contador, "0000000")
-                    Numasien2 = Mc.Contador
+                    NumAsien = Mc.Contador
+                    ContabilizaApunte = True
                     If ModificaDesdeFormulario2(Me, 2, "Frame2") Then
                         If Not IntegrarFactura(False) Then
                             Modo = 4
@@ -5718,7 +5739,7 @@ Dim SqlLog As String
                 i = FechaCorrecta2(CDate(DBLet(Rs!FecFactu, "F")))
                 If Mc.ConseguirContador("0", (i = 0), False) = 0 Then
                     
-                    Numasien2 = Mc.Contador
+                    NumAsien = Mc.Contador
                 
                     SqlLog = "Factura : " & Rs!NUmSerie & " " & Rs!NumFactu & " de fecha " & Rs!FecFactu
                     SqlLog = SqlLog & vbCrLf & "Cuenta  : " & DBLet(Rs!codmacta, "T") & " " & DBLet(Rs!Nommacta, "T")
@@ -5740,7 +5761,7 @@ Dim SqlLog As String
                         
                         If NumDiario <= 0 Then NumDiario = vParam.numdiacl
                         .DiarioFacturas = NumDiario
-                        .NumAsiento = Numasien2
+                        .NumAsiento = NumAsien
                         .Show vbModal
                         
                         If AlgunAsientoActualizado Then IntegrarFactura = True
@@ -5751,7 +5772,7 @@ Dim SqlLog As String
                 
                     If IntegrarFactura Then
                         SQL = "update factcli set numdiari = " & DBSet(NumDiario, "N") & ", fechaent = " & DBSet(Rs!FecFactu, "F") & ", "
-                        SQL = SQL & " numasien = " & DBSet(Numasien2, "N") & " where numserie = " & DBSet(Rs!NUmSerie, "T") & " and anofactu = year("
+                        SQL = SQL & " numasien = " & DBSet(NumAsien, "N") & " where numserie = " & DBSet(Rs!NUmSerie, "T") & " and anofactu = year("
                         SQL = SQL & DBSet(Rs!FecFactu, "F") & ") and numfactu = " & DBSet(Rs!NumFactu, "N")
                     
                         Conn.Execute SQL
@@ -5803,16 +5824,18 @@ Dim Ampliacion As String
     NumDiario = 0
     'Comprobamos que no esta actualizada ya
     If Not IsNull(data1.Recordset!NumAsien) Then
-        Numasien2 = data1.Recordset!NumAsien
-        If Numasien2 = 0 Then
+        NumAsien = data1.Recordset!NumAsien
+        If NumAsien = 0 Then
             MsgBoxA "Contabilizacion de facturas especial. No puede modificarse", vbExclamation
             Exit Sub
         End If
-            
-        Numasien2 = data1.Recordset!NumAsien
-        NumDiario = data1.Recordset!NumDiari
+        
+        'If Val(DBLet(data1.Recordset!no_modifica_apunte, "N")) = 1 Then ContabilizaApunte = False
+        ContabilizaApunte = True
+        NumAsien = data1.Recordset!NumAsien
+        NumDiario = DBLet(data1.Recordset!NumDiari, "N")
     Else
-        Numasien2 = -1
+        NumAsien = -1
     End If
     
     If Not ComprobarPeriodo2(23) Then Exit Sub
@@ -5824,7 +5847,7 @@ Dim Ampliacion As String
     FecFactuAnt = Text1(1).Text
     
 
-    If Numasien2 >= 0 Then
+    If NumAsien >= 0 Then
         'Tengo desintegrar la factura del hco
         If Not Desintegrar Then
             '--DesBloqueaRegistroForm Me.Text1(0)
@@ -5832,6 +5855,7 @@ Dim Ampliacion As String
             Exit Sub
         End If
         Text1(8).Text = ""
+        If Not ContabilizaApunte Then Text1(8).Text = NumAsien
     End If
     ' ***** hasta aqui, si la factura estaba contabilizada
 
@@ -5918,10 +5942,10 @@ Dim SqlLog As String
         '--DesBloqueaRegistroForm Me.Text1(0)
         TerminaBloquear
         
-        If Numasien2 > 0 Then
+        If NumAsien > 0 Then
             If IntegrarFactura(False) Then
-                Text1(8).Text = Format(Numasien2, "0000000")
-                Numasien2 = -1
+                Text1(8).Text = Format(NumAsien, "0000000")
+                NumAsien = -1
                 NumDiario = 0
             Else
                 B = False
@@ -5965,7 +5989,7 @@ Dim SqlLog As String
     
     ModoLineas = 0
     PosicionarData
-    
+     Screen.MousePointer = vbDefault
     Exit Sub
 Error2:
     Screen.MousePointer = vbDefault
@@ -6742,7 +6766,7 @@ Private Sub txtaux_GotFocus(Index As Integer)
 End Sub
 
 
-Private Sub TxtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     KEYdown KeyCode
 End Sub
 
@@ -7046,6 +7070,8 @@ Dim vC As Contadores
                     
         Conn.BeginTrans
         'Comun
+        
+        'Cuando hagamos la contabilizacion especial, que modifica factura pero NO toca el apunte. Aqui debemos guardar en el text1(8) el numero de asiento, para que le modificar no lo ponga a NULL
         
         B = RecalcularTotalesFactura
         
@@ -8210,6 +8236,15 @@ End Function
 Private Function IntegrarFactura(DentroBeginTrans As Boolean) As Boolean
 Dim SqlLog As String
 
+    
+    
+    
+    If Not ContabilizaApunte Then
+        ContabilizaApunte = True 'Lo dejo por defecto otra vez
+        IntegrarFactura = True
+        Exit Function
+    End If
+    
     IntegrarFactura = False
     
     SqlLog = "Factura : " & Text1(2).Text & " " & Text1(0).Text & " de fecha " & Text1(1).Text
@@ -8236,18 +8271,18 @@ Dim SqlLog As String
         .FechaAnterior = FecFactuAnt
         .DentroBeginTrans = DentroBeginTrans
         .SqlLog = SqlLog
-        If Numasien2 < 0 Then
+        If NumAsien < 0 Then
             
             If Not Text1(8).Enabled Then
                 If Text1(8).Text <> "" Then
-                    Numasien2 = Text1(8).Text
+                    NumAsien = Text1(8).Text
                 End If
             End If
             
         End If
         If NumDiario <= 0 Then NumDiario = vParam.numdiacl
         .DiarioFacturas = NumDiario
-        .NumAsiento = Numasien2
+        .NumAsiento = NumAsien
         .Show vbModal
         
         If AlgunAsientoActualizado Then IntegrarFactura = True
@@ -8260,6 +8295,10 @@ End Function
 
 
 Private Function Desintegrar() As Boolean
+        If Not ContabilizaApunte Then
+            Desintegrar = True
+            Exit Function
+        End If
         Desintegrar = False
         'Primero hay que desvincular la factura de la tabla de hco
         If DesvincularFactura Then
@@ -8281,7 +8320,7 @@ On Error Resume Next
     SQL = SQL & " WHERE numfactu = " & data1.Recordset!NumFactu
     SQL = SQL & " AND numserie = '" & data1.Recordset!NUmSerie & "'"
     SQL = SQL & " AND anofactu =" & data1.Recordset!anofactu
-    Numasien2 = data1.Recordset!NumAsien
+    NumAsien = data1.Recordset!NumAsien
     NumDiario = data1.Recordset!NumDiari
     Conn.Execute SQL
     If Err.Number <> 0 Then
@@ -8299,9 +8338,15 @@ Private Function TieneRegistros() As Boolean
     If data1.Recordset.RecordCount > 0 Then TieneRegistros = True
 End Function
 
+Public Function HayQueContabilizarDesdePantallaCobros() As Boolean
+    HayQueContabilizarDesdePantallaCobros = False
+    If Cobrado = 1 Then
+        HayQueContabilizarDesdePantallaCobros = True
+    
+    End If
+End Function
 
-
-Private Function ContabilizarCobros() As Boolean
+Public Function ContabilizarCobros() As Boolean
 Dim Mc As Contadores
 Dim FP As Ctipoformapago
 Dim SQL As String
@@ -8531,7 +8576,7 @@ ECon:
     Set FP = Nothing
 End Function
 
-Private Function InsertarCobros(ByRef Mens As String) As Boolean
+Public Function InsertarCobros(ByRef Mens As String) As Boolean
 Dim SQL As String
 Dim textCSB As String
 Dim CadInsert As String
@@ -8561,7 +8606,17 @@ eInsertarCobros:
     MuestraError Err.Number, "Insertar Cobros", Err.Description
 End Function
 
+Public Sub EstableceValoresCobro(CadenaTexto As String)
+ If CadenaTexto <> "" Then
+        CtaBanco = RecuperaValor(CadenaTexto, 1)
+        IBAN = Replace(RecuperaValor(CadenaTexto, 2), " ", "")
+        
+        Cobrado = RecuperaValor(CadenaTexto, 3)
+        FechaCobro = RecuperaValor(CadenaTexto, 4)
+        ContinuarCobro = True
+    End If
 
+End Sub
 
 Private Function InsertaCobros(ByRef RS1 As ADODB.Recordset, ByRef i As Long, ByRef Mens As String) As Boolean
 Dim CadInsert As String
@@ -8675,18 +8730,21 @@ On Error GoTo eModificaDesdeFormAux
     End If
     
     'Borramos lineas apuntes
-    Numasien2 = data1.Recordset!NumAsien
-    NumDiario = data1.Recordset!NumDiari
-    FecFactuAnt = data1.Recordset!FecFactu
-    If Numasien2 > 0 Then
-        C = " WHERE (numasien=" & Numasien2 & " and fechaent = " & DBSet(FecFactuAnt, "F") & " and numdiari = " & DBSet(NumDiario, "N") & ") "
-        Conn.Execute "DELETE FROM hlinapu " & C
-        
-        IntegrarFactura (True)
-        
-
-    End If
+    'C = Val(DBSet(data1.Recordset!no_modifica_apunte, "N"))
+    C = "0"
+    If Val(C) = 0 Then
+        NumAsien = data1.Recordset!NumAsien
+        NumDiario = data1.Recordset!NumDiari
+        FecFactuAnt = data1.Recordset!FecFactu
+        If NumAsien > 0 Then
+            C = " WHERE (numasien=" & NumAsien & " and fechaent = " & DBSet(FecFactuAnt, "F") & " and numdiari = " & DBSet(NumDiario, "N") & ") "
+            Conn.Execute "DELETE FROM hlinapu " & C
+            
+            IntegrarFactura (True)
+            
     
+        End If
+    End If
     
     'Si llega aqui. Todo bien
     Conn.CommitTrans
