@@ -3906,11 +3906,18 @@ Private Sub BotonAnyadir()
     'metemos el codusu
     Text1(43).Text = vUsu.Id
     
+    
     Combo1.ListIndex = 0
     Text2(3).Text = Combo1.Text
     cboSituRem.ListIndex = -1
     '###A mano
     PonFoco Text1(13)
+    
+    
+    If InStr(1, vEmpresa.nomempre, "FENOLL") > 0 Then
+        Text1(34).Text = "1"
+        Text2(5).Text = "Alfredo Fenollar"
+    End If
 End Sub
 
 Private Sub BotonBuscar()
@@ -5303,6 +5310,7 @@ Dim Tipo As Integer
     End If
     
     DevfrmCCtas = DevuelveDesdeBD("tipforpa", "formapago", "codforpa", Text1(0).Text, "N")
+    If DevfrmCCtas = "" Then Err.Raise 513, , "Forma pago incorrecta"
     Tipo = CInt(DevfrmCCtas)
     
     If Tipo = vbTipoPagoRemesa Then
@@ -5330,7 +5338,11 @@ Dim Tipo As Integer
                     If Mid(DevfrmCCtas, 1, 2) = "ES" Then
                         MsgBox "IBAN incorrecto", vbExclamation
                         B = False
-                   
+                        If vUsu.Nivel > 0 Then
+                            Exit Function
+                        Else
+                            B = True
+                        End If
                     Else
                         If MsgBox("El IBAN no parece correcto. ¿Continuar de igual modo?", vbQuestion + vbYesNo) <> vbYes Then B = False
                     End If
@@ -5462,7 +5474,7 @@ Private Function SePuedeEliminar2() As Byte
     SePuedeEliminar2 = 0 'NO se puede eliminar
 
     SePuedeEliminar2 = 1
-    If Val(DBLet(data1.Recordset!CodRem)) > 0 Then
+    If Val(DBLet(data1.Recordset!Codrem)) > 0 Then
         MsgBox "Pertenece a una remesa", vbExclamation
         'Noviembre 2009
         If vUsu.Nivel < 2 Then
@@ -5716,7 +5728,7 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
             If Me.data1.Recordset.EOF Then Exit Sub
             If Modo <> 2 Then Exit Sub
             If vTipForpa <> "" Then
-                If (Val(vTipForpa) <> vbTipoPagoRemesa) Or (Val(vTipForpa) = vbTipoPagoRemesa And Val(DBLet(data1.Recordset!CodRem)) = 0) Then
+                If (Val(vTipForpa) <> vbTipoPagoRemesa) Or (Val(vTipForpa) = vbTipoPagoRemesa And Val(DBLet(data1.Recordset!Codrem)) = 0) Then
                     If SePuedeEliminar2 < 3 Then Exit Sub
                 
                     'Bloqueamos
@@ -5780,10 +5792,10 @@ Dim Cad As String
         IT.SubItems(11) = DBLet(miRsAux!numfaccl)
         IT.SubItems(12) = DBLet(miRsAux!FecFactu, "F")
         IT.SubItems(13) = DBLet(miRsAux!numorden)
-        IT.SubItems(14) = DBLet(miRsAux!CodRem)
+        IT.SubItems(14) = DBLet(miRsAux!Codrem)
         
         
-        If DBLet(miRsAux!CodRem, "N") <> 0 Then
+        If DBLet(miRsAux!Codrem, "N") <> 0 Then
             IT.SmallIcon = 42
         End If
          
@@ -6887,7 +6899,7 @@ Dim Importe As Currency
 
     'Empezamos
     SQL = "INSERT INTO tmptesoreriacomun (codusu, codigo, texto1, texto2, texto3, texto4, texto5, "
-    SQL = SQL & "texto6, importe1, importe2, fecha1, fecha2, fecha3, observa1, observa2, opcion)"
+    SQL = SQL & "texto6, importe1, importe2, fecha1, fecha2, fecha3, observa1, observa2, opcion,Texto)"
     SQL = SQL & " VALUES (" & vUsu.Codigo & ",1,"
 
 
@@ -6930,7 +6942,7 @@ Dim Importe As Currency
         
         Importe = 0
         If Text1(16).Text <> "" Then Importe = ImporteFormateado(Text1(16).Text) 'gastos
-        Importe = ImporteFormateado(Text1(6).Text)
+        Importe = ImporteFormateado(Text1(6).Text) + Importe
         
         'IMPORTES
         '--------------------
@@ -6979,7 +6991,19 @@ Dim Importe As Currency
         
         'OPCION
         '--------------
-        Cad = Cad & ",NULL)"
+        Cad = Cad & ",NULL,"
+        
+        
+        Msg = ""
+        For i = 0 To Text1.Count - 1
+            If i < 25 Or i > 31 Then Msg = Msg & Mid(Text1(i).Text & String(100, " "), 1, 100)
+        Next i
+        For i = 0 To Text2.Count - 1
+            If i <> 6 Then Msg = Msg & Mid(Text2(i).Text & String(100, " "), 1, 100)
+        Next i
+        Msg = DBSet(Msg, "T")
+        Cad = Cad & Msg & ")"
+        
         Conn.Execute SQL & Cad
         
     

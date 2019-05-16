@@ -1132,6 +1132,7 @@ Private Sub cmbFecha_LostFocus(Index As Integer)
 End Sub
 
 Private Sub cmdAccion_Click(Index As Integer)
+    Dim aUX As String
     
     If Not DatosOK Then Exit Sub
     
@@ -1227,7 +1228,7 @@ Private Sub cmdAccion_Click(Index As Integer)
      
         
         'Fecha informe
-        If txtFecha(7).Text = "" Then txtFecha(7).Text = Format(Now, "dd/mm/yyyy")
+        If txtfecha(7).Text = "" Then txtfecha(7).Text = Format(Now, "dd/mm/yyyy")
         
         
         EmpezarBalanceNuevo2 -1, pb2  'La -1 es balance normal
@@ -1245,8 +1246,18 @@ Private Sub cmdAccion_Click(Index As Integer)
     If Not MontaSQL Then Exit Sub
     
     If PulsadoCancelar Then Exit Sub
-    If Not HayRegParaInforme("tmpbalancesumas", "codusu=" & vUsu.Codigo) Then Exit Sub
     
+    If Legalizacion <> "" Then
+        aUX = DevuelveDesdeBD("count(*)", "tmpbalancesumas", "codusu", CStr(vUsu.Codigo))
+        If Val(aUX) = 0 Then
+            CadenaDesdeOtroForm = "NO DATOS"
+            Unload Me
+            Exit Sub
+        End If
+    Else
+        If Not HayRegParaInforme("tmpbalancesumas", "codusu=" & vUsu.Codigo) Then Exit Sub
+
+    End If
     If optTipoSal(1).Value Then
         'EXPORTAR A CSV
         AccionesCSV
@@ -1349,7 +1360,7 @@ Private Sub Form_Load()
     End With
     
     'Fecha informe
-    txtFecha(7).Text = Format(Now, "dd/mm/yyyy")
+    txtfecha(7).Text = Format(Now, "dd/mm/yyyy")
     'Fecha inicial
     cmbFecha(0).ListIndex = Month(vParam.fechaini) - 1
     cmbFecha(1).ListIndex = Month(vParam.fechafin) - 1
@@ -1375,7 +1386,7 @@ Private Sub Form_Load()
     PonerNiveles
     
     If Legalizacion <> "" Then
-        txtFecha(7).Text = RecuperaValor(Legalizacion, 1)     'Fecha informe
+        txtfecha(7).Text = RecuperaValor(Legalizacion, 1)     'Fecha informe
             
         cmbFecha(2).Text = Year(CDate(RecuperaValor(Legalizacion, 2)))     'Inicio
         cmbFecha(3).Text = Year(CDate(RecuperaValor(Legalizacion, 3)))     'Fin
@@ -1402,7 +1413,7 @@ Private Sub frmC_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
@@ -1445,10 +1456,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
         
     End Select
     
@@ -1667,7 +1678,7 @@ Dim nomDocu As String
     cadParam = cadParam & "pTipo=" & Tipo & "|"
     numParam = numParam + 1
     
-    cadParam = cadParam & "pFecha=""" & txtFecha(7).Text & """|"
+    cadParam = cadParam & "pFecha=""" & txtfecha(7).Text & """|"
     
     'Numero de página
     If txtPag2(0).Text <> "" Then
@@ -1773,18 +1784,18 @@ End Function
 
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
@@ -2353,7 +2364,7 @@ Dim Cont2 As Long
         SQL = SQL & "Cuenta= """ & Cad & """|"
         
         'Fecha de impresion
-        SQL = SQL & "FechaImp= """ & txtFecha(7).Text & """|"
+        SQL = SQL & "FechaImp= """ & txtfecha(7).Text & """|"
         
         
         'Salto
@@ -2618,7 +2629,7 @@ Private Sub HacerBalanceInicio()
         
         
         'Fecha de impresion
-        SQL = SQL & "FechaImp= """ & txtFecha(7).Text & """|"
+        SQL = SQL & "FechaImp= """ & txtfecha(7).Text & """|"
         
         
         'Remarcar

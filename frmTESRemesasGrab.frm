@@ -663,6 +663,9 @@ Dim PrimeraVez As Boolean
 Dim Cancelado As Boolean
 Dim CuentasCC As String
 
+Dim NombreIdFicherREsumido As Boolean
+
+
 Private Sub cboTipoRemesa_KeyPress(KeyAscii As Integer)
      KEYpress KeyAscii
 End Sub
@@ -733,7 +736,7 @@ Dim HaceAgr As Integer
             If optSepaXML(1).Value Then FCobro = ""  'Ha selccionado por vencimiento
         
             SQL = Mid(Text7(1).Text & "   ", 1, 3) & "|" & Mid(Text7(0).Text & Space(40), 1, 40) & "|"
-            If GrabarDisketteNorma19(App.Path & "\tmpRem.ari", Text3(0).Text & "|" & Text3(1).Text & "|", Text1(18).Text, SQL, Me.cmbReferencia.ListIndex, FCobro, True, chkSEPA_GraboNIF(0).Value = 1, chkSEPA_GraboNIF(1).Value = 1, cboTipoRemesa.ListIndex = 0, chkAnticipoCredito.Value = 1, IdFicheroGenerado, AgruparVtos) Then
+            If GrabarDisketteNorma19(App.Path & "\tmpRem.ari", Text3(0).Text & "|" & Text3(1).Text & "|", Text1(18).Text, SQL, Me.cmbReferencia.ListIndex, FCobro, True, chkSEPA_GraboNIF(0).Value = 1, chkSEPA_GraboNIF(1).Value = 1, cboTipoRemesa.ListIndex = 0, chkAnticipoCredito.Value = 1, IdFicheroGenerado, AgruparVtos, NombreIdFicherREsumido) Then
                 SQL = App.Path & "\tmpRem.ari"
                 'Copio el disquete
                 B = CopiarArchivo
@@ -945,10 +948,25 @@ Dim W As Integer
     
     Set miRsAux = New ADODB.Recordset
     SQL = RecuperaValor(CadenaDesdeOtroForm, 5)
-    SQL = "Select N1914GrabaNifDeudor,sufijoem from bancos where codmacta = '" & SQL & "'"
+    
+    'Aun no he puesto esto en paramaetros del banco. De momento lo hago por nombre de empresa
+    SQL = " from bancos where codmacta = '" & SQL & "'"
+    If InStr(1, UCase(vEmpresa.nomempre), "ENOLLA") > 0 Then
+        SQL = " 1 anticipoCredito , 1 nombreFicheroResum " & SQL
+    Else
+        SQL = " 0 anticipoCredito , 0 nombreFicheroResum " & SQL
+    End If
+    SQL = "Select N1914GrabaNifDeudor,sufijoem," & SQL
     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Text7(1).Text = DBLet(miRsAux!sufijoem, "T")
-    If vParamT.NuevasNormasSEPA Then chkSEPA_GraboNIF(0).Value = DBLet(miRsAux!N1914GrabaNifDeudor, "N")
+    NombreIdFicherREsumido = False
+    If vParamT.NuevasNormasSEPA Then
+        chkSEPA_GraboNIF(0).Value = DBLet(miRsAux!N1914GrabaNifDeudor, "N")
+        chkAnticipoCredito.Value = DBLet(miRsAux!anticipoCredito, "N")
+        If DBLet(miRsAux!nombreFicheroResum, "N") = 1 Then NombreIdFicherREsumido = True
+    End If
+    
+    
     miRsAux.Close
     Set miRsAux = Nothing
         
@@ -1090,12 +1108,28 @@ Private Sub Text7_KeyPress(Index As Integer, KeyAscii As Integer)
      KEYpress KeyAscii
 End Sub
 
+
+
+Private Function NombreRemesaFich() As String
+Dim Cad As String
+
+    NombreRemesaFich = ""
+    Cad = "codigo = " & Me.Text3(0).Text & " AND anyo=" & Text3(1).Text & " AND 1"
+    Cad = DevuelveDesdeBD("descripcion", "remesas", Cad, "1")
+    If Cad <> "" Then
+        Cad = Replace(Cad, "/", " ")
+        Cad = Replace(Cad, "\", " ")
+        
+        NombreRemesaFich = Cad & ".xml"
+    End If
+End Function
+
 Private Function CopiarArchivo() As Boolean
 On Error GoTo ECopiarArchivo
 
     CopiarArchivo = False
-    'cd1.CancelError = True
-    cd1.FileName = ""
+    cd1.CancelError = True
+    cd1.FileName = NombreRemesaFich
     cd1.ShowSave
     If cd1.FileName <> "" Then
     
@@ -1111,7 +1145,12 @@ On Error GoTo ECopiarArchivo
     
     Exit Function
 ECopiarArchivo:
-    MuestraError Err.Number, "Copiar Archivo"
+
+    If Err.Number = 32755 Then
+        Err.Clear
+    Else
+        MuestraError Err.Number, "Copiar Archivo", Err.Description
+    End If
 End Function
 
 

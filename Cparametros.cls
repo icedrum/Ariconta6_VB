@@ -166,7 +166,6 @@ Private mvarFechaMinimaEnHlinapu As Date
 
 
 
-
 '------------------------------------------------
 'Propiedades del modulo Cparametros
 '------------------------------------------------

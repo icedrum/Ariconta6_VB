@@ -25,15 +25,6 @@ Begin VB.Form frmMenBoxAriadna
    StartUpPosition =   2  'CenterScreen
    Begin VB.CommandButton cmdOtro 
       Caption         =   "otro dao"
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Height          =   375
       Index           =   2
       Left            =   1680
@@ -43,15 +34,6 @@ Begin VB.Form frmMenBoxAriadna
    End
    Begin VB.CommandButton cmdOk 
       Caption         =   "&Ok"
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Height          =   375
       Left            =   5400
       TabIndex        =   6
@@ -60,15 +42,6 @@ Begin VB.Form frmMenBoxAriadna
    End
    Begin VB.CommandButton cmdOtro 
       Caption         =   "otro dao"
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Height          =   375
       Index           =   1
       Left            =   240
@@ -79,15 +52,6 @@ Begin VB.Form frmMenBoxAriadna
    Begin VB.CommandButton cmdCancel 
       Cancel          =   -1  'True
       Caption         =   "&Cancelar"
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Height          =   375
       Left            =   4680
       TabIndex        =   3
@@ -96,15 +60,6 @@ Begin VB.Form frmMenBoxAriadna
    End
    Begin VB.CommandButton cmdNo 
       Caption         =   "&No"
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Height          =   375
       Left            =   3240
       TabIndex        =   2
@@ -310,7 +265,7 @@ Dim SaltosDeLinea As Integer
             W = 4680
             H = 1900
         ElseIf L < 50 Then
-            W = 5680
+            W = 5980
             H = 2000
         ElseIf L < 70 Then
             H = 2100

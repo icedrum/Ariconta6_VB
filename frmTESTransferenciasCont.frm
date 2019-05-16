@@ -227,11 +227,11 @@ Begin VB.Form frmTESTransferenciasCont
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00800000&
-         Height          =   1245
+         Height          =   1485
          Index           =   2
          Left            =   180
          TabIndex        =   1
-         Top             =   390
+         Top             =   270
          Width           =   5175
       End
    End

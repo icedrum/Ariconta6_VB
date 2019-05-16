@@ -4236,7 +4236,7 @@ Private Sub Form_Load()
     
     imgCta2(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Image2.Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    imgiva.Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    imgIVA.Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCta2(4).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCta2(1).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     For i = 7 To 10
@@ -4263,6 +4263,7 @@ Private Sub Form_Load()
     Me.SSTab1.TabEnabled(5) = (vEmpresa.TieneTesoreria)
     Me.SSTab1.TabVisible(5) = (vEmpresa.TieneTesoreria)
     
+    PonerLongitudCampoNivelAnterior
     Adodc1.ConnectionString = Conn
     Adodc1.RecordSource = "Select * from parametros "
     Adodc1.Refresh
@@ -4284,12 +4285,12 @@ Private Sub Form_Load()
     End If
     Toolbar1.Buttons(1).Enabled = (vUsu.Nivel <= 1)
     cmdAceptar.Enabled = (vUsu.Nivel <= 1)
-    PonerLongitudCampoNivelAnterior
+    
 
 End Sub
 
 Private Sub frmC_Selec(vFecha As Date)
-    imgFec(1).Tag = vFecha
+    ImgFec(1).Tag = vFecha
 End Sub
 
 Private Sub frmCo_DatoSeleccionado(CadenaSeleccion As String)
@@ -4453,9 +4454,9 @@ Private Sub imgFec_Click(Index As Integer)
     Dim F As Date
     'En los tag
     'En el 0 tendremos quien lo ha llamado y en el 1 el valor que devuelve
-    imgFec(0).Tag = Index
+    ImgFec(0).Tag = Index
     F = Now
-    imgFec(1).Tag = ""
+    ImgFec(1).Tag = ""
     If Text1(Index).Text <> "" Then
         If IsDate(Text1(Index).Text) Then F = Text1(Index).Text
     End If
@@ -4463,8 +4464,8 @@ Private Sub imgFec_Click(Index As Integer)
     frmC.Fecha = F
     frmC.Show vbModal
     Set frmC = Nothing
-    If imgFec(1).Tag <> "" Then
-        If IsDate(imgFec(1).Tag) Then Text1(Index).Text = Format(CDate(imgFec(1).Tag), "dd/mm/yyyy")
+    If ImgFec(1).Tag <> "" Then
+        If IsDate(ImgFec(1).Tag) Then Text1(Index).Text = Format(CDate(ImgFec(1).Tag), "dd/mm/yyyy")
     End If
 End Sub
 
@@ -4776,8 +4777,8 @@ Private Sub PonerModo(Kmodo As Integer)
         Text1(0).Locked = (vUsu.Nivel >= 1)
         Text1(1).Locked = (vUsu.Nivel >= 1)
     End If
-    For i = 0 To imgFec.Count - 1
-        imgFec(i).Enabled = Not Text1(0).Locked
+    For i = 0 To ImgFec.Count - 1
+        ImgFec(i).Enabled = Not Text1(0).Locked
     Next i
     
     PonerModoUsuarioGnral Modo, "ariconta"
@@ -4951,7 +4952,16 @@ Private Function DatosOK() As Boolean
                     If Len(Text5(i).Text) <> vEmpresa.DigitosUltimoNivel Then
                                                 'Aqui tenemos los digitos a ultnivel-1
                         If Len(Text5(i).Text) <> MaxLen Then
-                            C = C & RecuperaValor(Text5(i).Tag, 1) & vbCrLf
+                            If i = 7 Then
+                                C = C & "talon" & vbCrLf
+                            ElseIf i = 8 Then
+                                C = C & "pagares" & vbCrLf
+                            ElseIf i = 9 Then
+                                C = C & "efectos" & vbCrLf
+                            Else
+                                C = C & "confirming" & vbCrLf
+                            End If
+                           
                         End If
                     End If
                 End If
@@ -4962,9 +4972,8 @@ Private Function DatosOK() As Boolean
                 C = C & vbCrLf & "Ha de tener longitud "
                 C = C & "a " & vEmpresa.DigitosUltimoNivel & " digitos o "
                 C = C & "a " & MaxLen & " digitos. "
-                
-                MsgBox C, vbExclamation
-                Exit Function
+                C = C & vbCrLf & "¿Continuar?"
+                If MsgBox(C, vbQuestion + vbYesNo) <> vbYes Then Exit Function
             End If
             
             DatosOK = False
@@ -5431,9 +5440,10 @@ Private Sub Text5_LostFocus(Index As Integer)
         NumRegElim = InStr(1, Text5(Index).Text, ".")
         If NumRegElim = 0 Then
             If i <> vEmpresa.DigitosUltimoNivel And i <> MaxLen Then
-                MsgBox "Longitud de campo incorrecta. Digitos: " & vEmpresa.DigitosUltimoNivel & " o " & MaxLen, vbExclamation
-                Text5(Index).Text = ""
-                Exit Sub
+                If MsgBox("Longitud de campo incorrecta. Digitos: " & vEmpresa.DigitosUltimoNivel & " o " & MaxLen & "¿Continuar?", vbQuestion + vbYesNo) <> vbYes Then
+                    Text5(Index).Text = ""
+                    Exit Sub
+                End If
             End If
         End If
         

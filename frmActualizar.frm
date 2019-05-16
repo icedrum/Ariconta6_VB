@@ -952,7 +952,7 @@ Dim TipoDIva As Byte
             Amplia2 = Amplia2 & "[" & Cad3 & "]"
         End If
     End If
-    A_Donde = "Linea cliente"
+    A_Donde = "Linea proveedor"
     
     
     SQL = SQL & DocConcAmp & Amplia2 & "'"

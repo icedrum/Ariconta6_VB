@@ -1356,23 +1356,23 @@ Private Sub Form_Load()
     
     optVarios_Click (0)
     
-    txtFecha(0).Text = vParam.fechaini
-    txtFecha(1).Text = vParam.fechafin
+    txtfecha(0).Text = vParam.fechaini
+    txtfecha(1).Text = vParam.fechafin
     If Not vParam.FecEjerAct Then
-        txtFecha(1).Text = Format(DateAdd("yyyy", 1, vParam.fechafin), "dd/mm/yyyy")
+        txtfecha(1).Text = Format(DateAdd("yyyy", 1, vParam.fechafin), "dd/mm/yyyy")
     End If
     
     
-    txtFecha(2).Text = Format(Now, "dd/mm/yyyy")
+    txtfecha(2).Text = Format(Now, "dd/mm/yyyy")
     txtPag2(0).Text = "1"
      
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
     If Legalizacion <> "" Then
-        txtFecha(2).Text = RecuperaValor(Legalizacion, 1)
-        txtFecha(0).Text = RecuperaValor(Legalizacion, 2)
-        txtFecha(1).Text = RecuperaValor(Legalizacion, 3)
+        txtfecha(2).Text = RecuperaValor(Legalizacion, 1)
+        txtfecha(0).Text = RecuperaValor(Legalizacion, 2)
+        txtfecha(1).Text = RecuperaValor(Legalizacion, 3)
     End If
     
     
@@ -1395,7 +1395,7 @@ Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
@@ -1443,10 +1443,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
         
     End Select
     
@@ -1731,7 +1731,7 @@ Dim Sql2 As String
 
     'Monto el SQL
     SQL = "Select factcli.numserie Serie, tmpfaclin.nomserie Descripcion, factcli.numfactu Factura, factcli.fecfactu Fecha, factcli.codmacta Cuenta, factcli.nommacta Titulo, tmpfaclin.tipoformapago TipoPago, "
-    SQL = SQL & " tmpfaclin.tipoopera TOperacion, factcli.codconce340 TFra, factcli.trefaccl Retencion, "
+    SQL = SQL & " tmpfaclin.tipoopera TOperacion, factcli.codconce340 TFra, factcli.trefaccl Retencion,factcli.suplidos Suplidos, "
     SQL = SQL & " factcli_totales.baseimpo BaseImp,factcli_totales.codigiva IVA,factcli_totales.porciva PorcIva,factcli_totales.porcrec PorcRec,factcli_totales.impoiva ImpIva,factcli_totales.imporec ImpRec "
     SQL = SQL & " FROM (factcli inner join factcli_totales on factcli.numserie = factcli_totales.numserie and factcli.numfactu = factcli_totales.numfactu and factcli.fecfactu = factcli_totales.fecfactu) "
     SQL = SQL & " inner join tmpfaclin ON factcli.numserie=tmpfaclin.numserie AND factcli.numfactu=tmpfaclin.Numfac and factcli.fecfactu=tmpfaclin.Fecha "
@@ -1766,17 +1766,17 @@ Dim nomDocu As String
     
     cadParam = cadParam & "pNumPag=" & ComprobarCero(txtPag2(0).Text) & "|"
     numParam = numParam + 1
-    cadParam = cadParam & "pFecha=""" & txtFecha(2).Text & """|"
+    cadParam = cadParam & "pFecha=""" & txtfecha(2).Text & """|"
     numParam = numParam + 1
     cadParam = cadParam & "OcultarIntracom=" & IIf(Check1(2).Value, 0, 1) & "|"
     numParam = numParam + 1
     
-    If txtFecha(0).Text <> "" Then
-        cadParam = cadParam & "pFecDes=Date(" & Year(txtFecha(0).Text) & "," & Month(txtFecha(0).Text) & "," & Day(txtFecha(0).Text) & ")|"
+    If txtfecha(0).Text <> "" Then
+        cadParam = cadParam & "pFecDes=Date(" & Year(txtfecha(0).Text) & "," & Month(txtfecha(0).Text) & "," & Day(txtfecha(0).Text) & ")|"
         numParam = numParam + 1
     End If
-    If txtFecha(1).Text <> "" Then
-        cadParam = cadParam & "pFecHas=Date(" & Year(txtFecha(1).Text) & "," & Month(txtFecha(1).Text) & "," & Day(txtFecha(1).Text) & ")|"
+    If txtfecha(1).Text <> "" Then
+        cadParam = cadParam & "pFecHas=Date(" & Year(txtfecha(1).Text) & "," & Month(txtfecha(1).Text) & "," & Day(txtfecha(1).Text) & ")|"
         numParam = numParam + 1
     End If
     vMostrarTree = optVarios(1).Value
@@ -1803,10 +1803,10 @@ Dim SQL As String
     Conn.Execute SQL
     
     SQL = "insert into tmpfaclin (codusu, codigo, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
-    SQL = SQL & " recargo,  tipoformapago,tipoopera) "
+    SQL = SQL & " recargo,  tipoformapago,tipoopera,suplidos) "
     SQL = SQL & " select distinct " & vUsu.Codigo & ",0, factcli.numserie, contadores.nomregis, factcli.numfactu, factcli.fecfactu, factcli.codmacta, "
     SQL = SQL & " factcli.nommacta, factcli.nifdatos, factcli.totbases, factcli.totivas, factcli.totfaccl, factcli.trefaccl, "
-    SQL = SQL & " factcli.totrecargo, tipofpago.descformapago , aa.denominacion"
+    SQL = SQL & " factcli.totrecargo, tipofpago.descformapago , aa.denominacion,suplidos "
     SQL = SQL & " from " & tabla
     SQL = SQL & " where " & cadselect
     
@@ -1830,7 +1830,7 @@ Dim i As Integer
     MontaSQL = False
     
     If Not PonerDesdeHasta("factcli.NumSerie", "SER", Me.txtSerie(0), Me.txtNSerie(0), Me.txtSerie(1), Me.txtNSerie(1), "pDHSerie=""") Then Exit Function
-    If Not PonerDesdeHasta("factcli.FecFactu", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""") Then Exit Function
+    If Not PonerDesdeHasta("factcli.FecFactu", "F", Me.txtfecha(0), Me.txtfecha(0), Me.txtfecha(1), Me.txtfecha(1), "pDHFecha=""") Then Exit Function
     If Not PonerDesdeHasta("factcli.NumFactu", "FRA", Me.txtNumFactu(0), Me.txtNumFactu(0), Me.txtNumFactu(1), Me.txtNumFactu(1), "pDHFactura=""") Then Exit Function
     If Not PonerDesdeHasta("factcli.codmacta", "CTA", Me.txtCuentas(0), Me.txtNCuentas(0), Me.txtCuentas(1), Me.txtNCuentas(1), "pDHCuentas=""") Then Exit Function
             
@@ -1873,32 +1873,39 @@ Dim i As Integer
     
     If Not CargarTemporal Then Exit Function
     
-    cadFormula = "{tmpfaclin.codusu} = " & vUsu.Codigo
+    
+    RC = "S"
+    If optVarios(1).Value Then RC = "S"
+    If Check1(1).Value And optVarios(1).Value Then RC = ""
+    If RC <> "" Then
+        RC = "  AND {tiposiva.tipodiva}<>4"  'SUPLIDOS NO
+    End If
+    cadFormula = "{tmpfaclin.codusu} = " & vUsu.Codigo & RC
     
             
     MontaSQL = True
 End Function
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtFecha(Index).Tag, Index
+        LanzaFormAyuda txtfecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If

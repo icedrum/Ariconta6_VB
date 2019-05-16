@@ -647,7 +647,7 @@ Dim CadenaComprobacionDevueltos As String  'cuantos|importe|
             SQL = Replace(SQL, "AND", ""): SQL = Replace(SQL, "=", "")
             SQL = "Vto no encontrado: " & Mid(SQL, InStr(1, UCase(SQL), " WHERE ") + 7)
             If Not miRsAux.EOF Then
-                If IsNull(miRsAux!CodRem) Then
+                If IsNull(miRsAux!Codrem) Then
                     SQL = "Vencimiento sin Remesa: " & aux2
                 Else
         
@@ -1099,7 +1099,7 @@ End Sub
 
 
 
-Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As String, FecPre As String, TipoReferenciaCliente As Byte, Sufijo As String, FechaCobro As String, SEPA_EmpresasGraboNIF As Boolean, Norma19_15 As Boolean, DatosBanco As String, NifEmpresa As String, esAnticipoCredito As Boolean, ByRef IdGrabadoEnFichero As String, AgruparVtos As Boolean) As Boolean
+Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As String, FecPre As String, TipoReferenciaCliente As Byte, Sufijo As String, FechaCobro As String, SEPA_EmpresasGraboNIF As Boolean, Norma19_15 As Boolean, DatosBanco As String, NifEmpresa As String, esAnticipoCredito As Boolean, ByRef IdGrabadoEnFichero As String, AgruparVtos As Boolean, idMsgResumido As Boolean) As Boolean
     Dim ValorEnOpcionales As Boolean
     '-- Genera_Remesa: Esta función genera la remesa indicada, en el fichero correspondiente
     
@@ -1300,7 +1300,7 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
                            cLineas.Add "<PmtInf>"
     
                             'SQL = "RE" & miRsAux!Tiporem & Format(miRsAux!CodRem, "000000") & Format(miRsAux!AnyoRem, "0000") & " " & Format(Fecha2, "dd/mm/yyyy")
-                            SQL = "RE" & Format(miRsAux!CodRem, "00000") & Format(miRsAux!AnyoRem, "0000") & " " & Format(FecPre, "dd/mm/yy") & NifEmpresa
+                            SQL = "RE" & Format(miRsAux!Codrem, "00000") & Format(miRsAux!Anyorem, "0000") & " " & Format(FecPre, "dd/mm/yy") & NifEmpresa
                             
                             cLineas.Add "   <PmtInfId>" & SQL & "</PmtInfId>"
                             cLineas.Add "   <PmtMtd>DD</PmtMtd>"             'DirectDebit
@@ -1353,6 +1353,7 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
                             cLineas.Add "      <FinInstnId>"
                             SQL = Mid(DatosBanco, 5, 4)
                             SQL = DevuelveDesdeBD("bic", "bics", "entidad", SQL)
+                            If Trim(SQL) = "" Then SQL = "BCOEESMMXXX" 'Para que no de error
                             cLineas.Add "         <BIC>" & Trim(SQL) & "</BIC>"
                             cLineas.Add "      </FinInstnId>"
                             cLineas.Add "   </CdtrAgt>"
@@ -1510,7 +1511,11 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
                     cLineas.Add "      <RmtInf>"
                     
                     SQL = Trim(DBLet(miRsAux!text33csb, "T") & " " & FrmtStr(DBLet(miRsAux!text41csb, "T"), 60))
-                    If SQL = "" Then SQL = miRsAux!nomclien
+                    If SQL = "" Then
+                            'Abril19. Estaba esto: SQL = miRsAux!nomclien
+                            SQL = DBLet(miRsAux!NUmSerie, "T") & Format(miRsAux!NumFactu, "000000") & " de " & Format(miRsAux!FecFactu, "dd/mm/yyyy")
+                    End If
+                    
                     cLineas.Add "         <Ustrd>" & XML(SQL) & "</Ustrd>"
                     cLineas.Add "      </RmtInf>"
                     cLineas.Add "   </DrctDbtTxInf>"
@@ -1548,18 +1553,28 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
         SQL = "PRE"
     End If
     
-    SQL = SQL & Format(Now, "yyyymmddhhnnss")
     
-    'Los milisegundos
-    SQL = SQL & Format((Timer - Int(Timer)) * 10000, "0000") & "0"
-    'Idententificacion propia
-    '   tiporem,codrem,anyorem
-    'SQL = SQL & "RE" & miRsAux!Tiporem & Format(miRsAux!CodRem, "000000") & Format(miRsAux!AnyoRem, "0000") Antes En18    3l 3 es SEPA
-    SQL = SQL & "RE" & "3" & Format(RecuperaValor(Remesa_, 1), "000000") & Format(RecuperaValor(Remesa_, 2), "0000")
-            
-    IdGrabadoEnFichero = SQL 'Es lo grabare en la remesa
+    If idMsgResumido Then
+    
+        SQL = SQL & "RE" & "3" & Format(RecuperaValor(Remesa_, 1), "000000") & Format(RecuperaValor(Remesa_, 2), "0000")
+    
+    Else
+        'Este es el que estaba
+        SQL = SQL & Format(Now, "yyyymmddhhnnss")
+        
+        'Los milisegundos
+        SQL = SQL & Format((Timer - Int(Timer)) * 10000, "0000") & "0"
+        'Idententificacion propia
+        '   tiporem,codrem,anyorem
+        'SQL = SQL & "RE" & miRsAux!Tiporem & Format(miRsAux!CodRem, "000000") & Format(miRsAux!AnyoRem, "0000") Antes En18    3l 3 es SEPA
+        SQL = SQL & "RE" & "3" & Format(RecuperaValor(Remesa_, 1), "000000") & Format(RecuperaValor(Remesa_, 2), "0000")
+                
+        IdGrabadoEnFichero = SQL 'Es lo grabare en la remesa
+    End If
+    
+    
     Print #NFic, "<MsgId>" & SQL & "</MsgId>"
-    
+        
     SQL = Format(Now, "yyyy-mm-dd") & "T" & Format(Now, "hh:mm:ss")   '<CreDtTm>2015-09-10T16:26:56</CreDtTm>
     Print #NFic, "   <CreDtTm>" & SQL & "</CreDtTm>"
     

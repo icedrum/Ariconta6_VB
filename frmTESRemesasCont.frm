@@ -244,6 +244,8 @@ Dim CC As String
 Dim Opt As Byte
 Dim AgrupaCance As Boolean
 Dim ContabilizacionEspecialNorma19 As Boolean
+Dim CtaPte As Byte  '0 NO    1 Una unica    2 Con raiz
+Dim LaCtaPuente As String
 
 
 'Dim ImporteEnRecepcion As Currency
@@ -293,12 +295,16 @@ Dim ContabilizacionEspecialNorma19 As Boolean
                             'NORMA 19
                             'Contbiliza por fecha VTO
                             'Comprobaremos que toooodos estan en fecha ejercicio
-                            SQL = ComprobacionFechasRemesaN19PorVto
-                            If SQL <> "" Then SQL = "-Comprobando fechas remesas N19" & vbCrLf & SQL
-                            
-                            
-                            If txtImporte(0).Text <> "" Then SQL = SQL & vbCrLf & "N19 no permite gastos bancario"
-                            
+                             SQL = DevuelveDesdeBD("RemesaCancelacion", "paramtesor", "1", "1")
+                            If SQL = "" Then
+                                SQL = ComprobacionFechasRemesaN19PorVto
+                                If SQL <> "" Then SQL = "-Comprobando fechas remesas N19" & vbCrLf & SQL
+                                
+                                
+                                If txtImporte(0).Text <> "" Then SQL = SQL & vbCrLf & "N19 no permite gastos bancario"
+                            Else
+                                SQL = ""
+                            End If
                             
                             If SQL <> "" Then
                                 B = False
@@ -341,25 +347,96 @@ Dim ContabilizacionEspecialNorma19 As Boolean
         Set Rs = Nothing
         Exit Sub
     End If
-       
+    
+    CtaPte = 0
+    LaCtaPuente = "RemesaCancelacion"
+    SQL = DevuelveDesdeBD("contaefecpte", "paramtesor", "1", "1", , LaCtaPuente)
+    If Val(SQL) = 1 Then
+       ContabilizacionEspecialNorma19 = True
+       If Len(LaCtaPuente) = vEmpresa.DigitosUltimoNivel Then
+            CtaPte = 1 'una unica
+            SQL = DevuelveDesdeBD("codmacta", "cuentas", "codmacta", CC, "T")
+            If SQL = "" Then
+                MsgBox "No existe cuenta puente: " & CC, vbExclamation
+                Set Rs = Nothing
+                Exit Sub
+            End If
+        Else
+           CtaPte = 2  'RAIZ
+           
+                
+            Set miRsAux = New ADODB.Recordset
+            
+            SQL = " select distinct codmacta from cobros where anyorem = " & Rs!Anyo & " AND codrem =" & Rs!Codigo
+            miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            SQL = ""
+            While Not miRsAux.EOF
+                SQL = SQL & ", " & DBSet(miRsAux!codmacta, "T")
+                miRsAux.MoveNext
+            Wend
+            miRsAux.Close
+            
+            J = Len(LaCtaPuente)   'Empezara a recortar ahi
+            If J = 5 Then
+                LaCtaPuente = Mid(LaCtaPuente, 1, 4)
+                J = vEmpresa.DigitosUltimoNivel - 4
+                
+                
+            End If
+                
+            If SQL <> "" Then
+                SQL = Mid(SQL, 2)
+                SQL = "(" & SQL & ")"
+                CC = "SELECT codmacta,nommacta,razosoci from cuentas where cuentas.codmacta IN " & SQL
+                miRsAux.Open CC, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+                SQL = ""
+                While Not miRsAux.EOF
+                    CC = "'" & LaCtaPuente & Mid(miRsAux!codmacta, J) & "',"
+                    
+                    For i = 1 To 2
+                        
+                        CC = CC & DBSet(miRsAux.Fields(i), "T") & ","
+                    Next
+                    SQL = SQL & ", (" & CC & "'S')"
+                    
+                    
+                    miRsAux.MoveNext
+                Wend
+                miRsAux.Close
+                
+                If SQL <> "" Then
+                    SQL = Mid(SQL, 2)
+                    CC = "INSERT  IGNORE INTO cuentas(codmacta,nommacta,razosoci,apudirec) VALUES  " & SQL
+                    Conn.Execute CC
+                End If
+            End If
+            Set miRsAux = Nothing
+           
+           
+        End If
+        
+        
+        
+        
+        
+    End If
        
        
     'Bloqueariamos la opcion de modificar esa remesa
-        
-      Importe = TextoAimporte(txtImporte(0).Text)
-
-      'Tiene gastos. Falta ver si tiene la cuenta de gastos configurada. ASi como
-      'si es analitica, el CC asociado
+          Importe = TextoAimporte(txtImporte(0).Text)
+      
       CC = ""
       If vParam.autocoste Then CC = "codccost"
           
       SQL = DevuelveDesdeBD("ctagastos", "bancos", "codmacta", Rs!codmacta, "T", CC)
-      If SQL = "" Then
-          MsgBox "Falta configurar la cuenta de gastos del banco:" & Rs!codmacta, vbExclamation
-          Set Rs = Nothing
-          Exit Sub
-      End If
       
+      If Importe = 1 Then
+        If SQL = "" Then
+            MsgBox "Falta configurar la cuenta de gastos del banco:" & Rs!codmacta, vbExclamation
+            Set Rs = Nothing
+            Exit Sub
+        End If
+       End If
       If vParam.autocoste Then
           If CC = "" Then
               MsgBox "Necesita asignar centro de coste a la cuenta de gastos del banco: " & Rs!codmacta, vbExclamation
@@ -369,9 +446,23 @@ Dim ContabilizacionEspecialNorma19 As Boolean
       End If
       
       SQL = SQL & "|" & CC & "|"
-      
+
+            
       
       'Añado, si tiene, la cuenta de ingresos
+      
+     Importe = 0
+      'Tiene gastos. Falta ver si tiene la cuenta de gastos configurada. ASi como
+      CC = "  codrem =" & RecuperaValor(NumeroDocumento, 1)
+      CC = CC & " AND anyorem =" & RecuperaValor(NumeroDocumento, 2) & " AND 1"
+      
+      CC = DevuelveDesdeBD("sum(coalesce(gastos,0)) ", "cobros", CC, "1")
+      If CC <> "" Then
+        If CCur(CC) <> 0 Then Importe = 1
+      End If
+     
+      
+      
       CC = DevuelveDesdeBD("ctaingreso", "bancos", "codmacta", Rs!codmacta, "T")
       If CC = "" Then
           If Importe > 0 Then
@@ -437,12 +528,12 @@ Dim ContabilizacionEspecialNorma19 As Boolean
         'Utiliza Morales
         'Es para contabilizar los recibos por fecha de vto
         
-        B = ContabNorma19PorFechaVto(Rs!Codigo, Rs!Anyo, SQL)
+        B = ContabNorma19PorFechaVto(Rs!Codigo, Rs!Anyo, SQL, LaCtaPuente, CDate(Text1(10).Text))
     Else
         'Toooodas las demas opciones estan aqui
     
                                 'Efecto(1),pagare(2),talon(3)
-        B = ContabilizarRecordsetRemesa(Rs!Tiporem, DBLet(Rs!Tipo, "N") = 0, Rs!Codigo, Rs!Anyo, SQL, CDate(Text1(10).Text), Importe)
+        B = ContabilizarRecordsetRemesa(Rs!Tiporem, DBLet(Rs!Tipo, "N") = 0, Rs!Codigo, Rs!Anyo, SQL, CDate(Text1(10).Text), Importe, LaCtaPuente)
     
     End If
     

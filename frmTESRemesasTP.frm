@@ -1353,14 +1353,17 @@ Begin VB.Form frmTESRemesasTP
             Style           =   1
             _Version        =   393216
             BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-               NumButtons      =   3
+               NumButtons      =   4
                BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Abono Remesa"
+                  Object.ToolTipText     =   "Cancelar cuenta en cartera"
                EndProperty
                BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Devolución"
+                  Object.ToolTipText     =   "Abono Remesa"
                EndProperty
                BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Devolución"
+               EndProperty
+               BeginProperty Button4 {66833FEA-8583-11D1-B16A-00C0F0283628} 
                   Object.ToolTipText     =   "Cancelación remesas cuentas puente"
                EndProperty
             EndProperty
@@ -1970,12 +1973,14 @@ Dim Img As Image
         .HotImageList = frmppal.imgListComun_OM
         .DisabledImageList = frmppal.imgListComun_BN
         .ImageList = frmppal.ImgListComun
-        .Buttons(1).Image = 37
-        .Buttons(2).Image = 45
-        .Buttons(3).Image = 36
+        .Buttons(1).Image = 44
+        .Buttons(1).visible = vParamT.TalonesCtaPuente Or vParamT.PagaresCtaPuente Or vParamT.ConfirmingCtaPuente
+        .Buttons(2).Image = 37
+        .Buttons(3).Image = 45
+        .Buttons(4).Image = 36
     End With
     
-    
+     
     ' La Ayuda
     With Me.ToolbarAyuda
         .ImageList = frmppal.ImgListComun
@@ -2605,14 +2610,40 @@ Dim B As Boolean
 End Sub
 
 Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
-    HacerToolBar2 Button.Index
+    HacerToolBar3 Button.Index
 End Sub
 
-Private Sub HacerToolBar2(Boton As Integer)
+Private Sub HacerToolBar3(Boton As Integer)
     If Me.lw1.SelectedItem Is Nothing Then Exit Sub
     
     Select Case Boton
-        Case 1 ' CONTABILIZACION REMESA
+        Case 1
+            'Cancelar cartera de cuenta puente
+            If lw1.SelectedItem.SubItems(8) >= "Q" Then
+                MsgBox "Proceso ya realizado. Situacion distinta de cancelado cliente", vbExclamation
+                Exit Sub
+            End If
+            
+            If lw1.SelectedItem.SubItems(8) = "H" Then
+                MsgBox "Proceso ya realizado.", vbExclamation
+                Exit Sub
+            End If
+            
+            
+            CadenaDesdeOtroForm = ""
+            frmTESRemesasTPCont.Opcion = 50
+            frmTESRemesasTPCont.Show vbModal
+            If CadenaDesdeOtroForm <> "" Then
+            
+                Screen.MousePointer = vbHourglass
+                RC = lw1.SelectedItem.SubItems(9)
+                If CancearCuentaPuenteContraCartera(CDate(CadenaDesdeOtroForm), CLng(lw1.SelectedItem.Text), CInt(lw1.SelectedItem.SubItems(1)), CByte(RC)) Then
+                    CargaList
+                End If
+                Screen.MousePointer = vbDefault
+            End If
+    
+        Case 2 ' CONTABILIZACION REMESA
             
             
             
@@ -2624,6 +2655,17 @@ Private Sub HacerToolBar2(Boton As Integer)
             'Ya contabilizada
             If lw1.SelectedItem.SubItems(8) = "Q" Then CadenaDesdeOtroForm = SQL & "Remesa abonada."
             If lw1.SelectedItem.SubItems(8) = "Z" Then CadenaDesdeOtroForm = SQL & "remesa con el riesgo ya eliminado."
+            
+            If CadenaDesdeOtroForm = "" Then
+                If lw1.SelectedItem.SubItems(8) <> "H" Then
+                    If lw1.SelectedItem.SubItems(10) = "TALON" And vParamT.TalonesCtaPuente Then CadenaDesdeOtroForm = "1"
+                    
+                ElseIf lw1.SelectedItem.SubItems(10) = "PAGARE" And vParamT.PagaresCtaPuente Then CadenaDesdeOtroForm = "1"
+                
+                ElseIf lw1.SelectedItem.SubItems(10) = "CONFIRM." And vParamT.ConfirmingCtaPuente Then CadenaDesdeOtroForm = "1"
+                End If
+                If CadenaDesdeOtroForm = "1" Then CadenaDesdeOtroForm = "Falta cancelar cartera"
+            End If
             If CadenaDesdeOtroForm <> "" Then
                 MsgBox CadenaDesdeOtroForm, vbExclamation
                 CadenaDesdeOtroForm = ""
@@ -2640,7 +2682,7 @@ Private Sub HacerToolBar2(Boton As Integer)
             'Hay que poner en el formualrio de arriba valor a cadenadesdeotroform si ha modificado
             If HaHabidoCambios Then CargaList
          
-        Case 2 ' DEVOLUCION DE REMESA
+        Case 3 ' DEVOLUCION DE REMESA
             HaHabidoCambios = False
              
             'FALTA####
@@ -2665,7 +2707,7 @@ Private Sub HacerToolBar2(Boton As Integer)
             'Hay que poner en el formualrio de arriba valor a cadenadesdeotroform si ha modificado
             If HaHabidoCambios Then CargaList
          
-        Case 3
+        Case 4
             If Not lw1.SelectedItem Is Nothing Then
                 If Asc(lw1.SelectedItem.SubItems(8)) < Asc("Q") Then
                     MsgBox "La situacion de la remesa debe ser  contabilizada/abonada", vbExclamation
@@ -2920,16 +2962,16 @@ End Sub
 
 Private Sub CargaDatosLineas()
 Dim IT As ListItem
-Dim CodRem As Integer
-Dim AnyoRem As Integer
+Dim Codrem As Integer
+Dim Anyorem As Integer
 
     On Error GoTo EC
     
     If txtRemesa.Tag <> "" Then
-        CodRem = txtRemesa.Tag
-        AnyoRem = Year(CDate(txtfecha(4).Text))
+        Codrem = txtRemesa.Tag
+        Anyorem = Year(CDate(txtfecha(4).Text))
     Else
-        CodRem = 0
+        Codrem = 0
     End If
     
     ListView1.ListItems.Clear
@@ -2963,9 +3005,9 @@ Dim AnyoRem As Integer
              
              IT.SubItems(8) = DBLet(miRsAux!reftalonpag, "T")
              
-             If CodRem > 0 Then
-                 If Not IsNull(miRsAux!CodRem) Then
-                     If Val(miRsAux!CodRem) = CodRem And Val(miRsAux!AnyoRem) = AnyoRem Then
+             If Codrem > 0 Then
+                 If Not IsNull(miRsAux!Codrem) Then
+                     If Val(miRsAux!Codrem) = Codrem And Val(miRsAux!Anyorem) = Anyorem Then
                          'Voy a pintar de colorines el vto
                          IT.ForeColor = vbRed
                          For NumRegElim = 1 To IT.ListSubItems.Count
@@ -3467,8 +3509,8 @@ Dim Rs As ADODB.Recordset
 Dim J As Integer
 Dim i As Integer
 Dim ImporteQueda As Currency
-Dim CodRem As Currency
-Dim AnyoRem As Currency
+Dim Codrem As Currency
+Dim Anyorem As Currency
 Dim TipoRemesa As Integer
 Dim R As ADODB.Recordset
 
@@ -3484,8 +3526,8 @@ Dim R As ADODB.Recordset
         Exit Function
     End If
     If Opcion = 0 Then
-        CodRem = miRsAux!NumeroRemesa
-        AnyoRem = Year(CDate(txtfecha(4).Text))
+        Codrem = miRsAux!NumeroRemesa
+        Anyorem = Year(CDate(txtfecha(4).Text))
     End If
     If cmbRemesa.ListIndex = 1 Then
         TipoRemesa = vbTalon '3
@@ -3499,7 +3541,7 @@ Dim R As ADODB.Recordset
     'Si estamos modificando la remesa tenemos que quitar la marca de remeados
     If Opcion = 1 Then
         SQL = "UPDATE  cobros SET siturem= NULL,codrem= NULL, anyorem =NULL,tiporem = NULL"
-        SQL = SQL & " WHERE codrem = " & CodRem & " and anyorem =" & AnyoRem
+        SQL = SQL & " WHERE codrem = " & Codrem & " and anyorem =" & Anyorem
         Conn.Execute SQL
     End If
 
@@ -3520,7 +3562,7 @@ Dim R As ADODB.Recordset
                     
                     
                     'La situacion entra directamente a cancelacion cliente
-                    SQL = "UPDATE  cobros SET siturem= 'F',codrem= " & CodRem & ", anyorem =" & AnyoRem & ","
+                    SQL = "UPDATE  cobros SET siturem= 'F',codrem= " & Codrem & ", anyorem =" & Anyorem & ","
                     SQL = SQL & " tiporem = " & TipoRemesa
 
                     'ponemos la cuenta de banco donde va remesado
@@ -3550,7 +3592,7 @@ Dim R As ADODB.Recordset
         'Updatemaos
         SQL = "UPDATE remesas set importe=" & DBSet(Importe, "N")
         SQL = SQL & ", descripcion = '" & DevNombreSQL(txtRemesa.Text) & "'"
-        SQL = SQL & " WHERE codigo = " & CodRem & " AND anyo = " & AnyoRem
+        SQL = SQL & " WHERE codigo = " & Codrem & " AND anyo = " & Anyorem
     End If
     Conn.Execute SQL
 
@@ -4001,4 +4043,8 @@ Dim Dias As Integer
         
         ComprobarTodosVencidos = True
 End Function
+
+
+
+
 

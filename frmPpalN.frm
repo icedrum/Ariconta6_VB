@@ -3359,12 +3359,25 @@ Dim Tiene_A_cancelar As Byte    '0: NO    1:  Cobros      2 : Pagos     3 Los do
         
         If vEmpresa.TieneTesoreria Then
             If vParamT.ComprobarAlInicio Then
-                Tiene_A_cancelar = 0
-                If vParamT.TalonesCtaPuente Or vParamT.TalonesCtaPuente Then
+               
+                
+                If vParamT.TalonesCtaPuente Or vParamT.PagaresCtaPuente Then
+                    
+                    C = "fecvenci<=" & DBSet(Now, "F") & " and siturem>='Q' and siturem <'Z' AND   (codrem,anyorem,tiporem) in ("
+                                                                                                    ' PONIA un   >=
+                    C = C & " select codigo,anyo,tiporem FROM remesas wHERE descripcion<>'Traspasada' and tiporem >1 and situacion>='Q' and situacion <'Z'"
+                    C = C & ") AND 1"
+
+        
                     'Veremos si tiene remesas talon/pagare
-                    C = DevuelveDesdeBD("count(*)", "remesas", "tiporem >1 and situacion>='Q' and situacion <'Z' AND 1", "1")
+                    C = DevuelveDesdeBD("count(*)", "cobros", C, "1")
                     If C = "" Then C = "0"
                     If Val(C) > 0 Then Tiene_A_cancelar = 1
+                    
+                    
+                    
+                    
+                    
                 End If
                 
                 
@@ -3393,14 +3406,27 @@ Dim Tiene_A_cancelar As Byte    '0: NO    1:  Cobros      2 : Pagos     3 Los do
                     
                 End If
                 If Val(C) > 0 Then Tiene_A_cancelar = Tiene_A_cancelar + 2
-
                 
+                If Tiene_A_cancelar = 0 Then
+                    
+                    C = DevuelveDesdeBD("RemesaCancelacion", "paramtesor", "codigo", "1")
+                    If C <> "" Then
+                        C = "fecvenci<=" & DBSet(Now, "F") & " AND  siturem>='Q' and siturem <'Z' AND (codrem,anyorem,tiporem) in ("
+                        C = C & " select codigo,anyo,tiporem FROM remesas wHERE tiporem =1 and situacion>='Q' and situacion <'Z'"
+                        C = C & ") AND 1"
+                        C = DevuelveDesdeBD("count(*)", "cobros", C, "1")
+                        
+                        If Val(C) > 0 Then Tiene_A_cancelar = 10
+                        
+                    End If
+                End If
                 
                 If Tiene_A_cancelar > 0 Then
                     
                    ' If HayQueMostrarEliminarRiesgoTalPag Then
                         Screen.MousePointer = vbHourglass
-                        frmMensajes.Tipo = CStr(Tiene_A_cancelar)
+                        frmMensajes.Banco = IIf(Tiene_A_cancelar < 10, "", "N")
+                        frmMensajes.Tipo = IIf(Tiene_A_cancelar < 10, CStr(Tiene_A_cancelar), "1")
                         frmMensajes.Opcion = 63
                         frmMensajes.Show vbModal
                    ' End If

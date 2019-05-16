@@ -376,7 +376,12 @@ Private Sub ImportarFraCLI()
     'Proceso realmente dicho
     Screen.MousePointer = vbHourglass
     If Me.optVarios(0).Value Then
-        InsertarEnContabilidadFraCli
+        If Me.cboTipo.ListIndex = 0 Then
+            InsertarEnContabilidadFraCliStd
+        Else
+            InsertarEnContabilidadFraCliSAGE
+        End If
+        
     ElseIf Me.optVarios(1).Value Then
         If Me.cboTipo.ListIndex = 0 Then
             InsertarEnContabilidadFraProveedorNAV
@@ -409,7 +414,7 @@ Private Sub ImportarFraCLI()
             
         Else
             
-            MsgBox "Proceso finalizado con exito", vbInformation
+            MsgBox "Proceso finalizado con éxito", vbInformation
             Me.ListView1.ListItems.Clear
 
             
@@ -455,6 +460,17 @@ Private Sub Command1_Click()
             If MsgBox(Cad, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
         End If
     End If
+    
+    
+    'Precomprobacion SAGE
+  
+    
+    
+    
+    
+    
+    
+    
     cmdAceptar.visible = False
     ListView1.ListItems.Clear
     ListView1.Tag = 0 'No puede hacer dblclick
@@ -463,6 +479,7 @@ Private Sub Command1_Click()
 
     Screen.MousePointer = vbHourglass
     If Me.optVarios(0).Value Then
+    
         ImportarFacturasCliente
         
     Else
@@ -498,10 +515,31 @@ Private Sub Form_Load()
     
     cmdAceptar.visible = False
     Label1.Caption = ""
-
+    CargaCombo 0
     
-    Check2.Value = IIf(vParam.PathFicherosInteg <> "", 1, 0)
-    Check1.Value = IIf(vParam.PathFicherosInteg <> "", 0, 1)
+    
+    
+    'Check2.Value = IIf(vParam.PathFicherosInteg <> "", 1, 0)
+    'Check1.Value = IIf(vParam.PathFicherosInteg <> "", 0, 1)
+    
+    If vParam.PathFicherosInteg = "" Then
+        
+        
+        Cad = CStr(CheckValueLeer("intetipodoc"))
+        If Cad = "1" Then Me.cboTipo.ListIndex = 1
+        
+        Cad = CStr(CheckValueLeer("intetipodoc1"))
+        If Cad <> "1" Then Cad = 0
+        Me.Check1.Value = Val(Cad)
+        
+        Cad = CStr(CheckValueLeer("intetipodoc2"))
+        If Cad <> "1" Then Cad = 0
+        Me.Check2.Value = Val(Cad)
+        
+    Else
+        Check2.Value = 1
+        Check1.Value = 0
+    End If
 End Sub
 
 
@@ -518,14 +556,26 @@ End Sub
 '*********************************************************************************
 '*********************************************************************************
 Private Sub ImportarFacturasCliente()
-Dim RC As Byte
+Dim Rc As Byte
     
     'Primer paso. Lectura fichero. Comprobacion basica datos
     PonerLabel "Leyendo fichero"
-    RC = ImportarFichFracli
-    If RC = 2 Then Exit Sub
+    If Me.cboTipo.ListIndex = 1 Then
+        'SAGE
+        Rc = ProcesaFicheroClientesSAGE(Text1.Text, Label1, Check1.Value = 1)
         
-    If RC = 1 Then
+        
+        
+        
+        
+    Else
+        Rc = ImportarFichFracli
+    End If
+    
+    If Rc = 2 Then Exit Sub
+        
+    If Rc = 1 Then
+    
         'Errores en fichero
         'Ha habido errores
         CargaEncabezado 0
@@ -546,6 +596,39 @@ Dim RC As Byte
         miRsAux.Close
         Exit Sub
     End If
+    
+    'Si llega aqui siendo proceso SAGE, es uqe ha ido bien
+    'SAGE. Ha ido bien
+    If Me.cboTipo.ListIndex = 1 Then
+        'Cargamos datos de integracion contaplus
+        CargaEncabezadoSAGE
+        'Datos
+        Set miRsAux = New ADODB.Recordset
+        Cad = "select tmpintefrafracli.*,nommacta from tmpintefrafracli left join cuentas on tmpintefrafracli.cta_cli=cuentas.codmacta WHERE codusu =" & vUsu.Codigo & " ORDER BY codigo"
+        miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        i = 0
+        While Not miRsAux.EOF
+            i = i + 1
+            ListView1.ListItems.Add , "C" & Format(i, "000"), miRsAux!Serie
+            ListView1.ListItems(i).SubItems(1) = miRsAux!FACTURA
+            ListView1.ListItems(i).SubItems(2) = miRsAux!Fecha
+            ListView1.ListItems(i).SubItems(3) = DBLet(miRsAux!cta_cli, "T")
+            ListView1.ListItems(i).SubItems(4) = DBLet(miRsAux!Nommacta, "T")
+            ListView1.ListItems(i).SubItems(5) = " " & Format(miRsAux!calculoimponible, FormatoImporte) 'DBLet(miRsAux!calculoimponible, "N")
+            ListView1.ListItems(i).SubItems(6) = Format(miRsAux!impventa, FormatoImporte) 'DBLet(miRsAux!impventa, "N")
+            ListView1.ListItems(i).SubItems(7) = Format(miRsAux!ImpIva, FormatoImporte) 'DBLet(miRsAux!ImpIva, "N")
+            ListView1.ListItems(i).SubItems(8) = Format(miRsAux!TotalFactura, FormatoImporte) 'DBLet(miRsAux!TotalFactura, "N")
+            miRsAux.MoveNext
+        Wend
+        miRsAux.Close
+        Set miRsAux = Nothing
+        
+        
+        cmdAceptar.visible = True
+        Exit Sub
+    
+    End If
+    
     
     'Segundo paso. Comprobacion datos BD (existe serie, ctas, tiposiva....
     'Fichero importado.
@@ -622,8 +705,8 @@ Dim RC As Byte
             ListView1.ListItems(i).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
             ListView1.ListItems(i).SubItems(7) = " " 'separado
             
-            ListView1.ListItems(i).SubItems(8) = Format(miRsAux!CalculoImponible, FormatoImporte)
-            ListView1.ListItems(i).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!CalculoImponible, FormatoImporte)
+            ListView1.ListItems(i).SubItems(8) = Format(miRsAux!calculoimponible, FormatoImporte)
+            ListView1.ListItems(i).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!calculoimponible, FormatoImporte)
             ListView1.ListItems(i).SubItems(10) = Format(miRsAux!TotalFactura, FormatoImporte)
             
             If vEmpresa.TieneTesoreria Then
@@ -1587,7 +1670,54 @@ Private Sub CerrarFichero()
 End Sub
 
 
-Private Sub InsertarEnContabilidadFraCli()
+Private Sub InsertarEnContabilidadFraCliSAGE()
+Dim Mc As Contadores
+Dim Actual As Boolean
+Dim Ok As Boolean
+
+    Set miRsAux = New ADODB.Recordset
+    Cad = "Select   numasien ,fechaent from tmpintegrapu  where codusu =" & vUsu.Codigo & " GROUP BY 1,2  ORDER BY numasien"
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Set Mc = New Contadores
+    NumRegElim = -1
+    While Not miRsAux.EOF
+        
+        Mc.ConseguirContador "0", miRsAux!FechaEnt <= vParam.fechafin, False
+        If NumRegElim < 0 Then
+            NumRegElim = Mc.Contador
+            Actual = miRsAux!FechaEnt <= vParam.fechafin
+        End If
+        Cad = "UPDATE tmpintegrapu SET numasien=" & Mc.Contador & " WHERE codusu =" & vUsu.Codigo & " AND numasien=" & miRsAux!NumAsien
+        Conn.Execute Cad
+        
+        'Actualizamos el nuasien de las facturas
+        Cad = "UPDATE tmpintefrafracli  SET txtcsb=" & Mc.Contador & " WHERE codusu =" & vUsu.Codigo & " AND txtcsb=" & miRsAux!NumAsien
+        Conn.Execute Cad
+        
+        miRsAux.MoveNext
+    Wend
+    miRsAux.Close
+    espera 0.5
+        
+    Conn.BeginTrans
+    Ok = TraspasaApuSAGE
+    PonerLabel ""
+
+    
+    If Ok Then
+        Conn.CommitTrans
+        J = 0 'Sin errores
+    Else
+        Conn.RollbackTrans
+        Cad = "Contado1"
+        If Not Actual Then Cad = "Contado2"
+        Cad = "UPDATE contadores set " & Cad & " = " & NumRegElim & " WHERE  tiporegi='0'"
+        Conn.Execute Cad
+    End If
+End Sub
+
+
+Private Sub InsertarEnContabilidadFraCliStd()
 Dim FACTURA As String
 Dim BaseImponible As Currency
 Dim IVA As Currency
@@ -1680,7 +1810,7 @@ Dim Tipointegracion As Byte
                 
                 
                 NumRegElim = miRsAux!FACTURA
-                BaseImponible = miRsAux!CalculoImponible
+                BaseImponible = miRsAux!calculoimponible
                 TotalFac = miRsAux!TotalFactura
                 IVA = TotalFac - BaseImponible + DBLet(miRsAux!impret, "N")
                 Msg$ = "(" & DBSet(miRsAux!codpais, "T", "S") & "," & DBSet(miRsAux!nifdatos, "T", "S") & "," & DBSet(miRsAux!desProvi, "T", "S") & ","
@@ -1981,6 +2111,16 @@ End Function
 
 
 
+Private Sub Form_Unload(Cancel As Integer)
+    If vParam.PathFicherosInteg = "" Then
+        CheckValueGuardar "intetipodoc", CByte(Me.cboTipo.ListIndex)
+        
+        CheckValueGuardar "intetipodoc1", CByte(Me.Check1.Value)
+        
+        CheckValueGuardar "intetipodoc2", CByte(Me.Check2.Value)
+    End If
+End Sub
+
 Private Sub imgppal_Click(Index As Integer)
     With frmppal.cd1
     
@@ -2028,25 +2168,47 @@ End Sub
 
 Private Sub optVarios_Click(Index As Integer)
    
+    CargaCombo Index
     
-    If Index = 1 Then
+End Sub
+
+Private Sub CargaCombo(QueOpcion As Integer)
+
+If QueOpcion < 2 Then
         cboTipo.Clear
-        'cboTipo.AddItem "Genérica"
-        cboTipo.AddItem "Access(csv)"  'NAVARRES
         
-    
-        cboTipo.AddItem "Proveedores"
+        If QueOpcion = 1 Then
+            'Proveedores
+            cboTipo.AddItem "Ex. Access(csv)"  'NAVARRES
+            
         
-        If InStr(1, UCase(vEmpresa.nomempre), "SALUD") > 0 Then
-            cboTipo.ListIndex = 0
+            cboTipo.AddItem "Proveedores"
+            
+            cboTipo.AddItem "CSV"
+            
+            
+            
+            
+            If InStr(1, UCase(vEmpresa.nomempre), "SALUD") > 0 Then
+                cboTipo.ListIndex = 0
+            Else
+                cboTipo.ListIndex = 1  'De momento esta por defecto
+            End If
+            
+            
         Else
-            cboTipo.ListIndex = 1  'De momento esta por defecto
+            'CLIENTES
+            cboTipo.AddItem "Clientes"
+            cboTipo.AddItem "CSV"
+            cboTipo.ListIndex = 0
         End If
     End If
      
-    Me.Label2.visible = Index = 1
-    Me.cboTipo.visible = Index = 1
+    Me.Label2.visible = QueOpcion < 2
+    Me.cboTipo.visible = QueOpcion < 2
+
 End Sub
+
 
 '*********************************************************************************
 '*********************************************************************************
@@ -2072,6 +2234,10 @@ Private Sub ImportacionFraPro()
     Select Case cboTipo.ListIndex
     Case 1
         ImportacionFacturasProveedor
+    Case 2
+        ProcesaFicheroClientesSAGE Text1.Text, Label1, Check1.Value = 1
+        
+    
     Case Else
         ImportacionNavarresFraPro
     End Select
@@ -2083,16 +2249,16 @@ End Sub
 'TIPO NAvarres
 '--------------------------------------------------------------------
 Private Sub ImportacionNavarresFraPro()
-Dim RC As Byte
+Dim Rc As Byte
 Dim B As Boolean
 
  'Primer paso. Lectura fichero. Comprobacion basica datos
     PonerLabel "Leyendo fichero"
     NumeroCamposTratarFraPro = 12
-    RC = ImportarFichFraPronav
-    If RC = 2 Then Exit Sub
+    Rc = ImportarFichFraPronav
+    If Rc = 2 Then Exit Sub
         
-    If RC = 1 Then
+    If Rc = 1 Then
         'Errores en fichero
         'Ha habido errores
         CargaEncabezado 0
@@ -2199,11 +2365,11 @@ Dim B As Boolean
             ListView1.ListItems(i).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
             ListView1.ListItems(i).SubItems(7) = " " 'separado
             If B Then
-                ListView1.ListItems(i).SubItems(8) = Format(miRsAux!CalculoImponible, FormatoImporte)
+                ListView1.ListItems(i).SubItems(8) = Format(miRsAux!calculoimponible, FormatoImporte)
             Else
                 ListView1.ListItems(i).SubItems(8) = Format(DBLet(miRsAux!impret, "N"), FormatoImporte)
             End If
-            ListView1.ListItems(i).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!CalculoImponible, FormatoImporte)
+            ListView1.ListItems(i).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!calculoimponible, FormatoImporte)
             ListView1.ListItems(i).SubItems(10) = Format(miRsAux!TotalFactura, FormatoImporte)
             
             If vEmpresa.TieneTesoreria Then
@@ -2513,7 +2679,7 @@ Dim Actual As Boolean
             
             
             NumRegElim = Mc.Contador
-            BaseImponible = miRsAux!CalculoImponible
+            BaseImponible = miRsAux!calculoimponible
             TotalFac = miRsAux!TotalFactura
             IVA = DBLet(miRsAux!ImpIva, "N")
             Msg$ = "(" & DBSet(miRsAux!codpais, "T", "S") & "," & DBSet(miRsAux!nifdatos, "T", "S") & "," & DBSet(miRsAux!desProvi, "T", "S") & ","
@@ -2666,14 +2832,14 @@ End Sub
 '*********************************************************************************
 '*********************************************************************************
 Private Sub ImportarAsientos()
-Dim RC As Byte
+Dim Rc As Byte
     
     'Primer paso. Lectura fichero. Comprobacion basica datos
     PonerLabel "Leyendo fichero"
-    RC = ImportarFichAsientos
-    If RC = 2 Then Exit Sub
+    Rc = ImportarFichAsientos
+    If Rc = 2 Then Exit Sub
         
-    If RC = 1 Then
+    If Rc = 1 Then
         'Errores en fichero
         'Ha habido errores
         CargaEncabezado 0
@@ -3256,17 +3422,17 @@ End Function
 '  Facturas proveedore STANDARD
 '--------------------------------------------------------------------
 Private Sub ImportacionFacturasProveedor()
-Dim RC As Byte
+Dim Rc As Byte
 Dim B As Boolean
 Dim FraProStd As Boolean
 Dim MismaFactura As Boolean
  'Primer paso. Lectura fichero. Comprobacion basica datos
     PonerLabel "Leyendo fichero"
     NumeroCamposTratarFraPro = 19
-    RC = ImportarFicherosFraStandard
-    If RC = 2 Then Exit Sub
+    Rc = ImportarFicherosFraStandard
+    If Rc = 2 Then Exit Sub
         
-    If RC = 1 Then
+    If Rc = 1 Then
         'Errores en fichero
         'Ha habido errores
         CargaEncabezado 0
@@ -3388,11 +3554,11 @@ Dim MismaFactura As Boolean
             ListView1.ListItems(i).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
             ListView1.ListItems(i).SubItems(7) = " " 'separador
             If B Then
-                ListView1.ListItems(i).SubItems(8) = Format(miRsAux!CalculoImponible, FormatoImporte)
+                ListView1.ListItems(i).SubItems(8) = Format(miRsAux!calculoimponible, FormatoImporte)
             Else
                 ListView1.ListItems(i).SubItems(8) = Format(DBLet(miRsAux!impret, "N"), FormatoImporte)
             End If
-            ListView1.ListItems(i).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!CalculoImponible, FormatoImporte)
+            ListView1.ListItems(i).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!calculoimponible, FormatoImporte)
             ListView1.ListItems(i).SubItems(10) = Format(miRsAux!TotalFactura, FormatoImporte)
             
             If vEmpresa.TieneTesoreria Then
@@ -4081,7 +4247,7 @@ Dim Tipointegracion As Byte
                 Tipointegracion = miRsAux!integracion
 
                 NumRegElim = Mc.Contador
-                BaseImponible = miRsAux!CalculoImponible
+                BaseImponible = miRsAux!calculoimponible
                 TotalFac = miRsAux!TotalFactura
                 IVA = DBLet(miRsAux!ImpIva, "N")
                 Msg$ = "(" & DBSet(miRsAux!codpais, "T", "S") & "," & DBSet(miRsAux!nifdatos, "T", "S") & "," & DBSet(miRsAux!desProvi, "T", "S") & ","
@@ -4323,3 +4489,111 @@ Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
             LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
+
+
+
+
+
+
+
+Private Sub CargaEncabezadoSAGE()
+Dim clmX As ColumnHeader
+Dim B As Boolean
+
+    ListView1.ListItems.Clear
+    ListView1.ColumnHeaders.Clear
+    ListView1.Checkboxes = False
+    
+        Set clmX = ListView1.ColumnHeaders.Add()
+        clmX.Text = "Serie"
+        clmX.Width = 900 '1500
+        
+        Set clmX = ListView1.ColumnHeaders.Add()
+        clmX.Text = "Factura"
+        clmX.Width = 1500
+        
+        Set clmX = ListView1.ColumnHeaders.Add()
+        clmX.Text = "Fecha"
+        clmX.Width = 1300
+            
+        Set clmX = ListView1.ColumnHeaders.Add()
+        clmX.Text = "Codmacta"
+        clmX.Width = 1500
+        
+        
+        Set clmX = ListView1.ColumnHeaders.Add()
+        clmX.Text = "Nombre"
+        clmX.Width = 3900
+        
+    
+        For i = 1 To 4
+            Set clmX = ListView1.ColumnHeaders.Add()
+            clmX.Text = RecuperaValor("Suplidos|Base|IVA|Total|", CInt(i))
+            clmX.Width = 1600
+            clmX.Alignment = lvwColumnRight
+        Next
+    
+End Sub
+
+
+
+Private Function TraspasaApuSAGE() As Boolean
+    On Error GoTo eTraspasaApuSAGE
+    TraspasaApuSAGE = False
+    
+
+    
+    
+    FacturaAnterior = "Integracion facturas CSV-SAGE.  " & Now & vbCrLf & vUsu.Nombre
+    
+    Cad = "INSERT INTO hcabapu(numdiari,fechaent,numasien,obsdiari,feccreacion,usucreacion,desdeaplicacion)"
+    Cad = Cad & " SELECT numdiari, fechaent,numasien," & DBSet(FacturaAnterior, "T") & "," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'Ariconta6' "
+    Cad = Cad & " FROM tmpintegrapu WHERE codusu =" & vUsu.Codigo & " GROUP BY numasien,fechaent"
+    Conn.Execute Cad
+    
+    Cad = "INSERT INTO hlinapu(numdiari,fechaent,numasien,linliapu,codmacta,numdocum,codconce,ampconce,timporteD,codccost,timporteH,ctacontr,idcontab) "
+    Cad = Cad & " SELECT NumDiari , FechaEnt, NumAsien, Linliapu, codmacta, Numdocum, CodConce, Ampconce, timporteD, codccost, timporteH, ctacontr, idcontab"
+    Cad = Cad & " FROM tmpintegrapu WHERE codusu =" & vUsu.Codigo & " ORDER BY numasien,fechaent,linliapu"
+    Conn.Execute Cad
+    
+    
+    Cad = "select codigo,texto from tmptesoreriacomun where codusu=" & vUsu.Codigo & " order by codigo"
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    While Not miRsAux.EOF
+        Cad = miRsAux!TEXTO
+        PonerLabel "Sec " & miRsAux!Codigo
+        Cad = Replace(Cad, "·", "'")
+        Conn.Execute Cad
+        miRsAux.MoveNext
+        
+    Wend
+    miRsAux.Close
+    
+    
+    'Para cada factura creada, updateo su verdadero NUMERO de apunte
+    PonerLabel "Ajustando nºasiento factura"
+    Cad = "select serie,factura,year(fecha) anyo,txtcsb from tmpintefrafracli  WHERE codusu =" & vUsu.Codigo
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    While Not miRsAux.EOF
+        Cad = "UPDATE factcli set numasien = " & miRsAux!txtcsb & " WHERE numserie ='" & miRsAux!Serie & "' AND numfactu =" & miRsAux!FACTURA
+        Cad = Cad & " AND anofactu = " & miRsAux!Anyo
+        Conn.Execute Cad
+        miRsAux.MoveNext
+        
+    Wend
+    miRsAux.Close
+    
+    
+    TraspasaApuSAGE = True
+    
+    Exit Function
+    
+eTraspasaApuSAGE:
+    Cad = Err.Description
+    Ejecuta "DELETE FROM     tmptesoreriacomun where codusu =" & vUsu.Codigo
+    
+    Msg = "INSERT INTO  tmptesoreriacomun(codusu,codigo,texto1,texto2,observa1) VALUES (" & vUsu.Codigo & ",1000,'Error',''," & DBSet(Cad, "T") & ")"
+    Conn.Execute Msg
+    J = 1
+    
+End Function

@@ -2313,9 +2313,14 @@ Dim NumeroPresentacion As Integer
                         'Error
                         GoTo Salida
                     Else
-                        'OK. Copiamos el archivo donde corresponda, con el nombre k corresponda
-                        If Not CopiarArchivoLega(vPath, 3, J, F, F2) Then GoTo Salida
-                        J = J + 1
+                        If CadenaDesdeOtroForm = "NO DATOS" Then
+                            'NO hacemos nada
+                            
+                        Else
+                            'OK. Copiamos el archivo donde corresponda, con el nombre k corresponda
+                            If Not CopiarArchivoLega(vPath, 3, J, F, F2) Then GoTo Salida
+                            J = J + 1
+                        End If
                     End If
                     Me.Refresh
                     espera 0.5

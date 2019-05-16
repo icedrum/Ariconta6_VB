@@ -22,7 +22,7 @@ Dim ImpVenci As Currency
     If Not Rsvenci.EOF Then
         If Rsvenci.Fields(0).Value > 0 Then
             '-------- Primer Vencimiento
-            I = 1
+            i = 1
             'FECHA VTO
             FecVenci = CDate(FecFactu)
             FecVenci = DateAdd("d", DBLet(Rsvenci!primerve, "N"), FecVenci)
@@ -38,18 +38,18 @@ Dim ImpVenci As Currency
                     ImpVenci = Round2(ImpVenci + (TotalFac - ImpVenci * Rsvenci.Fields(0).Value), 2)
                 End If
             End If
-            CadValues = "(" & vUsu.Codigo & "," & DBSet(I, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
+            CadValues = "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
             
             'Resto Vencimientos
             '--------------------------------------------------------------------
-            For I = 2 To Rsvenci!numerove
+            For i = 2 To Rsvenci!numerove
                 FecVenci = DateAdd("d", DBLet(Rsvenci!restoven, "N"), FecVenci)
                     
                 'IMPORTE Resto de Vendimientos
                 ImpVenci = Round2(TotalFac / Rsvenci.Fields(0).Value, 2)
                 
-                CadValues = CadValues & "(" & vUsu.Codigo & "," & DBSet(I, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
-            Next I
+                CadValues = CadValues & "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
+            Next i
         End If
     End If
     
@@ -117,15 +117,15 @@ Dim ImpVenci As Currency
             
             'Resto Vencimientos
             '--------------------------------------------------------------------
-            For I = 2 To Rsvenci!numerove
+            For i = 2 To Rsvenci!numerove
                 FecVenci = DateAdd("d", DBLet(Rsvenci!restoven, "N"), FecVenci)
                     
                 'IMPORTE Resto de Vendimientos
                 ImpVenci = Round2(TotalFac / Rsvenci.Fields(0).Value, 2)
                 
                 'CadValues = CadValues & "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
-                ColCobros.Add PartFijaSQL & I & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & ")"
-            Next I
+                ColCobros.Add PartFijaSQL & i & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & ")"
+            Next i
         End If
     End If
     
@@ -216,8 +216,8 @@ Dim Col As Collection
     If SQL <> "" Then Col.Add SQL
         
         
-    For I = 1 To Col.Count
-        SQL = Col.Item(I)
+    For i = 1 To Col.Count
+        SQL = Col.Item(i)
         J = Val(Mid(SQL, 1, 3))
         SQL = Mid(SQL, 5)
         
@@ -232,7 +232,7 @@ Dim Col As Collection
         End If
         miRsAux.Close
         If HayQueMostrarEliminarRiesgoTalPag Then Exit For
-    Next I
+    Next i
         
 eHayQueMostrarEliminarRiesgoTalPag:
     If Err.Number <> 0 Then MuestraError Err.Number, Err.Description
@@ -243,14 +243,19 @@ End Function
 
 
 
-Public Function QueRemesasMostrarEliminarRiesgoTalPag() As String
+Public Function QueRemesasMostrarEliminarRiesgoTalPag2(SoloEfectos As Boolean) As String
 Dim SQL As String
 Dim Col As Collection
     
     On Error GoTo eHayQueMostrarEliminarRiesgoTalPag
-    QueRemesasMostrarEliminarRiesgoTalPag = ""
+    QueRemesasMostrarEliminarRiesgoTalPag2 = ""
     Set miRsAux = New ADODB.Recordset
-    SQL = "Select codigo,anyo,codmacta,tiporem  from remesas where  tiporem > 1  AND (situacion ='Q' or situacion ='Y') ORDER BY codmacta,1,2 "
+    SQL = ">"
+    If SoloEfectos Then SQL = "="
+    SQL = "Select codigo,anyo,codmacta,tiporem  from remesas where  tiporem " & SQL
+    
+    SQL = SQL & " 1  "
+    SQL = SQL & " AND lcase(descripcion)<>'traspasada' AND (situacion ='Q' or situacion ='Y') ORDER BY codmacta,1,2 "
     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     SQL = ""
     Set Col = New Collection
@@ -261,10 +266,21 @@ Dim Col As Collection
             '           tiporem|dias                Resto. Remesas
             If Msg <> "" Then Col.Add SQL
             
-            
-            SQL = "concat( pagaredias,'|',talondias,'|')"
+            If SoloEfectos Then
+                SQL = "'0|0|'"
+            Else
+                SQL = "concat( pagaredias,'|',talondias,'|')"
+            End If
             Msg = DevuelveDesdeBD(SQL, "bancos", "codmacta", miRsAux!codmacta, "T")
-            If Msg = "" Then Err.Raise 513, "No existe banco?" & miRsAux!codmacta
+            
+            
+            
+            
+            If Msg = "" Then Msg = "0|0|"
+            
+            
+            If Msg = "" Then Err.Raise 513, , "No existe banco?" & miRsAux!codmacta
+            
             If miRsAux!Tiporem = 2 Then
                 SQL = Format(RecuperaValor(Msg, 1), "000")
             Else
@@ -282,25 +298,25 @@ Dim Col As Collection
     If SQL <> "" Then Col.Add SQL
         
         
-    For I = 1 To Col.Count
-        SQL = Col.Item(I)
+    For i = 1 To Col.Count
+        SQL = Col.Item(i)
         J = Val(Mid(SQL, 1, 3))
         SQL = Mid(SQL, 5)
         
         Msg = "select distinct codrem,anyorem "
         Msg = Msg & " from cobros where (codrem,anyorem) in ("
         Msg = Msg & SQL
-        Msg = Msg & ") and date_add(fecvenci, interval " & J & " day) <now()"
+        Msg = Msg & ") and date_add(fecvenci, interval " & J & " day) <=now()"
         Msg = Msg & " order by fecvenci"
         miRsAux.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         While Not miRsAux.EOF
-            QueRemesasMostrarEliminarRiesgoTalPag = QueRemesasMostrarEliminarRiesgoTalPag & ", (" & miRsAux!CodRem & "," & miRsAux!AnyoRem & ")"
+            QueRemesasMostrarEliminarRiesgoTalPag2 = QueRemesasMostrarEliminarRiesgoTalPag2 & ", (" & miRsAux!Codrem & "," & miRsAux!Anyorem & ")"
             miRsAux.MoveNext
         Wend
         miRsAux.Close
         
         
-    Next I
+    Next i
         
 eHayQueMostrarEliminarRiesgoTalPag:
     If Err.Number <> 0 Then MuestraError Err.Number, Err.Description

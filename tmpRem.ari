@@ -2,23 +2,23 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02">
 <CstmrDrctDbtInitn>
 <GrpHdr>
-<MsgId>PRE2019011512142317970RE30000042019</MsgId>
-   <CreDtTm>2019-01-15T12:14:23</CreDtTm>
+<MsgId>PRE2019043010325557030RE30000172019</MsgId>
+   <CreDtTm>2019-04-30T10:32:55</CreDtTm>
    <NbOfTxs>3</NbOfTxs>
-   <CtrlSum>2481.75</CtrlSum>
+   <CtrlSum>279.29</CtrlSum>
    <InitgPty>
-     <Nm>Herbelca S.L.</Nm>
+     <Nm>Radio Taxi Metropolitano de Valencia SLU</Nm>
      <Id>
         <OrgId>
            <Othr>
-              <Id>ES25000B46135372</Id>
+              <Id>ES55000B98877806</Id>
            </Othr>
         </OrgId>
       </Id>
    </InitgPty>
 </GrpHdr>
 <PmtInf>
-   <PmtInfId>RE000042019 15/01/19B46135372</PmtInfId>
+   <PmtInfId>RE000172019 30/04/19B98877806</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -33,29 +33,29 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2018-12-01</ReqdColltnDt>
+   <ReqdColltnDt>2018-10-05</ReqdColltnDt>
    <Cdtr>
-      <Nm>Herbelca S.L.</Nm>
+      <Nm>Radio Taxi Metropolitano de Valencia SLU</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>Azagador de la Torre 93   </AdrLine>
+          <AdrLine>CARRER DELS GREMIS 8   </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES6400491827832010389247</IBAN>
+         <IBAN>ES8121005375140200020715</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
       <FinInstnId>
-         <BIC>BSCHESMMXXX</BIC>
+         <BIC>CAIXESBBXXX</BIC>
       </FinInstnId>
    </CdtrAgt>
    <CdtrSchmeId>
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES25000B46135372</Id>
+                 <Id>ES55000B98877806</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -63,50 +63,50 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>43004690  A  0000000120181101001   </EndToEndId>
+          <EndToEndId>43000320  E  0000000820180913002   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">1262.00</InstdAmt>
+      <InstdAmt Ccy="EUR">88.72</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES6200810319480001625163</MndtId>
+            <MndtId>ES1100190072434010021050</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>BSABESBBXXX</BIC>
+            <BIC>DEUTESBBASS</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>MARIA JESUS PASTOR GALIANA</Nm>
+         <Nm>DESCALZO GIMENEZ, RAQUEL</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>PTDA ALQUERIAS 14-288</AdrLine>
-              <AdrLine>ONTENIENTE   46870     VALENCIA</AdrLine>
+              <AdrLine>TRES CRUCES,AV, 13, 17</AdrLine>
+              <AdrLine>46014   VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>480001625163</Id>
+                   <Id>434010021050</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES6200810319480001625163</IBAN>
+            <IBAN>ES1100190072434010021050</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>Factura A-0000001 de Fecha 01/11/2018</Ustrd>
+         <Ustrd>E000008 de 13/09/2018</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>
 <PmtInf>
-   <PmtInfId>RE000042019 15/01/19B46135372</PmtInfId>
+   <PmtInfId>RE000172019 30/04/19B98877806</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -121,29 +121,29 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2019-01-28</ReqdColltnDt>
+   <ReqdColltnDt>2019-04-05</ReqdColltnDt>
    <Cdtr>
-      <Nm>Herbelca S.L.</Nm>
+      <Nm>Radio Taxi Metropolitano de Valencia SLU</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>Azagador de la Torre 93   </AdrLine>
+          <AdrLine>CARRER DELS GREMIS 8   </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES6400491827832010389247</IBAN>
+         <IBAN>ES8121005375140200020715</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
       <FinInstnId>
-         <BIC>BSCHESMMXXX</BIC>
+         <BIC>CAIXESBBXXX</BIC>
       </FinInstnId>
    </CdtrAgt>
    <CdtrSchmeId>
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES25000B46135372</Id>
+                 <Id>ES55000B98877806</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -151,133 +151,88 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>43000011  A  0581118820181228001   </EndToEndId>
+          <EndToEndId>43002443  E  0000001620181231004   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">1187.39</InstdAmt>
+      <InstdAmt Ccy="EUR">63.52</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES8400494084412614343558</MndtId>
+            <MndtId>ES9401820513810201580559</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>BSCHESMMXXX</BIC>
+            <BIC>BBVAESMMXXX</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>SERAFIN GONZALEZ DEL ROSAL</Nm>
+         <Nm>ALBUIXECH GENOVES, OMAR</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>AVDA. DE LA ARMADA ESPA OLA, 20-4 E</AdrLine>
-              <AdrLine>BENIDORM   03502     ALICANTE</AdrLine>
+              <AdrLine>C/ CARCAGENTE, 14-15</AdrLine>
+              <AdrLine>46006   VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>412614343558</Id>
+                   <Id>810201580559</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES8400494084412614343558</IBAN>
+            <IBAN>ES9401820513810201580559</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>FACTURA  A-5811188 de Fecha 28 dic 2018</Ustrd>
+         <Ustrd>FACTURA  E-0000016 de Fecha 31 dic 2018</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
-</PmtInf>
-<PmtInf>
-   <PmtInfId>RE000042019 15/01/19B46135372</PmtInfId>
-   <PmtMtd>DD</PmtMtd>
-   <BtchBookg>false</BtchBookg>
-   <PmtTpInf>
-      <SvcLvl>
-          <Cd>SEPA</Cd>
-      </SvcLvl>
-      <LclInstrm>
-         <Cd>CORE</Cd>
-      </LclInstrm>
-      <SeqTp>RCUR</SeqTp>
-      <CtgyPurp>
-         <Cd>TRAD</Cd>
-      </CtgyPurp>
-   </PmtTpInf>
-   <ReqdColltnDt>2019-02-13</ReqdColltnDt>
-   <Cdtr>
-      <Nm>Herbelca S.L.</Nm>
-      <PstlAdr>
-          <Ctry>ES</Ctry>
-          <AdrLine>Azagador de la Torre 93   </AdrLine>
-      </PstlAdr>
-   </Cdtr>
-   <CdtrAcct>
-      <Id>
-         <IBAN>ES6400491827832010389247</IBAN>
-      </Id>
-   </CdtrAcct>
-   <CdtrAgt>
-      <FinInstnId>
-         <BIC>BSCHESMMXXX</BIC>
-      </FinInstnId>
-   </CdtrAgt>
-   <CdtrSchmeId>
-       <Id>
-          <PrvtId>
-             <Othr>
-                 <Id>ES25000B46135372</Id>
-                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
-             </Othr>
-          </PrvtId>
-       </Id>
-   </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>43001725  A  0581098120190114001   </EndToEndId>
+          <EndToEndId>43003037  E  0000000220190131003   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">32.36</InstdAmt>
+      <InstdAmt Ccy="EUR">127.05</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES0400303166730293592273</MndtId>
+            <MndtId>ES1420386304716000139828</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>ESPCESMMXXX</BIC>
+            <BIC>CAHMESMMXXX</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>FERRETERIA HOGAR RACHADELL,SL</Nm>
+         <Nm>JIMENEZ CARRION, SERGIO JOSE</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>AVD. MADRID, 9</AdrLine>
-              <AdrLine>SEDAVI   46910     VALENCIA</AdrLine>
+              <AdrLine>C/ RAMON Y CAJAL, 1 - 8</AdrLine>
+              <AdrLine>MELIANA   46133     VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>730293592273</Id>
+                   <Id>716000139828</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES0400303166730293592273</IBAN>
+            <IBAN>ES1420386304716000139828</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>FACTURA  A-5810981 de Fecha 14 ene 2019</Ustrd>
+         <Ustrd>FACTURA  E-0000002 de Fecha 31 ene 2019</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>

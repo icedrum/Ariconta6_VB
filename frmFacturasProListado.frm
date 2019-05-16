@@ -1739,7 +1739,7 @@ Dim Sql2 As String
     'Monto el SQL
     SQL = "Select factpro.numserie Serie, tmpfaclin.nomserie Descripcion, factpro.numfactu Factura,factpro.numregis Registro, factpro.fecfactu Fecha, factpro.fecharec FRecep ,factpro.codmacta Cuenta, "
     SQL = SQL & " factpro.nommacta Titulo,nifdatos NIF , tmpfaclin.tipoformapago TipoPago, "
-    SQL = SQL & " tmpfaclin.tipoopera TOperacion, factpro.codconce340 TFra, factpro.trefacpr Retencion, "
+    SQL = SQL & " tmpfaclin.tipoopera TOperacion, factpro.codconce340 TFra, factpro.trefacpr Retencion,factpro.suplidos Suplidos , "
     SQL = SQL & " factpro_totales.baseimpo BaseImp,factpro_totales.codigiva IVA,factpro_totales.porciva PorcIva,factpro_totales.porcrec PorcRec,"
     SQL = SQL & " factpro_totales.impoiva ImpIva,factpro_totales.imporec ImpRec "
     SQL = SQL & " FROM (factpro inner join factpro_totales on factpro.numserie = factpro_totales.numserie and factpro.numregis = factpro_totales.numregis "
@@ -1814,7 +1814,7 @@ Dim SQL As String
     
     
     SQL = "insert into tmpfaclin (codusu, codigo,numfactura, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
-    SQL = SQL & " recargo,  tipoformapago,tipoopera, tipoiva,ctabase) "
+    SQL = SQL & " recargo,  tipoformapago,tipoopera, tipoiva,ctabase,suplidos) "
     SQL = SQL & " select distinct " & vUsu.Codigo & ",factpro.anofactu,numfactu, factpro.numserie, contadores.nomregis, factpro.numregis,"
     If Me.optVarios(0).Value Then
         SQL = SQL & " factpro.fecfactu"
@@ -1837,6 +1837,8 @@ Dim SQL As String
     'SQL = SQL & ", fecfactu   "  'DATE_FORMAT(fecfactu,'%d/%m/%Y") "
     
     SQL = SQL & ", DATE_FORMAT(" & IIf(optVarios(0).Value, "factpro.fecharec", "factpro.fecfactu") & ",'%d/%m/%Y') "
+    
+    SQL = SQL & ",suplidos"
     
     SQL = SQL & " from " & tabla
     SQL = SQL & " where " & cadselect
@@ -1915,7 +1917,15 @@ Dim i As Integer
     
     If Not CargarTemporal Then Exit Function
     
-    cadFormula = "{tmpfaclin.codusu} = " & vUsu.Codigo
+    
+    RC = "S"
+
+    If Check1(1).Value And optVarios(1).Value Then RC = ""
+    If RC <> "" Then RC = "  AND {tiposiva.tipodiva}<>4"         'SUPLIDOS NO
+    
+    
+    
+    cadFormula = "{tmpfaclin.codusu} = " & vUsu.Codigo & RC
     
             
     MontaSQL = True

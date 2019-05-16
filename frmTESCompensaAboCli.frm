@@ -32,6 +32,23 @@ Begin VB.Form frmTESCompensaAboCli
       Top             =   80
       Visible         =   0   'False
       Width           =   12735
+      Begin VB.CheckBox chkContrCuentaAnticipo 
+         Caption         =   "Contra cuenta de anticipo"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   360
+         TabIndex        =   23
+         Top             =   6000
+         Width           =   4455
+      End
       Begin VB.Frame FrameBotonGnral 
          Height          =   705
          Left            =   180
@@ -695,7 +712,7 @@ End Sub
 
 
 Private Sub cmdCompensar_Click()
-    
+Dim X1 As String
     Cad = DevuelveDesdeBD("informe", "scryst", "codigo", IdPrograma) 'Orden de pago a bancos
     If Cad = "" Then
         MsgBox "No esta configurada la aplicación. Falta el informe", vbCritical
@@ -723,107 +740,142 @@ Private Sub cmdCompensar_Click()
         End If
     Next
 
-    If TotalRegistros + NumRegElim = 1 Then
+    If TotalRegistros + NumRegElim = 1 And Me.chkContrCuentaAnticipo.Value = 0 Then
         MsgBox "Debe seleccionar mas de un vencimiento", vbExclamation
         Exit Sub
     End If
+    
+    
+   
+    
     If TotalRegistros = 0 Or NumRegElim = 0 Then
         If TotalRegistros = 0 And NumRegElim = 0 Then
             MsgBox "No ha marcado ningun venciminto", vbExclamation
             Exit Sub
         End If
-        SQL = "-No va a realizar compensaciones. Va a agrupar los cobros. " & vbCrLf & vbCrLf & "¿Continuar?"
-        If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
-    
+        If Me.chkContrCuentaAnticipo.Value = 0 Then
+            SQL = "-No va a realizar compensaciones. Va a agrupar los cobros. " & vbCrLf & vbCrLf & "¿Continuar?"
+            If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+        End If
+        
     End If
 
-    i = 0
-    SQL = ""
-    If Len(Cad) <> 1 Then
-        'Ha seleccionado o cero o mas de uno
-        If txtimpNoEdit(0).Text <> txtimpNoEdit(1).Text Then
-            'importes distintos. Solo puede seleccionar UNO
-            SQL = "Debe selecionar uno(y solo uno) como vencimiento destino"
-        End If
-    Else
-        'Comprobaremos si el selecionado esta tb checked
-        If Not lwCompenCli.ListItems(CONT).Checked Then
-            SQL = "El vencimiento seleccionado no esta marcado"
-        
+
+     If Me.chkContrCuentaAnticipo.Value = 1 Then
+        'Va a comensar contra una cuenta de anticpo
+        SQL = "438" & Mid(txtCta(17).Text, 4)
+        SQL = "fechaent > " & DBSet(vParam.fechaini, "F") & " AND codmacta ='" & SQL & "' AND 1"
+        SQL = DevuelveDesdeBD("sum(coalesce(timporteh,0) -coalesce(timported,0))", "hlinapu", SQL, "1")
+        i = 0
+        If CCur(SQL) <= 0 Then
+           MsgBox "Saldo no disponible: " & SQL, vbExclamation
+           i = 1
         Else
-            'Si el importe Cobro es mayor que abono, deberia estar
-            Importe = CCur(txtimpNoEdit(0).Tag) + CCur(txtimpNoEdit(1).Tag)  'txtimpNoEdit(1).Tag es negativo
-            If Importe <> 0 Then
-                If Importe > 0 Then
-                    'Es un abono
-                    If Trim(lwCompenCli.ListItems(CONT).SubItems(6)) = "" Then SQL = "cobro"
-                Else
-                    If Trim(lwCompenCli.ListItems(CONT).SubItems(6)) <> "" Then SQL = "abono"
+            If CCur(SQL) < ImporteFormateado(txtimpNoEdit(2).Text) Then
+                MsgBox "Saldo no disponible para cancelar las facturas (" & SQL & ")", vbExclamation
+                i = 1
+            End If
+            X1 = SQL
+        End If
+        If i = 1 Then Exit Sub
+        
+    End If
+
+
+
+    If Me.chkContrCuentaAnticipo.Value = 0 Then
+        'LO que hacia antes
+            i = 0
+            SQL = ""
+            If Len(Cad) <> 1 Then
+                'Ha seleccionado o cero o mas de uno
+                If txtimpNoEdit(0).Text <> txtimpNoEdit(1).Text Then
+                    'importes distintos. Solo puede seleccionar UNO
+                    SQL = "Debe selecionar uno(y solo uno) como vencimiento destino"
                 End If
-                If SQL <> "" Then SQL = "Debe marcar un " & SQL & " como destino"
+            Else
+                'Comprobaremos si el selecionado esta tb checked
+                If Not lwCompenCli.ListItems(CONT).Checked Then
+                    SQL = "El vencimiento seleccionado no esta marcado"
+                
+                Else
+                    'Si el importe Cobro es mayor que abono, deberia estar
+                    Importe = CCur(txtimpNoEdit(0).Tag) + CCur(txtimpNoEdit(1).Tag)  'txtimpNoEdit(1).Tag es negativo
+                    If Importe <> 0 Then
+                        If Importe > 0 Then
+                            'Es un abono
+                            If Trim(lwCompenCli.ListItems(CONT).SubItems(6)) = "" Then SQL = "cobro"
+                        Else
+                            If Trim(lwCompenCli.ListItems(CONT).SubItems(6)) <> "" Then SQL = "abono"
+                        End If
+                        If SQL <> "" Then SQL = "Debe marcar un " & SQL & " como destino"
+                    End If
+                    
+                End If
             End If
             
-        End If
-    End If
-    
-    
-    'Nuevo. Mao 2017
-    'Si hay uno y uno, y no esta el vencimiento destino establecido, lo establezco yo
-    If TotalRegistros = 1 And NumRegElim = 1 And CONT = 0 Then
-        Importe = CCur(txtimpNoEdit(0).Tag) + CCur(txtimpNoEdit(1).Tag)  'txtimpNoEdit(1).Tag es negativo
-        SQL = ""
-        For i = 1 To Me.lwCompenCli.ListItems.Count
-            If lwCompenCli.ListItems(i).Checked Then
-                If Importe > 0 Then
-                    'Este es el nodo SELECCIONADO
-                    If Trim(lwCompenCli.ListItems(i).SubItems(6)) <> "" Then SQL = "OK"
-                Else
-                    If Trim(lwCompenCli.ListItems(i).SubItems(6)) = "" Then SQL = "OK"
-                End If
-            End If
-            If SQL <> "" Then
-                'ESTE ES EL NODO A MARCAR
-                
-                Me.lwCompenCli.ListItems(i).Bold = True
-                Me.lwCompenCli.ListItems(i).ForeColor = vbRed
-                For CONT = 1 To Me.lwCompenCli.ColumnHeaders.Count - 1
-                    Me.lwCompenCli.ListItems(i).ListSubItems(CONT).ForeColor = vbRed
-                    Me.lwCompenCli.ListItems(i).ListSubItems(CONT).Bold = True
-                Next
-                lwCompenCli.Refresh
-                lwCompenCli.ListItems(i).EnsureVisible
-                CONT = i  'establezco destino
-                Cad = "1" 'Para que la funcion de comprbacion no de que debe seleccionar un vencimiento
+            
+            'Nuevo. Mao 2017
+            'Si hay uno y uno, y no esta el vencimiento destino establecido, lo establezco yo
+            If TotalRegistros = 1 And NumRegElim = 1 And CONT = 0 Then
+                Importe = CCur(txtimpNoEdit(0).Tag) + CCur(txtimpNoEdit(1).Tag)  'txtimpNoEdit(1).Tag es negativo
                 SQL = ""
-                Exit For
+                For i = 1 To Me.lwCompenCli.ListItems.Count
+                    If lwCompenCli.ListItems(i).Checked Then
+                        If Importe > 0 Then
+                            'Este es el nodo SELECCIONADO
+                            If Trim(lwCompenCli.ListItems(i).SubItems(6)) <> "" Then SQL = "OK"
+                        Else
+                            If Trim(lwCompenCli.ListItems(i).SubItems(6)) = "" Then SQL = "OK"
+                        End If
+                    End If
+                    If SQL <> "" Then
+                        'ESTE ES EL NODO A MARCAR
+                        
+                        Me.lwCompenCli.ListItems(i).Bold = True
+                        Me.lwCompenCli.ListItems(i).ForeColor = vbRed
+                        For CONT = 1 To Me.lwCompenCli.ColumnHeaders.Count - 1
+                            Me.lwCompenCli.ListItems(i).ListSubItems(CONT).ForeColor = vbRed
+                            Me.lwCompenCli.ListItems(i).ListSubItems(CONT).Bold = True
+                        Next
+                        lwCompenCli.Refresh
+                        lwCompenCli.ListItems(i).EnsureVisible
+                        CONT = i  'establezco destino
+                        Cad = "1" 'Para que la funcion de comprbacion no de que debe seleccionar un vencimiento
+                        SQL = ""
+                        Exit For
+                    End If
+                Next
+                
+                
+              
+            
             End If
-        Next
-        
-        
-      
-    
-    End If
-    
-    
-    
-    
-    
-    If SQL <> "" Then
-        MsgBox SQL, vbExclamation
-        Exit Sub
-    End If
-    
-    
-    
-    
-    
-    
-    
+            
+            
+            
+            
+            
+            If SQL <> "" Then
+                MsgBox SQL, vbExclamation
+                Exit Sub
+            End If
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            If TotalRegistros = 0 Or NumRegElim = 0 Then SQL = "Debe selecionar cobro(s) y abono(s)" & vbCrLf & SQL
+                
     
     
-    If TotalRegistros = 0 Or NumRegElim = 0 Then SQL = "Debe selecionar cobro(s) y abono(s)" & vbCrLf & SQL
-        
-    Observaciones = ""
+    
+    
+        Observaciones = ""
 
         Dim CadAux As String
         
@@ -854,11 +906,22 @@ Private Sub cmdCompensar_Click()
             End If
         Next i
         
-
+        
+        If MsgBox("Seguro que desea realizar la compensación?", vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
+    Else
     
-    If MsgBox("Seguro que desea realizar la compensación?", vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
+      
+              cmdVtoDestino (0), True
+    
+  
+        
+        'Contra cuenta anticipo
+        SQL = "Seleccionado: " & Me.txtimpNoEdit(2).Text & "     Saldo anticipdo: " & Format(X1, FormatoImporte) & vbCrLf
+        If MsgBox(SQL & "Seguro que desea compensar contra la cuenta de anticipo?", vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
     
     
+    
+    End If
     Me.FrameCompensaAbonosCliente.Enabled = False
     Me.Refresh
     Screen.MousePointer = vbHourglass
@@ -869,7 +932,7 @@ Private Sub cmdCompensar_Click()
     
 End Sub
 
-Private Sub cmdVtoDestino(Index As Integer)
+Private Sub cmdVtoDestino(Index As Integer, QuitarMarcaSolo As Boolean)
     
     If Index = 0 Then
         TotalRegistros = 0
@@ -880,6 +943,7 @@ Private Sub cmdVtoDestino(Index As Integer)
             If Me.lwCompenCli.ListItems(i).Bold Then
                 Me.lwCompenCli.ListItems(i).Bold = False
                 Me.lwCompenCli.ListItems(i).ForeColor = vbBlack
+                Debug.Print lwCompenCli.ListItems(i).SubItems(1)
                 For CONT = 1 To Me.lwCompenCli.ColumnHeaders.Count - 1
                     Me.lwCompenCli.ListItems(i).ListSubItems(CONT).ForeColor = vbBlack
                     Me.lwCompenCli.ListItems(i).ListSubItems(CONT).Bold = False
@@ -887,6 +951,12 @@ Private Sub cmdVtoDestino(Index As Integer)
             End If
         Next
         Me.Refresh
+        
+        
+        If QuitarMarcaSolo Then
+            lwCompenCli.Refresh
+            Exit Sub
+        End If
         
         If TotalRegistros > 0 Then
             i = TotalRegistros
@@ -1006,6 +1076,10 @@ Dim Img As Image
     
     Me.Width = W + 300
     Me.Height = H + 400
+    
+   chkContrCuentaAnticipo.Value = 0
+    Me.chkContrCuentaAnticipo.visible = False
+    If InStr(1, vEmpresa.nomempre, "FENOLL") > 0 Then Me.chkContrCuentaAnticipo.visible = True
     
    
     
@@ -1139,7 +1213,7 @@ Private Sub HacerToolBar(Boton As Integer)
         Case 8
             'Imprimir factura
             
-             cmdVtoDestino (1)
+             cmdVtoDestino (1), False
 
     End Select
 End Sub
@@ -1158,7 +1232,7 @@ Private Sub HacerToolBar2(Boton As Integer)
 
     Select Case Boton
         Case 1
-            cmdVtoDestino (0)
+            cmdVtoDestino (0), False
         Case 2 ' ver todos
             BotonVerTodos False
         Case 4 'cuenta anterior
@@ -1471,8 +1545,12 @@ Dim Borras As Boolean
         Borras = True
         If Ejecuta(Cad) Then
             
-            Borras = Not RealizarProcesoCompensacionAbonos
-        
+                If Me.chkContrCuentaAnticipo.Value = 0 Then
+                    Borras = Not RealizarProcesoCompensacionAbonos
+                    
+                Else
+                    Borras = Not RealizarProcesoCompensacionAbonosCuentaPuente
+                End If
         End If
 
 
@@ -1538,47 +1616,52 @@ Dim J As Integer
     End If
     
     
-    i = 0
     
-    While Not miRsAux.EOF
-        i = i + 1
-        BACKUP_Tabla miRsAux, RC
-        'Quito los parentesis
-        RC = Mid(RC, 1, Len(RC) - 1)
-        RC = Mid(RC, 2)
-        
-        Destino = 0
-        If miRsAux!NUmSerie = Me.lwCompenCli.ListItems(NumRegElim).Text Then
-            If miRsAux!NumFactu = Val(Me.lwCompenCli.ListItems(NumRegElim).SubItems(1)) Then
-                If Format(miRsAux!FecFactu, "dd/mm/yyyy") = Me.lwCompenCli.ListItems(NumRegElim).SubItems(2) Then
-                    If miRsAux!numorden = Val(Me.lwCompenCli.ListItems(NumRegElim).SubItems(3)) Then Destino = 1
+            
+            
+            
+            While Not miRsAux.EOF
+                i = i + 1
+                BACKUP_Tabla miRsAux, RC
+                'Quito los parentesis
+                RC = Mid(RC, 1, Len(RC) - 1)
+                RC = Mid(RC, 2)
+                
+                Destino = 0
+                If miRsAux!NUmSerie = Me.lwCompenCli.ListItems(NumRegElim).Text Then
+                    If miRsAux!NumFactu = Val(Me.lwCompenCli.ListItems(NumRegElim).SubItems(1)) Then
+                        If Format(miRsAux!FecFactu, "dd/mm/yyyy") = Me.lwCompenCli.ListItems(NumRegElim).SubItems(2) Then
+                            If miRsAux!numorden = Val(Me.lwCompenCli.ListItems(NumRegElim).SubItems(3)) Then Destino = 1
+                        End If
+                    End If
                 End If
-            End If
-        End If
-        
-        RC = "INSERT INTO compensa_facturas (codigo,linea,destino," & Cad & ",impvenci,gastos,impcobro,fecvenci) VALUES (" & CONT & "," & i & "," & Destino & "," & DBSet(miRsAux!NUmSerie, "T")
-        RC = RC & "," & DBSet(miRsAux!NumFactu, "N") & "," & DBSet(miRsAux!FecFactu, "F") & "," & DBSet(miRsAux!numorden, "N") & "," & DBSet(miRsAux!ImpVenci, "N")
-        RC = RC & "," & DBSet(miRsAux!Gastos, "N") & "," & DBSet(miRsAux!impcobro, "N") & "," & DBSet(miRsAux!FecVenci, "F") & ")"
-        Conn.Execute RC
-        
-        'Para las observaciones de despues
-        Importe = DBLet(miRsAux!Gastos, "N")
-        Importe = Importe + miRsAux!ImpVenci
-        'Si ya he cobrado algo
-        If Not IsNull(miRsAux!impcobro) Then Importe = Importe - miRsAux!impcobro
-        
-        If Destino = 0 Then 'El destino
-            DevfrmCCtas = DevfrmCCtas & miRsAux!NUmSerie & Format(miRsAux!NumFactu, "0000000") & " " & Format(miRsAux!FecFactu, "dd/mm/yyyy")
-            DevfrmCCtas = DevfrmCCtas & " Vto:" & Format(miRsAux!FecVenci, "dd/mm/yy") & " " & Importe
-            DevfrmCCtas = DevfrmCCtas & "|"
-        Else
-            'El DESTINO siempre ira en la primera observacion del texto
-            RC = "Importe anterior vto: " & Importe
-            DevfrmCCtas = RC & "|" & DevfrmCCtas
-        End If
-        
-        miRsAux.MoveNext
-    Wend
+                
+                RC = "INSERT INTO compensa_facturas (codigo,linea,destino," & Cad & ",impvenci,gastos,impcobro,fecvenci) VALUES (" & CONT & "," & i & "," & Destino & "," & DBSet(miRsAux!NUmSerie, "T")
+                RC = RC & "," & DBSet(miRsAux!NumFactu, "N") & "," & DBSet(miRsAux!FecFactu, "F") & "," & DBSet(miRsAux!numorden, "N") & "," & DBSet(miRsAux!ImpVenci, "N")
+                RC = RC & "," & DBSet(miRsAux!Gastos, "N") & "," & DBSet(miRsAux!impcobro, "N") & "," & DBSet(miRsAux!FecVenci, "F") & ")"
+                Conn.Execute RC
+                
+                'Para las observaciones de despues
+                Importe = DBLet(miRsAux!Gastos, "N")
+                Importe = Importe + miRsAux!ImpVenci
+                'Si ya he cobrado algo
+                If Not IsNull(miRsAux!impcobro) Then Importe = Importe - miRsAux!impcobro
+                
+                If Destino = 0 Then 'El destino
+                    DevfrmCCtas = DevfrmCCtas & miRsAux!NUmSerie & Format(miRsAux!NumFactu, "0000000") & " " & Format(miRsAux!FecFactu, "dd/mm/yyyy")
+                    DevfrmCCtas = DevfrmCCtas & " Vto:" & Format(miRsAux!FecVenci, "dd/mm/yy") & " " & Importe
+                    DevfrmCCtas = DevfrmCCtas & "|"
+                Else
+                    'El DESTINO siempre ira en la primera observacion del texto
+                    RC = "Importe anterior vto: " & Importe
+                    DevfrmCCtas = RC & "|" & DevfrmCCtas
+                End If
+                
+                miRsAux.MoveNext
+            Wend
+    
+    
+    
     miRsAux.Close
     
     'Acutalizaremos el VTO destino
@@ -1802,6 +1885,174 @@ Dim IT
     PonerModoUsuarioGnral Modo, "ariconta"
     Screen.MousePointer = vbDefault
 End Sub
+
+
+
+
+
+
+
+
+'Compensa contra cuenta puente
+Private Function RealizarProcesoCompensacionAbonosCuentaPuente() As Boolean
+Dim Destino As Byte
+Dim J As Integer
+Dim Mc As Contadores
+Dim colApuntes As Collection
+Dim SQ As String
+Dim L As Integer
+
+    'NO USAR CONT
+    On Error GoTo eRealizarProcesoCompensacionAbonosCuentaPuente
+    
+    RealizarProcesoCompensacionAbonosCuentaPuente = False
+
+    Set Mc = New Contadores
+    If Now < vParam.fechaini Then Err.Raise 513, , "Fecha menor inicio"
+    
+    Mc.ConseguirContador "0", Now <= vParam.fechaini, True
+    
+    'Vamos a seleccionar los vtos
+    '(numserie,codfaccl,fecfaccl,numorden)
+    'EN SQL
+    SQLVtosSeleccionadosCompensacion NumRegElim, False    'todos  -> Numregelim tendr el destino
+    
+    'Metemos los campos en el la tabla de lineas
+    ' Esto guarda el valor en CAD
+    FijaCadenaSQLCobrosCompen
+    
+    
+    'Texto compensacion
+    DevfrmCCtas = ""
+    
+    RC = "Select " & Cad & ", gastos, impvenci, impcobro, fecvenci FROM cobros where (numserie,numfactu,fecfactu,numorden) IN (" & SQL & ")"
+    miRsAux.Open RC, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    If miRsAux.EOF Then
+        MsgBox "Error. EOF vencimientos devueltos ", vbExclamation
+        Exit Function
+    End If
+    
+        Set colApuntes = New Collection
+        SQ = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari, feccreacion, usucreacion, desdeaplicacion) VALUES ("
+        SQ = SQ & "1,'" & Format(Now, FormatoFecha) & "'," & Mc.Contador
+        SQ = SQ & ",'"
+        SQ = SQ & "Compensacion cuenta abono    . Generado desde Tesorería el " & Format(Now, "dd/mm/yyyy hh:mm") & " por " & vUsu.Nombre
+        SQ = SQ & "',"
+        SQ = SQ & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: compensa cobros')"
+
+        colApuntes.Add SQ
+            
+            
+            L = 0
+            While Not miRsAux.EOF
+                L = L + 1
+                i = i + 1
+                BACKUP_Tabla miRsAux, RC
+                'Quito los parentesis
+                RC = Mid(RC, 1, Len(RC) - 1)
+                RC = Mid(RC, 2)
+                
+                Destino = 0
+                If miRsAux!NUmSerie = Me.lwCompenCli.ListItems(NumRegElim).Text Then
+                    If miRsAux!NumFactu = Val(Me.lwCompenCli.ListItems(NumRegElim).SubItems(1)) Then
+                        If Format(miRsAux!FecFactu, "dd/mm/yyyy") = Me.lwCompenCli.ListItems(NumRegElim).SubItems(2) Then
+                            If miRsAux!numorden = Val(Me.lwCompenCli.ListItems(NumRegElim).SubItems(3)) Then Destino = 1
+                        End If
+                    End If
+                End If
+                
+                RC = "INSERT INTO compensa_facturas (codigo,linea,destino," & Cad & ",impvenci,gastos,impcobro,fecvenci) VALUES (" & CONT & "," & i & "," & Destino & "," & DBSet(miRsAux!NUmSerie, "T")
+                RC = RC & "," & DBSet(miRsAux!NumFactu, "N") & "," & DBSet(miRsAux!FecFactu, "F") & "," & DBSet(miRsAux!numorden, "N") & "," & DBSet(miRsAux!ImpVenci, "N")
+                RC = RC & "," & DBSet(miRsAux!Gastos, "N") & "," & DBSet(miRsAux!impcobro, "N") & "," & DBSet(miRsAux!FecVenci, "F") & ")"
+                Conn.Execute RC
+                
+                'Para las observaciones de despues
+                Importe = DBLet(miRsAux!Gastos, "N")
+                Importe = Importe + miRsAux!ImpVenci
+                'Si ya he cobrado algo
+                If Not IsNull(miRsAux!impcobro) Then Importe = Importe - miRsAux!impcobro
+                
+                If Destino = 0 Then 'El destino
+                    DevfrmCCtas = DevfrmCCtas & miRsAux!NUmSerie & Format(miRsAux!NumFactu, "0000000") & " " & Format(miRsAux!FecFactu, "dd/mm/yyyy")
+                    DevfrmCCtas = DevfrmCCtas & " Vto:" & Format(miRsAux!FecVenci, "dd/mm/yy") & " " & Importe
+                    DevfrmCCtas = DevfrmCCtas & "|"
+                Else
+                    'El DESTINO siempre ira en la primera observacion del texto
+                    RC = "Importe anterior vto: " & Importe
+                    DevfrmCCtas = RC & "|" & DevfrmCCtas
+                End If
+                
+                
+                
+                
+                SQ = "INSERT INTO hlinapu (numdiari,fechaent,numasien,linliapu,codmacta,numdocum,codconce,ampconce,timporteD,timporteH,ctacontr) VALUES ("
+                SQ = SQ & "1,'" & Format(Now, FormatoFecha) & "'," & Mc.Contador & "," & L & ",'" & txtCta(17).Text & "',"
+                SQL = SQ & DBSet(miRsAux!NUmSerie & Format(miRsAux!NumFactu, "0000000"), "T") & ",3,'Compensa cobro-anticipo " & miRsAux!NUmSerie & miRsAux!NumFactu
+                SQ = SQL & "',NULL," & DBSet(Importe, "N") & ",'438" & Mid(txtCta(17).Text, 4) & "')"
+                colApuntes.Add SQ
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                miRsAux.MoveNext
+            Wend
+    
+    
+        
+    miRsAux.Close
+    
+    'Acutalizaremos el VTO destino
+           
+                SQ = "INSERT INTO compensa_facturas (codigo,linea,destino," & Cad & ",impvenci,gastos,impcobro,fecvenci) VALUES (" & CONT & "," & i + 1 & "," & Destino & "," & DBSet("COM", "T")
+                SQ = SQ & "," & DBSet(CONT, "N") & "," & DBSet(Now, "F") & "," & DBSet(1, "N") & ",-" & DBSet(Me.txtimpNoEdit(2).Text, "N")
+                SQ = SQ & ",0,0," & DBSet(Now, "F") & ")"
+                Conn.Execute SQ
+    
+                L = L + 1
+                SQ = "INSERT INTO hlinapu (numdiari,fechaent,numasien,linliapu,codmacta,numdocum,codconce,ampconce,timporteD,timporteH,ctacontr) VALUES ("
+                SQ = SQ & "1,'" & Format(Now, FormatoFecha) & "'," & Mc.Contador & "," & L & ",'438" & Mid(txtCta(17).Text, 4) & "',"
+                SQL = SQ & "'Compen. " & CONT & "',3,'Compensa cobro-anticipo " & CONT
+                SQ = SQL & "'," & DBSet(Me.txtimpNoEdit(2).Text, "N") & ",NULL,'" & txtCta(17).Text & "')"
+                colApuntes.Add SQ
+                
+    
+    Conn.BeginTrans
+        'Insertaremos registros en cobros_realizados BORRAREMOS LOS VENCIMIENTOS QUE NO SEAN DESTINO a no ser que el importe restante sea 0
+        Destino = 1
+        If txtimpNoEdit(0).Text = txtimpNoEdit(1).Text Then Destino = 0
+        
+        SQLVtosSeleccionadosCompensacion 0, Destino = 1  'sin o con el destino
+        
+        'Para saber si ha ido bien
+        Destino = 0    '0 mal,1 bien
+        If InsertarCobrosRealizados(SQL) Then
+            
+            For i = 1 To colApuntes.Count
+                SQ = colApuntes.Item(i)
+                Conn.Execute SQ
+            Next
+            Destino = 1
+        End If
+        If Destino = 1 Then
+            Conn.CommitTrans
+            RealizarProcesoCompensacionAbonosCuentaPuente = True
+        Else
+            Conn.RollbackTrans
+        End If
+        Exit Function
+eRealizarProcesoCompensacionAbonosCuentaPuente:
+    MuestraError Err.Number, , Err.Description
+    
+    
+    Conn.RollbackTrans
+    If Not Mc Is Nothing Then Mc.DevolverContador "0", Now <= vParam.fechafin, Mc.Contador
+End Function
 
 
 

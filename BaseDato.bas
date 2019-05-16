@@ -2596,7 +2596,7 @@ Dim Insertar As Boolean
                       Insertar = Not (ImPerH = 0)
                 End If
                                             'EL DEDUCIBLE
-                If Insertar Then InsertaIVADetallado Clientes, RT!TipoDIva = 5
+                If Insertar Then InsertaIVADetallado Clientes
             End If
             RT.MoveNext
         Wend
@@ -2609,14 +2609,8 @@ End Sub
 
 
 'No le pasamos parametros pq las variables k va a utilizar son globales
-Private Sub InsertaIVADetallado(Clientes2 As Byte, Nodeducible As Boolean)
+Private Sub InsertaIVADetallado(Clientes2 As Byte)
 
-'    If Nodeducible Then
-'        If Clientes2 = 1 Then Cli2 = 2
-'    End If
-    
-    'SQL = SQL & " AND pasivo=" & Clientes
-    'SQL = SQL & " AND codigo ="
     H = SQL & Clientes2 & " AND Codigo ="
     miRsAux.Open H & A2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     ImpD = 0
@@ -5316,7 +5310,10 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
     SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
     SQL = SQL & " and factpro.codopera = 0 " ' tipo de operacion general
-    SQL = SQL & " and not tipodiva in (2) " ' no sean de bienes de inversion
+    'Marzo 2019
+    'SQL = SQL & " and not tipodiva in (2) " ' no sean de bienes de inversion
+    SQL = SQL & " and not tipodiva in (2,4) " ' no sean de bienes de inversion NI Suplidos
+    
     SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
     SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
     SQL = SQL & " group by 1,2,3"

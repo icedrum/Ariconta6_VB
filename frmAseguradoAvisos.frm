@@ -2,26 +2,26 @@ VERSION 5.00
 Object = "{7CAC59E5-B703-4CCF-B326-8B956D962F27}#17.2#0"; "Codejock.ReportControl.v17.2.0.ocx"
 Begin VB.Form frmASeguradoAvisos 
    BorderStyle     =   3  'Fixed Dialog
-   ClientHeight    =   10380
-   ClientLeft      =   48
-   ClientTop       =   432
-   ClientWidth     =   19788
+   ClientHeight    =   10110
+   ClientLeft      =   45
+   ClientTop       =   435
+   ClientWidth     =   17370
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   10380
-   ScaleWidth      =   19788
+   ScaleHeight     =   10110
+   ScaleWidth      =   17370
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin XtremeReportControl.ReportControl wndReportControl 
-      Height          =   8655
+      Height          =   8535
       Left            =   120
       TabIndex        =   3
-      Top             =   840
-      Width           =   19335
+      Top             =   600
+      Width           =   16935
       _Version        =   1114114
-      _ExtentX        =   34105
-      _ExtentY        =   15266
+      _ExtentX        =   29871
+      _ExtentY        =   15055
       _StockProps     =   64
       MultipleSelection=   0   'False
       FreezeColumnsAbs=   0   'False
@@ -33,7 +33,7 @@ Begin VB.Form frmASeguradoAvisos
       Default         =   -1  'True
       BeginProperty Font 
          Name            =   "Verdana"
-         Size            =   9.6
+         Size            =   9.75
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -41,16 +41,16 @@ Begin VB.Form frmASeguradoAvisos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   18240
+      Left            =   15840
       TabIndex        =   2
-      Top             =   9840
+      Top             =   9600
       Width           =   1215
    End
    Begin VB.OptionButton Option1 
       Caption         =   "Aviso siniestro"
       BeginProperty Font 
          Name            =   "Verdana"
-         Size            =   14.4
+         Size            =   14.25
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -61,14 +61,14 @@ Begin VB.Form frmASeguradoAvisos
       Index           =   1
       Left            =   5520
       TabIndex        =   1
-      Top             =   240
+      Top             =   120
       Width           =   3135
    End
    Begin VB.OptionButton Option1 
       Caption         =   "Aviso falta de pago"
       BeginProperty Font 
          Name            =   "Verdana"
-         Size            =   14.4
+         Size            =   14.25
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -77,9 +77,9 @@ Begin VB.Form frmASeguradoAvisos
       EndProperty
       Height          =   375
       Index           =   0
-      Left            =   240
+      Left            =   120
       TabIndex        =   0
-      Top             =   240
+      Top             =   120
       Value           =   -1  'True
       Width           =   3735
    End
@@ -315,7 +315,7 @@ Private Sub EstablecerFuente()
     Dim TextFont As StdFont
     Label1.Font.Bold = False
     Set TextFont = Label1.Font
-    TextFont.SIZE = 11
+    TextFont.SIZE = 10
     Set wndReportControl.PaintManager.TextFont = TextFont
     Set wndReportControl.PaintManager.CaptionFont = TextFont
     Set wndReportControl.PaintManager.PreviewTextFont = TextFont

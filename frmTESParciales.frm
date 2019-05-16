@@ -1470,7 +1470,11 @@ Dim ImporteCtaCliente As Currency
     End If
     Importe = impo
     If DescuentaImporteDevolucion Then
-        Importe = impo - GastosBanco
+        If Cobro Then
+            Importe = impo - GastosBanco
+        Else
+            Importe = impo + GastosBanco
+        End If
     End If
     
     Cad = "3,'" & txtCta(1).Text & "','" & Numdocum & "'," & Conce & ",'" & Ampliacion & "',"

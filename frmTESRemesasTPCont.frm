@@ -15,6 +15,114 @@ Begin VB.Form frmTESRemesasTPCont
    ScaleWidth      =   5640
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame FrameCancelarCartera 
+      Height          =   2775
+      Left            =   240
+      TabIndex        =   9
+      Top             =   360
+      Visible         =   0   'False
+      Width           =   5295
+      Begin VB.TextBox Text1 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   0
+         Left            =   2550
+         TabIndex        =   12
+         Text            =   "Text1"
+         Top             =   1080
+         Width           =   1365
+      End
+      Begin VB.CommandButton cmdCancelarCartera 
+         Caption         =   "Aceptar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Left            =   2040
+         TabIndex        =   11
+         Top             =   2160
+         Width           =   1425
+      End
+      Begin VB.CommandButton cmdCancelar 
+         Caption         =   "Cancelar"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   50
+         Left            =   3720
+         TabIndex        =   10
+         Top             =   2160
+         Width           =   1245
+      End
+      Begin VB.Label Label5 
+         Alignment       =   2  'Center
+         AutoSize        =   -1  'True
+         Caption         =   "Cancelar cartera efect. comerciales"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   13.5
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   360
+         Index           =   0
+         Left            =   105
+         TabIndex        =   14
+         Top             =   360
+         Width           =   4965
+      End
+      Begin VB.Image Image1 
+         Height          =   240
+         Index           =   0
+         Left            =   2190
+         Top             =   1140
+         Width           =   240
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Fecha apunte"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   315
+         Index           =   1
+         Left            =   360
+         TabIndex        =   13
+         Top             =   1110
+         Width           =   1800
+      End
+   End
    Begin MSComDlg.CommonDialog cd1 
       Left            =   6240
       Top             =   4800
@@ -179,7 +287,7 @@ Begin VB.Form frmTESRemesasTPCont
          Index           =   2
          Left            =   180
          TabIndex        =   1
-         Top             =   390
+         Top             =   360
          Width           =   5175
       End
    End
@@ -192,7 +300,7 @@ Attribute VB_Exposed = False
 Option Explicit
 Public Opcion As Byte
     '8.- Contabilizar remesa
-        
+    '50.- CAncelar cartera efectos descontados
     
     
 Public SubTipo As Byte
@@ -238,6 +346,24 @@ End Sub
 
 
 
+
+Private Sub cmdCancelarCartera_Click()
+    
+    SQL = ""
+     If Text1(0).Text = "" Then SQL = "Ponga la fecha "
+    
+    If SQL <> "" Then
+        MsgBox SQL, vbExclamation
+        Exit Sub
+    End If
+    
+    'Fecha pertenece a ejercicios contbles
+    If FechaCorrecta2(CDate(Text1(0).Text), True) > 1 Then Exit Sub
+    
+    CadenaDesdeOtroForm = Text1(0).Text
+    Unload Me
+    
+End Sub
 
 Private Sub cmdContabRemesa_Click()
 Dim B As Boolean
@@ -433,21 +559,25 @@ Dim ContabilizacionEspecialNorma19 As Boolean
     
     'NORMA 19
     '------------------------------------
+
     
     'Contabilizaremos la remesa
     Conn.BeginTrans
+    
+    
+        
     
     'mayo 2012
     If ContabilizacionEspecialNorma19 Then
         'Utiliza Morales
         'Es para contabilizar los recibos por fecha de vto
-        
-        B = ContabNorma19PorFechaVto(Rs!Codigo, Rs!Anyo, SQL)
+
+        B = ContabNorma19PorFechaVto(Rs!Codigo, Rs!Anyo, SQL, "", Now)
     Else
         'Toooodas las demas opciones estan aqui
     
                                 'Efecto(1),pagare(2),talon(3)
-        B = ContabilizarRecordsetRemesa(Rs!Tiporem, DBLet(Rs!Tipo, "N") = 0, Rs!Codigo, Rs!Anyo, SQL, CDate(Text1(10).Text), Importe)
+        B = ContabilizarRecordsetRemesa(Rs!Tiporem, DBLet(Rs!Tipo, "N") = 0, Rs!Codigo, Rs!Anyo, SQL, CDate(Text1(10).Text), Importe, "")
     
     End If
     
@@ -646,7 +776,7 @@ Dim W As Integer
     
     
     FrameContabilRem2.visible = False
-    
+    FrameCancelarCartera.visible = False
     Select Case Opcion
     Case 8, 22, 23
         'Utilizare el mismo FRAM para
@@ -711,6 +841,14 @@ Dim W As Integer
         
         W = FrameContabilRem2.Width
         H = FrameContabilRem2.Height
+        
+        
+    Case 50
+         FrameCancelarCartera.top = 0
+         FrameCancelarCartera.Left = 1
+        W = FrameCancelarCartera.Width
+        H = FrameCancelarCartera.Height
+        FrameCancelarCartera.visible = True
     End Select
     
     

@@ -718,13 +718,13 @@ Dim Inserta As Boolean
                  
                     If Not SeVeRiesgo Then
                     ' por lo de mc añado la condicion And DBLet(RS!siturem, "T") > "B"
-                        If DBLet(Rs!CodRem, "N") > 0 And DBLet(Rs!siturem, "T") > "B" Then
+                        If DBLet(Rs!Codrem, "N") > 0 And DBLet(Rs!siturem, "T") > "B" Then
                             Inserta = False
                             
                         End If
                     ' añadido lo que pide Mc de que se vean las remesas que tengan situacion B
                     Else
-                        If (DBLet(Rs!CodRem, "N") > 0 And DBLet(Rs!siturem, "T") > "B") Then Inserta = False
+                        If (DBLet(Rs!Codrem, "N") > 0 And DBLet(Rs!siturem, "T") > "B") Then Inserta = False
                     End If
                 End If
                 
@@ -1011,7 +1011,7 @@ Dim Campo2 As Integer
             Case "CLIENTE"
                 CampoOrden = "nommacta " & IIf(Orden, "DESC", "") & ",cobros.fecfactu,cobros.numfactu"
             Case "Tipo"
-                CampoOrden = "siglas " & IIf(Orden, "DESC", "") & ",cobros.fecfactu,cobros.numfactu"""
+                CampoOrden = "siglas " & IIf(Orden, "DESC", "") & ",cobros.fecfactu,cobros.numfactu"
             Case "Importe"
                 CampoOrden = "cobros.impvenci " & IIf(Orden, "DESC", "") & " ,cobros.fecfactu,cobros.numfactu"
             Case "Gasto"

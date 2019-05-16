@@ -145,6 +145,7 @@ Public Function GenerarFicheroIVA_303_2017(ByRef CadenaImportes As String, Impor
 Dim Aux As String
 Dim Periodo As String
 Dim K As Integer
+Dim UltimoPeridod As Boolean
 On Error GoTo Salida '
 
     GenerarFicheroIVA_303_2017 = False
@@ -152,11 +153,14 @@ On Error GoTo Salida '
     Linea = Linea & "<T3030"
     Linea = Linea & RecuperaValor(vPeriodo, 3)  'AÑO
     i = CInt(RecuperaValor(vPeriodo, 1)) 'El periodo
+    UltimoPeridod = False
     If vParam.periodos = 0 Then
         'Trimestral
         Periodo = i & "T"
+        If i = 4 Then UltimoPeridod = True
     Else
         Periodo = Format(i, "00")
+        If i = 12 Then UltimoPeridod = True
     End If
     Linea = Linea & Periodo & "0000><AUX>"
     
@@ -242,7 +246,20 @@ On Error GoTo Salida '
     
     
     'Exonerados del 390
-    Linea = Linea & "2"
+    'Solo admite 1 y 2 en ultimo peridod año.  4T o 12
+    '- Inscritos en el REDEME (Registro de Devolución Mensual del IVA)
+    '- Grandes Empresas (facturación a efectos del IVA superior a 6.010.121,04 €).
+    '- Grupos de IVA.
+    '- Sujetos pasivos que hubieran optado por llevar los Libros registro del IVA  través de la Sede electrónica de la AEAT.
+    Aux = "0"
+    If UltimoPeridod Then
+        If vParam.SIITiene Then
+            Aux = "1"
+        Else
+            Aux = "2"
+        End If
+    End If
+    Linea = Linea & Aux
    
     
     'Final IVA
@@ -336,7 +353,8 @@ On Error GoTo Salida '
     Else
         Linea = Linea & Format(i, "00")
     End If
-    Linea = Linea & "0000>" & Chr(13) & Chr(10)
+   ' Linea = Linea & "0000>" & Chr(13) & Chr(10)
+    Linea = Linea & "0000>" '  Quitamos los saltos de linea   2019-04-17
     
     
     If Not ImprimeFichero Then GoTo Salida
@@ -1540,22 +1558,44 @@ Dim SqlNew As String
 Dim aux2 As String
 
 
-
+    
+    'Marzo 2019. SUPLIDOS
+    
     '0: ESPAÑA
     '1: De momento van juntos intracom y extranjero. Ya veremos com separamos
-
-    Linea = "select factcli.*,cuentas.razosoci, factcli_totales.numlinea, factcli_totales.baseimpo, factcli_totales.codigiva, factcli_totales.porciva, factcli_totales.porcrec, factcli_totales.impoiva, factcli_totales.imporec"
-    Linea = Linea & " from ariconta" & NumeroEmpresa & ".factcli as factcli,"
-    Linea = Linea & "ariconta" & NumeroEmpresa & ".cuentas cuentas, "
-    Linea = Linea & "ariconta" & NumeroEmpresa & ".factcli_totales factcli_totales "
-    Linea = Linea & " where factcli.codmacta=cuentas.codmacta AND " & CadWhere
-    Linea = Linea & " and factcli.numserie = factcli_totales.numserie "
-    Linea = Linea & " and factcli.numfactu = factcli_totales.numfactu "
-    Linea = Linea & " and factcli.anofactu = factcli_totales.anofactu "
-    'Voy a ordenar por numserie para no leer tantas veces de contadores
-    Linea = Linea & " ORDER BY factcli.numserie,numfactu,fecfactu"
+'    Linea = "select factcli.*,cuentas.razosoci, factcli_totales.numlinea, factcli_totales.baseimpo, factcli_totales.codigiva, factcli_totales.porciva, factcli_totales.porcrec, factcli_totales.impoiva, factcli_totales.imporec"
+'    Linea = Linea & " from ariconta" & NumeroEmpresa & ".factcli as factcli,"
+'    Linea = Linea & "ariconta" & NumeroEmpresa & ".cuentas cuentas, "
+'    Linea = Linea & "ariconta" & NumeroEmpresa & ".factcli_totales factcli_totales "
+'    Linea = Linea & " where factcli.codmacta=cuentas.codmacta AND " & CadWhere
+'    Linea = Linea & " and factcli.numserie = factcli_totales.numserie "
+'    Linea = Linea & " and factcli.numfactu = factcli_totales.numfactu "
+'    Linea = Linea & " and factcli.anofactu = factcli_totales.anofactu "
+'    Linea = Linea & " ORDER BY factcli.numserie,numfactu,fecfactu"
+'
+    
+    'Marzo 2019. SUPLIDOS
+    Linea = "select factcli.*,cuentas.razosoci, factcli_totales.numlinea, factcli_totales.baseimpo, factcli_totales.codigiva, factcli_totales.porciva,"
+    Linea = Linea & " factcli_totales.porcrec , factcli_totales.Impoiva, factcli_totales.ImpoRec"
+    Linea = Linea & " from ariconta" & NumeroEmpresa & ".factcli inner join ariconta" & NumeroEmpresa & ".cuentas cuentas on  factcli.codmacta=cuentas.codmacta"
+    Linea = Linea & " inner join ariconta" & NumeroEmpresa & ".factcli_totales factcli_totales  on  factcli.numserie = factcli_totales.numserie"
+    Linea = Linea & " and factcli.numfactu = factcli_totales.numfactu  and factcli.anofactu = factcli_totales.anofactu"
+    Linea = Linea & " inner join ariconta" & NumeroEmpresa & ".tiposiva on tiposiva.codigiva=factcli_totales.codigiva"
+    Linea = Linea & " where tiposiva.tipodiva<>4 AND " & CadWhere
+    
+    
+    
+    
+    
+    
+    
+    
     CadenaInsert = ""
     ErroresCtaAjena = ""
+    
+    
+    
+    
     Rs.Open Linea, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
             'Para cada factura si tiene varias bases, el trzo sera igual menos el importe final(de la cuto % y totaliva)
@@ -1746,16 +1786,29 @@ Dim SqlNew As String
     Wend
     Rs.Close
 
-    
-    Linea = "select factpro.*,razosoci, factpro_totales.numlinea, factpro_totales.baseimpo, factpro_totales.codigiva, factpro_totales.porciva, factpro_totales.porcrec, factpro_totales.impoiva, factpro_totales.imporec "
-    Linea = Linea & " from ariconta" & NumeroEmpresa & ".factpro factpro,"
-    Linea = Linea & "ariconta" & NumeroEmpresa & ".cuentas cuentas, "
-    Linea = Linea & "ariconta" & NumeroEmpresa & ".factpro_totales factpro_totales "
-    Linea = Linea & " where factpro.codmacta=cuentas.codmacta AND " & CadenaWhere
-    Linea = Linea & " and factpro.numserie = factpro_totales.numserie "
-    Linea = Linea & " and factpro.numregis = factpro_totales.numregis "
-    Linea = Linea & " and factpro.anofactu = factpro_totales.anofactu "
-    'FALTA el periodod
+'   SUPLIDOS Marzo 2019
+'    Linea = "select factpro.*,razosoci, factpro_totales.numlinea, factpro_totales.baseimpo, factpro_totales.codigiva, factpro_totales.porciva, factpro_totales.porcrec, factpro_totales.impoiva, factpro_totales.imporec "
+'    Linea = Linea & " from ariconta" & NumeroEmpresa & ".factpro factpro,"
+'    Linea = Linea & "ariconta" & NumeroEmpresa & ".cuentas cuentas, "
+'    Linea = Linea & "ariconta" & NumeroEmpresa & ".factpro_totales factpro_totales "
+'    Linea = Linea & " where factpro.codmacta=cuentas.codmacta AND " & CadenaWhere
+'    Linea = Linea & " and factpro.numserie = factpro_totales.numserie "
+'    Linea = Linea & " and factpro.numregis = factpro_totales.numregis "
+'    Linea = Linea & " and factpro.anofactu = factpro_totales.anofactu "
+
+    Linea = "select factpro.*,razosoci, factpro_totales.numlinea, factpro_totales.baseimpo, factpro_totales.codigiva, factpro_totales.porciva,"
+    Linea = Linea & " factpro_totales.porcrec, factpro_totales.impoiva, factpro_totales.imporec  from"
+    Linea = Linea & " ariconta" & NumeroEmpresa & ".factpro factpro inner join ariconta" & NumeroEmpresa & ".cuentas cuentas on factpro.codmacta=cuentas.codmacta"
+    Linea = Linea & " inner join  ariconta" & NumeroEmpresa & ".factpro_totales factpro_totales  on  factpro.numserie = factpro_totales.numserie"
+    Linea = Linea & " and factpro.numregis = factpro_totales.numregis  and factpro.anofactu = factpro_totales.anofactu"
+    Linea = Linea & " inner join ariconta" & NumeroEmpresa & ".tiposiva tiposiva on factpro_totales.codigiva=tiposiva.codigiva"
+    Linea = Linea & " where   tiposiva.tipodiva<>4 AND " & CadenaWhere
+
+
+
+
+
+
 
     CadenaInsert = ""
     Rs.Open Linea, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -2417,7 +2470,7 @@ Dim aux2 As String
             'El IVA REA hay que ponerlo asin..  'TIpo impositov=00000   BI total fra   total fra=totalfra
             'LINEA = LINEA & "00000" & DatosNumeroDec340(RS!totalfac, 14) & DatosNumeroDec340(0, 14) & DatosNumeroDec340(RS!totalfac, 14)
             'Febreo 2012, mas tarde. Opcion Llutxent
-            Linea = Linea & "00000" & DatosNumeroDec340(Rs!Base, 14) & DatosNumeroDec340(Rs!totiva, 14) & DatosNumeroDec340(Rs!TotalFac, 14)
+            Linea = Linea & "00000" & DatosNumeroDec340(Rs!Base, 14) & DatosNumeroDec340(Rs!TotIVA, 14) & DatosNumeroDec340(Rs!TotalFac, 14)
             
         Else
             If Rs!clavelibro = "Z" Then
@@ -2428,7 +2481,7 @@ Dim aux2 As String
             Else
                  'Fecha expedicion, fecha operacion
                 Linea = Linea & Format(Rs!fechaexp, "yyyymmdd") & Format(Rs!fechaop, "yyyymmdd")
-                Linea = Linea & DatosNumeroDec(Rs!Tipo, 5) & DatosNumeroDec340(Rs!Base, 14) & DatosNumeroDec340(Rs!totiva, 14) & DatosNumeroDec340(Rs!TotalFac, 14)
+                Linea = Linea & DatosNumeroDec(Rs!Tipo, 5) & DatosNumeroDec340(Rs!Base, 14) & DatosNumeroDec340(Rs!TotIVA, 14) & DatosNumeroDec340(Rs!TotalFac, 14)
             End If
         End If
          'Base imponible a cuoste
@@ -2523,7 +2576,7 @@ Dim aux2 As String
                 Linea = Linea & Space(25) 'catastral
                 ''importe en metalico percibido
                 'Se declara lo anterior y el periodo. El periodo SEGURo que tiene movimientos
-                Linea = Linea & DatosNumeroDec(DBLet(Rs!Base, "N") + Rs!totiva, 15)
+                Linea = Linea & DatosNumeroDec(DBLet(Rs!Base, "N") + Rs!TotIVA, 15)
                 'Ejercicio del pago en la cadena IdentificacionPresentador la posicion 4,5,6,7 son el anño
                 Linea = Linea & Mid(IdentificacionPresentador, 4, 4)
                 Linea = Linea & DatosNumeroDec(0, 15)

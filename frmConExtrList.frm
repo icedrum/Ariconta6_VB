@@ -80,7 +80,6 @@ Begin VB.Form frmConExtrList
          Left            =   210
          TabIndex        =   10
          Top             =   3960
-         Value           =   1  'Checked
          Width           =   3405
       End
       Begin VB.TextBox txtPag2 
@@ -887,7 +886,7 @@ Private WithEvents frmC As frmColCtas
 Attribute frmC.VB_VarHelpID = -1
 
 Private SQL As String
-Dim cad As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -1014,10 +1013,10 @@ Private Sub Form_Load()
         txtNCuentas(1).Text = Descripcion
     End If
     
-    txtFecha(0).Text = FecDesde 'vParam.fechaini
-    txtFecha(1).Text = FecHasta 'vParam.fechafin
+    txtfecha(0).Text = FecDesde 'vParam.fechaini
+    txtfecha(1).Text = FecHasta 'vParam.fechafin
      
-    txtFecha(2).Text = Format(Now, "dd/mm/yyyy")
+    txtfecha(2).Text = Format(Now, "dd/mm/yyyy")
 
     Combo1.ListIndex = 0
     Combo2.ListIndex = 0
@@ -1028,9 +1027,9 @@ Private Sub Form_Load()
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
     If Legalizacion <> "" Then
-        txtFecha(0).Text = RecuperaValor(Legalizacion, 2) ' fecha inicio
-        txtFecha(1).Text = RecuperaValor(Legalizacion, 3) ' fecha fin
-        txtFecha(2).Text = RecuperaValor(Legalizacion, 1) ' fecha de informe
+        txtfecha(0).Text = RecuperaValor(Legalizacion, 2) ' fecha inicio
+        txtfecha(1).Text = RecuperaValor(Legalizacion, 3) ' fecha fin
+        txtfecha(2).Text = RecuperaValor(Legalizacion, 1) ' fecha de informe
     End If
     
 End Sub
@@ -1042,7 +1041,7 @@ Private Sub frmC_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
@@ -1069,10 +1068,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
         
     End Select
     
@@ -1139,7 +1138,7 @@ Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
 End Sub
 
 Private Sub txtCuentas_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim RC As String
 Dim Hasta As Integer
 
@@ -1252,20 +1251,20 @@ Dim Rs As ADODB.Recordset
                 Open txtTipoSalida(1).Text For Output As #NF
                        
                        
-                cad = ""
+                Cad = ""
                 For i = 0 To Rs.Fields.Count - 1
-                    cad = cad & ";""" & Rs.Fields(i).Name & """"
+                    Cad = Cad & ";""" & Rs.Fields(i).Name & """"
                 Next i
-                Print #NF, Mid(cad, 2)
+                Print #NF, Mid(Cad, 2)
                     
             End If
  
             
-            cad = ""
+            Cad = ""
             For i = 0 To Rs.Fields.Count - 1
-                cad = cad & ";""" & DBLet(Rs.Fields(i).Value, "T") & """"
+                Cad = Cad & ";""" & DBLet(Rs.Fields(i).Value, "T") & """"
             Next i
-            Print #NF, Mid(cad, 2)
+            Print #NF, Mid(Cad, 2)
     
             Rs.MoveNext
         Wend
@@ -1297,7 +1296,7 @@ Dim nomDocu As String
     vMostrarTree = False
     conSubRPT = False
         
-    cadParam = cadParam & "pFecha=""" & txtFecha(2).Text & """|"
+    cadParam = cadParam & "pFecha=""" & txtfecha(2).Text & """|"
     cadParam = cadParam & "pNIF=""" & txtNIF.Text & """|"
     
     If txtPag2(0).Text <> "" Then
@@ -1364,7 +1363,7 @@ Dim RC2 As String
 
     MontaSQL = False
     
-    If Not PonerDesdeHasta("hlinapu.fechaent", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""") Then Exit Function
+    If Not PonerDesdeHasta("hlinapu.fechaent", "F", Me.txtfecha(0), Me.txtfecha(0), Me.txtfecha(1), Me.txtfecha(1), "pDHFecha=""") Then Exit Function
     If Not PonerDesdeHasta("hlinapu.codmacta", "CTA", Me.txtCuentas(0), Me.txtNCuentas(0), Me.txtCuentas(1), Me.txtNCuentas(1), "pDHCuentas=""") Then Exit Function
     
     Select Case Combo1.ListIndex
@@ -1449,7 +1448,7 @@ Dim B As Boolean
     While Not Rs.EOF And B
         lblProgre.Caption = Rs!codmacta & " " & Rs!Nommacta
         lblProgre.Refresh
-        B = (CargaDatosConExt(Rs!codmacta, txtFecha(0).Text, txtFecha(1).Text, cadselect, Rs.Fields(3).Value) = 0)
+        B = (CargaDatosConExt(Rs!codmacta, txtfecha(0).Text, txtfecha(1).Text, cadselect, Rs.Fields(3).Value) = 0)
    
    
         DoEvents
@@ -1523,7 +1522,7 @@ Dim Rs3 As ADODB.Recordset
         While Not Rs.EOF
             'Acumulados anteriores al periodo
             Sql2 = "select sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) from hlinapu where codmacta = " & DBSet(Rs!Cta, "T")
-            Sql2 = Sql2 & " and fechaent >= " & DBSet(vParam.fechaini, "F") & " and fechaent < " & DBSet(txtFecha(0).Text, "F")
+            Sql2 = Sql2 & " and fechaent >= " & DBSet(vParam.fechaini, "F") & " and fechaent < " & DBSet(txtfecha(0).Text, "F")
             
             Set Rs2 = New ADODB.Recordset
             Rs2.Open Sql2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -1586,18 +1585,18 @@ eCargaTemporal:
 End Function
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
@@ -1612,9 +1611,9 @@ Private Function DatosOK() As Boolean
     
     DatosOK = False
     
-    If txtFecha(2).Text = "" Then
+    If txtfecha(2).Text = "" Then
         MsgBox "Debe introducir un valor para la Fecha del listado.", vbExclamation
-        PonFoco txtFecha(2)
+        PonFoco txtfecha(2)
         Exit Function
     End If
 
