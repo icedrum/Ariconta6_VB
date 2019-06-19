@@ -724,7 +724,8 @@ Private Sub chkBalPerCompa_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub cmdAccion_Click(Index As Integer)
-    
+Dim F As Date
+
     If Not DatosOK Then Exit Sub
     
     PulsadoCancelar = False
@@ -757,8 +758,41 @@ Private Sub cmdAccion_Click(Index As Integer)
             If RC <> "" Then MsgBox "La cuenta 470 ha sido configurada en el balance: " & RC, vbExclamation
                 
         End If
+        
+        
+        
+        'Si estasmos en jereccio actual o POSTERIOR, si la 129 (ctaperga ) tiene saldo AVISAMOS
+        If Saldo6y7en129 Then
+            i = Val(cmbFecha(2).Text) 'año
+            If Me.chkBalPerCompa.Value Then
+                'Comparativo
+                If i < Val(cmbFecha(3).Text) Then i = Val(cmbFecha(3).Text)
+                
+            End If
+            FechaIncioEjercicio = Format(vParam.fechaini, "dd/mm/") & CStr(i)
+            If FechaIncioEjercicio >= vParam.fechaini Then
+                'Esta en ejerccio actual y siguiente"
+                Cad = "fechaent>=" & DBSet(vParam.fechaini, "F") & " AND codmacta = '" & vParam.ctaperga & "' AND 1 "
+                RC = DevuelveDesdeBD("sum(coalesce(timported,0))-sum(coalesce(timporteh,0))", "hlinapu", Cad, "1")
+                If RC <> "" Then
+                    If RC <> "0" Then
+                        Cad = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", vParam.ctaperga, "T")
+                        Cad = vbCrLf & vParam.ctaperga & "  " & Cad
+                        Cad = "La cuenta de perdidas y ganancias  tiene un saldo de : " & RC & vbCrLf & Cad
+                        
+                        Cad = Cad & vbCrLf & vbCrLf & "Los saldos se solaparan"
+                        MsgBox Cad, vbInformation
+                    End If
+                End If
+            End If
+                
+        End If
+        
     End If
 
+    
+    
+    
     
 
 
@@ -770,6 +804,13 @@ Private Sub cmdAccion_Click(Index As Integer)
         i = i + 1
         If i = 0 Then i = -1
     End If
+    
+    
+    
+    
+    
+    
+    
     GeneraDatosBalanceConfigurable CInt(txtBalan(0).Text), Me.cmbFecha(0).ListIndex + 1, CInt(cmbFecha(2).Text), i, Val(cmbFecha(3).Text), False, -1, pb2
 
 '

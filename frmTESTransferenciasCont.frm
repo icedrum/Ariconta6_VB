@@ -570,9 +570,11 @@ Dim FechaConf As Date
     Conn.BeginTrans
     
     'mayo 2012
-    
-    B = HacerNuevaContabilizacion
-    
+    If Cobros And TipoTrans2 = 4 Then
+        B = ContablizaAbonoAnticipado
+    Else
+        B = HacerNuevaContabilizacion
+    End If
     'si se contabiliza entonces updateo y la pongo en
     'situacion Q. Contabilizada a falta de devueltos ,
     If B Then
@@ -679,7 +681,7 @@ Private Function HacerNuevaContabilizacion() As Boolean
     'Primero leemos la forma de pago, el tipo perdon
     Set vp = New Ctipoformapago
     
-    Dim Cad As String
+    Dim cad As String
     
     
     'en vtextos, en el 3 tenemos la forpa
@@ -726,7 +728,7 @@ Dim vGasto As Currency
 
 Dim Sql1 As String
 Dim Rs As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
 
     InsertarPagosEnTemporal2 = False
     
@@ -823,14 +825,15 @@ Dim Cad As String
             'Hay que ver los lados
             
             'Cad = DevuelveDesdeBD("ctagastostarj", "ctabancaria", "codmacta", Text3(1).Tag, "T")
-            Cad = DevuelveDesdeBD("ctagastos", "bancos", "codmacta", RecuperaValor(NumeroDocumento, 4), "T")
+            cad = DevuelveDesdeBD("ctagastos", "bancos", "codmacta", RecuperaValor(NumeroDocumento, 4), "T")
+            If cad = "" Then Err.Raise 513, , "Cuenta gastos sin configurar"
             
             FechaContab = CDate(Text1(10).Text)
             C = "'" & Format(FechaContab, FormatoFecha) & "'"
             C = C & "," & C
-            C = J & "," & C & ",'" & Cad & "','"
+            C = J & "," & C & ",'" & cad & "','"
             'Serie factura |FECHAfactura| ----> pondre: "gastos" | fecha contab
-            C = C & "TRA" & Format(RecuperaValor(NumeroDocumento, 1), "0000000") & "|" & FechaContab & "|','" & Cad & "',"
+            C = C & "TRA" & Format(RecuperaValor(NumeroDocumento, 1), "0000000") & "|" & FechaContab & "|','" & cad & "',"
             'Dinerito
             'riesgo es GASTO
             impo = GastosTransferencia
@@ -865,7 +868,7 @@ Dim NumVtos As Integer
 Dim GastosTransDescontados As Boolean
 Dim LineaUltima As Integer
 
-Dim Cad As String
+Dim cad As String
 
     'Valores por defecto
     ContraPartidaPorLinea = False
@@ -900,24 +903,24 @@ Dim Cad As String
     'Selecciona
     SQL = "select count(*) as numvtos,codigo,numfactura,fecha,cliente," & SQL & "sum(imponible) as importe,sum(total) as gastos from tmpfaclin"
     SQL = SQL & " where codusu =" & vUsu.Codigo & " GROUP BY "
-    Cad = ""
+    cad = ""
     If AgrupaCuenta Then
        If PonerCuentaGenerica Then
-            Cad = "nif" 'La columna NIF lleva los datos de la cuenta generica
+            cad = "nif" 'La columna NIF lleva los datos de la cuenta generica
         Else
-            Cad = "cta"
+            cad = "cta"
         End If
         'Como estamos agrupando por cuenta, marcaremos tb la fecha
         'Ya que si tienen fechas distintas son apuntes distintos
-        Cad = Cad & "," & CampoFecha
+        cad = cad & "," & CampoFecha
     End If
     
     'Si no agrupo por nada agrupare por codigo(es decir como si no agrupara)
-    If Cad = "" Then Cad = "codigo"
+    If cad = "" Then cad = "codigo"
     
     'La ordenacion
-    Cad = Cad & " ORDER BY " & CampoFecha
-    If Not PonerCuentaGenerica Then Cad = Cad & ",cta"
+    cad = cad & " ORDER BY " & CampoFecha
+    If Not PonerCuentaGenerica Then cad = cad & ",cta"
         
     
     'Tanto si agrupamos por cuenta (Generica o no)
@@ -926,9 +929,9 @@ Dim Cad As String
     'Es decir. Que si agrupo no tengo que ir moviendome por el recodset mirando a ver si
     'las cuentas son iguales.
     'Ya que al hacer group by ya lo estaran
-    Cad = SQL & Cad
+    cad = SQL & cad
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
     'Inicializamos variables
     Fecha = CDate("01/01/1900")
     GeneraAsiento = False
@@ -1107,9 +1110,9 @@ Dim Cad As String
         AgrupaCuenta = False
         
         
-        Cad = " select sum(imponible-total),'" & CStr(ImporteGastosTarjeta_) & "' as cliprov, 'LLEV.BANCO||' as cliente"
-        Cad = Cad & " from tmpfaclin WHERE codusu = " & vUsu.Codigo & " group by codusu"
-        Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        cad = " select sum(imponible-total),'" & CStr(ImporteGastosTarjeta_) & "' as cliprov, 'LLEV.BANCO||' as cliente"
+        cad = cad & " from tmpfaclin WHERE codusu = " & vUsu.Codigo & " group by codusu"
+        Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Err.Number = 0 Then
             If Not Rs.EOF Then
                 impo = Rs.Fields(0)
@@ -1162,28 +1165,28 @@ End Sub
 '   que si la fechas estan fuera de ejercicios o de ambito
 '   y si hay cuentas bloquedas
 Private Function ComprobarCuentasBloquedasYFechasVencimientos() As Boolean
-Dim Cad As String
+Dim cad As String
 
     ComprobarCuentasBloquedasYFechasVencimientos = False
     On Error GoTo EComprobarCuentasBloquedasYFechasVencimientos
     Set Rs = New ADODB.Recordset
     
 
-    Cad = "select codmacta,nommacta,numfac,fecha,fecbloq,cliente from tmpfaclin,cuentas where codusu=" & vUsu.Codigo & " and cta=codmacta and not (fecbloq is null )"
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    Cad = ""
+    cad = "select codmacta,nommacta,numfac,fecha,fecbloq,cliente from tmpfaclin,cuentas where codusu=" & vUsu.Codigo & " and cta=codmacta and not (fecbloq is null )"
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    cad = ""
     While Not Rs.EOF
-        If CDate(Rs!NumFac) > Rs!FecBloq Then Cad = Cad & Rs!codmacta & "    " & Rs!FecBloq & "     " & Format(Rs!NumFac, "dd/mm/yyyy") & Space(15) & RecuperaValor(Rs!Cliente, 1) & vbCrLf
+        If CDate(Rs!NumFac) > Rs!FecBloq Then cad = cad & Rs!codmacta & "    " & Rs!FecBloq & "     " & Format(Rs!NumFac, "dd/mm/yyyy") & Space(15) & RecuperaValor(Rs!Cliente, 1) & vbCrLf
         Rs.MoveNext
     Wend
     Rs.Close
 
 
-    If Cad <> "" Then
-        Cad = vbCrLf & String(90, "-") & vbCrLf & Cad
-        Cad = "Cta           Fec. Bloq            Fecha contab         Factura" & Cad
-        Cad = "Cuentas bloqueadas: " & vbCrLf & vbCrLf & vbCrLf & Cad
-        MsgBox Cad, vbExclamation
+    If cad <> "" Then
+        cad = vbCrLf & String(90, "-") & vbCrLf & cad
+        cad = "Cta           Fec. Bloq            Fecha contab         Factura" & cad
+        cad = "Cuentas bloqueadas: " & vbCrLf & vbCrLf & vbCrLf & cad
+        MsgBox cad, vbExclamation
     Else
         ComprobarCuentasBloquedasYFechasVencimientos = True
     End If
@@ -1306,6 +1309,7 @@ Dim C1 As String
             If Cobros Then
                 If TipoTrans2 = 0 Then
                     Me.Caption = "Abono transferencia"
+                
                 Else
                     Me.Caption = "Abono anticipo facturas"
                     Label5(2).Caption = "Abono anticipo facturas: "
@@ -1319,6 +1323,7 @@ Dim C1 As String
                     Case 2
                         Me.Caption = "Contabilización Pago Domiciliado"
                         Label5(2).Caption = "Pago Domiciliado : "
+
                     Case 3
                         Me.Caption = "Contabilización Confirming"
                         Label5(2).Caption = "Confirming : "
@@ -1346,8 +1351,8 @@ Dim C1 As String
         
         CuentasCC = ""
         'Los gastos solo van en la contabilizacion
-        Label3(0).visible = Opcion = 8
-        txtImporte(0).visible = Opcion = 8
+        Label3(0).visible = Opcion = 8 And TipoTrans2 <> 4
+        txtImporte(0).visible = Opcion = 8 And TipoTrans2 <> 4
         
         
         W = FrameContabilRem2.Width
@@ -2070,3 +2075,107 @@ Dim Aux As String
 eframeConfirmingDiasVto:
     If Err.Number <> 0 Then Err.Clear
 End Sub
+
+
+
+
+
+'**************************************************************************************
+'
+'       Abonos anticipados
+
+Private Function ContablizaAbonoAnticipado() As Boolean
+
+Dim FechaAsiento As Date
+Dim vp As Ctipoformapago
+Dim Ampliacion  As String
+Dim m As Contadores
+Dim Aux As String
+
+        On Error GoTo eContablizaAbonoAnticipado
+        ContablizaAbonoAnticipado = False
+        Set vp = New Ctipoformapago
+        If vp.Leer(vbPagoDomiciliado) > 0 Then Err.Raise 513, , "Error leyendo tipo de pago vbPagoDomiciliado"
+        FechaAsiento = CDate(Me.Text1(10).Text)
+        
+        Set m = New Contadores
+        If m.ConseguirContador("0", Fecha <= vParam.fechafin, True) > 0 Then Err.Raise 513, , "Consiguiendo contador apunte"
+        
+        SQL = RecuperaValor(NumeroDocumento, 4) 'banco
+        SQL = DevuelveDesdeBD("CtaAnticipoRecibos", "bancos", "codmacta", SQL, "T")
+        If SQL = "" Then Err.Raise 513, , "Falta configurar cuenta anticipo recibos "
+        DescripcionTransferencia = RecuperaValor(NumeroDocumento, 4) & "|" & SQL & "|"
+        
+        SQL = "select count(*),GROUP_CONCAT( concat(numserie,numfactu) separator ' ') FROM cobros where transfer=" & RecuperaValor(NumeroDocumento, 1)
+        SQL = SQL & " AND anyorem=" & RecuperaValor(NumeroDocumento, 2)
+        Set miRsAux = New ADODB.Recordset
+        miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        If miRsAux.EOF Then Err.Raise 513, , "Leyendo cobros vinculados al pago "
+        
+        If miRsAux.Fields(0) = 1 Then
+            miRsAux.Close
+            SQL = "select 1,concat(numserie,numfactu) FROM cobros where transfer=" & RecuperaValor(NumeroDocumento, 1)
+            SQL = SQL & " AND anyorem=" & RecuperaValor(NumeroDocumento, 2)
+            miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        End If
+        
+        
+        'La cabecera
+        SQL = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari, feccreacion, usucreacion, desdeaplicacion) VALUES ("
+        SQL = SQL & vp.diaricli & ",'" & Format(FechaAsiento, FormatoFecha) & "'," & m.Contador
+        SQL = SQL & ",  '"
+        SQL = SQL & "Generado desde Tesorería el " & Format(Now, "dd/mm/yyyy hh:mm") & " por " & vUsu.Nombre
+        If miRsAux.Fields(0) > 1 Then SQL = SQL & vbCrLf & "Vtos: " & miRsAux.Fields(1)
+        SQL = SQL & "'," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Contabilizar Transf.Abonos')"
+        Conn.Execute SQL
+  
+    
+        SQL = "INSERT INTO hlinapu (numdiari, fechaent, numasien, linliapu, "
+        SQL = SQL & "codmacta, numdocum, codconce, ampconce,timporteD,"
+        SQL = SQL & " timporteH, codccost, ctacontr, idcontab, punteada) "
+        
+        SQL = SQL & "VALUES (" & vp.diaricli & ",'" & Format(FechaAsiento, FormatoFecha) & "'," & m.Contador & "," & 1 & ",'"
+        SQL = SQL & RecuperaValor(DescripcionTransferencia, 2) & "',"
+        If miRsAux.Fields(0) = 1 Then
+            SQL = SQL & DBSet(Mid(miRsAux.Fields(1), 1, 10), "T")
+        Else
+            SQL = SQL & "'Vtos: " & miRsAux.Fields(0) & "'"
+        End If
+        SQL = SQL & "," & vp.conhacli & ",'Anticipo recibos cliente " & RecuperaValor(NumeroDocumento, 1) & "-" & RecuperaValor(NumeroDocumento, 2) & "',NULL,"
+        SQL = SQL & DBSet(RecuperaValor(NumeroDocumento, 5), "N") & ",NULL," & DBSet(RecuperaValor(DescripcionTransferencia, 1), "T") & ",'contab',0)"
+        Conn.Execute SQL
+        
+        
+        SQL = "INSERT INTO hlinapu (numdiari, fechaent, numasien, linliapu, "
+        SQL = SQL & "codmacta, numdocum, codconce, ampconce,timporteD,"
+        SQL = SQL & " timporteH, codccost, ctacontr, idcontab, punteada) "
+        
+        SQL = SQL & "VALUES (" & vp.diaricli & ",'" & Format(FechaAsiento, FormatoFecha) & "'," & m.Contador & "," & 2 & ",'"
+        SQL = SQL & RecuperaValor(DescripcionTransferencia, 1) & "',"
+        If miRsAux.Fields(0) = 1 Then
+            SQL = SQL & DBSet(Mid(miRsAux.Fields(1), 1, 10), "T")
+        Else
+            SQL = SQL & "'Vtos: " & miRsAux.Fields(0) & "'"
+        End If
+        SQL = SQL & "," & vp.condecli & ",'Anticipo recibos cliente " & RecuperaValor(NumeroDocumento, 1) & "-" & RecuperaValor(NumeroDocumento, 2) & "',"
+        SQL = SQL & DBSet(RecuperaValor(NumeroDocumento, 5), "N") & ",NULL,NULL," & DBSet(RecuperaValor(DescripcionTransferencia, 1), "T") & ",'contab',0)"
+        Conn.Execute SQL
+        
+        
+        
+        
+        ContablizaAbonoAnticipado = True
+        
+        
+        
+        
+
+eContablizaAbonoAnticipado:
+    If Err.Number <> 0 Then MuestraError Err.Number, , Err.Description
+    Set miRsAux = Nothing
+End Function
+
+
+
+
+

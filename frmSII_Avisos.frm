@@ -1100,8 +1100,9 @@ Dim Color As Long
     Item.Value = CStr(miRsAux!codmacta)
     Set Item = Record.AddItem(DBLet(miRsAux!Nommacta, "T"))
     
-    If DBLet(miRsAux!nifdatos, "T") = "" Then Item.BackColor = vbRed
-    
+    If DBLet(miRsAux!nifdatos, "T") = "" Then
+        Item.BackColor = vbRed
+    End If
     If Val(DBLet(miRsAux!CodOpera, "N")) <> Val(Rwtipopera!Codigo) Then
         Rwtipopera.Find "codigo = " & DBLet(miRsAux!CodOpera, "N"), , adSearchForward, 1
         If Rwtipopera.EOF Then

@@ -85,6 +85,10 @@ Private mvarPar_pen_apli As String
 
 Private mvarForpaPaogTarjetaAplicaIntereses As Integer
 
+Private mvarCancelaCarteraTalonPagare As Boolean
+Private mvarPideFechaImpresionTalonPagare As Boolean
+
+
 
 
 Private SQL As String  'Para la sentencia
@@ -480,6 +484,14 @@ Public Property Get Par_pen_apli() As String
 End Property
 
 
+Public Property Get CancelaCarteraTalonPagare() As Boolean
+    CancelaCarteraTalonPagare = mvarCancelaCarteraTalonPagare
+End Property
+
+
+Public Property Get PideFechaImpresionTalonPagare() As Boolean
+    PideFechaImpresionTalonPagare = mvarPideFechaImpresionTalonPagare
+End Property
 
 
 'Public Property Let nctafact(ByVal vData As String)
@@ -646,6 +658,13 @@ Private Function ParametrosTesoreriaNuevos()
     SQL = "FormaPagoTarjeta"
     If Not IsNull(Rs!FormaPagoTarjeta) Then mvarForpaPaogTarjetaAplicaIntereses = Rs!FormaPagoTarjeta
   
+    
+    mvarCancelaCarteraTalonPagare = False
+    mvarPideFechaImpresionTalonPagare = False
+    If InStr(UCase(vEmpresa.nomempre), "FENOLLAR") > 0 Then
+        mvarCancelaCarteraTalonPagare = True
+        mvarPideFechaImpresionTalonPagare = True
+    End If
     
     
     Exit Function

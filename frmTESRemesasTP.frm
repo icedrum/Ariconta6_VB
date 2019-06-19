@@ -2011,7 +2011,10 @@ Dim Img As Image
     Me.Frame1.visible = True
     
     
-    Me.Toolbar2.Buttons(3).visible = vParamT.TalonesCtaPuente Or vParamT.PagaresCtaPuente
+    Me.Toolbar2.Buttons(3).visible = (vParamT.TalonesCtaPuente Or vParamT.PagaresCtaPuente)
+    
+    Me.Toolbar2.Buttons(1).visible = (vParamT.TalonesCtaPuente Or vParamT.PagaresCtaPuente) And vParamT.CancelaCarteraTalonPagare
+    
     
     Me.Width = W + 300
     Me.Height = H + 400
@@ -2657,14 +2660,18 @@ Private Sub HacerToolBar3(Boton As Integer)
             If lw1.SelectedItem.SubItems(8) = "Z" Then CadenaDesdeOtroForm = SQL & "remesa con el riesgo ya eliminado."
             
             If CadenaDesdeOtroForm = "" Then
-                If lw1.SelectedItem.SubItems(8) <> "H" Then
-                    If lw1.SelectedItem.SubItems(10) = "TALON" And vParamT.TalonesCtaPuente Then CadenaDesdeOtroForm = "1"
+            
+                If vParamT.CancelaCarteraTalonPagare Then
+            
+                    If lw1.SelectedItem.SubItems(8) <> "H" Then
+                        If lw1.SelectedItem.SubItems(10) = "TALON" And vParamT.TalonesCtaPuente Then CadenaDesdeOtroForm = "1"
+                        
+                    ElseIf lw1.SelectedItem.SubItems(10) = "PAGARE" And vParamT.PagaresCtaPuente Then CadenaDesdeOtroForm = "1"
                     
-                ElseIf lw1.SelectedItem.SubItems(10) = "PAGARE" And vParamT.PagaresCtaPuente Then CadenaDesdeOtroForm = "1"
-                
-                ElseIf lw1.SelectedItem.SubItems(10) = "CONFIRM." And vParamT.ConfirmingCtaPuente Then CadenaDesdeOtroForm = "1"
+                    ElseIf lw1.SelectedItem.SubItems(10) = "CONFIRM." And vParamT.ConfirmingCtaPuente Then CadenaDesdeOtroForm = "1"
+                    End If
+                    If CadenaDesdeOtroForm = "1" Then CadenaDesdeOtroForm = "Falta cancelar cartera"
                 End If
-                If CadenaDesdeOtroForm = "1" Then CadenaDesdeOtroForm = "Falta cancelar cartera"
             End If
             If CadenaDesdeOtroForm <> "" Then
                 MsgBox CadenaDesdeOtroForm, vbExclamation
@@ -3153,11 +3160,11 @@ Dim N As Integer
         IT.SubItems(9) = miRsAux!Tiporem
         
         If miRsAux!Tiporem = 2 Then
-            IT.SubItems(10) = "PAGARE"
+            IT.SubItems(10) = "TALON"
         ElseIf miRsAux!Tiporem = 5 Then
             IT.SubItems(10) = "CONFIRM."
         Else
-            IT.SubItems(10) = "TALON"
+            IT.SubItems(10) = "PAGARE"
         End If
         
         miRsAux.MoveNext
@@ -3196,11 +3203,11 @@ Dim C2 As String
                  SelTalones = True
                  SelPagares = True
             Case 1
-                 SelTalones = True
-                 SelPagares = False
-            Case 2
                  SelTalones = False
                  SelPagares = True
+            Case 2
+                 SelTalones = True
+                 SelPagares = False
         End Select
         C = RemesaSeleccionTipoRemesa(False, SelTalones, SelPagares)
         

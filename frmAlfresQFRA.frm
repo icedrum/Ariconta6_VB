@@ -40,23 +40,23 @@ Begin VB.Form frmAlfresQFRA
       TabCaption(1)   =   "Datos extendidos"
       TabPicture(1)   =   "frmAlfresQFRA.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lw1(0)"
-      Tab(1).Control(1)=   "Text1(14)"
-      Tab(1).Control(2)=   "Text1(13)"
-      Tab(1).Control(3)=   "Text1(12)"
-      Tab(1).Control(4)=   "Combo1(2)"
-      Tab(1).Control(5)=   "Text4(11)"
-      Tab(1).Control(6)=   "Text1(11)"
-      Tab(1).Control(7)=   "Text1(10)"
+      Tab(1).Control(0)=   "Label1(10)"
+      Tab(1).Control(1)=   "Label1(11)"
+      Tab(1).Control(2)=   "Image1(6)"
+      Tab(1).Control(3)=   "Label6(0)"
+      Tab(1).Control(4)=   "Label1(12)"
+      Tab(1).Control(5)=   "Label6(1)"
+      Tab(1).Control(6)=   "Label6(2)"
+      Tab(1).Control(7)=   "Text1(16)"
       Tab(1).Control(8)=   "Text1(15)"
-      Tab(1).Control(9)=   "Text1(16)"
-      Tab(1).Control(10)=   "Label6(2)"
-      Tab(1).Control(11)=   "Label6(1)"
-      Tab(1).Control(12)=   "Label1(12)"
-      Tab(1).Control(13)=   "Label6(0)"
-      Tab(1).Control(14)=   "Image1(6)"
-      Tab(1).Control(15)=   "Label1(11)"
-      Tab(1).Control(16)=   "Label1(10)"
+      Tab(1).Control(9)=   "Text1(10)"
+      Tab(1).Control(10)=   "Text1(11)"
+      Tab(1).Control(11)=   "Text4(11)"
+      Tab(1).Control(12)=   "Combo1(2)"
+      Tab(1).Control(13)=   "Text1(12)"
+      Tab(1).Control(14)=   "Text1(13)"
+      Tab(1).Control(15)=   "Text1(14)"
+      Tab(1).Control(16)=   "lw1(0)"
       Tab(1).ControlCount=   17
       Begin MSComctlLib.ListView lw1 
          Height          =   1785
@@ -2712,7 +2712,7 @@ End Sub
 Private Sub BotonModificarLinea(Index As Integer)
     Dim anc As Single
     Dim i As Integer
-    Dim j As Integer
+    Dim J As Integer
 
     If AdoAux(Index).Recordset.EOF Then Exit Sub
     If AdoAux(Index).Recordset.RecordCount < 1 Then Exit Sub
@@ -3145,7 +3145,7 @@ End Sub
 
 
 Private Sub CalcularIVA()
-Dim j As Integer
+Dim J As Integer
 Dim Base As Currency
 Dim Aux As Currency
 
@@ -3874,12 +3874,12 @@ Dim TipoRetencion As Integer
     
     Set Rs = New ADODB.Recordset
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    j = 0
+    J = 0
     While Not Rs.EOF
         
         Set IT = lw1(0).ListItems.Add
-        j = j + 1
-        IT.Text = j
+        J = J + 1
+        IT.Text = J
         IT.SubItems(1) = Format(Rs!TipoIva, "000")
         IT.SubItems(2) = DevuelveDesdeBD("nombriva", "tiposiva", "codigiva", Rs!TipoIva)
         IT.SubItems(3) = Format(Rs!Baseimpo, "###,###,##0.00")

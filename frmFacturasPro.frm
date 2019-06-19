@@ -8662,13 +8662,16 @@ Dim IvaModificable As Boolean
     SQL = ""
     SqlInsert = "factpro_lineas"
     If DesdeAñadirLineaDeTotalesIVA Then
+    
+        
         SQL = "0"
+        If Combo1(2).ListIndex > 0 Then SQL = "1"
+    
+
         SqlInsert = "factpro_totales"
     End If
     'Select
     SQL = "select " & SQL & " aplicret, tipodiva, sum(baseimpo) baseimpo, sum(coalesce(impoiva,0)) imporiva, sum(coalesce(imporec,0)) imporrec"
-    
-    
     
     'SQL = "select aplicret,tipodiva, sum(baseimpo) baseimpo, sum(coalesce(impoiva,0)) imporiva, sum(coalesce(imporec,0)) imporrec from factpro_lineas "
     SQL = SQL & " FROM ###### "

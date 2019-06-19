@@ -398,14 +398,32 @@ Begin VB.Form frmBanco
          Top             =   330
          Width           =   1455
       End
+      Begin VB.Label Label2 
+         Caption         =   "remesamaximo -> Será limite de credito"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   7320
+         TabIndex        =   91
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   4695
+      End
       Begin VB.Label Label1 
          Caption         =   "Dias riesgo "
          Height          =   285
          Index           =   22
-         Left            =   4500
+         Left            =   4740
          TabIndex        =   68
          Top             =   360
-         Width           =   2055
+         Width           =   1815
       End
       Begin VB.Label Label1 
          Caption         =   "Dias riesgo mayor"
@@ -420,19 +438,19 @@ Begin VB.Form frmBanco
          Caption         =   "Importe riesgo"
          Height          =   285
          Index           =   19
-         Left            =   270
+         Left            =   240
          TabIndex        =   66
          Top             =   360
          Width           =   1575
       End
       Begin VB.Label Label1 
-         Caption         =   "Importe máximo "
+         Caption         =   "Límite linea descuento"
          Height          =   285
          Index           =   18
-         Left            =   8250
+         Left            =   7560
          TabIndex        =   65
          Top             =   360
-         Width           =   1620
+         Width           =   2310
       End
    End
    Begin VB.Frame FramePagares 
@@ -952,15 +970,6 @@ Begin VB.Form frmBanco
    End
    Begin VB.Label Label1 
       Caption         =   "Dias de cadencia recibo anticipado"
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
       Height          =   315
       Index           =   28
       Left            =   6720
@@ -1333,7 +1342,7 @@ End Sub
 
 
 Private Sub cmdAceptar_Click()
-    Dim Cad As String
+    Dim cad As String
     Dim i As Integer
     
     Screen.MousePointer = vbHourglass
@@ -1398,12 +1407,12 @@ Private Function SituarData1() As Boolean
     Dim SQL As String
     On Error GoTo ESituarData1
             'Actualizamos el recordset
-            data1.Refresh
+            Data1.Refresh
             '#### A mano.
             'El sql para que se situe en el registro en especial es el siguiente
             SQL = " codmacta = " & Text1(4).Text & ""
-            data1.Recordset.Find SQL
-            If data1.Recordset.EOF Then GoTo ESituarData1
+            Data1.Recordset.Find SQL
+            If Data1.Recordset.EOF Then GoTo ESituarData1
             SituarData1 = True
         Exit Function
 ESituarData1:
@@ -1437,7 +1446,7 @@ Private Sub BotonBuscar()
         PonFoco Text1(4)
         Else
             HacerBusqueda
-            If data1.Recordset.EOF Then
+            If Data1.Recordset.EOF Then
                  '### A mano
                 Text1(kCampo).Text = ""
                 PonFoco Text1(kCampo)
@@ -1459,18 +1468,18 @@ End Sub
 Private Sub Desplazamiento(Index As Integer)
     Select Case Index
         Case 1
-            data1.Recordset.MoveFirst
+            Data1.Recordset.MoveFirst
         Case 2
-            data1.Recordset.MovePrevious
-            If data1.Recordset.BOF Then data1.Recordset.MoveFirst
+            Data1.Recordset.MovePrevious
+            If Data1.Recordset.BOF Then Data1.Recordset.MoveFirst
         Case 3
-            data1.Recordset.MoveNext
-            If data1.Recordset.EOF Then data1.Recordset.MoveLast
+            Data1.Recordset.MoveNext
+            If Data1.Recordset.EOF Then Data1.Recordset.MoveLast
         Case 4
-            data1.Recordset.MoveLast
+            Data1.Recordset.MoveLast
     End Select
     PonerCampos
-    lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
+    lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
 End Sub
 
 Private Sub BotonModificar()
@@ -1491,11 +1500,11 @@ End Sub
 Private Sub BotonEliminar()
 
 '
-    Dim Cad As String
+    Dim cad As String
     Dim i As Integer
 
     'Ciertas comprobaciones
-    If data1.Recordset.EOF Then Exit Sub
+    If Data1.Recordset.EOF Then Exit Sub
 
     'Comprobamos si se puede eliminar
     i = 0
@@ -1508,28 +1517,28 @@ Private Sub BotonEliminar()
     End If
 
     '### a mano
-    Cad = "Seguro que desea eliminar de la BD el registro:"
-    Cad = Cad & vbCrLf & "Cta banco: " & data1.Recordset.Fields(0)
-    Cad = Cad & vbCrLf & "Decripcion: " & Me.Text2(4).Text
-    i = MsgBox(Cad, vbQuestion + vbYesNo)
+    cad = "Seguro que desea eliminar de la BD el registro:"
+    cad = cad & vbCrLf & "Cta banco: " & Data1.Recordset.Fields(0)
+    cad = cad & vbCrLf & "Decripcion: " & Me.Text2(4).Text
+    i = MsgBox(cad, vbQuestion + vbYesNo)
     'Borramos
     If i = vbYes Then
         'Hay que eliminar
         On Error GoTo Error2
         Screen.MousePointer = vbHourglass
-        NumRegElim = data1.Recordset.AbsolutePosition
-        data1.Recordset.Delete
-        data1.Refresh
-        If data1.Recordset.EOF Then
+        NumRegElim = Data1.Recordset.AbsolutePosition
+        Data1.Recordset.Delete
+        Data1.Refresh
+        If Data1.Recordset.EOF Then
             'Solo habia un registro
             LimpiarCampos
             PonerModo 0
             Else
-                data1.Recordset.MoveFirst
+                Data1.Recordset.MoveFirst
                 NumRegElim = NumRegElim - 1
                 If NumRegElim > 1 Then
                     For i = 1 To NumRegElim - 1
-                        data1.Recordset.MoveNext
+                        Data1.Recordset.MoveNext
                     Next i
                 End If
                 PonerCampos
@@ -1545,7 +1554,7 @@ End Sub
 
 Private Sub cmdRegresar_Click()
 
-    If data1.Recordset.EOF Then
+    If Data1.Recordset.EOF Then
         MsgBox "Ningún registro devuelto.", vbExclamation
         Exit Sub
     End If
@@ -1646,9 +1655,9 @@ Dim i As Integer
     'Vemos como esta guardado el valor del check
     chkVistaPrevia.Value = CheckValueLeer(Name)
     'ASignamos un SQL al DATA1
-    data1.ConnectionString = Conn
-    data1.RecordSource = "Select * from " & NombreTabla
-    data1.Refresh
+    Data1.ConnectionString = Conn
+    Data1.RecordSource = "Select * from " & NombreTabla
+    Data1.Refresh
     If DatosADevolverBusqueda = "" Then
         PonerModo 0
     Else
@@ -1929,7 +1938,7 @@ Private Sub Text1_LostFocus(Index As Integer)
 End Sub
 
 Private Sub HacerBusqueda()
-Dim Cad As String
+Dim cad As String
 Dim CadB As String
 
 CadB = ObtenerBusqueda2(Me, BuscaChekc, 1)
@@ -1988,9 +1997,9 @@ Private Sub PonerCadenaBusqueda()
 Screen.MousePointer = vbHourglass
 On Error GoTo EEPonerBusq
 
-data1.RecordSource = CadenaConsulta
-data1.Refresh
-If data1.Recordset.RecordCount <= 0 Then
+Data1.RecordSource = CadenaConsulta
+Data1.Refresh
+If Data1.Recordset.RecordCount <= 0 Then
     MsgBox "No hay ningún registro en la tabla " & NombreTabla, vbInformation
     Screen.MousePointer = vbDefault
     Exit Sub
@@ -1998,7 +2007,7 @@ If data1.Recordset.RecordCount <= 0 Then
     Else
         PonerModo 2
         'Data1.Recordset.MoveLast
-        data1.Recordset.MoveFirst
+        Data1.Recordset.MoveFirst
         PonerCampos
 End If
 
@@ -2015,11 +2024,11 @@ Private Sub PonerCampos()
     Dim i As Integer
     Dim mTag As CTag
     Dim SQL As String
-    If data1.Recordset.EOF Then Exit Sub
+    If Data1.Recordset.EOF Then Exit Sub
     
     Combo1.ListIndex = -1
     Combo2.ListIndex = -1
-    PonerCamposForma Me, data1
+    PonerCamposForma Me, Data1
     PonerCtasIVA
     
         
@@ -2057,7 +2066,7 @@ Private Sub PonerCampos()
     End If
     
     '-- Esto permanece para saber donde estamos
-    lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
+    lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
 
 End Sub
 
@@ -2088,7 +2097,7 @@ Private Sub PonerModo(Kmodo As Integer)
     
     'Modo 2. Hay datos y estamos visualizandolos
     B = (Kmodo = 2)
-    DespalzamientoVisible B And Me.data1.Recordset.RecordCount > 1
+    DespalzamientoVisible B And Me.Data1.Recordset.RecordCount > 1
     'Ponemos visible, si es formulario de busqueda, el boton regresar cuando hay datos
     If DatosADevolverBusqueda <> "" Then
         cmdRegresar.visible = B
@@ -2148,7 +2157,7 @@ Private Sub PonerContRegIndicador()
 Dim cadReg As String
 
     If (Modo = 2 Or Modo = 0) Then
-        cadReg = PonerContRegistros(Me.data1)
+        cadReg = PonerContRegistros(Me.Data1)
         If CadB = "" Then
             lblIndicador.Caption = cadReg
         Else
@@ -2342,7 +2351,7 @@ End Sub
 
 Private Function SePuedeEliminar() As Boolean
 Dim B As Boolean
-Dim Cad As String
+Dim cad As String
 
     Screen.MousePointer = vbHourglass
     Set miRsAux = New ADODB.Recordset
@@ -2350,8 +2359,8 @@ Dim Cad As String
     SePuedeEliminar = False
     
     'Veamos cobros asociados
-    Cad = "Select count(*) from cobros where (ctabanc1 = '" & data1.Recordset.Fields(0) & "')"
-    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    cad = "Select count(*) from cobros where (ctabanc1 = '" & Data1.Recordset.Fields(0) & "')"
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NumRegElim = 0
     If Not miRsAux.EOF Then NumRegElim = DBLet(miRsAux.Fields(0), "N")
     miRsAux.Close
@@ -2363,8 +2372,8 @@ Dim Cad As String
     
     
     
-    Cad = "Select count(*) from pagos where (ctabanc1 = '" & data1.Recordset.Fields(0) & "')"
-    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    cad = "Select count(*) from pagos where (ctabanc1 = '" & Data1.Recordset.Fields(0) & "')"
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NumRegElim = 0
     If Not miRsAux.EOF Then NumRegElim = DBLet(miRsAux.Fields(0), "N")
     miRsAux.Close
@@ -2375,8 +2384,8 @@ Dim Cad As String
     End If
     
     'Remesas
-    Cad = "Select count(*) from remesas where (codmacta = '" & data1.Recordset.Fields(0) & "')"
-    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    cad = "Select count(*) from remesas where (codmacta = '" & Data1.Recordset.Fields(0) & "')"
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NumRegElim = 0
     If Not miRsAux.EOF Then NumRegElim = DBLet(miRsAux.Fields(0), "N")
     miRsAux.Close
@@ -2387,8 +2396,8 @@ Dim Cad As String
     End If
     
     
-    Cad = "Select count(*) from gastosfijos where (ctaprevista = '" & data1.Recordset.Fields(0) & "')"
-    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    cad = "Select count(*) from gastosfijos where (ctaprevista = '" & Data1.Recordset.Fields(0) & "')"
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NumRegElim = 0
     If Not miRsAux.EOF Then NumRegElim = DBLet(miRsAux.Fields(0), "N")
     miRsAux.Close
@@ -2400,8 +2409,8 @@ Dim Cad As String
     
     
     
-    Cad = "Select count(*) from transferencias where (codmacta= '" & data1.Recordset.Fields(0) & "')"
-    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    cad = "Select count(*) from transferencias where (codmacta= '" & Data1.Recordset.Fields(0) & "')"
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NumRegElim = 0
     If Not miRsAux.EOF Then NumRegElim = DBLet(miRsAux.Fields(0), "N")
     miRsAux.Close
@@ -2413,8 +2422,8 @@ Dim Cad As String
     
     'cOMPROBAMOS ai tiene moovimientos en
     'la NORMA 43
-    Cad = "Select count(*) from norma43 where (codmacta= '" & data1.Recordset.Fields(0) & "')"
-    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    cad = "Select count(*) from norma43 where (codmacta= '" & Data1.Recordset.Fields(0) & "')"
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NumRegElim = 0
     If Not miRsAux.EOF Then NumRegElim = DBLet(miRsAux.Fields(0), "N")
     miRsAux.Close
@@ -2437,20 +2446,20 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
     
     On Error Resume Next
 
-    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
-        Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 2 And Me.data1.Recordset.RecordCount > 0)
-        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2 And Me.data1.Recordset.RecordCount > 0)
+        Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 2 And Me.Data1.Recordset.RecordCount > 0)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2 And Me.Data1.Recordset.RecordCount > 0)
         
         Toolbar1.Buttons(5).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
         Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)

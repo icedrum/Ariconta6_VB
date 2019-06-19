@@ -958,8 +958,11 @@ Dim CargaEnListview As Boolean
         If Indice = 0 Then
             Im = miRsAux!ImpVenci - DBLet(miRsAux!impcobro, "N") + DBLet(miRsAux!Gastos, "N")
             YaEfectuado = DBLet(miRsAux!impcobro, "N")
-            CargaEnListview = Im > 0
-            
+            If vParamT.PideFechaImpresionTalonPagare Then
+                CargaEnListview = Im <> 0  'Fenollar de moemnto
+            Else
+                CargaEnListview = Im > 0
+            End If
         Else
             Im = miRsAux!ImpEfect - DBLet(miRsAux!imppagad, "N")
             YaEfectuado = DBLet(miRsAux!imppagad, "N")

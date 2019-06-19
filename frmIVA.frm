@@ -1273,6 +1273,10 @@ Private Sub CargarCombo()
     Combo1.AddItem "SUPLIDOS"
     Combo1.ItemData(Combo1.NewIndex) = 4 '
     
+
+    
+    
+    
     
 End Sub
 

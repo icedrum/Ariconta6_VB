@@ -886,7 +886,7 @@ Dim B As Boolean
 Dim Importe As Currency
 Dim importe2 As Currency
 Dim CambiaCabecera As Boolean
-
+Dim TipoRetencion As Integer
     Ampliacion = ""
 
     If Modo2 = 5 Then
@@ -981,6 +981,7 @@ Dim CambiaCabecera As Boolean
                 If miRsAux!tiporeten > 0 Then
                     Importe = DBLet(miRsAux!totbasesret, "N")
                     NumRegElim = miRsAux!tiporeten
+                    TipoRetencion = DevuelveValor("select tipo from usuarios.wtiporeten where codigo = " & NumRegElim)
                     SQL = "TIENE"
                 End If
                 miRsAux.Close
@@ -992,7 +993,7 @@ Dim CambiaCabecera As Boolean
                     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
                     If Not miRsAux.EOF Then
                         importe2 = DBLet(miRsAux!Bases, "N")
-                        If NumRegElim = 1 Then
+                        If TipoRetencion = 0 Then
                             'Sobre bases
                             'Ya esta sumado
                         Else
@@ -1030,7 +1031,7 @@ Dim CambiaCabecera As Boolean
                         SQL = SQL & Val(miRsAux!NumFac) & "," & DBSet(miRsAux!Cta, "T") & "," & DBSet(miRsAux!Imponible, "N")
                         SQL = SQL & "," & DBSet(miRsAux!TipoIva, "N") & "," & DBSet(miRsAux!IVA, "N") & "," & DBSet(miRsAux!porcrec, "N")
                         SQL = SQL & "," & DBSet(miRsAux!ImpIva, "N") & "," & DBSet(miRsAux!recargo, "N") & "," & Val(miRsAux!tipoopera)
-                        SQL = SQL & "," & DBSet(miRsAux!numfactura, "T", "S") & ")"
+                        SQL = SQL & "," & DBSet(miRsAux!NumFactura, "T", "S") & ")"
                         miRsAux.MoveNext
                     Wend
                     miRsAux.Close
@@ -1122,7 +1123,7 @@ Private Sub Form_Load()
         .Buttons(3).Image = 5
 
     End With
-    imgppal(0).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+    imgppal(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
     CargarColumnas 0
     CargarColumnas 1
@@ -1203,6 +1204,7 @@ Private Sub imgppal_Click(Index As Integer)
             Text4(0).Text = RecuperaValor(SQL, 2)
         End If
     End If
+    imgppal(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
 End Sub
 
 Private Sub Text1_GotFocus(Index As Integer)
@@ -1966,9 +1968,9 @@ End Sub
 
 ' 0. Origen,   2 Modificado
 Private Sub CargaDatosLW2(QueLW As Integer)
-Dim Cad As String
+Dim cad As String
 Dim Rs As ADODB.Recordset
-Dim It As ListItem
+Dim IT As ListItem
 Dim ElIcono As Integer
 Dim GroupBy As String
 Dim Orden As String
@@ -1979,21 +1981,21 @@ Dim C As String
     
     
     If QueLW = 1 Then
-        Cad = "select h.numlinea,  h.codigiva, h.baseimpo, h.impoiva, h.imporec from "
-        Cad = Cad & IIf(Cliente, "factcli_totales", "factpro_totales") & " h WHERE "
-        Cad = Cad & " numserie=" & DBSet(NUmSerie, "T") & " and "
-        Cad = Cad & IIf(Cliente, "numfactu", "numregis") & " = "
-        Cad = Cad & Codigo & " and anofactu=" & Anyo
-        Cad = Cad & " ORDER BY 1"
+        cad = "select h.numlinea,  h.codigiva, h.baseimpo, h.impoiva, h.imporec from "
+        cad = cad & IIf(Cliente, "factcli_totales", "factpro_totales") & " h WHERE "
+        cad = cad & " numserie=" & DBSet(NUmSerie, "T") & " and "
+        cad = cad & IIf(Cliente, "numfactu", "numregis") & " = "
+        cad = cad & Codigo & " and anofactu=" & Anyo
+        cad = cad & " ORDER BY 1"
         GroupBy = ""
   
     Else
         
         
-        Cad = "select tipoiva codigiva, IVA, porcrec, sum(Imponible) baseimpo ,sum(coalesce(ImpIVA,0)) impoiva,sum(coalesce(recargo,0)) imporec"
-        Cad = Cad & " from tmpfaclin where codusu = " & vUsu.Codigo
-        Cad = Cad & " group by 1"
-        Cad = Cad & " order by 1"
+        cad = "select tipoiva codigiva, IVA, porcrec, sum(Imponible) baseimpo ,sum(coalesce(ImpIVA,0)) impoiva,sum(coalesce(recargo,0)) imporec"
+        cad = cad & " from tmpfaclin where codusu = " & vUsu.Codigo
+        cad = cad & " group by 1"
+        cad = cad & " order by 1"
     
         
     End If
@@ -2001,25 +2003,25 @@ Dim C As String
     lw1(QueLW).ListItems.Clear
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
-    Cad = "0"
+    cad = "0"
     
     While Not Rs.EOF
-        Set It = lw1(QueLW).ListItems.Add
-        Cad = Val(Cad) + 1
-        It.Text = Cad
-        It.SubItems(1) = Format(Rs!codigiva, "000")
-        It.SubItems(2) = DevuelveDesdeBD("nombriva", "tiposiva", "codigiva", Rs!codigiva)
-        It.SubItems(3) = Format(Rs!Baseimpo, "###,###,##0.00")
-        It.SubItems(4) = Format(Rs!Impoiva, "###,###,##0.00")
+        Set IT = lw1(QueLW).ListItems.Add
+        cad = Val(cad) + 1
+        IT.Text = cad
+        IT.SubItems(1) = Format(Rs!codigiva, "000")
+        IT.SubItems(2) = DevuelveDesdeBD("nombriva", "tiposiva", "codigiva", Rs!codigiva)
+        IT.SubItems(3) = Format(Rs!Baseimpo, "###,###,##0.00")
+        IT.SubItems(4) = Format(Rs!Impoiva, "###,###,##0.00")
         If DBLet(Rs!ImpoRec) <> 0 Then
-            It.SubItems(5) = Format(Rs!ImpoRec, "###,###,##0.00")
+            IT.SubItems(5) = Format(Rs!ImpoRec, "###,###,##0.00")
         Else
-            It.SubItems(5) = " "
+            IT.SubItems(5) = " "
         End If
         
-        Set It = Nothing
+        Set IT = Nothing
 
         Rs.MoveNext
     Wend

@@ -845,8 +845,9 @@ Private Sub Form_Activate()
                 ReclamacionGargarList
                 If ListView6.ListItems.Count = 0 Then optReclama(1).Value = True
         End Select
+        Screen.MousePointer = vbDefault
     End If
-    Screen.MousePointer = vbDefault
+    
 End Sub
 
 Private Sub Form_Load()

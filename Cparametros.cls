@@ -162,8 +162,18 @@ Private mvarTextoInmoSubencionado As String
 'No lleva campo en BD. Cuando lee los parametros hace el select
 Private mvarFechaMinimaEnHlinapu As Date
 
+Private mvarTipoIntegracionSeleccionable As Byte
+    '0 nada
+    '1 TAXCO. Tipo SAGE
+    '2 Coarval
 
 
+Private mvarRectificativasSeparadas303 As Boolean
+Private mvarExcluirBasesIvaCeroRecibidas303 As Boolean
+
+
+
+Private mvarComprobarAsientosIncio As Boolean
 
 
 '------------------------------------------------
@@ -1062,106 +1072,38 @@ Public Property Get TextoInmoSubencionado() As String
      TextoInmoSubencionado = mvarTextoInmoSubencionado
 End Property
 
+'0 nada       1 TAXCO. Tipo SAGE        2 Coarval
+Public Property Get TipoIntegracionSeleccionable() As Byte
+     TipoIntegracionSeleccionable = mvarTipoIntegracionSeleccionable
+End Property
+
+
+'Descuadre Asientos al princio
+
+Public Property Let ComprobarAsientosIncio(ByVal vData As Boolean)
+     mvarComprobarAsientosIncio = vData
+End Property
+
+Public Property Get ComprobarAsientosIncio() As Boolean
+     ComprobarAsientosIncio = mvarComprobarAsientosIncio
+End Property
+
+
+Public Property Get RectificativasSeparadas303() As Boolean
+     RectificativasSeparadas303 = mvarRectificativasSeparadas303
+End Property
+
+Public Property Get ExcluirBasesIvaCeroRecibidas303() As Boolean
+     ExcluirBasesIvaCeroRecibidas303 = mvarExcluirBasesIvaCeroRecibidas303
+End Property
+
+
 
 
 '------------------------------------------------
 'FUNCIONES del modulo Cparametros
 '------------------------------------------------
 
-
-
-''****   AGREGAR  ***
-'Public Function Agregar() As Byte
-'    On Error GoTo Err1
-'    SQL = "SELECT * FROM parametros"
-'    SQL = SQL & " WHERE "
-'    SQL = SQL & " fechaini = " & mvarfechaini
-'   ' Set Rs = DB.OpenRecordSet(Sql, dbOpenDynaset)
-'    If Rs.RecordCount > 0 Then
-'        Mens = "Ya existe un Registro en la Tabla parametros con esos valores."
-'        MsgBox Mens, vbExclamation
-'        Agregar = 1
-'        'ELSE
-'        Else
-'            Rs.AddNew
-'            Rs!fechaini = mvarfechaini
-'            Rs!fechafin = mvarfechafin
-'            Rs!autocoste = mvarautocoste
-'            Rs!emitedia = mvaremitedia
-'            Rs!contabil = mvarcontabil
-'            Rs!listahco = mvarlistahco
-'            Rs!numdiapr = mvarnumdiapr
-'            Rs!concefpr = mvarconcefpr
-'            Rs!conceapr = mvarconceapr
-'            Rs!numdiacl = mvarnumdiacl
-'            Rs!concefcl = mvarconcefcl
-'            Rs!conceacl = mvarconceacl
-'            Rs!limimpcl = mvarlimimpcl
-'            'RS!conpresu = mvarconpresu
-'            Rs!periodos = mvarperiodos
-'            Rs!grupogto = mvargrupogto
-'            Rs!grupovta = mvargrupovta
-'            Rs!ctaperga = mvarctaperga
-'            Rs!abononeg = mvarabononeg
-'            Rs!amortiza = mvaramortiza
-'            Rs!intfaccl = mvarintfaccl
-'            Rs!intfacpr = mvarintfacpr
-'            Rs!intliapu = mvarintliapu
-'            Rs!intlihap = mvarintlihap
-'            Rs!grupoord = mvargrupoord
-'            Rs!tinumfac = mvartinumfac
-'            Rs!modhcofa = mvarmodhcofa
-'            Rs!anofactu = mvaranofactu
-'            Rs!perfactu = mvarperfactu
-'            Rs!nctafact = mvarnctafact
-'            Rs!AsienActAuto = mvarAsienActAuto
-'            Rs.Update
-'            Agregar = 0
-'    End If
-'
-'    Rs.Close
-'    Exit Function
-'
-'Err1:
-'    Mens = "Se ha producido un error." & vbCrLf
-'    Mens = Mens & "Número: " & Err.Number & vbCrLf
-'    Mens = Mens & "Descripción: " & Err.Description
-'    MsgBox Mens, vbExclamation
-'    Rs.Close
-'    Agregar = 1
-'End Function
-
-
-''****   ELIMINAR  ***
-'Public Function Eliminar() As Byte
-'    On Error GoTo Err2
-'    SQL = "SELECT * FROM parametros"
-'    SQL = SQL & " WHERE "
-'    SQL = SQL & " fechaini = " & mvarfechaini
-' '   Set Rs = DB.OpenRecordSet(Sql, dbOpenDynaset)
-'    If Rs.RecordCount = 0 Then
-'        Mens = "No existe un Registro en la Tabla parametros con esos valores."
-'        MsgBox Mens, vbExclamation
-'        Eliminar = 1
-'        'ELSE
-'        Else
-'            Rs.Delete
-'            Rs.MoveNext
-'            If Rs.EOF Then Rs.MoveFirst
-'            Eliminar = 0
-'    End If
-'
-'    Rs.Close
-'    Exit Function
-'
-'Err2:
-'    Mens = "Se ha producido un error." & vbCrLf
-'    Mens = Mens & "Número: " & Err.Number & vbCrLf
-'    Mens = Mens & "Descripción: " & Err.Description
-'    MsgBox Mens, vbExclamation
-'    Rs.Close
-'    Eliminar = 1
-'End Function
 
 
 '****   LEER  ***
@@ -1274,6 +1216,13 @@ Dim Nuevos As String
             mvarPathAlbaranesProv = ""
             mvarPathFacturasProv = ""
             mvarEliminaPdfOriginal = False
+            mvarComprobarAsientosIncio = False
+            mvarRectificativasSeparadas303 = False
+            mvarExcluirBasesIvaCeroRecibidas303 = False
+            
+            '0 nada     1 TAXCO. Tipo SAGE      2 Coarval
+            mvarTipoIntegracionSeleccionable = 0
+            
             Nuevos = ""
             
             
@@ -1351,14 +1300,23 @@ Dim Nuevos As String
             If mvarOrdenIvas303Aeat = "" Then mvarOrdenIvas303Aeat = "4|10|21|"
             
             mvarTextoInmoSubencionado = DBLet(Rs!TextoInmoSubencionado, "T")
-            If Err.Number <> 0 Then AgregarMsg Nuevos, "Lbl subnceionado"
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Lbl subvencionado"
             If mvarTextoInmoSubencionado = "" Then mvarTextoInmoSubencionado = "Subvencionado"
-            
-            
-            
             
             mvarAplicarFiltrosEnCuentas = True
             
+            
+            '                         1 TAXCO. Tipo SAGE      2 Coarval
+            If InStr(1, vEmpresa.nomempre, "TAXCO") > 0 Then mvarTipoIntegracionSeleccionable = 1
+                            
+            mvarComprobarAsientosIncio = DBLet(Rs!ComprobarAsientosIncio, "N") = 1
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Comprobar descuadre inicio"
+            
+            mvarRectificativasSeparadas303 = DBLet(Rs!RectificativasSeparadas303, "N") = 1
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Rectificativas Separadas 303"
+                        
+            mvarExcluirBasesIvaCeroRecibidas303 = DBLet(Rs!ExcluirBasesIvaCeroRecibidas303, "N") = 1
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Excluir en 303 bases cero Fra recibidas "
             
             
         If Err.Number <> 0 Then Err.Clear

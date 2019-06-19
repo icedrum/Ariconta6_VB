@@ -2,23 +2,23 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02">
 <CstmrDrctDbtInitn>
 <GrpHdr>
-<MsgId>PRE2019043010325557030RE30000172019</MsgId>
-   <CreDtTm>2019-04-30T10:32:55</CreDtTm>
-   <NbOfTxs>3</NbOfTxs>
-   <CtrlSum>279.29</CtrlSum>
+<MsgId>PRE2019061316161518360RE30000172019</MsgId>
+   <CreDtTm>2019-06-13T16:16:15</CreDtTm>
+   <NbOfTxs>6</NbOfTxs>
+   <CtrlSum>510.97</CtrlSum>
    <InitgPty>
-     <Nm>Radio Taxi Metropolitano de Valencia SLU</Nm>
+     <Nm>Agricola de Catadau S.C. Suministros</Nm>
      <Id>
         <OrgId>
            <Othr>
-              <Id>ES55000B98877806</Id>
+              <Id>ES38000F46038881</Id>
            </Othr>
         </OrgId>
       </Id>
    </InitgPty>
 </GrpHdr>
 <PmtInf>
-   <PmtInfId>RE000172019 30/04/19B98877806</PmtInfId>
+   <PmtInfId>RE000172019 13/06/19F46038881</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -33,29 +33,29 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2018-10-05</ReqdColltnDt>
+   <ReqdColltnDt>1999-06-04</ReqdColltnDt>
    <Cdtr>
-      <Nm>Radio Taxi Metropolitano de Valencia SLU</Nm>
+      <Nm>Agricola de Catadau S.C. Suministros</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>CARRER DELS GREMIS 8   </AdrLine>
+          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES8121005375140200020715</IBAN>
+         <IBAN>ES5230582268501021006736</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
       <FinInstnId>
-         <BIC>CAIXESBBXXX</BIC>
+         <BIC>CCRIES2AXXX</BIC>
       </FinInstnId>
    </CdtrAgt>
    <CdtrSchmeId>
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES55000B98877806</Id>
+                 <Id>ES38000F46038881</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -63,50 +63,50 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>43000320  E  0000000820180913002   </EndToEndId>
+          <EndToEndId>4300001402GRP0000140219990604001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">88.72</InstdAmt>
+      <InstdAmt Ccy="EUR">118.85</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES1100190072434010021050</MndtId>
+            <MndtId>ES9130821315823192114910</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>DEUTESBBASS</BIC>
+            <BIC>CCRIES2AXXX</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>DESCALZO GIMENEZ, RAQUEL</Nm>
+         <Nm>PEREZ DELVALLE, FRANCISCO</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>TRES CRUCES,AV, 13, 17</AdrLine>
-              <AdrLine>46014   VALENCIA</AdrLine>
+              <AdrLine>RDGEZ. DE LA FUENTE, 90</AdrLine>
+              <AdrLine>CATADAU   46196     VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>434010021050</Id>
+                   <Id>823192114910</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES1100190072434010021050</IBAN>
+            <IBAN>ES9130821315823192114910</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>E000008 de 13/09/2018</Ustrd>
+         <Ustrd>A669 A2993 A3424 A3809 A4090 Numero Vencimientos   5</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>
 <PmtInf>
-   <PmtInfId>RE000172019 30/04/19B98877806</PmtInfId>
+   <PmtInfId>RE000172019 13/06/19F46038881</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -121,29 +121,29 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2019-04-05</ReqdColltnDt>
+   <ReqdColltnDt>1999-07-03</ReqdColltnDt>
    <Cdtr>
-      <Nm>Radio Taxi Metropolitano de Valencia SLU</Nm>
+      <Nm>Agricola de Catadau S.C. Suministros</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>CARRER DELS GREMIS 8   </AdrLine>
+          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES8121005375140200020715</IBAN>
+         <IBAN>ES5230582268501021006736</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
       <FinInstnId>
-         <BIC>CAIXESBBXXX</BIC>
+         <BIC>CCRIES2AXXX</BIC>
       </FinInstnId>
    </CdtrAgt>
    <CdtrSchmeId>
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES55000B98877806</Id>
+                 <Id>ES38000F46038881</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -151,88 +151,397 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>43002443  E  0000001620181231004   </EndToEndId>
+          <EndToEndId>4300001402GRP0000140219990703001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">63.52</InstdAmt>
+      <InstdAmt Ccy="EUR">85.27</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES9401820513810201580559</MndtId>
+            <MndtId>ES9130821315823192114910</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>BBVAESMMXXX</BIC>
+            <BIC>CCRIES2AXXX</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>ALBUIXECH GENOVES, OMAR</Nm>
+         <Nm>PEREZ DELVALLE, FRANCISCO</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>C/ CARCAGENTE, 14-15</AdrLine>
-              <AdrLine>46006   VALENCIA</AdrLine>
+              <AdrLine>RDGEZ. DE LA FUENTE, 90</AdrLine>
+              <AdrLine>CATADAU   46196     VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>810201580559</Id>
+                   <Id>823192114910</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES9401820513810201580559</IBAN>
+            <IBAN>ES9130821315823192114910</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>FACTURA  E-0000016 de Fecha 31 dic 2018</Ustrd>
+         <Ustrd>A4311 A4493 A4856 Numero Vencimientos   3</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
+</PmtInf>
+<PmtInf>
+   <PmtInfId>RE000172019 13/06/19F46038881</PmtInfId>
+   <PmtMtd>DD</PmtMtd>
+   <BtchBookg>false</BtchBookg>
+   <PmtTpInf>
+      <SvcLvl>
+          <Cd>SEPA</Cd>
+      </SvcLvl>
+      <LclInstrm>
+         <Cd>CORE</Cd>
+      </LclInstrm>
+      <SeqTp>RCUR</SeqTp>
+      <CtgyPurp>
+         <Cd>TRAD</Cd>
+      </CtgyPurp>
+   </PmtTpInf>
+   <ReqdColltnDt>2000-05-19</ReqdColltnDt>
+   <Cdtr>
+      <Nm>Agricola de Catadau S.C. Suministros</Nm>
+      <PstlAdr>
+          <Ctry>ES</Ctry>
+          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
+      </PstlAdr>
+   </Cdtr>
+   <CdtrAcct>
+      <Id>
+         <IBAN>ES5230582268501021006736</IBAN>
+      </Id>
+   </CdtrAcct>
+   <CdtrAgt>
+      <FinInstnId>
+         <BIC>CCRIES2AXXX</BIC>
+      </FinInstnId>
+   </CdtrAgt>
+   <CdtrSchmeId>
+       <Id>
+          <PrvtId>
+             <Othr>
+                 <Id>ES38000F46038881</Id>
+                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
+             </Othr>
+          </PrvtId>
+       </Id>
+   </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>43003037  E  0000000220190131003   </EndToEndId>
+          <EndToEndId>4300001402GRP0000140220000519001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">127.05</InstdAmt>
+      <InstdAmt Ccy="EUR">134.89</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES1420386304716000139828</MndtId>
+            <MndtId>ES5830821315883191950116</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>CAHMESMMXXX</BIC>
+            <BIC>CCRIES2AXXX</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>JIMENEZ CARRION, SERGIO JOSE</Nm>
+         <Nm>PEREZ DELVALLE, FRANCISCO</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>C/ RAMON Y CAJAL, 1 - 8</AdrLine>
-              <AdrLine>MELIANA   46133     VALENCIA</AdrLine>
+              <AdrLine>RDGEZ. DE LA FUENTE, 90</AdrLine>
+              <AdrLine>CATADAU   46196     VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>716000139828</Id>
+                   <Id>883191950116</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES1420386304716000139828</IBAN>
+            <IBAN>ES5830821315883191950116</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>FACTURA  E-0000002 de Fecha 31 ene 2019</Ustrd>
+         <Ustrd>A991817 A993916 Numero Vencimientos   2</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+</PmtInf>
+<PmtInf>
+   <PmtInfId>RE000172019 13/06/19F46038881</PmtInfId>
+   <PmtMtd>DD</PmtMtd>
+   <BtchBookg>false</BtchBookg>
+   <PmtTpInf>
+      <SvcLvl>
+          <Cd>SEPA</Cd>
+      </SvcLvl>
+      <LclInstrm>
+         <Cd>CORE</Cd>
+      </LclInstrm>
+      <SeqTp>RCUR</SeqTp>
+      <CtgyPurp>
+         <Cd>TRAD</Cd>
+      </CtgyPurp>
+   </PmtTpInf>
+   <ReqdColltnDt>2002-08-19</ReqdColltnDt>
+   <Cdtr>
+      <Nm>Agricola de Catadau S.C. Suministros</Nm>
+      <PstlAdr>
+          <Ctry>ES</Ctry>
+          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
+      </PstlAdr>
+   </Cdtr>
+   <CdtrAcct>
+      <Id>
+         <IBAN>ES5230582268501021006736</IBAN>
+      </Id>
+   </CdtrAcct>
+   <CdtrAgt>
+      <FinInstnId>
+         <BIC>CCRIES2AXXX</BIC>
+      </FinInstnId>
+   </CdtrAgt>
+   <CdtrSchmeId>
+       <Id>
+          <PrvtId>
+             <Othr>
+                 <Id>ES38000F46038881</Id>
+                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
+             </Othr>
+          </PrvtId>
+       </Id>
+   </CdtrSchmeId>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>4300001892GRP0000189220020819001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">92.49</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES6530821315823192023616</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CCRIES2AXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ROMERO PARIS, ISABEL</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>PLAZA ESPA A, 3-17</AdrLine>
+              <AdrLine>CATADAU   46196     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>823192023616</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES6530821315823192023616</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>A223958 A225356 A220638 Numero Vencimientos   3</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+</PmtInf>
+<PmtInf>
+   <PmtInfId>RE000172019 13/06/19F46038881</PmtInfId>
+   <PmtMtd>DD</PmtMtd>
+   <BtchBookg>false</BtchBookg>
+   <PmtTpInf>
+      <SvcLvl>
+          <Cd>SEPA</Cd>
+      </SvcLvl>
+      <LclInstrm>
+         <Cd>CORE</Cd>
+      </LclInstrm>
+      <SeqTp>RCUR</SeqTp>
+      <CtgyPurp>
+         <Cd>TRAD</Cd>
+      </CtgyPurp>
+   </PmtTpInf>
+   <ReqdColltnDt>2006-01-09</ReqdColltnDt>
+   <Cdtr>
+      <Nm>Agricola de Catadau S.C. Suministros</Nm>
+      <PstlAdr>
+          <Ctry>ES</Ctry>
+          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
+      </PstlAdr>
+   </Cdtr>
+   <CdtrAcct>
+      <Id>
+         <IBAN>ES5230582268501021006736</IBAN>
+      </Id>
+   </CdtrAcct>
+   <CdtrAgt>
+      <FinInstnId>
+         <BIC>CCRIES2AXXX</BIC>
+      </FinInstnId>
+   </CdtrAgt>
+   <CdtrSchmeId>
+       <Id>
+          <PrvtId>
+             <Othr>
+                 <Id>ES38000F46038881</Id>
+                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
+             </Othr>
+          </PrvtId>
+       </Id>
+   </CdtrSchmeId>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>4300001621GRP0000162120060109001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">69.32</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES3830821315803191949316</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CCRIES2AXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>BARBERA SANZ, RAFAEL</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>NUEVA, 27</AdrLine>
+              <AdrLine>CATADAU   46196     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>803191949316</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES3830821315803191949316</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>A260415 A260425 A260661 Numero Vencimientos   3</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+</PmtInf>
+<PmtInf>
+   <PmtInfId>RE000172019 13/06/19F46038881</PmtInfId>
+   <PmtMtd>DD</PmtMtd>
+   <BtchBookg>false</BtchBookg>
+   <PmtTpInf>
+      <SvcLvl>
+          <Cd>SEPA</Cd>
+      </SvcLvl>
+      <LclInstrm>
+         <Cd>CORE</Cd>
+      </LclInstrm>
+      <SeqTp>RCUR</SeqTp>
+      <CtgyPurp>
+         <Cd>TRAD</Cd>
+      </CtgyPurp>
+   </PmtTpInf>
+   <ReqdColltnDt>2010-02-23</ReqdColltnDt>
+   <Cdtr>
+      <Nm>Agricola de Catadau S.C. Suministros</Nm>
+      <PstlAdr>
+          <Ctry>ES</Ctry>
+          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
+      </PstlAdr>
+   </Cdtr>
+   <CdtrAcct>
+      <Id>
+         <IBAN>ES5230582268501021006736</IBAN>
+      </Id>
+   </CdtrAcct>
+   <CdtrAgt>
+      <FinInstnId>
+         <BIC>CCRIES2AXXX</BIC>
+      </FinInstnId>
+   </CdtrAgt>
+   <CdtrSchmeId>
+       <Id>
+          <PrvtId>
+             <Othr>
+                 <Id>ES38000F46038881</Id>
+                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
+             </Othr>
+          </PrvtId>
+       </Id>
+   </CdtrSchmeId>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>4300001898A  0300083920100223001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">10.15</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES6930821315883192024317</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CCRIES2AXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>FERNANDEZ DEL PUERTO, ALONSO</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>FAVORITA, 17</AdrLine>
+              <AdrLine>LLOMBAI   46195     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>883192024317</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES6930821315883192024317</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-3000839 de Fecha 23 feb 2010</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>

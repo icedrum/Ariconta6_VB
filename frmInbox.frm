@@ -54,11 +54,18 @@ Begin VB.Form frmInbox
       Width           =   8415
       Begin VB.Image Image1 
          Height          =   810
-         Left            =   5400
+         Left            =   4080
          Picture         =   "frmInbox.frx":058A
          Stretch         =   -1  'True
-         Top             =   4800
+         Top             =   5040
          Width           =   780
+      End
+      Begin VB.Image Image2 
+         Height          =   19200
+         Left            =   0
+         Picture         =   "frmInbox.frx":1420
+         Top             =   0
+         Width           =   28800
       End
    End
 End

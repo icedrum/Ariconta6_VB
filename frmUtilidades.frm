@@ -1840,16 +1840,16 @@ End Sub
 
 
 Private Sub Eliminar()
-Dim Cad As String
+Dim cad As String
     SQL = "DELETE FROM cuentas where codmacta = '"
     For i = ListView1.ListItems.Count To 1 Step -1
         If ListView1.ListItems(i).Checked Then
-            Cad = BorrarCuenta(ListView1.ListItems(i).Text, Me.Label2)
-            If Cad = "" Then
+            cad = BorrarCuenta(ListView1.ListItems(i).Text, Me.Label2)
+            If cad = "" Then
                 If EliminaCuenta(ListView1.ListItems(i).Text) Then ListView1.ListItems.Remove i
             Else
-                Cad = ListView1.ListItems(i).Text & " - " & ListView1.ListItems(i).SubItems(1) & vbCrLf & Cad & vbCrLf
-                MsgBox Cad, vbExclamation
+                cad = ListView1.ListItems(i).Text & " - " & ListView1.ListItems(i).SubItems(1) & vbCrLf & cad & vbCrLf
+                MsgBox cad, vbExclamation
             End If
         End If
     Next i
@@ -2214,6 +2214,8 @@ End Sub
 
 Private Sub ListView1_DblClick()
     If Opcion = 1 Then
+        If ListView1.ListItems.Count = 0 Then Exit Sub
+        If ListView1.SelectedItem Is Nothing Then Exit Sub
         CadenaDesdeOtroForm = ListView1.SelectedItem.Text & "|" & ListView1.SelectedItem.SubItems(1) & "|" & ListView1.SelectedItem.SubItems(2) & "|"
         Unload Me
     End If
@@ -2398,7 +2400,7 @@ End Sub
 
 
 Private Sub CargarRecordSetCtasLibres()
-Dim Cad As String
+Dim cad As String
 Dim J As Long
 Dim Multiplicador As Long
 Dim vFormato As String
@@ -2407,7 +2409,7 @@ Dim CadenaInsert As String
     i = vEmpresa.DigitosUltimoNivel - lblHuecoCta.Tag
     vFormato = Mid("00000000000", 1, i)
     Multiplicador = i
-    Cad = Me.txtHuecoCta.Text & Mid("0000000000", 1, i)
+    cad = Me.txtHuecoCta.Text & Mid("0000000000", 1, i)
     i = 1   'Primer Numero de cuenta
     
     Set Rs = New ADODB.Recordset
@@ -2439,8 +2441,8 @@ Dim CadenaInsert As String
         Rs.Close
         'Cojemos desde la ultima
         i = vEmpresa.DigitosUltimoNivel - lblHuecoCta.Tag
-        Cad = Mid("999999999", 1, i)
-        i = Val(Cad) 'Utlima cta del subgrupo
+        cad = Mid("999999999", 1, i)
+        i = Val(cad) 'Utlima cta del subgrupo
         
         If NumCuentas < i Then
             NumCuentas = NumCuentas + 1
@@ -2471,14 +2473,14 @@ End Sub
 
 Private Sub InsertaCtasLibres(Cta As String, Descripcion As String, CadenaInsert2 As String)
 Dim Insertar As Boolean
-Dim Cad As String
+Dim cad As String
 
     If Cta <> "" Then
         Insertar = False
-        Cad = Me.txtHuecoCta.Text & Cta
-        Cad = "('" & Cad & "','" & Descripcion & "')"
+        cad = Me.txtHuecoCta.Text & Cta
+        cad = "('" & cad & "','" & Descripcion & "')"
         
-        CadenaInsert2 = CadenaInsert2 & ", " & Cad
+        CadenaInsert2 = CadenaInsert2 & ", " & cad
         If Len(CadenaInsert2) > 300 Then Insertar = True
     Else
         Insertar = True
@@ -2535,7 +2537,7 @@ End Sub
 
 
 Private Sub BuscarFacturasSaltos()
-Dim Cad As String
+Dim cad As String
 Dim Aux As String
 Dim Anyo As Integer
 Dim J As Integer
@@ -2546,11 +2548,11 @@ Dim J As Integer
     
     If Opcion = 5 Then
         SQL = "numserie,anofactu as ano,numfactu as codigo"
-        Cad = "fecfactu"
+        cad = "fecfactu"
         SQL = SQL & " FROM factcli"
     Else
         SQL = "numserie, anofactu as ano,numregis as codigo"
-        Cad = "fecharec"
+        cad = "fecharec"
         SQL = SQL & " FROM factpro"
     End If
     
@@ -2561,11 +2563,11 @@ Dim J As Integer
         Exit Sub
     End If
     Aux = ""
-    Aux = Cad & " >= '" & Format(Text1(3).Text, FormatoFecha) & "'"
+    Aux = cad & " >= '" & Format(Text1(3).Text, FormatoFecha) & "'"
     
     
     Aux = Aux & " AND "
-    Aux = Aux & Cad & " <= '" & Format(Text1(2).Text, FormatoFecha) & "'"
+    Aux = Aux & cad & " <= '" & Format(Text1(2).Text, FormatoFecha) & "'"
     
     
     
@@ -2619,10 +2621,10 @@ Dim J As Integer
             
             If Rs!Codigo - i >= 2 Then
                 'SALTO
-                Cad = Format(Rs!Codigo - 1, "000000000")
+                cad = Format(Rs!Codigo - 1, "000000000")
 '                If opcion = 5 Then
                     Set ItmX = ListView1.ListItems.Add(, , Rs!NUmSerie)
-                    ItmX.SubItems(1) = Cad
+                    ItmX.SubItems(1) = cad
                     J = 2
 '                Else
 '                    Set ItmX = ListView1.ListItems.Add(, , Cad)
@@ -2635,10 +2637,10 @@ Dim J As Integer
                 
             Else
                 'HUECO
-                Cad = Format(i, "000000000")
+                cad = Format(i, "000000000")
 '                If opcion = 5 Then
                     Set ItmX = ListView1.ListItems.Add(, , Rs!NUmSerie)
-                    ItmX.SubItems(1) = Cad
+                    ItmX.SubItems(1) = cad
                     J = 2
 '                Else
 '                    Set ItmX = ListView1.ListItems.Add(, , Cad)

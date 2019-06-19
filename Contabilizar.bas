@@ -768,7 +768,7 @@ Dim LINAPU As String
     SQL = DevuelveDesdeBD("contaefecpte", "paramtesor", "1", "1", , SubCtaPte2)
     CuentaPuente2 = False
     If SQL <> "" Then
-        CuentaPuente2 = True
+        If Val(SQL) <> 0 Then CuentaPuente2 = True
         
     End If
     

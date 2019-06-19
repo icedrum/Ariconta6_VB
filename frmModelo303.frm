@@ -757,7 +757,7 @@ Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
 Private SQL As String
-Dim Cad As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -1148,19 +1148,19 @@ Dim Es_A_Compensar As Byte
 Dim CadenaImportes As String
 
     'Generamos la cadena con los importes a mostrar
-    Cad = ""
+    cad = ""
     GeneraCadenaImportes
 
-    CadenaImportes = CStr(Cad)
+    CadenaImportes = CStr(cad)
 
 
     'Si el importe es negativo tendriamos que preguntar si quiere realizar
     'compensacion o ingreso/devolucion
     If CCur(ImpTotal) < 0 Then
         'NEGATIVO
-        Cad = "Importe a devolver / compensar." & vbCrLf & vbCrLf & _
+        cad = "Importe a devolver / compensar." & vbCrLf & vbCrLf & _
             "¿ Desea que sea a compensar ?"
-        i = MsgBox(Cad, vbQuestion + vbYesNoCancel)
+        i = MsgBox(cad, vbQuestion + vbYesNoCancel)
         If i = vbCancel Then Exit Sub
         
         Es_A_Compensar = 0
@@ -1168,17 +1168,17 @@ Dim CadenaImportes As String
         
         
         If Es_A_Compensar = 0 Then
-            Cad = DevuelveDesdeBD("iban1", "empresa2", "1", "1")
-            If Cad = "" Then
+            cad = DevuelveDesdeBD("iban1", "empresa2", "1", "1")
+            If cad = "" Then
                 MsgBox "Falta configurar IBAN para la deolucion", vbExclamation
                 Exit Sub
             End If
         End If
         
     Else
-        Cad = "Ingreso por cta banco?" & vbCrLf & vbCrLf
+        cad = "Ingreso por cta banco?" & vbCrLf & vbCrLf
         '
-        i = MsgBox(Cad, vbQuestion + vbYesNoCancel)
+        i = MsgBox(cad, vbQuestion + vbYesNoCancel)
         If i = vbCancel Then Exit Sub
         Es_A_Compensar = 2
         If i = vbYes Then Es_A_Compensar = 3
@@ -1187,12 +1187,12 @@ Dim CadenaImportes As String
 
     'Generamos la cadena para el ultimo registro de la presentacion
     'Registro <T30303>
-    Cad = ""
+    cad = ""
     CadenaAdicional303_Nuevo
 
 
     'Ahora enviamos a generar fichero IVA
-    If GenerarFicheroIVA_303_2017(CadenaImportes, ImpTotal, CDate(txtfecha(2).Text), Periodo, Es_A_Compensar, Cad) Then
+    If GenerarFicheroIVA_303_2017(CadenaImportes, ImpTotal, CDate(txtfecha(2).Text), Periodo, Es_A_Compensar, cad) Then
     
     GuardarComo
     End If
@@ -1249,13 +1249,13 @@ Dim Rs As ADODB.Recordset
     Rs.Close
     
     'Adiconal criterio de caja.
-    Cad = Cad & String(17, "0")
-    Cad = Cad & String(17, "0")
-    Cad = Cad & String(17, "0")
-    Cad = Cad & String(17, "0")
+    cad = cad & String(17, "0")
+    cad = cad & String(17, "0")
+    cad = cad & String(17, "0")
+    cad = cad & String(17, "0")
     
     'Reegularizacion cuotas
-    Cad = Cad & String(17, "0")
+    cad = cad & String(17, "0")
     
     'Diferencia antes de aplicar las
     DevuelveImporte ImpTotal * 1, 0
@@ -1263,13 +1263,13 @@ Dim Rs As ADODB.Recordset
     
     'Atribuible a la admon del estado
     'DevuelveImporte 31, 0   '%  PONIA 31 antes de ene 18
-    Cad = Cad & "10000" '100%
-    Cad = Cad & "0000"
+    cad = cad & "10000" '100%
+    cad = cad & "0000"
     DevuelveImporte ImpTotal * 1, 0
 
 
     'IVA a la importación liquidado por la Aduana pendiente de ingreso  [77]
-    Cad = Cad & String(17, "0")
+    cad = cad & String(17, "0")
 
     'A compensar de otros periodos
     ImpCompensa = ImporteSinFormato(ComprobarCero(txtCuota(0).Text))
@@ -1277,7 +1277,7 @@ Dim Rs As ADODB.Recordset
     
     'DE estos dos NO hay text
     'Diputacion foral
-    Cad = Cad & String(17, "0")
+    cad = cad & String(17, "0")
     
     'Campo19. Resultado
     DevuelveImporte ImpTotal - ImpCompensa, 0
@@ -1312,6 +1312,7 @@ Dim Rs As ADODB.Recordset
     
     
     SQL = "select iva,  bases, ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 0 "
+    If vParam.RectificativasSeparadas303 Then SQL = SQL & " AND iva<100"
     SQL = SQL & " order by 1 "
     
     Set Rs = New ADODB.Recordset
@@ -1412,18 +1413,48 @@ Dim Rs As ADODB.Recordset
         DevuelveImporte 0, 0
         DevuelveImporte 0, 0
     End If
-    Set Rs = Nothing
     
-    'modificacion bases y cuotas (no tenemos)
-    DevuelveImporte 0, 0
-    DevuelveImporte 0, 0
     
+    'JUNIO 2019
+    'modificacion bases y cuotas
+    HayReg = False
+    If vParam.RectificativasSeparadas303 Then
+        Set Rs = New ADODB.Recordset
+        SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 0 AND iva=100"
+        Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        SQL = ""
+        While Not Rs.EOF
+            SQL = SQL & "X"
+            HayReg = True
+            DevuelveImporte DBLet(Rs!Bases, "N"), 0
+            DevuelveImporte DBLet(Rs!Ivas, "N"), 0
+            
+            TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
+            
+            Rs.MoveNext
+        Wend
+        Rs.Close
+        Set Rs = Nothing
+        
+        If Len(SQL) > 1 Then
+            MsgBox "Error en facturas rectificativas sin R.Equiv.  Mas de una linea devuelta", vbExclamation
+            
+        End If
+        
+        
+    End If
+    If Not HayReg Then
+        DevuelveImporte 0, 0
+        DevuelveImporte 0, 0
+    End If
     
     'Los recargos
+    Set Rs = New ADODB.Recordset
     SQL = "select iva,  bases, ivas,porcrec from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 1 "
+    If vParam.RectificativasSeparadas303 Then SQL = SQL & " AND iva<100"
     SQL = SQL & " order by 1 "
     
-    Set Rs = New ADODB.Recordset
+    
     Rs.Open SQL, Conn, adOpenKeyset, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
         Msg = ""
@@ -1462,7 +1493,7 @@ Dim Rs As ADODB.Recordset
         Next
         If K <> J Then
             SQL = "Error en IVAS recargo equivalencia. Existen " & Msg
-            
+            MsgBox SQL, vbExclamation
         End If
     
     Else
@@ -1475,11 +1506,43 @@ Dim Rs As ADODB.Recordset
         
     End If
     Rs.Close
-    Set Rs = Nothing
     
-    'modificacion bases y cuotas del recargo de equivalencia (no tenemos)
-    DevuelveImporte 0, 0
-    DevuelveImporte 0, 0
+    'JUNIO 2019
+    'modificacion bases y cuotas del recargo de equivalencia
+    HayReg = False
+    If vParam.RectificativasSeparadas303 Then
+        Set Rs = New ADODB.Recordset
+        SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 1 AND iva=101"
+        Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        SQL = ""
+        While Not Rs.EOF
+            SQL = SQL & "X"
+            HayReg = True
+            DevuelveImporte DBLet(Rs!Bases, "N"), 0
+            DevuelveImporte DBLet(Rs!Ivas, "N"), 0
+            
+            TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
+            
+            Rs.MoveNext
+        Wend
+        Rs.Close
+        Set Rs = Nothing
+        
+        If Len(SQL) > 1 Then
+            MsgBox "Error en facturas rectificativas sin R.Equiv.  Mas de una linea devuelta", vbExclamation
+            
+        End If
+        
+        
+    End If
+    
+    If Not HayReg Then
+        DevuelveImporte 0, 0
+        DevuelveImporte 0, 0
+    End If
+    
+    
+    
     
 
     'total
@@ -1624,10 +1687,37 @@ Dim Rs As ADODB.Recordset
     End If
     Set Rs = Nothing
 
-    ' rectificacion de deducciones tampoco tenemos
-    DevuelveImporte 0, 0
-    DevuelveImporte 0, 0
 
+
+    'JUNIO 2019
+    ' rectificacion de deducciones
+    HayReg = False
+    If vParam.RectificativasSeparadas303 Then
+        SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 40 "
+        Set Rs = New ADODB.Recordset
+        Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        SQL = ""
+        While Not Rs.EOF
+            HayReg = True
+            SQL = SQL & "X"
+            DevuelveImporte DBLet(Rs!Bases, "N"), 0
+            DevuelveImporte DBLet(Rs!Ivas, "N"), 0
+            
+            TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
+            
+            Rs.MoveNext
+        Wend
+        Rs.Close
+        If Len(SQL) > 1 Then MsgBox "Error en facturas rectificativas DECUCIBLE .  Mas de una linea devuelta", vbExclamation
+
+    End If
+
+    If Not HayReg Then
+        DevuelveImporte 0, 0
+        DevuelveImporte 0, 0
+    End If
+    
+    
 '--
 '    DevuelveImporte 28, 0  'Regimen especial
     SQL = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 42 "
@@ -1712,7 +1802,7 @@ Dim Resul As String
         End If
     End Select
     
-    Cad = Cad & Resul & Format(Importe, Aux)
+    cad = cad & Resul & Format(Importe, Aux)
         
 End Sub
 
@@ -1875,7 +1965,7 @@ Private Sub txtAno_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtAno_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 
     txtAno(Index).Text = Trim(txtAno(Index).Text)
     
@@ -1902,7 +1992,7 @@ Private Sub txtCuota_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuota_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 
     txtCuota(Index).Text = Trim(txtCuota(Index).Text)
     
@@ -2008,6 +2098,9 @@ Private Function DatosOK() As Boolean
         If ListView1(1).ListItems(i).Checked Then
             If Not ComprobarContabilizacionFrasCliProv(True, ListView1(1).ListItems(i).Text) Then Exit Function
             If Not ComprobarContabilizacionFrasCliProv(False, ListView1(1).ListItems(i).Text) Then Exit Function
+            
+            
+            
         End If
     Next i
 
@@ -2187,10 +2280,10 @@ Private Sub GuardarComo()
 
 cd1.FileName = ""
     cd1.ShowSave
-    Cad = cd1.FileName
-    If Cad <> "" Then
-        FileCopy App.Path & "\miIVA.txt", Cad
-        MsgBox "Fichero creado con éxito" & vbCrLf & vbCrLf & Cad, vbInformation
+    cad = cd1.FileName
+    If cad <> "" Then
+        FileCopy App.Path & "\miIVA.txt", cad
+        MsgBox "Fichero creado con éxito" & vbCrLf & vbCrLf & cad, vbInformation
     End If
     Exit Sub
 EGuardarComo:

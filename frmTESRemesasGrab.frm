@@ -1111,16 +1111,16 @@ End Sub
 
 
 Private Function NombreRemesaFich() As String
-Dim Cad As String
+Dim cad As String
 
     NombreRemesaFich = ""
-    Cad = "codigo = " & Me.Text3(0).Text & " AND anyo=" & Text3(1).Text & " AND 1"
-    Cad = DevuelveDesdeBD("descripcion", "remesas", Cad, "1")
-    If Cad <> "" Then
-        Cad = Replace(Cad, "/", " ")
-        Cad = Replace(Cad, "\", " ")
+    cad = "codigo = " & Me.Text3(0).Text & " AND anyo=" & Text3(1).Text & " AND 1"
+    cad = DevuelveDesdeBD("descripcion", "remesas", cad, "1")
+    If cad <> "" Then
+        cad = Replace(cad, "/", " ")
+        cad = Replace(cad, "\", " ")
         
-        NombreRemesaFich = Cad & ".xml"
+        NombreRemesaFich = cad & ".xml"
     End If
 End Function
 
@@ -1304,6 +1304,7 @@ End Sub
 ' -1: ERROR     0: Ninguno     1 Si que hay agrupaciones
 Private Function ComprobacionesAgrupaFichero() As Integer
 Dim C As String
+Dim C2 As String
 
     On Error GoTo eComrpobacionesAgrupacionFichero
     Set miRsAux = New ADODB.Recordset
@@ -1317,14 +1318,15 @@ Dim C As String
     End If
     
     
-    SQL = "select codmacta,count(*) from cobros where codrem = " & Me.Text3(0).Text & " AND anyorem=" & Text3(1).Text & " group by codmacta having count(*) >1"
+    'SQL = "select codmacta,count(*) from cobros where codrem = " & Me.Text3(0).Text & " AND anyorem=" & Text3(1).Text & " group by codmacta having count(*) >1"
+    SQL = "select codmacta,departamento,count(*) from cobros where codrem = " & Me.Text3(0).Text & " AND anyorem=" & Text3(1).Text & " group by codmacta,departamento having count(*) >1"
     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Msg = ""
     CuentasCC = ""
     i = 0
     While Not miRsAux.EOF
         i = i + 1
-        Msg = Msg & miRsAux!codmacta & "|"
+        Msg = Msg & miRsAux!codmacta & "·" & DBLet(miRsAux!departamento, "T") & "|"
         miRsAux.MoveNext
         
     Wend
@@ -1340,14 +1342,32 @@ Dim C As String
     K = 0
     NumRegElim = 0
     For J = 1 To i
-        SQL = " AND codmacta = '" & RecuperaValor(Msg, CInt(J)) & "' GROUP BY iban "
+        
+        
+        C2 = RecuperaValor(Msg, CInt(J)) & "|"
+        C2 = Replace(C2, "·", "|")
+        SQL = RecuperaValor(C2, 1)
+        If SQL = "" Then Err.Raise 513, , "Obteniendo cuenta: " & Msg
+        C2 = RecuperaValor(C2, 2)
+        If C2 = "" Then
+            C2 = " is null"
+        Else
+            C2 = " = " & C2
+        End If
+        C2 = " AND departamento " & C2
+        SQL = " AND codmacta = '" & SQL & "'" & C2 & " GROUP BY iban "
         SQL = "select  iban,count(*) ctos from cobros where codrem = " & Me.Text3(0).Text & " AND anyorem=" & Text3(1).Text & SQL
         miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         SQL = ""
         If miRsAux.EOF Then
             Err.Raise 513, , "no se encuentran vtos. en select: " & Mid(miRsAux.Source, 30)
         Else
-            C = DevuelveDesdeBD("concat(codmacta,' ',nommacta)", "cuentas", "codmacta", RecuperaValor(Msg, CInt(J)), "T") & "   Nº:" & Format(miRsAux!ctos, "0000")
+            C2 = RecuperaValor(Msg, CInt(J)) & "|"
+            C2 = Replace(C2, "·", "|")
+            C = RecuperaValor(C2, 1)
+            C2 = RecuperaValor(C2, 2)
+            If C2 <> "" Then C2 = "      Departamento: " & C2
+            C = DevuelveDesdeBD("concat(codmacta,' ',nommacta)", "cuentas", "codmacta", C, "T") & C2 & "  Nº: " & Format(miRsAux!ctos, "0000")
             SQL = miRsAux!IBAN
             miRsAux.MoveNext
             If miRsAux.EOF Then

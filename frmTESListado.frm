@@ -1121,7 +1121,7 @@ Dim RC As String
 Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
-Dim cad As String
+Dim Cad As String
 Dim CONT As Long
 Dim i As Integer
 Dim TotalRegistros As Long
@@ -1352,6 +1352,7 @@ Dim Img As Image
         FrameCompensaciones.visible = True
         Caption = "Compensacion efectos"
         Text3(23).Text = Format(Now, "dd/mm/yyyy")
+        If vParamT.PideFechaImpresionTalonPagare Then chkCompensa.Value = 1
         
         
         
@@ -1730,30 +1731,30 @@ Private Sub txtConcepto_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtConcepto_LostFocus(Index As Integer)
-Dim cad As String
+Dim Cad As String
     txtConcepto(Index).Text = Trim(txtConcepto(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
 '    If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
-            cad = ""
+            Cad = ""
             If txtConcepto(Index).Text <> "" Then
                 If PonerFormatoEntero(txtConcepto(Index)) Then
-                    cad = DevuelveDesdeBD("nomconce", "conceptos", "codconce", txtConcepto(Index), "N")
-                    If cad = "" Then
+                    Cad = DevuelveDesdeBD("nomconce", "conceptos", "codconce", txtConcepto(Index), "N")
+                    If Cad = "" Then
                         MsgBox "No existe el concepto", vbExclamation
                     Else
                         txtConcepto(Index).Text = Format(txtConcepto(Index).Text, "000")
                     End If
                 
                 End If
-                If cad = "" Then
+                If Cad = "" Then
                     txtConcepto(Index).Text = ""
                     PonFoco txtConcepto(Index)
                 End If
             End If
-            Me.txtDescConcepto(Index).Text = cad
+            Me.txtDescConcepto(Index).Text = Cad
 End Sub
 
 Private Sub txtDiario_GotFocus(Index As Integer)
@@ -1822,22 +1823,22 @@ Private Sub txtCtaBanc_LostFocus(Index As Integer)
         Exit Sub
     End If
     
-    cad = txtCtaBanc(Index).Text
-    i = CuentaCorrectaUltimoNivelSIN(cad, SQL)
+    Cad = txtCtaBanc(Index).Text
+    i = CuentaCorrectaUltimoNivelSIN(Cad, SQL)
     If i = 0 Then
         MsgBox "NO existe la cuenta: " & txtCtaBanc(Index).Text, vbExclamation
         SQL = ""
-        cad = ""
+        Cad = ""
     Else
-        cad = DevuelveDesdeBD("codmacta", "bancos", "codmacta", cad, "T")
-        If cad = "" Then
+        Cad = DevuelveDesdeBD("codmacta", "bancos", "codmacta", Cad, "T")
+        If Cad = "" Then
             MsgBox "Cuenta no asoaciada a ningun banco", vbExclamation
             SQL = ""
             i = 0
         End If
     End If
     
-    txtCtaBanc(Index).Text = cad
+    txtCtaBanc(Index).Text = Cad
     Me.txtDescBanc(Index).Text = SQL
     If i = 0 Then PonFoco txtCtaBanc(Index)
     

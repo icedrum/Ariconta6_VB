@@ -661,6 +661,7 @@ On Error GoTo ECargando
     Vencido = 0
     riesgo = 0
     ImpSeleccionado = 0
+    Screen.MousePointer = vbHourglass
     If Cobros Then
         CargaCobros
     Else

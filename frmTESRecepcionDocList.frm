@@ -529,10 +529,28 @@ Begin VB.Form frmTESRecepcionDocList
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1305
-         Left            =   390
+         Left            =   120
          TabIndex        =   33
-         Top             =   870
-         Width           =   3915
+         Top             =   840
+         Width           =   4395
+         Begin VB.CheckBox Check1 
+            Caption         =   "Confirming"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   240
+            Index           =   4
+            Left            =   2760
+            TabIndex        =   38
+            Top             =   600
+            Width           =   1605
+         End
          Begin VB.CheckBox Check1 
             Caption         =   "Pagaré"
             BeginProperty Font 
@@ -546,9 +564,9 @@ Begin VB.Form frmTESRecepcionDocList
             EndProperty
             Height          =   240
             Index           =   3
-            Left            =   2160
+            Left            =   1560
             TabIndex        =   35
-            Top             =   570
+            Top             =   600
             Width           =   1605
          End
          Begin VB.CheckBox Check1 
@@ -564,7 +582,7 @@ Begin VB.Form frmTESRecepcionDocList
             EndProperty
             Height          =   240
             Index           =   2
-            Left            =   420
+            Left            =   240
             TabIndex        =   34
             Top             =   570
             Width           =   1515
@@ -733,7 +751,7 @@ Attribute frmDpto.VB_VarHelpID = -1
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private Sql As String
+Private SQL As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -849,26 +867,26 @@ Private Sub Form_Load()
     Combo1.ListIndex = 2
     
     If CadenaInicio <> "" Then
-        txtFecha(2).Text = RecuperaValor(CadenaInicio, 2)
-        txtFecha(3).Text = txtFecha(2).Text
+        txtfecha(2).Text = RecuperaValor(CadenaInicio, 2)
+        txtfecha(3).Text = txtfecha(2).Text
         txtCodigo(0).Text = RecuperaValor(CadenaInicio, 1)
         txtCodigo(1).Text = txtCodigo(0).Text
-        check1(2).Value = RecuperaValor(CadenaInicio, 4)
-        check1(3).Value = RecuperaValor(CadenaInicio, 3)
+        Check1(2).Value = RecuperaValor(CadenaInicio, 4)
+        Check1(3).Value = RecuperaValor(CadenaInicio, 3)
     Else
-        check1(2).Value = 1
-        check1(3).Value = 1
+        Check1(2).Value = 1
+        Check1(3).Value = 1
     End If
     
 End Sub
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
@@ -883,10 +901,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
     End Select
     
     Screen.MousePointer = vbDefault
@@ -958,7 +976,7 @@ Private Sub txtcodigo_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCodigo(Index).Text = Trim(txtCodigo(Index).Text)
@@ -990,42 +1008,42 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    Sql = "SELECT talones.codigo, if(talones.talon = 1,'Talon','Pagare') Tipo,talones.fecharec,talones.codmacta Cuenta, cuentas.nommacta Descripcion, talones.numeroref Referencia, talones.banco Banco, talones.Fechavto , "
-    Sql = Sql & "talones_facturas.numserie Serie, talones_facturas.numfactu Factura, talones_facturas.fecfactu FecFra, talones_facturas.numorden Vto, talones_facturas.importe Importe "
-    Sql = Sql & " FROM  (talones LEFT JOIN talones_facturas ON talones.codigo = talones_facturas.codigo) INNER JOIN cuentas ON talones.codmacta = cuentas.codmacta  "
+    SQL = "SELECT talones.codigo, if(talones.talon = 1,'Talon','Pagare') Tipo,talones.fecharec,talones.codmacta Cuenta, cuentas.nommacta Descripcion, talones.numeroref Referencia, talones.banco Banco, talones.Fechavto , "
+    SQL = SQL & "talones_facturas.numserie Serie, talones_facturas.numfactu Factura, talones_facturas.fecfactu FecFra, talones_facturas.numorden Vto, talones_facturas.importe Importe "
+    SQL = SQL & " FROM  (talones LEFT JOIN talones_facturas ON talones.codigo = talones_facturas.codigo) INNER JOIN cuentas ON talones.codmacta = cuentas.codmacta  "
     
     If cadselect <> "" Then
-        Sql = Sql & " where " & cadselect
+        SQL = SQL & " where " & cadselect
     Else
-        Sql = Sql & " where (1=1) "
+        SQL = SQL & " where (1=1) "
     End If
     
     Select Case Combo1.ListIndex
         Case 0 'talones
-            Sql = Sql & " and talones.llevadobanco = 0"
+            SQL = SQL & " and talones.llevadobanco = 0"
         Case 1 'pagares
-            Sql = Sql & " and talones.llevadobanco = 1"
+            SQL = SQL & " and talones.llevadobanco = 1"
         Case 2 'todos
         
     End Select
             
-    If check1(2).Value = 1 And check1(3).Value = 1 Then
+    If Check1(2).Value = 1 And Check1(3).Value = 1 Then
         ' si estan marcados ambos no hacemos nada
     Else
-        If check1(2).Value = 1 Then 'talones
-            Sql = Sql & " and talones.talon = 1"
+        If Check1(2).Value = 1 Then 'talones
+            SQL = SQL & " and talones.talon = 1"
         End If
     
-        If check1(3).Value = 1 Then 'pagares
-            Sql = Sql & " and talones.talon = 0"
+        If Check1(3).Value = 1 Then 'pagares
+            SQL = SQL & " and talones.talon = 0"
         End If
     End If
     
-    Sql = Sql & " ORDER BY 1,2,3 "
+    SQL = SQL & " ORDER BY 1,2,3 "
 
             
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1040,10 +1058,10 @@ Dim nomDocu As String
     
     indRPT = "0611-00"
     
-    If check1(0).Value Then cadParam = cadParam & "pDetalle=1|"
+    If Check1(0).Value Then cadParam = cadParam & "pDetalle=1|"
     numParam = numParam + 1
         
-    If check1(1).Value = 1 Then
+    If Check1(1).Value = 1 Then
         indRPT = "0611-01"
     End If
         
@@ -1063,7 +1081,7 @@ Dim nomDocu As String
 End Sub
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -1071,7 +1089,7 @@ Dim i As Integer
 
     MontaSQL = False
     
-    If Not PonerDesdeHasta("talones.fecharec", "F", Me.txtFecha(2), Me.txtFecha(2), Me.txtFecha(3), Me.txtFecha(3), "pDHFecha=""") Then Exit Function
+    If Not PonerDesdeHasta("talones.fecharec", "F", Me.txtfecha(2), Me.txtfecha(2), Me.txtfecha(3), Me.txtfecha(3), "pDHFecha=""") Then Exit Function
     If Not PonerDesdeHasta("talones.codigo", "COD", Me.txtCodigo(0), Me.txtCodigo(0), Me.txtCodigo(1), Me.txtCodigo(1), "pDHCodigo=""") Then Exit Function
             
     If Combo1.ListIndex <> 2 Then
@@ -1089,22 +1107,22 @@ Dim i As Integer
         End Select
     End If
             
-    If check1(2).Value = 1 And check1(3).Value = 1 Then
+    If Check1(2).Value = 1 And Check1(3).Value = 1 And Check1(4).Value = 1 Then
         ' si estan marcados ambos no hacemos nada
     Else
-        If check1(2).Value = 1 Then 'talones
-            If cadFormula <> "" Then cadFormula = cadFormula & " and "
-            If cadselect <> "" Then cadselect = cadselect & " and "
-            cadFormula = cadFormula & "{talones.talon} = 1"
-            cadselect = cadselect & "talones.talon = 1"
-        End If
     
-        If check1(3).Value = 1 Then 'pagares
-            If cadFormula <> "" Then cadFormula = cadFormula & " and "
-            If cadselect <> "" Then cadselect = cadselect & " and "
-            cadFormula = cadFormula & "{talones.talon} = 0"
-            cadselect = cadselect & "talones.talon = 0"
-        End If
+        SQL = ""
+        'talones
+        If Check1(2).Value = 1 Then SQL = SQL & ", 1"
+        If Check1(3).Value = 1 Then SQL = SQL & ", 0"
+        If Check1(4).Value = 1 Then SQL = SQL & ", 2"
+        SQL = Mid(SQL, 2)
+        
+        If cadFormula <> "" Then cadFormula = cadFormula & " and "
+        If cadselect <> "" Then cadselect = cadselect & " and "
+        cadFormula = cadFormula & "{talones.talon} in [" & SQL & "]"
+        cadselect = cadselect & "talones.talon IN (" & SQL & ")"
+        
     End If
    
     If cadFormula <> "" Then cadFormula = "(" & cadFormula & ")"
@@ -1114,24 +1132,24 @@ Dim i As Integer
 End Function
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtFecha(Index).Tag, Index
+        LanzaFormAyuda txtfecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
@@ -1140,9 +1158,9 @@ End Sub
 Private Function DatosOK() As Boolean
     
     DatosOK = False
-    If check1(2).Value = 0 And check1(3).Value = 0 Then
+    If Check1(2).Value = 0 And Check1(3).Value = 0 And Check1(4).Value = 0 Then
         MsgBox "Debe seleccionar al menos un tipo de documento. Revise.", vbExclamation
-        PonerFocoChk check1(2)
+        PonerFocoChk Check1(2)
         Exit Function
     End If
     DatosOK = True

@@ -2777,7 +2777,7 @@ Begin VB.Form frmMensajes
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
-         HideSelection   =   -1  'True
+         HideSelection   =   0   'False
          Checkboxes      =   -1  'True
          FullRowSelect   =   -1  'True
          _Version        =   393217
@@ -4261,36 +4261,36 @@ Private Sub cmdEliminarRiesgoT_Click(Index As Integer)
     CadenaDesdeOtroForm = ""
     If Index = 0 Then
         Codigo = ""
-        If Me.txtfecha(1).Text = "" Then
+        If Me.txtFecha(1).Text = "" Then
             Codigo = "Fecha requerida"
-        ElseIf Not IsDate(txtfecha(1).Text) Then
+        ElseIf Not IsDate(txtFecha(1).Text) Then
             Codigo = "Fecha incorrecta"
         Else
-            i = CInt(FechaCorrecta2(CDate(txtfecha(1).Text)))
+            i = CInt(FechaCorrecta2(CDate(txtFecha(1).Text)))
             If i > 1 Then
                 If i = 2 Then
                     Codigo = varTxtFec
                 
                 Else
                     If i = 3 Then
-                        Codigo = "El ejercicio al que pertenece la fecha: " & txtfecha(1).Text & " está cerrado."
+                        Codigo = "El ejercicio al que pertenece la fecha: " & txtFecha(1).Text & " está cerrado."
                     Else
-                        Codigo = "Ejercicio para: " & txtfecha(1).Text & " todavía no activo"
+                        Codigo = "Ejercicio para: " & txtFecha(1).Text & " todavía no activo"
                     End If
                 End If
             End If
         End If
         If Codigo <> "" Then
             MsgBox Codigo, vbExclamation
-            Me.txtfecha(1).Text = ""
-            PonFoco Me.txtfecha(1)
+            Me.txtFecha(1).Text = ""
+            PonFoco Me.txtFecha(1)
             Exit Sub
         End If
         
         'LLEGA aqui, todo OK. Continuar?
         If MsgBox("Continuar?", vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
         
-        CadenaDesdeOtroForm = Me.txtfecha(1).Text & "|" & Me.chkVarios(0).Value & "|"
+        CadenaDesdeOtroForm = Me.txtFecha(1).Text & "|" & Me.chkVarios(0).Value & "|"
     End If
     Unload Me
 End Sub
@@ -4315,21 +4315,21 @@ Dim Salir As Boolean
         'Fecha seleccionada
         Codigo = ""
         i = 2
-        If Me.txtfecha(2).Text = "" Then
+        If Me.txtFecha(2).Text = "" Then
             Codigo = "-Fecha requerida"
-        ElseIf Not IsDate(txtfecha(2).Text) Then
+        ElseIf Not IsDate(txtFecha(2).Text) Then
             Codigo = "-Fecha incorrecta"
         Else
-            i = CInt(FechaCorrecta2(CDate(txtfecha(2).Text)))
+            i = CInt(FechaCorrecta2(CDate(txtFecha(2).Text)))
             If i > 1 Then
                 If i = 2 Then
                     Codigo = "-" & varTxtFec
                 
                 Else
                     If i = 3 Then
-                        Codigo = "-El ejercicio al que pertenece la fecha: " & txtfecha(2).Text & " está cerrado."
+                        Codigo = "-El ejercicio al que pertenece la fecha: " & txtFecha(2).Text & " está cerrado."
                     Else
-                        Codigo = "-Ejercicio para: " & txtfecha(2).Text & " todavía no activo"
+                        Codigo = "-Ejercicio para: " & txtFecha(2).Text & " todavía no activo"
                     End If
                 End If
             Else
@@ -4341,8 +4341,8 @@ Dim Salir As Boolean
         If Codigo <> "" Then
             MsgBox Codigo, vbExclamation
             If i > 0 Then
-                Me.txtfecha(2).Text = ""
-                PonFoco Me.txtfecha(2)
+                Me.txtFecha(2).Text = ""
+                PonFoco Me.txtFecha(2)
             End If
             Exit Sub
         End If
@@ -4368,9 +4368,9 @@ Dim Salir As Boolean
                     Conn.BeginTrans
                     If J = vbTipoPagoRemesa Then
                         
-                         Byt = RemesasEliminarVtosTalonesPagares(CByte(vbTipoPagoRemesa), ListView13.ListItems(i).Text, ListView13.ListItems(i).SubItems(1), CDate(txtfecha(2).Text), Forpa, Me.chkVarios(1).Value)
+                         Byt = RemesasEliminarVtosTalonesPagares(CByte(vbTipoPagoRemesa), ListView13.ListItems(i).Text, ListView13.ListItems(i).SubItems(1), CDate(txtFecha(2).Text), Forpa, Me.chkVarios(1).Value)
                     Else
-                        Byt = RemesasEliminarVtosTalonesPagares(CByte(ListView13.ListItems(i).Tag), ListView13.ListItems(i).Text, ListView13.ListItems(i).SubItems(1), CDate(txtfecha(2).Text), Forpa, Me.chkVarios(1).Value)
+                        Byt = RemesasEliminarVtosTalonesPagares(CByte(ListView13.ListItems(i).Tag), ListView13.ListItems(i).Text, ListView13.ListItems(i).SubItems(1), CDate(txtFecha(2).Text), Forpa, Me.chkVarios(1).Value)
                     End If
                     
                     If Byt < 2 Then
@@ -4499,23 +4499,23 @@ Private Sub cmdGeneraTransfer_Click(Index As Integer)
         
     Else
         SQL = ""
-        If txtfecha(3).Text = "" Then
+        If txtFecha(3).Text = "" Then
             SQL = "Fecha cobro debe tener valor"
         Else
-            If Not EsFechaOK(txtfecha(3)) Then
+            If Not EsFechaOK(txtFecha(3)) Then
                 SQL = "Fecha incorrecta"
             Else
-                If CDate(txtfecha(3).Text) < CDate(Format(Now, "dd/mm/yyyy")) Then SQL = "Fecha debe ser igual o superior a hoy"
+                If CDate(txtFecha(3).Text) < CDate(Format(Now, "dd/mm/yyyy")) Then SQL = "Fecha debe ser igual o superior a hoy"
             End If
         End If
             
         If SQL <> "" Then
             MsgBox SQL, vbExclamation
-            PonFoco txtfecha(3)
+            PonFoco txtFecha(3)
             Exit Sub
         End If
 
-        CadenaDesdeOtroForm = txtfecha(3).Text & "|" & Me.chkVarios(2).Value & "|"
+        CadenaDesdeOtroForm = txtFecha(3).Text & "|" & Me.chkVarios(2).Value & "|"
         
     End If
     Unload Me
@@ -4550,14 +4550,14 @@ End Sub
 
 Private Sub cmdIntegFraNav_Click(Index As Integer)
     If Index = 1 Then
-        If Me.txtCodmacta(0).Text = "" Or Me.txtfecha(0).Text = "" Then
+        If Me.txtCodmacta(0).Text = "" Or Me.txtFecha(0).Text = "" Then
             MsgBox "Campos requeridos", vbExclamation
             Exit Sub
         End If
         
           
           
-        i = CInt(FechaCorrecta2(CDate(txtfecha(0).Text), True))
+        i = CInt(FechaCorrecta2(CDate(txtFecha(0).Text), True))
         If i > 2 Then Exit Sub 'fuera ejercicios
         If i = 2 Then
             If vUsu.Nivel > 0 Then Exit Sub
@@ -4567,7 +4567,7 @@ Private Sub cmdIntegFraNav_Click(Index As Integer)
         If MsgBox("Desea continuar con los datos introducidos?", vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
         
         
-        CadenaDesdeOtroForm = Me.txtCodmacta(0).Text & "|" & Me.txtfecha(0).Text & "|" & Abs(Me.chkPagos.Value) & "|"
+        CadenaDesdeOtroForm = Me.txtCodmacta(0).Text & "|" & Me.txtFecha(0).Text & "|" & Abs(Me.chkPagos.Value) & "|"
         
     End If
     Unload Me
@@ -5018,7 +5018,7 @@ Dim W As Integer, H As Integer
     Case 61
         Me.Caption = "Riesgo"
         PonerFrameVisible FrameEliminarRiesgotalPag, H, W
-        Me.txtfecha(1).Text = Format(CadenaDesdeOtroForm, "dd/mm/yyyy")
+        Me.txtFecha(1).Text = Format(CadenaDesdeOtroForm, "dd/mm/yyyy")
         CadenaDesdeOtroForm = ""
         cmdEliminarRiesgoT(1).Cancel = True
     Case 62
@@ -5033,7 +5033,7 @@ Dim W As Integer, H As Integer
     Case 63
         Me.Caption = "Riesgo"
         PonerFrameVisible FrameElimiaRiesgoTalPag, H, W
-        Me.txtfecha(2).Text = ""
+        Me.txtFecha(2).Text = ""
         
         cboRiesgoYelConfirming.Clear
         If Banco = "" Then
@@ -5387,11 +5387,11 @@ End Sub
 Private Sub imgFec_Click(Index As Integer)
     Set frmF = New frmCal
     frmF.Fecha = Now
-    If Me.txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
+    If Me.txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
     SQL = ""
     frmF.Show vbModal
     Set frmF = Nothing
-    If SQL <> "" Then txtfecha(Index).Text = Format(SQL, "dd/mm/yyyy")
+    If SQL <> "" Then txtFecha(Index).Text = Format(SQL, "dd/mm/yyyy")
 End Sub
 
 Private Sub ListView10_ItemCheck(ByVal Item As MSComctlLib.ListItem)
@@ -5414,7 +5414,7 @@ Private Sub ListView13_ItemCheck(ByVal Item As MSComctlLib.ListItem)
         If Item.Index <> i Then
             ListView13.ListItems(i).Checked = False
         Else
-            txtfecha(2).Text = ListView13.ListItems(i).SubItems(2)
+            txtFecha(2).Text = ListView13.ListItems(i).SubItems(2)
         End If
     Next
 End Sub
@@ -5750,23 +5750,64 @@ End Sub
 
 Private Sub DividirVencimiento()
 Dim Im As Currency
+Dim ImporOfertado As Currency
 
     If ListView12.ListItems.Count = 0 Then Exit Sub
     If ListView12.SelectedItem Is Nothing Then Exit Sub
-        
+
+    If ListView12.SelectedItem.ForeColor = vbBlue Then
+        MsgBox "Vencimiento ya fue seleccionado. Quítelo del documento y  divídalo entonces", vbExclamation
+        Exit Sub
+    End If
+    
+    If ListView12.SelectedItem.Checked Then
+        MsgBox "Quitele la marca de check antes de divirlo", vbExclamation
+        Exit Sub
+    End If
+    
+    
     
     
     'Si esta totalmente cobrado pues no podemos desdoblar ekl vto
-    Im = ImporteFormateado(ListView12.SelectedItem.SubItems(9))
+    
+    
+    Im = ImporteFormateado(Trim(ListView12.SelectedItem.SubItems(9)))
     If Im <= 0 Then
         MsgBox "NO puede dividir el vencimiento. Importe totalmente cobrado", vbExclamation
         Exit Sub
     End If
+    Im = 0
+    If Me.txtSuma.Text <> "" Then Im = ImporteFormateado(txtSuma.Text)
+    ImporOfertado = Importe - Im
+    
+    
+    
+    If ImporOfertado = 0 Then
+        MsgBox "Diferencia=0", vbExclamation
+        Exit Sub
+    End If
+    
+    
+    If ListView12.SelectedItem.Checked Then
+        'El efecto esta seleccionado
+        ImporOfertado = Importe - Im
+        
+    End If
+    If ImporOfertado < 0 Then
+        
+    
+    
+    End If
+    
+    'Voy a ver cuanto necesito
+    
+    
     
        'CadenaDesdeOtroForm. Pipes
         '           1.- cadenaSQL numfac,numsere,fecfac
         '           2.- Numero vto
         '           3.- Importe maximo
+    Im = ImporteFormateado(Trim(ListView12.SelectedItem.SubItems(9)))
     
     CadenaDesdeOtroForm = "numserie = " & DBSet(ListView12.SelectedItem.Text, "T") & " AND numfactu = " & ListView12.SelectedItem.SubItems(1)
     CadenaDesdeOtroForm = CadenaDesdeOtroForm & " AND fecfactu = " & DBSet(ListView12.SelectedItem.SubItems(2), "F") & "|"
@@ -5778,7 +5819,7 @@ Dim Im As Currency
     frmTESCobrosDivVto.Opcion = 27
     frmTESCobrosDivVto.Label4(56).Caption = Label33.Caption
     frmTESCobrosDivVto.txtCodigo(2).Text = ListView12.SelectedItem.SubItems(3)
-    
+    frmTESCobrosDivVto.OfertaImportePdte = ImporOfertado
     frmTESCobrosDivVto.Label4(57).Caption = ListView12.SelectedItem.Text & Format(ListView12.SelectedItem.SubItems(1), "0000000") & " / " & ListView12.SelectedItem.SubItems(4) & "      de " & Format(ListView12.SelectedItem.SubItems(2), "dd/mm/yyyy")
     
     'Si ya ha cobrado algo...
@@ -7097,6 +7138,7 @@ Private Sub CargarTalonesPagaresPendientes()
 Dim IT As ListItem
 Dim Cad As String
 Dim Pendiente As Currency
+Dim Impor As Currency
 
     On Error GoTo ECargarTalonesPagaresPendientes
     
@@ -7138,6 +7180,7 @@ Dim Pendiente As Currency
     
     Rs.Open Cad, Conn, adOpenKeyset, adLockOptimistic, adCmdText
     Cad = ""
+    Impor = 0
     While Not Rs.EOF
                     
         Set IT = ListView12.ListItems.Add
@@ -7184,6 +7227,7 @@ Dim Pendiente As Currency
             IT.Tag = 1
             IT.ToolTipText = "Ya pertenece al documento"
             IT.ForeColor = vbBlue
+            Impor = Impor + DBLet(Rs!impcobro, "N")
         End If
         
         Rs.MoveNext
@@ -7191,6 +7235,8 @@ Dim Pendiente As Currency
     NumRegElim = 0
     Rs.Close
     Set Rs = Nothing
+    
+    If Impor <> 0 Then txtSuma.Text = Format(Impor, "###,###,##0.00")
     
     Exit Sub
     
@@ -7211,7 +7257,12 @@ Dim Suma As Currency
     
     For i = 1 To Me.ListView12.ListItems.Count
         If Me.ListView12.ListItems(i).Checked Then
-            Suma = Suma + ComprobarCero(Trim(Me.ListView12.ListItems(i).SubItems(9)))
+            If Me.ListView12.ListItems(i).ForeColor = vbBlue Then
+                'Este estaba seleccionado en el talon ANTERIORmente
+                Suma = Suma + ComprobarCero(Trim(Me.ListView12.ListItems(i).SubItems(8)))
+            Else
+                Suma = Suma + ComprobarCero(Trim(Me.ListView12.ListItems(i).SubItems(9)))
+            End If
         End If
     Next i
     
@@ -7474,7 +7525,7 @@ Private Sub txtDiario_LostFocus(Index As Integer)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtfecha(Index), 3
+    ConseguirFoco txtFecha(Index), 3
 End Sub
 
 Private Sub txtfecha_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -7483,7 +7534,7 @@ End Sub
 
 Private Sub txtfecha_LostFocus(Index As Integer)
     '
-    If Not PonerFormatoFecha(txtfecha(Index)) Then txtfecha(Index).Text = ""
+    If Not PonerFormatoFecha(txtFecha(Index)) Then txtFecha(Index).Text = ""
 End Sub
 
 Private Sub txtIbanES_GotFocus(Index As Integer)
@@ -7627,7 +7678,7 @@ Dim Visi As Boolean
     cmdElimRiesgoTalPag(1).visible = Visi
     lblFecha(2).visible = Visi
     ImgFec(2).visible = Visi
-    txtfecha(2).visible = Visi
+    txtFecha(2).visible = Visi
     chkVarios(1).visible = Visi
     If PrimeraVez Then Exit Sub
     ListView13.Checkboxes = Visi
@@ -7706,7 +7757,11 @@ Dim IT
             IT.SubItems(2) = DBLet(Rs.Fields(2))
             IT.SubItems(3) = DBLet(Rs.Fields(4))
             IT.SubItems(4) = DBLet(Rs.Fields(8))
-            IT.SubItems(5) = DBLet(Rs.Fields(6))
+            If LCase(Mid(Rs.Fields(6), 1, 5)) = "confi" Then
+                IT.SubItems(5) = "Confir."
+            Else
+                IT.SubItems(5) = Rs.Fields(6)
+            End If
             IT.SubItems(6) = Format(DBLet(Rs.Fields(5), "N"), "#,##0.00")
             IT.Tag = Rs!SubTipo
                 
@@ -7746,10 +7801,10 @@ Private Sub ValoresTransferencia()
     
     If Rs.EOF Then
         Me.cmdGeneraTransfer(0).Enabled = False
-        txtfecha(3).Text = ""
+        txtFecha(3).Text = ""
     Else
         'fecha,LlevaAgrupados
-        txtfecha(3).Text = Format(Rs!Fecha, "dd/mm/yyyy")
+        txtFecha(3).Text = Format(Rs!Fecha, "dd/mm/yyyy")
         chkVarios(2).Value = DBLet(Rs!LlevaAgrupados, "N")
     End If
     Rs.Close

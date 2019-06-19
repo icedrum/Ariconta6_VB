@@ -310,6 +310,10 @@ Public Opcion As Byte
     '27.-  Divide el vencimiento en dos vtos a partir del importe introducido en el text
     
 
+Public OfertaImportePdte As Currency
+
+
+
 Private WithEvents frmCta As frmColCtas
 Attribute frmCta.VB_VarHelpID = -1
 Private WithEvents frmF As frmCal
@@ -324,7 +328,7 @@ Dim RC As String
 Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
-Dim Cad As String
+Dim cad As String
 Dim CONT As Long
 Dim i As Integer
 Dim TotalRegistros As Long
@@ -392,7 +396,7 @@ Dim IMporteGastos As Currency
 Dim FijadoIMporte As Boolean 'Si ha indrodicido un importe para dividir vencimiiento. Entonces pondremos el gasto en el otro
 Dim IMporteCobrado As Currency
 Dim TotalCobrado As Boolean
-
+Dim EsReciboAnticipado As Boolean
 
     On Error GoTo ecmdDivVto
 
@@ -509,8 +513,8 @@ Dim TotalCobrado As Boolean
             FV2 = DateAdd("m", 1, FV2)
             If FinalMes Then
                 K = DiasMes(Month(FV2), Year(FV2))
-                Cad = K & "/" & Format(Month(FV2), "00") & "/" & Year(FV2)
-                FV2 = CDate(Cad)
+                cad = K & "/" & Format(Month(FV2), "00") & "/" & Year(FV2)
+                FV2 = CDate(cad)
             End If
         End If
         
@@ -525,10 +529,10 @@ Dim TotalCobrado As Boolean
     
     Set Rs = New ADODB.Recordset
     
-    'Si el vencimiento origen tiene gastos, el resultado del vencimiento NO puede ser menor que el gasto
-    Cad = "Select coalesce(gastos,0), coalesce(impcobro,0)  from cobros WHERE "
-    Cad = Cad & RecuperaValor(CadenaDesdeOtroForm, 1) & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    'Si el vencimiento origen tiene gastos, el resultado del vencimiento NO puede ser menor que el gasto EsReciboAnticipado
+    cad = "Select coalesce(gastos,0), coalesce(impcobro,0),reciboanticipado  from cobros WHERE "
+    cad = cad & RecuperaValor(CadenaDesdeOtroForm, 1) & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Rs.EOF Then
         Set Rs = Nothing
         MsgBox "Vencimiento no encontrado: " & vbCrLf & RecuperaValor(CadenaDesdeOtroForm, 1), vbExclamation
@@ -541,6 +545,9 @@ Dim TotalCobrado As Boolean
     End If
     
     If Rs.Fields(1) <> 0 Then IMporteCobrado = Rs.Fields(1)
+    EsReciboAnticipado = Val(DBLet(Rs!ReciboAnticipado, "N")) = 1
+    
+    
     Rs.Close
     Set Rs = Nothing
     
@@ -565,7 +572,7 @@ Dim TotalCobrado As Boolean
         SQL = Format(FecVenci, "dd/mm/yyyy") & Format(vTotal, FormatoImporte) & "|" & SQL
     End If
     MensajeVtos = SQL
-    Cad = ""
+    cad = ""
     
     SQL = ""
     If SQL = "" Then
@@ -631,8 +638,8 @@ Dim TotalCobrado As Boolean
             vFecVenci = DateAdd("m", 1, vFecVenci)
             If FinalMes Then
                 EnteroAux = DiasMes(Month(vFecVenci), Year(vFecVenci))
-                Cad = EnteroAux & "/" & Format(Month(vFecVenci), "00") & "/" & Year(vFecVenci)
-                vFecVenci = CDate(Cad)
+                cad = EnteroAux & "/" & Format(Month(vFecVenci), "00") & "/" & Year(vFecVenci)
+                vFecVenci = CDate(cad)
             End If
         End If
     
@@ -643,14 +650,19 @@ Dim TotalCobrado As Boolean
     
     
         SQL = "INSERT INTO cobros (`numorden`,`gastos`,impvenci,`fecultco`,`impcobro`,`recedocu`,"
-        SQL = SQL & "`tiporem`,`codrem`,`anyorem`,`siturem`,"
+        SQL = SQL & "`tiporem`,`codrem`,`anyorem`,`siturem`,transfer,reciboanticipado,"
         SQL = SQL & "`numserie`,`numfactu`,`fecfactu`,`codmacta`,`codforpa`,`fecvenci`,`ctabanc1`,"
         SQL = SQL & "`text33csb`,`text41csb`,`ultimareclamacion`,`agente`,`departamento`,`Devuelto`,`situacionjuri`,"
         SQL = SQL & "`noremesar`,`observa`,`nomclien`,`domclien`,`pobclien`,`cpclien`,`proclien`,`codpais`,`nifclien`,iban, codusu) "
         'Valores
         SQL = SQL & " SELECT " & K & ",NULL," & TransformaComasPuntos(CStr(vImpvto)) & ",NULL,NULL,0,"
-        SQL = SQL & "NULL,NULL,NULL,NULL,"
-        SQL = SQL & "`numserie`,`numfactu`,`fecfactu`,`codmacta`,`codforpa`,"
+        SQL = SQL & "NULL,NULL,"
+        If EsReciboAnticipado Then
+            SQL = SQL & "`anyorem`,`siturem`,transfer,1"
+        Else
+            SQL = SQL & "NULL,NULL,NULL,0"
+        End If
+        SQL = SQL & ",`numserie`,`numfactu`,`fecfactu`,`codmacta`,`codforpa`,"
         SQL = SQL & DBSet(vFecVenci, "F") & ","
         SQL = SQL & "`ctabanc1`,`text33csb`,`text41csb`,"
         'text83csb`,
@@ -718,6 +730,14 @@ End Sub
 Private Sub Form_Activate()
     If PrimeraVez Then
         PrimeraVez = False
+        
+        If OfertaImportePdte > 0 Then
+        
+            txtCodigo(1).Text = OfertaImportePdte
+            txtcodigo_LostFocus 1
+        End If
+        
+        
     End If
     Screen.MousePointer = vbDefault
 End Sub
@@ -763,6 +783,10 @@ Dim Img As Image
 End Sub
 
 
+Private Sub Form_Unload(Cancel As Integer)
+    OfertaImportePdte = 0
+End Sub
+
 Private Sub frmF_Selec(vFecha As Date)
     txtCodigo(2).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
@@ -796,7 +820,7 @@ Dim cerrar As Boolean
 End Sub
 
 Private Sub txtcodigo_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim B As Boolean
 
     'Quitar espacios en blanco por los lados

@@ -210,7 +210,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Dim PrimeraVez As Boolean
-Dim T1 As Single
+Dim t1 As Single
 Dim CodPC As Long
 Dim UsuarioOK As String
 
@@ -299,8 +299,8 @@ Private Sub Form_Activate()
 '            End If
 '        End If
          
-        T1 = T1 + 2.5 - Timer
-        If T1 > 0 Then espera T1
+        t1 = t1 + 2.5 - Timer
+        If t1 > 0 Then espera t1
 
         PonerVisible True
          
@@ -334,7 +334,7 @@ Private Sub Form_Load()
     UsuarioOK = ""
 
     PonerVisible False
-    T1 = Timer
+    t1 = Timer
     Text1(0).Text = ""
     Text1(1).Text = ""
     Combo1.ListIndex = -1
@@ -474,6 +474,8 @@ End Sub
 Private Sub UsuarioCorrecto()
 Dim SQL As String
 Dim PrimeraBD As String
+Dim EmpreProhibid As String
+
         Screen.MousePointer = vbHourglass
         CadenaDesdeOtroForm = "OK"
         Label1(2).Caption = "Leyendo ."  'Si tarda pondremos texto aquin
@@ -494,9 +496,12 @@ Dim PrimeraBD As String
 
        
        '++
+     
+       
+       EmpreProhibid = DevuelveProhibidasSys
+
        CadenaDesdeOtroForm = vControl.UltEmpre 'ultima empresa
        vUsu.CadenaConexion = vControl.UltEmpre
-       '++
        
        If CadenaDesdeOtroForm = "" Then
             'No ha seleccionado nonguna empresa
@@ -509,12 +514,33 @@ Dim PrimeraBD As String
         
 
         ' antes de cerrar la conexion cojo de usuarios.empresasariconta la primera que encuentre
-        SQL = "select min(conta) from usuarios.empresasariconta  "
+        ' que no este bloqueada
+        SQL = "select min(codempre) from usuarios.empresasariconta  "
+        SQL = SQL & " WHERE not codempre in (select codempre from usuarios.usuarioempresasariconta where codusu =" & vUsu.Id & ")"
+        
         PrimeraBD = DevuelveValor(SQL)
 
 
         'Cerramos la conexion
         Conn.Close
+        
+            
+               'Veo si la empresa prohibida es esta
+       If EmpreProhibid <> "" Then
+            SQL = Trim(Replace(CadenaDesdeOtroForm, "ariconta", ""))
+            SQL = "|" & SQL & "|"
+            If InStr(1, EmpreProhibid, SQL) > 0 Then
+                'Empresa entre las prohibidas. BUscamois otra
+                If PrimeraBD = 0 Then
+                    MsgBox "NO teiene acceso a empresas del sistema", vbCritical
+                    Set Conn = Nothing
+                    End
+                Else
+                    CadenaDesdeOtroForm = "ariconta" & PrimeraBD
+                End If
+            End If
+                 
+        End If
         pLabel "Abriendo " & CadenaDesdeOtroForm
         
         If AbrirConexion(CadenaDesdeOtroForm, True) = False Then
@@ -552,7 +578,7 @@ End Sub
 Private Sub HacerAccionesBD()
 Dim SQL As String
     
-    T1 = Timer
+    t1 = Timer
     
     'Limpiamos datos blanace
     CadenaDesdeOtroForm = " WHERE codusu = " & vUsu.Codigo
@@ -566,8 +592,8 @@ Dim SQL As String
     CadenaDesdeOtroForm = ""
 
     Me.Refresh
-    T1 = Timer - T1
-    If T1 < 1 Then espera 0.4
+    t1 = Timer - t1
+    If t1 < 1 Then espera 0.4
     
     DoEvents
     espera 0.2

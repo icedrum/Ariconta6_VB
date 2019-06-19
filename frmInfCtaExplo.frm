@@ -1122,7 +1122,7 @@ Private Sub Form_Load()
     txtAno(4).Text = Year(DateAdd("yyyy", i, Now))
     cmbFecha(2).ListIndex = Month(DateAdd("yyyy", i, Now)) - 1
      
-    txtFecha(7).Text = Format(Now, "dd/mm/yyyy")
+    txtfecha(7).Text = Format(Now, "dd/mm/yyyy")
     
     chkPorcentajes.Enabled = (chkComparativo.Value = 1)
     
@@ -1133,7 +1133,7 @@ End Sub
 
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
@@ -1148,10 +1148,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
         
     End Select
     
@@ -1239,10 +1239,8 @@ Dim Cad As String
         
         SQL = "insert into tmpbalancesumas (codusu,cta,nomcta,acumAntD,acumAntH) "
         SQL = SQL & " select " & vUsu.Codigo & ", hlinapu.codmacta Cuenta , nommacta Titulo, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) "
-        SQL = SQL & " from hlinapu left join cuentas on hlinapu.codmacta = cuentas.codmacta where hlinapu.codconce<>970 AND mid(hlinapu.codmacta,1,1) IN ('6','7')"
-        'NOOOOOOOOOO moni NOOOOOOOOOOOOOOO
-        'SQL = SQL & " and hlinapu.fechaent >= '" & Format(Me.txtAno(4).Text, "0000") & "-" & Format(Month(vParam.fechaini), "00") & "-" & Format(Day(vParam.fechaini), "00") & "'"
-        i = cmbFecha(2).ListIndex + 1
+        SQL = SQL & " from hlinapu left join cuentas on hlinapu.codmacta = cuentas.codmacta where hlinapu.codconce<>960 AND mid(hlinapu.codmacta,1,1) IN ('6','7')"    'PONIA 970
+          i = cmbFecha(2).ListIndex + 1
         If i >= Month(vParam.fechaini) Then
             i = Val(txtAno(4).Text)
         Else
@@ -1264,30 +1262,61 @@ Dim Cad As String
         
         i = DiasMes(cmbFecha(2).ListIndex + 1, txtAno(4).Text)
         
-        SQL = "update tmpbalancesumas set "
-        SQL = SQL & " acumperd = (select sum(coalesce(timported,0)) from hlinapu where fechaent between " & DBSet(Cad, "F") & " and "
-        SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta)"
         
+        Set miRsAux = New ADODB.Recordset
+'
+'        SQL = "update tmpbalancesumas set "
+'        SQL = SQL & " acumperd = (select sum(coalesce(timported,0)) from hlinapu where fechaent between " & DBSet(Cad, "F") & " and "
+'        SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta AND hlinapu.codconce<>960)"
+'        SQL = SQL & " WHERE codusu = " & vUsu.Codigo
+'
+'
+'        Conn.Execute SQL
+'
+'
+'        SQL = SQL & " acumperd = (select sum(coalesce(timported,0)) from hlinapu where fechaent between " & DBSet(Cad, "F") & " and "
+'        SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta AND hlinapu.codconce<>960)"
+'        SQL = SQL & " WHERE codusu = " & vUsu.Codigo
+'
+        
+        
+        SQL = "select codmacta,sum(coalesce(timported,0)) de,sum(coalesce(timporteh,0)) ha from hlinapu,tmpbalancesumas where hlinapu.codmacta = tmpbalancesumas.cta AND fechaent between " & DBSet(Cad, "F") & " and "
+        SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "'  AND hlinapu.codconce<>960 AND  codusu = " & vUsu.Codigo
+        SQL = SQL & " GROUP BY codmacta"
+        miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        SQL = ""
+
+        While Not miRsAux.EOF
+            SQL = SQL & "UPDATE tmpbalancesumas set acumperd=" & DBSet(miRsAux!De, "N") & " , acumperh=" & DBSet(miRsAux!Ha, "N") & " WHERE codusu =" & vUsu.Codigo & " AND cta =" & DBSet(miRsAux!codmacta, "T") & "; "
+            Conn.Execute SQL
+            
+            SQL = ""
+            miRsAux.MoveNext
+        Wend
+        miRsAux.Close
+        Set miRsAux = Nothing
+        
+
+'        SQL = "update tmpbalancesumas set "
+'        SQL = SQL & " acumperh = (select sum(coalesce(timporteh,0)) from hlinapu where fechaent between " & DBSet(Cad, "F") & " and "
+'        SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta  AND hlinapu.codconce<>96)"
+'        SQL = SQL & " WHERE codusu = " & vUsu.Codigo
+'
+'        Conn.Execute SQL
+
+
+        SQL = "UPDATE tmpbalancesumas set acumperh=0 where acumperh is null and codusu = " & vUsu.Codigo
         Conn.Execute SQL
         SQL = "UPDATE tmpbalancesumas set acumperd=0 where acumperd is null and codusu = " & vUsu.Codigo
         Conn.Execute SQL
         IncrementarProgres pb2, 1
-        
-        SQL = "update tmpbalancesumas set "
-        SQL = SQL & " acumperh = (select sum(coalesce(timporteh,0)) from hlinapu where fechaent between " & DBSet(Cad, "F") & " and "
-        SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "' and hlinapu.codmacta = tmpbalancesumas.cta)"
-        
-        Conn.Execute SQL
-        SQL = "UPDATE tmpbalancesumas set acumperh=0 where acumperh is null and codusu = " & vUsu.Codigo
-        Conn.Execute SQL
-        
         
         'Para subsanar el error anterior, de que ctas del periodo que NO esten en anteriores
         IncrementarProgres pb2, 1
         
         SQL = "insert into tmpbalancesumas (codusu,cta,nomcta,acumAntD,acumAntH,acumPerD ,acumPerH) "
         SQL = SQL & " select " & vUsu.Codigo & ", hlinapu.codmacta Cuenta , nommacta Titulo,0,0, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) "
-        SQL = SQL & " from hlinapu left join cuentas on hlinapu.codmacta = cuentas.codmacta where hlinapu.codconce<>970 AND mid(hlinapu.codmacta,1,1) IN ('6','7')"
+        SQL = SQL & " from hlinapu left join cuentas on hlinapu.codmacta = cuentas.codmacta where hlinapu.codconce<>960 AND mid(hlinapu.codmacta,1,1) IN ('6','7')"   'ponia 970
         SQL = SQL & " AND fechaent between " & DBSet(Cad, "F") & " and "
         SQL = SQL & " '" & txtAno(4).Text & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "'"
         SQL = SQL & " and not hlinapu.codmacta In (select cta from tmpbalancesumas WHERE codusu =" & vUsu.Codigo & " )"
@@ -1314,6 +1343,7 @@ Dim Cad As String
         End If
         
         IncrementarProgres pb2, 1
+        
         'Diciembre 2017
         If Not Me.chkCtaExplo(10).Value = 1 Then
             'NO es a ultimi nivel
@@ -1354,6 +1384,9 @@ Dim Cad As String
         End If
         
         'VA POR SALDOS
+        
+        
+        
         IncrementarProgres pb2, 1
         SQL = "update  tmpbalancesumas set TotalD =(acumAntD +acumPerD)-(acumAntH +acumPerH),TotalH=0"
         SQL = SQL & " Where (acumAntD + acumPerD) > (acumAntH + acumPerH) AND codusu =" & vUsu.Codigo
@@ -1362,7 +1395,12 @@ Dim Cad As String
         SQL = "update  tmpbalancesumas set Totalh =(acumAnth +acumPerh)-(acumAntd +acumPerd),TotalD=0"
         SQL = SQL & " Where (acumAntD + acumPerD) < (acumAntH + acumPerH) AND codusu =" & vUsu.Codigo
         Conn.Execute SQL
+        espera 0.3
         
+        SQL = "UPDATE tmpbalancesumas set TotalD= 0 WHERE TotalD is null and codusu = " & vUsu.Codigo
+        Conn.Execute SQL
+        SQL = "UPDATE tmpbalancesumas set Totalh=0 where Totalh is null and codusu = " & vUsu.Codigo
+        Conn.Execute SQL
         
         
         
@@ -1699,18 +1737,18 @@ Private Sub txtExplo_KeyDown(Index As Integer, KeyCode As Integer, Shift As Inte
 End Sub
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)

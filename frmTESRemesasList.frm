@@ -856,7 +856,7 @@ Dim nomDocu As String
     vMostrarTree = False
     conSubRPT = True
         
-    indRPT = "0609-00" '"ConsExtrac.rpt"
+    indRPT = "0609-00"
     
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     

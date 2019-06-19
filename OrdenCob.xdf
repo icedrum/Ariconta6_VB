@@ -1,1 +1,1 @@
-cobros.fecfactu DESC,cobros.numserie,cobros.numfactu
+cobros.gastos DESC ,cobros.fecfactu,cobros.numfactu
