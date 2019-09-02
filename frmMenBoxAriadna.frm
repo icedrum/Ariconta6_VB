@@ -399,6 +399,17 @@ Private Sub cmdYes_Click()
 End Sub
 
 Private Sub Form_Activate()
+
+    
+    If Me.cmdYes.Default Then PonerFocoBtn cmdYes
+    If Me.cmdNo.Default Then PonerFocoBtn cmdNo
+    If Me.cmdCancel.Default Then PonerFocoBtn cmdCancel
+    If Me.cmdOk.Default Then PonerFocoBtn cmdOk
+    If Me.cmdOtro(1).Default Then PonerFocoBtn cmdOtro(1)
+    If Me.cmdOtro(2).Default Then PonerFocoBtn cmdOtro(2)
+
+    
+
     Screen.MousePointer = vbDefault
 End Sub
 

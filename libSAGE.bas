@@ -16,7 +16,7 @@ Dim Linea As String
 Dim Seguir As Boolean
 Dim RA As ADODB.Recordset
 Dim PrimLinea As Boolean
-
+Dim T1 As Single
 
 On Error GoTo eProcesaFicheroClientes
 
@@ -48,9 +48,16 @@ On Error GoTo eProcesaFicheroClientes
     NumAsien = -1
     PrimLinea = True
     Msg = ""
+    T1 = Timer
     While Seguir
         Line Input #NF, Linea
-         
+        If Timer - T1 > 5 Then
+            Lb.Tag = Val(Lb.Tag) + 1
+            Lb.Caption = "Leyendo csv" & " " & Lb.Tag
+            Lb.Refresh
+            T1 = Timer
+            Screen.MousePointer = vbHourglass
+        End If
         
         If PrimLinea Then
             J = InStr(1, Linea, ";")
@@ -114,6 +121,17 @@ On Error GoTo eProcesaFicheroClientes
                  
                 
                     ProcesarLineaCuentasContables Linea
+                    
+                    If Len(Msg) > 15000 Then
+                    
+                        
+                        Msg = Mid(Msg, 2)
+                        Msg = "INSERT IGNORE INTO tmpcuentas(codusu,codmacta,nommacta,nifdatos,razosoci,dirdatos,codposta,despobla,desprovi) VALUES " & Msg
+                        Ejecuta Msg
+                        Msg = ""
+                        
+                    End If
+                    
                     Seguir = Not EOF(NF)
                 Wend
                 Close (NF)
@@ -123,7 +141,7 @@ On Error GoTo eProcesaFicheroClientes
                     Msg = "INSERT IGNORE INTO tmpcuentas(codusu,codmacta,nommacta,nifdatos,razosoci,dirdatos,codposta,despobla,desprovi) VALUES " & Msg
                     Ejecuta Msg
                 Else
-                    MsgBox "Ningun dato en fichero cuentas contables", vbExclamation
+                    'MsgBox "Ningun dato en fichero cuentas contables", vbExclamation
                 End If
                     
             End If
@@ -171,11 +189,22 @@ On Error GoTo eProcesaFicheroClientes
         Linea = "select numasien,fechaent,1 numdiari from tmpintegrapu where idcontab='" & Linea & "' AND codusu=" & vUsu.Codigo & " GROUP by  numasien,fechaent"
         RA.Open Linea, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         Seguir = True
-        
+        T1 = Timer
+        Lb.Tag = 0
         While Seguir
             'Es una factura
-            Lb.Caption = "Leyendo facturas fich."
+            If Timer - T1 > 3 Then
+                T1 = Timer - T1
+                Lb.Tag = Val(Lb.Tag) + Val(T1)
+                T1 = Timer
+                Screen.MousePointer = vbHourglass
+                DoEvents
+            End If
+            Lb.Caption = "Leyendo facturas fich. " & Lb.Tag & "s " & NumDeFactu
             Lb.Refresh
+            
+            
+        
                 
     
             
@@ -495,7 +524,7 @@ Dim strArray() As String
 
     Nivel = Nivel + 1
 
-    If Len(CadenaInsert) > 1200 Then
+    If Len(CadenaInsert) > 12000 Then
         CadenaInsert = Mid(CadenaInsert, 2)
         cad = DevuelevInsertInttmpAputes
         cad = cad & CadenaInsert
@@ -953,8 +982,7 @@ Dim CtaReten As String
                         Cta = Rs!ctacontr
                     End If
                     
-                    
-                    SQL = "Generada por traspaso contaplus"
+                    SQL = "Generada por integracion SAGE-csv"
                     If DBLet(Rs!ticketini, "T") <> "" Then SQL = SQL & "    Tickets: " & DBLet(Rs!ticketini, "T") & " - " & DBLet(Rs!ticketfin, "T")
                     
                     cad = DBSet(Cta, "T") & "," & DBSet(SQL, "T")
@@ -965,13 +993,23 @@ Dim CtaReten As String
                     
                     'Concepto 340
                     SQL = "'0'"
-                    If DBLet(Rs!ticketini, "T") <> "" Then SQL = "'B'"   'Resumen factura tiket
+                    If DBLet(Rs!ticketini, "T") <> "" Then
+                        SQL = "'B'"   'Resumen factura tiket
+                    Else
+                        If Serie = "R" Then SQL = "'D'"
+                        If Cta = "4300000000" Then
+                            If DBLet(Rs!NIF, "T") = "" Then SQL = "'J'"
+                        End If
+                    End If
                     cad = cad & " ," & SQL
                     
                     'codopera,no_modifica_apunte
                     cad = cad & " ,0 ,1"
                     
                     'nommacta, nifdatos   , en apuntes: bancotalonpag coddevol
+                    
+                   
+                    
                     SQL = DBLet(Rs!Nommacta, "T")
                     NIF = ""
                     If SQL = "" Then
@@ -982,6 +1020,13 @@ Dim CtaReten As String
                             SQL = "VACIO"
                         End If
                     End If
+                    If InStr(1, SQL, "'") Then
+                        
+                        SQL = Replace(SQL, "'", "`")
+                        
+                        
+                    End If
+                    
                     cad = cad & "," & DBSet(SQL, "T") & ","
                     
                     SQL = DBLet(Rs!NIF, "T")
@@ -1206,7 +1251,7 @@ Dim J As Integer
     
       strArray = Split(Linea, ";")
             
-      strArray(0) = Replace(strArray(0), """", "")
+      strArray(0) = Trim(Replace(strArray(0), """", ""))
       If Len(strArray(0)) <> vEmpresa.DigitosUltimoNivel Then Exit Sub
       If Not IsNumeric(strArray(0)) Then Exit Sub
             

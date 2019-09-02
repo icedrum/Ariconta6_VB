@@ -141,17 +141,22 @@ Dim FacturaResumenTicket As Boolean
 
     FacturaResumenTicket = False
     If RN!codconce340 = "B" Then  'asiento resumen de factura (tickets agrupados indicando desde hasta
-        If DBLet(RN!FraResumenIni, "T") <> "" Then
-            FacturaResumenTicket = True
-        
-        End If
+        FacturaResumenTicket = True
+        'If DBLet(RN!FraResumenIni, "T") <> "" Then
+        '
+        '    FacturaResumenTicket = True
+       '
+       ' End If
     End If
     
     
     If FacturaResumenTicket Then
         'INCIO de las factiras de tickets agrupadas
-        NumFactura = RN!FraResumenIni
-    
+        If IsNull(RN!FraResumenIni) Then
+            NumFactura = RN!NUmSerie & Format(RN!NumFactu, "0000000")
+        Else
+            NumFactura = RN!FraResumenIni
+        End If
     
     Else
         'FACTURAS "NORMALES"

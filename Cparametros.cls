@@ -1307,7 +1307,7 @@ Dim Nuevos As String
             
             
             '                         1 TAXCO. Tipo SAGE      2 Coarval
-            If InStr(1, vEmpresa.nomempre, "TAXCO") > 0 Then mvarTipoIntegracionSeleccionable = 1
+            If InStr(1, vEmpresa.nomresum, "TAXCO") > 0 Then mvarTipoIntegracionSeleccionable = 1
                             
             mvarComprobarAsientosIncio = DBLet(Rs!ComprobarAsientosIncio, "N") = 1
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Comprobar descuadre inicio"

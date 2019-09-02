@@ -1060,7 +1060,7 @@ Dim LINAPU As String
         ' Si tiene y no agrupa
         '-------------------------------------------------------
         If GastoVto > 0 And Not Agrupa4311x And Not Agrupa431x Then
-         Err.Raise 513, , "Error en codigo. Parametro tipo remesa incorrecto. "
+            'Err.Raise 513, , "Error en codigo. Parametro tipo remesa incorrecto. "
            'Lineas de apuntes .
             SQL = LINAPU & Linea & ",'"
     

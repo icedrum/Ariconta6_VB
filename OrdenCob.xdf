@@ -1,1 +1,1 @@
-cobros.gastos DESC ,cobros.fecfactu,cobros.numfactu
+nommacta DESC,cobros.fecfactu,cobros.numfactu

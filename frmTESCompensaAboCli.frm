@@ -1739,7 +1739,8 @@ Dim NumLin As Long
 
     InsertarCobrosRealizados = True
 
-    SQL = "select cobros.*,tipforpa from cobros,formapago where cobros.codforpa=formapago.codforpa where (numserie, numfactu, fecfactu, numorden) in (" & facturas & ")"
+                                                                                            
+    SQL = "select cobros.*,tipforpa from cobros,formapago where cobros.codforpa=formapago.codforpa AND (numserie, numfactu, fecfactu, numorden) in (" & facturas & ")"
     
     
     
@@ -1776,6 +1777,7 @@ Dim NumLin As Long
     
 eInsertarCobrosRealizados:
     InsertarCobrosRealizados = False
+    MuestraError Err.Number, Err.Description, SQL
 End Function
 
 

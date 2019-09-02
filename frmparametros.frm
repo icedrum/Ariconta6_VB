@@ -145,8 +145,8 @@ Begin VB.Form frmparametros
       TabCaption(1)   =   "Clientes - Proveedores "
       TabPicture(1)   =   "frmparametros.frx":0028
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Frame2"
-      Tab(1).Control(1)=   "Frame3"
+      Tab(1).Control(0)=   "Frame3"
+      Tab(1).Control(1)=   "Frame2"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "I.V.A. - Norma 43"
       TabPicture(2)   =   "frmparametros.frx":0044
@@ -2681,7 +2681,7 @@ Begin VB.Form frmparametros
          Top             =   2520
          Width           =   11115
          Begin VB.CheckBox Check1 
-            Caption         =   "Excluir IVA cero  repercutido[28]"
+            Caption         =   "Excluir IVA cero en soportado[28]"
             BeginProperty Font 
                Name            =   "Verdana"
                Size            =   9.75
@@ -2693,11 +2693,11 @@ Begin VB.Form frmparametros
             EndProperty
             Height          =   240
             Index           =   17
-            Left            =   7320
+            Left            =   6960
             TabIndex        =   203
             Tag             =   "Excluir IVA cero  repercutido[28]|N|N|||parametros|ExcluirBasesIvaCeroRecibidas303|||"
             Top             =   3000
-            Width           =   3615
+            Width           =   3975
          End
          Begin VB.CheckBox Check1 
             Caption         =   "Facturas rectificativas separadas"
@@ -2712,7 +2712,7 @@ Begin VB.Form frmparametros
             EndProperty
             Height          =   240
             Index           =   13
-            Left            =   3120
+            Left            =   3000
             TabIndex        =   202
             Tag             =   "303 Fra.rect separadas|N|N|||parametros|RectificativasSeparadas303|||"
             Top             =   3000

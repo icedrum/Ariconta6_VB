@@ -24,7 +24,7 @@ Public HaPulsadoImprimir As Boolean
 
 
 Dim Rs As Recordset
-Dim Cad As String
+Dim cad As String
 Dim SQL As String
 Dim i As Integer
 
@@ -118,7 +118,7 @@ End Sub
 
 Public Function PonerDesdeHasta(Campo As String, Tipo As String, ByRef Desde As TextBox, ByRef DesD As TextBox, ByRef Hasta As TextBox, ByRef DesH As TextBox, param As String) As Boolean
 Dim Devuelve As String
-Dim Cad As String
+Dim cad As String
 Dim SubTipo As String 'F: fecha   N: numero   T: texto  H: HORA
 
 
@@ -170,10 +170,10 @@ Dim SubTipo As String 'F: fecha   N: numero   T: texto  H: HORA
         If Not AnyadirAFormula(cadselect, Devuelve) Then Exit Function
     Else
         'Fecha para la Base de Datos
-        Cad = CadenaDesdeHastaBD(Desde.Text, Hasta.Text, Campo, SubTipo)
-        Cad = Replace(Cad, "{", "")
-        Cad = Replace(Cad, "}", "")
-        If Not AnyadirAFormula(cadselect, Cad) Then Exit Function
+        cad = CadenaDesdeHastaBD(Desde.Text, Hasta.Text, Campo, SubTipo)
+        cad = Replace(cad, "{", "")
+        cad = Replace(cad, "}", "")
+        If Not AnyadirAFormula(cadselect, cad) Then Exit Function
     End If
     
     If Devuelve <> "" Then
@@ -204,29 +204,29 @@ End Function
 
 
 
-Private Function AnyadirParametroDH(Cad As String, ByRef TextoDESDE As TextBox, TextoHasta As TextBox, ByRef TD As TextBox, ByRef TH As TextBox) As String
+Private Function AnyadirParametroDH(cad As String, ByRef TextoDESDE As TextBox, TextoHasta As TextBox, ByRef TD As TextBox, ByRef TH As TextBox) As String
 On Error Resume Next
     
     
     If Not TextoDESDE Is Nothing Then
          If TextoDESDE.Text <> "" Then
-            Cad = Cad & "desde " & TextoDESDE.Text
+            cad = cad & "desde " & TextoDESDE.Text
 '            If TD.Caption <> "" Then Cad = Cad & " - " & TD.Caption
         End If
     End If
     If Not TextoHasta Is Nothing Then
         If TextoHasta.Text <> "" Then
-            Cad = Cad & "  hasta " & TextoHasta.Text
+            cad = cad & "  hasta " & TextoHasta.Text
 '            If TH.Caption <> "" Then Cad = Cad & " - " & TH.Caption
         End If
     End If
     
-    AnyadirParametroDH = Cad
+    AnyadirParametroDH = cad
     If Err.Number <> 0 Then Err.Clear
 End Function
 
 
-Public Function GeneraFicheroCSV(cadSQL As String, Salida As String) As Boolean
+Public Function GeneraFicheroCSV(cadSQL As String, Salida As String, Optional OcultarMensajeCreacionCorrecta As Boolean) As Boolean
 Dim NF As Integer
 Dim i  As Integer
 
@@ -272,7 +272,7 @@ Dim i  As Integer
     Close #NF
 
     If cadSQL = "OK" Then
-        If CopiarFicheroASalida(True, Salida) Then GeneraFicheroCSV = True
+        If CopiarFicheroASalida(True, Salida, OcultarMensajeCreacionCorrecta) Then GeneraFicheroCSV = True
     End If
     
     Exit Function
@@ -722,17 +722,17 @@ Dim SQL As String
 End Function
 
 Public Function PonerParamRPT(Indice As String, nomDocu As String) As Boolean
-Dim Cad As String
+Dim cad As String
 Dim Encontrado As Boolean
 
         
         Encontrado = False
         PonerParamRPT = False
         
-        Cad = "select informe from scryst where codigo = " & DBSet(Indice, "T")
+        cad = "select informe from scryst where codigo = " & DBSet(Indice, "T")
         nomDocu = ""
         Set Rs = New ADODB.Recordset
-        Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         
         If Not Rs.EOF Then
             nomDocu = DBLet(Rs!Informe, "T")
@@ -740,8 +740,8 @@ Dim Encontrado As Boolean
         End If
         
         If Encontrado = False Or nomDocu = "" Then
-            Cad = "No se han podido cargar los Parámetros de Tipos de Documentos." & vbCrLf
-            MsgBox Cad & "Debe configurar la aplicación.", vbExclamation
+            cad = "No se han podido cargar los Parámetros de Tipos de Documentos." & vbCrLf
+            MsgBox cad & "Debe configurar la aplicación.", vbExclamation
             PonerParamRPT = False
             Exit Function
         End If
@@ -794,63 +794,63 @@ Dim Lanza As String
     If LCase(Mid(cadNomRPT, 1, 3)) = "esc" Then
     ' para el caso de escalona
     
-        Cad = "<!DOCTYPE HTML PUBLIC " & Chr(34) & "-//W3C//DTD HTML 4.0 Transitional//EN" & Chr(34) & ">"
-        Cad = Cad & "<HTML><HEAD><TITLE>Mensaje</TITLE></HEAD>"
-        Cad = Cad & "<TR><TD VALIGN=""TOP""><P><FONT FACE=""Tahoma""><FONT SIZE=3>"
-        Cad = Cad & RecuperaValor(Cuerpo, 2)
+        cad = "<!DOCTYPE HTML PUBLIC " & Chr(34) & "-//W3C//DTD HTML 4.0 Transitional//EN" & Chr(34) & ">"
+        cad = cad & "<HTML><HEAD><TITLE>Mensaje</TITLE></HEAD>"
+        cad = cad & "<TR><TD VALIGN=""TOP""><P><FONT FACE=""Tahoma""><FONT SIZE=3>"
+        cad = cad & RecuperaValor(Cuerpo, 2)
         'FijarTextoMensaje
         
-        Cad = Cad & "</FONT></FONT></P></TD></TR><TR><TD VALIGN=""TOP"">"
-        Cad = Cad & "<p class=""MsoNormal""><b><i>"
-        Cad = Cad & "<span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">C."
-        Cad = Cad & "R. Reial Séquia Escalona</span></i></b></p>"
-        Cad = Cad & "<p class=""MsoNormal""><em><b>"
-        Cad = Cad & "<span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">"
-        Cad = Cad & "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; La Junta</span></b></em><span style=""font-size: 10.0pt; font-family: Arial,sans-serif; color: black"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">&nbsp;</span></p>"
-        Cad = Cad & "<p class=""MsoNormal"">"
-        Cad = Cad & "<span style=""font-size: 13.5pt; font-family: Arial,sans-serif; color: #9999FF"">"
-        Cad = Cad & "********************</span></p>"
-        Cad = Cad & "<p class=MsoNormal><b>"
-         Cad = Cad & "<span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>Confidencialidad"
-         Cad = Cad & "</span></b><span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'><br>"
-         Cad = Cad & "Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario, "
-         Cad = Cad & "pudiendo contener información confidencial sometida a secreto profesional. No está permitida su reproducción o "
-         Cad = Cad & "distribución sin la autorización expresa de Real Acequia Escalona. Si usted no es el destinatario final por favor "
-         Cad = Cad & "elimínelo e infórmenos por esta vía.<o:p></o:p></span></p><p class=MsoNormal style='mso-margin-top-alt:6.0pt;"
-         Cad = Cad & "margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;text-align:justify'><span style='font-size:8.0pt;"
-         Cad = Cad & "font-family:""Comic Sans MS"";color:black'>De acuerdo con la Ley 34/2002 (LSSI) y la Ley 15/1999 (LOPD), "
-         Cad = Cad & "usted tiene derecho al acceso, rectificación y cancelación de sus datos personales informados en el fichero del que es "
-         Cad = Cad & "titular Real Acequia Escalona. Si desea modificar sus datos o darse de baja en el sistema de comunicación electrónica "
-         Cad = Cad & "envíe un correo a</span> <span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>"
-         Cad = Cad & "<a href=""mailto:escalona@acequiaescalona.org"">escalona@acequiaescalona.org</a> </span><span style='font-size:8.0pt;"
-         Cad = Cad & "font-family:""Comic Sans MS""'>, <span style='color:black'>indicando en la línea de <b>&#8220;Asunto&#8221;</b> el derecho "
-         Cad = Cad & "que desea ejercitar. <o:p></o:p></span></span></p><p class=MsoNormal><o:p>&nbsp;</o> "
+        cad = cad & "</FONT></FONT></P></TD></TR><TR><TD VALIGN=""TOP"">"
+        cad = cad & "<p class=""MsoNormal""><b><i>"
+        cad = cad & "<span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">C."
+        cad = cad & "R. Reial Séquia Escalona</span></i></b></p>"
+        cad = cad & "<p class=""MsoNormal""><em><b>"
+        cad = cad & "<span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">"
+        cad = cad & "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; La Junta</span></b></em><span style=""font-size: 10.0pt; font-family: Arial,sans-serif; color: black"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">&nbsp;</span></p>"
+        cad = cad & "<p class=""MsoNormal"">"
+        cad = cad & "<span style=""font-size: 13.5pt; font-family: Arial,sans-serif; color: #9999FF"">"
+        cad = cad & "********************</span></p>"
+        cad = cad & "<p class=MsoNormal><b>"
+         cad = cad & "<span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>Confidencialidad"
+         cad = cad & "</span></b><span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'><br>"
+         cad = cad & "Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario, "
+         cad = cad & "pudiendo contener información confidencial sometida a secreto profesional. No está permitida su reproducción o "
+         cad = cad & "distribución sin la autorización expresa de Real Acequia Escalona. Si usted no es el destinatario final por favor "
+         cad = cad & "elimínelo e infórmenos por esta vía.<o:p></o:p></span></p><p class=MsoNormal style='mso-margin-top-alt:6.0pt;"
+         cad = cad & "margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;text-align:justify'><span style='font-size:8.0pt;"
+         cad = cad & "font-family:""Comic Sans MS"";color:black'>De acuerdo con la Ley 34/2002 (LSSI) y la Ley 15/1999 (LOPD), "
+         cad = cad & "usted tiene derecho al acceso, rectificación y cancelación de sus datos personales informados en el fichero del que es "
+         cad = cad & "titular Real Acequia Escalona. Si desea modificar sus datos o darse de baja en el sistema de comunicación electrónica "
+         cad = cad & "envíe un correo a</span> <span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>"
+         cad = cad & "<a href=""mailto:escalona@acequiaescalona.org"">escalona@acequiaescalona.org</a> </span><span style='font-size:8.0pt;"
+         cad = cad & "font-family:""Comic Sans MS""'>, <span style='color:black'>indicando en la línea de <b>&#8220;Asunto&#8221;</b> el derecho "
+         cad = cad & "que desea ejercitar. <o:p></o:p></span></span></p><p class=MsoNormal><o:p>&nbsp;</o> "
          
          'ahora en valenciano
-         Cad = Cad & ""
-         Cad = Cad & "<p class=MsoNormal><b>"
-         Cad = Cad & "<span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>Confidencialitat"
-         Cad = Cad & "</span></b><span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'><br>"
-         Cad = Cad & "Aquest missatge i els seus arxius adjunts van dirigits exclusivamente al seu destinatari, "
-         Cad = Cad & "podent contindre informació confidencial sotmesa a secret professional. No està permesa la seua reproducció o "
-         Cad = Cad & "distribució sense la autorització expressa de Reial Séquia Escalona. Si vosté no és el destinatari final per favor "
-         Cad = Cad & "elimíneu-lo e informe-nos per aquesta via.<o:p></o:p></span></p><p class=MsoNormal style='mso-margin-top-alt:6.0pt;"
-         Cad = Cad & "margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;text-align:justify'><span style='font-size:8.0pt;"
-         Cad = Cad & "font-family:""Comic Sans MS"";color:black'>D'acord amb la Llei 34/2002 (LSSI) i la Llei 15/1999 (LOPD), "
-         Cad = Cad & "vosté té dret a l'accés, rectificació i cancelació de les seues dades personals informats en el ficher del qué és "
-         Cad = Cad & "titolar Reial Séquia Escalona. Si vol modificar les seues dades o donar-se de baixa en el sistema de comunicació electrònica "
-         Cad = Cad & "envíe un correu a</span> <span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>"
-         Cad = Cad & "<a href=""mailto:escalona@acequiaescalona.org"">escalona@acequiaescalona.org</a> </span><span style='font-size:8.0pt;"
-         Cad = Cad & "font-family:""Comic Sans MS""'>, <span style='color:black'>indicant en la línea de <b>&#8220;Asumpte&#8221;</b> el dret "
-         Cad = Cad & "que desitja exercitar. <o:p></o:p></span></span></p><p class=MsoNormal><o:p>&nbsp;</o:p></p> "
+         cad = cad & ""
+         cad = cad & "<p class=MsoNormal><b>"
+         cad = cad & "<span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>Confidencialitat"
+         cad = cad & "</span></b><span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'><br>"
+         cad = cad & "Aquest missatge i els seus arxius adjunts van dirigits exclusivamente al seu destinatari, "
+         cad = cad & "podent contindre informació confidencial sotmesa a secret professional. No està permesa la seua reproducció o "
+         cad = cad & "distribució sense la autorització expressa de Reial Séquia Escalona. Si vosté no és el destinatari final per favor "
+         cad = cad & "elimíneu-lo e informe-nos per aquesta via.<o:p></o:p></span></p><p class=MsoNormal style='mso-margin-top-alt:6.0pt;"
+         cad = cad & "margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;text-align:justify'><span style='font-size:8.0pt;"
+         cad = cad & "font-family:""Comic Sans MS"";color:black'>D'acord amb la Llei 34/2002 (LSSI) i la Llei 15/1999 (LOPD), "
+         cad = cad & "vosté té dret a l'accés, rectificació i cancelació de les seues dades personals informats en el ficher del qué és "
+         cad = cad & "titolar Reial Séquia Escalona. Si vol modificar les seues dades o donar-se de baixa en el sistema de comunicació electrònica "
+         cad = cad & "envíe un correu a</span> <span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>"
+         cad = cad & "<a href=""mailto:escalona@acequiaescalona.org"">escalona@acequiaescalona.org</a> </span><span style='font-size:8.0pt;"
+         cad = cad & "font-family:""Comic Sans MS""'>, <span style='color:black'>indicant en la línea de <b>&#8220;Asumpte&#8221;</b> el dret "
+         cad = cad & "que desitja exercitar. <o:p></o:p></span></span></p><p class=MsoNormal><o:p>&nbsp;</o:p></p> "
         
         
-        Cad = Cad & "</TR></BODY></HTML>"
+        cad = cad & "</TR></BODY></HTML>"
         
         
     Else
     
-        Cad = RecuperaValor(Cad, 2)
+        cad = RecuperaValor(cad, 2)
         
     End If
         
@@ -862,7 +862,7 @@ Dim Lanza As String
         Aux = ""
         Select Case outTipoDocumento
         Case 1 ' reclamaciones
-            Aux = Cad
+            Aux = cad
         End Select
         Lanza = Lanza & Aux & "|"
         

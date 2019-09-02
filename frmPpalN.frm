@@ -802,6 +802,7 @@ Dim Pane As StatusBarPane
          CommandBars.Options.KeyboardCuesShow = xtpKeyboardCuesShowNever
          CommandBars.Options.ShowKeyboardTips = True
          CommandBars.Options.ToolBarAccelTips = True
+         
     End If
 End Sub
 
@@ -3016,8 +3017,9 @@ Private Sub AbrirFormularios(Accion As Long)
         Case ID_SII
             AbrirFormSII True
         
-        
-        
+        Case 419
+            'Libros OFICIALES AEAT
+            frmAEAT_LibrosOficiales.Show vbModal
         Case 502 ' conceptos
             Screen.MousePointer = vbHourglass
             frmInmoConceptos.Show vbModal

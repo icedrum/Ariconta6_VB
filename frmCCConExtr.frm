@@ -1145,6 +1145,7 @@ If Not VieneDeIntroduccion Then
             End If
             Screen.MousePointer = vbDefault
             Me.Refresh
+            AsientoConExtModificado = 0
         Else
 
         End If
@@ -1349,7 +1350,7 @@ Dim Pinta As Boolean
 
 Dim NumAto As Long  'el numero de asiento por si viene de los asientos
 
-Dim Cad As String
+Dim cad As String
 Dim miRsAux As ADODB.Recordset
 
     Me.ListView1.ListItems.Clear
@@ -1363,18 +1364,18 @@ Dim miRsAux As ADODB.Recordset
     
     
     
-    Cad = " numasien,fechaent,cta codmacta,nomdocum numdocum,ampconce,timporteD impdebe,timporteH imphaber,ccost codccost"
-    Cad = Cad & ",if(punteada=0,' ','*') punteada,nommacta,contra ctacontr,linliapu numlinea, numdiari "
+    cad = " numasien,fechaent,cta codmacta,nomdocum numdocum,ampconce,timporteD impdebe,timporteH imphaber,ccost codccost"
+    cad = cad & ",if(punteada=0,' ','*') punteada,nommacta,contra ctacontr,linliapu numlinea, numdiari "
     If Text3(2).Text <> "" Then
-        Cad = "Select " & Cad & " from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
+        cad = "Select " & cad & " from tmpconext left join cuentas on tmpconext.contra=cuentas.codmacta  WHERE codusu = " & vUsu.Codigo
     Else
-        Cad = "Select " & Cad & " from tmpconext where codusu = " & vUsu.Codigo
+        cad = "Select " & cad & " from tmpconext where codusu = " & vUsu.Codigo
     End If
-    Cad = Cad & " AND cta = '" & Text3(2).Text & "' ORDER BY POS"
+    cad = cad & " AND cta = '" & Text3(2).Text & "' ORDER BY POS"
     
     
 
-    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If miRsAux.EOF Then
     
@@ -1457,13 +1458,13 @@ Dim miRsAux As ADODB.Recordset
     miRsAux.Close
         
     Dim Rs As ADODB.Recordset
-    Cad = "SELECT codccost, sum(coalesce(perd,0)) impdebe,sum(coalesce(perh,0)) imphaber"
-    Cad = Cad & " from tmplinccexplo "
-    Cad = Cad & " where tmplinccexplo.codccost=" & DBSet(Text3(2).Text, "T") & " AND fechaent>=" & DBSet(vParam.fechaini, "F") '& " and fechaent <= " & DBSet(F2, "F")  '2013-01-01'"
-    Cad = Cad & " and codusu = " & DBSet(vUsu.Codigo, "N")
-    Cad = Cad & " group by 1 "
+    cad = "SELECT codccost, sum(coalesce(perd,0)) impdebe,sum(coalesce(perh,0)) imphaber"
+    cad = cad & " from tmplinccexplo "
+    cad = cad & " where tmplinccexplo.codccost=" & DBSet(Text3(2).Text, "T") & " AND fechaent>=" & DBSet(vParam.fechaini, "F") '& " and fechaent <= " & DBSet(F2, "F")  '2013-01-01'"
+    cad = cad & " and codusu = " & DBSet(vUsu.Codigo, "N")
+    cad = cad & " group by 1 "
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Me.Text6(6).Text = Format(DBLet(Rs!impdebe, "N"), FormatoImporte)
@@ -1529,16 +1530,16 @@ End Sub
 
 Private Sub CargarColumnas()
 Dim i As Integer
-Dim Cad As String
+Dim cad As String
 
     
-    Cad = "1300|1150|2005|2214|1400|2420|1950|1950|1950|350|"  '0|0|0|"
+    cad = "1300|1150|2005|2214|1400|2420|1950|1950|1950|350|"  '0|0|0|"
     'tieneanalitica
     Me.LabelCab(5).visible = False  '(vParam.autocoste)
     
     
     For i = 1 To Me.ListView1.ColumnHeaders.Count
-        ListView1.ColumnHeaders.Item(i).Width = RecuperaValor(Cad, i)
+        ListView1.ColumnHeaders.Item(i).Width = RecuperaValor(cad, i)
         If i > 6 Then Me.LabelCab(i - 1).Width = ListView1.ColumnHeaders(i).Width
 
         Me.LabelCab(i - 1).Left = ListView1.ColumnHeaders.Item(i).Left + 120
@@ -1733,15 +1734,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
     
     On Error Resume Next
 
-    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 0 Or Modo = 2)

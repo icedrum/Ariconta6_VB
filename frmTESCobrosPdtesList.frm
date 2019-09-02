@@ -1805,9 +1805,9 @@ Private Sub Form_Load()
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
     If Legalizacion <> "" Then
-        txtFecha(2).Text = RecuperaValor(Legalizacion, 1)
-        txtFecha(0).Text = RecuperaValor(Legalizacion, 2)
-        txtFecha(1).Text = RecuperaValor(Legalizacion, 3)
+        txtfecha(2).Text = RecuperaValor(Legalizacion, 1)
+        txtfecha(0).Text = RecuperaValor(Legalizacion, 2)
+        txtfecha(1).Text = RecuperaValor(Legalizacion, 3)
     End If
     
     optVarios(0).Value = True
@@ -1844,7 +1844,7 @@ Private Sub frmDpto_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
@@ -1916,10 +1916,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
     End Select
     
     Screen.MousePointer = vbDefault
@@ -2444,8 +2444,8 @@ Dim J As Integer
     MontaSQL = False
     
     If Not PonerDesdeHasta("cobros.NumSerie", "SER", Me.txtSerie(0), Me.txtNSerie(0), Me.txtSerie(1), Me.txtNSerie(1), "pDHSerie=""Serie ") Then Exit Function
-    If Not PonerDesdeHasta("cobros.FecFactu", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""F. Factura ") Then Exit Function
-    If Not PonerDesdeHasta("cobros.Fecvenci", "F", Me.txtFecha(2), Me.txtFecha(2), Me.txtFecha(3), Me.txtFecha(3), "pDHFecVto=""F.Vto: ") Then Exit Function
+    If Not PonerDesdeHasta("cobros.FecFactu", "F", Me.txtfecha(0), Me.txtfecha(0), Me.txtfecha(1), Me.txtfecha(1), "pDHFecha=""F. Factura ") Then Exit Function
+    If Not PonerDesdeHasta("cobros.Fecvenci", "F", Me.txtfecha(2), Me.txtfecha(2), Me.txtfecha(3), Me.txtfecha(3), "pDHFecVto=""F.Vto: ") Then Exit Function
     If Not PonerDesdeHasta("cobros.codmacta", "CTA", Me.txtCuentas(0), Me.txtNCuentas(0), Me.txtCuentas(1), Me.txtNCuentas(1), "pDHCuentas=""") Then Exit Function
     If Not PonerDesdeHasta("cobros.agente", "AGE", Me.txtAgente(0), Me.txtNAgente(0), Me.txtAgente(1), Me.txtNAgente(1), "pDHAgente=""Agente ") Then Exit Function
     If Not PonerDesdeHasta("cobros.departamento", "DPTO", Me.txtDpto(0), Me.txtNDpto(0), Me.txtDpto(1), Me.txtNDpto(1), "pDHDpto=""") Then Exit Function
@@ -2592,13 +2592,13 @@ End Sub
 
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 
@@ -2606,14 +2606,14 @@ End Sub
 
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtFecha(Index).Tag, Index
+        LanzaFormAyuda txtfecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
@@ -2728,7 +2728,7 @@ Dim Impor2 As Currency
     RC = ""
     Do
         'NO ES EOF, ya lo hemos comprobado
-        Msg = miRsAux!codmacta & Format(miRsAux!codforpa, "0000")
+        Msg = miRsAux!codmacta & Format(miRsAux!Codforpa, "0000")
         If RC <> Msg Then
             If RC <> "" Then
                 Impor2 = 0
@@ -2748,7 +2748,7 @@ Dim Impor2 As Currency
                 vi(i) = 0
             Next
             RC = Msg
-            SQL = " (" & vUsu.Codigo & "," & DBSet(miRsAux!codmacta, "T") & "," & DBSet(miRsAux!nomforpa, "T") & "," & Abs(miRsAux!codforpa)
+            SQL = " (" & vUsu.Codigo & "," & DBSet(miRsAux!codmacta, "T") & "," & DBSet(miRsAux!nomforpa, "T") & "," & Abs(miRsAux!Codforpa)
             
         End If
         NumRegElim = DateDiff("d", miRsAux!FecVenci, Now())
@@ -2770,7 +2770,19 @@ Dim Impor2 As Currency
     Loop Until miRsAux.EOF
     miRsAux.Close
     
-    
+    'El ultimo
+     If RC <> "" Then
+        Impor2 = 0
+        For i = 0 To 4
+            SQL = SQL & ", " & DBSet(vi(i), "N")
+            Impor2 = Impor2 + vi(i)
+        Next
+        SQL = SQL & ", " & DBSet(Impor2, "N")
+            
+        
+        SQL = cadFormula & SQL & ")"
+        Conn.Execute SQL
+    End If
     
     
     espera 0.5

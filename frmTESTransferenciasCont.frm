@@ -2106,18 +2106,24 @@ Dim Aux As String
         If SQL = "" Then Err.Raise 513, , "Falta configurar cuenta anticipo recibos "
         DescripcionTransferencia = RecuperaValor(NumeroDocumento, 4) & "|" & SQL & "|"
         
-        SQL = "select count(*),GROUP_CONCAT( concat(numserie,numfactu) separator ' ') FROM cobros where transfer=" & RecuperaValor(NumeroDocumento, 1)
+        SQL = "select concat(numserie,numfactu) FROM cobros where transfer=" & RecuperaValor(NumeroDocumento, 1)
         SQL = SQL & " AND anyorem=" & RecuperaValor(NumeroDocumento, 2)
         Set miRsAux = New ADODB.Recordset
         miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        If miRsAux.EOF Then Err.Raise 513, , "Leyendo cobros vinculados al pago "
+        i = 0
+        NumeroTalonPagere = ""
+        While Not miRsAux.EOF
+            i = i + 1
+            NumeroTalonPagere = NumeroTalonPagere & " " & miRsAux.Fields(0)
+            miRsAux.MoveNext
+        Wend
+        miRsAux.Close
         
-        If miRsAux.Fields(0) = 1 Then
-            miRsAux.Close
-            SQL = "select 1,concat(numserie,numfactu) FROM cobros where transfer=" & RecuperaValor(NumeroDocumento, 1)
-            SQL = SQL & " AND anyorem=" & RecuperaValor(NumeroDocumento, 2)
-            miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        End If
+        
+        If i = 0 Then Err.Raise 513, , "Leyendo cobros vinculados al pago. Ningun dato devuelto "
+        
+        
+        
         
         
         'La cabecera
@@ -2125,8 +2131,8 @@ Dim Aux As String
         SQL = SQL & vp.diaricli & ",'" & Format(FechaAsiento, FormatoFecha) & "'," & m.Contador
         SQL = SQL & ",  '"
         SQL = SQL & "Generado desde Tesorería el " & Format(Now, "dd/mm/yyyy hh:mm") & " por " & vUsu.Nombre
-        If miRsAux.Fields(0) > 1 Then SQL = SQL & vbCrLf & "Vtos: " & miRsAux.Fields(1)
-        SQL = SQL & "'," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Contabilizar Transf.Abonos')"
+        If i > 1 Then SQL = SQL & vbCrLf & "Vtos: " & i & NumeroTalonPagere
+        SQL = SQL & "'," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Contabilizar anticipo fras')"
         Conn.Execute SQL
   
     
@@ -2136,10 +2142,10 @@ Dim Aux As String
         
         SQL = SQL & "VALUES (" & vp.diaricli & ",'" & Format(FechaAsiento, FormatoFecha) & "'," & m.Contador & "," & 1 & ",'"
         SQL = SQL & RecuperaValor(DescripcionTransferencia, 2) & "',"
-        If miRsAux.Fields(0) = 1 Then
-            SQL = SQL & DBSet(Mid(miRsAux.Fields(1), 1, 10), "T")
+        If i = 1 Then
+            SQL = SQL & DBSet(Mid(NumeroTalonPagere, 1, 10), "T")
         Else
-            SQL = SQL & "'Vtos: " & miRsAux.Fields(0) & "'"
+            SQL = SQL & "'Vtos: " & i & "'"
         End If
         SQL = SQL & "," & vp.conhacli & ",'Anticipo recibos cliente " & RecuperaValor(NumeroDocumento, 1) & "-" & RecuperaValor(NumeroDocumento, 2) & "',NULL,"
         SQL = SQL & DBSet(RecuperaValor(NumeroDocumento, 5), "N") & ",NULL," & DBSet(RecuperaValor(DescripcionTransferencia, 1), "T") & ",'contab',0)"
@@ -2152,10 +2158,10 @@ Dim Aux As String
         
         SQL = SQL & "VALUES (" & vp.diaricli & ",'" & Format(FechaAsiento, FormatoFecha) & "'," & m.Contador & "," & 2 & ",'"
         SQL = SQL & RecuperaValor(DescripcionTransferencia, 1) & "',"
-        If miRsAux.Fields(0) = 1 Then
-            SQL = SQL & DBSet(Mid(miRsAux.Fields(1), 1, 10), "T")
+        If i = 1 Then
+            SQL = SQL & DBSet(Mid(NumeroTalonPagere, 1, 10), "T")
         Else
-            SQL = SQL & "'Vtos: " & miRsAux.Fields(0) & "'"
+            SQL = SQL & "'Vtos: " & i & "'"
         End If
         SQL = SQL & "," & vp.condecli & ",'Anticipo recibos cliente " & RecuperaValor(NumeroDocumento, 1) & "-" & RecuperaValor(NumeroDocumento, 2) & "',"
         SQL = SQL & DBSet(RecuperaValor(NumeroDocumento, 5), "N") & ",NULL,NULL," & DBSet(RecuperaValor(DescripcionTransferencia, 1), "T") & ",'contab',0)"
@@ -2171,8 +2177,9 @@ Dim Aux As String
         
 
 eContablizaAbonoAnticipado:
-    If Err.Number <> 0 Then MuestraError Err.Number, , Err.Description
+    If Err.Number <> 0 Then MuestraError Err.Number, "", Err.Description
     Set miRsAux = Nothing
+    NumeroTalonPagere = ""
 End Function
 
 

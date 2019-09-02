@@ -704,7 +704,7 @@ Begin VB.Form frmMensajes
          Width           =   855
       End
       Begin VB.Label Label8 
-         Caption         =   "Verificar IBAN"
+         Caption         =   "Validar IBAN"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   12

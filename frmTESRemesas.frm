@@ -1896,14 +1896,14 @@ Dim RC As Byte
         End If
     
         'Fecha remesa tiene k tener valor
-        If txtfecha(4).Text = "" Then
+        If txtFecha(4).Text = "" Then
             MsgBox "Fecha de remesa debe tener valor", vbExclamation
-            PonFoco txtfecha(4)
+            PonFoco txtFecha(4)
             Exit Function
         End If
         
         'VEMOS SI LA FECHA ESTA DENTRO DEL EJERCICIO
-        RC = FechaCorrecta2(CDate(txtfecha(4).Text), True)
+        RC = FechaCorrecta2(CDate(txtFecha(4).Text), True)
         If RC > 1 Then
             B = True 'No salimos
             If RC = 4 Then
@@ -1911,7 +1911,7 @@ Dim RC As Byte
                 If Opcion = 0 Then B = False
             End If
             If B Then
-                PonFoco txtfecha(4)
+                PonFoco txtFecha(4)
                 Exit Function
             End If
         End If
@@ -1963,21 +1963,21 @@ Dim RC As Byte
         End If
     
         'Fecha remesa tiene k tener valor
-        If txtfecha(5).Text = "" Then
+        If txtFecha(5).Text = "" Then
             MsgBox "Fecha de remesa debe tener valor", vbExclamation
-            PonFoco txtfecha(5)
+            PonFoco txtFecha(5)
             Exit Function
         Else
-            If Year(CDate(txtfecha(5).Text)) <> lw1.SelectedItem.SubItems(1) Then
+            If Year(CDate(txtFecha(5).Text)) <> lw1.SelectedItem.SubItems(1) Then
                 MsgBox "La fecha de remesa ha de ser del mismo año. Revise.", vbExclamation
-                PonFoco txtfecha(5)
+                PonFoco txtFecha(5)
                 Exit Function
             End If
         End If
         
         'VEMOS SI LA FECHA ESTA DENTRO DEL EJERCICIO
-        If FechaCorrecta2(CDate(txtfecha(5).Text), True) > 1 Then
-            PonFoco txtfecha(5)
+        If FechaCorrecta2(CDate(txtFecha(5).Text), True) > 1 Then
+            PonFoco txtFecha(5)
             Exit Function
         End If
     End If
@@ -2102,7 +2102,7 @@ Dim Img As Image
     Me.imgCuentas(3).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
     For i = 0 To 5
-        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+        Me.imgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
     Next i
     
     ' Botonera Principal
@@ -2251,7 +2251,7 @@ Dim Im2 As Currency
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtfecha(Indice).Text = Format(vFecha, "dd/mm/yyyy")
+    txtFecha(Indice).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 'Private Sub imgFecha_Click(Index As Integer)
@@ -2305,10 +2305,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
+        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtfecha(Index)
+        PonFoco txtFecha(Index)
     End Select
     
     Screen.MousePointer = vbDefault
@@ -2599,7 +2599,7 @@ Private Sub BotonAnyadir()
     PonerModo Modo
     Text1(0).Text = ""
     
-    txtfecha(4).Text = Format(Now, "dd/mm/yyyy")
+    txtFecha(4).Text = Format(Now, "dd/mm/yyyy")
 
     txtCuentas(2).Text = BancoPropio
     If txtCuentas(2).Text <> "" Then
@@ -2607,7 +2607,7 @@ Private Sub BotonAnyadir()
         If txtNCuentas(2).Text = "" Then txtNCuentas(2).Text = DevuelveDesdeBDNew(cConta, "cuentas", "nommacta", "codmacta", txtCuentas(2).Text, "T")
     End If
     
-    PonleFoco txtfecha(2)
+    PonleFoco txtFecha(2)
     
     Label2.Caption = ""
 
@@ -2671,7 +2671,7 @@ Dim SQL As String
     Conn.Execute SQL
 
 
-    txtfecha(5).Text = Format(lw1.SelectedItem.SubItems(2), "dd/mm/yyyy")
+    txtFecha(5).Text = Format(lw1.SelectedItem.SubItems(2), "dd/mm/yyyy")
     txtCuentas(3).Text = lw1.SelectedItem.SubItems(4)
     txtNCuentas(3).Text = lw1.SelectedItem.SubItems(5)
     Text2.Text = lw1.SelectedItem.SubItems(6)
@@ -3130,8 +3130,8 @@ Dim Cad3 As String
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
     
-        Checked = True  'lo que habia
-        Checked = False
+        Checked = True
+        'Checked = False
         
         If LlevaImporteMaximo Then
             If DBLet(miRsAux!codmacta, "T") = "" Then
@@ -3453,12 +3453,12 @@ Dim Sql2 As String
     
     If SubTipo = vbTipoPagoRemesa Then
         'Del efecto
-        If txtfecha(2).Text <> "" Then SQL = SQL & " AND cobros.fecvenci >= '" & Format(txtfecha(2).Text, FormatoFecha) & "'"
-        If txtfecha(3).Text <> "" Then SQL = SQL & " AND cobros.fecvenci <= '" & Format(txtfecha(3).Text, FormatoFecha) & "'"
+        If txtFecha(2).Text <> "" Then SQL = SQL & " AND cobros.fecvenci >= '" & Format(txtFecha(2).Text, FormatoFecha) & "'"
+        If txtFecha(3).Text <> "" Then SQL = SQL & " AND cobros.fecvenci <= '" & Format(txtFecha(3).Text, FormatoFecha) & "'"
     Else
         'de la recepcion de factura
-        If txtfecha(2).Text <> "" Then SQL = SQL & " AND fechavto >= '" & Format(txtfecha(2).Text, FormatoFecha) & "'"
-        If txtfecha(3).Text <> "" Then SQL = SQL & " AND fechavto <= '" & Format(txtfecha(3).Text, FormatoFecha) & "'"
+        If txtFecha(2).Text <> "" Then SQL = SQL & " AND fechavto >= '" & Format(txtFecha(2).Text, FormatoFecha) & "'"
+        If txtFecha(3).Text <> "" Then SQL = SQL & " AND fechavto <= '" & Format(txtFecha(3).Text, FormatoFecha) & "'"
     End If
     
     'Si ha puesto importe desde Hasta
@@ -3505,10 +3505,10 @@ Dim Sql2 As String
             SQL = SQL & " AND cobros.numserie <= '" & txtSerie(1).Text & "'"
         
         'Fecha factura
-        If txtfecha(0).Text <> "" Then _
-            SQL = SQL & " AND cobros.fecfactu >= '" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-        If txtfecha(1).Text <> "" Then _
-            SQL = SQL & " AND cobros.fecfactu <= '" & Format(txtfecha(1).Text, FormatoFecha) & "'"
+        If txtFecha(0).Text <> "" Then _
+            SQL = SQL & " AND cobros.fecfactu >= '" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+        If txtFecha(1).Text <> "" Then _
+            SQL = SQL & " AND cobros.fecfactu <= '" & Format(txtFecha(1).Text, FormatoFecha) & "'"
         
         'Codigo factura
         If txtNumFac(0).Text <> "" Then _
@@ -3518,8 +3518,8 @@ Dim Sql2 As String
     
     Else
         'Fecha factura
-        If txtfecha(0).Text <> "" Then SQL = SQL & " AND fecharec >= '" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-        If txtfecha(1).Text <> "" Then SQL = SQL & " AND fecharec <= '" & Format(txtfecha(1).Text, FormatoFecha) & "'"
+        If txtFecha(0).Text <> "" Then SQL = SQL & " AND fecharec >= '" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+        If txtFecha(1).Text <> "" Then SQL = SQL & " AND fecharec <= '" & Format(txtFecha(1).Text, FormatoFecha) & "'"
     
     End If
     
@@ -3655,7 +3655,7 @@ Dim Sql2 As String
     i = 0
     If SubTipo = vbTipoPagoRemesa Then
         cad = " FROM cobros,formapago,cuentas WHERE cobros.codforpa = formapago.codforpa AND (siturem is null) AND situacion = 0 and "
-        cad = cad & " cobros.codmacta=cuentas.codmacta AND (not (fecbloq is null) and fecbloq < '" & Format(CDate(txtfecha(4).Text), FormatoFecha) & "') AND "
+        cad = cad & " cobros.codmacta=cuentas.codmacta AND (not (fecbloq is null) and fecbloq < '" & Format(CDate(txtFecha(4).Text), FormatoFecha) & "') AND "
         cad = "Select cobros.codmacta,nommacta,fecbloq" & cad & SQL & " GROUP BY 1 ORDER BY 1"
         
     Else
@@ -3910,14 +3910,14 @@ End Sub
 
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtfecha(Index), 3
+    ConseguirFoco txtFecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtfecha(Index).Tag, Index
+        LanzaFormAyuda txtFecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
@@ -3928,13 +3928,13 @@ Private Sub txtfecha_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
+    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
-    If Not PonerFormatoFecha(txtfecha(Index)) Then txtfecha(Index).Text = ""
+    If Not PonerFormatoFecha(txtFecha(Index)) Then txtFecha(Index).Text = ""
 End Sub
 
 Private Sub txtRemesa_KeyPress(KeyAscii As Integer)
@@ -4196,7 +4196,7 @@ Dim ImporteQueda As Currency
     
     'A partir de la fecha generemos leemos k remesa corresponde
     If Opcion = 0 Then
-        SQL = "select max(codigo) from remesas where anyo=" & Year(CDate(txtfecha(4).Text))
+        SQL = "select max(codigo) from remesas where anyo=" & Year(CDate(txtFecha(4).Text))
         Set miRsAux = New ADODB.Recordset
         miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
         NumeroRemesa = 0
@@ -4209,7 +4209,7 @@ Dim ImporteQueda As Currency
         NumeroRemesa = NumeroRemesa + 1
     Else
         NumeroRemesa = lw1.SelectedItem.Text
-        txtfecha(4).Text = lw1.SelectedItem.SubItems(2)
+        txtFecha(4).Text = lw1.SelectedItem.SubItems(2)
     End If
     
     Set miRsAux = New ADODB.Recordset
@@ -4248,7 +4248,7 @@ Dim ImporteQueda As Currency
             'Ahora insertamos la remesa
             cad = "INSERT INTO remesas (codigo, anyo, fecremesa,situacion,codmacta,descripcion,tiporem) "
             cad = cad & " VALUES ( "
-            cad = cad & NumeroRemesa & "," & Year(CDate(txtfecha(4).Text)) & ",'" & Format(txtfecha(4).Text, FormatoFecha) & "','A','"
+            cad = cad & NumeroRemesa & "," & Year(CDate(txtFecha(4).Text)) & ",'" & Format(txtFecha(4).Text, FormatoFecha) & "','A','"
             cad = cad & Rs!Cta & "','" & DevNombreSQL(txtRemesa.Text) & "',1)"
             Conn.Execute cad
             
@@ -4261,28 +4261,28 @@ Dim ImporteQueda As Currency
             
             cad = "UPDATE Remesas SET Situacion = 'A'"
             cad = cad & ", descripcion ='" & DevNombreSQL(Text2.Text) & "'"
-            cad = cad & ", fecremesa= " & DBSet(txtfecha(5).Text, "F")
+            cad = cad & ", fecremesa= " & DBSet(txtFecha(5).Text, "F")
             cad = cad & ", codmacta= " & DBSet(txtCuentas(3).Text, "T")
             
             cad = cad & " WHERE codigo=" & NumeroRemesa
-            cad = cad & " AND anyo =" & Year(CDate(txtfecha(4).Text))
+            cad = cad & " AND anyo =" & Year(CDate(txtFecha(4).Text))
             If Not Ejecuta(cad) Then Exit Function
             
             cad = "UPDATE cobros SET siturem=NULL, codrem=NULL, anyorem=NULL ,tiporem =NULL "
             cad = cad & " ,fecultco=NULL, impcobro = NULL "
             
             cad = cad & " WHERE codrem = " & NumeroRemesa
-            cad = cad & " AND anyorem=" & Year(CDate(txtfecha(4).Text)) & " AND tiporem = 1"
+            cad = cad & " AND anyorem=" & Year(CDate(txtFecha(4).Text)) & " AND tiporem = 1"
             If Not Ejecuta(cad) Then Exit Function
         End If
         
         
         'Ahora cambiamos los cobros y les ponemos la remesa
         If Opcion = 0 Then
-            cad = "UPDATE  cobros SET siturem= 'A',codrem= " & NumeroRemesa & ", anyorem =" & Year(CDate(txtfecha(4).Text)) & ","
+            cad = "UPDATE  cobros SET siturem= 'A',codrem= " & NumeroRemesa & ", anyorem =" & Year(CDate(txtFecha(4).Text)) & ","
             
         Else
-            cad = "UPDATE  cobros SET siturem= 'A',codrem= " & NumeroRemesa & ", anyorem =" & Year(CDate(txtfecha(5).Text)) & ","
+            cad = "UPDATE  cobros SET siturem= 'A',codrem= " & NumeroRemesa & ", anyorem =" & Year(CDate(txtFecha(5).Text)) & ","
             
         End If
         cad = cad & " tiporem = 1 , ctabanc1 = " & DBSet(Rs!Cta, "T")
@@ -4310,7 +4310,7 @@ Dim ImporteQueda As Currency
             'Hacemos un select sum para el importe
             cad = "Select sum(impvenci),sum(coalesce(impcobro,0)),sum(coalesce(gastos,0)) from cobros "
             cad = cad & " WHERE codrem=" & NumeroRemesa
-            cad = cad & " AND anyorem =" & Year(CDate(txtfecha(4).Text))
+            cad = cad & " AND anyorem =" & Year(CDate(txtFecha(4).Text))
             cad = cad & " AND tiporem = 1"
             
             miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -4326,7 +4326,7 @@ Dim ImporteQueda As Currency
             
             cad = "UPDATE Remesas SET importe=" & C
             cad = cad & " WHERE codigo=" & NumeroRemesa
-            cad = cad & " AND anyo =" & Year(CDate(txtfecha(4).Text))
+            cad = cad & " AND anyo =" & Year(CDate(txtFecha(4).Text))
             cad = cad & " AND tiporem = 1"
             Conn.Execute cad
             

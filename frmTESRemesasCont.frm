@@ -478,6 +478,11 @@ Dim LaCtaPuente As String
     SQL = Rs!codmacta & "|" & SQL
     
     
+    
+    'Los gastos
+    Importe = 0
+    If txtImporte(0).Text <> "" Then Importe = TextoAimporte(txtImporte(0).Text)
+    
     'Contab. remesa. Si es talon/pagare vamos a comprobar si hay diferencias entre el importe del documento
     'y el total de lineas
     B = False    'Si ya se ha hecho la pregunta no la volveremos a repetir

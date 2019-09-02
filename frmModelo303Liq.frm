@@ -530,7 +530,7 @@ Private frmMens As frmMensajes
 Attribute frmMens.VB_VarHelpID = -1
 
 Private SQL As String
-Dim Cad As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -756,7 +756,7 @@ Dim i As Integer
     
     SQL = IIf(codempre = 0, vEmpresa.codempre, codempre)
     SQL = "insert into ariconta" & SQL & ".liqiva (anoliqui,periodo,escomplem,importe,numdiari,numasien,fechaent) values ("
-    SQL = SQL & DBSet(txtAno(0).Text, "N") & "," & DBSet(i, "N") & ",0," & DBSet(ImpLiqui, "N") & "," & DBSet(NumDiari, "N") & "," & DBSet(NumAsiento, "N") & "," & DBSet(txtFecha(2).Text, "F") & ")"
+    SQL = SQL & DBSet(txtAno(0).Text, "N") & "," & DBSet(i, "N") & ",0," & DBSet(ImpLiqui, "N") & "," & DBSet(NumDiari, "N") & "," & DBSet(NumAsiento, "N") & "," & DBSet(txtfecha(2).Text, "F") & ")"
     Conn.Execute SQL
     
     If Not DentroDeTrans Then Conn.CommitTrans
@@ -798,13 +798,13 @@ Dim NumAsien As Long
     
     Conn.BeginTrans
     
-    i = FechaCorrecta2(CDate(txtFecha(2).Text))
+    i = FechaCorrecta2(CDate(txtfecha(2).Text))
     If Mc.ConseguirContador("0", (i = 0), False) = 0 Then
         NumAsien = Mc.Contador
     End If
     
     ' insertamos en cabecera
-    SQL = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari, feccreacion, usucreacion, desdeaplicacion ) SELECT " & vParam.numdia303 & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsien, "N")
+    SQL = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari, feccreacion, usucreacion, desdeaplicacion ) SELECT " & vParam.numdia303 & "," & DBSet(txtfecha(2).Text, "F") & "," & DBSet(NumAsien, "N")
     SQL = SQL & ",'Liquidación de " & Me.cmbPeriodo(0).Text & " de " & txtAno(0).Text & "'," & DBSet(Now, "F") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Liquidación'"
     SQL = SQL & " from parametros "
     Conn.Execute SQL
@@ -822,7 +822,7 @@ Dim NumAsien As Long
     MaxPos = DevuelveValor("select max(pos) from tmpconext where codusu = " & DBSet(vUsu.Codigo, "N"))
     
     ' insertamos en lineas
-    SQL = "INSERT INTO hlinapu (numdiari,fechaent,numasien,linliapu,codmacta,numdocum,codconce,ampconce,timporteD,timporteH,ctacontr) SELECT " & vParam.numdia303 & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsien, "N")
+    SQL = "INSERT INTO hlinapu (numdiari,fechaent,numasien,linliapu,codmacta,numdocum,codconce,ampconce,timporteD,timporteH,ctacontr) SELECT " & vParam.numdia303 & "," & DBSet(txtfecha(2).Text, "F") & "," & DBSet(NumAsien, "N")
     SQL = SQL & ",pos, cta," & DBSet(Numdocum, "T") & "," & DBSet(vParam.conce303, "N") & "," & DBSet(Ampconce, "T") & ",if(timported=0,null,timported), if(timporteh=0,null,timporteh), "
     If ImpLiqui > 0 Then
         SQL = SQL & "if(pos <> " & DBSet(MaxPos, "N") & "," & DBSet(vParam.CtaHPAcreedor, "T") & ",null) "
@@ -836,7 +836,7 @@ Dim NumAsien As Long
     
     
     
-    SqlLog = SqlLog & "Asiento contable: " & DBSet(NumAsien, "N") & " - " & txtFecha(2).Text & " - " & vParam.numdia303 & vbCrLf
+    SqlLog = SqlLog & "Asiento contable: " & DBSet(NumAsien, "N") & " - " & txtfecha(2).Text & " - " & vParam.numdia303 & vbCrLf
     
     
     B = ActualizarLiquidacion(True, NumAsien, vParam.numdia303, 0)
@@ -849,7 +849,7 @@ Dim NumAsien As Long
     
 eRealizarAsientoContable:
     Conn.RollbackTrans
-    MuestraError Err.Description, "Realizar Asiento contable", Err.Description
+    MuestraError Err.Number, "Realizar Asiento contable", Err.Description
 End Function
 
 
@@ -913,7 +913,7 @@ Dim ImporteTemporal As Currency
     
     
     
-    i = FechaCorrecta2(CDate(txtFecha(2).Text))
+    i = FechaCorrecta2(CDate(txtfecha(2).Text))
     
     SQL = "Select * from ariconta" & NumeroConta & ".contadores WHERE TipoRegi = '0' "
     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -939,7 +939,7 @@ Dim ImporteTemporal As Currency
     
     ' insertamos en cabecera
     SQL = "INSERT INTO ariconta" & NumeroConta & ".hcabapu (numdiari, fechaent, numasien, obsdiari, feccreacion, usucreacion, desdeaplicacion )"
-    SQL = SQL & " VALUES (" & Diario & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsi, "N")
+    SQL = SQL & " VALUES (" & Diario & "," & DBSet(txtfecha(2).Text, "F") & "," & DBSet(NumAsi, "N")
     SQL = SQL & ",'Liquidación de " & Me.cmbPeriodo(0).Text & " de " & txtAno(0).Text & "'," & DBSet(Now, "F") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Liquidación')"
     Conn.Execute SQL
     
@@ -975,7 +975,7 @@ Dim ImporteTemporal As Currency
             If miRsAux!NumAsien <> vEmpresa.codempre Then SQL = vParamT.Par_pen_apli
         End If
         SQL = DBSet(SQL, "T")
-        SQL = ", (" & Diario & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsi, "N") & "," & K & "," & SQL
+        SQL = ", (" & Diario & "," & DBSet(txtfecha(2).Text, "F") & "," & DBSet(NumAsi, "N") & "," & K & "," & SQL
         SQL = SQL & "," & DBSet(Numdocum, "T") & "," & CodConce & "," & DBSet(Ampconce, "T") & ","
         SQL = SQL & IIf(miRsAux!timported = 0, "null", DBSet(miRsAux!timported, "N")) & ","
         SQL = SQL & IIf(miRsAux!timporteH = 0, "null", DBSet(miRsAux!timporteH, "N")) & ",null)"
@@ -999,7 +999,7 @@ Dim ImporteTemporal As Currency
         
         K = K + 1
         SQL = DBSet(SQL, "T") & "," & DBSet(Numdocum, "T")
-        SQL = ", (" & Diario & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsi, "N") & "," & K & "," & SQL
+        SQL = ", (" & Diario & "," & DBSet(txtfecha(2).Text, "F") & "," & DBSet(NumAsi, "N") & "," & K & "," & SQL
         SQL = SQL & "," & DBSet(CodConce, "N") & "," & DBSet(Ampconce, "T") & ","
         If Importe < 0 Then
             SQL = SQL & DBSet(Abs(Importe), "N") & ",NULL,NULL)"
@@ -1018,7 +1018,7 @@ Dim ImporteTemporal As Currency
     
     
     
-    SqlLog = SqlLog & "Asiento contable: " & DBSet(NumAsi, "N") & " - " & txtFecha(2).Text & vbCrLf
+    SqlLog = SqlLog & "Asiento contable: " & DBSet(NumAsi, "N") & " - " & txtfecha(2).Text & vbCrLf
     
     
     If NumeroConta <> vEmpresa.codempre Then
@@ -1241,7 +1241,7 @@ Private Sub Form_Load()
     
     
     
-    txtFecha(2).Text = Format(vFecha2, "dd/mm/yyyy")
+    txtfecha(2).Text = Format(vFecha2, "dd/mm/yyyy")
      
     
 End Sub
@@ -1334,7 +1334,7 @@ End Sub
 
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
@@ -1373,10 +1373,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtFecha(Index)
+        PonFoco txtfecha(Index)
         
     End Select
     
@@ -1749,7 +1749,7 @@ Dim Resul As String
         End If
     End Select
     
-    Cad = Cad & Resul & Format(Importe, Aux)
+    cad = cad & Resul & Format(Importe, Aux)
         
 End Sub
 
@@ -1769,7 +1769,7 @@ Dim nomDocu As String
     
     cadNomRPT = nomDocu ' "FacturasCliFecha.rpt"
 
-    cadParam = cadParam & "pFecha=""" & txtFecha(2).Text & """|"
+    cadParam = cadParam & "pFecha=""" & txtfecha(2).Text & """|"
     numParam = numParam + 1
     
     SQL = ""
@@ -1883,7 +1883,7 @@ Private Sub txtAno_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtAno_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 
     txtAno(Index).Text = Trim(txtAno(Index).Text)
     
@@ -1909,7 +1909,7 @@ Private Sub txtCuota_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuota_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 
     txtCuota(Index).Text = Trim(txtCuota(Index).Text)
     
@@ -1933,25 +1933,25 @@ Dim Cad As String, cadTipo As String 'tipo cliente
 End Sub
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtFecha(Index)
+    PonerFormatoFecha txtfecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtFecha(Index), 3
+    ConseguirFoco txtfecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtFecha(Index).Tag, Index
+        LanzaFormAyuda txtfecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
@@ -2001,13 +2001,13 @@ Private Function DatosOK() As Boolean
     End If
 
     'La empresa actual debe estar en la seleccion
-    Cad = ""
+    cad = ""
     For i = 1 To Me.ListView1(1).ListItems.Count
         If Me.ListView1(1).ListItems(i).Checked Then
-            If Me.ListView1(1).ListItems(i).Text = vEmpresa.codempre Then Cad = "OK"
+            If Me.ListView1(1).ListItems(i).Text = vEmpresa.codempre Then cad = "OK"
         End If
     Next
-    If Cad = "" Then
+    If cad = "" Then
         MsgBox "Debe generar la liquidacion desde una de las empresas seleccionadas", vbExclamation
         Exit Function
     End If

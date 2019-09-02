@@ -304,7 +304,7 @@ Begin VB.Form frmImportarUtil
       Left            =   240
       TabIndex        =   11
       Top             =   9000
-      Width           =   8370
+      Width           =   12450
    End
 End
 Attribute VB_Name = "frmImportarUtil"
@@ -341,11 +341,13 @@ Private Sub cmdAceptar_Click()
 End Sub
 
 Private Sub ImportarFraCLI()
-    
+ Dim CadenaTexto As String
     If Me.optVarios(0).Value Then
-        
         If ListView1.ListItems.Count > 0 Then
-            If MsgBox("¿Continuar con el proceso de importacion?   Facturas: " & Me.ListView1.ListItems.Count, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+            CadenaTexto = ""
+            If Me.cboTipo.ListIndex = 1 Then CadenaTexto = DatosFacturaSAGE
+            CadenaTexto = "¿Continuar con el proceso de importacion?   Facturas: " & Me.ListView1.ListItems.Count & vbCrLf & CadenaTexto
+            If MsgBox(CadenaTexto, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
         End If
         
     ElseIf Me.optVarios(1).Value Then
@@ -405,9 +407,9 @@ Private Sub ImportarFraCLI()
             While Not miRsAux.EOF
                 i = i + 1
                 ListView1.ListItems.Add , "K" & miRsAux!Codigo
-                ListView1.ListItems(i).Text = miRsAux!texto1
-                ListView1.ListItems(i).SubItems(1) = miRsAux!texto2
-                ListView1.ListItems(i).SubItems(2) = miRsAux!observa1
+                ListView1.ListItems(i).Text = DBLet(miRsAux!texto1, "T")
+                ListView1.ListItems(i).SubItems(1) = DBLet(miRsAux!texto2, "T")
+                ListView1.ListItems(i).SubItems(2) = DBLet(miRsAux!observa1, "T")
                 miRsAux.MoveNext
             Wend
             miRsAux.Close
@@ -446,8 +448,11 @@ Private Sub cmdCancelar_Click()
 End Sub
 
 Private Sub Command1_Click()
+      
 
-
+    
+    
+    
     If Text1.Text = "" Then
         'imgppal_Click 0
         Exit Sub
@@ -501,6 +506,8 @@ Private Sub PonerLabel(TEXTO As String)
     Label1.Refresh
 End Sub
 
+
+
 Private Sub Form_Load()
     Me.Icon = frmppal.Icon
     For NF = 0 To imgppal.Count - 1
@@ -530,7 +537,7 @@ Private Sub Form_Load()
         
         cad = CStr(CheckValueLeer("intetipodoc1"))
         If cad <> "1" Then cad = 0
-        Me.Check1.Value = Val(cad)
+        Me.check1.Value = Val(cad)
         
         cad = CStr(CheckValueLeer("intetipodoc2"))
         If cad <> "1" Then cad = 0
@@ -538,7 +545,7 @@ Private Sub Form_Load()
         
     Else
         Check2.Value = 1
-        Check1.Value = 0
+        check1.Value = 0
     End If
 End Sub
 
@@ -558,11 +565,14 @@ End Sub
 Private Sub ImportarFacturasCliente()
 Dim RC As Byte
     
+    
+    
+    
     'Primer paso. Lectura fichero. Comprobacion basica datos
     PonerLabel "Leyendo fichero"
     If Me.cboTipo.ListIndex = 1 Then
         'SAGE
-        RC = ProcesaFicheroClientesSAGE(Text1.Text, Label1, Check1.Value = 1, True)
+        RC = ProcesaFicheroClientesSAGE(Text1.Text, Label1, check1.Value = 1, True)
         
         
         
@@ -596,6 +606,9 @@ Dim RC As Byte
         miRsAux.Close
         Exit Sub
     End If
+    
+    
+    
     
     'Si llega aqui siendo proceso SAGE, es uqe ha ido bien
     'SAGE. Ha ido bien
@@ -973,7 +986,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.Check1.Value = 1 Then cad = ""
+            If Me.check1.Value = 1 Then cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraCli, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
         End If
@@ -1695,29 +1708,73 @@ Private Sub InsertarEnContabilidadFraCliSAGE()
 Dim Mc As Contadores
 Dim Actual As Boolean
 Dim Ok As Boolean
+Dim Num As Long
+Dim F1 As Date
+Dim Contad As Long
+
+Dim RCon As ADODB.Recordset
 
     Set miRsAux = New ADODB.Recordset
-    cad = "Select   numasien ,fechaent from tmpintegrapu  where codusu =" & vUsu.Codigo & " GROUP BY 1,2  ORDER BY numasien"
+    'Veo cuantas facturas voy a integrar
+    cad = "select max(numasien),min(fechaent) fechaent from  tmpintegrapu  where codusu =" & vUsu.Codigo & " ORDER BY numasien"
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    Set Mc = New Contadores
-    NumRegElim = -1
-    While Not miRsAux.EOF
-        
-        Mc.ConseguirContador "0", miRsAux!FechaEnt <= vParam.fechafin, False
-        If NumRegElim < 0 Then
-            NumRegElim = Mc.Contador
-            Actual = miRsAux!FechaEnt <= vParam.fechafin
-        End If
-        cad = "UPDATE tmpintegrapu SET numasien=" & Mc.Contador & " WHERE codusu =" & vUsu.Codigo & " AND numasien=" & miRsAux!NumAsien
-        Conn.Execute cad
-        
-        'Actualizamos el nuasien de las facturas
-        cad = "UPDATE tmpintefrafracli  SET txtcsb=" & Mc.Contador & " WHERE codusu =" & vUsu.Codigo & " AND txtcsb=" & miRsAux!NumAsien
-        Conn.Execute cad
-        
-        miRsAux.MoveNext
-    Wend
+    Num = DBLet(miRsAux.Fields(0), "N")
+    F1 = DBLet(miRsAux.Fields(1), "F")
+    Actual = miRsAux!FechaEnt <= vParam.fechafin
     miRsAux.Close
+    
+    
+    'Abro y bloqueo contadores Apuntes
+    Set RCon = New ADODB.Recordset
+    cad = "Select * from contadores WHERE TipoRegi = '0' FOR UPDATE"
+    RCon.Open cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    If Actual Then
+        cad = DBSet(vParam.fechafin, "F")
+        Contad = RCon!contado1
+    Else
+        cad = DBSet(DateAdd("yyyy", 1, vParam.fechafin), "F")
+        Contad = RCon!contado2
+    End If
+    cad = "Select count(*) from hcabapu where fechaent>=" & DBSet(F1, "F") & " AND fechaent <=" & cad
+    cad = cad & " AND numasien>=" & Contad + 1 & " and numasien<= " & Contad + 1 + Num
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    If Not miRsAux.EOF Then
+        
+        If miRsAux.Fields(0) > 0 Then
+            MsgBox "Hay asientos  en el intervalo: " & cad, vbExclamation
+            Exit Sub
+        End If
+    End If
+    miRsAux.Close
+    
+    
+    
+    'Esto tardab amucho para
+    
+'
+'
+'    Set Mc = New Contadores
+'    NumRegElim = -1
+'    While Not miRsAux.EOF
+'
+'        Mc.ConseguirContador "0", miRsAux!FechaEnt <= vParam.fechafin, False
+'        If NumRegElim < 0 Then
+'            NumRegElim = Mc.Contador
+'            Actual = miRsAux!FechaEnt <= vParam.fechafin
+'        End If
+'        cad = "UPDATE tmpintegrapu SET numasien=" & Mc.Contador & " WHERE codusu =" & vUsu.Codigo & " AND numasien=" & miRsAux!NumAsien
+'        Conn.Execute cad
+'
+'        'Actualizamos el nuasien de las facturas
+'        cad = "UPDATE tmpintefrafracli  SET txtcsb=" & Mc.Contador & " WHERE codusu =" & vUsu.Codigo & " AND txtcsb=" & miRsAux!NumAsien
+'        Conn.Execute cad
+'
+'
+'        Label1.Caption = "Asiento : " & miRsAux!NumAsien
+'        Label1.Refresh
+'        miRsAux.MoveNext
+'    Wend
+'    miRsAux.Close
     espera 0.5
         
     'SAGE. Metemos desde tmpcuentas las cuentas nuevas, si hubieren
@@ -1727,20 +1784,25 @@ Dim Ok As Boolean
     If Not Ejecuta(cad, False) Then Exit Sub
     espera 0.75
     Conn.BeginTrans
-    Ok = TraspasaApuSAGE
-    PonerLabel ""
+    Ok = TraspasaApuSAGE(Contad)  'No le sumo el uno porque el primer apunte a traspasar es el 1
+    
 
     
     If Ok Then
+        cad = IIf(Actual, "contado1", "contado2")
+        cad = "UPDATE contadores set " & cad & " = " & Contad + Num & " WHERE tiporegi='0'"
+        Ejecuta cad, False
         Conn.CommitTrans
         J = 0 'Sin errores
     Else
+        PonerLabel "Rollback"
         Conn.RollbackTrans
-        cad = "Contado1"
-        If Not Actual Then cad = "Contado2"
-        cad = "UPDATE contadores set " & cad & " = " & NumRegElim & " WHERE  tiporegi='0'"
-        Conn.Execute cad
+
     End If
+    PonerLabel ""
+    RCon.Close
+    Set RCon = Nothing
+    Set miRsAux = Nothing
 End Sub
 
 
@@ -2142,7 +2204,7 @@ Private Sub Form_Unload(Cancel As Integer)
     If vParam.PathFicherosInteg = "" Then
         CheckValueGuardar "intetipodoc", CByte(Me.cboTipo.ListIndex)
         
-        CheckValueGuardar "intetipodoc1", CByte(Me.Check1.Value)
+        CheckValueGuardar "intetipodoc1", CByte(Me.check1.Value)
         
         CheckValueGuardar "intetipodoc2", CByte(Me.Check2.Value)
     End If
@@ -2270,7 +2332,7 @@ Dim RC As Byte
     Case 1
         ImportacionFacturasProveedor
     Case 2
-        RC = ProcesaFicheroClientesSAGE(Text1.Text, Label1, Check1.Value = 1, False)
+        RC = ProcesaFicheroClientesSAGE(Text1.Text, Label1, check1.Value = 1, False)
     
     Case Else
         ImportacionNavarresFraPro
@@ -2558,7 +2620,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.Check1.Value = 1 Then cad = ""
+            If Me.check1.Value = 1 Then cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraPro, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
         End If
@@ -3087,7 +3149,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.Check1.Value = 1 Then cad = ""
+            If Me.check1.Value = 1 Then cad = ""
         Else
             '10 campos a tratar
             If InStr(1, String(10, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
@@ -3453,10 +3515,10 @@ Dim ACtuala As Boolean
         rsContador.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         ACtuala = True
         If miRsAux!Fecha <= vParam.fechafin Then
-            Contador = rsContador!Contado1
+            Contador = rsContador!contado1
         Else
             ACtuala = False
-            Contador = rsContador!Contado2
+            Contador = rsContador!contado2
         End If
         'hlinapu(numdiari,fechaent,numasien,linliapu,codmacta,numdocum,codconce,ampconce,timporteD,codccost,timporteH,ctacontr,idcontab)
         i = 0
@@ -3751,7 +3813,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.Check1.Value = 1 Then cad = ""
+            If Me.check1.Value = 1 Then cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraPro, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
         End If
@@ -4659,7 +4721,8 @@ End Sub
 
 
 
-Private Function TraspasaApuSAGE() As Boolean
+Private Function TraspasaApuSAGE(Contador As Long) As Boolean
+Dim paraDoEvents As Byte
     On Error GoTo eTraspasaApuSAGE
     TraspasaApuSAGE = False
     
@@ -4669,12 +4732,12 @@ Private Function TraspasaApuSAGE() As Boolean
     FacturaAnterior = "Integracion facturas CSV-SAGE.  " & Now & vbCrLf & vUsu.Nombre
     
     cad = "INSERT INTO hcabapu(numdiari,fechaent,numasien,obsdiari,feccreacion,usucreacion,desdeaplicacion)"
-    cad = cad & " SELECT numdiari, fechaent,numasien," & DBSet(FacturaAnterior, "T") & "," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'Ariconta6' "
+    cad = cad & " SELECT numdiari, fechaent,numasien + " & Contador & " ," & DBSet(FacturaAnterior, "T") & "," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'Ariconta6' "
     cad = cad & " FROM tmpintegrapu WHERE codusu =" & vUsu.Codigo & " GROUP BY numasien,fechaent"
     Conn.Execute cad
     
     cad = "INSERT INTO hlinapu(numdiari,fechaent,numasien,linliapu,codmacta,numdocum,codconce,ampconce,timporteD,codccost,timporteH,ctacontr,idcontab) "
-    cad = cad & " SELECT NumDiari , FechaEnt, NumAsien, Linliapu, codmacta, Numdocum, CodConce, Ampconce, timporteD, codccost, timporteH, ctacontr, idcontab"
+    cad = cad & " SELECT NumDiari , FechaEnt, NumAsien+ " & Contador & " , Linliapu, codmacta, Numdocum, CodConce, Ampconce, timporteD, codccost, timporteH, ctacontr, idcontab"
     cad = cad & " FROM tmpintegrapu WHERE codusu =" & vUsu.Codigo & " ORDER BY numasien,fechaent,linliapu"
         Conn.Execute cad
     
@@ -4698,19 +4761,54 @@ Private Function TraspasaApuSAGE() As Boolean
     PonerLabel "Ajustando nºasiento factura"
     cad = "select serie,factura,year(fecha) anyo,txtcsb from tmpintefrafracli  WHERE codusu =" & vUsu.Codigo
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    paraDoEvents = 0
     While Not miRsAux.EOF
+        paraDoEvents = paraDoEvents + 1
         If Me.optVarios(1).Value Then
-            cad = "UPDATE factpro set numasien = " & miRsAux!txtcsb & " WHERE numserie ='" & miRsAux!Serie & "' AND numregis =" & miRsAux!FACTURA
+            cad = "UPDATE factpro set numasien = " & miRsAux!txtcsb + Contador & " WHERE numserie ='" & miRsAux!Serie & "' AND numregis =" & miRsAux!FACTURA
             cad = cad & " AND anofactu = " & miRsAux!Anyo
         Else
-            cad = "UPDATE factcli set numasien = " & miRsAux!txtcsb & " WHERE numserie ='" & miRsAux!Serie & "' AND numfactu =" & miRsAux!FACTURA
+            cad = "UPDATE factcli set numasien = " & miRsAux!txtcsb + Contador & " WHERE numserie ='" & miRsAux!Serie & "' AND numfactu =" & miRsAux!FACTURA
             cad = cad & " AND anofactu = " & miRsAux!Anyo
+        End If
+        Conn.Execute cad
+        PonerLabel miRsAux!txtcsb
+        If paraDoEvents > 110 Then
+            paraDoEvents = 0
+            DoEvents
+        End If
+        miRsAux.MoveNext
+        
+    Wend
+    miRsAux.Close
+    
+    PonerLabel "Ajustando texto cta ""'"""
+    If Me.optVarios(1).Value Then
+        cad = "select numserie,numregis,anofactu ,nommacta from factpro where numasien>= " & Contador & " AND instr(nommacta,'`')>0"
+    Else
+        cad = "select numserie,numfactu,anofactu ,nommacta from factcli where numasien>= " & Contador & " AND instr(nommacta,'`')>0"
+    End If
+    
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    While Not miRsAux.EOF
+        cad = miRsAux!Nommacta
+        cad = Replace(cad, "`", "'")
+        cad = DBSet(cad, "T")
+        If Me.optVarios(1).Value Then
+            cad = "UPDATE factpro set set nommacta = " & cad & "  WHERE numserie ='" & miRsAux!NUmSerie & "' AND numregis =" & miRsAux!Numregis
+            cad = cad & " AND anofactu = " & miRsAux!anofactu
+        Else
+            
+            cad = "UPDATE factcli set nommacta = " & cad & " WHERE numserie ='" & miRsAux!NUmSerie & "' AND numfactu =" & miRsAux!NumFactu
+            cad = cad & " AND anofactu = " & miRsAux!anofactu
         End If
         Conn.Execute cad
         miRsAux.MoveNext
         
     Wend
     miRsAux.Close
+    
+    
     
     
     TraspasaApuSAGE = True
@@ -4763,7 +4861,7 @@ Dim Ok As Boolean
     espera 0.5
         
     Conn.BeginTrans
-    Ok = TraspasaApuSAGE
+    Ok = TraspasaApuSAGE(0)
     PonerLabel ""
 
     
@@ -4781,3 +4879,32 @@ End Sub
 
 
 
+
+Private Function DatosFacturaSAGE() As String
+    cad = ""
+    'BAses
+    Importe = 0
+    For NF = 1 To Me.ListView1.ListItems.Count
+        If ListView1.ListItems(NF).ListSubItems(7) <> "" Then Importe = Importe + ImporteFormateado(ListView1.ListItems(NF).ListSubItems(7))
+        
+    Next
+    cad = vbCrLf & vbCrLf & "Bases: " & Format(Importe, FormatoImporte)
+    
+    'IVAS
+    Importe = 0
+    For NF = 1 To Me.ListView1.ListItems.Count
+        If ListView1.ListItems(NF).ListSubItems(8) <> "" Then Importe = Importe + ImporteFormateado(ListView1.ListItems(NF).ListSubItems(8))
+        
+    Next
+    cad = cad & vbCrLf & "IVA:     " & Format(Importe, FormatoImporte)
+    
+    'Totalfac
+    Importe = 0
+    For NF = 1 To Me.ListView1.ListItems.Count
+        If ListView1.ListItems(NF).ListSubItems(9) <> "" Then Importe = Importe + ImporteFormateado(ListView1.ListItems(NF).ListSubItems(9))
+        
+    Next
+    DatosFacturaSAGE = cad & vbCrLf & "TOTAL: " & Format(Importe, FormatoImporte)
+    cad = ""
+    
+End Function
