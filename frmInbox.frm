@@ -511,12 +511,12 @@ Public Sub mnuOpenEvent()
     ModifyEvent ContextEvent, False
 End Sub
 
-
-
-Public Sub mnOpenColCtas()
-    frmColCtas.Show vbModal, Me
-    frmShortBar.wndShortcutBar.SetFocus
-End Sub
+'
+'
+'Public Sub mnOpenColCtas()
+'    frmColCtas.Show vbModal, Me
+'    frmShortBar.wndShortcutBar.SetFocus
+'End Sub
 
 
 

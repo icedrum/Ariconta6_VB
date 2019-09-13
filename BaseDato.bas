@@ -5165,7 +5165,8 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     '                   36- iva intracomunitario de bienes corrientes
     '                   38- iva intracomunitario de bien de inversion
     '                   42- iva regimen especial agrario
-
+    '                   61- Operaciones no sujetas o con inversión del sujeto pasivo que originan el derecho a deducción  (IVA 0% en ventas conISP)
+    
 
     On Error GoTo eLiquidacionIVANew
 
@@ -5359,7 +5360,9 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     SQL = SQL & " and factpro.codopera = 0 " ' tipo de operacion general
     'Marzo 2019
     'SQL = SQL & " and not tipodiva in (2) " ' no sean de bienes de inversion
-    SQL = SQL & " and not tipodiva in (2,4) " ' no sean de bienes de inversion NI Suplidos
+    'septiembre 2019
+    'SQL = SQL & " and not tipodiva in (2,4) " ' no sean de bienes de inversion NI Suplidos
+    SQL = SQL & " and not tipodiva in (2,3,4) " ' no sean de bienes de inversion NI Suplidos , NI no deducible   - SE LEVA a
     
     SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
     SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
@@ -5383,7 +5386,7 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
         SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
         SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
         SQL = SQL & " and factpro.codopera = 0 " ' tipo de operacion general
-        SQL = SQL & " and not tipodiva in (2,4) " ' no sean de bienes de inversion NI Suplidos
+        SQL = SQL & " and not tipodiva in (2,3,4) " ' no sean de bienes de inversion NI Suplidos NI no deducble
         SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
         SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
         SQL = SQL & " and factpro.codconce340='D'"
@@ -5394,6 +5397,16 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
         
     
     End If
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -5483,6 +5496,13 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
     SQL = SQL & " group by 1,2"
                     
+                    
+                    
+                    
+                    
+                    
+                    
+
     Conn.Execute SQL
     
     LiquidacionIVANew = True

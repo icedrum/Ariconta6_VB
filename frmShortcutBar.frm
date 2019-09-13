@@ -16,7 +16,7 @@ Begin VB.Form frmShortcutBar2
    StartUpPosition =   3  'Windows Default
    Begin XtremeShortcutBar.ShortcutBar wndShortcutBar 
       Height          =   6255
-      Left            =   240
+      Left            =   0
       TabIndex        =   0
       Top             =   1080
       Width           =   2655
@@ -119,8 +119,13 @@ Private Sub Label3_Click()
 End Sub
 
 Private Sub wndShortcutBar_SelectedChanged(ByVal Item As XtremeShortcutBar.IShortcutBarItem)
+
+    CambioPane Item.Id, True
+End Sub
+Public Sub CambioPane(ItemId As Long, DesdeEsteForm As Boolean)
+
 Dim TabNuevo As RibbonTab
-    Select Case Item.Id
+    Select Case ItemId
         Case SHORTCUT_CONTACTS:
 
             frmInbox.CalendarControl.visible = False
@@ -138,7 +143,8 @@ Dim TabNuevo As RibbonTab
             frmPaneCalendar.DatePicker.Enabled = True
 
     End Select
-    If Not TabNuevo Is Nothing Then
+    If Not TabNuevo Is Nothing And DesdeEsteForm Then
+    
         TabNuevo.Selected = True
         Set TabNuevo = Nothing
     End If

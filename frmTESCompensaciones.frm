@@ -855,7 +855,13 @@ Dim CadResult As String
     CadResult = ""
     
     While Not Rs.EOF
-        CadResult = CadResult & Rs!codmacta & "|"
+    
+        If Rs!codmacta <> "" Then
+    
+            CadResult = CadResult & Rs!codmacta & "|"
+        Else
+            MsgBox "Cuenta en PAGOS vacia para NIF: " & NIF, vbExclamation
+        End If
         Rs.MoveNext
     Wend
     

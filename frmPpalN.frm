@@ -610,7 +610,7 @@ Dim PrimeraVez As Boolean
 
 Dim EmpresasQueYaHaComunicadoAsientosDescuadrados As String
 
-
+Dim t1 As Single
 
 
 
@@ -689,6 +689,7 @@ Dim N_Skin As Integer
     Dim Form As Form, Ctrl As Object
             
     For Each Form In Forms
+       
         For Each Ctrl In Form.Controls
                     
             Set CtrlCaption = Ctrl
@@ -719,6 +720,7 @@ Dim N_Skin As Integer
     
     
     
+ 
     LoadIcons
     N_Skin = Id - 2895
     EstablecerSkin N_Skin
@@ -827,12 +829,24 @@ Public Sub CommandBars_Execute(ByVal Control As XtremeCommandBars.ICommandBarCon
 Dim AbiertoFormulario  As Boolean
     AbiertoFormulario = False
     
-
+    
+    
     Select Case Control.Id
         Case XTPCommandBarsSpecialCommands.XTP_ID_RIBBONCONTROLTAB:
+            If PrimeraVez Then Stop
+            If frmInbox.CalendarControl.visible = True Then
+                If UCase(frmppal.RibbonBar.SelectedTab.Caption) <> "AGENDA" Then
+                   
+                   frmShortcutBar2.CambioPane SHORTCUT_CONTACTS, False
+                End If
+            Else
+                If UCase(frmppal.RibbonBar.SelectedTab.Caption) = "AGENDA" Then
+                   frmShortcutBar2.CambioPane SHORTCUT_CALENDAR, False
+                End If
+            End If
             
-        
-          
+                
+            
         Case XTP_ID_RIBBONCUSTOMIZE:
             CommandBars.ShowCustomizeDialog 3
             
@@ -990,9 +1004,6 @@ Dim AbiertoFormulario  As Boolean
         Case ID_CALENDAREVENT_5:
             frmInbox.mnuTimeScale 5
             
-            
-            
-     
         Case Else
             AbiertoFormulario = True
             AbrirFormularios Control.Id
@@ -1141,12 +1152,12 @@ Dim res
         PrimeraVez = False
         DoEvents
         
-
+    
         
         AccionesIncioAbrirProgramaEmpresa
         
         
-
+        
 
     End If
     Screen.MousePointer = vbDefault
@@ -1258,18 +1269,18 @@ End Sub
 
 
 Private Sub Form_Load()
-   
+
     'Cargamos librerias de icinos de los forms
     frmIdentifica.pLabel "Carga DLL"
     CargaIconosDlls
    
-    
+     t1 = Timer  '
    
     CommandBarsGlobalSettings.App = App
-            
+   
     frmIdentifica.pLabel "Leyendo menus usuario"
     CargaDatosMenusDemas True
-    
+  
     ShowEventInPane = False
        
     FontSizes(0) = 0
@@ -1300,6 +1311,8 @@ Private Sub Form_Load()
     
     DockingPaneManager.RecalcLayout
     MRUShortcutBarWidth = frmShortBar.ScaleWidth
+   
+   
    
    
     'En funcion
@@ -1485,6 +1498,8 @@ Private Sub CommandBars_Resize()
     Dim top As Long
     Dim Right As Long
     Dim Bottom As Long
+    
+   ' If Not PrimeraVez Then Exit Sub
     
     CommandBars.GetClientRect Left, top, Right, Bottom
     

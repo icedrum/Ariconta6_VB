@@ -137,7 +137,7 @@ Public Sub SetFlatStyle(FlatStyle As Boolean)
 
 End Sub
 
-Private Sub ItemCaption_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub ItemCaption_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     ItemCaption.Expanded = Not ItemCaption.Expanded
     UpdateLayout
 End Sub

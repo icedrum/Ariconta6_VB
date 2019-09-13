@@ -863,7 +863,9 @@ Dim B As Boolean
             'Mas de una empresa
             SQL = "'Empresas seleccionadas:' + Chr(13) "
             For i = 1 To Me.ListView1(1).ListItems.Count - 1
-                SQL = SQL & " + ""        " & Me.ListView1(1).ListItems(i).Text & """ + Chr(13)"
+                If ListView1(1).ListItems(i).Checked Then
+                    SQL = SQL & " + ""        " & Me.ListView1(1).ListItems(i).Text & """ + Chr(13)"
+                End If
             Next i
         End If
 
@@ -963,7 +965,7 @@ Private Sub Form_Load()
     FramePeriodo.Enabled = (Me.cmbPeriodo(0).ListIndex = 0)
     FramePeriodo.visible = (Me.cmbPeriodo(0).ListIndex = 0)
     
-    txtfecha(2).Text = Format(Now, "dd/mm/yyyy")
+    txtFecha(2).Text = Format(Now, "dd/mm/yyyy")
      
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     
@@ -1033,7 +1035,7 @@ End Sub
 
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
@@ -1072,10 +1074,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
+        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtfecha(Index)
+        PonFoco txtFecha(Index)
         
     End Select
     
@@ -1192,7 +1194,7 @@ Dim CadenaImportes As String
 
 
     'Ahora enviamos a generar fichero IVA
-    If GenerarFicheroIVA_303_2017(CadenaImportes, ImpTotal, CDate(txtfecha(2).Text), Periodo, Es_A_Compensar, cad) Then
+    If GenerarFicheroIVA_303_2017(CadenaImportes, ImpTotal, CDate(txtFecha(2).Text), Periodo, Es_A_Compensar, cad) Then
     
     GuardarComo
     End If
@@ -1822,7 +1824,7 @@ Dim nomDocu As String
     
     cadNomRPT = nomDocu ' "FacturasCliFecha.rpt"
 
-    cadParam = cadParam & "pFecha=""" & txtfecha(2).Text & """|"
+    cadParam = cadParam & "pFecha=""" & txtFecha(2).Text & """|"
     numParam = numParam + 1
     
     cadParam = cadParam & "pTitulo=""" & Me.Caption & """|"
@@ -1847,7 +1849,9 @@ Dim nomDocu As String
         'Mas de una empresa
         SQL = "Empresas seleccionadas: "" + Chr(13) "
         For i = 1 To Me.ListView1(1).ListItems.Count
-            SQL = SQL & " + """ & Me.ListView1(1).ListItems(i).SubItems(1) & """ + Chr(13) "
+            If ListView1(1).ListItems(i).Checked Then
+                SQL = SQL & " + """ & Me.ListView1(1).ListItems(i).SubItems(1) & """ + Chr(13) "
+            End If
         Next i
         SQL = SQL & " + """
     End If
@@ -2021,25 +2025,25 @@ End Sub
 
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
+    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtfecha(Index)
+    PonerFormatoFecha txtFecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtfecha(Index), 3
+    ConseguirFoco txtFecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtfecha(Index).Tag, Index
+        LanzaFormAyuda txtFecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
