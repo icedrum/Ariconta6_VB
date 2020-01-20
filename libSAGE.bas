@@ -307,8 +307,8 @@ Dim strArray() As String
     'Numasiento
     aux2 = strArray(0)
     numero = Val(aux2)
-   ' If numero = 215 Then Stop
-    'If numero = 216 Then Stop
+   ' If numero = 215 Then S top
+    'If numero = 216 Then S top
     
     
         
@@ -423,7 +423,7 @@ Dim strArray() As String
     SerieDeFactu = ""
     aux2 = Trim(strArray(22))
     If Trim(aux2) <> "" Then SerieDeFactu = aux2
-    'If NumDeFactu <> 0 Then Stop
+    'If NumDeFactu <> 0 Then S top
     
     Raiz = Mid(Trim(Trim(strArray(2))), 1, 3)
 '    If iva = 0 Then
@@ -771,7 +771,7 @@ Dim CtaReten As String
             
         If HayQueInsertarFactura Then
             
-            'If ImporReten > 0 Then Stop
+            'If ImporReten > 0 Then S top
             TotalFac = TotalFac - ImporReten
             If TotalAprox <> 0 Then Suplidos = TotalAprox - TotalFac
             If Suplidos <> 0 Then

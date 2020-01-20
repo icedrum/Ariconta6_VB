@@ -756,7 +756,7 @@ Dim i As Integer
     
     SQL = IIf(codempre = 0, vEmpresa.codempre, codempre)
     SQL = "insert into ariconta" & SQL & ".liqiva (anoliqui,periodo,escomplem,importe,numdiari,numasien,fechaent) values ("
-    SQL = SQL & DBSet(txtAno(0).Text, "N") & "," & DBSet(i, "N") & ",0," & DBSet(ImpLiqui, "N") & "," & DBSet(NumDiari, "N") & "," & DBSet(NumAsiento, "N") & "," & DBSet(txtfecha(2).Text, "F") & ")"
+    SQL = SQL & DBSet(txtAno(0).Text, "N") & "," & DBSet(i, "N") & ",0," & DBSet(ImpLiqui, "N") & "," & DBSet(NumDiari, "N") & "," & DBSet(NumAsiento, "N") & "," & DBSet(txtFecha(2).Text, "F") & ")"
     Conn.Execute SQL
     
     If Not DentroDeTrans Then Conn.CommitTrans
@@ -798,13 +798,13 @@ Dim NumAsien As Long
     
     Conn.BeginTrans
     
-    i = FechaCorrecta2(CDate(txtfecha(2).Text))
+    i = FechaCorrecta2(CDate(txtFecha(2).Text))
     If Mc.ConseguirContador("0", (i = 0), False) = 0 Then
         NumAsien = Mc.Contador
     End If
     
     ' insertamos en cabecera
-    SQL = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari, feccreacion, usucreacion, desdeaplicacion ) SELECT " & vParam.numdia303 & "," & DBSet(txtfecha(2).Text, "F") & "," & DBSet(NumAsien, "N")
+    SQL = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari, feccreacion, usucreacion, desdeaplicacion ) SELECT " & vParam.numdia303 & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsien, "N")
     SQL = SQL & ",'Liquidación de " & Me.cmbPeriodo(0).Text & " de " & txtAno(0).Text & "'," & DBSet(Now, "F") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Liquidación'"
     SQL = SQL & " from parametros "
     Conn.Execute SQL
@@ -822,7 +822,7 @@ Dim NumAsien As Long
     MaxPos = DevuelveValor("select max(pos) from tmpconext where codusu = " & DBSet(vUsu.Codigo, "N"))
     
     ' insertamos en lineas
-    SQL = "INSERT INTO hlinapu (numdiari,fechaent,numasien,linliapu,codmacta,numdocum,codconce,ampconce,timporteD,timporteH,ctacontr) SELECT " & vParam.numdia303 & "," & DBSet(txtfecha(2).Text, "F") & "," & DBSet(NumAsien, "N")
+    SQL = "INSERT INTO hlinapu (numdiari,fechaent,numasien,linliapu,codmacta,numdocum,codconce,ampconce,timporteD,timporteH,ctacontr) SELECT " & vParam.numdia303 & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsien, "N")
     SQL = SQL & ",pos, cta," & DBSet(Numdocum, "T") & "," & DBSet(vParam.conce303, "N") & "," & DBSet(Ampconce, "T") & ",if(timported=0,null,timported), if(timporteh=0,null,timporteh), "
     If ImpLiqui > 0 Then
         SQL = SQL & "if(pos <> " & DBSet(MaxPos, "N") & "," & DBSet(vParam.CtaHPAcreedor, "T") & ",null) "
@@ -836,7 +836,7 @@ Dim NumAsien As Long
     
     
     
-    SqlLog = SqlLog & "Asiento contable: " & DBSet(NumAsien, "N") & " - " & txtfecha(2).Text & " - " & vParam.numdia303 & vbCrLf
+    SqlLog = SqlLog & "Asiento contable: " & DBSet(NumAsien, "N") & " - " & txtFecha(2).Text & " - " & vParam.numdia303 & vbCrLf
     
     
     B = ActualizarLiquidacion(True, NumAsien, vParam.numdia303, 0)
@@ -913,16 +913,16 @@ Dim ImporteTemporal As Currency
     
     
     
-    i = FechaCorrecta2(CDate(txtfecha(2).Text))
+    i = FechaCorrecta2(CDate(txtFecha(2).Text))
     
     SQL = "Select * from ariconta" & NumeroConta & ".contadores WHERE TipoRegi = '0' "
     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If i = 0 Then
-        NumAsi = miRsAux!Contado1
+        NumAsi = miRsAux!contado1
         SQL = "contado1"
     Else
         'sigiente
-        NumAsi = miRsAux!Contado2
+        NumAsi = miRsAux!contado2
         SQL = "contado2"
     End If
     NumAsi = NumAsi + 1
@@ -939,7 +939,7 @@ Dim ImporteTemporal As Currency
     
     ' insertamos en cabecera
     SQL = "INSERT INTO ariconta" & NumeroConta & ".hcabapu (numdiari, fechaent, numasien, obsdiari, feccreacion, usucreacion, desdeaplicacion )"
-    SQL = SQL & " VALUES (" & Diario & "," & DBSet(txtfecha(2).Text, "F") & "," & DBSet(NumAsi, "N")
+    SQL = SQL & " VALUES (" & Diario & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsi, "N")
     SQL = SQL & ",'Liquidación de " & Me.cmbPeriodo(0).Text & " de " & txtAno(0).Text & "'," & DBSet(Now, "F") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Liquidación')"
     Conn.Execute SQL
     
@@ -975,7 +975,7 @@ Dim ImporteTemporal As Currency
             If miRsAux!NumAsien <> vEmpresa.codempre Then SQL = vParamT.Par_pen_apli
         End If
         SQL = DBSet(SQL, "T")
-        SQL = ", (" & Diario & "," & DBSet(txtfecha(2).Text, "F") & "," & DBSet(NumAsi, "N") & "," & K & "," & SQL
+        SQL = ", (" & Diario & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsi, "N") & "," & K & "," & SQL
         SQL = SQL & "," & DBSet(Numdocum, "T") & "," & CodConce & "," & DBSet(Ampconce, "T") & ","
         SQL = SQL & IIf(miRsAux!timported = 0, "null", DBSet(miRsAux!timported, "N")) & ","
         SQL = SQL & IIf(miRsAux!timporteH = 0, "null", DBSet(miRsAux!timporteH, "N")) & ",null)"
@@ -999,7 +999,7 @@ Dim ImporteTemporal As Currency
         
         K = K + 1
         SQL = DBSet(SQL, "T") & "," & DBSet(Numdocum, "T")
-        SQL = ", (" & Diario & "," & DBSet(txtfecha(2).Text, "F") & "," & DBSet(NumAsi, "N") & "," & K & "," & SQL
+        SQL = ", (" & Diario & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsi, "N") & "," & K & "," & SQL
         SQL = SQL & "," & DBSet(CodConce, "N") & "," & DBSet(Ampconce, "T") & ","
         If Importe < 0 Then
             SQL = SQL & DBSet(Abs(Importe), "N") & ",NULL,NULL)"
@@ -1018,7 +1018,7 @@ Dim ImporteTemporal As Currency
     
     
     
-    SqlLog = SqlLog & "Asiento contable: " & DBSet(NumAsi, "N") & " - " & txtfecha(2).Text & vbCrLf
+    SqlLog = SqlLog & "Asiento contable: " & DBSet(NumAsi, "N") & " - " & txtFecha(2).Text & vbCrLf
     
     
     If NumeroConta <> vEmpresa.codempre Then
@@ -1241,7 +1241,7 @@ Private Sub Form_Load()
     
     
     
-    txtfecha(2).Text = Format(vFecha2, "dd/mm/yyyy")
+    txtFecha(2).Text = Format(vFecha2, "dd/mm/yyyy")
      
     
 End Sub
@@ -1334,7 +1334,7 @@ End Sub
 
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
@@ -1373,10 +1373,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
+        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtfecha(Index)
+        PonFoco txtFecha(Index)
         
     End Select
     
@@ -1769,7 +1769,7 @@ Dim nomDocu As String
     
     cadNomRPT = nomDocu ' "FacturasCliFecha.rpt"
 
-    cadParam = cadParam & "pFecha=""" & txtfecha(2).Text & """|"
+    cadParam = cadParam & "pFecha=""" & txtFecha(2).Text & """|"
     numParam = numParam + 1
     
     SQL = ""
@@ -1933,25 +1933,25 @@ Dim cad As String, cadTipo As String 'tipo cliente
 End Sub
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
+    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtfecha(Index)
+    PonerFormatoFecha txtFecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtfecha(Index), 3
+    ConseguirFoco txtFecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtfecha(Index).Tag, Index
+        LanzaFormAyuda txtFecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
@@ -2264,6 +2264,7 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
     SQL = SQL & " group by 1,2"
     SQL = SQL & " union "
+    
     ' recargo de equivalencia
     SQL = SQL & " select " & vUsu.Codigo & ",tiposiva.cuentasr cuenta,sum(baseimpo) base,sum(imporec) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",1 cliente"
     SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
@@ -2272,15 +2273,25 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
     SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
     SQL = SQL & " group by 1,2"
-    SQL = SQL & " union "
+   
+    
+    
     ' soportado no deducible
-    SQL = SQL & " select " & vUsu.Codigo & ",tiposiva.cuentasn cuenta,sum(baseimpo) base,sum(impoiva) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",1 cliente"
-    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
-    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
-    SQL = SQL & " and tipodiva = 3 " ' los no deducibles
-    SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
-    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
-    SQL = SQL & " group by 1,2"
+    'NO ENTRAN EN LA LIQUIDACION   16 septiembre 2019
+    If False Then
+        SQL = SQL & " union "
+        
+        SQL = SQL & " select " & vUsu.Codigo & ",tiposiva.cuentasn cuenta,sum(baseimpo) base,sum(impoiva) iva," & Empresa & " a," & Periodo & " b," & Anyo & ",1 cliente"
+        SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+        SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+        SQL = SQL & " and tipodiva = 3 " ' los no deducibles
+        SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+        SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+        SQL = SQL & " group by 1,2"
+        
+    End If
+    
+    
     SQL = SQL & " ) aaaaa "
     
     SQL = SQL & " group by 1,2"

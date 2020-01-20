@@ -26,7 +26,7 @@ Begin VB.Form frmTESTransferenciasList
       EndProperty
       Height          =   1875
       Left            =   7080
-      TabIndex        =   30
+      TabIndex        =   27
       Top             =   30
       Width           =   4455
       Begin VB.CheckBox Check1 
@@ -43,7 +43,7 @@ Begin VB.Form frmTESTransferenciasList
          Height          =   240
          Index           =   1
          Left            =   420
-         TabIndex        =   33
+         TabIndex        =   30
          Top             =   1200
          Visible         =   0   'False
          Width           =   3075
@@ -80,7 +80,7 @@ Begin VB.Form frmTESTransferenciasList
       EndProperty
       Height          =   2655
       Left            =   7080
-      TabIndex        =   27
+      TabIndex        =   24
       Top             =   1950
       Width           =   4455
       Begin VB.OptionButton optVarios 
@@ -97,7 +97,7 @@ Begin VB.Form frmTESTransferenciasList
          Height          =   240
          Index           =   3
          Left            =   390
-         TabIndex        =   32
+         TabIndex        =   29
          Top             =   1920
          Width           =   3555
       End
@@ -115,7 +115,7 @@ Begin VB.Form frmTESTransferenciasList
          Height          =   240
          Index           =   2
          Left            =   390
-         TabIndex        =   31
+         TabIndex        =   28
          Top             =   990
          Width           =   3045
       End
@@ -133,7 +133,7 @@ Begin VB.Form frmTESTransferenciasList
          Height          =   240
          Index           =   0
          Left            =   390
-         TabIndex        =   29
+         TabIndex        =   26
          Top             =   570
          Width           =   1395
       End
@@ -151,7 +151,7 @@ Begin VB.Form frmTESTransferenciasList
          Height          =   240
          Index           =   1
          Left            =   390
-         TabIndex        =   28
+         TabIndex        =   25
          Top             =   1440
          Width           =   1185
       End
@@ -172,7 +172,7 @@ Begin VB.Form frmTESTransferenciasList
       TabIndex        =   16
       Top             =   30
       Width           =   6915
-      Begin VB.TextBox txtAnyo 
+      Begin VB.TextBox txtFecha 
          Alignment       =   1  'Right Justify
          BeginProperty Font 
             Name            =   "Verdana"
@@ -185,13 +185,14 @@ Begin VB.Form frmTESTransferenciasList
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   5130
+         Left            =   4440
+         MaxLength       =   10
          TabIndex        =   2
-         Tag             =   "Remesa|N|S|0||cobros|codrem|0000||"
+         Tag             =   "imgFecha"
          Top             =   780
-         Width           =   1275
+         Width           =   1305
       End
-      Begin VB.TextBox txtAnyo 
+      Begin VB.TextBox txtFecha 
          Alignment       =   1  'Right Justify
          BeginProperty Font 
             Name            =   "Verdana"
@@ -204,11 +205,12 @@ Begin VB.Form frmTESTransferenciasList
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   5130
+         Left            =   4440
+         MaxLength       =   10
          TabIndex        =   3
-         Tag             =   "Remesa|N|S|0||cobros|codrem|0000||"
-         Top             =   1200
-         Width           =   1275
+         Tag             =   "imgFecha"
+         Top             =   1230
+         Width           =   1305
       End
       Begin VB.TextBox txtNum 
          Alignment       =   1  'Right Justify
@@ -250,6 +252,75 @@ Begin VB.Form frmTESTransferenciasList
          Top             =   810
          Width           =   1305
       End
+      Begin VB.Label Label3 
+         Caption         =   "Fecha "
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   195
+         Index           =   2
+         Left            =   3480
+         TabIndex        =   33
+         Top             =   480
+         Width           =   2280
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Desde"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Index           =   1
+         Left            =   3480
+         TabIndex        =   32
+         Top             =   840
+         Width           =   690
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Hasta"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Index           =   0
+         Left            =   3480
+         TabIndex        =   31
+         Top             =   1230
+         Width           =   615
+      End
+      Begin VB.Image ImgFec 
+         Height          =   240
+         Index           =   0
+         Left            =   4170
+         Top             =   810
+         Width           =   240
+      End
+      Begin VB.Image ImgFec 
+         Height          =   240
+         Index           =   1
+         Left            =   4170
+         Top             =   1290
+         Width           =   240
+      End
       Begin VB.Label lblAsiento 
          BeginProperty Font 
             Name            =   "Verdana"
@@ -263,7 +334,7 @@ Begin VB.Form frmTESTransferenciasList
          Height          =   255
          Index           =   1
          Left            =   2550
-         TabIndex        =   26
+         TabIndex        =   23
          Top             =   1440
          Width           =   4095
       End
@@ -279,45 +350,9 @@ Begin VB.Form frmTESTransferenciasList
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Index           =   2
-         Left            =   4140
-         TabIndex        =   25
-         Top             =   1170
-         Width           =   615
-      End
-      Begin VB.Label Label3 
-         Caption         =   "Desde"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   195
-         Index           =   3
-         Left            =   4140
-         TabIndex        =   24
-         Top             =   810
-         Width           =   690
-      End
-      Begin VB.Label Label3 
-         Caption         =   "Hasta"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   195
          Index           =   4
          Left            =   300
-         TabIndex        =   23
+         TabIndex        =   22
          Top             =   1230
          Width           =   615
       End
@@ -335,28 +370,9 @@ Begin VB.Form frmTESTransferenciasList
          Height          =   195
          Index           =   5
          Left            =   300
-         TabIndex        =   22
+         TabIndex        =   21
          Top             =   870
          Width           =   690
-      End
-      Begin VB.Label Label3 
-         Caption         =   "Año Remesa"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   195
-         Index           =   7
-         Left            =   4140
-         TabIndex        =   21
-         Top             =   420
-         Width           =   960
       End
       Begin VB.Label Label3 
          Caption         =   "Número Transferencia"
@@ -650,7 +666,7 @@ Private WithEvents frmC As frmColCtas
 Attribute frmC.VB_VarHelpID = -1
 
 Private SQL As String
-Dim Cad As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -678,6 +694,15 @@ End Sub
 Private Sub Check1_Click(Index As Integer)
     If Index = 0 Then
         Frame1.Enabled = (Check1(Index).Value = 1)
+        
+    Else
+    
+        If Index = 1 Then
+            If Me.Check1(1).Value = 0 Then
+                Check1(0).Value = 1
+                Frame1.Enabled = True
+            End If
+        End If
     End If
 End Sub
 
@@ -696,7 +721,14 @@ Private Sub cmdAccion_Click(Index As Integer)
     
     If Not MontaSQL Then Exit Sub
     
-    If Not HayRegParaInforme("transferencias", cadselect) Then Exit Sub
+    i = 0
+    If TipoTransfPagos = 3 Then
+        If Me.Check1(1).Value = 0 Then i = 1   'Menos para anticpo de credito
+    End If
+    If i = 0 Then
+        If Not HayRegParaInforme("transferencias", cadselect) Then Exit Sub
+    End If
+    
     
     If optTipoSal(1).Value Then
         'EXPORTAR A CSV
@@ -744,6 +776,8 @@ Private Sub Form_Load()
 
     Me.Icon = frmppal.Icon
         
+        Me.ImgFec(0).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+        Me.ImgFec(1).Picture = frmppal.imgIcoForms.ListImages(2).Picture
     'Otras opciones
     If EsTransfAbonos Then
         If TipoTransfPagos = 0 Then
@@ -759,9 +793,12 @@ Private Sub Form_Load()
         If TipoTransfPagos = 1 Then
             Me.Caption = "Listado de Pagos Domiciliados"
             Label3(8).Caption = "Nro.Pago Domiciliado"
-        Else
+        ElseIf TipoTransfPagos = 2 Then
             Me.Caption = "Listado de Confirmings"
             Label3(8).Caption = "Nro.Confirming"
+        Else
+                Me.Caption = "Listado de Transferencias"
+            Label3(8).Caption = "Nro.Transferencia"
         End If
     End If
         
@@ -771,8 +808,8 @@ Private Sub Form_Load()
     If numero <> "" Then
         txtNum(0).Text = numero
         txtNum(1).Text = numero
-        txtAnyo(0).Text = Anyo
-        txtAnyo(1).Text = Anyo
+        txtFecha(0).Text = "01/01/" & Anyo
+        txtFecha(1).Text = "31/12/" & Anyo
         Check1(0).Value = 1
     End If
     
@@ -787,6 +824,35 @@ Private Sub Form_Load()
 End Sub
 
 
+
+Private Sub frmF_Selec(vFecha As Date)
+    cad = Format(vFecha, "dd/mm/yyyy")
+End Sub
+
+Private Sub imgFec_Click(Index As Integer)
+    
+    Screen.MousePointer = vbHourglass
+    
+    Select Case Index
+    Case 0, 1
+        IndCodigo = Index
+    
+        'FECHA
+        Set frmF = New frmCal
+        frmF.Fecha = Now
+        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
+        cad = ""
+        frmF.Show vbModal
+        Set frmF = Nothing
+        If cad <> "" Then
+            txtFecha(Index).Text = cad
+            PonFoco txtFecha(Index)
+        End If
+    End Select
+    
+    Screen.MousePointer = vbDefault
+
+End Sub
 
 Private Sub optTipoSal_Click(Index As Integer)
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), Index
@@ -838,7 +904,7 @@ End Sub
 
 
 Private Sub txtNum_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim RC As String
 Dim Hasta As Integer
 
@@ -944,13 +1010,31 @@ End Sub
 Private Sub AccionesCrystal()
 Dim indRPT As String
 Dim nomDocu As String
+
     
     vMostrarTree = False
     conSubRPT = True
         
+    
     If EsTransfAbonos Then
         If TipoTransfPagos = 3 Then
-            indRPT = "0614-01" 'Listado anticipos
+            If Check1(1).Value = 0 Then
+                indRPT = "0614-02" 'Listado anticipos
+                
+                'nomDocu = txtAnyo(0).Text & txtAnyo(1).Text & txtNum(0).Text & txtNum(1).Text
+                
+                If nomDocu <> "" Then
+                    MsgBox "Los campos de seleccion desde/hasta no se deben indicar", vbExclamation
+                    Exit Sub
+                End If
+                
+                
+             
+                
+                
+            Else
+                indRPT = "0614-01" ' anticipos formato envio banco
+            End If
         Else
             indRPT = "0614-00" '"Transferencias.rpt"
         End If
@@ -964,6 +1048,9 @@ Dim nomDocu As String
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     
     cadNomRPT = nomDocu
+
+
+    
 
     If Me.Check1(0).Value Then
         cadParam = cadParam & "pDetalle=1|"
@@ -1017,8 +1104,22 @@ Dim SubTipo As Byte ' 0 = pagos
     MontaSQL = False
     
     If Not PonerDesdeHasta("transferencias.codigo", "REM", Me.txtNum(0), Me.txtNum(0), Me.txtNum(1), Me.txtNum(1), "pDHRemesa=""") Then Exit Function
-    If Not PonerDesdeHasta("transferencias.anyo", "ANYO", Me.txtAnyo(0), Me.txtAnyo(0), Me.txtAnyo(1), Me.txtAnyo(1), "pDHAnyo=""") Then Exit Function
     
+    
+    
+    Tipo = 0
+    If TipoTransfPagos = 3 Then
+        If Me.Check1(1).Value = 0 Then Tipo = 1
+    End If
+    
+    If Tipo = 0 Then
+        If Not PonerDesdeHasta("transferencias.fecha", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHAnyo=""") Then Exit Function
+    Else
+        If Not PonerDesdeHasta("cobros.fecvenci", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHAnyo=""") Then Exit Function
+    End If
+    
+    
+    Tipo = 0
     If EsTransfAbonos Then
         If TipoTransfPagos = 3 Then
             Tipo = 2     'EN BD , en transferencias , el 2 es el anticipo de credito
@@ -1046,7 +1147,7 @@ Dim SubTipo As Byte ' 0 = pagos
 End Function
 
 Private Function CargarTemporal() As Boolean
-Dim Cad As String
+Dim cad As String
 Dim SqlInsert As String
 Dim SqlValues As String
 
@@ -1056,41 +1157,46 @@ Dim SqlValues As String
 
     If EsTransfAbonos Then
 
-        Cad = "delete from tmpcobros2 where codusu= " & DBSet(vUsu.Codigo, "N")
-        Conn.Execute Cad
+        cad = "delete from tmpcobros2 where codusu= " & DBSet(vUsu.Codigo, "N")
+        Conn.Execute cad
         
         SqlInsert = "insert into tmpcobros2 (codusu,numserie,numfactu,fecfactu,numorden,fecvenci,codmacta,cliente,iban,gastos,impvenci,esdevol,codrem,anyorem)  "
         
 
         
-        Cad = "select " & vUsu.Codigo & ",cobros.numserie, cobros.numfactu, cobros.fecfactu, cobros.numorden,cobros.fecvenci,"
+        cad = "select " & vUsu.Codigo & ",cobros.numserie, cobros.numfactu, cobros.fecfactu, cobros.numorden,cobros.fecvenci,"
         If TipoTransfPagos = 3 Then
-            Cad = Cad & " cobros.nifclien "
+            cad = cad & " cobros.nifclien "
         Else
-            Cad = Cad & " cobros.codmacta "
+            cad = cad & " cobros.codmacta "
         End If
-        Cad = Cad & " ,cobros.nomclien, cobros.iban, cobros.gastos, cobros.impvenci importe, 0 esdevol, transfer, anyorem "
-        Cad = Cad & " from cobros "
-        Cad = Cad & " where (transfer,anyorem) in (select codigo, anyo from transferencias where (1=1) "
-        If cadselect <> "" Then Cad = Cad & " and " & cadselect
-        Cad = Cad & ")"
+        cad = cad & " ,cobros.nomclien, cobros.iban, cobros.gastos, cobros.impvenci importe, 0 esdevol, transfer, anyorem "
+        cad = cad & " from cobros "
+        cad = cad & " where (transfer,anyorem) in (select codigo, anyo from transferencias where (1=1) "
+        If cadselect <> "" Then cad = cad & " and " & cadselect
         
-        Conn.Execute SqlInsert & Cad
+        
+        
+        
+        
+        cad = cad & ")"
+        
+        Conn.Execute SqlInsert & cad
         
     Else
         
-        Cad = "delete from tmppagos2 where codusu= " & DBSet(vUsu.Codigo, "N")
-        Conn.Execute Cad
+        cad = "delete from tmppagos2 where codusu= " & DBSet(vUsu.Codigo, "N")
+        Conn.Execute cad
         
         SqlInsert = "insert into tmppagos2 (codusu,numserie,numfactu,fecfactu,numorden,fecefect,codmacta,proveedor,iban,impefect,nrodocum,anyodocum)  "
         
-        Cad = "select " & vUsu.Codigo & ", pagos.numserie, pagos.numfactu, pagos.fecfactu, pagos.numorden, pagos.fecefect, pagos.codmacta, pagos.nomprove, pagos.iban, pagos.impefect importe, nrodocum, anyodocum "
-        Cad = Cad & " from pagos "
-        Cad = Cad & " where (nrodocum,anyodocum) in (select codigo, anyo from transferencias where (1=1) "
-        If cadselect <> "" Then Cad = Cad & " and " & cadselect
-        Cad = Cad & ") "
+        cad = "select " & vUsu.Codigo & ", pagos.numserie, pagos.numfactu, pagos.fecfactu, pagos.numorden, pagos.fecefect, pagos.codmacta, pagos.nomprove, pagos.iban, pagos.impefect importe, nrodocum, anyodocum "
+        cad = cad & " from pagos "
+        cad = cad & " where (nrodocum,anyodocum) in (select codigo, anyo from transferencias where (1=1) "
+        If cadselect <> "" Then cad = cad & " and " & cadselect
+        cad = cad & ") "
         
-        Conn.Execute SqlInsert & Cad
+        Conn.Execute SqlInsert & cad
     
     End If
         
@@ -1103,29 +1209,6 @@ eCargarTemporal:
 End Function
 
 
-Private Sub txtAnyo_LostFocus(Index As Integer)
-    txtAnyo(Index).Text = Trim(txtAnyo(Index).Text)
-    
-    'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
-    'mostrar mensajes ni hacer nada
-    If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
-
-
-    PonerFormatoEntero txtAnyo(Index)
-End Sub
-
-Private Sub txtanyo_GotFocus(Index As Integer)
-    ConseguirFoco txtAnyo(Index), 3
-End Sub
-
-Private Sub txtanyo_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
-    If KeyCode = vbKeyAdd Then
-        KeyCode = 0
-        
-    Else
-        KEYdown KeyCode
-    End If
-End Sub
 
 Private Function DatosOK() As Boolean
     
@@ -1148,3 +1231,35 @@ End Sub
 Private Sub txtTipoSalida_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     KEYdown KeyCode
 End Sub
+
+Private Sub txtfecha_LostFocus(Index As Integer)
+    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
+    
+    'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
+    'mostrar mensajes ni hacer nada
+    If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
+
+
+    PonerFormatoFecha txtFecha(Index)
+End Sub
+
+Private Sub txtFecha_GotFocus(Index As Integer)
+    ConseguirFoco txtFecha(Index), 3
+End Sub
+
+Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+    If KeyCode = vbKeyAdd Then
+        KeyCode = 0
+        
+        LanzaFormAyuda "imgFecha", Index
+    End If
+End Sub
+Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
+    Select Case Nombre
+    
+    Case "imgFecha"
+        imgFec_Click Indice
+    
+    End Select
+End Sub
+

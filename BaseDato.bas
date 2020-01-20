@@ -5147,6 +5147,9 @@ ECargaBalanceInicioEjercicio:
     Set RT = Nothing
 End Function
 
+
+'Atencion                     -<***************************
+' Si tocams algi aqui, mirar en la funcion mod: libIVA.bas  LiquidacionIVAFinAnyo
 Public Function LiquidacionIVANew(Periodo As Byte, Anyo As Integer, Empresa As Integer, Detallado As Boolean) As Boolean
 Dim RIVA As Recordset
 Dim TieneDeducibles As Boolean    'Para ahorrar tiempo
@@ -5347,6 +5350,26 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     
     
     
+    ' iva REGIMEN GENERAL
+    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente )"
+        
+    SQL = SQL & " select " & vUsu.Codigo & ",porciva,0"
+    SQL = SQL & " ,sum(baseimpo),sum(impoiva), 0"
+    SQL = SQL & ", " & Empresa & "," & Periodo & "," & Anyo & ", 61 "
+    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
+    SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " and factcli.codopera = 3 "
+    SQL = SQL & " and factcli_totales.codigiva = tiposiva.codigiva "
+    SQL = SQL & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
+    
+    SQL = SQL & " group by 1,2,3"
+    Conn.Execute SQL
+    
+    
+    
+    
+    
+    
     '-----------------------------------------------
     '-----------------------------------------------
     '-----------------------------------------------
@@ -5495,15 +5518,22 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     SQL = SQL & " and factpro.codopera = 5 " ' factura de REA
     SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
     SQL = SQL & " group by 1,2"
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-
     Conn.Execute SQL
+                    
+                    
+    'NO DEDUCIBLE EN CONMPRAS
+    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+    SQL = SQL & " select " & vUsu.Codigo & ",porciva,coalesce(porcrec,0),sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & Periodo & "," & Anyo & ",199 "
+    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " and factpro.codopera = 0 " ' tipo de operacion general
+    SQL = SQL & " and tipodiva = 3 "   'NO deducible
+    SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+    SQL = SQL & " group by 1,2,3"
+    Conn.Execute SQL
+    
+    
     
     LiquidacionIVANew = True
 eLiquidacionIVANew:

@@ -2,23 +2,23 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02">
 <CstmrDrctDbtInitn>
 <GrpHdr>
-<MsgId>PRE2019061316161518360RE30000172019</MsgId>
-   <CreDtTm>2019-06-13T16:16:15</CreDtTm>
-   <NbOfTxs>6</NbOfTxs>
-   <CtrlSum>510.97</CtrlSum>
+<MsgId>PRE20011712451292970RE30001552019</MsgId>
+   <CreDtTm>2020-01-17T12:45:12</CreDtTm>
+   <NbOfTxs>16</NbOfTxs>
+   <CtrlSum>3891.54</CtrlSum>
    <InitgPty>
-     <Nm>Agricola de Catadau S.C. Suministros</Nm>
+     <Nm>Herbelca S.L.</Nm>
      <Id>
         <OrgId>
            <Othr>
-              <Id>ES38000F46038881</Id>
+              <Id>ES25000B46135372</Id>
            </Othr>
         </OrgId>
       </Id>
    </InitgPty>
 </GrpHdr>
 <PmtInf>
-   <PmtInfId>RE000172019 13/06/19F46038881</PmtInfId>
+   <PmtInfId>RE001552019 17/01/20B46135372 0001</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -33,29 +33,29 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>1999-06-04</ReqdColltnDt>
+   <ReqdColltnDt>2019-07-21</ReqdColltnDt>
    <Cdtr>
-      <Nm>Agricola de Catadau S.C. Suministros</Nm>
+      <Nm>Herbelca S.L.</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES5230582268501021006736</IBAN>
+         <IBAN>ES2800810693600002093621</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
       <FinInstnId>
-         <BIC>CCRIES2AXXX</BIC>
+         <BIC>BSABESBBXXX</BIC>
       </FinInstnId>
    </CdtrAgt>
    <CdtrSchmeId>
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES38000F46038881</Id>
+                 <Id>ES25000B46135372</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -63,50 +63,136 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>4300001402GRP0000140219990604001   </EndToEndId>
+          <EndToEndId>43000173  A  0590462020190621001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">118.85</InstdAmt>
+      <InstdAmt Ccy="EUR">119.79</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES9130821315823192114910</MndtId>
+            <MndtId>ES6000810247310001338535</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>CCRIES2AXXX</BIC>
+            <BIC>BSABESBBXXX</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>PEREZ DELVALLE, FRANCISCO</Nm>
+         <Nm>MARIO ALTUR FILLOL</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>RDGEZ. DE LA FUENTE, 90</AdrLine>
-              <AdrLine>CATADAU   46196     VALENCIA</AdrLine>
+              <AdrLine>PINTOR SOROLLA, 4 BAJO A.C.28</AdrLine>
+              <AdrLine>TAVERNES DE VALLDIGN   46760     VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>823192114910</Id>
+                   <Id>310001338535</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES9130821315823192114910</IBAN>
+            <IBAN>ES6000810247310001338535</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>A669 A2993 A3424 A3809 A4090 Numero Vencimientos   5</Ustrd>
+         <Ustrd>FACTURA  A-5904620 de Fecha 21 jun 2019</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43004392  A  0590468720190621001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">3.44</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES2700810165550002831391</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>CASTELLON TECNOINST, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ ALCUDIA DE VEO 2-1D</AdrLine>
+              <AdrLine>12006   CASTELLON</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>550002831391</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES2700810165550002831391</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5904687 de Fecha 21 jun 2019</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43004332  A  0590468520190621001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">1401.00</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES4600810435460001506259</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>REFORMAN NETWORK 2010, C.B.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/LLUIS MARTI 50</AdrLine>
+              <AdrLine>PALMA DE MALLORCA   07005     BALEARES</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>460001506259</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES4600810435460001506259</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5904685 de Fecha 21 jun 2019</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>
 <PmtInf>
-   <PmtInfId>RE000172019 13/06/19F46038881</PmtInfId>
+   <PmtInfId>RE001552019 17/01/20B46135372 0002</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -121,29 +207,29 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>1999-07-03</ReqdColltnDt>
+   <ReqdColltnDt>2019-07-30</ReqdColltnDt>
    <Cdtr>
-      <Nm>Agricola de Catadau S.C. Suministros</Nm>
+      <Nm>Herbelca S.L.</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES5230582268501021006736</IBAN>
+         <IBAN>ES2800810693600002093621</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
       <FinInstnId>
-         <BIC>CCRIES2AXXX</BIC>
+         <BIC>BSABESBBXXX</BIC>
       </FinInstnId>
    </CdtrAgt>
    <CdtrSchmeId>
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES38000F46038881</Id>
+                 <Id>ES25000B46135372</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -151,50 +237,50 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>4300001402GRP0000140219990703001   </EndToEndId>
+          <EndToEndId>43004702  A  0590469420190621001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">85.27</InstdAmt>
+      <InstdAmt Ccy="EUR">213.00</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES9130821315823192114910</MndtId>
+            <MndtId>ES3600810201720001417149</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>CCRIES2AXXX</BIC>
+            <BIC>BSABESBBXXX</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>PEREZ DELVALLE, FRANCISCO</Nm>
+         <Nm>DARTH VADER, S.L.</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>RDGEZ. DE LA FUENTE, 90</AdrLine>
-              <AdrLine>CATADAU   46196     VALENCIA</AdrLine>
+              <AdrLine>C/ MAESTRO ARRIETA 1 A BAJO</AdrLine>
+              <AdrLine>12006   CASTELLON</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>823192114910</Id>
+                   <Id>720001417149</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES9130821315823192114910</IBAN>
+            <IBAN>ES3600810201720001417149</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>A4311 A4493 A4856 Numero Vencimientos   3</Ustrd>
+         <Ustrd>FACTURA  A-5904694 de Fecha 21 jun 2019</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>
 <PmtInf>
-   <PmtInfId>RE000172019 13/06/19F46038881</PmtInfId>
+   <PmtInfId>RE001552019 17/01/20B46135372 0003</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -209,29 +295,29 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2000-05-19</ReqdColltnDt>
+   <ReqdColltnDt>2019-08-20</ReqdColltnDt>
    <Cdtr>
-      <Nm>Agricola de Catadau S.C. Suministros</Nm>
+      <Nm>Herbelca S.L.</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES5230582268501021006736</IBAN>
+         <IBAN>ES2800810693600002093621</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
       <FinInstnId>
-         <BIC>CCRIES2AXXX</BIC>
+         <BIC>BSABESBBXXX</BIC>
       </FinInstnId>
    </CdtrAgt>
    <CdtrSchmeId>
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES38000F46038881</Id>
+                 <Id>ES25000B46135372</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -239,50 +325,179 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>4300001402GRP0000140220000519001   </EndToEndId>
+          <EndToEndId>43003606  A  0590467520190621001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">134.89</InstdAmt>
+      <InstdAmt Ccy="EUR">187.24</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES5830821315883191950116</MndtId>
+            <MndtId>ES6800811232560001039305</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>CCRIES2AXXX</BIC>
+            <BIC>BSABESBBXXX</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>PEREZ DELVALLE, FRANCISCO</Nm>
+         <Nm>INSTALACIONES FALOMIR, S.L.U.</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>RDGEZ. DE LA FUENTE, 90</AdrLine>
-              <AdrLine>CATADAU   46196     VALENCIA</AdrLine>
+              <AdrLine>C/MAESTRO LLORENS, 22 BAJO-DCH</AdrLine>
+              <AdrLine>12004   CASTELLON</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>883191950116</Id>
+                   <Id>560001039305</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES5830821315883191950116</IBAN>
+            <IBAN>ES6800811232560001039305</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>A991817 A993916 Numero Vencimientos   2</Ustrd>
+         <Ustrd>FACTURA  A-5904675 de Fecha 21 jun 2019</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43001070  A  0590464020190621001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">353.09</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES8000814325080001083410</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>INSTALACIONES DE FONTANERIA FRAMISER,S.L</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ESTATUT, 37</AdrLine>
+              <AdrLine>BENICASIM   12560     CASTELLON</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>080001083410</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES8000814325080001083410</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5904640 de Fecha 21 jun 2019</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43000564  A  0590463020190621001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">198.28</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES1100810234240001087919</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ATMOS GEST.INT.DEL AIRE COMPRIMIDO, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>CNO. DEL BONY 220-ESQUINA C/31 P.I.</AdrLine>
+              <AdrLine>CATARROJA   46470     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>240001087919</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES1100810234240001087919</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5904630 de Fecha 21 jun 2019</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43004500  A  0590471420190621001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">1.95</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES7700815382260001001505</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ISOTERMIA SOLUCIONES SLNE</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/AMBOCADORS, 27 P.I.OLIVERAL-S 13</AdrLine>
+              <AdrLine>RIBARROJA DEL TURIA   46190     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>260001001505</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES7700815382260001001505</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5904714 de Fecha 21 jun 2019</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>
 <PmtInf>
-   <PmtInfId>RE000172019 13/06/19F46038881</PmtInfId>
+   <PmtInfId>RE001552019 17/01/20B46135372 0004</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -297,29 +512,29 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2002-08-19</ReqdColltnDt>
+   <ReqdColltnDt>2019-08-30</ReqdColltnDt>
    <Cdtr>
-      <Nm>Agricola de Catadau S.C. Suministros</Nm>
+      <Nm>Herbelca S.L.</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES5230582268501021006736</IBAN>
+         <IBAN>ES2800810693600002093621</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
       <FinInstnId>
-         <BIC>CCRIES2AXXX</BIC>
+         <BIC>BSABESBBXXX</BIC>
       </FinInstnId>
    </CdtrAgt>
    <CdtrSchmeId>
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES38000F46038881</Id>
+                 <Id>ES25000B46135372</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -327,50 +542,265 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>4300001892GRP0000189220020819001   </EndToEndId>
+          <EndToEndId>43004650  A  0590469220190621001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">92.49</InstdAmt>
+      <InstdAmt Ccy="EUR">129.47</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES6530821315823192023616</MndtId>
+            <MndtId>ES5400810228310001483153</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>CCRIES2AXXX</BIC>
+            <BIC>BSABESBBXXX</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>ROMERO PARIS, ISABEL</Nm>
+         <Nm>IBERICA INSTALACIONES, S.L.</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>PLAZA ESPA A, 3-17</AdrLine>
-              <AdrLine>CATADAU   46196     VALENCIA</AdrLine>
+              <AdrLine>AVDA CORTES VALENCIANAS 9 PTA 3</AdrLine>
+              <AdrLine>BURRIANA   12530     CASTELLON</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>823192023616</Id>
+                   <Id>310001483153</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES6530821315823192023616</IBAN>
+            <IBAN>ES5400810228310001483153</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>A223958 A225356 A220638 Numero Vencimientos   3</Ustrd>
+         <Ustrd>FACTURA  A-5904692 de Fecha 21 jun 2019</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43001012  A  0590470720190621001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">68.07</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES2400815515210001690477</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ASSISTACASA 2005, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ CRONISTA CARRERES 10 BAJO IZQ</AdrLine>
+              <AdrLine>46003   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>210001690477</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES2400815515210001690477</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5904707 de Fecha 21 jun 2019</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43001012  A  0590470920190621001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">26.40</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES2400815515210001690477</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ASSISTACASA 2005, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ CRONISTA CARRERES 10 BAJO IZQ</AdrLine>
+              <AdrLine>46003   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>210001690477</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES2400815515210001690477</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5904709 de Fecha 21 jun 2019</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43001012  A  0590471120190621001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">2.94</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES2400815515210001690477</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ASSISTACASA 2005, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ CRONISTA CARRERES 10 BAJO IZQ</AdrLine>
+              <AdrLine>46003   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>210001690477</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES2400815515210001690477</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5904711 de Fecha 21 jun 2019</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43001012  A  0590470820190621001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">24.87</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES2400815515210001690477</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ASSISTACASA 2005, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ CRONISTA CARRERES 10 BAJO IZQ</AdrLine>
+              <AdrLine>46003   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>210001690477</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES2400815515210001690477</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5904708 de Fecha 21 jun 2019</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43001012  A  0590471020190621001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">22.68</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES2400815515210001690477</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ASSISTACASA 2005, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ CRONISTA CARRERES 10 BAJO IZQ</AdrLine>
+              <AdrLine>46003   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>210001690477</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES2400815515210001690477</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5904710 de Fecha 21 jun 2019</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>
 <PmtInf>
-   <PmtInfId>RE000172019 13/06/19F46038881</PmtInfId>
+   <PmtInfId>RE001552019 17/01/20B46135372 0005</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -385,29 +815,29 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2006-01-09</ReqdColltnDt>
+   <ReqdColltnDt>2019-10-12</ReqdColltnDt>
    <Cdtr>
-      <Nm>Agricola de Catadau S.C. Suministros</Nm>
+      <Nm>Herbelca S.L.</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES5230582268501021006736</IBAN>
+         <IBAN>ES2800810693600002093621</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
       <FinInstnId>
-         <BIC>CCRIES2AXXX</BIC>
+         <BIC>BSABESBBXXX</BIC>
       </FinInstnId>
    </CdtrAgt>
    <CdtrSchmeId>
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES38000F46038881</Id>
+                 <Id>ES25000B46135372</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -415,50 +845,50 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>4300001621GRP0000162120060109001   </EndToEndId>
+          <EndToEndId>43004894  A  0590434920190614003   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">69.32</InstdAmt>
+      <InstdAmt Ccy="EUR">1053.70</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES3830821315803191949316</MndtId>
+            <MndtId>ES8500815502140001483956</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>CCRIES2AXXX</BIC>
+            <BIC>BSABESBBXXX</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>BARBERA SANZ, RAFAEL</Nm>
+         <Nm>AGMLGAS I CALEFACCIO, S.L.U.</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>NUEVA, 27</AdrLine>
-              <AdrLine>CATADAU   46196     VALENCIA</AdrLine>
+              <AdrLine>C/ GONGORA 4 ESC 1 PTA 1</AdrLine>
+              <AdrLine>46015   VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>803191949316</Id>
+                   <Id>140001483956</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES3830821315803191949316</IBAN>
+            <IBAN>ES8500815502140001483956</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>A260415 A260425 A260661 Numero Vencimientos   3</Ustrd>
+         <Ustrd>FACTURA  A-5904349 de Fecha 14 jun 2019</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>
 <PmtInf>
-   <PmtInfId>RE000172019 13/06/19F46038881</PmtInfId>
+   <PmtInfId>RE001552019 17/01/20B46135372 0006</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -473,29 +903,29 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2010-02-23</ReqdColltnDt>
+   <ReqdColltnDt>2019-10-13</ReqdColltnDt>
    <Cdtr>
-      <Nm>Agricola de Catadau S.C. Suministros</Nm>
+      <Nm>Herbelca S.L.</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES5230582268501021006736</IBAN>
+         <IBAN>ES2800810693600002093621</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
       <FinInstnId>
-         <BIC>CCRIES2AXXX</BIC>
+         <BIC>BSABESBBXXX</BIC>
       </FinInstnId>
    </CdtrAgt>
    <CdtrSchmeId>
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES38000F46038881</Id>
+                 <Id>ES25000B46135372</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -503,45 +933,45 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>4300001898A  0300083920100223001   </EndToEndId>
+          <EndToEndId>43000545  A  0570375820170523002   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">10.15</InstdAmt>
+      <InstdAmt Ccy="EUR">85.62</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES6930821315883192024317</MndtId>
+            <MndtId>ES0300810249220001328941</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>CCRIES2AXXX</BIC>
+            <BIC>BSABESBBXXX</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>FERNANDEZ DEL PUERTO, ALONSO</Nm>
+         <Nm>SISTEMAS Y MANTENIMIENTO DEL AGUA, S.L.U</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>FAVORITA, 17</AdrLine>
-              <AdrLine>LLOMBAI   46195     VALENCIA</AdrLine>
+              <AdrLine>C/MAESTRO SERRANO, 14</AdrLine>
+              <AdrLine>ALZIRA   46600     VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>883192024317</Id>
+                   <Id>220001328941</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES6930821315883192024317</IBAN>
+            <IBAN>ES0300810249220001328941</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>FACTURA  A-3000839 de Fecha 23 feb 2010</Ustrd>
+         <Ustrd>Compensa   A5703758 23/05/2017 R6800317 02/03/2018</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>

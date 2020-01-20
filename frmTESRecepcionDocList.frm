@@ -28,7 +28,7 @@ Begin VB.Form frmTESRecepcionDocList
       EndProperty
       Height          =   2655
       Left            =   150
-      TabIndex        =   21
+      TabIndex        =   23
       Top             =   3090
       Width           =   6915
       Begin VB.OptionButton optTipoSal 
@@ -45,7 +45,7 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   31
+         TabIndex        =   33
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -64,7 +64,7 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   30
+         TabIndex        =   32
          Top             =   1200
          Width           =   1515
       End
@@ -82,7 +82,7 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   29
+         TabIndex        =   31
          Top             =   1680
          Width           =   975
       End
@@ -100,7 +100,7 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   28
+         TabIndex        =   30
          Top             =   2160
          Width           =   975
       End
@@ -118,7 +118,7 @@ Begin VB.Form frmTESRecepcionDocList
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   27
+         TabIndex        =   29
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -137,7 +137,7 @@ Begin VB.Form frmTESRecepcionDocList
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   26
+         TabIndex        =   28
          Top             =   1200
          Width           =   4665
       End
@@ -155,7 +155,7 @@ Begin VB.Form frmTESRecepcionDocList
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   25
+         TabIndex        =   27
          Top             =   1680
          Width           =   4665
       End
@@ -164,7 +164,7 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   24
+         TabIndex        =   26
          Top             =   1200
          Width           =   255
       End
@@ -173,7 +173,7 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   23
+         TabIndex        =   25
          Top             =   1680
          Width           =   255
       End
@@ -190,7 +190,7 @@ Begin VB.Form frmTESRecepcionDocList
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   22
+         TabIndex        =   24
          Top             =   720
          Width           =   1515
       End
@@ -208,9 +208,85 @@ Begin VB.Form frmTESRecepcionDocList
       EndProperty
       Height          =   3015
       Left            =   120
-      TabIndex        =   8
+      TabIndex        =   10
       Top             =   0
       Width           =   6915
+      Begin VB.TextBox txtCuentas 
+         Alignment       =   1  'Right Justify
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   1
+         Left            =   1230
+         TabIndex        =   5
+         Tag             =   "imgConcepto"
+         Top             =   2520
+         Width           =   1275
+      End
+      Begin VB.TextBox txtNCuentas 
+         BackColor       =   &H80000018&
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   1
+         Left            =   2520
+         Locked          =   -1  'True
+         TabIndex        =   44
+         Top             =   2520
+         Width           =   4185
+      End
+      Begin VB.TextBox txtCuentas 
+         Alignment       =   1  'Right Justify
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   0
+         Left            =   1230
+         TabIndex        =   4
+         Tag             =   "imgConcepto"
+         Top             =   2040
+         Width           =   1275
+      End
+      Begin VB.TextBox txtNCuentas 
+         BackColor       =   &H80000018&
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   0
+         Left            =   2520
+         Locked          =   -1  'True
+         TabIndex        =   42
+         Top             =   2040
+         Width           =   4185
+      End
       Begin VB.TextBox txtFecha 
          Alignment       =   1  'Right Justify
          BeginProperty Font 
@@ -264,10 +340,10 @@ Begin VB.Form frmTESRecepcionDocList
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   1230
+         Left            =   4350
          TabIndex        =   3
          Tag             =   "imgConcepto"
-         Top             =   2340
+         Top             =   1230
          Width           =   1275
       End
       Begin VB.TextBox txtCodigo 
@@ -283,11 +359,80 @@ Begin VB.Form frmTESRecepcionDocList
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   1230
+         Left            =   4350
          TabIndex        =   2
          Tag             =   "imgConcepto"
-         Top             =   1920
+         Top             =   810
          Width           =   1275
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Hasta"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Index           =   2
+         Left            =   240
+         TabIndex        =   45
+         Top             =   2550
+         Width           =   690
+      End
+      Begin VB.Image imgCuentas 
+         Height          =   255
+         Index           =   1
+         Left            =   990
+         Top             =   2520
+         Width           =   255
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Desde"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Index           =   3
+         Left            =   240
+         TabIndex        =   43
+         Top             =   2070
+         Width           =   690
+      End
+      Begin VB.Image imgCuentas 
+         Height          =   255
+         Index           =   0
+         Left            =   990
+         Top             =   2040
+         Width           =   255
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Cliente"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   285
+         Index           =   1
+         Left            =   120
+         TabIndex        =   41
+         Top             =   1680
+         Width           =   2280
       End
       Begin VB.Label Label3 
          Caption         =   "Fecha Recepción"
@@ -303,9 +448,9 @@ Begin VB.Form frmTESRecepcionDocList
          ForeColor       =   &H00800000&
          Height          =   285
          Index           =   18
-         Left            =   270
-         TabIndex        =   20
-         Top             =   510
+         Left            =   120
+         TabIndex        =   22
+         Top             =   480
          Width           =   2280
       End
       Begin VB.Label Label3 
@@ -322,7 +467,7 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   195
          Index           =   17
          Left            =   270
-         TabIndex        =   19
+         TabIndex        =   21
          Top             =   870
          Width           =   690
       End
@@ -340,7 +485,7 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   195
          Index           =   16
          Left            =   270
-         TabIndex        =   18
+         TabIndex        =   20
          Top             =   1230
          Width           =   615
       End
@@ -372,9 +517,9 @@ Begin VB.Form frmTESRecepcionDocList
          ForeColor       =   &H00800000&
          Height          =   285
          Index           =   11
-         Left            =   240
-         TabIndex        =   15
-         Top             =   1620
+         Left            =   3240
+         TabIndex        =   17
+         Top             =   510
          Width           =   1890
       End
       Begin VB.Label Label3 
@@ -390,9 +535,9 @@ Begin VB.Form frmTESRecepcionDocList
          EndProperty
          Height          =   195
          Index           =   10
-         Left            =   240
-         TabIndex        =   14
-         Top             =   1950
+         Left            =   3360
+         TabIndex        =   16
+         Top             =   870
          Width           =   690
       End
       Begin VB.Label Label3 
@@ -408,9 +553,9 @@ Begin VB.Form frmTESRecepcionDocList
          EndProperty
          Height          =   195
          Index           =   9
-         Left            =   240
-         TabIndex        =   13
-         Top             =   2310
+         Left            =   3360
+         TabIndex        =   15
+         Top             =   1230
          Width           =   615
       End
       Begin VB.Label lblNumFactu 
@@ -426,7 +571,7 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   255
          Index           =   1
          Left            =   2580
-         TabIndex        =   12
+         TabIndex        =   14
          Top             =   2700
          Width           =   4035
       End
@@ -443,7 +588,7 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   255
          Index           =   0
          Left            =   2610
-         TabIndex        =   11
+         TabIndex        =   13
          Top             =   2340
          Width           =   4035
       End
@@ -460,7 +605,7 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   255
          Index           =   4
          Left            =   2580
-         TabIndex        =   10
+         TabIndex        =   12
          Top             =   3990
          Width           =   4095
       End
@@ -477,7 +622,7 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   255
          Index           =   0
          Left            =   2580
-         TabIndex        =   9
+         TabIndex        =   11
          Top             =   3630
          Width           =   4095
       End
@@ -495,7 +640,7 @@ Begin VB.Form frmTESRecepcionDocList
       EndProperty
       Height          =   5775
       Left            =   7110
-      TabIndex        =   16
+      TabIndex        =   18
       Top             =   0
       Width           =   4815
       Begin VB.ComboBox Combo1 
@@ -513,7 +658,7 @@ Begin VB.Form frmTESRecepcionDocList
          Left            =   2730
          List            =   "frmTESRecepcionDocList.frx":000E
          Style           =   2  'Dropdown List
-         TabIndex        =   37
+         TabIndex        =   39
          Top             =   2520
          Width           =   1575
       End
@@ -530,7 +675,7 @@ Begin VB.Form frmTESRecepcionDocList
          EndProperty
          Height          =   1305
          Left            =   120
-         TabIndex        =   33
+         TabIndex        =   35
          Top             =   840
          Width           =   4395
          Begin VB.CheckBox Check1 
@@ -547,7 +692,7 @@ Begin VB.Form frmTESRecepcionDocList
             Height          =   240
             Index           =   4
             Left            =   2760
-            TabIndex        =   38
+            TabIndex        =   40
             Top             =   600
             Width           =   1605
          End
@@ -565,7 +710,7 @@ Begin VB.Form frmTESRecepcionDocList
             Height          =   240
             Index           =   3
             Left            =   1560
-            TabIndex        =   35
+            TabIndex        =   37
             Top             =   600
             Width           =   1605
          End
@@ -583,7 +728,7 @@ Begin VB.Form frmTESRecepcionDocList
             Height          =   240
             Index           =   2
             Left            =   240
-            TabIndex        =   34
+            TabIndex        =   36
             Top             =   570
             Width           =   1515
          End
@@ -602,7 +747,7 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   240
          Index           =   1
          Left            =   480
-         TabIndex        =   32
+         TabIndex        =   34
          Top             =   4410
          Width           =   3075
       End
@@ -620,14 +765,14 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   240
          Index           =   0
          Left            =   510
-         TabIndex        =   4
+         TabIndex        =   6
          Top             =   3720
          Width           =   3075
       End
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   4230
-         TabIndex        =   17
+         TabIndex        =   19
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -656,7 +801,7 @@ Begin VB.Form frmTESRecepcionDocList
          Height          =   285
          Index           =   0
          Left            =   510
-         TabIndex        =   36
+         TabIndex        =   38
          Top             =   2580
          Width           =   1890
       End
@@ -675,7 +820,7 @@ Begin VB.Form frmTESRecepcionDocList
       EndProperty
       Height          =   375
       Left            =   10680
-      TabIndex        =   7
+      TabIndex        =   9
       Top             =   5940
       Width           =   1215
    End
@@ -692,7 +837,7 @@ Begin VB.Form frmTESRecepcionDocList
       Height          =   375
       Index           =   1
       Left            =   9120
-      TabIndex        =   5
+      TabIndex        =   7
       Top             =   5940
       Width           =   1455
    End
@@ -710,7 +855,7 @@ Begin VB.Form frmTESRecepcionDocList
       Height          =   375
       Index           =   0
       Left            =   150
-      TabIndex        =   6
+      TabIndex        =   8
       Top             =   5910
       Width           =   1335
    End
@@ -742,14 +887,14 @@ Public CadenaInicio As String
 
 Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
-Private WithEvents frmConta As frmBasico
-Attribute frmConta.VB_VarHelpID = -1
-Private WithEvents frmAgen As frmBasico
-Attribute frmAgen.VB_VarHelpID = -1
-Private WithEvents frmDpto As frmBasico
-Attribute frmDpto.VB_VarHelpID = -1
+'Private WithEvents frmConta As frmBasico
+'Private WithEvents frmAgen As frmBasico
+'Private WithEvents frmDpto As frmBasico
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
+
+
+
 
 Private SQL As String
 Dim cad As String
@@ -851,6 +996,7 @@ Private Sub Form_Load()
 
     For i = 2 To 3
         Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+        Me.imgCuentas(i - 2).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Next i
      
     ' La Ayuda
@@ -867,8 +1013,8 @@ Private Sub Form_Load()
     Combo1.ListIndex = 2
     
     If CadenaInicio <> "" Then
-        txtfecha(2).Text = RecuperaValor(CadenaInicio, 2)
-        txtfecha(3).Text = txtfecha(2).Text
+        txtFecha(2).Text = RecuperaValor(CadenaInicio, 2)
+        txtFecha(3).Text = txtFecha(2).Text
         txtCodigo(0).Text = RecuperaValor(CadenaInicio, 1)
         txtCodigo(1).Text = txtCodigo(0).Text
         Check1(2).Value = RecuperaValor(CadenaInicio, 4)
@@ -886,8 +1032,30 @@ End Sub
 
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
+
+
+Private Sub imgCuentas_Click(Index As Integer)
+    
+    SQL = ""
+    AbiertoOtroFormEnListado = True
+    Set frmCtas = New frmColCtas
+    frmCtas.DatosADevolverBusqueda = True
+    frmCtas.FILTRO = 1
+    frmCtas.Show vbModal
+    Set frmCtas = Nothing
+    If SQL <> "" Then
+        Me.txtCuentas(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(SQL, 2)
+    Else
+        QuitarPulsacionMas Me.txtCuentas(Index)
+    End If
+    
+    PonFoco Me.txtCuentas(Index)
+    AbiertoOtroFormEnListado = False
+End Sub
+
 
 
 Private Sub imgFec_Click(Index As Integer)
@@ -901,10 +1069,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
+        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtfecha(Index)
+        PonFoco txtFecha(Index)
     End Select
     
     Screen.MousePointer = vbDefault
@@ -1056,14 +1224,26 @@ Dim nomDocu As String
     conSubRPT = False
         
     
-    indRPT = "0611-00"
     
+    If Check1(1).Value = 1 Then
+        indRPT = "0611-01"
+    
+    Else
+        If Check1(0).Value = 0 Then
+            indRPT = "0611-00"
+        Else
+            indRPT = "0611-02"
+        End If
+    End If
     If Check1(0).Value Then cadParam = cadParam & "pDetalle=1|"
     numParam = numParam + 1
         
-    If Check1(1).Value = 1 Then
-        indRPT = "0611-01"
-    End If
+        
+    If Combo1.ListIndex < 2 Then
+        nomDocu = IIf(Combo1.ListIndex = 1, "Si", "No")
+        cadParam = cadParam & "llevadobanco=""" & nomDocu & """|"
+        numParam = numParam + 1
+     End If
         
     
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
@@ -1089,8 +1269,12 @@ Dim i As Integer
 
     MontaSQL = False
     
-    If Not PonerDesdeHasta("talones.fecharec", "F", Me.txtfecha(2), Me.txtfecha(2), Me.txtfecha(3), Me.txtfecha(3), "pDHFecha=""") Then Exit Function
+    If Not PonerDesdeHasta("talones.fecharec", "F", Me.txtFecha(2), Me.txtFecha(2), Me.txtFecha(3), Me.txtFecha(3), "pDHFecha=""") Then Exit Function
     If Not PonerDesdeHasta("talones.codigo", "COD", Me.txtCodigo(0), Me.txtCodigo(0), Me.txtCodigo(1), Me.txtCodigo(1), "pDHCodigo=""") Then Exit Function
+            
+    '////////////////////////////////////
+    If Not PonerDesdeHasta("talones.codmacta", "CTA", Me.txtCuentas(0), Me.txtNCuentas(0), Me.txtCuentas(1), Me.txtNCuentas(1), "pDHCta=""") Then Exit Function
+            
             
     If Combo1.ListIndex <> 2 Then
         Select Case Combo1.ListIndex
@@ -1132,24 +1316,24 @@ Dim i As Integer
 End Function
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
+    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
-    PonerFormatoFecha txtfecha(Index)
+    PonerFormatoFecha txtFecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtfecha(Index), 3
+    ConseguirFoco txtFecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtfecha(Index).Tag, Index
+        LanzaFormAyuda txtFecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
@@ -1180,4 +1364,87 @@ Private Sub CargarCombo()
     Combo1.AddItem "Todos"
     Combo1.ItemData(Combo1.NewIndex) = 2
 End Sub
+
+
+
+
+Private Sub txtCuentas_GotFocus(Index As Integer)
+    ConseguirFoco txtCuentas(Index), 3
+End Sub
+
+Private Sub txtCuentas_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+    If KeyCode = vbKeyAdd Then
+        KeyCode = 0
+        
+        LanzaFormAyuda txtCuentas(Index).Tag, Index
+    Else
+        KEYdown KeyCode
+    End If
+End Sub
+
+
+Private Sub txtCuentas_KeyPress(Index As Integer, KeyAscii As Integer)
+   ' KEYpressGnral KeyAscii
+End Sub
+
+Private Sub txtCuentas_LostFocus(Index As Integer)
+Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cta As String
+Dim B As Boolean
+Dim SQL As String
+Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
+
+    txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
+    
+    
+    If txtCuentas(Index).Text = "" Then
+        txtNCuentas(Index).Text = ""
+        Exit Sub
+    End If
+    
+    If Not IsNumeric(txtCuentas(Index).Text) Then
+        If InStr(1, txtCuentas(Index).Text, "+") = 0 Then MsgBox "La cuenta debe ser numérica: " & txtCuentas(Index).Text, vbExclamation
+        txtCuentas(Index).Text = ""
+        txtNCuentas(Index).Text = ""
+        Exit Sub
+    End If
+    
+    
+    'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
+    'mostrar mensajes ni hacer nada
+    If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
+
+    Select Case Index
+        Case 0, 1 'cuentas
+            Cta = (txtCuentas(Index).Text)
+                                    '********
+            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
+            If Not B Then
+                MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
+                txtCuentas(Index).Text = ""
+                txtNCuentas(Index).Text = ""
+            Else
+                txtCuentas(Index).Text = Cta
+                txtNCuentas(Index).Text = SQL
+                If B = 1 Then
+                    txtNCuentas(Index).Tag = ""
+                Else
+                    txtNCuentas(Index).Tag = SQL
+                End If
+                Hasta = -1
+               
+                Hasta = 1
+                  
+                    
+                If Hasta >= 0 And txtCuentas(Hasta).Text = "" Then
+                    txtCuentas(Hasta).Text = txtCuentas(Index).Text
+                    txtNCuentas(Hasta).Text = txtNCuentas(Index).Text
+                End If
+            End If
+    
+    
+    End Select
+
+End Sub
+
 

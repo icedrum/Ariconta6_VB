@@ -2,7 +2,7 @@ VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmInfBalSumSal 
    BorderStyle     =   3  'Fixed Dialog
-   ClientHeight    =   7155
+   ClientHeight    =   7260
    ClientLeft      =   45
    ClientTop       =   435
    ClientWidth     =   11745
@@ -10,7 +10,7 @@ Begin VB.Form frmInfBalSumSal
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   7155
+   ScaleHeight     =   7260
    ScaleWidth      =   11745
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
@@ -25,28 +25,79 @@ Begin VB.Form frmInfBalSumSal
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   6255
+      Height          =   6615
       Left            =   7110
-      TabIndex        =   36
+      TabIndex        =   32
       Top             =   0
       Width           =   4455
-      Begin MSComctlLib.Toolbar Toolbar1 
-         Height          =   390
-         Left            =   3360
-         TabIndex        =   54
-         Top             =   5280
-         Width           =   465
-         _ExtentX        =   820
-         _ExtentY        =   688
-         ButtonWidth     =   609
-         ButtonHeight    =   582
-         _Version        =   393216
-         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-            NumButtons      =   1
-            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Object.ToolTipText     =   "Cuentas Agrupadas"
-            EndProperty
+      Begin VB.CheckBox chkQuitarSaldo0 
+         Caption         =   "Quitar cuentas saldo cero"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
          EndProperty
+         Height          =   240
+         Left            =   180
+         TabIndex        =   57
+         Top             =   6260
+         Width           =   3795
+      End
+      Begin VB.CheckBox chkMovimientos 
+         Caption         =   "Acumulados y movimientos del periodo"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   495
+         Left            =   180
+         TabIndex        =   56
+         Top             =   4810
+         Value           =   1  'Checked
+         Width           =   4125
+      End
+      Begin VB.CheckBox chkApertura 
+         Caption         =   "Desglosar el saldo de apertura"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Left            =   180
+         TabIndex        =   55
+         Top             =   4470
+         Width           =   3345
+      End
+      Begin VB.CheckBox chkAgrupacionCtasBalance 
+         Caption         =   "Agrupar cuentas en balance"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   180
+         TabIndex        =   54
+         Top             =   5370
+         Width           =   3135
       End
       Begin VB.CheckBox chkBalIncioEjercicio 
          Caption         =   "Inventario inicial"
@@ -61,9 +112,27 @@ Begin VB.Form frmInfBalSumSal
          EndProperty
          Height          =   240
          Left            =   180
-         TabIndex        =   23
-         Top             =   5880
+         TabIndex        =   53
+         Top             =   5820
          Width           =   3795
+      End
+      Begin MSComctlLib.Toolbar Toolbar1 
+         Height          =   390
+         Left            =   3360
+         TabIndex        =   50
+         Top             =   5280
+         Width           =   465
+         _ExtentX        =   820
+         _ExtentY        =   688
+         ButtonWidth     =   609
+         ButtonHeight    =   582
+         _Version        =   393216
+         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+            NumButtons      =   1
+            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Cuentas Agrupadas"
+            EndProperty
+         EndProperty
       End
       Begin VB.TextBox txtPag2 
          Alignment       =   1  'Right Justify
@@ -124,7 +193,7 @@ Begin VB.Form frmInfBalSumSal
       Begin VB.Frame Frame2 
          Height          =   2025
          Left            =   150
-         TabIndex        =   47
+         TabIndex        =   43
          Top             =   2280
          Width           =   4185
          Begin VB.CheckBox Check1 
@@ -339,67 +408,15 @@ Begin VB.Form frmInfBalSumSal
             Height          =   195
             Index           =   1
             Left            =   360
-            TabIndex        =   48
+            TabIndex        =   44
             Top             =   1590
             Width           =   1005
          End
       End
-      Begin VB.CheckBox chkAgrupacionCtasBalance 
-         Caption         =   "Agrupar cuentas en balance"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Left            =   180
-         TabIndex        =   22
-         Top             =   5405
-         Width           =   3135
-      End
-      Begin VB.CheckBox chkApertura 
-         Caption         =   "Desglosar el saldo de apertura"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   240
-         Left            =   180
-         TabIndex        =   20
-         Top             =   4470
-         Width           =   3345
-      End
-      Begin VB.CheckBox chkMovimientos 
-         Caption         =   "Acumulados y movimientos del periodo"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   495
-         Left            =   180
-         TabIndex        =   21
-         Top             =   4810
-         Value           =   1  'Checked
-         Width           =   4125
-      End
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   3750
-         TabIndex        =   46
+         TabIndex        =   42
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -428,7 +445,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   255
          Index           =   1
          Left            =   150
-         TabIndex        =   51
+         TabIndex        =   47
          Top             =   1800
          Width           =   870
       End
@@ -446,7 +463,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   195
          Index           =   9
          Left            =   150
-         TabIndex        =   50
+         TabIndex        =   46
          Top             =   540
          Width           =   690
       End
@@ -464,7 +481,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   195
          Index           =   10
          Left            =   150
-         TabIndex        =   49
+         TabIndex        =   45
          Top             =   1020
          Width           =   690
       End
@@ -488,9 +505,9 @@ Begin VB.Form frmInfBalSumSal
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   3705
+      Height          =   3945
       Left            =   120
-      TabIndex        =   35
+      TabIndex        =   31
       Top             =   0
       Width           =   6915
       Begin VB.ComboBox cmbFecha 
@@ -548,7 +565,7 @@ Begin VB.Form frmInfBalSumSal
          Index           =   6
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   56
+         TabIndex        =   52
          Top             =   1050
          Width           =   4185
       End
@@ -567,7 +584,7 @@ Begin VB.Form frmInfBalSumSal
          Index           =   7
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   55
+         TabIndex        =   51
          Top             =   1470
          Width           =   4185
       End
@@ -677,7 +694,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   195
          Index           =   2
          Left            =   240
-         TabIndex        =   45
+         TabIndex        =   41
          Top             =   1440
          Width           =   615
       End
@@ -695,7 +712,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   195
          Index           =   3
          Left            =   240
-         TabIndex        =   44
+         TabIndex        =   40
          Top             =   1080
          Width           =   690
       End
@@ -713,7 +730,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   195
          Index           =   4
          Left            =   240
-         TabIndex        =   43
+         TabIndex        =   39
          Top             =   2640
          Width           =   615
       End
@@ -731,7 +748,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   195
          Index           =   5
          Left            =   240
-         TabIndex        =   42
+         TabIndex        =   38
          Top             =   2280
          Width           =   690
       End
@@ -750,7 +767,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   195
          Index           =   7
          Left            =   240
-         TabIndex        =   41
+         TabIndex        =   37
          Top             =   690
          Width           =   960
       End
@@ -769,7 +786,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   195
          Index           =   8
          Left            =   240
-         TabIndex        =   40
+         TabIndex        =   36
          Top             =   1920
          Width           =   1410
       End
@@ -788,8 +805,8 @@ Begin VB.Form frmInfBalSumSal
       EndProperty
       Height          =   375
       Left            =   10200
-      TabIndex        =   26
-      Top             =   6600
+      TabIndex        =   22
+      Top             =   6840
       Width           =   1335
    End
    Begin VB.CommandButton cmdAccion 
@@ -805,8 +822,8 @@ Begin VB.Form frmInfBalSumSal
       Height          =   375
       Index           =   1
       Left            =   8610
-      TabIndex        =   24
-      Top             =   6600
+      TabIndex        =   20
+      Top             =   6840
       Width           =   1455
    End
    Begin VB.CommandButton cmdAccion 
@@ -823,8 +840,8 @@ Begin VB.Form frmInfBalSumSal
       Height          =   375
       Index           =   0
       Left            =   120
-      TabIndex        =   25
-      Top             =   6600
+      TabIndex        =   21
+      Top             =   6840
       Width           =   1335
    End
    Begin VB.Frame FrameTipoSalida 
@@ -840,8 +857,8 @@ Begin VB.Form frmInfBalSumSal
       EndProperty
       Height          =   2535
       Left            =   120
-      TabIndex        =   27
-      Top             =   3720
+      TabIndex        =   23
+      Top             =   4080
       Width           =   6915
       Begin VB.CommandButton PushButtonImpr 
          Caption         =   "Propiedades"
@@ -856,7 +873,7 @@ Begin VB.Form frmInfBalSumSal
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   39
+         TabIndex        =   35
          Top             =   720
          Width           =   1515
       End
@@ -865,7 +882,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   38
+         TabIndex        =   34
          Top             =   1680
          Width           =   255
       End
@@ -874,7 +891,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   37
+         TabIndex        =   33
          Top             =   1200
          Width           =   255
       End
@@ -892,7 +909,7 @@ Begin VB.Form frmInfBalSumSal
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   34
+         TabIndex        =   30
          Top             =   1680
          Width           =   4665
       End
@@ -910,7 +927,7 @@ Begin VB.Form frmInfBalSumSal
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   33
+         TabIndex        =   29
          Top             =   1200
          Width           =   4665
       End
@@ -928,7 +945,7 @@ Begin VB.Form frmInfBalSumSal
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   32
+         TabIndex        =   28
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -947,7 +964,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   31
+         TabIndex        =   27
          Top             =   2160
          Width           =   975
       End
@@ -965,7 +982,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   30
+         TabIndex        =   26
          Top             =   1680
          Width           =   975
       End
@@ -983,7 +1000,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   29
+         TabIndex        =   25
          Top             =   1200
          Width           =   1515
       End
@@ -1001,7 +1018,7 @@ Begin VB.Form frmInfBalSumSal
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   28
+         TabIndex        =   24
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -1010,8 +1027,8 @@ Begin VB.Form frmInfBalSumSal
    Begin MSComctlLib.ProgressBar pb2 
       Height          =   285
       Left            =   1830
-      TabIndex        =   52
-      Top             =   6600
+      TabIndex        =   48
+      Top             =   6840
       Visible         =   0   'False
       Width           =   5205
       _ExtentX        =   9181
@@ -1033,8 +1050,8 @@ Begin VB.Form frmInfBalSumSal
       EndProperty
       Height          =   375
       Left            =   10320
-      TabIndex        =   53
-      Top             =   6570
+      TabIndex        =   49
+      Top             =   6810
       Width           =   1215
    End
 End
@@ -1079,7 +1096,7 @@ Attribute frmCon.VB_VarHelpID = -1
 Private frmCtas As frmCtasAgrupadas
 
 Private SQL As String
-Dim Cad As String
+Dim cad As String
 Dim RC As String
 Dim i As Long
 Dim IndCodigo As Integer
@@ -1177,12 +1194,12 @@ Private Sub cmdAccion_Click(Index As Integer)
         If Me.txtCta(6).Text <> "" Or txtCta(7).Text <> "" Then
             If CONT > 1 Then
                 If vUsu.Nivel < 2 Then
-                    Cad = "debe"
+                    cad = "debe"
                 Else
-                    Cad = "puede"
+                    cad = "puede"
                 End If
-                Cad = "No " & Cad & " pedir un balance a distintos niveles poniendo desde/hasta cuenta"
-                MsgBox Cad, vbExclamation
+                cad = "No " & cad & " pedir un balance a distintos niveles poniendo desde/hasta cuenta"
+                MsgBox cad, vbExclamation
                 If vUsu.Nivel > 1 Then Exit Sub
             End If
         End If
@@ -1212,8 +1229,8 @@ Private Sub cmdAccion_Click(Index As Integer)
         Else
             CONT = Val(cmbFecha(2).Text) - 1
         End If
-        Cad = Day(vParam.fechaini) & "/" & Month(vParam.fechaini) & "/" & CONT
-        FechaIncioEjercicio = CDate(Cad)
+        cad = Day(vParam.fechaini) & "/" & Month(vParam.fechaini) & "/" & CONT
+        FechaIncioEjercicio = CDate(cad)
         
         i = cmbFecha(1).ListIndex + 1
         If i <= Month(vParam.fechafin) Then
@@ -1221,8 +1238,8 @@ Private Sub cmdAccion_Click(Index As Integer)
         Else
             CONT = Val(cmbFecha(3).Text) + 1
         End If
-        Cad = Day(vParam.fechafin) & "/" & Month(vParam.fechafin) & "/" & CONT
-        FechaFinEjercicio = CDate(Cad)
+        cad = Day(vParam.fechafin) & "/" & Month(vParam.fechafin) & "/" & CONT
+        FechaFinEjercicio = CDate(cad)
     
         
         'Veamos si pertenecen a un mismo año
@@ -1402,11 +1419,11 @@ Private Sub Form_Load()
         ' Inventario
         If RecuperaValor(Legalizacion, 5) = 1 Then
             txtTitulo(0).Text = "Inventario final cierre"
-            Cad = "5"
+            cad = "5"
             For i = 2 To vEmpresa.DigitosUltimoNivel
-                Cad = Cad & "9"
+                cad = cad & "9"
             Next
-            txtCta(7).Text = Cad
+            txtCta(7).Text = cad
         End If
     End If
     
@@ -1520,7 +1537,7 @@ End Sub
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
         Case 1
-            LanzaVisorMimeDocumento Me.hwnd, DireccionAyuda & IdPrograma & ".html"
+            LanzaVisorMimeDocumento Me.hWnd, DireccionAyuda & IdPrograma & ".html"
     End Select
 End Sub
 
@@ -1553,7 +1570,7 @@ End Sub
 
 
 Private Sub txtCta_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim RC As String
 Dim Hasta As Integer
 
@@ -1693,7 +1710,9 @@ Dim nomDocu As String
     End If
     numParam = numParam + 2
     
-    cadParam = cadParam & "pDHFecha=""" & cmbFecha(0).Text & " " & cmbFecha(2).Text & " a " & cmbFecha(1).Text & " " & cmbFecha(3).Text & """|"
+    cadParam = cadParam & "pDHFecha=""" & cmbFecha(0).Text & " " & cmbFecha(2).Text & " a " & cmbFecha(1).Text & " " & cmbFecha(3).Text
+    If Me.chkQuitarSaldo0.Value = 1 Then cadParam = cadParam & "          Sin cuentas saldo cero"
+    cadParam = cadParam & """|"
     numParam = numParam + 1
     
     
@@ -1709,11 +1728,11 @@ Dim nomDocu As String
     'Titulo
     txtTitulo(0).Text = Trim(txtTitulo(0).Text)
     If txtTitulo(0).Text = "" Then
-        Cad = "Balance de sumas y saldos"
+        cad = "Balance de sumas y saldos"
     Else
-        Cad = txtTitulo(0).Text
+        cad = txtTitulo(0).Text
     End If
-    cadParam = cadParam & "Titulo= """ & Cad & """|"
+    cadParam = cadParam & "Titulo= """ & cad & """|"
     numParam = numParam + 1
         
         
@@ -1732,23 +1751,23 @@ Dim nomDocu As String
 '                If Check2(I).Value = 1 Then Cont = Cont + 1
             If Check1(i).Value = 1 Then
                 If i = 10 Then
-                    Cad = vEmpresa.DigitosUltimoNivel
+                    cad = vEmpresa.DigitosUltimoNivel
                 Else
-                    Cad = CStr(DigitosNivel(CInt(i)))
+                    cad = CStr(DigitosNivel(CInt(i)))
                 End If
-                If TieneCuentasEnTmpBalance(Cad) Then
+                If TieneCuentasEnTmpBalance(cad) Then
                     CONT = CONT + 1
-                    UltimoNivel = CByte(Cad)
+                    UltimoNivel = CByte(cad)
                 End If
             End If
         End If
     Next i
-    Cad = "numeroniveles= " & CONT & "|"
-    SQL = SQL & Cad
+    cad = "numeroniveles= " & CONT & "|"
+    SQL = SQL & cad
     'Otro parametro mas
-    Cad = "vUltimoNivel= " & UltimoNivel & "|"
+    cad = "vUltimoNivel= " & UltimoNivel & "|"
     
-    cadParam = cadParam & Cad
+    cadParam = cadParam & cad
     numParam = numParam + 2
 
     
@@ -1967,19 +1986,19 @@ Dim Cont2 As Long
     ' Cargaremos de la hlinapu, codmacta,nommacta, mes,anño ,saldo. Y asi en un solo SELECT tenemos los saldos.
     'Luego para cada cuenta tendremos que hacer los calculos
     
-    Cad = "SELECT substring(line.codmacta,1," & LenPrimerNivelCalculado
-    Cad = Cad & ") as codmacta,coalesce(nommacta,'ERROR##') nommacta ,   year(fechaent) anyo,month(fechaent) mes,"
-    Cad = Cad & " sum(coalesce(timported,0)) debe, sum(coalesce(timporteh,0)) haber FROM "
-    If vConta >= 0 Then Cad = Cad & "ariconta" & vConta & "."
-    Cad = Cad & "hlinapu"
-    Cad = Cad & " as line LEFT JOIN "
-    If vConta >= 0 Then Cad = Cad & "ariconta" & vConta & "."
-    Cad = Cad & "cuentas ON  "
-    Cad = Cad & "cuentas.codmacta = substring(line.codmacta,1," & LenPrimerNivelCalculado & ")"
-    Cad = Cad & " WHERE " & Cade
+    cad = "SELECT substring(line.codmacta,1," & LenPrimerNivelCalculado
+    cad = cad & ") as codmacta,coalesce(nommacta,'ERROR##') nommacta ,   year(fechaent) anyo,month(fechaent) mes,"
+    cad = cad & " sum(coalesce(timported,0)) debe, sum(coalesce(timporteh,0)) haber FROM "
+    If vConta >= 0 Then cad = cad & "ariconta" & vConta & "."
+    cad = cad & "hlinapu"
+    cad = cad & " as line LEFT JOIN "
+    If vConta >= 0 Then cad = cad & "ariconta" & vConta & "."
+    cad = cad & "cuentas ON  "
+    cad = cad & "cuentas.codmacta = substring(line.codmacta,1," & LenPrimerNivelCalculado & ")"
+    cad = cad & " WHERE " & Cade
 
-    Cad = Cad & " GROUP BY 1,anyo,mes "
-    Cad = Cad & " ORDER By 1 ,anyo,mes"
+    cad = cad & " GROUP BY 1,anyo,mes "
+    cad = cad & " ORDER By 1 ,anyo,mes"
 
     Apertura = (Me.chkApertura.Value = 1) And vConta < 0
     
@@ -2036,7 +2055,7 @@ Dim Cont2 As Long
     
     
     
-    Rs.Open Cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
     If Rs.EOF Then
         'NO hay registros a mostrar
         If vConta < 0 Then
@@ -2175,29 +2194,29 @@ Dim Cont2 As Long
             If Not Rs.EOF Then
                 
                 'OK, en el balnace esta la cuenta de perdidas y ganancias. Si no esta no metemos las pyg en ningun campo
-                Cad = "sum(coalesce(timporteh,0))-sum(coalesce(timported,0))"
+                cad = "sum(coalesce(timporteh,0))-sum(coalesce(timported,0))"
                 SQL = "fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
                 SQL = SQL & " and SUBSTRING(CODMACTA,1,1) in ('6','7') AND 1"
-                Cad = DevuelveDesdeBD(Cad, "hlinapu", SQL, 1)
-                If Cad <> "" Then
+                cad = DevuelveDesdeBD(cad, "hlinapu", SQL, 1)
+                If cad <> "" Then
                     'Tenemos ya el importe de pyg ejercicio anterior
-                    If CCur(Cad) <> 0 Then
+                    If CCur(cad) <> 0 Then
                         
-                        If CCur(Cad) > 0 Then
+                        If CCur(cad) > 0 Then
                             'Va al haber
-                            SQL = "acumperh=acumperh + " & TransformaComasPuntos(Cad)
+                            SQL = "acumperh=acumperh + " & TransformaComasPuntos(cad)
                             
                             
                         Else
                             'Va al debe.. en positivo
-                            SQL = "acumperd=acumperd + " & Replace(TransformaComasPuntos(Cad), "-", "")
+                            SQL = "acumperd=acumperd + " & Replace(TransformaComasPuntos(cad), "-", "")
                         End If
                         
                         SQL = "UPDATE tmpbalancesumas SET " & SQL
                         
                         'total
                         vImport = DBLet(Rs!totalh, "N") - DBLet(Rs!totald, "N")
-                        vImport = vImport + CCur(TransformaPuntosComas((Cad)))
+                        vImport = vImport + CCur(TransformaPuntosComas((cad)))
                         SQL = SQL & ", " & IIf(vImport < 0, "totald", "totalh") & " = " & DBSet(Abs(vImport), "N")
                         SQL = SQL & ", " & IIf(vImport < 0, "totalh", "totalh") & " = NULL"
                         SQL = SQL & " WHERE codusu =" & Rs!codusu
@@ -2219,6 +2238,13 @@ Dim Cont2 As Long
     SQL = "DELETE  from tmpbalancesumas WHERE codusu = " & vUsu.Codigo & " and aperturaD =0 AND "
     SQL = SQL & "aperturaH = 0 And acumAntD = 0 And acumAntH = 0 And acumPerD = 0 And acumPerH = 0"
     Conn.Execute SQL
+    
+    
+    If Me.chkQuitarSaldo0.Value = 1 Then
+        SQL = "DELETE  from tmpbalancesumas WHERE codusu = " & vUsu.Codigo & " AND "
+        SQL = SQL & " coalesce(totald, 0) = 0 And coalesce(totalh, 0) = 0"
+        Conn.Execute SQL
+    End If
     
     'Siguientes subniveles, si es ue los ha pedido
     LenNivelCalculado = 0
@@ -2311,10 +2337,10 @@ Dim Cont2 As Long
         
         SQL = "Select nomempre from usuarios.empresasariconta where codempre =" & vConta
         Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-        Cad = ""
-        If Not Rs.EOF Then Cad = DBLet(Rs.Fields(0))
+        cad = ""
+        If Not Rs.EOF Then cad = DBLet(Rs.Fields(0))
         Rs.Close
-        If Cad = "" Then
+        If cad = "" Then
             MsgBox "Error leyendo datos empresa: Codempre=" & vConta
             Exit Sub
         End If
@@ -2331,7 +2357,7 @@ Dim Cont2 As Long
         PB.Value = 0
         Me.Refresh
         SQL = "INSERT INTO usuarios.ztmpbalanceconsolidado (codempre, nomempre, codusu, cta, nomcta, aperturaD, aperturaH, acumAntD, acumAntH, acumPerD, acumPerH, TotalD, TotalH) VALUES ("
-        SQL = SQL & vConta & ",'" & Cad & "',"
+        SQL = SQL & vConta & ",'" & cad & "',"
         While Not Rs.EOF
             PB.Value = Round((i / Cont2), 3) * 1000
             BACKUP_Tabla Rs, Cade
@@ -2353,20 +2379,22 @@ Dim Cont2 As Long
     If Cont2 > 0 Then
         'Las fechas
         SQL = "Fechas= ""Desde " & cmbFecha(0).ListIndex + 1 & "/" & cmbFecha(2).Text & "   hasta "
-        SQL = SQL & cmbFecha(1).ListIndex + 1 & "/" & cmbFecha(3).Text & """|"
+        SQL = SQL & cmbFecha(1).ListIndex + 1 & "/" & cmbFecha(3).Text
+        If Me.chkQuitarSaldo0.Value = 1 Then SQL = SQL & " **Sin cuentas saldo 0"
+        SQL = SQL & """|"
         'Si tiene desde hasta codcuenta
-        Cad = ""
-        If txtCta(6).Text <> "" Then Cad = Cad & "Desde " & txtCta(6).Text & " - " & txtNCta(6).Tag
+        cad = ""
+        If txtCta(6).Text <> "" Then cad = cad & "Desde " & txtCta(6).Text & " - " & txtNCta(6).Tag
         If txtCta(7).Text <> "" Then
-            If Cad <> "" Then
-                Cad = Cad & "    h"
+            If cad <> "" Then
+                cad = cad & "    h"
             Else
-                Cad = "H"
+                cad = "H"
             End If
-            Cad = Cad & "asta " & txtCta(7).Text & " - " & txtNCta(7).Tag
+            cad = cad & "asta " & txtCta(7).Text & " - " & txtNCta(7).Tag
         End If
-        If Cad = "" Then Cad = " "
-        SQL = SQL & "Cuenta= """ & Cad & """|"
+        If cad = "" Then cad = " "
+        SQL = SQL & "Cuenta= """ & cad & """|"
         
         'Fecha de impresion
         SQL = SQL & "FechaImp= """ & txtFecha(7).Text & """|"
@@ -2382,11 +2410,11 @@ Dim Cont2 As Long
         'Titulo
         txtTitulo(0).Text = Trim(txtTitulo(0).Text)
         If txtTitulo(0).Text = "" Then
-            Cad = "Balance de sumas y saldos"
+            cad = "Balance de sumas y saldos"
         Else
-            Cad = txtTitulo(0).Text
+            cad = txtTitulo(0).Text
         End If
-        SQL = SQL & "Titulo= """ & Cad & """|"
+        SQL = SQL & "Titulo= """ & cad & """|"
         
         'Numero de página
         If txtPag2(0).Text = "" Then
@@ -2396,8 +2424,8 @@ Dim Cont2 As Long
         End If
         If i > 0 Then i = i - 1
         
-        Cad = "NumPag= " & i & "|"
-        SQL = SQL & Cad
+        cad = "NumPag= " & i & "|"
+        SQL = SQL & cad
         
         
         '------------------------------
@@ -2410,22 +2438,22 @@ Dim Cont2 As Long
 '                If Check2(I).Value = 1 Then Cont = Cont + 1
                 If Check1(i).Value = 1 Then
                     If i = 10 Then
-                        Cad = vEmpresa.DigitosUltimoNivel
+                        cad = vEmpresa.DigitosUltimoNivel
                     Else
-                        Cad = CStr(DigitosNivel(CInt(i)))
+                        cad = CStr(DigitosNivel(CInt(i)))
                     End If
-                    If TieneCuentasEnTmpBalance(Cad) Then
+                    If TieneCuentasEnTmpBalance(cad) Then
                         Cont2 = Cont2 + 1
-                        UltimoNivel = CByte(Cad)
+                        UltimoNivel = CByte(cad)
                     End If
                 End If
             End If
         Next i
-        Cad = "numeroniveles= " & Cont2 & "|"
-        SQL = SQL & Cad
+        cad = "numeroniveles= " & Cont2 & "|"
+        SQL = SQL & cad
         'Otro parametro mas
-        Cad = "vUltimoNivel= " & UltimoNivel & "|"
-        SQL = SQL & Cad
+        cad = "vUltimoNivel= " & UltimoNivel & "|"
+        SQL = SQL & cad
     End If
     
     
@@ -2438,9 +2466,9 @@ Dim L As Integer
 
 L = 1
 Do
-    Cad = RecuperaValor(Lista, L)
-    If Cad <> "" Then
-        i = Val(Cad)
+    cad = RecuperaValor(Lista, L)
+    If cad <> "" Then
+        i = Val(cad)
         With cmbFecha(i)
             .Clear
             For CONT = 1 To 12
@@ -2451,7 +2479,7 @@ Do
         End With
     End If
     L = L + 1
-Loop Until Cad = ""
+Loop Until cad = ""
 End Sub
 
 
@@ -2551,9 +2579,9 @@ Dim J As Integer
     Check1(10).visible = True
     For i = 1 To vEmpresa.numnivel - 1
         J = DigitosNivel(i)
-        Cad = "Digitos: " & J
+        cad = "Digitos: " & J
         Check1(i).visible = True
-        Me.Check1(i).Caption = Cad
+        Me.Check1(i).Caption = cad
         
         Combo2.AddItem "Nivel :   " & i
         Combo2.ItemData(Combo2.NewIndex) = J
@@ -2621,16 +2649,16 @@ Private Sub HacerBalanceInicio()
 '                If Check2(I).Value = 1 Then Cont = Cont + 1
                 If Check1(i).Value = 1 Then
                     If i = 10 Then
-                        Cad = vEmpresa.DigitosUltimoNivel
+                        cad = vEmpresa.DigitosUltimoNivel
                     Else
-                        Cad = CStr(DigitosNivel(CInt(i)))
+                        cad = CStr(DigitosNivel(CInt(i)))
                     End If
-                    If TieneCuentasEnTmpBalance(Cad) Then CONT = CONT + 1
+                    If TieneCuentasEnTmpBalance(cad) Then CONT = CONT + 1
                 End If
             End If
         Next i
-        Cad = "numeroniveles= " & CONT & "|"
-        SQL = SQL & Cad
+        cad = "numeroniveles= " & CONT & "|"
+        SQL = SQL & cad
         
         
         'Fecha de impresion

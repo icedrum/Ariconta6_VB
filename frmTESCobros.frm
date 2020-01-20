@@ -4728,7 +4728,7 @@ Private Sub Text1_LostFocus(Index As Integer)
                 If Modo = 3 Then
                     SQL = "concat(if( isnull(forpa),'',forpa),'|',if(isnull(ctabanco),'',ctabanco),'|')"
                     SQL = DevuelveDesdeBD(SQL, "cuentas", "codmacta", DevfrmCCtas, "T")
-                    If SQL <> "" Then
+                    If SQL <> "||" Then
                         Text1(0).Text = RecuperaValor(SQL, 1)
                         Text1(9).Text = RecuperaValor(SQL, 2)
                         If Text1(9).Text <> "" Then Text2(2).Text = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Text1(9).Text, "T", Text1(9).Text)
@@ -4814,6 +4814,37 @@ Private Sub Text1_LostFocus(Index As Integer)
             PonerFoco Text1(13)
         Else
             Text1(13).Text = UCase(Text1(13).Text)
+            
+            
+            If Modo = 3 Then
+                If Text1(13).Text = "AN" And vParamT.ImpresionRecibosConObserva Then
+                    'TAXCO
+                    SQL = DevuelveDesdeBD("max(numfactu)", "cobros", "numserie", Text1(13).Text, "T")
+                    SQL = Val(SQL) + 1
+                    Text1(1).Text = Format(SQL, "000000")
+                    Text1(3).Text = "01"
+                    Text1(11).Text = Format(SQL, "000000") & " " & Format(Now, "dd/mm/yyyy")
+                    Text1(2).Text = Format(Now, "dd/mm/yyyy")
+                    Text1(5).Text = Format(Now, "dd/mm/yyyy")
+                    
+                    SQL = "codigo"
+                    Valor = CStr(DevuelveDesdeBD("nombre", "agentes", "1", "1 ORDER BY codigo", "N", SQL))
+                    Text1(34).Text = SQL
+                    Text2(5).Text = CStr(Valor)
+                    SQL = ""
+                    
+                    Text1(9).Text = "5700000002"
+                    Text2(2).Text = "CAJA AUX. 1. COBROS VENTANILLA"   'DevuelveDesdeBD("nombre", "agentes", "1", Text1(9).Text, "N")
+                    
+                    Valor = 0
+                    PonerFoco Text1(4)
+                    
+                    
+                    
+                End If
+            
+            
+            End If
         End If
         
 
@@ -5398,6 +5429,16 @@ Dim Tipo As Integer
         End If
     End If
         
+    Dim impo As Currency
+    B = True
+    If B Then
+        If Text1(35).Text = "" Then
+            impo = ImporteFormateado(Text1(6).Text) + ImporteFormateado(Text1(16).Text)
+            impo = impo - ImporteFormateado(Text1(6).Text)
+            If impo = 0 Then Combo1.ListIndex = 1
+        End If
+    End If
+    
     DatosOK = True
 End Function
 
@@ -6946,7 +6987,11 @@ Dim Importe As Currency
     
 
         If Not MostrarDelRs Then
-            cad = cad & DBSet(Text1(42).Text, "T") & "," & DBSet(Text1(41).Text, "T")
+            Msg = Text1(42).Text
+            If vParamT.ImpresionRecibosConObserva Then Msg = Mid(Text1(4), 4) & "  " & Msg
+            
+            cad = cad & DBSet(Msg, "T") & "," & DBSet(Text1(41).Text, "T")
+            Msg = ""
         Else
             cad = cad & "'" & DevNombreSQL(DBLet(miRsAux!razosoci, "T")) & "','" & DevNombreSQL(DBLet(miRsAux!dirdatos, "T")) & "'"
         End If
@@ -7003,15 +7048,29 @@ Dim Importe As Currency
         'OPCION
         '--------------
         cad = cad & ",NULL,"
-        
-        
         Msg = ""
-        For i = 0 To Text1.Count - 1
-            If i < 25 Or i > 31 Then Msg = Msg & Mid(Text1(i).Text & String(100, " "), 1, 100)
-        Next i
-        For i = 0 To Text2.Count - 1
-            If i <> 6 Then Msg = Msg & Mid(Text2(i).Text & String(100, " "), 1, 100)
-        Next i
+        
+        'ENERO 2019.
+        If Not MostrarDelRs Then
+            If vParamT.ImpresionRecibosConObserva Then
+                Msg = Trim(Text1(17).Text)
+                If Msg = "" Then Msg = Trim(Text1(11).Text)
+            End If
+        End If
+            
+        If Msg = "" Then
+        
+        
+            For i = 0 To Text1.Count - 1
+                If i < 25 Or i > 31 Then Msg = Msg & Mid(Text1(i).Text & String(100, " "), 1, 100)
+            Next i
+            For i = 0 To Text2.Count - 1
+                If i <> 6 Then Msg = Msg & Mid(Text2(i).Text & String(100, " "), 1, 100)
+            Next i
+        
+        End If
+        
+        
         Msg = DBSet(Msg, "T")
         cad = cad & Msg & ")"
         

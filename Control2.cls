@@ -373,7 +373,7 @@ End Function
 
 Private Sub Desencripta(ElPassword As Boolean)
 Dim C As String
-Dim I As Integer
+Dim i As Integer
 
 If ElPassword Then
     C = mvarPassworBD
@@ -381,14 +381,14 @@ If ElPassword Then
     C = mvarUsuarioBD
 End If
 Mens = ""
-For I = 1 To Len(C)
-    If (I Mod 2) <> 0 Then
+For i = 1 To Len(C)
+    If (i Mod 2) <> 0 Then
         'Solo valen los caracteres impares
-        NF = Asc(Mid(C, I, 1))
+        NF = Asc(Mid(C, i, 1))
         NF = NF + 1
         Mens = Mens & Chr(NF)
     End If
-Next I
+Next i
 
 If ElPassword Then
     mvarPassworBD = Mens
@@ -401,21 +401,21 @@ End Sub
 
 
 Private Function Encripta(ByRef C As String) As String
-Dim I As Integer
+Dim i As Integer
 
 
 Mens = ""
 Randomize
-For I = 1 To Len(C)
+For i = 1 To Len(C)
         'Solo valen los caracteres impares
-        NF = Asc(Mid(C, I, 1))
+        NF = Asc(Mid(C, i, 1))
         NF = NF - 1
         Mens = Mens & Chr(NF)
         'Y el aleatorio , entre 48 y 122  <- 74 ->
         NF = Int((74 * Rnd)) ' Genera valores aleatorios entre 0y74.
         NF = NF + 48
         Mens = Mens & Chr(NF)
-Next I
+Next i
 
 Encripta = Mens
 

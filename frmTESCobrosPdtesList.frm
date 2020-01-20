@@ -5,14 +5,14 @@ Begin VB.Form frmTESCobrosPdtesList
    ClientHeight    =   9825
    ClientLeft      =   45
    ClientTop       =   435
-   ClientWidth     =   12090
+   ClientWidth     =   13455
    Icon            =   "frmTESCobrosPdtesList.frx":0000
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   9825
-   ScaleWidth      =   12090
+   ScaleWidth      =   13455
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin VB.Frame FrameTipoSalida 
@@ -210,7 +210,7 @@ Begin VB.Form frmTESCobrosPdtesList
       Left            =   7140
       TabIndex        =   51
       Top             =   6360
-      Width           =   4785
+      Width           =   6135
       Begin VB.Frame Frame3 
          Height          =   735
          Left            =   150
@@ -259,7 +259,25 @@ Begin VB.Form frmTESCobrosPdtesList
          Left            =   150
          TabIndex        =   66
          Top             =   360
-         Width           =   4455
+         Width           =   5925
+         Begin VB.OptionButton optVarios 
+            Caption         =   "Cta.prevista"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   240
+            Index           =   5
+            Left            =   4320
+            TabIndex        =   82
+            Top             =   270
+            Width           =   1545
+         End
          Begin VB.OptionButton optVarios 
             Caption         =   "Tipo Pago"
             BeginProperty Font 
@@ -276,7 +294,7 @@ Begin VB.Form frmTESCobrosPdtesList
             Left            =   2850
             TabIndex        =   21
             Top             =   270
-            Width           =   1545
+            Width           =   1425
          End
          Begin VB.OptionButton optVarios 
             Caption         =   "Fecha Vto"
@@ -1254,7 +1272,7 @@ Begin VB.Form frmTESCobrosPdtesList
       Left            =   7140
       TabIndex        =   46
       Top             =   0
-      Width           =   4815
+      Width           =   6135
       Begin VB.CheckBox Check1 
          Caption         =   "Informe deuda vencida"
          BeginProperty Font 
@@ -1290,7 +1308,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Style           =   2  'Dropdown List
          TabIndex        =   16
          Top             =   4680
-         Width           =   2055
+         Width           =   1455
       End
       Begin VB.CheckBox Check1 
          Caption         =   "Pagado pendiente vencimiento"
@@ -1325,7 +1343,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Style           =   2  'Dropdown List
          TabIndex        =   15
          Top             =   4230
-         Width           =   2055
+         Width           =   2535
       End
       Begin VB.ComboBox Combo1 
          BeginProperty Font 
@@ -1342,7 +1360,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Style           =   2  'Dropdown List
          TabIndex        =   13
          Top             =   3330
-         Width           =   2055
+         Width           =   1455
       End
       Begin VB.ComboBox Combo2 
          BeginProperty Font 
@@ -1359,7 +1377,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Style           =   2  'Dropdown List
          TabIndex        =   14
          Top             =   3780
-         Width           =   2055
+         Width           =   1455
       End
       Begin VB.CheckBox Check1 
          Caption         =   "Mostrar Observaciones"
@@ -1381,7 +1399,7 @@ Begin VB.Form frmTESCobrosPdtesList
       End
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
-         Left            =   4230
+         Left            =   5520
          TabIndex        =   47
          Top             =   210
          Width           =   405
@@ -1403,8 +1421,8 @@ Begin VB.Form frmTESCobrosPdtesList
          Left            =   180
          TabIndex        =   12
          Top             =   720
-         Width           =   4275
-         _ExtentX        =   7541
+         Width           =   5835
+         _ExtentX        =   10292
          _ExtentY        =   4286
          View            =   3
          LabelWrap       =   -1  'True
@@ -1447,19 +1465,19 @@ Begin VB.Form frmTESCobrosPdtesList
       Begin VB.Image imgCheck 
          Height          =   240
          Index           =   1
-         Left            =   2160
+         Left            =   2280
          Picture         =   "frmTESCobrosPdtesList.frx":0010
          ToolTipText     =   "Seleccionar todos"
-         Top             =   480
+         Top             =   360
          Width           =   240
       End
       Begin VB.Image imgCheck 
          Height          =   240
          Index           =   0
-         Left            =   1800
+         Left            =   1920
          Picture         =   "frmTESCobrosPdtesList.frx":015A
          ToolTipText     =   "Quita seleccion"
-         Top             =   480
+         Top             =   360
          Width           =   240
       End
       Begin VB.Label Label3 
@@ -1493,9 +1511,9 @@ Begin VB.Form frmTESCobrosPdtesList
          EndProperty
          Height          =   255
          Index           =   15
-         Left            =   240
+         Left            =   120
          TabIndex        =   50
-         Top             =   450
+         Top             =   360
          Width           =   1500
       End
       Begin VB.Label Label3 
@@ -1548,7 +1566,7 @@ Begin VB.Form frmTESCobrosPdtesList
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   10680
+      Left            =   12120
       TabIndex        =   28
       Top             =   9240
       Width           =   1215
@@ -1565,7 +1583,7 @@ Begin VB.Form frmTESCobrosPdtesList
       EndProperty
       Height          =   375
       Index           =   1
-      Left            =   9120
+      Left            =   10560
       TabIndex        =   26
       Top             =   9240
       Width           =   1455
@@ -1805,9 +1823,9 @@ Private Sub Form_Load()
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
     If Legalizacion <> "" Then
-        txtfecha(2).Text = RecuperaValor(Legalizacion, 1)
-        txtfecha(0).Text = RecuperaValor(Legalizacion, 2)
-        txtfecha(1).Text = RecuperaValor(Legalizacion, 3)
+        txtFecha(2).Text = RecuperaValor(Legalizacion, 1)
+        txtFecha(0).Text = RecuperaValor(Legalizacion, 2)
+        txtFecha(1).Text = RecuperaValor(Legalizacion, 3)
     End If
     
     optVarios(0).Value = True
@@ -1844,7 +1862,7 @@ Private Sub frmDpto_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
@@ -1916,10 +1934,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
+        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtfecha(Index)
+        PonFoco txtFecha(Index)
     End Select
     
     Screen.MousePointer = vbDefault
@@ -1950,8 +1968,23 @@ Private Sub optTipoSal_Click(Index As Integer)
 End Sub
 
 Private Sub optVarios_Click(Index As Integer)
+Dim B As Boolean
 '    Check1(1).Enabled = optVarios(1).Value
 '    If Not Check1(1).Enabled Then Check1(1).Value = 0
+    B = Index <> 5
+    
+
+    
+    Check1(1).Enabled = B
+    Check1(2).Enabled = B
+    optVarios(3).Enabled = B
+    optVarios(4).Enabled = B
+    
+
+    If Index = 5 Then
+        'Valores por defecto
+        Check1(4).Value = 0
+    End If
 End Sub
 
 Private Sub optVarios_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -2404,6 +2437,14 @@ Dim nomDocu As String
         If Check1(2).Value Then indRPT_ = "0602-03"
     End If
     
+    If optVarios(5).Value Then
+        'cta prevista
+        indRPT_ = "0602-05"
+      
+    End If
+    
+    
+    
         
     If Me.Check1(4).Value = 1 Then
         indRPT_ = "0602-04"
@@ -2444,8 +2485,8 @@ Dim J As Integer
     MontaSQL = False
     
     If Not PonerDesdeHasta("cobros.NumSerie", "SER", Me.txtSerie(0), Me.txtNSerie(0), Me.txtSerie(1), Me.txtNSerie(1), "pDHSerie=""Serie ") Then Exit Function
-    If Not PonerDesdeHasta("cobros.FecFactu", "F", Me.txtfecha(0), Me.txtfecha(0), Me.txtfecha(1), Me.txtfecha(1), "pDHFecha=""F. Factura ") Then Exit Function
-    If Not PonerDesdeHasta("cobros.Fecvenci", "F", Me.txtfecha(2), Me.txtfecha(2), Me.txtfecha(3), Me.txtfecha(3), "pDHFecVto=""F.Vto: ") Then Exit Function
+    If Not PonerDesdeHasta("cobros.FecFactu", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""F. Factura ") Then Exit Function
+    If Not PonerDesdeHasta("cobros.Fecvenci", "F", Me.txtFecha(2), Me.txtFecha(2), Me.txtFecha(3), Me.txtFecha(3), "pDHFecVto=""F.Vto: ") Then Exit Function
     If Not PonerDesdeHasta("cobros.codmacta", "CTA", Me.txtCuentas(0), Me.txtNCuentas(0), Me.txtCuentas(1), Me.txtNCuentas(1), "pDHCuentas=""") Then Exit Function
     If Not PonerDesdeHasta("cobros.agente", "AGE", Me.txtAgente(0), Me.txtNAgente(0), Me.txtAgente(1), Me.txtNAgente(1), "pDHAgente=""Agente ") Then Exit Function
     If Not PonerDesdeHasta("cobros.departamento", "DPTO", Me.txtDpto(0), Me.txtNDpto(0), Me.txtDpto(1), Me.txtNDpto(1), "pDHDpto=""") Then Exit Function
@@ -2592,13 +2633,13 @@ End Sub
 
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
+    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
-    PonerFormatoFecha txtfecha(Index)
+    PonerFormatoFecha txtFecha(Index)
 End Sub
 
 
@@ -2606,14 +2647,14 @@ End Sub
 
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtfecha(Index), 3
+    ConseguirFoco txtFecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtfecha(Index).Tag, Index
+        LanzaFormAyuda txtFecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
@@ -2720,6 +2761,7 @@ Dim Impor2 As Currency
     SQL = ""
     SQL = "select cobros.*,nomforpa"
     SQL = SQL & " from cobros,formapago where cobros.codforpa=formapago.codforpa AND " & cadselect
+    SQL = SQL & " AND fecvenci<=" & DBSet(Now, "F")
     SQL = SQL & "  order by codmacta,codforpa"
     
     Set miRsAux = New ADODB.Recordset
@@ -2752,6 +2794,9 @@ Dim Impor2 As Currency
             
         End If
         NumRegElim = DateDiff("d", miRsAux!FecVenci, Now())
+        
+      
+        
         If NumRegElim <= 30 Then
             i = 0
         ElseIf NumRegElim <= 60 Then

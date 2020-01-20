@@ -816,7 +816,7 @@ Private WithEvents frmCar As frmCartas
 Attribute frmCar.VB_VarHelpID = -1
 
 Private SQL As String
-Dim Cad As String
+Dim cad As String
 Dim RC As String
 Dim Rs As Recordset
 
@@ -956,7 +956,7 @@ Dim nomDocu As String
                 
 
             'Modelo de haciend a
-            B2 = Modelo347(Year(CDate(txtfecha(1).Text)))
+            B2 = Modelo347(Year(CDate(txtFecha(1).Text)))
             
             If B2 Then
                 'CopiarFicheroASalida False, txtTipoSalida(1).Text
@@ -975,12 +975,12 @@ Dim nomDocu As String
             Select Case Combo5.ListIndex
             Case 0
                 'La carta
-                Cad = "¿ Desea imprimir también los proveedores ?"
-                If MsgBox(Cad, vbQuestion + vbYesNo) = vbNo Then
-                    Cad = " AND {tmp347tot.cliprov} = " & Asc(0)
-                    cadFormula = cadFormula & Cad
+                cad = "¿ Desea imprimir también los proveedores ?"
+                If MsgBox(cad, vbQuestion + vbYesNo) = vbNo Then
+                    cad = " AND {tmp347tot.cliprov} = " & Asc(0)
+                    cadFormula = cadFormula & cad
                 Else
-                    Cad = ""
+                    cad = ""
                 End If
 
                 cadFormula = cadFormula & "{tmp347tot.codusu} = " & vUsu.Codigo
@@ -1003,7 +1003,7 @@ Dim nomDocu As String
                 '-----------------------------------------------------------------
                 cadFormula = ""
                 If Me.Text347(2).Text <> "" Then cadFormula = "NIF: " & Text347(2).Text & "       "
-                cadParam = cadParam & "Fechas= """ & cadFormula & "Desde " & txtfecha(0).Text & "      hasta  " & txtfecha(1).Text & """|"
+                cadParam = cadParam & "Fechas= """ & cadFormula & "Desde " & txtFecha(0).Text & "      hasta  " & txtFecha(1).Text & """|"
                 numParam = numParam + 1
                     
             
@@ -1089,8 +1089,8 @@ Private Sub Form_Load()
     
     
      
-    txtfecha(0).Text = "01/01/" & Year(vParam.fechaini)
-    txtfecha(1).Text = "31/12/" & Year(vParam.fechaini)
+    txtFecha(0).Text = "01/01/" & Year(vParam.fechaini)
+    txtFecha(1).Text = "31/12/" & Year(vParam.fechaini)
     Text347(1).Text = Format(vParam.limimpcl, FormatoImporte)
     Text347(0).Text = DevuelveDesdeBD("responsable", "paramtesor", "1", "1")
     Label2(30).Caption = ""
@@ -1120,7 +1120,7 @@ End Sub
 
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
@@ -1159,10 +1159,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
+        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtfecha(Index)
+        PonFoco txtFecha(Index)
         
     End Select
     
@@ -1260,7 +1260,7 @@ Dim nomDocu As String
     
     cadNomRPT = nomDocu ' "FacturasCliFecha.rpt"
 
-    cadParam = cadParam & "pFecha=""" & txtfecha(2).Text & """|"
+    cadParam = cadParam & "pFecha=""" & txtFecha(2).Text & """|"
     numParam = numParam + 1
     
     cadParam = cadParam & "Empresas= """
@@ -1314,25 +1314,25 @@ eCargarTemporal:
 End Function
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
+    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
 
-    PonerFormatoFecha txtfecha(Index)
+    PonerFormatoFecha txtFecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtfecha(Index), 3
+    ConseguirFoco txtFecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtfecha(Index).Tag, Index
+        LanzaFormAyuda txtFecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
@@ -1342,7 +1342,7 @@ Private Function DatosOK() As Boolean
     
     DatosOK = False
     
-    If txtfecha(0).Text = "" Or txtfecha(1).Text = "" Then
+    If txtFecha(0).Text = "" Or txtFecha(1).Text = "" Then
         MsgBox "Introduce las fechas de consulta.", vbExclamation
         Exit Function
     End If
@@ -1350,8 +1350,8 @@ Private Function DatosOK() As Boolean
     If Not ComprobarFechas(0, 1) Then Exit Function
     
     
-    If Year(CDate(txtfecha(0).Text)) <> Year(CDate(txtfecha(1).Text)) Then
-        MsgBox "Esta abarcando dos años. Se considera el año: " & Year(CDate(txtfecha(1).Text)), vbExclamation
+    If Year(CDate(txtFecha(0).Text)) <> Year(CDate(txtFecha(1).Text)) Then
+        MsgBox "Esta abarcando dos años. Se considera el año: " & Year(CDate(txtFecha(1).Text)), vbExclamation
     End If
     If Combo5.ListIndex < 0 Then
         MsgBox "Seleccione un tipo de informe.", vbExclamation
@@ -1368,11 +1368,11 @@ Private Function DatosOK() As Boolean
     If Combo5.ListIndex = 2 Then 'antes 3
         'Enero 2012
         'Tiene que ser una año exacto
-        If Month(CDate(txtfecha(0).Text)) <> 1 Or Month(CDate(txtfecha(0).Text)) <> 1 Then
+        If Month(CDate(txtFecha(0).Text)) <> 1 Or Month(CDate(txtFecha(0).Text)) <> 1 Then
             MsgBox "Año natural. Enero diciembre", vbExclamation
             Exit Function
         End If
-        If Month(CDate(txtfecha(1).Text)) <> 12 Or Day(CDate(txtfecha(1).Text)) <> 31 Then
+        If Month(CDate(txtFecha(1).Text)) <> 12 Or Day(CDate(txtFecha(1).Text)) <> 31 Then
             MsgBox "Año natural. Hasta 31 diciembre", vbExclamation
             Exit Function
         End If
@@ -1417,8 +1417,8 @@ Dim CadResul As String
             'facturas de clientes
             SQL = "select distinct factcli.codmacta from ariconta" & Me.ListView1(1).ListItems(i).Text & ".factcli, ariconta" & Me.ListView1(1).ListItems(i).Text & ".cuentas where "
             SQL = SQL & " cuentas.codmacta=factcli.codmacta and model347=1 "
-            SQL = SQL & " AND fecfactu >='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-            SQL = SQL & " AND fecfactu <='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
+            SQL = SQL & " AND fecfactu >='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+            SQL = SQL & " AND fecfactu <='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
             SQL = SQL & " and (factcli.nifdatos is null or factcli.nifdatos = '')"
             
             Set Rs = New ADODB.Recordset
@@ -1443,18 +1443,18 @@ Dim CadResul As String
             Set Rs = Nothing
         
             If OptProv(0).Value Then
-                Cad = "fecharec"
+                cad = "fecharec"
             Else
                 If OptProv(1).Value Then
-                    Cad = "fecfactu"
+                    cad = "fecfactu"
                 End If
             End If
             
             ' facturas de proveedores
             SQL = "SELECT distinct factpro.codmacta from ariconta" & Me.ListView1(1).ListItems(i).Text & ".factpro, ariconta" & Me.ListView1(1).ListItems(i).Text & ".cuentas  where "
             SQL = SQL & " cuentas.codmacta=factpro.codmacta and model347=1 "
-            SQL = SQL & " AND " & Cad & " >='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-            SQL = SQL & " AND " & Cad & " <='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
+            SQL = SQL & " AND " & cad & " >='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+            SQL = SQL & " AND " & cad & " <='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
             SQL = SQL & " and (factpro.nifdatos is null or factpro.nifdatos = '')"
             
             Set Rs = New ADODB.Recordset
@@ -1525,10 +1525,10 @@ Dim CadResul As String
             'Set Rs = Nothing
         
             If OptProv(0).Value Then
-                Cad = "fecharec"
+                cad = "fecharec"
             Else
                 If OptProv(1).Value Then
-                    Cad = "fecfactu"
+                    cad = "fecfactu"
                 End If
             End If
             
@@ -1825,8 +1825,8 @@ End Sub
 
 Private Function ComprobarFechas(Indice1 As Integer, Indice2 As Integer) As Boolean
     ComprobarFechas = False
-    If txtfecha(Indice1).Text <> "" And txtfecha(Indice2).Text <> "" Then
-        If CDate(txtfecha(Indice1).Text) > CDate(txtfecha(Indice2).Text) Then
+    If txtFecha(Indice1).Text <> "" And txtFecha(Indice2).Text <> "" Then
+        If CDate(txtFecha(Indice1).Text) > CDate(txtFecha(Indice2).Text) Then
             MsgBox "Fecha inicio mayor que fecha fin", vbExclamation
             Exit Function
         End If
@@ -1886,8 +1886,8 @@ On Error GoTo EComprobarCuentas347
     SQL = " Select factcli.codmacta,trim(factcli.nifdatos) nifdatos,factcli.dirdatos,coalesce(factcli.codpobla,0) codpobla,factcli.nommacta,factcli.despobla,factcli.desprovi,factcli.codpais from "
     SQL = SQL & Contabilidad & ".factcli, " & Contabilidad & ".cuentas  where "
     SQL = SQL & " cuentas.codmacta=factcli.codmacta and model347=1 "
-    SQL = SQL & " AND fecfactu >='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-    SQL = SQL & " AND fecfactu <='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
+    SQL = SQL & " AND fecfactu >='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+    SQL = SQL & " AND fecfactu <='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
     
     ' Para debug
     'SQL = SQL & " AND factcli.nifdatos IN ('X19455039Y','X19844591F','X20164371H','24367501J','724367501J')"
@@ -1919,7 +1919,7 @@ On Error GoTo EComprobarCuentas347
                 FinBucle = True
             Else
                 NuevoSelect = Rs!nifdatos
-                'If Rs.Fields(1) = "NIF" Then Stop
+                'If Rs.Fields(1) = "NIF" Then S top
             
                 CadenaCifs = CadenaCifs & ", " & UCase(DBSet(Rs.Fields(1).Value, "T"))
                 
@@ -1957,8 +1957,8 @@ On Error GoTo EComprobarCuentas347
         NuevoSelect = NuevoSelect & " from " & Contabilidad & ".factcli c ," & Contabilidad & ".factcli_totales t"
         NuevoSelect = NuevoSelect & " WHERE  C.NUmSerie = T.NUmSerie AND c.numfactu  = t.numfactu"
         NuevoSelect = NuevoSelect & " AND c.fecfactu  = t.fecfactu AND c.anofactu = t.anofactu"
-        NuevoSelect = NuevoSelect & " AND c.fecfactu >='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-        NuevoSelect = NuevoSelect & " AND c.fecfactu <='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
+        NuevoSelect = NuevoSelect & " AND c.fecfactu >='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+        NuevoSelect = NuevoSelect & " AND c.fecfactu <='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
         '        NuevoSelect = NuevoSelect & " AND c.nifdatos = " & DBSet(Rs.Fields(1).Value, "T")
         NuevoSelect = NuevoSelect & " AND c.nifdatos IN (" & CadenaCifs & ")"
         NuevoSelect = NuevoSelect & " GROUP BY 1,2,3"
@@ -1982,7 +1982,7 @@ On Error GoTo EComprobarCuentas347
                     FinBucle = True
                 Else
                     
-                    If RT!nifdatos = "NIF" Then Stop
+                    'If RT!nifdatos = "NIF" Then S top
             
                     
                     If CIFTratando <> UCase(RT!nifdatos) Then
@@ -2027,7 +2027,7 @@ On Error GoTo EComprobarCuentas347
                     
                     End If
                     If Not FinBucle Then
-                        'If InStr(1, RT!nifdatos, "20405409Q") > 0 Then Stop
+                        'If InStr(1, RT!nifdatos, "20405409Q") > 0 Then S top
                         CIFTratando = Trim(UCase(RT!nifdatos))
                         CodmactaTratando = RT!codmacta
                     End If
@@ -2063,10 +2063,10 @@ On Error GoTo EComprobarCuentas347
     Wend
     Rs.Close
     If OptProv(0).Value Then
-        Cad = "fecharec"
+        cad = "fecharec"
     Else
         
-        Cad = "fecfactu"
+        cad = "fecfactu"
         
     End If
     
@@ -2078,8 +2078,8 @@ On Error GoTo EComprobarCuentas347
     SQL = "SELECT factpro.codmacta,factpro.nifdatos, factpro.codpobla, factpro.dirdatos, factpro.nommacta,factpro.despobla,factpro.desprovi,"
     SQL = SQL & " factpro.codpais from " & Contabilidad & ".factpro," & Contabilidad & ".cuentas  where "
     SQL = SQL & Contabilidad & ".cuentas.codmacta=" & Contabilidad & ".factpro.codmacta and model347=1 "
-    SQL = SQL & " AND " & Cad & " >='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-    SQL = SQL & " AND " & Cad & " <='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
+    SQL = SQL & " AND " & cad & " >='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+    SQL = SQL & " AND " & cad & " <='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
     'Para debug
     'SQL = SQL & " AND factpro.nifdatos IN ('19455039Y','19844591F','20164371H','24367501J','724367501J')"
     If Text347(2).Text <> "" Then
@@ -2100,11 +2100,11 @@ On Error GoTo EComprobarCuentas347
         Label2(31).Refresh
         DoEvents
         'SQL = "Select factpro.*," & cad & " fecha from " & Contabilidad & ".factpro factpro where codmacta = '" & Rs.Fields(0) & "' AND "
-        SQL = "Select factpro.*," & Cad & " fecha from " & Contabilidad & ".factpro factpro where "
+        SQL = "Select factpro.*," & cad & " fecha from " & Contabilidad & ".factpro factpro where "
         SQL = SQL & " nifdatos = " & DBSet(Rs!nifdatos, "T")
         SQL = SQL & " AND codmacta = " & DBSet(Rs!codmacta, "T")
-        SQL = SQL & " AND " & Cad & " >='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-        SQL = SQL & " AND " & Cad & " <='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
+        SQL = SQL & " AND " & cad & " >='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+        SQL = SQL & " AND " & cad & " <='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
         RT.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         I1 = 0
         I2 = 0
@@ -2240,18 +2240,18 @@ On Error GoTo EComprobarCuentas347
         If SQL <> "" Then
             SQL = Mid(SQL, 2) 'quit la coma
             
-            Cad = "Select * from " & Contabilidad & ".tmp347trimestre WHERE codusu = " & vUsu.Codigo & " ORDER BY cta"
-            RT.Open Cad, Conn, adOpenKeyset, adCmdText
+            cad = "Select * from " & Contabilidad & ".tmp347trimestre WHERE codusu = " & vUsu.Codigo & " ORDER BY cta"
+            RT.Open cad, Conn, adOpenKeyset, adCmdText
             
             'HABER -DEBE"
-            Cad = "Select hlinapu.codmacta,sum(if(timporteh is null,0,timporteh))-sum(if(timported is null,0,timported)) importe, cuentas.nifdatos, cuentas.codposta"
-            Cad = Cad & " from " & Contabilidad & ".hlinapu,cuentas WHERE hlinapu.codmacta =cuentas.codmacta "
-            Cad = Cad & " AND model347=1 AND fechaent >='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-            Cad = Cad & " AND fechaent <='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
-            Cad = Cad & " AND codconce IN (" & SQL & ")"
-            Cad = Cad & " group by 1 order by 1"
+            cad = "Select hlinapu.codmacta,sum(if(timporteh is null,0,timporteh))-sum(if(timported is null,0,timported)) importe, cuentas.nifdatos, cuentas.codposta"
+            cad = cad & " from " & Contabilidad & ".hlinapu,cuentas WHERE hlinapu.codmacta =cuentas.codmacta "
+            cad = cad & " AND model347=1 AND fechaent >='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+            cad = cad & " AND fechaent <='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
+            cad = cad & " AND codconce IN (" & SQL & ")"
+            cad = cad & " group by 1 order by 1"
 
-            Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             
             While Not Rs.EOF
                 Label2(31).Caption = Rs!codmacta
@@ -2285,7 +2285,7 @@ On Error GoTo EComprobarCuentas347
     
     Set RT = Nothing
     RC = ""
-    Cad = ""
+    cad = ""
     Sql2 = ""
     'Comprobaremos k el nif no es nulo, ni el codppos de las cuentas a tratar
     SQL = "Select cta from " & Contabilidad & ".tmp347 where (nif is null or nif = '') and codusu = " & vUsu.Codigo
@@ -2293,18 +2293,18 @@ On Error GoTo EComprobarCuentas347
     i = 0
     While Not Rs.EOF
         i = i + 1
-        Cad = Cad & Rs.Fields(0) & "       "
+        cad = cad & Rs.Fields(0) & "       "
         If i = 3 Then
-            Cad = Cad & vbCrLf
+            cad = cad & vbCrLf
             i = 0
         End If
         Rs.MoveNext
     Wend
     Rs.Close
     
-    If Cad <> "" Then
-        RC = "Cuentas con NIF sin valor: " & vbCrLf & vbCrLf & Cad
-        Cad = ""
+    If cad <> "" Then
+        RC = "Cuentas con NIF sin valor: " & vbCrLf & vbCrLf & cad
+        cad = ""
     End If
     
     'Comprobamos el codpos
@@ -2315,18 +2315,18 @@ On Error GoTo EComprobarCuentas347
     i = 0
     While Not Rs.EOF
         i = i + 1
-        Cad = Cad & Rs.Fields(0) & "       "
+        cad = cad & Rs.Fields(0) & "       "
         If i = 3 Then
-            Cad = Cad & vbCrLf
+            cad = cad & vbCrLf
             i = 0
         End If
         Rs.MoveNext
     Wend
     Rs.Close
     
-    If Cad <> "" Then
+    If cad <> "" Then
         If RC <> "" Then RC = RC & vbCrLf & vbCrLf & vbCrLf
-        RC = RC & "Cuentas con codigo postal sin valor: " & vbCrLf & vbCrLf & Cad
+        RC = RC & "Cuentas con codigo postal sin valor: " & vbCrLf & vbCrLf & cad
     End If
     
     If RC <> "" Then

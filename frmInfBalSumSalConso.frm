@@ -1307,12 +1307,11 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim Sql2 As String
-Dim Tipo As Byte
-    MsgBox "Falta", vbExclamation
-    Exit Sub
 
 
+    SQL = "select codempre 'Cod.Empresa',nomempre 'Nombre Empresa',cta,nomcta,acumantD 'Anterior Debe',acumAntH 'Anterior Haber'"
+    SQL = SQL & " ,acumPerD 'Periodo Debe',acumPerH 'Periodo haber',TotalD 'DEBE',TotalH 'HABER'"
+    SQL = SQL & " From tmpbalanceconsolidado WHERE codusu = " & vUsu.Codigo & " ORDER BY cta ,codempre"
         
     'LLamos a la funcion
     GeneraFicheroCSV SQL, txtTipoSalida(1).Text
@@ -1800,7 +1799,8 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
     '--------------------
     'Balance consolidado
     If vConta >= 0 Then
-        
+        Set Rs = Nothing
+        Set Rs = New ADODB.Recordset
         SQL = "Select nomempre from usuarios.empresasariconta where codempre =" & vConta
         Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
         cad = ""
@@ -2315,7 +2315,7 @@ Dim NivelCalculo As Integer
     For i = 1 To Me.ListView1.ListItems.Count
         If ListView1.ListItems(i).Checked Then
             pb9.Value = 0
-            Label21.Caption = ListView1.ListItems(i).Text
+            Label21.Caption = ListView1.ListItems(i).SubItems(1)
             Me.Refresh
             If Opcion = 1 Then
                 

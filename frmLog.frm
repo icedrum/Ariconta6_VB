@@ -592,7 +592,7 @@ Private Sub BotonVerTodos()
 On Error Resume Next
 
     CargaGrid ""
-    If adodc1.Recordset.RecordCount <= 0 Then
+    If Adodc1.Recordset.RecordCount <= 0 Then
          MsgBox "No hay ningún registro en la tabla LOG", vbInformation
          Screen.MousePointer = vbDefault
           Exit Sub
@@ -734,10 +734,10 @@ On Error GoTo ECancelar
         Case 3
             DataGrid1.AllowAddNew = False
             'CargaGrid
-            If Not adodc1.Recordset.EOF Then adodc1.Recordset.MoveFirst
+            If Not Adodc1.Recordset.EOF Then Adodc1.Recordset.MoveFirst
         Case 4 'Modificar
             TerminaBloquear
-            Me.lblIndicador.Caption = adodc1.Recordset.AbsolutePosition & " de " & adodc1.Recordset.RecordCount
+            Me.lblIndicador.Caption = Adodc1.Recordset.AbsolutePosition & " de " & Adodc1.Recordset.RecordCount
     End Select
     PonerModo 2
     DataGrid1.SetFocus
@@ -749,13 +749,13 @@ End Sub
 Private Sub DataGrid1_DblClick()
     If cmdRegresar.visible = True Then
     Else
-        If Not (adodc1.Recordset Is Nothing) Then
-            If Not adodc1.Recordset.EOF Then
-                CadenaDesdeOtroForm = "Fecha: " & adodc1.Recordset!Fecha & vbCrLf
-                CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Usuario / PC : " & adodc1.Recordset!Usuario & " - " & adodc1.Recordset!PC & vbCrLf
-                CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Accion: " & adodc1.Recordset!Titulo & vbCrLf & vbCrLf
+        If Not (Adodc1.Recordset Is Nothing) Then
+            If Not Adodc1.Recordset.EOF Then
+                CadenaDesdeOtroForm = "Fecha: " & Adodc1.Recordset!Fecha & vbCrLf
+                CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Usuario / PC : " & Adodc1.Recordset!Usuario & " - " & Adodc1.Recordset!PC & vbCrLf
+                CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Accion: " & Adodc1.Recordset!Titulo & vbCrLf & vbCrLf
                 CadenaDesdeOtroForm = CadenaDesdeOtroForm & Replace(Space(70), " ", "-") & vbCrLf
-                CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Descripción:" & vbCrLf & adodc1.Recordset!Descripcion
+                CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Descripción:" & vbCrLf & Adodc1.Recordset!Descripcion
                 MsgBox CadenaDesdeOtroForm, vbInformation
                 CadenaDesdeOtroForm = ""
             End If
@@ -770,10 +770,10 @@ End Sub
 
 Private Sub DataGrid1_RowColChange(LastRow As Variant, ByVal LastCol As Integer)
     If PrimeraVez Then Exit Sub
-    If Not adodc1.Recordset.EOF Then 'And Modo = 0 Then
-        lblIndicador.Caption = adodc1.Recordset.AbsolutePosition & " de " & adodc1.Recordset.RecordCount
+    If Not Adodc1.Recordset.EOF Then 'And Modo = 0 Then
+        lblIndicador.Caption = Adodc1.Recordset.AbsolutePosition & " de " & Adodc1.Recordset.RecordCount
         
-        Text2(0).Text = adodc1.Recordset!Descripcion
+        Text2(0).Text = Adodc1.Recordset!Descripcion
     End If
 End Sub
 
@@ -901,11 +901,11 @@ Dim tots As String
         SQL = CadenaConsulta
     End If
     SQL = SQL & " ORDER BY fecha desc"
-    adodc1.ConnectionString = Conn
-    adodc1.RecordSource = SQL
-    adodc1.CursorType = adOpenDynamic
-    adodc1.LockType = adLockPessimistic
-    adodc1.Refresh
+    Adodc1.ConnectionString = Conn
+    Adodc1.RecordSource = SQL
+    Adodc1.CursorType = adOpenDynamic
+    Adodc1.LockType = adLockPessimistic
+    Adodc1.Refresh
     DataGrid1.Enabled = B
 
     DataGrid1.ScrollBars = dbgAutomatic
@@ -913,9 +913,9 @@ Dim tots As String
 
    DataGrid1.Columns(1).Caption = "Accion"
    'Actualizar indicador
-   If Not adodc1.Recordset.EOF And (Modo = 2) Then
-        lblIndicador.Caption = adodc1.Recordset.AbsolutePosition & " de " & adodc1.Recordset.RecordCount
-        Text2(0).Text = adodc1.Recordset.Fields(4)
+   If Not Adodc1.Recordset.EOF And (Modo = 2) Then
+        lblIndicador.Caption = Adodc1.Recordset.AbsolutePosition & " de " & Adodc1.Recordset.RecordCount
+        Text2(0).Text = Adodc1.Recordset.Fields(4)
    Else
         Me.lblIndicador.Caption = ""
    End If
@@ -967,15 +967,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
     
     On Error Resume Next
 
-    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
+    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = False

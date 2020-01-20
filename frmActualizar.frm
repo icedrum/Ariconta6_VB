@@ -532,7 +532,9 @@ Dim RF As Recordset
 Dim ImporteNegativo As Boolean
 Dim Importe0 As Boolean
 Dim PrimeraContrapartida As String
-    
+Dim TipoDeIva_ As Integer
+Dim B As Boolean
+
     Dim SqlIva As String
     Dim RsIvas As ADODB.Recordset
 
@@ -669,8 +671,17 @@ Dim PrimeraContrapartida As String
     Set RsIvas = New ADODB.Recordset
     RsIvas.Open SqlIva, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not RsIvas.EOF
+    
         Cad3 = "cuentarr"
-        Cad2 = DevuelveDesdeBD("cuentare", "tiposiva", "codigiva", DBLet(RsIvas!codigiva, "N"), "N", Cad3)
+        
+        'Enero20
+        SQL = "tipodiva"   '4:Suplido
+        Cad2 = DevuelveDesdeBD3("cuentare", "tiposiva", "codigiva", DBLet(RsIvas!codigiva, "N"), "N", Cad3, SQL)
+        TipoDeIva_ = Val(SQL)
+        SQL = ""
+        
+        
+        
         If Cad2 <> "" Then
         
             SQL = Mes & ",'" & Cad2 & "'," & DocConcAmp
@@ -679,7 +690,9 @@ Dim PrimeraContrapartida As String
             SQL = SQL & "NULL,'" & DBLet(RF!codmacta, "T") & "','FRACLI',0)"
             'dependiendo de si ContabilizarAptIva0 = 1 se contabiliza o no el iva
             If Importe0 Then
-                If vParam.ContabApteIva0 Then
+                B = vParam.ContabApteIva0
+                If TipoDeIva_ = 4 Then B = False 'Suplidos NO mete nada
+                If B Then
                     Conn.Execute cad & SQL
                     Mes = Mes + 1
                 End If
@@ -718,7 +731,11 @@ Dim PrimeraContrapartida As String
         'Importes, atencion importes negativos
         Cad2 = CadenaImporte(True, DBLet(RF!trefaccl, "T"), Importe0)
         SQL = SQL & "," & Cad2 & ","
-        SQL = SQL & "NULL,NULL,'FRACLI',0)"
+        'Antes Nov 2019
+        'SQL = SQL & "NULL,NULL,'FRACLI',0)"
+        SQL = SQL & "NULL," & DBSet(RF!codmacta, "T")
+        SQL = SQL & ",'FRACLI',0)"
+       
        
         Conn.Execute cad & SQL
         Mes = Mes + 1 'Es el contador de lineaapunteshco
@@ -827,7 +844,8 @@ Dim RF As Recordset
 Dim ImporteNegativo As Boolean
 Dim Importe0 As Boolean 'Para saber si el importe es 0
 Dim PrimeraContrapartida As String  'Si hay solo una linea entonces la pondremos como contrapartida de la primera base
-
+Dim TipoDeIva_ As Integer
+Dim B As Boolean
 
 'Modificacion de 31 Enero 2005
 '-------------------------------------
@@ -1001,7 +1019,14 @@ Dim TipoDIva As Byte
         End If
         
         Cad3 = "cuentasr"
-        Cad2 = DevuelveDesdeBD(ColumnaIVA, "tiposiva", "codigiva", RsIvas!codigiva, "N", Cad3)
+        'Cad2 = DevuelveDesdeBD(ColumnaIVA, "tiposiva", "codigiva", RsIvas!codigiva, "N", Cad3)
+        SQL = "tipodiva"   '4:Suplido
+        Cad2 = DevuelveDesdeBD3("cuentare", "tiposiva", "codigiva", DBLet(RsIvas!codigiva, "N"), "N", Cad3, SQL)
+        TipoDeIva_ = Val(SQL)
+        SQL = ""
+        
+        
+        
         If Cad2 <> "" Then
             SQL = Mes & ",'" & Cad2 & "'," & DocConcAmp
             Cad2 = CadenaImporte(True, RsIvas!Impoiva, Importe0)
@@ -1009,11 +1034,19 @@ Dim TipoDIva As Byte
             SQL = SQL & "NULL,'" & RF!codmacta & "','FRAPRO',0)"
             
             If Importe0 Then
+                
+                
+                
+                B = False
                 If vParam.ContabApteIva0 Then
                     If Not EsImportacion Then
-                        Conn.Execute cad & SQL
-                        Mes = Mes + 1
+                        B = TipoDeIva_ <> 4
                     End If
+                End If
+                    
+                If B Then
+                    Conn.Execute cad & SQL
+                    Mes = Mes + 1
                 End If
             Else
                 If Not EsImportacion Then
@@ -1084,7 +1117,12 @@ Dim TipoDIva As Byte
         'Importes, atencion importes negativos
         Cad2 = CadenaImporte(False, DBLet(RF!trefacpr, "N"), Importe0)
         SQL = SQL & "," & Cad2 & ","
-        SQL = SQL & "NULL,NULL,'FRAPRO',0)"
+        'Antes Nov19
+        'SQL = SQL & "NULL,NULL,'FRAPRO',0)"
+        
+        SQL = SQL & "NULL," & DBSet(RF!codmacta, "T")
+        SQL = SQL & ",'FRAPRO',0)"
+        
        
         Conn.Execute cad & SQL
         Mes = Mes + 1 'Es el contador de lineaapunteshco

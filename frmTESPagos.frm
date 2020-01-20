@@ -4122,6 +4122,19 @@ Dim Tipo As Integer
     End If
     
     
+    
+    Dim impo As Currency
+    B = True
+    If B Then
+        If Text1(27).Text = "" Then
+            impo = ImporteFormateado(Text1(6).Text)
+            impo = impo - ImporteFormateado(Text1(8).Text)
+            If impo = 0 Then Combo1.ListIndex = 1
+        End If
+    End If
+    
+    
+    
     DatosOK = True
 End Function
 

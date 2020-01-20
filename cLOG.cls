@@ -58,7 +58,7 @@ Option Explicit
 
 '       32.   VARIOS.  Multiproposito. Empezar con corchete
 
-Private Const AccionesRegistradas = 31
+Private Const AccionesRegistradas = 32
 Private mvarDatosDescripcion As String
 
 Dim SQL As String
@@ -172,6 +172,8 @@ Dim C As String
                 
             Case 31
                 C = "Volver gen. fichero XML banco"
+            Case 32
+                C = "Varios"
 
         End Select
         

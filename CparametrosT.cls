@@ -88,7 +88,7 @@ Private mvarForpaPaogTarjetaAplicaIntereses As Integer
 Private mvarCancelaCarteraTalonPagare As Boolean
 Private mvarPideFechaImpresionTalonPagare As Boolean
 
-
+Private mvarImpresionRecibosConObserva As Boolean
 
 
 Private SQL As String  'Para la sentencia
@@ -493,6 +493,11 @@ Public Property Get PideFechaImpresionTalonPagare() As Boolean
     PideFechaImpresionTalonPagare = mvarPideFechaImpresionTalonPagare
 End Property
 
+Public Property Get ImpresionRecibosConObserva() As Boolean
+    ImpresionRecibosConObserva = mvarImpresionRecibosConObserva
+End Property
+
+
 
 'Public Property Let nctafact(ByVal vData As String)
 ''se usa cuando se asigna un valor a la propiedad, en el
@@ -727,8 +732,9 @@ Private Sub ParametrosNuevos2()
         mvarEnvioDesdeOutlook = (DBLet(Rs!EnvioDesdeOutlook, "N") = 1)
 
    
+        mvarImpresionRecibosConObserva = False
     
-       
+        If vEmpresa.nomresum = "TAXCO" Then mvarImpresionRecibosConObserva = True
 
 
         If Err.Number <> 0 Then Err.Clear

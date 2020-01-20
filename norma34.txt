@@ -2,10 +2,10 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
 <CstmrCdtTrfInitn>
    <GrpHdr>
-      <MsgId>TRANPAG000009F20190221T172059</MsgId>
-      <CreDtTm>2019-02-21T17:20:59</CreDtTm>
-      <NbOfTxs>2</NbOfTxs>
-      <CtrlSum>22.20</CtrlSum>
+      <MsgId>TRANPAG000087F20191105T175138</MsgId>
+      <CreDtTm>2019-11-05T17:51:38</CreDtTm>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>4.51</CtrlSum>
       <InitgPty>
          <Nm>Herbelca S.L.</Nm>
          <Id>
@@ -18,9 +18,9 @@
       </InitgPty>
    </GrpHdr>
    <PmtInf>
-      <PmtInfId>20190221172059B46135372</PmtInfId>
+      <PmtInfId>20191105175138B46135372</PmtInfId>
       <PmtMtd>TRF</PmtMtd>
-      <ReqdExctnDt>2019-03-14</ReqdExctnDt>
+      <ReqdExctnDt>2019-11-05</ReqdExctnDt>
       <Dbtr>
          <Nm>Herbelca S.L.</Nm>
          <PstlAdr>
@@ -37,25 +37,25 @@
     </Dbtr>
     <DbtrAcct>
        <Id>
-          <IBAN>ES6400491827832010389247</IBAN>
+          <IBAN>ES2800810693600002093621</IBAN>
        </Id>
        <Ccy>EUR</Ccy>
     </DbtrAcct>
     <DbtrAgt>
        <FinInstnId>
-          <BIC>BSCHESMMXXX</BIC>
+          <BIC>BSABESBBXXX</BIC>
        </FinInstnId>
     </DbtrAgt>
    <CdtTrfTxInf>
       <PmtId>
-         <EndToEndId>14904591  20141230001</EndToEndId>
+         <EndToEndId>4667      20190415001</EndToEndId>
       </PmtId>
       <PmtTpInf>
           <SvcLvl><Cd>SEPA</Cd></SvcLvl>
           <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
        </PmtTpInf>
        <Amt>
-          <InstdAmt Ccy="EUR">.76</InstdAmt>
+          <InstdAmt Ccy="EUR">4.51</InstdAmt>
        </Amt>
        <CdtrAgt>
           <FinInstnId>
@@ -63,63 +63,25 @@
           </FinInstnId>
        </CdtrAgt>
        <Cdtr>
-          <Nm>SOTRALENTZ-HABITAT SPAIN,S.A.U</Nm>
+          <Nm>SIME HISPANIA, S.A.</Nm>
            <Id>
                <OrgId>
                   <Othr>
-                     <Id>A01167204</Id>
+                     <Id>A18550137</Id>
                   </Othr>
                </OrgId>
            </Id>
         </Cdtr>
         <CdtrAcct>
            <Id>
-              <IBAN>ES8300815565940001820787</IBAN>
+              <IBAN>ES1600810659440001103720</IBAN>
            </Id>
         </CdtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>Factura 14904591 de Fecha 30/12/2014</Ustrd>
-      </RmtInf>
-   </CdtTrfTxInf>
-   <CdtTrfTxInf>
-      <PmtId>
-         <EndToEndId>8         20180228001</EndToEndId>
-      </PmtId>
-      <PmtTpInf>
-          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
-          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
-       </PmtTpInf>
-       <Amt>
-          <InstdAmt Ccy="EUR">21.44</InstdAmt>
-       </Amt>
-       <CdtrAgt>
-          <FinInstnId>
-             <BIC>CCRIES2AXXX</BIC>
-          </FinInstnId>
-       </CdtrAgt>
-       <Cdtr>
-          <Nm>MERCEDES ESPA A CORRAL</Nm>
-           <Id>
-               <OrgId>
-                  <Othr>
-                     <Id>19894515K</Id>
-                  </Othr>
-               </OrgId>
-           </Id>
-        </Cdtr>
-        <CdtrAcct>
-           <Id>
-              <IBAN>ES2030582131802810025887</IBAN>
-           </Id>
-        </CdtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>MERCEDES ESPA A CORRAL</Ustrd>
+         <Ustrd>4667        de 15/04/2019 N 001</Ustrd>
       </RmtInf>
    </CdtTrfTxInf>
    </PmtInf>

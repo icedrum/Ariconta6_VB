@@ -320,7 +320,7 @@ Begin VB.Form frmFacturasPro
          Width           =   1545
       End
    End
-   Begin VB.Frame Frame4 
+   Begin VB.Frame FrameTotales 
       Height          =   2385
       Left            =   9720
       TabIndex        =   79
@@ -3875,11 +3875,17 @@ End Sub
 
 Private Sub Combo1_Click(Index As Integer)
      If Index = 2 And (Modo = 3 Or Modo = 4) Then
+        'RTENCION
+     
         If Combo1(Index).ListIndex = 0 Then
             Text1(7).Text = ""
             Text1(6).Text = ""
             Text4(6).Text = ""
+            Text1(12).Text = ""
         End If
+        
+        BloqueaTXT Text1(12), Combo1(Index).ListIndex = 0
+        
     End If
     
     If Combo1(Index).ListIndex = -1 Then Exit Sub
@@ -4448,8 +4454,8 @@ Dim B As Boolean
         txtaux(i).BackColor = vbWhite
     Next i
     
-    Frame4.Enabled = (Modo = 1)
-    
+    'Frame4.Enabled = (Modo = 1)
+    FrameTotalesEnable Modo <> 1
     
     txtaux(8).Enabled = (Modo = 1)
     txtaux(9).Enabled = (Modo = 1)
@@ -5215,6 +5221,12 @@ Private Sub BotonModificar()
     DespalzamientoVisible False
     'PonFoco Text1(1)
     ModificarPagos = False
+    
+    
+    If Combo1(2).ListIndex > 0 Then BloqueaTXT Text1(12), False
+    
+    '
+    
     
     
 End Sub
@@ -6013,8 +6025,18 @@ Dim J As Integer
             End If
         
         Case 7 ' % de retencion
-            PonerFormatoDecimal Text1(Index), 4
-        
+            If Not PonerFormatoDecimal(Text1(Index), 4) Then Text1(Index).Text = ""
+            If Modo = 4 Then
+                'Esta modificando
+                Valor = ImporteFormateado(Text1(Index).Text)
+                If DBLet(data1.Recordset!retfacpr, "N") <> Valor Then
+                    
+                    
+                    Valor = (DBLet(data1.Recordset!totbasesret, "N") * Valor) / 100
+                    Text1(12).Text = Format(Valor, FormatoImporte)
+                End If
+                If Text1(Index).Text <> "" Then PonFoco Text1(12)
+            End If
         Case 21 ' codigo de pais
             If Text1(Index).Text <> "" Then
                 Text4(Index).Text = PonerNombreDeCod(Text1(Index), "paises", "nompais", "codpais", "T")
@@ -6034,6 +6056,20 @@ Dim J As Integer
                 PonFoco Text1(Index)
                 Exit Sub
             End If
+        
+        
+        
+        Case 12
+            'Oct 2019
+            'Importe reten. Dejo modificarlo
+            If Modo = 4 Then
+                If Combo1(2).ListIndex = 0 Then
+                    Text1(Index).Text = ""
+                Else
+                    If Not PonerFormatoDecimal(Text1(Index), 3) Then Text1(Index).Text = ""
+                End If
+            End If
+            
         
     End Select
 End Sub
@@ -6334,7 +6370,7 @@ Dim SqlLog As String
                 ' cogemos un nro.de asiento para integrarlo
                 Set Mc = New Contadores
                 
-                i = FechaCorrecta2(CDate(DBLet(Rs!FecFactu, "F")))
+                i = FechaCorrecta2(CDate(DBLet(Rs!fecharec, "F")))
                 If Mc.ConseguirContador("0", (i = 0), False) = 0 Then
                     
                     Numasien2 = Mc.Contador
@@ -6370,7 +6406,10 @@ Dim SqlLog As String
                     End With
                 
                     If IntegrarFactura Then
-                        SQL = "update factpro set numdiari = " & DBSet(NumDiario, "N") & ", fechaent = " & DBSet(Rs!FecFactu, "F") & ", "
+                        'ERRORRRRR GRAVISIMIO
+                        'Estaba asi desde SIEMPRE. Erroooooooooooooooooooooooooooorrrrr
+                        'SQL = "update factpro set numdiari = " & DBSet(NumDiario, "N") & ", fechaent = " & DBSet(Rs!FecFactu, "F") & ", "
+                        SQL = "update factpro set numdiari = " & DBSet(NumDiario, "N") & ", fechaent = " & DBSet(Rs!fecharec, "F") & ", "
                         SQL = SQL & " numasien = " & DBSet(Numasien2, "N") & " where numserie = " & DBSet(Rs!NUmSerie, "T") & " and anofactu = year("
                         SQL = SQL & DBSet(Rs!fecharec, "F") & ") and numregis = " & DBSet(Rs!Numregis, "N")
                     
@@ -7058,7 +7097,7 @@ Dim Importe As Currency
             CambiarIva = True
         Else
             If ModoLineas = 1 Then
-            
+                
                 If CInt(ComprobarCero(txtaux(7).Text)) <> CInt(ComprobarCero(IvaCuenta)) Then
                     If MsgBox("El código de iva es distinto del de la cuenta. " & vbCrLf & " ¿ Desea modificarlo en la cuenta ? " & vbCrLf & vbCrLf, vbQuestion + vbYesNo) = vbYes Then
                         CambiarIva = True
@@ -8729,6 +8768,16 @@ Dim IvaModificable As Boolean
         Imporeten = 0
     Else
         Imporeten = Round2((PorcRet * Basereten / 100), 2)
+        
+        
+        If Modo = 4 And Text1(12).Text <> "" Then
+            SQL = Format(Imporeten, FormatoImporte)
+            If Text1(12).Text <> SQL Then
+                SQL = "Calculado : " & SQL & vbCrLf & "Introducido: " & Text1(12).Text & vbCrLf & vbCrLf
+                MsgBox "Aviso. Diferencia importe retencion: " & vbCrLf & SQL, vbExclamation
+                Imporeten = ImporteFormateado(Text1(12).Text)
+            End If
+        End If
     End If
     
     TotalFactura = Baseimpo + Impoiva + ImpoRec + Suplidos - Imporeten
@@ -9353,21 +9402,21 @@ Private Sub txtPDF_DblClick()
     SQL = ObtenerWhereCP(True) & " AND orden =1"
     SQL = "Select campo,docum from factpro_fichdocs " & SQL
     
-    adodc1.ConnectionString = Conn
-    adodc1.RecordSource = SQL
-    adodc1.Refresh
+    Adodc1.ConnectionString = Conn
+    Adodc1.RecordSource = SQL
+    Adodc1.Refresh
 
-    If adodc1.Recordset.EOF Then
+    If Adodc1.Recordset.EOF Then
         'NO HAY NINGUNA
         MsgBoxA "Ningun documento asociado a la factura", vbExclamation
     Else
         'LEEMOS LA IMAGEN
 
         
-        SQL = App.Path & "\Temp\" & adodc1.Recordset!DOCUM
-        LeerBinary adodc1.Recordset!Campo, SQL
-        adodc1.RecordSource = "Select codigo from factpro_fichdocs WHERE false "
-        adodc1.Refresh
+        SQL = App.Path & "\Temp\" & Adodc1.Recordset!DOCUM
+        LeerBinary Adodc1.Recordset!Campo, SQL
+        Adodc1.RecordSource = "Select codigo from factpro_fichdocs WHERE false "
+        Adodc1.Refresh
         
         
         Call ShellExecute(Me.hwnd, "Open", SQL, "", "", 1)
@@ -9461,20 +9510,20 @@ Dim Fichero  As String
     
     'Abro parar guardar el binary
     C = "Select * from factpro_fichdocs where codigo =" & L
-    adodc1.ConnectionString = Conn
-    adodc1.RecordSource = C
-    adodc1.Refresh
+    Adodc1.ConnectionString = Conn
+    Adodc1.RecordSource = C
+    Adodc1.Refresh
 '
-    If adodc1.Recordset.EOF Then
+    If Adodc1.Recordset.EOF Then
         'MAAAAAAAAAAAAL
 
     Else
         'Guardar
-        GuardarBinary adodc1.Recordset!Campo, Fichero
-        adodc1.Recordset.Update
+        GuardarBinary Adodc1.Recordset!Campo, Fichero
+        Adodc1.Recordset.Update
         
-        adodc1.RecordSource = "Select * from factpro_fichdocs where false"
-        adodc1.Refresh
+        Adodc1.RecordSource = "Select * from factpro_fichdocs where false"
+        Adodc1.Refresh
     End If
     InsertarDesdeFichero = True
 End Function
@@ -9609,3 +9658,12 @@ Private Function AnyadirModificarIVA() As Boolean
     
 End Function
 
+Private Sub FrameTotalesEnable(Bloqueado As Boolean)
+    BloqueaTXT Text1(9), Bloqueado
+    BloqueaTXT Text1(10), Bloqueado
+    BloqueaTXT Text1(11), Bloqueado
+    BloqueaTXT Text1(12), Bloqueado
+    BloqueaTXT Text1(13), Bloqueado
+    BloqueaTXT Text1(30), Bloqueado
+    BloqueaTXT Text1(31), Bloqueado
+End Sub

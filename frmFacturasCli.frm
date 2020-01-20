@@ -5539,7 +5539,9 @@ Dim Rs As ADODB.Recordset
             If Len(Text1(Index).Text) > 0 Then PonCursorInicio
         Case 4, 6 ' cuenta de cliente, cuenta de retencion
                 'Cuenta cliente
-                If AntiguoText1 = Text1(Index).Text Then Exit Sub
+                If AntiguoText1 = Text1(Index).Text Then
+                    If Text4(4).Text <> "" Then Exit Sub
+                End If
                 RC = Text1(Index).Text
                 i = Index
                 
@@ -6500,12 +6502,16 @@ Dim Importe As Currency
         Else
         
              If ModoLineas = 1 Then
-            
-                If CInt(ComprobarCero(txtaux(7).Text)) <> CInt(ComprobarCero(IvaCuenta)) Then
-                    If MsgBoxA("El código de iva es distinto del de la cuenta. " & vbCrLf & " ¿ Desea modificarlo en la cuenta ? " & vbCrLf & vbCrLf, vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
-                        CambiarIva = True
-                    Else
-                        CambiarIva = False
+                'Enero 2020
+                'QUito esta pregunta
+                CambiarIva = False
+                If False Then
+                    If CInt(ComprobarCero(txtaux(7).Text)) <> CInt(ComprobarCero(IvaCuenta)) Then
+                        If MsgBoxA("El código de iva es distinto del de la cuenta. " & vbCrLf & " ¿ Desea modificarlo en la cuenta ? " & vbCrLf & vbCrLf, vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
+                            CambiarIva = True
+                        Else
+                            CambiarIva = False
+                        End If
                     End If
                 End If
             End If

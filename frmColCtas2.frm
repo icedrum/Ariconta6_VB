@@ -687,7 +687,7 @@ Private Sub BotonModificar()
     ParaBusqueda False
     CadenaDesdeOtroForm = ""
     frmCuentas.vModo = 2
-    frmCuentas.CodCta = adodc1.Recordset!codmacta
+    frmCuentas.CodCta = Adodc1.Recordset!codmacta
     frmCuentas.Show vbModal
     If CadenaDesdeOtroForm <> "" Then
         CargaGrid
@@ -700,35 +700,35 @@ Dim SQL As String
     On Error GoTo Error2
     ParaBusqueda False
     'Ciertas comprobaciones
-    If adodc1.Recordset.EOF Then Exit Sub
+    If Adodc1.Recordset.EOF Then Exit Sub
     '### a mano
     SQL = "Seguro que desea eliminar la cuenta:"
-    SQL = SQL & vbCrLf & "Código: " & adodc1.Recordset.Fields(0)
-    SQL = SQL & vbCrLf & "Denominación: " & adodc1.Recordset.Fields(1)
+    SQL = SQL & vbCrLf & "Código: " & Adodc1.Recordset.Fields(0)
+    SQL = SQL & vbCrLf & "Denominación: " & Adodc1.Recordset.Fields(1)
     If MsgBox(SQL, vbQuestion + vbYesNoCancel) = vbYes Then
-        SQL = adodc1.Recordset.Fields(0)
+        SQL = Adodc1.Recordset.Fields(0)
         Screen.MousePointer = vbHourglass
         If SepuedeEliminarCuenta(SQL) Then
             'Hay que eliminar
             Screen.MousePointer = vbHourglass
             
-            SQL = "Delete from departamentos where codmacta = " & DBSet(adodc1.Recordset!codmacta, "T")
+            SQL = "Delete from departamentos where codmacta = " & DBSet(Adodc1.Recordset!codmacta, "T")
             Conn.Execute SQL
             
-            SQL = "Delete from cuentas where codmacta='" & adodc1.Recordset!codmacta & "'"
+            SQL = "Delete from cuentas where codmacta='" & Adodc1.Recordset!codmacta & "'"
             Conn.Execute SQL
             Screen.MousePointer = vbHourglass
             espera 0.5
             'Cancelamos el adodc1
             DataGrid1.Enabled = False
-            NumRegElim = adodc1.Recordset.AbsolutePosition - 1
+            NumRegElim = Adodc1.Recordset.AbsolutePosition - 1
             CargaGrid
             DataGrid1.Enabled = True
             If NumRegElim > 0 Then
-                If NumRegElim >= adodc1.Recordset.RecordCount Then
-                    adodc1.Recordset.MoveLast
+                If NumRegElim >= Adodc1.Recordset.RecordCount Then
+                    Adodc1.Recordset.MoveLast
                 Else
-                    adodc1.Recordset.Move NumRegElim
+                    Adodc1.Recordset.Move NumRegElim
                     'DataGrid1.Bookmark = Adodc1.Recordset.AbsolutePosition
                 End If
             End If
@@ -745,18 +745,18 @@ Error2:
         End If
 End Sub
 
-Private Sub FijarError(ByRef Cad As String)
+Private Sub FijarError(ByRef cad As String)
     On Error Resume Next
-    Cad = Conn.Errors(0).Description
+    cad = Conn.Errors(0).Description
     If Err.Number <> 0 Then
         Err.Clear
-        Cad = ""
+        cad = ""
     End If
 End Sub
 
 
 Private Sub adodc1_MoveComplete(ByVal adReason As ADODB.EventReasonEnum, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pRecordset As ADODB.Recordset)
-    If adReason = adRsnMove And adStatus = adStatusOK Then PonLblIndicador Me.lblIndicador, adodc1
+    If adReason = adRsnMove And adStatus = adStatusOK Then PonLblIndicador Me.lblIndicador, Adodc1
         
 End Sub
 
@@ -863,7 +863,7 @@ Dim SQL As String
         CadenaConsulta = GeneraSQL(SQL)
         CargaGrid
         Screen.MousePointer = vbDefault
-        If adodc1.Recordset.EOF Then
+        If Adodc1.Recordset.EOF Then
             MsgBox "Ningún resultado para la búsqueda.", vbExclamation
             Exit Sub
         Else
@@ -877,17 +877,17 @@ Dim SQL As String
 End Sub
 
 Private Sub cmdRegresar_Click()
-    If adodc1.Recordset Is Nothing Then
+    If Adodc1.Recordset Is Nothing Then
         BotonBuscar
         Screen.MousePointer = vbDefault
         Exit Sub
     End If
     
-    If adodc1.Recordset.EOF Then
+    If Adodc1.Recordset.EOF Then
         MsgBox "Ningún registro devuelto.", vbExclamation
         Exit Sub
     End If
-    RaiseEvent DatoSeleccionado(adodc1.Recordset!codmacta & "|" & adodc1.Recordset!Nommacta & "|" & adodc1.Recordset!bloqueada & "|")
+    RaiseEvent DatoSeleccionado(Adodc1.Recordset!codmacta & "|" & Adodc1.Recordset!Nommacta & "|" & Adodc1.Recordset!bloqueada & "|")
     Unload Me
 End Sub
 
@@ -897,12 +897,12 @@ Private Sub DataGrid1_DblClick()
         cmdRegresar_Click
     Else
     
-        If adodc1.Recordset Is Nothing Then Exit Sub
-        If adodc1.Recordset.EOF Then Exit Sub
+        If Adodc1.Recordset Is Nothing Then Exit Sub
+        If Adodc1.Recordset.EOF Then Exit Sub
     
         'Vemos todos los valores de la cuenta
         frmCuentas.vModo = 0
-        frmCuentas.CodCta = adodc1.Recordset!codmacta
+        frmCuentas.CodCta = Adodc1.Recordset!codmacta
         frmCuentas.Show vbModal
     End If
 End Sub
@@ -923,18 +923,19 @@ End Sub
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 113 Then  ' si pulsa F2 vamos a consulta de extractos
     
-        If Me.adodc1.Recordset.EOF Then Exit Sub
+        If Me.Adodc1.Recordset.EOF Then Exit Sub
         
-        Aux = DBSet(vParam.fechaini, "F") & " AND " & DBSet(DateAdd("yyyy", i, vParam.fechafin), "F")
+        Aux = DBSet(vParam.fechaini, "F") & " AND "
+        Aux = Aux & DBSet(DateAdd("yyyy", 1, vParam.fechafin), "F")
         Aux = Aux & " AND codmacta  "
-        Aux = DevuelveDesdeBD("count(*)", "hlinapu", Aux, adodc1.Recordset!codmacta, "T")
+        Aux = DevuelveDesdeBD("count(*)", "hlinapu", Aux, Adodc1.Recordset!codmacta, "T")
         If Val(Aux) = 0 Then
-             MsgBox "La cuenta " & adodc1.Recordset!codmacta & " NO tiene movimientos en las fechas", vbExclamation
+             MsgBox "La cuenta " & Adodc1.Recordset!codmacta & " NO tiene movimientos en las fechas", vbExclamation
         
         Else
             Set frmCExt = New frmConExtr
             
-            frmCExt.Cuenta = Me.adodc1.Recordset.Fields(0).Value
+            frmCExt.Cuenta = Me.Adodc1.Recordset.Fields(0).Value
             frmCExt.Show vbModal
             
             Set frmCExt = Nothing
@@ -1214,7 +1215,7 @@ Dim B As Boolean
     DataGrid1.Enabled = B
     
     
-    lblComprobar(2).visible = Not Me.adodc1.Recordset.EOF
+    lblComprobar(2).visible = Not Me.Adodc1.Recordset.EOF
     
 End Sub
 
@@ -1224,7 +1225,7 @@ Private Sub CargaGrid2()
     Dim i As Integer
     Dim SQL As String
     Dim B As Boolean
-    adodc1.ConnectionString = Conn
+    Adodc1.ConnectionString = Conn
     B = DataGrid1.Enabled
     DataGrid1.Enabled = False
     SQL = CadenaConsulta
@@ -1235,10 +1236,10 @@ Private Sub CargaGrid2()
     Else
         SQL = SQL & " nommacta"
     End If
-    adodc1.RecordSource = SQL
-    adodc1.CursorType = adOpenDynamic
-    adodc1.LockType = adLockOptimistic
-    adodc1.Refresh
+    Adodc1.RecordSource = SQL
+    Adodc1.CursorType = adOpenDynamic
+    Adodc1.LockType = adLockOptimistic
+    Adodc1.Refresh
     
     DataGrid1.AllowRowSizing = False
     DataGrid1.RowHeight = 350
@@ -1283,15 +1284,15 @@ Private Sub CargaGrid2()
                
     'Habilitamos modificar y eliminar
     Toolbar1.Buttons(4).Enabled = vUsu.Nivel < 3
-    Toolbar1.Buttons(7).Enabled = Not adodc1.Recordset.EOF
+    Toolbar1.Buttons(7).Enabled = Not Adodc1.Recordset.EOF
     If vUsu.Nivel < 2 Then
-        Toolbar1.Buttons(8).Enabled = Not adodc1.Recordset.EOF
+        Toolbar1.Buttons(8).Enabled = Not Adodc1.Recordset.EOF
     Else
         Toolbar1.Buttons(8).Enabled = False
     End If
    
     'Para k la barra de desplazamiento sea mas alta
-    If Not adodc1.Recordset.EOF Then
+    If Not Adodc1.Recordset.EOF Then
             DataGrid1.ScrollBars = dbgVertical
     End If
     DataGrid1.Enabled = B
@@ -1304,7 +1305,7 @@ End Sub
 Private Sub PonerOptionsVisibles(Opcion As Byte)
 Dim i As Integer
 Dim J As Integer
-Dim Cad As String
+Dim cad As String
 
 End Sub
 
@@ -1317,7 +1318,7 @@ Dim nexo As String
 Dim J As Integer
 Dim wildcar As String
 Dim Digitos As Integer
-Dim Cad As String
+Dim cad As String
 
     SQL = ""
     nexo = ""
@@ -1352,8 +1353,8 @@ Dim Cad As String
     
     '++ añado el filtro
     'filtro
-    Cad = DevuelveSQLFiltro(True)
-    If Cad <> "" Then wildcar = wildcar & Cad
+    cad = DevuelveSQLFiltro(True)
+    If cad <> "" Then wildcar = wildcar & cad
     
     GeneraSQL = wildcar
 End Function
@@ -1363,7 +1364,7 @@ End Function
 Private Function SepuedeEliminarCuenta(Cuenta As String) As Boolean
 Dim NivelCta As Integer
 Dim i, J As Integer
-Dim Cad As String
+Dim cad As String
 
     SepuedeEliminarCuenta = False
     If EsCuentaUltimoNivel(Cuenta) Then
@@ -1373,11 +1374,11 @@ Dim Cad As String
         'NO se puede borrar
         lblComprobar(0).Caption = "Comprobando"
         lblComprobar(0).visible = True
-        Cad = BorrarCuenta(Cuenta, lblComprobar(0))
+        cad = BorrarCuenta(Cuenta, lblComprobar(0))
         lblComprobar(0).visible = False
-        If Cad <> "" Then
-            Cad = Cuenta & vbCrLf & Cad
-            MsgBox Cad, vbExclamation
+        If cad <> "" Then
+            cad = Cuenta & vbCrLf & cad
+            MsgBox cad, vbExclamation
             Exit Function
         End If
         
@@ -1394,17 +1395,17 @@ Dim Cad As String
         'Ctas agrupadas
         i = DigitosNivel(NivelCta)
         If i = 3 Then
-            Cad = DevuelveDesdeBD("codmacta", "ctaagrupadas", "codmacta", Cuenta, "T")
-            If Cad <> "" Then
+            cad = DevuelveDesdeBD("codmacta", "ctaagrupadas", "codmacta", Cuenta, "T")
+            If cad <> "" Then
                 MsgBox "El subnivel pertenece a agrupacion de cuentas en balance"
                 Exit Function
             End If
         End If
         For J = NivelCta + 1 To vEmpresa.numnivel
-            Cad = Cuenta & "__________"
+            cad = Cuenta & "__________"
             i = DigitosNivel(J)
-            Cad = Mid(Cad, 1, i)
-            If TieneEnBD(Cad) Then
+            cad = Mid(cad, 1, i)
+            If TieneEnBD(cad) Then
                 MsgBox "Tiene cuentas en niveles superiores (" & J & ")", vbExclamation
                 Exit Function
             End If
@@ -1413,10 +1414,10 @@ Dim Cad As String
     SepuedeEliminarCuenta = True
 End Function
 
-Private Function TieneEnBD(Cad As String) As String
+Private Function TieneEnBD(cad As String) As String
     
     Set Rs = New ADODB.Recordset
-    Rs.Open "Select codmacta from cuentas where codmacta like '" & Cad & "'", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open "Select codmacta from cuentas where codmacta like '" & cad & "'", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     TieneEnBD = Not Rs.EOF
     Rs.Close
     Set Rs = Nothing
@@ -1425,10 +1426,10 @@ End Function
 
 Private Sub SituaGrid(CADENA As String)
 On Error GoTo ESituaGrid
-If adodc1.Recordset.EOF Then Exit Sub
+If Adodc1.Recordset.EOF Then Exit Sub
 
-adodc1.Recordset.Find " codmacta =  " & CADENA & ""
-If adodc1.Recordset.EOF Then adodc1.Recordset.MoveFirst
+Adodc1.Recordset.Find " codmacta =  " & CADENA & ""
+If Adodc1.Recordset.EOF Then Adodc1.Recordset.MoveFirst
 
 Exit Sub
 ESituaGrid:
@@ -1481,7 +1482,7 @@ End Sub
 
 
 Private Sub ComprobarCuentas()
-Dim Cad As String
+Dim cad As String
 Dim N As Integer
 Dim i As Integer
 Dim Col As Collection
@@ -1491,7 +1492,7 @@ On Error GoTo EComprobarCuentas
     
     
     'NO hay cuentas
-    If Me.adodc1.Recordset.EOF Then Exit Sub
+    If Me.Adodc1.Recordset.EOF Then Exit Sub
     'Buscando datos
     If txtaux(0).visible Then Exit Sub
     'Para cada nivel n comprobaremos si existe la cuenta en un
@@ -1522,12 +1523,12 @@ On Error GoTo EComprobarCuentas
         lblComprobar(0).Caption = "Nivel: " & i
         lblComprobar(0).Refresh
         Do
-            If ObtenerCuenta(Cad, i, N) Then
-                lblComprobar(1).Caption = Cad
+            If ObtenerCuenta(cad, i, N) Then
+                lblComprobar(1).Caption = cad
                 lblComprobar(1).Refresh
-                ComprobarCuenta Cad, i, Col
+                ComprobarCuenta cad, i, Col
             End If
-        Loop Until Cad = ""
+        Loop Until cad = ""
     Next i
     
     
@@ -1547,21 +1548,21 @@ On Error GoTo EComprobarCuentas
         MsgBox "Comprobación finalizada", vbInformation
         
         Else
-            Cad = Dir("C:\WINDOWS\NOTEPAD.exe")
-            If Cad = "" Then
-                Cad = Dir("C:\WINNT\NOTEPAD.exe")
+            cad = Dir("C:\WINDOWS\NOTEPAD.exe")
+            If cad = "" Then
+                cad = Dir("C:\WINNT\NOTEPAD.exe")
             End If
-            If Cad = "" Then
+            If cad = "" Then
                 MsgBox "Se ha producido errores. Vea el archivo Errorcta.txt"
                 Else
-                Shell Cad & " " & App.Path & "\Errorcta.txt", vbMaximizedFocus
+                Shell cad & " " & App.Path & "\Errorcta.txt", vbMaximizedFocus
             End If
             espera 2
     
             If vUsu.Nivel < 2 Then
                 If MsgBox("Desea crear los subniveles?", vbQuestion + vbYesNo) = vbYes Then
                         
-                        Cad = "insert into `cuentas` (`codmacta`,`nommacta`,`apudirec`,dirdatos) VALUES ('"
+                        cad = "insert into `cuentas` (`codmacta`,`nommacta`,`apudirec`,dirdatos) VALUES ('"
                         For NF = 1 To Col.Count
                             N = DigitosNivelAnterior(Col.Item(NF))
                             If N > 0 Then
@@ -1573,7 +1574,7 @@ On Error GoTo EComprobarCuentas
                             
                             If C1 = "" Then C1 = "AUTOM: " & Col.Item(NF)
     
-                            EjecutaSQL Cad & Col.Item(NF) & "','" & DevNombreSQL(C1) & "','N','AUTOMATICA en la comprobacion')"
+                            EjecutaSQL cad & Col.Item(NF) & "','" & DevNombreSQL(C1) & "','N','AUTOMATICA en la comprobacion')"
                         Next NF
                 End If
             End If
@@ -1672,12 +1673,12 @@ End Sub
 
 
 Private Function DevuelveUltimaCuentaGrupo(Cta As String, Nivel As Integer, ByRef Digitos As Integer) As String
-Dim Cad As String
+Dim cad As String
 Dim N As Integer
 N = DigitosNivel(Nivel - 1)
-Cad = Mid(Cta, 1, N)
-Cad = Cad & "9999999999"
-DevuelveUltimaCuentaGrupo = Mid(Cad, 1, Digitos)
+cad = Mid(Cta, 1, N)
+cad = cad & "9999999999"
+DevuelveUltimaCuentaGrupo = Mid(cad, 1, Digitos)
 End Function
 
 
@@ -1917,15 +1918,15 @@ End Function
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
     
     On Error Resume Next
 
-    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2) 'And (DatosADevolverBusqueda = "")

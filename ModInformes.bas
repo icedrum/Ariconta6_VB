@@ -146,6 +146,7 @@ Dim SubTipo As String 'F: fecha   N: numero   T: texto  H: HORA
     Case "TPAG", "FPAG", "REM", "ANYO", "REG"
         SubTipo = "N"
         
+   
     End Select
     
     Devuelve = CadenaDesdeHasta(Desde, Hasta, Campo, SubTipo)

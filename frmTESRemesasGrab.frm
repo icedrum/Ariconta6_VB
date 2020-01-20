@@ -663,7 +663,7 @@ Dim PrimeraVez As Boolean
 Dim Cancelado As Boolean
 Dim CuentasCC As String
 
-Dim NombreIdFicherREsumido As Boolean
+
 
 
 Private Sub cboTipoRemesa_KeyPress(KeyAscii As Integer)
@@ -736,7 +736,7 @@ Dim HaceAgr As Integer
             If optSepaXML(1).Value Then FCobro = ""  'Ha selccionado por vencimiento
         
             SQL = Mid(Text7(1).Text & "   ", 1, 3) & "|" & Mid(Text7(0).Text & Space(40), 1, 40) & "|"
-            If GrabarDisketteNorma19(App.Path & "\tmpRem.ari", Text3(0).Text & "|" & Text3(1).Text & "|", Text1(18).Text, SQL, Me.cmbReferencia.ListIndex, FCobro, True, chkSEPA_GraboNIF(0).Value = 1, chkSEPA_GraboNIF(1).Value = 1, cboTipoRemesa.ListIndex = 0, chkAnticipoCredito.Value = 1, IdFicheroGenerado, AgruparVtos, NombreIdFicherREsumido) Then
+            If GrabarDisketteNorma19(App.Path & "\tmpRem.ari", Text3(0).Text & "|" & Text3(1).Text & "|", Text1(18).Text, SQL, Me.cmbReferencia.ListIndex, FCobro, True, chkSEPA_GraboNIF(0).Value = 1, chkSEPA_GraboNIF(1).Value = 1, cboTipoRemesa.ListIndex = 0, chkAnticipoCredito.Value = 1, IdFicheroGenerado, AgruparVtos) Then
                 SQL = App.Path & "\tmpRem.ari"
                 'Copio el disquete
                 B = CopiarArchivo
@@ -951,19 +951,16 @@ Dim W As Integer
     
     'Aun no he puesto esto en paramaetros del banco. De momento lo hago por nombre de empresa
     SQL = " from bancos where codmacta = '" & SQL & "'"
-    If InStr(1, UCase(vEmpresa.nomempre), "ENOLLA") > 0 Then
-        SQL = " 1 anticipoCredito , 1 nombreFicheroResum " & SQL
-    Else
-        SQL = " 0 anticipoCredito , 0 nombreFicheroResum " & SQL
-    End If
-    SQL = "Select N1914GrabaNifDeudor,sufijoem," & SQL
+
+    SQL = "Select N1914GrabaNifDeudor,sufijoem " & SQL
     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Text7(1).Text = DBLet(miRsAux!sufijoem, "T")
-    NombreIdFicherREsumido = False
+    
+   
     If vParamT.NuevasNormasSEPA Then
         chkSEPA_GraboNIF(0).Value = DBLet(miRsAux!N1914GrabaNifDeudor, "N")
-        chkAnticipoCredito.Value = DBLet(miRsAux!anticipoCredito, "N")
-        If DBLet(miRsAux!nombreFicheroResum, "N") = 1 Then NombreIdFicherREsumido = True
+        'chkAnticipoCredito.Value = DBLet(miRsAux!anticipoCredito, "N")
+        
     End If
     
     

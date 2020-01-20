@@ -105,7 +105,7 @@ Public Const vbConfirmingStd = 0        'Fichero STD de confirming
 Public Const vbConfirmingCaixa = 1      ' "       LA CAIXA
 Public Const vbConfirmingSantander = 2  ' "   grupo santander
 Public Const vbSabadell = 3  ' "   grupo santander
-
+Public Const vbConfirmingRural = 4  ' "   Caixa rural
 
 
 '++
@@ -152,7 +152,7 @@ Public RespuestaMsgBox As Integer  'Para el msgbox del codejock
 Public Sub Main()
 
 
-Dim Cad As String
+Dim cad As String
 Dim NF As Integer
 
 Dim SQL As String
@@ -261,7 +261,7 @@ End Function
 
 'Usuario As String, Pass As String --> Directamente el usuario
 Public Function AbrirConexion(BBDD As String, Optional OcultarMsg As Boolean) As Boolean
-Dim Cad As String
+Dim cad As String
 Dim Prueba As String
 
 On Error GoTo EAbrirConexion
@@ -277,14 +277,14 @@ On Error GoTo EAbrirConexion
     Prueba = "Conn.CursorLocation = adUseServer  "
     Conn.CursorLocation = adUseServer   'Si ponemos esta alguns errores de Conn no se muestran correctamente
     
-    Cad = "DRIVER={MySQL ODBC 3.51 Driver};DESC=;DATA SOURCE=" & vControl.ODBC
-    If BBDD <> "" Then Cad = Cad & ";DATABASE= " & BBDD
-    Cad = Cad & ";UID=" & vControl.UsuarioBD
-    Cad = Cad & ";PWD=" & vControl.PassworBD
-    Cad = Cad & ";Persist Security Info=true"
+    cad = "DRIVER={MySQL ODBC 3.51 Driver};DESC=;DATA SOURCE=" & vControl.ODBC
+    If BBDD <> "" Then cad = cad & ";DATABASE= " & BBDD
+    cad = cad & ";UID=" & vControl.UsuarioBD
+    cad = cad & ";PWD=" & vControl.PassworBD
+    cad = cad & ";Persist Security Info=true"
     
-    Prueba = "Conn.ConnectionString = " & Cad
-    Conn.ConnectionString = Cad
+    Prueba = "Conn.ConnectionString = " & cad
+    Conn.ConnectionString = cad
     Prueba = "Conn.open"
     Conn.Open
     AbrirConexion = True
@@ -499,14 +499,14 @@ End Function
 
 
 Public Sub MuestraError(numero As Long, Optional CADENA As String, Optional Desc As String)
-    Dim Cad As String
+    Dim cad As String
     Dim Aux As String
     'Con este sub pretendemos unificar el msgbox para todos los errores
     'que se produzcan
     On Error Resume Next
-    Cad = "Se ha producido un error: " & vbCrLf
+    cad = "Se ha producido un error: " & vbCrLf
     If CADENA <> "" Then
-        Cad = Cad & vbCrLf & CADENA & vbCrLf & vbCrLf
+        cad = cad & vbCrLf & CADENA & vbCrLf & vbCrLf
     End If
     'Numeros de errores que contolamos
     If Conn.Errors.Count > 0 Then
@@ -516,18 +516,18 @@ Public Sub MuestraError(numero As Long, Optional CADENA As String, Optional Desc
         Aux = ""
     End If
     If Aux <> "" Then Desc = Aux
-    If Desc <> "" Then Cad = Cad & vbCrLf & Desc & vbCrLf & vbCrLf
+    If Desc <> "" Then cad = cad & vbCrLf & Desc & vbCrLf & vbCrLf
     If Aux = "" Then
-        If numero <> 513 Then Cad = Cad & "Número: " & numero & vbCrLf & "Descripción: " & Error(numero)
+        If numero <> 513 Then cad = cad & "Número: " & numero & vbCrLf & "Descripción: " & Error(numero)
     End If
-    MsgBox Cad, vbExclamation
+    MsgBox cad, vbExclamation
 End Sub
 
 Public Function espera(Segundos As Single)
-    Dim t1
-    t1 = Timer
+    Dim T1
+    T1 = Timer
     Do
-    Loop Until Timer - t1 > Segundos
+    Loop Until Timer - T1 > Segundos
 End Function
 
 
@@ -535,7 +535,7 @@ Public Function RellenaCodigoCuenta(vCodigo As String) As String
     Dim i As Integer
     Dim J As Integer
     Dim CONT As Integer
-    Dim Cad As String
+    Dim cad As String
     
     RellenaCodigoCuenta = vCodigo
     If Len(vCodigo) > vEmpresa.DigitosUltimoNivel Then Exit Function
@@ -555,38 +555,39 @@ Public Function RellenaCodigoCuenta(vCodigo As String) As String
     'Cambiamos el punto por 0's  .-Utilizo la variable maximocaracteres, para no tener k definir mas
     i = Len(vCodigo) - 1 'el punto lo quito
     J = vEmpresa.DigitosUltimoNivel - i
-    Cad = ""
+    cad = ""
     For i = 1 To J
-        Cad = Cad & "0"
+        cad = cad & "0"
     Next i
     
-    Cad = Mid(vCodigo, 1, CONT - 1) & Cad
-    Cad = Cad & Mid(vCodigo, CONT + 1)
-    RellenaCodigoCuenta = Cad
+    cad = Mid(vCodigo, 1, CONT - 1) & cad
+    cad = cad & Mid(vCodigo, CONT + 1)
+    RellenaCodigoCuenta = cad
 End Function
 
-
-Public Function DevuelveDesdeBD(kCampo As String, Ktabla As String, Kcodigo As String, ValorCodigo As String, Optional Tipo As String, Optional ByRef OtroCampo As String) As String
+'Devuelve 3 valores
+Public Function DevuelveDesdeBD3(kCampo As String, Ktabla As String, Kcodigo As String, ValorCodigo As String, Tipo As String, OtroCampo As String, OtroCampo2 As String) As String
     Dim Rs As Recordset
-    Dim Cad As String
+    Dim cad As String
     Dim Aux As String
     
     On Error GoTo EDevuelveDesdeBD
-    DevuelveDesdeBD = ""
+    DevuelveDesdeBD3 = ""
     
     If ValorCodigo = "" Then Exit Function
     
-    Cad = "Select " & kCampo
-    If OtroCampo <> "" Then Cad = Cad & ", " & OtroCampo
-    Cad = Cad & " FROM " & Ktabla
-    Cad = Cad & " WHERE " & Kcodigo & " = "
+    cad = "Select " & kCampo
+    cad = cad & ", " & OtroCampo
+    cad = cad & ", " & OtroCampo2
+    cad = cad & " FROM " & Ktabla
+    cad = cad & " WHERE " & Kcodigo & " = "
     If Tipo = "" Then Tipo = "N"
     Select Case Tipo
     Case "N"
         'No hacemos nada
-        Cad = Cad & ValorCodigo
+        cad = cad & ValorCodigo
     Case "T", "F"
-        Cad = Cad & "'" & ValorCodigo & "'"
+        cad = cad & "'" & ValorCodigo & "'"
     Case Else
         MsgBox "Tipo : " & Tipo & " no definido", vbExclamation
         Exit Function
@@ -597,7 +598,51 @@ Public Function DevuelveDesdeBD(kCampo As String, Ktabla As String, Kcodigo As S
     'Creamos el sql
     Set Rs = New ADODB.Recordset
     
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    If Not Rs.EOF Then
+        DevuelveDesdeBD3 = DBLet(Rs.Fields(0))
+        OtroCampo = DBLet(Rs.Fields(1))
+        OtroCampo2 = DBLet(Rs.Fields(2))
+    End If
+    Rs.Close
+    Set Rs = Nothing
+    Exit Function
+EDevuelveDesdeBD:
+        MuestraError Err.Number, "Devuelve DesdeBD." & vbCrLf & cad, Err.Description
+End Function
+
+Public Function DevuelveDesdeBD(kCampo As String, Ktabla As String, Kcodigo As String, ValorCodigo As String, Optional Tipo As String, Optional ByRef OtroCampo As String) As String
+    Dim Rs As Recordset
+    Dim cad As String
+    Dim Aux As String
+    
+    On Error GoTo EDevuelveDesdeBD
+    DevuelveDesdeBD = ""
+    
+    If ValorCodigo = "" Then Exit Function
+    
+    cad = "Select " & kCampo
+    If OtroCampo <> "" Then cad = cad & ", " & OtroCampo
+    cad = cad & " FROM " & Ktabla
+    cad = cad & " WHERE " & Kcodigo & " = "
+    If Tipo = "" Then Tipo = "N"
+    Select Case Tipo
+    Case "N"
+        'No hacemos nada
+        cad = cad & ValorCodigo
+    Case "T", "F"
+        cad = cad & "'" & ValorCodigo & "'"
+    Case Else
+        MsgBox "Tipo : " & Tipo & " no definido", vbExclamation
+        Exit Function
+    End Select
+    
+    
+    
+    'Creamos el sql
+    Set Rs = New ADODB.Recordset
+    
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If Not Rs.EOF Then
         DevuelveDesdeBD = DBLet(Rs.Fields(0))
         If OtroCampo <> "" Then OtroCampo = DBLet(Rs.Fields(1))
@@ -606,33 +651,36 @@ Public Function DevuelveDesdeBD(kCampo As String, Ktabla As String, Kcodigo As S
     Set Rs = Nothing
     Exit Function
 EDevuelveDesdeBD:
-        MuestraError Err.Number, "Devuelve DesdeBD." & vbCrLf & Cad, Err.Description
+        MuestraError Err.Number, "Devuelve DesdeBD." & vbCrLf & cad, Err.Description
 End Function
+
+
+
 
 
 Public Function DevuelveDesdeBDNew(vBD As Byte, Ktabla As String, kCampo As String, Kcodigo1 As String, valorCodigo1 As String, Optional tipo1 As String, Optional ByRef OtroCampo As String, Optional KCodigo2 As String, Optional ValorCodigo2 As String, Optional tipo2 As String, Optional KCodigo3 As String, Optional ValorCodigo3 As String, Optional tipo3 As String) As String
 'IN: vBD --> Base de Datos a la que se accede
 Dim Rs As Recordset
-Dim Cad As String
+Dim cad As String
 Dim Aux As String
     
 On Error GoTo EDevuelveDesdeBDnew
     DevuelveDesdeBDNew = ""
 '    If valorCodigo1 = "" And ValorCodigo2 = "" Then Exit Function
-    Cad = "Select " & kCampo
-    If OtroCampo <> "" Then Cad = Cad & ", " & OtroCampo
-    Cad = Cad & " FROM " & Ktabla
+    cad = "Select " & kCampo
+    If OtroCampo <> "" Then cad = cad & ", " & OtroCampo
+    cad = cad & " FROM " & Ktabla
     If Kcodigo1 <> "" Then
-        Cad = Cad & " WHERE " & Kcodigo1 & " = "
+        cad = cad & " WHERE " & Kcodigo1 & " = "
         If tipo1 = "" Then tipo1 = "N"
     Select Case tipo1
         Case "N"
             'No hacemos nada
-            Cad = Cad & Val(valorCodigo1)
+            cad = cad & Val(valorCodigo1)
         Case "T"
-            Cad = Cad & DBSet(valorCodigo1, "T")
+            cad = cad & DBSet(valorCodigo1, "T")
         Case "F"
-            Cad = Cad & DBSet(valorCodigo1, "F")
+            cad = cad & DBSet(valorCodigo1, "F")
         Case Else
             MsgBox "Tipo : " & tipo1 & " no definido", vbExclamation
             Exit Function
@@ -640,21 +688,21 @@ On Error GoTo EDevuelveDesdeBDnew
     End If
     
     If KCodigo2 <> "" Then
-        Cad = Cad & " AND " & KCodigo2 & " = "
+        cad = cad & " AND " & KCodigo2 & " = "
         If tipo2 = "" Then tipo2 = "N"
         Select Case tipo2
         Case "N"
             'No hacemos nada
             If ValorCodigo2 = "" Then
-                Cad = Cad & "-1"
+                cad = cad & "-1"
             Else
-                Cad = Cad & Val(ValorCodigo2)
+                cad = cad & Val(ValorCodigo2)
             End If
         Case "T"
 '            cad = cad & "'" & ValorCodigo2 & "'"
-            Cad = Cad & DBSet(ValorCodigo2, "T")
+            cad = cad & DBSet(ValorCodigo2, "T")
         Case "F"
-            Cad = Cad & "'" & Format(ValorCodigo2, FormatoFecha) & "'"
+            cad = cad & "'" & Format(ValorCodigo2, FormatoFecha) & "'"
         Case Else
             MsgBox "Tipo : " & tipo2 & " no definido", vbExclamation
             Exit Function
@@ -662,20 +710,20 @@ On Error GoTo EDevuelveDesdeBDnew
     End If
     
     If KCodigo3 <> "" Then
-        Cad = Cad & " AND " & KCodigo3 & " = "
+        cad = cad & " AND " & KCodigo3 & " = "
         If tipo3 = "" Then tipo3 = "N"
         Select Case tipo3
         Case "N"
             'No hacemos nada
             If ValorCodigo3 = "" Then
-                Cad = Cad & "-1"
+                cad = cad & "-1"
             Else
-                Cad = Cad & Val(ValorCodigo3)
+                cad = cad & Val(ValorCodigo3)
             End If
         Case "T"
-            Cad = Cad & "'" & ValorCodigo3 & "'"
+            cad = cad & "'" & ValorCodigo3 & "'"
         Case "F"
-            Cad = Cad & "'" & Format(ValorCodigo3, FormatoFecha) & "'"
+            cad = cad & "'" & Format(ValorCodigo3, FormatoFecha) & "'"
         Case Else
             MsgBox "Tipo : " & tipo3 & " no definido", vbExclamation
             Exit Function
@@ -688,7 +736,7 @@ On Error GoTo EDevuelveDesdeBDnew
     
     Select Case vBD
         Case cConta ' Conta
-            Rs.Open Cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+            Rs.Open cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
         
     End Select
     
@@ -861,12 +909,12 @@ End Function
 Public Function ExistenSubcuentas(ByRef Cuenta As String, Nivel As Integer) As Boolean
 Dim i As Integer
 Dim B As Boolean
-Dim Cad As String
+Dim cad As String
     
     i = DigitosNivel(Nivel)
-    Cad = Mid(Cuenta, 1, i)
-    Cad = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cad, "T")
-    If Cad = "" Then
+    cad = Mid(Cuenta, 1, i)
+    cad = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", cad, "T")
+    If cad = "" Then
         'NO existe la subcuenta de nivel N
         'salimos
         ExistenSubcuentas = False
@@ -883,7 +931,7 @@ End Function
 Public Function CreaSubcuentas(ByRef Cuenta, HastaNivel As Integer, TEXTO As String) As Boolean
 Dim i As Integer
 Dim J As Integer
-Dim Cad As String
+Dim cad As String
 Dim Cta As String
 
 On Error GoTo ECreaSubcuentas
@@ -891,17 +939,17 @@ CreaSubcuentas = False
 For i = 1 To HastaNivel
     J = DigitosNivel(i)
     Cta = Mid(Cuenta, 1, J)
-    Cad = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cta, "T")
-    If Cad = "" Then
+    cad = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cta, "T")
+    If cad = "" Then
         'CreaCuenta
-        Cad = "INSERT INTO cuentas (codmacta, nommacta, apudirec, model347, razosoci, "
-        Cad = Cad & " dirdatos, codposta, despobla, desprovi, nifdatos, maidatos, webdatos,"
-        Cad = Cad & " obsdatos) VALUES ("
-        Cad = Cad & "'" & Cta
-        Cad = Cad & "', '" & TEXTO
-        Cad = Cad & "', "
-        Cad = Cad & "'N', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"
-        Conn.Execute Cad
+        cad = "INSERT INTO cuentas (codmacta, nommacta, apudirec, model347, razosoci, "
+        cad = cad & " dirdatos, codposta, despobla, desprovi, nifdatos, maidatos, webdatos,"
+        cad = cad & " obsdatos) VALUES ("
+        cad = cad & "'" & Cta
+        cad = cad & "', '" & TEXTO
+        cad = cad & "', "
+        cad = cad & "'N', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)"
+        Conn.Execute cad
     End If
 Next i
 CreaSubcuentas = True
@@ -1067,7 +1115,7 @@ End Function
 
 
 Public Function ComprobarEmpresaBloqueada(codusu As Long, ByRef Empresa As String) As Boolean
-Dim Cad As String
+Dim cad As String
 
 ComprobarEmpresaBloqueada = False
 
@@ -1075,17 +1123,17 @@ ComprobarEmpresaBloqueada = False
 Conn.Execute "Delete from usuarios.vbloqbd where codusu=" & codusu
 
 'Ahora comprobamos k nadie bloquea la BD
-Cad = DevuelveDesdeBD("codusu", "usuarios.vbloqbd", "conta", Empresa, "T")
-If Cad <> "" Then
+cad = DevuelveDesdeBD("codusu", "usuarios.vbloqbd", "conta", Empresa, "T")
+If cad <> "" Then
     'En teoria esta bloqueada. Puedo comprobar k no se haya kedado el bloqueo a medias
     
     Set miRsAux = New ADODB.Recordset
-    Cad = "show processlist"
-    miRsAux.Open Cad, Conn, adOpenKeyset, adLockOptimistic, adCmdText
-    Cad = ""
+    cad = "show processlist"
+    miRsAux.Open cad, Conn, adOpenKeyset, adLockOptimistic, adCmdText
+    cad = ""
     While Not miRsAux.EOF
         If miRsAux.Fields(3) = Empresa Then
-            Cad = miRsAux.Fields(2)
+            cad = miRsAux.Fields(2)
             miRsAux.MoveLast
         End If
     
@@ -1093,7 +1141,7 @@ If Cad <> "" Then
         miRsAux.MoveNext
     Wend
     
-    If Cad = "" Then
+    If cad = "" Then
         'Nadie esta utilizando la aplicacion, luego se puede borrar la tabla
         Conn.Execute "Delete from usuarios.vbloqbd where conta ='" & Empresa & "'"
         
@@ -1127,7 +1175,7 @@ End Function
 
 Private Function Servidor() As String
 Dim i As Integer
-Dim Cad As String
+Dim cad As String
 
     On Error GoTo eServidor
 
@@ -1137,11 +1185,11 @@ Dim Cad As String
     
     If i = 0 Then Exit Function
     
-    Cad = Mid(Conn.ConnectionString, i, Len(Conn.ConnectionString) - i)
+    cad = Mid(Conn.ConnectionString, i, Len(Conn.ConnectionString) - i)
     
-    i = InStr(1, Cad, ";")
+    i = InStr(1, cad, ";")
     
-    Servidor = Mid(Cad, 8, i - 8)  '8 es la longitud de "SERVER="
+    Servidor = Mid(cad, 8, i - 8)  '8 es la longitud de "SERVER="
     Exit Function
     
 eServidor:
@@ -1151,7 +1199,7 @@ End Function
 
 Public Function OtrosPCsContraContabiliad(EsAlIniciar As Boolean) As String
 Dim MiRS As Recordset
-Dim Cad As String
+Dim cad As String
 Dim Equipo As String
 Dim EquipoConBD As Boolean
 
@@ -1165,9 +1213,9 @@ Dim SERVER As String
     
     EquipoConBD = (UCase(vUsu.PC) = UCase(SERVER)) Or (LCase(SERVER) = "localhost")
     
-    Cad = "show processlist"
-    MiRS.Open Cad, Conn, adOpenKeyset, adLockOptimistic, adCmdText
-    Cad = ""
+    cad = "show processlist"
+    MiRS.Open cad, Conn, adOpenKeyset, adLockOptimistic, adCmdText
+    cad = ""
     While Not MiRS.EOF
         If UCase(MiRS.Fields(3)) = UCase(vUsu.CadenaConexion) Then
             Equipo = MiRS.Fields(2)
@@ -1194,7 +1242,7 @@ Dim SERVER As String
                     
                     'Si hay que insertar
                     If NumRegElim = 1 Then
-                        If InStr(1, Cad, Equipo & "|") = 0 Then Cad = Cad & Equipo & "|"
+                        If InStr(1, cad, Equipo & "|") = 0 Then cad = cad & Equipo & "|"
                     End If
             End If
         End If
@@ -1204,7 +1252,7 @@ Dim SERVER As String
     NumRegElim = 0
     MiRS.Close
     Set MiRS = Nothing
-    OtrosPCsContraContabiliad = Cad
+    OtrosPCsContraContabiliad = cad
     Exit Function
 EOtrosPCsContraContabiliad:
     MuestraError Err.Number, Err.Description, "Leyendo PROCESSLIST"
@@ -1212,8 +1260,8 @@ EOtrosPCsContraContabiliad:
     If EsAlIniciar Then
         OtrosPCsContraContabiliad = "LEYENDOPC|"
     Else
-        Cad = "¿El sistema no puede determinar si hay PCs conectados. ¿Desea continuar igualmente?"
-        If MsgBox(Cad, vbQuestion + vbYesNo) = vbYes Then
+        cad = "¿El sistema no puede determinar si hay PCs conectados. ¿Desea continuar igualmente?"
+        If MsgBox(cad, vbQuestion + vbYesNo) = vbYes Then
             OtrosPCsContraContabiliad = ""
         Else
             OtrosPCsContraContabiliad = "USUARIO ACTUAL|"
@@ -1229,12 +1277,12 @@ Public Function EsNumerico(TEXTO As String) As Boolean
 Dim i As Integer
 Dim C As Integer
 Dim L As Integer
-Dim Cad As String
+Dim cad As String
     
     EsNumerico = False
-    Cad = ""
+    cad = ""
     If Not IsNumeric(TEXTO) Then
-        Cad = "El campo debe ser numérico"
+        cad = "El campo debe ser numérico"
     Else
         'Vemos si ha puesto mas de un punto
         C = 0
@@ -1246,7 +1294,7 @@ Dim Cad As String
                 C = C + 1
             End If
         Loop Until i = 0
-        If C > 1 Then Cad = "Numero de puntos incorrecto"
+        If C > 1 Then cad = "Numero de puntos incorrecto"
         
         'Si ha puesto mas de una coma y no tiene puntos
         If C = 0 Then
@@ -1258,12 +1306,12 @@ Dim Cad As String
                     C = C + 1
                 End If
             Loop Until i = 0
-            If C > 1 Then Cad = "Numero incorrecto"
+            If C > 1 Then cad = "Numero incorrecto"
         End If
         
     End If
-    If Cad <> "" Then
-        MsgBox Cad, vbExclamation
+    If cad <> "" Then
+        MsgBox cad, vbExclamation
     Else
         EsNumerico = True
     End If
@@ -1272,20 +1320,20 @@ End Function
 
 
 Public Function EsFechaOK(T As TextBox) As Boolean
-Dim Cad As String
+Dim cad As String
     
-    Cad = T.Text
-    If InStr(1, Cad, "/") = 0 Then
+    cad = T.Text
+    If InStr(1, cad, "/") = 0 Then
         If Len(T.Text) = 8 Then
-            Cad = Mid(Cad, 1, 2) & "/" & Mid(Cad, 3, 2) & "/" & Mid(Cad, 5)
+            cad = Mid(cad, 1, 2) & "/" & Mid(cad, 3, 2) & "/" & Mid(cad, 5)
         Else
-            If Len(T.Text) = 6 Then Cad = Mid(Cad, 1, 2) & "/" & Mid(Cad, 3, 2) & "/20" & Mid(Cad, 5)
+            If Len(T.Text) = 6 Then cad = Mid(cad, 1, 2) & "/" & Mid(cad, 3, 2) & "/20" & Mid(cad, 5)
         End If
     End If
     
-    If IsDate(Cad) Then
+    If IsDate(cad) Then
         EsFechaOK = True
-        T.Text = Format(Cad, "dd/MM/yyyy")
+        T.Text = Format(cad, "dd/MM/yyyy")
     Else
         EsFechaOK = False
     End If
@@ -1294,19 +1342,19 @@ End Function
 
 
 Public Function EsFechaOKString(ByRef T As String) As Boolean
-Dim Cad As String
+Dim cad As String
     
-    Cad = T
-    If InStr(1, Cad, "/") = 0 Then
+    cad = T
+    If InStr(1, cad, "/") = 0 Then
         If Len(T) = 8 Then
-            Cad = Mid(Cad, 1, 2) & "/" & Mid(Cad, 3, 2) & "/" & Mid(Cad, 5)
+            cad = Mid(cad, 1, 2) & "/" & Mid(cad, 3, 2) & "/" & Mid(cad, 5)
         Else
-            If Len(T) = 6 Then Cad = Mid(Cad, 1, 2) & "/" & Mid(Cad, 3, 2) & "/20" & Mid(Cad, 5)
+            If Len(T) = 6 Then cad = Mid(cad, 1, 2) & "/" & Mid(cad, 3, 2) & "/20" & Mid(cad, 5)
         End If
     End If
-    If IsDate(Cad) Then
+    If IsDate(cad) Then
         EsFechaOKString = True
-        T = Format(Cad, "dd/mm/yyyy")
+        T = Format(cad, "dd/mm/yyyy")
     Else
         EsFechaOKString = False
     End If
@@ -1441,12 +1489,12 @@ End Function
 
 Public Function UsuariosConectados(vMens As String, Optional DejarContinuar As Boolean) As Boolean
 Dim i As Integer
-Dim Cad As String
+Dim cad As String
 Dim metag As String
 Dim SQL As String
-Cad = OtrosPCsContraContabiliad(False)
+cad = OtrosPCsContraContabiliad(False)
 UsuariosConectados = False
-If Cad <> "" Then
+If cad <> "" Then
     UsuariosConectados = True
     i = 1
     metag = vMens
@@ -1454,7 +1502,7 @@ If Cad <> "" Then
     metag = metag & vbCrLf & "Los siguientes PC's están conectados a: " & vEmpresa.nomempre & " (" & vUsu.CadenaConexion & ")" & vbCrLf & vbCrLf
     
     Do
-        SQL = RecuperaValor(Cad, i)
+        SQL = RecuperaValor(cad, i)
         If SQL <> "" Then
             metag = metag & "    - " & SQL & vbCrLf
             i = i + 1
@@ -1673,22 +1721,22 @@ Public Sub TirarAtrasTransaccion()
 End Sub
 
 Public Function DevuelveNombreInformeSCRYST(NumInforme As Integer, Titulo As String) As String
-Dim Cad As String
+Dim cad As String
 
         DevuelveNombreInformeSCRYST = ""
-        Cad = DevuelveDesdeBD("informe", "scryst", "codigo", CStr(NumInforme))
+        cad = DevuelveDesdeBD("informe", "scryst", "codigo", CStr(NumInforme))
 
-        If Cad = "" Then
+        If cad = "" Then
             MsgBox "No existe el informe para: " & Titulo & " (" & NumInforme & ")", vbExclamation
             Exit Function
         End If
         
         
-        If Dir(App.Path & "\InformesT\" & Cad, vbArchive) = "" Then
-            MsgBox "No se encuentra el archivo: " & Cad & vbCrLf & "Opcion: " & Titulo, vbExclamation
+        If Dir(App.Path & "\InformesT\" & cad, vbArchive) = "" Then
+            MsgBox "No se encuentra el archivo: " & cad & vbCrLf & "Opcion: " & Titulo, vbExclamation
             Exit Function
         End If
-        DevuelveNombreInformeSCRYST = Cad
+        DevuelveNombreInformeSCRYST = cad
             
 End Function
 
@@ -1864,7 +1912,7 @@ End Function
 
 Public Function Round2(Number As Variant, Optional NumDigitsAfterDecimals As Long) As Variant
 Dim Ent As Integer
-Dim Cad As String
+Dim cad As String
   
   ' Comprobaciones
   If Not IsNumeric(Number) Then
@@ -1877,9 +1925,9 @@ Dim Cad As String
   End If
   
   ' Redondeo.
-  Cad = "0"
-  If NumDigitsAfterDecimals <> 0 Then Cad = Cad & "." & String(NumDigitsAfterDecimals, "0")
-  Round2 = Format(Number, Cad)
+  cad = "0"
+  If NumDigitsAfterDecimals <> 0 Then cad = cad & "." & String(NumDigitsAfterDecimals, "0")
+  Round2 = Format(Number, cad)
   
 End Function
 

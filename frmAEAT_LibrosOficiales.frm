@@ -1180,8 +1180,9 @@ Dim TolLiqIva As Currency
         SQL = SQL & " where f.numserie=factcli_totales.numserie and f.numfactu=factcli_totales.numfactu and"
         SQL = SQL & " f.anofactu=factcli_totales.anofactu"
     Else
-                                                                                               'En total ira deducible o no   tipoiva; numserie  suplidos:numregis
-        cad = "insert into tmpfaclinprov (codusu, codigo ,Numfac ,FechaFac ,cta ,Cliente ,NIF ,Imponible ,IVA ,ImpIVA,FechaCon,Total,tipoiva,suplidos) "
+        '## Dic 2019. En nodeducible ira la calave de operacion. De momento Si es INVERSION SUJETO PASIVO, ira clave S2 en el libro
+                                                                                               'En total ira (deducible o no   tipoiva; numserie  suplidos:numregis
+        cad = "insert into tmpfaclinprov (codusu, codigo ,Numfac ,FechaFac ,cta ,Cliente ,NIF ,Imponible ,IVA ,ImpIVA,FechaCon,Total,tipoiva,suplidos,nodeducible) "
         
         SQL = SQL & ", f.fecharec,f.numregis " 'para proveedores pondremos fecha reepcion -->FECHA OPERACION
         SQL = SQL & " FROM ariconta" & NumeroConta & ".factpro f,ariconta" & NumeroConta & ".factpro_totales , "
@@ -1225,7 +1226,7 @@ Dim TolLiqIva As Currency
         Label13.Caption = RC
         Label13.Refresh
         
-        'If RC = "337943" Then Stop
+        'If RC = "337943" Then S top
         SQL = SQL & RC & "," & DBSet(miRsAux!FecFactu, "F") & ","
         RC = DBLet(miRsAux!codpais, "T")
         If RC = "" Then RC = "ES"
@@ -1251,7 +1252,13 @@ Dim TolLiqIva As Currency
             'End If
             TolLiqIva = DBLet(miRsAux!Impoiva, "N")
             
-            SQL = SQL & DBSet(TolLiqIva, "N") & "," & miRsAux!NUmSerie & "," & miRsAux!Numregis & ")"
+            SQL = SQL & DBSet(TolLiqIva, "N") & "," & miRsAux!NUmSerie & "," & miRsAux!Numregis & ","
+            If miRsAux!CodOpera = 4 Then
+                SQL = SQL & "'S2'"
+            Else
+                SQL = SQL & "''"
+            End If
+            SQL = SQL & ")"
             
         End If
         
@@ -1576,7 +1583,10 @@ Private Sub ExportarCSV()
         SQL = SQL & ",substring(nif,1,20)  as ""Identificación(NIF Expedidor)"""
         SQL = SQL & ",substring(cliente,1,40) as ""Nombre Expedidor"""
         SQL = SQL & ",'' as ""Factura Sustitutiva"""
-        SQL = SQL & ",'' as ""Clave de Operación"""
+        
+        'Diciembre19. En clave de operacion hay que poner S2 para las Inv. sujeto pasivo. Esta grabado en el campo NoDeducible
+        'SQL = SQL & ",'' as ""Clave de Operación"""
+        SQL = SQL & ",NoDeducible as ""Clave de Operación"""
         SQL = SQL & ",imponible + impiva as ""Total Factura"""
         SQL = SQL & ",imponible  as ""Base Imponible"""
         SQL = SQL & ",iva as ""Tipo de IVA"""

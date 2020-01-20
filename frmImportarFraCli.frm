@@ -537,7 +537,7 @@ Private Sub Form_Load()
         
         cad = CStr(CheckValueLeer("intetipodoc1"))
         If cad <> "1" Then cad = 0
-        Me.check1.Value = Val(cad)
+        Me.Check1.Value = Val(cad)
         
         cad = CStr(CheckValueLeer("intetipodoc2"))
         If cad <> "1" Then cad = 0
@@ -545,7 +545,7 @@ Private Sub Form_Load()
         
     Else
         Check2.Value = 1
-        check1.Value = 0
+        Check1.Value = 0
     End If
 End Sub
 
@@ -572,7 +572,7 @@ Dim RC As Byte
     PonerLabel "Leyendo fichero"
     If Me.cboTipo.ListIndex = 1 Then
         'SAGE
-        RC = ProcesaFicheroClientesSAGE(Text1.Text, Label1, check1.Value = 1, True)
+        RC = ProcesaFicheroClientesSAGE(Text1.Text, Label1, Check1.Value = 1, True)
         
         
         
@@ -986,7 +986,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.check1.Value = 1 Then cad = ""
+            If Me.Check1.Value = 1 Then cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraCli, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
         End If
@@ -1060,6 +1060,24 @@ Dim NuevaLinea As Boolean
     LineaConErrores = False
     
    
+    
+    
+    
+    'Precomprobacion primera linea
+    If NumRegElim = 1 Then
+       If Me.Check1.Value = 0 Then
+            
+            'Si numero factura- codmacta y forma de pago no son numericos, p
+            If Not IsNumeric(strArray(1)) Then
+                If Not IsNumeric(strArray(3)) Then
+                    If Not IsNumeric(strArray(4)) Then
+                        If MsgBox("La primera linea parece que sea el encabezado" & vbCrLf & vbCrLf & cad & vbCrLf & vbCrLf & "¿Continuar procesando? ", vbQuestion + vbYesNoCancel) <> vbYes Then Err.Raise 513, , "Proceso cancelado"
+                    End If
+                End If
+            End If
+       End If
+    End If
+    
     
     
     
@@ -1432,6 +1450,10 @@ On Error GoTo eComprobacionDatosBD
             miRsAux.MoveNext
         Wend
         miRsAux.Close
+    Else
+        'PONGO NULL el campo
+        cad = "UPDATE tmpintefrafracli set ccoste=null where codusu=" & vUsu.Codigo
+        Conn.Execute cad
     End If
     
     'Porcentaje IVA
@@ -1626,7 +1648,8 @@ Dim EsMismaFactura As Boolean
                 'NumRegElim = miRsAux!FACTURA
                 BaseImponible = 0
                 IVA = 0
-                TotalFac = miRsAux!TotalFactura
+                TotalFac = 0
+                If Not IsNull(miRsAux!TotalFactura) Then TotalFac = miRsAux!TotalFactura
                 
                 FACTURA = cad
                 
@@ -1900,7 +1923,9 @@ Dim Tipointegracion As Byte
                 
                 NumRegElim = miRsAux!FACTURA
                 BaseImponible = miRsAux!calculoimponible
-                TotalFac = miRsAux!TotalFactura
+                TotalFac = 0
+                If Not IsNull(miRsAux!TotalFactura) Then TotalFac = miRsAux!TotalFactura
+
                 IVA = TotalFac - BaseImponible + DBLet(miRsAux!impret, "N")
                 Msg$ = "(" & DBSet(miRsAux!codpais, "T", "S") & "," & DBSet(miRsAux!nifdatos, "T", "S") & "," & DBSet(miRsAux!desProvi, "T", "S") & ","
                 Msg$ = Msg$ & DBSet(miRsAux!desPobla, "T", "S") & "," & DBSet(miRsAux!codposta, "T", "S") & "," & DBSet(miRsAux!dirdatos, "T", "S") & ","
@@ -2204,7 +2229,7 @@ Private Sub Form_Unload(Cancel As Integer)
     If vParam.PathFicherosInteg = "" Then
         CheckValueGuardar "intetipodoc", CByte(Me.cboTipo.ListIndex)
         
-        CheckValueGuardar "intetipodoc1", CByte(Me.check1.Value)
+        CheckValueGuardar "intetipodoc1", CByte(Me.Check1.Value)
         
         CheckValueGuardar "intetipodoc2", CByte(Me.Check2.Value)
     End If
@@ -2332,7 +2357,7 @@ Dim RC As Byte
     Case 1
         ImportacionFacturasProveedor
     Case 2
-        RC = ProcesaFicheroClientesSAGE(Text1.Text, Label1, check1.Value = 1, False)
+        RC = ProcesaFicheroClientesSAGE(Text1.Text, Label1, Check1.Value = 1, False)
     
     Case Else
         ImportacionNavarresFraPro
@@ -2620,7 +2645,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.check1.Value = 1 Then cad = ""
+            If Me.Check1.Value = 1 Then cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraPro, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
         End If
@@ -3149,7 +3174,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.check1.Value = 1 Then cad = ""
+            If Me.Check1.Value = 1 Then cad = ""
         Else
             '10 campos a tratar
             If InStr(1, String(10, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
@@ -3813,7 +3838,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.check1.Value = 1 Then cad = ""
+            If Me.Check1.Value = 1 Then cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraPro, ";"), cad) > 0 Then cad = "" 'todo puntos y comas
         End If

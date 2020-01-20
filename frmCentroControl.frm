@@ -2160,7 +2160,7 @@ Private Sub cmdMovercta_Click()
             Exit Sub
         End If
         
-        If txtfecha(0).Text = "" Then
+        If txtFecha(0).Text = "" Then
             MsgBox "Ponga la fecha ""Desde""", vbExclamation
             Exit Sub
         End If
@@ -2222,7 +2222,7 @@ Dim T As TextBox
         Exit Sub
     End If
     
-    If Not IsDate(txtfecha(3).Text) Then
+    If Not IsDate(txtFecha(3).Text) Then
         MsgBox "Fecha inicio incorrecta", vbExclamation
         Exit Sub
     End If
@@ -2388,8 +2388,8 @@ Private Sub Form_Activate()
         Case 0
             CargarAsientosBloqueados
         Case 1
-            txtfecha(0).Text = Format(vParam.fechaini, "dd/mm/yyyy")
-            txtfecha(1).Text = Format(Now, "dd/mm/yyyy")
+            txtFecha(0).Text = Format(vParam.fechaini, "dd/mm/yyyy")
+            txtFecha(1).Text = Format(Now, "dd/mm/yyyy")
         Case 2
             SugerirValoresNuevaEmpresa
         Case 3
@@ -2644,12 +2644,12 @@ Private Sub imgFecha_Click(Index As Integer)
     Set frmC = New frmCal
     SQL = ""
     frmC.Fecha = Now
-    If txtfecha(Index).Text <> "" Then frmC.Fecha = CDate(txtfecha(Index).Text)
+    If txtFecha(Index).Text <> "" Then frmC.Fecha = CDate(txtFecha(Index).Text)
     frmC.Show vbModal
     If SQL <> "" Then
-        txtfecha(Index).Text = SQL
+        txtFecha(Index).Text = SQL
         SQL = ""
-        PonFoco txtfecha(Index)
+        PonFoco txtFecha(Index)
     End If
     Set frmC = Nothing
     
@@ -2667,7 +2667,7 @@ Private Sub imgiva_Click(Index As Integer)
         If Index = 0 Then
             PonFoco txtIVA(1)
         Else
-            PonFoco txtfecha(4)
+            PonFoco txtFecha(4)
         End If
     End If
 End Sub
@@ -2838,7 +2838,7 @@ End Sub
 
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtfecha(Index), 3
+    ConseguirFoco txtFecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
@@ -2887,12 +2887,12 @@ End Sub
 '++
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtfecha(Index).Text = Trim(txtfecha(Index))
-    If txtfecha(Index) = "" Then Exit Sub
-    If Not EsFechaOK(txtfecha(Index)) Then
-        MsgBox "Fecha incorrecta: " & txtfecha(Index), vbExclamation
-        txtfecha(Index).Text = ""
-        PonFoco txtfecha(Index)
+    txtFecha(Index).Text = Trim(txtFecha(Index))
+    If txtFecha(Index) = "" Then Exit Sub
+    If Not EsFechaOK(txtFecha(Index)) Then
+        MsgBox "Fecha incorrecta: " & txtFecha(Index), vbExclamation
+        txtFecha(Index).Text = ""
+        PonFoco txtFecha(Index)
     End If
 End Sub
 
@@ -3055,16 +3055,16 @@ Dim Final As String
         EjecutaSQLCambio "ctahpacreedor", ""
     
     
-    If txtfecha(2).Text <> "" Then
-        SQL = "UPDATE cuentas SET fecbloq = '" & Format(txtfecha(2).Text, FormatoFecha)
+    If txtFecha(2).Text <> "" Then
+        SQL = "UPDATE cuentas SET fecbloq = '" & Format(txtFecha(2).Text, FormatoFecha)
         SQL = SQL & "' WHERE codmacta = '" & Me.txtCta(0).Text & "'"
         Conn.Execute SQL
     End If
     
     ParaElLog = "Origen: " & txtCta(0).Text & " " & Me.DtxtCta(0).Text & vbCrLf
     ParaElLog = ParaElLog & "Destino: " & txtCta(1).Text & " " & Me.DtxtCta(1).Text & vbCrLf & vbCrLf
-    ParaElLog = ParaElLog & "Fechas: " & txtfecha(0).Text & " - " & txtfecha(1).Text & vbCrLf
-    If txtfecha(2).Text <> "" Then ParaElLog = ParaElLog & "Bloqueo: " & txtfecha(2).Text
+    ParaElLog = ParaElLog & "Fechas: " & txtFecha(0).Text & " - " & txtFecha(1).Text & vbCrLf
+    If txtFecha(2).Text <> "" Then ParaElLog = ParaElLog & "Bloqueo: " & txtFecha(2).Text
     ParaElLog = "MOVER CTAS" & vbCrLf & ParaElLog
     vLog.Insertar 20, vUsu, ParaElLog
     ParaElLog = ""
@@ -3092,8 +3092,8 @@ Private Function EjecutaSQLCambio(Campo As String, CampoFecha As String) As Bool
     'Si tiene fechas
     If CampoFecha <> "" Then
         
-        SQL = SQL & " AND " & CampoFecha & " >= '" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-        If txtfecha(1).Text <> "" Then SQL = SQL & " AND " & CampoFecha & " <= '" & Format(txtfecha(1).Text, FormatoFecha) & "'"
+        SQL = SQL & " AND " & CampoFecha & " >= '" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+        If txtFecha(1).Text <> "" Then SQL = SQL & " AND " & CampoFecha & " <= '" & Format(txtFecha(1).Text, FormatoFecha) & "'"
     End If
     Conn.Execute SQL
 End Function
@@ -3116,8 +3116,8 @@ Private Function EjecutaSQLCambioLineasFras(Clientes As Boolean, CampoFecha As S
     End If
     'Si tiene fechas
     
-    SQL = SQL & " AND " & CampoFecha & " >= '" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-    If txtfecha(1).Text <> "" Then SQL = SQL & " AND " & CampoFecha & " <= '" & Format(txtfecha(1).Text, FormatoFecha) & "'"
+    SQL = SQL & " AND " & CampoFecha & " >= '" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+    If txtFecha(1).Text <> "" Then SQL = SQL & " AND " & CampoFecha & " <= '" & Format(txtFecha(1).Text, FormatoFecha) & "'"
      
     
     SQL = SQL & " AND " & IIf(Clientes, "factcli", "factpro") & "_lineas.codmacta = '" & txtCta(0).Text & "'"
@@ -3226,9 +3226,15 @@ Dim Bucle As Integer
     Set ColCreate = New Collection
     For Tam2 = 1 To ColTablas.Count
         SQL = ColTablas.Item(Tam2)
+        
         miRsAux.Open "SHOW CREATE TABLE " & SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        TablaAnt = miRsAux.Fields(1)
-        ColCreate.Add SQL & "|" & TablaAnt & "|"
+        TablaAnt = miRsAux.Fields(0).Name
+        If LCase(TablaAnt) = "table" Then
+            TablaAnt = miRsAux.Fields(1)
+            ColCreate.Add SQL & "|" & TablaAnt & "|"
+        Else
+            TablaAnt = ""
+        End If
         miRsAux.Close
     Next
     
@@ -3549,11 +3555,11 @@ Dim F As Date
     
     
         'En parametros
-        F = CDate(txtfecha(3).Text)
+        F = CDate(txtFecha(3).Text)
         F = DateAdd("yyyy", 1, F)
         F = DateAdd("d", -1, F)
 
-            SQL = "UPDATE " & Insert & "parametros SET fechaini='" & Format(txtfecha(3).Text, "yyyy-mm-dd")
+            SQL = "UPDATE " & Insert & "parametros SET fechaini='" & Format(txtFecha(3).Text, "yyyy-mm-dd")
             SQL = SQL & "', fechafin='" & Format(F, "yyyy-mm-dd") & "'"
             Conn.Execute SQL
       
@@ -3798,13 +3804,13 @@ Dim Tipo As Integer
 End Sub
 
 Private Function CambioCta(Cta As String) As String
-Dim Cad As String
+Dim cad As String
 
 
 
-    Cad = Mid(Cta, 1, CInt(Text2(5).Text))
-    Cad = Cad & "0" & Mid(Cta, CInt(Text2(5).Text) + 1)
-    CambioCta = Cad
+    cad = Mid(Cta, 1, CInt(Text2(5).Text))
+    cad = cad & "0" & Mid(Cta, CInt(Text2(5).Text) + 1)
+    CambioCta = cad
 End Function
 
 Private Function HacerInsercionDigitoContable() As Boolean
@@ -3950,9 +3956,9 @@ End Sub
 
 Private Function CambiaValores(tabla As String, numCta As Integer)
 Dim SQL As String
-Dim Cad As String
+Dim cad As String
 Dim i As Integer
-    Cad = ""
+    cad = ""
     SQL = ""
     On Error GoTo ECambia
     
@@ -3979,8 +3985,8 @@ Dim i As Integer
                 NumRegElim = NumRegElim + 1
                 PonerProgressBar Val((NumRegElim / Tamanyo) * 1000)
                 If Not IsNull(miRsAux.Fields(0)) Then
-                    Cad = CambioCta(miRsAux.Fields(0))
-                    SQL = "UPDATE " & tabla & " SET " & Campos(i) & " = '" & Cad & "'"
+                    cad = CambioCta(miRsAux.Fields(0))
+                    SQL = "UPDATE " & tabla & " SET " & Campos(i) & " = '" & cad & "'"
                     SQL = SQL & " WHERE " & Campos(i) & " = '" & miRsAux.Fields(0) & "'"
                     Conn.Execute SQL
                 End If
@@ -4094,7 +4100,7 @@ Private Function HacerCambioIVA() As Boolean
             'EL LOG
             ParaElLog = "IVA origen:     " & txtIVA(0).Text & "  -  " & txtDescIVA(0).Text & vbCrLf
             ParaElLog = ParaElLog & "IVA destino:    " & txtIVA(1).Text & "  -   " & txtDescIVA(1).Text & vbCrLf
-            ParaElLog = ParaElLog & "Fechas: " & txtfecha(4).Text & " - " & txtfecha(5).Text
+            ParaElLog = ParaElLog & "Fechas: " & txtFecha(4).Text & " - " & txtFecha(5).Text
             ParaElLog = "CAMBIO IVA" & vbCrLf & ParaElLog
             vLog.Insertar 16, vUsu, ParaElLog
             ParaElLog = ""
@@ -4130,8 +4136,8 @@ Private Function CambioIVA(Clientes As Boolean) As Boolean
             SQL = SQL & " WHERE codigiva = " & txtIVA(0).Text
             TablaAnt = "fecharec"
         End If
-        If txtfecha(4).Text <> "" Then SQL = SQL & " AND " & TablaAnt & ">= '" & Format(txtfecha(4).Text, FormatoFecha) & "'"
-        If txtfecha(5).Text <> "" Then SQL = SQL & " AND " & TablaAnt & "<= '" & Format(txtfecha(5).Text, FormatoFecha) & "'"
+        If txtFecha(4).Text <> "" Then SQL = SQL & " AND " & TablaAnt & ">= '" & Format(txtFecha(4).Text, FormatoFecha) & "'"
+        If txtFecha(5).Text <> "" Then SQL = SQL & " AND " & TablaAnt & "<= '" & Format(txtFecha(5).Text, FormatoFecha) & "'"
     
     
         If Not EjecutaSQL(SQL) Then
@@ -4511,6 +4517,10 @@ Private Function RenumeracionReal(Fec As Date) As Boolean
             Conn.Execute SQL
             SQL = "UPDATE factpro_totales set numregis = 0 , anofactu=1 where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis =" & miRsAux!Numregis & " AND anofactu =" & miRsAux!anofactu
             Conn.Execute SQL
+            SQL = "UPDATE factpro_fichdocs set numregis = 0 , anofactu=1 where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis =" & miRsAux!Numregis & " AND anofactu =" & miRsAux!anofactu
+            Conn.Execute SQL
+            
+            
             
             'Updateo la factura
             SQL = "UPDATE factpro set numregis = " & Tam2 & " where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis =" & miRsAux!Numregis & " AND anofactu =" & miRsAux!anofactu
@@ -4521,6 +4531,10 @@ Private Function RenumeracionReal(Fec As Date) As Boolean
             Conn.Execute SQL
             SQL = "UPDATE factpro_totales set numregis = " & Tam2 & ", anofactu =" & miRsAux!anofactu & " where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis = 0 AND anofactu = 1"
             Conn.Execute SQL
+            SQL = "UPDATE factpro_fichdocs set numregis = " & Tam2 & ", anofactu =" & miRsAux!anofactu & " where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis = 0 AND anofactu = 1"
+            Conn.Execute SQL
+            
+            
             
 '            If Me.chkUpdateNumDocum.Value = 1 Then
             If vParam.CodiNume <> 2 Then

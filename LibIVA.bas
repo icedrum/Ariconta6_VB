@@ -141,11 +141,14 @@ Salida:
 End Function
 
 
-Public Function GenerarFicheroIVA_303_2017(ByRef CadenaImportes As String, Importe As Currency, vFecha As Date, vPeriodo As String, EsACompensar As Byte, CadRegistroAdicional03 As String) As Boolean
+Public Function GenerarFicheroIVA_303_2017(ByRef CadenaImportes As String, Importe As Currency, vFecha As Date, vPeriodo As String, EsACompensar As Byte, CadRegistroAdicional03 As String, ConInformacionUltimoPeriodo As Boolean) As Boolean
 Dim Aux As String
 Dim Periodo As String
 Dim K As Integer
 Dim UltimoPeridod As Boolean
+Dim SumatotalOperacionesPresntacionUltimoTrimestre As Currency
+
+
 On Error GoTo Salida '
 
     GenerarFicheroIVA_303_2017 = False
@@ -299,22 +302,95 @@ On Error GoTo Salida '
         End If
         
         
-        'Informacion aadicional unicamente a cumplimentar en el utlimo trimestre
-        ' 6 parejas de "0" +  "    "  '4pos
-        For K = 1 To 6
-            Linea = Linea & "0    "
-        Next K
         
-        'Información adicional - Exclusivamente a cumplimentar en el último periodo exonerados de la Declaración-re
-        Linea = Linea & " "
+        Set miRsAux = New ADODB.Recordset
+        If ConInformacionUltimoPeriodo Then
+            'Informacion aadicional unicamente a cumplimentar en el utlimo trimestre
+            K = 0
+            Aux = "select * from empresaactiv order by ppal desc, codigo"
+            miRsAux.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            While Not miRsAux.EOF
+                K = K + 1
+                If K < 7 Then   'SOLO ACEPTAN 6
+                    Aux = miRsAux!Id & Mid(DBLet(miRsAux!epigrafe, "T") & "    ", 1, 4)
+                    Linea = Linea & Aux
+                End If
+                miRsAux.MoveNext
+            Wend
+            miRsAux.Close
         
-        'Campos del 40-48
-        'Decimales
-        For K = 1 To 9
+            'El resto hasta 6
+            While K < 6
+                Linea = Linea & "0    "
+                K = K + 1
+            Wend
+            
+            
+            
+            'Información adicional - Exclusivamente a cumplimentar en el último periodo exonerados de la Declaración-re
+            Linea = Linea & "X"
+        
+            
+            'Este RS estara abierto en el IF de abjo
+            Aux = "select opcion,sum(importe1) base from tmptesoreriacomun where codusu =2000 group by opcion order by opcion"
+            miRsAux.Open Aux, Conn, adOpenKeyset, adLockOptimistic, adCmdText
+            SumatotalOperacionesPresntacionUltimoTrimestre = 0
+            
+            If Not miRsAux.EOF Then
+                While Not miRsAux.EOF
+                    SumatotalOperacionesPresntacionUltimoTrimestre = SumatotalOperacionesPresntacionUltimoTrimestre + miRsAux!Base
+                    miRsAux.MoveNext
+                Wend
+                miRsAux.MoveFirst
+            End If
+            
+            ' Operaciones en régimen general [80]
+            AñadeImporteClaveUltimoPerido303 1
+            
+            ' Operaciones en régimen especial del criterio de caja conform
             Linea = Linea & String(17, "0")
-        Next K
-        
-        
+            
+            'Entregas intracomunitarias exentas [93]
+            AñadeImporteClaveUltimoPerido303 14
+            
+            'Operaciones exentas sin derecho a deducción [83]
+            AñadeImporteClaveUltimoPerido303 16
+                
+            'Operaciones no sujetas por reglas de localización o con inversión del sujeto pasivo [84]
+            AñadeImporteClaveUltimoPerido303 61
+                        
+            'Entregas de bienes objeto de instalación o montaje en otros Estados miembros [85]
+            Linea = Linea & String(17, "0")
+            
+            'Operaciones en régimen simplificado [86]
+            Linea = Linea & String(17, "0")
+            
+            ' Entregas de bienes inmuebles no habituales, operaciones financieras y relativas al oro de inversión no habituales [79]
+            Linea = Linea & String(17, "0")
+            
+            
+            'Total volumen de operaciones ([80]+[81]+[93]+[94]+[83]+[84]+[85]+[86]+[95]+[96]+[97]+[98]-[79]-[99]) [88]
+            Aux = DatosNumeroDec(SumatotalOperacionesPresntacionUltimoTrimestre, 17)
+            Linea = Linea & Aux
+            
+            
+        Else
+            'Informacion aadicional unicamente a cumplimentar en el utlimo trimestre
+            ' 6 parejas de "0" +  "    "  '4pos
+            For K = 1 To 6
+                Linea = Linea & "0    "
+            Next K
+            
+            'Información adicional - Exclusivamente a cumplimentar en el último periodo exonerados de la Declaración-re
+            Linea = Linea & " "
+            
+            'Campos del 40-48
+            'Decimales
+            For K = 1 To 9
+                Linea = Linea & String(17, "0")
+            Next K
+            
+        End If
         
         'Campo 49. Reservado AEAT
         Linea = Linea & "0"
@@ -325,10 +401,36 @@ On Error GoTo Salida '
         Next K
         
         
-        'Campos del 54-59  Información adicional - Exclusivamente a cumplimentar en el último period....
-        For K = 1 To 6
+        
+        If ConInformacionUltimoPeriodo Then
+            'Campos del 54-59  Información adicional - Exclusivamente a cumplimentar en el último period....
+            
+            ' Exportaciones y otras operaciones exentas con derecho a deducción [94]
+            AñadeImporteClaveUltimoPerido303 16
+            
+            ' Operaciones en régimen especial de la agricultura, ganadería y pesca [95]
             Linea = Linea & String(17, "0")
-        Next K
+        
+            ' Operaciones realizadas por sujetos pasivos acogidos al régimen especial del recargo de equivalencia [96]
+            Linea = Linea & String(17, "0")
+            
+            'Operaciones en Régimen especial de bienes usados, objetos de arte, antigüedades y objetos de colección [97]
+            Linea = Linea & String(17, "0")
+                
+            ' Operaciones en régimen especial de Agencias de Viajes [98]
+            Linea = Linea & String(17, "0")
+            
+            'Entregas de bienes de inversión [99]
+            Linea = Linea & String(17, "0")
+            
+        Else
+            'Campos del 54-59  Información adicional - Exclusivamente a cumplimentar en el último period....
+            For K = 1 To 6
+                Linea = Linea & String(17, "0")
+            Next K
+            
+        End If
+        Set miRsAux = Nothing
         
         
         'Enero 2019
@@ -362,7 +464,7 @@ On Error GoTo Salida '
     GenerarFicheroIVA_303_2017 = True
 Salida:
     If Err.Number <> 0 Then MuestraError Err.Number
-    
+    Set miRsAux = Nothing
 End Function
 
 
@@ -819,7 +921,7 @@ End Function
 'dEL 347
 Private Function PrimerosPasos(Anyo As Integer) As Boolean
 Dim Importe As Currency
-Dim Cad As String
+Dim cad As String
 Dim YaMostrado As Boolean
 Dim RI As ADODB.Recordset
 Dim importe2 As Currency
@@ -896,8 +998,8 @@ Dim ErroresRegistros As String
     Linea = Linea & DatosNumeroDec340((0), 16)
     
     
-    Cad = Space(500 - Len(Linea))
-    Linea = Linea & Cad
+    cad = Space(500 - Len(Linea))
+    Linea = Linea & cad
     Print #NF, Linea
     Rs.Close
     
@@ -937,11 +1039,11 @@ Dim ErroresRegistros As String
         
         
         If Rs!cliprov = 48 Then
-            Cad = "B"  'ventas
+            cad = "B"  'ventas
             
         Else
             If Rs!cliprov = 49 Then
-                Cad = "A"  'compras
+                cad = "A"  'compras
                 
             Else
                 'Agencias
@@ -953,7 +1055,7 @@ Dim ErroresRegistros As String
                         YaMostrado = True
                     End If
                 End If
-                Cad = Chr(Rs!cliprov)
+                cad = Chr(Rs!cliprov)
             End If
         End If
         
@@ -961,7 +1063,7 @@ Dim ErroresRegistros As String
         
         
         
-        Linea = Linea & Cad
+        Linea = Linea & cad
         
         
         'LINEA = LINEA & DatosTexto3((RS!Importe * 100), 16)
@@ -977,48 +1079,48 @@ Dim ErroresRegistros As String
         
         'Nuevo Febrero 2012
         'Los IVAs trimiestrales
-        Cad = "SELECT * FROM tmp347trimestral WHERE codusu=" & vUsu.Codigo
-        Cad = Cad & " AND cliprov =" & Rs!cliprov & " AND nif = '" & Rs!NIF & "'"
+        cad = "SELECT * FROM tmp347trimestral WHERE codusu=" & vUsu.Codigo
+        cad = cad & " AND cliprov =" & Rs!cliprov & " AND nif = '" & Rs!NIF & "'"
         importe2 = 0
-        RI.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        RI.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not RI.EOF Then
         
         
                     'Febrero 2009
             ' Importe en metalico e importe por trasmisiones sujetas a IVA
             importe2 = DBLet(RI!metalico, "N")
-            Cad = "0"
-            If importe2 > 0 Then Cad = Anyo
+            cad = "0"
+            If importe2 > 0 Then cad = Anyo
                 
             Linea = Linea & DatosNumeroDec(importe2, 15)   'metalico
             Linea = Linea & " " & DatosTexto3(0, 15)   'trasmisiones
-            Linea = Linea & DatosTexto3(CCur(Cad), 4)    'ejercicio  NUEVO Febrero 2011
+            Linea = Linea & DatosTexto3(CCur(cad), 4)    'ejercicio  NUEVO Febrero 2011
         
         
         
             importe2 = RI!trim1 + RI!trim2 + RI!trim3 + RI!trim4
             If importe2 <> Rs!Importe Then
-                Cad = Rs!NIF & "   Total " & Rs!Importe & "   T1 " & RI!trim1 & "     " & "T2 " & RI!trim2 & "     "
-                Cad = Cad & "T3 " & RI!trim3 & "     " & "T4 " & RI!trim4 & "     "
-                ErroresRegistros = ErroresRegistros & Cad & vbCrLf
+                cad = Rs!NIF & "   Total " & Rs!Importe & "   T1 " & RI!trim1 & "     " & "T2 " & RI!trim2 & "     "
+                cad = cad & "T3 " & RI!trim3 & "     " & "T4 " & RI!trim4 & "     "
+                ErroresRegistros = ErroresRegistros & cad & vbCrLf
                 
             End If
               
             'OK pintamos los trimestrales
-            Cad = DatosNumeroDec340(RI!trim1, 16)
-            Cad = Cad & " " & DatosTexto3(0, 15)   'trim 1 inmueble
-            Cad = Cad & DatosNumeroDec340(RI!trim2, 16)
-            Cad = Cad & " " & DatosTexto3(0, 15)   'trim 2 inmueble
-            Cad = Cad & DatosNumeroDec340(RI!trim3, 16)
-            Cad = Cad & " " & DatosTexto3(0, 15)   'trim 3 inmueble
-            Cad = Cad & DatosNumeroDec340(RI!trim4, 16)
-            Cad = Cad & " " & DatosTexto3(0, 15)   'trim 4 inmueble
+            cad = DatosNumeroDec340(RI!trim1, 16)
+            cad = cad & " " & DatosTexto3(0, 15)   'trim 1 inmueble
+            cad = cad & DatosNumeroDec340(RI!trim2, 16)
+            cad = cad & " " & DatosTexto3(0, 15)   'trim 2 inmueble
+            cad = cad & DatosNumeroDec340(RI!trim3, 16)
+            cad = cad & " " & DatosTexto3(0, 15)   'trim 3 inmueble
+            cad = cad & DatosNumeroDec340(RI!trim4, 16)
+            cad = cad & " " & DatosTexto3(0, 15)   'trim 4 inmueble
         Else
-            Cad = "No se encuentran valores trimestrales para: " & Rs!razosoci
-            Err.Raise 513, , Cad
+            cad = "No se encuentran valores trimestrales para: " & Rs!razosoci
+            Err.Raise 513, , cad
         End If
         RI.Close
-        Linea = Linea & Cad
+        Linea = Linea & cad
         
         
         'Febrero 2017
@@ -1029,8 +1131,8 @@ Dim ErroresRegistros As String
         
         'Hasta final de lineas
        
-        Cad = Space(300)
-        Linea = Mid(Linea & Cad, 1, 500)
+        cad = Space(300)
+        Linea = Mid(Linea & cad, 1, 500)
         Print #NF, Linea
         
         
@@ -1040,9 +1142,9 @@ Dim ErroresRegistros As String
     Rs.Close
     Close #NF
     If ErroresRegistros <> "" Then
-        Cad = "Importe total y por trimestres distinto" & vbCrLf & String(50, "-")
-        Cad = Cad & vbCrLf & ErroresRegistros
-        MsgBox Cad, vbExclamation
+        cad = "Importe total y por trimestres distinto" & vbCrLf & String(50, "-")
+        cad = cad & vbCrLf & ErroresRegistros
+        MsgBox cad, vbExclamation
     Else
         PrimerosPasos = True
     End If
@@ -1170,7 +1272,7 @@ End Function
 Private Function PrimerosPasos349(presentacion As Byte, vPeriodo As String, AnyoPres As Integer) As Boolean
 Dim Importe As Currency
 Dim Contador As Integer
-Dim Cad As String
+Dim cad As String
 
 
     On Error GoTo EGen347
@@ -1256,9 +1358,9 @@ Dim Cad As String
     'Case Else
     '    Cad = "T"
     'End Select
-    Cad = "T"
+    cad = "T"
        
-    Linea = Linea & Cad
+    Linea = Linea & cad
     Linea = Linea & DatosTexto(DBLet(Rs!telefono), 9)
     Linea = Linea & DatosTexto(DBLet(Rs!contacto), 40)
     Linea = Linea & "3490000000000"   'Numero justificante la declaracion. Empieza por 343. ENERO> 349
@@ -1298,10 +1400,10 @@ Dim Cad As String
         Linea = Linea & DatosTexto(" ", 58)
      
         
-        Cad = DBLet(Rs!desPobla) & "  "   'Llevara el pais
-        Cad = Trim(Mid(Cad, 1, 2)) & Rs!NIF
+        cad = DBLet(Rs!desPobla) & "  "   'Llevara el pais
+        cad = Trim(Mid(cad, 1, 2)) & Rs!NIF
         
-        Linea = Linea & DatosTexto(Cad, 17)
+        Linea = Linea & DatosTexto(cad, 17)
         Linea = Linea & DatosTexto(Rs!razosoci, 40)
         
 
@@ -1312,11 +1414,11 @@ Dim Cad As String
         'end If
         If Rs!cliprov < 65 Or Rs!cliprov > 90 Then
             MsgBox "Error codigo intracomunitaria" & Linea, vbExclamation
-            Cad = "X"
+            cad = "X"
         Else
-            Cad = Chr(Rs!cliprov)
+            cad = Chr(Rs!cliprov)
         End If
-        Linea = Linea & Cad
+        Linea = Linea & cad
         
         Linea = Linea & DatosTexto3((Rs!Importe * 100), 13)
         
@@ -2821,13 +2923,13 @@ Dim F2 As Date
 End Sub
 
 'REULTILIZO LINEA
-Private Sub InsertaMultipleTMP340(Cad As String)
+Private Sub InsertaMultipleTMP340(cad As String)
 
-    If Cad = "" Then Exit Sub
+    If cad = "" Then Exit Sub
     
-    Cad = Mid(Cad, 2) 'quitamos la primera coma
+    cad = Mid(cad, 2) 'quitamos la primera coma
     Linea = DevuelveInsertTmp340(0)
-    Linea = Linea & Cad
+    Linea = Linea & cad
     
     
     Conn.Execute Linea
@@ -2978,7 +3080,7 @@ Dim CADENA As String
         
 End Sub
 
-Private Sub FormatearTextoParaInformativas(ByRef CADENA As String)
+Public Sub FormatearTextoParaInformativas(ByRef CADENA As String)
 
     
     'º , ª
@@ -2990,3 +3092,827 @@ Private Sub FormatearTextoParaInformativas(ByRef CADENA As String)
     CADENA = Replace(CADENA, ")", " ", 1)
     CADENA = Replace(CADENA, "  ", " ", 1)
 End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'ATENCION  ******************
+'Par el IVA UTLIMO periodo
+' Si tocamos alggo habra que mirar en :  basedatos.bas  LiquidacionIVANew
+Public Function LiquidacionIVAFinAnyo(Anyo As Integer, Empresa As Integer) As Boolean
+Dim RIVA As Recordset
+Dim TieneDeducibles As Boolean    'Para ahorrar tiempo
+Dim HayRecargoEquivalencia As Boolean  'Para ahorrar tiempo tb
+Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
+Dim M1 As Integer
+Dim M2 As Integer
+Dim vFecha1 As Date
+Dim vFecha2 As Date
+Dim vCta As String
+Dim SQL As String
+Dim Periodo As Byte   'Pondre un 100 para saber que es el resumen anual
+
+Dim RectificativasSeparadas303  As Boolean
+
+
+    '       cliente     0- Facturas clientes
+    '                   1- RECARGO EQUIVALENCIA
+    '                   10- Intracomunitarias
+    '                   12- Sujeto pasivo
+    '                   14- Entregas intracomunitarias (no deducibles)
+    '                   16- Exportaciones y operaciones asimiladas
+    '                   2- Facturas proveedores
+    '                   30- Proveedores bien de inversion
+    '                   32- iva de importacion de bienes corrientes
+    '                   36- iva intracomunitario de bienes corrientes
+    '                   38- iva intracomunitario de bien de inversion
+    '                   42- iva regimen especial agrario
+    '                   61- Operaciones no sujetas o con inversión del sujeto pasivo que originan el derecho a deducción  (IVA 0% en ventas conISP)
+    
+
+    On Error GoTo eLiquidacionIVAFinAnyo
+
+    LiquidacionIVAFinAnyo = False
+
+    vFecha1 = CDate("01/01/" & Anyo)
+    vFecha2 = CDate("31/12/" & Anyo)
+    Periodo = 100
+    vCta = "ariconta" & Empresa
+    
+    'Como no hay casilla separada para rectificativas, iran junto al general
+    RectificativasSeparadas303 = False   '  vParam.RectificativasSeparadas303
+    
+
+    '-----------------------------------------------
+    '-----------------------------------------------
+    '-----------------------------------------------
+    'CLIENTES
+    '-----------------------------------------------
+    ' iva REGIMEN GENERAL
+    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente )"
+        
+    SQL = SQL & " select " & vUsu.Codigo & ",porciva,0"
+    SQL = SQL & " ,sum(baseimpo),sum(impoiva), 0"
+    SQL = SQL & ", " & Empresa & "," & Periodo & "," & Anyo & ",0 "
+    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
+    SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " and factcli.codopera = 0 " ' tipo de operacion general
+    SQL = SQL & " and tipodiva in (0,1) " 'solo iva e igic
+    SQL = SQL & " and factcli_totales.codigiva = tiposiva.codigiva "
+    SQL = SQL & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
+    
+    'Junio2019
+    'Rectificativas SEPRADAS
+    If RectificativasSeparadas303 Then SQL = SQL & " and factcli.codconce340<>'D'"
+    
+    SQL = SQL & " group by 1,2,3"
+    Conn.Execute SQL
+    
+    
+    
+    'Junio2019
+    'Rectificativas SEPRADAS
+    If RectificativasSeparadas303 Then
+            SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente )"
+    
+            'GRABAMOS EN IVA un 100. En el report sabremos que son facturas normales, sin recargo equivalencia peeeero, rectificativas
+            SQL = SQL & " select " & vUsu.Codigo & ",100 porciva,0"
+            SQL = SQL & " ,sum(baseimpo),sum(impoiva), 0"
+            SQL = SQL & ", " & Empresa & "," & Periodo & "," & Anyo & ",0 "
+            SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
+            SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
+            SQL = SQL & " and factcli.codopera = 0 " ' tipo de operacion general
+            SQL = SQL & " and tipodiva in (0,1) " 'solo iva e igic
+            SQL = SQL & " and factcli_totales.codigiva = tiposiva.codigiva "
+            SQL = SQL & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
+            SQL = SQL & " and factcli.codconce340='D'"
+            SQL = SQL & " group by 1,2,3"
+            Conn.Execute SQL
+    End If
+        
+    
+    'Sep2019
+    'Como comunicamos BASES, no entra otra vez- Ademas del IF false, lo comento el codigo
+    ' recargo de equivalencia
+    ' La cuot a de IVA ya la hemos sumado arriba. Ahora no la volvemos a poner
+    If False Then
+        
+'''        SQL = "insert into tmpliquidaiva(codusu,iva,bases,ivas,codempre,periodo,ano,cliente,porcrec)"
+'''
+'''        SQL = SQL & " select " & vUsu.Codigo & ",porciva,sum(baseimpo),sum(coalesce(imporec,0)),"
+'''        SQL = SQL & Empresa & "," & periodo & "," & Anyo & ",1 "
+'''        SQL = SQL & " ,coalesce(porcrec,0)"
+'''        SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
+'''        SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
+'''        SQL = SQL & " and tipodiva in (0,1) " 'solo iva e igic
+'''        SQL = SQL & " and factcli.codopera = 0 " ' tipo de operacion general
+'''        SQL = SQL & " and factcli_totales.codigiva = tiposiva.codigiva "
+'''        SQL = SQL & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
+'''        SQL = SQL & " and coalesce(porcerec,0)>0"
+'''         'Junio2019
+'''        'Rectificativas SEPRADAS
+'''        If RectificativasSeparadas303 Then SQL = SQL & " and factcli.codconce340<>'D'"
+'''        SQL = SQL & " group by 1,2"
+'''        Conn.Execute SQL
+'''
+'''        If RectificativasSeparadas303 Then
+'''
+'''                SQL = "insert into tmpliquidaiva(codusu,iva,bases,ivas,codempre,periodo,ano,cliente,porcrec)"
+'''
+'''                'GRABAMOS EN IVA un 100. En el report sabremos que son facturas normales, sin recargo equivalencia peeeero, rectificativas
+'''                SQL = SQL & " select " & vUsu.Codigo & ",101 porciva,sum(baseimpo),sum(coalesce(imporec,0)),"
+'''                SQL = SQL & Empresa & "," & periodo & "," & Anyo & ",1 "
+'''                SQL = SQL & " ,coalesce(porcrec,0)"
+'''                SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
+'''                SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
+'''                SQL = SQL & " and tipodiva in (0,1) " 'solo iva e igic
+'''                SQL = SQL & " and factcli.codopera = 0 " ' tipo de operacion general
+'''                SQL = SQL & " and factcli_totales.codigiva = tiposiva.codigiva "
+'''                SQL = SQL & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
+'''                SQL = SQL & " and coalesce(porcerec,0)>0"
+'''                 'Junio2019
+'''                SQL = SQL & " and factcli.codconce340='D'"
+'''                SQL = SQL & " group by 1,2"
+'''                Conn.Execute SQL
+'''        End If
+'''
+    End If
+    
+    
+    
+    ' intracomunitarias
+    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+    
+    SQL = SQL & " select " & vUsu.Codigo & ",porciva,porcrec,sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & Periodo & "," & Anyo & ",10 "
+    SQL = SQL & " from " & vCta & ".factpro_totales," & vCta & ".factpro"
+    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " and factpro.codopera = 1 " ' tipo de operacion intracomunitaria
+    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+    SQL = SQL & " group by 1,2,3"
+                    
+    Conn.Execute SQL
+    
+    ' inversion sujeto pasivo
+    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+    
+    SQL = SQL & " select " & vUsu.Codigo & ",porciva,porcrec,sum(baseimpo),sum(impoiva),sum(coalesce(imporec,0))," & Empresa & "," & Periodo & "," & Anyo & ",12 "
+    SQL = SQL & " from " & vCta & ".factpro_totales," & vCta & ".factpro"
+    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " and factpro.codopera = 4 " ' tipo de operacion inversion sujeto pasivo
+    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+    SQL = SQL & " group by 1,2,3"
+                    
+    Conn.Execute SQL
+    
+    ' entregas intracomunitarias
+    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+    
+    SQL = SQL & " select " & vUsu.Codigo & ",porciva,porcrec,sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & Periodo & "," & Anyo & ",14 "
+    SQL = SQL & " from " & vCta & ".factcli_totales," & vCta & ".factcli"
+    SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " and factcli.codopera = 1 " ' tipo de operacion intracomunitaria
+    SQL = SQL & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
+    SQL = SQL & " group by 1,2,3"
+                    
+    Conn.Execute SQL
+    
+    
+    ' exportaciones y operaciones asimiladas
+    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+    
+    SQL = SQL & " select " & vUsu.Codigo & ",porciva,porcrec, sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & Periodo & "," & Anyo & ",16 "
+    SQL = SQL & " from " & vCta & ".factcli_totales," & vCta & ".factcli"
+    SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " and factcli.codopera = 2 " ' tipo de operacion exportacion / importacion
+'    SQL = SQL & " and tipodiva in (0,1) " 'solo iva e igic
+    SQL = SQL & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
+    SQL = SQL & " group by 1,2,3"
+                    
+    Conn.Execute SQL
+    
+    
+    
+    ' iva REGIMEN GENERAL
+    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente )"
+        
+    SQL = SQL & " select " & vUsu.Codigo & ",porciva,0"
+    SQL = SQL & " ,sum(baseimpo),sum(impoiva), 0"
+    SQL = SQL & ", " & Empresa & "," & Periodo & "," & Anyo & ", 61 "
+    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
+    SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
+    SQL = SQL & " and factcli.codopera = 3 "
+    SQL = SQL & " and factcli_totales.codigiva = tiposiva.codigiva "
+    SQL = SQL & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
+    
+    SQL = SQL & " group by 1,2,3"
+    Conn.Execute SQL
+    
+    
+    
+    
+    
+        'Comento todo el trozo de abajo. De proveedores NO se presenta NADA
+''''''''''''''''''    '-----------------------------------------------
+''''''''''''''''''    '-----------------------------------------------
+''''''''''''''''''    '-----------------------------------------------
+''''''''''''''''''    '           PROVEEDORES
+''''''''''''''''''    '-----------------------------------------------
+''''''''''''''''''    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+''''''''''''''''''
+''''''''''''''''''    SQL = SQL & " select " & vUsu.Codigo & ",porciva,coalesce(porcrec,0),sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & periodo & "," & Anyo & ",2 "
+''''''''''''''''''    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+''''''''''''''''''    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+''''''''''''''''''    SQL = SQL & " and factpro.codopera = 0 " ' tipo de operacion general
+''''''''''''''''''    'Marzo 2019
+''''''''''''''''''    'SQL = SQL & " and not tipodiva in (2) " ' no sean de bienes de inversion
+''''''''''''''''''    'septiembre 2019
+''''''''''''''''''    'SQL = SQL & " and not tipodiva in (2,4) " ' no sean de bienes de inversion NI Suplidos
+''''''''''''''''''    SQL = SQL & " and not tipodiva in (2,3,4) " ' no sean de bienes de inversion NI Suplidos , NI no deducible   - SE LEVA a
+''''''''''''''''''
+''''''''''''''''''    SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+''''''''''''''''''    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+''''''''''''''''''
+''''''''''''''''''    If vParam.RectificativasSeparadas303 Then SQL = SQL & " and factpro.codconce340<>'D'"
+''''''''''''''''''
+''''''''''''''''''    If vParam.ExcluirBasesIvaCeroRecibidas303 Then SQL = SQL & " AND porceiva>0"
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''    SQL = SQL & " group by 1,2,3"
+''''''''''''''''''
+''''''''''''''''''    Conn.Execute SQL
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''    If vParam.RectificativasSeparadas303 Then
+''''''''''''''''''
+''''''''''''''''''        SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+''''''''''''''''''
+''''''''''''''''''        SQL = SQL & " select " & vUsu.Codigo & ",100 porciva,coalesce(porcrec,0),sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & periodo & "," & Anyo & ",40 "
+''''''''''''''''''        SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+''''''''''''''''''        SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+''''''''''''''''''        SQL = SQL & " and factpro.codopera = 0 " ' tipo de operacion general
+''''''''''''''''''        SQL = SQL & " and not tipodiva in (2,3,4) " ' no sean de bienes de inversion NI Suplidos NI no deducble
+''''''''''''''''''        SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+''''''''''''''''''        SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+''''''''''''''''''        SQL = SQL & " and factpro.codconce340='D'"
+''''''''''''''''''        If vParam.ExcluirBasesIvaCeroRecibidas303 Then SQL = SQL & " AND porceiva>0"
+''''''''''''''''''        SQL = SQL & " group by 1,2,3"
+''''''''''''''''''
+''''''''''''''''''        Conn.Execute SQL
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''    End If
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''    ' bienes de inversion
+''''''''''''''''''    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+''''''''''''''''''
+''''''''''''''''''    SQL = SQL & " select " & vUsu.Codigo & ",porciva,porcrec,sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & periodo & "," & Anyo & ",30 "
+''''''''''''''''''    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+''''''''''''''''''    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+''''''''''''''''''    SQL = SQL & " and tipodiva = 2 " 'solo bienes de inversion y no de importacion / exportacion
+''''''''''''''''''    SQL = SQL & " and factpro.codopera = 0 " ' tipo de operacion general
+''''''''''''''''''    SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+''''''''''''''''''    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+''''''''''''''''''    SQL = SQL & " group by 1,2,3"
+''''''''''''''''''
+''''''''''''''''''    Conn.Execute SQL
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''    ' iva de importacion de bienes corrientes
+''''''''''''''''''    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+''''''''''''''''''
+''''''''''''''''''    SQL = SQL & " select " & vUsu.Codigo & ",porciva,porcrec,sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & periodo & "," & Anyo & ",32 "
+''''''''''''''''''    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+''''''''''''''''''    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+''''''''''''''''''    SQL = SQL & " and tipodiva <> 2 " ' no tipo de iva de bien de inversion
+''''''''''''''''''    SQL = SQL & " and factpro.codopera = 2 " ' tipo facturas de importacion
+''''''''''''''''''    SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+''''''''''''''''''    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+''''''''''''''''''    SQL = SQL & " group by 1,2,3"
+''''''''''''''''''
+''''''''''''''''''    Conn.Execute SQL
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''    ' iva de importacion de bienes de inversion
+''''''''''''''''''    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+''''''''''''''''''
+''''''''''''''''''    SQL = SQL & " select " & vUsu.Codigo & ",porciva,porcrec,sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & periodo & "," & Anyo & ",34 "
+''''''''''''''''''    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+''''''''''''''''''    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+''''''''''''''''''    SQL = SQL & " and tipodiva = 2 " ' no tipo de iva de bien de inversion
+''''''''''''''''''    SQL = SQL & " and factpro.codopera = 2 " ' tipo facturas de importacion
+''''''''''''''''''    SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+''''''''''''''''''    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+''''''''''''''''''    SQL = SQL & " group by 1,2,3"
+''''''''''''''''''
+''''''''''''''''''    Conn.Execute SQL
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''    ' iva intracomunitaria normales
+''''''''''''''''''    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+''''''''''''''''''
+''''''''''''''''''    SQL = SQL & " select " & vUsu.Codigo & ",porciva,porcrec,sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & periodo & "," & Anyo & ",36 "
+''''''''''''''''''    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+''''''''''''''''''    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+''''''''''''''''''    SQL = SQL & " and not tipodiva in (2) " ' tipo de iva distinto de BI
+''''''''''''''''''    SQL = SQL & " and factpro.codopera = 1 " ' tipo intracomunitaria
+''''''''''''''''''    SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+''''''''''''''''''    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+''''''''''''''''''    SQL = SQL & " group by 1,2,3"
+''''''''''''''''''
+''''''''''''''''''    Conn.Execute SQL
+''''''''''''''''''
+''''''''''''''''''    ' iva intracomunitaria bien de inversion
+''''''''''''''''''    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+''''''''''''''''''
+''''''''''''''''''    SQL = SQL & " select " & vUsu.Codigo & ",porciva,porcrec,sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & periodo & "," & Anyo & ",38 "
+''''''''''''''''''    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+''''''''''''''''''    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+''''''''''''''''''    SQL = SQL & " and tipodiva = 2 " ' tipo de iva de BI
+''''''''''''''''''    SQL = SQL & " and factpro.codopera = 1 " ' tipo intracomunitaria
+''''''''''''''''''    SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+''''''''''''''''''    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+''''''''''''''''''    SQL = SQL & " group by 1,2,3"
+''''''''''''''''''
+''''''''''''''''''    Conn.Execute SQL
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''    ' compensaciones regimen especial agrario
+''''''''''''''''''    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+''''''''''''''''''
+''''''''''''''''''    SQL = SQL & " select " & vUsu.Codigo & ",porciva,porcrec,sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & periodo & "," & Anyo & ",42 "
+''''''''''''''''''    SQL = SQL & " from " & vCta & ".factpro_totales," & vCta & ".factpro"
+''''''''''''''''''    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+''''''''''''''''''    SQL = SQL & " and factpro.codopera = 5 " ' factura de REA
+''''''''''''''''''    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+''''''''''''''''''    SQL = SQL & " group by 1,2"
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''
+''''''''''''''''''    'NO DEDUCIBLE EN CONMPRAS
+''''''''''''''''''    SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+''''''''''''''''''    SQL = SQL & " select " & vUsu.Codigo & ",porciva,coalesce(porcrec,0),sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & periodo & "," & Anyo & ",199 "
+''''''''''''''''''    SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factpro_totales," & vCta & ".factpro"
+''''''''''''''''''    SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+''''''''''''''''''    SQL = SQL & " and factpro.codopera = 0 " ' tipo de operacion general
+''''''''''''''''''    SQL = SQL & " and tipodiva = 3 "   'NO deducible
+''''''''''''''''''    SQL = SQL & " and factpro_totales.codigiva = tiposiva.codigiva "
+''''''''''''''''''    SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+''''''''''''''''''    SQL = SQL & " group by 1,2,3"
+''''''''''''''''''    Conn.Execute SQL
+    
+    
+    
+    LiquidacionIVAFinAnyo = True
+eLiquidacionIVAFinAnyo:
+    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description, Err.Description
+        
+    
+End Function
+
+
+'El RS esta abierto ya con los importes que existan
+' La clave es el campo opcion
+'Si la hacer el FIND, es EOF sera cer
+Private Sub AñadeImporteClaveUltimoPerido303(Clave As Integer)
+Dim Importe As Currency
+
+    miRsAux.Find "opcion = " & Clave, , adSearchForward, 1
+    Importe = 0
+    If Not miRsAux.EOF Then
+        If Not IsNull(miRsAux.Fields(1)) Then Importe = miRsAux.Fields(1)
+    End If
+    Linea = Linea & DatosNumeroDec(Importe, 17)
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'*********************************************************************
+'
+'  390 NO estaba hecho     .   Enero 2020
+'
+'
+'Public Function GenerarFicheroIVA_390_2020(ByRef CadenaImportes As String, Importe As Currency, vFecha As Date, vPeriodo As String, EsACompensar As Byte, CadRegistroAdicional03 As String, ConInformacionUltimoPeriodo As Boolean) As Boolean
+Public Function GenerarFicheroIVA_390_2020(vFecha As Date, vPeriodo As String, EsACompensar As Byte, Pagina1 As String, Pagina2 As String) As Boolean
+Dim Aux As String
+Dim Periodo As String
+Dim K As Integer
+Dim UltimoPeridod As Boolean
+Dim SumatotalOperacionesPresntacionUltimoTrimestre As Currency
+
+
+
+
+
+Dim Importe As Currency
+Dim CadRegistroAdicional03 As String
+Dim ConInformacionUltimoPeriodo As Boolean
+
+On Error GoTo Salida '
+
+    GenerarFicheroIVA_390_2020 = False
+    Linea = ""
+    Linea = Linea & "<T3900"
+    Linea = Linea & RecuperaValor(vPeriodo, 3)  'AÑO
+    
+    Linea = Linea & "0A0000><AUX>"
+    
+    'Blancos
+    Linea = Linea & Space(70)  'reservado admon
+    Aux = "    "
+    Aux = Mid(App.Minor & "." & App.Revision & "   ", 1, 4)  'Version programa
+    Linea = Linea & Aux
+    
+    
+    Linea = Linea & "    "  'Nº campo: 10
+    
+    'Nif empresa desarrollo
+    Aux = "B96470190"
+    Linea = Linea & Aux
+    
+    'Campo 12
+    Linea = Linea & Space(213)
+    
+    'Linea = Linea & "</AUX><VECTOR>"
+    Linea = Linea & "</AUX>"
+    
+    
+    Stop
+    Linea = ""
+   
+    '********** PAGINA 1 *****************************************
+    Linea = Linea & "<T39001000>  "   'dos pos en blanco
+    
+    If Not Generaidentificacion(False) Then GoTo Salida
+    Linea = Linea & RecuperaValor(vPeriodo, 3)
+    
+    'registro devolucion mensual
+    Aux = "0"
+    If UltimoPeridod Then
+        If vParam.SIITiene Then Aux = "1"
+    End If
+    Linea = Linea & Aux
+    
+    
+    Linea = Linea & "  " '     107 2   An  RESERVADO PARA LA A.E.A.T. (Dejar en blanco)
+    Linea = Linea & Aux '      109 1   An  1. Sujeto pasivo - Registro de devolución mensual.      "0" ó "1"
+    Linea = Linea & "0" '      110 1   An  1. Sujeto pasivo - Regimen especial del grupo de entidades      "0" ó "1"
+    Linea = Linea & " " '      111 7   An  1. Sujeto pasivo - Número de grupo
+    Linea = Linea & "0" '      118 1   An  1. Sujeto pasivo - dominante?       "0" ó "1"
+    Linea = Linea & "0" '      119 1   An  1. Sujeto pasivo - dependiente?     "0" ó "1"
+    Linea = Linea & " " '      120 1   An  1. Sujeto pasivo - Tipo régimen especial aplicable. Art 163 sexies.cinco. Si o No       "0" - blanco, "1" - Si, "2" .- No
+    Linea = Linea & Space(9) ' 121 9   An  1. Sujeto pasivo - NIF entidad dominante
+    Linea = Linea & " " '      130 1   An  1. Sujeto pasivo - Concurso acreedores en este ejercicio        "0" - blanco, "1" - Si, "2" .- No
+    Linea = Linea & " " '      131 1   An  1. Sujeto pasivo - Regimen especial del criterio de caja        "0" - blanco, "1" - Si, "2" .- No
+    Linea = Linea & " " '      132 1   An  1. Sujeto pasivo - Ha sido destinatario del régimen especial del criterio de caja       "0" - blanco, "1" - Si, "2" .- No
+    Linea = Linea & "0" '      133 1   Num 2. Devengo - Sustitutiva?       "0" ó "1"
+    Linea = Linea & "0" '      134 1   Num 2. Devengo - Sustitutiva por rectificación de cuotas?       "0" ó "1"
+    Linea = Linea & Space(13) '      135 13  An  2. Devengo - Nº justificante declaración anterior
+
+    
+    
+    Set miRsAux = New ADODB.Recordset
+    'Informacion aadicional unicamente a cumplimentar en el utlimo trimestre
+    '40  An  3. Datos estadísticos - A - Actividades - Principal
+    '1   Num 3. Datos estadísticos - B - Clave - Principal
+    '4   An  3. Datos estadísticos - C -Epígrafe I.A.E. - Principal
+
+    K = 0
+    Aux = "select * from empresaactiv WHERE false "
+    Aux = Aux & " ORDER BY ppal desc, codigo"
+    miRsAux.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    While Not miRsAux.EOF
+        K = K + 1
+        If K < 7 Then   'SOLO ACEPTAN 6
+            Aux = miRsAux!Id & Mid(DBLet(miRsAux!epigrafe, "T") & "    ", 1, 4)
+            Linea = Linea & Aux
+        End If
+        miRsAux.MoveNext
+    Wend
+    miRsAux.Close
+
+    'El resto hasta 6
+    While K < 6
+        Linea = Linea & Space(40) & "0" & Space(4)
+        K = K + 1
+    Wend
+    
+    
+    '43  418 1   An  3. Datos estadísticos - D - Declaración anual operac. con terceras personas.        "0" ó "1"
+    Linea = Linea & "0"
+    
+    'Desde el campo 44(posicon 419, hasta 79 (posicion 960 + 21longitud). Es decir 575 espacios en blanco
+    Linea = Linea & Space(575)
+    
+    
+    'Identificador cliente EEDD. RESERVADO PARA LAS EEDD.
+    Linea = Linea & Space(20)
+    'Rservado AET
+    Linea = Linea & Space(150)
+    'Fin registro
+    Linea = Linea & "</T39001000>"
+    
+    
+    
+    
+    
+    
+    '********** PAGINA 2 *****************************************
+    Linea = Linea & "<T39002000> "   'una pos en blanco
+    
+    
+    
+    'Cadena importes ivas deducible y devengado
+    Linea = Linea & Pagina1
+    
+    
+    'ENERo 2019
+    '68 Num Identificación (1) - ¿Existe volumen de operaciones (art. 121 LIVA)?        Nota 3
+    '69 Sujeto pasivo que tributa exclusivamente a una Administración tributaria Foral con IVA a la importación liquidado por la Aduana pendiente de ingreso
+    '70 ¿Ha llevado voluntariamente los Libros registro del IVA a través de la Sede electrónica de la AEAT durante el ejercicio?
+    Linea = Linea & "022"
+    
+    
+    
+    
+    
+    'Exonerados del 390
+    'Solo admite 1 y 2 en ultimo peridod año.  4T o 12
+    '- Inscritos en el REDEME (Registro de Devolución Mensual del IVA)
+    '- Grandes Empresas (facturación a efectos del IVA superior a 6.010.121,04 €).
+    '- Grupos de IVA.
+    '- Sujetos pasivos que hubieran optado por llevar los Libros registro del IVA  través de la Sede electrónica de la AEAT.
+    Aux = "0"
+    If UltimoPeridod Then
+        If vParam.SIITiene Then
+            Aux = "1"
+        Else
+            Aux = "2"
+        End If
+    End If
+    Linea = Linea & Aux
+   
+    
+    'Final IVA
+    Linea = Linea & Space(578)  'reservado para la AEAT
+    Linea = Linea & Space(13)  'reservado para el sello de la AEAT
+    
+    Linea = Linea & "</T30301000>"
+    'Linea = Linea & Chr(13) & Chr(10)
+    
+
+       
+    '***************************************************
+    'Registro adicional 303_03    el que lleva los totales
+    If True Then
+        Linea = Linea & "<T30303000>"
+        
+        
+        Linea = Linea & CadRegistroAdicional03
+        
+        
+        'Campo 22. Declaracion complementaria y numero justificante anterior
+        Linea = Linea & " " & Space(13)
+        'Sin actividad
+        Linea = Linea & " "
+        
+        
+        'Domiciliacion devolucion . bic IBAN
+        If EsACompensar = 0 Then
+            Aux = DevuelveDesdeBD("iban1", "empresa2", "1", "1")
+            
+            Linea = Linea & String(11, " ")
+            Linea = Linea & DatosTexto(Aux, 34)
+            
+        Else
+            Linea = Linea & String(11, " ")
+            Linea = Linea & String(34, " ")
+        End If
+        
+        
+        
+        Set miRsAux = New ADODB.Recordset
+        If ConInformacionUltimoPeriodo Then
+            'Informacion aadicional unicamente a cumplimentar en el utlimo trimestre
+            K = 0
+            Aux = "select * from empresaactiv order by ppal desc, codigo"
+            miRsAux.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            While Not miRsAux.EOF
+                K = K + 1
+                If K < 7 Then   'SOLO ACEPTAN 6
+                    Aux = miRsAux!Id & Mid(DBLet(miRsAux!epigrafe, "T") & "    ", 1, 4)
+                    Linea = Linea & Aux
+                End If
+                miRsAux.MoveNext
+            Wend
+            miRsAux.Close
+        
+            'El resto hasta 6
+            While K < 6
+                Linea = Linea & "0    "
+                K = K + 1
+            Wend
+            
+            
+            
+            'Información adicional - Exclusivamente a cumplimentar en el último periodo exonerados de la Declaración-re
+            Linea = Linea & "X"
+        
+            
+            'Este RS estara abierto en el IF de abjo
+            Aux = "select opcion,sum(importe1) base from tmptesoreriacomun where codusu =2000 group by opcion order by opcion"
+            miRsAux.Open Aux, Conn, adOpenKeyset, adLockOptimistic, adCmdText
+            SumatotalOperacionesPresntacionUltimoTrimestre = 0
+            
+            If Not miRsAux.EOF Then
+                While Not miRsAux.EOF
+                    SumatotalOperacionesPresntacionUltimoTrimestre = SumatotalOperacionesPresntacionUltimoTrimestre + miRsAux!Base
+                    miRsAux.MoveNext
+                Wend
+                miRsAux.MoveFirst
+            End If
+            
+            ' Operaciones en régimen general [80]
+            AñadeImporteClaveUltimoPerido303 1
+            
+            ' Operaciones en régimen especial del criterio de caja conform
+            Linea = Linea & String(17, "0")
+            
+            'Entregas intracomunitarias exentas [93]
+            AñadeImporteClaveUltimoPerido303 14
+            
+            'Operaciones exentas sin derecho a deducción [83]
+            AñadeImporteClaveUltimoPerido303 16
+                
+            'Operaciones no sujetas por reglas de localización o con inversión del sujeto pasivo [84]
+            AñadeImporteClaveUltimoPerido303 61
+                        
+            'Entregas de bienes objeto de instalación o montaje en otros Estados miembros [85]
+            Linea = Linea & String(17, "0")
+            
+            'Operaciones en régimen simplificado [86]
+            Linea = Linea & String(17, "0")
+            
+            ' Entregas de bienes inmuebles no habituales, operaciones financieras y relativas al oro de inversión no habituales [79]
+            Linea = Linea & String(17, "0")
+            
+            
+            'Total volumen de operaciones ([80]+[81]+[93]+[94]+[83]+[84]+[85]+[86]+[95]+[96]+[97]+[98]-[79]-[99]) [88]
+            Aux = DatosNumeroDec(SumatotalOperacionesPresntacionUltimoTrimestre, 17)
+            Linea = Linea & Aux
+            
+            
+        Else
+            'Informacion aadicional unicamente a cumplimentar en el utlimo trimestre
+            ' 6 parejas de "0" +  "    "  '4pos
+            For K = 1 To 6
+                Linea = Linea & "0    "
+            Next K
+            
+            'Información adicional - Exclusivamente a cumplimentar en el último periodo exonerados de la Declaración-re
+            Linea = Linea & " "
+            
+            'Campos del 40-48
+            'Decimales
+            For K = 1 To 9
+                Linea = Linea & String(17, "0")
+            Next K
+            
+        End If
+        
+        'Campo 49. Reservado AEAT
+        Linea = Linea & "0"
+        
+        'TRIBUTACIONES ALVA.-GIPUZCU... NAVARRA
+        For K = 1 To 4
+            Linea = Linea & String(5, "0")
+        Next K
+        
+        
+        
+        If ConInformacionUltimoPeriodo Then
+            'Campos del 54-59  Información adicional - Exclusivamente a cumplimentar en el último period....
+            
+            ' Exportaciones y otras operaciones exentas con derecho a deducción [94]
+            AñadeImporteClaveUltimoPerido303 16
+            
+            ' Operaciones en régimen especial de la agricultura, ganadería y pesca [95]
+            Linea = Linea & String(17, "0")
+        
+            ' Operaciones realizadas por sujetos pasivos acogidos al régimen especial del recargo de equivalencia [96]
+            Linea = Linea & String(17, "0")
+            
+            'Operaciones en Régimen especial de bienes usados, objetos de arte, antigüedades y objetos de colección [97]
+            Linea = Linea & String(17, "0")
+                
+            ' Operaciones en régimen especial de Agencias de Viajes [98]
+            Linea = Linea & String(17, "0")
+            
+            'Entregas de bienes de inversión [99]
+            Linea = Linea & String(17, "0")
+            
+        Else
+            'Campos del 54-59  Información adicional - Exclusivamente a cumplimentar en el último period....
+            For K = 1 To 6
+                Linea = Linea & String(17, "0")
+            Next K
+            
+        End If
+        Set miRsAux = Nothing
+        
+        
+        'Enero 2019
+        'Información de la tributación por razón de territorio: Territorio común [107]   5,2
+         Linea = Linea & "00000"
+        
+        'rESERVADO aeat
+        Linea = Linea & Space(463)
+        
+        Linea = Linea & "</T30303000>"
+       
+    End If
+    
+   
+    
+    'Final GENERAL
+    Linea = Linea & "</T3900"
+    Linea = Linea & RecuperaValor(vPeriodo, 3)  'AÑO
+    Linea = Linea & "0A0000>"
+    
+    
+    If Not ImprimeFichero Then GoTo Salida
+    
+    GenerarFicheroIVA_390_2020 = True
+Salida:
+    If Err.Number <> 0 Then MuestraError Err.Number
+    Set miRsAux = Nothing
+End Function
+
+
+
+
+
+
+

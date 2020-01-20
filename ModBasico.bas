@@ -405,7 +405,7 @@ End Function
 Public Function PonerFormatoEntero(ByRef T As TextBox) As Boolean
 'Comprueba que el valor del textbox es un entero y le pone el formato
 Dim mTag As CTag
-Dim Cad As String
+Dim cad As String
 Dim Formato As String
 On Error GoTo EPonerFormato
 
@@ -416,14 +416,14 @@ On Error GoTo EPonerFormato
     Set mTag = New CTag
     mTag.Cargar T
     If mTag.Cargado Then
-       Cad = mTag.Nombre 'descripcion del campo
+       cad = mTag.Nombre 'descripcion del campo
        Formato = mTag.Formato
     End If
     Set mTag = Nothing
 
     If Not EsEntero(T.Text) Then
         PonerFormatoEntero = False
-        MsgBox "El campo " & Cad & " tiene que ser numérico.", vbExclamation
+        MsgBox "El campo " & cad & " tiene que ser numérico.", vbExclamation
         PonFoco T
     Else
          'T.Text = Format(T.Text, Formato)
@@ -496,7 +496,7 @@ End Function
 Public Function FormatoCampo2(ByRef objec As Object) As String
 'Devuelve el formato del campo en el TAg: "0000"
 Dim mTag As CTag
-Dim Cad As String
+Dim cad As String
 
     On Error GoTo EFormatoCampo2
 
@@ -513,7 +513,7 @@ End Function
 
 Public Function TipoCamp(ByRef objec As Object) As String
 Dim mTag As CTag
-Dim Cad As String
+Dim cad As String
 
     On Error GoTo ETipoCamp
 
@@ -1112,4 +1112,33 @@ Public Sub AyudaGastosFijos(frmBas As frmBasico, Optional CodActual As String, O
 End Sub
 
 
+
+
+Public Sub AyudaTrasnferencia(frmBas As frmBasico2, Optional CodActual As String, Optional cWhere As String)
+
+ 
+    frmBas.CadenaTots = "S|txtAux(0)|T|Código|1405|;S|txtAux(1)|T|Año|1000|;S|txtAux(2)|T|Fecha            Banco|4100|;"
+    frmBas.CadenaConsulta = "select codigo,anyo,concat( DATE_FORMAT(fecha,'%Y-%m-%d'),'     '  ,nommacta)"
+    frmBas.CadenaConsulta = frmBas.CadenaConsulta & " from transferencias left join cuentas on transferencias.codmacta=cuentas.codmacta "
+    frmBas.CadenaConsulta = frmBas.CadenaConsulta & " WHERE situacion='Q'  and  transferencias.fecha>=DATE_ADD(now(), INTERVAL -2 YEAR)"
+    
+    If cWhere <> "" Then frmBas.CadenaConsulta = frmBas.CadenaConsulta & " and " & cWhere
+    frmBas.Tag1 = "Codigo|N|N|||transferencias|codigo|000|S|"
+    frmBas.Tag2 = "Año|N|S|||transferencias|anyo|0000|S|"
+    frmBas.Tag3 = "Fecha      Banco|T|N|||cuentas|nommacta|||"
+    
+    frmBas.Maxlen1 = 10
+    frmBas.Maxlen2 = 10
+    frmBas.Maxlen3 = 80
+    
+    frmBas.tabla = "transferencias"
+    frmBas.CampoCP = "codigo"
+    frmBas.Caption = "Transferencias"
+    frmBas.DeConsulta = True
+    frmBas.DatosADevolverBusqueda = "0|1|"
+    frmBas.CodigoActual = 0
+    If CodActual <> "" Then frmBas.CodigoActual = CodActual
+    frmBas.Show vbModal
+    
+End Sub
 

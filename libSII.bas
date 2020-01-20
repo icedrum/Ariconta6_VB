@@ -108,10 +108,16 @@ Dim LlevaIVAs As Boolean
 Dim H As Integer
 Dim C1 As String
 Dim C2 As String
+Dim c3 As String
 Dim BloqueIVA As Byte
 Dim FechaPeriodo2 As Date
 Dim NumFactura As String
 Dim FacturaResumenTicket As Boolean
+
+Dim ImporteIvaCero As Currency
+Dim LlevaIvasCero As Boolean
+
+Dim B As Boolean
 
 
     On Error GoTo eSii_FraCLI
@@ -211,7 +217,12 @@ Dim FacturaResumenTicket As Boolean
     If FacturaResumenTicket Then
         Aux = "Factura " & RN!NUmSerie & RN!NumFactu
     Else
-        Aux = "Factura " & RN!NUmSerie & RN!NumFactu
+    
+        If vParam.TipoIntegracionSeleccionable = 1 Then
+            Aux = "VENTAS"
+        Else
+            Aux = "Factura " & RN!NUmSerie & RN!NumFactu
+        End If
     End If
     SQL = SQL & DBSet(Aux, "T") & ","
 
@@ -273,16 +284,38 @@ Dim FacturaResumenTicket As Boolean
         'EL NIF
         'NO hacemos nada  AUX y c1 ya teiene los valores que toca
         C1 = "null"
-        
+        C2 = "null"
+        c3 = "NULL"
         If RN!codconce340 = "J" Or RN!codconce340 = "B" Then
             'TICKETS NO `presentmaos NIFS
             Aux = "null"
         Else
-            Aux = DBLet(RN!nifdatos, "T")
-            Aux = DBSet(Aux, "T", "S")
+        
+            'Factura normal, pero a un "extranjero o lo que sea
+            Aux = DBLet(RN!codpais, "T")
+            If Aux = "" Then Aux = "ES"
+        
+            Aux = "ES"  'De momento Fuerzo un ES
+        
+            If Aux = "ES" Then
+                'LO que estaba, no toco nada
+                Aux = DBLet(RN!nifdatos, "T")
+                Aux = DBSet(Aux, "T", "S")
+                
+                
+            Else
+                'Enero 2020
+                'Si el pais, en codpais, NO es españa, pero es una factura normal normal
+                'REG_FE_CNT_NIF,REG_FE_CNT_IDOtro_CodigoPais,REG_FE_CNT_IDOtro_IDType,REG_FE_CNT_IDOtro_ID
+                C2 = DBSet(Aux, "T")
+                C1 = "'02'"
+                Aux = "''"
+                c3 = DBSet(RN!nifdatos, "T")
+                
+            End If
         End If
-        C2 = "null"
-        SQL = SQL & Aux & "," & C2 & "," & C1 & ",NULL,"
+        
+        SQL = SQL & Aux & "," & C2 & "," & C1 & "," & c3 & ","
     End If
     
    
@@ -291,6 +324,10 @@ Dim FacturaResumenTicket As Boolean
 '6#
     'EXENTA
     
+    'Modificacion SII 01/10/2019
+    ' Los ivas a cero, aunque no sean exportacione-intracomunitaria, se reflejan en esta casilla. Con causa de exencion E1
+    ImporteIvaCero = 0
+    LlevaIvasCero = False
     
     If RN!CodOpera = 1 Or RN!CodOpera = 2 Then
         'INTRACOM y exportacion
@@ -301,10 +338,11 @@ Dim FacturaResumenTicket As Boolean
             Aux = "'E2',"  'export
         End If
         
-        Aux = Aux & DBSet(RN!totbases, "N") & ",null"
+        Aux = Aux & DBSet(RN!TotBases, "N") & ",null"
     Else
         LlevaIVAs = True
-        Aux = "NULL,NULL,'S1'"
+        'Aux = "NULL,NULL,'S1'"
+        Aux = "#@CAUSA#,#@IMPOR#,#MotExen#"   '--> despues de ver los ivas, si alguno es cero replace esto, si no, replace por NULL
     End If
     SQL = SQL & Aux
     
@@ -323,18 +361,47 @@ Dim FacturaResumenTicket As Boolean
         'TipoImpositivo,BaseImponible,CuotaRepercutida,TipoREquivalencia,CuotaREquivalencia,"
         While Not RN.EOF
             If RN!TipoDIva <> 4 Then
-                Aux = "," & DBSet(RN!porciva, "N") & "," & DBSet(RN!Baseimpo, "N") & "," & DBSet(RN!Impoiva, "N") & ","
-                If IsNull(RN!porcrec) Then
-                    Aux = Aux & "NULL,NULL"
+            
+                If RN!porciva = 0 Then
+                    B = False
+                    
+                    LlevaIvasCero = True
+                    ImporteIvaCero = ImporteIvaCero + RN!Baseimpo
                 Else
-                    Aux = Aux & DBSet(RN!porcrec, "N") & "," & DBSet(RN!ImpoRec, "N")
+                    B = True
                 End If
-                CadenaIVAS = CadenaIVAS & Aux
-                NumIVas = NumIVas + 1
+                If B Then
+                    Aux = "," & DBSet(RN!porciva, "N") & "," & DBSet(RN!Baseimpo, "N") & "," & DBSet(RN!Impoiva, "N") & ","
+                    If IsNull(RN!porcrec) Then
+                        Aux = Aux & "NULL,NULL"
+                    Else
+                        Aux = Aux & DBSet(RN!porcrec, "N") & "," & DBSet(RN!ImpoRec, "N")
+                    End If
+                    CadenaIVAS = CadenaIVAS & Aux
+                    NumIVas = NumIVas + 1
+                End If
             End If
             RN.MoveNext
         Wend
         RN.Close
+        
+        
+        If LlevaIvasCero Then
+            SQL = Replace(SQL, "#@CAUSA#", "'E1'")
+            SQL = Replace(SQL, "#@IMPOR#", DBSet(ImporteIvaCero, "N"))
+            If NumIVas > 0 Then
+                'AParte del exteno lleva otro mas
+                SQL = Replace(SQL, "#MotExen#", "'S1'")
+            Else
+                SQL = Replace(SQL, "#MotExen#", "NULL")
+            End If
+        
+        Else
+            'Aux = "NULL,NULL,'S1'"
+            SQL = Replace(SQL, "#@CAUSA#", "NULL")
+            SQL = Replace(SQL, "#@IMPOR#", "NULL")
+            SQL = Replace(SQL, "#MotExen#", "'S1'")
+        End If
     End If
     
     For H = NumIVas + 1 To 6
@@ -457,10 +524,11 @@ Private Function DevuelveClaveTranscendenciaEmitida(ByRef R As ADODB.Recordset) 
         'Si es operaciones de ARRENDAMIENTO
         'EMITIDAS 11: S/REF C/RET 13 C/REF C/S/RET
         If R!codconce340 = "R" Then
-            If DBLet(R!CatastralREF, "T") = "" Then
-                DevuelveClaveTranscendenciaEmitida = "11"
-            Else
+        
+            If DBLet(R!cuereten, "T") <> "" Then
                 DevuelveClaveTranscendenciaEmitida = "13"
+            Else
+                DevuelveClaveTranscendenciaEmitida = "11"
             End If
         Else
             DevuelveClaveTranscendenciaEmitida = "01"
@@ -561,8 +629,9 @@ Dim TotalDecucible As Currency
 Dim CodOpera As Byte
 Dim InversionSujetoPasivo As Boolean
 Dim FechaPeriodo2 As Date
-    
-    
+Dim NoDeducible As Boolean  '2019 Septiembre
+
+
 
 
     On Error GoTo eSii_FraCLI
@@ -650,7 +719,14 @@ Dim FechaPeriodo2 As Date
      
     'REG_FE_ClaveRegimenEspecialOTrascendencia,REG_FE_ImporteTotal,REG_FE_BaseImponibleACoste,REG_FE_DescripcionOperacion
     Clave = DevuelveClaveTranscendenciaRecibida(RN)
-    SQL = SQL & DBSet(Clave, "T") & "," & DBSet(RN!totfacpr, "N") & ",NULL,'Factura" & IIf(RN!NUmSerie = 1, "", " ser: " & RN!NUmSerie) & " " & RN!NumFactu & "',"
+    SQL = SQL & DBSet(Clave, "T") & "," & DBSet(RN!totfacpr, "N") & ",NULL,"
+    
+    If vParam.TipoIntegracionSeleccionable = 1 Then
+        SQL = SQL & "'VENTAS',"
+    Else
+        SQL = SQL & "'Factura" & IIf(RN!NUmSerie = 1, "", " ser: " & RN!NUmSerie) & " " & RN!NumFactu & "',"
+    End If
+    
     
     
 '#6
@@ -752,6 +828,7 @@ Dim FechaPeriodo2 As Date
         
         While Not RN.EOF
             Aux = ""
+            NoDeducible = False
             If CodOpera = 5 Then
                 'Si el tipo de IVA es REA
                 Aux = ",null," & DBSet(RN!Baseimpo, "N") & ",null,null,null,"
@@ -761,6 +838,9 @@ Dim FechaPeriodo2 As Date
                 
             Else
                 If RN!TipoDIva <> 4 Then
+                    
+                    
+                
                     Aux = "," & DBSet(RN!porciva, "N") & "," & DBSet(RN!Baseimpo, "N") & "," & DBSet(RN!Impoiva, "N") & ","
                     If IsNull(RN!porcrec) Then
                         Aux = Aux & "NULL,NULL"
@@ -769,12 +849,21 @@ Dim FechaPeriodo2 As Date
                     End If
                     Aux = Aux & ",NULL,NULL"             'REA A null
                     
+                    
+                    If RN!TipoDIva = 3 Then NoDeducible = True
+                    
+                    
                 End If
             End If
             If Aux <> "" Then
                 CadenaIVAS = CadenaIVAS & Aux
                 NumIVas = NumIVas + 1
-                TotalDecucible = TotalDecucible + RN!Impoiva + DBLet(RN!ImpoRec, "N")
+                If NoDeducible Then
+                    'Este importe NO suma al deducible
+                Else
+                    'Normal
+                    TotalDecucible = TotalDecucible + RN!Impoiva + DBLet(RN!ImpoRec, "N")
+                End If
             End If
             RN.MoveNext
         

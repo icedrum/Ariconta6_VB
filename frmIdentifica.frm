@@ -210,7 +210,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Dim PrimeraVez As Boolean
-Dim t1 As Single
+Dim T1 As Single
 Dim CodPC As Long
 Dim UsuarioOK As String
 
@@ -259,8 +259,15 @@ Private Sub Form_Activate()
             vControl.Ancho3 = 3000
             vControl.UltAccesoBDs = 0
             vControl.UltReferRem = 0
-            vControl.PassworBD = "aritel"
-            vControl.UsuarioBD = vControl.UltUsu
+            
+            UsuarioOK = InputBox("usuario", "Usuario BD", vControl.UltUsu)
+            If Trim(UsuarioOK) = "" Then UsuarioOK = vControl.UltUsu
+            vControl.UsuarioBD = UsuarioOK
+            
+            UsuarioOK = InputBox("Password", "Contraseña BD")
+            If Trim(UsuarioOK) = "" Then UsuarioOK = vControl.UltUsu
+            vControl.PassworBD = UsuarioOK
+            
             vControl.Grabar
 
             End
@@ -299,8 +306,8 @@ Private Sub Form_Activate()
 '            End If
 '        End If
          
-        t1 = t1 + 2.5 - Timer
-        If t1 > 0 Then espera t1
+        T1 = T1 + 2.5 - Timer
+        If T1 > 0 Then espera T1
 
         PonerVisible True
          
@@ -334,7 +341,7 @@ Private Sub Form_Load()
     UsuarioOK = ""
 
     PonerVisible False
-    t1 = Timer
+    T1 = Timer
     Text1(0).Text = ""
     Text1(1).Text = ""
     Combo1.ListIndex = -1
@@ -544,7 +551,7 @@ Dim EmpreProhibid As String
         pLabel "Abriendo " & CadenaDesdeOtroForm
         
         If AbrirConexion(CadenaDesdeOtroForm, True) = False Then
-            CadenaDesdeOtroForm = PrimeraBD
+            CadenaDesdeOtroForm = "ariconta" & PrimeraBD
             If AbrirConexion(CadenaDesdeOtroForm) = False Then
                 End
             End If
@@ -578,7 +585,7 @@ End Sub
 Private Sub HacerAccionesBD()
 Dim SQL As String
     
-    t1 = Timer
+    T1 = Timer
     
     'Limpiamos datos blanace
     CadenaDesdeOtroForm = " WHERE codusu = " & vUsu.Codigo
@@ -592,8 +599,8 @@ Dim SQL As String
     CadenaDesdeOtroForm = ""
 
     Me.Refresh
-    t1 = Timer - t1
-    If t1 < 1 Then espera 0.4
+    T1 = Timer - T1
+    If T1 < 1 Then espera 0.2
     
     DoEvents
     espera 0.2
@@ -627,31 +634,31 @@ End Sub
 'a la que ha entrado, y el usuario
 Private Sub NumeroEmpresaMemorizar(Leer As Boolean)
 Dim NF As Integer
-Dim Cad As String
+Dim cad As String
 On Error GoTo ENumeroEmpresaMemorizar
 
 
-    Cad = App.Path & "\ultusu.dat"
+    cad = App.Path & "\ultusu.dat"
     
     
     
     If Leer Then
-        If Dir(Cad) <> "" Then
+        If Dir(cad) <> "" Then
             NF = FreeFile
-            Open Cad For Input As #NF
-            Line Input #NF, Cad
+            Open cad For Input As #NF
+            Line Input #NF, cad
             Close #NF
-            Cad = Trim(Cad)
+            cad = Trim(cad)
                 
                 
                 'El primer pipe es el usuario
-                Text1(0).Text = Cad
+                Text1(0).Text = cad
         End If
     Else 'Escribir
         NF = FreeFile
-        Open Cad For Output As #NF
-        Cad = Text1(0).Text
-        Print #NF, Cad
+        Open cad For Output As #NF
+        cad = Text1(0).Text
+        Print #NF, cad
         Close #NF
     End If
 ENumeroEmpresaMemorizar:
