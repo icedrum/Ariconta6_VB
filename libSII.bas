@@ -722,7 +722,17 @@ Dim NoDeducible As Boolean  '2019 Septiembre
     SQL = SQL & DBSet(Clave, "T") & "," & DBSet(RN!totfacpr, "N") & ",NULL,"
     
     If vParam.TipoIntegracionSeleccionable = 1 Then
-        SQL = SQL & "'VENTAS',"
+        Aux = "numserie =" & DBSet(RN!NUmSerie, "T") & " AND numregis =" & RN!Numregis & " AND anofactu "
+        Aux = DevuelveDesdeBD("codmacta", "factpro_lineas", Aux, CStr(RN!anofactu) & " ORDER by numlinea", "N")
+        If Aux = "" Then Aux = "60000"
+        If Val(Aux) > 60000 Then
+            Aux = "GASTOS"
+        Else
+            Aux = "COMPRAS"
+        End If
+        
+        SQL = SQL & "'" & Aux & "',"
+        
     Else
         SQL = SQL & "'Factura" & IIf(RN!NUmSerie = 1, "", " ser: " & RN!NUmSerie) & " " & RN!NumFactu & "',"
     End If
