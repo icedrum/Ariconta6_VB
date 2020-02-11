@@ -342,6 +342,8 @@ Dim Obs As String
                     Cuenta = RecuperaValor(CtaBanco, 1)
                     Cuenta = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cuenta, "T")
                     Ampliacion = Ampliacion & AmpRemesa
+                Case 6
+                
                 Case Else
                    If vCP.amphacli = 1 Then Ampliacion = Ampliacion & vCP.siglas & " "
                    Ampliacion = Ampliacion & Rs!NUmSerie & "/" & Rs!NumFactu
@@ -406,6 +408,20 @@ Dim Obs As String
                 Cuenta = RecuperaValor(CtaBanco, 1)
                 Cuenta = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cuenta, "T")
                 Ampliacion = Ampliacion & AmpRemesa
+            Case 6
+                
+                Ampliacion = DBLet(Rs!nomclien, "T")
+                If Ampliacion = "" Then Ampliacion = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Rs!codmacta, "T")
+                
+                MiVariableAuxiliar = Rs!NUmSerie & Format(Rs!NumFactu, "0000000")
+                Ampliacion = Mid(Ampliacion, 1, 34 - Len(MiVariableAuxiliar))
+                Ampliacion = Ampliacion & " " & MiVariableAuxiliar
+                
+                
+                
+                
+                
+                
             Case Else
                If vCP.amphacli = 1 Then Ampliacion = Ampliacion & vCP.siglas & " "
                Ampliacion = Ampliacion & Rs!NUmSerie & Format(Rs!NumFactu, "0000000")

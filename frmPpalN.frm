@@ -1527,7 +1527,7 @@ Private Sub LoadIcons()
     
     'Pequeños
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\mail_16x16.bmp", _
-            Array(1, 1, 1, 1, ID_EstadísticaInmovilizado, ID_SimulaciónAmortización, ID_DeshacerAmortización, 1, 1, ID_VentaBajainmovilizado), xtpImageNormal
+            Array(1, 1, 1, ID_InformeCobrosRealizados, ID_EstadísticaInmovilizado, ID_SimulaciónAmortización, ID_DeshacerAmortización, 1, 1, ID_VentaBajainmovilizado), xtpImageNormal
         
     'Pequeños diario
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\quickstepsgallery.png", _
@@ -1941,7 +1941,10 @@ Dim RN As ADODB.Recordset
              Habilitado = True
              
              If Not MenuVisibleUsuario(DBLet(RN!Codigo), "ariconta") Then
-                 Habilitado = False
+                Habilitado = False
+                If RN!Codigo = 1 Then Habilitado = vUsu.Nivel = 0
+                    
+                 
              Else
          
                  If (MenuVisibleUsuario(DBLet(RN!Padre), "ariconta") And DBLet(RN!Padre) <> 0) Or DBLet(RN!Padre) = 0 Then
@@ -2479,7 +2482,7 @@ Dim GrupRem As RibbonGroup
 
 
             Select Case Rn2!Codigo
-            Case 601, 602, 604, 607, 608, 610, 613, 614, ID_AnticipoFacturas
+            Case 601, 602, 604, 607, 608, 610, 613, 614, ID_AnticipoFacturas, ID_InformeCobrosRealizados
                 'Solapa cobros
                 Set Control = GrupCob.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
             
@@ -3058,9 +3061,9 @@ Private Sub AbrirFormularios(Accion As Long)
             frmInmoVenta.Show vbModal
         Case 601 ' cartera de cobros
             frmTESCobros.Show vbModal
-        Case 602 ' informe de cobros pendientes
+        Case ID_InformeCobrosPendientes ' informe de cobros pendientes
             frmTESCobrosPdtesList.Show vbModal
-        
+            
         Case 603 ' impresion de recibos
             frmTESImpRecibo.documentoDePago = ""
             frmTESImpRecibo.Show vbModal
@@ -3112,6 +3115,8 @@ Private Sub AbrirFormularios(Accion As Long)
             frmTESTransferencias.TipoTrans2 = 4
             frmTESTransferencias.Show vbModal
             
+        Case ID_InformeCobrosRealizados
+            frmTESCobrosRealizadosList.Show vbModal  '616
         Case 709 ' Abono remesa
         Case 710 ' Devoluciones
         Case 711 ' Eliminar riesgo

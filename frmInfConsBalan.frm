@@ -706,7 +706,7 @@ Attribute frmC.VB_VarHelpID = -1
 'Private frmCtas As frmCtasAgrupadas
 
 Private SQL As String
-Dim Cad As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -786,8 +786,8 @@ Dim Contabilidades As String
     
         If Saldo473en470 Then
             'Deberiamos indicar si esta configurado para leer de la 470
-            Cad = "codmacta = '4' or codmacta='47' or codmacta like '473%' AND numbalan"
-            RC = DevuelveDesdeBD("concat(pasivo,' ',codigo,': ',codmacta)", "balances_ctas", Cad, txtBalan(0).Text & " ORDER BY codmacta")
+            cad = "codmacta = '4' or codmacta='47' or codmacta like '473%' AND numbalan"
+            RC = DevuelveDesdeBD("concat(pasivo,' ',codigo,': ',codmacta)", "balances_ctas", cad, txtBalan(0).Text & " ORDER BY codmacta")
             If RC <> "" Then MsgBox "La cuenta 470 ha sido configurada en el balance: " & RC, vbExclamation
                 
         End If
@@ -1062,7 +1062,7 @@ End Sub
 
 
 Private Sub txtBalan_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim RC As String
 Dim Hasta As Integer
 
@@ -1323,12 +1323,12 @@ Private Function DatosOK() As Boolean
         End If
     End If
     
-    Cad = ""
+    cad = ""
     For i = 1 To Me.ListView1.ListItems.Count
-        If Me.ListView1.ListItems(i).Checked Then Cad = Cad & "X"
+        If Me.ListView1.ListItems(i).Checked Then cad = cad & "X"
     Next i
 
-    If Cad = "" Then
+    If cad = "" Then
         MsgBoxA "Seleccione almenos una empresa", vbExclamation
         Exit Function
     End If
@@ -1342,9 +1342,9 @@ Dim L As Integer
 
 L = 1
 Do
-    Cad = RecuperaValor(Lista, L)
-    If Cad <> "" Then
-        i = Val(Cad)
+    cad = RecuperaValor(Lista, L)
+    If cad <> "" Then
+        i = Val(cad)
         With cmbFecha(i)
             .Clear
             For CONT = 1 To 12
@@ -1355,7 +1355,7 @@ Do
         End With
     End If
     L = L + 1
-Loop Until Cad = ""
+Loop Until cad = ""
 End Sub
 
 Private Sub txtTipoSalida_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
@@ -1409,8 +1409,15 @@ Dim Aux As String
     Rs.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
     
-        Aux = "|" & Rs!codempre & "|"
-        If InStr(1, Prohibidas, Aux) = 0 Then
+         Aux = "ariconta" & Rs!codempre & ".parametros"
+        Aux = DevuelveDesdeBD("esmultiseccion", Aux, "1", "1")
+        If Aux = "0" Then
+            Aux = "N"
+        Else
+            Aux = "|" & Rs!codempre & "|"
+            If InStr(1, Prohibidas, Aux) = 0 Then Aux = ""
+        End If
+        If Aux = "" Then
             Set IT = ListView1.ListItems.Add
             IT.Key = "C" & Rs!codempre
             If vEmpresa.codempre = Rs!codempre Then IT.Checked = True

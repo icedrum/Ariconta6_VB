@@ -55,8 +55,13 @@ Dim C2 As String
             C2 = C2 & " fecliqpr >=" & DBSet(vParam.SIIFechaInicio, "F")
             C2 = C2 & " AND fecliqpr <= " & DBSet(F, "F")
         Else
-            C2 = C2 & " fecharec >=" & DBSet(vParam.SIIFechaInicio, "F")
-            C2 = C2 & " AND fecharec <= " & DBSet(F, "F")
+            'C2 = C2 & " fecharec >=" & DBSet(vParam.SIIFechaInicio, "F")
+            'C2 = C2 & " AND fecharec <= " & DBSet(F, "F")
+            'Enero 2020
+            C2 = C2 & " DATE(fecregcontable) >=" & DBSet(vParam.SIIFechaInicio, "F")
+            C2 = C2 & " AND DATE(fecregcontable) <= " & DBSet(F, "F")
+            
+            
         End If
         C2 = C2 & " and (csv is null or resultado='AceptadoConErrores')"
         RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -724,7 +729,11 @@ Dim NoDeducible As Boolean  '2019 Septiembre
     If vParam.TipoIntegracionSeleccionable = 1 Then
         Aux = "numserie =" & DBSet(RN!NUmSerie, "T") & " AND numregis =" & RN!Numregis & " AND anofactu "
         Aux = DevuelveDesdeBD("codmacta", "factpro_lineas", Aux, CStr(RN!anofactu) & " ORDER by numlinea", "N")
-        If Aux = "" Then Aux = "60000"
+        If Aux = "" Then
+            Aux = "6000"
+        Else
+            Aux = Mid(Aux, 1, 4)
+        End If
         If Val(Aux) > 60000 Then
             Aux = "GASTOS"
         Else
@@ -774,6 +783,12 @@ Dim NoDeducible As Boolean  '2019 Septiembre
     InversionSujetoPasivo = False
     If CodOpera = 4 Then InversionSujetoPasivo = True
         
+        
+    'Enero 2020
+        'Se añade campo fecregcontable . Los de SII desde liquidacion lo dejamos como esta
+    FechaPeriodo2 = RN!fecregcontable
+    If vParam.SII_Periodo_DesdeLiq Then FechaPeriodo2 = RN!fecliqpr
+    
     SQL = SQL & DBSet(RN!FecFactu, "F") & "," & DBSet(FechaPeriodo2, "F") & ",#@#@#@$$$$"   'Sumaremos el total de cuotas deducibles y luego haremos un replace
 
     

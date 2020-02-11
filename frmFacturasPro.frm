@@ -29,7 +29,7 @@ Begin VB.Form frmFacturasPro
       EndProperty
       Height          =   2145
       Left            =   390
-      TabIndex        =   90
+      TabIndex        =   91
       Top             =   2520
       Visible         =   0   'False
       Width           =   16935
@@ -48,7 +48,7 @@ Begin VB.Form frmFacturasPro
          Index           =   21
          Left            =   1890
          Locked          =   -1  'True
-         TabIndex        =   105
+         TabIndex        =   106
          Text            =   "Text4"
          Top             =   1680
          Width           =   3375
@@ -66,7 +66,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   21
          Left            =   1320
-         TabIndex        =   97
+         TabIndex        =   98
          Tag             =   "País|T|S|||factpro|codpais|||"
          Top             =   1680
          Width           =   495
@@ -84,7 +84,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   20
          Left            =   10290
-         TabIndex        =   92
+         TabIndex        =   93
          Tag             =   "Nif|T|S|||factpro|nifdatos|||"
          Top             =   390
          Width           =   2070
@@ -102,7 +102,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   19
          Left            =   10320
-         TabIndex        =   96
+         TabIndex        =   97
          Tag             =   "Provincia|T|S|||factpro|desprovi|||"
          Top             =   1260
          Width           =   4020
@@ -120,7 +120,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   18
          Left            =   4020
-         TabIndex        =   95
+         TabIndex        =   96
          Tag             =   "Poblacion|T|S|||factpro|despobla|||"
          Top             =   1260
          Width           =   5130
@@ -138,7 +138,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   17
          Left            =   1320
-         TabIndex        =   94
+         TabIndex        =   95
          Tag             =   "CP|T|S|||factpro|codpobla|||"
          Top             =   1230
          Width           =   1350
@@ -156,7 +156,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   16
          Left            =   1320
-         TabIndex        =   93
+         TabIndex        =   94
          Tag             =   "Dirección|T|S|||factpro|dirdatos|||"
          Top             =   810
          Width           =   7830
@@ -174,7 +174,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   15
          Left            =   1320
-         TabIndex        =   91
+         TabIndex        =   92
          Tag             =   "Nombre|T|N|||factpro|nommacta|||"
          Top             =   390
          Width           =   7830
@@ -201,7 +201,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   18
          Left            =   300
-         TabIndex        =   104
+         TabIndex        =   105
          Top             =   1740
          Width           =   555
       End
@@ -220,7 +220,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   17
          Left            =   9330
-         TabIndex        =   103
+         TabIndex        =   104
          Top             =   1290
          Width           =   1095
       End
@@ -239,7 +239,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   16
          Left            =   3000
-         TabIndex        =   102
+         TabIndex        =   103
          Top             =   1290
          Width           =   1545
       End
@@ -258,7 +258,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   15
          Left            =   9330
-         TabIndex        =   101
+         TabIndex        =   102
          Top             =   450
          Width           =   1365
       End
@@ -277,7 +277,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   14
          Left            =   300
-         TabIndex        =   100
+         TabIndex        =   101
          Top             =   1290
          Width           =   855
       End
@@ -296,7 +296,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   4
          Left            =   300
-         TabIndex        =   99
+         TabIndex        =   100
          Top             =   870
          Width           =   1545
       End
@@ -315,7 +315,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   3
          Left            =   300
-         TabIndex        =   98
+         TabIndex        =   99
          Top             =   450
          Width           =   1545
       End
@@ -323,7 +323,7 @@ Begin VB.Form frmFacturasPro
    Begin VB.Frame FrameTotales 
       Height          =   2385
       Left            =   9720
-      TabIndex        =   79
+      TabIndex        =   80
       Top             =   4800
       Width           =   7725
       Begin VB.TextBox Text1 
@@ -340,7 +340,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   31
          Left            =   5880
-         TabIndex        =   120
+         TabIndex        =   121
          Tag             =   "Importe Iva|N|S|||factpro|suplidos|###,###,##0.00||"
          Text            =   "9.999.999,99"
          Top             =   1320
@@ -360,7 +360,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   30
          Left            =   2040
-         TabIndex        =   118
+         TabIndex        =   119
          Tag             =   "Importe Iva|N|S|||factpro|totrecargo|###,###,##0.00||"
          Text            =   "9.999.999,99"
          Top             =   1320
@@ -382,7 +382,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   13
          Left            =   5880
-         TabIndex        =   23
+         TabIndex        =   24
          Tag             =   "Total Factura|N|S|||factpro|totfacpr|###,###,##0.00||"
          Text            =   "123456789012345"
          Top             =   1800
@@ -402,7 +402,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   12
          Left            =   5880
-         TabIndex        =   22
+         TabIndex        =   23
          Tag             =   "Importe Retención|N|S|||factpro|trefacpr|###,###,##0.00||"
          Text            =   "123456789012345"
          Top             =   840
@@ -422,7 +422,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   11
          Left            =   5880
-         TabIndex        =   21
+         TabIndex        =   22
          Tag             =   "Base Retención|N|S|||factpro|totbasesret|###,###,##0.00||"
          Text            =   "123456789012345"
          Top             =   360
@@ -442,7 +442,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   10
          Left            =   2040
-         TabIndex        =   20
+         TabIndex        =   21
          Tag             =   "Importe Iva|N|S|||factpro|totivas|###,###,##0.00||"
          Text            =   "9.999.999,99"
          Top             =   840
@@ -462,7 +462,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   9
          Left            =   2040
-         TabIndex        =   19
+         TabIndex        =   20
          Tag             =   "Base Imponible|N|S|||factpro|totbases|###,###,##0.00||"
          Text            =   "123456789012345"
          Top             =   360
@@ -483,7 +483,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   20
          Left            =   3960
-         TabIndex        =   121
+         TabIndex        =   122
          Top             =   1320
          Width           =   1635
       End
@@ -502,7 +502,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   19
          Left            =   120
-         TabIndex        =   119
+         TabIndex        =   120
          Top             =   1320
          Width           =   1875
       End
@@ -521,7 +521,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   13
          Left            =   3960
-         TabIndex        =   85
+         TabIndex        =   86
          Top             =   1800
          Width           =   2415
       End
@@ -540,7 +540,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   12
          Left            =   3960
-         TabIndex        =   84
+         TabIndex        =   85
          Top             =   840
          Width           =   1815
       End
@@ -559,7 +559,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   11
          Left            =   3960
-         TabIndex        =   83
+         TabIndex        =   84
          Top             =   360
          Width           =   1635
       End
@@ -578,7 +578,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   10
          Left            =   120
-         TabIndex        =   82
+         TabIndex        =   83
          Top             =   840
          Width           =   1635
       End
@@ -597,7 +597,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   9
          Left            =   120
-         TabIndex        =   81
+         TabIndex        =   82
          Top             =   360
          Width           =   1635
       End
@@ -614,7 +614,7 @@ Begin VB.Form frmFacturasPro
          EndProperty
          Height          =   285
          Left            =   120
-         TabIndex        =   80
+         TabIndex        =   81
          Top             =   0
          Width           =   1980
       End
@@ -622,13 +622,13 @@ Begin VB.Form frmFacturasPro
    Begin VB.Frame FrameBotonGnral2 
       Height          =   705
       Left            =   3330
-      TabIndex        =   66
+      TabIndex        =   67
       Top             =   90
       Width           =   3285
       Begin MSComctlLib.Toolbar Toolbar2 
          Height          =   330
          Left            =   210
-         TabIndex        =   67
+         TabIndex        =   68
          Top             =   180
          Width           =   2925
          _ExtentX        =   5159
@@ -667,7 +667,7 @@ Begin VB.Form frmFacturasPro
    Begin VB.Frame FrameFiltro 
       Height          =   705
       Left            =   10170
-      TabIndex        =   64
+      TabIndex        =   65
       Top             =   90
       Width           =   2415
       Begin VB.ComboBox cboFiltro 
@@ -693,7 +693,7 @@ Begin VB.Form frmFacturasPro
    Begin VB.Frame FrameAux2 
       Height          =   2385
       Left            =   270
-      TabIndex        =   62
+      TabIndex        =   63
       Top             =   4800
       Width           =   9375
       Begin VB.CommandButton cmdAux3 
@@ -710,7 +710,7 @@ Begin VB.Form frmFacturasPro
          EndProperty
          Height          =   315
          Left            =   2520
-         TabIndex        =   129
+         TabIndex        =   130
          ToolTipText     =   "Buscar cuenta"
          Top             =   1440
          Visible         =   0   'False
@@ -720,14 +720,14 @@ Begin VB.Form frmFacturasPro
          BorderStyle     =   0  'None
          Height          =   315
          Left            =   120
-         TabIndex        =   127
+         TabIndex        =   128
          Top             =   240
          Visible         =   0   'False
          Width           =   1605
          Begin MSComctlLib.Toolbar ToolbarAuxTot 
             Height          =   330
             Left            =   0
-            TabIndex        =   128
+            TabIndex        =   129
             Top             =   0
             Width           =   1095
             _ExtentX        =   1931
@@ -765,7 +765,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   2
          Left            =   3600
-         TabIndex        =   126
+         TabIndex        =   127
          Tag             =   "Base Imponible|N|S|||factcli_totales|baseimpo|###,###,##0.00||"
          Text            =   "Base Imponible"
          Top             =   1680
@@ -786,7 +786,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   0
          Left            =   1080
-         TabIndex        =   125
+         TabIndex        =   126
          Tag             =   "Iva|N|S|||factcli_totales|codigiva|000||"
          Text            =   "Iva"
          Top             =   1680
@@ -808,7 +808,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   3
          Left            =   6540
-         TabIndex        =   124
+         TabIndex        =   125
          Tag             =   "Importe Iva|N|S|||factcli_totales|impoiva|###,###,##0.00||"
          Text            =   "ImpIva"
          Top             =   1680
@@ -830,7 +830,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   4
          Left            =   7440
-         TabIndex        =   123
+         TabIndex        =   124
          Tag             =   "Importe Rec|N|S|||factcli_totales|imporec|###,###,##0.00||"
          Text            =   "ImpRec"
          Top             =   1710
@@ -851,7 +851,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   1
          Left            =   2160
-         TabIndex        =   122
+         TabIndex        =   123
          Tag             =   "Iva|N|S|||factcli_totales|codigiva|000||"
          Text            =   "Iva"
          Top             =   1680
@@ -908,7 +908,7 @@ Begin VB.Form frmFacturasPro
       Begin MSComctlLib.ListView lw1 
          Height          =   1665
          Left            =   120
-         TabIndex        =   63
+         TabIndex        =   64
          Top             =   600
          Width           =   9045
          _ExtentX        =   15954
@@ -948,7 +948,7 @@ Begin VB.Form frmFacturasPro
          EndProperty
          Height          =   255
          Left            =   180
-         TabIndex        =   65
+         TabIndex        =   66
          Top             =   0
          Width           =   1980
       End
@@ -966,7 +966,7 @@ Begin VB.Form frmFacturasPro
       EndProperty
       Height          =   270
       Left            =   13950
-      TabIndex        =   55
+      TabIndex        =   56
       Top             =   270
       Visible         =   0   'False
       Width           =   1785
@@ -974,13 +974,13 @@ Begin VB.Form frmFacturasPro
    Begin VB.Frame FrameDesplazamiento 
       Height          =   705
       Left            =   6720
-      TabIndex        =   53
+      TabIndex        =   54
       Top             =   90
       Width           =   2415
       Begin MSComctlLib.Toolbar ToolbarDes 
          Height          =   330
          Left            =   240
-         TabIndex        =   54
+         TabIndex        =   55
          Top             =   210
          Width           =   1965
          _ExtentX        =   3466
@@ -1014,13 +1014,13 @@ Begin VB.Form frmFacturasPro
    Begin VB.Frame FrameBotonGnral 
       Height          =   705
       Left            =   270
-      TabIndex        =   50
+      TabIndex        =   51
       Top             =   90
       Width           =   3015
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   330
          Left            =   240
-         TabIndex        =   52
+         TabIndex        =   53
          Top             =   180
          Width           =   2655
          _ExtentX        =   4683
@@ -1082,9 +1082,29 @@ Begin VB.Form frmFacturasPro
       Height          =   3930
       Index           =   0
       Left            =   270
-      TabIndex        =   39
+      TabIndex        =   40
       Top             =   870
       Width           =   17160
+      Begin VB.TextBox Text1 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   32
+         Left            =   12360
+         MaxLength       =   30
+         TabIndex        =   18
+         Tag             =   "Fecha|F|N|||factpro|fecregcontable|dd/mm/yyyy|N|"
+         ToolTipText     =   "Fecha registro contable"
+         Top             =   3270
+         Width           =   1395
+      End
       Begin VB.TextBox txtPDF 
          BackColor       =   &H80000018&
          BeginProperty Font 
@@ -1099,7 +1119,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Left            =   12720
          Locked          =   -1  'True
-         TabIndex        =   116
+         TabIndex        =   117
          Text            =   "Text4"
          Top             =   540
          Width           =   4260
@@ -1159,11 +1179,11 @@ Begin VB.Form frmFacturasPro
          EndProperty
          Height          =   360
          Index           =   28
-         Left            =   12840
-         TabIndex        =   112
+         Left            =   13920
+         TabIndex        =   113
          Text            =   "1234567890"
          Top             =   3270
-         Width           =   1530
+         Width           =   1410
       End
       Begin VB.ComboBox Combo1 
          BeginProperty Font 
@@ -1238,7 +1258,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   8
          Left            =   15540
-         TabIndex        =   18
+         TabIndex        =   19
          Tag             =   "Número Asiento|N|S|||factpro|numasien|00000000||"
          Text            =   "1234567890"
          Top             =   3270
@@ -1280,7 +1300,7 @@ Begin VB.Form frmFacturasPro
          Tag             =   "Porcentaje Retencion|N|S|||factpro|retfacpr|##0.00||"
          Text            =   "1234567890"
          Top             =   3270
-         Width           =   1350
+         Width           =   870
       End
       Begin VB.TextBox Text1 
          BeginProperty Font 
@@ -1316,7 +1336,7 @@ Begin VB.Form frmFacturasPro
          Index           =   6
          Left            =   6330
          Locked          =   -1  'True
-         TabIndex        =   75
+         TabIndex        =   76
          Text            =   "Text4"
          Top             =   3270
          Width           =   4785
@@ -1398,7 +1418,7 @@ Begin VB.Form frmFacturasPro
          Index           =   5
          Left            =   1680
          Locked          =   -1  'True
-         TabIndex        =   70
+         TabIndex        =   71
          Text            =   "Text4"
          Top             =   1950
          Width           =   6105
@@ -1418,7 +1438,7 @@ Begin VB.Form frmFacturasPro
          Index           =   4
          Left            =   1650
          Locked          =   -1  'True
-         TabIndex        =   69
+         TabIndex        =   70
          Text            =   "Text4"
          Top             =   1260
          Width           =   6135
@@ -1438,7 +1458,7 @@ Begin VB.Form frmFacturasPro
          Index           =   2
          Left            =   780
          Locked          =   -1  'True
-         TabIndex        =   57
+         TabIndex        =   58
          Text            =   "Text4"
          Top             =   540
          Width           =   3885
@@ -1576,7 +1596,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   14
          Left            =   8010
-         TabIndex        =   86
+         TabIndex        =   87
          Tag             =   "Año factura|N|N|||factpro|anofactu||S|"
          Text            =   "1234567890"
          Top             =   2580
@@ -1596,7 +1616,7 @@ Begin VB.Form frmFacturasPro
          Index           =   22
          Left            =   10440
          MaxLength       =   30
-         TabIndex        =   88
+         TabIndex        =   89
          Tag             =   "Tipo factura|T|N|||factpro|codconce340|||"
          Top             =   1260
          Width           =   1245
@@ -1614,7 +1634,7 @@ Begin VB.Form frmFacturasPro
          Height          =   360
          Index           =   24
          Left            =   15540
-         TabIndex        =   106
+         TabIndex        =   107
          Tag             =   "Número Diario|N|S|||factpro|numdiari|00000000||"
          Text            =   "1234567890"
          Top             =   3270
@@ -1634,16 +1654,42 @@ Begin VB.Form frmFacturasPro
          Index           =   27
          Left            =   8070
          MaxLength       =   30
-         TabIndex        =   111
+         TabIndex        =   112
          Tag             =   "Tipo intracomunitaria|T|S|||factpro|codintra|||"
          Top             =   2580
          Width           =   1245
+      End
+      Begin VB.Image imgppal 
+         Height          =   240
+         Index           =   10
+         Left            =   13470
+         Picture         =   "frmFacturasPro.frx":0058
+         Top             =   3000
+         Width           =   240
+      End
+      Begin VB.Label Label12 
+         Caption         =   "F.registro"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   12390
+         TabIndex        =   131
+         ToolTipText     =   "Fecha registro contable"
+         Top             =   3000
+         Width           =   1020
       End
       Begin VB.Image imgpdf 
          Height          =   240
          Index           =   0
          Left            =   14880
-         Picture         =   "frmFacturasPro.frx":0058
+         Picture         =   "frmFacturasPro.frx":00E3
          Top             =   240
          Width           =   240
       End
@@ -1651,7 +1697,7 @@ Begin VB.Form frmFacturasPro
          Height          =   240
          Index           =   1
          Left            =   15240
-         Picture         =   "frmFacturasPro.frx":0A5A
+         Picture         =   "frmFacturasPro.frx":0AE5
          Top             =   240
          Width           =   240
       End
@@ -1669,7 +1715,7 @@ Begin VB.Form frmFacturasPro
          Height          =   240
          Index           =   1
          Left            =   12720
-         TabIndex        =   117
+         TabIndex        =   118
          Top             =   240
          Width           =   2175
       End
@@ -1689,7 +1735,7 @@ Begin VB.Form frmFacturasPro
          Height          =   240
          Index           =   23
          Left            =   13200
-         TabIndex        =   115
+         TabIndex        =   116
          Top             =   1680
          Visible         =   0   'False
          Width           =   2685
@@ -1709,7 +1755,7 @@ Begin VB.Form frmFacturasPro
          Height          =   240
          Index           =   22
          Left            =   10560
-         TabIndex        =   114
+         TabIndex        =   115
          Top             =   1680
          Visible         =   0   'False
          Width           =   2235
@@ -1728,10 +1774,10 @@ Begin VB.Form frmFacturasPro
          ForeColor       =   &H00000000&
          Height          =   255
          Index           =   21
-         Left            =   12840
-         TabIndex        =   113
+         Left            =   13920
+         TabIndex        =   114
          Top             =   3000
-         Width           =   915
+         Width           =   1275
       End
       Begin VB.Label Label11 
          Caption         =   "Tipo Intracomunitaria"
@@ -1746,7 +1792,7 @@ Begin VB.Form frmFacturasPro
          EndProperty
          Height          =   255
          Left            =   10590
-         TabIndex        =   110
+         TabIndex        =   111
          Top             =   1650
          Visible         =   0   'False
          Width           =   2415
@@ -1764,7 +1810,7 @@ Begin VB.Form frmFacturasPro
          EndProperty
          Height          =   255
          Left            =   9840
-         TabIndex        =   108
+         TabIndex        =   109
          Top             =   240
          Width           =   1020
       End
@@ -1772,7 +1818,7 @@ Begin VB.Form frmFacturasPro
          Height          =   240
          Index           =   9
          Left            =   10920
-         Picture         =   "frmFacturasPro.frx":145C
+         Picture         =   "frmFacturasPro.frx":14E7
          Top             =   210
          Width           =   240
       End
@@ -1790,7 +1836,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   0
          Left            =   7560
-         TabIndex        =   107
+         TabIndex        =   108
          Top             =   240
          Width           =   1020
       End
@@ -1805,7 +1851,7 @@ Begin VB.Form frmFacturasPro
          Height          =   240
          Index           =   7
          Left            =   12270
-         Picture         =   "frmFacturasPro.frx":14E7
+         Picture         =   "frmFacturasPro.frx":1572
          Top             =   210
          Width           =   240
       End
@@ -1831,7 +1877,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   2
          Left            =   11190
-         TabIndex        =   89
+         TabIndex        =   90
          Top             =   240
          Width           =   1155
       End
@@ -1850,12 +1896,12 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   8
          Left            =   15600
-         TabIndex        =   78
+         TabIndex        =   79
          Top             =   3000
          Width           =   915
       End
       Begin VB.Label Label1 
-         Caption         =   "% Retención"
+         Caption         =   "%Reten."
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -1869,7 +1915,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   7
          Left            =   11340
-         TabIndex        =   77
+         TabIndex        =   78
          Top             =   3000
          Width           =   1365
       End
@@ -1888,7 +1934,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   6
          Left            =   4890
-         TabIndex        =   76
+         TabIndex        =   77
          Top             =   3000
          Width           =   1815
       End
@@ -1912,7 +1958,7 @@ Begin VB.Form frmFacturasPro
          EndProperty
          Height          =   255
          Left            =   180
-         TabIndex        =   74
+         TabIndex        =   75
          Top             =   3000
          Width           =   1380
       End
@@ -1929,7 +1975,7 @@ Begin VB.Form frmFacturasPro
          EndProperty
          Height          =   255
          Left            =   8010
-         TabIndex        =   73
+         TabIndex        =   74
          Top             =   1650
          Width           =   1920
       End
@@ -1946,7 +1992,7 @@ Begin VB.Form frmFacturasPro
          EndProperty
          Height          =   255
          Left            =   7980
-         TabIndex        =   72
+         TabIndex        =   73
          Top             =   960
          Width           =   1380
       End
@@ -1972,7 +2018,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   5
          Left            =   210
-         TabIndex        =   71
+         TabIndex        =   72
          Top             =   1650
          Width           =   1545
       End
@@ -1998,7 +2044,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   1
          Left            =   210
-         TabIndex        =   68
+         TabIndex        =   69
          Top             =   960
          Width           =   1935
       End
@@ -2006,7 +2052,7 @@ Begin VB.Form frmFacturasPro
          Height          =   240
          Index           =   0
          Left            =   7140
-         Picture         =   "frmFacturasPro.frx":1572
+         Picture         =   "frmFacturasPro.frx":15FD
          Top             =   210
          Width           =   240
       End
@@ -2030,12 +2076,12 @@ Begin VB.Form frmFacturasPro
          EndProperty
          Height          =   255
          Left            =   180
-         TabIndex        =   44
+         TabIndex        =   45
          Top             =   2310
          Width           =   1515
       End
       Begin VB.Label Label18 
-         Caption         =   "Recepción"
+         Caption         =   "F.Asiento"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -2047,7 +2093,7 @@ Begin VB.Form frmFacturasPro
          EndProperty
          Height          =   255
          Left            =   6060
-         TabIndex        =   43
+         TabIndex        =   44
          Top             =   240
          Width           =   1020
       End
@@ -2064,7 +2110,7 @@ Begin VB.Form frmFacturasPro
          EndProperty
          Height          =   255
          Left            =   4740
-         TabIndex        =   41
+         TabIndex        =   42
          Top             =   240
          Width           =   1140
       End
@@ -2083,7 +2129,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   0
          Left            =   210
-         TabIndex        =   40
+         TabIndex        =   41
          Top             =   240
          Width           =   555
       End
@@ -2092,7 +2138,7 @@ Begin VB.Form frmFacturasPro
       BorderStyle     =   0  'None
       Height          =   3060
       Left            =   285
-      TabIndex        =   45
+      TabIndex        =   46
       Top             =   7125
       Width           =   17190
       Begin VB.TextBox txtaux 
@@ -2110,7 +2156,7 @@ Begin VB.Form frmFacturasPro
          Height          =   350
          Index           =   2
          Left            =   2190
-         TabIndex        =   109
+         TabIndex        =   110
          Tag             =   "Fecha|F|N|||factpro_lineas|fecharec|dd/mm/yyyy||"
          Text            =   "fecha"
          Top             =   2160
@@ -2135,7 +2181,7 @@ Begin VB.Form frmFacturasPro
          Left            =   15630
          Locked          =   -1  'True
          MaxLength       =   40
-         TabIndex        =   87
+         TabIndex        =   88
          Text            =   "Nombre cuenta"
          Top             =   2160
          Visible         =   0   'False
@@ -2146,7 +2192,7 @@ Begin VB.Form frmFacturasPro
          Height          =   255
          Index           =   0
          Left            =   14250
-         TabIndex        =   37
+         TabIndex        =   38
          Tag             =   "Aplica Retencion|N|N|0|1|factpro_lineas|aplicret|||"
          Top             =   2190
          Visible         =   0   'False
@@ -2169,7 +2215,7 @@ Begin VB.Form frmFacturasPro
          Index           =   11
          Left            =   13200
          MaxLength       =   15
-         TabIndex        =   34
+         TabIndex        =   35
          Tag             =   "Importe Rec|N|S|||factpro_lineas|imporec|###,###,##0.00||"
          Text            =   "ImpRec"
          Top             =   2160
@@ -2191,7 +2237,7 @@ Begin VB.Form frmFacturasPro
          Height          =   350
          Index           =   3
          Left            =   2910
-         TabIndex        =   28
+         TabIndex        =   29
          Tag             =   "Año factura|N|N|||factpro_lineas|anofactu||S|"
          Text            =   "año"
          Top             =   2160
@@ -2214,7 +2260,7 @@ Begin VB.Form frmFacturasPro
          Index           =   12
          Left            =   14520
          MaxLength       =   15
-         TabIndex        =   38
+         TabIndex        =   39
          Tag             =   "CC|T|S|||factpro_lineas|codccost|||"
          Text            =   "CC"
          Top             =   2160
@@ -2238,7 +2284,7 @@ Begin VB.Form frmFacturasPro
          Index           =   10
          Left            =   12090
          MaxLength       =   15
-         TabIndex        =   33
+         TabIndex        =   34
          Tag             =   "Importe Iva|N|S|||factpro_lineas|impoiva|###,###,##0.00||"
          Text            =   "ImpIva"
          Top             =   2160
@@ -2262,7 +2308,7 @@ Begin VB.Form frmFacturasPro
          Index           =   9
          Left            =   10980
          MaxLength       =   15
-         TabIndex        =   36
+         TabIndex        =   37
          Tag             =   "% Recargo|N|S|||factpro_lineas|porcrec|##0.00||"
          Text            =   "%rec"
          Top             =   2160
@@ -2285,7 +2331,7 @@ Begin VB.Form frmFacturasPro
          Index           =   8
          Left            =   10140
          MaxLength       =   50
-         TabIndex        =   35
+         TabIndex        =   36
          Tag             =   "% Iva|N|S|||factpro_lineas|porciva|##0.00||"
          Text            =   "%iva"
          Top             =   2160
@@ -2307,7 +2353,7 @@ Begin VB.Form frmFacturasPro
          Height          =   315
          Index           =   2
          Left            =   15420
-         TabIndex        =   61
+         TabIndex        =   62
          ToolTipText     =   "Buscar concepto"
          Top             =   2130
          Visible         =   0   'False
@@ -2330,7 +2376,7 @@ Begin VB.Form frmFacturasPro
          Index           =   6
          Left            =   8370
          MaxLength       =   10
-         TabIndex        =   31
+         TabIndex        =   32
          Tag             =   "Importe Base|N|N|||factpro_lineas|baseimpo|###,###,##0.00||"
          Text            =   "Importe"
          Top             =   2160
@@ -2352,7 +2398,7 @@ Begin VB.Form frmFacturasPro
          Height          =   315
          Index           =   1
          Left            =   9780
-         TabIndex        =   60
+         TabIndex        =   61
          ToolTipText     =   "Buscar cuenta"
          Top             =   2190
          Visible         =   0   'False
@@ -2375,7 +2421,7 @@ Begin VB.Form frmFacturasPro
          Index           =   7
          Left            =   9150
          MaxLength       =   15
-         TabIndex        =   32
+         TabIndex        =   33
          Tag             =   "Codigo Iva|N|N|||factpro_lineas|codigiva|000||"
          Text            =   "Iva"
          Top             =   2160
@@ -2385,13 +2431,13 @@ Begin VB.Form frmFacturasPro
       Begin VB.Frame FrameToolAux 
          Height          =   555
          Left            =   60
-         TabIndex        =   58
+         TabIndex        =   59
          Top             =   120
          Width           =   1605
          Begin MSComctlLib.Toolbar ToolbarAux 
             Height          =   330
             Left            =   180
-            TabIndex        =   59
+            TabIndex        =   60
             Top             =   150
             Width           =   1095
             _ExtentX        =   1931
@@ -2430,7 +2476,7 @@ Begin VB.Form frmFacturasPro
          Index           =   5
          Left            =   4050
          MaxLength       =   15
-         TabIndex        =   30
+         TabIndex        =   31
          Tag             =   "Cuenta|T|N|||factpro_lineas|codmacta|||"
          Text            =   "Cta Base"
          Top             =   2160
@@ -2453,7 +2499,7 @@ Begin VB.Form frmFacturasPro
          Height          =   350
          Index           =   4
          Left            =   3330
-         TabIndex        =   29
+         TabIndex        =   30
          Tag             =   "Linea|N|N|||factpro_lineas|numlinea||S|"
          Text            =   "linea"
          Top             =   2160
@@ -2475,7 +2521,7 @@ Begin VB.Form frmFacturasPro
          Height          =   350
          Index           =   0
          Left            =   105
-         TabIndex        =   26
+         TabIndex        =   27
          Tag             =   "Nº Serie|T|S|||factpro_lineas|numserie||S|"
          Text            =   "Serie"
          Top             =   2145
@@ -2498,7 +2544,7 @@ Begin VB.Form frmFacturasPro
          Index           =   1
          Left            =   840
          MaxLength       =   10
-         TabIndex        =   27
+         TabIndex        =   28
          Tag             =   "Nº registro|N|N|0||factpro_lineas|numregis|0000000|S|"
          Text            =   "numregis"
          Top             =   2145
@@ -2520,7 +2566,7 @@ Begin VB.Form frmFacturasPro
          Height          =   315
          Index           =   0
          Left            =   4800
-         TabIndex        =   47
+         TabIndex        =   48
          ToolTipText     =   "Buscar cuenta"
          Top             =   2190
          Visible         =   0   'False
@@ -2544,7 +2590,7 @@ Begin VB.Form frmFacturasPro
          Left            =   5040
          Locked          =   -1  'True
          MaxLength       =   40
-         TabIndex        =   46
+         TabIndex        =   47
          Text            =   "Nombre cuenta"
          Top             =   2190
          Visible         =   0   'False
@@ -2602,7 +2648,7 @@ Begin VB.Form frmFacturasPro
          Height          =   2040
          Index           =   1
          Left            =   45
-         TabIndex        =   48
+         TabIndex        =   49
          Top             =   780
          Width           =   16770
          _ExtentX        =   29580
@@ -2673,7 +2719,7 @@ Begin VB.Form frmFacturasPro
       Height          =   555
       Index           =   0
       Left            =   285
-      TabIndex        =   24
+      TabIndex        =   25
       Top             =   10290
       Width           =   2865
       Begin VB.Label lblIndicador 
@@ -2690,7 +2736,7 @@ Begin VB.Form frmFacturasPro
          EndProperty
          Height          =   240
          Left            =   120
-         TabIndex        =   25
+         TabIndex        =   26
          Top             =   180
          Width           =   2655
       End
@@ -2709,7 +2755,7 @@ Begin VB.Form frmFacturasPro
       EndProperty
       Height          =   375
       Left            =   16380
-      TabIndex        =   51
+      TabIndex        =   52
       Top             =   10350
       Width           =   1035
    End
@@ -2726,7 +2772,7 @@ Begin VB.Form frmFacturasPro
       EndProperty
       Height          =   375
       Left            =   15090
-      TabIndex        =   49
+      TabIndex        =   50
       Top             =   10350
       Width           =   1035
    End
@@ -2780,7 +2826,7 @@ Begin VB.Form frmFacturasPro
    Begin MSComctlLib.Toolbar ToolbarAyuda 
       Height          =   390
       Left            =   16320
-      TabIndex        =   56
+      TabIndex        =   57
       Top             =   240
       Width           =   405
       _ExtentX        =   714
@@ -2815,7 +2861,7 @@ Begin VB.Form frmFacturasPro
       EndProperty
       Height          =   375
       Left            =   16380
-      TabIndex        =   42
+      TabIndex        =   43
       Top             =   10350
       Visible         =   0   'False
       Width           =   1035
@@ -3870,7 +3916,7 @@ Private Sub cmdAux3_Click()
         Set frmTIva = Nothing
         
         PonFoco txtaux3(0)
-        If txtaux3(0).Text <> "" Then txtaux3_LostFocus 0
+        If txtaux3(0).Text <> "" Then TxtAux3_LostFocus 0
 End Sub
 
 Private Sub Combo1_Click(Index As Integer)
@@ -4230,14 +4276,14 @@ Dim i As Integer
     
     
     For i = 0 To imgppal.Count - 1
-        If i <> 0 And i <> 7 And i <> 9 Then imgppal(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+        If i <> 0 And i <> 7 And i <> 9 And i <> 10 Then imgppal(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Next i
     
     CargaFiltros
     
     
     Caption = "Facturas de Proveedor"
-    
+    Label18.Caption = vParam.captionFraProFecRegis
     NumTabMto = 1
     
     LimpiarCampos   'Neteja els camps TextBox
@@ -4927,6 +4973,18 @@ Dim CuentaAntes As String
         
         PonFoco Text1(Indice)
         
+    Case 10
+        ' fecha de factura
+        Indice = 32
+        
+        If Text1(Indice).Enabled And Not Text1(Indice).Locked Then
+            Set frmF = New frmCal
+            frmF.Fecha = Now
+            If Text1(Indice).Text <> "" Then frmF.Fecha = CDate(Text1(Indice).Text)
+            frmF.Show vbModal
+            Set frmF = Nothing
+            PonFoco Text1(Indice)
+        End If
     End Select
     
     Screen.MousePointer = vbDefault
@@ -5127,6 +5185,9 @@ Private Sub BotonAnyadir()
     
     If Now <= DateAdd("yyyy", 1, vParam.fechafin) Then Text1(1).Text = Format(Now, "dd/mm/yyyy")
     Text1(9).Text = "0,00"
+    
+    Text1(32).Text = Format(Now, "dd/mm/yyyy")
+    
     
     ' por defecto para todos cuando insertamos es 1
     Text1(2).Text = "1"
@@ -5929,8 +5990,10 @@ Dim J As Integer
             
             'Si que pertenece a ejerccios en curso. Por lo tanto comprobaremos
             'que el periodo de liquidacion del IVA no ha pasado.
-            If Modo <> 1 Then If Not ComprobarPeriodo2(Index, IIf(Index = 1, 0, 1)) Then PonFoco Text1(Indice)
-    
+            'ENERO 2020. La fecha de registro para el SII es el nuevo campo text(32)
+            'If Modo <> 1 Then If Not ComprobarPeriodo2(Index, IIf(Index = 1, 0, 1)) Then PonFoco Text1(Indice)
+            
+            If Modo <> 1 Then If Not ComprobarPeriodo2(Index, 1) Then PonFoco Text1(Indice)
 
         Case 2 ' Serie
             If Not IsNumeric(Text1(Index).Text) Then
@@ -5979,7 +6042,7 @@ Dim J As Integer
                     RC = ""
                 Else
                     
-                    If InStr(1, SQL, "No existe la cuenta :") > 0 Then
+                    If InStr(1, SQL, "No existe la cuenta :") > 0 And vUsu.Nivel = 0 Then
                         'NO EXISTE LA CUENTA
                             RC = RellenaCodigoCuenta(Text1(Index).Text)
                             SQL = "La cuenta: " & RC & " no existe. ¿Desea crearla?"
@@ -6050,14 +6113,21 @@ Dim J As Integer
         
         Case 25 ' numero de factura
             
-        Case 26 ' fecha de factura
+        Case 26, 32 ' fecha de factura
             If Not EsFechaOK(Text1(Index)) Then
                 MsgBox "Fecha incorrecta", vbExclamation
                 PonFoco Text1(Index)
                 Exit Sub
             End If
         
-        
+            If Modo <> 1 And Index = 32 Then
+                If Not ComprobarPeriodo2(Index, 2) Then
+                    Text1(Index).Text = ""
+                    PonFoco Text1(Index) 'SOLO SII
+                Else
+                    PonerFocoBtn cmdAceptar
+                End If
+            End If
         
         Case 12
             'Oct 2019
@@ -6069,8 +6139,7 @@ Dim J As Integer
                     If Not PonerFormatoDecimal(Text1(Index), 3) Then Text1(Index).Text = ""
                 End If
             End If
-            
-        
+    
     End Select
 End Sub
 
@@ -6493,7 +6562,7 @@ Dim Ampliacion As String
     End If
     
     If Not ComprobarPeriodo2(23, 1) Then Exit Sub
-    If Not ComprobarPeriodo2(1, 2) Then Exit Sub
+    If Not ComprobarPeriodo2(32, 2) Then Exit Sub   'estaba el 23
     
         
     
@@ -6610,7 +6679,7 @@ Dim Indc As Integer
         If Button.Index = 1 Then
             alto = 0
         Else
-            txtaux3_LostFocus 0
+            TxtAux3_LostFocus 0
         End If
         
         PonFoco txtaux3(alto)
@@ -6937,7 +7006,7 @@ Private Sub BotonModificarLinea(Index As Integer)
     End Select
 
     LLamaLineas Index, ModoLineas, anc
-    
+    HabilitarCentroCoste
     
     PonFoco txtaux(5)
     
@@ -7536,30 +7605,30 @@ Dim B As Boolean
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2)
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 2)
-        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2)
         
         Toolbar1.Buttons(5).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
         Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
         
-        Me.Toolbar2.Buttons(1).Enabled = DBLet(Rs!especial, "N") And (Modo <> 0 And Modo <> 5)
-        Me.Toolbar2.Buttons(2).Enabled = DBLet(Rs!especial, "N") And Modo = 2 And vEmpresa.TieneTesoreria
+        Me.Toolbar2.Buttons(1).Enabled = DBLet(Rs!Especial, "N") And (Modo <> 0 And Modo <> 5)
+        Me.Toolbar2.Buttons(2).Enabled = DBLet(Rs!Especial, "N") And Modo = 2 And vEmpresa.TieneTesoreria
         
-        Me.Toolbar2.Buttons(3).Enabled = DBLet(Rs!especial, "N") And (Modo = 2 Or Modo = 0)
-        Me.Toolbar2.Buttons(4).Enabled = DBLet(Rs!especial, "N") And (Modo = 2 Or Modo = 0)
+        Me.Toolbar2.Buttons(3).Enabled = DBLet(Rs!Especial, "N") And (Modo = 2 Or Modo = 0)
+        Me.Toolbar2.Buttons(4).Enabled = DBLet(Rs!Especial, "N") And (Modo = 2 Or Modo = 0)
         
         B = False
-        If vParam.PathAlbaranesProv <> "" Then B = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
+        If vParam.PathAlbaranesProv <> "" Then B = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2)
         Me.Toolbar2.Buttons(6).Enabled = B
         Me.Toolbar2.Buttons(7).Enabled = B
         
         
         
         
-        ToolbarAux.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2)
+        ToolbarAux.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2)
         ToolbarAux.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 2 And Me.data1.Recordset.RecordCount > 0)
-        ToolbarAux.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2 And Me.data1.Recordset.RecordCount > 0)
+        ToolbarAux.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2 And Me.data1.Recordset.RecordCount > 0)
         
         vUsu.LeerFiltros "ariconta", IdPrograma
         
@@ -9402,21 +9471,21 @@ Private Sub txtPDF_DblClick()
     SQL = ObtenerWhereCP(True) & " AND orden =1"
     SQL = "Select campo,docum from factpro_fichdocs " & SQL
     
-    Adodc1.ConnectionString = Conn
-    Adodc1.RecordSource = SQL
-    Adodc1.Refresh
+    adodc1.ConnectionString = Conn
+    adodc1.RecordSource = SQL
+    adodc1.Refresh
 
-    If Adodc1.Recordset.EOF Then
+    If adodc1.Recordset.EOF Then
         'NO HAY NINGUNA
         MsgBoxA "Ningun documento asociado a la factura", vbExclamation
     Else
         'LEEMOS LA IMAGEN
 
         
-        SQL = App.Path & "\Temp\" & Adodc1.Recordset!DOCUM
-        LeerBinary Adodc1.Recordset!Campo, SQL
-        Adodc1.RecordSource = "Select codigo from factpro_fichdocs WHERE false "
-        Adodc1.Refresh
+        SQL = App.Path & "\Temp\" & adodc1.Recordset!DOCUM
+        LeerBinary adodc1.Recordset!Campo, SQL
+        adodc1.RecordSource = "Select codigo from factpro_fichdocs WHERE false "
+        adodc1.Refresh
         
         
         Call ShellExecute(Me.hwnd, "Open", SQL, "", "", 1)
@@ -9510,20 +9579,20 @@ Dim Fichero  As String
     
     'Abro parar guardar el binary
     C = "Select * from factpro_fichdocs where codigo =" & L
-    Adodc1.ConnectionString = Conn
-    Adodc1.RecordSource = C
-    Adodc1.Refresh
+    adodc1.ConnectionString = Conn
+    adodc1.RecordSource = C
+    adodc1.Refresh
 '
-    If Adodc1.Recordset.EOF Then
+    If adodc1.Recordset.EOF Then
         'MAAAAAAAAAAAAL
 
     Else
         'Guardar
-        GuardarBinary Adodc1.Recordset!Campo, Fichero
-        Adodc1.Recordset.Update
+        GuardarBinary adodc1.Recordset!Campo, Fichero
+        adodc1.Recordset.Update
         
-        Adodc1.RecordSource = "Select * from factpro_fichdocs where false"
-        Adodc1.Refresh
+        adodc1.RecordSource = "Select * from factpro_fichdocs where false"
+        adodc1.Refresh
     End If
     InsertarDesdeFichero = True
 End Function
@@ -9539,11 +9608,11 @@ End Function
 
 
 
-Private Sub txtaux3_GotFocus(Index As Integer)
+Private Sub TxtAux3_GotFocus(Index As Integer)
     ConseguirFoco txtaux3(Index), 3
 End Sub
 
-Private Sub txtaux3_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub TxtAux3_KeyPress(Index As Integer, KeyAscii As Integer)
     If KeyAscii = teclaBuscar Then
         Select Case Index
             Case 0:  KEYImage KeyAscii, 0 ' cta base
@@ -9553,7 +9622,7 @@ Private Sub txtaux3_KeyPress(Index As Integer, KeyAscii As Integer)
     End If
 End Sub
 
-Private Sub txtaux3_LostFocus(Index As Integer)
+Private Sub TxtAux3_LostFocus(Index As Integer)
 Dim Im As Currency
 Dim C As Currency
     Dim RC As String

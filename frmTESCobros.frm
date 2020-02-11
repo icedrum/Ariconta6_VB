@@ -5433,9 +5433,12 @@ Dim Tipo As Integer
     B = True
     If B Then
         If Text1(35).Text = "" Then
-            impo = ImporteFormateado(Text1(6).Text) + ImporteFormateado(Text1(16).Text)
-            impo = impo - ImporteFormateado(Text1(6).Text)
+            impo = 0
+            If Text1(8).Text <> "" Then impo = ImporteFormateado(Text1(8).Text)
+            impo = ImporteFormateado(Text1(6).Text) - impo
+            If Text1(16).Text <> "" Then impo = impo + ImporteFormateado(Text1(16).Text)
             If impo = 0 Then Combo1.ListIndex = 1
+            Text2(3).Text = Combo1.Text
         End If
     End If
     
@@ -5629,7 +5632,9 @@ Dim impo As Currency
     frmTESParciales.Cobro = True
     frmTESParciales.Vto = Text1(13).Text & "|" & Text1(1).Text & "|" & Text1(2).Text & "|" & Text1(3).Text & "|" & Text1(5).Text & "|"
     frmTESParciales.Importes = Text1(6).Text & "|" & Text1(16).Text & "|" & Text1(8).Text & "|"
-    frmTESParciales.Cta = Text1(4).Text & "|" & Text2(0).Text & "|" & Text1(9).Text & "|" & Text2(2).Text & "|"
+    MiVariableAuxiliar = Trim(Text1(42).Text)
+    If MiVariableAuxiliar = "" Then MiVariableAuxiliar = Text2(0).Text
+    frmTESParciales.Cta = Text1(4).Text & "|" & MiVariableAuxiliar & "|" & Text1(9).Text & "|" & Text2(2).Text & "|"
     frmTESParciales.FormaPago = Val(vTipForpa)
     frmTESParciales.Show vbModal
     If CadenaDesdeOtroForm <> "" Then

@@ -1859,11 +1859,12 @@ Dim ComprobarInsercion As Boolean
 Dim CadenaCifs As String
 Dim RestoValoresInsert As String
 Dim KK As Integer
-
+Dim IvaSuplidos As String
 
 'Solucion de "mergencia"
 Dim VectorFacturasISP As String
 
+Dim IvasSuplidos As String
 
 On Error GoTo EComprobarCuentas347
     
@@ -1882,6 +1883,21 @@ On Error GoTo EComprobarCuentas347
     
     Set Rs = New ADODB.Recordset
     Set RT = New ADODB.Recordset
+    
+    
+    IvasSuplidos = ""
+    SQL = "Select codigiva FROM " & Contabilidad & ".tiposiva where tipodiva= 4" '4: suplidos
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Not Rs.EOF Then
+        While Not Rs.EOF
+            IvasSuplidos = IvasSuplidos & ", " & Rs!codigiva
+            Rs.MoveNext
+        Wend
+        IvasSuplidos = Mid(IvasSuplidos, 2)
+        IvasSuplidos = "(" & IvasSuplidos & ")"
+    End If
+    Rs.Close
+    
     'Para lo nuevo. Iremos codmacta a codmacta
     SQL = " Select factcli.codmacta,trim(factcli.nifdatos) nifdatos,factcli.dirdatos,coalesce(factcli.codpobla,0) codpobla,factcli.nommacta,factcli.despobla,factcli.desprovi,factcli.codpais from "
     SQL = SQL & Contabilidad & ".factcli, " & Contabilidad & ".cuentas  where "
@@ -1919,7 +1935,7 @@ On Error GoTo EComprobarCuentas347
                 FinBucle = True
             Else
                 NuevoSelect = Rs!nifdatos
-                'If Rs.Fields(1) = "NIF" Then S top
+                'If Rs.Fields(1) = "20342507L      " Then S top
             
                 CadenaCifs = CadenaCifs & ", " & UCase(DBSet(Rs.Fields(1).Value, "T"))
                 
@@ -1959,7 +1975,9 @@ On Error GoTo EComprobarCuentas347
         NuevoSelect = NuevoSelect & " AND c.fecfactu  = t.fecfactu AND c.anofactu = t.anofactu"
         NuevoSelect = NuevoSelect & " AND c.fecfactu >='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
         NuevoSelect = NuevoSelect & " AND c.fecfactu <='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
-        '        NuevoSelect = NuevoSelect & " AND c.nifdatos = " & DBSet(Rs.Fields(1).Value, "T")
+        
+        If IvasSuplidos <> "" Then NuevoSelect = NuevoSelect & " AND t.codigiva not in " & IvasSuplidos
+        
         NuevoSelect = NuevoSelect & " AND c.nifdatos IN (" & CadenaCifs & ")"
         NuevoSelect = NuevoSelect & " GROUP BY 1,2,3"
         RT.Open NuevoSelect, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
@@ -2113,7 +2131,7 @@ On Error GoTo EComprobarCuentas347
         Trimestre(0) = 0: Trimestre(1) = 0: Trimestre(2) = 0: Trimestre(3) = 0
         While Not RT.EOF
             If RT!CodOpera = 4 Then
-                'Stop
+                'St op
                 VectorFacturasISP = VectorFacturasISP & ", (" & DBSet(RT!NUmSerie, "T") & "," & RT!Numregis & "," & RT!anofactu & ")"
             Else
                 VectorFacturas = VectorFacturas & ", (" & DBSet(RT!NUmSerie, "T") & "," & RT!Numregis & "," & RT!anofactu & ")"
@@ -2127,13 +2145,20 @@ On Error GoTo EComprobarCuentas347
         If VectorFacturas <> "" Then
             Impor = 0
             VectorFacturas = Mid(VectorFacturas, 2)
-            SqlTot = "select (month(fecharec)-1) div 3  trimestre ,sum(coalesce(baseimpo,0)) base, sum(coalesce(impoiva,0)) iva, sum(coalesce(imporec,0)) recargo "
-            SqlTot = SqlTot & " from " & Contabilidad & ".factpro_totales  WHERE "
-            'SqlTot = SqlTot & " numserie = " & DBSet(RT!NUmSerie, "T")
-            'SqlTot = SqlTot & " and numregis = " & DBSet(RT!Numregis, "N")
-            'SqlTot = SqlTot & " and anofactu = " & DBSet(RT!anofactu, "N")
-            SqlTot = SqlTot & " (numserie,numregis,anofactu) IN (" & VectorFacturas & ") GROUP BY 1"
             
+            If OptProv(0).Value Then
+                SqlTot = "select (month(factpro_totales.fecharec)-1) div 3  trimestre ,sum(coalesce(baseimpo,0)) base, sum(coalesce(impoiva,0)) iva, sum(coalesce(imporec,0)) recargo "
+            Else
+                SqlTot = "select (month(fecfactu)-1) div 3  trimestre ,sum(coalesce(baseimpo,0)) base, sum(coalesce(impoiva,0)) iva, sum(coalesce(imporec,0)) recargo "
+            End If
+            SqlTot = SqlTot & " from " & Contabilidad & ".factpro_totales  "
+            If Not OptProv(0).Value Then
+                SqlTot = SqlTot & " INNER JOIN " & Contabilidad & ".factpro  "
+                SqlTot = SqlTot & " ON factpro_totales.numserie=factpro.numserie and factpro_totales.numregis=factpro.numregis"
+                SqlTot = SqlTot & " and factpro_totales.anofactu=factpro.anofactu "
+            End If
+            SqlTot = SqlTot & " WHERE  (factpro_totales.numserie,factpro_totales.numregis,factpro_totales.anofactu) IN (" & VectorFacturas & ") GROUP BY 1"
+            If IvasSuplidos <> "" Then NuevoSelect = NuevoSelect & " AND factpro_totales.codigiva not in " & IvasSuplidos
             
             RT.Open SqlTot, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             While Not RT.EOF

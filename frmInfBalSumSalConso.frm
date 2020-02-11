@@ -2172,8 +2172,17 @@ Dim Aux As String
     Rs.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
     
-        Aux = "|" & Rs!codempre & "|"
-        If InStr(1, Prohibidas, Aux) = 0 Then
+            
+        Aux = "ariconta" & Rs!codempre & ".parametros"
+        Aux = DevuelveDesdeBD("esmultiseccion", Aux, "1", "1")
+        If Aux = "0" Then
+            Aux = "N"
+        Else
+            Aux = "|" & Rs!codempre & "|"
+            If InStr(1, Prohibidas, Aux) = 0 Then Aux = ""
+        End If
+            
+        If Aux = "" Then
             Set IT = ListView1.ListItems.Add
             IT.Key = "C" & Rs!codempre
             If vEmpresa.codempre = Rs!codempre Then IT.Checked = True

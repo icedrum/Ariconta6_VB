@@ -3613,7 +3613,7 @@ Private Sub cmdAux3_Click()
         Set frmTIva = Nothing
         
         PonFoco txtaux3(0)
-        If txtaux3(0).Text <> "" Then txtaux3_LostFocus 0
+        If txtaux3(0).Text <> "" Then TxtAux3_LostFocus 0
 End Sub
 
 Private Sub Combo1_Click(Index As Integer)
@@ -4909,9 +4909,10 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
             'La borrara desde actualizar
             AlgunAsientoActualizado = False
         
-            SqlLog = "Factura : " & CStr(DBLet(data1.Recordset!NUmSerie)) & Format(i, "000000") & " " & Fec
+            SqlLog = "Factura : " & CStr(DBLet(data1.Recordset!NUmSerie)) & Format(data1.Recordset!NumFactu, "000000") & " " & Fec
             SqlLog = SqlLog & vbCrLf & "Cliente : " & Text1(4).Text & " " & Text4(4).Text
             SqlLog = SqlLog & vbCrLf & "Importe : " & Text1(13).Text
+            SqlLog = SqlLog & vbCrLf & "Asiento : " & i
         
         
             With frmActualizar
@@ -5128,7 +5129,7 @@ Dim v
             If Modo = 3 Then
                 'Intentetamos devolver el contador
                 If Text1(0).Text <> "" Then
-                    i = FechaCorrecta2(CDate(Text1(0).Text))
+                    i = FechaCorrecta2(CDate(Text1(1).Text))
                     Mc.DevolverContador Mc.TipoContador, i = 0, Mc.Contador
                 End If
             End If
@@ -6022,7 +6023,7 @@ Dim Indc As Integer
         If Button.Index = 1 Then
             alto = 0
         Else
-            txtaux3_LostFocus 0
+            TxtAux3_LostFocus 0
         End If
         
         PonFoco txtaux3(alto)
@@ -6349,6 +6350,7 @@ Private Sub BotonModificarLinea(Index As Integer)
 
     LLamaLineas Index, ModoLineas, anc
     
+    HabilitarCentroCoste
     
     PonFoco txtaux(5)
     
@@ -7132,7 +7134,7 @@ Dim hab As Boolean
         End If
         If hab Then
             txtaux(12).BackColor = &H80000005
-            Else
+        Else
             txtaux(12).BackColor = &H80000018
             txtaux(12).Text = ""
         End If
@@ -8983,11 +8985,11 @@ eModificaDesdeFormAux:
 End Function
 
 
-Private Sub txtaux3_GotFocus(Index As Integer)
+Private Sub TxtAux3_GotFocus(Index As Integer)
     ConseguirFoco txtaux3(Index), 3
 End Sub
 
-Private Sub txtaux3_KeyPress(Index As Integer, KeyAscii As Integer)
+Private Sub TxtAux3_KeyPress(Index As Integer, KeyAscii As Integer)
     If KeyAscii = teclaBuscar Then
         Select Case Index
             Case 0:  KEYImage KeyAscii, 0 ' cta base
@@ -8997,7 +8999,7 @@ Private Sub txtaux3_KeyPress(Index As Integer, KeyAscii As Integer)
     End If
 End Sub
 
-Private Sub txtaux3_LostFocus(Index As Integer)
+Private Sub TxtAux3_LostFocus(Index As Integer)
 Dim Im As Currency
 Dim C As Currency
     Dim RC As String

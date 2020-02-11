@@ -1815,7 +1815,7 @@ Dim TipForpa As Byte
                            If TipoAmpliacion = 1 Then Ampliacion = Ampliacion & vp.siglas & " "
                            Ampliacion = Ampliacion & RecuperaValor(RS1!Cliente, 1) & RecuperaValor(RS1!Cliente, 2)
                         
-                        Case 2
+                        Case 2, 6
                         
                            Ampliacion = Ampliacion & RecuperaValor(RS1!Cliente, 3)
                         
@@ -1854,8 +1854,8 @@ Dim TipForpa As Byte
                           
                             Ampliacion = Ampliacion & " " & DescripcionTransferencia
                             DescripcionTransferencia = ""
-                          
-                          
+                        
+                            
                         End Select
                     Else
                         'Ma de un VTO.  Si no

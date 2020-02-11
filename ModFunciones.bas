@@ -3137,7 +3137,7 @@ Public Function Ejecuta(ByRef SQL As String, Optional OcultarMsgbox As Boolean) 
     On Error Resume Next
     Conn.Execute SQL
     If Err.Number <> 0 Then
-        If Not OcultarMsgbox Then MuestraError Err.Number, "Cadena: " & SQL & vbCrLf
+        If Not OcultarMsgbox Then MuestraError Err.Number, "Cadena: " & SQL & vbCrLf & Err.Description
         Ejecuta = False
     Else
         Ejecuta = True

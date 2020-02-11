@@ -7,6 +7,9 @@ Global Msg$, MsgErr$, NumErr&                 ' Variables de control de error
 Global CONT%, Opc%, Skn$, SknDir$             ' Otros contadores
 Public Tmp%, m_hMod&
 
+
+Global MiVariableAuxiliar$
+
 ' añadido por la insercion de documentos en las lineas de asientos
 Public Declare Function ShellExecute Lib "shell32.dll" Alias _
     "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, _
@@ -2038,6 +2041,9 @@ Dim B As Byte
         DevuelveFechaFiltros = DevuelveFechaFiltros & CampoBD & " <=" & DBSet(F, "F")
     End If
 End Function
+
+
+
 
 
 

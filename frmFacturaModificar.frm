@@ -1658,20 +1658,20 @@ Private Sub BotonModificarLinea(Index As Integer)
             txtaux(9).Text = DataGridAux(Index).Columns(10).Text '%recargo
             txtaux(10).Text = DataGridAux(Index).Columns(11).Text 'importe iva
             txtaux(11).Text = DataGridAux(Index).Columns(12).Text 'importe recargo eq
-            If DataGridAux(Index).Columns(13).Text = "*" Then
+            
+            txtaux(12).Text = DataGridAux(Index).Columns(13).Text 'centro de coste
+            txtAux2(12).Text = DataGridAux(Index).Columns(14).Text 'nombre centro de coste
+            
+            If DBLet(Me.AdoAux(1).Recordset!ret, "T") = "*" Then
                 chkAux(0).Value = 1 ' DataGridAux(Index).Columns(14).Text 'aplica retencion
             Else
                 chkAux(0).Value = 0
             End If
-            txtaux(12).Text = DataGridAux(Index).Columns(15).Text 'centro de coste
-            txtAux2(12).Text = DataGridAux(Index).Columns(16).Text 'nombre centro de coste
-            
-            
     End Select
 
     LLamaLineas Index, ModoLineas, anc
     
-    
+    HabilitarCentroCoste
     PonFoco txtaux(5)
     
     ' ***************************************************************************************
@@ -1882,7 +1882,7 @@ Dim tots As String
     On Error GoTo ECarga
 
     tots = "select numserie ,codigo,'" & Format(Fecha, FormatoFecha) & "' fecfactu," & Anyo & " anofac,Numfac,cta,nommacta,imponible,tipoiva,IVA,porcrec,impiva,recargo ,"
-    tots = tots & " if(tipoopera=1,'*','') Ret, numfactura,codccost,nomccost "
+    tots = tots & "  codccost,nomccost,if(tipoopera=1,'*','') Ret "
     tots = tots & " from tmpfaclin left join  ccoste ON codusu =" & vUsu.Codigo & "  AND numfactura = ccoste.codccost"
     tots = tots & " inner join cuentas on codusu =" & vUsu.Codigo & " and cta=codmacta"
     tots = tots & " WHERE codusu = " & vUsu.Codigo & " ORDER BY numfac"
@@ -1915,19 +1915,19 @@ Dim tots As String
     
     
     Select Case Index
-        
+         
         Case 1 'lineas de asiento
             
             If vParam.autocoste Then
                 tots = "N||||0|;N||||0|;N||||0|;N||||0|;N||||0|;S|txtaux(5)|T|Cuenta|1405|;S|cmdAux(0)|B|||;S|txtAux2(5)|T|Denominación|3995|;"
                 tots = tots & "S|txtaux(6)|T|Importe|1905|;S|txtaux(7)|T|Iva|625|;S|cmdAux(1)|B|||;S|txtaux(8)|T|%Iva|765|;"
                 tots = tots & "S|txtaux(9)|T|%Rec|765|;S|txtaux(10)|T|Importe Iva|1554|;S|txtaux(11)|T|Importe Rec|1554|;"
-                tots = tots & "N||||0|;S|txtaux(12)|T|CC|710|;S|cmdAux(2)|B|||;S|txtAux2(12)|T|Nombre|2470|;"
+                tots = tots & "S|txtaux(12)|T|CC|710|;S|cmdAux(2)|B|||;S|txtAux2(12)|T|Nombre|2470|;S|chkAux(0)|T|Ret|470|;"
             Else
                 tots = "N||||0|;N||||0|;N||||0|;N||||0|;N||||0|;S|txtaux(5)|T|Cuenta|1405|;S|cmdAux(0)|B|||;S|txtAux2(5)|T|Denominación|5695|;"
                 tots = tots & "S|txtaux(6)|T|Importe|2405|;S|txtaux(7)|T|Iva|625|;S|cmdAux(1)|B|||;S|txtaux(8)|T|%Iva|855|;"
                 tots = tots & "S|txtaux(9)|T|%Rec|855|;S|txtaux(10)|T|Importe Iva|1954|;S|txtaux(11)|T|Importe Rec|1954|;"
-                tots = tots & "S|chkAux(0)|CB|Ret|400|;N||||0|;N||||0|;N||||0|;"
+                tots = tots & "N||||0|;N||||0|;S|chkAux(0)|CB|Ret|400|;"
             End If
             
             arregla tots, DataGridAux(Index), Me
@@ -1970,7 +1970,7 @@ End Sub
 Private Sub CargaDatosLW2(QueLW As Integer)
 Dim cad As String
 Dim Rs As ADODB.Recordset
-Dim IT As ListItem
+Dim It As ListItem
 Dim ElIcono As Integer
 Dim GroupBy As String
 Dim Orden As String
@@ -2008,20 +2008,20 @@ Dim C As String
     cad = "0"
     
     While Not Rs.EOF
-        Set IT = lw1(QueLW).ListItems.Add
+        Set It = lw1(QueLW).ListItems.Add
         cad = Val(cad) + 1
-        IT.Text = cad
-        IT.SubItems(1) = Format(Rs!codigiva, "000")
-        IT.SubItems(2) = DevuelveDesdeBD("nombriva", "tiposiva", "codigiva", Rs!codigiva)
-        IT.SubItems(3) = Format(Rs!Baseimpo, "###,###,##0.00")
-        IT.SubItems(4) = Format(Rs!Impoiva, "###,###,##0.00")
+        It.Text = cad
+        It.SubItems(1) = Format(Rs!codigiva, "000")
+        It.SubItems(2) = DevuelveDesdeBD("nombriva", "tiposiva", "codigiva", Rs!codigiva)
+        It.SubItems(3) = Format(Rs!Baseimpo, "###,###,##0.00")
+        It.SubItems(4) = Format(Rs!Impoiva, "###,###,##0.00")
         If DBLet(Rs!ImpoRec) <> 0 Then
-            IT.SubItems(5) = Format(Rs!ImpoRec, "###,###,##0.00")
+            It.SubItems(5) = Format(Rs!ImpoRec, "###,###,##0.00")
         Else
-            IT.SubItems(5) = " "
+            It.SubItems(5) = " "
         End If
         
-        Set IT = Nothing
+        Set It = Nothing
 
         Rs.MoveNext
     Wend

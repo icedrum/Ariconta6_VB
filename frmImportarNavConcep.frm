@@ -85,13 +85,13 @@ Begin VB.Form frmImportarNavConcep
    End
    Begin MSComctlLib.Toolbar Toolbar1 
       Align           =   1  'Align Top
-      Height          =   420
+      Height          =   390
       Left            =   0
       TabIndex        =   4
       Top             =   0
       Width           =   5325
       _ExtentX        =   9393
-      _ExtentY        =   741
+      _ExtentY        =   688
       ButtonWidth     =   609
       ButtonHeight    =   582
       AllowCustomize  =   0   'False
@@ -331,8 +331,8 @@ Modo = vModo
 
 B = (Modo = 0)
 
-txtAux(0).Visible = Not B
-txtAux(1).Visible = Not B
+txtaux(0).visible = Not B
+txtaux(1).visible = Not B
 mnOpciones.Enabled = B
 Toolbar1.Buttons(1).Enabled = B
 Toolbar1.Buttons(2).Enabled = B
@@ -345,23 +345,23 @@ Me.mnEliminar.Enabled = Toolbar1.Buttons(8).Enabled
 
 
 
-cmdAceptar.Visible = Not B
-cmdCancelar.Visible = Not B
+cmdAceptar.visible = Not B
+cmdCancelar.visible = Not B
 DataGrid1.Enabled = B
 
 'Si es regresar
 If DatosADevolverBusqueda <> "" Then
-    cmdRegresar.Visible = B
+    cmdRegresar.visible = B
 End If
 
 
 'Si estamo mod or insert
 If Modo = 2 Then
-   txtAux(0).BackColor = &H80000018
+   txtaux(0).BackColor = &H80000018
    Else
-    txtAux(0).BackColor = &H80000005
+    txtaux(0).BackColor = &H80000005
 End If
-txtAux(0).Enabled = (Modo <> 2)
+txtaux(0).Enabled = (Modo <> 2)
 End Sub
 
 Private Sub BotonAnyadir()
@@ -373,9 +373,9 @@ Private Sub BotonAnyadir()
     lblIndicador.Caption = "INSERTANDO"
     'Situamos el grid al final
     DataGrid1.AllowAddNew = True
-    If adodc1.Recordset.RecordCount > 0 Then
+    If Adodc1.Recordset.RecordCount > 0 Then
         DataGrid1.HoldFields
-        adodc1.Recordset.MoveLast
+        Adodc1.Recordset.MoveLast
         DataGrid1.Row = DataGrid1.Row + 1
     End If
     
@@ -386,13 +386,13 @@ Private Sub BotonAnyadir()
         Else
         anc = DataGrid1.RowTop(DataGrid1.Row) + 550
     End If
-    txtAux(0).Text = NumF
-    txtAux(1).Text = ""
+    txtaux(0).Text = NumF
+    txtaux(1).Text = ""
     LLamaLineas anc, 0
     
     
     'Ponemos el foco
-    txtAux(0).SetFocus
+    txtaux(0).SetFocus
     
 '    If FormularioHijoModificado Then
 '        CargaGrid
@@ -407,10 +407,10 @@ End Sub
 Private Sub BotonBuscar()
     CargaGrid "concepto= -1"
     'Buscar
-    txtAux(0).Text = ""
-    txtAux(1).Text = ""
+    txtaux(0).Text = ""
+    txtaux(1).Text = ""
     LLamaLineas 770, 2
-    txtAux(0).SetFocus
+    txtaux(0).SetFocus
 End Sub
 
 Private Sub BotonVerTodos()
@@ -426,8 +426,8 @@ Private Sub BotonModificar()
     Dim cad As String
     Dim anc As Single
     Dim i As Integer
-    If adodc1.Recordset.EOF Then Exit Sub
-    If adodc1.Recordset.RecordCount < 1 Then Exit Sub
+    If Adodc1.Recordset.EOF Then Exit Sub
+    If Adodc1.Recordset.RecordCount < 1 Then Exit Sub
 
     Screen.MousePointer = vbHourglass
     Me.lblIndicador.Caption = "MODIFICAR"
@@ -448,12 +448,12 @@ Private Sub BotonModificar()
         cad = cad & DataGrid1.Columns(i).Text & "|"
     Next i
     'Llamamos al form
-    txtAux(0).Text = DataGrid1.Columns(0).Text
-    txtAux(1).Text = DataGrid1.Columns(1).Text
+    txtaux(0).Text = DataGrid1.Columns(0).Text
+    txtaux(1).Text = DataGrid1.Columns(1).Text
     LLamaLineas anc, 1
    
    'Como es modificar
-   txtAux(1).SetFocus
+   txtaux(1).SetFocus
    
     Screen.MousePointer = vbDefault
 End Sub
@@ -475,27 +475,27 @@ Private Sub LLamaLineas(alto As Single, xModo As Byte)
     DeseleccionaGrid DataGrid1
     PonerModo xModo + 1
     'Fijamos el ancho
-    txtAux(0).top = alto
-    txtAux(1).top = alto
-    txtAux(0).Left = DataGrid1.Left + 340
-    txtAux(1).Left = txtAux(0).Left + txtAux(0).Width + 45
+    txtaux(0).top = alto
+    txtaux(1).top = alto
+    txtaux(0).Left = DataGrid1.Left + 340
+    txtaux(1).Left = txtaux(0).Left + txtaux(0).Width + 45
 End Sub
 
 Private Sub BotonEliminar()
 Dim SQL As String
     On Error GoTo Error2
     'Ciertas comprobaciones
-    If adodc1.Recordset.EOF Then Exit Sub
+    If Adodc1.Recordset.EOF Then Exit Sub
     If Not SepuedeBorrar Then Exit Sub
     
 
     '### a mano
     SQL = "Seguro que desea eliminar el diario:"
-    SQL = SQL & vbCrLf & "Código: " & adodc1.Recordset.Fields(0)
-    SQL = SQL & vbCrLf & "Denominación: " & adodc1.Recordset.Fields(1)
+    SQL = SQL & vbCrLf & "Código: " & Adodc1.Recordset.Fields(0)
+    SQL = SQL & vbCrLf & "Denominación: " & Adodc1.Recordset.Fields(1)
     If MsgBox(SQL, vbQuestion + vbYesNoCancel) = vbYes Then
         'Hay que eliminar
-        SQL = "Delete from importnavconceptos where concepto=" & adodc1.Recordset!Concepto
+        SQL = "Delete from importnavconceptos where concepto=" & Adodc1.Recordset!Concepto
         Conn.Execute SQL
         CancelaADODC
         CargaGrid ""
@@ -509,7 +509,7 @@ End Sub
 
 Private Sub CancelaADODC()
 On Error Resume Next
-adodc1.Recordset.Cancel
+Adodc1.Recordset.Cancel
 If Err.Number <> 0 Then Err.Clear
 End Sub
 
@@ -535,11 +535,11 @@ Select Case Modo
                 '-----------------------------------------
                 'Hacemos insertar
                 If ModificaDesdeFormulario(Me) Then
-                    i = adodc1.Recordset.Fields(0)
+                    i = Adodc1.Recordset.Fields(0)
                     PonerModo 0
                     CancelaADODC
                     CargaGrid
-                    adodc1.Recordset.Find (adodc1.Recordset.Fields(0).Name & " =" & i)
+                    Adodc1.Recordset.Find (Adodc1.Recordset.Fields(0).Name & " =" & i)
                     CadenaDesdeOtroForm = "OK" 'para que recarge los datos en el formulario ppal
                 End If
             End If
@@ -560,7 +560,7 @@ Select Case Modo
 Case 1
     DataGrid1.AllowAddNew = False
     'CargaGrid
-    adodc1.Recordset.MoveFirst
+    Adodc1.Recordset.MoveFirst
     
 Case 3
     CargaGrid
@@ -573,20 +573,20 @@ End Sub
 Private Sub cmdRegresar_Click()
 Dim cad As String
 
-If adodc1.Recordset.EOF Then
+If Adodc1.Recordset.EOF Then
     MsgBox "Ningún registro devuelto.", vbExclamation
     Exit Sub
 End If
 
-    cad = adodc1.Recordset.Fields(0) & "|"
-    cad = cad & adodc1.Recordset.Fields(1) & "|"
+    cad = Adodc1.Recordset.Fields(0) & "|"
+    cad = cad & Adodc1.Recordset.Fields(1) & "|"
     RaiseEvent DatoSeleccionado(cad)
     Unload Me
 End Sub
 
 
 Private Sub DataGrid1_DblClick()
-If cmdRegresar.Visible = True Then cmdRegresar_Click
+If cmdRegresar.visible = True Then cmdRegresar_Click
 End Sub
 
 Private Sub DataGrid1_KeyPress(KeyAscii As Integer)
@@ -622,7 +622,7 @@ Private Sub Form_Load()
 '    Adodc1.UserName = vUsu.Login
 '    Adodc1.password = vUsu.Passwd
     CadAncho = False
-    cmdRegresar.Visible = (DatosADevolverBusqueda <> "")
+    cmdRegresar.visible = (DatosADevolverBusqueda <> "")
     PonerModo 0
     'Cadena consulta
     CadenaConsulta = "Select concepto,descripcion from importnavconceptos"
@@ -719,20 +719,20 @@ Private Sub CargaGrid(Optional SQL As String)
     
     B = DataGrid1.Enabled
     DataGrid1.Enabled = False
-    adodc1.ConnectionString = Conn
+    Adodc1.ConnectionString = Conn
     If SQL <> "" Then
         SQL = CadenaConsulta & " WHERE " & SQL
         Else
         SQL = CadenaConsulta
     End If
     SQL = SQL & " ORDER BY concepto"
-    adodc1.RecordSource = SQL
-    adodc1.CursorType = adOpenDynamic
-    adodc1.LockType = adLockOptimistic
-    adodc1.Refresh
+    Adodc1.RecordSource = SQL
+    Adodc1.CursorType = adOpenDynamic
+    Adodc1.LockType = adLockOptimistic
+    Adodc1.Refresh
     
     DataGrid1.AllowRowSizing = False
-    DataGrid1.RowHeight = txtAux(0).Height
+    DataGrid1.RowHeight = txtaux(0).Height
     
     'Nombre producto
     i = 0
@@ -749,17 +749,17 @@ Private Sub CargaGrid(Optional SQL As String)
     'Fiajamos el cadancho
     If Not CadAncho Then
         'La primera vez fijamos el ancho y alto de  los txtaux
-        txtAux(0).Width = DataGrid1.Columns(0).Width - 60
-        txtAux(0).Left = DataGrid1.Left + 340
-        txtAux(1).Width = DataGrid1.Columns(1).Width - 60
-        txtAux(1).Left = DataGrid1.Columns(1).Left + 90
+        txtaux(0).Width = DataGrid1.Columns(0).Width - 60
+        txtaux(0).Left = DataGrid1.Left + 340
+        txtaux(1).Width = DataGrid1.Columns(1).Width - 60
+        txtaux(1).Left = DataGrid1.Columns(1).Left + 90
         CadAncho = True
     End If
    
     'Habilitamos modificar y eliminar
     If vUsu.Nivel < 2 Then
-        Toolbar1.Buttons(7).Enabled = Not adodc1.Recordset.EOF
-        Toolbar1.Buttons(8).Enabled = Not adodc1.Recordset.EOF
+        Toolbar1.Buttons(7).Enabled = Not Adodc1.Recordset.EOF
+        Toolbar1.Buttons(8).Enabled = Not Adodc1.Recordset.EOF
     End If
    DataGrid1.Enabled = B
 End Sub
@@ -769,7 +769,7 @@ Private Sub txtaux_GotFocus(Index As Integer)
 '    .SelStart = 0
 '    .SelLength = Len(.Text)
 'End With
-    PonFoco txtAux(Index)
+    PonFoco txtaux(Index)
 End Sub
 
 Private Sub txtaux_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -782,15 +782,15 @@ End Sub
 
 Private Sub txtAux_LostFocus(Index As Integer)
 
-txtAux(Index).Text = Trim(txtAux(Index).Text)
-If txtAux(Index).Text = "" Then Exit Sub
+txtaux(Index).Text = Trim(txtaux(Index).Text)
+If txtaux(Index).Text = "" Then Exit Sub
 If Modo = 3 Then Exit Sub 'Busquedas
 If Index = 0 Then
-    If Not IsNumeric(txtAux(0).Text) Then
+    If Not IsNumeric(txtaux(0).Text) Then
         MsgBox "Código diario tiene que ser numérico", vbExclamation
         Exit Sub
     End If
-    txtAux(0).Text = Format(txtAux(0).Text, "00")
+    txtaux(0).Text = Format(txtaux(0).Text, "00")
 End If
 End Sub
 
@@ -802,9 +802,9 @@ If Not B Then Exit Function
 
 If Modo = 1 Then
     'Estamos insertando
-     Datos = DevuelveDesdeBD("concepto", "importnavconceptos", "concepto", txtAux(0).Text, "T")
+     Datos = DevuelveDesdeBD("concepto", "importnavconceptos", "concepto", txtaux(0).Text, "T")
      If Datos <> "" Then
-        MsgBox "Ya existe el diario : " & txtAux(0).Text, vbExclamation
+        MsgBox "Ya existe el diario : " & txtaux(0).Text, vbExclamation
         B = False
     End If
 End If
@@ -815,7 +815,7 @@ End Function
 Private Function SepuedeBorrar() As Boolean
 Dim SQL As String
     SepuedeBorrar = False
-    SQL = DevuelveDesdeBD("codcentro", "importnavconcepcentro", "codconcepto", adodc1.Recordset!Concepto, "N")
+    SQL = DevuelveDesdeBD("codcentro", "importnavconcepcentro", "codconcepto", Adodc1.Recordset!Concepto, "N")
     If SQL <> "" Then
         MsgBox "Esta vinculada con centros", vbExclamation
         Exit Function

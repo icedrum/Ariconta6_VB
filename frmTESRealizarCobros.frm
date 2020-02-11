@@ -2393,7 +2393,7 @@ Dim combo1Index  As Integer
     If Me.chkCuentasCaja.Value = 1 Then
         combo1Index = 1
     Else
-        combo1Index = Combo1.Index
+        combo1Index = Combo1.ListIndex
     End If
 
 
@@ -3160,7 +3160,7 @@ Dim SQL As String
 Dim Ampliacion As String
 Dim Debe As Boolean
 Dim Conce As Integer
-Dim TipoAmpliacion As Integer
+Dim TipoAmpliacion2 As Integer
 Dim PonerContrPartida As Boolean
 Dim Aux As String
 Dim ImporteInterno As Currency
@@ -3257,11 +3257,11 @@ Dim Bo As Boolean
                     End If
                     If Debe Then
                         Conce = vp.condecli
-                        TipoAmpliacion = vp.ampdecli
+                        TipoAmpliacion2 = vp.ampdecli
                         PonerContrPartida = vp.ctrdecli = 1
                     Else
                         Conce = vp.conhacli
-                        TipoAmpliacion = vp.amphacli
+                        TipoAmpliacion2 = vp.amphacli
                         PonerContrPartida = vp.ctrhacli = 1
                     End If
                  
@@ -3281,11 +3281,11 @@ Dim Bo As Boolean
                     End If
                     If Debe Then
                         Conce = vp.condepro
-                        TipoAmpliacion = vp.ampdepro
+                        TipoAmpliacion2 = vp.ampdepro
                         PonerContrPartida = vp.ctrdepro = 1
                     Else
                         Conce = vp.conhapro
-                        TipoAmpliacion = vp.amphapro
+                        TipoAmpliacion2 = vp.amphapro
                         PonerContrPartida = vp.ctrhapro = 1
                     End If
                      
@@ -3297,11 +3297,11 @@ Dim Bo As Boolean
                  'AMPLIACION
                  Ampliacion = ""
                 
-
-
-                Select Case TipoAmpliacion
+                If TipoAmpliacion2 = 6 And Not Cobros Then TipoAmpliacion2 = 1
+    
+                Select Case TipoAmpliacion2
                 Case 0, 1
-                   If TipoAmpliacion = 1 Then Ampliacion = Ampliacion & vp.siglas & " "
+                   If TipoAmpliacion2 = 1 Then Ampliacion = Ampliacion & vp.siglas & " "
                    Ampliacion = Ampliacion & RecuperaValor(RS1!Cliente, 1) & RecuperaValor(RS1!Cliente, 2)
                 
                 Case 2
@@ -3316,14 +3316,7 @@ Dim Bo As Boolean
                     Ampliacion = RecuperaValor(vTextos, 3)
                     Ampliacion = Mid(Ampliacion, InStr(1, Ampliacion, "-") + 1)
                 Case 5
-                    'Si hubiera que especificar mas el documento
-'                    If Tipo = vbTalon Then
-'                        AUX = "TAL Nº"
-'                    Else
-'                        AUX = "PAG Nº"
-'                    End If
-'
-                
+                    
                     If Cobros Then
                         'Veo la el camporefencia de ese talon
                         'Antes cogiamos numero fra
@@ -3366,7 +3359,16 @@ Dim Bo As Boolean
                             Ampliacion = "NºDoc: " & Ampliacion
                         End If
                     End If
-                    
+                Case 6
+                    'Arriba heos forazo para que solo sea cobros
+                    Ampliacion = "numserie = '" & RecuperaValor(RS1!Cliente, 1) & "' and NUMFACTU = " & RecuperaValor(RS1!Cliente, 2)
+                    Ampliacion = Ampliacion & " AND numorden = " & RecuperaValor(RS1!Cliente, 4) & " AND fecfactu "
+                    Ampliacion = DevuelveDesdeBD("nomclien", "cobros", Ampliacion, Format(RecuperaValor(RS1!Cliente, 3), FormatoFecha), "F")
+                    If Ampliacion = "" Then Ampliacion = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", RS1!cliprov, "T")
+                    MiVariableAuxiliar = Right("0000000" & RecuperaValor(RS1!Cliente, 2), 7)
+                    MiVariableAuxiliar = RecuperaValor(RS1!Cliente, 1) & MiVariableAuxiliar
+                    Ampliacion = Mid(Ampliacion, 1, 34 - Len(MiVariableAuxiliar))
+                    Ampliacion = Ampliacion & " " & MiVariableAuxiliar
                 End Select
                    
                 If NumVtos2 > 1 Then
@@ -3374,10 +3376,14 @@ Dim Bo As Boolean
                     Ampliacion = "Vtos: " & NumVtos2
                 End If
                 
-                 'Le concatenamos el texto del concepto para el asiento -ampliacion
-                 Aux = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(Conce)) & " "
-                 'Para la ampliacion de nºtal + ctrapar NO pongo la ampliacion del concepto
-                 If TipoAmpliacion = 5 Then Aux = ""
+                 
+                 'Para la ampliacion de nºtal + ctrapar NO pongo la ampliacion del concepto ni para cuenta
+                 If TipoAmpliacion2 >= 5 Then
+                    Aux = ""
+                 Else
+                    'Le concatenamos el texto del concepto para el asiento -ampliacion
+                    Aux = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(Conce)) & " "
+                 End If
                  Ampliacion = Aux & Ampliacion
                  If Len(Ampliacion) > 30 Then Ampliacion = Mid(Ampliacion, 1, 30)
                 
@@ -3459,10 +3465,10 @@ Dim Bo As Boolean
                         'COmo el banco o caja, siempre van al reves (Su abono es nuetro pago..)
                         If Not Debe Then
                             Conce = vp.condecli
-                            TipoAmpliacion = vp.ampdecli
+                            TipoAmpliacion2 = vp.ampdecli
                         Else
                             Conce = vp.conhacli
-                            TipoAmpliacion = vp.amphacli
+                            TipoAmpliacion2 = vp.amphacli
                         End If
                         
                      Else
@@ -3481,10 +3487,10 @@ Dim Bo As Boolean
                         
                         If Not Debe Then
                             Conce = vp.condepro
-                            TipoAmpliacion = vp.ampdepro
+                            TipoAmpliacion2 = vp.ampdepro
                         Else
                             Conce = vp.conhapro
-                            TipoAmpliacion = vp.amphapro
+                            TipoAmpliacion2 = vp.amphapro
                         End If
                      End If
                      
@@ -3511,9 +3517,9 @@ Dim Bo As Boolean
                      
                      If Bo Then
                     
-                        Select Case TipoAmpliacion
+                        Select Case TipoAmpliacion2
                         Case 0, 1
-                           If TipoAmpliacion = 1 Then Ampliacion = Ampliacion & vp.siglas & " "
+                           If TipoAmpliacion2 = 1 Then Ampliacion = Ampliacion & vp.siglas & " "
                            Ampliacion = Ampliacion & RecuperaValor(RS1!Cliente, 1) & RecuperaValor(RS1!Cliente, 2)
                         
                         Case 2
@@ -3556,7 +3562,17 @@ Dim Bo As Boolean
                             Ampliacion = Ampliacion & " " & DescripcionTransferencia
                             DescripcionTransferencia = ""
                           
-                          
+                        Case 6
+                           'Arriba heos forazo para que solo sea cobros
+                            Ampliacion = "numserie = '" & RecuperaValor(RS1!Cliente, 1) & "' and NUMFACTU = " & RecuperaValor(RS1!Cliente, 2)
+                            Ampliacion = Ampliacion & " AND numorden = " & RecuperaValor(RS1!Cliente, 4) & " AND fecfactu "
+                            Ampliacion = DevuelveDesdeBD("nomclien", "cobros", Ampliacion, Format(RecuperaValor(RS1!Cliente, 3), FormatoFecha), "F")
+                            If Ampliacion = "" Then Ampliacion = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", RS1!cliprov, "T")
+                            
+                            MiVariableAuxiliar = Right("0000000" & RecuperaValor(RS1!Cliente, 2), 7)
+                            MiVariableAuxiliar = RecuperaValor(RS1!Cliente, 1) & MiVariableAuxiliar
+                            Ampliacion = Mid(Ampliacion, 1, 34 - Len(MiVariableAuxiliar))
+                            Ampliacion = Ampliacion & " " & MiVariableAuxiliar
                         End Select
                     Else
                         'Ma de un VTO.  Si no
@@ -3571,7 +3587,7 @@ Dim Bo As Boolean
                      Aux = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(Conce))
                      Aux = Aux & " "
                      'Para la ampliacion de nºtal + ctrapar NO pongo la ampliacion del concepto
-                     If TipoAmpliacion = 5 Then Aux = ""
+                     If TipoAmpliacion2 >= 5 Then Aux = ""
                      Ampliacion = Trim(Aux & Ampliacion)
                      If Len(Ampliacion) > 50 Then Ampliacion = Mid(Ampliacion, 1, 50)
                     

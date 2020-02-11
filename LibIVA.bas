@@ -147,6 +147,7 @@ Dim Periodo As String
 Dim K As Integer
 Dim UltimoPeridod As Boolean
 Dim SumatotalOperacionesPresntacionUltimoTrimestre As Currency
+Dim Exonerados390 As Boolean
 
 
 On Error GoTo Salida '
@@ -207,7 +208,7 @@ On Error GoTo Salida '
         Linea = Linea & "G"
         
     Case 3
-        'ingrso
+        'ing rso
         Linea = Linea & "I"
     End Select
     '?????
@@ -255,12 +256,18 @@ On Error GoTo Salida '
     '- Grupos de IVA.
     '- Sujetos pasivos que hubieran optado por llevar los Libros registro del IVA  través de la Sede electrónica de la AEAT.
     Aux = "0"
-    If UltimoPeridod Then
+    
+    Exonerados390 = False
+    
+    If UltimoPeridod And Exonerados390 Then
         If vParam.SIITiene Then
             Aux = "1"
         Else
             Aux = "2"
         End If
+        
+        Aux = "0" 'FALTA###
+        
     End If
     Linea = Linea & Aux
    
@@ -328,11 +335,12 @@ On Error GoTo Salida '
             
             
             'Información adicional - Exclusivamente a cumplimentar en el último periodo exonerados de la Declaración-re
-            Linea = Linea & "X"
-        
+            Linea = Linea & " "  'ponia una X
             
             'Este RS estara abierto en el IF de abjo
             Aux = "select opcion,sum(importe1) base from tmptesoreriacomun where codusu =2000 group by opcion order by opcion"
+            
+            Aux = "select opcion,sum(importe1-coalesce(importe2,0)) base from tmptesoreriacomun where codusu =2000 group by opcion order by opcion"
             miRsAux.Open Aux, Conn, adOpenKeyset, adLockOptimistic, adCmdText
             SumatotalOperacionesPresntacionUltimoTrimestre = 0
             
@@ -344,35 +352,73 @@ On Error GoTo Salida '
                 miRsAux.MoveFirst
             End If
             
-            ' Operaciones en régimen general [80]
-            AñadeImporteClaveUltimoPerido303 1
             
-            ' Operaciones en régimen especial del criterio de caja conform
-            Linea = Linea & String(17, "0")
             
-            'Entregas intracomunitarias exentas [93]
-            AñadeImporteClaveUltimoPerido303 14
             
-            'Operaciones exentas sin derecho a deducción [83]
-            AñadeImporteClaveUltimoPerido303 16
-                
-            'Operaciones no sujetas por reglas de localización o con inversión del sujeto pasivo [84]
-            AñadeImporteClaveUltimoPerido303 61
+            K = 0
+            If K = 1 Then
                         
-            'Entregas de bienes objeto de instalación o montaje en otros Estados miembros [85]
-            Linea = Linea & String(17, "0")
-            
-            'Operaciones en régimen simplificado [86]
-            Linea = Linea & String(17, "0")
-            
-            ' Entregas de bienes inmuebles no habituales, operaciones financieras y relativas al oro de inversión no habituales [79]
-            Linea = Linea & String(17, "0")
-            
-            
-            'Total volumen de operaciones ([80]+[81]+[93]+[94]+[83]+[84]+[85]+[86]+[95]+[96]+[97]+[98]-[79]-[99]) [88]
-            Aux = DatosNumeroDec(SumatotalOperacionesPresntacionUltimoTrimestre, 17)
-            Linea = Linea & Aux
-            
+                        ' Operaciones en régimen general [80]
+                        AñadeImporteClaveUltimoPerido303 1
+                        
+                        ' Operaciones en régimen especial del criterio de caja conform
+                        Linea = Linea & String(17, "0")
+                        
+                        'Entregas intracomunitarias exentas [93]
+                        AñadeImporteClaveUltimoPerido303 14
+                        
+                        'Operaciones exentas sin derecho a deducción [83]
+                        AñadeImporteClaveUltimoPerido303 16
+                            
+                        'Operaciones no sujetas por reglas de localización o con inversión del sujeto pasivo [84]
+                        AñadeImporteClaveUltimoPerido303 61
+                                    
+                        'Entregas de bienes objeto de instalación o montaje en otros Estados miembros [85]
+                        Linea = Linea & String(17, "0")
+                        
+                        'Operaciones en régimen simplificado [86]
+                        Linea = Linea & String(17, "0")
+                        
+                        ' Entregas de bienes inmuebles no habituales, operaciones financieras y relativas al oro de inversión no habituales [79]
+                        Linea = Linea & String(17, "0")
+                        
+                        
+                        'Total volumen de operaciones ([80]+[81]+[93]+[94]+[83]+[84]+[85]+[86]+[95]+[96]+[97]+[98]-[79]-[99]) [88]
+                        Aux = DatosNumeroDec(SumatotalOperacionesPresntacionUltimoTrimestre, 17)
+                        Linea = Linea & Aux
+                Else
+                        ' Operaciones en régimen general [80]
+                        Importe = 0
+                        Linea = Linea & DatosNumeroDec(Importe, 17)
+                        
+                        ' Operaciones en régimen especial del criterio de caja conform
+                        Linea = Linea & DatosNumeroDec(Importe, 17)
+                        
+                        'Entregas intracomunitarias exentas [93]
+                        Linea = Linea & DatosNumeroDec(Importe, 17)
+                        
+                        'Operaciones exentas sin derecho a deducción [83]
+                        Linea = Linea & DatosNumeroDec(Importe, 17)
+                            
+                        'Operaciones no sujetas por reglas de localización o con inversión del sujeto pasivo [84]
+                        Linea = Linea & DatosNumeroDec(Importe, 17)
+                                    
+                        'Entregas de bienes objeto de instalación o montaje en otros Estados miembros [85]
+                        Linea = Linea & DatosNumeroDec(Importe, 17)
+                        
+                        'Operaciones en régimen simplificado [86]
+                        Linea = Linea & DatosNumeroDec(Importe, 17)
+                        
+                        ' Entregas de bienes inmuebles no habituales, operaciones financieras y relativas al oro de inversión no habituales [79]
+                        Linea = Linea & DatosNumeroDec(Importe, 17)
+                        
+                        
+                        'Total volumen de operaciones ([80]+[81]+[93]+[94]+[83]+[84]+[85]+[86]+[95]+[96]+[97]+[98]-[79]-[99]) [88]
+                        Linea = Linea & DatosNumeroDec(Importe, 17)
+                        
+                
+                
+                End If
             
         Else
             'Informacion aadicional unicamente a cumplimentar en el utlimo trimestre
@@ -406,8 +452,11 @@ On Error GoTo Salida '
             'Campos del 54-59  Información adicional - Exclusivamente a cumplimentar en el último period....
             
             ' Exportaciones y otras operaciones exentas con derecho a deducción [94]
-            AñadeImporteClaveUltimoPerido303 16
-            
+            If Exonerados390 Then
+                AñadeImporteClaveUltimoPerido303 16
+            Else
+                Linea = Linea & String(17, "0")
+            End If
             ' Operaciones en régimen especial de la agricultura, ganadería y pesca [95]
             Linea = Linea & String(17, "0")
         

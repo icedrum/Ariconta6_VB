@@ -1018,10 +1018,10 @@ Dim TipoDIva As Byte
             ColumnaIVA = "cuentaso"   'La normal
         End If
         
-        Cad3 = "cuentasr"
+        Cad3 = "cuentaso"
         'Cad2 = DevuelveDesdeBD(ColumnaIVA, "tiposiva", "codigiva", RsIvas!codigiva, "N", Cad3)
         SQL = "tipodiva"   '4:Suplido
-        Cad2 = DevuelveDesdeBD3("cuentare", "tiposiva", "codigiva", DBLet(RsIvas!codigiva, "N"), "N", Cad3, SQL)
+        Cad2 = DevuelveDesdeBD3(ColumnaIVA, "tiposiva", "codigiva", DBLet(RsIvas!codigiva, "N"), "N", Cad3, SQL)
         TipoDeIva_ = Val(SQL)
         SQL = ""
         

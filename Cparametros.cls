@@ -174,6 +174,7 @@ Private mvarExcluirBasesIvaCeroRecibidas303 As Boolean
 
 
 Private mvarComprobarAsientosIncio As Boolean
+Private mvarcaptionFraProFecRegis As String
 
 
 '------------------------------------------------
@@ -1097,7 +1098,9 @@ Public Property Get ExcluirBasesIvaCeroRecibidas303() As Boolean
      ExcluirBasesIvaCeroRecibidas303 = mvarExcluirBasesIvaCeroRecibidas303
 End Property
 
-
+Public Property Get captionFraProFecRegis() As String
+     captionFraProFecRegis = mvarcaptionFraProFecRegis
+End Property
 
 
 '------------------------------------------------
@@ -1317,6 +1320,13 @@ Dim Nuevos As String
                         
             mvarExcluirBasesIvaCeroRecibidas303 = DBLet(Rs!ExcluirBasesIvaCeroRecibidas303, "N") = 1
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Excluir en 303 bases cero Fra recibidas "
+            
+            
+            
+            mvarcaptionFraProFecRegis = DBLet(Rs!captionFraProFecRegis, "T")
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Caption factura proveedor fecha registro"
+            
+            If mvarcaptionFraProFecRegis = "" Then mvarcaptionFraProFecRegis = "F. registro"
             
             
         If Err.Number <> 0 Then Err.Clear

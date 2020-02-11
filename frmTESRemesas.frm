@@ -1929,8 +1929,13 @@ Dim RC As Byte
             End If
         Next i
         If SQL <> "" Then
-            MsgBox "Vencimientos con datos incorrectos." & vbCrLf & SQL, vbExclamation
-            Exit Function
+        
+            If vUsu.Nivel = 0 Then
+                If MsgBox("Vencimientos con datos incorrectos." & vbCrLf & SQL, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Function
+            Else
+                MsgBox "Vencimientos con datos incorrectos." & vbCrLf & SQL, vbExclamation
+                Exit Function
+            End If
         End If
         
         'mayo 2015
@@ -2904,7 +2909,7 @@ Dim SqlLog As String
     If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     
     
-    SQL = "El proceso es irreversible"
+    SQL = "El proceso es irreversible. Se borrarán los vencimientos tambien"
     SQL = SQL & vbCrLf & "Indique contraseña de seguridad"
     
     If UCase(InputBox(SQL, "Password", "")) <> "ARIADNA" Then Exit Sub
@@ -3339,18 +3344,21 @@ Dim cad As String
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N")
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N")
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 2)
-        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2)
         
         Toolbar1.Buttons(5).Enabled = False 'DBLet(RS!Ver, "N") And (Modo = 0 Or Modo = 2) And DesdeNorma43 = 0
         Toolbar1.Buttons(6).Enabled = False 'DBLet(Rs!Ver, "N")
         
         Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N")
     
-        Toolbar2.Buttons(1).Enabled = DBLet(Rs!especial, "N") And Not (lw1.SelectedItem Is Nothing)
-        Toolbar2.Buttons(2).Enabled = DBLet(Rs!especial, "N") And Not (lw1.SelectedItem Is Nothing)
-        Toolbar2.Buttons(3).Enabled = DBLet(Rs!especial, "N") 'And Not (lw1.SelectedItem Is Nothing)
+        Toolbar2.Buttons(1).Enabled = DBLet(Rs!Especial, "N") And Not (lw1.SelectedItem Is Nothing)
+        Toolbar2.Buttons(2).Enabled = DBLet(Rs!Especial, "N") And Not (lw1.SelectedItem Is Nothing)
+        Toolbar2.Buttons(3).Enabled = DBLet(Rs!Especial, "N") 'And Not (lw1.SelectedItem Is Nothing)
+        
+        
+        Toolbar2.Buttons(4).Enabled = vUsu.Nivel = 0
     End If
     
     Rs.Close

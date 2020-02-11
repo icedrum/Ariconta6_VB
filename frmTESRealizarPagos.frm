@@ -1008,19 +1008,19 @@ Dim Aux As String
     
     
     'Fecha dentro de ejercicios
+    cad = ""
     If CDate(Text3(0).Text) < vParam.fechaini Then
-        MsgBox "Fuera de ejercios.", vbExclamation
-        Exit Sub
+       cad = "Fuera de ejercios."
     Else
         Fecha = DateAdd("yyyy", 1, vParam.fechafin)
-        If CDate(Text3(0).Text) > Fecha Then
-            If MsgBox("Fecha de ejercicio aun no abierto. ¿Desea continuar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
-        End If
-            
+        If CDate(Text3(0).Text) > Fecha Then cad = "Fecha de ejercicio aun no abierto. "
     End If
     
-    
-    
+    If cad <> "" Then
+         MsgBox cad, vbExclamation
+         PonFoco Text3(0)
+        Exit Sub
+    End If
     
 
     If Combo1.ItemData(Combo1.ListIndex) = 3 Then
@@ -3758,7 +3758,7 @@ Dim SqlBanco As String
     For i = 1 To ListView1.ListItems.Count
         With ListView1.ListItems(i)
             If .Checked Then
-                If .Tag = Cta Then
+                    If .Tag = Cta Then
                     Importe = ImporteFormateado(.SubItems(9))
                     impo = impo + Importe
                     
@@ -3843,14 +3843,14 @@ Dim SqlBanco As String
                 Aux = RecuperaValor(CStr(ColVtosQuePago.Item(i)), 1)
                 Aux = Mid(Aux, 3)
             End If
-            Aux = Mid(Aux & Space(10), 1, 10) & " "
+            Aux = Mid(Aux & Space(20), 1, 20) & " "
             
         Else
             Aux = RecuperaValor(CStr(ColVtosQuePago.Item(i)), 1)
             Aux = Mid(Aux, 3)
-            Aux = Mid(Aux & Space(10), 1, 10) & " "
+            Aux = Mid(Aux & Space(20), 1, 20) & " "
         End If
-        If QuitarFechaVto_ = 1 Then Aux = "   " & Aux
+        'Feb2020. No quito el espacio If QuitarFechaVto_ = 1 Then Aux = "   " & Aux
         
         'Separo la fecha para algunos
         If QuitarFechaVto_ = 2 Then Aux = Aux & "    "
@@ -3863,7 +3863,7 @@ Dim SqlBanco As String
             Aux = Aux & Right(Space(13) & RecuperaValor(CStr(ColVtosQuePago.Item(i)), 4), 13) & " "
         Else
         '    'Solo reservo pocos espacios, muy justos
-            Aux = Aux & Right(Space(19) & RecuperaValor(CStr(ColVtosQuePago.Item(i)), 4), 19) & " "
+            Aux = Aux & Right(Space(14) & RecuperaValor(CStr(ColVtosQuePago.Item(i)), 4), 14) & " "
         End If
        
        

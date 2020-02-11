@@ -4129,7 +4129,10 @@ Dim Tipo As Integer
         If Text1(27).Text = "" Then
             impo = ImporteFormateado(Text1(6).Text)
             impo = impo - ImporteFormateado(Text1(8).Text)
-            If impo = 0 Then Combo1.ListIndex = 1
+            If impo = 0 Then
+                Combo1.ListIndex = 1
+                Text2(3).Text = Combo1.Text
+            End If
         End If
     End If
     

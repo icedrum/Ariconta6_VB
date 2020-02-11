@@ -1151,7 +1151,7 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
     
         CuentasAgrupadas = ""
     
-        SQL = "select codmacta,departamento,count(*) from cobros where "
+        SQL = "select codmacta,departamento,iban,count(*) from cobros where "
         SQL = SQL & " codrem = " & RecuperaValor(Remesa_, 1)
         SQL = SQL & " AND anyorem=" & RecuperaValor(Remesa_, 2)
         SQL = SQL & " group by codmacta,departamento having count(*) >1"
@@ -1160,11 +1160,12 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
             
             CuentasAgrupadas = CuentasAgrupadas & ", ('" & miRsAux!codmacta & "',"
             If IsNull(miRsAux!departamento) Then
-                CuentasAgrupadas = CuentasAgrupadas & "-1)"
+                CuentasAgrupadas = CuentasAgrupadas & "-1"
             Else
-                CuentasAgrupadas = CuentasAgrupadas & miRsAux!departamento & ")"
+                CuentasAgrupadas = CuentasAgrupadas & miRsAux!departamento & ""
+                
             End If
-            
+            CuentasAgrupadas = CuentasAgrupadas & ",'" & miRsAux!IBAN & "')"
             miRsAux.MoveNext
             
         Wend
@@ -1217,7 +1218,7 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
         If AgruparVtos Then
             SQL = SQL & " AND "
             If rp = 1 Then SQL = SQL & " NOT "
-            SQL = SQL & " (cobros.codmacta,coalesce(departamento,-1)) IN (" & CuentasAgrupadas & ")"
+            SQL = SQL & " (cobros.codmacta,coalesce(departamento,-1),iban) IN (" & CuentasAgrupadas & ")"
             
         End If
             

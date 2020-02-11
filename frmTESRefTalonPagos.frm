@@ -162,7 +162,7 @@ Begin VB.Form frmTESRefTalonPagos
       Height          =   285
       Index           =   2
       Left            =   1590
-      MaxLength       =   10
+      MaxLength       =   20
       TabIndex        =   1
       Tag             =   "Factura|T|N|||tmppagos2|numfactu||S|"
       Top             =   4440
@@ -693,7 +693,7 @@ Private Sub cmdCancelar_Click()
 End Sub
 
 Private Sub cmdRegresar_Click()
-Dim Cad As String
+Dim cad As String
 Dim i As Integer
 Dim J As Integer
 Dim Aux As String
@@ -702,7 +702,7 @@ Dim Aux As String
         MsgBox "Ningún registro devuelto.", vbExclamation
         Exit Sub
     End If
-    Cad = ""
+    cad = ""
     i = 0
     Do
         J = i + 1
@@ -710,15 +710,15 @@ Dim Aux As String
         If i > 0 Then
             Aux = Mid(DatosADevolverBusqueda, J, i - J)
             J = Val(Aux)
-            Cad = Cad & Adodc1.Recordset.Fields(J) & "|"
+            cad = cad & Adodc1.Recordset.Fields(J) & "|"
         End If
     Loop Until i = 0
-    RaiseEvent DatoSeleccionado(Cad)
+    RaiseEvent DatoSeleccionado(cad)
     Unload Me
 End Sub
 
 Private Sub DataGrid1_HeadClick(ByVal ColIndex As Integer)
-Dim Cad As String
+Dim cad As String
 
 If Adodc1.Recordset Is Nothing Then Exit Sub
 If Adodc1.Recordset.EOF Then Exit Sub

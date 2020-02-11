@@ -1313,7 +1313,13 @@ Dim ImporteCtaCliente As Currency
        Ampliacion = Ampliacion & RecuperaValor(Vto, 3)  'Fecha vto
     ElseIf Conce = 4 Then
         'Contra partida
-        Ampliacion = DevNombreSQL(txtDescCta(1).Text)
+        Ampliacion = DevNombreSQL(Text1(2).Text)
+    ElseIf Conce = 6 Then
+        'Cuenta
+        MiVariableAuxiliar = RecuperaValor(Vto, 1) & Format(RecuperaValor(Vto, 2), "0000000")
+        
+        Ampliacion = Mid(RecuperaValor(Cta, 2), 1, 39 - Len(MiVariableAuxiliar))
+        Ampliacion = Ampliacion & " " & MiVariableAuxiliar
     Else
         
        If Conce = 1 Then Ampliacion = Ampliacion & FP.siglas & " "
@@ -1325,10 +1331,15 @@ Dim ImporteCtaCliente As Currency
     End If
     
     'Fijo en concepto el codconce
-    Conce = ElConcepto
-    cad = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(Conce), "N")
-    Ampliacion = cad & " " & Ampliacion
-    Ampliacion = Mid(Ampliacion, 1, 35)
+    If Conce <> 6 Then
+        Conce = ElConcepto
+        cad = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(Conce), "N")
+    Else
+        cad = ""
+        Conce = ElConcepto
+    End If
+    Ampliacion = Trim(cad & " " & Ampliacion)
+    Ampliacion = Mid(Ampliacion, 1, 45)
     
     
     
@@ -1438,7 +1449,16 @@ Dim ImporteCtaCliente As Currency
     ElseIf Conce = 4 Then
         'Contra partida
         Ampliacion = DevNombreSQL(Text1(2).Text)
+    ElseIf Conce = 6 Then
+    
+        'Cuenta
+        MiVariableAuxiliar = RecuperaValor(Vto, 1) & Format(RecuperaValor(Vto, 2), "0000000")
+        
+        Ampliacion = Mid(RecuperaValor(Cta, 2), 1, 39 - Len(MiVariableAuxiliar))
+        Ampliacion = Ampliacion & " " & MiVariableAuxiliar
+    
     Else
+    
         If Conce = 1 Then Ampliacion = Ampliacion & FP.siglas & " "
         If Cobro Then
              Ampliacion = Ampliacion & RecuperaValor(Vto, 1) & Format(RecuperaValor(Vto, 2), "0000000") ' "/" & Mid(RecuperaValor(Vto, 2), 1, 9)
@@ -1447,11 +1467,15 @@ Dim ImporteCtaCliente As Currency
         End If
     End If
     
-    
-    Conce = ElConcepto
-    cad = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(Conce), "N")
-    Ampliacion = cad & " " & Ampliacion
-    Ampliacion = Mid(Ampliacion, 1, 35)
+    If Conce <> 6 Then
+        Conce = ElConcepto
+        cad = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(Conce), "N")
+    Else
+        cad = ""
+        Conce = ElConcepto
+    End If
+    Ampliacion = Trim(cad & " " & Ampliacion)
+    Ampliacion = Mid(Ampliacion, 1, 45)
     
     
     GastosBanco = 0
@@ -1738,7 +1762,9 @@ Private Sub txtCta_LostFocus(Index As Integer)
         txtCta(Index).Text = cad
         txtDescCta(Index).Text = CadenaDesdeOtroForm
         If cad = "" And impo <> 0 Then
+            PonleFoco txtCta(Index)
             PonFoco txtCta(Index)
+            
         End If
         CadenaDesdeOtroForm = ""
 End Sub

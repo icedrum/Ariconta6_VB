@@ -1320,14 +1320,14 @@ End Sub
 ' Buscamos por el codigo, que estara en un text u  otro
 ' Normalmente el text(0)
 Private Function SituarData1() As Boolean
-    Dim Sql As String
+    Dim SQL As String
     On Error GoTo ESituarData1
             'Actualizamos el recordset
             Data1.Refresh
             '#### A mano.
             'El sql para que se situe en el registro en especial es el siguiente
-            Sql = " tipoformapago = " & Text1(0).Text & ""
-            Data1.Recordset.Find Sql
+            SQL = " tipoformapago = " & Text1(0).Text & ""
+            Data1.Recordset.Find SQL
             If Data1.Recordset.EOF Then GoTo ESituarData1
             SituarData1 = True
         Exit Function
@@ -1551,7 +1551,7 @@ Dim i As Integer
 
 
     LimpiarCampos
-
+    CargaCombo
     
     '## A mano
     NombreTabla = "tipofpago "
@@ -1582,10 +1582,10 @@ End Sub
 
 Private Sub LimpiarCampos()
     Limpiar Me   'Metodo general
-    check1(0).Value = 0
-    check1(1).Value = 0
-    check1(2).Value = 0
-    check1(3).Value = 0
+    Check1(0).Value = 0
+    Check1(1).Value = 0
+    Check1(2).Value = 0
+    Check1(3).Value = 0
     
     For i = 0 To Combo2.Count - 1
         Combo2(i).ListIndex = -1
@@ -1744,7 +1744,7 @@ End Sub
 '----------------------------------------------------------------
 '----------------------------------------------------------------
 Private Sub Text1_LostFocus(Index As Integer)
-    Dim Sql As String
+    Dim SQL As String
     
     If Not PerderFocoGnral(Text1(Index), Modo) Then Exit Sub
     
@@ -1759,7 +1759,7 @@ Private Sub Text1_LostFocus(Index As Integer)
                     Text2(Index).Text = ""
                     Exit Sub
                 End If
-                Sql = ""
+                SQL = ""
                 If Not IsNumeric(Text1(Index).Text) Then
                     MsgBox "Tipo de diario no es numérico: " & Text1(Index).Text, vbExclamation
                     Text1(Index).Text = ""
@@ -1767,17 +1767,17 @@ Private Sub Text1_LostFocus(Index As Integer)
                     PonerFoco Text1(Index)
                     Exit Sub
                 Else
-                    Sql = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", Text1(Index).Text, "N")
+                    SQL = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", Text1(Index).Text, "N")
                 End If
-                If Sql = "" Then
-                    Sql = "Diario no encontrado: " & Text1(Index).Text
+                If SQL = "" Then
+                    SQL = "Diario no encontrado: " & Text1(Index).Text
                     Text1(Index).Text = ""
-                    MsgBox Sql, vbExclamation
-                    Sql = ""
+                    MsgBox SQL, vbExclamation
+                    SQL = ""
                     PonerFoco Text1(Index)
                 End If
                 'Poneos el texto
-                Text2(Index).Text = Sql
+                Text2(Index).Text = SQL
             End If
         Case 3, 4, 11, 8
              If Modo = 3 Or Modo = 4 Then
@@ -1795,16 +1795,16 @@ Private Sub Text1_LostFocus(Index As Integer)
                     PonerFoco Text1(Index)
                     Exit Sub
                 Else
-                    Sql = DevuelveDesdeBD("nomconce", "conceptos", "codConce", Text1(Index).Text, "N")
+                    SQL = DevuelveDesdeBD("nomconce", "conceptos", "codConce", Text1(Index).Text, "N")
                 End If
-                If Sql = "" Then
-                    Sql = "Concepto no encontrado: " & Text1(Index).Text
+                If SQL = "" Then
+                    SQL = "Concepto no encontrado: " & Text1(Index).Text
                     Text1(Index).Text = ""
-                    MsgBox Sql, vbExclamation
+                    MsgBox SQL, vbExclamation
                     PonerFoco Text1(Index)
-                    Sql = ""
+                    SQL = ""
                 End If
-                Text2(Index).Text = Sql
+                Text2(Index).Text = SQL
             End If
         Case 5, 6, 7, 9
     End Select
@@ -1869,7 +1869,7 @@ End Sub
 Private Sub PonerCampos()
     Dim i As Integer
     Dim mTag As CTag
-    Dim Sql As String
+    Dim SQL As String
     If Data1.Recordset.EOF Then Exit Sub
     PonerCamposForma Me, Data1
     PonerCtasIVA
@@ -1903,17 +1903,17 @@ Private Sub PonerModo(Kmodo As Integer)
     DespalzamientoVisible B And Me.Data1.Recordset.RecordCount > 1
     'Ponemos visible, si es formulario de busqueda, el boton regresar cuando hay datos
     If DatosADevolverBusqueda <> "" Then
-        cmdRegresar.Visible = B
+        cmdRegresar.visible = B
     Else
-        cmdRegresar.Visible = False
+        cmdRegresar.visible = False
     End If
     
     'Modo insertar o modificar
     B = (Kmodo >= 3) '-->Luego not b sera kmodo<3
-    cmdAceptar.Visible = B Or Modo = 1
-    cmdCancelar.Visible = B Or Modo = 1
+    cmdAceptar.visible = B Or Modo = 1
+    cmdCancelar.visible = B Or Modo = 1
     mnOpciones.Enabled = Not B
-    If cmdCancelar.Visible Then
+    If cmdCancelar.visible Then
         cmdCancelar.Cancel = True
         Else
         cmdCancelar.Cancel = False
@@ -2035,13 +2035,13 @@ End Function
 'El SQL es propio de cada tabla
 Private Sub SugerirCodigoSiguiente()
 
-    Dim Sql As String
+    Dim SQL As String
     Dim Rs As ADODB.Recordset
 
-    Sql = "Select Max(tipoformapago) from " & NombreTabla
+    SQL = "Select Max(tipoformapago) from " & NombreTabla
     Text1(0).Text = 1
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, , , adCmdText
+    Rs.Open SQL, Conn, , , adCmdText
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then
             Text1(0).Text = Rs.Fields(0) + 1
@@ -2072,13 +2072,13 @@ End Sub
 
 
 Private Sub DespalzamientoVisible(bol As Boolean)
-    FrameDesplazamiento.Visible = bol
+    FrameDesplazamiento.visible = bol
     FrameDesplazamiento.Enabled = bol
 End Sub
 
 
 Private Sub PonerCtasIVA()
-Dim Sql As String
+Dim SQL As String
 Dim i As Integer
 On Error GoTo EPonerCtasIVA
 
@@ -2171,4 +2171,29 @@ End Sub
 
 Private Sub ToolbarDes_ButtonClick(ByVal Button As MSComctlLib.Button)
     Desplazamiento (Button.Index)
+End Sub
+
+
+
+
+Private Sub CargaCombo()
+
+'0 Serie / Factura
+'1 Tipo forma pago + Serie /Factura
+'2 Fecha vencimiento
+'3 Descripcion REM/TRANS
+'4 Cta Contrapartida
+'5 Documento -Contrapartida
+'6 Nommacta (cobro)
+    
+    DevfrmCCtas = "Serie / Factura|Tipo forma pago + Serie /Factura|Fecha vencimiento|"
+    DevfrmCCtas = DevfrmCCtas & "Descripcion REM/TRANS|Cta Contrapartida|"
+    DevfrmCCtas = DevfrmCCtas & "Documento -Contrapartida|Nombre cta(cobro)|"
+    For kCampo = 0 To 1
+        Combo2(kCampo).Clear
+        For IndCodigo = 0 To 6
+            Combo2(kCampo).AddItem RecuperaValor(DevfrmCCtas, IndCodigo + 1)
+            Combo2(kCampo).ItemData(Combo2(kCampo).NewIndex) = IndCodigo
+        Next IndCodigo
+    Next kCampo
 End Sub

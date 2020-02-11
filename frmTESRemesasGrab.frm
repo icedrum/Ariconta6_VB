@@ -1303,6 +1303,9 @@ Private Function ComprobacionesAgrupaFichero() As Integer
 Dim C As String
 Dim C2 As String
 
+
+
+
     On Error GoTo eComrpobacionesAgrupacionFichero
     Set miRsAux = New ADODB.Recordset
     ComprobacionesAgrupaFichero = -1
@@ -1316,14 +1319,14 @@ Dim C2 As String
     
     
     'SQL = "select codmacta,count(*) from cobros where codrem = " & Me.Text3(0).Text & " AND anyorem=" & Text3(1).Text & " group by codmacta having count(*) >1"
-    SQL = "select codmacta,departamento,count(*) from cobros where codrem = " & Me.Text3(0).Text & " AND anyorem=" & Text3(1).Text & " group by codmacta,departamento having count(*) >1"
+    SQL = "select codmacta,departamento,coalesce(iban,'ES_ERROR') elIBAN,count(*) from cobros where codrem = " & Me.Text3(0).Text & " AND anyorem=" & Text3(1).Text & " group by codmacta,departamento,eliban having count(*) >1"
     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Msg = ""
     CuentasCC = ""
     i = 0
     While Not miRsAux.EOF
         i = i + 1
-        Msg = Msg & miRsAux!codmacta & "·" & DBLet(miRsAux!departamento, "T") & "|"
+        Msg = Msg & miRsAux!codmacta & "·" & DBLet(miRsAux!departamento, "T") & "·" & miRsAux!eliban & "|"
         miRsAux.MoveNext
         
     Wend

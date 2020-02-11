@@ -128,7 +128,7 @@ Begin VB.Form frmSII_Avisos
          Height          =   360
          ItemData        =   "frmSII_Avisos.frx":0A0A
          Left            =   120
-         List            =   "frmSII_Avisos.frx":0A14
+         List            =   "frmSII_Avisos.frx":0A11
          Style           =   2  'Dropdown List
          TabIndex        =   0
          Top             =   480
@@ -137,7 +137,7 @@ Begin VB.Form frmSII_Avisos
       Begin VB.CommandButton cmdComunicar 
          Height          =   495
          Left            =   9240
-         Picture         =   "frmSII_Avisos.frx":0A31
+         Picture         =   "frmSII_Avisos.frx":0A21
          Style           =   1  'Graphical
          TabIndex        =   6
          ToolTipText     =   "Comunicar facturas"
@@ -147,7 +147,7 @@ Begin VB.Form frmSII_Avisos
       Begin VB.CommandButton cmdModificar 
          Height          =   495
          Left            =   10440
-         Picture         =   "frmSII_Avisos.frx":1433
+         Picture         =   "frmSII_Avisos.frx":1423
          Style           =   1  'Graphical
          TabIndex        =   5
          Top             =   240
@@ -208,7 +208,7 @@ Begin VB.Form frmSII_Avisos
          Height          =   240
          Index           =   0
          Left            =   7680
-         Picture         =   "frmSII_Avisos.frx":1E35
+         Picture         =   "frmSII_Avisos.frx":1E25
          Top             =   240
          Width           =   240
       End
@@ -233,7 +233,7 @@ Begin VB.Form frmSII_Avisos
       Begin VB.Image Image1 
          Height          =   540
          Left            =   14280
-         Picture         =   "frmSII_Avisos.frx":1EC0
+         Picture         =   "frmSII_Avisos.frx":1EB0
          Stretch         =   -1  'True
          Top             =   240
          Width           =   540
@@ -241,7 +241,7 @@ Begin VB.Form frmSII_Avisos
       Begin VB.Image Image2 
          Height          =   570
          Left            =   13560
-         Picture         =   "frmSII_Avisos.frx":2A19
+         Picture         =   "frmSII_Avisos.frx":2A09
          Stretch         =   -1  'True
          Top             =   240
          Width           =   615
@@ -250,7 +250,7 @@ Begin VB.Form frmSII_Avisos
          Height          =   240
          Index           =   1
          Left            =   8400
-         Picture         =   "frmSII_Avisos.frx":3604
+         Picture         =   "frmSII_Avisos.frx":35F4
          ToolTipText     =   "Seleccionar todo"
          Top             =   480
          Width           =   240
@@ -259,7 +259,7 @@ Begin VB.Form frmSII_Avisos
          Height          =   240
          Index           =   0
          Left            =   8760
-         Picture         =   "frmSII_Avisos.frx":374E
+         Picture         =   "frmSII_Avisos.frx":373E
          ToolTipText     =   "Quitar seleccion"
          Top             =   480
          Width           =   240
@@ -746,8 +746,9 @@ Public Sub CreateReportControlPendientes()
     
     
     If Me.cboTipo.ListIndex = 1 Then
+        'Set Column = wndReportControl.Columns.Add(2, IIf(vParam.SII_Periodo_DesdeLiq, "F.Liq.", "F.Recep"), 13, True)
         
-        Set Column = wndReportControl.Columns.Add(2, IIf(vParam.SII_Periodo_DesdeLiq, "F.Liq.", "F.Recep"), 13, True)
+        Set Column = wndReportControl.Columns.Add(2, IIf(vParam.SII_Periodo_DesdeLiq, "F.Liq.", "F.Registro"), 13, True)
         Set Column = wndReportControl.Columns.Add(3, "NºFactura", 15, True)
         Set Column = wndReportControl.Columns.Add(4, "F. Factura", 13, True)
         Set Column = wndReportControl.Columns.Add(5, "Proveedor", 10, True)
@@ -912,14 +913,18 @@ Dim Aux As String
         'RECIBIDAS
         SQL = " select factpro.numserie,factpro.numfactu, factpro.fecfactu,factpro.codmacta,factpro.nommacta"
         SQL = SQL & " ,codopera, factpro.codconce340,factpro.totfacpr"
-        SQL = SQL & " ,numregis,anofactu,fecharec,SII_ID,nifdatos ,resultado,csv,enviada,fecliqpr "
+        SQL = SQL & " ,numregis,anofactu,fecharec,SII_ID,nifdatos ,resultado,csv,enviada,fecliqpr,fecregcontable "
         SQL = SQL & " from factpro left join aswsii.envio_facturas_recibidas "
         SQL = SQL & " on factpro.SII_ID = envio_facturas_recibidas.IDEnvioFacturasRecibidas"
        
         
         
-        Aux = "fecharec"
+        'Enero 2020
+        'añadimos fechar geistro contable, que será la que sube al SII
+        'Aux = "fecharec"
+        Aux = "date(fecregcontable)"
         If vParam.SII_Periodo_DesdeLiq Then Aux = "fecliqpr"
+        
     End If
     SQL = SQL & " WHERE " & Aux & " >=" & DBSet(vParam.SIIFechaInicio, "F")
     SQL = SQL & " AND " & Aux & " <= " & DBSet(Now, "F")
@@ -1232,8 +1237,8 @@ Dim Color As Long
         Set Item = Record.AddItem(Format(miRsAux!fecliqpr, "yyyymmdd"))
         Item.Caption = Format(miRsAux!fecliqpr, "dd/mm/yyyy")
     Else
-        Set Item = Record.AddItem(Format(miRsAux!fecharec, "yyyymmdd"))
-        Item.Caption = Format(miRsAux!fecharec, "dd/mm/yyyy")
+        Set Item = Record.AddItem(Format(miRsAux!fecregcontable, "yyyymmdd"))
+        Item.Caption = Format(miRsAux!fecregcontable, "dd/mm/yyyy")
     End If
     
     If miRsAux!NUmSerie = "1" Then
@@ -1299,10 +1304,17 @@ Dim Color As Long
                 If miRsAux!fecliqpr = FechaRoja Then Color = vbBlue
             End If
         Else
-            If miRsAux!fecharec < FechaRoja Then
+            'Enero 2020
+            'If miRsAux!fecharec < FechaRoja Then
+            '    Color = vbRed
+            'Else
+            '    If miRsAux!fecharec = FechaRoja Then Color = vbBlue
+            'End If
+        
+            If CDate(miRsAux!fecregcontable) < FechaRoja Then
                 Color = vbRed
             Else
-                If miRsAux!fecharec = FechaRoja Then Color = vbBlue
+                If CDate(miRsAux!fecregcontable) = FechaRoja Then Color = vbBlue
             End If
         End If
     End If
