@@ -1,12 +1,16 @@
 Attribute VB_Name = "ModBasico"
 Option Explicit
 
+'
+'
+'   ******  Cuidado  con los nombres de los objetos. Con las mayusculas minusculas
+'
 Public Sub arregla(ByRef tots As String, ByRef grid As DataGrid, ByRef formu As Form)
     'Dim tots As String
     Dim camp As String
     Dim Mens As String
     Dim difer As Integer
-    Dim i As Integer
+    Dim I As Integer
     Dim K As Integer
     Dim posi As Integer
     Dim posi2 As Integer
@@ -306,9 +310,9 @@ Public Sub arregla(ByRef tots As String, ByRef grid As DataGrid, ByRef formu As 
     Wend
 
     'No permitir canviar tamany de columnes
-    For i = 0 To grid.Columns.Count - 1
-         grid.Columns(i).AllowSizing = False
-    Next i
+    For I = 0 To grid.Columns.Count - 1
+         grid.Columns(I).AllowSizing = False
+    Next I
 
 '    If grid.Width - TotalAncho <> difer Then
 '        mens = "Es recomana que el total d'amples de les columnes per a este DataGrid siga de "
@@ -534,14 +538,14 @@ Public Function ContieneCaracterBusqueda(CADENA As String) As Boolean
 ' >,>,>=,: , ....
 'si encuentra algun caracter de busqueda devuelve TRUE y sale
 Dim B As Boolean
-Dim i As Integer
+Dim I As Integer
 Dim Ch As String
 
     'For i = 1 To Len(cadena)
-    i = 1
+    I = 1
     B = False
     Do
-        Ch = Mid(CADENA, i, 1)
+        Ch = Mid(CADENA, I, 1)
         Select Case Ch
             Case "<", ">", ":", "="
                 B = True
@@ -551,8 +555,8 @@ Dim Ch As String
                 B = False
         End Select
     'Next i
-        i = i + 1
-    Loop Until (B = True) Or (i > Len(CADENA))
+        I = I + 1
+    Loop Until (B = True) Or (I > Len(CADENA))
     ContieneCaracterBusqueda = B
 End Function
 

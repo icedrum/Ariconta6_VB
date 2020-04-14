@@ -176,6 +176,17 @@ Private mvarExcluirBasesIvaCeroRecibidas303 As Boolean
 Private mvarComprobarAsientosIncio As Boolean
 Private mvarcaptionFraProFecRegis As String
 
+Private mvarSII_ProvDesdeFechaRecepcion As Boolean
+    '  Siempre que no tengan marcado el parametro de mvarSII_Periodo_DesdeLiq
+    'TRUE:  Como lo hacia antes de poner la fecha de registro contable, trata la fecha de rececpion
+    'FALSE:  Como ahora. Va desde fecha registro contable
+    
+    
+    
+Private mvarinscritoDeclarDUA As Boolean
+    
+    
+
 
 '------------------------------------------------
 'Propiedades del modulo Cparametros
@@ -1103,6 +1114,16 @@ Public Property Get captionFraProFecRegis() As String
 End Property
 
 
+Public Property Get SII_ProvDesdeFechaRecepcion() As Boolean
+     SII_ProvDesdeFechaRecepcion = mvarSII_ProvDesdeFechaRecepcion
+End Property
+
+Public Property Get InscritoDeclarDUA() As Boolean
+     InscritoDeclarDUA = mvarinscritoDeclarDUA
+End Property
+
+
+
 '------------------------------------------------
 'FUNCIONES del modulo Cparametros
 '------------------------------------------------
@@ -1226,6 +1247,9 @@ Dim Nuevos As String
             '0 nada     1 TAXCO. Tipo SAGE      2 Coarval
             mvarTipoIntegracionSeleccionable = 0
             
+            
+            mvarinscritoDeclarDUA = False
+            
             Nuevos = ""
             
             
@@ -1326,7 +1350,14 @@ Dim Nuevos As String
             mvarcaptionFraProFecRegis = DBLet(Rs!captionFraProFecRegis, "T")
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Caption factura proveedor fecha registro"
             
-            If mvarcaptionFraProFecRegis = "" Then mvarcaptionFraProFecRegis = "F. registro"
+            If mvarcaptionFraProFecRegis = "" Then mvarcaptionFraProFecRegis = "F.recepción"
+            
+            
+                        
+            mvarinscritoDeclarDUA = DBLet(Rs!InscritoDeclarDUA, "N") = 1
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Inscrito registro AEAT declar. DUA"
+            
+            
             
             
         If Err.Number <> 0 Then Err.Clear
@@ -1443,16 +1474,18 @@ Private Sub LeerDatosSII()
 On Error GoTo eLeerDatosSII
 
     mvarTieneSII = False
+    mvarSII_ProvDesdeFechaRecepcion = False
+    mvarSII_Periodo_DesdeLiq = False
     
-    
-
     If Not IsNull(Rs!SIIFechaInicio) Then
         mvarFechaInicioSII = Rs!SIIFechaInicio
         mvarDiasAvisoSII = Rs!SIIDiasAviso
         mvarTieneSII = True
         mvarVersionSII = Rs!VersionSII
         mvarSII_Periodo_DesdeLiq = DBLet(Rs!SII_Periodo_DesdeLiq, "N") = 1
+        mvarSII_ProvDesdeFechaRecepcion = DBLet(Rs!SII_FraPro_Fecregis, "N") = 1
     End If
+    
     
     
     
@@ -1474,3 +1507,6 @@ Public Sub FijarAplicarFiltrosEnCuentas(ByRef NomEmpresa As String)
     If InStr(1, NomEmpresa, "MONTI") > 0 Then mvarAplicarFiltrosEnCuentas = False
 End Sub
 
+Private Sub Class_Terminate()
+    Set Rs = Nothing
+End Sub

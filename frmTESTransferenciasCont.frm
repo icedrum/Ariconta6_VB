@@ -294,7 +294,7 @@ Dim Fecha As Date
 Dim FechaAsiento As Date
 Private vp As Ctipoformapago
 Private SubItemVto As Integer
-Dim DescripcionTransferencia As String
+Dim DescripcionTransferencia2 As String
 Dim NumeroTalonPagere As String
 
 
@@ -1632,7 +1632,7 @@ Dim TipForpa As Byte
                 
                 Case 3
                     'NUEVA AMPLIC
-                    Ampliacion = DescripcionTransferencia
+                    Ampliacion = DescripcionTransferencia2
                 Case 4
                     'Estamos en la amplicacion del cliente. Es una tonteria tener esta opcion marcada, pero bien
                     Ampliacion = RecuperaValor(vTextos, 3)
@@ -1659,10 +1659,10 @@ Dim TipForpa As Byte
                             
                         Else
                             'Es numero tal pag + ctrpar
-                            DescripcionTransferencia = RecuperaValor(vTextos, 2)
-                            DescripcionTransferencia = Mid(DescripcionTransferencia, InStr(1, DescripcionTransferencia, "-") + 1)
-                            Ampliacion = Ampliacion & " " & DescripcionTransferencia
-                            DescripcionTransferencia = ""
+                            DescripcionTransferencia2 = RecuperaValor(vTextos, 2)
+                            DescripcionTransferencia2 = Mid(DescripcionTransferencia2, InStr(1, DescripcionTransferencia2, "-") + 1)
+                            Ampliacion = Ampliacion & " " & DescripcionTransferencia2
+                            DescripcionTransferencia2 = ""
                         End If
                         If Ampliacion = "" Then
                             Ampliacion = RecuperaValor(RS1!Cliente, 1) & RecuperaValor(RS1!Cliente, 2)
@@ -1688,7 +1688,20 @@ Dim TipForpa As Byte
                             Ampliacion = "NºDoc: " & Ampliacion
                         End If
                     End If
+                Case 6
+                    Ampliacion = CStr(DBLet(RS1!cliprov, "T"))
+                    Ampliacion = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Ampliacion, "T")
+                    If Ampliacion = "" Then Ampliacion = "** ERR cta " & CStr(DBLet(RS1!cliprov, "T"))
                     
+                    
+                    
+                    MiVariableAuxiliar = RecuperaValor(RS1!Cliente, 2)
+                    If Len(MiVariableAuxiliar) > 23 Then MiVariableAuxiliar = Mid(MiVariableAuxiliar, 1, 20)
+                    Ampliacion = Mid(Ampliacion, 1, 39 - Len(MiVariableAuxiliar))
+                    Ampliacion = Ampliacion & " " & MiVariableAuxiliar
+                                
+                            
+
                 End Select
                    
                 If NumVtos > 1 Then
@@ -1700,8 +1713,9 @@ Dim TipForpa As Byte
                  Aux = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(Conce)) & " "
                  'Para la ampliacion de nºtal + ctrapar NO pongo la ampliacion del concepto
                  If TipoAmpliacion = 5 Then Aux = ""
+                 If TipoAmpliacion = 6 Then Aux = ""
                  Ampliacion = Aux & Ampliacion
-                 If Len(Ampliacion) > 30 Then Ampliacion = Mid(Ampliacion, 1, 30)
+                 If Len(Ampliacion) > 35 Then Ampliacion = Mid(Ampliacion, 1, 35)
                 
                  SQL = SQL & "'" & DevNombreSQL(Ampliacion) & "',"
                  
@@ -1741,8 +1755,11 @@ Dim TipForpa As Byte
                     If PonerContrPartida Then
                        Ampliacion = DevNombreSQL(RecuperaValor(RS1!Cliente, 1) & RecuperaValor(RS1!Cliente, 2))
                     Else
-                       
-                       Ampliacion = ""
+                        'transferencias  codigo   anyo    Descripcion
+                         Aux = " codigo = " & RecuperaValor(NumeroDocumento, 1) & " AND anyo = " & RecuperaValor(NumeroDocumento, 2) & " And tipotrans  "
+                       Aux = DevuelveDesdeBD("Descripcion", "transferencias", Aux, CStr(SubTipo))
+                       Aux = "TRA" & Format(RecuperaValor(NumeroDocumento, 1), "00000") & RecuperaValor(NumeroDocumento, 2)
+                        Ampliacion = DevNombreSQL(Aux)
                     End If
                      
                     SQL = SQL & Ampliacion & "',"
@@ -1821,12 +1838,12 @@ Dim TipForpa As Byte
                         
                         Case 3
                             'NUEVA AMPLIC
-                             Ampliacion = DescripcionTransferencia
+                             Ampliacion = DescripcionTransferencia2
                         Case 4, 5
                             'Nombre ctrpartida
                             Ampliacion = CStr(DBLet(RS1!cliprov, "T"))
                             Ampliacion = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Ampliacion, "T")
-                            DescripcionTransferencia = Ampliacion
+                            DescripcionTransferencia2 = Ampliacion
                             If Cobros Then
                                 
                                 'Veo la el camporefencia de ese talon
@@ -1840,7 +1857,7 @@ Dim TipForpa As Byte
                                 Else
                                     Ampliacion = " NºDoc: " & Ampliacion
                                 End If
-                                Ampliacion = Ampliacion & " " & DescripcionTransferencia
+                                Ampliacion = Ampliacion & " " & DescripcionTransferencia2
      
                             Else
                                 
@@ -1852,8 +1869,8 @@ Dim TipForpa As Byte
                                 End If
                             End If
                           
-                            Ampliacion = Ampliacion & " " & DescripcionTransferencia
-                            DescripcionTransferencia = ""
+                            Ampliacion = Ampliacion & " " & DescripcionTransferencia2
+                            DescripcionTransferencia2 = ""
                         
                             
                         End Select
@@ -1862,8 +1879,15 @@ Dim TipForpa As Byte
                         If vp.tipoformapago = vbTransferencia Then
                             'SI es transferencia
                             'If TipoAmpliacion = 3 Then Ampliacion = DescripcionTransferencia
-                            Ampliacion = DescripcionTransferencia
+                            Ampliacion = DescripcionTransferencia2
                         
+                        End If
+                        If DescripcionTransferencia2 = "" Then
+                              Aux = " codigo = " & RecuperaValor(NumeroDocumento, 1) & " AND anyo = " & RecuperaValor(NumeroDocumento, 2) & " And tipotrans  "
+                            Aux = DevuelveDesdeBD("Descripcion", "transferencias", Aux, CStr(SubTipo))
+                            
+                            Ampliacion = Trim(Aux & "    (" & RecuperaValor(NumeroDocumento, 1) & " / " & RecuperaValor(NumeroDocumento, 2) & ")")
+                            
                         End If
                     End If
                     
@@ -1871,8 +1895,9 @@ Dim TipForpa As Byte
                      Aux = Aux & " "
                      'Para la ampliacion de nºtal + ctrapar NO pongo la ampliacion del concepto
                      If TipoAmpliacion = 5 Then Aux = ""
+                     If TipoAmpliacion = 6 Then Aux = "TRA. "
                      Ampliacion = Trim(Aux & Ampliacion)
-                     If Len(Ampliacion) > 30 Then Ampliacion = Mid(Ampliacion, 1, 30)
+                     If Len(Ampliacion) > 35 Then Ampliacion = Mid(Ampliacion, 1, 35)
                     
                      SQL = SQL & "'" & DevNombreSQL(Ampliacion) & "',"
         
@@ -2104,7 +2129,7 @@ Dim Aux As String
         SQL = RecuperaValor(NumeroDocumento, 4) 'banco
         SQL = DevuelveDesdeBD("CtaAnticipoRecibos", "bancos", "codmacta", SQL, "T")
         If SQL = "" Then Err.Raise 513, , "Falta configurar cuenta anticipo recibos "
-        DescripcionTransferencia = RecuperaValor(NumeroDocumento, 4) & "|" & SQL & "|"
+        DescripcionTransferencia2 = RecuperaValor(NumeroDocumento, 4) & "|" & SQL & "|"
         
         SQL = "select concat(numserie,numfactu) FROM cobros where transfer=" & RecuperaValor(NumeroDocumento, 1)
         SQL = SQL & " AND anyorem=" & RecuperaValor(NumeroDocumento, 2)
@@ -2141,14 +2166,14 @@ Dim Aux As String
         SQL = SQL & " timporteH, codccost, ctacontr, idcontab, punteada) "
         
         SQL = SQL & "VALUES (" & vp.diaricli & ",'" & Format(FechaAsiento, FormatoFecha) & "'," & m.Contador & "," & 1 & ",'"
-        SQL = SQL & RecuperaValor(DescripcionTransferencia, 2) & "',"
+        SQL = SQL & RecuperaValor(DescripcionTransferencia2, 2) & "',"
         If i = 1 Then
             SQL = SQL & DBSet(Mid(NumeroTalonPagere, 1, 10), "T")
         Else
             SQL = SQL & "'Vtos: " & i & "'"
         End If
         SQL = SQL & "," & vp.conhacli & ",'Anticipo recibos cliente " & RecuperaValor(NumeroDocumento, 1) & "-" & RecuperaValor(NumeroDocumento, 2) & "',NULL,"
-        SQL = SQL & DBSet(RecuperaValor(NumeroDocumento, 5), "N") & ",NULL," & DBSet(RecuperaValor(DescripcionTransferencia, 1), "T") & ",'contab',0)"
+        SQL = SQL & DBSet(RecuperaValor(NumeroDocumento, 5), "N") & ",NULL," & DBSet(RecuperaValor(DescripcionTransferencia2, 1), "T") & ",'contab',0)"
         Conn.Execute SQL
         
         
@@ -2157,14 +2182,14 @@ Dim Aux As String
         SQL = SQL & " timporteH, codccost, ctacontr, idcontab, punteada) "
         
         SQL = SQL & "VALUES (" & vp.diaricli & ",'" & Format(FechaAsiento, FormatoFecha) & "'," & m.Contador & "," & 2 & ",'"
-        SQL = SQL & RecuperaValor(DescripcionTransferencia, 1) & "',"
+        SQL = SQL & RecuperaValor(DescripcionTransferencia2, 1) & "',"
         If i = 1 Then
             SQL = SQL & DBSet(Mid(NumeroTalonPagere, 1, 10), "T")
         Else
             SQL = SQL & "'Vtos: " & i & "'"
         End If
         SQL = SQL & "," & vp.condecli & ",'Anticipo recibos cliente " & RecuperaValor(NumeroDocumento, 1) & "-" & RecuperaValor(NumeroDocumento, 2) & "',"
-        SQL = SQL & DBSet(RecuperaValor(NumeroDocumento, 5), "N") & ",NULL,NULL," & DBSet(RecuperaValor(DescripcionTransferencia, 1), "T") & ",'contab',0)"
+        SQL = SQL & DBSet(RecuperaValor(NumeroDocumento, 5), "N") & ",NULL,NULL," & DBSet(RecuperaValor(DescripcionTransferencia2, 1), "T") & ",'contab',0)"
         Conn.Execute SQL
         
         

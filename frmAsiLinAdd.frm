@@ -412,11 +412,11 @@ Private Sub DataGrid1_RowColChange(LastRow As Variant, ByVal LastCol As Integer)
     If Not data1.Recordset.EOF And gridCargado And Modo = 4 Then
        CargaTxtAux True, True
        
-       txtAux(0).SetFocus
+       txtaux(0).SetFocus
        
-       txtAux(0).SelStart = 0
-       txtAux(0).SelLength = Len(Me.txtAux(0).Text)
-       txtAux(0).Refresh
+       txtaux(0).SelStart = 0
+       txtaux(0).SelLength = Len(Me.txtaux(0).Text)
+       txtaux(0).Refresh
        
     End If
 End Sub
@@ -432,13 +432,13 @@ End Sub
 
 Private Sub Form_Load()
     'Icono del formulario
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
     
      ' Botonera Principal
     With Me.Toolbar1
-        .HotImageList = frmPpal.imgListComun_OM
-        .DisabledImageList = frmPpal.imgListComun_BN
-        .ImageList = frmPpal.imgListComun
+        .HotImageList = frmppal.imgListComun_OM
+        .DisabledImageList = frmppal.imgListComun_BN
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 4
     End With
     
@@ -494,11 +494,11 @@ On Error GoTo ECarga
         DataGrid1.Columns(1).Width = 6000
     End If
     
-    DataGrid1.Columns(2).Visible = False
+    DataGrid1.Columns(2).visible = False
     
     If Not vParam.autocoste Then
-        DataGrid1.Columns(3).Visible = False
-        DataGrid1.Columns(4).Visible = False
+        DataGrid1.Columns(3).visible = False
+        DataGrid1.Columns(4).visible = False
         
     Else
         DataGrid1.Columns(3).Caption = "C.C."
@@ -527,62 +527,62 @@ End Sub
 
 
 'Esta funcion sustituye a LlamaLineas
-Private Sub CargaTxtAux(Visible As Boolean, Limpiar As Boolean)
+Private Sub CargaTxtAux(visible As Boolean, Limpiar As Boolean)
 'IN: visible: si es true ponerlos visibles en la posición adecuada
 '    limpiar: si es true vaciar los txtAux
 Dim alto As Single
 
-    If Not Visible Then
+    If Not visible Then
         'Fijamos el alto (ponerlo en la parte inferior del form)
-        txtAux(0).Top = 290
-        txtAux(0).Visible = Visible
+        txtaux(0).top = 290
+        txtaux(0).visible = visible
     
-        txtAux(1).Top = 290
-        txtAux(1).Visible = Visible
+        txtaux(1).top = 290
+        txtaux(1).visible = visible
     
     Else
         DeseleccionaGrid Me.DataGrid1
         If Limpiar Then 'Vaciar los textBox (Vamos a Insertar)
-                txtAux(0).Text = DBLet(data1.Recordset!timported)
-                txtAux(0).Locked = False
+                txtaux(0).Text = DBLet(data1.Recordset!timported)
+                txtaux(0).Locked = False
                 
-                txtAux(1).Text = DBLet(data1.Recordset!timporteH)
-                txtAux(1).Locked = False
+                txtaux(1).Text = DBLet(data1.Recordset!timporteH)
+                txtaux(1).Locked = False
         End If
 
         If DataGrid1.Row < 0 Then
-            alto = DataGrid1.Top + 220
+            alto = DataGrid1.top + 220
         Else
-            alto = DataGrid1.Top + DataGrid1.RowTop(DataGrid1.Row) + 20
+            alto = DataGrid1.top + DataGrid1.RowTop(DataGrid1.Row) + 20
         End If
         
         'Fijamos altura y posición Top
         '-------------------------------
-        txtAux(0).Top = alto
-        txtAux(0).Height = DataGrid1.RowHeight
-        txtAux(1).Top = alto
-        txtAux(1).Height = DataGrid1.RowHeight
+        txtaux(0).top = alto
+        txtaux(0).Height = DataGrid1.RowHeight
+        txtaux(1).top = alto
+        txtaux(1).Height = DataGrid1.RowHeight
         
         'Fijamos anchura y posicion Left
         '--------------------------------
-        txtAux(0).Left = DataGrid1.Columns(5).Left + 130 'codalmac
-        txtAux(0).Width = DataGrid1.Columns(5).Width - 10
-        txtAux(1).Left = DataGrid1.Columns(6).Left + 130 'codalmac
-        txtAux(1).Width = DataGrid1.Columns(6).Width - 10
+        txtaux(0).Left = DataGrid1.Columns(5).Left + 130 'codalmac
+        txtaux(0).Width = DataGrid1.Columns(5).Width - 10
+        txtaux(1).Left = DataGrid1.Columns(6).Left + 130 'codalmac
+        txtaux(1).Width = DataGrid1.Columns(6).Width - 10
         
         'Los ponemos Visibles o No
         '--------------------------
-        txtAux(0).Visible = Visible
-        txtAux(1).Visible = Visible
+        txtaux(0).visible = visible
+        txtaux(1).visible = visible
     End If
-    PonFoco txtAux(0)
+    PonFoco txtaux(0)
     
-    If Visible Then
-        txtAux(0).TabIndex = 2
-        txtAux(1).TabIndex = 3
+    If visible Then
+        txtaux(0).TabIndex = 2
+        txtaux(1).TabIndex = 3
     Else
-        txtAux(0).TabIndex = 5
-        txtAux(1).TabIndex = 6
+        txtaux(0).TabIndex = 5
+        txtaux(1).TabIndex = 6
     End If
 End Sub
 
@@ -676,8 +676,8 @@ Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
 End Sub
 
 Private Sub txtaux_GotFocus(Index As Integer)
-    txtAux(Index).SelStart = 0
-    txtAux(Index).SelLength = Len(txtAux(Index).Text)
+    txtaux(Index).SelStart = 0
+    txtaux(Index).SelLength = Len(txtaux(Index).Text)
 End Sub
 
 
@@ -695,8 +695,8 @@ On Error GoTo EKeyD
 
         Case 40 'Desplazamiento Flecha Hacia Abajo
                 PasarSigReg
-                Me.txtAux(Index).SelStart = 0
-                Me.txtAux(Index).SelLength = Len(Me.txtAux(Index).Text)
+                Me.txtaux(Index).SelStart = 0
+                Me.txtaux(Index).SelLength = Len(Me.txtaux(Index).Text)
     End Select
 EKeyD:
     If Err.Number <> 0 Then Err.Clear
@@ -707,18 +707,18 @@ Private Sub txtaux_KeyPress(Index As Integer, KeyAscii As Integer)
 
 
    If KeyAscii = 13 Then 'ENTER
-        If Index = 0 And ComprobarCero(txtAux(0).Text) = 0 Then
-            PonFoco txtAux(1)
+        If Index = 0 And ComprobarCero(txtaux(0).Text) = 0 Then
+            PonFoco txtaux(1)
             Exit Sub
         End If
         
         KeyAscii = 0
         
-        If Index = 0 And ComprobarCero(txtAux(1).Text) <> 0 Then
-            txtAux(1).Text = ""
+        If Index = 0 And ComprobarCero(txtaux(1).Text) <> 0 Then
+            txtaux(1).Text = ""
         End If
-        If Index = 1 And ComprobarCero(txtAux(1).Text) <> 0 Then
-            txtAux(0).Text = ""
+        If Index = 1 And ComprobarCero(txtaux(1).Text) <> 0 Then
+            txtaux(0).Text = ""
         End If
         
         ModificarExistencia
@@ -734,7 +734,7 @@ End Sub
 Private Sub txtAux_LostFocus(Index As Integer)
 Dim Importe As Currency
     If Screen.ActiveControl.Name = "cmdCancelar" Then Exit Sub
-    With txtAux(Index)
+    With txtaux(Index)
         .Text = Trim(.Text)
         If .Text = "" Then
             .Text = "0,00"
@@ -743,7 +743,7 @@ Dim Importe As Currency
                 MsgBox "Importes deben ser numéricos.", vbExclamation
                 On Error Resume Next
                 .Text = "0,00"
-                PonFoco txtAux(Index)
+                PonFoco txtaux(Index)
                 Exit Sub
             End If
 
@@ -753,16 +753,16 @@ Dim Importe As Currency
         End If
     End With
 
-    If txtAux(Index).Text = "0,00" Then txtAux(Index).Text = ""
+    If txtaux(Index).Text = "0,00" Then txtaux(Index).Text = ""
     
-    If Index = 1 And ComprobarCero(txtAux(1).Text) <> 0 Then
-        txtAux(0).Text = ""
+    If Index = 1 And ComprobarCero(txtaux(1).Text) <> 0 Then
+        txtaux(0).Text = ""
     End If
 End Sub
 
 
 Private Sub PonerModo(Kmodo As Byte)
-Dim I As Byte
+Dim i As Byte
 Dim B As Boolean
        
     Modo = Kmodo
@@ -794,24 +794,27 @@ Private Sub BotonModificar()
     End If
     PonerModo 4
     CargaTxtAux True, True
-    PonFoco txtAux(0)
+    PonFoco txtaux(0)
 End Sub
 
 
 Private Function DatosOK() As Boolean
 'Solo se actualiza el campo de Existencia Real
-    txtAux(0).Text = Trim(txtAux(0).Text)
-    txtAux(1).Text = Trim(txtAux(1).Text)
+    txtaux(0).Text = Trim(txtaux(0).Text)
+    txtaux(1).Text = Trim(txtaux(1).Text)
     DatosOK = False
-    If txtAux(0).Text <> "" Or txtAux(1).Text <> "" Then
-        If EsNumerico(ComprobarCero(txtAux(0).Text)) Or EsNumerico(ComprobarCero(txtAux(1).Text)) Then DatosOK = True
+    If txtaux(0).Text <> "" Or txtaux(1).Text <> "" Then
+        If EsNumerico(ComprobarCero(txtaux(0).Text)) Or EsNumerico(ComprobarCero(txtaux(1).Text)) Then DatosOK = True
+    Else
+        txtaux(1).Text = 0
+        DatosOK = True
     End If
 End Function
 
 
 Private Sub PonerBotonCabecera(B As Boolean)
-    Me.cmdAceptar.Visible = Not B
-    Me.cmdCancelar.Visible = Not B
+    Me.cmdAceptar.visible = Not B
+    Me.cmdCancelar.visible = Not B
     If B Then Me.lblIndicador.Caption = ""
 End Sub
 
@@ -825,7 +828,7 @@ Private Sub PasarSigReg()
 'Nos situamos en el siguiente registro
     If DataGrid1.Bookmark < data1.Recordset.RecordCount Then
         DataGrid1.Bookmark = DataGrid1.Bookmark + 1
-        PonFoco Me.txtAux(0)
+        PonFoco Me.txtaux(0)
     ElseIf DataGrid1.Bookmark = data1.Recordset.RecordCount Then
        PonleFoco cmdAceptar
     End If
@@ -873,8 +876,8 @@ Dim Haber As Currency
     On Error GoTo EActualizar
 
 
-    Debe = TransformaPuntosComas(ComprobarCero(txtAux(0).Text))
-    Haber = TransformaPuntosComas(ComprobarCero(txtAux(1).Text))
+    Debe = TransformaPuntosComas(ComprobarCero(txtaux(0).Text))
+    Haber = TransformaPuntosComas(ComprobarCero(txtaux(1).Text))
     
         SQL = "UPDATE tmpconext  Set timported = " & DBSet(Debe, "N", "S")
         SQL = SQL & ", timporteh = " & DBSet(Haber, "N", "S")

@@ -70,11 +70,11 @@ End Function
 'Modelo 303 Modelo 303 Modelo 303 Modelo 303 Modelo 303 Modelo 303 Modelo 303
 'Modelo 303 Modelo 303 Modelo 303 Modelo 303 Modelo 303 Modelo 303 Modelo 303
 'Modelo 303 Modelo 303 Modelo 303 Modelo 303 Modelo 303 Modelo 303 Modelo 303
-Public Function GenerarFicheroIVA_303(ByRef CadenaImportes As String, Importe As Currency, vFecha As Date, vPeriodo As String, EsACompensar As Byte) As Boolean
+Public Function GenerarFicheroIVA_303_(ByRef CadenaImportes As String, Importe As Currency, vFecha As Date, vPeriodo As String, EsACompensar As Byte) As Boolean
 
 On Error GoTo Salida '
 
-    GenerarFicheroIVA_303 = False
+    GenerarFicheroIVA_303_ = False
     Linea = ""
     Linea = Linea & "<T30301000> "
 
@@ -134,7 +134,7 @@ On Error GoTo Salida '
     
     If Not ImprimeFichero Then GoTo Salida
     
-    GenerarFicheroIVA_303 = True
+    GenerarFicheroIVA_303_ = True
 Salida:
     If Err.Number <> 0 Then MuestraError Err.Number
     
@@ -245,10 +245,6 @@ On Error GoTo Salida '
     '70 ¿Ha llevado voluntariamente los Libros registro del IVA a través de la Sede electrónica de la AEAT durante el ejercicio?
     Linea = Linea & "022"
     
-    
-    
-    
-    
     'Exonerados del 390
     'Solo admite 1 y 2 en ultimo peridod año.  4T o 12
     '- Inscritos en el REDEME (Registro de Devolución Mensual del IVA)
@@ -258,16 +254,13 @@ On Error GoTo Salida '
     Aux = "0"
     
     Exonerados390 = False
-    
     If UltimoPeridod And Exonerados390 Then
         If vParam.SIITiene Then
             Aux = "1"
         Else
             Aux = "2"
         End If
-        
-        Aux = "0" 'FALTA###
-        
+        Aux = "0" 'FALTA###         un parametro
     End If
     Linea = Linea & Aux
    
@@ -486,8 +479,10 @@ On Error GoTo Salida '
         'Información de la tributación por razón de territorio: Territorio común [107]   5,2
          Linea = Linea & "00000"
         
-        'rESERVADO aeat
-        Linea = Linea & Space(463)
+        'rESERVADO aeat 61,62
+        'Linea = Linea & Space(463)  'aunque este separado en dos, trozos, ambos dos son texto. Perobien. por si acso
+        Linea = Linea & Space(17)
+        Linea = Linea & Space(446)
         
         Linea = Linea & "</T30303000>"
        
@@ -1035,7 +1030,9 @@ Dim ErroresRegistros As String
     Linea = Linea & "T"  'tipo presentcion C- cinta   D- diskette T.- TElematica
     Linea = Linea & DatosTexto(DBLet(Rs!telefono), 9)
     Linea = Linea & DatosTexto(DBLet(Rs!contacto), 40)
-    Linea = Linea & "3470000000000"   'Numero justificante la declaracion. Empieza por 347
+    
+    'Linea = Linea & "3470000000000"   'Numero justificante la declaracion. Empieza por 347
+    Linea = Linea & "347" & Right("0000000000" & Anyo, 10)  'Numero justificante la declaracion. Empieza por 347   Feb 2020
     Linea = Linea & "  "
     Linea = Linea & "0000000000000"   'Numero justificante la declaracion anterior
     Linea = Linea & Format(i, "000000000")
@@ -1412,7 +1409,26 @@ Dim cad As String
     Linea = Linea & cad
     Linea = Linea & DatosTexto(DBLet(Rs!telefono), 9)
     Linea = Linea & DatosTexto(DBLet(Rs!contacto), 40)
-    Linea = Linea & "3490000000000"   'Numero justificante la declaracion. Empieza por 343. ENERO> 349
+    'Feb 2020.  No puede ser 3490000000000 Tiene que ser un secuencial
+    'Linea = Linea & "3490000000000"   'Numero justificante la declaracion. Empieza por 343. ENERO> 349
+    If vPeriodo = "0A" Then
+        K = 13
+    Else
+        If Right(vPeriodo, 1) = "T" Then
+            K = Val(Mid(vPeriodo, 1, Len(vPeriodo) - 1))
+        Else
+            K = Val(vPeriodo)
+        End If
+        If K = 0 Then K = Month(Now)
+        
+    End If
+    '"3490000000000"
+    cad = "3490000" & Format(AnyoPres, "0000") & Format(K, "00")
+    Linea = Linea & cad
+    
+    
+    
+    
     Linea = Linea & "  "
     Linea = Linea & "0000000000000"   'Numero justificante la declaracion anterior s. Empieza por 348
     'Periodo

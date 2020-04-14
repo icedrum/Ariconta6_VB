@@ -1490,6 +1490,7 @@ Private Sub Form_Load()
      
      
     Text3(0).Text = Format(Now, "dd/mm/yyyy")
+    Fecha = Now
     Me.ImporteGastosTarjeta_ = 0
     Me.CodmactaUnica = ""
      
@@ -1910,7 +1911,10 @@ Private Sub imgFecha_Click(Index As Integer)
         If Index = 0 Then
             'Antes de poder cambiar la fecha hay que comprobar si la fecha devuelta es OK
             '                                                'Fecha OK
-            If FechaCorrecta2(CDate(cad), True) < 2 Then Text3(0).Text = cad
+            If FechaCorrecta2(CDate(cad), True) < 2 Then
+                Text3(0).Text = cad
+                Fecha = CDate(cad)
+            End If
         End If
     End If
 End Sub
@@ -2466,7 +2470,9 @@ Private Sub Text3_LostFocus(Index As Integer)
                 MsgBox "Fecha incorrecta", vbExclamation
                 Text3(Index).Text = ""
                 PonFoco Text3(Index)
+            
             End If
+            If Index = 0 Then Fecha = IIf(Text3(Index).Text = "", Now, CDate(Text3(Index).Text))
     
             If Index = 1 Or Index = 2 Then CargaList
     End Select
@@ -2679,7 +2685,27 @@ Dim ImporteInterno2 As Currency
                  If NumVtos > 1 Then
                     Ampliacion = "Vtos: " & NumVtos
                  Else
-                    Ampliacion = DevNombreSQL(RecuperaValor(RS1!Cliente, 2))
+                 
+                    If vParam.CodiNume = 1 Then
+                        'Numero de registro SI existe
+                        Aux = "  numserie = " & DBSet(RecuperaValor(RS1!Cliente, 1), "T") & " and numfactu = " & DBSet(RecuperaValor(RS1!Cliente, 2), "T")
+                        Aux = Aux & " and fecfactu = " & DBSet(RecuperaValor(RS1!Cliente, 3), "F")
+                        Aux = Aux & " and codmacta = " & DBSet(RecuperaValor(RS1!Cliente, 5), "T") & " AND 1"
+                        Aux = DevuelveDesdeBD("numregis", "factpro", Aux, "1")
+                        If Aux = "" Then
+                            Ampliacion = DevNombreSQL(RecuperaValor(RS1!Cliente, 2))
+                        Else
+                            Ampliacion = Right("0000000000" & Aux, 10)
+                        End If
+                        Aux = ""
+                            
+                    Else
+                        'NUmero factura
+                        Ampliacion = DevNombreSQL(RecuperaValor(RS1!Cliente, 2))
+                    End If
+                    
+                    
+                    
                  End If
                  SQL = SQL & Ampliacion & "',"
                 
@@ -2756,7 +2782,17 @@ Dim ImporteInterno2 As Currency
                             Ampliacion = "NºDoc: " & Ampliacion
                         End If
                     
-                    
+                Case 6
+                          ' Como quiere ver toda la ampliacion en la ventana, vamos a suponore un maximo de 23 carcateres
+                          
+                        MiVariableAuxiliar = RecuperaValor(RS1!Cliente, 2)
+                        If Len(MiVariableAuxiliar) > 23 Then MiVariableAuxiliar = Mid(MiVariableAuxiliar, 1, 20)
+                        Aux = RecuperaValor(RS1!Cliente, 5)
+                        Aux = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Aux, "T")
+                        If Aux = "" Then Aux = "***   " & RecuperaValor(RS1!Cliente, 5) & " ****"
+                       Ampliacion = Mid(Aux, 1, 39 - Len(MiVariableAuxiliar))
+                        Ampliacion = Ampliacion & " " & MiVariableAuxiliar
+                       
                 End Select
                    
                 If NumVtos > 1 Then
@@ -2768,6 +2804,7 @@ Dim ImporteInterno2 As Currency
                  Aux = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(Conce)) & " "
                  'Para la ampliacion de nºtal + ctrapar NO pongo la ampliacion del concepto
                  If TipoAmpliacion = 5 Then Aux = ""
+                 If TipoAmpliacion = 6 Then Aux = ""
                  Ampliacion = Aux & Ampliacion
                  If Len(Ampliacion) > 50 Then Ampliacion = Mid(Ampliacion, 1, 50)
                 
@@ -2884,7 +2921,24 @@ Dim ImporteInterno2 As Currency
                             Ampliacion = Ampliacion & " " & DescripcionTransferencia
                             DescripcionTransferencia = ""
                           
+                        Case 6
+                            Ampliacion = CStr(DBLet(RS1!cliprov, "T"))
+                            Ampliacion = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Ampliacion, "T")
+                            
+                            
+                            
                           
+                            MiVariableAuxiliar = RecuperaValor(RS1!Cliente, 2)
+                            If Len(MiVariableAuxiliar) > 23 Then MiVariableAuxiliar = Mid(MiVariableAuxiliar, 1, 20)
+                            Aux = RecuperaValor(RS1!Cliente, 5)
+                            Aux = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Aux, "T")
+                            If Aux = "" Then Aux = "***   " & RecuperaValor(RS1!Cliente, 5) & " ****"
+                            Ampliacion = Mid(Aux, 1, 39 - Len(MiVariableAuxiliar))
+                            Ampliacion = Ampliacion & " " & MiVariableAuxiliar
+                                
+                            
+                            
+                            DescripcionTransferencia = ""
                         End Select
                     Else
                         'Ma de un VTO.  Si no

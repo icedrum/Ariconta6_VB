@@ -247,7 +247,7 @@ Begin VB.Form frmTipoPago
          Index           =   3
          ItemData        =   "frmTipoPago.frx":000C
          Left            =   7350
-         List            =   "frmTipoPago.frx":0022
+         List            =   "frmTipoPago.frx":0025
          Style           =   2  'Dropdown List
          TabIndex        =   18
          Tag             =   "Ampliacion haber/PROVEEDORES|N|N|0||tipofpago|amphapro|||"
@@ -266,9 +266,9 @@ Begin VB.Form frmTipoPago
          EndProperty
          Height          =   360
          Index           =   2
-         ItemData        =   "frmTipoPago.frx":00A1
+         ItemData        =   "frmTipoPago.frx":00B6
          Left            =   1890
-         List            =   "frmTipoPago.frx":00B7
+         List            =   "frmTipoPago.frx":00CF
          Style           =   2  'Dropdown List
          TabIndex        =   17
          Tag             =   "Ampliacion debe/PROVEEDORES|N|N|0||tipofpago|ampdepro|||"
@@ -409,7 +409,7 @@ Begin VB.Form frmTipoPago
          Height          =   240
          Index           =   10
          Left            =   690
-         Picture         =   "frmTipoPago.frx":0136
+         Picture         =   "frmTipoPago.frx":0160
          ToolTipText     =   "Diario"
          Top             =   240
          Width           =   240
@@ -586,9 +586,9 @@ Begin VB.Form frmTipoPago
          EndProperty
          Height          =   360
          Index           =   1
-         ItemData        =   "frmTipoPago.frx":6988
+         ItemData        =   "frmTipoPago.frx":69B2
          Left            =   7380
-         List            =   "frmTipoPago.frx":699E
+         List            =   "frmTipoPago.frx":69C8
          Style           =   2  'Dropdown List
          TabIndex        =   11
          Tag             =   "Ampliacion haber/CLIENTES|N|N|0||tipofpago|amphacli|||"
@@ -607,9 +607,9 @@ Begin VB.Form frmTipoPago
          EndProperty
          Height          =   360
          Index           =   0
-         ItemData        =   "frmTipoPago.frx":6A2C
+         ItemData        =   "frmTipoPago.frx":6A56
          Left            =   1980
-         List            =   "frmTipoPago.frx":6A42
+         List            =   "frmTipoPago.frx":6A6C
          Style           =   2  'Dropdown List
          TabIndex        =   10
          Tag             =   "Ampliacion debe/CLIENTES|N|N|0||tipofpago|ampdecli|||"
@@ -845,7 +845,7 @@ Begin VB.Form frmTipoPago
          Height          =   240
          Index           =   2
          Left            =   690
-         Picture         =   "frmTipoPago.frx":6AD0
+         Picture         =   "frmTipoPago.frx":6AFA
          ToolTipText     =   "Diario"
          Top             =   240
          Width           =   240
@@ -1258,7 +1258,7 @@ End Sub
 
 Private Sub cmdAceptar_Click()
     Dim cad As String
-    Dim i As Integer
+    Dim I As Integer
     
     Screen.MousePointer = vbHourglass
     On Error GoTo Error1
@@ -1320,14 +1320,14 @@ End Sub
 ' Buscamos por el codigo, que estara en un text u  otro
 ' Normalmente el text(0)
 Private Function SituarData1() As Boolean
-    Dim SQL As String
+    Dim Sql As String
     On Error GoTo ESituarData1
             'Actualizamos el recordset
             Data1.Refresh
             '#### A mano.
             'El sql para que se situe en el registro en especial es el siguiente
-            SQL = " tipoformapago = " & Text1(0).Text & ""
-            Data1.Recordset.Find SQL
+            Sql = " tipoformapago = " & Text1(0).Text & ""
+            Data1.Recordset.Find Sql
             If Data1.Recordset.EOF Then GoTo ESituarData1
             SituarData1 = True
         Exit Function
@@ -1418,7 +1418,7 @@ End Sub
 
 Private Sub BotonEliminar()
     Dim cad As String
-    Dim i As Integer
+    Dim I As Integer
 
     'Ciertas comprobaciones
     If Data1.Recordset.EOF Then Exit Sub
@@ -1427,9 +1427,9 @@ Private Sub BotonEliminar()
     If Not SePuedeEliminar Then Exit Sub
     '### a mano
     cad = "Seguro que desea eliminar de la BD el registro:"
-    i = MsgBox(cad, vbQuestion + vbYesNo)
+    I = MsgBox(cad, vbQuestion + vbYesNo)
     'Borramos
-    If i = vbYes Then
+    If I = vbYes Then
         'Hay que eliminar
         On Error GoTo Error2
         Screen.MousePointer = vbHourglass
@@ -1444,9 +1444,9 @@ Private Sub BotonEliminar()
                 Data1.Recordset.MoveFirst
                 NumRegElim = NumRegElim - 1
                 If NumRegElim > 1 Then
-                    For i = 1 To NumRegElim - 1
+                    For I = 1 To NumRegElim - 1
                         Data1.Recordset.MoveNext
-                    Next i
+                    Next I
                 End If
                 PonerCampos
         End If
@@ -1459,7 +1459,7 @@ End Sub
 
 Private Sub cmdRegresar_Click()
 Dim cad As String
-Dim i As Integer
+Dim I As Integer
 Dim J As Integer
 Dim Aux As String
 
@@ -1469,16 +1469,16 @@ If Data1.Recordset.EOF Then
 End If
 
 cad = ""
-i = 0
+I = 0
 Do
-    J = i + 1
-    i = InStr(J, DatosADevolverBusqueda, "|")
-    If i > 0 Then
-        Aux = Mid(DatosADevolverBusqueda, J, i - J)
+    J = I + 1
+    I = InStr(J, DatosADevolverBusqueda, "|")
+    If I > 0 Then
+        Aux = Mid(DatosADevolverBusqueda, J, I - J)
         J = Val(Aux)
         cad = cad & Text1(J).Text & "|"
     End If
-Loop Until i = 0
+Loop Until I = 0
 RaiseEvent DatoSeleccionado(cad)
 Unload Me
 End Sub
@@ -1506,7 +1506,7 @@ End Sub
 '++
 
 Private Sub Form_Load()
-Dim i As Integer
+Dim I As Integer
 
     Me.Icon = frmppal.Icon
 
@@ -1587,16 +1587,16 @@ Private Sub LimpiarCampos()
     Check1(2).Value = 0
     Check1(3).Value = 0
     
-    For i = 0 To Combo2.Count - 1
-        Combo2(i).ListIndex = -1
-    Next i
+    For I = 0 To Combo2.Count - 1
+        Combo2(I).ListIndex = -1
+    Next I
     lblIndicador.Caption = ""
-    For i = 0 To Text1.Count - 1
-        Text1(i).BackColor = vbWhite
-    Next i
-    For i = 0 To Combo2.Count - 1
-        Combo2(i).BackColor = vbWhite
-    Next i
+    For I = 0 To Text1.Count - 1
+        Text1(I).BackColor = vbWhite
+    Next I
+    For I = 0 To Combo2.Count - 1
+        Combo2(I).BackColor = vbWhite
+    Next I
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -1744,7 +1744,7 @@ End Sub
 '----------------------------------------------------------------
 '----------------------------------------------------------------
 Private Sub Text1_LostFocus(Index As Integer)
-    Dim SQL As String
+    Dim Sql As String
     
     If Not PerderFocoGnral(Text1(Index), Modo) Then Exit Sub
     
@@ -1759,7 +1759,7 @@ Private Sub Text1_LostFocus(Index As Integer)
                     Text2(Index).Text = ""
                     Exit Sub
                 End If
-                SQL = ""
+                Sql = ""
                 If Not IsNumeric(Text1(Index).Text) Then
                     MsgBox "Tipo de diario no es numérico: " & Text1(Index).Text, vbExclamation
                     Text1(Index).Text = ""
@@ -1767,17 +1767,17 @@ Private Sub Text1_LostFocus(Index As Integer)
                     PonerFoco Text1(Index)
                     Exit Sub
                 Else
-                    SQL = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", Text1(Index).Text, "N")
+                    Sql = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", Text1(Index).Text, "N")
                 End If
-                If SQL = "" Then
-                    SQL = "Diario no encontrado: " & Text1(Index).Text
+                If Sql = "" Then
+                    Sql = "Diario no encontrado: " & Text1(Index).Text
                     Text1(Index).Text = ""
-                    MsgBox SQL, vbExclamation
-                    SQL = ""
+                    MsgBox Sql, vbExclamation
+                    Sql = ""
                     PonerFoco Text1(Index)
                 End If
                 'Poneos el texto
-                Text2(Index).Text = SQL
+                Text2(Index).Text = Sql
             End If
         Case 3, 4, 11, 8
              If Modo = 3 Or Modo = 4 Then
@@ -1795,16 +1795,16 @@ Private Sub Text1_LostFocus(Index As Integer)
                     PonerFoco Text1(Index)
                     Exit Sub
                 Else
-                    SQL = DevuelveDesdeBD("nomconce", "conceptos", "codConce", Text1(Index).Text, "N")
+                    Sql = DevuelveDesdeBD("nomconce", "conceptos", "codConce", Text1(Index).Text, "N")
                 End If
-                If SQL = "" Then
-                    SQL = "Concepto no encontrado: " & Text1(Index).Text
+                If Sql = "" Then
+                    Sql = "Concepto no encontrado: " & Text1(Index).Text
                     Text1(Index).Text = ""
-                    MsgBox SQL, vbExclamation
+                    MsgBox Sql, vbExclamation
                     PonerFoco Text1(Index)
-                    SQL = ""
+                    Sql = ""
                 End If
-                Text2(Index).Text = SQL
+                Text2(Index).Text = Sql
             End If
         Case 5, 6, 7, 9
     End Select
@@ -1867,9 +1867,9 @@ EEPonerBusq:
 End Sub
 
 Private Sub PonerCampos()
-    Dim i As Integer
+    Dim I As Integer
     Dim mTag As CTag
-    Dim SQL As String
+    Dim Sql As String
     If Data1.Recordset.EOF Then Exit Sub
     PonerCamposForma Me, Data1
     PonerCtasIVA
@@ -1884,7 +1884,7 @@ End Sub
 '   formulario en funcion del modo en k vayamos a trabajar
 '
 Private Sub PonerModo(Kmodo As Integer)
-    Dim i As Integer
+    Dim I As Integer
     Dim B As Boolean
 
     BuscaChekc = ""
@@ -1919,9 +1919,9 @@ Private Sub PonerModo(Kmodo As Integer)
         cmdCancelar.Cancel = False
     End If
     'Los combo
-    For i = 0 To 3
-        Combo2(i).Enabled = B Or Modo = 1
-    Next i
+    For I = 0 To 3
+        Combo2(I).Enabled = B Or Modo = 1
+    Next I
     Toolbar1.Buttons(3).Enabled = Not B And vUsu.Nivel < 2
     Toolbar1.Buttons(5).Enabled = Not B
     Toolbar1.Buttons(6).Enabled = Not B
@@ -1934,7 +1934,7 @@ Private Sub PonerModo(Kmodo As Integer)
     ' Bloqueamos los campos de texto y demas controles en funcion
     ' del modo en el que estamos.
     ' Es decir, si estamos en modo busqueda, insercion o modificacion estaran enables
-    ' si no  disable. la variable b nos devuelve esas opciones
+    ' si no  disable. la variable b nos devuelve esas opcione
     B = (Modo = 2) Or Modo = 0
     HabilitarText B
 
@@ -1964,15 +1964,15 @@ End Sub
 
 
 Private Sub HabilitarText(Boleana As Boolean)
-Dim i As Integer
+Dim I As Integer
     On Error Resume Next
-    For i = 0 To Text1.Count - 1
-        Text1(i).Locked = Boleana
-        Text1(i).BackColor = vbWhite
-    Next i
-    For i = 2 To 11
-        imgCuentas(i).Enabled = Not Boleana
-    Next i
+    For I = 0 To Text1.Count - 1
+        Text1(I).Locked = Boleana
+        Text1(I).BackColor = vbWhite
+    Next I
+    For I = 2 To 11
+        imgCuentas(I).Enabled = Not Boleana
+    Next I
     Err.Clear
 End Sub
 
@@ -2035,13 +2035,13 @@ End Function
 'El SQL es propio de cada tabla
 Private Sub SugerirCodigoSiguiente()
 
-    Dim SQL As String
+    Dim Sql As String
     Dim Rs As ADODB.Recordset
 
-    SQL = "Select Max(tipoformapago) from " & NombreTabla
+    Sql = "Select Max(tipoformapago) from " & NombreTabla
     Text1(0).Text = 1
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, , , adCmdText
+    Rs.Open Sql, Conn, , , adCmdText
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then
             Text1(0).Text = Rs.Fields(0) + 1
@@ -2078,8 +2078,8 @@ End Sub
 
 
 Private Sub PonerCtasIVA()
-Dim SQL As String
-Dim i As Integer
+Dim Sql As String
+Dim I As Integer
 On Error GoTo EPonerCtasIVA
 
 
@@ -2185,7 +2185,7 @@ Private Sub CargaCombo()
 '4 Cta Contrapartida
 '5 Documento -Contrapartida
 '6 Nommacta (cobro)
-    
+' EN DEVOLCUCION tambien HAY un combo de estos
     DevfrmCCtas = "Serie / Factura|Tipo forma pago + Serie /Factura|Fecha vencimiento|"
     DevfrmCCtas = DevfrmCCtas & "Descripcion REM/TRANS|Cta Contrapartida|"
     DevfrmCCtas = DevfrmCCtas & "Documento -Contrapartida|Nombre cta(cobro)|"

@@ -2,23 +2,23 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02">
 <CstmrDrctDbtInitn>
 <GrpHdr>
-<MsgId>PRE20020313115462110RE30000012020</MsgId>
-   <CreDtTm>2020-02-03T13:11:54</CreDtTm>
-   <NbOfTxs>7</NbOfTxs>
-   <CtrlSum>3210.87</CtrlSum>
+<MsgId>PRE20021210262734380RE30000012020</MsgId>
+   <CreDtTm>2020-02-12T10:26:27</CreDtTm>
+   <NbOfTxs>1</NbOfTxs>
+   <CtrlSum>6.41</CtrlSum>
    <InitgPty>
-     <Nm>Herbelca S.L.</Nm>
+     <Nm>Agricola de Catadau S.C. Suministros</Nm>
      <Id>
         <OrgId>
            <Othr>
-              <Id>ES25000B46135372</Id>
+              <Id>ES38000F46038881</Id>
            </Othr>
         </OrgId>
       </Id>
    </InitgPty>
 </GrpHdr>
 <PmtInf>
-   <PmtInfId>RE000012020 03/02/20B46135372 0001</PmtInfId>
+   <PmtInfId>RE000012020 12/02/20F46038881 0001</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -33,29 +33,29 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2019-06-01</ReqdColltnDt>
+   <ReqdColltnDt>1996-12-16</ReqdColltnDt>
    <Cdtr>
-      <Nm>Herbelca S.L.</Nm>
+      <Nm>Agricola de Catadau S.C. Suministros</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>Azagador de la Torre 93   </AdrLine>
+          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES6400491827832010389247</IBAN>
+         <IBAN>ES5230582268501021006736</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
       <FinInstnId>
-         <BIC>BSCHESMMXXX</BIC>
+         <BIC>CCRIES2AXXX</BIC>
       </FinInstnId>
    </CdtrAgt>
    <CdtrSchmeId>
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES25000B46135372</Id>
+                 <Id>ES38000F46038881</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -63,528 +63,45 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>43004938  GRP0000493820190402001   </EndToEndId>
+          <EndToEndId>4300000672A  0016129619961216001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">1092.53</InstdAmt>
+      <InstdAmt Ccy="EUR">6.41</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES7100495885172516019044</MndtId>
+            <MndtId>ES4830821315823191936719</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>BSCHESMMXXX</BIC>
+            <BIC>CCRIES2AXXX</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>SANNUL MULTISERVICIOS, S.L.</Nm>
+         <Nm>MIQUEL A O, RAFAEL</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>C/ANGEL GUIMERA 16 BAJO DERECHA</AdrLine>
-              <AdrLine>46008   VALENCIA</AdrLine>
+              <AdrLine>C/ RAMON ESTEVE, 1</AdrLine>
+              <AdrLine>CATADAU   46196     VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>172516019044</Id>
+                   <Id>823191936719</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES7100495885172516019044</IBAN>
+            <IBAN>ES4830821315823191936719</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>A5902556 Numero Vencimientos   1</Ustrd>
-      </RmtInf>
-   </DrctDbtTxInf>
-</PmtInf>
-<PmtInf>
-   <PmtInfId>RE000012020 03/02/20B46135372 0002</PmtInfId>
-   <PmtMtd>DD</PmtMtd>
-   <BtchBookg>false</BtchBookg>
-   <PmtTpInf>
-      <SvcLvl>
-          <Cd>SEPA</Cd>
-      </SvcLvl>
-      <LclInstrm>
-         <Cd>CORE</Cd>
-      </LclInstrm>
-      <SeqTp>RCUR</SeqTp>
-      <CtgyPurp>
-         <Cd>TRAD</Cd>
-      </CtgyPurp>
-   </PmtTpInf>
-   <ReqdColltnDt>2019-07-21</ReqdColltnDt>
-   <Cdtr>
-      <Nm>Herbelca S.L.</Nm>
-      <PstlAdr>
-          <Ctry>ES</Ctry>
-          <AdrLine>Azagador de la Torre 93   </AdrLine>
-      </PstlAdr>
-   </Cdtr>
-   <CdtrAcct>
-      <Id>
-         <IBAN>ES6400491827832010389247</IBAN>
-      </Id>
-   </CdtrAcct>
-   <CdtrAgt>
-      <FinInstnId>
-         <BIC>BSCHESMMXXX</BIC>
-      </FinInstnId>
-   </CdtrAgt>
-   <CdtrSchmeId>
-       <Id>
-          <PrvtId>
-             <Othr>
-                 <Id>ES25000B46135372</Id>
-                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
-             </Othr>
-          </PrvtId>
-       </Id>
-   </CdtrSchmeId>
-   <DrctDbtTxInf>
-      <PmtId>
-          <EndToEndId>43004910  GRP0000491020190621001   </EndToEndId>
-      </PmtId>
-      <InstdAmt Ccy="EUR">74.86</InstdAmt>
-      <DrctDbtTx>
-         <MndtRltdInf>
-            <MndtId>ES820000000000000000</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
-         </MndtRltdInf>
-      </DrctDbtTx>
-      <DbtrAgt>
-         <FinInstnId>
-            <BIC>           </BIC>
-         </FinInstnId>
-      </DbtrAgt>
-      <Dbtr>
-         <Nm>SALVADOR ROSELLO MILLET</Nm>
-         <PstlAdr>
-            <Ctry>ES</Ctry>
-              <AdrLine>C/ LA SAFOR 32-6-11</AdrLine>
-              <AdrLine>XERACO   46770     VALENCIA</AdrLine>
-         </PstlAdr>
-         <Id>
-            <PrvtId>
-               <Othr>
-                   <Id>00000000</Id>
-               </Othr>
-            </PrvtId>
-         </Id>
-      </Dbtr>
-      <DbtrAcct>
-         <Id>
-            <IBAN>ES820000000000000000</IBAN>
-         </Id>
-      </DbtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>A5904704 Numero Vencimientos   1</Ustrd>
-      </RmtInf>
-   </DrctDbtTxInf>
-</PmtInf>
-<PmtInf>
-   <PmtInfId>RE000012020 03/02/20B46135372 0003</PmtInfId>
-   <PmtMtd>DD</PmtMtd>
-   <BtchBookg>false</BtchBookg>
-   <PmtTpInf>
-      <SvcLvl>
-          <Cd>SEPA</Cd>
-      </SvcLvl>
-      <LclInstrm>
-         <Cd>CORE</Cd>
-      </LclInstrm>
-      <SeqTp>RCUR</SeqTp>
-      <CtgyPurp>
-         <Cd>TRAD</Cd>
-      </CtgyPurp>
-   </PmtTpInf>
-   <ReqdColltnDt>2019-08-05</ReqdColltnDt>
-   <Cdtr>
-      <Nm>Herbelca S.L.</Nm>
-      <PstlAdr>
-          <Ctry>ES</Ctry>
-          <AdrLine>Azagador de la Torre 93   </AdrLine>
-      </PstlAdr>
-   </Cdtr>
-   <CdtrAcct>
-      <Id>
-         <IBAN>ES6400491827832010389247</IBAN>
-      </Id>
-   </CdtrAcct>
-   <CdtrAgt>
-      <FinInstnId>
-         <BIC>BSCHESMMXXX</BIC>
-      </FinInstnId>
-   </CdtrAgt>
-   <CdtrSchmeId>
-       <Id>
-          <PrvtId>
-             <Othr>
-                 <Id>ES25000B46135372</Id>
-                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
-             </Othr>
-          </PrvtId>
-       </Id>
-   </CdtrSchmeId>
-   <DrctDbtTxInf>
-      <PmtId>
-          <EndToEndId>43003818  GRP0000381820190621001   </EndToEndId>
-      </PmtId>
-      <InstdAmt Ccy="EUR">939.23</InstdAmt>
-      <DrctDbtTx>
-         <MndtRltdInf>
-            <MndtId>ES6830960006112056877828</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
-         </MndtRltdInf>
-      </DrctDbtTx>
-      <DbtrAgt>
-         <FinInstnId>
-            <BIC>BCOEESMM096</BIC>
-         </FinInstnId>
-      </DbtrAgt>
-      <Dbtr>
-         <Nm>IMAN SUMINISTRES, SLU</Nm>
-         <PstlAdr>
-            <Ctry>ES</Ctry>
-              <AdrLine>C/PIONERS 6-A.POL.IND. ALCODAR</AdrLine>
-              <AdrLine>GANDIA   46701     VALENCIA</AdrLine>
-         </PstlAdr>
-         <Id>
-            <PrvtId>
-               <Othr>
-                   <Id>112056877828</Id>
-               </Othr>
-            </PrvtId>
-         </Id>
-      </Dbtr>
-      <DbtrAcct>
-         <Id>
-            <IBAN>ES6830960006112056877828</IBAN>
-         </Id>
-      </DbtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>A5904678 A5904678 Numero Vencimientos   2</Ustrd>
-      </RmtInf>
-   </DrctDbtTxInf>
-</PmtInf>
-<PmtInf>
-   <PmtInfId>RE000012020 03/02/20B46135372 0004</PmtInfId>
-   <PmtMtd>DD</PmtMtd>
-   <BtchBookg>false</BtchBookg>
-   <PmtTpInf>
-      <SvcLvl>
-          <Cd>SEPA</Cd>
-      </SvcLvl>
-      <LclInstrm>
-         <Cd>CORE</Cd>
-      </LclInstrm>
-      <SeqTp>RCUR</SeqTp>
-      <CtgyPurp>
-         <Cd>TRAD</Cd>
-      </CtgyPurp>
-   </PmtTpInf>
-   <ReqdColltnDt>2019-08-20</ReqdColltnDt>
-   <Cdtr>
-      <Nm>Herbelca S.L.</Nm>
-      <PstlAdr>
-          <Ctry>ES</Ctry>
-          <AdrLine>Azagador de la Torre 93   </AdrLine>
-      </PstlAdr>
-   </Cdtr>
-   <CdtrAcct>
-      <Id>
-         <IBAN>ES6400491827832010389247</IBAN>
-      </Id>
-   </CdtrAcct>
-   <CdtrAgt>
-      <FinInstnId>
-         <BIC>BSCHESMMXXX</BIC>
-      </FinInstnId>
-   </CdtrAgt>
-   <CdtrSchmeId>
-       <Id>
-          <PrvtId>
-             <Othr>
-                 <Id>ES25000B46135372</Id>
-                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
-             </Othr>
-          </PrvtId>
-       </Id>
-   </CdtrSchmeId>
-   <DrctDbtTxInf>
-      <PmtId>
-          <EndToEndId>43004910  A  0590470420190621002   </EndToEndId>
-      </PmtId>
-      <InstdAmt Ccy="EUR">74.87</InstdAmt>
-      <DrctDbtTx>
-         <MndtRltdInf>
-            <MndtId>ES3500496881322610015310</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
-         </MndtRltdInf>
-      </DrctDbtTx>
-      <DbtrAgt>
-         <FinInstnId>
-            <BIC>BSCHESMMXXX</BIC>
-         </FinInstnId>
-      </DbtrAgt>
-      <Dbtr>
-         <Nm>SALVADOR ROSELLO MILLET</Nm>
-         <PstlAdr>
-            <Ctry>ES</Ctry>
-              <AdrLine>C/ LA SAFOR 32-6-11</AdrLine>
-              <AdrLine>XERACO   46770     VALENCIA</AdrLine>
-         </PstlAdr>
-         <Id>
-            <PrvtId>
-               <Othr>
-                   <Id>322610015310</Id>
-               </Othr>
-            </PrvtId>
-         </Id>
-      </Dbtr>
-      <DbtrAcct>
-         <Id>
-            <IBAN>ES3500496881322610015310</IBAN>
-         </Id>
-      </DbtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>FACTURA  A-5904704 de Fecha 21 jun 2019</Ustrd>
-      </RmtInf>
-   </DrctDbtTxInf>
-   <DrctDbtTxInf>
-      <PmtId>
-          <EndToEndId>43002523  GRP0000252320190621001   </EndToEndId>
-      </PmtId>
-      <InstdAmt Ccy="EUR">255.75</InstdAmt>
-      <DrctDbtTx>
-         <MndtRltdInf>
-            <MndtId>ES4421005375110100036644</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
-         </MndtRltdInf>
-      </DrctDbtTx>
-      <DbtrAgt>
-         <FinInstnId>
-            <BIC>CAIXESBBXXX</BIC>
-         </FinInstnId>
-      </DbtrAgt>
-      <Dbtr>
-         <Nm>ENRIQUE CHIRIVELLA LOPEZ</Nm>
-         <PstlAdr>
-            <Ctry>ES</Ctry>
-              <AdrLine>RAFAEL LAPESA MELGAR, 6 PTA.10</AdrLine>
-              <AdrLine>46017   VALENCIA</AdrLine>
-         </PstlAdr>
-         <Id>
-            <PrvtId>
-               <Othr>
-                   <Id>110100036644</Id>
-               </Othr>
-            </PrvtId>
-         </Id>
-      </Dbtr>
-      <DbtrAcct>
-         <Id>
-            <IBAN>ES4421005375110100036644</IBAN>
-         </Id>
-      </DbtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>A5707318 A5904659 A5904659 Numero Vencimientos   3</Ustrd>
-      </RmtInf>
-   </DrctDbtTxInf>
-</PmtInf>
-<PmtInf>
-   <PmtInfId>RE000012020 03/02/20B46135372 0005</PmtInfId>
-   <PmtMtd>DD</PmtMtd>
-   <BtchBookg>false</BtchBookg>
-   <PmtTpInf>
-      <SvcLvl>
-          <Cd>SEPA</Cd>
-      </SvcLvl>
-      <LclInstrm>
-         <Cd>CORE</Cd>
-      </LclInstrm>
-      <SeqTp>RCUR</SeqTp>
-      <CtgyPurp>
-         <Cd>TRAD</Cd>
-      </CtgyPurp>
-   </PmtTpInf>
-   <ReqdColltnDt>2019-09-20</ReqdColltnDt>
-   <Cdtr>
-      <Nm>Herbelca S.L.</Nm>
-      <PstlAdr>
-          <Ctry>ES</Ctry>
-          <AdrLine>Azagador de la Torre 93   </AdrLine>
-      </PstlAdr>
-   </Cdtr>
-   <CdtrAcct>
-      <Id>
-         <IBAN>ES6400491827832010389247</IBAN>
-      </Id>
-   </CdtrAcct>
-   <CdtrAgt>
-      <FinInstnId>
-         <BIC>BSCHESMMXXX</BIC>
-      </FinInstnId>
-   </CdtrAgt>
-   <CdtrSchmeId>
-       <Id>
-          <PrvtId>
-             <Othr>
-                 <Id>ES25000B46135372</Id>
-                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
-             </Othr>
-          </PrvtId>
-       </Id>
-   </CdtrSchmeId>
-   <DrctDbtTxInf>
-      <PmtId>
-          <EndToEndId>43004819  GRP0000481920190621001   </EndToEndId>
-      </PmtId>
-      <InstdAmt Ccy="EUR">495.40</InstdAmt>
-      <DrctDbtTx>
-         <MndtRltdInf>
-            <MndtId>ES9731590028972585093129</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
-         </MndtRltdInf>
-      </DrctDbtTx>
-      <DbtrAgt>
-         <FinInstnId>
-            <BIC>BCOEESMM159</BIC>
-         </FinInstnId>
-      </DbtrAgt>
-      <Dbtr>
-         <Nm>SANDRA ISABEL ALVAREZ RUIZ</Nm>
-         <PstlAdr>
-            <Ctry>ES</Ctry>
-              <AdrLine>C/ FALCIA 7 BAJO</AdrLine>
-              <AdrLine>BETERA   46117     VALENCIA</AdrLine>
-         </PstlAdr>
-         <Id>
-            <PrvtId>
-               <Othr>
-                   <Id>972585093129</Id>
-               </Othr>
-            </PrvtId>
-         </Id>
-      </Dbtr>
-      <DbtrAcct>
-         <Id>
-            <IBAN>ES9731590028972585093129</IBAN>
-         </Id>
-      </DbtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>A5904617 A5904617 Numero Vencimientos   2</Ustrd>
-      </RmtInf>
-   </DrctDbtTxInf>
-</PmtInf>
-<PmtInf>
-   <PmtInfId>RE000012020 03/02/20B46135372 0006</PmtInfId>
-   <PmtMtd>DD</PmtMtd>
-   <BtchBookg>false</BtchBookg>
-   <PmtTpInf>
-      <SvcLvl>
-          <Cd>SEPA</Cd>
-      </SvcLvl>
-      <LclInstrm>
-         <Cd>CORE</Cd>
-      </LclInstrm>
-      <SeqTp>RCUR</SeqTp>
-      <CtgyPurp>
-         <Cd>TRAD</Cd>
-      </CtgyPurp>
-   </PmtTpInf>
-   <ReqdColltnDt>2019-10-06</ReqdColltnDt>
-   <Cdtr>
-      <Nm>Herbelca S.L.</Nm>
-      <PstlAdr>
-          <Ctry>ES</Ctry>
-          <AdrLine>Azagador de la Torre 93   </AdrLine>
-      </PstlAdr>
-   </Cdtr>
-   <CdtrAcct>
-      <Id>
-         <IBAN>ES6400491827832010389247</IBAN>
-      </Id>
-   </CdtrAcct>
-   <CdtrAgt>
-      <FinInstnId>
-         <BIC>BSCHESMMXXX</BIC>
-      </FinInstnId>
-   </CdtrAgt>
-   <CdtrSchmeId>
-       <Id>
-          <PrvtId>
-             <Othr>
-                 <Id>ES25000B46135372</Id>
-                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
-             </Othr>
-          </PrvtId>
-       </Id>
-   </CdtrSchmeId>
-   <DrctDbtTxInf>
-      <PmtId>
-          <EndToEndId>43004938  A  0590256220190807001   </EndToEndId>
-      </PmtId>
-      <InstdAmt Ccy="EUR">278.23</InstdAmt>
-      <DrctDbtTx>
-         <MndtRltdInf>
-            <MndtId>ES8700495885172516019044</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
-         </MndtRltdInf>
-      </DrctDbtTx>
-      <DbtrAgt>
-         <FinInstnId>
-            <BIC>BSCHESMMXXX</BIC>
-         </FinInstnId>
-      </DbtrAgt>
-      <Dbtr>
-         <Nm>SANNUL MULTISERVICIOS, S.L.</Nm>
-         <PstlAdr>
-            <Ctry>ES</Ctry>
-              <AdrLine>C/ANGEL GUIMERA 16 BAJO DERECHA</AdrLine>
-              <AdrLine>46008   VALENCIA</AdrLine>
-         </PstlAdr>
-         <Id>
-            <PrvtId>
-               <Othr>
-                   <Id>172516019044</Id>
-               </Othr>
-            </PrvtId>
-         </Id>
-      </Dbtr>
-      <DbtrAcct>
-         <Id>
-            <IBAN>ES8700495885172516019044</IBAN>
-         </Id>
-      </DbtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>FACTURA  A-5902562 de Fecha 07 ago 2019</Ustrd>
+         <Ustrd>REGISTRO GRAL.-SECC.SUMINISTRO Factura 0161296 de 16/Dic/1996</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>

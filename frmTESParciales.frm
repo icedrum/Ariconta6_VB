@@ -761,7 +761,9 @@ Dim B As Boolean
         
         'UPDATEAMOS EL Vencimiento y CONTABILIZAMOS EL COBRO/PAGO
         Screen.MousePointer = vbHourglass
+        MiVariableAuxiliar = RecuperaValor(Cta, 2)
         B = RealizarAnticipo
+        MiVariableAuxiliar = ""
         Screen.MousePointer = vbDefault
         If Not B Then Exit Sub
         CadenaDesdeOtroForm = "OK" 'Para que refresque los datos en el form
@@ -1262,6 +1264,23 @@ Dim ImporteCtaCliente As Currency
     Numdocum = DevNombreSQL(RecuperaValor(Vto, 2))
     If Cobro Then
         Numdocum = RecuperaValor(Vto, 1) & Format(Numdocum, "0000000")
+    Else
+        
+        If vParam.CodiNume = 1 Then
+            'Quiero el numero de registro. Intento buscar
+            Sql5 = "numserie = " & DBSet(RecuperaValor(Vto, 1), "T")
+            Sql5 = Sql5 & " AND numfactu = " & DBSet(RecuperaValor(Vto, 2), "T")
+            Sql5 = Sql5 & " AND fecfactu = " & DBSet(RecuperaValor(Vto, 3), "F") & " AND 1"
+            Sql5 = DevuelveDesdeBD("numregis", "factpro", Sql5, "1")
+            If Sql5 <> "" Then
+                Sql5 = Right("0000000000" & Sql5, 10)
+                Numdocum = Sql5
+            End If
+        End If
+        
+        
+        
+        Sql5 = ""
     End If
     
     
@@ -1316,10 +1335,20 @@ Dim ImporteCtaCliente As Currency
         Ampliacion = DevNombreSQL(Text1(2).Text)
     ElseIf Conce = 6 Then
         'Cuenta
-        MiVariableAuxiliar = RecuperaValor(Vto, 1) & Format(RecuperaValor(Vto, 2), "0000000")
+        Sql5 = RecuperaValor(Vto, 1)
         
+        If Cobro Then
+            MiVariableAuxiliar = Sql5 & Format(RecuperaValor(Vto, 2), "0000000")
+            Sql5 = ""
+        Else
+            If Sql5 = "1" Then Sql5 = ""
+            MiVariableAuxiliar = Sql5 & RecuperaValor(Vto, 2)
+            Sql5 = ""
+        End If
+        If Len(MiVariableAuxiliar) > 23 Then MiVariableAuxiliar = Mid(MiVariableAuxiliar, 1, 20)
         Ampliacion = Mid(RecuperaValor(Cta, 2), 1, 39 - Len(MiVariableAuxiliar))
-        Ampliacion = Ampliacion & " " & MiVariableAuxiliar
+        Ampliacion = Sql5 & Ampliacion & " " & MiVariableAuxiliar
+        Sql5 = ""
     Else
         
        If Conce = 1 Then Ampliacion = Ampliacion & FP.siglas & " "
@@ -1378,7 +1407,7 @@ Dim ImporteCtaCliente As Currency
     If GastosVencimiento > 0 Then
         CtaBancoGastos = DevuelveDesdeBD("ctagastos", "bancos", "codmacta", txtCta(1), "T")
         If CtaBancoGastos = "" Then Err.Raise 513, , "Cuenta gastos sin configurar"
-        'Ahora ponemos linliapu codmacta numdocum codconce ampconce timported timporte codccost ctacontr idcontab punteada
+        
         'Cuenta Cliente/proveedor
         cad = "2,'" & CtaBancoGastos & "','" & Numdocum & "'," & Conce & ",'" & DevNombreSQL(Ampliacion) & "',"
         'Importe cobro-pago
@@ -1451,12 +1480,21 @@ Dim ImporteCtaCliente As Currency
         Ampliacion = DevNombreSQL(Text1(2).Text)
     ElseIf Conce = 6 Then
     
-        'Cuenta
-        MiVariableAuxiliar = RecuperaValor(Vto, 1) & Format(RecuperaValor(Vto, 2), "0000000")
+        Sql5 = RecuperaValor(Vto, 1)
         
-        Ampliacion = Mid(RecuperaValor(Cta, 2), 1, 39 - Len(MiVariableAuxiliar))
-        Ampliacion = Ampliacion & " " & MiVariableAuxiliar
-    
+        If Cobro Then
+            MiVariableAuxiliar = Sql5 & Format(RecuperaValor(Vto, 2), "0000000")
+            Sql5 = ""
+        Else
+            If Sql5 = "1" Then Sql5 = ""
+            MiVariableAuxiliar = Sql5 & RecuperaValor(Vto, 2)
+            Sql5 = "PAG "
+        End If
+        ' Como quiere ver toda la ampliacion en la ventana, vamos a suponore un maximo de 23 carcateres
+        If Len(MiVariableAuxiliar) > 23 Then MiVariableAuxiliar = Mid(MiVariableAuxiliar, 1, 20)
+        Ampliacion = Mid(RecuperaValor(Cta, 2), 1, 23 - Len(MiVariableAuxiliar))
+        Ampliacion = Sql5 & Ampliacion & " " & MiVariableAuxiliar
+        Sql5 = ""
     Else
     
         If Conce = 1 Then Ampliacion = Ampliacion & FP.siglas & " "

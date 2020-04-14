@@ -631,7 +631,7 @@ Private frmCtas As frmCtasAgrupadas
 Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim i As Integer
+Dim I As Integer
 Dim IndCodigo As Integer
 Dim PrimeraVez As String
 Dim Rs As ADODB.Recordset
@@ -670,10 +670,10 @@ Private Sub cmdAccion_Click(Index As Integer)
     If Not DatosOK Then Exit Sub
     
     PulsadoCancelar = False
-    Me.cmdCancelarAccion.Visible = True
+    Me.cmdCancelarAccion.visible = True
     Me.cmdCancelarAccion.Enabled = True
     
-    Me.cmdCancelar.Visible = False
+    Me.cmdCancelar.visible = False
     Me.cmdCancelar.Enabled = False
         
     
@@ -685,10 +685,10 @@ Private Sub cmdAccion_Click(Index As Integer)
     InicializarVbles True
             
 
-    Me.cmdCancelarAccion.Visible = False
+    Me.cmdCancelarAccion.visible = False
     Me.cmdCancelarAccion.Enabled = False
     
-    Me.cmdCancelar.Visible = True
+    Me.cmdCancelar.visible = True
     Me.cmdCancelar.Enabled = True
 
     
@@ -718,7 +718,7 @@ Private Sub cmdAccion_Click(Index As Integer)
 End Sub
 
 Private Sub cmdCancelar_Click()
-    If Me.cmdCancelarAccion.Visible Then Exit Sub
+    If Me.cmdCancelarAccion.visible Then Exit Sub
     HanPulsadoSalir = True
     Unload Me
 End Sub
@@ -754,9 +754,9 @@ Private Sub Form_Load()
     'Otras opciones
     Me.Caption = "Presupuestos sobre Cuentas"
 
-    For i = 0 To 1
-        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 0 To 1
+        Me.imgCuentas(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
     
     PrimeraVez = True
      
@@ -774,7 +774,7 @@ Private Sub Form_Load()
     
     
     cmdCancelarAccion.Enabled = False
-    cmdCancelarAccion.Visible = False
+    cmdCancelarAccion.visible = False
     
     
 End Sub
@@ -1025,8 +1025,8 @@ L = 1
 Do
     cad = RecuperaValor(Lista, L)
     If cad <> "" Then
-        i = Val(cad)
-        With cmbFecha(i)
+        I = Val(cad)
+        With cmbFecha(I)
             .Clear
             For CONT = 1 To 12
                 RC = "25/" & CONT & "/2002"
@@ -1199,16 +1199,16 @@ Dim EjerciciosPartidos As Boolean
                 
             If EjerciciosPartidos Then
                 If DBLet(Rs!mespresu) < Month(vParam.fechaini) And DBLet(Rs!anopresu) - 1 = Campana Then
-                    i = Rs!mespresu - Month(vParam.fechaini) + 12 + 1
+                    I = Rs!mespresu - Month(vParam.fechaini) + 12 + 1
                 Else
                     If DBLet(Rs!anopresu) = Campana And DBLet(Rs!mespresu) >= Month(vParam.fechaini) Then
-                        i = Rs!mespresu - Month(vParam.fechaini) + 1
+                        I = Rs!mespresu - Month(vParam.fechaini) + 1
                     Else
                         Campana = DBLet(Rs!anopresu)
                         If DBLet(Rs!mespresu) < Month(vParam.fechaini) Then
-                            i = Rs!mespresu - Month(vParam.fechaini) + 12 + 1
+                            I = Rs!mespresu - Month(vParam.fechaini) + 12 + 1
                         Else
-                            i = Rs!mespresu - Month(vParam.fechaini) + 1
+                            I = Rs!mespresu - Month(vParam.fechaini) + 1
                         End If
                         Sql = "insert into tmpevolsal (codusu, codmacta, nommacta, apertura, "
                         Sql = Sql & "importemes1, importemes2, importemes3, importemes4, importemes5, importemes6, importemes7, importemes8, importemes9, importemes10, importemes11, importemes12) values ("
@@ -1244,7 +1244,7 @@ Dim EjerciciosPartidos As Boolean
                 End If
             Else
                 Campana = DBLet(Rs!anopresu)
-                i = Rs!mespresu
+                I = Rs!mespresu
                 
                 If CtaAnt <> DBLet(Rs!codmacta) Or CampanaAnt <> Campana Then
                     Sql = "insert into tmpevolsal (codusu, codmacta, nommacta, apertura, "
@@ -1286,7 +1286,7 @@ Dim EjerciciosPartidos As Boolean
                 
             End If
             
-            Select Case i
+            Select Case I
                 Case 1
                     imp1 = DBLet(Rs!imppresu, "N")
                 Case 2

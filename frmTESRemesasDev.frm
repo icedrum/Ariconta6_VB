@@ -1370,7 +1370,7 @@ Dim W As Integer
     
     Me.Image4.Picture = frmppal.imgIcoForms.ListImages(1).Picture
 
-
+    
     Select Case Opcion
     Case 9, 16, 28
         If SubTipo = 1 Then
@@ -1385,8 +1385,9 @@ Dim W As Integer
         Text1(11).Text = Format(Now, "dd/mm/yyyy")
         txtImporte(1).Text = 0
         
-        'FALTA####
-        'El combo no es igual que el de los tipos de pago.
+
+        CargaCombo2
+        
         
         'Ofertamos el haber de la forma de pago recibo bancario
         SQL = DevuelveDesdeBD("amphacli", "tipofpago", "tipoformapago", "4")
@@ -2605,5 +2606,28 @@ End Function
 
 
 
+
+Private Sub CargaCombo2()
+
+'0 Serie / Factura
+'1 Tipo forma pago + Serie /Factura
+'2 Fecha vencimiento
+'3 Descripcion REM/TRANS
+'4 Cta Contrapartida
+'5 Documento -Contrapartida
+'6 Nommacta (cobro)
+' EN DEVOLCUCION tambien HAY un combo de estos
+    vSql = "Serie / Factura|Tipo forma pago + Serie /Factura|Fecha vencimiento|"
+    vSql = vSql & "Descripcion REM/TRANS|Cta Contrapartida|"
+    vSql = vSql & "Documento -Contrapartida|Nombre cta(cobro)|"
+  '  For AñoRem = 0 To 0
+        Combo2(0).Clear
+        For AñoRem = 0 To 6
+            Combo2(0).AddItem RecuperaValor(vSql, AñoRem + 1)
+            Combo2(0).ItemData(Combo2(0).NewIndex) = AñoRem
+        Next AñoRem
+        AñoRem = 0
+   ' Next kCampo
+End Sub
 
 

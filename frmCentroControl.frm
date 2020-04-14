@@ -2288,6 +2288,11 @@ Dim Ok As Boolean
     Me.LabelIndF(0).Caption = ""
     Me.LabelIndF(1).Caption = ""
     
+    'Falta revisar la fecha registro contable
+    If vParam.SIITiene Then
+        MsgBox "Error . Llame soporte tecnico", vbCritical
+        Exit Sub
+    End If
     If MsgBox("Debería hacer una copia de seguridad." & vbCrLf & vbCrLf & vbCrLf & "El proceso puede durar MUCHO tiempo. ¿Desea continuar igualmente?", vbQuestion + vbYesNo) <> vbYes Then Exit Sub
         
     If UsuariosConectados("Renumerar nºReg. en factura proveedor" & vbCrLf, True) Then Exit Sub
@@ -3301,11 +3306,11 @@ Dim F As Date
     
     
     'Datos basico
-    Tam2 = 3
-    TablaAnt = "contadores|scryst|cartas|"
+    Tam2 = 4
+    TablaAnt = "contadores|scryst|cartas|paises|"
     If vEmpresa.TieneTesoreria Then
         TablaAnt = TablaAnt & "tipofpago|bics|"
-        Tam2 = 5
+        Tam2 = Tam2 + 2  'hay 2 de tesoreria
     End If
     For i = 1 To Tam2
         SQL = RecuperaValor(TablaAnt, i)

@@ -72,7 +72,7 @@ Begin VB.Form frmTESTransferDev
             Index           =   0
             ItemData        =   "frmTESTransferDev.frx":000C
             Left            =   10890
-            List            =   "frmTESTransferDev.frx":0022
+            List            =   "frmTESTransferDev.frx":0025
             Style           =   2  'Dropdown List
             TabIndex        =   26
             Tag             =   "Ampliacion debe/CLIENTES|N|N|0||stipoformapago|ampdecli|||"
@@ -550,7 +550,7 @@ Begin VB.Form frmTESTransferDev
          Height          =   240
          Index           =   0
          Left            =   14430
-         Picture         =   "frmTESTransferDev.frx":00B0
+         Picture         =   "frmTESTransferDev.frx":00C0
          ToolTipText     =   "Quitar al Debe"
          Top             =   3720
          Width           =   240
@@ -559,7 +559,7 @@ Begin VB.Form frmTESTransferDev
          Height          =   240
          Index           =   1
          Left            =   14790
-         Picture         =   "frmTESTransferDev.frx":01FA
+         Picture         =   "frmTESTransferDev.frx":020A
          ToolTipText     =   "Puntear al Debe"
          Top             =   3720
          Width           =   240
@@ -1044,6 +1044,7 @@ Dim W As Integer
      
      
      'Ofertamos el haber de la forma de pago recibo bancario
+     If Not Cobros Then Combo2(0).List(6) = "Cta proveedor"
      SQL = DevuelveDesdeBD("amphacli", "tipofpago", "tipoformapago", "4")
      If SQL <> "" Then Combo2(0).ListIndex = CInt(SQL)
          

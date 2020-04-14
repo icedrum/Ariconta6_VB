@@ -559,7 +559,7 @@ Private WithEvents frmC As frmCal
 Attribute frmC.VB_VarHelpID = -1
 
 Private SQL As String
-Dim Cad As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -963,7 +963,7 @@ Dim Sql9 As String
 Dim Sql10 As String
     
     Set Lin = New Collection
-
+    Set miRsAux = New ADODB.Recordset
     SQL = "Select * from balances_texto where numbalan=" & Cual
     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF

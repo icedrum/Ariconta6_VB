@@ -25,8 +25,8 @@ Public HaPulsadoImprimir As Boolean
 
 Dim Rs As Recordset
 Dim cad As String
-Dim SQL As String
-Dim i As Integer
+Dim sql As String
+Dim I As Integer
 
 
 'Esto sera para el pb general
@@ -137,13 +137,13 @@ Dim SubTipo As String 'F: fecha   N: numero   T: texto  H: HORA
     Case "CTA", "BAN", "CCO", "SER", "CRY"
         SubTipo = "T"
         
-    Case "ASIP", "ASI", "AGE", "DPTO"
+    Case "ASIP", "ASI", "AGE", "DPTO", "CCI"
         SubTipo = "N"
         
     Case "TIVA", "DIA"
         SubTipo = "N"
         
-    Case "TPAG", "FPAG", "REM", "ANYO", "REG"
+    Case "TPAG", "FPAG", "REM", "ANYO", "REG", "COM"
         SubTipo = "N"
         
    
@@ -229,7 +229,7 @@ End Function
 
 Public Function GeneraFicheroCSV(cadSQL As String, Salida As String, Optional OcultarMensajeCreacionCorrecta As Boolean) As Boolean
 Dim NF As Integer
-Dim i  As Integer
+Dim I  As Integer
 
     On Error GoTo eGeneraFicheroCSV
     GeneraFicheroCSV = False
@@ -249,18 +249,18 @@ Dim i  As Integer
         Open App.Path & "\docum.csv" For Output As #NF
         'Cabecera
         cadSQL = ""
-        For i = 0 To miRsAux.Fields.Count - 1
-            cadSQL = cadSQL & ";""" & miRsAux.Fields(i).Name & """"
-        Next i
+        For I = 0 To miRsAux.Fields.Count - 1
+            cadSQL = cadSQL & ";""" & miRsAux.Fields(I).Name & """"
+        Next I
         Print #NF, Mid(cadSQL, 2)
     
     
         'Lineas
         While Not miRsAux.EOF
             cadSQL = ""
-            For i = 0 To miRsAux.Fields.Count - 1
-                cadSQL = cadSQL & ";""" & DBLet(miRsAux.Fields(i).Value, "T") & """"
-            Next i
+            For I = 0 To miRsAux.Fields.Count - 1
+                cadSQL = cadSQL & ";""" & DBLet(miRsAux.Fields(I).Value, "T") & """"
+            Next I
             Print #NF, Mid(cadSQL, 2)
             
             
@@ -360,12 +360,12 @@ End Function
 
 
 Public Sub QuitarPulsacionMas(ByRef T As TextBox)
-Dim i As Integer
+Dim I As Integer
 
     Do
-        i = InStr(1, T.Text, "+")
-        If i > 0 Then T.Text = Mid(T.Text, 1, i - 1) & Mid(T.Text, i + 1)
-    Loop Until i = 0
+        I = InStr(1, T.Text, "+")
+        If I > 0 Then T.Text = Mid(T.Text, 1, I - 1) & Mid(T.Text, I + 1)
+    Loop Until I = 0
         
 End Sub
 
@@ -693,7 +693,7 @@ End Function
 
 
 Public Function ExisteARIMAILGES()
-Dim SQL As String
+Dim sql As String
 
     If Dir(App.Path & "\ArimailGes.exe") = "" Then
         MsgBox "No existe el programa ArimailGes.exe. Llame a Ariadna.", vbExclamation
@@ -707,14 +707,14 @@ End Function
 
 Public Function HayRegParaInforme(cTabla As String, cWhere As String) As Boolean
 'Comprobar si hay registros a Mostrar antes de abrir el Informe
-Dim SQL As String
+Dim sql As String
     
-    SQL = "Select count(*) FROM " & cTabla
+    sql = "Select count(*) FROM " & cTabla
     If cWhere <> "" Then
-        SQL = SQL & " WHERE " & cWhere
+        sql = sql & " WHERE " & cWhere
     End If
     
-    If TotalRegistros(SQL) = 0 Then
+    If TotalRegistros(sql) = 0 Then
         MsgBox "No hay datos para mostrar en el Informe.", vbInformation
         HayRegParaInforme = False
     Else
@@ -769,10 +769,10 @@ Dim Lanza As String
         Aux = "Reclamacion.pdf"
     End Select
     
-    SQL = "select tmp347.*, cuentas.razosoci, cuentas.maidatos from tmp347, cuentas "
-    SQL = SQL & " where codusu = " & vUsu.Codigo & " and importe <> 0 and tmp347.cta = cuentas.codmacta"
+    sql = "select tmp347.*, cuentas.razosoci, cuentas.maidatos from tmp347, cuentas "
+    sql = sql & " where codusu = " & vUsu.Codigo & " and importe <> 0 and tmp347.cta = cuentas.codmacta"
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
     
         NombrePDF = App.Path & "\temp\" & Rs!NIF

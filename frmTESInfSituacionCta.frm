@@ -1565,7 +1565,7 @@ Dim QueTipoPago As String
             'En importe1 estara el importe del cobro
             Importe = DBLet(miRsAux!imppagad, "N")
 
-            Importe = miRsAux!ImpEfect - Importe
+            Importe = miRsAux!impefect - Importe
             cad = cad & TransformaComasPuntos(CStr(0)) & "," & TransformaComasPuntos(CStr(-1 * Importe))
             
             cad = cad & ",1)" '1: pago

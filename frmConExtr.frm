@@ -892,7 +892,7 @@ Dim ImpH As Currency
 
 Private Sub adodc1_MoveComplete(ByVal adReason As ADODB.EventReasonEnum, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pRecordset As ADODB.Recordset)
     On Error Resume Next
-    Label10.Caption = DBLet(Adodc1.Recordset!Nommacta, "T")
+    Label10.Caption = DBLet(adodc1.Recordset!Nommacta, "T")
     If Err.Number <> 0 Then
         Err.Clear
         Label10.Caption = ""
@@ -968,6 +968,9 @@ Dim F As Date
     If Not TieneMovimientos(Text3(2).Text) Then
         MsgBox "La cuenta " & Text5.Text & " NO tiene movimientos en las fechas", vbExclamation
         Screen.MousePointer = vbDefault
+        
+        Cuenta = ""
+        PonerModoUsuarioGnral 0, "ariconta"
         
         CargarDatos False
         PonerFoco Text3(2)
@@ -1215,6 +1218,9 @@ Private Sub ListView1_DblClick()
 Dim NumAsien As Long
 Dim Sql2 As String
 
+If ListView1.SelectedItem Is Nothing Then Exit Sub
+
+
 If Not VieneDeIntroduccion Then
     If Trim(ListView1.SelectedItem.Text) <> "" Then
         Screen.MousePointer = vbHourglass
@@ -1346,6 +1352,8 @@ Private Sub Text3_LostFocus(Index As Integer)
                 MsgBox SQL, vbExclamation
                 Text3(2).Text = ""
                 Text5.Text = ""
+                ListView1.ListItems.Clear
+                PonerModoUsuarioGnral 0, "ariconta"
                 PonerFoco Text3(2)
             End If
      End Select
@@ -1400,7 +1408,7 @@ End Function
 Private Sub CargaGrid()
 
 
-    Adodc1.ConnectionString = Conn
+    adodc1.ConnectionString = Conn
     SQL = " codusu, cta, numdiari, Pos, fechaent, numasien, linliapu, nomdocum, contra, ampconce, timporteD, timporteH, saldo,ccost, Punteada"
     If Text3(2).Text <> "" Then
         SQL = SQL & ",nommacta"
@@ -1412,13 +1420,13 @@ Private Sub CargaGrid()
     End If
     SQL = SQL & " AND cta = '" & Text3(2).Text & "' ORDER BY POS"
     
-    Adodc1.RecordSource = SQL
-    Adodc1.Refresh
+    adodc1.RecordSource = SQL
+    adodc1.Refresh
     
     
     
     Label101.Caption = "Total lineas:   "
-    Label101.Caption = Label101.Caption & Me.Adodc1.Recordset.RecordCount
+    Label101.Caption = Label101.Caption & Me.adodc1.Recordset.RecordCount
     
 End Sub
 
@@ -1461,7 +1469,7 @@ Dim miRsAux As ADODB.Recordset
     End If
     cad = cad & " AND cta = '" & Text3(2).Text & "' ORDER BY fechaent,numasien,linliapu  " ' ORDER BY POS"
     
-    
+     
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If miRsAux.EOF Then

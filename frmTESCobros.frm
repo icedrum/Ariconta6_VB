@@ -4303,7 +4303,7 @@ Private Sub LimpiarCampos()
     
     '[Monica]26/07/2017: faltaba limpiar
     cboSituRem.ListIndex = -1
-    
+    Me.lwCobros.ListItems.Clear
     Combo1.ListIndex = -1
     Text2(3).Text = ""
     lblIndicador.Caption = ""
@@ -4563,6 +4563,12 @@ Private Sub imgSerie_Click()
 End Sub
 
 
+
+Private Sub lwCobros_DblClick()
+    If Modo <> 2 Then Exit Sub
+    If lwCobros.ListItems.Count = 0 Then Exit Sub
+    BotonVerAsiento
+End Sub
 
 '### A mano
 'Los metodos del text tendran que estar
@@ -5706,14 +5712,14 @@ Dim Im As Currency
     'Ok, Ahora pongo los labels
     frmTESCobrosDivVto.Opcion = 27
     frmTESCobrosDivVto.Label4(56).Caption = Text2(0).Text
-    frmTESCobrosDivVto.txtCodigo(2).Text = Text1(5).Text
+    frmTESCobrosDivVto.txtcodigo(2).Text = Text1(5).Text
     
     frmTESCobrosDivVto.Label4(57).Caption = data1.Recordset!NUmSerie & Format(data1.Recordset!NumFactu, "000000") & " / " & data1.Recordset!numorden & "      de " & Format(data1.Recordset!FecFactu, "dd/mm/yyyy")
     
     'Si ya ha cobrado algo...
     Im = DBLet(data1.Recordset!impcobro, "N")
     'If Im > 0 Then frmTESCobrosDivVto.txtCodigo(1).Text = txtPendiente.Text
-    frmTESCobrosDivVto.txtCodigo(1).Text = txtPendiente.Text
+    frmTESCobrosDivVto.txtcodigo(1).Text = txtPendiente.Text
     
     
     If Text1(0).Text = "" Then
@@ -5989,22 +5995,22 @@ Dim cad As String
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2)
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 2)
-        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2)
         
         Toolbar1.Buttons(5).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
         Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
         
         Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 0 Or Modo = 2)
         
-        Me.Toolbar2.Buttons(1).Enabled = DBLet(Rs!especial, "N") And (Modo <> 0 And Modo <> 5)
+        Me.Toolbar2.Buttons(1).Enabled = DBLet(Rs!Especial, "N") And (Modo <> 0 And Modo <> 5)
         Me.Toolbar2.Buttons(2).Enabled = vEmpresa.TieneContabilidad And Modo = 2
-        Me.Toolbar2.Buttons(3).Enabled = DBLet(Rs!especial, "N") And Modo = 2
-        Me.Toolbar2.Buttons(4).Enabled = DBLet(Rs!especial, "N") And Modo = 2
+        Me.Toolbar2.Buttons(3).Enabled = DBLet(Rs!Especial, "N") And Modo = 2
+        Me.Toolbar2.Buttons(4).Enabled = DBLet(Rs!Especial, "N") And Modo = 2
         
         
-            ToolbarAux.Buttons(1).Enabled = DBLet(Rs!especial, "N") And (Modo = 2) And Not Me.AdoAux(0).Recordset.EOF
+            ToolbarAux.Buttons(1).Enabled = DBLet(Rs!Especial, "N") And (Modo = 2) And Not Me.AdoAux(0).Recordset.EOF
             ToolbarAux.Buttons(2).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 2) And Not Me.AdoAux(0).Recordset.EOF
             
         
@@ -6713,7 +6719,7 @@ Private Sub txtaux_GotFocus(Index As Integer)
 End Sub
 
 
-Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub TxtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     KEYdown KeyCode
 End Sub
 

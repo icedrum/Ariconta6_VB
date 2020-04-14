@@ -775,10 +775,10 @@ Dim B As Boolean
         SQL = Mes & ",'" & DBLet(RF!codmacta, "T") & "'," & DocConcAmp
         Cad2 = CadenaImporte(False, DBLet(RF!Baseimpo, "N"), Importe0)
         SQL = SQL & "," & Cad2 & ","
-        If IsNull(RF!codccost) Then
+        If IsNull(RF!CodCcost) Then
             Cad2 = "NULL"
         Else
-            Cad2 = "'" & RF!codccost & "'"
+            Cad2 = "'" & RF!CodCcost & "'"
         End If
         
         SQL = SQL & Cad2 & ",'" & DBLet(Cuenta, "T") & "','FRACLI',0)"
@@ -847,7 +847,6 @@ Dim PrimeraContrapartida As String  'Si hay solo una linea entonces la pondremos
 Dim TipoDeIva_ As Integer
 Dim B As Boolean
 
-'Modificacion de 31 Enero 2005
 '-------------------------------------
 '-------------------------------------
 Dim ColumnaIVA As String
@@ -936,7 +935,6 @@ Dim TipoDIva As Byte
         Cad2 = DBLet(RF!NumFactu)
     End If
     
-
     DocConcAmp = "'" & Cad2 & "'," & vParam.concefpr & ",'"
     
     
@@ -1000,11 +998,11 @@ Dim TipoDIva As Byte
     SqlIva = SqlIva & " order by numlinea "
     
     
-    Dim EsSujetoPasivo As Boolean
+    Dim Apunte_472_477 As Boolean   'Ante sEsSujetoPasivo:  INTRACOMUNITARIA  - SUJETO PASIVO
     Dim EsImportacion As Boolean
     
     EsImportacion = (DBLet(RF!CodOpera, "N") = 2)
-    EsSujetoPasivo = ((DBLet(RF!CodOpera, "N") = 1) Or (DBLet(RF!CodOpera, "N") = 4))
+    Apunte_472_477 = ((DBLet(RF!CodOpera, "N") = 1) Or (DBLet(RF!CodOpera, "N") = 4))   ' Or (DBLet(RF!CodOpera, "N") = 6)    'DUA hace apunte normal
     
     Set RsIvas = New ADODB.Recordset
     RsIvas.Open SqlIva, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -1068,7 +1066,7 @@ Dim TipoDIva As Byte
                 End If
             End If
             
-            If EsSujetoPasivo Then
+            If Apunte_472_477 Then
                 Cad3 = "cuentarr"
                 Cad2 = DevuelveDesdeBD("cuentare", "tiposiva", "codigiva", RsIvas!codigiva, "N", Cad3)
                 
@@ -1161,10 +1159,10 @@ Dim TipoDIva As Byte
         SQL = Mes & ",'" & RF!codmacta & "'," & DocConcAmp
         Cad2 = CadenaImporte(True, RF!Baseimpo, Importe0)
         SQL = SQL & "," & Cad2 & ","
-        If IsNull(RF!codccost) Then
+        If IsNull(RF!CodCcost) Then
             Cad2 = "NULL"
         Else
-            Cad2 = "'" & RF!codccost & "'"
+            Cad2 = "'" & RF!CodCcost & "'"
         End If
         
         SQL = SQL & Cad2 & ",'" & Cuenta & "','FRAPRO',0)"
@@ -1193,6 +1191,7 @@ Dim TipoDIva As Byte
     
     'Actualimos en factura, el nº de asiento
     SQL = "UPDATE factpro SET numdiari = " & DiarioFacturas & ", fechaent = '" & Fecha & "', numasien =" & NumAsiento
+    SQL = SQL & " ,fecregcontable = fecregcontable"
     SQL = SQL & " WHERE  numregis = " & NumFac
     SQL = SQL & " AND numserie= " & DBSet(NUmSerie, "T")
     SQL = SQL & " AND anofactu=" & NumDiari
@@ -1427,6 +1426,7 @@ On Error Resume Next
             SQL = SQL & " AND numserie = '" & Rs!NUmSerie & "'"
         Else
             'proveedores
+            SQL = SQL & " ,fecregcontable=fecregcontable"
             SQL = SQL & " WHERE numregis = " & Rs!Numregis
             SQL = SQL & " AND anofactu =" & Rs!anofactu
         End If

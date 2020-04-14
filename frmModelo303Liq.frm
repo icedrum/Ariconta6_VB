@@ -1139,6 +1139,53 @@ Dim Aux As String
         
         Conn.Execute SqlInsert2 & SqlValues2
         
+        
+        'Abril 2020
+        If vParam.InscritoDeclarDUA Then
+            Rs.Close
+            'Para cada factura de DUA vempos el importe de IVA y a contra el proveedor lo descontamos del resltado
+            'De momento, si tiene lo de inscrito en DUA, no puede consolidar
+            SQL = " WHERE fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+            SQL = SQL & " and codopera = 6 " 'duas
+            SQL = "Select codmacta, sum(totivas) importe ,nommacta   FROM ariconta" & NumConta & ".factpro " & SQL
+            SQL = SQL & " GROUP by codmacta order by codmacta "
+            Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            SqlValues = ""
+            While Not Rs.EOF
+                i = i + 1
+                Importe = DBLet(Rs!Importe, "N")
+            
+                SqlValues = SqlValues & ", (" & DBSet(vUsu.Codigo, "N") & "," & DBSet(i, "N") & "," & DBSet(Rs!codmacta, "T") & ","
+                
+                If Importe < 0 Then
+                    SqlValues = SqlValues & "0," & DBSet(Importe * (-1), "N") & "," '  prov negativo al haber
+                Else
+                    SqlValues = SqlValues & DBSet(Importe, "N") & "," & "0," ' prov  al debe
+                End If
+                Aux = DBLet(Rs!Nommacta, "T")
+                codempre = NumConta
+                If Aux = "" Then
+                    Aux = "ariconta" & codempre & ".cuentas"
+                    Aux = DevuelveDesdeBD("nommacta", Aux, "codmacta", Rs!codmacta, "T")
+                End If
+                If Aux = "" Then Aux = "ERROR obteniedno cta"
+                
+                SqlValues = SqlValues & DBSet(Aux, "T") & "," & codempre & ")"
+                
+            
+                'SqlValues2 = SqlValues2 & "(" & DBSet(vUsu.Codigo, "N") & "," & DBSet(Rs!codmacta, "T") & "," & DBSet(DevuelveValor(SQL), "N") & "),"
+            
+                Rs.MoveNext
+            Wend
+            
+            
+            
+            If SqlValues <> "" Then
+                SqlValues = Mid(SqlValues, 2)
+                Conn.Execute SqlInsert & SqlValues
+            End If
+        End If
+        
     
         SQL = "select sum(timported) from ariconta" & NumConta & ".tmpconext where codusu = " & vUsu.Codigo
         vDebe = DevuelveValor(SQL)
@@ -2145,7 +2192,33 @@ Private Function GeneraLasLiquidaciones() As Boolean
     Conn.Execute SQL
     
     
+    'Si alguna de las empresa esta inscriat devolucion IVA DUA, NO dejamos consolidar, ya cada factura hace un apunte en la liquidacion para
+    ' esa dovlucion
+    M2 = 0
+    M1 = 0
+    For i = 1 To Me.ListView1(1).ListItems.Count  'List2.ListCount - 1
+        If Me.ListView1(1).ListItems(i).Checked Then
+            M1 = M1 + 1 'Cuantas empresas
+            SQL = "ariconta" & Me.ListView1(1).ListItems(i).Text & ".parametros"
+            SQL = DevuelveDesdeBD("inscritoDeclarDUA", SQL, "1", "1")
+            If Val(SQL) = 1 Then M2 = M2 + 1  'Cuantas llevan inscritoDeclarDUA
+        End If
+    Next i
+    
+    'Si hay mas de una empresa seleccionada
+    If M1 > 1 Then
+        'Si alguna lleva declaraDUA , no dejo continuar
+        If M2 > 0 Then
+            SQL = "Alguna empresa seleccionada esta inscrita a la devolucion IVA DUA."
+            MsgBox SQL, vbExclamation
+            Exit Function
+        End If
+    End If
+    
+    
     NumRegElim = 0
+    M2 = 0
+    M1 = 0
     'Para cada empresa
     'Para cada periodo
     For i = 1 To Me.ListView1(1).ListItems.Count  'List2.ListCount - 1
@@ -2153,7 +2226,7 @@ Private Function GeneraLasLiquidaciones() As Boolean
             For CONT = CInt(txtperiodo(0).Text) To CInt(txtperiodo(1).Text)
                 Label13.Caption = Mid(ListView1(1).ListItems(i).SubItems(1), 1, 20) & ".  " & CONT
                 Label13.Refresh
-                LiquidaIVA CByte(CONT), CInt(txtAno(0).Text), Me.ListView1(1).ListItems(i).Text, True  '(chkIVAdetallado.Value = 1)
+                LiquidaIVA CByte(CONT), CInt(txtAno(0).Text), Me.ListView1(1).ListItems(i).Text, True   '(chkIVAdetallado.Value = 1)
             Next CONT
         End If
     Next i

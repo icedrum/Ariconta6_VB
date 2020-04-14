@@ -3339,6 +3339,7 @@ Dim VtosAgrupados As Integer
                 If TipoTrans2 < 2 Or TipoTrans2 = 4 Then
                     If vUsu.Nivel = 0 Then
                         SQL = "S"
+                        If lw1.SelectedItem.SubItems(9) <> "Q" Then SQL = "S"
                     Else
                         SQL = "N"
                     End If
@@ -3373,7 +3374,6 @@ Dim VtosAgrupados As Integer
                 End If
             End If
             CadenaDesdeOtroForm = ""
-            
             frmTESTransferenciasCont.Opcion = 8
             frmTESTransferenciasCont.Cobros = (TipoTrans2 = 0 Or TipoTrans2 = 4)
             frmTESTransferenciasCont.NumeroDocumento = CStr(SQL)
@@ -4155,21 +4155,21 @@ Dim cad As String
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N")
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N")
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 2)
-        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2)
         
         Toolbar1.Buttons(5).Enabled = False 'DBLet(RS!Ver, "N") And (Modo = 0 Or Modo = 2) And DesdeNorma43 = 0
         Toolbar1.Buttons(6).Enabled = False 'DBLet(Rs!Ver, "N")
         
         Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N")
     
-        B = DBLet(Rs!especial, "N") And Not (lw1.SelectedItem Is Nothing)
+        B = DBLet(Rs!Especial, "N") And Not (lw1.SelectedItem Is Nothing)
         If B Then B = TipoTrans2 <> 4
         Toolbar2.Buttons(1).Enabled = B
         
-        If TipoTrans2 <> 2 Then Toolbar2.Buttons(2).Enabled = DBLet(Rs!especial, "N") And Not (lw1.SelectedItem Is Nothing)
-        Toolbar2.Buttons(3).Enabled = DBLet(Rs!especial, "N") 'And Not (lw1.SelectedItem Is Nothing)
+        If TipoTrans2 <> 2 Then Toolbar2.Buttons(2).Enabled = DBLet(Rs!Especial, "N") And Not (lw1.SelectedItem Is Nothing)
+        Toolbar2.Buttons(3).Enabled = DBLet(Rs!Especial, "N") 'And Not (lw1.SelectedItem Is Nothing)
     End If
     
     Rs.Close

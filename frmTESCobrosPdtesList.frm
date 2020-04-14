@@ -1728,7 +1728,9 @@ Private Sub cmdAccion_Click(Index As Integer)
     If Not HayRegParaInforme(tabla, cadselect) Then Exit Sub
     
     
-    If Me.Check1(4).Value Then InsertaTmp
+    If Me.Check1(4).Value Then
+        If Not InsertaTmp Then Exit Sub
+    End If
     
     If optTipoSal(1).Value Then
         'EXPORTAR A CSV
@@ -2755,9 +2757,16 @@ End Sub
 
 
 
-Private Sub InsertaTmp()
+Private Function InsertaTmp() As Boolean
 Dim vi() As Currency
 Dim Impor2 As Currency
+
+
+    On Error GoTo eInsertaTmp
+
+    InsertaTmp = False
+    
+    cad = "" 'Para saber si hay datos
 
     Conn.Execute "DELETE FROM tmpevolsal WHERE codusu =" & vUsu.Codigo
     ReDim vi(4)
@@ -2771,51 +2780,54 @@ Dim Impor2 As Currency
     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     cadFormula = "INSERT INTO tmpevolsal(codusu,codmacta,nommacta,apertura,importemes1,importemes2,importemes3,importemes4,importemes5,importemes6) VALUES "
     RC = ""
-    Do
-        'NO ES EOF, ya lo hemos comprobado
-        Msg = miRsAux!codmacta & Format(miRsAux!Codforpa, "0000")
-        If RC <> Msg Then
-            If RC <> "" Then
-                Impor2 = 0
-                For i = 0 To 4
-                    SQL = SQL & ", " & DBSet(vi(i), "N")
-                    Impor2 = Impor2 + vi(i)
-                Next
-                SQL = SQL & ", " & DBSet(Impor2, "N")
+    If Not miRsAux.EOF Then
+        cad = "S"
+        Do
+            'NO ES EOF, ya lo hemos comprobado
+            Msg = miRsAux!codmacta & Format(miRsAux!Codforpa, "0000")
+            If RC <> Msg Then
+                If RC <> "" Then
+                    Impor2 = 0
+                    For i = 0 To 4
+                        SQL = SQL & ", " & DBSet(vi(i), "N")
+                        Impor2 = Impor2 + vi(i)
+                    Next
+                    SQL = SQL & ", " & DBSet(Impor2, "N")
+                        
                     
+                    SQL = cadFormula & SQL & ")"
+                    Conn.Execute SQL
+                End If
+                    
+                    
+                For i = 0 To 4
+                    vi(i) = 0
+                Next
+                RC = Msg
+                SQL = " (" & vUsu.Codigo & "," & DBSet(miRsAux!codmacta, "T") & "," & DBSet(miRsAux!nomforpa, "T") & "," & Abs(miRsAux!Codforpa)
                 
-                SQL = cadFormula & SQL & ")"
-                Conn.Execute SQL
             End If
-                
-                
-            For i = 0 To 4
-                vi(i) = 0
-            Next
-            RC = Msg
-            SQL = " (" & vUsu.Codigo & "," & DBSet(miRsAux!codmacta, "T") & "," & DBSet(miRsAux!nomforpa, "T") & "," & Abs(miRsAux!Codforpa)
+            NumRegElim = DateDiff("d", miRsAux!FecVenci, Now())
             
-        End If
-        NumRegElim = DateDiff("d", miRsAux!FecVenci, Now())
-        
-      
-        
-        If NumRegElim <= 30 Then
-            i = 0
-        ElseIf NumRegElim <= 60 Then
-                i = 1
-        ElseIf NumRegElim <= 90 Then
-                i = 2
-        ElseIf NumRegElim <= 120 Then
-                i = 3
-        Else
-            i = 4
-        End If
-        Impor2 = miRsAux!ImpVenci + DBLet(miRsAux!Gastos, "N") - DBLet(miRsAux!impcobro, "N")
-        vi(i) = vi(i) + Impor2
-        
-        miRsAux.MoveNext
-    Loop Until miRsAux.EOF
+          
+            
+            If NumRegElim <= 30 Then
+                i = 0
+            ElseIf NumRegElim <= 60 Then
+                    i = 1
+            ElseIf NumRegElim <= 90 Then
+                    i = 2
+            ElseIf NumRegElim <= 120 Then
+                    i = 3
+            Else
+                i = 4
+            End If
+            Impor2 = miRsAux!ImpVenci + DBLet(miRsAux!Gastos, "N") - DBLet(miRsAux!impcobro, "N")
+            vi(i) = vi(i) + Impor2
+            
+            miRsAux.MoveNext
+        Loop Until miRsAux.EOF
+    End If
     miRsAux.Close
     
     'El ultimo
@@ -2842,10 +2854,26 @@ Dim Impor2 As Currency
         SQL = SQL & " AND codmacta =" & DBSet(miRsAux!codmacta, "T") & " AND nommacta=" & DBSet(miRsAux.Fields(2), "T")
         Conn.Execute SQL
         miRsAux.MoveNext
+        cad = "S"
     Wend
     miRsAux.Close
     
     Set miRsAux = Nothing
     
+    
+    
+    If cad = "" Then
+        MsgBox "Ningun dato generado", vbExclamation
+    Else
+        InsertaTmp = True
+    End If
+    
+    
     cadFormula = "{tmpevolsal.codusu} = " & vUsu.Codigo
-End Sub
+    
+    
+    Exit Function
+eInsertaTmp:
+    MuestraError Err.Number, , Err.Description
+    Set miRsAux = Nothing
+End Function

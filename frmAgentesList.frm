@@ -466,7 +466,7 @@ Option Explicit
 Private WithEvents frmCon As frmAgentes
 Attribute frmCon.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 
 
 Public Sub InicializarVbles(AñadireElDeEmpresa As Boolean)
@@ -543,34 +543,34 @@ End Sub
 
 
 Private Sub Form_Load()
-    Me.Icon = frmPpal.Icon
+    Me.Icon = frmppal.Icon
         
     'Otras opciones
     Me.Caption = "Agentes"
     optVarios(0).Value = True
 
-    For i = 0 To 1
-        Me.imgAgente(i).Picture = frmPpal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 0 To 1
+        Me.imgAgente(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
      
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
 End Sub
 
 Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub ImgAgente_Click(Index As Integer)
-    SQL = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     Set frmCon = New frmAgentes
     frmCon.DatosADevolverBusqueda = True
     frmCon.Show vbModal
     Set frmCon = Nothing
-    If SQL <> "" Then
-        Me.txtAgente(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNAgente(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtAgente(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNAgente(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtAgente(Index)
     End If
@@ -590,24 +590,24 @@ End Sub
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
     If Index = 0 Then
-         frmPpal.cd1.Filter = "*.csv|*.csv"
+         frmppal.cd1.Filter = "*.csv|*.csv"
          
     Else
-        frmPpal.cd1.Filter = "*.pdf|*.pdf"
+        frmppal.cd1.Filter = "*.pdf|*.pdf"
     End If
-    frmPpal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmPpal.cd1.FilterIndex = 1
-    frmPpal.cd1.ShowSave
-    If frmPpal.cd1.FileTitle <> "" Then
-        If Dir(frmPpal.cd1.FileName, vbArchive) <> "" Then
+    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+    frmppal.cd1.FilterIndex = 1
+    frmppal.cd1.ShowSave
+    If frmppal.cd1.FileTitle <> "" Then
+        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
             If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         End If
-        txtTipoSalida(Index + 1).Text = frmPpal.cd1.FileName
+        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
     End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmPpal.cd1.ShowPrinter
+    frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -627,10 +627,10 @@ Private Sub txtAgente_KeyDown(Index As Integer, KeyCode As Integer, Shift As Int
 End Sub
 
 
-Private Sub LanzaFormAyuda(Nombre As String, indice As Integer)
+Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
     Select Case Nombre
     Case "imgAgente"
-        ImgAgente_Click indice
+        ImgAgente_Click Indice
     End Select
     
 End Sub
@@ -640,7 +640,7 @@ Private Sub txtAgente_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtAgente_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 
     txtAgente(Index).Text = Trim(txtAgente(Index).Text)
     
@@ -660,14 +660,14 @@ End Sub
 Private Sub AccionesCSV()
     
     'Monto el SQL
-    SQL = "Select codigo as codigo ,nombre as descripcion FROM agentes "
-    If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
-    i = 1
-    If optVarios(1).Value Then i = 2 'nombre
-    SQL = SQL & " ORDER BY " & i
+    Sql = "Select codigo as codigo ,nombre as descripcion FROM agentes "
+    If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
+    I = 1
+    If optVarios(1).Value Then I = 2 'nombre
+    Sql = Sql & " ORDER BY " & I
         
     'LLamoa a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -708,3 +708,4 @@ End Sub
 Private Sub txtTipoSalida_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     KEYdown KeyCode
 End Sub
+

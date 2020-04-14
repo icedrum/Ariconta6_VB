@@ -3619,7 +3619,9 @@ Dim LINASI As Long
                 miRsAux.Close
                 
                 SQL = "SELECT cta,nomdocum,tmpconext.timported, tmpconext.timporteh,pos ,ccost, ctacontr, codconce, numdocum, asipre_lineas.ampconce FROM tmpconext, asipre_lineas where codusu =" & vUsu.Codigo
-                SQL = SQL & " and asipre_lineas.numaspre = " & DBSet(NumAsiPre, "N") & " and asipre_lineas.linlapre = tmpconext.pos ORDER BY pos"
+                SQL = SQL & " and asipre_lineas.numaspre = " & DBSet(NumAsiPre, "N") & " and asipre_lineas.linlapre = tmpconext.pos "
+                SQL = SQL & " and not (tmpconext.timported is null and tmpconext.timporteh is null)"
+                SQL = SQL & " ORDER BY pos"
                 miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
                 SQL = ""
                 While Not miRsAux.EOF
@@ -4092,6 +4094,7 @@ Dim i As Byte
                     Text3(5).Text = DBLet(AdoAux(1).Recordset!nommactactr, "T")
                     Text3(4).Text = DBLet(AdoAux(1).Recordset!NomConce, "T")
                     Text3(3).Text = DBLet(AdoAux(1).Recordset!nomccost, "T")
+                    DataGridAux(Index).ToolTipText = DBLet(AdoAux(1).Recordset!Ampconce, "T")
                 End If
         End Select
     End If
@@ -4403,27 +4406,27 @@ Dim cad As String
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2) And DesdeNorma43 = 0 And Not SoloImprimir
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2) And DesdeNorma43 = 0 And Not SoloImprimir
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 2) And DesdeNorma43 = 0 And Not SoloImprimir
-        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2) And DesdeNorma43 = 0 And Not SoloImprimir
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2) And DesdeNorma43 = 0 And Not SoloImprimir
         
         Toolbar1.Buttons(5).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2) And DesdeNorma43 = 0 And Not SoloImprimir
         Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2) And DesdeNorma43 = 0 And Not SoloImprimir
         
         Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N")
         
-        Me.Toolbar2.Buttons(1).Enabled = DBLet(Rs!especial, "N") And DesdeNorma43 = 0 And Not SoloImprimir
-        Me.Toolbar2.Buttons(2).Enabled = DBLet(Rs!especial, "N") And DesdeNorma43 = 0 And Not SoloImprimir
+        Me.Toolbar2.Buttons(1).Enabled = DBLet(Rs!Especial, "N") And DesdeNorma43 = 0 And Not SoloImprimir
+        Me.Toolbar2.Buttons(2).Enabled = DBLet(Rs!Especial, "N") And DesdeNorma43 = 0 And Not SoloImprimir
         
-        ToolbarAux.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2) And Not SoloImprimir
+        ToolbarAux.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2) And Not SoloImprimir
         ToolbarAux.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 2 And Me.AdoAux(1).Recordset.RecordCount > 0) And Not SoloImprimir
-        ToolbarAux.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2 And Me.AdoAux(1).Recordset.RecordCount > 0) And Not SoloImprimir
+        ToolbarAux.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2 And Me.AdoAux(1).Recordset.RecordCount > 0) And Not SoloImprimir
         ToolbarAux.Buttons(5).Enabled = DBLet(Rs!Ver, "N") And ((Modo = 2 And Me.AdoAux(1).Recordset.RecordCount > 0) Or (Modo = 5)) And DesdeNorma43 = 0 And Not SoloImprimir
         ToolbarAux.Buttons(6).Enabled = DBLet(Rs!Ver, "N") And ((Modo = 2 And Me.AdoAux(1).Recordset.RecordCount > 0) Or (Modo = 5)) And DesdeNorma43 = 0 And Not SoloImprimir
-        ToolbarAux.Buttons(7).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2) And DesdeNorma43 = 0 And Not SoloImprimir
+        ToolbarAux.Buttons(7).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2) And DesdeNorma43 = 0 And Not SoloImprimir
         
-        ToolbarAux0.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2 And Me.data1.Recordset.RecordCount > 0) And DesdeNorma43 = 0 And Not SoloImprimir
-        ToolbarAux0.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2 And Me.data1.Recordset.RecordCount > 0) And DesdeNorma43 = 0 And Not SoloImprimir
+        ToolbarAux0.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2 And Me.data1.Recordset.RecordCount > 0) And DesdeNorma43 = 0 And Not SoloImprimir
+        ToolbarAux0.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2 And Me.data1.Recordset.RecordCount > 0) And DesdeNorma43 = 0 And Not SoloImprimir
         
         
         vUsu.LeerFiltros "ariconta", IdPrograma
@@ -4443,7 +4446,7 @@ Private Sub txtaux_GotFocus(Index As Integer)
     If Index = 8 Then txtaux(Index).SelStart = Len(txtaux(Index).Text)
 End Sub
 
-Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub TxtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = 112 Then
         'Esto sera k hemos pulsado el ENTER
         txtAux_LostFocus Index
@@ -4558,7 +4561,8 @@ End Sub
 Private Sub txtAux_LostFocus(Index As Integer)
     Dim RC As String
     Dim Importe As Currency
-        
+    Dim cCoste As String
+    
         If Not PerderFocoGnral(txtaux(Index), Modo) Then Exit Sub
         
         If txtaux(Index).Text = AntiguoText1 Then
@@ -4592,6 +4596,7 @@ Private Sub txtAux_LostFocus(Index As Integer)
                 Else
                     txtAux2(4).Text = SQL
                     RC = ""
+                    
                 End If
             Else
                 If InStr(1, SQL, "No existe la cuenta :") > 0 Then
@@ -4622,8 +4627,17 @@ Private Sub txtAux_LostFocus(Index As Integer)
                 End If
             End If
             HabilitarCentroCoste
-            If RC <> "" Then PonFoco txtaux(4)
-                
+            If RC <> "" Then
+                PonFoco txtaux(4)
+            Else
+                If txtaux(11).Enabled Then
+                    RC = DevuelveDesdeBD("", "cuentas", "codmacta", RC, "T")
+                    If RC <> "" Then
+                        
+                        RC = DevuelveDesdeBD("", "cuentas", "codmacta", RC, "T")
+                    End If
+                End If
+            End If
             If Modo = 5 And ModoLineas = 1 Then MostrarObservaciones txtaux(Index)
             
         Case 6
@@ -5119,7 +5133,7 @@ On Error GoTo EponerLineaAnterior
             SQL = SQL & " WHERE numdiari=" & data1.Recordset!NumDiari
             SQL = SQL & " AND fechaent='" & Format(data1.Recordset!FechaEnt, FormatoFecha)
             SQL = SQL & "' AND numasien=" & data1.Recordset!NumAsien
-            If ModoLineas = 2 Then SQL = SQL & " AND linliapu <" & Linliapu
+            If ModoLineas = 2 Then SQL = SQL & " AND linliapu <" & Me.AdoAux(1).Recordset!Linliapu
             SQL = SQL & " ORDER BY linliapu DESC"
             Set RT = New ADODB.Recordset
             RT.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -5145,7 +5159,7 @@ On Error GoTo EponerLineaAnterior
         SQL = SQL & " WHERE conceptos.codconce=hlinapu.codconce AND  numdiari=" & data1.Recordset!NumDiari
         SQL = SQL & " AND fechaent='" & Format(data1.Recordset!FechaEnt, FormatoFecha)
         SQL = SQL & "' AND numasien=" & data1.Recordset!NumAsien
-        If ModoLineas = 2 Then SQL = SQL & " AND hlinapu <" & Linliapu
+        If ModoLineas = 2 Then SQL = SQL & " AND linliapu <" & Me.AdoAux(1).Recordset!Linliapu
            
         SQL = SQL & " ORDER BY linliapu DESC"
         Set RT = New ADODB.Recordset
@@ -5233,7 +5247,7 @@ Dim C As String
         Else
             txtaux(10).Text = C
         End If
-        txtaux(11).Text = DBLet(RsF6!codccost, "T")
+        txtaux(11).Text = DBLet(RsF6!CodCcost, "T")
         HabilitarImportes 3
         HabilitarCentroCoste
         Text3(5).Text = DBLet(RsF6!nomctapar, "T")
@@ -5521,17 +5535,17 @@ Dim L As Long
     
     'Abro parar guardar el binary
     C = "Select * from hcabapu_fichdocs where codigo =" & L '& " and codsocio = " & DBSet(RecuperaValor(vDatos, 1), "N")
-    Adodc1.ConnectionString = Conn
-    Adodc1.RecordSource = C
-    Adodc1.Refresh
+    adodc1.ConnectionString = Conn
+    adodc1.RecordSource = C
+    adodc1.Refresh
 '
-    If Adodc1.Recordset.EOF Then
+    If adodc1.Recordset.EOF Then
         'MAAAAAAAAAAAAL
 
     Else
         'Guardar
-        GuardarBinary Adodc1.Recordset!Campo, Fichero
-        Adodc1.Recordset.Update
+        GuardarBinary adodc1.Recordset!Campo, Fichero
+        adodc1.Recordset.Update
     End If
     
 End Function
@@ -5623,20 +5637,20 @@ Dim L As Long
     C = C & " and numdiari = " & DBSet(Text1(2).Text, "N")
     C = C & " and codigo = " & DBSet(lw1.SelectedItem.SubItems(3), "N")
 
-    Adodc1.ConnectionString = Conn
-    Adodc1.RecordSource = C
-    Adodc1.Refresh
+    adodc1.ConnectionString = Conn
+    adodc1.RecordSource = C
+    adodc1.Refresh
 
-    If Adodc1.Recordset.EOF Then
+    If adodc1.Recordset.EOF Then
         'NO HAY NINGUNA
     Else
         'LEEMOS LA IMAGEN
-        L = Adodc1.Recordset!Codigo
+        L = adodc1.Recordset!Codigo
         C = App.Path & "\" & CarpetaIMG & "\" & L
-        If DBLet(Adodc1.Recordset!DOCUM) <> "0" Then
-            C = App.Path & "\" & CarpetaIMG & "\" & Adodc1.Recordset!DOCUM
+        If DBLet(adodc1.Recordset!DOCUM) <> "0" Then
+            C = App.Path & "\" & CarpetaIMG & "\" & adodc1.Recordset!DOCUM
         End If
-        LeerBinary Adodc1.Recordset!Campo, C
+        LeerBinary adodc1.Recordset!Campo, C
     End If
 
 End Sub
@@ -5683,11 +5697,11 @@ Dim Contador As Integer
     Else
         Set IT = lw1.ListItems.Add()
 
-        IT.Text = Me.Adodc1.Recordset!Orden '"Nuevo " & Contador
+        IT.Text = Me.adodc1.Recordset!Orden '"Nuevo " & Contador
         
-        IT.SubItems(1) = Me.Adodc1.Recordset.Fields(5)  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
+        IT.SubItems(1) = Me.adodc1.Recordset.Fields(5)  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
         IT.SubItems(2) = vpaz
-        IT.SubItems(3) = Me.Adodc1.Recordset.Fields(0)
+        IT.SubItems(3) = Me.adodc1.Recordset.Fields(0)
         
         Set IT = Nothing
     End If
@@ -5762,29 +5776,29 @@ Dim nFile As Long
     C = C & " and numdiari = " & DBSet(Text1(2).Text, "N")
     C = C & " ORDER BY orden"
 
-    Adodc1.ConnectionString = Conn
-    Adodc1.RecordSource = C
-    Adodc1.Refresh
+    adodc1.ConnectionString = Conn
+    adodc1.RecordSource = C
+    adodc1.Refresh
 
-    If Adodc1.Recordset.EOF Then
+    If adodc1.Recordset.EOF Then
         'NO HAY NINGUNA
     Else
         'LEEMOS LAS IMAGENES
-        While Not Adodc1.Recordset.EOF
-            L = Adodc1.Recordset!Codigo
+        While Not adodc1.Recordset.EOF
+            L = adodc1.Recordset!Codigo
             C = App.Path & "\" & CarpetaIMG & "\" & L
-            If DBLet(Adodc1.Recordset!DOCUM) <> "0" Then
-                C = App.Path & "\" & CarpetaIMG & "\" & Adodc1.Recordset!DOCUM
+            If DBLet(adodc1.Recordset!DOCUM) <> "0" Then
+                C = App.Path & "\" & CarpetaIMG & "\" & adodc1.Recordset!DOCUM
             End If
             If Dir(C) <> "" Then
                 AnyadirAlListview C, True
             Else
-                If LeerBinary(Adodc1.Recordset!Campo, C) Then
+                If LeerBinary(adodc1.Recordset!Campo, C) Then
                     AnyadirAlListview C, True
                 End If
             End If
 
-            Adodc1.Recordset.MoveNext
+            adodc1.Recordset.MoveNext
         Wend
     
     End If

@@ -5414,7 +5414,7 @@ Private Sub ListView13_ItemCheck(ByVal Item As MSComctlLib.ListItem)
         If Item.Index <> i Then
             ListView13.ListItems(i).Checked = False
         Else
-            txtFecha(2).Text = ListView13.ListItems(i).SubItems(2)
+            'txtFecha(2).Text = ListView13.ListItems(i).SubItems(2)
         End If
     Next
 End Sub
@@ -6180,7 +6180,7 @@ Dim Equipo As String
     If ListView5.ListItems.Count = 0 Then
         'NO hay pagos.
         'Si la factura NO es trasapasada, permitiré generera el pago desde aqui
-        cad = " select estraspasada,factpro.codmacta,factpro.nommacta, codforpa,ctabanco,iban,totfacpr,FecFactu"
+        cad = " select estraspasada,factpro.codmacta,factpro.nommacta, codforpa,ctabanco,iban,totfacpr,FecFactu,codopera,totivas "
         cad = cad & " from (factpro left join cuentas on factpro.codmacta= cuentas.codmacta)  "
         
 
@@ -6201,10 +6201,14 @@ Dim Equipo As String
                     cad = DevuelveDesdeBD("if(descripcion is null, nommacta,descripcion)", "bancos,cuentas", cad, "1")
                 End If
                 'CtaBanco & "|" & "|" & "|" & "|" & "|" & IBAN & "|" & TipForpa & "|" & NomBanco & "|" & DBLet(Data1.Recordset!totfacpr, "N") & "|"
-                cmdGenerarVto.Tag = DBLet(Rs!CtaBanco, "T") & "|||||" & DBLet(Rs!IBAN, "T") & "|0"
-                cmdGenerarVto.Tag = cmdGenerarVto.Tag & "|" & cad & "|" & DBLet(Rs!totfacpr, "N") & "|"
+                Importe = Rs!totfacpr
+                If DBLet(Rs!CodOpera, "N") = 6 Then Importe = Importe - DBLet(Rs!totivas, "N")
                 
-                Codigo = DBLet(Rs!Codforpa, "N") & "|" & Rs!FecFactu & "|" & Rs!totfacpr & "|"
+                cmdGenerarVto.Tag = DBLet(Rs!CtaBanco, "T") & "|||||" & DBLet(Rs!IBAN, "T") & "|0"
+                cmdGenerarVto.Tag = cmdGenerarVto.Tag & "|" & cad & "|" & Importe & "|"
+                
+                Codigo = DBLet(Rs!Codforpa, "N") & "|" & Rs!FecFactu & "|" & Importe & "|"
+                Importe = 0
             End If
         End If
         Rs.Close
@@ -7672,7 +7676,8 @@ Dim Visi As Boolean
     
     SQL = "Confirming vencidos"
     If Visi Then SQL = "Cancelación remesas cuentas puente"
-    
+    txtFecha(2).Text = Format(Now, "dd/mm/yyyy")
+    chkVarios(1).Value = 0
     Label52(1).Caption = SQL
     Label52(1).Refresh
     cmdElimRiesgoTalPag(1).visible = Visi

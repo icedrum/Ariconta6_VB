@@ -27,9 +27,26 @@ Begin VB.Form frmInmoInfEst
       EndProperty
       Height          =   7065
       Left            =   7110
-      TabIndex        =   25
+      TabIndex        =   27
       Top             =   0
       Width           =   4455
+      Begin VB.CheckBox CheckSeccion 
+         Caption         =   "Agrupar por sección"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   240
+         TabIndex        =   46
+         Top             =   3600
+         Width           =   3495
+      End
       Begin VB.ComboBox cboSubvencion 
          BeginProperty Font 
             Name            =   "Verdana"
@@ -45,7 +62,7 @@ Begin VB.Form frmInmoInfEst
          Left            =   240
          List            =   "frmInmoInfEst.frx":000D
          Style           =   2  'Dropdown List
-         TabIndex        =   10
+         TabIndex        =   12
          Top             =   3120
          Width           =   1440
       End
@@ -62,7 +79,7 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   2025
          Left            =   210
-         TabIndex        =   30
+         TabIndex        =   32
          Top             =   660
          Width           =   4035
          Begin VB.CheckBox ChkTipo 
@@ -79,7 +96,7 @@ Begin VB.Form frmInmoInfEst
             Height          =   255
             Index           =   4
             Left            =   180
-            TabIndex        =   9
+            TabIndex        =   11
             Top             =   1590
             Width           =   3405
          End
@@ -97,7 +114,7 @@ Begin VB.Form frmInmoInfEst
             Height          =   255
             Index           =   2
             Left            =   180
-            TabIndex        =   7
+            TabIndex        =   9
             Top             =   810
             Width           =   3405
          End
@@ -115,7 +132,7 @@ Begin VB.Form frmInmoInfEst
             Height          =   255
             Index           =   3
             Left            =   180
-            TabIndex        =   8
+            TabIndex        =   10
             Top             =   1200
             Width           =   3405
          End
@@ -133,7 +150,7 @@ Begin VB.Form frmInmoInfEst
             Height          =   255
             Index           =   1
             Left            =   180
-            TabIndex        =   6
+            TabIndex        =   8
             Top             =   390
             Value           =   1  'Checked
             Width           =   3405
@@ -142,7 +159,7 @@ Begin VB.Form frmInmoInfEst
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   3870
-         TabIndex        =   38
+         TabIndex        =   40
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -157,6 +174,73 @@ Begin VB.Form frmInmoInfEst
             EndProperty
          EndProperty
       End
+      Begin MSComctlLib.ListView ListView1 
+         Height          =   2145
+         Index           =   1
+         Left            =   240
+         TabIndex        =   53
+         Top             =   4200
+         Width           =   4035
+         _ExtentX        =   7117
+         _ExtentY        =   3784
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         HideColumnHeaders=   -1  'True
+         Checkboxes      =   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483643
+         Appearance      =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         NumItems        =   0
+      End
+      Begin VB.Image imgCheck 
+         Height          =   240
+         Index           =   1
+         Left            =   3930
+         Picture         =   "frmInmoInfEst.frx":0020
+         ToolTipText     =   "Puntear al Debe"
+         Top             =   3960
+         Width           =   240
+      End
+      Begin VB.Image imgCheck 
+         Height          =   240
+         Index           =   0
+         Left            =   3570
+         Picture         =   "frmInmoInfEst.frx":016A
+         ToolTipText     =   "Quitar al Debe"
+         Top             =   3960
+         Width           =   240
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Ubicaciones"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   12
+         Left            =   240
+         TabIndex        =   52
+         Top             =   3960
+         Width           =   1170
+      End
       Begin VB.Label lblSubnvecnion 
          Caption         =   "X"
          BeginProperty Font 
@@ -170,8 +254,8 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   255
          Left            =   270
-         TabIndex        =   43
-         Top             =   2880
+         TabIndex        =   45
+         Top             =   2830
          Width           =   3180
       End
    End
@@ -188,9 +272,85 @@ Begin VB.Form frmInmoInfEst
       EndProperty
       Height          =   4395
       Left            =   120
-      TabIndex        =   22
+      TabIndex        =   24
       Top             =   0
       Width           =   6915
+      Begin VB.TextBox txtConcepto 
+         Alignment       =   1  'Right Justify
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   3
+         Left            =   1110
+         TabIndex        =   7
+         Tag             =   "imgConcepto"
+         Top             =   3840
+         Width           =   1305
+      End
+      Begin VB.TextBox txtNConcepto 
+         BackColor       =   &H80000018&
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   3
+         Left            =   2610
+         Locked          =   -1  'True
+         TabIndex        =   49
+         Top             =   3840
+         Width           =   4095
+      End
+      Begin VB.TextBox txtConcepto 
+         Alignment       =   1  'Right Justify
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   2
+         Left            =   1110
+         TabIndex        =   6
+         Tag             =   "imgConcepto"
+         Top             =   3330
+         Width           =   1305
+      End
+      Begin VB.TextBox txtNConcepto 
+         BackColor       =   &H80000018&
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   2
+         Left            =   2610
+         Locked          =   -1  'True
+         TabIndex        =   47
+         Top             =   3330
+         Width           =   4095
+      End
       Begin VB.TextBox txtNConcepto 
          BackColor       =   &H80000018&
          BeginProperty Font 
@@ -206,7 +366,7 @@ Begin VB.Form frmInmoInfEst
          Index           =   0
          Left            =   2580
          Locked          =   -1  'True
-         TabIndex        =   40
+         TabIndex        =   42
          Top             =   960
          Width           =   4095
       End
@@ -225,18 +385,18 @@ Begin VB.Form frmInmoInfEst
          Index           =   1
          Left            =   2580
          Locked          =   -1  'True
-         TabIndex        =   39
+         TabIndex        =   41
          Top             =   1380
          Width           =   4095
       End
       Begin VB.Frame Frame2 
          BorderStyle     =   0  'None
          Caption         =   "Frame2"
-         Height          =   1455
-         Left            =   90
-         TabIndex        =   34
-         Top             =   2880
-         Width           =   6675
+         Height          =   1215
+         Left            =   2520
+         TabIndex        =   36
+         Top             =   1800
+         Width           =   4200
          Begin VB.TextBox txtNCCoste 
             BackColor       =   &H80000018&
             BeginProperty Font 
@@ -250,11 +410,11 @@ Begin VB.Form frmInmoInfEst
             EndProperty
             Height          =   360
             Index           =   0
-            Left            =   2520
+            Left            =   1680
             Locked          =   -1  'True
-            TabIndex        =   42
-            Top             =   480
-            Width           =   4155
+            TabIndex        =   44
+            Top             =   240
+            Width           =   2355
          End
          Begin VB.TextBox txtNCCoste 
             BackColor       =   &H80000018&
@@ -269,11 +429,11 @@ Begin VB.Form frmInmoInfEst
             EndProperty
             Height          =   360
             Index           =   1
-            Left            =   2520
+            Left            =   1680
             Locked          =   -1  'True
-            TabIndex        =   41
-            Top             =   900
-            Width           =   4155
+            TabIndex        =   43
+            Top             =   690
+            Width           =   2355
          End
          Begin VB.TextBox txtCCoste 
             Alignment       =   1  'Right Justify
@@ -288,11 +448,11 @@ Begin VB.Form frmInmoInfEst
             EndProperty
             Height          =   360
             Index           =   0
-            Left            =   1200
+            Left            =   840
             TabIndex        =   4
             Tag             =   "imgConcepto"
-            Top             =   480
-            Width           =   1305
+            Top             =   270
+            Width           =   825
          End
          Begin VB.TextBox txtCCoste 
             Alignment       =   1  'Right Justify
@@ -307,11 +467,18 @@ Begin VB.Form frmInmoInfEst
             EndProperty
             Height          =   360
             Index           =   1
-            Left            =   1200
+            Left            =   840
             TabIndex        =   5
             Tag             =   "imgConcepto"
-            Top             =   900
-            Width           =   1305
+            Top             =   690
+            Width           =   825
+         End
+         Begin VB.Image imgCCoste 
+            Height          =   255
+            Index           =   0
+            Left            =   600
+            Top             =   360
+            Width           =   255
          End
          Begin VB.Label Label3 
             Caption         =   "Centro de Coste"
@@ -327,9 +494,9 @@ Begin VB.Form frmInmoInfEst
             ForeColor       =   &H00800000&
             Height          =   195
             Index           =   7
-            Left            =   210
-            TabIndex        =   37
-            Top             =   150
+            Left            =   0
+            TabIndex        =   39
+            Top             =   0
             Width           =   2310
          End
          Begin VB.Label Label3 
@@ -345,9 +512,9 @@ Begin VB.Form frmInmoInfEst
             EndProperty
             Height          =   195
             Index           =   3
-            Left            =   210
-            TabIndex        =   36
-            Top             =   540
+            Left            =   0
+            TabIndex        =   38
+            Top             =   360
             Width           =   690
          End
          Begin VB.Label Label3 
@@ -363,23 +530,16 @@ Begin VB.Form frmInmoInfEst
             EndProperty
             Height          =   195
             Index           =   2
-            Left            =   210
-            TabIndex        =   35
-            Top             =   900
+            Left            =   0
+            TabIndex        =   37
+            Top             =   720
             Width           =   615
          End
          Begin VB.Image imgCCoste 
             Height          =   255
-            Index           =   0
-            Left            =   900
-            Top             =   540
-            Width           =   255
-         End
-         Begin VB.Image imgCCoste 
-            Height          =   255
             Index           =   1
-            Left            =   900
-            Top             =   900
+            Left            =   600
+            Top             =   720
             Width           =   255
          End
       End
@@ -396,7 +556,7 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   1260
+         Left            =   1080
          MaxLength       =   10
          TabIndex        =   2
          Tag             =   "imgConcepto"
@@ -416,7 +576,7 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   1260
+         Left            =   1080
          MaxLength       =   10
          TabIndex        =   3
          Tag             =   "imgConcepto"
@@ -436,7 +596,7 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   1260
+         Left            =   1080
          TabIndex        =   0
          Tag             =   "imgConcepto"
          Top             =   960
@@ -455,11 +615,80 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   1260
+         Left            =   1080
          TabIndex        =   1
          Tag             =   "imgConcepto"
          Top             =   1380
          Width           =   1305
+      End
+      Begin VB.Image imgConcepto 
+         Height          =   255
+         Index           =   2
+         Left            =   810
+         Top             =   3360
+         Width           =   255
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Desde"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Index           =   11
+         Left            =   120
+         TabIndex        =   51
+         Top             =   3360
+         Width           =   780
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Hasta"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Index           =   10
+         Left            =   120
+         TabIndex        =   50
+         Top             =   3840
+         Width           =   735
+      End
+      Begin VB.Image imgConcepto 
+         Height          =   255
+         Index           =   3
+         Left            =   810
+         Top             =   3840
+         Width           =   255
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Seccion"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Index           =   9
+         Left            =   120
+         TabIndex        =   48
+         Top             =   3000
+         Width           =   1110
       End
       Begin VB.Label Label3 
          Caption         =   "Fecha"
@@ -475,8 +704,8 @@ Begin VB.Form frmInmoInfEst
          ForeColor       =   &H00800000&
          Height          =   195
          Index           =   8
-         Left            =   300
-         TabIndex        =   33
+         Left            =   120
+         TabIndex        =   35
          Top             =   1770
          Width           =   960
       End
@@ -493,8 +722,8 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   195
          Index           =   5
-         Left            =   300
-         TabIndex        =   32
+         Left            =   120
+         TabIndex        =   34
          Top             =   2130
          Width           =   690
       End
@@ -511,24 +740,24 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   195
          Index           =   4
-         Left            =   300
-         TabIndex        =   31
+         Left            =   120
+         TabIndex        =   33
          Top             =   2490
          Width           =   615
       End
       Begin VB.Image imgFec 
          Height          =   240
          Index           =   0
-         Left            =   990
-         Picture         =   "frmInmoInfEst.frx":0020
+         Left            =   810
+         Picture         =   "frmInmoInfEst.frx":02B4
          Top             =   2100
          Width           =   240
       End
       Begin VB.Image imgFec 
          Height          =   240
          Index           =   1
-         Left            =   990
-         Picture         =   "frmInmoInfEst.frx":00AB
+         Left            =   810
+         Picture         =   "frmInmoInfEst.frx":033F
          Top             =   2490
          Width           =   240
       End
@@ -546,22 +775,22 @@ Begin VB.Form frmInmoInfEst
          ForeColor       =   &H00800000&
          Height          =   255
          Index           =   6
-         Left            =   270
-         TabIndex        =   29
+         Left            =   90
+         TabIndex        =   31
          Top             =   630
          Width           =   1110
       End
       Begin VB.Image imgConcepto 
          Height          =   255
          Index           =   1
-         Left            =   960
+         Left            =   780
          Top             =   1380
          Width           =   255
       End
       Begin VB.Image imgConcepto 
          Height          =   255
          Index           =   0
-         Left            =   960
+         Left            =   780
          Top             =   960
          Width           =   255
       End
@@ -578,8 +807,8 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   195
          Index           =   1
-         Left            =   270
-         TabIndex        =   24
+         Left            =   90
+         TabIndex        =   26
          Top             =   1380
          Width           =   735
       End
@@ -596,8 +825,8 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   195
          Index           =   0
-         Left            =   270
-         TabIndex        =   23
+         Left            =   90
+         TabIndex        =   25
          Top             =   960
          Width           =   780
       End
@@ -616,7 +845,7 @@ Begin VB.Form frmInmoInfEst
       EndProperty
       Height          =   375
       Left            =   10290
-      TabIndex        =   13
+      TabIndex        =   15
       Top             =   7290
       Width           =   1215
    End
@@ -633,7 +862,7 @@ Begin VB.Form frmInmoInfEst
       Height          =   375
       Index           =   1
       Left            =   8730
-      TabIndex        =   11
+      TabIndex        =   13
       Top             =   7290
       Width           =   1455
    End
@@ -651,7 +880,7 @@ Begin VB.Form frmInmoInfEst
       Height          =   375
       Index           =   0
       Left            =   120
-      TabIndex        =   12
+      TabIndex        =   14
       Top             =   7230
       Width           =   1335
    End
@@ -668,7 +897,7 @@ Begin VB.Form frmInmoInfEst
       EndProperty
       Height          =   2655
       Left            =   120
-      TabIndex        =   14
+      TabIndex        =   16
       Top             =   4410
       Width           =   6915
       Begin VB.CommandButton PushButtonImpr 
@@ -684,7 +913,7 @@ Begin VB.Form frmInmoInfEst
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   28
+         TabIndex        =   30
          Top             =   720
          Width           =   1515
       End
@@ -693,7 +922,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   27
+         TabIndex        =   29
          Top             =   1680
          Width           =   255
       End
@@ -702,7 +931,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   26
+         TabIndex        =   28
          Top             =   1200
          Width           =   255
       End
@@ -720,7 +949,7 @@ Begin VB.Form frmInmoInfEst
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   21
+         TabIndex        =   23
          Top             =   1680
          Width           =   4665
       End
@@ -738,7 +967,7 @@ Begin VB.Form frmInmoInfEst
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   20
+         TabIndex        =   22
          Top             =   1200
          Width           =   4665
       End
@@ -756,7 +985,7 @@ Begin VB.Form frmInmoInfEst
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   19
+         TabIndex        =   21
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -775,7 +1004,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   18
+         TabIndex        =   20
          Top             =   2160
          Width           =   975
       End
@@ -793,7 +1022,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   17
+         TabIndex        =   19
          Top             =   1680
          Width           =   975
       End
@@ -811,7 +1040,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   16
+         TabIndex        =   18
          Top             =   1200
          Width           =   1515
       End
@@ -829,7 +1058,7 @@ Begin VB.Form frmInmoInfEst
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   15
+         TabIndex        =   17
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -869,11 +1098,14 @@ Private WithEvents frmCC As frmCCCentroCoste
 Attribute frmCC.VB_VarHelpID = -1
 Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
+Private WithEvents frmSec As frmInmoSeccion
+Attribute frmSec.VB_VarHelpID = -1
 
-Private SQL As String
-Dim Cad As String
+
+Private sql As String
+Dim cad As String
 Dim RC As String
-Dim i As Integer
+Dim I As Integer
 Dim IndCodigo As Integer
 
 
@@ -950,21 +1182,21 @@ Dim tabla As String
 End Sub
 
 Private Function CargarTablaTemporal(tabla As String, cadselect As String) As Boolean
-Dim SQL As String
+Dim sql As String
 
     On Error GoTo eCargarTablaTemporal
     
     CargarTablaTemporal = False
 
-    SQL = "delete from tmpconextcab where codusu = " & vUsu.Codigo
-    Conn.Execute SQL
+    sql = "delete from tmpconextcab where codusu = " & vUsu.Codigo
+    Conn.Execute sql
     
-    SQL = "insert into tmpconextcab (codusu, cta, acumantD, acumantH) select " & vUsu.Codigo & ", inmovele.codinmov, inmovele.codinmov, sum(imporinm) from  " & tabla
-    SQL = SQL & " where " & cadselect
-    SQL = SQL & " group by 1, 2"
-    SQL = SQL & " order by 1,2 "
+    sql = "insert into tmpconextcab (codusu, cta, acumantD, acumantH) select " & vUsu.Codigo & ", inmovele.codinmov, inmovele.codinmov, sum(imporinm) from  " & tabla
+    sql = sql & " where " & cadselect
+    sql = sql & " group by 1, 2"
+    sql = sql & " order by 1,2 "
     
-    Conn.Execute SQL
+    Conn.Execute sql
     
     CargarTablaTemporal = True
     Exit Function
@@ -1005,10 +1237,10 @@ Private Sub Form_Load()
     End With
 
 
-    For i = 0 To 1
-        Me.imgConcepto(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-        Me.imgCCoste(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 0 To 1
+        Me.imgConcepto(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+        Me.imgCCoste(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
      
     Me.ChkTipo(1).Value = 1
     Me.lblSubnvecnion.Caption = vParam.TextoInmoSubencionado
@@ -1019,27 +1251,50 @@ Private Sub Form_Load()
     Frame2.visible = vParam.autocoste
     Frame2.Enabled = vParam.autocoste
     
+    cad = "select codubiin,nomubiin FROM inmovubicacion ORDER BY 1"
+    CargaListviewCodigoDescripcion Me.ListView1(1), cad, True, 33
+    
 End Sub
 
 Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    sql = CadenaSeleccion
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
     txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
+Private Sub frmSec_DatoSeleccionado(CadenaSeleccion As String)
+    sql = CadenaSeleccion
+End Sub
+
+Private Sub imgCheck_Click(Index As Integer)
+    ListviewSelecDeselec Me.ListView1(1), Index = 1
+End Sub
+
 Private Sub imgConcepto_Click(Index As Integer)
     
-    SQL = ""
+    sql = ""
     AbiertoOtroFormEnListado = True
-    Set frmCon = New frmInmoConceptos
-    frmCon.DatosADevolverBusqueda = True
-    frmCon.Show vbModal
-    Set frmCon = Nothing
-    If SQL <> "" Then
-        Me.txtConcepto(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNConcepto(Index).Text = RecuperaValor(SQL, 2)
+    
+    If Index < 2 Then
+    
+        
+        Set frmCon = New frmInmoConceptos
+        frmCon.DatosADevolverBusqueda = True
+        frmCon.Show vbModal
+        Set frmCon = Nothing
+    
+    Else
+        Set frmSec = frmInmoSeccion
+        frmSec.DatosADevolverBusqueda = True
+        frmSec.Show vbModal
+        Set frmSec = Nothing
+    
+    End If
+    If sql <> "" Then
+        Me.txtConcepto(Index).Text = RecuperaValor(sql, 1)
+        Me.txtNConcepto(Index).Text = RecuperaValor(sql, 2)
     Else
         QuitarPulsacionMas Me.txtConcepto(Index)
     End If
@@ -1050,12 +1305,12 @@ Private Sub imgConcepto_Click(Index As Integer)
 End Sub
 
 Private Sub frmCC_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    sql = CadenaSeleccion
 End Sub
 
 Private Sub ImgCCoste_Click(Index As Integer)
     
-    SQL = ""
+    sql = ""
     AbiertoOtroFormEnListado = True
     
     Set frmCC = New frmCCCentroCoste
@@ -1064,9 +1319,9 @@ Private Sub ImgCCoste_Click(Index As Integer)
     Set frmCC = Nothing
     
     
-    If SQL <> "" Then
-        Me.txtCCoste(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNCCoste(Index).Text = RecuperaValor(SQL, 2)
+    If sql <> "" Then
+        Me.txtCCoste(Index).Text = RecuperaValor(sql, 1)
+        Me.txtNCCoste(Index).Text = RecuperaValor(sql, 2)
     Else
         QuitarPulsacionMas Me.txtCCoste(Index)
     End If
@@ -1160,7 +1415,7 @@ Private Sub LanzaFormAyuda(Nombre As String, Indice As Integer)
 End Sub
 
 Private Sub txtConcepto_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 
     txtConcepto(Index).Text = Trim(txtConcepto(Index).Text)
     
@@ -1171,6 +1426,9 @@ Dim Cad As String, cadTipo As String 'tipo cliente
     Select Case Index
         Case 0, 1 'Tipos de concepto de inmovilizado
             txtNConcepto(Index).Text = DevuelveDesdeBD("nomconam", "inmovcon", "codconam", txtConcepto(Index), "N")
+            If txtConcepto(Index).Text <> "" Then txtConcepto(Index).Text = Format(txtConcepto(Index).Text, "0000")
+        Case 2, 3
+            txtNConcepto(Index).Text = DevuelveDesdeBD("nomsecin", "inmovseccion", "codsecin", txtConcepto(Index), "N")
             If txtConcepto(Index).Text <> "" Then txtConcepto(Index).Text = Format(txtConcepto(Index).Text, "0000")
     End Select
 
@@ -1183,10 +1441,10 @@ Private Sub txtConcepto_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCCoste_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCCoste(Index).Text = Trim(txtCCoste(Index).Text)
@@ -1208,28 +1466,28 @@ Dim Sql2 As String
 
     'Monto el SQL
     If txtFecha(0).Text <> "" Or txtFecha(1).Text <> "" Then
-        SQL = "Select inmovele.conconam concepto, inmovcon.nomconam DescConcepto,inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta,"
-        SQL = SQL & " inmovele.fechaadq FechaAdquisicion,inmovele.valoradq ValorAdquisicion,inmovele.amortacu AmorAcumulada , tmpconextcab.acumantH AmortPeridodo , inmovele.valoradq -inmovele.amortacu Pendiente "
-        SQL = SQL & " ,inmovele.impventa Venta, inmovele.fecventa FechaVenta"
-        SQL = SQL & " FROM   (inmovele inmovele INNER JOIN inmovcon inmovcon ON inmovele.conconam=inmovcon.codconam)"
-        SQL = SQL & " INNER JOIN tmpconextcab tmpconextcab ON inmovele.codinmov=tmpconextcab.acumantD"
+        sql = "Select inmovele.conconam concepto, inmovcon.nomconam DescConcepto,inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta,"
+        sql = sql & " inmovele.fechaadq FechaAdquisicion,inmovele.valoradq ValorAdquisicion,inmovele.amortacu AmorAcumulada , tmpconextcab.acumantH AmortPeridodo , inmovele.valoradq -inmovele.amortacu Pendiente "
+        sql = sql & " ,inmovele.impventa Venta, inmovele.fecventa FechaVenta"
+        sql = sql & " FROM   (inmovele inmovele INNER JOIN inmovcon inmovcon ON inmovele.conconam=inmovcon.codconam)"
+        sql = sql & " INNER JOIN tmpconextcab tmpconextcab ON inmovele.codinmov=tmpconextcab.acumantD"
     
-        If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
+        If cadselect <> "" Then sql = sql & " WHERE " & cadselect
         
-        SQL = SQL & " ORDER BY 1,2" ' ordenado por codigo y por fecha de inmovilizado
+        sql = sql & " ORDER BY 1,2" ' ordenado por codigo y por fecha de inmovilizado
     
     Else
-        SQL = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta ,inmovele.fechaadq FechaAdquisicion,inmovele.valoradq ValorAdquisicion, inmovele.amortacu Amortizado, coalesce(inmovele.valoradq,0) - coalesce(inmovele.amortacu,0) Pendiente, inmovele.fecventa FechaVta, inmovele.impventa ImpVenta "
-        SQL = SQL & " FROM inmovele "
+        sql = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta ,inmovele.fechaadq FechaAdquisicion,inmovele.valoradq ValorAdquisicion, inmovele.amortacu Amortizado, coalesce(inmovele.valoradq,0) - coalesce(inmovele.amortacu,0) Pendiente, inmovele.fecventa FechaVta, inmovele.impventa ImpVenta "
+        sql = sql & " FROM inmovele "
         
-        If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
+        If cadselect <> "" Then sql = sql & " WHERE " & cadselect
         
-        SQL = SQL & " ORDER BY 1,2,4" ' ordenado por codigo y por fecha de adquisicion
+        sql = sql & " ORDER BY 1,2,4" ' ordenado por codigo y por fecha de adquisicion
     End If
     
         
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1242,10 +1500,14 @@ Dim CADENA As String
     vMostrarTree = False
     conSubRPT = False
         
-    indRPT = "0505-00"
+    
     If txtFecha(0).Text <> "" Or txtFecha(1).Text <> "" Then
-        indRPT = "0505-01"
+        'indRPT = "0505-01"
+        indRPT = IIf(Me.CheckSeccion.Value = 0, "0505-01", "0505-03")
         cadFormula = "{tmpconextcab.codusu} = " & vUsu.Codigo
+    Else
+        'indRPT = "0505-00"
+        indRPT = IIf(Me.CheckSeccion.Value = 0, "0505-00", "0505-02")
     End If
     
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
@@ -1293,7 +1555,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
+Dim sql As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -1303,17 +1565,17 @@ Dim Situacion As String
     
     If Not PonerDesdeHasta("inmovele.conconam", "COI", Me.txtConcepto(0), Me.txtNConcepto(0), Me.txtConcepto(1), Me.txtNConcepto(1), "pDHConcepto=""") Then Exit Function
     If Not PonerDesdeHasta("inmovele.codccost", "CCO", Me.txtCCoste(0), Me.txtNCCoste(0), Me.txtCCoste(1), Me.txtNCCoste(1), "pDHCCoste=""") Then Exit Function
+    If Not PonerDesdeHasta("inmovele.seccion", "CCI", Me.txtConcepto(2), Me.txtConcepto(2), Me.txtConcepto(3), Me.txtConcepto(3), "pDHSecci=""") Then Exit Function
     
     If txtFecha(0).Text <> "" Or txtFecha(1).Text <> "" Then
         If Not PonerDesdeHasta("inmovele_his.fechainm", "FEC", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""") Then Exit Function
-        
     End If
     
     
     Situacion = ""
-    For i = 1 To 4
-        If ChkTipo(i).Value Then Situacion = Situacion & i & ","
-    Next i
+    For I = 1 To 4
+        If ChkTipo(I).Value Then Situacion = Situacion & I & ","
+    Next I
     
     'quitamos la ultima coma
     If Situacion <> "" Then
@@ -1329,6 +1591,28 @@ Dim Situacion As String
         If Not AnyadirAFormula(cadselect, "inmovele.subvencionado = " & RC) Then Exit Function
     End If
                     
+            
+    'Ubicacion
+    Situacion = ""
+    RC = ""
+    For I = 1 To Me.ListView1(1).ListItems.Count
+        If ListView1(1).ListItems(I).Checked Then
+            Situacion = Situacion & ", " & I
+            RC = RC & "X"
+        End If
+    Next I
+    If RC = "" Then
+        MsgBox "Seleccione alguna ubicacion", vbExclamation
+        Exit Function
+    End If
+    
+    If Len(RC) <> Me.ListView1(1).ListItems.Count Then
+        'NO ha selccionado todas
+        Situacion = Mid(Situacion, 2)
+        If Not AnyadirAFormula(cadFormula, "{inmovele.ubicacion} in [" & Situacion & "]") Then Exit Function
+        If Not AnyadirAFormula(cadselect, "inmovele.ubicacion in (" & Situacion & ")") Then Exit Function
+    
+    End If
             
             
             
@@ -1352,15 +1636,15 @@ Private Sub txtCCoste_KeyDown(Index As Integer, KeyCode As Integer, Shift As Int
 End Sub
 
 Private Function DatosOK() As Boolean
-Dim i As Integer
+Dim I As Integer
 Dim CADENA As String
 
     DatosOK = False
     
     CADENA = ""
-    For i = 1 To 4
-        If ChkTipo(i).Value Then CADENA = CADENA & i
-    Next i
+    For I = 1 To 4
+        If ChkTipo(I).Value Then CADENA = CADENA & I
+    Next I
     
     If CADENA = "" Then
         MsgBox "Debe de introducir algún tipo de elemento. Revise.", vbExclamation

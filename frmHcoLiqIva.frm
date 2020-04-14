@@ -630,7 +630,7 @@ Private Sub BotonModificar()
     '---------
     'MODIFICAR
     '----------
-    Dim Cad As String
+    Dim cad As String
     Dim anc As Single
     Dim i As Integer
     If adodc1.Recordset.EOF Then Exit Sub
@@ -872,17 +872,17 @@ Private Sub cmdCancelar_Click()
 End Sub
 
 Private Sub cmdRegresar_Click()
-Dim Cad As String
+Dim cad As String
 
     If adodc1.Recordset.EOF Then
         MsgBox "Ningún registro a devolver.", vbExclamation
         Exit Sub
     End If
     
-    Cad = adodc1.Recordset.Fields(0) & "|"
-    Cad = Cad & adodc1.Recordset.Fields(1) & "|"
-    Cad = Cad & adodc1.Recordset.Fields(2) & "|"
-    RaiseEvent DatoSeleccionado(Cad)
+    cad = adodc1.Recordset.Fields(0) & "|"
+    cad = cad & adodc1.Recordset.Fields(1) & "|"
+    cad = cad & adodc1.Recordset.Fields(2) & "|"
+    RaiseEvent DatoSeleccionado(cad)
     Unload Me
 End Sub
 
@@ -1284,27 +1284,27 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
     
     On Error Resume Next
 
-    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
+    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2)
         Toolbar1.Buttons(2).Enabled = (vUsu.Nombre = "root") And (Modo = 0 Or Modo = 2)
-        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2)
         
         Toolbar1.Buttons(5).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
         Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
         
         Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 0 Or Modo = 2)
         
-        Me.Toolbar2.Buttons(1).Enabled = DBLet(Rs!especial, "N")
+        Me.Toolbar2.Buttons(1).Enabled = DBLet(Rs!Especial, "N")
     End If
     
     Rs.Close

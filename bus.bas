@@ -2,7 +2,7 @@ Attribute VB_Name = "bus"
 Option Explicit
 
 
-Global i&, J&, K&                             ' Contadores
+Global i&, j&, K&                             ' Contadores
 Global Msg$, MsgErr$, NumErr&                 ' Variables de control de error
 Global CONT%, Opc%, Skn$, SknDir$             ' Otros contadores
 Public Tmp%, m_hMod&
@@ -162,13 +162,13 @@ Dim SQL As String
 
 
 
-       Load frmIdentifica
+       Load frmIdentifica2
        CadenaDesdeOtroForm = ""
 
        'Necesitaremos el archivo arifon.dat
        
        Set vEmpresa = Nothing
-       frmIdentifica.Show vbModal
+       frmIdentifica2.Show vbModal
         
        If vEmpresa Is Nothing Then Exit Sub
         
@@ -191,7 +191,7 @@ Dim SQL As String
 End Sub
 
 
-Public Function LeerEmpresaParametros()
+Public Function LeerEmpresaParametros2()
         'Abrimos la empresa
         Set vEmpresa = New Cempresa
         If vEmpresa.Leer = 1 Then
@@ -536,7 +536,7 @@ End Function
 
 Public Function RellenaCodigoCuenta(vCodigo As String) As String
     Dim i As Integer
-    Dim J As Integer
+    Dim j As Integer
     Dim CONT As Integer
     Dim cad As String
     
@@ -557,9 +557,9 @@ Public Function RellenaCodigoCuenta(vCodigo As String) As String
     
     'Cambiamos el punto por 0's  .-Utilizo la variable maximocaracteres, para no tener k definir mas
     i = Len(vCodigo) - 1 'el punto lo quito
-    J = vEmpresa.DigitosUltimoNivel - i
+    j = vEmpresa.DigitosUltimoNivel - i
     cad = ""
-    For i = 1 To J
+    For i = 1 To j
         cad = cad & "0"
     Next i
     
@@ -933,15 +933,15 @@ End Function
 
 Public Function CreaSubcuentas(ByRef Cuenta, HastaNivel As Integer, TEXTO As String) As Boolean
 Dim i As Integer
-Dim J As Integer
+Dim j As Integer
 Dim cad As String
 Dim Cta As String
 
 On Error GoTo ECreaSubcuentas
 CreaSubcuentas = False
 For i = 1 To HastaNivel
-    J = DigitosNivel(i)
-    Cta = Mid(Cuenta, 1, J)
+    j = DigitosNivel(i)
+    Cta = Mid(Cuenta, 1, j)
     cad = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cta, "T")
     If cad = "" Then
         'CreaCuenta
@@ -1117,13 +1117,13 @@ End Function
 
 
 
-Public Function ComprobarEmpresaBloqueada(codusu As Long, ByRef Empresa As String) As Boolean
+Public Function ComprobarEmpresaBloqueada(CodUsu As Long, ByRef Empresa As String) As Boolean
 Dim cad As String
 
 ComprobarEmpresaBloqueada = False
 
 'Antes de nada, borramos las entradas de usuario, por si hubiera kedado algo
-Conn.Execute "Delete from usuarios.vbloqbd where codusu=" & codusu
+Conn.Execute "Delete from usuarios.vbloqbd where codusu=" & CodUsu
 
 'Ahora comprobamos k nadie bloquea la BD
 cad = DevuelveDesdeBD("codusu", "usuarios.vbloqbd", "conta", Empresa, "T")
@@ -1344,6 +1344,7 @@ End Function
 
 
 
+
 Public Function EsFechaOKString(ByRef T As String) As Boolean
 Dim cad As String
     
@@ -1368,31 +1369,31 @@ End Function
 
 'Para los nombre que pueden tener ' . Para las comillas habra que hacer dentro otro INSTR
 Public Sub NombreSQL(ByRef CADENA As String)
-Dim J As Integer
+Dim j As Integer
 Dim i As Integer
 Dim Aux As String
-    J = 1
+    j = 1
     Do
-        i = InStr(J, CADENA, "'")
+        i = InStr(j, CADENA, "'")
         If i > 0 Then
             Aux = Mid(CADENA, 1, i - 1) & "\"
             CADENA = Aux & Mid(CADENA, i)
-            J = i + 2
+            j = i + 2
         End If
     Loop Until i = 0
 End Sub
 
 Public Function DevNombreSQL(CADENA As String) As String
-Dim J As Integer
+Dim j As Integer
 Dim i As Integer
 Dim Aux As String
-    J = 1
+    j = 1
     Do
-        i = InStr(J, CADENA, "'")
+        i = InStr(j, CADENA, "'")
         If i > 0 Then
             Aux = Mid(CADENA, 1, i - 1) & "\"
             CADENA = Aux & Mid(CADENA, i)
-            J = i + 2
+            j = i + 2
         End If
     Loop Until i = 0
     DevNombreSQL = CADENA
@@ -1452,14 +1453,14 @@ End Function
 
 
 Public Function DevuelveDigitosNivelAnterior() As Integer
-Dim J As Integer
+Dim j As Integer
     DevuelveDigitosNivelAnterior = 3
     If vEmpresa Is Nothing Then Exit Function
     If vEmpresa.numnivel < 2 Then Exit Function
-    J = vEmpresa.numnivel - 1
-    J = DigitosNivel(J)
-    If J < 3 Then J = 3
-    DevuelveDigitosNivelAnterior = J
+    j = vEmpresa.numnivel - 1
+    j = DigitosNivel(j)
+    If j < 3 Then j = 3
+    DevuelveDigitosNivelAnterior = j
 End Function
 
 

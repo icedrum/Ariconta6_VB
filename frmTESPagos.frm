@@ -2667,7 +2667,7 @@ Private Sub cmdAceptar_Click()
             '-----------------------------------------
             'Hacemos insertar
             If InsertarDesdeForm2(Me, 1) Then
-                data1.RecordSource = "Select * from " & NombreTabla & ObtenerWhereCab(True) & Ordenacion
+                Data1.RecordSource = "Select * from " & NombreTabla & ObtenerWhereCab(True) & Ordenacion
                 PosicionarData
                 PonerCampos
             End If
@@ -2676,9 +2676,9 @@ Private Sub cmdAceptar_Click()
     Case 4
         'Modificar
         If DatosOK Then
-            Clave = "numserie = " & DBSet(data1.Recordset!NUmSerie, "T") & " AND codmacta =" & DBSet(data1.Recordset!codmacta, "T") ' codmacta numfactu
-            Clave = Clave & " AND fecfactu = " & DBSet(data1.Recordset!FecFactu, "F") & " AND numorden =" & DBSet(data1.Recordset!numorden, "N")  ' codmacta numfactu fecfactu numorden
-            Clave = Clave & " AND numfactu = " & DBSet(data1.Recordset!NumFactu, "T")
+            Clave = "numserie = " & DBSet(Data1.Recordset!NUmSerie, "T") & " AND codmacta =" & DBSet(Data1.Recordset!codmacta, "T") ' codmacta numfactu
+            Clave = Clave & " AND fecfactu = " & DBSet(Data1.Recordset!FecFactu, "F") & " AND numorden =" & DBSet(Data1.Recordset!numorden, "N")  ' codmacta numfactu fecfactu numorden
+            Clave = Clave & " AND numfactu = " & DBSet(Data1.Recordset!NumFactu, "T")
             
             '       If ModificaDesdeFormulario2(Me, 1) Then
             If ModificaDesdeFormularioClaves2(Me, 1, "", Clave) Then
@@ -2694,7 +2694,7 @@ Private Sub cmdAceptar_Click()
                     cad = ""
                     PonPendiente
                     '-- Esto permanece para saber donde estamos
-                    lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
+                    lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
 
                 Else
                     LimpiarCampos
@@ -2752,7 +2752,7 @@ Private Function SituarData() As Boolean
     On Error GoTo ESituarData1
         SituarData = False
                     
-        With data1
+        With Data1
             'Vemos poscion
             posicion = .Recordset.AbsolutePosition - 1
             'Actualizamos el recordset
@@ -2817,7 +2817,7 @@ Private Sub BotonBuscar()
         PonFoco Text1(13)
         Else
             HacerBusqueda
-            If data1.Recordset.EOF Then
+            If Data1.Recordset.EOF Then
                  '### A mano
                 Text1(kCampo).Text = ""
                 Text1(kCampo).BackColor = vbYellow
@@ -2841,21 +2841,21 @@ Private Sub BotonVerTodos()
 End Sub
 
 Private Sub Desplazamiento(Index As Integer)
-    If data1.Recordset.EOF Then Exit Sub
+    If Data1.Recordset.EOF Then Exit Sub
     Select Case Index
         Case 1
-            data1.Recordset.MoveFirst
+            Data1.Recordset.MoveFirst
         Case 2
-            data1.Recordset.MovePrevious
-            If data1.Recordset.BOF Then data1.Recordset.MoveFirst
+            Data1.Recordset.MovePrevious
+            If Data1.Recordset.BOF Then Data1.Recordset.MoveFirst
         Case 3
-            data1.Recordset.MoveNext
-            If data1.Recordset.EOF Then data1.Recordset.MoveLast
+            Data1.Recordset.MoveNext
+            If Data1.Recordset.EOF Then Data1.Recordset.MoveLast
         Case 4
-            data1.Recordset.MoveLast
+            Data1.Recordset.MoveLast
     End Select
     PonerCampos
-    lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
+    lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
 End Sub
 
 Private Sub BotonModificar()
@@ -2880,7 +2880,7 @@ Dim Confirming As Boolean
     
     'Si se puede modificar entonces habilito todooos los campos
     PonerModo 4
-    Confirming = DBLet(data1.Recordset!ctaconfirm, "T") <> ""
+    Confirming = DBLet(Data1.Recordset!ctaconfirm, "T") <> ""
     
     
     'Si tiene algun pago hehco, NO puede modiciar ningun campo de la clave ppal
@@ -2888,7 +2888,7 @@ Dim Confirming As Boolean
         BloquearClave = True
     Else
         BloquearClave = False
-        If DBLet(data1.Recordset!imppagad, "N") <> 0 Then BloquearClave = True
+        If DBLet(Data1.Recordset!imppagad, "N") <> 0 Then BloquearClave = True
          'Tiene importes pagados. NO dejo cambiar la clave
         'numserie codmacta numfactu fecfactu numorden
     
@@ -2969,7 +2969,7 @@ Private Sub BotonEliminar()
     Dim SqlLog As String
 
     'Ciertas comprobaciones
-    If data1.Recordset.EOF Then Exit Sub
+    If Data1.Recordset.EOF Then Exit Sub
     
     'Comprobamos si se puede eliminar
     If Not SePuedeEliminar(True) Then Exit Sub
@@ -2978,16 +2978,16 @@ Private Sub BotonEliminar()
     
     '### a mano
     cad = "Seguro que desea eliminar de la BD el registro actual:"
-    cad = cad & vbCrLf & data1.Recordset.Fields(0) & "  " & data1.Recordset.Fields(1) & " "
-    cad = cad & data1.Recordset.Fields(2) & "  " & data1.Recordset.Fields(3) & "  " & data1.Recordset.Fields(4)
+    cad = cad & vbCrLf & Data1.Recordset.Fields(0) & "  " & Data1.Recordset.Fields(1) & " "
+    cad = cad & Data1.Recordset.Fields(2) & "  " & Data1.Recordset.Fields(3) & "  " & Data1.Recordset.Fields(4)
     i = MsgBox(cad, vbQuestion + vbYesNoCancel + vbDefaultButton2)
     'Borramos
     If i = vbYes Then
         'Borro el elemento
-        SQL = "Delete from pagos  WHERE numserie = '" & data1.Recordset!NUmSerie & "' AND numfactu = " & DBSet(data1.Recordset!NumFactu, "T")
-        SQL = SQL & " AND fecfactu = " & DBSet(data1.Recordset!FecFactu, "F") & " AND numorden =" & data1.Recordset!numorden
+        SQL = "Delete from pagos  WHERE numserie = '" & Data1.Recordset!NUmSerie & "' AND numfactu = " & DBSet(Data1.Recordset!NumFactu, "T")
+        SQL = SQL & " AND fecfactu = " & DBSet(Data1.Recordset!FecFactu, "F") & " AND numorden =" & Data1.Recordset!numorden
         SQL = SQL & " and codmacta = " & DBSet(Text1(4).Text, "T")
-        NumRegElim = data1.Recordset.AbsolutePosition
+        NumRegElim = Data1.Recordset.AbsolutePosition
         Conn.Execute SQL
 
 
@@ -3000,18 +3000,18 @@ Private Sub BotonEliminar()
         
         vLog.Insertar 24, vUsu, SqlLog
 
-        data1.Refresh
-        If data1.Recordset.EOF Then
+        Data1.Refresh
+        If Data1.Recordset.EOF Then
             'Solo habia un registro
             LimpiarCampos
             CargaList 0, False
             PonerModo 0
             Else
-                data1.Recordset.MoveFirst
+                Data1.Recordset.MoveFirst
                 NumRegElim = NumRegElim - 1
                 If NumRegElim > 1 Then
                     For i = 1 To NumRegElim - 1
-                        data1.Recordset.MoveNext
+                        Data1.Recordset.MoveNext
                     Next i
                 End If
                 PonerCampos
@@ -3028,7 +3028,7 @@ Private Sub cmdRegresar_Click()
 Dim cad As String
 Dim impo As Currency
     
-    If data1.Recordset.EOF Then
+    If Data1.Recordset.EOF Then
         MsgBox "Ningún registro devuelto.", vbExclamation
         Exit Sub
     End If
@@ -3187,9 +3187,9 @@ Dim i As Integer
     'Vemos como esta guardado el valor del check
     chkVistaPrevia.Value = CheckValueLeer(Name)
     'ASignamos un SQL al DATA1
-    data1.ConnectionString = Conn
-    data1.RecordSource = "Select * from " & NombreTabla
-    data1.Refresh
+    Data1.ConnectionString = Conn
+    Data1.RecordSource = "Select * from " & NombreTabla
+    Data1.Refresh
     If DatosADevolverBusqueda = "" Then
         PonerModo 0
     Else
@@ -3453,6 +3453,12 @@ Private Sub imgSerie_Click()
 End Sub
 
 
+Private Sub lwpagos_DblClick()
+    If Modo <> 2 Then Exit Sub
+    If lwpagos.ListItems.Count = 0 Then Exit Sub
+    BotonVerAsiento
+End Sub
+
 '### A mano
 'Los metodos del text tendran que estar
 'Los descomentamos cuando esten puestos ya los controles
@@ -3556,7 +3562,7 @@ Private Sub Text1_LostFocus(Index As Integer)
     
     
     If Not PerderFocoGnral(Text1(Index), Modo) Then Exit Sub
-    If Text1(Index).Text = "" Then Exit Sub
+    If Text1(Index).Text = "" And Index <> 4 Then Exit Sub
     
     If Not (Index = 4 Or Index = 10 Or Index = 9) Then
         If Modo < 2 Then Exit Sub
@@ -3811,7 +3817,7 @@ Private Sub MandaBusquedaPrevia(CadB As String)
     
     If CadenaDesdeOtroForm <> "" Then
         PonerDatoDevuelto CadenaDesdeOtroForm
-        If (Not data1.Recordset.EOF) And DatosADevolverBusqueda <> "" Then cmdRegresar_Click
+        If (Not Data1.Recordset.EOF) And DatosADevolverBusqueda <> "" Then cmdRegresar_Click
     Else   'de ha devuelto datos, es decir NO ha devuelto datos
         PonerFoco Text1(kCampo)
     End If
@@ -3823,9 +3829,9 @@ Private Sub PonerCadenaBusqueda()
 Screen.MousePointer = vbHourglass
 On Error GoTo EEPonerBusq
 
-data1.RecordSource = CadenaConsulta
-data1.Refresh
-If data1.Recordset.RecordCount <= 0 Then
+Data1.RecordSource = CadenaConsulta
+Data1.Refresh
+If Data1.Recordset.RecordCount <= 0 Then
     MsgBox "No hay ningún registro en la tabla " & NombreTabla, vbInformation
     Screen.MousePointer = vbDefault
     Exit Sub
@@ -3833,7 +3839,7 @@ If data1.Recordset.RecordCount <= 0 Then
     Else
         PonerModo 2
         'Data1.Recordset.MoveLast
-        data1.Recordset.MoveFirst
+        Data1.Recordset.MoveFirst
         PonerCampos
 End If
 
@@ -3851,8 +3857,8 @@ Private Sub PonerCampos()
     Dim mTag As CTag
     Dim SQL As String
 
-    If data1.Recordset.EOF Then Exit Sub
-    PonerCamposForma2 Me, data1, 1
+    If Data1.Recordset.EOF Then Exit Sub
+    PonerCamposForma2 Me, Data1, 1
 '    PonerCtasIVA
     
     Text2(0).Text = PonerNombreDeCod(Text1(4), "cuentas", "nommacta", "codmacta", "T")
@@ -3887,7 +3893,7 @@ Private Sub PonerCampos()
     PonPendiente
     
     '-- Esto permanece para saber donde estamos
-    lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
+    lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
     
 End Sub
 
@@ -3897,7 +3903,7 @@ Dim Importe As Currency
 
     On Error GoTo EPonPendiente
     'Pendiente
-    Importe = data1.Recordset!ImpEfect - DBLet(data1.Recordset!imppagad, "N")
+    Importe = Data1.Recordset!impefect - DBLet(Data1.Recordset!imppagad, "N")
     txtPendiente.Text = Format(Importe, FormatoImporte)
     
 EPonPendiente:
@@ -3941,8 +3947,8 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
        
     'Modo 2. Hay datos y estamos visualizandolos
     B = (Kmodo = 2)
-    If Not data1.Recordset Is Nothing Then
-        DespalzamientoVisible B And (data1.Recordset.RecordCount > 1)
+    If Not Data1.Recordset Is Nothing Then
+        DespalzamientoVisible B And (Data1.Recordset.RecordCount > 1)
     End If
     
     If DatosADevolverBusqueda <> "" Then
@@ -4095,7 +4101,7 @@ Dim Tipo As Integer
         
 
     If Modo = 4 Then
-        If DBLet(Me.data1.Recordset!emitdocum, "N") = 1 Then
+        If DBLet(Me.Data1.Recordset!emitdocum, "N") = 1 Then
             'Tiene la marca de documento emitido
             'Veremos si se la ha quitado
             If Me.Check1(0).Value = 0 Then
@@ -4207,8 +4213,8 @@ Private Function SePuedeEliminar(EsparaEliminar As Boolean) As Byte
     
     SePuedeEliminar = False
 
-    If Not IsNull(Me.data1.Recordset!nrodocum) Then
-        If Val(Me.data1.Recordset!nrodocum) > 0 Then
+    If Not IsNull(Me.Data1.Recordset!nrodocum) Then
+        If Val(Me.Data1.Recordset!nrodocum) > 0 Then
             MsgBox "Pertenece a una transferencia/confirming.", vbExclamation
             If EsparaEliminar Then Exit Function
         End If
@@ -4222,7 +4228,7 @@ End Function
 Private Function PertenceAlgunoDocumentoEmitido() As Boolean
 On Error Resume Next
     PertenceAlgunoDocumentoEmitido = False
-    If Val(data1.Recordset!emitdocum) = 1 Then
+    If Val(Data1.Recordset!emitdocum) = 1 Then
         If MsgBox("Pertence a un documento emtitido.  No deberia seguir con el proceso." & vbCrLf & vbCrLf & "Continuar?", vbQuestion + vbYesNoCancel) <> vbYes Then PertenceAlgunoDocumentoEmitido = True
     End If
     
@@ -4277,21 +4283,21 @@ End Sub
 Private Sub DividirVencimiento()
 Dim Im As Currency
 
-    If data1.Recordset Is Nothing Then Exit Sub
-    If data1.Recordset.EOF Then Exit Sub
+    If Data1.Recordset Is Nothing Then Exit Sub
+    If Data1.Recordset.EOF Then Exit Sub
     
     'Si esta totalmente cobrado pues no podemos desdoblar ekl vto
     
     
     
-    If Val(DBLet(data1.Recordset!nrodocum, "N")) > 0 Then
+    If Val(DBLet(Data1.Recordset!nrodocum, "N")) > 0 Then
         MsgBox "Pertenece a una transferencia/confirming", vbExclamation
         Exit Sub
     End If
     
     
-    Im = data1.Recordset!ImpEfect
-    Im = Im - DBLet(data1.Recordset!imppagad, "N")
+    Im = Data1.Recordset!impefect
+    Im = Im - DBLet(Data1.Recordset!imppagad, "N")
     If Im = 0 Then
         MsgBox "NO puede dividir el vencimiento. Importe totalmente pagado", vbExclamation
         Exit Sub
@@ -4303,23 +4309,23 @@ Dim Im As Currency
         '           2.- Numero vto
         '           3.- Importe maximo
     
-    CadenaDesdeOtroForm = "numserie = '" & data1.Recordset!NUmSerie & "' AND numfactu = " & DBSet(data1.Recordset!NumFactu, "T")
-    CadenaDesdeOtroForm = CadenaDesdeOtroForm & " AND fecfactu = '" & Format(data1.Recordset!FecFactu, FormatoFecha) & "' and codmacta = " & DBSet(data1.Recordset!codmacta, "T") & "|"
-    CadenaDesdeOtroForm = CadenaDesdeOtroForm & data1.Recordset!numorden & "|"
+    CadenaDesdeOtroForm = "numserie = '" & Data1.Recordset!NUmSerie & "' AND numfactu = " & DBSet(Data1.Recordset!NumFactu, "T")
+    CadenaDesdeOtroForm = CadenaDesdeOtroForm & " AND fecfactu = '" & Format(Data1.Recordset!FecFactu, FormatoFecha) & "' and codmacta = " & DBSet(Data1.Recordset!codmacta, "T") & "|"
+    CadenaDesdeOtroForm = CadenaDesdeOtroForm & Data1.Recordset!numorden & "|"
     CadenaDesdeOtroForm = CadenaDesdeOtroForm & CStr(Im) & "|"
     
     
     'Ok, Ahora pongo los labels
     frmTESPagosDivVto.Opcion = 27
     frmTESPagosDivVto.Label4(56).Caption = Text2(0).Text
-    frmTESPagosDivVto.txtCodigo(2).Text = Text1(5).Text
+    frmTESPagosDivVto.txtcodigo(2).Text = Text1(5).Text
     
-    frmTESPagosDivVto.Label4(57).Caption = data1.Recordset!NUmSerie & Format(data1.Recordset!NumFactu, "000000") & " / " & data1.Recordset!numorden & "      de " & Format(data1.Recordset!FecFactu, "dd/mm/yyyy")
+    frmTESPagosDivVto.Label4(57).Caption = Data1.Recordset!NUmSerie & Format(Data1.Recordset!NumFactu, "000000") & " / " & Data1.Recordset!numorden & "      de " & Format(Data1.Recordset!FecFactu, "dd/mm/yyyy")
     
     'Si ya ha cobrado algo...
   '  Im = DBLet(Data1.Recordset!imppagad, "N")
   '  If Im > 0 Then frmTESPagosDivVto.txtCodigo(1).Text = txtPendiente.Text
-    frmTESPagosDivVto.txtCodigo(1).Text = txtPendiente.Text
+    frmTESPagosDivVto.txtcodigo(1).Text = txtPendiente.Text
     
     If Text1(0).Text = "" Then
         MsgBox "El pago no tiene forma de pago. Revise.", vbExclamation
@@ -4330,9 +4336,9 @@ Dim Im As Currency
     
     If CadenaDesdeOtroForm <> "" Then
         CadenaConsulta = "Select * from pagos WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1) 'CadenaConsulta
-        data1.RecordSource = CadenaConsulta
-        data1.Refresh
-        If data1.Recordset.RecordCount <= 0 Then
+        Data1.RecordSource = CadenaConsulta
+        Data1.Refresh
+        If Data1.Recordset.RecordCount <= 0 Then
             MsgBox "No hay ningún registro en la tabla " & NombreTabla, vbInformation
         Else
             DevfrmCCtas = ""
@@ -4391,10 +4397,10 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
         
         Case 4
             'Generar pagos
-            If Me.data1.Recordset.EOF Then Exit Sub
+            If Me.Data1.Recordset.EOF Then Exit Sub
             If Modo <> 2 Then Exit Sub
             If vTipForpa <> "" Then
-                If (Val(vTipForpa) <> vbTransferencia) Or (Val(vTipForpa) = vbTransferencia And Val(DBLet(data1.Recordset!nrodocum)) = 0) Then
+                If (Val(vTipForpa) <> vbTransferencia) Or (Val(vTipForpa) = vbTransferencia And Val(DBLet(Data1.Recordset!nrodocum)) = 0) Then
                     If Not SePuedeEliminar(True) Then Exit Sub
                 
                     If PertenceAlgunoDocumentoEmitido Then Exit Sub
@@ -4517,7 +4523,7 @@ Dim cad As String, Indicador As String
 
     cad = "(numserie=" & DBSet(Text1(13).Text, "T") & " and numfactu = " & DBSet(Text1(1).Text, "T") & " and fecfactu = " & DBSet(Text1(2).Text, "F") & " and numorden = " & DBSet(Text1(3).Text, "N") & ") "
     
-    If SituarDataMULTI(data1, cad, Indicador) Then
+    If SituarDataMULTI(Data1, cad, Indicador) Then
         If ModoLineas <> 1 Then PonerModo 2
         lblIndicador.Caption = Indicador
     Else
@@ -4539,22 +4545,22 @@ Dim cad As String
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2)
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 2)
-        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2)
         
         Toolbar1.Buttons(5).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
         Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
         
         Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 0 Or Modo = 2)
         
-        Me.Toolbar2.Buttons(1).Enabled = DBLet(Rs!especial, "N") And (Modo <> 0 And Modo <> 5)
+        Me.Toolbar2.Buttons(1).Enabled = DBLet(Rs!Especial, "N") And (Modo <> 0 And Modo <> 5)
         Me.Toolbar2.Buttons(2).Enabled = vEmpresa.TieneContabilidad And Modo = 2
-        Me.Toolbar2.Buttons(3).Enabled = DBLet(Rs!especial, "N") And Modo = 2
-        Me.Toolbar2.Buttons(4).Enabled = DBLet(Rs!especial, "N") And Modo = 2
+        Me.Toolbar2.Buttons(3).Enabled = DBLet(Rs!Especial, "N") And Modo = 2
+        Me.Toolbar2.Buttons(4).Enabled = DBLet(Rs!Especial, "N") And Modo = 2
         
         
-        ToolbarAux.Buttons(1).Enabled = DBLet(Rs!especial, "N") And (Modo = 2) And Not Me.AdoAux(0).Recordset.EOF
+        ToolbarAux.Buttons(1).Enabled = DBLet(Rs!Especial, "N") And (Modo = 2) And Not Me.AdoAux(0).Recordset.EOF
         ToolbarAux.Buttons(2).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 2) And Not Me.AdoAux(0).Recordset.EOF
             
         
@@ -4713,9 +4719,9 @@ Dim Eliminar As Boolean
         vLog.Insertar 6, vUsu, Text1(2).Text & Text1(0).Text & " " & Text1(1).Text
         'Creo que no hace falta volver a situar el datagrid
         If True Then
-            lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
+            lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
             
-            data1.Refresh
+            Data1.Refresh
             PonerModo 2
         Else
             PonerModo 0
@@ -4870,7 +4876,7 @@ Private Sub txtaux_GotFocus(Index As Integer)
 End Sub
 
 
-Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub TxtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     KEYdown KeyCode
 End Sub
 

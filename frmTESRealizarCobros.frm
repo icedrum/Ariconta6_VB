@@ -2514,7 +2514,8 @@ Dim combo1Index  As Integer
                     'riesgo es GASTO
                     impo = -GastosTransferencia2
                     
-                    C = C & TransformaComasPuntos(CStr(impo)) & ",0," & DBSet(C2, "T", "S") & ")"
+                    C = C & TransformaComasPuntos(CStr(impo)) & ",0," & DBSet(C2, "T", "S")
+                    C = C & "," & combo1Index & ")"
                     C = Aux & C
                     Conn.Execute C
                 
@@ -4006,7 +4007,7 @@ Private Sub CargaCombo()
     
     While Not miRsAux.EOF
         Combo2.AddItem miRsAux!Login
-        Combo2.ItemData(Combo2.NewIndex) = miRsAux!codusu
+        Combo2.ItemData(Combo2.NewIndex) = miRsAux!CodUsu
         miRsAux.MoveNext
     Wend
     miRsAux.Close

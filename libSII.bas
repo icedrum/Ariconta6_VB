@@ -55,13 +55,15 @@ Dim C2 As String
             C2 = C2 & " fecliqpr >=" & DBSet(vParam.SIIFechaInicio, "F")
             C2 = C2 & " AND fecliqpr <= " & DBSet(F, "F")
         Else
-            'C2 = C2 & " fecharec >=" & DBSet(vParam.SIIFechaInicio, "F")
-            'C2 = C2 & " AND fecharec <= " & DBSet(F, "F")
-            'Enero 2020
-            C2 = C2 & " DATE(fecregcontable) >=" & DBSet(vParam.SIIFechaInicio, "F")
-            C2 = C2 & " AND DATE(fecregcontable) <= " & DBSet(F, "F")
+            If vParam.SII_ProvDesdeFechaRecepcion Then
+                C2 = C2 & " fecharec >=" & DBSet(vParam.SIIFechaInicio, "F")
+                C2 = C2 & " AND fecharec <= " & DBSet(F, "F")
             
-            
+            Else
+                'Enero 2020
+                C2 = C2 & " DATE(fecregcontable) >=" & DBSet(vParam.SIIFechaInicio, "F")
+                C2 = C2 & " AND DATE(fecregcontable) <= " & DBSet(F, "F")
+            End If
         End If
         C2 = C2 & " and (csv is null or resultado='AceptadoConErrores')"
         RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -674,11 +676,20 @@ Dim NoDeducible As Boolean  '2019 Septiembre
         End If
         SQL = SQL & "''" & "," & C2 & "," & C1 & "," & DBSet(Aux, "T", "N") & ","
     Else
-        'EL NIF
-        'NO hacemos nada  AUX y c1 ya teiene los valores que toca
-        C1 = "null"
-        Aux = DBLet(RN!nifdatos, "T")
-        C2 = "null"
+    
+        'Abril 2020   DUA
+        If RN!CodOpera = 6 Then
+            
+            C1 = "null"
+            Aux = DBLet(vEmpresa.NIF, "T")   'DUAS presentamos como NIF el de la empresa
+            C2 = "null"
+        Else
+            'EL NIF
+            'NO hacemos nada  AUX y c1 ya teiene los valores que toca
+            C1 = "null"
+            Aux = DBLet(RN!nifdatos, "T")
+            C2 = "null"
+        End If
         SQL = SQL & DBSet(Aux, "T", "N") & "," & C2 & "," & C1 & ",NULL,"
     End If
     
@@ -743,7 +754,8 @@ Dim NoDeducible As Boolean  '2019 Septiembre
         SQL = SQL & "'" & Aux & "',"
         
     Else
-        SQL = SQL & "'Factura" & IIf(RN!NUmSerie = 1, "", " ser: " & RN!NUmSerie) & " " & RN!NumFactu & "',"
+        'SQL = SQL & "'Factura" & IIf(RN!NUmSerie = 1, "", " ser: " & RN!NUmSerie) & " " & RN!NumFactu & "',"
+        SQL = SQL & "'Factura" & RN!NumFactu & "',"
     End If
     
     
@@ -751,8 +763,7 @@ Dim NoDeducible As Boolean  '2019 Septiembre
 '#6
     'REG_FE_EmitidaPorTercero,REG_FE_CNT_NombreRazon,REG_FE_CNT_NIF,REG_FE_CNT_IDOtro_CodigoPais,REG_FE_CNT_IDOtro_IDType,REG_FE_CNT_IDOtro_ID,
     Aux = DBLet(RN!Nommacta, "T")
-
-    
+    If RN!CodOpera = 6 Then Aux = vEmpresa.NombreEmpresaOficial
     SQL = SQL & DBSet(Aux, "T") & ","
     
     'NIF. Para las intracoms el NIF debe llevar las letras
@@ -771,9 +782,17 @@ Dim NoDeducible As Boolean  '2019 Septiembre
     Else
         'EL NIF
         'NO hacemos nada  AUX y c1 ya teiene los valores que toca
-        C1 = "null"
-        Aux = DBLet(RN!nifdatos, "T")
-        C2 = "null"
+        
+        If RN!CodOpera = 6 Then
+            'DUAs
+            C1 = "null"
+            Aux = DBLet(vEmpresa.NIF, "T")
+            C2 = "null"
+        Else
+            C1 = "null"
+            Aux = DBLet(RN!nifdatos, "T")
+            C2 = "null"
+        End If
         SQL = SQL & DBSet(Aux, "T", "N") & "," & C2 & "," & C1 & ",NULL,"
     End If
     
@@ -786,7 +805,11 @@ Dim NoDeducible As Boolean  '2019 Septiembre
         
     'Enero 2020
         'Se añade campo fecregcontable . Los de SII desde liquidacion lo dejamos como esta
-    FechaPeriodo2 = RN!fecregcontable
+    If vParam.SII_ProvDesdeFechaRecepcion Then
+        FechaPeriodo2 = RN!fecharec
+    Else
+        FechaPeriodo2 = RN!fecregcontable
+    End If
     If vParam.SII_Periodo_DesdeLiq Then FechaPeriodo2 = RN!fecliqpr
     
     SQL = SQL & DBSet(RN!FecFactu, "F") & "," & DBSet(FechaPeriodo2, "F") & ",#@#@#@$$$$"   'Sumaremos el total de cuotas deducibles y luego haremos un replace
@@ -987,6 +1010,21 @@ End Function
 
 
 Private Function DevuelveTipoFacturaRecibida(ByRef R As ADODB.Recordset) As String
+    
+    
+    'Nuevo.
+    'Abril 2020
+    'Si es codopera = REA  o codopera = DUA T
+    If R!CodOpera = 5 Or R!CodOpera = 6 Then
+        If R!CodOpera = 5 Then
+            DevuelveTipoFacturaRecibida = "F6"
+        Else
+            DevuelveTipoFacturaRecibida = "F5"
+        End If
+        Exit Function
+    End If
+    
+    
     
     If R!codconce340 = "D" Then
         'Rectificativa

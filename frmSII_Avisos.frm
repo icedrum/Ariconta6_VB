@@ -495,8 +495,13 @@ Dim Todo As Boolean
         Todo = False
         If cboTipo.ListIndex = 0 Then
             'CLiente
-            wndReportControl.SelectedRows(0).Record(3).Caption = Format(miRsAux!FecFactu, "dd/mm/yyyy")
-            wndReportControl.SelectedRows(0).Record(3).Value = Format(miRsAux!FecFactu, "yyyymmdd")
+            If vParam.SII_Periodo_DesdeLiq Then
+                wndReportControl.SelectedRows(0).Record(3).Caption = Format(miRsAux!fecliqcl, "dd/mm/yyyy")
+                wndReportControl.SelectedRows(0).Record(3).Value = Format(miRsAux!fecliqcl, "yyyymmdd")
+            Else
+                wndReportControl.SelectedRows(0).Record(3).Caption = Format(miRsAux!FecFactu, "dd/mm/yyyy")
+                wndReportControl.SelectedRows(0).Record(3).Value = Format(miRsAux!FecFactu, "yyyymmdd")
+            End If
             wndReportControl.SelectedRows(0).Record(4).Caption = miRsAux!codmacta
             wndReportControl.SelectedRows(0).Record(5).Caption = miRsAux!Nommacta
             
@@ -515,8 +520,13 @@ Dim Todo As Boolean
                 wndReportControl.SelectedRows(0).Record(2).Caption = Format(miRsAux!fecliqpr, "dd/mm/yyyy")
                 wndReportControl.SelectedRows(0).Record(2).Value = Format(miRsAux!fecliqpr, "yyyymmdd")
             Else
-                wndReportControl.SelectedRows(0).Record(2).Caption = Format(miRsAux!fecharec, "dd/mm/yyyy")
-                wndReportControl.SelectedRows(0).Record(2).Value = Format(miRsAux!fecharec, "yyyymmdd")
+                If vParam.SII_ProvDesdeFechaRecepcion Then
+                    wndReportControl.SelectedRows(0).Record(2).Caption = Format(miRsAux!fecharec, "dd/mm/yyyy")
+                    wndReportControl.SelectedRows(0).Record(2).Value = Format(miRsAux!fecharec, "yyyymmdd")
+                Else
+                    wndReportControl.SelectedRows(0).Record(2).Caption = Format(miRsAux!fecregcontable, "dd/mm/yyyy")
+                    wndReportControl.SelectedRows(0).Record(2).Value = Format(miRsAux!fecregcontable, "yyyymmdd")
+                End If
             End If
             wndReportControl.SelectedRows(0).Record(3).Value = miRsAux!NumFactu
             wndReportControl.SelectedRows(0).Record(4).Caption = Format(miRsAux!FecFactu, "dd/mm/yyyy")
@@ -526,8 +536,11 @@ Dim Todo As Boolean
             Rwtipopera.Find "codigo = " & DBSet(DBLet(miRsAux!CodOpera, "T"), "T"), , adSearchForward, 1
             wndReportControl.SelectedRows(0).Record(7).Caption = DBLet(Rwtipopera!denominacion, "")
             R340.Find "codigo = " & DBSet(DBLet(miRsAux!codconce340, "T"), "T"), , adSearchForward, 1
-            wndReportControl.SelectedRows(0).Record(8).Caption = DBLet(R340!Descripcion, "")
-            
+            If R340.EOF Then
+                wndReportControl.SelectedRows(0).Record(8).Caption = DBLet("N/D", "T")
+            Else
+                wndReportControl.SelectedRows(0).Record(8).Caption = DBLet(R340!Descripcion, "T")
+            End If
             wndReportControl.SelectedRows(0).Record(9).Caption = Format(miRsAux!totfacpr, FormatoImporte)
             wndReportControl.SelectedRows(0).Record(9).Value = miRsAux!totfacpr * 100
     
@@ -748,7 +761,17 @@ Public Sub CreateReportControlPendientes()
     If Me.cboTipo.ListIndex = 1 Then
         'Set Column = wndReportControl.Columns.Add(2, IIf(vParam.SII_Periodo_DesdeLiq, "F.Liq.", "F.Recep"), 13, True)
         
-        Set Column = wndReportControl.Columns.Add(2, IIf(vParam.SII_Periodo_DesdeLiq, "F.Liq.", "F.Registro"), 13, True)
+        
+        If vParam.SII_Periodo_DesdeLiq Then
+            Msg = "F.Liq."
+        Else
+            If vParam.SII_ProvDesdeFechaRecepcion Then
+                Msg = "F.recep"
+            Else
+                Msg = "F.Registro"
+            End If
+        End If
+        Set Column = wndReportControl.Columns.Add(2, CStr(Msg), 13, True)
         Set Column = wndReportControl.Columns.Add(3, "NºFactura", 15, True)
         Set Column = wndReportControl.Columns.Add(4, "F. Factura", 13, True)
         Set Column = wndReportControl.Columns.Add(5, "Proveedor", 10, True)
@@ -901,9 +924,13 @@ Dim Aux As String
         SQL = "select factcli.numserie,factcli.numfactu, factcli.fecfactu,factcli.codmacta,factcli.nommacta"
         'SQL = SQL & " ,wtipopera.denominacion,wconce340.descripcion,factcli.totfaccl"
         SQL = SQL & " , factcli.codopera,factcli.codconce340,factcli.totfaccl"
-        SQL = SQL & " ,anofactu,nifdatos,SII_ID ,resultado,csv,enviada "
+        SQL = SQL & " ,anofactu,nifdatos,SII_ID ,resultado,csv,enviada,fecliqcl "
         SQL = SQL & " from factcli left join aswsii.envio_facturas_emitidas "
         SQL = SQL & " on factcli.SII_ID = envio_facturas_emitidas.IDEnvioFacturasEmitidas"
+       
+        
+        
+       
        
         Aux = "fecfactu"
         If vParam.SII_Periodo_DesdeLiq Then Aux = "fecliqcl"
@@ -922,11 +949,19 @@ Dim Aux As String
         'Enero 2020
         'añadimos fechar geistro contable, que será la que sube al SII
         'Aux = "fecharec"
-        Aux = "date(fecregcontable)"
+        If vParam.SII_ProvDesdeFechaRecepcion Then
+            Aux = "fecharec"
+        Else
+            Aux = "date(fecregcontable)"
+        End If
         If vParam.SII_Periodo_DesdeLiq Then Aux = "fecliqpr"
         
     End If
     SQL = SQL & " WHERE " & Aux & " >=" & DBSet(vParam.SIIFechaInicio, "F")
+    'oTRA criba
+    'vAMOS A ACOTAR DESDE FECHA INICIO EJERCICIO   mARZO 20120
+    SQL = SQL & " and " & Aux & " >=" & DBSet(vParam.fechaini, "F")
+    
     SQL = SQL & " AND " & Aux & " <= " & DBSet(Now, "F")
     
     SQL = SQL & " and (csv is null or resultado='AceptadoConErrores')"
@@ -944,6 +979,9 @@ Dim Aux As String
     
     If Text3(0).Text <> "" Then SQL = SQL & " AND " & Aux & " = " & DBSet(Text3(0).Text, "F")
    
+    
+    
+    
     
     
     'ORdenacion
@@ -1237,8 +1275,13 @@ Dim Color As Long
         Set Item = Record.AddItem(Format(miRsAux!fecliqpr, "yyyymmdd"))
         Item.Caption = Format(miRsAux!fecliqpr, "dd/mm/yyyy")
     Else
-        Set Item = Record.AddItem(Format(miRsAux!fecregcontable, "yyyymmdd"))
-        Item.Caption = Format(miRsAux!fecregcontable, "dd/mm/yyyy")
+        If vParam.SII_ProvDesdeFechaRecepcion Then
+            Set Item = Record.AddItem(Format(miRsAux!fecharec, "yyyymmdd"))
+            Item.Caption = Format(miRsAux!fecharec, "dd/mm/yyyy")
+        Else
+            Set Item = Record.AddItem(Format(miRsAux!fecregcontable, "yyyymmdd"))
+            Item.Caption = Format(miRsAux!fecregcontable, "dd/mm/yyyy")
+        End If
     End If
     
     If miRsAux!NUmSerie = "1" Then
@@ -1305,16 +1348,18 @@ Dim Color As Long
             End If
         Else
             'Enero 2020
-            'If miRsAux!fecharec < FechaRoja Then
-            '    Color = vbRed
-            'Else
-            '    If miRsAux!fecharec = FechaRoja Then Color = vbBlue
-            'End If
-        
-            If CDate(miRsAux!fecregcontable) < FechaRoja Then
-                Color = vbRed
+            If vParam.SII_ProvDesdeFechaRecepcion Then
+                If miRsAux!fecharec < FechaRoja Then
+                    Color = vbRed
+                Else
+                    If miRsAux!fecharec = FechaRoja Then Color = vbBlue
+                End If
             Else
-                If CDate(miRsAux!fecregcontable) = FechaRoja Then Color = vbBlue
+                If CDate(miRsAux!fecregcontable) < FechaRoja Then
+                    Color = vbRed
+                Else
+                    If CDate(miRsAux!fecregcontable) = FechaRoja Then Color = vbBlue
+                End If
             End If
         End If
     End If
@@ -1613,7 +1658,7 @@ Dim B As Boolean
                     SQL = SQL & " where numserie =" & DBSet(miRsAux!NUmSerie, "T") & " AND numfactu =" & miRsAux!NumFac & " AND anofactu =" & Year(miRsAux!Fecha)
                     
                 Else
-                    SQL = "UPDATE factpro SET SII_ID =" & ID_ASWSII
+                    SQL = "UPDATE factpro SET SII_ID =" & ID_ASWSII & " ,fecregcontable=fecregcontable "
                     SQL = SQL & " where numserie =" & DBSet(miRsAux!NUmSerie, "T") & " AND numregis =" & miRsAux!NumFac & " AND anofactu =" & Year(miRsAux!Fecha)
                 End If
                 

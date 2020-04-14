@@ -341,7 +341,6 @@ Begin VB.Form frmColCtas
       AllowUpdate     =   0   'False
       HeadLines       =   1
       RowHeight       =   19
-      RowDividerStyle =   1
       BeginProperty HeadFont {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Verdana"
          Size            =   9
@@ -687,7 +686,7 @@ Private Sub BotonModificar()
     ParaBusqueda False
     CadenaDesdeOtroForm = ""
     frmCuentas.vModo = 2
-    frmCuentas.CodCta = Adodc1.Recordset!codmacta
+    frmCuentas.CodCta = adodc1.Recordset!codmacta
     frmCuentas.Show vbModal
     If CadenaDesdeOtroForm <> "" Then
         CargaGrid
@@ -696,39 +695,39 @@ Private Sub BotonModificar()
 End Sub
 
 Private Sub BotonEliminar()
-Dim SQL As String
+Dim Sql As String
     On Error GoTo Error2
     ParaBusqueda False
     'Ciertas comprobaciones
-    If Adodc1.Recordset.EOF Then Exit Sub
+    If adodc1.Recordset.EOF Then Exit Sub
     '### a mano
-    SQL = "Seguro que desea eliminar la cuenta:"
-    SQL = SQL & vbCrLf & "Código: " & Adodc1.Recordset.Fields(0)
-    SQL = SQL & vbCrLf & "Denominación: " & Adodc1.Recordset.Fields(1)
-    If MsgBox(SQL, vbQuestion + vbYesNoCancel) = vbYes Then
-        SQL = Adodc1.Recordset.Fields(0)
+    Sql = "Seguro que desea eliminar la cuenta:"
+    Sql = Sql & vbCrLf & "Código: " & adodc1.Recordset.Fields(0)
+    Sql = Sql & vbCrLf & "Denominación: " & adodc1.Recordset.Fields(1)
+    If MsgBox(Sql, vbQuestion + vbYesNoCancel) = vbYes Then
+        Sql = adodc1.Recordset.Fields(0)
         Screen.MousePointer = vbHourglass
-        If SepuedeEliminarCuenta(SQL) Then
+        If SepuedeEliminarCuenta(Sql) Then
             'Hay que eliminar
             Screen.MousePointer = vbHourglass
             
-            SQL = "Delete from departamentos where codmacta = " & DBSet(Adodc1.Recordset!codmacta, "T")
-            Conn.Execute SQL
+            Sql = "Delete from departamentos where codmacta = " & DBSet(adodc1.Recordset!codmacta, "T")
+            Conn.Execute Sql
             
-            SQL = "Delete from cuentas where codmacta='" & Adodc1.Recordset!codmacta & "'"
-            Conn.Execute SQL
+            Sql = "Delete from cuentas where codmacta='" & adodc1.Recordset!codmacta & "'"
+            Conn.Execute Sql
             Screen.MousePointer = vbHourglass
             espera 0.5
             'Cancelamos el adodc1
             DataGrid1.Enabled = False
-            NumRegElim = Adodc1.Recordset.AbsolutePosition - 1
+            NumRegElim = adodc1.Recordset.AbsolutePosition - 1
             CargaGrid
             DataGrid1.Enabled = True
             If NumRegElim > 0 Then
-                If NumRegElim >= Adodc1.Recordset.RecordCount Then
-                    Adodc1.Recordset.MoveLast
+                If NumRegElim >= adodc1.Recordset.RecordCount Then
+                    adodc1.Recordset.MoveLast
                 Else
-                    Adodc1.Recordset.Move NumRegElim
+                    adodc1.Recordset.Move NumRegElim
                     'DataGrid1.Bookmark = Adodc1.Recordset.AbsolutePosition
                 End If
             End If
@@ -739,9 +738,9 @@ Error2:
         Screen.MousePointer = vbDefault
         If Err.Number <> 0 Then
             Errores = Err.Number
-            SQL = Err.Description
-            FijarError SQL
-            MsgBox "Error eliminando cuenta. " & vbCrLf & SQL, vbExclamation
+            Sql = Err.Description
+            FijarError Sql
+            MsgBox "Error eliminando cuenta. " & vbCrLf & Sql, vbExclamation
         End If
 End Sub
 
@@ -756,7 +755,7 @@ End Sub
 
 
 Private Sub adodc1_MoveComplete(ByVal adReason As ADODB.EventReasonEnum, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pRecordset As ADODB.Recordset)
-    If adReason = adRsnMove And adStatus = adStatusOK Then PonLblIndicador Me.lblIndicador, Adodc1
+    If adReason = adRsnMove And adStatus = adStatusOK Then PonLblIndicador Me.lblIndicador, adodc1
         
 End Sub
 
@@ -790,7 +789,7 @@ Private Sub cboOrden_Click()
 End Sub
 
 Private Sub cmdAccion_Click(Index As Integer)
-Dim SQL As String
+Dim Sql As String
 
 
     If Index = 0 Then
@@ -798,10 +797,10 @@ Dim SQL As String
         txtaux(0).Text = Trim(txtaux(0).Text)
         txtaux(1).Text = Trim(txtaux(1).Text)
         'Si estan vacios no hacemos nada
-        SQL = ""
+        Sql = ""
         Aux = ""
         If txtaux(0).Text <> "" Then
-            If SeparaCampoBusqueda("T", "codmacta", txtaux(0).Text, Aux, False) = 0 Then SQL = Aux
+            If SeparaCampoBusqueda("T", "codmacta", txtaux(0).Text, Aux, False) = 0 Then Sql = Aux
         End If
         If txtaux(1).Text <> "" Then
             Aux = ""
@@ -809,8 +808,8 @@ Dim SQL As String
             'VEO si ha puesto un *
             If InStr(1, txtaux(1).Text, "*") = 0 Then txtaux(1).Text = "*" & txtaux(1).Text & "*"
             If SeparaCampoBusqueda("T", "nommacta", txtaux(1).Text, Aux, False) = 0 Then
-                If SQL <> "" Then SQL = SQL & " AND "
-                SQL = SQL & Aux
+                If Sql <> "" Then Sql = Sql & " AND "
+                Sql = Sql & Aux
             End If
         End If
         
@@ -826,13 +825,13 @@ Dim SQL As String
                 Else
                     If InStr(1, UCase(txtaux(2).Text), "=NULL") <> 0 Then
                         Aux = "(fecbloq is null)"
-                        If SQL <> "" Then SQL = SQL & " AND "
-                        SQL = SQL & Aux
+                        If Sql <> "" Then Sql = Sql & " AND "
+                        Sql = Sql & Aux
                     Else
                         If InStr(1, UCase(txtaux(2).Text), "<>NULL") <> 0 Then
                             Aux = "(not fecbloq is null)"
-                            If SQL <> "" Then SQL = SQL & " AND "
-                            SQL = SQL & Aux
+                            If Sql <> "" Then Sql = Sql & " AND "
+                            Sql = Sql & Aux
                         End If
                     End If
                 End If
@@ -843,8 +842,8 @@ Dim SQL As String
             
             
             If SeparaCampoBusqueda("F", "fecbloq", txtaux(2).Text, Aux, False) = 0 Then
-                If SQL <> "" Then SQL = SQL & " AND "
-                SQL = SQL & Aux
+                If Sql <> "" Then Sql = Sql & " AND "
+                Sql = Sql & Aux
             End If
                 
             
@@ -856,14 +855,14 @@ Dim SQL As String
         
         
         'Si sql<>"" entonces hay puestos valores
-        If SQL = "" Then Exit Sub
+        If Sql = "" Then Exit Sub
         
         'Llamamos a carga grid
         Screen.MousePointer = vbHourglass
-        CadenaConsulta = GeneraSQL(SQL)
+        CadenaConsulta = GeneraSQL(Sql)
         CargaGrid
         Screen.MousePointer = vbDefault
-        If Adodc1.Recordset.EOF Then
+        If adodc1.Recordset.EOF Then
             MsgBox "Ningún resultado para la búsqueda.", vbExclamation
             Exit Sub
         Else
@@ -877,17 +876,17 @@ Dim SQL As String
 End Sub
 
 Private Sub cmdRegresar_Click()
-    If Adodc1.Recordset Is Nothing Then
+    If adodc1.Recordset Is Nothing Then
         BotonBuscar
         Screen.MousePointer = vbDefault
         Exit Sub
     End If
     
-    If Adodc1.Recordset.EOF Then
+    If adodc1.Recordset.EOF Then
         MsgBox "Ningún registro devuelto.", vbExclamation
         Exit Sub
     End If
-    RaiseEvent DatoSeleccionado(Adodc1.Recordset!codmacta & "|" & Adodc1.Recordset!Nommacta & "|" & Adodc1.Recordset!bloqueada & "|")
+    RaiseEvent DatoSeleccionado(adodc1.Recordset!codmacta & "|" & adodc1.Recordset!Nommacta & "|" & adodc1.Recordset!bloqueada & "|")
     Unload Me
 End Sub
 
@@ -897,12 +896,12 @@ Private Sub DataGrid1_DblClick()
         cmdRegresar_Click
     Else
     
-        If Adodc1.Recordset Is Nothing Then Exit Sub
-        If Adodc1.Recordset.EOF Then Exit Sub
+        If adodc1.Recordset Is Nothing Then Exit Sub
+        If adodc1.Recordset.EOF Then Exit Sub
     
         'Vemos todos los valores de la cuenta
         frmCuentas.vModo = 0
-        frmCuentas.CodCta = Adodc1.Recordset!codmacta
+        frmCuentas.CodCta = adodc1.Recordset!codmacta
         frmCuentas.Show vbModal
     End If
 End Sub
@@ -923,19 +922,19 @@ End Sub
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 113 Then  ' si pulsa F2 vamos a consulta de extractos
     
-        If Me.Adodc1.Recordset.EOF Then Exit Sub
+        If Me.adodc1.Recordset.EOF Then Exit Sub
         
         Aux = DBSet(vParam.fechaini, "F") & " AND "
         Aux = Aux & DBSet(DateAdd("yyyy", 1, vParam.fechafin), "F")
         Aux = Aux & " AND codmacta  "
-        Aux = DevuelveDesdeBD("count(*)", "hlinapu", Aux, Adodc1.Recordset!codmacta, "T")
+        Aux = DevuelveDesdeBD("count(*)", "hlinapu", Aux, adodc1.Recordset!codmacta, "T")
         If Val(Aux) = 0 Then
-             MsgBox "La cuenta " & Adodc1.Recordset!codmacta & " NO tiene movimientos en las fechas", vbExclamation
+             MsgBox "La cuenta " & adodc1.Recordset!codmacta & " NO tiene movimientos en las fechas", vbExclamation
         
         Else
             Set frmCExt = New frmConExtr
             
-            frmCExt.Cuenta = Me.Adodc1.Recordset.Fields(0).Value
+            frmCExt.Cuenta = Me.adodc1.Recordset.Fields(0).Value
             frmCExt.Show vbModal
             
             Set frmCExt = Nothing
@@ -1191,11 +1190,11 @@ End Sub
 
 
 Private Sub DespalzamientoVisible(bol As Boolean)
-    Dim i
-    For i = 16 To 19
-        Toolbar1.Buttons(i).Enabled = bol
-        Toolbar1.Buttons(i).visible = bol
-    Next i
+    Dim I
+    For I = 16 To 19
+        Toolbar1.Buttons(I).Enabled = bol
+        Toolbar1.Buttons(I).visible = bol
+    Next I
 End Sub
 
 
@@ -1215,34 +1214,35 @@ Dim B As Boolean
     DataGrid1.Enabled = B
     
     
-    lblComprobar(2).visible = Not Me.Adodc1.Recordset.EOF
+    lblComprobar(2).visible = Not Me.adodc1.Recordset.EOF
     
 End Sub
 
 Private Sub CargaGrid2()
     Dim J As Integer
     Dim TotalAncho As Integer
-    Dim i As Integer
-    Dim SQL As String
+    Dim I As Integer
+    Dim Sql As String
     Dim B As Boolean
-    Adodc1.ConnectionString = Conn
+    adodc1.ConnectionString = Conn
     B = DataGrid1.Enabled
     DataGrid1.Enabled = False
-    SQL = CadenaConsulta
-    SQL = SQL & " ORDER BY"
+    Sql = CadenaConsulta
+    Sql = Sql & " ORDER BY"
     If cboOrden.ListIndex = 0 Then
     'If Option2(0).Value Then
-        SQL = SQL & " codmacta"
+        Sql = Sql & " codmacta"
     Else
-        SQL = SQL & " nommacta"
+        Sql = Sql & " nommacta"
     End If
-    Adodc1.RecordSource = SQL
-    Adodc1.CursorType = adOpenDynamic
-    Adodc1.LockType = adLockOptimistic
-    Adodc1.Refresh
+    adodc1.RecordSource = Sql
+    adodc1.CursorType = adOpenDynamic
+    adodc1.LockType = adLockOptimistic
+    adodc1.Refresh
     
     DataGrid1.AllowRowSizing = False
     DataGrid1.RowHeight = 350
+    DataGrid1.RowDividerStyle = dbgNoDividers
     
     
    
@@ -1284,15 +1284,15 @@ Private Sub CargaGrid2()
                
     'Habilitamos modificar y eliminar
     Toolbar1.Buttons(4).Enabled = vUsu.Nivel < 3
-    Toolbar1.Buttons(7).Enabled = Not Adodc1.Recordset.EOF
+    Toolbar1.Buttons(7).Enabled = Not adodc1.Recordset.EOF
     If vUsu.Nivel < 2 Then
-        Toolbar1.Buttons(8).Enabled = Not Adodc1.Recordset.EOF
+        Toolbar1.Buttons(8).Enabled = Not adodc1.Recordset.EOF
     Else
         Toolbar1.Buttons(8).Enabled = False
     End If
    
     'Para k la barra de desplazamiento sea mas alta
-    If Not Adodc1.Recordset.EOF Then
+    If Not adodc1.Recordset.EOF Then
             DataGrid1.ScrollBars = dbgVertical
     End If
     DataGrid1.Enabled = B
@@ -1303,7 +1303,7 @@ End Sub
 '1 Solo enables
 '2 todo
 Private Sub PonerOptionsVisibles(Opcion As Byte)
-Dim i As Integer
+Dim I As Integer
 Dim J As Integer
 Dim cad As String
 
@@ -1312,20 +1312,20 @@ End Sub
 
 
 Private Function GeneraSQL(Busqueda As String) As String
-Dim i As Integer
-Dim SQL As String
+Dim I As Integer
+Dim Sql As String
 Dim nexo As String
 Dim J As Integer
 Dim wildcar As String
 Dim Digitos As Integer
 Dim cad As String
 
-    SQL = ""
+    Sql = ""
     nexo = ""
     
     'If Check1(0).Value Then
     If cboNiveles.ListIndex = vEmpresa.numnivel - 1 Then
-        SQL = "( apudirec = 'S')"
+        Sql = "( apudirec = 'S')"
         nexo = " OR "
     End If
 
@@ -1335,7 +1335,7 @@ Dim cad As String
         For J = 1 To Digitos
             wildcar = wildcar & "_"
         Next J
-        SQL = SQL & nexo & " ( codmacta like '" & wildcar & "')"
+        Sql = Sql & nexo & " ( codmacta like '" & wildcar & "')"
         nexo = " OR "
     End If
     
@@ -1349,7 +1349,7 @@ Dim cad As String
         wildcar = wildcar & " WHERE (" & Busqueda & ")"
         nexo = " AND "
     End If
-    If SQL <> "" Then wildcar = wildcar & nexo & "(" & SQL & ")"
+    If Sql <> "" Then wildcar = wildcar & nexo & "(" & Sql & ")"
     
     '++ añado el filtro
     'filtro
@@ -1363,7 +1363,7 @@ End Function
 
 Private Function SepuedeEliminarCuenta(Cuenta As String) As Boolean
 Dim NivelCta As Integer
-Dim i, J As Integer
+Dim I, J As Integer
 Dim cad As String
 
     SepuedeEliminarCuenta = False
@@ -1393,8 +1393,8 @@ Dim cad As String
         End If
         
         'Ctas agrupadas
-        i = DigitosNivel(NivelCta)
-        If i = 3 Then
+        I = DigitosNivel(NivelCta)
+        If I = 3 Then
             cad = DevuelveDesdeBD("codmacta", "ctaagrupadas", "codmacta", Cuenta, "T")
             If cad <> "" Then
                 MsgBox "El subnivel pertenece a agrupacion de cuentas en balance"
@@ -1403,8 +1403,8 @@ Dim cad As String
         End If
         For J = NivelCta + 1 To vEmpresa.numnivel
             cad = Cuenta & "__________"
-            i = DigitosNivel(J)
-            cad = Mid(cad, 1, i)
+            I = DigitosNivel(J)
+            cad = Mid(cad, 1, I)
             If TieneEnBD(cad) Then
                 MsgBox "Tiene cuentas en niveles superiores (" & J & ")", vbExclamation
                 Exit Function
@@ -1426,10 +1426,10 @@ End Function
 
 Private Sub SituaGrid(CADENA As String)
 On Error GoTo ESituaGrid
-If Adodc1.Recordset.EOF Then Exit Sub
+If adodc1.Recordset.EOF Then Exit Sub
 
-Adodc1.Recordset.Find " codmacta =  " & CADENA & ""
-If Adodc1.Recordset.EOF Then Adodc1.Recordset.MoveFirst
+adodc1.Recordset.Find " codmacta =  " & CADENA & ""
+If adodc1.Recordset.EOF Then adodc1.Recordset.MoveFirst
 
 Exit Sub
 ESituaGrid:
@@ -1484,7 +1484,7 @@ End Sub
 Private Sub ComprobarCuentas()
 Dim cad As String
 Dim N As Integer
-Dim i As Integer
+Dim I As Integer
 Dim Col As Collection
 Dim C1 As String
 
@@ -1492,7 +1492,7 @@ On Error GoTo EComprobarCuentas
     
     
     'NO hay cuentas
-    If Me.Adodc1.Recordset.EOF Then Exit Sub
+    If Me.adodc1.Recordset.EOF Then Exit Sub
     'Buscando datos
     If txtaux(0).visible Then Exit Sub
     'Para cada nivel n comprobaremos si existe la cuenta en un
@@ -1518,18 +1518,18 @@ On Error GoTo EComprobarCuentas
     lblComprobar(0).Refresh
     Set Col = New Collection
     'Hasta 2 pq el uno no tiene subniveles
-    For i = vEmpresa.numnivel To 2 Step -1
-        N = DigitosNivel(i)
-        lblComprobar(0).Caption = "Nivel: " & i
+    For I = vEmpresa.numnivel To 2 Step -1
+        N = DigitosNivel(I)
+        lblComprobar(0).Caption = "Nivel: " & I
         lblComprobar(0).Refresh
         Do
-            If ObtenerCuenta(cad, i, N) Then
+            If ObtenerCuenta(cad, I, N) Then
                 lblComprobar(1).Caption = cad
                 lblComprobar(1).Refresh
-                ComprobarCuenta cad, i, Col
+                ComprobarCuenta cad, I, Col
             End If
         Loop Until cad = ""
-    Next i
+    Next I
     
     
     'Otras comprobaciones de las cuentas
@@ -1596,20 +1596,20 @@ End Sub
 
 Private Function ObtenerCuenta(ByRef CADENA As String, Nivel As Integer, ByRef Digitos As Integer) As Boolean
 Dim RT As Recordset
-Dim SQL As String
+Dim Sql As String
 
 
 If CADENA = "" Then
-    SQL = ""
+    Sql = ""
 Else
-    SQL = DevuelveUltimaCuentaGrupo(CADENA, Nivel, Digitos)
-    SQL = " codmacta > '" & SQL & "' AND "
+    Sql = DevuelveUltimaCuentaGrupo(CADENA, Nivel, Digitos)
+    Sql = " codmacta > '" & Sql & "' AND "
 End If
-SQL = "Select codmacta from Cuentas WHERE " & SQL
-SQL = SQL & " codmacta like '" & Mid("__________", 1, Digitos) & "'"
+Sql = "Select codmacta from Cuentas WHERE " & Sql
+Sql = Sql & " codmacta like '" & Mid("__________", 1, Digitos) & "'"
 
 Set RT = New ADODB.Recordset
-RT.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+RT.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
 If RT.EOF Then
     ObtenerCuenta = False
     CADENA = ""
@@ -1623,9 +1623,9 @@ End Function
 
 
 Private Function DigitosNivelAnterior(Cuenta As String) As Integer
-Dim i As Integer
-    i = Len(Cuenta)
-    Select Case i
+Dim I As Integer
+    I = Len(Cuenta)
+    Select Case I
     Case vEmpresa.numdigi7
         DigitosNivelAnterior = vEmpresa.numdigi6
         
@@ -1785,19 +1785,19 @@ End Sub
 
 
 Private Sub CargarNiveles(Opcion As Byte)
-Dim i As Integer
+Dim I As Integer
 
     
     If Opcion <> 1 Then
         cboNiveles.Clear
-        For i = 1 To vEmpresa.numnivel - 1
-            J = DigitosNivel(i)
+        For I = 1 To vEmpresa.numnivel - 1
+            J = DigitosNivel(I)
             If J > 0 Then
-                cboNiveles.AddItem "Digitos " & i
-                cboNiveles.ItemData(cboNiveles.NewIndex) = i
+                cboNiveles.AddItem "Digitos " & I
+                cboNiveles.ItemData(cboNiveles.NewIndex) = I
             Else
             End If
-        Next i
+        Next I
         'Ultimo nivel
         cboNiveles.AddItem "Ultimo nivel"
         cboNiveles.ItemData(cboNiveles.NewIndex) = 9
@@ -1808,25 +1808,25 @@ Dim i As Integer
         Select Case ConfigurarBalances
         Case 1
             cboNiveles.Clear
-            For i = 1 To vEmpresa.numnivel - 1
-                J = DigitosNivel(i)
+            For I = 1 To vEmpresa.numnivel - 1
+                J = DigitosNivel(I)
                 If J < 5 Then  'A balances van ctas de 4 digitos
-                    cboNiveles.AddItem "Digitos " & i
-                    cboNiveles.ItemData(cboNiveles.NewIndex) = i
+                    cboNiveles.AddItem "Digitos " & I
+                    cboNiveles.ItemData(cboNiveles.NewIndex) = I
                 Else
                 End If
-            Next i
+            Next I
         Case 2
             cboNiveles.Clear
 
             'Agrupar ctas digitos . Realmete agrupamos al nivel de cuentas -1
             J = DevuelveDigitosNivelAnterior
-            For i = 0 To 9
-                If i = J Then
-                    cboNiveles.AddItem "Digitos " & i
-                    cboNiveles.ItemData(cboNiveles.NewIndex) = i
+            For I = 0 To 9
+                If I = J Then
+                    cboNiveles.AddItem "Digitos " & I
+                    cboNiveles.ItemData(cboNiveles.NewIndex) = I
                 End If
-            Next i
+            Next I
     
         Case 6
             cboNiveles.Clear
@@ -1834,12 +1834,12 @@ Dim i As Integer
             'Todos los niveles menos el ultimo
             'Agrupar ctas digitos . Realmete agrupamos al nivel de cuentas -1
             J = DevuelveDigitosNivelAnterior
-            For i = 0 To 9
-                If i < J And i > 0 Then
-                    cboNiveles.AddItem "Digitos " & i
-                    cboNiveles.ItemData(cboNiveles.NewIndex) = i
+            For I = 0 To 9
+                If I < J And I > 0 Then
+                    cboNiveles.AddItem "Digitos " & I
+                    cboNiveles.ItemData(cboNiveles.NewIndex) = I
                 End If
-            Next i
+            Next I
         End Select
     End If
     
@@ -1847,7 +1847,7 @@ Dim i As Integer
 End Sub
 
 Private Sub CargarOrden()
-Dim i As Integer
+Dim I As Integer
 
     cboOrden.Clear
     
@@ -1929,9 +1929,9 @@ Dim cad As String
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2) 'And (DatosADevolverBusqueda = "")
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2) 'And (DatosADevolverBusqueda = "")
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 0 Or Modo = 2) 'And (DatosADevolverBusqueda = "")
-        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2) 'And (DatosADevolverBusqueda = "")
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2) 'And (DatosADevolverBusqueda = "")
         
         Toolbar1.Buttons(5).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
         Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
@@ -1939,9 +1939,9 @@ Dim cad As String
         Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 0 Or Modo = 2)
         
         Me.Toolbar2.Buttons(1).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2) 'And (DatosADevolverBusqueda = "")
-        Me.Toolbar2.Buttons(2).Enabled = DBLet(Rs!especial, "N") And ConfigurarBalances <> 2 And ConfigurarBalances <> 6 'And (DatosADevolverBusqueda = "")
-        Me.Toolbar2.Buttons(6).Enabled = DBLet(Rs!especial, "N") 'And (DatosADevolverBusqueda = "")
-        Me.Toolbar2.Buttons(7).Enabled = DBLet(Rs!especial, "N") 'And (DatosADevolverBusqueda = "")
+        Me.Toolbar2.Buttons(2).Enabled = DBLet(Rs!Especial, "N") And ConfigurarBalances <> 2 And ConfigurarBalances <> 6 'And (DatosADevolverBusqueda = "")
+        Me.Toolbar2.Buttons(6).Enabled = DBLet(Rs!Especial, "N") 'And (DatosADevolverBusqueda = "")
+        Me.Toolbar2.Buttons(7).Enabled = DBLet(Rs!Especial, "N") 'And (DatosADevolverBusqueda = "")
         
     End If
     

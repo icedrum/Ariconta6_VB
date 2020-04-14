@@ -6,7 +6,7 @@ Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
 Begin VB.Form frmInmoElto 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Elementos de inmovilizado"
-   ClientHeight    =   10005
+   ClientHeight    =   10410
    ClientLeft      =   45
    ClientTop       =   30
    ClientWidth     =   13500
@@ -15,10 +15,90 @@ Begin VB.Form frmInmoElto
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   10005
+   ScaleHeight     =   10410
    ScaleWidth      =   13500
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.TextBox Text5 
+      BackColor       =   &H80000018&
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   360
+      Index           =   1
+      Left            =   8070
+      Locked          =   -1  'True
+      TabIndex        =   101
+      Text            =   "Text4"
+      Top             =   5280
+      Width           =   5055
+   End
+   Begin VB.TextBox Text1 
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   360
+      Index           =   22
+      Left            =   6720
+      MaxLength       =   30
+      TabIndex        =   23
+      Tag             =   "Ubicacion|N|N|0||inmovele|ubicacion|||"
+      Text            =   "commor"
+      Top             =   5280
+      Width           =   1275
+   End
+   Begin VB.TextBox Text5 
+      BackColor       =   &H80000018&
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   360
+      Index           =   0
+      Left            =   1710
+      Locked          =   -1  'True
+      TabIndex        =   99
+      Text            =   "Text4"
+      Top             =   5280
+      Width           =   4935
+   End
+   Begin VB.TextBox Text1 
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   360
+      Index           =   21
+      Left            =   240
+      MaxLength       =   30
+      TabIndex        =   22
+      Tag             =   "Ubicacion|N|N|0||inmovele|ubicacion|||"
+      Text            =   "commor"
+      Top             =   5280
+      Width           =   1455
+   End
    Begin VB.CheckBox Check1 
       BeginProperty Font 
          Name            =   "Verdana"
@@ -31,10 +111,10 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   255
       Index           =   0
-      Left            =   11040
-      TabIndex        =   95
+      Left            =   11160
+      TabIndex        =   97
       Tag             =   "Sub|N|N|0||inmovele|subvencionado|||"
-      Top             =   3390
+      Top             =   3150
       Width           =   255
    End
    Begin VB.CheckBox chkVistaPrevia 
@@ -50,20 +130,20 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   300
       Left            =   8190
-      TabIndex        =   82
+      TabIndex        =   84
       Top             =   330
       Width           =   1605
    End
    Begin VB.Frame FrameDesplazamiento 
       Height          =   705
       Left            =   3630
-      TabIndex        =   68
-      Top             =   60
+      TabIndex        =   70
+      Top             =   0
       Width           =   2415
       Begin MSComctlLib.Toolbar ToolbarDes 
          Height          =   330
          Left            =   240
-         TabIndex        =   69
+         TabIndex        =   71
          Top             =   180
          Width           =   1965
          _ExtentX        =   3466
@@ -97,14 +177,14 @@ Begin VB.Form frmInmoElto
    Begin VB.Frame FrameBotonGnral 
       Height          =   705
       Left            =   120
-      TabIndex        =   60
-      Top             =   60
+      TabIndex        =   62
+      Top             =   0
       Width           =   3405
       Begin VB.CheckBox Check2 
          Caption         =   "Vista previa"
          Height          =   195
          Left            =   3750
-         TabIndex        =   61
+         TabIndex        =   63
          Top             =   270
          Visible         =   0   'False
          Width           =   1215
@@ -112,7 +192,7 @@ Begin VB.Form frmInmoElto
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   330
          Left            =   150
-         TabIndex        =   67
+         TabIndex        =   69
          Top             =   180
          Width           =   3135
          _ExtentX        =   5530
@@ -167,15 +247,16 @@ Begin VB.Form frmInmoElto
       End
    End
    Begin TabDlg.SSTab SSTab1 
-      Height          =   4035
-      Left            =   90
-      TabIndex        =   57
-      Top             =   5310
+      Height          =   3795
+      Left            =   240
+      TabIndex        =   59
+      Top             =   5880
       Width           =   13275
       _ExtentX        =   23416
-      _ExtentY        =   7117
+      _ExtentY        =   6694
       _Version        =   393216
-      Tabs            =   2
+      Tab             =   2
+      TabsPerRow      =   4
       TabHeight       =   520
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Verdana"
@@ -188,23 +269,48 @@ Begin VB.Form frmInmoElto
       EndProperty
       TabCaption(0)   =   "Histórico Inmovilizado"
       TabPicture(0)   =   "frmInmoElto.frx":000C
-      Tab(0).ControlEnabled=   -1  'True
-      Tab(0).Control(0)=   "FrameAux0"
-      Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "FrameTotales"
-      Tab(0).Control(1).Enabled=   0   'False
+      Tab(0).ControlEnabled=   0   'False
+      Tab(0).Control(0)=   "FrameTotales"
+      Tab(0).Control(1)=   "FrameAux0"
       Tab(0).ControlCount=   2
       TabCaption(1)   =   "Cuentas de Reparto"
       TabPicture(1)   =   "frmInmoElto.frx":0028
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "FrameAux1"
       Tab(1).ControlCount=   1
+      TabCaption(2)   =   "Observaciones"
+      TabPicture(2)   =   "frmInmoElto.frx":0044
+      Tab(2).ControlEnabled=   -1  'True
+      Tab(2).Control(0)=   "Text1(23)"
+      Tab(2).Control(0).Enabled=   0   'False
+      Tab(2).ControlCount=   1
+      Begin VB.TextBox Text1 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   2760
+         Index           =   23
+         Left            =   480
+         MaxLength       =   30
+         MultiLine       =   -1  'True
+         TabIndex        =   103
+         Tag             =   "O|T|S|||inmovele|observaciones|||"
+         Text            =   "frmInmoElto.frx":0060
+         Top             =   600
+         Width           =   11835
+      End
       Begin VB.Frame FrameTotales 
          BorderStyle     =   0  'None
-         Height          =   3075
-         Left            =   6900
-         TabIndex        =   88
-         Top             =   780
+         Height          =   2835
+         Left            =   -68040
+         TabIndex        =   90
+         Top             =   600
          Width           =   5595
          Begin VB.TextBox Text4 
             Alignment       =   1  'Right Justify
@@ -223,7 +329,7 @@ Begin VB.Form frmInmoElto
             Left            =   2970
             Locked          =   -1  'True
             MaxLength       =   30
-            TabIndex        =   91
+            TabIndex        =   93
             Text            =   "commor"
             Top             =   690
             Width           =   1785
@@ -245,7 +351,7 @@ Begin VB.Form frmInmoElto
             Left            =   2970
             Locked          =   -1  'True
             MaxLength       =   30
-            TabIndex        =   90
+            TabIndex        =   92
             Text            =   "commor"
             Top             =   1320
             Width           =   1785
@@ -267,7 +373,7 @@ Begin VB.Form frmInmoElto
             Left            =   2970
             Locked          =   -1  'True
             MaxLength       =   30
-            TabIndex        =   89
+            TabIndex        =   91
             Text            =   "commor"
             Top             =   1950
             Width           =   1785
@@ -286,7 +392,7 @@ Begin VB.Form frmInmoElto
             Height          =   255
             Index           =   23
             Left            =   960
-            TabIndex        =   94
+            TabIndex        =   96
             Top             =   750
             Width           =   2085
          End
@@ -304,7 +410,7 @@ Begin VB.Form frmInmoElto
             Height          =   255
             Index           =   24
             Left            =   960
-            TabIndex        =   93
+            TabIndex        =   95
             Top             =   1350
             Width           =   1905
          End
@@ -322,7 +428,7 @@ Begin VB.Form frmInmoElto
             Height          =   255
             Index           =   25
             Left            =   960
-            TabIndex        =   92
+            TabIndex        =   94
             Top             =   1980
             Width           =   1785
          End
@@ -330,9 +436,9 @@ Begin VB.Form frmInmoElto
       Begin VB.Frame FrameAux0 
          BorderStyle     =   0  'None
          Height          =   3405
-         Left            =   150
-         TabIndex        =   78
-         Top             =   450
+         Left            =   -74850
+         TabIndex        =   80
+         Top             =   360
          Width           =   7035
          Begin VB.CommandButton cmdAux 
             Appearance      =   0  'Flat
@@ -340,7 +446,7 @@ Begin VB.Form frmInmoElto
             Height          =   315
             Index           =   1
             Left            =   2490
-            TabIndex        =   83
+            TabIndex        =   85
             Top             =   2190
             Visible         =   0   'False
             Width           =   195
@@ -361,7 +467,7 @@ Begin VB.Form frmInmoElto
             Height          =   350
             Index           =   3
             Left            =   3780
-            TabIndex        =   86
+            TabIndex        =   88
             Tag             =   "Importe|N|N|0||inmovele_his|imporinm|#,###,##0.00||"
             Top             =   2190
             Visible         =   0   'False
@@ -383,7 +489,7 @@ Begin VB.Form frmInmoElto
             Height          =   350
             Index           =   2
             Left            =   2730
-            TabIndex        =   85
+            TabIndex        =   87
             Tag             =   "Porcentaje|N|N|0||inmovele_his|porcinm|##0.00||"
             Top             =   2190
             Visible         =   0   'False
@@ -404,7 +510,7 @@ Begin VB.Form frmInmoElto
             Height          =   350
             Index           =   0
             Left            =   420
-            TabIndex        =   87
+            TabIndex        =   89
             Tag             =   "Elto inmovilizado|N|N|0||inmovele_his|codinmov||S|"
             Top             =   2190
             Visible         =   0   'False
@@ -425,7 +531,7 @@ Begin VB.Form frmInmoElto
             Height          =   350
             Index           =   1
             Left            =   1470
-            TabIndex        =   84
+            TabIndex        =   86
             Tag             =   "Fecha|F|N|||inmovele_his|fechainm|dd/mm/yyyy|S|"
             Top             =   2190
             Visible         =   0   'False
@@ -435,14 +541,14 @@ Begin VB.Form frmInmoElto
             Height          =   555
             Index           =   1
             Left            =   150
-            TabIndex        =   79
+            TabIndex        =   81
             Top             =   0
             Width           =   1845
             Begin MSComctlLib.Toolbar ToolbarAux 
                Height          =   330
                Index           =   0
                Left            =   210
-               TabIndex        =   80
+               TabIndex        =   82
                Top             =   150
                Width           =   1515
                _ExtentX        =   2672
@@ -469,15 +575,15 @@ Begin VB.Form frmInmoElto
             End
          End
          Begin MSDataGridLib.DataGrid DataGridAux 
-            Bindings        =   "frmInmoElto.frx":0044
-            Height          =   2775
+            Bindings        =   "frmInmoElto.frx":0067
+            Height          =   2655
             Index           =   0
             Left            =   150
-            TabIndex        =   81
+            TabIndex        =   83
             Top             =   600
             Width           =   6405
             _ExtentX        =   11298
-            _ExtentY        =   4895
+            _ExtentY        =   4683
             _Version        =   393216
             AllowUpdate     =   0   'False
             AllowArrows     =   -1  'True
@@ -590,7 +696,7 @@ Begin VB.Form frmInmoElto
          BorderStyle     =   0  'None
          Height          =   3405
          Left            =   -74880
-         TabIndex        =   71
+         TabIndex        =   73
          Top             =   450
          Width           =   12165
          Begin VB.CommandButton cmdAux 
@@ -599,7 +705,7 @@ Begin VB.Form frmInmoElto
             Height          =   315
             Index           =   2
             Left            =   6900
-            TabIndex        =   59
+            TabIndex        =   61
             Top             =   2280
             Visible         =   0   'False
             Width           =   195
@@ -619,7 +725,7 @@ Begin VB.Form frmInmoElto
             Height          =   350
             Index           =   1
             Left            =   1470
-            TabIndex        =   63
+            TabIndex        =   65
             Tag             =   "Lin|N|N|0||inmovele_rep|numlinea|000000|S|"
             Top             =   2310
             Visible         =   0   'False
@@ -640,7 +746,7 @@ Begin VB.Form frmInmoElto
             Height          =   350
             Index           =   0
             Left            =   450
-            TabIndex        =   62
+            TabIndex        =   64
             Tag             =   "Cod|N|N|0||inmovele_rep|codinmov|000000|S|"
             Top             =   2310
             Visible         =   0   'False
@@ -650,14 +756,14 @@ Begin VB.Form frmInmoElto
             Height          =   555
             Index           =   0
             Left            =   150
-            TabIndex        =   76
+            TabIndex        =   78
             Top             =   0
             Width           =   1545
             Begin MSComctlLib.Toolbar ToolbarAux 
                Height          =   330
                Index           =   1
                Left            =   210
-               TabIndex        =   77
+               TabIndex        =   79
                Top             =   150
                Width           =   1125
                _ExtentX        =   1984
@@ -686,7 +792,7 @@ Begin VB.Form frmInmoElto
             Height          =   315
             Index           =   0
             Left            =   3480
-            TabIndex        =   58
+            TabIndex        =   60
             Top             =   2310
             Visible         =   0   'False
             Width           =   195
@@ -706,7 +812,7 @@ Begin VB.Form frmInmoElto
             Height          =   350
             Index           =   2
             Left            =   2580
-            TabIndex        =   64
+            TabIndex        =   66
             Tag             =   "Cuenta|T|N|||inmovele_rep|codmacta2|||"
             Top             =   2310
             Visible         =   0   'False
@@ -729,7 +835,7 @@ Begin VB.Form frmInmoElto
             Height          =   350
             Index           =   0
             Left            =   3600
-            TabIndex        =   73
+            TabIndex        =   75
             Top             =   2310
             Visible         =   0   'False
             Width           =   2235
@@ -750,7 +856,7 @@ Begin VB.Form frmInmoElto
             Index           =   3
             Left            =   5940
             MaxLength       =   4
-            TabIndex        =   65
+            TabIndex        =   67
             Tag             =   "Centro Coste|T|S|||inmovele_rep|codccost|||"
             Top             =   2310
             Visible         =   0   'False
@@ -774,7 +880,7 @@ Begin VB.Form frmInmoElto
             Index           =   1
             Left            =   7080
             MaxLength       =   10
-            TabIndex        =   72
+            TabIndex        =   74
             Top             =   2310
             Visible         =   0   'False
             Width           =   885
@@ -795,22 +901,22 @@ Begin VB.Form frmInmoElto
             Index           =   4
             Left            =   8130
             MaxLength       =   5
-            TabIndex        =   66
+            TabIndex        =   68
             Tag             =   "Porcentaje|N|N|0||inmovele_rep|porcenta|##0.00||"
             Top             =   2310
             Visible         =   0   'False
             Width           =   765
          End
          Begin MSDataGridLib.DataGrid DataGridAux 
-            Bindings        =   "frmInmoElto.frx":0059
-            Height          =   2625
+            Bindings        =   "frmInmoElto.frx":007C
+            Height          =   2505
             Index           =   1
             Left            =   150
-            TabIndex        =   74
+            TabIndex        =   76
             Top             =   600
             Width           =   11625
             _ExtentX        =   20505
-            _ExtentY        =   4630
+            _ExtentY        =   4419
             _Version        =   393216
             AllowUpdate     =   0   'False
             AllowArrows     =   -1  'True
@@ -937,9 +1043,9 @@ Begin VB.Form frmInmoElto
       Left            =   6570
       Locked          =   -1  'True
       MaxLength       =   30
-      TabIndex        =   55
+      TabIndex        =   57
       Text            =   "commor"
-      Top             =   2640
+      Top             =   2400
       Width           =   1875
    End
    Begin VB.ComboBox Combo2 
@@ -953,13 +1059,13 @@ Begin VB.Form frmInmoElto
          Strikethrough   =   0   'False
       EndProperty
       Height          =   360
-      ItemData        =   "frmInmoElto.frx":006E
+      ItemData        =   "frmInmoElto.frx":0091
       Left            =   11070
-      List            =   "frmInmoElto.frx":007E
+      List            =   "frmInmoElto.frx":00A1
       Style           =   2  'Dropdown List
       TabIndex        =   12
       Tag             =   "Situación|N|N|1||inmovele|situacio|||"
-      Top             =   2640
+      Top             =   2400
       Width           =   2235
    End
    Begin VB.TextBox Text1 
@@ -974,12 +1080,12 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   360
       Index           =   19
-      Left            =   8910
+      Left            =   9030
       MaxLength       =   30
       TabIndex        =   19
       Tag             =   "Fecha Venta/baja|F|S|||inmovele|fecventa|dd/mm/yyyy||"
       Text            =   "commor"
-      Top             =   4110
+      Top             =   3870
       Width           =   1755
    End
    Begin VB.TextBox Text1 
@@ -995,12 +1101,12 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   360
       Index           =   18
-      Left            =   9600
+      Left            =   9720
       MaxLength       =   30
       TabIndex        =   16
       Tag             =   "Años vida|N|N|0||inmovele|anovidas|||"
       Text            =   "commor"
-      Top             =   3360
+      Top             =   3120
       Width           =   1155
    End
    Begin VB.TextBox Text1 
@@ -1016,12 +1122,12 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   360
       Index           =   17
-      Left            =   6570
+      Left            =   6690
       MaxLength       =   30
       TabIndex        =   14
       Tag             =   "Años máximo|N|N|0||inmovele|anomaxim|||"
       Text            =   "commor"
-      Top             =   3360
+      Top             =   3120
       Width           =   1365
    End
    Begin VB.TextBox Text1 
@@ -1037,12 +1143,12 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   360
       Index           =   16
-      Left            =   8040
+      Left            =   8160
       MaxLength       =   30
       TabIndex        =   15
       Tag             =   "Años minimos|N|N|0||inmovele|anominim|||"
       Text            =   "commor"
-      Top             =   3360
+      Top             =   3120
       Width           =   1395
    End
    Begin VB.TextBox Text1 
@@ -1058,12 +1164,12 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   360
       Index           =   15
-      Left            =   6570
+      Left            =   6690
       MaxLength       =   30
       TabIndex        =   18
       Tag             =   "Valor venta/baja|N|S|||inmovele|impventa|#,###,##0.00||"
       Text            =   "commor"
-      Top             =   4110
+      Top             =   3870
       Width           =   1875
    End
    Begin VB.TextBox Text1 
@@ -1084,7 +1190,7 @@ Begin VB.Form frmInmoElto
       TabIndex        =   11
       Tag             =   "Valor residual|N|N|0||inmovele|valorres|#,###,##0.00||"
       Text            =   "commor"
-      Top             =   2640
+      Top             =   2400
       Width           =   1785
    End
    Begin VB.TextBox Text1 
@@ -1105,7 +1211,7 @@ Begin VB.Form frmInmoElto
       TabIndex        =   10
       Tag             =   "Amortización acumulada|N|N|0||inmovele|amortacu|#,###,##0.00||"
       Text            =   "commor"
-      Top             =   2640
+      Top             =   2400
       Width           =   1695
    End
    Begin VB.TextBox Text1 
@@ -1126,7 +1232,7 @@ Begin VB.Form frmInmoElto
       TabIndex        =   9
       Tag             =   "Valor adquisición|N|N|0||inmovele|valoradq|#,###,##0.00||"
       Text            =   "commor"
-      Top             =   2640
+      Top             =   2400
       Width           =   1785
    End
    Begin VB.TextBox Text1 
@@ -1141,12 +1247,12 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   360
       Index           =   11
-      Left            =   60
+      Left            =   180
       MaxLength       =   30
       TabIndex        =   17
       Tag             =   "Cta de amortizacion|N|N|||inmovele|codmact3|||"
       Text            =   "commor"
-      Top             =   4110
+      Top             =   3870
       Width           =   1545
    End
    Begin VB.TextBox Text4 
@@ -1162,11 +1268,11 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   360
       Index           =   3
-      Left            =   1680
+      Left            =   1800
       Locked          =   -1  'True
-      TabIndex        =   43
+      TabIndex        =   45
       Text            =   "Text4"
-      Top             =   4110
+      Top             =   3870
       Width           =   4785
    End
    Begin VB.TextBox Text1 
@@ -1181,12 +1287,12 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   360
       Index           =   10
-      Left            =   60
+      Left            =   180
       MaxLength       =   30
       TabIndex        =   20
       Tag             =   "Cta de gastos|N|N|||inmovele|codmact2|||"
       Text            =   "commor"
-      Top             =   4830
+      Top             =   4590
       Width           =   1515
    End
    Begin VB.TextBox Text4 
@@ -1202,11 +1308,11 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   360
       Index           =   2
-      Left            =   1650
+      Left            =   1770
       Locked          =   -1  'True
-      TabIndex        =   41
+      TabIndex        =   43
       Text            =   "Text4"
-      Top             =   4830
+      Top             =   4590
       Width           =   4815
    End
    Begin VB.TextBox Text1 
@@ -1221,12 +1327,12 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   360
       Index           =   9
-      Left            =   60
+      Left            =   180
       MaxLength       =   30
       TabIndex        =   13
       Tag             =   "Cta inmovilizado|N|N|||inmovele|codmact1|||"
       Text            =   "commor"
-      Top             =   3360
+      Top             =   3120
       Width           =   1545
    End
    Begin VB.TextBox Text4 
@@ -1242,11 +1348,11 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   360
       Index           =   1
-      Left            =   1680
+      Left            =   1800
       Locked          =   -1  'True
-      TabIndex        =   39
+      TabIndex        =   41
       Text            =   "Text4"
-      Top             =   3360
+      Top             =   3120
       Width           =   4785
    End
    Begin VB.TextBox Text1 
@@ -1267,7 +1373,7 @@ Begin VB.Form frmInmoElto
       TabIndex        =   8
       Tag             =   "Porcentaje|N|N|0|100|inmovele|coeficie|0.00||"
       Text            =   "commor"
-      Top             =   2640
+      Top             =   2400
       Width           =   1725
    End
    Begin VB.ComboBox Combo1 
@@ -1281,13 +1387,13 @@ Begin VB.Form frmInmoElto
          Strikethrough   =   0   'False
       EndProperty
       Height          =   360
-      ItemData        =   "frmInmoElto.frx":00AA
+      ItemData        =   "frmInmoElto.frx":00CD
       Left            =   11070
-      List            =   "frmInmoElto.frx":00BA
+      List            =   "frmInmoElto.frx":00DD
       Style           =   2  'Dropdown List
       TabIndex        =   7
       Tag             =   "Situación|N|N|1||inmovele|tipoamor|||"
-      Top             =   1770
+      Top             =   1530
       Width           =   2235
    End
    Begin VB.TextBox Text1 
@@ -1302,12 +1408,12 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   360
       Index           =   7
-      Left            =   6570
+      Left            =   6690
       MaxLength       =   30
       TabIndex        =   21
       Tag             =   "Centro de coste|T|S|||inmovele|codccost|||"
       Text            =   "commor"
-      Top             =   4830
+      Top             =   4590
       Width           =   885
    End
    Begin VB.TextBox Text3 
@@ -1322,12 +1428,12 @@ Begin VB.Form frmInmoElto
          Strikethrough   =   0   'False
       EndProperty
       Height          =   360
-      Left            =   7530
+      Left            =   7650
       Locked          =   -1  'True
-      TabIndex        =   36
+      TabIndex        =   38
       Text            =   "Text3"
-      Top             =   4830
-      Width           =   5235
+      Top             =   4590
+      Width           =   5115
    End
    Begin VB.TextBox Text2 
       BackColor       =   &H80000018&
@@ -1343,9 +1449,9 @@ Begin VB.Form frmInmoElto
       Height          =   360
       Left            =   6570
       Locked          =   -1  'True
-      TabIndex        =   35
+      TabIndex        =   37
       Text            =   "Text4"
-      Top             =   1770
+      Top             =   1530
       Width           =   4425
    End
    Begin VB.TextBox Text1 
@@ -1365,7 +1471,7 @@ Begin VB.Form frmInmoElto
       TabIndex        =   6
       Tag             =   "Concepto|N|N|0||inmovele|conconam|||"
       Text            =   "commor"
-      Top             =   1770
+      Top             =   1530
       Width           =   1095
    End
    Begin VB.TextBox Text1 
@@ -1385,7 +1491,7 @@ Begin VB.Form frmInmoElto
       TabIndex        =   5
       Tag             =   "Num|T|S|||inmovele|numserie|||"
       Text            =   "commor"
-      Top             =   1770
+      Top             =   1530
       Width           =   3285
    End
    Begin VB.TextBox Text1 
@@ -1405,7 +1511,7 @@ Begin VB.Form frmInmoElto
       TabIndex        =   4
       Tag             =   "Fecha adquisición|F|N|||inmovele|fechaadq|dd/mm/yyyy||"
       Text            =   "commor"
-      Top             =   1770
+      Top             =   1530
       Width           =   1365
    End
    Begin VB.TextBox Text1 
@@ -1425,7 +1531,7 @@ Begin VB.Form frmInmoElto
       TabIndex        =   3
       Tag             =   "Fact. proveedor|T|S|||inmovele|factupro|||"
       Text            =   "commor"
-      Top             =   1110
+      Top             =   870
       Width           =   2205
    End
    Begin VB.TextBox Text1 
@@ -1445,7 +1551,7 @@ Begin VB.Form frmInmoElto
       TabIndex        =   2
       Tag             =   "Proveedor|N|S|||inmovele|codprove|||"
       Text            =   "commor"
-      Top             =   1110
+      Top             =   870
       Width           =   1395
    End
    Begin MSAdodcLib.Adodc Data1 
@@ -1512,7 +1618,7 @@ Begin VB.Form frmInmoElto
       TabIndex        =   0
       Tag             =   "Cod|N|N|0||inmovele|codinmov|000000|S|"
       Text            =   "Text1"
-      Top             =   1110
+      Top             =   870
       Width           =   1035
    End
    Begin VB.TextBox Text1 
@@ -1532,7 +1638,7 @@ Begin VB.Form frmInmoElto
       TabIndex        =   1
       Tag             =   "Descripcion|T|N|||inmovele|nominmov|||"
       Text            =   "000000000000000000000000000000"
-      Top             =   1110
+      Top             =   870
       Width           =   4125
    End
    Begin VB.TextBox Text4 
@@ -1550,9 +1656,9 @@ Begin VB.Form frmInmoElto
       Index           =   0
       Left            =   6840
       Locked          =   -1  'True
-      TabIndex        =   27
+      TabIndex        =   29
       Text            =   "Text4"
-      Top             =   1110
+      Top             =   870
       Width           =   4155
    End
    Begin VB.CommandButton cmdCancelar 
@@ -1569,15 +1675,15 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   375
       Left            =   12240
-      TabIndex        =   23
-      Top             =   9480
+      TabIndex        =   25
+      Top             =   9960
       Width           =   1035
    End
    Begin VB.Frame Frame1 
       Height          =   555
       Left            =   150
-      TabIndex        =   24
-      Top             =   9330
+      TabIndex        =   26
+      Top             =   9810
       Width           =   3495
       Begin VB.Label lblIndicador 
          Alignment       =   2  'Center
@@ -1593,7 +1699,7 @@ Begin VB.Form frmInmoElto
          EndProperty
          Height          =   255
          Left            =   240
-         TabIndex        =   25
+         TabIndex        =   27
          Top             =   240
          Width           =   2955
       End
@@ -1611,8 +1717,8 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   375
       Left            =   11010
-      TabIndex        =   22
-      Top             =   9480
+      TabIndex        =   24
+      Top             =   9960
       Width           =   1035
    End
    Begin VB.CommandButton cmdRegresar 
@@ -1628,15 +1734,15 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   375
       Left            =   12240
-      TabIndex        =   26
-      Top             =   9480
+      TabIndex        =   28
+      Top             =   9960
       Visible         =   0   'False
       Width           =   1035
    End
    Begin MSComctlLib.Toolbar ToolbarAyuda 
       Height          =   390
       Left            =   12450
-      TabIndex        =   70
+      TabIndex        =   72
       Top             =   180
       Width           =   405
       _ExtentX        =   714
@@ -1663,14 +1769,68 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   315
       Index           =   20
-      Left            =   9660
+      Left            =   7440
       MaxLength       =   30
-      TabIndex        =   75
+      TabIndex        =   77
       Tag             =   "repartos|N|N|0||inmovele|repartos|||"
       Text            =   "commor"
-      Top             =   5610
+      Top             =   6000
       Visible         =   0   'False
       Width           =   855
+   End
+   Begin VB.Label Label1 
+      AutoSize        =   -1  'True
+      Caption         =   "Ubicación"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   240
+      Index           =   28
+      Left            =   6750
+      TabIndex        =   102
+      Top             =   5040
+      Width           =   945
+   End
+   Begin VB.Image imgOtro 
+      Height          =   240
+      Index           =   1
+      Left            =   7800
+      Picture         =   "frmInmoElto.frx":010A
+      Top             =   5040
+      Width           =   240
+   End
+   Begin VB.Label Label1 
+      AutoSize        =   -1  'True
+      Caption         =   "Sección"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   240
+      Index           =   27
+      Left            =   270
+      TabIndex        =   100
+      Top             =   5040
+      Width           =   780
+   End
+   Begin VB.Image imgOtro 
+      Height          =   240
+      Index           =   0
+      Left            =   1320
+      Picture         =   "frmInmoElto.frx":0B0C
+      Top             =   5040
+      Width           =   240
    End
    Begin VB.Label Label1 
       Caption         =   "z"
@@ -1685,9 +1845,9 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   255
       Index           =   26
-      Left            =   11280
-      TabIndex        =   96
-      Top             =   3390
+      Left            =   11400
+      TabIndex        =   98
+      Top             =   3150
       Width           =   2055
    End
    Begin VB.Label Label1 
@@ -1704,70 +1864,70 @@ Begin VB.Form frmInmoElto
       Height          =   255
       Index           =   22
       Left            =   6600
-      TabIndex        =   56
-      Top             =   2370
+      TabIndex        =   58
+      Top             =   2130
       Width           =   1785
    End
    Begin VB.Image imgFecha 
       Height          =   240
       Index           =   1
-      Left            =   10320
-      Picture         =   "frmInmoElto.frx":00E7
-      Top             =   3870
+      Left            =   10440
+      Picture         =   "frmInmoElto.frx":150E
+      Top             =   3630
       Width           =   240
    End
    Begin VB.Image imgFecha 
       Height          =   240
       Index           =   0
       Left            =   1680
-      Picture         =   "frmInmoElto.frx":0172
-      Top             =   1530
+      Picture         =   "frmInmoElto.frx":1599
+      Top             =   1290
       Width           =   240
    End
    Begin VB.Image imgConcep 
       Height          =   240
       Left            =   6570
-      Picture         =   "frmInmoElto.frx":01FD
-      Top             =   1530
+      Picture         =   "frmInmoElto.frx":1624
+      Top             =   1290
       Width           =   240
    End
    Begin VB.Image imgCC 
       Height          =   240
-      Left            =   8280
-      Picture         =   "frmInmoElto.frx":0BFF
-      Top             =   4590
+      Left            =   8400
+      Picture         =   "frmInmoElto.frx":2026
+      Top             =   4350
       Width           =   240
    End
    Begin VB.Image imgCta 
       Height          =   240
       Index           =   3
-      Left            =   3060
-      Picture         =   "frmInmoElto.frx":1601
-      Top             =   3840
+      Left            =   3180
+      Picture         =   "frmInmoElto.frx":2A28
+      Top             =   3600
       Width           =   240
    End
    Begin VB.Image imgCta 
       Height          =   240
       Index           =   2
-      Left            =   1680
-      Picture         =   "frmInmoElto.frx":2003
-      Top             =   4590
+      Left            =   1800
+      Picture         =   "frmInmoElto.frx":342A
+      Top             =   4350
       Width           =   240
    End
    Begin VB.Image imgCta 
       Height          =   240
       Index           =   1
-      Left            =   2160
-      Picture         =   "frmInmoElto.frx":2A05
-      Top             =   3120
+      Left            =   2280
+      Picture         =   "frmInmoElto.frx":3E2C
+      Top             =   2880
       Width           =   240
    End
    Begin VB.Image imgCta 
       Height          =   240
       Index           =   0
       Left            =   6510
-      Picture         =   "frmInmoElto.frx":3407
-      Top             =   900
+      Picture         =   "frmInmoElto.frx":482E
+      Top             =   660
       Width           =   240
    End
    Begin VB.Label Label1 
@@ -1784,8 +1944,8 @@ Begin VB.Form frmInmoElto
       Height          =   255
       Index           =   21
       Left            =   11070
-      TabIndex        =   54
-      Top             =   2370
+      TabIndex        =   56
+      Top             =   2130
       Width           =   1215
    End
    Begin VB.Label Label1 
@@ -1802,16 +1962,16 @@ Begin VB.Form frmInmoElto
       Height          =   255
       Index           =   20
       Left            =   11100
-      TabIndex        =   53
-      Top             =   1530
+      TabIndex        =   55
+      Top             =   1290
       Width           =   1785
    End
    Begin VB.Line Line2 
       BorderColor     =   &H00808080&
       X1              =   120
       X2              =   13320
-      Y1              =   2220
-      Y2              =   2220
+      Y1              =   1980
+      Y2              =   1980
    End
    Begin VB.Label Label1 
       Caption         =   "F. Venta/Baja"
@@ -1826,9 +1986,9 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   315
       Index           =   19
-      Left            =   8910
-      TabIndex        =   52
-      Top             =   3840
+      Left            =   9030
+      TabIndex        =   54
+      Top             =   3600
       Width           =   1830
    End
    Begin VB.Label Label1 
@@ -1844,9 +2004,9 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   255
       Index           =   18
-      Left            =   9720
-      TabIndex        =   51
-      Top             =   3090
+      Left            =   9840
+      TabIndex        =   53
+      Top             =   2850
       Width           =   1215
    End
    Begin VB.Label Label1 
@@ -1862,9 +2022,9 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   255
       Index           =   17
-      Left            =   6600
-      TabIndex        =   50
-      Top             =   3090
+      Left            =   6720
+      TabIndex        =   52
+      Top             =   2850
       Width           =   1455
    End
    Begin VB.Label Label1 
@@ -1880,9 +2040,9 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   255
       Index           =   16
-      Left            =   8040
-      TabIndex        =   49
-      Top             =   3090
+      Left            =   8160
+      TabIndex        =   51
+      Top             =   2850
       Width           =   1725
    End
    Begin VB.Label Label1 
@@ -1898,9 +2058,9 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   315
       Index           =   15
-      Left            =   6600
-      TabIndex        =   48
-      Top             =   3840
+      Left            =   6720
+      TabIndex        =   50
+      Top             =   3600
       Width           =   1935
    End
    Begin VB.Label Label1 
@@ -1917,8 +2077,8 @@ Begin VB.Form frmInmoElto
       Height          =   255
       Index           =   14
       Left            =   8940
-      TabIndex        =   47
-      Top             =   2370
+      TabIndex        =   49
+      Top             =   2130
       Width           =   1755
    End
    Begin VB.Label Label1 
@@ -1935,8 +2095,8 @@ Begin VB.Form frmInmoElto
       Height          =   255
       Index           =   13
       Left            =   4380
-      TabIndex        =   46
-      Top             =   2370
+      TabIndex        =   48
+      Top             =   2130
       Width           =   1785
    End
    Begin VB.Label Label1 
@@ -1953,8 +2113,8 @@ Begin VB.Form frmInmoElto
       Height          =   255
       Index           =   12
       Left            =   2100
-      TabIndex        =   45
-      Top             =   2370
+      TabIndex        =   47
+      Top             =   2130
       Width           =   1785
    End
    Begin VB.Label Label1 
@@ -1971,9 +2131,9 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   240
       Index           =   11
-      Left            =   90
-      TabIndex        =   44
-      Top             =   3120
+      Left            =   210
+      TabIndex        =   46
+      Top             =   2880
       Width           =   2100
    End
    Begin VB.Label Label1 
@@ -1990,9 +2150,9 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   240
       Index           =   10
-      Left            =   90
-      TabIndex        =   42
-      Top             =   3840
+      Left            =   210
+      TabIndex        =   44
+      Top             =   3600
       Width           =   2895
    End
    Begin VB.Label Label1 
@@ -2009,9 +2169,9 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   240
       Index           =   9
-      Left            =   90
-      TabIndex        =   40
-      Top             =   4590
+      Left            =   210
+      TabIndex        =   42
+      Top             =   4350
       Width           =   1440
    End
    Begin VB.Label Label1 
@@ -2028,8 +2188,8 @@ Begin VB.Form frmInmoElto
       Height          =   225
       Index           =   7
       Left            =   120
-      TabIndex        =   38
-      Top             =   2400
+      TabIndex        =   40
+      Top             =   2160
       Width           =   1605
    End
    Begin VB.Label Label1 
@@ -2045,9 +2205,9 @@ Begin VB.Form frmInmoElto
       EndProperty
       Height          =   345
       Index           =   6
-      Left            =   6600
-      TabIndex        =   37
-      Top             =   4560
+      Left            =   6720
+      TabIndex        =   39
+      Top             =   4320
       Width           =   1695
    End
    Begin VB.Label Label1 
@@ -2064,8 +2224,8 @@ Begin VB.Form frmInmoElto
       Height          =   225
       Index           =   5
       Left            =   5400
-      TabIndex        =   34
-      Top             =   1530
+      TabIndex        =   36
+      Top             =   1290
       Width           =   1050
    End
    Begin VB.Label Label1 
@@ -2082,8 +2242,8 @@ Begin VB.Form frmInmoElto
       Height          =   255
       Index           =   4
       Left            =   2100
-      TabIndex        =   33
-      Top             =   1530
+      TabIndex        =   35
+      Top             =   1290
       Width           =   975
    End
    Begin VB.Label Label1 
@@ -2100,8 +2260,8 @@ Begin VB.Form frmInmoElto
       Height          =   225
       Index           =   3
       Left            =   120
-      TabIndex        =   32
-      Top             =   1530
+      TabIndex        =   34
+      Top             =   1290
       Width           =   1965
    End
    Begin VB.Label Label1 
@@ -2118,8 +2278,8 @@ Begin VB.Form frmInmoElto
       Height          =   255
       Index           =   2
       Left            =   11070
-      TabIndex        =   31
-      Top             =   870
+      TabIndex        =   33
+      Top             =   630
       Width           =   1455
    End
    Begin VB.Label Label1 
@@ -2136,8 +2296,8 @@ Begin VB.Form frmInmoElto
       Height          =   225
       Index           =   1
       Left            =   5400
-      TabIndex        =   30
-      Top             =   870
+      TabIndex        =   32
+      Top             =   630
       Width           =   1095
    End
    Begin VB.Label Label1 
@@ -2154,8 +2314,8 @@ Begin VB.Form frmInmoElto
       Height          =   255
       Index           =   0
       Left            =   1230
-      TabIndex        =   29
-      Top             =   870
+      TabIndex        =   31
+      Top             =   630
       Width           =   1455
    End
    Begin VB.Label Label1 
@@ -2172,8 +2332,8 @@ Begin VB.Form frmInmoElto
       Height          =   255
       Index           =   8
       Left            =   120
-      TabIndex        =   28
-      Top             =   870
+      TabIndex        =   30
+      Top             =   630
       Width           =   1035
    End
    Begin VB.Menu mnOpcionesAsiPre 
@@ -2239,6 +2399,11 @@ Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
 Private WithEvents frmEleInmo As frmBasico2
 Attribute frmEleInmo.VB_VarHelpID = -1
+Private WithEvents frmISec As frmInmoSeccion
+Attribute frmISec.VB_VarHelpID = -1
+Private WithEvents frmIUbi As frmInmoUbicacion
+Attribute frmIUbi.VB_VarHelpID = -1
+
 
 '-----------------------------
 'Se distinguen varios modos
@@ -2489,6 +2654,10 @@ Private Sub BotonAnyadir()
     DespalzamientoVisible False
     lblIndicador.Caption = "INSERTANDO"
     Text1(0).Text = ObtenerSigueinteNumeroLinea(True)
+    
+    
+    Text1(21).Text = "1"
+    Text1(22).Text = "1"
     
     'Ponemos otros valores por defecto
     Text1(13).Text = "0"
@@ -2876,7 +3045,7 @@ End Sub
 
 Private Sub frmCC2_DatoSeleccionado(CadenaSeleccion As String)
     txtaux(3).Text = RecuperaValor(CadenaSeleccion, 1)
-    txtaux2(1).Text = RecuperaValor(CadenaSeleccion, 2)
+    txtAux2(1).Text = RecuperaValor(CadenaSeleccion, 2)
 End Sub
 
 Private Sub frmCI_DatoSeleccionado(CadenaSeleccion As String)
@@ -2914,6 +3083,14 @@ Private Sub frmF_Selec(vFecha As Date)
 End Sub
 
 
+Private Sub frmISec_DatoSeleccionado(CadenaSeleccion As String)
+    SQL = CadenaSeleccion
+End Sub
+
+Private Sub frmIUbi_DatoSeleccionado(CadenaSeleccion As String)
+    SQL = CadenaSeleccion
+End Sub
+
 Private Sub imgCC_Click()
     Set frmCC = New frmCCCentroCoste
     frmCC.DatosADevolverBusqueda = "0|1|"
@@ -2947,6 +3124,29 @@ Dim F As Date
     frmF.Fecha = F
     frmF.Show vbModal
     Set frmF = Nothing
+End Sub
+
+Private Sub imgOtro_Click(Index As Integer)
+
+    SQL = ""
+    If Index = 0 Then
+        Set frmISec = New frmInmoSeccion
+        frmISec.DatosADevolverBusqueda = "0|1|"
+        frmISec.Show vbModal
+        Set frmISec = Nothing
+    Else
+        Set frmIUbi = New frmInmoUbicacion
+        frmIUbi.DatosADevolverBusqueda = "0|1|"
+        frmIUbi.Show vbModal
+        Set frmIUbi = Nothing
+        
+        
+    End If
+    If SQL <> "" Then
+        Text1(21 + Index).Text = RecuperaValor(SQL, 1)
+        Text5(Index).Text = RecuperaValor(SQL, 2)
+        PonFoco Text1(21 + Index)
+    End If
 End Sub
 
 Private Sub Label1_Click(Index As Integer)
@@ -3010,7 +3210,7 @@ Private Sub Text1_KeyPress(Index As Integer, KeyAscii As Integer)
             Case 7: KEYCCoste KeyAscii, 0 'centro de coste
             Case 4: KEYFecha KeyAscii, 0 'fecha
             Case 19: KEYFecha KeyAscii, 1 'fecha
-            
+            Case 21, 22:   KEYOtro KeyAscii, Index - 21
         End Select
     Else
         KEYpress KeyAscii
@@ -3043,6 +3243,13 @@ End Sub
 Private Sub KEYFecha(KeyAscii As Integer, Indice As Integer)
     KeyAscii = 0
     imgFecha_Click (Indice)
+End Sub
+
+
+
+Private Sub KEYOtro(ByRef KeyAscii As Integer, Indice As Integer)
+    KeyAscii = 0
+    imgOtro_Click (Indice)
 End Sub
 
 '----------------------------------------------------------------
@@ -3080,6 +3287,8 @@ Dim Im As Currency
                 Text2.Text = ""
             Case 7
                 Text3.Text = ""
+            Case 21, 22
+                Text5(Index - 21).Text = ""
         End Select
         Exit Sub
     End If
@@ -3181,6 +3390,25 @@ Dim Im As Currency
                     Text1(Index).Text = ""
                     Text1(Index).SetFocus
                 End If
+        Case 21, 22
+            'Concepto de imovilizado
+            SQL = ""
+            If Not IsNumeric(Text1(Index).Text) Then
+                MsgBox "Campo debe ser numérico:", vbExclamation
+            Else
+                If Index = 21 Then
+                    SQL = DevuelveDesdeBD("nomsecin", "inmovseccion", "codsecin", Text1(Index).Text, "N")
+                Else
+                    SQL = DevuelveDesdeBD("nomubiin", "inmovubicacion", "codubiin", Text1(Index).Text, "N")
+                End If
+            End If
+            Text5(Index - 21).Text = SQL
+            If SQL = "" Then
+                If Text1(Index).Text <> "" Then
+                    Text1(Index).Text = ""
+                    PonFoco Text1(Index)
+                End If
+            End If
         Case Else
                 If Index = 8 Or Index = 12 Or Index = 13 Or Index = 14 Or Index = 15 Then
                     If InStr(1, Text1(Index).Text, ",") Then
@@ -3293,7 +3521,8 @@ Dim Antmodo As Byte
     Text1_LostFocus (11)
     
     Text1_LostFocus (12)
-
+    Text1_LostFocus (21)
+    Text1_LostFocus (22)
 
     Modo = Antmodo
     If Modo = 2 Then lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
@@ -3352,6 +3581,10 @@ Private Sub PonerModo(Kmodo As Integer)
     For i = 0 To Text4.Count - 1
         Text4(i).Locked = Not B
         Text4(i).Enabled = B
+    Next i
+    For i = 0 To Text5.Count - 1
+        Text5(i).Locked = Not B
+        Text5(i).Enabled = B
     Next i
     For i = 0 To 3
         Me.imgCta(i).Enabled = B
@@ -3416,7 +3649,8 @@ Private Function DatosOK() As Boolean
         End If
     End If
     
-
+    'Error por temas de campo 0
+    
     
     B = CompForm2(Me, 1)
     
@@ -3726,10 +3960,10 @@ Private Sub CamposAux(visible As Boolean, Altura As Single, Limpiar As Boolean, 
                 txtaux(i).top = Altura
             Next i
             
-            txtaux2(0).visible = visible
-            txtaux2(0).top = Altura
-            txtaux2(1).visible = visible And B
-            txtaux2(1).top = Altura
+            txtAux2(0).visible = visible
+            txtAux2(0).top = Altura
+            txtAux2(1).visible = visible And B
+            txtAux2(1).top = Altura
         
             cmdAux(0).visible = visible
             cmdAux(0).top = Altura
@@ -3741,8 +3975,8 @@ Private Sub CamposAux(visible As Boolean, Altura As Single, Limpiar As Boolean, 
                 For i = 0 To 4
                     txtaux(i).Text = ""
                 Next i
-                txtaux2(0).Text = ""
-                txtaux2(1).Text = ""
+                txtAux2(0).Text = ""
+                txtAux2(1).Text = ""
             End If
     
     End Select
@@ -3824,12 +4058,12 @@ Private Sub txtAux_LostFocus(Index As Integer)
             RC = txtaux(2).Text
             If CuentaCorrectaUltimoNivel(RC, SQL) Then
                 txtaux(2).Text = RC
-                txtaux2(0).Text = SQL
+                txtAux2(0).Text = SQL
                 RC = ""
             Else
                 MsgBox SQL, vbExclamation
                 txtaux(2).Text = ""
-                txtaux2(0).Text = ""
+                txtAux2(0).Text = ""
                 RC = "NO"
             End If
             If RC <> "" Then PonFoco txtaux(2)
@@ -3842,7 +4076,7 @@ Private Sub txtAux_LostFocus(Index As Integer)
                 txtaux(3).Text = ""
                 PonFoco txtaux(3)
             End If
-            txtaux2(1).Text = SQL
+            txtAux2(1).Text = SQL
         
         Case 4
             If Not IsNumeric(txtaux(4).Text) Then
@@ -3874,7 +4108,7 @@ Private Function DatosOkLin(nomframe As String) As String
                  Exit Function
              End If
              
-             If txtaux2(0).Text = NO Then
+             If txtAux2(0).Text = NO Then
                  DatosOkLin = "La cuenta debe estar dada de alta en el sistema"
                  Exit Function
              End If
@@ -4265,8 +4499,8 @@ Dim SumLin As Currency
             For i = 2 To 4
                 txtaux(i).Text = ""
             Next i
-            txtaux2(0).Text = ""
-            txtaux2(1).Text = ""
+            txtAux2(0).Text = ""
+            txtAux2(1).Text = ""
             
             PonFoco txtaux(2)
     End Select
@@ -4315,9 +4549,9 @@ Private Sub BotonModificarLinea(Index As Integer)
             txtaux(0).Text = DataGridAux(Index).Columns(0).Text
             txtaux(1).Text = DataGridAux(Index).Columns(1).Text
             txtaux(2).Text = DataGridAux(Index).Columns(2).Text
-            txtaux2(0).Text = DataGridAux(Index).Columns(3).Text
+            txtAux2(0).Text = DataGridAux(Index).Columns(3).Text
             txtaux(3).Text = DataGridAux(Index).Columns(4).Text
-            txtaux2(1).Text = DataGridAux(Index).Columns(5).Text
+            txtAux2(1).Text = DataGridAux(Index).Columns(5).Text
             txtaux(4).Text = DataGridAux(Index).Columns(6).Text
     End Select
     
@@ -4420,9 +4654,9 @@ Dim i As Integer
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2)
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 2)
-        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2)
         
         Toolbar1.Buttons(5).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
         Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
@@ -4430,9 +4664,9 @@ Dim i As Integer
         Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N")
         
         For i = 0 To ToolbarAux.Count - 1
-            ToolbarAux(i).Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2)
+            ToolbarAux(i).Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2)
             ToolbarAux(i).Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 2)
-            ToolbarAux(i).Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2)
+            ToolbarAux(i).Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 2)
             
             If Modo = 2 Then
                 If AdoAux(i).Recordset.EOF Then

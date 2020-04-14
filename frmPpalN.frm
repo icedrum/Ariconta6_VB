@@ -1270,14 +1270,14 @@ End Sub
 Private Sub Form_Load()
 
     'Cargamos librerias de icinos de los forms
-    frmIdentifica.pLabel "Carga DLL"
+    frmIdentifica2.pLabel "Carga DLL"
     CargaIconosDlls
    
      T1 = Timer  '
    
     CommandBarsGlobalSettings.App = App
    
-    frmIdentifica.pLabel "Leyendo menus usuario"
+    frmIdentifica2.pLabel "Leyendo menus usuario"
     CargaDatosMenusDemas True
   
     ShowEventInPane = False
@@ -1294,7 +1294,7 @@ Private Sub Form_Load()
         
     Dim A As Pane, B As Pane, C As Pane, d As Pane
     
-    frmIdentifica.pLabel "Creando paneles"
+    frmIdentifica2.pLabel "Creando paneles"
     Set A = DockingPaneManager.CreatePane(PANE_SHORTCUTBAR, 170, 120, DockLeftOf, Nothing)
     A.Tag = PANE_SHORTCUTBAR
     A.MinTrackSize.Width = MinimizedShortcutBarWidth
@@ -1316,7 +1316,7 @@ Private Sub Form_Load()
    
     'En funcion
     ' ID_OPTIONS_STYLEBLUE2010  ID_OPTIONS_STYLESILVER2010    ID_OPTIONS_STYLEBLACK2010
-    frmIdentifica.pLabel "Carga skin"
+    frmIdentifica2.pLabel "Carga skin"
     Screen.MousePointer = vbHourglass
     If vUsu.Skin = 3 Then
         cad = ID_OPTIONS_STYLEBLACK2010
@@ -1527,7 +1527,7 @@ Private Sub LoadIcons()
     
     'Pequeños
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\mail_16x16.bmp", _
-            Array(1, 1, 1, ID_InformeCobrosRealizados, ID_EstadísticaInmovilizado, ID_SimulaciónAmortización, ID_DeshacerAmortización, 1, 1, ID_VentaBajainmovilizado), xtpImageNormal
+            Array(ID_Compensaciones, ID_CompensaAutomatica, ID_HcoCompensa, ID_InformeCobrosRealizados, ID_EstadísticaInmovilizado, ID_SimulaciónAmortización, ID_DeshacerAmortización, 1, 1, ID_VentaBajainmovilizado), xtpImageNormal
         
     'Pequeños diario
     CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\quickstepsgallery.png", _
@@ -1549,7 +1549,7 @@ Private Sub LoadIcons()
         ID_RelaciónClientesporcuenta, ID_RelacionProveedoresporcuenta, 1, 1, 1, ID_RealizarCobro, ID_RealizarPago, 1, ID_Elementos, 1, 1, 1, 1, 1, ID_Punteoextractobancario, _
         1, ID_InformePagospendientes, 1, 1, ID_Empresa, ID_ParametrosContabilidad, 1, ID_Contadores, ID_Extractos, ID_CarteradePagos, 1, 1, 1, ID_Punteo, 1, _
         1, ID_PlanContable, 1, ID_ConsoPyG, 1, ID_Informes, 1, ID_Usuarios, 1, 1, 1, 1, ID_Nuevaempresa, ID_ConfigurarBalances, 1, _
-        ID_ConsoSitu, ID_Compensaciones, 1, 1, 1, 1, ID_ConceptosInm, 1, 1, ID_GenerarAmortización, 1, 1, 1, 1, 1, _
+        ID_ConsoSitu, 1, 1, 1, 1, 1, ID_ConceptosInm, 1, 1, ID_GenerarAmortización, 1, 1, 1, 1, 1, _
         ID_ImportarFacturasCliente, 1, 1, ID_Compensarcliente, ID_SumasySaldos, ID_CuentadeExplotación, ID_BalancedeSituación, ID_PérdidasyGanancias, 1, 1, 1, 1, 1, ID_CarteradeCobros, ID_InformeCobrosPendientes, _
         ID_Renumeracióndeasientos, ID_CierredeEjercicio, ID_Deshacercierre, ID_DiarioOficial, ID_PresentaciónTelemáticadeLibros, ID_Traspasodecuentasenapuntes, ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, 1, 1, 1, 1, 1, _
         ID_Traspasodecuentasenapuntes, ID_Aumentardígitoscontables, 1, 1, 1, 1, 1, ID_LibroFacturasEmitidas, 1, 1, ID_Remesas, 1, ID_Consolidado, 1, ID_GraficosChart, _
@@ -2464,7 +2464,7 @@ Dim GrupRem As RibbonGroup
         cad = CStr(IdMenu * 100000)
         Set GrupCob = TabNuevo.Groups.AddGroup("COBROS", cad & "0")
         Set GrupRem = TabNuevo.Groups.AddGroup("REMESAS", cad & "1")
-        Set GroupNew = TabNuevo.Groups.AddGroup("", cad & "2")
+        Set GroupNew = TabNuevo.Groups.AddGroup("Compensaciones", cad & "2")
         
         
         While Not Rn2.EOF
@@ -2493,8 +2493,6 @@ Dim GrupRem As RibbonGroup
             Case Else
                 Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
                 
-            
-            
             End Select
             
             
@@ -2842,7 +2840,7 @@ Private Sub AbrirFormularios(Accion As Long)
    
    ' If Accion <> ID_SII Then AbrirFormSII_2 False
   
-    
+
     Select Case Accion
         Case 101 ' empresa
             frmempresa.Show vbModal
@@ -3117,6 +3115,15 @@ Private Sub AbrirFormularios(Accion As Long)
             
         Case ID_InformeCobrosRealizados
             frmTESCobrosRealizadosList.Show vbModal  '616
+            
+        Case ID_HcoCompensa
+            '617
+             frmTESCompensaHco.Show vbModal
+             
+        Case ID_CompensaAutomatica
+            '618
+            frmTesCompensaAutomatica.Show vbModal
+            
         Case 709 ' Abono remesa
         Case 710 ' Devoluciones
         Case 711 ' Eliminar riesgo
@@ -3355,7 +3362,8 @@ End Sub
 Private Sub AccionesIncioAbrirProgramaEmpresa()
 Dim C As String
 Dim Tiene_A_cancelar As Byte    '0: NO    1:  Cobros      2 : Pagos     3 Los dos
-        
+            
+    vUsu.InicializaFiltrosEmpresa
     
     If vUsu.Nivel = 0 And vUsu.Id >= 0 And vEmpresa.TieneContabilidad Then
         'EmpresasQueYaHaComunicadoAsientosDescuadrados :  Para que solo lo haga una vez

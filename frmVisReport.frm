@@ -369,8 +369,9 @@ Dim NomImpre As String
         
       'En esta linea redireccionamos el ODBC. Si fuera lento podriamos estudiar No redirecciona si ODBC=Ariconta
       'Esto solo se ejcuta la primera vez
-      If i = 1 Then mrpt.Database.Tables(i).ConnectBufferString = "DSN=" & vControl.ODBC & ";;User ID=root;;UseDSNProperties=0"
-        
+      'If i = 1 Then mrpt.Database.Tables(i).ConnectBufferString = "DSN=" & vControl.ODBC & ";;User ID=root;;UseDSNProperties=0"
+      If i = 1 Then mrpt.Database.Tables(i).ConnectBufferString = "DSN=" & vControl.ODBC & ";;;;UseDSNProperties=0"
+    
       If mrpt.Database.Tables(i).ConnectionProperties.Item("DSN") = vControl.ODBC Then
             mrpt.Database.Tables(i).SetLogOnInfo vControl.ODBC, "ariconta" & vEmpresa.codempre
             If InStr(1, mrpt.Database.Tables(i).Name, "_cmd") = 0 And InStr(1, mrpt.Database.Tables(i).Name, "_alias") = 0 Then

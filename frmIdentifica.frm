@@ -1,5 +1,5 @@
 VERSION 5.00
-Begin VB.Form frmIdentifica 
+Begin VB.Form frmIdentifica2 
    BorderStyle     =   0  'None
    Caption         =   "Identificacion"
    ClientHeight    =   5640
@@ -202,7 +202,7 @@ Begin VB.Form frmIdentifica
       Width           =   9750
    End
 End
-Attribute VB_Name = "frmIdentifica"
+Attribute VB_Name = "frmIdentifica2"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -559,7 +559,7 @@ Dim EmpreProhibid As String
         
         Screen.MousePointer = vbHourglass
         pLabel "Leyendo parametros"
-        LeerEmpresaParametros
+        LeerEmpresaParametros2
         
 
         RevisarIntroduccion = 0
@@ -735,7 +735,7 @@ Dim miRsAux As ADODB.Recordset
     
     While Not miRsAux.EOF
         Combo1.AddItem miRsAux!Login
-        Combo1.ItemData(Combo1.NewIndex) = miRsAux!codusu
+        Combo1.ItemData(Combo1.NewIndex) = miRsAux!CodUsu
         miRsAux.MoveNext
     Wend
     miRsAux.Close

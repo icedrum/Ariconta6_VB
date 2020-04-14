@@ -41,8 +41,8 @@ Private mvarFiltroGastosFijos As Integer 'filtro de gastos fijos
 Private mvarFiltroOrdenacionCobros  As Integer 'Ordenacion
 Private mvarFiltroOrdenacionPagos As Integer 'Ordenacion
     
-     
-
+Private mvarFiltroCompensacionHco As Integer 'Ordenacion
+Private mvarFiltroCompensacionHco2 As Integer 'Ordenacion
 
 Private mvarFormulariosConPermisosEspeciales As String
 
@@ -54,7 +54,7 @@ Private mvarSoloTesoreria As Byte
 
 
 Private Rs As ADODB.Recordset
-Private SQL As String
+Private Sql As String
 Private Mens As String
 
 Public Property Let Nivel(ByVal vData As Long)
@@ -307,6 +307,8 @@ Public Property Get FiltroGastosFijos() As Integer
     FiltroGastosFijos = mvarFiltroGastosFijos
 End Property
 
+
+
 Public Property Let TabPorDefecto(ByVal vData As Integer)
 'se usa cuando se asigna un valor a una propiedad, en el lado izquierdo de la asignación.
 'Syntax: X.Nivel = 5
@@ -333,29 +335,44 @@ Public Property Get SoloTesoreria() As Byte
     SoloTesoreria = mvarSoloTesoreria
 End Property
 
+Public Property Get FiltroHcoCompensaciones(quefiltro As Integer) As Integer
+    If quefiltro = 1 Then
+        FiltroHcoCompensaciones = mvarFiltroCompensacionHco2
+    Else
+        FiltroHcoCompensaciones = mvarFiltroCompensacionHco
+    End If
+End Property
 
 
+
+Public Sub InicializaFiltrosEmpresa()
+        
+        'Filtros por defecto
+        mvarFiltroCompensacionHco = 0
+        mvarFiltroCompensacionHco2 = 0
+    
+End Sub
 
 Public Function Leer(ByVal vlogin As String) As Byte
 Attribute Leer.VB_Description = "Lee un grupo de formas de cobro en función del código que se le ha pasado. Si devuelve 0 se ha conseguido leer el dato."
-Dim i As Long
+Dim I As Long
     On Error GoTo Err1
-    SQL = "SELECT * FROM usuarios.usuarios WHERE ucase(login) = '" & UCase(vlogin) & "'"
+    Sql = "SELECT * FROM usuarios.usuarios WHERE ucase(login) = '" & UCase(vlogin) & "'"
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     
     If Rs.EOF Then
         Leer = 1
     Else
-        i = DevuelveAumentoPC
-        mvarCodigo = Val(DBLet(Rs!codusu)) + i
+        I = DevuelveAumentoPC
+        mvarCodigo = Val(DBLet(Rs!CodUsu)) + I
         mvarNombre = DBLet(Rs!nomusu)
         mvarNivel = Val(DBLet(Rs!nivelusu))
         mvarPasswdPROPIO = Rs!passwordpropio
         mvarlogin = vlogin
         mvarCadenaConexion = ""  'Se le asigna en tiempo de diseño
         
-        mvarId = Val(DBLet(Rs!codusu))
+        mvarId = Val(DBLet(Rs!CodUsu))
         mvarSkin = DBLet(Rs!Skin)
         
         'para que no de error
@@ -363,7 +380,9 @@ Dim i As Long
         
         'Pondra la tb ppal
         LeerTabPorDefecto
-            
+        
+        'InicializamosFiltros
+        InicializaFiltrosEmpresa
         
         Leer = 0
     End If
@@ -390,10 +409,10 @@ Public Sub LeerTabPorDefecto()
     'Las tabs estan en mysql,menus, desde el 1 hasta el 14
     If mvarTabPorDefecto = 0 Then mvarTabPorDefecto = 2
     
-    SQL = " codigo<=14 and aplicacion = 'ariconta' and filtro =1 and codusu "
-    SQL = DevuelveDesdeBD("codigo", "menus_usuarios", SQL, CStr(mvarId))
-    If SQL <> "" Then
-        If Val(SQL) > 0 Then mvarTabPorDefecto = CInt(SQL)
+    Sql = " codigo<=14 and aplicacion = 'ariconta' and filtro =1 and codusu "
+    Sql = DevuelveDesdeBD("codigo", "menus_usuarios", Sql, CStr(mvarId))
+    If Sql <> "" Then
+        If Val(Sql) > 0 Then mvarTabPorDefecto = CInt(Sql)
     End If
     
 End Sub
@@ -401,21 +420,21 @@ End Sub
 Public Sub GuardarTabPorDefecto()
     On Error GoTo eGuardarTabPorDefecto
     'En todas las contabilidades
-    SQL = "SELECT codempre conta FROM usuarios.empresasariconta "
-    SQL = SQL & " where mid(conta,1,8) = 'ariconta'"
+    Sql = "SELECT codempre conta FROM usuarios.empresasariconta "
+    Sql = Sql & " where mid(conta,1,8) = 'ariconta'"
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Rs.EOF Then
         'SOLO en esta. Deberia dar error
-        SQL = "UPDATE menus_usuarios SET filtro=if(codigo=" & vUsu.TabPorDefecto & ",1,0) WHERE codusu = " & vUsu.Id
-        SQL = SQL & " AND aplicacion = 'ariconta' AND codigo <=14"
-        Conn.Execute SQL
+        Sql = "UPDATE menus_usuarios SET filtro=if(codigo=" & vUsu.TabPorDefecto & ",1,0) WHERE codusu = " & vUsu.Id
+        Sql = Sql & " AND aplicacion = 'ariconta' AND codigo <=14"
+        Conn.Execute Sql
     Else
         While Not Rs.EOF
-            SQL = "UPDATE ariconta" & Rs!CONTA & ".menus_usuarios "
-            SQL = SQL & " SET filtro=if(codigo=" & vUsu.TabPorDefecto & ",1,0) WHERE codusu = " & vUsu.Id
-            SQL = SQL & " AND aplicacion = 'ariconta' AND codigo <=14"
-            Conn.Execute SQL
+            Sql = "UPDATE ariconta" & Rs!CONTA & ".menus_usuarios "
+            Sql = Sql & " SET filtro=if(codigo=" & vUsu.TabPorDefecto & ",1,0) WHERE codusu = " & vUsu.Id
+            Sql = Sql & " AND aplicacion = 'ariconta' AND codigo <=14"
+            Conn.Execute Sql
             Rs.MoveNext
         Wend
     End If
@@ -448,16 +467,16 @@ Dim Rs As ADODB.Recordset
     
     mvarFiltroOrdenacionCobros = 1
     mvarFiltroOrdenacionPagos = 1
+    'Lo establezco al inicio
     
    
    
-   
     
-    SQL = "SELECT codigo, filtro FROM menus_usuarios WHERE aplicacion = " & DBSet(aplicacion, "T") & " and codusu = " & DBSet(mvarId, "N")
-    SQL = SQL & " and codigo = " & DBSet(idPrg, "N")
+    Sql = "SELECT codigo, filtro FROM menus_usuarios WHERE aplicacion = " & DBSet(aplicacion, "T") & " and codusu = " & DBSet(mvarId, "N")
+    Sql = Sql & " and codigo = " & DBSet(idPrg, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     
     If Not Rs.EOF Then
         Select Case idPrg
@@ -475,8 +494,13 @@ Dim Rs As ADODB.Recordset
                 mvarFiltroPagos = DBLet(Rs!FILTRO, "N")
             Case 807
                 mvarFiltroGastosFijos = DBLet(Rs!FILTRO, "N")
+            Case 616
+                mvarFiltroCompensacionHco2 = DBLet(Rs!FILTRO, "N")
+            Case 617
+                mvarFiltroCompensacionHco = DBLet(Rs!FILTRO, "N")
+            
             Case 1 To 14
-                MsgBox "Fitrol no tratado. Continuara"
+                MsgBox "Filtro no tratado. Continuara"
         End Select
     End If
     
@@ -498,25 +522,25 @@ Public Function PermiteOpcion(aplicacion As String, idPrg As Integer, Opcion As 
     
     PermiteOpcion = False
 
-    SQL = "SELECT codigo, "
+    Sql = "SELECT codigo, "
     Select Case Opcion
         Case vbOpcionVer
-            SQL = SQL & "ver "
+            Sql = Sql & "ver "
         Case vbOpcionCrearEliminar
-            SQL = SQL & "creareliminar "
+            Sql = Sql & "creareliminar "
         Case vbOpcionModificar
-            SQL = SQL & "modificar "
+            Sql = Sql & "modificar "
         Case vbOpcionImprimir
-            SQL = SQL & "imprimir "
+            Sql = Sql & "imprimir "
         Case vbOpcionEspecial
-            SQL = SQL & "especial "
+            Sql = Sql & "especial "
     
     End Select
-    SQL = SQL & " FROM menus_usuarios WHERE aplicacion = " & DBSet(aplicacion, "T") & " and codusu = " & DBSet(mvarId, "N")
-    SQL = SQL & " and codigo = " & DBSet(idPrg, "N")
+    Sql = Sql & " FROM menus_usuarios WHERE aplicacion = " & DBSet(aplicacion, "T") & " and codusu = " & DBSet(mvarId, "N")
+    Sql = Sql & " and codigo = " & DBSet(idPrg, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     
     If Not Rs.EOF Then
         PermiteOpcion = (DBLet(Rs.Fields(1).Value) = 1)
@@ -533,11 +557,11 @@ Public Sub ActualizarFiltro(aplicacion As String, idPrg As Integer, Valor As Int
     On Error GoTo Err1
 
 
-    SQL = "update menus_usuarios set filtro = " & DBSet(Valor, "N")
-    SQL = SQL & "  WHERE aplicacion = " & DBSet(aplicacion, "T") & " and codusu = " & DBSet(mvarId, "N")
-    SQL = SQL & " and codigo = " & DBSet(idPrg, "N")
+    Sql = "update menus_usuarios set filtro = " & DBSet(Valor, "N")
+    Sql = Sql & "  WHERE aplicacion = " & DBSet(aplicacion, "T") & " and codusu = " & DBSet(mvarId, "N")
+    Sql = Sql & " and codigo = " & DBSet(idPrg, "N")
     
-    Conn.Execute SQL
+    Conn.Execute Sql
     
     Select Case idPrg
         Case 301 ' asientos
@@ -550,6 +574,11 @@ Public Sub ActualizarFiltro(aplicacion As String, idPrg As Integer, Valor As Int
             mvarFiltroPresup = Valor
         Case 601 ' cartera de cobros
             mvarFiltroCobros = Valor
+        Case 616
+            mvarFiltroCompensacionHco2 = Valor
+        Case 617
+            mvarFiltroCompensacionHco = Valor
+
         Case 801 ' cartera de pagos
             mvarFiltroPagos = Valor
         Case 807 ' cartera de pagos gastos fijos
@@ -567,8 +596,8 @@ Private Function DevuelveAumentoPC() As Long
 
 DevuelveAumentoPC = 32000
 mvarPC = ComputerName
-SQL = DevuelveDesdeBD("codpc", "usuarios.pcs", "nompc", mvarPC, "T")
-If SQL <> "" Then DevuelveAumentoPC = Val(SQL) * 1000
+Sql = DevuelveDesdeBD("codpc", "usuarios.pcs", "nompc", mvarPC, "T")
+If Sql <> "" Then DevuelveAumentoPC = Val(Sql) * 1000
 
 End Function
 
@@ -580,14 +609,14 @@ End Function
 
 
 Public Sub ActualizarSkin()
-    SQL = "UPDATE usuarios.usuarios SET skin=" & mvarSkin & " WHERE codusu = " & vUsu.Id
+    Sql = "UPDATE usuarios.usuarios SET skin=" & mvarSkin & " WHERE codusu = " & vUsu.Id
     
-    EjecutarSQL SQL
+    EjecutarSQL Sql
 End Sub
 
 Public Sub ActualizarSoloTesoreria()
-    SQL = "UPDATE usuarios.usuarios SET solotesoreria=" & mvarSoloTesoreria & " WHERE codusu = " & vUsu.Id
+    Sql = "UPDATE usuarios.usuarios SET solotesoreria=" & mvarSoloTesoreria & " WHERE codusu = " & vUsu.Id
     
-    EjecutarSQL SQL
+    EjecutarSQL Sql
 End Sub
 

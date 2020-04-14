@@ -856,7 +856,28 @@ Dim B As Boolean
     
     InicializarVbles True
     
+    ImpTotal = 0
+    ImpCompensa = 0
+    For i = 1 To Me.ListView1(1).ListItems.Count  'List2.ListCount - 1
+        If Me.ListView1(1).ListItems(i).Checked Then
+            ImpTotal = ImpTotal + 1 'Cuantas empresas
+            SQL = "ariconta" & Me.ListView1(1).ListItems(i).Text & ".parametros"
+            SQL = DevuelveDesdeBD("inscritoDeclarDUA", SQL, "1", "1")
+            If Val(SQL) = 1 Then ImpCompensa = ImpCompensa + 1  'Cuantas llevan inscritoDeclarDUA
+        End If
+    Next i
     
+    'Si hay mas de una empresa seleccionada
+    If ImpTotal > 1 Then
+        'Si alguna lleva declaraDUA , no dejo continuar
+        If ImpCompensa > 0 Then
+            
+           SQL = "Alguna empresa seleccionada esta inscrita a la devolucion IVA DUA." & vbCrLf & "El proceso continua"
+           MsgBox SQL, vbExclamation
+        End If
+    End If
+    ImpCompensa = 0
+        
     'Si tiene compensaciones de peridoso anteriores
     'CompensacionAnterior
     ImpTotal = 0
@@ -865,9 +886,6 @@ Dim B As Boolean
     End If
     cadParam = cadParam & "CompensacionAnterior=" & Replace(CStr(ImpTotal), ",", ".") & "|"
     numParam = numParam + 1
-    
-
-
     
     'Guardamos el valor del chk del IVA
 '--
@@ -1339,7 +1357,19 @@ Dim Rs As ADODB.Recordset
 
 
     'IVA a la importación liquidado por la Aduana pendiente de ingreso  [77]
-    cad = cad & String(17, "0")
+    ' Abril 2020
+    If vParam.InscritoDeclarDUA Then
+        SQL = "select  sum(bases) base from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 77"
+        Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        If Not Rs.EOF Then
+            DevuelveImporte DBLet(Rs!Base, "N"), 0
+        Else
+            DevuelveImporte 0, 0
+        End If
+        Rs.Close
+    Else
+        cad = cad & String(17, "0")
+    End If
 
     'A compensar de otros periodos
     ImpCompensa = ImporteSinFormato(ComprobarCero(txtCuota(0).Text))
@@ -1947,6 +1977,9 @@ Dim nomDocu As String
     cadParam = cadParam & "pAno=" & txtAno(0).Text & "|"
     numParam = numParam + 3
     
+    cadParam = cadParam & "pDUA=" & Abs(vParam.InscritoDeclarDUA) & "|"
+    numParam = numParam + 1
+    
     
     cadFormula = "{tmpliquidaiva.codusu} = " & vUsu.Codigo
     
@@ -2281,6 +2314,7 @@ Private Function GeneraLasLiquidaciones() As Boolean
     '                   6- IVA BIEN INVERSION
     '                   7- Compras extranjero
     '                   8- Inversion sujeto pasivo (Abril 2015)
+    '                   9-  DUA   Marzo 2020
     
     'Borramos los datos temporales
     SQL = "DELETE FROM tmpliquidaiva WHERE codusu =" & vUsu.Codigo
@@ -2310,6 +2344,19 @@ Private Function GeneraLasLiquidaciones() As Boolean
     
     SQL = "delete from tmpfaclin where codusu = " & vUsu.Codigo
     Conn.Execute SQL
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     NumRegElim = 0
     'Para cada empresa

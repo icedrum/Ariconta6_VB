@@ -40,23 +40,23 @@ Begin VB.Form frmAlfresQFRA
       TabCaption(1)   =   "Datos extendidos"
       TabPicture(1)   =   "frmAlfresQFRA.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label1(10)"
-      Tab(1).Control(1)=   "Label1(11)"
-      Tab(1).Control(2)=   "Image1(6)"
-      Tab(1).Control(3)=   "Label6(0)"
-      Tab(1).Control(4)=   "Label1(12)"
-      Tab(1).Control(5)=   "Label6(1)"
-      Tab(1).Control(6)=   "Label6(2)"
-      Tab(1).Control(7)=   "Text1(16)"
+      Tab(1).Control(0)=   "lw1(0)"
+      Tab(1).Control(1)=   "Text1(14)"
+      Tab(1).Control(2)=   "Text1(13)"
+      Tab(1).Control(3)=   "Text1(12)"
+      Tab(1).Control(4)=   "Combo1(2)"
+      Tab(1).Control(5)=   "Text4(11)"
+      Tab(1).Control(6)=   "Text1(11)"
+      Tab(1).Control(7)=   "Text1(10)"
       Tab(1).Control(8)=   "Text1(15)"
-      Tab(1).Control(9)=   "Text1(10)"
-      Tab(1).Control(10)=   "Text1(11)"
-      Tab(1).Control(11)=   "Text4(11)"
-      Tab(1).Control(12)=   "Combo1(2)"
-      Tab(1).Control(13)=   "Text1(12)"
-      Tab(1).Control(14)=   "Text1(13)"
-      Tab(1).Control(15)=   "Text1(14)"
-      Tab(1).Control(16)=   "lw1(0)"
+      Tab(1).Control(9)=   "Text1(16)"
+      Tab(1).Control(10)=   "Label6(2)"
+      Tab(1).Control(11)=   "Label6(1)"
+      Tab(1).Control(12)=   "Label1(12)"
+      Tab(1).Control(13)=   "Label6(0)"
+      Tab(1).Control(14)=   "Image1(6)"
+      Tab(1).Control(15)=   "Label1(11)"
+      Tab(1).Control(16)=   "Label1(10)"
       Tab(1).ControlCount=   17
       Begin MSComctlLib.ListView lw1 
          Height          =   1785
@@ -2217,45 +2217,45 @@ Dim Impor As Currency
 End Sub
 
 Private Sub txtNomFich_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
-Dim Cad As String
+Dim cad As String
 Dim Nombre As String
     On Error GoTo eT
 
     
     
-    Cad = ""
+    cad = ""
     If Data.Files Is Nothing Then
-        Cad = "N"
+        cad = "N"
     Else
-        If Data.Files.Count <> 1 Then Cad = "N"
+        If Data.Files.Count <> 1 Then cad = "N"
     End If
-    If Cad <> "" Then
+    If cad <> "" Then
         MsgBox "Solo se puede cargar un fichero", vbExclamation
         Exit Sub
     End If
     
-    Cad = UCase(Right(Data.Files.Item(1), 4))
-    If Cad <> ".PDF" Then
+    cad = UCase(Right(Data.Files.Item(1), 4))
+    If cad <> ".PDF" Then
         MsgBox "Solo acepta archivos '.pdf'", vbExclamation
         Exit Sub
     End If
     
-    Cad = Data.Files.Item(1)
-    If Dir(Cad, vbArchive) = "" Then
+    cad = Data.Files.Item(1)
+    If Dir(cad, vbArchive) = "" Then
         MsgBox "No es una ruta válidad", vbExclamation
         Exit Sub
     End If
     
-    NumRegElim = InStrRev(Cad, "\")
+    NumRegElim = InStrRev(cad, "\")
     If NumRegElim = 0 Then
         MsgBox "Imposible encontrar path archivo", vbExclamation
         Exit Sub
     End If
     
-    Nombre = Mid(Cad, NumRegElim + 1)
+    Nombre = Mid(cad, NumRegElim + 1)
     
     
-    CargarPDF Cad, Nombre
+    CargarPDF cad, Nombre
         
     Exit Sub
 eT:
@@ -2933,7 +2933,7 @@ Private Sub txtaux_GotFocus(Index As Integer)
 End Sub
 
 
-Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub TxtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     KEYdown KeyCode
 End Sub
 
@@ -3464,6 +3464,7 @@ Dim Mc As Contadores
     
     Set Mc = New Contadores
     
+    
     If Not Mc.ConseguirContador("1", CDate(Text1(5).Text) <= vParam.fechafin, True) = 0 Then Err.Raise 513, "Error consiguiendo contador facturas"
     
     
@@ -3604,22 +3605,22 @@ Dim Mc As Contadores
     
     'Abro parar guardar el binary
     SqlValues = "Select * from factpro_fichdocs where codigo =" & NumRegElim
-    Adodc1.ConnectionString = Conn
-    Adodc1.RecordSource = SqlValues
-    Adodc1.Refresh
+    adodc1.ConnectionString = Conn
+    adodc1.RecordSource = SqlValues
+    adodc1.Refresh
 '
     NombreArchivoDestino True
 
-    If Adodc1.Recordset.EOF Then
+    If adodc1.Recordset.EOF Then
         'MAAAAAAAAAAAAL
 
     Else
         'Guardar
-        GuardarBinary Adodc1.Recordset!Campo, Msg
-        Adodc1.Recordset.Update
+        GuardarBinary adodc1.Recordset!Campo, Msg
+        adodc1.Recordset.Update
         
-        Adodc1.RecordSource = "Select * from factpro_fichdocs where false"
-        Adodc1.Refresh
+        adodc1.RecordSource = "Select * from factpro_fichdocs where false"
+        adodc1.Refresh
     End If
     
     

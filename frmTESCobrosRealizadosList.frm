@@ -1612,7 +1612,7 @@ Private Sub Form_Load()
         Me.imgAgente(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Next i
     
-    For i = 0 To 3
+    For i = 0 To 5
         Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
     Next i
      
@@ -1733,7 +1733,7 @@ Private Sub imgFec_Click(Index As Integer)
     Screen.MousePointer = vbHourglass
     
     Select Case Index
-    Case 0, 1, 2, 3
+    Case 0, 1, 2, 3, 4, 5
         IndCodigo = Index
     
         'FECHA
@@ -2090,59 +2090,28 @@ Dim Sql2 As String
 
     'Monto el SQL
     
+        If Me.Check2(0).Value = 0 Then
+            SQL = " SELECT `cobros`.`codmacta`, `cobros`.`fecfactu`, `cobros`.`fecvenci`, `cobros`.`numorden`, `cobros`.`gastos`, `cobros`.`impcobro`, "
+            SQL = SQL & " `cobros`.`impvenci`, `cobros`.`numserie`, `cobros`.`numfactu`, `cobros`.`nomclien`, `formapago`.`tipforpa`, "
+            SQL = SQL & " `cobros`.`situacion`, `cobros`.`anyorem`, `cobros`.`ctabanc1`, `tipofpago`.`siglas`, `bancos`.`descripcion`, `cobros`.`fecultco`"
+            SQL = SQL & " FROM   {oj ((`ariconta2`.`cobros` `cobros` INNER JOIN `ariconta2`.`formapago` `formapago`"
+            SQL = SQL & " ON `cobros`.`codforpa`=`formapago`.`codforpa`) LEFT JOIN `bancos` `bancos` ON `cobros`.`ctabanc1`=`bancos`.`codmacta`) "
+            SQL = SQL & " INNER JOIN `tipofpago` `tipofpago` ON `formapago`.`tipforpa`=`tipofpago`.`tipoformapago`}"
+            SQL = SQL & " WHERE " & cadselect
+            SQL = SQL & " ORDER BY `cobros`.`codmacta`, `cobros`.`fecultco`, `cobros`.`fecfactu`, `cobros`.`numserie`, `cobros`.`numfactu`"
         
-        SQL = "Select cobros.codmacta Cliente, cobros.nomclien Nombre, cobros.fecfactu FFactura, cobros.fecvenci FVenci, "
-        SQL = SQL & " cobros.numorden Orden, cobros.gastos Gastos, cobros.impcobro Cobrado, cobros.impvenci ImpVenci, "
-        SQL = SQL & " concat(cobros.numserie,' ', concat('0000000',cobros.numfactu)) Factura , cobros.codforpa FPago, "
-        SQL = SQL & " formapago.nomforpa Descripcion, cobros.referencia Referenciasa, tipofpago.descformapago Tipo "
+        Else
+            SQL = " SELECT `tipofpago`.`siglas`, `tmpcobros2`.`numserie`, `tmpcobros2`.`numfactu`, `tmpcobros2`.`fecfactu`, `tmpcobros2`.`codmacta`, "
+            SQL = SQL & " `tmpcobros2`.`nomclien`, `tmpcobros2`.`fecvenci`, `tmpcobros2`.`impvenci`, `tmpcobros2`.`reftalonpag`,"
+            SQL = SQL & " `tmpcobros2`.`bancotalonpag`"
+            SQL = SQL & " FROM   (`tmpcobros2` `tmpcobros2` INNER JOIN `formapago` `formapago` ON `tmpcobros2`.`codforpa`=`formapago`.`codforpa`)"
+            SQL = SQL & " INNER JOIN `tipofpago` `tipofpago` ON `formapago`.`tipforpa`=`tipofpago`.`tipoformapago`"
+            SQL = SQL & " ORDER BY `tmpcobros2`.`fecvenci`, `tmpcobros2`.`numserie`, `tmpcobros2`.`numfactu`"
         
-        If optVarios(0).Value Or optVarios(1).Value Then
-            SQL = SQL & ", cobros.noremesar NoRemesar, cobros.situacionjuri SitJuridica, cobros.Devuelto Devuelto, cobros.recedocu Recepcion, cobros.observa Observaciones "
         End If
-        
-        
-        RC = ""
-        
-        
-        
-        SQL = SQL & " FROM (cobros inner join formapago on cobros.codforpa = formapago.codforpa) "
-        SQL = SQL & " inner join tipofpago on formapago.tipforpa = tipofpago.tipoformapago "
-        SQL = SQL & " WHERE cobros.situacion = 0 and (cobros.impvenci + coalesce(cobros.gastos,0) - coalesce(cobros.impcobro,0)) <> 0 "
-        If cadselect <> "" Then SQL = SQL & " AND " & cadselect
-                
                 
         
                 
-                
-                
-        Sql2 = ""
-                
-        If optVarios(0).Value Then
-            If optVarios(3).Value Then Sql2 = Sql2 & " cobros.codmacta"
-            If optVarios(4).Value Then Sql2 = Sql2 & " cobros.nomclien"
-        End If
-        
-        If optVarios(1).Value Then
-            Sql2 = Sql2 & " cobros.FecVenci"
-            
-            If optVarios(3).Value Then Sql2 = Sql2 & ",cobros.codmacta"
-            If optVarios(4).Value Then Sql2 = Sql2 & ",cobros.nomclien"
-        End If
-    
-        If optVarios(2).Value Then
-            Sql2 = Sql2 & " tipofpago.descformapago"
-            
-            If optVarios(3).Value Then Sql2 = Sql2 & ",cobros.codmacta"
-            If optVarios(4).Value Then Sql2 = Sql2 & ",cobros.nomclien"
-        End If
-    
-    
-    
-    
-    
-        SQL = SQL & " ORDER BY " & Sql2
-    
-    
     'LLamos a la funcion
     GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     

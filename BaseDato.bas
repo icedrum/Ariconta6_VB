@@ -285,7 +285,63 @@ Case "B"
     End If
     'Ponemos la cadena
     DevSQL = Campo & " " & cad & " " & Aux
+   
+   
+Case "FH"
+     '---------------- FECHAS ------------------
+    i = CararacteresCorrectos(CADENA, "F")
+    If i = 1 Then Exit Function
+    'Comprobamos si hay intervalo ':'
+    i = InStr(1, CADENA, ":")
+    If i > 0 Then
+        'Intervalo de fechas
+        cad = Mid(CADENA, 1, i - 1)
+        Aux = Mid(CADENA, i + 1)
+        If Not EsFechaOKString(cad) Or Not EsFechaOKString(Aux) Then Exit Function  'Fechas incorrectas
+        'Intervalo correcto
+        'Construimos la cadena
+        cad = Format(cad, FormatoFecha)
+        Aux = Format(Aux, FormatoFecha)
+        'En my sql es la ' no el #
+        'DevSQL = Campo & " >=#" & Cad & "# AND " & Campo & " <= #" & AUX & "#"
+        DevSQL = Campo & " >='" & cad & " 00:00:00' AND " & Campo & " <= '" & Aux & " 23:59:59'"
+        '----
+        'ELSE
+        Else
+            'Comprobamos que no es el mayor
+            If CADENA = ">>" Or CADENA = "<<" Then
+                  DevSQL = "1=1"
+            Else
+                Fin = False
+                i = 1
+                cad = ""
+                Aux = "NO ES FECHA"
+                While Not Fin
+                    Ch = Mid(CADENA, i, 1)
+                    If Ch = ">" Or Ch = "<" Or Ch = "=" Then
+                        cad = cad & Ch
+                        Else
+                            Aux = Mid(CADENA, i)
+                            Fin = True
+                    End If
+                    i = i + 1
+                    If i > Len(CADENA) Then Fin = True
+                Wend
+                'En aux debemos tener el numero
+                If Not EsFechaOKString(Aux) Then Exit Function
+                'Si que es numero. Entonces, si Cad="" entronces le ponemos =
+                Aux = "'" & Format(Aux, FormatoFecha) & "'"
+                If cad = "" Then
+                    cad = " = "
+                    Campo = " DATE(" & Campo & ")"
+                End If
+                DevSQL = Campo & " " & cad & " " & Aux
+            End If
+        End If
     
+   
+   
+   
 Case Else
     'No hacemos nada
         Exit Function
@@ -536,7 +592,7 @@ CargaTablaTemporalConExt = False
 'Conn.Execute "Delete from tmpconext where codusu =" & vUsu.Codigo
 Set RT = New ADODB.Recordset
 SQL = "Select * from hlinapu where codmacta='" & Cta & "'"
-SQL = SQL & " AND " & vSele & " ORDER BY fechaent,numasien"
+SQL = SQL & " AND " & vSele & " ORDER BY fechaent,numasien,linliapu"  'NO ESTABA linliapu, NO ME LO PUEDO CREER
 RT.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
 
 'Cadenita = Cadenita & "Select: " & Format(Timer - T1, "0.0000") & vbCrLf
@@ -580,10 +636,10 @@ While Not RT.EOF
 '    End If
     RC = RC & DBSet(RT!ctacontr, "T")
     RC = RC & ","
-    If IsNull(RT!codccost) Then
+    If IsNull(RT!CodCcost) Then
         RC = RC & "NULL"
     Else
-        RC = RC & "'" & RT!codccost & "'"
+        RC = RC & "'" & RT!CodCcost & "'"
     End If
     RC = RC & ")"
     
@@ -618,14 +674,12 @@ End If
     Conn.Execute SQL
 
     CargaTablaTemporalConExt = True
-    
-'Cadenita = Cadenita & "Actualizar: " & Format(Timer - T1, "0.0000") & vbCrLf
-'MsgBox Cadenita
+
 
 
 Exit Function
 Etmpconext:
-    MuestraError Err.Number, "Generando datos saldos"
+    MuestraError Err.Number, "Generando datos saldos" & vbCrLf & Err.Description
     Set RT = Nothing
 End Function
 
@@ -697,10 +751,10 @@ On Error GoTo Etmpconext
     '    End If
         RC = RC & DBSet(RT!codmacta, "T")
         RC = RC & ","
-        If IsNull(RT!codccost) Then
+        If IsNull(RT!CodCcost) Then
             RC = RC & "NULL"
         Else
-            RC = RC & "'" & RT!codccost & "'"
+            RC = RC & "'" & RT!CodCcost & "'"
         End If
         RC = RC & ")"
         
@@ -2080,10 +2134,10 @@ On Error GoTo ECalculaAmortizacion
                     NomConce = DevuelveValor("select nomconce from conceptos where codconce = " & RecuperaValor(ParametrosContabiliza, 3))
                     Aux = Aux & ",'" & DevNombreSQL(NomConce) & " " & DevNombreSQL(RT!nominmov) & "'," & H & ",NULL"       'H tiene el importe del inmovilizado
                     If vParam.autocoste Then
-                        If IsNull(RT!codccost) Then
+                        If IsNull(RT!CodCcost) Then
                             Aux = Aux & ",NULL"
                         Else
-                            Aux = Aux & ",'" & RT!codccost & "'"
+                            Aux = Aux & ",'" & RT!CodCcost & "'"
                         End If
                     Else
                         'No lleva centro de coste
@@ -2101,10 +2155,10 @@ On Error GoTo ECalculaAmortizacion
                         'Calculamos el importe por centual y lo metemos en IMACH
                         ImAcH = Round(((ImPerH * Rs!porcenta) / 100), 2)
                         If vParam.autocoste Then
-                            If IsNull(Rs!codccost) Then
+                            If IsNull(Rs!CodCcost) Then
                                 vCta = "NULL"
                             Else
-                                vCta = "'" & Rs!codccost & "'"
+                                vCta = "'" & Rs!CodCcost & "'"
                             End If
                         Else
                             vCta = "NULL"
@@ -5169,7 +5223,7 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     '                   38- iva intracomunitario de bien de inversion
     '                   42- iva regimen especial agrario
     '                   61- Operaciones no sujetas o con inversión del sujeto pasivo que originan el derecho a deducción  (IVA 0% en ventas conISP)
-    
+    '                   77- DUA
 
     On Error GoTo eLiquidacionIVANew
 
@@ -5341,12 +5395,17 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     SQL = SQL & " select " & vUsu.Codigo & ",porciva,porcrec, sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & Periodo & "," & Anyo & ",16 "
     SQL = SQL & " from " & vCta & ".factcli_totales," & vCta & ".factcli"
     SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
+        
     SQL = SQL & " and factcli.codopera = 2 " ' tipo de operacion exportacion / importacion
-'    SQL = SQL & " and tipodiva in (0,1) " 'solo iva e igic
+    
     SQL = SQL & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
     SQL = SQL & " group by 1,2,3"
                     
     Conn.Execute SQL
+    
+    
+    
+      
     
     
     
@@ -5520,6 +5579,20 @@ Dim IvasBienInversion As String 'Para saber si hemos comprado bien de inversion
     SQL = SQL & " group by 1,2"
     Conn.Execute SQL
                     
+                    
+    ' DUA
+    If vParam.InscritoDeclarDUA Then
+        SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"
+        
+        SQL = SQL & " select " & vUsu.Codigo & ",porciva,porcrec,sum(baseimpo),sum(impoiva), sum(coalesce(imporec,0))," & Empresa & "," & Periodo & "," & Anyo & ",77 "
+        SQL = SQL & " from " & vCta & ".factpro_totales," & vCta & ".factpro"
+        SQL = SQL & " where fecliqpr >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqpr <= '" & Format(vFecha2, FormatoFecha) & "'"
+        SQL = SQL & " and factpro.codopera = 6 " ' factura de DUA
+        SQL = SQL & " and factpro_totales.numserie = factpro.numserie and factpro_totales.numregis = factpro.numregis and factpro_totales.anofactu = factpro.anofactu "
+        SQL = SQL & " group by 1,2"
+        Conn.Execute SQL
+    End If
+        
                     
     'NO DEDUCIBLE EN CONMPRAS
     SQL = "insert into tmpliquidaiva(codusu,iva,porcrec,bases,ivas,imporec,codempre,periodo,ano,cliente)"

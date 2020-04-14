@@ -1167,12 +1167,12 @@ Dim TolLiqIva As Currency
     Emitidas = Me.optTipoFac(0).Value
     SQL = " select  " & vUsu.Codigo & ", f.numserie, f.numfactu, f.fecfactu, codpais,"
     SQL = SQL & " nifdatos,nommacta,codconce340,baseimpo,porciva,impoiva,porcrec,imporec,codopera"
-    SQL = SQL & " , @rownum:=@rownum+1 AS rownum   "
+    SQL = SQL & " , @rownum:=@rownum+1 AS rownum  , #porret# as porreten, #impret#  as imprete"
     If Emitidas Then
-            cad = "insert into tmpfaclin (codusu, codigo, numserie,  numfac, fecha, cta, cliente, nif, imponible,IVA, impiva, porcrec , recargo) "
+        cad = "insert into tmpfaclin (codusu, codigo, numserie,  numfac, fecha, cta, cliente, nif, imponible,IVA, impiva, porcrec , recargo,retencion,ImponibleAnt) "
       
-     
-        
+        SQL = Replace(SQL, "#porret#", "F.retfaccl")
+        SQL = Replace(SQL, "#impret#", "f.trefaccl")
        
      
         SQL = SQL & " FROM ariconta" & NumeroConta & ".factcli f,ariconta" & NumeroConta & ".factcli_totales ,  "
@@ -1183,6 +1183,10 @@ Dim TolLiqIva As Currency
         '## Dic 2019. En nodeducible ira la calave de operacion. De momento Si es INVERSION SUJETO PASIVO, ira clave S2 en el libro
                                                                                                'En total ira (deducible o no   tipoiva; numserie  suplidos:numregis
         cad = "insert into tmpfaclinprov (codusu, codigo ,Numfac ,FechaFac ,cta ,Cliente ,NIF ,Imponible ,IVA ,ImpIVA,FechaCon,Total,tipoiva,suplidos,nodeducible) "
+        
+        SQL = Replace(SQL, "#porret#", "F.retfacpr")
+        SQL = Replace(SQL, "#impret#", "f.trefacpr")
+        
         
         SQL = SQL & ", f.fecharec,f.numregis " 'para proveedores pondremos fecha reepcion -->FECHA OPERACION
         SQL = SQL & " FROM ariconta" & NumeroConta & ".factpro f,ariconta" & NumeroConta & ".factpro_totales , "
@@ -1241,8 +1245,12 @@ Dim TolLiqIva As Currency
             If Not IsNull(miRsAux!porcrec) Then
                 If miRsAux!porcrec > 0 Then RC = DBSet(miRsAux!porcrec, "N") & "," & DBSet(miRsAux!ImpoRec, "N", "N")
             End If
-            SQL = SQL & RC & ")"
-        
+            SQL = SQL & RC & ","
+            'Abril 2020
+            SQL = SQL & DBSet(miRsAux!porreten, "N") & ","
+            SQL = SQL & DBSet(miRsAux!imprete, "F")
+            
+            SQL = SQL & ")"
         Else
             ',FechaCon,Total
             SQL = SQL & DBSet(miRsAux!fecharec, "F") & ","
@@ -1258,11 +1266,19 @@ Dim TolLiqIva As Currency
             Else
                 SQL = SQL & "''"
             End If
+            
+            'Abril 2020
+            'NOVA EN EL SQL. Lo tengo aqui por si acaso tuviera que alñadirlo
+            'SQL = SQL & "," & DBSet(miRsAux!porreten, "N") & ","
+            'SQL = SQL & DBSet(miRsAux!imprete, "F")
+
+            
+            
             SQL = SQL & ")"
             
         End If
         
-        If Len(SQL) > 10000 Then HazInsertTmp
+        If Len(SQL) > 1000 Then HazInsertTmp
         
         
         miRsAux.MoveNext
@@ -1521,7 +1537,18 @@ EGuardarComo:
 End Sub
 
 Private Sub ExportarCSV()
+Dim EpigrafeIAE As String
 
+
+    cad = DevuelveDesdeBD("Epigrafe", "empresaactiv", "1", "1 ORDER By ppal DESC,id")
+    cad = "    " & cad
+    cad = Trim(Right(cad, 4))
+    If Len(cad) <> 4 Then
+        MsgBox "Error epigrafe actividad. Añada en epigrafes en configuracion->empresa", vbExclamation
+        Exit Sub
+    End If
+    EpigrafeIAE = cad
+    
     'Nombre fichero
     'Ejercicio
     '2) NIF
@@ -1530,6 +1557,7 @@ Private Sub ExportarCSV()
     '   R: facturas Recibidas
     '4) Nombre o Razon social
     cad = IIf(optTipoFac(0).Value, "E", "R")
+    
     SQL = vEmpresa.NombreEmpresaOficial
     SQL = Replace(SQL, ".", "")
     SQL = Replace(SQL, ",", "")
@@ -1550,29 +1578,57 @@ Private Sub ExportarCSV()
     CadenaDesdeOtroForm = cad
     If Me.optTipoFac(0).Value Then
         cad = ""
-        SQL = "select date_format(Fecha ,'%d/%m/%Y')  ""Fecha Expedición"",'' as ""Fecha Operación"",numserie ""Serie(Identificación de la Factura)"",numfac as ""Número(Identificación de la Factura)"""
+        'Abril 2020
+        If vParam.periodos = 0 Then
+            SQL = "concat(((month(Fecha)-1) div 3)+1,'T')"
+        Else
+            SQL = "lpad(month(Fecha),2,'0')"
+        End If
+        SQL = "SELECT year(fecha) ejercicio, " & SQL & " periodo , 1 tipoActiviad , '" & EpigrafeIAE & "' as epigrafe, "
+        SQL = SQL & "'F1' as ""Tipo factura"", 'I01' as ""Concepto del ingreso"", '' as ""Concepto computable"" "
+        'lo que estaba
+        SQL = SQL & ", date_format(Fecha ,'%d/%m/%Y')  ""Fecha Expedición"",'' as ""Fecha Operación"",numserie ""Serie(Identificación de la Factura)"",numfac as ""Número(Identificación de la Factura)"""
         SQL = SQL & ",'' as ""Número-Final(Identificación de la Factura)"""
         SQL = SQL & ",  if(cta='ES','',if(coalesce(intracom,0)=1,'02','06'))   ""Tipo(NIF Destinatario)"""
         SQL = SQL & ",cta as ""Código País(NIF Destinatario)"""
         SQL = SQL & ",substring(nif,1,20)  ""Identificación(NIF Destinatario)"""
         SQL = SQL & ",substring(cliente,1,40) ""Nombre Destinatario"""
-        SQL = SQL & ",'' as ""Fa ctura Sustitutiva"""
+        'SQL = SQL & ",'' as ""Fa ctura Sustitutiva"""  marzo 2020 YA no esta
         SQL = SQL & ",'' as ""Clave de Operación"""
         SQL = SQL & ", imponible + impiva + recargo ""Total Factura"""
         SQL = SQL & ",imponible ""Base Imponible"""
         SQL = SQL & ",iva ""Tipo de IVA"""
         SQL = SQL & ",impiva ""Cuota IVA Repercutida"""
-        SQL = SQL & ",coalesce(retencion,'') as ""Tipo de Recargo Eq."""
-        SQL = SQL & ",if (retencion=0,'',retencion) as ""Cuota Recargo Eq."""
+        SQL = SQL & ",coalesce(porcrec,'') as ""Tipo de Recargo Eq."""
+        SQL = SQL & ",if (coalesce(recargo,0)=0,'',recargo) as ""Cuota Recargo Eq."""
         SQL = SQL & ",'' as ""Fecha(Cobro)"""
         SQL = SQL & ",'' as ""Importe(Cobro)"""
         SQL = SQL & ",'' as ""Medio Utilizado(Cobro)"""
-        SQL = SQL & ", '' as ""Identificación Medio Utilizado(Cobro)""  from tmpfaclin left join paises on cta=codpais where codusu=" & vUsu.Codigo
+        SQL = SQL & ", '' as ""Identificación Medio Utilizado(Cobro)""  "
+        'abril 2020. De momento vacios
+        SQL = SQL & ",coalesce(retencion,'') as ""Tipo de retencion"""
+        SQL = SQL & ",if (coalesce(ImponibleAnt,0)=0,'',ImponibleAnt) as ""Importe retenido"""
+        
+        
+        
+        
+        SQL = SQL & " from tmpfaclin left join paises on cta=codpais where codusu=" & vUsu.Codigo
 
 
 
     Else
-        SQL = "Select date_format(FechaFac ,'%d/%m/%Y') as ""Fecha Expedición"""
+        cad = ""
+        'Abril 2020
+        If vParam.periodos = 0 Then
+            SQL = "concat(((month(Fechacon)-1) div 3)+1,'T')"
+        Else
+            SQL = "lpad(month(Fechacon),2,'0')"
+        End If
+        SQL = "SELECT year(Fechacon) ejercicio, " & SQL & " periodo , 1 tipoActiviad , '" & EpigrafeIAE & "' as epigrafe, "
+        SQL = SQL & "'F1' as ""Tipo factura"", 'G01' as ""Concepto del gasto"", '' as ""Gasto deducible"" "
+    
+    
+        SQL = SQL & ", date_format(FechaFac ,'%d/%m/%Y') as ""Fecha Expedición"""
         SQL = SQL & ",date_format(Fechacon ,'%d/%m/%Y')  as ""Fecha Operación"""
         SQL = SQL & ",numfac as ""Serie-Número(Identificación Factura del Expedidor)"""
         SQL = SQL & ", '' as ""Número-Final(Identificación Factura del Expedidor)"""
@@ -1582,7 +1638,7 @@ Private Sub ExportarCSV()
         SQL = SQL & ",cta as ""Código País(NIF Expedidor)"""
         SQL = SQL & ",substring(nif,1,20)  as ""Identificación(NIF Expedidor)"""
         SQL = SQL & ",substring(cliente,1,40) as ""Nombre Expedidor"""
-        SQL = SQL & ",'' as ""Factura Sustitutiva"""
+        'SQL = SQL & ",'' as ""Factura Sustitutiva"""
         
         'Diciembre19. En clave de operacion hay que poner S2 para las Inv. sujeto pasivo. Esta grabado en el campo NoDeducible
         'SQL = SQL & ",'' as ""Clave de Operación"""
@@ -1598,6 +1654,13 @@ Private Sub ExportarCSV()
         SQL = SQL & ",'' as ""Importe(Pago)"""
         SQL = SQL & ",'' as ""Medio Utilizado(Pago)"""
         SQL = SQL & ",'' as ""Identificación Medio Utilizado(Pago)"""
+        'abril 2020
+        'de momento vacio
+        'SQL = SQL & ",coalesce(retencion,'') as ""Tipo de retencion"""
+        'SQL = SQL & ",if (coalesce(ImponibleAnt,0)=0,'',ImponibleAnt) as ""Importe retenido"""
+        SQL = SQL & ",'' as ""Tipo de retencion"""
+        SQL = SQL & ",'' as ""Importe retenido"""
+        
         SQL = SQL & "from tmpfaclinprov left join paises on cta=codpais where codusu=" & vUsu.Codigo
         
     End If

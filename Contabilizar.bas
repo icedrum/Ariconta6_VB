@@ -767,7 +767,7 @@ Dim CCBanco As String
 Dim Agrupa431x As Boolean
 Dim Agrupa4311x As Boolean   'Segunad cuenta de cancelacion TIPO fontenas
 Dim CtaEfectosComDescontados As String   '   tipo FONTENAS
-Dim LINAPU As String
+Dim LinApu As String
 
     On Error GoTo ECon
     RealizarDevolucionRemesaEfectos = False
@@ -884,7 +884,7 @@ Dim LINAPU As String
         SQL = "No se ha encontrado banco: " & vbCrLf & SQL
         Err.Raise 516, SQL
     End If
-    CCBanco = DBLet(Rs!codccost, "T")
+    CCBanco = DBLet(Rs!CodCcost, "T")
     CtaBancoGastos = DBLet(Rs!ctagastos, "T")
     If Not vParam.autocoste Then CCBanco = ""  'NO lleva analitica
     CtaEfectosComDescontados = DBLet(Rs!ctaefectosdesc, "T")
@@ -960,12 +960,12 @@ Dim LINAPU As String
     SQL = SQL & " timporteH, codccost, ctacontr, idcontab, punteada, "
     SQL = SQL & " numserie,numfaccl,fecfactu,numorden,tipforpa,fecdevol,coddevol,gastodev,tiporem,codrem,anyorem,esdevolucion) "
     SQL = SQL & "VALUES (" & vCP.diaricli & ",'" & Format(FechaDevolucion, FormatoFecha) & "'," & Mc.Contador & ","
-    LINAPU = SQL
+    LinApu = SQL
     
     While Not Rs.EOF
 
         'Lineas de apuntes .
-         SQL = LINAPU & Linea & ",'"
+         SQL = LinApu & Linea & ",'"
          SQL = SQL & Rs!Cta
          SQL = SQL & "','" & Rs!NUmSerie & Format(Rs!NumFac, "0000000") & "'," & vCP.condecli
 
@@ -984,14 +984,24 @@ Dim LINAPU As String
                 If vCP.ampdecli = 2 Then
                    Ampliacion = Ampliacion & Format(Rs!Fecha, "dd/mm/yyyy")
                 Else
-                   If vCP.ampdecli = 1 Then Ampliacion = Ampliacion & vCP.siglas & " "
-                   'Ampliacion = Ampliacion & RS!NUmSerie & "/" & RS!codfaccl
-                   Ampliacion = Ampliacion & Rs!NUmSerie & Format(Rs!NumFac, "0000000") ' & "/" & RS!NumFac
-                   
+                
+                    If vCP.ampdecli = 6 Then
+                        
+                        Ampliacion = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Rs!Cta, "T")
+                        
+                        MiVariableAuxiliar = Rs!NUmSerie & Format(Rs!NumFac, "0000000")
+                        Ampliacion = Mid(Ampliacion, 1, 34 - Len(MiVariableAuxiliar))
+                        Ampliacion = Ampliacion & " " & MiVariableAuxiliar
+                
+                    Else
+                        If vCP.ampdecli = 1 Then Ampliacion = Ampliacion & vCP.siglas & " "
+                        'Ampliacion = Ampliacion & RS!NUmSerie & "/" & RS!codfaccl
+                        Ampliacion = Ampliacion & Rs!NUmSerie & Format(Rs!NumFac, "0000000") ' & "/" & RS!NumFac
+                    End If
                 End If
             End If
         End If
-        SQL = SQL & ",'" & DevNombreSQL(Mid(Ampliacion, 1, 30)) & "',"
+        SQL = SQL & ",'" & DevNombreSQL(Mid(Ampliacion, 1, 35)) & "',"
 
         Importe = Importe + Rs!Imponible
 
@@ -1078,7 +1088,7 @@ Dim LINAPU As String
         If GastoVto > 0 And Not Agrupa4311x And Not Agrupa431x Then
             'Err.Raise 513, , "Error en codigo. Parametro tipo remesa incorrecto. "
            'Lineas de apuntes .
-            SQL = LINAPU & Linea & ",'"
+            SQL = LinApu & Linea & ",'"
     
     
             SQL = SQL & CtaBancoGastos & "','" & Rs!NUmSerie & Format(Rs!NumFac, "0000000") & "'," & vCP.condecli
@@ -1117,7 +1127,7 @@ Dim LINAPU As String
             Else
                 SQL = SubCtaPte2 & Mid(Rs!Cta, i + 1)
             End If
-            SQL = LINAPU & Linea & ",'" & SQL
+            SQL = LinApu & Linea & ",'" & SQL
             SQL = SQL & "','" & Rs!NUmSerie & Format(Rs!NumFac, "0000000") & "'," & vCP.condecli
     
             Ampliacion = Amp11 & " "
@@ -1142,7 +1152,7 @@ Dim LINAPU As String
         
             Linea = Linea + 1
     
-            SQL = LINAPU & Linea & ",'" & CtaEfectosComDescontados
+            SQL = LinApu & Linea & ",'" & CtaEfectosComDescontados
             SQL = SQL & "','" & Rs!NUmSerie & Format(Rs!NumFac, "0000000") & "'," & vCP.condecli
     
             Ampliacion = Amp11 & " "
@@ -1194,7 +1204,7 @@ Dim LINAPU As String
         
         Aux = "RE" & Format(RecuperaValor(Remesa, 1), "0000") & RecuperaValor(Remesa, 2)
         
-        SQL = LINAPU & Linea & ",'"
+        SQL = LinApu & Linea & ",'"
         SQL = SQL & CtaBancoGastos & "','" & Aux & "'," & vCP.condecli
         SQL = SQL & ",'Gastos vtos. " & Format(RecuperaValor(Remesa, 1), "0000") & " / " & RecuperaValor(Remesa, 2) '"
         
@@ -1390,7 +1400,7 @@ Dim Importeauxiliar As Currency
 Dim CtaBancoGastos As String
 Dim CCBanco As String
 Dim CtaEfectosComDescontados As String   '   tipo FONTENAS
-Dim LINAPU As String
+Dim LinApu As String
 
 Dim Obs As String
 
@@ -1478,7 +1488,7 @@ Dim Obs As String
         SQL = "No se ha encontrado banco: " & vbCrLf & SQL
         Err.Raise 516, SQL
     End If
-    CCBanco = DBLet(Rs!codccost, "T")
+    CCBanco = DBLet(Rs!CodCcost, "T")
     CtaBancoGastos = DBLet(Rs!ctagastos, "T")
     If Not vParam.autocoste Then CCBanco = ""  'NO lleva analitica
     Rs.Close
@@ -1538,12 +1548,12 @@ Dim Obs As String
     SQL = SQL & "codmacta, numdocum, codconce, ampconce,timporteD,"
     SQL = SQL & " timporteH, codccost, ctacontr, idcontab, punteada,  numserie,numfaccl,fecfactu,numorden,tipforpa,fecdevol,coddevol,gastodev,tiporem,codrem,anyorem,esdevolucion) "
     SQL = SQL & "VALUES (" & vCP.diaricli & ",'" & Format(FechaDevolucion, FormatoFecha) & "'," & Mc.Contador & ","
-    LINAPU = SQL
+    LinApu = SQL
     
     While Not Rs.EOF
 
         'Lineas de apuntes .
-         SQL = LINAPU & Linea & ",'"
+         SQL = LinApu & Linea & ",'"
          SQL = SQL & Rs!Cta
          SQL = SQL & "','" & Format(Rs!NumFac, "0000000") & "'," & vCP.condecli
 
@@ -1657,7 +1667,7 @@ Dim Obs As String
         
  
         'Lineas de apuntes del GASTO del vto en curso
-        SQL = LINAPU & Linea & ",'"
+        SQL = LinApu & Linea & ",'"
 
 
         SQL = SQL & CtaBancoGastos & "','" & Format(Rs!NumFac, "000000000") & "'," & vCP.condecli
@@ -1692,7 +1702,7 @@ Dim Obs As String
             'Si lleva cta efectos comerciales descontados, tipo fontenas, NO HACE este contrapunte
             If CtaEfectosComDescontados = "" Then
                 'Lineas de apuntes .
-                 SQL = LINAPU & Linea & ",'"
+                 SQL = LinApu & Linea & ",'"
               
                  If Len(SubCtaPte) = vEmpresa.DigitosUltimoNivel Then
                      SQL = SQL & SubCtaPte
@@ -1972,10 +1982,11 @@ Dim SqlNue As String
 Dim RsNue As ADODB.Recordset
 
 
+
     On Error GoTo EEContabilizarCompensaciones
 
     ContabilizarCompensaciones = False
-    
+        
     
     'Fecha contabilizacion
     FechaContab = RecuperaValor(DatosAdicionales, 4)
@@ -2001,8 +2012,7 @@ Dim RsNue As ADODB.Recordset
     Obs = "ARICONTA 6: Compensa: " & RecuperaValor(DatosAdicionales, 7)
     SQL = SQL & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & "," & DBSet(Obs, "T") & ");"
     Conn.Execute SQL
-    
-    
+
     
     'Insertamos para pasar a hco
     InsertaTmpActualizar Mc.Contador, RecuperaValor(DatosAdicionales, 3), FechaContab
@@ -2025,6 +2035,7 @@ Dim RsNue As ADODB.Recordset
     'Los cobros
     For i = 1 To ColCobros.Count
         
+        
         SQL = NumRegElim & "," & RecuperaValor(ColCobros.Item(i), 1) & "NULL,'COBROS',0,"
         
         'parte donde indicamos en el apunte que se ha cobrado
@@ -2038,6 +2049,8 @@ Dim RsNue As ADODB.Recordset
             SQL = SQL & DBSet(RsNue!FecFactu, "F") & ","
             SQL = SQL & DBSet(RsNue!numorden, "N") & ","
             SQL = SQL & DevuelveValor("select tipforpa from formapago where codforpa = " & DBSet(RsNue!Codforpa, "N")) & ")"
+            
+            
         Else
             SQL = SQL & ValorNulo & ","
             SQL = SQL & ValorNulo & ","
@@ -2046,6 +2059,11 @@ Dim RsNue As ADODB.Recordset
             SQL = SQL & ValorNulo & ","
             SQL = SQL & ValorNulo & ")"
         End If
+        
+        
+        
+        
+        
         Set RsNue = Nothing
         
         Conn.Execute CadenaSQL & SQL
@@ -2069,9 +2087,10 @@ Dim RsNue As ADODB.Recordset
 
             Ejecuta SqlNue
         End If
+    
     Next i
 
-
+    
     
     'Los pagos
     For i = 1 To ColPagos.Count
@@ -2130,8 +2149,7 @@ Dim RsNue As ADODB.Recordset
     SQL = "DELETE from tmpactualizar where codusu = " & vUsu.Codigo
     Ejecuta SQL
     
-    'Marco para indicar que TODO ha ido de P.M.
-    CadenaDesdeOtroForm = ""
+    ContabilizarCompensaciones = True
     Exit Function
 EEContabilizarCompensaciones:
     If Err.Number <> 0 Then MuestraError Err.Number
@@ -4059,7 +4077,7 @@ Dim ParaElLog As String
                 Cuenta = RaizCuentasCancelacion
             End If
             'Comprobamos con el importe parcial.
-            If ImporteVto <> ImporteDocumento Then
+            If ImporteVto <> ImporteDocumento And False Then  'ABRIL 2020. Pongo el FALSe, pq no tiene sentido lo que hacia.
                 ImporteVto = ImporteDocumento - ImporteVto
                 
                 
@@ -4555,7 +4573,7 @@ Dim Aux As String
 Dim Importeauxiliar As Currency
 Dim CtaBancoGastos As String
 Dim CCBanco As String
-Dim LINAPU As String
+Dim LinApu As String
 
 Dim TipoAmpli As Integer
 
@@ -4641,7 +4659,7 @@ Dim TipoAmpli As Integer
         SQL = "No se ha encontrado banco: " & vbCrLf & SQL
         Err.Raise 516, SQL
     End If
-    CCBanco = DBLet(Rs!codccost, "T")
+    CCBanco = DBLet(Rs!CodCcost, "T")
     CtaBancoGastos = DBLet(Rs!ctagastos, "T")
     If Not vParam.autocoste Then CCBanco = ""  'NO lleva analitica
     Rs.Close
@@ -4701,12 +4719,12 @@ Dim TipoAmpli As Integer
     SQL = SQL & " numserie," & IIf(EsCobro, "numfaccl", "numfacpr")
     SQL = SQL & ",fecfactu,numorden,tipforpa,fecdevol,coddevol,gastodev,tiporem,codrem,anyorem,esdevolucion) "
     SQL = SQL & "VALUES (" & vCP.diaricli & ",'" & Format(FechaDevolucion, FormatoFecha) & "'," & Mc.Contador & ","
-    LINAPU = SQL
+    LinApu = SQL
     
     While Not Rs.EOF
 
         'Lineas de apuntes .
-        SQL = LINAPU & Linea & ",'"
+        SQL = LinApu & Linea & ",'"
         SQL = SQL & Rs!Cta
         TipoAmpli = vCP.ampdecli
         If EsCobro Then
@@ -4716,16 +4734,29 @@ Dim TipoAmpli As Integer
         End If
         Ampliacion = Amp11 & " "
     
-        If TipoAmpli = 3 Then
+        Select Case TipoAmpli
+        Case 3
             'NUEVA forma de ampliacion
             'No hacemos nada pq amp11 ya lleva lo solicitado
             
-        Else
-            If TipoAmpli = 4 Then
+        Case 4
                 'COntrapartida
                 Ampliacion = Ampliacion & DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Rs!Cta, "T")
                 
-            Else
+        Case 6
+                Ampliacion = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Rs!Cta, "T")
+                
+               
+                If EsCobro Then
+                    MiVariableAuxiliar = Rs!NUmSerie & Format(Rs!NumFac, "0000000")
+        
+                Else
+                    MiVariableAuxiliar = Rs!nomserie
+                End If
+                Ampliacion = Mid(Ampliacion, 1, 34 - Len(MiVariableAuxiliar))
+                Ampliacion = Ampliacion & " " & MiVariableAuxiliar
+                
+        Case Else
                 If TipoAmpli = 2 Then
                    Ampliacion = Ampliacion & Format(Rs!Fecha, "dd/mm/yyyy")
                 Else
@@ -4737,9 +4768,9 @@ Dim TipoAmpli As Integer
                         Ampliacion = Ampliacion & Rs!nomserie
                    End If
                 End If
-            End If
-        End If
-        SQL = SQL & ",'" & DevNombreSQL(Mid(Ampliacion, 1, 30)) & "',"
+           
+        End Select
+        SQL = SQL & ",'" & DevNombreSQL(Mid(Ampliacion, 1, 35)) & "',"
 
         Importe = Importe + Rs!Imponible
 
@@ -4863,7 +4894,7 @@ Dim TipoAmpli As Integer
         If GastoVto > 0 Then
             'Err.Raise 513, , "Error en codigo. Parametro tipo remesa incorrecto. "
            'Lineas de apuntes .
-            SQL = LINAPU & Linea & ",'"
+            SQL = LinApu & Linea & ",'"
     
     
             SQL = SQL & CtaBancoGastos & "','" & Rs!NUmSerie & Format(Rs!NumFac, "0000000") & "'," & vCP.condecli

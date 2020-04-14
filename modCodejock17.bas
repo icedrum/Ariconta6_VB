@@ -942,6 +942,7 @@ Public Const ID_CarteradeCobros = 601
 Public Const ID_InformeCobrosPendientes = 602
 Public Const ID_RealizarCobro = 604
 Public Const ID_Compensaciones = 606
+
 Public Const ID_Compensarcliente = 607
 Public Const ID_Reclamaciones = 608
 Public Const ID_Remesas = 609
@@ -952,6 +953,8 @@ Public Const ID_Norma57Pagosventanilla = 613
 Public Const ID_TransferenciasAbonos = 614
 Public Const ID_AnticipoFacturas = 615
 Public Const ID_InformeCobrosRealizados = 616
+Public Const ID_HcoCompensa = 617
+Public Const ID_CompensaAutomatica = 618
 
 
 
