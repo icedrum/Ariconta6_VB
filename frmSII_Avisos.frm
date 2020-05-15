@@ -405,9 +405,9 @@ Private Sub cmdComunicar_Click()
 
     J = 0
     
-    For i = 0 To Me.wndReportControl.Records.Count - 1
-        If wndReportControl.Records(i).Item(0).HasCheckbox Then
-            If wndReportControl.Records(i).Item(0).Checked Then J = J + 1
+    For I = 0 To Me.wndReportControl.Records.Count - 1
+        If wndReportControl.Records(I).Item(0).HasCheckbox Then
+            If wndReportControl.Records(I).Item(0).Checked Then J = J + 1
         End If
     Next
 
@@ -452,7 +452,7 @@ Private Sub cmdComunicar_Click()
 End Sub
 
 Private Sub cmdModificar_Click()
-Dim SQL As String
+Dim Sql As String
 Dim Todo As Boolean
 
     If Me.wndReportControl.Records.Count = 0 Then Exit Sub
@@ -476,18 +476,18 @@ Dim Todo As Boolean
     End If
     
     
-    SQL = SQL_
+    Sql = SQL_
     'Solo esta factura
-    i = InStr(1, SQL, " ORDER BY ")
-    Msg = Mid(SQL, i)
-    SQL = Mid(SQL, 1, i - 1)
-    SQL = SQL & " AND numserie = " & DBSet(RecuperaValor(Me.wndReportControl.SelectedRows(0).Record.Tag, 1), "T")
-    SQL = SQL & " AND " & IIf(cboTipo.ListIndex = 0, "numfactu", "numregis") & " = "
-    SQL = SQL & RecuperaValor(Me.wndReportControl.SelectedRows(0).Record.Tag, 2)
-    SQL = SQL & " AND  anofactu = " & RecuperaValor(Me.wndReportControl.SelectedRows(0).Record.Tag, 3)
-    SQL = SQL & Msg
+    I = InStr(1, Sql, " ORDER BY ")
+    Msg = Mid(Sql, I)
+    Sql = Mid(Sql, 1, I - 1)
+    Sql = Sql & " AND numserie = " & DBSet(RecuperaValor(Me.wndReportControl.SelectedRows(0).Record.Tag, 1), "T")
+    Sql = Sql & " AND " & IIf(cboTipo.ListIndex = 0, "numfactu", "numregis") & " = "
+    Sql = Sql & RecuperaValor(Me.wndReportControl.SelectedRows(0).Record.Tag, 2)
+    Sql = Sql & " AND  anofactu = " & RecuperaValor(Me.wndReportControl.SelectedRows(0).Record.Tag, 3)
+    Sql = Sql & Msg
     Set miRsAux = New ADODB.Recordset
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If miRsAux.EOF Then
         'Ha cambiado algo "importante. Volvemos a cargar todo
         Todo = True
@@ -917,32 +917,32 @@ Private Sub CargaRs()
 End Sub
 
 Private Function SQL_() As String
-Dim SQL As String
-Dim Aux As String
+Dim Sql As String
+Dim aux As String
     If Me.cboTipo.ListIndex = 0 Then
         'EMITIDAS
-        SQL = "select factcli.numserie,factcli.numfactu, factcli.fecfactu,factcli.codmacta,factcli.nommacta"
+        Sql = "select factcli.numserie,factcli.numfactu, factcli.fecfactu,factcli.codmacta,factcli.nommacta"
         'SQL = SQL & " ,wtipopera.denominacion,wconce340.descripcion,factcli.totfaccl"
-        SQL = SQL & " , factcli.codopera,factcli.codconce340,factcli.totfaccl"
-        SQL = SQL & " ,anofactu,nifdatos,SII_ID ,resultado,csv,enviada,fecliqcl "
-        SQL = SQL & " from factcli left join aswsii.envio_facturas_emitidas "
-        SQL = SQL & " on factcli.SII_ID = envio_facturas_emitidas.IDEnvioFacturasEmitidas"
+        Sql = Sql & " , factcli.codopera,factcli.codconce340,factcli.totfaccl"
+        Sql = Sql & " ,anofactu,nifdatos,SII_ID ,resultado,csv,enviada,fecliqcl "
+        Sql = Sql & " from factcli left join aswsii.envio_facturas_emitidas "
+        Sql = Sql & " on factcli.SII_ID = envio_facturas_emitidas.IDEnvioFacturasEmitidas"
        
         
         
        
        
-        Aux = "fecfactu"
-        If vParam.SII_Periodo_DesdeLiq Then Aux = "fecliqcl"
+        aux = "fecfactu"
+        If vParam.SII_Periodo_DesdeLiq Then aux = "fecliqcl"
         
         
     Else
         'RECIBIDAS
-        SQL = " select factpro.numserie,factpro.numfactu, factpro.fecfactu,factpro.codmacta,factpro.nommacta"
-        SQL = SQL & " ,codopera, factpro.codconce340,factpro.totfacpr"
-        SQL = SQL & " ,numregis,anofactu,fecharec,SII_ID,nifdatos ,resultado,csv,enviada,fecliqpr,fecregcontable "
-        SQL = SQL & " from factpro left join aswsii.envio_facturas_recibidas "
-        SQL = SQL & " on factpro.SII_ID = envio_facturas_recibidas.IDEnvioFacturasRecibidas"
+        Sql = " select factpro.numserie,factpro.numfactu, factpro.fecfactu,factpro.codmacta,factpro.nommacta"
+        Sql = Sql & " ,codopera, factpro.codconce340,factpro.totfacpr"
+        Sql = Sql & " ,numregis,anofactu,fecharec,SII_ID,nifdatos ,resultado,csv,enviada,fecliqpr,fecregcontable "
+        Sql = Sql & " from factpro left join aswsii.envio_facturas_recibidas "
+        Sql = Sql & " on factpro.SII_ID = envio_facturas_recibidas.IDEnvioFacturasRecibidas"
        
         
         
@@ -950,21 +950,21 @@ Dim Aux As String
         'añadimos fechar geistro contable, que será la que sube al SII
         'Aux = "fecharec"
         If vParam.SII_ProvDesdeFechaRecepcion Then
-            Aux = "fecharec"
+            aux = "fecharec"
         Else
-            Aux = "date(fecregcontable)"
+            aux = "date(fecregcontable)"
         End If
-        If vParam.SII_Periodo_DesdeLiq Then Aux = "fecliqpr"
+        If vParam.SII_Periodo_DesdeLiq Then aux = "fecliqpr"
         
     End If
-    SQL = SQL & " WHERE " & Aux & " >=" & DBSet(vParam.SIIFechaInicio, "F")
+    Sql = Sql & " WHERE " & aux & " >=" & DBSet(vParam.SIIFechaInicio, "F")
     'oTRA criba
     'vAMOS A ACOTAR DESDE FECHA INICIO EJERCICIO   mARZO 20120
-    SQL = SQL & " and " & Aux & " >=" & DBSet(vParam.fechaini, "F")
+    Sql = Sql & " and " & aux & " >=" & DBSet(vParam.fechaini, "F")
     
-    SQL = SQL & " AND " & Aux & " <= " & DBSet(Now, "F")
+    Sql = Sql & " AND " & aux & " <= " & DBSet(Now, "F")
     
-    SQL = SQL & " and (csv is null or resultado='AceptadoConErrores')"
+    Sql = Sql & " and (csv is null or resultado='AceptadoConErrores')"
 
 '    If cboFiltro.ListIndex = 0 Then
 '        'TODAS
@@ -977,7 +977,7 @@ Dim Aux As String
 '
     
     
-    If Text3(0).Text <> "" Then SQL = SQL & " AND " & Aux & " = " & DBSet(Text3(0).Text, "F")
+    If Text3(0).Text <> "" Then Sql = Sql & " AND " & aux & " = " & DBSet(Text3(0).Text, "F")
    
     
     
@@ -985,10 +985,10 @@ Dim Aux As String
     
     
     'ORdenacion
-    SQL = SQL & " ORDER BY " & Aux & ", numserie, numfactu"
+    Sql = Sql & " ORDER BY " & aux & ", numserie, numfactu"
     
     
-    SQL_ = SQL
+    SQL_ = Sql
 
 End Function
 
@@ -1008,7 +1008,7 @@ Private Sub CargaDatos()
 End Sub
 
 Private Sub CargaDatosPendientes()
-Dim SQL As String
+Dim Sql As String
 
     On Error GoTo ECargaDatos
 
@@ -1028,9 +1028,9 @@ Dim SQL As String
     If InStr(1, UCase(vEmpresa.nomempre), "MONTI") > 0 Then Marcadas = False
     
                 
-    SQL = SQL_
+    Sql = SQL_
     
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     While Not miRsAux.EOF
         If Me.cboTipo.ListIndex = 0 Then
@@ -1048,7 +1048,7 @@ Dim SQL As String
 
     
 ECargaDatos:
-    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description, SQL
+    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description, Sql
     
     
     
@@ -1063,7 +1063,7 @@ End Sub
 'socio, pendiente , nombre, matricula,licencia
 'Leera los datos de mirsaux
 Private Sub AddRecordCli()
-Dim SQL As String
+Dim Sql As String
 Dim Record As ReportRecord
 Dim PuedeEnviar As Boolean
 Dim ItemToolTip As String
@@ -1083,14 +1083,14 @@ Dim Color As Long
     PuedeEnviar = True
     If IsNull(miRsAux!enviada) Then
         'PENDIENTE DE grabar en ASWII
-        i = 0
+        I = 0
         ItemIcon = -1
         ItemToolTip = "Pendiente"
         
     Else
         If miRsAux!enviada = 0 Then
             'OK Falta enviar desdeel ASWSI a la AEAT
-            i = 1
+            I = 1
             PuedeEnviar = False
             ItemIcon = RECORD_REPLIED_ICON
             ItemToolTip = "En progreso"
@@ -1098,12 +1098,12 @@ Dim Color As Long
         Else
             'ENVIADA. Estara incorrecta
             If DBLet(miRsAux!resultado, "T") = "AceptadoConErrores" Then
-                i = 3
+                I = 3
                 ItemIcon = RECORD_IMPORTANCE_HIGH_ICON
                 ItemToolTip = "Aceptada con errores"
                 PuedeEnviar = False
             Else
-                i = 2
+                I = 2
                 ItemIcon = RECORD_UNREAD_MAIL_ICON
                 ItemToolTip = "Errores"
             End If
@@ -1114,7 +1114,7 @@ Dim Color As Long
     Set Item = Record.AddItem("")
     If PuedeEnviar Then
         Item.Checked = MarcarComoCheck And Marcadas
-        Item.HasCheckbox = i = 0 Or i = 2
+        Item.HasCheckbox = I = 0 Or I = 2
     Else
         Item.Checked = False
         Item.HasCheckbox = False
@@ -1126,14 +1126,14 @@ Dim Color As Long
     Set Item = Record.AddItem("")
     Item.Icon = ItemIcon
     Item.ToolTip = ItemToolTip
-    Item.SortPriority = i
+    Item.SortPriority = I
     Item.Caption = ""
     
     
     
     
-    SQL = miRsAux!NUmSerie & Format(miRsAux!NumFactu, "0000000")
-    Set Item = Record.AddItem(SQL)
+    Sql = miRsAux!NUmSerie & Format(miRsAux!NumFactu, "0000000")
+    Set Item = Record.AddItem(Sql)
     
     Set Item = Record.AddItem(Format(miRsAux!FecFactu, "yyyymmdd"))
     Item.Caption = Format(miRsAux!FecFactu, "dd/mm/yyyy")
@@ -1149,28 +1149,28 @@ Dim Color As Long
     If Val(DBLet(miRsAux!CodOpera, "N")) <> Val(Rwtipopera!Codigo) Then
         Rwtipopera.Find "codigo = " & DBLet(miRsAux!CodOpera, "N"), , adSearchForward, 1
         If Rwtipopera.EOF Then
-            SQL = "N/D"
+            Sql = "N/D"
             Rwtipopera.MoveFirst
         Else
-            SQL = DBLet(Rwtipopera!denominacion, "T")
+            Sql = DBLet(Rwtipopera!denominacion, "T")
         End If
     Else
-        SQL = DBLet(Rwtipopera!denominacion, "T")
+        Sql = DBLet(Rwtipopera!denominacion, "T")
     End If
-    Record.AddItem CStr(SQL)
+    Record.AddItem CStr(Sql)
     
     If DBLet(miRsAux!codconce340, "T") <> R340!Codigo Then
         R340.Find "codigo = " & DBSet(DBLet(miRsAux!codconce340, "T"), "T"), , adSearchForward, 1
         If R340.EOF Then
-            SQL = "N/D"
+            Sql = "N/D"
             R340.MoveFirst
         Else
-            SQL = DBLet(R340!Descripcion, "T")
+            Sql = DBLet(R340!Descripcion, "T")
         End If
     Else
-        SQL = DBLet(R340!Descripcion, "T")
+        Sql = DBLet(R340!Descripcion, "T")
     End If
-    Record.AddItem CStr(SQL)
+    Record.AddItem CStr(Sql)
     
     Set Item = Record.AddItem(miRsAux!totfaccl * 100)
     Item.Caption = Format(miRsAux!totfaccl, FormatoImporte)
@@ -1202,7 +1202,7 @@ End Sub
 
 
 Private Sub AddRecordPro()
-Dim SQL As String
+Dim Sql As String
 Dim Record As ReportRecord
 Dim PuedeEnviar As Boolean
 Dim ItemToolTip As String
@@ -1223,14 +1223,14 @@ Dim Color As Long
     PuedeEnviar = True
     If IsNull(miRsAux!enviada) Then
         'PENDIENTE DE grabar en ASWII
-        i = 0
+        I = 0
         ItemIcon = -1
         ItemToolTip = "Pendiente"
         
     Else
         If miRsAux!enviada = 0 Then
             'OK Falta enviar desdeel ASWSI a la AEAT
-            i = 1
+            I = 1
             PuedeEnviar = False
             ItemIcon = RECORD_REPLIED_ICON
             ItemToolTip = "En progreso"
@@ -1238,12 +1238,12 @@ Dim Color As Long
         Else
             'ENVIADA. Estara incorrecta
             If DBLet(miRsAux!resultado, "T") = "AceptadoConErrores" Then
-                i = 3
+                I = 3
                 ItemIcon = RECORD_IMPORTANCE_HIGH_ICON
                 ItemToolTip = "Aceptada con errores"
                 PuedeEnviar = False
             Else
-                i = 2
+                I = 2
                 ItemIcon = RECORD_UNREAD_MAIL_ICON
                 ItemToolTip = "Errores"
             End If
@@ -1254,7 +1254,7 @@ Dim Color As Long
     Set Item = Record.AddItem("")
     If PuedeEnviar Then
         Item.Checked = MarcarComoCheck And Marcadas
-        Item.HasCheckbox = i = 0 Or i = 2
+        Item.HasCheckbox = I = 0 Or I = 2
     Else
         Item.Checked = False
         Item.HasCheckbox = False
@@ -1266,7 +1266,7 @@ Dim Color As Long
     Set Item = Record.AddItem("")
     Item.Icon = ItemIcon
     Item.ToolTip = ItemToolTip
-    Item.SortPriority = i
+    Item.SortPriority = I
     Item.Caption = ""
     
         
@@ -1285,12 +1285,12 @@ Dim Color As Long
     End If
     
     If miRsAux!NUmSerie = "1" Then
-        SQL = ""
+        Sql = ""
     Else
-        SQL = miRsAux!NUmSerie & " "
+        Sql = miRsAux!NUmSerie & " "
     End If
-    SQL = SQL & miRsAux!NumFactu
-    Set Item = Record.AddItem(SQL)
+    Sql = Sql & miRsAux!NumFactu
+    Set Item = Record.AddItem(Sql)
     
     Set Item = Record.AddItem(Format(miRsAux!FecFactu, "yyyymmdd"))
     Item.Caption = Format(miRsAux!FecFactu, "dd/mm/yyyy")
@@ -1303,28 +1303,28 @@ Dim Color As Long
     If Val(DBLet(miRsAux!CodOpera, "N")) <> Val(Rwtipopera!Codigo) Then
         Rwtipopera.Find "codigo = " & DBLet(miRsAux!CodOpera, "N"), , adSearchForward, 1
         If Rwtipopera.EOF Then
-            SQL = "N/D"
+            Sql = "N/D"
             Rwtipopera.MoveFirst
         Else
-            SQL = DBLet(Rwtipopera!denominacion, "T")
+            Sql = DBLet(Rwtipopera!denominacion, "T")
         End If
     Else
-        SQL = DBLet(Rwtipopera!denominacion, "T")
+        Sql = DBLet(Rwtipopera!denominacion, "T")
     End If
-    Record.AddItem CStr(SQL)
+    Record.AddItem CStr(Sql)
     
     If DBLet(miRsAux!codconce340, "T") <> R340!Codigo Then
         R340.Find "codigo = " & DBSet(DBLet(miRsAux!codconce340, "T"), "T"), , adSearchForward, 1
         If R340.EOF Then
-            SQL = "N/D"
+            Sql = "N/D"
             R340.MoveFirst
         Else
-            SQL = DBLet(R340!Descripcion, "T")
+            Sql = DBLet(R340!Descripcion, "T")
         End If
     Else
-        SQL = DBLet(R340!Descripcion, "T")
+        Sql = DBLet(R340!Descripcion, "T")
     End If
-    Record.AddItem CStr(SQL)
+    Record.AddItem CStr(Sql)
     
     
     
@@ -1377,7 +1377,7 @@ End Sub
 
 
 Private Sub AddRecordASWSII()
-Dim SQL As String
+Dim Sql As String
 Dim Record As ReportRecord
     
     On Error GoTo eAddRecord2
@@ -1390,11 +1390,11 @@ Dim Record As ReportRecord
     
     
     Set Item = Record.AddItem("")
-    SQL = DBLet(miRsAux!resultado, "T")
-    Item.SortPriority = IIf(SQL <> "", 1, 0)
-    If SQL = "Correcto" Then SQL = ""
+    Sql = DBLet(miRsAux!resultado, "T")
+    Item.SortPriority = IIf(Sql <> "", 1, 0)
+    If Sql = "Correcto" Then Sql = ""
     
-    If SQL = "" Then
+    If Sql = "" Then
         'Pendiente
         Item.Icon = -1
         Item.ToolTip = "Pendiente"
@@ -1413,7 +1413,7 @@ Dim Record As ReportRecord
     Set Item = Record.AddItem(IIf(miRsAux!enviada = 0, "NO", ""))
     
     
-    Set Item = Record.AddItem(Mid(SQL, 1, 12)) 'resultado
+    Set Item = Record.AddItem(Mid(Sql, 1, 12)) 'resultado
     Item.ToolTip = DBLet(miRsAux!Mensaje, "T")
     
     Set Item = Record.AddItem(DBLet(miRsAux!REG_IDF_NumSerieFacturaEmisor, "T"))
@@ -1451,9 +1451,9 @@ End Sub
 Private Sub imgCheck_Click(Index As Integer)
     Screen.MousePointer = vbHourglass
     
-    For i = 0 To Me.wndReportControl.Records.Count - 1
+    For I = 0 To Me.wndReportControl.Records.Count - 1
            
-        wndReportControl.Records(i).Item(0).Checked = Index = 1
+        wndReportControl.Records(I).Item(0).Checked = Index = 1
     Next
      Screen.MousePointer = vbHourglass
     wndReportControl.Populate
@@ -1523,7 +1523,7 @@ Private Sub wndReportControl_KeyDown(KeyCode As Integer, Shift As Integer)
 End Sub
 
 Private Sub wndReportControl_RowDblClick(ByVal Row As XtremeReportControl.IReportRow, ByVal Item As XtremeReportControl.IReportRecordItem)
- Dim SQL As String
+ Dim Sql As String
     If Row Is Nothing Then Exit Sub
     
     If cboFacturas.ListIndex = 0 Then
@@ -1531,31 +1531,31 @@ Private Sub wndReportControl_RowDblClick(ByVal Row As XtremeReportControl.IRepor
         
 
             If Me.cboTipo.ListIndex = 0 Then
-                SQL = DevuelveDesdeBD("Mensaje", "aswsii.envio_facturas_emitidas", "IDEnvioFacturasEmitidas", RecuperaValor(Row.Record.Tag, 4))
+                Sql = DevuelveDesdeBD("Mensaje", "aswsii.envio_facturas_emitidas", "IDEnvioFacturasEmitidas", RecuperaValor(Row.Record.Tag, 4))
             Else
-                SQL = DevuelveDesdeBD("Mensaje", "aswsii.envio_facturas_recibidas", "IDEnvioFacturasRecibidas", RecuperaValor(Row.Record.Tag, 4))
+                Sql = DevuelveDesdeBD("Mensaje", "aswsii.envio_facturas_recibidas", "IDEnvioFacturasRecibidas", RecuperaValor(Row.Record.Tag, 4))
             End If
             If Row.Record.Item(1).Icon = RECORD_UNREAD_MAIL_ICON Then
-                MsgBox "Factura incorrecta: " & vbCrLf & SQL, vbExclamation
+                MsgBox "Factura incorrecta: " & vbCrLf & Sql, vbExclamation
             Else
-                MsgBox "ACEPTADA con errores: " & vbCrLf & SQL, vbExclamation
+                MsgBox "ACEPTADA con errores: " & vbCrLf & Sql, vbExclamation
             End If
        End If
    Else
         'Facturas ya subidas al ASWII
-        SQL = ""
+        Sql = ""
         If Me.cboFiltro.ListIndex = 1 Then
         '    SQL = "S"
         Else
-            If Row.Record.Item(0).Icon = RECORD_IMPORTANCE_HIGH_ICON Then SQL = "s"
+            If Row.Record.Item(0).Icon = RECORD_IMPORTANCE_HIGH_ICON Then Sql = "s"
         End If
-        If SQL <> "" Then
+        If Sql <> "" Then
             If Me.cboTipo.ListIndex = 0 Then
-                SQL = DevuelveDesdeBD("Mensaje", "aswsii.envio_facturas_emitidas", "IDEnvioFacturasEmitidas", Row.Record.Tag)
+                Sql = DevuelveDesdeBD("Mensaje", "aswsii.envio_facturas_emitidas", "IDEnvioFacturasEmitidas", Row.Record.Tag)
             Else
-                SQL = DevuelveDesdeBD("Mensaje", "aswsii.envio_facturas_recibidas", "IDEnvioFacturasRecibidas", Row.Record.Tag)
+                Sql = DevuelveDesdeBD("Mensaje", "aswsii.envio_facturas_recibidas", "IDEnvioFacturasRecibidas", Row.Record.Tag)
             End If
-            MsgBox "ASWSII. Factura incorrecta: " & vbCrLf & SQL, vbExclamation
+            MsgBox "ASWSII. Factura incorrecta: " & vbCrLf & Sql, vbExclamation
         End If
    End If
 
@@ -1568,7 +1568,7 @@ End Sub
 
 
 Private Sub HacerGrabacionTablas_ASWISII()
-Dim SQL As String
+Dim Sql As String
 Dim ID_ASWSII As Long
 Dim CuantasLlevo As Integer
 Dim B As Boolean
@@ -1579,32 +1579,32 @@ Dim B As Boolean
     Label1.Refresh
     Conn.Execute "DELETE FROM tmpfaclin WHERE codusu = " & vUsu.Codigo
     
-    SQL = ""
-    For i = 0 To Me.wndReportControl.Records.Count - 1
+    Sql = ""
+    For I = 0 To Me.wndReportControl.Records.Count - 1
         'codusu , Codigo, NUmSerie, NumFac, Fecha, Codigo
         'tmpfaclin
-        If wndReportControl.Records(i).Item(0).HasCheckbox Then
+        If wndReportControl.Records(I).Item(0).HasCheckbox Then
         
-            If wndReportControl.Records(i).Item(0).Checked Then
-                Msg = wndReportControl.Records(i).Tag
-                SQL = SQL & ", (" & vUsu.Codigo & "," & DBSet(RecuperaValor(Msg, 1), "T")
-                SQL = SQL & "," & RecuperaValor(Msg, 2) & ",'" & RecuperaValor(Msg, 3) & "-01-01',0)"
+            If wndReportControl.Records(I).Item(0).Checked Then
+                Msg = wndReportControl.Records(I).Tag
+                Sql = Sql & ", (" & vUsu.Codigo & "," & DBSet(RecuperaValor(Msg, 1), "T")
+                Sql = Sql & "," & RecuperaValor(Msg, 2) & ",'" & RecuperaValor(Msg, 3) & "-01-01',0)"
                 
                 
-                If Len(SQL) > 600 Then
-                    SQL = Mid(SQL, 2)
-                    SQL = "INSERT INTO tmpfaclin(codusu ,  NUmSerie, NumFac, Fecha, Codigo) VALUES " & SQL
-                    Conn.Execute SQL
-                    SQL = ""
+                If Len(Sql) > 600 Then
+                    Sql = Mid(Sql, 2)
+                    Sql = "INSERT INTO tmpfaclin(codusu ,  NUmSerie, NumFac, Fecha, Codigo) VALUES " & Sql
+                    Conn.Execute Sql
+                    Sql = ""
                 End If
             End If
         End If
     Next
     
-    If SQL <> "" Then
-        SQL = Mid(SQL, 2)
-        SQL = "INSERT INTO tmpfaclin(codusu ,  NUmSerie, NumFac, Fecha, Codigo) VALUES " & SQL
-        Conn.Execute SQL
+    If Sql <> "" Then
+        Sql = Mid(Sql, 2)
+        Sql = "INSERT INTO tmpfaclin(codusu ,  NUmSerie, NumFac, Fecha, Codigo) VALUES " & Sql
+        Conn.Execute Sql
     End If
     
     
@@ -1618,20 +1618,20 @@ Dim B As Boolean
    
 
     
-    SQL = "Select * from tmpfaclin where codusu = " & vUsu.Codigo & " ORDER BY numserie,numfac"
+    Sql = "Select * from tmpfaclin where codusu = " & vUsu.Codigo & " ORDER BY numserie,numfac"
     
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic
     While Not miRsAux.EOF
     
         'Obtengo contador
          If Me.cboTipo.ListIndex = 0 Then
-            SQL = DevuelveDesdeBD("max(IDEnvioFacturasEmitidas)", "aswsii.envio_facturas_emitidas", "1", "1")
+            Sql = DevuelveDesdeBD("max(IDEnvioFacturasEmitidas)", "aswsii.envio_facturas_emitidas", "1", "1")
         Else
-            SQL = DevuelveDesdeBD("max(IDEnvioFacturasRecibidas)", "aswsii.envio_facturas_recibidas", "1", "1")
+            Sql = DevuelveDesdeBD("max(IDEnvioFacturasRecibidas)", "aswsii.envio_facturas_recibidas", "1", "1")
         End If
-        If SQL = "" Then SQL = "0"
+        If Sql = "" Then Sql = "0"
         
-        ID_ASWSII = Val(SQL) + 1
+        ID_ASWSII = Val(Sql) + 1
     
     
     
@@ -1639,31 +1639,31 @@ Dim B As Boolean
     
             Label1.Caption = "Fac:" & miRsAux!NUmSerie & miRsAux!NumFac
             Label1.Refresh
-            B = Sii_FraCLI(miRsAux!NUmSerie, miRsAux!NumFac, Year(miRsAux!Fecha), ID_ASWSII, SQL)
+            B = Sii_FraCLI(miRsAux!NUmSerie, miRsAux!NumFac, Year(miRsAux!Fecha), ID_ASWSII, Sql)
             
         Else
             Label1.Caption = "Reg: " & miRsAux!NUmSerie & " :  " & miRsAux!NumFac
             Label1.Refresh
-            B = Sii_FraPRO(miRsAux!NUmSerie, miRsAux!NumFac, Year(miRsAux!Fecha), ID_ASWSII, SQL)
+            B = Sii_FraPRO(miRsAux!NUmSerie, miRsAux!NumFac, Year(miRsAux!Fecha), ID_ASWSII, Sql)
             
         End If
         
         If B Then
             
-            If Ejecuta(SQL) Then
+            If Ejecuta(Sql) Then
                 
                 If Me.cboTipo.ListIndex = 0 Then
                     'UPDATEAMOS EN cabfact
-                    SQL = "UPDATE factcli SET SII_ID =" & ID_ASWSII
-                    SQL = SQL & " where numserie =" & DBSet(miRsAux!NUmSerie, "T") & " AND numfactu =" & miRsAux!NumFac & " AND anofactu =" & Year(miRsAux!Fecha)
+                    Sql = "UPDATE factcli SET SII_ID =" & ID_ASWSII
+                    Sql = Sql & " where numserie =" & DBSet(miRsAux!NUmSerie, "T") & " AND numfactu =" & miRsAux!NumFac & " AND anofactu =" & Year(miRsAux!Fecha)
                     
                 Else
-                    SQL = "UPDATE factpro SET SII_ID =" & ID_ASWSII & " ,fecregcontable=fecregcontable "
-                    SQL = SQL & " where numserie =" & DBSet(miRsAux!NUmSerie, "T") & " AND numregis =" & miRsAux!NumFac & " AND anofactu =" & Year(miRsAux!Fecha)
+                    Sql = "UPDATE factpro SET SII_ID =" & ID_ASWSII & " ,fecregcontable=fecregcontable "
+                    Sql = Sql & " where numserie =" & DBSet(miRsAux!NUmSerie, "T") & " AND numregis =" & miRsAux!NumFac & " AND anofactu =" & Year(miRsAux!Fecha)
                 End If
                 
                 
-                Conn.Execute SQL
+                Conn.Execute Sql
 
                
                 
@@ -1734,7 +1734,7 @@ End Sub
 
 
 Private Sub CargaDatospendientesASWSII()
-Dim SQL As String
+Dim Sql As String
     On Error GoTo eCargaDatospendientesASWSII
     Screen.MousePointer = vbHourglass
     statusBar.Panels(1).Text = "Leyendo BD"
@@ -1747,8 +1747,8 @@ Dim SQL As String
     Set miRsAux = New ADODB.Recordset
     
                
-    SQL = SQL_ASWSII
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = SQL_ASWSII
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     While Not miRsAux.EOF
         AddRecordASWSII
@@ -1762,7 +1762,7 @@ Dim SQL As String
 
     
 eCargaDatospendientesASWSII:
-    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description, SQL
+    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description, Sql
     
     statusBar.Panels(1).Text = ""
     Label1.Caption = ""

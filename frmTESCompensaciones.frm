@@ -132,7 +132,7 @@ Begin VB.Form frmTESCompensaciones
          Locked          =   -1  'True
          TabIndex        =   9
          Text            =   "Text3"
-         Top             =   6600
+         Top             =   6720
          Width           =   1365
       End
       Begin VB.TextBox Text3 
@@ -152,7 +152,7 @@ Begin VB.Form frmTESCompensaciones
          Locked          =   -1  'True
          TabIndex        =   8
          Text            =   "Text3"
-         Top             =   6600
+         Top             =   6720
          Width           =   1365
       End
       Begin VB.TextBox Text3 
@@ -172,7 +172,7 @@ Begin VB.Form frmTESCompensaciones
          Locked          =   -1  'True
          TabIndex        =   7
          Text            =   "Text3"
-         Top             =   6600
+         Top             =   6720
          Width           =   1365
       End
       Begin VB.CommandButton Command2 
@@ -193,7 +193,7 @@ Begin VB.Form frmTESCompensaciones
          Width           =   1215
       End
       Begin MSComctlLib.ListView lw1 
-         Height          =   5175
+         Height          =   5172
          Index           =   1
          Left            =   6030
          TabIndex        =   3
@@ -347,11 +347,45 @@ Begin VB.Form frmTESCompensaciones
             EndProperty
          EndProperty
       End
+      Begin VB.Image imgCheck 
+         Height          =   240
+         Index           =   2
+         Left            =   6000
+         Picture         =   "frmTESCompensaciones.frx":0006
+         ToolTipText     =   "quitar seleccion"
+         Top             =   6375
+         Width           =   240
+      End
+      Begin VB.Image imgCheck 
+         Height          =   240
+         Index           =   3
+         Left            =   6360
+         Picture         =   "frmTESCompensaciones.frx":0150
+         Top             =   6375
+         Width           =   240
+      End
+      Begin VB.Image imgCheck 
+         Height          =   240
+         Index           =   0
+         Left            =   120
+         Picture         =   "frmTESCompensaciones.frx":029A
+         ToolTipText     =   "quitar seleccion"
+         Top             =   6375
+         Width           =   240
+      End
+      Begin VB.Image imgCheck 
+         Height          =   240
+         Index           =   1
+         Left            =   480
+         Picture         =   "frmTESCompensaciones.frx":03E4
+         Top             =   6375
+         Width           =   240
+      End
       Begin VB.Image imgCuentas 
          Height          =   240
          Index           =   1
          Left            =   7290
-         Picture         =   "frmTESCompensaciones.frx":0006
+         Picture         =   "frmTESCompensaciones.frx":052E
          Top             =   240
          Width           =   240
       End
@@ -370,9 +404,9 @@ Begin VB.Form frmTESCompensaciones
          ForeColor       =   &H00800000&
          Height          =   255
          Index           =   2
-         Left            =   2100
+         Left            =   2640
          TabIndex        =   13
-         Top             =   6600
+         Top             =   6720
          Width           =   1455
       End
       Begin VB.Label Label1 
@@ -417,7 +451,7 @@ Begin VB.Form frmTESCompensaciones
          Height          =   240
          Index           =   0
          Left            =   1440
-         Picture         =   "frmTESCompensaciones.frx":0A08
+         Picture         =   "frmTESCompensaciones.frx":0F30
          Top             =   480
          Width           =   240
       End
@@ -776,6 +810,23 @@ Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
     Sql = CadenaSeleccion
 End Sub
 
+Private Sub imgCheck_Click(Index As Integer)
+    
+    NumRegElim = IIf(Index < 2, 0, 1)
+    J = IIf((Index Mod 2) = 0, 0, 1)
+    Im = 0
+    If lw1(NumRegElim).ListItems.Count = 0 Then Exit Sub
+    For I = 1 To lw1(NumRegElim).ListItems.Count
+        lw1(NumRegElim).ListItems(I).Checked = J = 1
+        If J = 1 Then Im = Im + ImporteFormateado(lw1(NumRegElim).ListItems(I).SubItems(4))
+    Next
+    'Arrastro
+    Text3(NumRegElim).Tag = Im
+    CalculaImportes
+    
+    
+End Sub
+
 Private Sub imgCuentas_Click(Index As Integer)
     
     
@@ -1034,13 +1085,13 @@ Dim Aux As String
         If Indice = 0 Then
             Im = miRsAux!ImpVenci - DBLet(miRsAux!impcobro, "N") + DBLet(miRsAux!Gastos, "N")
             YaEfectuado = DBLet(miRsAux!impcobro, "N")
-            If vParamT.PideFechaImpresionTalonPagare Then
-                CargaEnListview = Im <> 0  'Fenollar de moemnto
-            Else
-                CargaEnListview = Im > 0
-            End If
+            'If vParamT.PideFechaImpresionTalonPagare Then
+                CargaEnListview = Im <> 0  'nollar de moemnto
+            'Else
+            '    CargaEnListview = Im > 0
+            'End If
         Else
-            Im = miRsAux!impefect - DBLet(miRsAux!imppagad, "N")
+            Im = miRsAux!ImpEfect - DBLet(miRsAux!imppagad, "N")
             YaEfectuado = DBLet(miRsAux!imppagad, "N")
             CargaEnListview = True 'Pase lo que pase
         End If
@@ -1088,7 +1139,7 @@ Dim Aux As String
                         
                 'Para la hco compensacion
                 IT.SubItems(7) = "0," & DBSet(miRsAux!codmacta, "T") & "," & DBSet(miRsAux!NUmSerie, "T") & "," & DBSet(miRsAux!NumFactu, "T") & "," & DBSet(miRsAux!FecFactu, "F")
-                IT.SubItems(7) = IT.SubItems(7) & "," & DBSet(miRsAux!numorden, "N") & "," & DBSet(miRsAux!impefect, "N") & ",null"
+                IT.SubItems(7) = IT.SubItems(7) & "," & DBSet(miRsAux!numorden, "N") & "," & DBSet(miRsAux!ImpEfect, "N") & ",null"
                 IT.SubItems(7) = IT.SubItems(7) & "," & DBSet(miRsAux!imppagad, "N", "S") & "," & DBSet(miRsAux!fecefect, "F")
             Else
                 IT.SubItems(6) = "1," & DBSet(miRsAux!codmacta, "T") & "," & DBSet(miRsAux!NUmSerie, "T") & "," & Format(miRsAux!NumFactu, "000000") & "," & DBSet(miRsAux!FecFactu, "F")

@@ -2,7 +2,7 @@ VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Object = "{CDE57A40-8B86-11D0-B3C6-00A0C90AEA82}#1.0#0"; "MSDATGRD.OCX"
 Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
-Begin VB.Form frmTESCompensaHco
+Begin VB.Form frmTESCompensaHco 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Compensaciones cliente / proveedor"
    ClientHeight    =   9210
@@ -586,7 +586,7 @@ Dim Modo As Byte
 
 Private Sub PonerModo(vModo)
 Dim B As Boolean
-Dim i As Integer
+Dim I As Integer
     Modo = vModo
     
     B = (Modo = 2)
@@ -600,11 +600,11 @@ Dim i As Integer
     B = (Modo = 0 Or Modo = 2)
     
     
-    For i = 0 To txtaux.Count - 1
-        txtaux(i).BackColor = vbWhite
-        txtaux(i).visible = Not B
+    For I = 0 To txtaux.Count - 1
+        txtaux(I).BackColor = vbWhite
+        txtaux(I).visible = Not B
 
-    Next i
+    Next I
     Combo1.visible = Not B
     
     cmdAceptar.visible = Not B
@@ -661,9 +661,9 @@ End Sub
 Private Sub LLamaLineas(alto As Single, xModo As Byte)
     PonerModo xModo
     'Fijamos el ancho
-    For i = 0 To txtaux.Count - 1
-        txtaux(i).top = alto
-        If xModo = 1 Then txtaux(i).Text = ""
+    For I = 0 To txtaux.Count - 1
+        txtaux(I).top = alto
+        If xModo = 1 Then txtaux(I).Text = ""
     Next
     Combo1.top = alto
 End Sub
@@ -677,7 +677,7 @@ Private Sub adodc1_MoveComplete(ByVal adReason As ADODB.EventReasonEnum, ByVal p
 End Sub
 
 Private Sub cmdAceptar_Click()
-Dim i As Integer
+Dim I As Integer
 Dim CadB As String
 Select Case Modo
     Case 1
@@ -703,10 +703,10 @@ Select Case Modo
                 '-----------------------------------------
                 'Hacemos insertar
                 If ModificaDesdeFormulario(Me) Then
-                    i = adodc1.Recordset.Fields(0)
+                    I = adodc1.Recordset.Fields(0)
                     PonerModo 0
                     CargaGrid
-                    adodc1.Recordset.Find (adodc1.Recordset.Fields(0).Name & " =" & i)
+                    adodc1.Recordset.Find (adodc1.Recordset.Fields(0).Name & " =" & I)
                 End If
             End If
     End Select
@@ -853,21 +853,21 @@ End Sub
 'Se puede comentar todo y asi no hace nada ni da error
 'El SQL es propio de cada tabla
 Private Function SugerirCodigoSiguiente() As String
-    Dim SQL As String
+    Dim Sql As String
     Dim Rs As ADODB.Recordset
     
-    SQL = "Select Max(codigo) from agentes"
+    Sql = "Select Max(codigo) from agentes"
     
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, , , adCmdText
-    SQL = "1"
+    Rs.Open Sql, Conn, , , adCmdText
+    Sql = "1"
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then
-            SQL = CStr(Rs.Fields(0) + 1)
+            Sql = CStr(Rs.Fields(0) + 1)
         End If
     End If
     Rs.Close
-    SugerirCodigoSiguiente = SQL
+    SugerirCodigoSiguiente = Sql
 End Function
 
 
@@ -884,7 +884,11 @@ Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
         Case 6
                 BotonVerTodos
         Case 8
+                
                 frmTESCompensaList.numero = 0
+                If Not adodc1.Recordset Is Nothing Then
+                    If Not Me.adodc1.Recordset.EOF Then frmTESCompensaList.numero = adodc1.Recordset!Codigo
+                End If
                 frmTESCompensaList.Show vbModal
         Case Else
     End Select
@@ -892,10 +896,10 @@ End Sub
 
 
 
-Private Sub CargaGrid(Optional SQL As String)
+Private Sub CargaGrid(Optional Sql As String)
     Dim J As Integer
     Dim TotalAncho As Integer
-    Dim i As Integer
+    Dim I As Integer
     Dim tots As String
     
     
@@ -903,11 +907,11 @@ Private Sub CargaGrid(Optional SQL As String)
     
     
 
-    AplicaFitros SQL
-    SQL = "Select codigo,fecha,codmacta,nommacta,login,if(autom=1,'*','') autom,resultado from compensaclipro " & SQL
-    SQL = SQL & " ORDER BY codigo"
+    AplicaFitros Sql
+    Sql = "Select codigo,fecha,codmacta,nommacta,login,if(autom=1,'*','') autom,resultado from compensaclipro " & Sql
+    Sql = Sql & " ORDER BY codigo"
     
-    adodc1.RecordSource = SQL
+    adodc1.RecordSource = Sql
     adodc1.CursorType = adOpenDynamic
     adodc1.LockType = adLockOptimistic
     adodc1.Refresh
@@ -916,7 +920,7 @@ Private Sub CargaGrid(Optional SQL As String)
     DataGrid1.RowHeight = 350
     
     
-    CargaGridGnral Me.DataGrid1, Me.adodc1, SQL, True
+    CargaGridGnral Me.DataGrid1, Me.adodc1, Sql, True
     
     ' *******************canviar els noms i si fa falta la cantitat********************
     tots = "S|txtAux(0)|T|Codigo|1205|;S|txtAux(1)|T|Fecha|1495|;"

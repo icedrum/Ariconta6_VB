@@ -201,7 +201,9 @@ Dim NifEmpresa As String
     
     
     cadFormula = "{cuentas.codmacta}='" & Cuenta & "'"
-    
+    ExportarPDF = False
+    SoloImprimir = False
+
     ImprimeGeneral
     
     
@@ -220,7 +222,7 @@ End Sub
 Private Sub Form_Load()
     Me.Icon = frmppal.Icon
         
-    Me.Text1.Visible = ReferenciaSEP <> ""
+    Me.Text1.visible = ReferenciaSEP <> ""
     'Me.Combo1.Visible = ReferenciaSEP = ""
     'Label7(0).Visible = ReferenciaSEP = ""
     
@@ -228,15 +230,15 @@ Private Sub Form_Load()
     Set miRsAux = New ADODB.Recordset
     Msg = "select bancos.codmacta,descripcion,nommacta from bancos,cuentas where bancos.codmacta=cuentas.codmacta and bancos.iban<>''"
     miRsAux.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    i = -1
+    I = -1
     Me.Combo1.Clear
     J = -1
     While Not miRsAux.EOF
-        i = i + 1
+        I = I + 1
         Msg = DBLet(miRsAux!Descripcion, "T")
         If Msg = "" Then Msg = miRsAux!Nommacta
         Combo1.AddItem miRsAux!codmacta & " - " & Msg
-        If ctaBancoxDefecto = miRsAux!codmacta Then J = i
+        If ctaBancoxDefecto = miRsAux!codmacta Then J = I
         miRsAux.MoveNext
     Wend
     miRsAux.Close
@@ -244,7 +246,7 @@ Private Sub Form_Load()
     If J >= 0 Then
         Combo1.ListIndex = J
     Else
-        If i = 1 Then Combo1.ListIndex = 0
+        If I = 1 Then Combo1.ListIndex = 0
     End If
     
 End Sub

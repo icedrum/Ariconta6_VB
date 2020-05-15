@@ -163,44 +163,52 @@ Begin VB.Form frmparametros
       TabCaption(1)   =   "Clientes - Proveedores "
       TabPicture(1)   =   "frmparametros.frx":0028
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Frame2"
-      Tab(1).Control(1)=   "Frame3"
+      Tab(1).Control(0)=   "Frame3"
+      Tab(1).Control(1)=   "Frame2"
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "I.V.A. - Norma 43"
       TabPicture(2)   =   "frmparametros.frx":0044
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Text1(13)"
-      Tab(2).Control(1)=   "Text1(15)"
-      Tab(2).Control(2)=   "Text1(14)"
-      Tab(2).Control(3)=   "Frame17"
-      Tab(2).Control(4)=   "Frame8"
-      Tab(2).Control(5)=   "Frame1"
-      Tab(2).Control(6)=   "Label1(13)"
-      Tab(2).Control(7)=   "Label1(14)"
+      Tab(2).Control(0)=   "Label1(14)"
+      Tab(2).Control(0).Enabled=   0   'False
+      Tab(2).Control(1)=   "Label1(13)"
+      Tab(2).Control(1).Enabled=   0   'False
+      Tab(2).Control(2)=   "Frame1"
+      Tab(2).Control(2).Enabled=   0   'False
+      Tab(2).Control(3)=   "Frame8"
+      Tab(2).Control(3).Enabled=   0   'False
+      Tab(2).Control(4)=   "Frame17"
+      Tab(2).Control(4).Enabled=   0   'False
+      Tab(2).Control(5)=   "Text1(14)"
+      Tab(2).Control(5).Enabled=   0   'False
+      Tab(2).Control(6)=   "Text1(15)"
+      Tab(2).Control(6).Enabled=   0   'False
+      Tab(2).Control(7)=   "Text1(13)"
+      Tab(2).Control(7).Enabled=   0   'False
       Tab(2).ControlCount=   8
       TabCaption(3)   =   "Inmovilizado"
       TabPicture(3)   =   "frmparametros.frx":0060
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Frame14"
-      Tab(3).Control(1)=   "Frame15"
+      Tab(3).Control(0)=   "Frame7"
+      Tab(3).Control(1)=   "Frame9"
       Tab(3).Control(2)=   "Frame16"
-      Tab(3).Control(3)=   "Frame9"
-      Tab(3).Control(4)=   "Frame7"
+      Tab(3).Control(3)=   "Frame15"
+      Tab(3).Control(4)=   "Frame14"
       Tab(3).ControlCount=   5
       TabCaption(4)   =   "Tesorería I"
       TabPicture(4)   =   "frmparametros.frx":007C
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "FrameValDefecto"
-      Tab(4).Control(1)=   "Frame66"
+      Tab(4).Control(0)=   "Frame66"
+      Tab(4).Control(1)=   "FrameValDefecto"
       Tab(4).ControlCount=   2
       TabCaption(5)   =   "Tesorería II"
       TabPicture(5)   =   "frmparametros.frx":0098
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "FrameTalones(3)"
-      Tab(5).Control(1)=   "FrameTalones(2)"
+      Tab(5).Control(0)=   "FrameTalones(1)"
+      Tab(5).Control(1)=   "FrameTalones(0)"
       Tab(5).Control(2)=   "FrameOpAseguradas"
-      Tab(5).Control(3)=   "FrameTalones(0)"
-      Tab(5).Control(4)=   "FrameTalones(1)"
+      Tab(5).Control(3)=   "FrameTalones(2)"
+      Tab(5).Control(4)=   "FrameTalones(3)"
       Tab(5).ControlCount=   5
       Begin VB.Frame FrameTalones 
          Caption         =   "Confirming clientes"
@@ -217,7 +225,7 @@ Begin VB.Form frmparametros
          Height          =   1095
          Index           =   3
          Left            =   -74880
-         TabIndex        =   195
+         TabIndex        =   196
          Top             =   4920
          Width           =   6885
          Begin VB.CheckBox Check5 
@@ -234,7 +242,7 @@ Begin VB.Form frmparametros
             Height          =   240
             Index           =   6
             Left            =   2610
-            TabIndex        =   197
+            TabIndex        =   198
             Top             =   210
             Width           =   3825
          End
@@ -272,7 +280,7 @@ Begin VB.Form frmparametros
             Height          =   360
             Index           =   1
             Left            =   1950
-            TabIndex        =   196
+            TabIndex        =   197
             Text            =   "Text4"
             Top             =   570
             Width           =   4785
@@ -298,7 +306,7 @@ Begin VB.Form frmparametros
             Height          =   255
             Index           =   3
             Left            =   120
-            TabIndex        =   198
+            TabIndex        =   199
             Top             =   270
             Width           =   1995
          End
@@ -317,7 +325,7 @@ Begin VB.Form frmparametros
          Index           =   32
          Left            =   2760
          MaxLength       =   250
-         TabIndex        =   193
+         TabIndex        =   194
          Tag             =   "Path|T|S|||parametros|PathFicherosInteg|||"
          Top             =   5400
          Width           =   8475
@@ -1429,7 +1437,7 @@ Begin VB.Form frmparametros
             Index           =   37
             Left            =   240
             MaxLength       =   40
-            TabIndex        =   199
+            TabIndex        =   200
             Tag             =   "T|T|S|0||parametros|TextoInmoSubencionado|||"
             Top             =   2160
             Width           =   3240
@@ -1485,7 +1493,7 @@ Begin VB.Form frmparametros
             Height          =   255
             Index           =   1
             Left            =   240
-            TabIndex        =   200
+            TabIndex        =   201
             Top             =   1920
             Width           =   2565
          End
@@ -2691,6 +2699,26 @@ Begin VB.Form frmparametros
          Top             =   2520
          Width           =   11115
          Begin VB.CheckBox Check1 
+            Caption         =   "Mod. importe IVA lin. fra. cliente"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   240
+            Index           =   21
+            Left            =   7410
+            TabIndex        =   191
+            Tag             =   "Cambia importes iva lineasl|N|N|||parametros|MoficaImporIVALineas|||"
+            ToolTipText     =   "Permite modificar el importe de IVA en lineas de factura de cliente"
+            Top             =   1830
+            Width           =   3585
+         End
+         Begin VB.CheckBox Check1 
             Caption         =   "Inscrito AEAT facturas DUA"
             BeginProperty Font 
                Name            =   "Verdana"
@@ -2704,7 +2732,7 @@ Begin VB.Form frmparametros
             Height          =   240
             Index           =   19
             Left            =   5640
-            TabIndex        =   206
+            TabIndex        =   207
             Tag             =   "Inscrito AEAT DUA|N|N|||parametros|inscritoDeclarDUA|||"
             Top             =   3000
             Width           =   3975
@@ -2723,7 +2751,7 @@ Begin VB.Form frmparametros
             Height          =   240
             Index           =   17
             Left            =   1560
-            TabIndex        =   203
+            TabIndex        =   204
             Tag             =   "Excluir IVA cero  repercutido[28]|N|N|||parametros|ExcluirBasesIvaCeroRecibidas303|||"
             Top             =   3000
             Width           =   3975
@@ -2742,7 +2770,7 @@ Begin VB.Form frmparametros
             Height          =   240
             Index           =   13
             Left            =   5640
-            TabIndex        =   202
+            TabIndex        =   203
             Tag             =   "303 Fra.rect separadas|N|N|||parametros|RectificativasSeparadas303|||"
             Top             =   2640
             Width           =   3855
@@ -2763,7 +2791,7 @@ Begin VB.Form frmparametros
             Left            =   7410
             TabIndex        =   190
             Tag             =   "Contabiliza Apunte iva 0l|N|N|||parametros|contabapteiva0|||"
-            Top             =   1800
+            Top             =   1440
             Width           =   3585
          End
          Begin VB.TextBox Text1 
@@ -2937,7 +2965,7 @@ Begin VB.Form frmparametros
             Left            =   7410
             TabIndex        =   38
             Tag             =   "es multisecciónl|N|N|||parametros|esmultiseccion|||"
-            Top             =   1320
+            Top             =   1080
             Width           =   2175
          End
          Begin VB.CheckBox Check1 
@@ -2994,7 +3022,7 @@ Begin VB.Form frmparametros
             Left            =   7410
             TabIndex        =   36
             Tag             =   "Mod apuntes factura|N|N|||parametros|modhcofa|||"
-            Top             =   840
+            Top             =   720
             Width           =   2910
          End
          Begin VB.Line Line1 
@@ -3019,7 +3047,7 @@ Begin VB.Form frmparametros
             Height          =   195
             Index           =   34
             Left            =   120
-            TabIndex        =   204
+            TabIndex        =   205
             Top             =   2280
             Width           =   1410
          End
@@ -3217,6 +3245,25 @@ Begin VB.Form frmparametros
          Top             =   840
          Width           =   4455
          Begin VB.CheckBox Check1 
+            Caption         =   "Mantenimiento cuentas con saldos"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   240
+            Index           =   20
+            Left            =   240
+            TabIndex        =   208
+            Tag             =   "c|N|N|||parametros|colCtasConSaldos|||"
+            Top             =   3240
+            Width           =   4095
+         End
+         Begin VB.CheckBox Check1 
             Caption         =   "SII. Proveedor por fecha recepción"
             BeginProperty Font 
                Name            =   "Verdana"
@@ -3230,7 +3277,7 @@ Begin VB.Form frmparametros
             Height          =   240
             Index           =   18
             Left            =   240
-            TabIndex        =   205
+            TabIndex        =   206
             Tag             =   "c|N|N|||parametros|SII_FraPro_Fecregis|||"
             Top             =   2760
             Width           =   4095
@@ -3249,7 +3296,7 @@ Begin VB.Form frmparametros
             Height          =   240
             Index           =   11
             Left            =   240
-            TabIndex        =   201
+            TabIndex        =   202
             Tag             =   "c|N|N|||parametros|ComprobarAsientosIncio|||"
             Top             =   2280
             Width           =   3855
@@ -3268,10 +3315,10 @@ Begin VB.Form frmparametros
             Index           =   30
             Left            =   2520
             MaxLength       =   2
-            TabIndex        =   191
+            TabIndex        =   192
             Tag             =   "Nro Ariges|N|N|||parametros|nroariges|||"
             Text            =   "2"
-            Top             =   3150
+            Top             =   3750
             Width           =   405
          End
          Begin VB.CheckBox Check1 
@@ -3364,12 +3411,12 @@ Begin VB.Form frmparametros
             EndProperty
             Height          =   510
             Index           =   6
-            Left            =   120
+            Left            =   3840
             TabIndex        =   8
             Tag             =   "Asiento automatico|N|N|||parametros|ContabilizaFact|||"
-            Top             =   3600
+            Top             =   3480
             Visible         =   0   'False
-            Width           =   4140
+            Width           =   1380
          End
          Begin VB.Label Label1 
             Caption         =   "Nro.Ariges asociado"
@@ -3385,8 +3432,8 @@ Begin VB.Form frmparametros
             Height          =   255
             Index           =   32
             Left            =   240
-            TabIndex        =   192
-            Top             =   3180
+            TabIndex        =   193
+            Top             =   3780
             Width           =   2445
          End
       End
@@ -3974,7 +4021,7 @@ Begin VB.Form frmparametros
          Height          =   255
          Index           =   33
          Left            =   360
-         TabIndex        =   194
+         TabIndex        =   195
          Top             =   5400
          Width           =   1875
       End
@@ -4210,7 +4257,7 @@ Attribute frmCta2.VB_VarHelpID = -1
 
 Dim Rs As ADODB.Recordset
 Dim Modo As Byte
-Dim i As Integer
+Dim I As Integer
 
 Dim cad As String
 Dim CadB As String
@@ -4370,24 +4417,24 @@ Private Sub Form_Load()
     
     imgCta2(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Image2.Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    imgIVA.Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    imgiva.Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCta2(4).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCta2(1).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    For i = 7 To 10
-        imgCta2(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
-    For i = 0 To 2
-        imgCta(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
-    For i = 0 To 3
-        imgDiario(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
-    For i = 0 To 5
-        imgConcep(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
-    For i = 0 To 1
-        Image3(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 7 To 10
+        imgCta2(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
+    For I = 0 To 2
+        imgCta(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
+    For I = 0 To 3
+        imgDiario(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
+    For I = 0 To 5
+        imgConcep(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
+    For I = 0 To 1
+        Image3(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
     
     imgPathFich(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
@@ -4398,11 +4445,11 @@ Private Sub Form_Load()
     Me.SSTab1.TabVisible(5) = (vEmpresa.TieneTesoreria)
     
     PonerLongitudCampoNivelAnterior
-    adodc1.ConnectionString = Conn
-    adodc1.RecordSource = "Select * from parametros "
-    adodc1.Refresh
+    Adodc1.ConnectionString = Conn
+    Adodc1.RecordSource = "Select * from parametros "
+    Adodc1.Refresh
     Limpiar Me
-    If adodc1.Recordset.EOF Then
+    If Adodc1.Recordset.EOF Then
         'No hay datos
         
         PonerModo 3
@@ -4424,7 +4471,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmC_Selec(vFecha As Date)
-    ImgFec(1).Tag = vFecha
+    imgFec(1).Tag = vFecha
 End Sub
 
 Private Sub frmCo_DatoSeleccionado(CadenaSeleccion As String)
@@ -4457,7 +4504,7 @@ End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
     cad = Format(vFecha, "dd/mm/yyyy")
-    Select Case i
+    Select Case I
     Case 0
         Text2(0).Text = cad
     End Select
@@ -4472,7 +4519,7 @@ Private Sub Image1_Click(Index As Integer)
     Set frmF = New frmCal
     frmF.Fecha = Now
     
-    i = Index
+    I = Index
     Select Case Index
         Case 0
             If Text2(0).Text <> "" Then
@@ -4492,7 +4539,7 @@ Private Sub Image2_Click()
 End Sub
 
 Private Sub Image3_Click(Index As Integer)
-    i = Index
+    I = Index
     Set frmC1 = New frmConceptos
     frmC1.DatosADevolverBusqueda = "0|1|"
     frmC1.Show vbModal
@@ -4588,9 +4635,9 @@ Private Sub imgFec_Click(Index As Integer)
     Dim F As Date
     'En los tag
     'En el 0 tendremos quien lo ha llamado y en el 1 el valor que devuelve
-    ImgFec(0).Tag = Index
+    imgFec(0).Tag = Index
     F = Now
-    ImgFec(1).Tag = ""
+    imgFec(1).Tag = ""
     If Text1(Index).Text <> "" Then
         If IsDate(Text1(Index).Text) Then F = Text1(Index).Text
     End If
@@ -4598,8 +4645,8 @@ Private Sub imgFec_Click(Index As Integer)
     frmC.Fecha = F
     frmC.Show vbModal
     Set frmC = Nothing
-    If ImgFec(1).Tag <> "" Then
-        If IsDate(ImgFec(1).Tag) Then Text1(Index).Text = Format(CDate(ImgFec(1).Tag), "dd/mm/yyyy")
+    If imgFec(1).Tag <> "" Then
+        If IsDate(imgFec(1).Tag) Then Text1(Index).Text = Format(CDate(imgFec(1).Tag), "dd/mm/yyyy")
     End If
 End Sub
 
@@ -4707,7 +4754,7 @@ End Sub
 '----------------------------------------------------------------
 Private Sub Text1_LostFocus(Index As Integer)
     Dim cad As String
-    Dim SQL As String
+    Dim Sql As String
     ''Quitamos blancos por los lados
     Text1(Index).Text = Trim(Text1(Index).Text)
 
@@ -4726,8 +4773,8 @@ Private Sub Text1_LostFocus(Index As Integer)
                         
     Case 2, 3, 4
         If Text1(Index).Text = "" Then Exit Sub
-        SQL = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Text1(Index).Text, "T")
-        If SQL = "" Then
+        Sql = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Text1(Index).Text, "T")
+        If Sql = "" Then
             MsgBox "La cuenta no existe: " & Text1(Index).Text, vbExclamation
             Text1(Index).Text = ""
             Text1(Index).SetFocus
@@ -4735,22 +4782,22 @@ Private Sub Text1_LostFocus(Index As Integer)
     Case 5, 9, 24, 36
      ' Diarios
        If Not IsNumeric(Text1(Index).Text) Then Exit Sub
-       SQL = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", Text1(Index).Text)
-       If SQL = "" Then
-            SQL = "Codigo incorrecto"
+       Sql = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", Text1(Index).Text)
+       If Sql = "" Then
+            Sql = "Codigo incorrecto"
             Text1(Index).Text = "-1"
         End If
-       Text2(Index).Text = SQL
+       Text2(Index).Text = Sql
     Case 6, 7, 10, 11, 23, 35
        'Conceptos
        cad = "NO"
        If Not IsNumeric(Text1(Index).Text) Then
-            SQL = ""
+            Sql = ""
             MsgBox "Campo debe ser numerico", vbExclamation
             Text1(Index).Text = ""
         Else
             cad = "codconce"
-            SQL = DevuelveDesdeBD("nomconce", "conceptos", "codconce", Text1(Index).Text, "N", cad)
+            Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", Text1(Index).Text, "N", cad)
             If cad = "codconce" Then
                 'NO existe el concepto
                 MsgBox "No existe el concepto", vbExclamation
@@ -4760,15 +4807,15 @@ Private Sub Text1_LostFocus(Index As Integer)
             End If
         End If
         
-        Text2(Index).Text = SQL
+        Text2(Index).Text = Sql
         If cad <> "" Then PonFoco Text1(Index)
     Case 18
         cad = Text1(18).Text
-        If CuentaCorrectaUltimoNivel(cad, SQL) Then
+        If CuentaCorrectaUltimoNivel(cad, Sql) Then
             Text1(18).Text = cad
-            Text4.Text = SQL
+            Text4.Text = Sql
         Else
-            MsgBox SQL, vbExclamation
+            MsgBox Sql, vbExclamation
             Text1(18).Text = "" ' cad
             Text4.Text = "" 'SQL
             If Modo > 2 Then Text1(18).SetFocus
@@ -4790,11 +4837,11 @@ Private Sub Text1_LostFocus(Index As Integer)
             Text7.Text = ""
             Exit Sub
         End If
-        If CuentaCorrectaUltimoNivel(cad, SQL) Then
+        If CuentaCorrectaUltimoNivel(cad, Sql) Then
             Text1(33).Text = cad
-            Text7.Text = SQL
+            Text7.Text = Sql
         Else
-            MsgBox SQL, vbExclamation
+            MsgBox Sql, vbExclamation
             Text1(33).Text = "" ' cad
             Text7.Text = "" 'SQL
             If Modo > 2 And cad <> "" Then Text1(33).SetFocus
@@ -4806,13 +4853,13 @@ Private Sub Text1_LostFocus(Index As Integer)
             Text8.Text = ""
             Exit Sub
         End If
-        If CuentaCorrectaUltimoNivel(cad, SQL) Then
+        If CuentaCorrectaUltimoNivel(cad, Sql) Then
             Text1(34).Text = cad
-            Text8.Text = SQL
+            Text8.Text = Sql
         Else
-            MsgBox SQL, vbExclamation
+            MsgBox Sql, vbExclamation
             Text1(34).Text = cad
-            Text8.Text = SQL
+            Text8.Text = Sql
             If Modo > 2 Then
                 If cad <> "" Then PonFoco Text1(34)
             End If
@@ -4864,9 +4911,9 @@ Private Sub PonerModo(Kmodo As Integer)
     cmdAceptar.visible = Modo > 0
     cmdCancelar.visible = Modo > 0
     
-    For i = 0 To Text1.Count - 1
-        If i <> 30 And i <> 32 Then Text1(i).BackColor = vbWhite
-    Next i
+    For I = 0 To Text1.Count - 1
+        If I <> 30 And I <> 32 Then Text1(I).BackColor = vbWhite
+    Next I
     
     Combo1.BackColor = vbWhite
     Combo2.BackColor = vbWhite
@@ -4874,9 +4921,9 @@ Private Sub PonerModo(Kmodo As Integer)
     
     
     'Ponemos los valores
-    For i = 0 To Text1.Count - 1
-        If i <> 30 And i <> 32 Then Text1(i).Locked = Valor
-    Next i
+    For I = 0 To Text1.Count - 1
+        If I <> 30 And I <> 32 Then Text1(I).Locked = Valor
+    Next I
     Frame1.Enabled = Not Valor
     Frame4.Enabled = Not Valor
     Frame6.Enabled = Not Valor
@@ -4888,19 +4935,19 @@ Private Sub PonerModo(Kmodo As Integer)
     Frame15.Enabled = Not Valor
     Frame16.Enabled = Not Valor
 
-    For i = 0 To FrameTalones.Count - 1
-        FrameTalones(i).Enabled = Not Valor
-    Next i
+    For I = 0 To FrameTalones.Count - 1
+        FrameTalones(I).Enabled = Not Valor
+    Next I
     FrameValDefecto.Enabled = Not Valor
     FrameOpAseguradas.Enabled = Not Valor
     Frame66.Enabled = Not Valor
 
-    For i = 0 To imgDiario.Count - 1
-        imgDiario(i).Enabled = Not Valor
-    Next i
-    For i = 0 To imgConcep.Count - 1
-        imgConcep(i).Enabled = Not Valor
-    Next i
+    For I = 0 To imgDiario.Count - 1
+        imgDiario(I).Enabled = Not Valor
+    Next I
+    For I = 0 To imgConcep.Count - 1
+        imgConcep(I).Enabled = Not Valor
+    Next I
     
     BloqueaTXT Text1(32), Modo = 0
     If Modo > 0 Then Me.imgPathFich(0).Enabled = Not Valor
@@ -4911,9 +4958,9 @@ Private Sub PonerModo(Kmodo As Integer)
         Text1(0).Locked = (vUsu.Nivel >= 1)
         Text1(1).Locked = (vUsu.Nivel >= 1)
     End If
-    For i = 0 To ImgFec.Count - 1
-        ImgFec(i).Enabled = Not Text1(0).Locked
-    Next i
+    For I = 0 To imgFec.Count - 1
+        imgFec(I).Enabled = Not Text1(0).Locked
+    Next I
     
     PonerModoUsuarioGnral Modo, "ariconta"
     
@@ -4925,7 +4972,7 @@ Private Sub PonerContRegIndicador()
 Dim cadReg As String
 
     If (Modo = 2 Or Modo = 0) Then
-        cadReg = PonerContRegistros(Me.adodc1)
+        cadReg = PonerContRegistros(Me.Adodc1)
         If CadB = "" Then
             lblIndicador.Caption = cadReg
         Else
@@ -4941,8 +4988,8 @@ Private Sub PonerCampos()
     Dim tabla As String
     Dim Cod As String
     
-        If adodc1.Recordset.EOF Then Exit Sub
-        If PonerCamposForma(Me, adodc1) Then
+        If Adodc1.Recordset.EOF Then Exit Sub
+        If PonerCamposForma(Me, Adodc1) Then
            'Correcto, ponemos los datos auxiliares
            '----------------------------------------
            ' Diarios
@@ -5028,9 +5075,9 @@ Private Function DatosOK() As Boolean
     'Comprobamos que si el periodo de liquidacion de IVA es mensual
     'Comprobaremos que el valor del periodo no excede de
     If Check1(5).Value = 1 Then
-        i = 12  'Mensual
+        I = 12  'Mensual
     Else
-        i = 4   'Trimestral
+        I = 4   'Trimestral
     End If
     If Text1(15).Text <> "" Then
         J = CInt(Text1(15).Text)
@@ -5038,7 +5085,7 @@ Private Function DatosOK() As Boolean
             MsgBox "El periodo de liquidación no puede ser 0", vbExclamation
             Exit Function
         End If
-        If J > i Then
+        If J > I Then
             MsgBox "Periodo de liquidacion incorrecto", vbExclamation
             Exit Function
         End If
@@ -5078,19 +5125,19 @@ Private Function DatosOK() As Boolean
             C = ""
             'AHora es desde i=5
             For J = 7 To 10
-                i = IIf(J = 10, 1, J)
-                Text5(i).Text = Trim(Text5(i).Text)
+                I = IIf(J = 10, 1, J)
+                Text5(I).Text = Trim(Text5(I).Text)
                 
-                If Text5(i).Text <> "" Then
+                If Text5(I).Text <> "" Then
                     
-                    If Len(Text5(i).Text) <> vEmpresa.DigitosUltimoNivel Then
+                    If Len(Text5(I).Text) <> vEmpresa.DigitosUltimoNivel Then
                                                 'Aqui tenemos los digitos a ultnivel-1
-                        If Len(Text5(i).Text) <> MaxLen Then
-                            If i = 7 Then
+                        If Len(Text5(I).Text) <> MaxLen Then
+                            If I = 7 Then
                                 C = C & "talon" & vbCrLf
-                            ElseIf i = 8 Then
+                            ElseIf I = 8 Then
                                 C = C & "pagares" & vbCrLf
-                            ElseIf i = 9 Then
+                            ElseIf I = 9 Then
                                 C = C & "efectos" & vbCrLf
                             Else
                                 C = C & "confirming" & vbCrLf
@@ -5299,14 +5346,14 @@ Private Sub txtIVA_LostFocus(Index As Integer)
         Exit Sub
     End If
     
-    i = 0
+    I = 0
     cad = ""
     If Not IsNumeric(txtIVA(0).Text) Then
         MsgBox "Tipo IVA debe ser numérico: " & txtIVA(0).Text, vbExclamation
         txtIVA(0).Text = ""
-        i = 1
+        I = 1
     End If
-    If i = 0 Then
+    If I = 0 Then
         cad = DevuelveDesdeBD("nombriva", "tiposiva", "codigiva", txtIVA(0).Text, "N")
         If cad = "" Then
             MsgBox "IVA no encontrado: " & txtIVA(0).Text, vbExclamation
@@ -5368,8 +5415,8 @@ Private Sub Text2_LostFocus(Index As Integer)
 End Sub
 
 Private Sub frmC1_DatoSeleccionado(CadenaSeleccion As String)
-    Text2(i + 2).Text = RecuperaValor(CadenaSeleccion, 1)
-    Text3(i + 1).Text = RecuperaValor(CadenaSeleccion, 2)
+    Text2(I + 2).Text = RecuperaValor(CadenaSeleccion, 1)
+    Text3(I + 1).Text = RecuperaValor(CadenaSeleccion, 2)
 End Sub
 
 Private Sub frmD1_DatoSeleccionado(CadenaSeleccion As String)
@@ -5529,7 +5576,7 @@ End Sub
 '----------------------------------------------------------------
 Private Sub Text5_LostFocus(Index As Integer)
     Dim cad As String
-    Dim SQL As String
+    Dim Sql As String
     Dim Valor As Currency
     
     ''Quitamos blancos por los lados
@@ -5552,11 +5599,11 @@ Private Sub Text5_LostFocus(Index As Integer)
             Text6(Index).Text = ""
             Exit Sub
         End If
-        If CuentaCorrectaUltimoNivel(cad, SQL) Then
+        If CuentaCorrectaUltimoNivel(cad, Sql) Then
             Text5(Index).Text = cad
-            Text6(Index).Text = SQL
+            Text6(Index).Text = Sql
         Else
-            MsgBox SQL, vbExclamation
+            MsgBox Sql, vbExclamation
             Text5(Index).Text = "" 'cad
             Text6(Index).Text = "" 'SQL
             If Modo > 2 Then Text5(Index).SetFocus
@@ -5570,10 +5617,10 @@ Private Sub Text5_LostFocus(Index As Integer)
             Text5(Index).Text = ""
             Exit Sub
         End If
-        i = Len(Text5(Index).Text)
+        I = Len(Text5(Index).Text)
         NumRegElim = InStr(1, Text5(Index).Text, ".")
         If NumRegElim = 0 Then
-            If i <> vEmpresa.DigitosUltimoNivel And i <> MaxLen Then
+            If I <> vEmpresa.DigitosUltimoNivel And I <> MaxLen Then
                 If MsgBox("Longitud de campo incorrecta. Digitos: " & vEmpresa.DigitosUltimoNivel & " o " & MaxLen & "¿Continuar?", vbQuestion + vbYesNo) <> vbYes Then
                     Text5(Index).Text = ""
                     Exit Sub
@@ -5582,23 +5629,23 @@ Private Sub Text5_LostFocus(Index As Integer)
         End If
         
         'Llegados aqui, si es de ultimo nivel pondre la cuenta
-        If NumRegElim > 0 Or i = vEmpresa.DigitosUltimoNivel Then
+        If NumRegElim > 0 Or I = vEmpresa.DigitosUltimoNivel Then
             cad = Text5(Index).Text
-            If CuentaCorrectaUltimoNivel(cad, SQL) Then
+            If CuentaCorrectaUltimoNivel(cad, Sql) Then
                 Text5(Index).Text = cad
             Else
-                MsgBox SQL, vbExclamation
+                MsgBox Sql, vbExclamation
                 Text5(Index).Text = ""
-                SQL = ""
+                Sql = ""
             End If
         Else
-            SQL = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Text5(Index).Text, "T")
-            If SQL = "" Then
+            Sql = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Text5(Index).Text, "T")
+            If Sql = "" Then
                 MsgBox "No existe la cuenta indicada", vbExclamation
                 Text5(Index).Text = ""
             End If
         End If
-        Text6(Index).Text = SQL
+        Text6(Index).Text = Sql
         
     Case 11, 12, 13, 14, 16
         If Text5(Index).Text = "" Then Exit Sub
@@ -5627,9 +5674,9 @@ Private Sub PonerLongitudCampoNivelAnterior()
     On Error GoTo EPonerLongitudCampoNivelAnterior
     
     
-    i = DigitosNivel(vEmpresa.numnivel - 1)
-    If i = 0 Then i = 4
-    MaxLen = i
+    I = DigitosNivel(vEmpresa.numnivel - 1)
+    If I = 0 Then I = 4
+    MaxLen = I
     
   
     Exit Sub

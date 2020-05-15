@@ -1146,3 +1146,59 @@ Public Sub AyudaTrasnferencia(frmBas As frmBasico2, Optional CodActual As String
     
 End Sub
 
+
+
+Public Sub AyudaImporNavarresSeccion(frmBas As frmBasico2, Optional CodActual As String, Optional cWhere As String)
+ 
+    
+ 
+    frmBas.CadenaTots = "S|txtAux(0)|T|concepto|1405|;S|txtAux(1)|T|Descripcion|3000|;"
+    frmBas.CadenaConsulta = "select concepto,Descripcion from importnavconceptos"
+    
+    If cWhere <> "" Then frmBas.CadenaConsulta = frmBas.CadenaConsulta & " and " & cWhere
+    frmBas.Tag1 = "Codigo|N|N|||importnavconceptos|concepto|000|S|"
+    frmBas.Tag2 = "A|T|S|||transferencias|Descripcion||S|"
+
+    
+    frmBas.Maxlen1 = 10
+    frmBas.Maxlen2 = 100
+   
+    
+    frmBas.tabla = "importnavconceptos"
+    frmBas.CampoCP = "concepto"
+    frmBas.Caption = "Conceptos facturas"
+    frmBas.DeConsulta = True
+    frmBas.DatosADevolverBusqueda = "0|1|"
+    frmBas.CodigoActual = 0
+    If CodActual <> "" Then frmBas.CodigoActual = CodActual
+    frmBas.Show vbModal
+    
+End Sub
+
+Public Sub AyudaImporNavarresCentro(frmBas As frmBasico2, Optional CodActual As String, Optional cWhere As String)
+ 
+    frmBas.CadenaTots = "S|txtAux(0)|T|Código|1005|;S|txtAux(1)|T|Descripcion|3000|;"
+    frmBas.CadenaConsulta = "select CodCentro,descripcion from importnavcentros"
+    
+    
+    If cWhere <> "" Then frmBas.CadenaConsulta = frmBas.CadenaConsulta & " and " & cWhere
+    frmBas.Tag1 = "Codigo|N|N|0||importnavcentros|codigo|000|S|"
+    frmBas.Tag2 = "A|T|S|||importnavcentros|anyo||S|"
+    
+    
+    frmBas.Maxlen1 = 10
+    frmBas.Maxlen2 = 100
+    
+    
+    frmBas.tabla = "importnavcentros"
+    frmBas.CampoCP = "CodCentro"
+    frmBas.Caption = "Centros Consum"
+    frmBas.DeConsulta = True
+    frmBas.DatosADevolverBusqueda = "0|1|"
+    frmBas.CodigoActual = 0
+    If CodActual <> "" Then frmBas.CodigoActual = CodActual
+    frmBas.Show vbModal
+    
+End Sub
+
+

@@ -25,7 +25,7 @@ Public HaPulsadoImprimir As Boolean
 
 Dim Rs As Recordset
 Dim cad As String
-Dim sql As String
+Dim Sql As String
 Dim I As Integer
 
 
@@ -369,9 +369,9 @@ Dim I As Integer
         
 End Sub
 
+'Desde consulta extractos,
 
-
-Public Sub LanzaProgramaAbrirOutlook(outTipoDocumento As Integer)
+Public Sub LanzaProgramaAbrirOutlook(outTipoDocumento As Integer, Optional emailDestinatario As String)
 Dim NombrePDF As String
 Dim Aux As String
 Dim Lanza As String
@@ -496,6 +496,7 @@ Dim Lanza As String
     FileCopy App.Path & "\docum.pdf", NombrePDF
     
     Aux = FijaDireccionEmail(outTipoDocumento)
+    If Aux = "" And emailDestinatario <> "" Then Aux = emailDestinatario
     Lanza = Aux & "|"
     Aux = ""
     Select Case outTipoDocumento
@@ -693,7 +694,7 @@ End Function
 
 
 Public Function ExisteARIMAILGES()
-Dim sql As String
+Dim Sql As String
 
     If Dir(App.Path & "\ArimailGes.exe") = "" Then
         MsgBox "No existe el programa ArimailGes.exe. Llame a Ariadna.", vbExclamation
@@ -707,14 +708,14 @@ End Function
 
 Public Function HayRegParaInforme(cTabla As String, cWhere As String) As Boolean
 'Comprobar si hay registros a Mostrar antes de abrir el Informe
-Dim sql As String
+Dim Sql As String
     
-    sql = "Select count(*) FROM " & cTabla
+    Sql = "Select count(*) FROM " & cTabla
     If cWhere <> "" Then
-        sql = sql & " WHERE " & cWhere
+        Sql = Sql & " WHERE " & cWhere
     End If
     
-    If TotalRegistros(sql) = 0 Then
+    If TotalRegistros(Sql) = 0 Then
         MsgBox "No hay datos para mostrar en el Informe.", vbInformation
         HayRegParaInforme = False
     Else
@@ -769,10 +770,10 @@ Dim Lanza As String
         Aux = "Reclamacion.pdf"
     End Select
     
-    sql = "select tmp347.*, cuentas.razosoci, cuentas.maidatos from tmp347, cuentas "
-    sql = sql & " where codusu = " & vUsu.Codigo & " and importe <> 0 and tmp347.cta = cuentas.codmacta"
+    Sql = "select tmp347.*, cuentas.razosoci, cuentas.maidatos from tmp347, cuentas "
+    Sql = Sql & " where codusu = " & vUsu.Codigo & " and importe <> 0 and tmp347.cta = cuentas.codmacta"
     Set Rs = New ADODB.Recordset
-    Rs.Open sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
     
         NombrePDF = App.Path & "\temp\" & Rs!NIF

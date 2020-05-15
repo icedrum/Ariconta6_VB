@@ -5,7 +5,7 @@ Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
 Begin VB.Form frmAsiLinAdd 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Lineas Asientos Predefinidos"
-   ClientHeight    =   7860
+   ClientHeight    =   8295
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   11100
@@ -23,11 +23,29 @@ Begin VB.Form frmAsiLinAdd
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   7860
+   ScaleHeight     =   8295
    ScaleWidth      =   11100
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Visible         =   0   'False
+   Begin VB.TextBox Text1 
+      Height          =   360
+      Left            =   4080
+      MaxLength       =   50
+      TabIndex        =   2
+      Text            =   "Text1"
+      Top             =   1080
+      Width           =   6675
+   End
+   Begin VB.TextBox Text2 
+      Height          =   360
+      Left            =   120
+      MaxLength       =   20
+      TabIndex        =   1
+      Text            =   "Text1"
+      Top             =   1080
+      Width           =   3555
+   End
    Begin VB.Frame FrameBotonGnral 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -40,13 +58,13 @@ Begin VB.Form frmAsiLinAdd
       EndProperty
       Height          =   705
       Left            =   120
-      TabIndex        =   12
+      TabIndex        =   13
       Top             =   0
       Width           =   1185
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   330
          Left            =   240
-         TabIndex        =   13
+         TabIndex        =   14
          Top             =   180
          Width           =   645
          _ExtentX        =   1138
@@ -74,20 +92,11 @@ Begin VB.Form frmAsiLinAdd
       Left            =   2280
       Locked          =   -1  'True
       MaxLength       =   16
-      TabIndex        =   5
+      TabIndex        =   6
       Text            =   "haber"
       Top             =   6000
       Visible         =   0   'False
       Width           =   975
-   End
-   Begin VB.TextBox Text1 
-      Height          =   360
-      Left            =   1290
-      MaxLength       =   50
-      TabIndex        =   2
-      Text            =   "Text1"
-      Top             =   810
-      Width           =   7515
    End
    Begin VB.TextBox txtAux 
       Alignment       =   2  'Center
@@ -99,7 +108,7 @@ Begin VB.Form frmAsiLinAdd
       Left            =   1200
       Locked          =   -1  'True
       MaxLength       =   16
-      TabIndex        =   4
+      TabIndex        =   5
       Text            =   "debe"
       Top             =   6000
       Visible         =   0   'False
@@ -118,15 +127,15 @@ Begin VB.Form frmAsiLinAdd
       Height          =   540
       Index           =   0
       Left            =   120
-      TabIndex        =   7
-      Top             =   7215
+      TabIndex        =   8
+      Top             =   7560
       Width           =   3255
       Begin VB.Label lblIndicador 
          Alignment       =   2  'Center
          Caption         =   "Label2"
          Height          =   240
          Left            =   240
-         TabIndex        =   8
+         TabIndex        =   9
          Top             =   180
          Width           =   2355
       End
@@ -134,9 +143,9 @@ Begin VB.Form frmAsiLinAdd
    Begin VB.CommandButton cmdAceptar 
       Caption         =   "&Aceptar"
       Height          =   375
-      Left            =   8610
+      Left            =   8640
       TabIndex        =   0
-      Top             =   7260
+      Top             =   7800
       Width           =   1035
    End
    Begin VB.CommandButton cmdCancelar 
@@ -144,16 +153,16 @@ Begin VB.Form frmAsiLinAdd
       Caption         =   "&Cancelar"
       Height          =   375
       Left            =   9810
-      TabIndex        =   1
-      Top             =   7260
+      TabIndex        =   3
+      Top             =   7800
       Width           =   1035
    End
    Begin VB.CommandButton cmdRegresar 
       Caption         =   "&Regresar"
       Height          =   375
       Left            =   9810
-      TabIndex        =   3
-      Top             =   7260
+      TabIndex        =   4
+      Top             =   7800
       Visible         =   0   'False
       Width           =   1035
    End
@@ -208,8 +217,8 @@ Begin VB.Form frmAsiLinAdd
       Bindings        =   "frmAsiLinAdd.frx":000C
       Height          =   5895
       Left            =   120
-      TabIndex        =   10
-      Top             =   1260
+      TabIndex        =   11
+      Top             =   1560
       Width           =   10785
       _ExtentX        =   19024
       _ExtentY        =   10398
@@ -270,13 +279,21 @@ Begin VB.Form frmAsiLinAdd
          EndProperty
       EndProperty
    End
+   Begin VB.Label Label2 
+      Caption         =   "Documento"
+      Height          =   255
+      Left            =   120
+      TabIndex        =   15
+      Top             =   780
+      Width           =   1425
+   End
    Begin VB.Label Label1 
       Alignment       =   1  'Right Justify
       Caption         =   "Ampliación"
       Height          =   255
-      Left            =   120
-      TabIndex        =   11
-      Top             =   840
+      Left            =   4080
+      TabIndex        =   12
+      Top             =   780
       Width           =   1065
    End
    Begin VB.Label lblInfInv 
@@ -291,7 +308,7 @@ Begin VB.Form frmAsiLinAdd
       EndProperty
       Height          =   255
       Left            =   3840
-      TabIndex        =   9
+      TabIndex        =   10
       Top             =   7380
       Width           =   2055
    End
@@ -308,7 +325,7 @@ Begin VB.Form frmAsiLinAdd
       EndProperty
       Height          =   255
       Left            =   240
-      TabIndex        =   6
+      TabIndex        =   7
       Top             =   8220
       Visible         =   0   'False
       Width           =   3495
@@ -386,6 +403,7 @@ Private Sub cmdAceptar_Click()
         
     CadenaDesdeOtroForm = "OK"
     Ampliacion = Text1.Text
+    nDocumento = Text2.Text
     Me.Tag = 0
     Unload Me
     
@@ -409,7 +427,7 @@ End Sub
 
 
 Private Sub DataGrid1_RowColChange(LastRow As Variant, ByVal LastCol As Integer)
-    If Not data1.Recordset.EOF And gridCargado And Modo = 4 Then
+    If Not Data1.Recordset.EOF And gridCargado And Modo = 4 Then
        CargaTxtAux True, True
        
        txtaux(0).SetFocus
@@ -476,11 +494,11 @@ On Error GoTo ECarga
     cad = "select cta,nommacta, pos ,ccost ,ampconce,timported, timporteh"
     cad = cad & " from tmpconext,cuentas  where tmpconext.cta=cuentas.codmacta AND codusu=" & vUsu.Codigo & " ORDER BY pos"
 
-    data1.ConnectionString = Conn
-    data1.RecordSource = cad
-    data1.CursorType = adOpenDynamic
-    data1.LockType = adLockPessimistic
-    data1.Refresh
+    Data1.ConnectionString = Conn
+    Data1.RecordSource = cad
+    Data1.CursorType = adOpenDynamic
+    Data1.LockType = adLockPessimistic
+    Data1.Refresh
    
     PrimeraVez = False
     
@@ -543,10 +561,10 @@ Dim alto As Single
     Else
         DeseleccionaGrid Me.DataGrid1
         If Limpiar Then 'Vaciar los textBox (Vamos a Insertar)
-                txtaux(0).Text = DBLet(data1.Recordset!timported)
+                txtaux(0).Text = DBLet(Data1.Recordset!timported)
                 txtaux(0).Locked = False
                 
-                txtaux(1).Text = DBLet(data1.Recordset!timporteH)
+                txtaux(1).Text = DBLet(Data1.Recordset!timporteH)
                 txtaux(1).Locked = False
         End If
 
@@ -599,9 +617,10 @@ End Sub
 Private Sub mnOpciones1_Click(Index As Integer)
     If Index = 0 Then
         PreguntarAmplia = True
-        If data1.Recordset.RecordCount > 0 Then
+        If Data1.Recordset.RecordCount > 0 Then
             If MsgBox("Ya existen datos. Volver a cargarlos?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
             Text1.Text = ""
+            Text2.Text = "2"
             PreguntarAmplia = False
             BorrarDatos
             espera 0.5
@@ -666,6 +685,10 @@ Private Sub Text1_LostFocus()
 
 End Sub
 
+
+Private Sub Text2_KeyPress(KeyAscii As Integer)
+    KEYpressGnral KeyAscii, 3, False
+End Sub
 
 Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
@@ -762,7 +785,7 @@ End Sub
 
 
 Private Sub PonerModo(Kmodo As Byte)
-Dim i As Byte
+Dim I As Byte
 Dim B As Boolean
        
     Modo = Kmodo
@@ -785,11 +808,11 @@ End Sub
 
 
 Private Sub BotonModificar()
-    If data1.Recordset.EOF Then Exit Sub
+    If Data1.Recordset.EOF Then Exit Sub
     
     If Not PasoPorAmpliacion Then
         PasoPorAmpliacion = True
-        PonFoco Text1
+        PonFoco Text2
         Exit Sub
     End If
     PonerModo 4
@@ -826,10 +849,10 @@ End Sub
 
 Private Sub PasarSigReg()
 'Nos situamos en el siguiente registro
-    If DataGrid1.Bookmark < data1.Recordset.RecordCount Then
+    If DataGrid1.Bookmark < Data1.Recordset.RecordCount Then
         DataGrid1.Bookmark = DataGrid1.Bookmark + 1
         PonFoco Me.txtaux(0)
-    ElseIf DataGrid1.Bookmark = data1.Recordset.RecordCount Then
+    ElseIf DataGrid1.Bookmark = Data1.Recordset.RecordCount Then
        PonleFoco cmdAceptar
     End If
 
@@ -844,14 +867,14 @@ Dim NumReg As Long
         
         If ActualizarExistencia() Then
             
-            NumReg = data1.Recordset.AbsolutePosition
+            NumReg = Data1.Recordset.AbsolutePosition
             CargaGrid
             
                     
-            If NumReg < data1.Recordset.RecordCount Then
-                data1.Recordset.Move NumReg - 1
+            If NumReg < Data1.Recordset.RecordCount Then
+                Data1.Recordset.Move NumReg - 1
             Else
-                data1.Recordset.MoveLast
+                Data1.Recordset.MoveLast
             End If
         End If
 
@@ -869,7 +892,7 @@ End Function
 
 Private Function ActualizarExistencia() As Boolean
 'Actualiza la cantidad de stock Inventariada (Existencia Real en Almacen)
-Dim SQL As String
+Dim Sql As String
 Dim Debe As Currency
 Dim Haber As Currency
 
@@ -879,18 +902,18 @@ Dim Haber As Currency
     Debe = TransformaPuntosComas(ComprobarCero(txtaux(0).Text))
     Haber = TransformaPuntosComas(ComprobarCero(txtaux(1).Text))
     
-        SQL = "UPDATE tmpconext  Set timported = " & DBSet(Debe, "N", "S")
-        SQL = SQL & ", timporteh = " & DBSet(Haber, "N", "S")
-        SQL = SQL & " WHERE cta = '" & data1.Recordset!Cta & "' AND "
-        SQL = SQL & " pos =" & data1.Recordset!Pos & " AND codusu =" & vUsu.Codigo
-        Conn.Execute SQL
+        Sql = "UPDATE tmpconext  Set timported = " & DBSet(Debe, "N", "S")
+        Sql = Sql & ", timporteh = " & DBSet(Haber, "N", "S")
+        Sql = Sql & " WHERE cta = '" & Data1.Recordset!Cta & "' AND "
+        Sql = Sql & " pos =" & Data1.Recordset!Pos & " AND codusu =" & vUsu.Codigo
+        Conn.Execute Sql
         
         
         
 EActualizar:
     If Err.Number <> 0 Then
         'Hay error , almacenamos y salimos
-         MuestraError Err.Number, SQL, Err.Description
+         MuestraError Err.Number, Sql, Err.Description
          ActualizarExistencia = False
     Else
         ActualizarExistencia = True

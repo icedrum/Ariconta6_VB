@@ -702,7 +702,7 @@ Begin VB.Form frmTesCompensaAutomatica
       End
       Begin VB.Label Label4 
          AutoSize        =   -1  'True
-         Caption         =   "Apuntes"
+         Caption         =   "Pagos"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -718,7 +718,7 @@ Begin VB.Form frmTesCompensaAutomatica
          Left            =   240
          TabIndex        =   26
          Top             =   1440
-         Width           =   900
+         Width           =   660
       End
       Begin VB.Label Label4 
          AutoSize        =   -1  'True
@@ -962,9 +962,20 @@ Begin VB.Form frmTesCompensaAutomatica
       Width           =   15855
       Begin VB.CommandButton cmdImprimir 
          Height          =   450
-         Index           =   0
+         Index           =   1
          Left            =   3840
          Picture         =   "frmTesCompensaAutomatica.frx":04E3
+         Style           =   1  'Graphical
+         TabIndex        =   53
+         ToolTipText     =   "Eliminar cuenta seleccionada"
+         Top             =   180
+         Width           =   450
+      End
+      Begin VB.CommandButton cmdImprimir 
+         Height          =   450
+         Index           =   0
+         Left            =   4440
+         Picture         =   "frmTesCompensaAutomatica.frx":0EE5
          Style           =   1  'Graphical
          TabIndex        =   52
          ToolTipText     =   "Imprimir"
@@ -1041,8 +1052,9 @@ Begin VB.Form frmTesCompensaAutomatica
          _ExtentY        =   13732
          View            =   3
          LabelEdit       =   1
+         MultiSelect     =   -1  'True
          LabelWrap       =   -1  'True
-         HideSelection   =   -1  'True
+         HideSelection   =   0   'False
          FullRowSelect   =   -1  'True
          _Version        =   393217
          ForeColor       =   -2147483640
@@ -1291,6 +1303,14 @@ End Sub
 
 Private Sub cmdImprimir_Click(Index As Integer)
     
+    If Index = 0 Then
+        Imprimir
+    Else
+        EliminarItem
+    End If
+End Sub
+
+Private Sub Imprimir()
     InicializarVblesInformesGeneral True
     
     cad = "DELETE FROM tmptesoreriacomun WHERE codusu =" & vUsu.Codigo
@@ -1586,6 +1606,7 @@ Private Function DatosOK() As Boolean
         If cad <> "" Then
             cad = "Campos obligados" & vbCrLf & cad
             MsgBox cad, vbExclamation
+            PonFoco txConta(0)
             Exit Function
         End If
         
@@ -1736,7 +1757,7 @@ On Error GoTo epreparaCamposSQls
         Msg = "INSERT INTO tmpfaclin(codusu,codigo,Numfac,Imponible,tipoiva) "
         Msg = Msg & " select codusu,id,concat(if(cobro=1,'" & Me.txtCta(0).Text & "','" & txtCta(2).Text & "'),id),importe,cobro"
         Msg = Msg & " From tmpcompensaAuto"
-        Msg = Msg & " where codusu =2000 AND id IN (" & cad & ")"
+        Msg = Msg & " where codusu =" & vUsu.Codigo & " AND id IN (" & cad & ")"
         Conn.Execute Msg
         
         
@@ -1918,10 +1939,13 @@ On Error GoTo eCargaLw
         txtDatos(J).Text = Format(txtDatos(J).Tag, FormatoImporte)
     Next
     
+
+    
 eCargaLw:
     If Err.Number <> 0 Then MuestraError Err.Number, , Err.Description
     Set miRsAux = Nothing
     Set rCta = Nothing
+    lblIndicador.Caption = ""
 End Sub
 
 Private Sub ReemplazaCarcateres(nombrecuenta As String)
@@ -2316,3 +2340,65 @@ Dim C1 As String
     Wend
     
 End Function
+
+
+Private Sub EliminarItem()
+Dim Cob As Currency
+Dim Pag As Currency
+    If Me.ListView5.ListItems.Count = 0 Then Exit Sub
+    
+    J = 0
+    Cob = 0
+    Pag = 0
+    cad = ""
+    For I = 1 To ListView5.ListItems.Count
+        If ListView5.ListItems(I).Selected Then
+            J = J + 1
+            cad = cad & vbCrLf & "  -" & ListView5.ListItems(I).Text & " " & ListView5.ListItems(I).SubItems(1)
+            Cob = Cob + ImporteFormateado(ListView5.ListItems(I).SubItems(5))
+            Pag = Pag + ImporteFormateado(ListView5.ListItems(I).SubItems(6))
+            NumRegElim = I 'para despues situar el lw
+        End If
+    Next I
+    
+    If J = 0 Then
+        MsgBox "Seleccione algun elemento para eliminar", vbExclamation
+        Exit Sub
+    End If
+    
+    
+    Msg = "Ctas a eliminar: " & J & "    Cobros : " & Format(Cob, FormatoImporte) & "    Pagos : " & Format(Pag, FormatoImporte) & vbCrLf
+    If Len(cad) > 750 Then cad = cad & " ... ... .."
+    cad = "Va a quitar de las compensaciones: " & vbCrLf & Msg & cad & vbCrLf & "¿Continuar?"
+    If MsgBox(cad, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+    
+    'QUitar significa borrar de tempcomensauto , y lo pasamos a tmpfaclin para que el sumatorio total cuadre
+    cad = ""
+    For I = 1 To ListView5.ListItems.Count
+        If ListView5.ListItems(I).Selected Then
+            cad = cad & ", " & ListView5.ListItems(I).Text
+        End If
+    Next I
+    
+    cad = Mid(cad, 2)
+    
+    Msg = "INSERT INTO tmpfaclin(codusu,codigo,Numfac,Imponible,tipoiva) "
+    Msg = Msg & " select codusu,id,concat(if(cobro=1,'" & Me.txtCta(0).Text & "','" & txtCta(2).Text & "'),id),importe,cobro"
+    Msg = Msg & " From tmpcompensaAuto"
+    Msg = Msg & " where codusu =" & vUsu.Codigo & " AND id IN (" & cad & ")"
+    Conn.Execute Msg
+    
+    Msg = "DELETE From tmpcompensaAuto"
+    Msg = Msg & " where codusu =" & vUsu.Codigo & " AND id IN (" & cad & ")"
+    Conn.Execute Msg
+    
+    
+    CargaLw
+    
+    If ListView5.ListItems.Count > 0 Then
+        If NumRegElim > ListView5.ListItems.Count Then NumRegElim = ListView5.ListItems.Count
+        ListView5.ListItems(NumRegElim).EnsureVisible
+        Set ListView5.SelectedItem = Nothing
+        
+    End If
+End Sub

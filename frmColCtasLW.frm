@@ -1,28 +1,118 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
-Object = "{CDE57A40-8B86-11D0-B3C6-00A0C90AEA82}#1.0#0"; "MSDATGRD.OCX"
-Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
-Begin VB.Form frmColCtas 
+Object = "{7CAC59E5-B703-4CCF-B326-8B956D962F27}#17.2#0"; "Codejock.ReportControl.v17.2.0.ocx"
+Begin VB.Form frmColCtasLW 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Cuentas"
-   ClientHeight    =   7440
+   ClientHeight    =   8790
    ClientLeft      =   45
    ClientTop       =   30
-   ClientWidth     =   12165
-   Icon            =   "frmColCtas2.frx":0000
+   ClientWidth     =   16080
+   BeginProperty Font 
+      Name            =   "Verdana"
+      Size            =   9
+      Charset         =   0
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
+   Icon            =   "frmColCtasLW.frx":0000
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   7440
-   ScaleWidth      =   12165
+   ScaleHeight     =   8790
+   ScaleWidth      =   16080
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Visible         =   0   'False
+   Begin XtremeReportControl.ReportControl wndReportControl 
+      Height          =   7095
+      Left            =   120
+      TabIndex        =   22
+      Top             =   960
+      Width           =   15615
+      _Version        =   1114114
+      _ExtentX        =   27543
+      _ExtentY        =   12515
+      _StockProps     =   64
+      AllowColumnRemove=   0   'False
+      AllowColumnReorder=   0   'False
+      AllowColumnResize=   0   'False
+      AllowColumnSort =   0   'False
+      MultipleSelection=   0   'False
+      FreezeColumnsAbs=   0   'False
+      MultiSelectionMode=   -1  'True
+      HeaderRowsAllowAccess=   0   'False
+   End
+   Begin VB.TextBox txtaux 
+      Appearance      =   0  'Flat
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   320
+      Index           =   2
+      Left            =   7800
+      TabIndex        =   2
+      Top             =   7920
+      Width           =   975
+   End
+   Begin VB.TextBox txtaux 
+      Appearance      =   0  'Flat
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   320
+      Index           =   1
+      Left            =   5400
+      TabIndex        =   1
+      Top             =   7920
+      Width           =   2235
+   End
+   Begin VB.TextBox txtaux 
+      Appearance      =   0  'Flat
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   320
+      Index           =   0
+      Left            =   4200
+      TabIndex        =   0
+      Top             =   7920
+      Width           =   975
+   End
    Begin VB.Frame Frame2 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   705
-      Left            =   6600
-      TabIndex        =   21
+      Left            =   6700
+      TabIndex        =   18
       Top             =   120
       Width           =   3135
       Begin VB.ComboBox cboNiveles 
@@ -36,11 +126,11 @@ Begin VB.Form frmColCtas
             Strikethrough   =   0   'False
          EndProperty
          Height          =   360
-         ItemData        =   "frmColCtas2.frx":000C
+         ItemData        =   "frmColCtasLW.frx":000C
          Left            =   90
-         List            =   "frmColCtas2.frx":0019
+         List            =   "frmColCtasLW.frx":0019
          Style           =   2  'Dropdown List
-         TabIndex        =   23
+         TabIndex        =   20
          Top             =   210
          Width           =   1575
       End
@@ -55,39 +145,29 @@ Begin VB.Form frmColCtas
             Strikethrough   =   0   'False
          EndProperty
          Height          =   360
-         ItemData        =   "frmColCtas2.frx":0050
+         ItemData        =   "frmColCtasLW.frx":0050
          Left            =   1710
-         List            =   "frmColCtas2.frx":005D
+         List            =   "frmColCtasLW.frx":005D
          Style           =   2  'Dropdown List
-         TabIndex        =   22
+         TabIndex        =   19
          Top             =   210
          Width           =   1335
       End
    End
-   Begin VB.TextBox txtaux 
-      Appearance      =   0  'Flat
-      BorderStyle     =   0  'None
+   Begin VB.Frame FrameFiltro 
       BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   9.75
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   320
-      Index           =   2
-      Left            =   4440
-      TabIndex        =   2
-      Top             =   5160
-      Width           =   975
-   End
-   Begin VB.Frame FrameFiltro 
       Height          =   705
-      Left            =   9840
-      TabIndex        =   17
-      Top             =   150
+      Left            =   9870
+      TabIndex        =   14
+      Top             =   120
       Width           =   1785
       Begin VB.ComboBox cboFiltro 
          BeginProperty Font 
@@ -100,25 +180,34 @@ Begin VB.Form frmColCtas
             Strikethrough   =   0   'False
          EndProperty
          Height          =   360
-         ItemData        =   "frmColCtas2.frx":0094
+         ItemData        =   "frmColCtasLW.frx":0094
          Left            =   120
-         List            =   "frmColCtas2.frx":00A1
+         List            =   "frmColCtasLW.frx":00A1
          Style           =   2  'Dropdown List
-         TabIndex        =   15
+         TabIndex        =   12
          Top             =   210
          Width           =   1605
       End
    End
    Begin VB.Frame FrameBotonGnral2 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   705
       Left            =   3600
-      TabIndex        =   16
-      Top             =   150
+      TabIndex        =   13
+      Top             =   120
       Width           =   2895
       Begin MSComctlLib.Toolbar Toolbar2 
          Height          =   330
          Left            =   120
-         TabIndex        =   14
+         TabIndex        =   11
          Top             =   180
          Width           =   2625
          _ExtentX        =   4630
@@ -163,25 +252,52 @@ Begin VB.Form frmColCtas
       End
       Begin VB.CheckBox chkVistaPrevia 
          Caption         =   "Vista previa"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   195
          Left            =   1410
-         TabIndex        =   18
+         TabIndex        =   15
          Top             =   300
          Visible         =   0   'False
          Width           =   795
       End
    End
    Begin VB.Frame FrameBotonGnral 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   705
       Left            =   120
-      TabIndex        =   12
-      Top             =   150
+      TabIndex        =   9
+      Top             =   120
       Width           =   3405
       Begin VB.CheckBox Check2 
          Caption         =   "Vista previa"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   195
          Left            =   3750
-         TabIndex        =   13
+         TabIndex        =   10
          Top             =   270
          Visible         =   0   'False
          Width           =   1215
@@ -189,7 +305,7 @@ Begin VB.Form frmColCtas
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   330
          Left            =   150
-         TabIndex        =   20
+         TabIndex        =   17
          Top             =   180
          Width           =   3135
          _ExtentX        =   5530
@@ -243,17 +359,6 @@ Begin VB.Form frmColCtas
          EndProperty
       End
    End
-   Begin MSComctlLib.ProgressBar pb1 
-      Height          =   375
-      Left            =   4560
-      TabIndex        =   11
-      Top             =   6840
-      Width           =   2295
-      _ExtentX        =   4048
-      _ExtentY        =   661
-      _Version        =   393216
-      Appearance      =   1
-   End
    Begin VB.CommandButton cmdAccion 
       Cancel          =   -1  'True
       Caption         =   "&Cancelar"
@@ -268,9 +373,9 @@ Begin VB.Form frmColCtas
       EndProperty
       Height          =   375
       Index           =   1
-      Left            =   10890
+      Left            =   14760
       TabIndex        =   4
-      Top             =   6840
+      Top             =   8280
       Visible         =   0   'False
       Width           =   1035
    End
@@ -287,139 +392,26 @@ Begin VB.Form frmColCtas
       EndProperty
       Height          =   375
       Index           =   0
-      Left            =   9660
+      Left            =   13560
       TabIndex        =   3
-      Top             =   6840
-      Visible         =   0   'False
-      Width           =   1035
-   End
-   Begin VB.TextBox txtaux 
-      Appearance      =   0  'Flat
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   320
-      Index           =   1
-      Left            =   2160
-      TabIndex        =   1
-      Top             =   5160
-      Width           =   2235
-   End
-   Begin VB.TextBox txtaux 
-      Appearance      =   0  'Flat
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   320
-      Index           =   0
-      Left            =   1080
-      TabIndex        =   0
-      Top             =   5160
-      Width           =   975
-   End
-   Begin MSDataGridLib.DataGrid DataGrid1 
-      Bindings        =   "frmColCtas2.frx":00D8
-      Height          =   5640
-      Left            =   120
-      TabIndex        =   5
-      Top             =   960
-      Width           =   11820
-      _ExtentX        =   20849
-      _ExtentY        =   9948
-      _Version        =   393216
-      AllowUpdate     =   0   'False
-      HeadLines       =   1
-      RowHeight       =   19
-      BeginProperty HeadFont {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Verdana"
-         Size            =   9
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   -1  'True
-         Strikethrough   =   0   'False
-      EndProperty
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Verdana"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ColumnCount     =   2
-      BeginProperty Column00 
-         DataField       =   ""
-         Caption         =   ""
-         BeginProperty DataFormat {6D835690-900B-11D0-9484-00A0C91110ED} 
-            Type            =   0
-            Format          =   ""
-            HaveTrueFalseNull=   0
-            FirstDayOfWeek  =   0
-            FirstWeekOfYear =   0
-            LCID            =   3082
-            SubFormatType   =   0
-         EndProperty
-      EndProperty
-      BeginProperty Column01 
-         DataField       =   ""
-         Caption         =   ""
-         BeginProperty DataFormat {6D835690-900B-11D0-9484-00A0C91110ED} 
-            Type            =   0
-            Format          =   ""
-            HaveTrueFalseNull=   0
-            FirstDayOfWeek  =   0
-            FirstWeekOfYear =   0
-            LCID            =   3082
-            SubFormatType   =   0
-         EndProperty
-      EndProperty
-      SplitCount      =   1
-      BeginProperty Split0 
-         BeginProperty Column00 
-         EndProperty
-         BeginProperty Column01 
-         EndProperty
-      EndProperty
-   End
-   Begin VB.CommandButton cmdRegresar 
-      Caption         =   "&Regresar"
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Left            =   10890
-      TabIndex        =   8
-      Top             =   6840
+      Top             =   8280
       Visible         =   0   'False
       Width           =   1035
    End
    Begin VB.Frame Frame1 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   555
       Left            =   120
-      TabIndex        =   6
-      Top             =   6720
+      TabIndex        =   5
+      Top             =   8160
       Width           =   2865
       Begin VB.Label lblIndicador 
          Alignment       =   2  'Center
@@ -435,63 +427,16 @@ Begin VB.Form frmColCtas
          EndProperty
          Height          =   255
          Left            =   90
-         TabIndex        =   7
+         TabIndex        =   6
          Top             =   210
          Width           =   2550
       End
    End
-   Begin MSAdodcLib.Adodc adodc1 
-      Height          =   375
-      Left            =   6030
-      Top             =   30
-      Visible         =   0   'False
-      Width           =   2055
-      _ExtentX        =   3625
-      _ExtentY        =   661
-      ConnectMode     =   0
-      CursorLocation  =   3
-      IsolationLevel  =   -1
-      ConnectionTimeout=   15
-      CommandTimeout  =   30
-      CursorType      =   3
-      LockType        =   3
-      CommandType     =   8
-      CursorOptions   =   0
-      CacheSize       =   50
-      MaxRecords      =   0
-      BOFAction       =   0
-      EOFAction       =   0
-      ConnectStringType=   1
-      Appearance      =   1
-      BackColor       =   -2147483643
-      ForeColor       =   -2147483640
-      Orientation     =   0
-      Enabled         =   -1
-      Connect         =   ""
-      OLEDBString     =   ""
-      OLEDBFile       =   ""
-      DataSourceName  =   ""
-      OtherAttributes =   ""
-      UserName        =   ""
-      Password        =   ""
-      RecordSource    =   ""
-      Caption         =   "Adodc1"
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      _Version        =   393216
-   End
    Begin MSComctlLib.Toolbar ToolbarAyuda 
       Height          =   390
-      Left            =   11760
-      TabIndex        =   19
-      Top             =   120
+      Left            =   15360
+      TabIndex        =   16
+      Top             =   300
       Width           =   405
       _ExtentX        =   714
       _ExtentY        =   688
@@ -519,9 +464,9 @@ Begin VB.Form frmColCtas
       ForeColor       =   &H00FF8080&
       Height          =   255
       Index           =   2
-      Left            =   3180
-      TabIndex        =   24
-      Top             =   6900
+      Left            =   3120
+      TabIndex        =   21
+      Top             =   8400
       Visible         =   0   'False
       Width           =   5265
    End
@@ -538,9 +483,9 @@ Begin VB.Form frmColCtas
       EndProperty
       Height          =   255
       Index           =   1
-      Left            =   6090
-      TabIndex        =   10
-      Top             =   6900
+      Left            =   9000
+      TabIndex        =   8
+      Top             =   8160
       Visible         =   0   'False
       Width           =   2535
    End
@@ -557,9 +502,9 @@ Begin VB.Form frmColCtas
       EndProperty
       Height          =   255
       Index           =   0
-      Left            =   3180
-      TabIndex        =   9
-      Top             =   6900
+      Left            =   9000
+      TabIndex        =   7
+      Top             =   8520
       Visible         =   0   'False
       Width           =   2775
    End
@@ -599,7 +544,7 @@ Begin VB.Form frmColCtas
       End
    End
 End
-Attribute VB_Name = "frmColCtas"
+Attribute VB_Name = "frmColCtasLW"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -616,8 +561,8 @@ Public ConfigurarBalances As Byte
     '4.- Nueva cuenta
     '5.- Busquedas de envio de e-mail
     '6.- Exclusion de cuentas en consolidado. Como la agrupacion pero acepta niveles inferiores al penultimo
-  
-Public Event DatoSeleccionado(CadenaSeleccion As String)
+    
+
 Public FILTRO As String   ' filtro desde otro formulario
 
 
@@ -634,7 +579,7 @@ Dim PrimeraVez As Boolean
 Dim Aux As String
 
 Dim vectorCboFiltroSQL() As String
- 
+
 Dim ordenColumna As Integer
 Dim ordenAscendente As Boolean
 
@@ -642,9 +587,15 @@ Dim Modo As Byte
 
 Dim CadB As String
 
+Dim fntStrike
+Dim fntBold
 
+Dim CargandoDatos As Boolean
+Dim CuentasParaSaldos As String
+Dim UltimaCuenta As String
+Dim HayMasDatos As Boolean
+'ME.tag llevará el SQL
 
-'Dim Clik1 As Boolean
 
 Private Sub BotonAnyadir(Cuenta As String)
     ParaBusqueda False
@@ -657,7 +608,7 @@ Private Sub BotonAnyadir(Cuenta As String)
         CargaGrid
         'Intentamos situar el grid
         SituaGrid CadenaDesdeOtroForm
-        If Me.ConfigurarBalances = 4 Then cmdRegresar_Click
+       
     Else
         If Me.ConfigurarBalances = 4 Then CargaGrid
     End If
@@ -680,16 +631,18 @@ Private Sub BotonVerTodos()
     CadenaConsulta = GeneraSQL("")
     CargaGrid
     PonerModoUsuarioGnral 2, "ariconta"
+    PonleFoco Me.wndReportControl
 End Sub
 
 
 
 Private Sub BotonModificar()
+    If Not LWSeleccionado Then Exit Sub
     
     ParaBusqueda False
     CadenaDesdeOtroForm = ""
     frmCuentas.vModo = 2
-    frmCuentas.CodCta = adodc1.Recordset!codmacta
+    frmCuentas.CodCta = wndReportControl.SelectedRows(0).Record.Item(1).Caption
     frmCuentas.Show vbModal
     If CadenaDesdeOtroForm <> "" Then
         CargaGrid
@@ -702,38 +655,44 @@ Dim Sql As String
     On Error GoTo Error2
     ParaBusqueda False
     'Ciertas comprobaciones
-    If adodc1.Recordset.EOF Then Exit Sub
+    If Not LWSeleccionado Then Exit Sub
+     
+     
+    
+     
+    
+    
     '### a mano
     Sql = "Seguro que desea eliminar la cuenta:"
-    Sql = Sql & vbCrLf & "Código: " & adodc1.Recordset.Fields(0)
-    Sql = Sql & vbCrLf & "Denominación: " & adodc1.Recordset.Fields(1)
+    Sql = Sql & vbCrLf & "Código: " & wndReportControl.SelectedRows(0).Record.Item(0)
+    Sql = Sql & vbCrLf & "Denominación: " & wndReportControl.SelectedRows(0).Record.Item(0)
     If MsgBox(Sql, vbQuestion + vbYesNoCancel) = vbYes Then
-        Sql = adodc1.Recordset.Fields(0)
+        
+        Sql = wndReportControl.SelectedRows(0).Record.Item(0)
         Screen.MousePointer = vbHourglass
         If SepuedeEliminarCuenta(Sql) Then
             'Hay que eliminar
             Screen.MousePointer = vbHourglass
             
-            Sql = "Delete from departamentos where codmacta = " & DBSet(adodc1.Recordset!codmacta, "T")
+     '       Sql = "Delete from departamentos where codmacta = " & DBSet(Adodc1.Recordset!codmacta, "T")
             Conn.Execute Sql
             
-            Sql = "Delete from cuentas where codmacta='" & adodc1.Recordset!codmacta & "'"
+     '       Sql = "Delete from cuentas where codmacta='" & Adodc1.Recordset!codmacta & "'"
             Conn.Execute Sql
             Screen.MousePointer = vbHourglass
             espera 0.5
-            'Cancelamos el adodc1
-            DataGrid1.Enabled = False
-            NumRegElim = adodc1.Recordset.AbsolutePosition - 1
+            
+            'NumRegElim = Adodc1.Recordset.AbsolutePosition - 1
             CargaGrid
-            DataGrid1.Enabled = True
-            If NumRegElim > 0 Then
-                If NumRegElim >= adodc1.Recordset.RecordCount Then
-                    adodc1.Recordset.MoveLast
-                Else
-                    adodc1.Recordset.Move NumRegElim
-                    'DataGrid1.Bookmark = Adodc1.Recordset.AbsolutePosition
-                End If
-            End If
+            'DataGrid1.Enabled = True
+            'If NumRegElim > 0 Then
+            '    If NumRegElim >= Adodc1.Recordset.RecordCount Then
+            '        Adodc1.Recordset.MoveLast
+            '    Else
+            '        Adodc1.Recordset.Move NumRegElim
+            '        'DataGrid1.Bookmark = Adodc1.Recordset.AbsolutePosition
+            '    End If
+            'End If
             
         End If
     End If
@@ -755,13 +714,6 @@ Private Sub FijarError(ByRef cad As String)
         cad = ""
     End If
 End Sub
-
-
-Private Sub adodc1_MoveComplete(ByVal adReason As ADODB.EventReasonEnum, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pRecordset As ADODB.Recordset)
-    If adReason = adRsnMove And adStatus = adStatusOK Then PonLblIndicador Me.lblIndicador, adodc1
-        
-End Sub
-
 
 
 
@@ -865,79 +817,40 @@ Dim Sql As String
         CadenaConsulta = GeneraSQL(Sql)
         CargaGrid
         Screen.MousePointer = vbDefault
-        If adodc1.Recordset.EOF Then
+        If False Then
             MsgBox "Ningún resultado para la búsqueda.", vbExclamation
             Exit Sub
         Else
             
         End If
-        PonerFoco DataGrid1
+        
     End If
     ParaBusqueda False
     PonerModoUsuarioGnral Modo, "ariconta"
     'lblIndicador.Caption = ""
 End Sub
 
-Private Sub cmdRegresar_Click()
-    If adodc1.Recordset Is Nothing Then
-        BotonBuscar
-        Screen.MousePointer = vbDefault
-        Exit Sub
-    End If
-    
-    If adodc1.Recordset.EOF Then
-        MsgBox "Ningún registro devuelto.", vbExclamation
-        Exit Sub
-    End If
-    RaiseEvent DatoSeleccionado(adodc1.Recordset!codmacta & "|" & adodc1.Recordset!Nommacta & "|" & adodc1.Recordset!bloqueada & "|")
-    Unload Me
-End Sub
 
 
-Private Sub DataGrid1_DblClick()
-    If cmdRegresar.visible Then
-        cmdRegresar_Click
-    Else
-    
-        If adodc1.Recordset Is Nothing Then Exit Sub
-        If adodc1.Recordset.EOF Then Exit Sub
-    
-        'Vemos todos los valores de la cuenta
-        frmCuentas.vModo = 0
-        frmCuentas.CodCta = adodc1.Recordset!codmacta
-        frmCuentas.Show vbModal
-    End If
-End Sub
 
 
-Private Sub DataGrid1_KeyDown(KeyCode As Integer, Shift As Integer)
-    
-    If Modo = 0 Or Modo = 2 Then
-        Form_KeyDown KeyCode, Shift
-    End If
-    
-End Sub
-
-Private Sub DataGrid1_KeyPress(KeyAscii As Integer)
-    KEYpress KeyAscii
-End Sub
 '++
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 113 Then  ' si pulsa F2 vamos a consulta de extractos
     
-        If Me.adodc1.Recordset.EOF Then Exit Sub
+        If Not LWSeleccionado Then Exit Sub
         
         Aux = DBSet(vParam.fechaini, "F") & " AND "
         Aux = Aux & DBSet(DateAdd("yyyy", 1, vParam.fechafin), "F")
         Aux = Aux & " AND codmacta  "
-        Aux = DevuelveDesdeBD("count(*)", "hlinapu", Aux, adodc1.Recordset!codmacta, "T")
+        'Aux = DevuelveDesdeBD("count(*)", "hlinapu", Aux, Adodc1.Recordset!codmacta, "T")
         If Val(Aux) = 0 Then
-             MsgBox "La cuenta " & adodc1.Recordset!codmacta & " NO tiene movimientos en las fechas", vbExclamation
+         '    MsgBox "La cuenta " & Adodc1.Recordset!codmacta & " NO tiene movimientos en las fechas", vbExclamation
         
         Else
             Set frmCExt = New frmConExtr
             
-            frmCExt.Cuenta = Me.adodc1.Recordset.Fields(0).Value
+          '  frmCExt.Cuenta = Me.Adodc1.Recordset.Fields(0).Value
             frmCExt.Show vbModal
             
             Set frmCExt = Nothing
@@ -953,6 +866,7 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 End Sub
 '++
 Private Sub Form_Activate()
+    
     If PrimeraVez Then
         cboOrden.ListIndex = 0
         
@@ -972,7 +886,7 @@ Private Sub Form_Activate()
                 End If
 
                 CargaGrid
-            
+                PonleFoco Me.wndReportControl
             Case 3
                 BotonBuscar
             Case 4
@@ -1040,7 +954,7 @@ Private Sub Form_Load()
     
     CargaFiltros
      
-    pb1.visible = False
+    
     'Poner niveles
     PonerOptionsVisibles 0
     
@@ -1054,10 +968,11 @@ Private Sub Form_Load()
     ParaBusqueda False
     
     
-    cmdRegresar.visible = (DatosADevolverBusqueda <> "")
+    
     CadAncho = False
     CadenaConsulta = GeneraSQL("")
-    
+    EstablecerFuente
+    CreateReportControlPendientes
     lblIndicador.Caption = ""
     
 End Sub
@@ -1074,6 +989,7 @@ Private Sub frmSelec_DatoSeleccionado(CadenaSeleccion As String)
         CadB = CadenaSeleccion
     End If
 End Sub
+
 
 
 Private Sub mnBuscar_Click()
@@ -1187,13 +1103,18 @@ Dim C As String
                 frmUtilidades.Label1 = "Cuentas sin Movimientos"
                 frmUtilidades.Opcion = 0
                 frmUtilidades.Show vbModal
-                
         Case 8
-            If Me.DataGrid1.RowDividerStyle = dbgNoDividers Then
-                Me.DataGrid1.RowDividerStyle = dbgBlackLine
-            Else
-                Me.DataGrid1.RowDividerStyle = dbgNoDividers
-            End If
+            
+                If wndReportControl.PaintManager.HorizontalGridStyle = xtpGridNoLines Then
+                        wndReportControl.PaintManager.HorizontalGridStyle = xtpGridSolid
+                        wndReportControl.PaintManager.VerticalGridStyle = xtpGridSolid
+                Else
+                    wndReportControl.PaintManager.HorizontalGridStyle = xtpGridNoLines
+                    wndReportControl.PaintManager.VerticalGridStyle = xtpGridNoLines
+                End If
+                Screen.MousePointer = vbHourglass
+            espera 0.25
+            Screen.MousePointer = vbDefault
         Case Else
     End Select
 End Sub
@@ -1211,33 +1132,102 @@ End Sub
 Private Sub CargaGrid()
 Dim B As Boolean
 
-    B = DataGrid1.Enabled
-    DataGrid1.Enabled = False
+   ' B = DataGrid1.Enabled
+   ' DataGrid1.Enabled = False
     espera 0.07
     lblComprobar(0).visible = True
     lblComprobar(0).Caption = "Leyendo BD"
     lblComprobar(0).Refresh
-    CargaGrid2
-'--
-'    PonerFoco Check1(0)
+    lblComprobar(2).visible = False
+    
+    HayMasDatos = True
+    wndReportControl.Records.DeleteAll
+    wndReportControl.EnsureFocusedRowVisible = False
+    CargaGrid2 True
+
+    
+
     lblComprobar(0).visible = False
-    DataGrid1.Enabled = B
+        
+      
+    If Not CadAncho Then
+        txtaux(0).Left = wndReportControl.Left + 15
+        txtaux(0).Width = 1560
+        txtaux(0).top = wndReportControl.top + 330 ' 235
+        txtaux(1).Left = txtaux(0).Left + txtaux(0).Width + 9
+        txtaux(1).Width = 6789
+        txtaux(2).Left = txtaux(1).Left + txtaux(1).Width + 9
+        txtaux(2).Width = 1575
+        txtaux(1).top = txtaux(0).top
+        txtaux(2).top = txtaux(0).top
+        txtaux(0).Height = 330
+        txtaux(1).Height = txtaux(0).Height
+        txtaux(2).Height = txtaux(0).Height
+        
+         
+        
+        
+        
+        
+        
+        CadAncho = True
+    End If
+'
+
+    'Habilitamos modificar y eliminar
+    Toolbar1.Buttons(4).Enabled = vUsu.Nivel < 3
+'    Toolbar1.Buttons(7).Enabled = Not Adodc1.Recordset.EOF
+    If vUsu.Nivel < 2 Then
+'        Toolbar1.Buttons(8).Enabled = Not Adodc1.Recordset.EOF
+    Else
+        Toolbar1.Buttons(8).Enabled = False
+    End If
+   
+   
+   
+  
+    If cboNiveles.ListIndex = vEmpresa.numnivel - 1 Then
+        If Me.wndReportControl.Records.Count > 0 Then lblComprobar(2).visible = True
+    End If
     
     
-    lblComprobar(2).visible = Not Me.adodc1.Recordset.EOF
+    
+    
+ 
     
 End Sub
 
-Private Sub CargaGrid2()
+Private Sub CargaGrid2(DesdeGargaGrid As Boolean)
+    Screen.MousePointer = vbHourglass
+    lblComprobar(0).visible = True
+    lblComprobar(0).Caption = "Leyendo datos"
+    lblComprobar(0).Refresh
+    
+    CargaGrid3 DesdeGargaGrid
+    
+    Screen.MousePointer = vbDefault
+    lblComprobar(0).Caption = ""
+End Sub
+
+
+Private Sub CargaGrid3(DesdeGargaGrid As Boolean)
     Dim J As Integer
     Dim TotalAncho As Integer
     Dim I As Integer
     Dim Sql As String
     Dim B As Boolean
-    adodc1.ConnectionString = Conn
-    B = DataGrid1.Enabled
-    DataGrid1.Enabled = False
-    Sql = CadenaConsulta
+    Dim Aux As String
+    
+   CargandoDatos = True
+   
+    If DesdeGargaGrid Then
+        Sql = CadenaConsulta
+    Else
+        Sql = Me.Tag
+        I = InStrRev(Sql, " ORDER BY ")
+        Sql = Mid(Sql, 1, I)
+        Sql = Sql & " AND codmacta >'" & UltimaCuenta & "'"
+    End If
     Sql = Sql & " ORDER BY"
     If cboOrden.ListIndex = 0 Then
     'If Option2(0).Value Then
@@ -1245,67 +1235,80 @@ Private Sub CargaGrid2()
     Else
         Sql = Sql & " nommacta"
     End If
-    adodc1.RecordSource = Sql
-    adodc1.CursorType = adOpenDynamic
-    adodc1.LockType = adLockOptimistic
-    adodc1.Refresh
     
-    DataGrid1.AllowRowSizing = False
-    DataGrid1.RowHeight = 350
-    'DataGrid1.RowDividerStyle = dbgNoDividers
+    Sql = Sql & " LIMIT 0," & IIf(DesdeGargaGrid, 30, 10)
     
-    
-   
-        DataGrid1.Columns(0).Caption = "Cuenta"
-        DataGrid1.Columns(0).Width = 1500 '1200
-    
-   
-        DataGrid1.Columns(1).Caption = "Denominación"
-        DataGrid1.Columns(1).Width = 8580 '5300
-        TotalAncho = TotalAncho + DataGrid1.Columns(1).Width
-    
-   
-        DataGrid1.Columns(2).Caption = "Direc."
-        DataGrid1.Columns(2).Width = 600 '500
-        DataGrid1.Columns(2).visible = False
-        TotalAncho = TotalAncho + DataGrid1.Columns(2).Width
-               
-        DataGrid1.Columns(3).Caption = "F.Bloqueo"
-        DataGrid1.Columns(3).Width = 1200 '600 '400
-        TotalAncho = TotalAncho + DataGrid1.Columns(3).Width
-               
-               
-               
-        If Not CadAncho Then
-            txtaux(0).Left = DataGrid1.Columns(0).Left + 150
-            txtaux(0).Width = DataGrid1.Columns(0).Width - 30
-            txtaux(0).top = DataGrid1.top + 260 ' 235
-            txtaux(1).Left = DataGrid1.Columns(1).Left + 150
-            txtaux(1).Width = DataGrid1.Columns(1).Width - 30
-            txtaux(2).Left = DataGrid1.Columns(3).Left + 150
-            txtaux(2).Width = DataGrid1.Columns(3).Width - 30
-            txtaux(1).top = txtaux(0).top
-            txtaux(2).top = txtaux(0).top
-            txtaux(0).Height = DataGrid1.RowHeight - 15
-            txtaux(1).Height = txtaux(0).Height
-            txtaux(2).Height = txtaux(0).Height
-            CadAncho = True
-        End If
-               
-    'Habilitamos modificar y eliminar
-    Toolbar1.Buttons(4).Enabled = vUsu.Nivel < 3
-    Toolbar1.Buttons(7).Enabled = Not adodc1.Recordset.EOF
-    If vUsu.Nivel < 2 Then
-        Toolbar1.Buttons(8).Enabled = Not adodc1.Recordset.EOF
+    Set miRsAux = New ADODB.Recordset
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Me.Tag = Sql
+    I = 0
+    CuentasParaSaldos = ""
+    If miRsAux.EOF Then
+        HayMasDatos = False
     Else
-        Toolbar1.Buttons(8).Enabled = False
-    End If
+        
+        While Not miRsAux.EOF
+                
+                UltimaCuenta = miRsAux!codmacta
+                CuentasParaSaldos = CuentasParaSaldos & ", " & DBSet(miRsAux!codmacta, "T")
+                AddRecordCli
+                miRsAux.MoveNext
+                I = I + 1
+        Wend
+        J = IIf(DesdeGargaGrid, 28, 6)
+        If I < J Then HayMasDatos = False
+   End If
+   miRsAux.Close
    
-    'Para k la barra de desplazamiento sea mas alta
-    If Not adodc1.Recordset.EOF Then
-            DataGrid1.ScrollBars = dbgVertical
+   wndReportControl.Populate
+   If I > 0 Then
+        
+        lblComprobar(0).Caption = "Saldos"
+        lblComprobar(0).Refresh
+        If Len(UltimaCuenta) = vEmpresa.DigitosUltimoNivel Then
+             Aux = " codmacta IN (" & Mid(CuentasParaSaldos, 2) & ")"
+             Sql = "codmacta"
+        Else
+             Aux = " mid(codmacta,1," & Len(UltimaCuenta) & ") IN (" & Mid(CuentasParaSaldos, 2) & ")"
+             Sql = " mid(codmacta,1," & Len(UltimaCuenta) & ") "
+        End If
+        
+        Sql = "Select " & Sql & " as codmacta,sum(coalesce(timported,0)) debe, sum(coalesce(timporteh,0)) haber from hlinapu where "
+        Sql = Sql & " fechaent>=  " & DBSet(vParam.fechaini, "F") & " AND " & Aux & " GROUP BY 1"
+        miRsAux.Open Sql, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+        J = Me.wndReportControl.Records.Count - I
+        While Not miRsAux.EOF
+            For I = J To wndReportControl.Records.Count - 1
+                If wndReportControl.Rows(I).Record.Item(1).Caption = miRsAux!codmacta Then
+                    wndReportControl.Rows(I).Record.Item(4).Caption = Format(miRsAux!Debe, FormatoImporte)
+                    wndReportControl.Rows(I).Record.Item(5).Caption = Format(miRsAux!Haber, FormatoImporte)
+                    wndReportControl.Rows(I).Record.Item(6).Caption = Format(miRsAux!Debe - miRsAux!Haber, FormatoImporte)
+                    Exit For
+                End If
+            Next
+            miRsAux.MoveNext
+        Wend
+        miRsAux.Close
     End If
-    DataGrid1.Enabled = B
+   'utlimoIndiceTop = Me.wndReportControl.Records.Count - 24
+   'If utlimoIndiceTop < 1 Then utlimoIndiceTop = 1
+   
+   
+   Set miRsAux = Nothing
+  '  utlimoIndice = Me.wndReportControl.Records.Count
+   
+    
+    If Not DesdeGargaGrid Then
+        
+        If wndReportControl.Records.Count > 24 Then
+            wndReportControl.Rows(wndReportControl.Records.Count - 4).EnsureVisible
+            
+            'If wndReportControl.Records.Count > 50 Then Debug.Print wndReportControl.Records.Count
+            
+        End If
+        
+    End If
+    CargandoDatos = False
 End Sub
 
 
@@ -1436,11 +1439,15 @@ End Function
 
 Private Sub SituaGrid(CADENA As String)
 On Error GoTo ESituaGrid
-If adodc1.Recordset.EOF Then Exit Sub
 
-adodc1.Recordset.Find " codmacta =  " & CADENA & ""
-If adodc1.Recordset.EOF Then adodc1.Recordset.MoveFirst
-
+   For I = 0 To Me.wndReportControl.Rows.Count
+        If wndReportControl.Rows(I).Record.Item(1).Caption = CADENA Then
+            
+             wndReportControl.Rows(I).Selected = True
+             wndReportControl.Rows(I).EnsureVisible
+             Exit For
+        End If
+    Next
 Exit Sub
 ESituaGrid:
     MuestraError Err.Number, "Situando registro activo"
@@ -1502,7 +1509,8 @@ On Error GoTo EComprobarCuentas
     
     
     'NO hay cuentas
-    If Me.adodc1.Recordset.EOF Then Exit Sub
+    If Not LWSeleccionado Then Exit Sub
+    
     'Buscando datos
     If txtaux(0).visible Then Exit Sub
     'Para cada nivel n comprobaremos si existe la cuenta en un
@@ -1740,14 +1748,6 @@ EC:
     MuestraError Err.Number, "Poner resultados busqueda avanzada"
 End Sub
 
-' ### [DavidV] 23/12/2016: Activar/desactivar la rueda del ratón.
-Private Sub DataGrid1_GotFocus()
-  WheelHook DataGrid1
-End Sub
-Private Sub DataGrid1_LostFocus()
-  WheelUnHook
-End Sub
-
 
 
 Private Sub OtrasComprobacionesCuentas()
@@ -1958,6 +1958,223 @@ Dim cad As String
     Rs.Close
     Set Rs = Nothing
     
+End Sub
+
+
+
+Private Function LWSeleccionado() As Boolean
+    LWSeleccionado = False
+    If Me.wndReportControl.Records.Count = 0 Then Exit Function
+    If Me.wndReportControl.SelectedRows.Count = 0 Then Exit Function
+    LWSeleccionado = True
+End Function
+
+
+
+Public Sub CreateReportControlPendientes()
+    'Start adding columns
+    Dim Column As ReportColumn
+    wndReportControl.Columns.DeleteAll
+    
+    'Chekc
+     
+    
+    
+        
+        
+    
+        
+        Set Column = wndReportControl.Columns.Add(1, "Cuenta", 10, True)
+        Set Column = wndReportControl.Columns.Add(2, "Nombre", 43, True)
+        Set Column = wndReportControl.Columns.Add(3, "Bloqueada", 10, True)
+        
+        Set Column = wndReportControl.Columns.Add(4, "Debe", 12, True)
+        Column.Icon = 12
+        Column.Alignment = xtpAlignmentRight
+        
+        Set Column = wndReportControl.Columns.Add(5, "Haber", 12, True)
+        Column.Icon = 12
+        Column.Alignment = xtpAlignmentRight
+        
+        Set Column = wndReportControl.Columns.Add(6, "Saldo", 12, True)
+        Column.Icon = 12
+        Column.Alignment = xtpAlignmentRight
+        
+    
+     
+    
+
+    wndReportControl.PaintManager.MaxPreviewLines = 1
+    wndReportControl.PaintManager.HorizontalGridStyle = xtpGridNoLines
+    wndReportControl.AllowSort = False
+    
+    'This font will be used in the BeforeDrawRow when automatic formatting is selected
+    'This simply applies Strikethrough to the currently set text font
+    Set fntStrike = wndReportControl.PaintManager.TextFont
+    fntStrike.Strikethrough = True
+    
+    'This font will be used in the BeforeDrawRow when automatic formatting is selected
+    'This simply applies Bold to the currently set text font
+    Set fntBold = wndReportControl.PaintManager.TextFont
+    fntBold.Bold = True
+    
+    'Any time you add or delete rows(by removing the attached record), you must call the
+    'Populate method so the ReportControl will display the changes.
+    'If rows are added, the rows will remain hidden until Populate is called.
+    'If rows are deleted, the rows will remain visible until Populate is called.
+    wndReportControl.Populate
+    
+    wndReportControl.SetCustomDraw xtpCustomBeforeDrawRow
+    wndReportControl.ZOrder 1
+End Sub
+
+
+
+
+Private Sub AddRecordCli()
+Dim Sql As String
+Dim Record As ReportRecord
+Dim ItemToolTip As String
+Dim ItemIcon As Integer
+Dim Color As Long
+    On Error GoTo eAddRecord2
+
+    'Adds a new Record to the ReportControl's collection of records, this record will
+    'automatically be attached to a row and displayed with the Populate method
+    Set Record = wndReportControl.Records.Add()
+   
+    Dim Item As ReportRecordItem
+    
+          
+    ItemIcon = RECORD_REPLIED_ICON
+    ItemToolTip = ""
+
+        'Check
+    Set Item = Record.AddItem("")
+    
+        Item.Checked = False
+        Item.HasCheckbox = False
+    
+    
+    
+    Set Item = Record.AddItem("")
+    Item.Icon = ItemIcon
+    Item.ToolTip = ItemToolTip
+    Item.Caption = CStr(miRsAux!codmacta)
+    
+'    Sql = miRsAux!NUmSerie & Format(miRsAux!NumFactu, "0000000")
+    Set Item = Record.AddItem(CStr(miRsAux!Nommacta))
+    
+    
+    
+    Sql = " "
+    If Not IsNull(miRsAux!bloqueada) Then Sql = Format(miRsAux!bloqueada, "dd/mm/yyyy")
+    Set Item = Record.AddItem(Sql)
+
+    
+    
+    Set Item = Record.AddItem("")
+    Item.Caption = ""
+    Set Item = Record.AddItem("")
+    Item.Caption = ""
+    Set Item = Record.AddItem("")
+    Item.Caption = ""
+    
+    Record.Tag = ""
+                
+    
+    'Adds the PreviewText to the Record.  PreviewText is the text displayed for the ReportRecord while in PreviewMode
+    'Record.PreviewText = "ID: "
+    
+        
+    
+    Exit Sub
+eAddRecord2:
+    MuestraError Err.Number
+End Sub
+
+Private Sub EstablecerFuente()
+
+    On Error GoTo eEstablecerFuente
+    'The following illustrate how to change the different fonts used in the ReportControl
+    Dim TextFont As StdFont
+    Set TextFont = Me.Font
+    TextFont.SIZE = 9
+    Set wndReportControl.PaintManager.TextFont = TextFont
+    Set wndReportControl.PaintManager.CaptionFont = TextFont
+    Set wndReportControl.PaintManager.PreviewTextFont = TextFont
+    
+    'This font will be used in the BeforeDrawRow when automatic formatting is selected
+    'This simply applies Strikethrough to the currently set text font
+    'Set fntStrike = wndReportControl.PaintManager.TextFont
+    'fntStrike.Strikethrough = True
+    
+    'This font will be used in the BeforeDrawRow when automatic formatting is selected
+    'This simply applies Bold to the currently set text font
+    'Set fntBold = wndReportControl.PaintManager.TextFont
+    'fntBold.Bold = True
+
+
+    Exit Sub
+eEstablecerFuente:
+    MuestraError Err.Number, Err.Description
+
+End Sub
+
+Private Sub wndReportControl_KeyDown(KeyCode As Integer, Shift As Integer)
+    If KeyCode = 113 Then  ' si pulsa F2 vamos a consulta de extractos
+    
+        If Not LWSeleccionado Then Exit Sub
+        
+        If Len(wndReportControl.SelectedRows(0).Record.Item(1).Caption) <> vEmpresa.DigitosUltimoNivel Then
+            MsgBoxA "Extracto solo cuentas de ultimo nivel", vbExclamation
+            Exit Sub
+        End If
+            
+        Aux = DBSet(vParam.fechaini, "F") & " AND "
+        Aux = Aux & DBSet(DateAdd("yyyy", 1, vParam.fechafin), "F")
+        Aux = Aux & " AND codmacta  "
+        Aux = DevuelveDesdeBD("count(*)", "hlinapu", Aux, wndReportControl.SelectedRows(0).Record.Item(1).Caption, "T")
+        If Val(Aux) = 0 Then
+             MsgBox "La cuenta " & wndReportControl.SelectedRows(0).Record.Item(1).Caption & " NO tiene movimientos en las fechas", vbExclamation
+        
+        Else
+            Set frmCExt = New frmConExtr
+            
+            frmCExt.Cuenta = wndReportControl.SelectedRows(0).Record.Item(1).Caption
+            frmCExt.Show vbModal
+            
+            Set frmCExt = Nothing
+        End If
+        KeyCode = 0
+        Exit Sub
+    End If
+End Sub
+
+Private Sub wndReportControl_RowDblClick(ByVal Row As XtremeReportControl.IReportRow, ByVal Item As XtremeReportControl.IReportRecordItem)
+   
+    
+    CadenaDesdeOtroForm = ""
+    frmCuentas.vModo = 0
+    frmCuentas.CodCta = Row.Record.Item(1).Caption
+    frmCuentas.Show vbModal
+    
+    
+End Sub
+
+Private Sub wndReportControl_VScroll(ByVal Section As Long, ByVal Position As Long)
+Dim N As Long
+    If CargandoDatos Then Exit Sub
+    N = Me.wndReportControl.Records.Count - (Position + 24)
+    If N < 4 Then
+        If HayMasDatos Then
+            'Debug.Print Position
+            CargaGrid2 False
+        End If
+    Else
+        
+    End If
+   
 End Sub
 
 

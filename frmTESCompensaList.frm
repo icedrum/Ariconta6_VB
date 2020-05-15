@@ -860,10 +860,10 @@ Attribute frmF.VB_VarHelpID = -1
 Private WithEvents frmC As frmColCtas
 Attribute frmC.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim i As Integer
+Dim I As Integer
 Dim IndCodigo As Integer
 Dim PrimeraVez As String
 
@@ -970,6 +970,7 @@ Private Sub Form_Load()
         optVarios(4).Value = 1
     Else
         txtNum(0).Text = numero
+        txtNum(1).Text = numero
         optVarios(5).Value = 1
     End If
     
@@ -982,23 +983,23 @@ End Sub
 
 
 Private Sub frmC_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    SQL = Format(vFecha, "dd/mm/yyyy")
+    Sql = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
-    SQL = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     Set frmC = New frmColCtas
     frmC.DatosADevolverBusqueda = True
     frmC.Show vbModal
     Set frmC = Nothing
-    If SQL <> "" Then
-        Me.txtCuentas(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNCuentas(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
          PonFoco Me.txtCuentas(Index)
     Else
         QuitarPulsacionMas Me.txtCuentas(Index)
@@ -1008,17 +1009,17 @@ Private Sub imgCuentas_Click(Index As Integer)
     AbiertoOtroFormEnListado = False
 End Sub
 
-Private Sub ImgFec_Click(Index As Integer)
+Private Sub imgFec_Click(Index As Integer)
     
         'FECHA
-        SQL = ""
+        Sql = ""
         Set frmF = New frmCal
         frmF.Fecha = Now
         If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        If SQL <> "" Then
-            txtFecha(Index).Text = SQL
+        If Sql <> "" Then
+            txtFecha(Index).Text = Sql
             PonFoco txtFecha(Index)
         End If
 End Sub
@@ -1071,7 +1072,7 @@ Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Inte
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        ImgFec_Click Index
+        imgFec_Click Index
     Else
         KEYdown KeyCode
     End If
@@ -1135,7 +1136,7 @@ Private Sub txtCuentas_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
@@ -1162,18 +1163,18 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
         Case 0, 1 'cuentas
             Cta = (txtCuentas(Index).Text)
                                     '********
-            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
             If B = 0 Then
                 MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
             Else
                 txtCuentas(Index).Text = Cta
-                txtNCuentas(Index).Text = SQL
+                txtNCuentas(Index).Text = Sql
                 If B = 1 Then
                     txtNCuentas(Index).Tag = ""
                 Else
-                    txtNCuentas(Index).Tag = SQL
+                    txtNCuentas(Index).Tag = Sql
                 End If
                 Hasta = -1
                     

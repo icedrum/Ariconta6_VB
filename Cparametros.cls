@@ -81,11 +81,6 @@ Private mvarAgenciaViajes As Boolean
 Private mvarNuevoPlanContable As Boolean
 Private mvarFechaActiva As Date 'copia local
 
-'Bloqueo de cuentas a partir de una fecha. EN la introduccion (facturas,astos,inmov, presup,banco....)
-'Para ello tendremos
-'                      - mvarCuentasBloq    codmacta:fecbloq|codmacta:....
-'                   Habra una funcion privada que rellenara esta variable (DE SOLO LECTURA)
-Private mvarCuentasBloqueadas As String
 
 
 
@@ -122,7 +117,7 @@ Private mvarconce303 As Integer 'copia local
 
 
 
-Private SQL As String  'Para la sentencia
+Private Sql As String  'Para la sentencia
 Private Mens As String    'Para los mensajes
 Private Rs As Recordset
 Private RC As Byte
@@ -185,7 +180,8 @@ Private mvarSII_ProvDesdeFechaRecepcion As Boolean
     
 Private mvarinscritoDeclarDUA As Boolean
     
-    
+Private mvarRemarcaTotalExtr As Boolean
+Private mvarcolCtasConSaldos As Boolean
 
 
 '------------------------------------------------
@@ -311,18 +307,6 @@ Public Property Get AmpliacionFacurasPro() As String
 'Syntax: Debug.Print X.periodos
      AmpliacionFacurasPro = mvarAmpliacionFacurasPro
 End Property
-
-
-
-'Solo GET
-
-Public Property Get CuentasBloqueadas() As String
-'se usa cuando se asigna un valor a la propiedad, en el
-'lado derecho de la asignacion
-'Syntax: Debug.Print X.periodos
-     CuentasBloqueadas = mvarCuentasBloqueadas
-End Property
-
 
 
 
@@ -1122,6 +1106,14 @@ Public Property Get InscritoDeclarDUA() As Boolean
      InscritoDeclarDUA = mvarinscritoDeclarDUA
 End Property
 
+Public Property Get RemarcaTotalExtr() As Boolean
+     RemarcaTotalExtr = mvarRemarcaTotalExtr
+End Property
+
+Public Property Get colCtasConSaldos() As Boolean
+     colCtasConSaldos = mvarcolCtasConSaldos
+End Property
+
 
 
 '------------------------------------------------
@@ -1133,9 +1125,9 @@ End Property
 '****   LEER  ***
 Public Function Leer() As Byte
     On Error GoTo Err3
-    SQL = "SELECT * FROM parametros"
+    Sql = "SELECT * FROM parametros"
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic
     If Rs.EOF Then
         Leer = 1
         'ELSE
@@ -1198,8 +1190,7 @@ Public Function Leer() As Byte
     Rs.Close
     
     
-                    'Para que lea si hay bloqueo de cuentas
-    If Leer = 0 Then ObtenerCuentasBloqueadas
+                    
     If Leer = 0 Then MinimaFechaEnApuntes
     
     
@@ -1249,6 +1240,8 @@ Dim Nuevos As String
             
             
             mvarinscritoDeclarDUA = False
+            mvarRemarcaTotalExtr = False
+            mvarcolCtasConSaldos = False
             
             Nuevos = ""
             
@@ -1351,13 +1344,15 @@ Dim Nuevos As String
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Caption factura proveedor fecha registro"
             
             If mvarcaptionFraProFecRegis = "" Then mvarcaptionFraProFecRegis = "F.recepción"
-            
-            
                         
             mvarinscritoDeclarDUA = DBLet(Rs!InscritoDeclarDUA, "N") = 1
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Inscrito registro AEAT declar. DUA"
             
+            mvarRemarcaTotalExtr = DBLet(Rs!RemarcaTotalExtr, "N") = 1
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Remarca total consulta extracto"
             
+            mvarcolCtasConSaldos = (DBLet(Rs!colCtasConSaldos, "N") = 1)
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Formulario cuentas con saldos"
             
             
         If Err.Number <> 0 Then Err.Clear
@@ -1388,25 +1383,25 @@ Dim Aux As String
     
     'FACTURAS PROVEEDORES
     Aux = "tipoconce"
-    SQL = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconcefpr), "N", Aux)
-    If SQL = "" And Aux = "tipoconce" Then Exit Function
-    mvarAmpliacionFacurasPro = SQL & "|"
+    Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconcefpr), "N", Aux)
+    If Sql = "" And Aux = "tipoconce" Then Exit Function
+    mvarAmpliacionFacurasPro = Sql & "|"
         
     Aux = "tipoconce"
-    SQL = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconceapr), "N", Aux)
-    If SQL = "" And Aux = "tipoconce" Then Exit Function
-    mvarAmpliacionFacurasPro = mvarAmpliacionFacurasPro & SQL & "|"
+    Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconceapr), "N", Aux)
+    If Sql = "" And Aux = "tipoconce" Then Exit Function
+    mvarAmpliacionFacurasPro = mvarAmpliacionFacurasPro & Sql & "|"
     
     'FACTURAS CLIENTES
     Aux = "tipoconce"
-    SQL = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconcefcl), "N", Aux)
-    If SQL = "" And Aux = "tipoconce" Then Exit Function
-    mvarAmpliacionFacurasCli = SQL & "|"
+    Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconcefcl), "N", Aux)
+    If Sql = "" And Aux = "tipoconce" Then Exit Function
+    mvarAmpliacionFacurasCli = Sql & "|"
         
     Aux = "tipoconce"
-    SQL = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconceacl), "N", Aux)
-    If SQL = "" And Aux = "tipoconce" Then Exit Function
-    mvarAmpliacionFacurasCli = mvarAmpliacionFacurasCli & SQL & "|"
+    Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconceacl), "N", Aux)
+    If Sql = "" And Aux = "tipoconce" Then Exit Function
+    mvarAmpliacionFacurasCli = mvarAmpliacionFacurasCli & Sql & "|"
     
     
     
@@ -1421,31 +1416,6 @@ End Function
 
 
 
-'Metodo publico para la obtencion de cuentas bloquedas
-Public Sub ObtenerCuentasBloqueadas()
-
-    
-    On Error GoTo EmvarCuentasBloqueadas
-    
-    mvarCuentasBloqueadas = ""
-    Set Rs = Nothing
-    Set Rs = New ADODB.Recordset
-    SQL = "Select codmacta,fecbloq from cuentas where apudirec = 'S' and not (fecbloq is null)"
-    
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    While Not Rs.EOF
-        mvarCuentasBloqueadas = mvarCuentasBloqueadas & Rs!codmacta & ":" & Rs!FecBloq & "|"
-        Rs.MoveNext
-    Wend
-    Rs.Close
-    
-EmvarCuentasBloqueadas:
-    If Err.Number <> 0 Then MuestraError Err.Number, "Obtener CuentasBloqueadas"
-
-
-End Sub
-
-
 Private Sub MinimaFechaEnApuntes()
 
     
@@ -1454,8 +1424,8 @@ Private Sub MinimaFechaEnApuntes()
     mvarFechaMinimaEnHlinapu = mvarfechaini
     Set Rs = Nothing
     Set Rs = New ADODB.Recordset
-    SQL = "Select min(fechaent) from hlinapu WHERE fechaent<'" & Format(mvarfechaini, "yyyy-mm-dd") & "'"
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = "Select min(fechaent) from hlinapu WHERE fechaent<'" & Format(mvarfechaini, "yyyy-mm-dd") & "'"
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then mvarFechaMinimaEnHlinapu = Rs.Fields(0)
     End If

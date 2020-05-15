@@ -693,10 +693,10 @@ Attribute frmF.VB_VarHelpID = -1
 Private WithEvents frmGas As frmBasico
 Attribute frmGas.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim i As Integer
+Dim I As Integer
 Dim IndCodigo As Integer
 Dim tabla As String
 
@@ -825,13 +825,13 @@ Private Sub Form_Load()
     Me.Caption = "Informe de facturas CONSOLIDADO"
 
     
-    For i = 0 To 1
-        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
-    Next i
+    For I = 0 To 1
+        Me.ImgFec(I).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+    Next I
      
-    For i = 0 To 0
-        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 0 To 0
+        Me.imgCuentas(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
     
     ' La Ayuda
     With Me.ToolbarAyuda
@@ -880,14 +880,15 @@ Dim Aux As String
     Rs.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
         
-        Aux = "ariconta" & Rs!codempre & ".parametros"
-        Aux = DevuelveDesdeBD("esmultiseccion", Aux, "1", "1")
-        If Aux = "0" Then
-            Aux = "N"
-        Else
+        'En cosolidados DEJO seleccionar cualquier empresa
+        'Aux = "ariconta" & Rs!codempre & ".parametros"
+        'Aux = DevuelveDesdeBD("esmultiseccion", Aux, "1", "1")
+        'If Aux = "0" Then
+        '    Aux = "N"
+        'Else
             Aux = "|" & Rs!codempre & "|"
             If InStr(1, Prohibidas, Aux) = 0 Then Aux = ""
-        End If
+        'End If
         If Aux = "" Then
             Set IT = ListView1(Index).ListItems.Add
             IT.Key = "C" & Rs!codempre
@@ -910,7 +911,7 @@ ECargarList:
 End Sub
 
 Private Function DevuelveProhibidas() As String
-Dim i As Integer
+Dim I As Integer
 
 
     On Error GoTo EDevuelveProhibidas
@@ -919,8 +920,8 @@ Dim i As Integer
 
     Set miRsAux = New ADODB.Recordset
 
-    i = vUsu.Codigo Mod 100
-    miRsAux.Open "Select * from usuarios.usuarioempresasariconta WHERE codusu =" & i, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    I = vUsu.Codigo Mod 100
+    miRsAux.Open "Select * from usuarios.usuarioempresasariconta WHERE codusu =" & I, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     DevuelveProhibidas = ""
     While Not miRsAux.EOF
         DevuelveProhibidas = DevuelveProhibidas & miRsAux.Fields(1) & "|"
@@ -940,7 +941,7 @@ End Function
 
 
 Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 
@@ -951,7 +952,7 @@ End Sub
 
 
 Private Sub imgCheck_Click(Index As Integer)
-Dim i As Integer
+Dim I As Integer
 Dim TotalCant As Currency
 Dim TotalImporte As Currency
 
@@ -960,23 +961,23 @@ Dim TotalImporte As Currency
     Select Case Index
         ' empresas de usuarios
         Case 0
-            For i = 1 To ListView1(1).ListItems.Count
-                ListView1(1).ListItems(i).Checked = False
-            Next i
+            For I = 1 To ListView1(1).ListItems.Count
+                ListView1(1).ListItems(I).Checked = False
+            Next I
         Case 1
-            For i = 1 To ListView1(1).ListItems.Count
-                ListView1(1).ListItems(i).Checked = True
-            Next i
+            For I = 1 To ListView1(1).ListItems.Count
+                ListView1(1).ListItems(I).Checked = True
+            Next I
     
         ' tipos de forma de pago
         Case 2
-            For i = 1 To ListView1(0).ListItems.Count
-                ListView1(0).ListItems(i).Checked = False
-            Next i
+            For I = 1 To ListView1(0).ListItems.Count
+                ListView1(0).ListItems(I).Checked = False
+            Next I
         Case 3
-            For i = 1 To ListView1(0).ListItems.Count
-                ListView1(0).ListItems(i).Checked = True
-            Next i
+            For I = 1 To ListView1(0).ListItems.Count
+                ListView1(0).ListItems(I).Checked = True
+            Next I
     
     End Select
     
@@ -986,18 +987,18 @@ End Sub
 
 
 Private Sub imgCuentas_Click(Index As Integer)
-    SQL = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     Set frmCCtas = New frmColCtas
     frmCCtas.DatosADevolverBusqueda = True
     frmCCtas.Show vbModal
     Set frmCCtas = Nothing
-    If SQL <> "" Then
+    If Sql <> "" Then
     '    Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
     '    Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
     '    If txtCuentas(Index).Text <> "" Then
             Me.txtNIF(0).Text = ""
-            Me.txtNIF(0).Text = DevuelveDesdeBD("nifdatos", "cuentas", "codmacta", RecuperaValor(SQL, 1), "T")
+            Me.txtNIF(0).Text = DevuelveDesdeBD("nifdatos", "cuentas", "codmacta", RecuperaValor(Sql, 1), "T")
     '    End If
 
     Else
@@ -1139,10 +1140,10 @@ End Sub
 
 
 Private Function CargarTemporales() As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim RC As String
 Dim RC2 As String
-Dim i As Integer
+Dim I As Integer
 Dim B As Boolean
 Dim LaCuenta As Boolean
 
@@ -1151,33 +1152,33 @@ Dim LaCuenta As Boolean
     Label9.Caption = "Preparando tablas"
     Label9.Refresh
     'tmpfaclin(codusu,codigo,numserie,nomserie,Numfac,Fecha,cta,Cliente,NIF,Imponible,IVA,ImpIVA,Total,retencion,numfactura)
-    SQL = "Delete from tmpfaclin where codusu =" & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "Delete from tmpfaclin where codusu =" & vUsu.Codigo
+    Conn.Execute Sql
     
-    SQL = "Delete from tmpcuentas where codusu =" & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "Delete from tmpcuentas where codusu =" & vUsu.Codigo
+    Conn.Execute Sql
                 
                 
-    SQL = ""
+    Sql = ""
     LaCuenta = False
     
     RC = "INSERT INTO tmpfaclin(codusu,codigo,numserie,nomserie,numfactura,Fecha,cta,Cliente,NIF,Imponible,IVA,ImpIVA,retencion,Total,Numfac,tipoformapago) "
         
     '------------------------------------------
     'UNO SOLO
-    For i = 1 To ListView1(1).ListItems.Count
+    For I = 1 To ListView1(1).ListItems.Count
         
         
         
         
-        If ListView1(1).ListItems(i).Checked Then
+        If ListView1(1).ListItems(I).Checked Then
             Screen.MousePointer = vbHourglass
             If Cancelado Then Exit For
-            Label9.Caption = "Obteniendo fra. cli.: " & ListView1(1).ListItems(i).Text
+            Label9.Caption = "Obteniendo fra. cli.: " & ListView1(1).ListItems(I).Text
             Label9.Refresh
             
             If Not LaCuenta Then
-                RC2 = DevuelveDesdeBD("nommacta", "ariconta" & ListView1(1).ListItems(i).Tag & ".cuentas", "nifdatos", Me.txtNIF(0).Text, "T")
+                RC2 = DevuelveDesdeBD("nommacta", "ariconta" & ListView1(1).ListItems(I).Tag & ".cuentas", "nifdatos", Me.txtNIF(0).Text, "T")
                 If RC2 <> "" Then
                     RC2 = vUsu.Codigo & ",'n'," & DBSet(RC2, "T") & "," & DBSet(txtNIF(0).Text, "T")
                     RC2 = "INSERT INTO tmpcuentas(codusu,codmacta,nommacta,nifdatos) VALUES (" & RC2 & ")"
@@ -1191,31 +1192,31 @@ Dim LaCuenta As Boolean
                 RC2 = cadselect
                 RC2 = Replace(RC2, "#@#", "factcli.fecfactu")
                 
-                SQL = "SELECT " & vUsu.Codigo & " codusu," & Me.ListView1(1).ListItems(i).Tag & " empresa,"
-                SQL = SQL & " numserie,nomregis, numfactu,fecfactu,codmacta,nommacta,nifdatos,totbases,0,"
-                SQL = SQL & " totivas+coalesce(totrecargo,0),coalesce(trefaccl,0),totfaccl, 0 proveed ,nomforpa from "
-                SQL = SQL & " ariconta" & ListView1(1).ListItems(i).Tag & ".factcli,ariconta" & ListView1(1).ListItems(i).Tag & ".contadores"
-                SQL = SQL & " ,ariconta" & ListView1(1).ListItems(i).Tag & ".formapago"
-                SQL = SQL & " WHERE factcli.numserie=contadores.tiporegi AND factcli.codforpa=formapago.codforpa  AND " & RC2
-                SQL = RC & SQL
-                If Not Ejecuta(SQL) Then Exit Function
+                Sql = "SELECT " & vUsu.Codigo & " codusu," & Me.ListView1(1).ListItems(I).Tag & " empresa,"
+                Sql = Sql & " numserie,nomregis, numfactu,fecfactu,codmacta,nommacta,nifdatos,totbases,0,"
+                Sql = Sql & " totivas+coalesce(totrecargo,0),coalesce(trefaccl,0),totfaccl, 0 proveed ,nomforpa from "
+                Sql = Sql & " ariconta" & ListView1(1).ListItems(I).Tag & ".factcli,ariconta" & ListView1(1).ListItems(I).Tag & ".contadores"
+                Sql = Sql & " ,ariconta" & ListView1(1).ListItems(I).Tag & ".formapago"
+                Sql = Sql & " WHERE factcli.numserie=contadores.tiporegi AND factcli.codforpa=formapago.codforpa  AND " & RC2
+                Sql = RC & Sql
+                If Not Ejecuta(Sql) Then Exit Function
                 
                 
             End If
             'Proveedores
-            Label9.Caption = "Obteniendo fra pro.: " & ListView1(1).ListItems(i).Text
+            Label9.Caption = "Obteniendo fra pro.: " & ListView1(1).ListItems(I).Text
             Label9.Refresh
             If Me.Check1(1).Value = 1 Then
                 RC2 = cadselect
                 RC2 = Replace(RC2, "#@#", "factpro.fecharec")
-                SQL = "SELECT " & vUsu.Codigo & " codusu," & Me.ListView1(1).ListItems(i).Tag & " empresa,"
-                SQL = SQL & " numserie,nomregis, numfactu,fecharec,codmacta,nommacta,nifdatos,totbases,0,"
-                SQL = SQL & " totivas+coalesce(totrecargo,0),coalesce(trefacpr,0),totfacpr, 1 proveed,nomforpa FROM "
-                SQL = SQL & " ariconta" & ListView1(1).ListItems(i).Tag & ".factpro,ariconta" & ListView1(1).ListItems(i).Tag & ".contadores"
-                SQL = SQL & " ,ariconta" & ListView1(1).ListItems(i).Tag & ".formapago"
-                SQL = SQL & " WHERE  factpro.numserie=contadores.tiporegi AND factpro.codforpa=formapago.codforpa AND " & RC2
-                SQL = RC & SQL
-                If Not Ejecuta(SQL) Then Exit Function
+                Sql = "SELECT " & vUsu.Codigo & " codusu," & Me.ListView1(1).ListItems(I).Tag & " empresa,"
+                Sql = Sql & " numserie,nomregis, numfactu,fecharec,codmacta,nommacta,nifdatos,totbases,0,"
+                Sql = Sql & " totivas+coalesce(totrecargo,0),coalesce(trefacpr,0),totfacpr, 1 proveed,nomforpa FROM "
+                Sql = Sql & " ariconta" & ListView1(1).ListItems(I).Tag & ".factpro,ariconta" & ListView1(1).ListItems(I).Tag & ".contadores"
+                Sql = Sql & " ,ariconta" & ListView1(1).ListItems(I).Tag & ".formapago"
+                Sql = Sql & " WHERE  factpro.numserie=contadores.tiporegi AND factpro.codforpa=formapago.codforpa AND " & RC2
+                Sql = RC & Sql
+                If Not Ejecuta(Sql) Then Exit Function
                 
                 
             End If
@@ -1223,20 +1224,20 @@ Dim LaCuenta As Boolean
             
             
         End If
-    Next i
+    Next I
             
     Label9.Caption = "Obteniendo valores empresa "
     Label9.Refresh
 
     Set miRsAux = New ADODB.Recordset
-    SQL = "Select codigo from tmpfaclin where codusu = " & vUsu.Codigo & " GROUP BY 1"
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic
+    Sql = "Select codigo from tmpfaclin where codusu = " & vUsu.Codigo & " GROUP BY 1"
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic
     While Not miRsAux.EOF
-            SQL = miRsAux.Fields(0)
-            SQL = DevuelveDesdeBD("nomempre", "ariconta" & SQL & ".empresa", "1", "1")
+            Sql = miRsAux.Fields(0)
+            Sql = DevuelveDesdeBD("nomempre", "ariconta" & Sql & ".empresa", "1", "1")
             
-            SQL = "UPDATE tmpfaclin set tipoopera =" & DBSet(SQL, "T") & " WHERE codusu = " & vUsu.Codigo & " AND codigo =" & miRsAux!Codigo
-            Conn.Execute SQL
+            Sql = "UPDATE tmpfaclin set tipoopera =" & DBSet(Sql, "T") & " WHERE codusu = " & vUsu.Codigo & " AND codigo =" & miRsAux!Codigo
+            Conn.Execute Sql
             miRsAux.MoveNext
     Wend
     miRsAux.Close
@@ -1252,12 +1253,12 @@ End Function
 
 Private Function DameEmpresa(ByVal S As String) As String
     DameEmpresa = "NO ENCONTRADA"
-    For i = 1 To ListView1(1).ListItems.Count
-        If ListView1(1).ListItems(i).Tag = S Then
-            DameEmpresa = DevNombreSQL(ListView1(1).ListItems(i).Text)
+    For I = 1 To ListView1(1).ListItems.Count
+        If ListView1(1).ListItems(I).Tag = S Then
+            DameEmpresa = DevNombreSQL(ListView1(1).ListItems(I).Text)
             Exit For
         End If
-    Next i
+    Next I
   
 End Function
 
@@ -1297,14 +1298,14 @@ Private Function DatosOK() As Boolean
         Exit Function
     End If
     
-    SQL = ""
-    For i = 1 To ListView1(1).ListItems.Count
-        If ListView1(1).ListItems(i).Checked Then
-            SQL = "O"
+    Sql = ""
+    For I = 1 To ListView1(1).ListItems.Count
+        If ListView1(1).ListItems(I).Checked Then
+            Sql = "O"
             Exit For
         End If
-    Next i
-    If SQL = "" Then
+    Next I
+    If Sql = "" Then
         MsgBox "Seleccione al menos una empresa", vbExclamation
         Exit Function
     End If
@@ -1321,8 +1322,8 @@ End Function
 
 Private Sub txtNIF_LostFocus(Index As Integer)
     If txtNIF(0).Text <> "" Then
-        SQL = "nommacta"
-        RC = DevuelveDesdeBD("codmacta", "cuentas", "nifdatos", txtNIF(0).Text, "T", SQL)
+        Sql = "nommacta"
+        RC = DevuelveDesdeBD("codmacta", "cuentas", "nifdatos", txtNIF(0).Text, "T", Sql)
         If RC = "" Then
            ' txtNCuentas(0).Text = "NIF no pertenece a ninguan cuenta"
         Else

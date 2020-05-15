@@ -557,7 +557,7 @@ Dim Nommacta As String
 Dim codmacta As String
 Dim aux2 As String
 Dim T1 As Boolean
-Dim SQL As String
+Dim Sql As String
 
     On Error GoTo EProcesarLinea
 
@@ -655,7 +655,7 @@ Dim SQL As String
     
 
     'Montamos el SQL
-    cad = SQL & cad
+    cad = Sql & cad
     Conn.Execute cad
 
 
@@ -673,9 +673,9 @@ End Function
 
 
 Private Function CrearFacturaClientes(NA As Long, FechaEnt As Date, NumDiari As Integer) As Boolean
-Dim i  As Integer
+Dim I  As Integer
 Dim cad As String
-Dim SQL As String
+Dim Sql As String
 
 Dim FinBucle As Boolean
 Dim HayQueInsertarFactura As Boolean
@@ -758,8 +758,8 @@ Dim CtaReten As String
                 If NumDeFactu <> Rs!numfaccl Then
                     CambiaSerieFactura = True
                 Else
-                    SQL = DBLet(Rs!NUmSerie, "T")
-                    If Serie <> SQL Then CambiaSerieFactura = True
+                    Sql = DBLet(Rs!NUmSerie, "T")
+                    If Serie <> Sql Then CambiaSerieFactura = True
                 End If
                 If CambiaSerieFactura Then
                     If NumDeFactu > 0 Then HayQueInsertarFactura = True
@@ -954,8 +954,8 @@ Dim CtaReten As String
                 'numserie,numfactu,fecfactu,anofactu,numlinea,codigiva,baseimpo,porciva,porcrec,impoiva,imporec
                 
                 cad = ", ('" & Rs!NUmSerie & "'," & NumDeFactu & "," & DBSet(Rs!FechaEnt, "F") & "," & Year(Rs!FechaEnt) & "," & NumLiena2
-                i = DevuelveTipoIva(Rs!codmacta, False)
-                cad = cad & "," & i & "," & DBSet(Rs!Baseimpo, "N")
+                I = DevuelveTipoIva(Rs!codmacta, False)
+                cad = cad & "," & I & "," & DBSet(Rs!Baseimpo, "N")
                 cad = cad & "," & DBSet(miRsAux!porceiva, "N") & ",NULL," & DBSet(Rs!timporteH, "N") & ",null"
                 
                 TotIVA = TotIVA + Rs!timporteH
@@ -982,26 +982,26 @@ Dim CtaReten As String
                         Cta = Rs!ctacontr
                     End If
                     
-                    SQL = "Generada por integracion SAGE-csv"
-                    If DBLet(Rs!ticketini, "T") <> "" Then SQL = SQL & "    Tickets: " & DBLet(Rs!ticketini, "T") & " - " & DBLet(Rs!ticketfin, "T")
+                    Sql = "Generada por integracion SAGE-csv"
+                    If DBLet(Rs!ticketini, "T") <> "" Then Sql = Sql & "    Tickets: " & DBLet(Rs!ticketini, "T") & " - " & DBLet(Rs!ticketfin, "T")
                     
-                    cad = DBSet(Cta, "T") & "," & DBSet(SQL, "T")
+                    cad = DBSet(Cta, "T") & "," & DBSet(Sql, "T")
                     cad = "'" & Serie & "'," & NumDeFactu & "," & Year(Rs!FechaEnt) & "," & DBSet(Rs!FechaEnt, "F") & "," & cad
                     cad = cad & ",  #BASES# , #BASESRET# ,#totivas# ,#totrecargo# , #totfaccl# "
                     cad = cad & ",  #retfaccl# , #trretfac# ,#cuereten# ,#tiporeten# , #suplidos#"
                     cad = cad & ", " & Rs!NumDiari & "," & DBSet(Rs!FechaEnt, "F") & "," & Rs!NumAsien & "," & DBSet(Rs!FechaEnt, "F")
                     
                     'Concepto 340
-                    SQL = "'0'"
+                    Sql = "'0'"
                     If DBLet(Rs!ticketini, "T") <> "" Then
-                        SQL = "'B'"   'Resumen factura tiket
+                        Sql = "'B'"   'Resumen factura tiket
                     Else
-                        If Serie = "R" Then SQL = "'D'"
+                        If Serie = "R" Then Sql = "'D'"
                         If Cta = "4300000000" Then
-                            If DBLet(Rs!NIF, "T") = "" Then SQL = "'J'"
+                            If DBLet(Rs!NIF, "T") = "" Then Sql = "'J'"
                         End If
                     End If
-                    cad = cad & " ," & SQL
+                    cad = cad & " ," & Sql
                     
                     'codopera,no_modifica_apunte
                     cad = cad & " ,0 ,1"
@@ -1010,44 +1010,44 @@ Dim CtaReten As String
                     
                    
                     
-                    SQL = DBLet(Rs!Nommacta, "T")
+                    Sql = DBLet(Rs!Nommacta, "T")
                     NIF = ""
-                    If SQL = "" Then
+                    If Sql = "" Then
                         NIF = "nifdatos"
-                        SQL = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cta, "T", NIF)
-                        If SQL = "" Then
+                        Sql = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cta, "T", NIF)
+                        If Sql = "" Then
                             MsgBox "Nombre cuenta vacia: " & Cta, vbExclamation
-                            SQL = "VACIO"
+                            Sql = "VACIO"
                         End If
                     End If
-                    If InStr(1, SQL, "'") Then
+                    If InStr(1, Sql, "'") Then
                         
-                        SQL = Replace(SQL, "'", "`")
+                        Sql = Replace(Sql, "'", "`")
                         
                         
                     End If
                     
-                    cad = cad & "," & DBSet(SQL, "T") & ","
+                    cad = cad & "," & DBSet(Sql, "T") & ","
                     
-                    SQL = DBLet(Rs!NIF, "T")
-                    If SQL = "" Then SQL = NIF
-                    If SQL = "" Then
-                        SQL = "null"
+                    Sql = DBLet(Rs!NIF, "T")
+                    If Sql = "" Then Sql = NIF
+                    If Sql = "" Then
+                        Sql = "null"
                     Else
-                        SQL = DBSet(SQL, "T")
+                        Sql = DBSet(Sql, "T")
                     End If
-                    cad = cad & SQL
+                    cad = cad & Sql
                     
                     
                     If DBLet(Rs!ticketini, "T") <> "" Then
-                        SQL = DBSet(Rs!ticketini, "T") & "," & DBSet(Rs!ticketfin, "T")
+                        Sql = DBSet(Rs!ticketini, "T") & "," & DBSet(Rs!ticketfin, "T")
                     Else
-                        SQL = "NULL,NULL"
+                        Sql = "NULL,NULL"
                     End If
                     
-                    cad = cad & "," & SQL & ")"
-                    SQL = FijarCadenaInsercionSQL(True)
-                    INsFactura = SQL & cad
+                    cad = cad & "," & Sql & ")"
+                    Sql = FijarCadenaInsercionSQL(True)
+                    INsFactura = Sql & cad
                     
                     'para el listado de facturas que vamops a insertar
                     'tmpintefrafracli
@@ -1073,7 +1073,7 @@ Dim CtaReten As String
                     Else
                         ImportAuxiliar = Rs!timporteH
                     End If
-                    cad = cad & ",'" & Rs!codmacta & "'," & DBSet(ImportAuxiliar, "N") & ",'" & Rs!codccost & "')"
+                    cad = cad & ",'" & Rs!codmacta & "'," & DBSet(ImportAuxiliar, "N") & ",'" & Rs!CodCcost & "')"
                     NumLienaB = NumLienaB + 1
                     InsBases = InsBases & cad
                 End If
@@ -1134,26 +1134,26 @@ Dim cad As String
 End Sub
 
 Private Function FijarCadenaInsercionSQL(Clientes As Boolean) As String
-Dim SQL As String
+Dim Sql As String
 
     'Clientes
     If Clientes Then
-        SQL = "INSERT INTO factcli (numserie, numfactu, anofactu, fecfactu, codmacta, observa "
-        SQL = SQL & ",totbases, totbasesret, totivas, totrecargo, totfaccl "
-        SQL = SQL & ",retfaccl, trefaccl, cuereten, tiporeten,suplidos "
-        SQL = SQL & ",numdiari,fechaent, numasien, fecliqcl, codconce340,codopera,no_modifica_apunte,nommacta,nifdatos,FraResumenIni ,FraResumenFin) VALUES ( "
+        Sql = "INSERT INTO factcli (numserie, numfactu, anofactu, fecfactu, codmacta, observa "
+        Sql = Sql & ",totbases, totbasesret, totivas, totrecargo, totfaccl "
+        Sql = Sql & ",retfaccl, trefaccl, cuereten, tiporeten,suplidos "
+        Sql = Sql & ",numdiari,fechaent, numasien, fecliqcl, codconce340,codopera,no_modifica_apunte,nommacta,nifdatos,FraResumenIni ,FraResumenFin) VALUES ( "
         
     Else
     
         'Proveedores
-        SQL = "INSERT INTO factpro (numserie,numregis, anofactu ,fecfactu, fecharec, numfactu, codmacta, observa "
+        Sql = "INSERT INTO factpro (numserie,numregis, anofactu ,fecfactu, fecharec, numfactu, codmacta, observa "
         
-        SQL = SQL & ",totbases, totbasesret, totivas, totrecargo, totfacpr "
-        SQL = SQL & ",retfacpr, trefacpr, cuereten,tiporeten,suplidos "
-        SQL = SQL & ",numdiari, fechaent, numasien, fecliqpr, codconce340, estraspasada,no_modifica_apunte,nommacta ,nifdatos) VALUES ("
+        Sql = Sql & ",totbases, totbasesret, totivas, totrecargo, totfacpr "
+        Sql = Sql & ",retfacpr, trefacpr, cuereten,tiporeten,suplidos "
+        Sql = Sql & ",numdiari, fechaent, numasien, fecliqpr, codconce340, estraspasada,no_modifica_apunte,nommacta ,nifdatos) VALUES ("
         
     End If
-    FijarCadenaInsercionSQL = SQL
+    FijarCadenaInsercionSQL = Sql
     
     
 End Function
@@ -1355,7 +1355,7 @@ Private Function ComprobarNumerosDeFactura(Cliente As Boolean) As Boolean
         NumAsien = NumAsien + 1
         
         'select codigo,texto1,texto2,observa1 from tmptesoreriacomun
-        Msg = "(" & vUsu.Codigo & "," & NumAsien & "," & DBSet(miRsAux!codccost, "T") & ",'','No existe centro de coste')"
+        Msg = "(" & vUsu.Codigo & "," & NumAsien & "," & DBSet(miRsAux!CodCcost, "T") & ",'','No existe centro de coste')"
         SerieDeFactu = SerieDeFactu & ", " & Msg
     
         
@@ -1386,9 +1386,9 @@ End Function
 
 
 Private Function CrearFacturaProveedores(NA As Long, FechaEnt As Date, NumDiari As Integer) As Boolean
-Dim i  As Integer
+Dim I  As Integer
 Dim cad As String
-Dim SQL As String
+Dim Sql As String
 
 Dim FinBucle As Boolean
 Dim HayQueInsertarFactura As Boolean
@@ -1459,8 +1459,8 @@ Dim CadenaInserPorsiSuplidos As String
                 If NumDeFactu <> Rs!numfaccl Then
                     CambiaSerieFactura = True
                 Else
-                    SQL = DBLet(Rs!NUmSerie, "T")
-                    If Serie <> SQL Then CambiaSerieFactura = True
+                    Sql = DBLet(Rs!NUmSerie, "T")
+                    If Serie <> Sql Then CambiaSerieFactura = True
                 End If
                 If CambiaSerieFactura Then
                     If NumDeFactu > 0 Then HayQueInsertarFactura = True
@@ -1611,8 +1611,8 @@ Dim CadenaInserPorsiSuplidos As String
                 'INSERT INTO factpro_lineas (numserie, numregis, fecharec,anofactu, numlinea, codmacta, baseimpo, codccost)
                 
                 cad = ", ('" & Rs!NUmSerie & "'," & NumDeFactu & "," & DBSet(Rs!FechaEnt, "F") & "," & Year(Rs!FechaEnt) & "," & NumLiena2
-                i = DevuelveTipoIva(Rs!codmacta, True)
-                cad = cad & "," & i & "," & DBSet(Rs!Baseimpo, "N")
+                I = DevuelveTipoIva(Rs!codmacta, True)
+                cad = cad & "," & I & "," & DBSet(Rs!Baseimpo, "N")
                 cad = cad & "," & DBSet(miRsAux!porceiva, "N") & ",NULL," & DBSet(Rs!timported, "N") & ",null"
                 
                 TotIVA = TotIVA + Rs!timported
@@ -1650,28 +1650,28 @@ Dim CadenaInserPorsiSuplidos As String
                     cad = cad & ",0 ,0 ,1"
                     
                     'nommacta, nifdatos   , en apuntes: bancotalonpag coddevol
-                    SQL = DBLet(Rs!Nommacta, "T")
+                    Sql = DBLet(Rs!Nommacta, "T")
                     NIF = ""
-                    If SQL = "" Then
+                    If Sql = "" Then
                         NIF = "nifdatos"
-                        SQL = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cta, "T", NIF)
-                        If SQL = "" Then
+                        Sql = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Cta, "T", NIF)
+                        If Sql = "" Then
                             MsgBox "Nombre cuenta vacia: " & Cta, vbExclamation
-                            SQL = "VACIO"
+                            Sql = "VACIO"
                         End If
                     End If
-                    cad = cad & "," & DBSet(SQL, "T") & ","
+                    cad = cad & "," & DBSet(Sql, "T") & ","
                     
-                    SQL = DBLet(Rs!NIF, "T")
-                    If SQL = "" Then SQL = NIF
-                    If SQL = "" Then
-                        SQL = "null"
+                    Sql = DBLet(Rs!NIF, "T")
+                    If Sql = "" Then Sql = NIF
+                    If Sql = "" Then
+                        Sql = "null"
                     Else
-                        SQL = DBSet(SQL, "T")
+                        Sql = DBSet(Sql, "T")
                     End If
-                    cad = cad & SQL & ")"
-                    SQL = FijarCadenaInsercionSQL(False)
-                    INsFactura = SQL & cad
+                    cad = cad & Sql & ")"
+                    Sql = FijarCadenaInsercionSQL(False)
+                    INsFactura = Sql & cad
                     
                     'para el listado de facturas que vamops a insertar
                     'tmpintefrafracli
@@ -1695,7 +1695,7 @@ Dim CadenaInserPorsiSuplidos As String
                     Else
                         ImportAuxiliar = Rs!timported
                     End If
-                    cad = cad & ",'" & Rs!codmacta & "'," & DBSet(ImportAuxiliar, "N") & ",'" & Rs!codccost & "')"
+                    cad = cad & ",'" & Rs!codmacta & "'," & DBSet(ImportAuxiliar, "N") & ",'" & Rs!CodCcost & "')"
                     NumLienaB = NumLienaB + 1
                     InsBases = InsBases & cad
                 End If

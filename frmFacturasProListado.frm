@@ -1273,10 +1273,10 @@ Attribute frmConta.VB_VarHelpID = -1
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim i As Integer
+Dim I As Integer
 Dim IndCodigo As Integer
 Dim tabla As String
 Dim PrimeraVez As Boolean
@@ -1397,13 +1397,13 @@ Private Sub Form_Load()
     'Otras opciones
     Me.Caption = "Listado de Facturas de Proveedores"
 
-    For i = 0 To 1
-        Me.imgSerie(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 0 To 1
+        Me.imgSerie(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
      
-    For i = 0 To 1
-        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 0 To 1
+        Me.imgCuentas(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
      
     ' La Ayuda
     With Me.ToolbarAyuda
@@ -1457,7 +1457,7 @@ Private Sub frmConta_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
@@ -1476,9 +1476,9 @@ Dim J As Integer
     IndCodigo = 0
     If (Index Mod 2) = 1 Then IndCodigo = 1
     
-    For i = 1 To ListView1(J).ListItems.Count
-        ListView1(J).ListItems(i).Checked = IndCodigo = 1
-    Next i
+    For I = 1 To ListView1(J).ListItems.Count
+        ListView1(J).ListItems(I).Checked = IndCodigo = 1
+    Next I
     
     
     Screen.MousePointer = vbDefault
@@ -1519,15 +1519,15 @@ Private Sub imgFec_Click(Index As Integer)
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
-    SQL = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     Set frmCtas = New frmColCtas
     frmCtas.DatosADevolverBusqueda = True
     frmCtas.Show vbModal
     Set frmCtas = Nothing
-    If SQL <> "" Then
-        Me.txtCuentas(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNCuentas(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtCuentas(Index)
     End If
@@ -1620,7 +1620,7 @@ Private Sub txtCuentas_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
@@ -1647,18 +1647,18 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
         Case 0, 1 'cuentas
             Cta = (txtCuentas(Index).Text)
                                     '********
-            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
             If B = 0 Then
                 MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
             Else
                 txtCuentas(Index).Text = Cta
-                txtNCuentas(Index).Text = SQL
+                txtNCuentas(Index).Text = Sql
                 If B = 1 Then
                     txtNCuentas(Index).Tag = ""
                 Else
-                    txtNCuentas(Index).Tag = SQL
+                    txtNCuentas(Index).Tag = Sql
                 End If
                 Hasta = -1
                 If Index = 6 Then
@@ -1772,7 +1772,7 @@ Private Sub txtSerie_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtSerie(Index).Text = UCase(Trim(txtSerie(Index).Text))
@@ -1802,34 +1802,34 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    SQL = "Select factpro.numserie Serie, tmpfaclin.nomserie Descripcion, factpro.numfactu Factura,factpro.numregis Registro, factpro.fecfactu Fecha, factpro.fecharec FRecep ,factpro.codmacta Cuenta, "
-    SQL = SQL & " factpro.nommacta Titulo,nifdatos NIF , tmpfaclin.tipoformapago TipoPago, "
-    SQL = SQL & " tmpfaclin.tipoopera TOperacion, factpro.codconce340 TFra, factpro.trefacpr Retencion,factpro.suplidos Suplidos , "
-    SQL = SQL & " factpro_totales.baseimpo BaseImp,factpro_totales.codigiva IVA,factpro_totales.porciva PorcIva,factpro_totales.porcrec PorcRec,"
-    SQL = SQL & " factpro_totales.impoiva ImpIva,factpro_totales.imporec ImpRec "
-    SQL = SQL & " FROM (factpro inner join factpro_totales on factpro.numserie = factpro_totales.numserie and factpro.numregis = factpro_totales.numregis "
-    SQL = SQL & " and factpro.fecharec = factpro_totales.fecharec) "
-    SQL = SQL & " inner join tmpfaclin ON factpro.numserie=tmpfaclin.numserie AND factpro.numregis=tmpfaclin.Numfac and "
+    Sql = "Select factpro.numserie Serie, tmpfaclin.nomserie Descripcion, factpro.numfactu Factura,factpro.numregis Registro, factpro.fecfactu Fecha, factpro.fecharec FRecep ,factpro.codmacta Cuenta, "
+    Sql = Sql & " factpro.nommacta Titulo,nifdatos NIF , tmpfaclin.tipoformapago TipoPago, "
+    Sql = Sql & " tmpfaclin.tipoopera TOperacion, factpro.codconce340 TFra, factpro.trefacpr Retencion,factpro.suplidos Suplidos , "
+    Sql = Sql & " factpro_totales.baseimpo BaseImp,factpro_totales.codigiva IVA,factpro_totales.porciva PorcIva,factpro_totales.porcrec PorcRec,"
+    Sql = Sql & " factpro_totales.impoiva ImpIva,factpro_totales.imporec ImpRec "
+    Sql = Sql & " FROM (factpro inner join factpro_totales on factpro.numserie = factpro_totales.numserie and factpro.numregis = factpro_totales.numregis "
+    Sql = Sql & " and factpro.fecharec = factpro_totales.fecharec) "
+    Sql = Sql & " inner join tmpfaclin ON factpro.numserie=tmpfaclin.numserie AND factpro.numregis=tmpfaclin.Numfac and "
     
     
-    SQL = SQL & " tmpfaclin.fecha = "
+    Sql = Sql & " tmpfaclin.fecha = "
     If Me.optVarios(0).Value Then
-        SQL = SQL & " factpro.fecfactu"
+        Sql = Sql & " factpro.fecfactu"
     Else
         If Me.optVarios(4).Value Then
-            SQL = SQL & " factpro.fecliqpr"
+            Sql = Sql & " factpro.fecliqpr"
         Else
-            SQL = SQL & " factpro.fecharec"
+            Sql = Sql & " factpro.fecharec"
         End If
     End If
     
     
     
-    SQL = SQL & " WHERE  tmpfaclin.codusu =  " & vUsu.Codigo
-    SQL = SQL & " ORDER BY factpro.codmacta, factpro.nommacta, factpro_totales.numlinea "
+    Sql = Sql & " WHERE  tmpfaclin.codusu =  " & vUsu.Codigo
+    Sql = Sql & " ORDER BY factpro.codmacta, factpro.nommacta, factpro_totales.numlinea "
             
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1881,58 +1881,64 @@ Dim nomDocu As String
     If optTipoSal(2).Value Then
         If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text, (Legalizacion <> "")) Then ExportarPDF = False
     End If
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 17
-        
+    If optTipoSal(3).Value Then
+    
+        cadParam = ""
+        If Me.txtCuentas(0).Text <> "" Then
+            If Me.txtCuentas(0).Text = txtCuentas(1).Text Then cadParam = DevuelveDesdeBD("maidatos", "cuentas", "codmacta", txtCuentas(0).Text, "T")
+        End If
+        LanzaProgramaAbrirOutlook 17, cadParam
+    End If
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
 End Sub
 
 Private Function CargarTemporal() As Boolean
-Dim SQL As String
+Dim Sql As String
 
     On Error GoTo eCargarTemporal
 
     CargarTemporal = False
     
-    SQL = "delete from tmpfaclin where codusu = " & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "delete from tmpfaclin where codusu = " & vUsu.Codigo
+    Conn.Execute Sql
     
     
     
-    SQL = "insert into tmpfaclin (codusu, codigo,numfactura, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
-    SQL = SQL & " recargo,  tipoformapago,tipoopera, tipoiva,ctabase,suplidos) "
-    SQL = SQL & " select distinct " & vUsu.Codigo & ",factpro.anofactu,numfactu, factpro.numserie, contadores.nomregis, factpro.numregis,"
+    Sql = "insert into tmpfaclin (codusu, codigo,numfactura, numserie, nomserie, numfac, fecha, cta, cliente, nif, imponible, impiva, total, retencion,"
+    Sql = Sql & " recargo,  tipoformapago,tipoopera, tipoiva,ctabase,suplidos) "
+    Sql = Sql & " select distinct " & vUsu.Codigo & ",factpro.anofactu,numfactu, factpro.numserie, contadores.nomregis, factpro.numregis,"
     If Me.optVarios(0).Value Then
-        SQL = SQL & " factpro.fecfactu"
+        Sql = Sql & " factpro.fecfactu"
     Else
         If Me.optVarios(4).Value Then
-            SQL = SQL & " factpro.fecliqpr"
+            Sql = Sql & " factpro.fecliqpr"
         Else
-            SQL = SQL & " factpro.fecharec"
+            Sql = Sql & " factpro.fecharec"
         End If
     End If
-    SQL = SQL & " ,factpro.codmacta,factpro.nommacta,factpro.nifdatos, "
+    Sql = Sql & " ,factpro.codmacta,factpro.nommacta,factpro.nifdatos, "
     'Marzo 2020
-    SQL = SQL & " factpro.totbases "    'Antes:factpro.totbases
-    SQL = SQL & " , factpro.totivas, factpro.totfacpr, factpro.trefacpr, "
-    SQL = SQL & " factpro.totrecargo, tipofpago.descformapago , "
+    Sql = Sql & " factpro.totbases "    'Antes:factpro.totbases
+    Sql = Sql & " , factpro.totivas, factpro.totfacpr, factpro.trefacpr, "
+    Sql = Sql & " factpro.totrecargo, tipofpago.descformapago , "
     
     'Abril 2017
     'if(factpro.codopera = 0 or factpro.codopera = 3, 1,0) aaaa "
     'Sql = Sql & " aa.denominacion, " '
-    SQL = SQL & " factpro.codopera, " ',
+    Sql = Sql & " factpro.codopera, " ',
     
-    SQL = SQL & " CASE factpro.codopera WHEN 0 THEN 0 WHEN 3 THEN 0 WHEN 1 THEN 1 WHEN 2 THEN 2 WHEN 4 THEN 3 WHEN 5 THEN 4 WHEN 6 THEN 5 END "
+    Sql = Sql & " CASE factpro.codopera WHEN 0 THEN 0 WHEN 3 THEN 0 WHEN 1 THEN 1 WHEN 2 THEN 2 WHEN 4 THEN 3 WHEN 5 THEN 4 WHEN 6 THEN 5 END "
     'SQL = SQL & ", fecfactu   "  'DATE_FORMAT(fecfactu,'%d/%m/%Y") "
     
-    SQL = SQL & ", DATE_FORMAT(" & IIf(optVarios(0).Value, "factpro.fecharec", "factpro.fecfactu") & ",'%d/%m/%Y') "
+    Sql = Sql & ", DATE_FORMAT(" & IIf(optVarios(0).Value, "factpro.fecharec", "factpro.fecfactu") & ",'%d/%m/%Y') "
     
-    SQL = SQL & ",suplidos"
+    Sql = Sql & ",suplidos"
     
-    SQL = SQL & " from " & tabla
-    SQL = SQL & " where " & cadselect
+    Sql = Sql & " from " & tabla
+    Sql = Sql & " where " & cadselect
     
-    Conn.Execute SQL
+    Conn.Execute Sql
     
     
 
@@ -1946,11 +1952,11 @@ eCargarTemporal:
 End Function
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
-Dim i As Integer
+Dim I As Integer
 
 
     MontaSQL = False
@@ -1984,25 +1990,25 @@ Dim i As Integer
             
             
             
-    SQL = ""
+    Sql = ""
     RC = ""
     RC2 = ""
-    For i = 1 To Me.ListView1(1).ListItems.Count
-        If Me.ListView1(1).ListItems(i).Checked Then
-            SQL = SQL & Me.ListView1(1).ListItems(i).Text & ","
-            RC2 = RC2 & " - " & ListView1(1).ListItems(i).SubItems(1)
+    For I = 1 To Me.ListView1(1).ListItems.Count
+        If Me.ListView1(1).ListItems(I).Checked Then
+            Sql = Sql & Me.ListView1(1).ListItems(I).Text & ","
+            RC2 = RC2 & " - " & ListView1(1).ListItems(I).SubItems(1)
         Else
             RC = "N"
         End If
-    Next i
+    Next I
     
-    If SQL <> "" Then
+    If Sql <> "" Then
         ' quitamos la ultima coma
         If RC = "N" Then
-            SQL = Mid(SQL, 1, Len(SQL) - 1)
+            Sql = Mid(Sql, 1, Len(Sql) - 1)
             
-            If Not AnyadirAFormula(cadselect, "factpro_totales.codigiva in (" & SQL & ")") Then Exit Function
-            If Not AnyadirAFormula(cadFormula, "{factpro_totales.codigiva} in [" & SQL & "]") Then Exit Function
+            If Not AnyadirAFormula(cadselect, "factpro_totales.codigiva in (" & Sql & ")") Then Exit Function
+            If Not AnyadirAFormula(cadFormula, "{factpro_totales.codigiva} in [" & Sql & "]") Then Exit Function
         Else
             RC2 = ""
         End If
@@ -2017,25 +2023,25 @@ Dim i As Integer
     End If
     
     'Retencion
-    SQL = ""
+    Sql = ""
     RC = ""
     RC2 = ""
-    For i = 1 To Me.ListView1(0).ListItems.Count
-        If Me.ListView1(0).ListItems(i).Checked Then
-            SQL = SQL & Me.ListView1(0).ListItems(i).Text & ","
-            RC2 = RC2 & " - " & ListView1(0).ListItems(i).SubItems(1)
+    For I = 1 To Me.ListView1(0).ListItems.Count
+        If Me.ListView1(0).ListItems(I).Checked Then
+            Sql = Sql & Me.ListView1(0).ListItems(I).Text & ","
+            RC2 = RC2 & " - " & ListView1(0).ListItems(I).SubItems(1)
         Else
             RC = "N"
         End If
-    Next i
-    If SQL <> "" Then
+    Next I
+    If Sql <> "" Then
         If RC = "N" Then
         
             ' quitamos la ultima coma
-            SQL = Mid(SQL, 1, Len(SQL) - 1)
+            Sql = Mid(Sql, 1, Len(Sql) - 1)
             
-            If Not AnyadirAFormula(cadselect, "factpro.tiporeten in (" & SQL & ")") Then Exit Function
-            If Not AnyadirAFormula(cadFormula, "{factpro.tiporeten} in [" & SQL & "]") Then Exit Function
+            If Not AnyadirAFormula(cadselect, "factpro.tiporeten in (" & Sql & ")") Then Exit Function
+            If Not AnyadirAFormula(cadFormula, "{factpro.tiporeten} in [" & Sql & "]") Then Exit Function
     
         Else
             'Estan todos. NO hay que separar
@@ -2115,7 +2121,7 @@ Private Sub CargarListView(Index As Integer)
 'en un ListView
 Dim Rs As ADODB.Recordset
 Dim ItmX As ListItem
-Dim SQL As String
+Dim Sql As String
 
     On Error GoTo ECargarList
 
@@ -2130,15 +2136,15 @@ Dim SQL As String
         ListView1(Index).ColumnHeaders.Add , , "Descripción", 3100
     End If
     If Index = 1 Then
-        SQL = "SELECT codigiva, nombriva "
-        SQL = SQL & " FROM tiposiva "
-        SQL = SQL & " ORDER BY codigiva "
+        Sql = "SELECT codigiva, nombriva "
+        Sql = Sql & " FROM tiposiva "
+        Sql = Sql & " ORDER BY codigiva "
     Else
-        SQL = "SELECT * FROM usuarios.wtiporeten ORDER BY codigo"
+        Sql = "SELECT * FROM usuarios.wtiporeten ORDER BY codigo"
     End If
     
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     While Not Rs.EOF
         Set ItmX = ListView1(Index).ListItems.Add
@@ -2161,26 +2167,26 @@ End Sub
 
 Private Sub CargarCombo()
 Dim Rs As ADODB.Recordset
-Dim SQL As String
+Dim Sql As String
 Dim J As Long
 
-    For i = 1 To Combo1.Count - 1
-        Combo1(i).Clear
-    Next i
+    For I = 1 To Combo1.Count - 1
+        Combo1(I).Clear
+    Next I
 
     'Tipo de factura
     Set Rs = New ADODB.Recordset
-    SQL = "SELECT * FROM usuarios.wconce340 ORDER BY codigo"
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = "SELECT * FROM usuarios.wconce340 ORDER BY codigo"
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     Combo1(0).AddItem "Todos"
     Combo1(0).ItemData(Combo1(0).NewIndex) = Asc(1)
     
-    i = 0
+    I = 0
     While Not Rs.EOF
         Combo1(0).AddItem Rs!Descripcion
         Combo1(0).ItemData(Combo1(0).NewIndex) = Asc(Rs!Codigo)
-        i = i + 1
+        I = I + 1
         Rs.MoveNext
     Wend
     Rs.Close

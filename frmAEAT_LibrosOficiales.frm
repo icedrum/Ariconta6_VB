@@ -695,10 +695,10 @@ Attribute frmConta.VB_VarHelpID = -1
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim i As Integer
+Dim I As Integer
 Dim IndCodigo As Integer
 
 Dim Periodo As String
@@ -873,19 +873,19 @@ Private Sub PonerPeriodoPresentacion303()
     If vParam.periodos = 0 Then
         'Liquidacion TRIMESTRAL
         
-        For i = 1 To 4
-            If i = 1 Or i = 3 Then
+        For I = 1 To 4
+            If I = 1 Or I = 3 Then
                 CadenaDesdeOtroForm = "er"
             Else
                 CadenaDesdeOtroForm = "º"
             End If
-            CadenaDesdeOtroForm = i & CadenaDesdeOtroForm & " "
+            CadenaDesdeOtroForm = I & CadenaDesdeOtroForm & " "
             Me.cmbPeriodo(0).AddItem CadenaDesdeOtroForm & " trimestre"
-        Next i
+        Next I
     Else
         'Liquidacion MENSUAL
-        For i = 1 To 12
-            CadenaDesdeOtroForm = MonthName(i)
+        For I = 1 To 12
+            CadenaDesdeOtroForm = MonthName(I)
             CadenaDesdeOtroForm = UCase(Mid(CadenaDesdeOtroForm, 1, 1)) & LCase(Mid(CadenaDesdeOtroForm, 2))
             Me.cmbPeriodo(0).AddItem CadenaDesdeOtroForm
         Next
@@ -895,18 +895,18 @@ Private Sub PonerPeriodoPresentacion303()
     'Leeremos ultimo valor liquidado
     
     txtAno(0).Text = vParam.anofactu
-    i = vParam.perfactu + 1
+    I = vParam.perfactu + 1
     If vParam.periodos = 0 Then
         NumRegElim = 4
     Else
         NumRegElim = 12
     End If
         
-    If i > NumRegElim Then
-            i = 1
+    If I > NumRegElim Then
+            I = 1
             txtAno(0).Text = vParam.anofactu + 1
     End If
-    Me.cmbPeriodo(0).ListIndex = i '- 1
+    Me.cmbPeriodo(0).ListIndex = I '- 1
      
      
 '    txtperiodo(0).Text = Me.cmbPeriodo(0).ListIndex
@@ -923,7 +923,7 @@ Private Sub frmF_Selec(vFecha As Date)
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
-Dim i As Integer
+Dim I As Integer
 Dim TotalCant As Currency
 Dim TotalImporte As Currency
 
@@ -932,13 +932,13 @@ Dim TotalImporte As Currency
     Select Case Index
         ' tabla de codigos de iva
         Case 0
-            For i = 1 To ListView1(1).ListItems.Count
-                ListView1(1).ListItems(i).Checked = False
-            Next i
+            For I = 1 To ListView1(1).ListItems.Count
+                ListView1(1).ListItems(I).Checked = False
+            Next I
         Case 1
-            For i = 1 To ListView1(1).ListItems.Count
-                ListView1(1).ListItems(i).Checked = True
-            Next i
+            For I = 1 To ListView1(1).ListItems.Count
+                ListView1(1).ListItems(I).Checked = True
+            Next I
     End Select
     
     Screen.MousePointer = vbDefault
@@ -1104,23 +1104,23 @@ Dim nomDocu As String
     numParam = numParam + 1
     
     
-    SQL = ""
+    Sql = ""
     If EmpresasSeleccionadas = 1 Then
-        For i = 1 To Me.ListView1(1).ListItems.Count
-            If ListView1(1).ListItems(i).Checked Then
-                If Me.ListView1(1).ListItems(i).Text <> vEmpresa.codempre Then SQL = Me.ListView1(1).ListItems(i).SubItems(1)
+        For I = 1 To Me.ListView1(1).ListItems.Count
+            If ListView1(1).ListItems(I).Checked Then
+                If Me.ListView1(1).ListItems(I).Text <> vEmpresa.codempre Then Sql = Me.ListView1(1).ListItems(I).SubItems(1)
             End If
-        Next i
+        Next I
     Else
         'Mas de una empresa
-        SQL = "Empresas seleccionadas: "" + Chr(13) "
-        For i = 1 To Me.ListView1(1).ListItems.Count
-            SQL = SQL & " + """ & Me.ListView1(1).ListItems(i).SubItems(1) & """ + Chr(13) "
-        Next i
-        SQL = SQL & " + """
+        Sql = "Empresas seleccionadas: "" + Chr(13) "
+        For I = 1 To Me.ListView1(1).ListItems.Count
+            Sql = Sql & " + """ & Me.ListView1(1).ListItems(I).SubItems(1) & """ + Chr(13) "
+        Next I
+        Sql = Sql & " + """
     End If
     
-    cadParam = cadParam & "empresas= """ & SQL & """|"
+    cadParam = cadParam & "empresas= """ & Sql & """|"
     numParam = numParam + 1
     
 
@@ -1165,62 +1165,62 @@ Dim TolLiqIva As Currency
     CargarTemporal = False
 
     Emitidas = Me.optTipoFac(0).Value
-    SQL = " select  " & vUsu.Codigo & ", f.numserie, f.numfactu, f.fecfactu, codpais,"
-    SQL = SQL & " nifdatos,nommacta,codconce340,baseimpo,porciva,impoiva,porcrec,imporec,codopera"
-    SQL = SQL & " , @rownum:=@rownum+1 AS rownum  , #porret# as porreten, #impret#  as imprete"
+    Sql = " select  " & vUsu.Codigo & ", f.numserie, f.numfactu, f.fecfactu, codpais,"
+    Sql = Sql & " nifdatos,nommacta,codconce340,baseimpo,porciva,impoiva,porcrec,imporec,codopera"
+    Sql = Sql & " , @rownum:=@rownum+1 AS rownum  , #porret# as porreten, #impret#  as imprete"
     If Emitidas Then
         cad = "insert into tmpfaclin (codusu, codigo, numserie,  numfac, fecha, cta, cliente, nif, imponible,IVA, impiva, porcrec , recargo,retencion,ImponibleAnt) "
       
-        SQL = Replace(SQL, "#porret#", "F.retfaccl")
-        SQL = Replace(SQL, "#impret#", "f.trefaccl")
+        Sql = Replace(Sql, "#porret#", "F.retfaccl")
+        Sql = Replace(Sql, "#impret#", "f.trefaccl")
        
      
-        SQL = SQL & " FROM ariconta" & NumeroConta & ".factcli f,ariconta" & NumeroConta & ".factcli_totales ,  "
-        SQL = SQL & " (SELECT @rownum:=0) r "
-        SQL = SQL & " where f.numserie=factcli_totales.numserie and f.numfactu=factcli_totales.numfactu and"
-        SQL = SQL & " f.anofactu=factcli_totales.anofactu"
+        Sql = Sql & " FROM ariconta" & NumeroConta & ".factcli f,ariconta" & NumeroConta & ".factcli_totales ,  "
+        Sql = Sql & " (SELECT @rownum:=0) r "
+        Sql = Sql & " where f.numserie=factcli_totales.numserie and f.numfactu=factcli_totales.numfactu and"
+        Sql = Sql & " f.anofactu=factcli_totales.anofactu"
     Else
         '## Dic 2019. En nodeducible ira la calave de operacion. De momento Si es INVERSION SUJETO PASIVO, ira clave S2 en el libro
                                                                                                'En total ira (deducible o no   tipoiva; numserie  suplidos:numregis
         cad = "insert into tmpfaclinprov (codusu, codigo ,Numfac ,FechaFac ,cta ,Cliente ,NIF ,Imponible ,IVA ,ImpIVA,FechaCon,Total,tipoiva,suplidos,nodeducible) "
         
-        SQL = Replace(SQL, "#porret#", "F.retfacpr")
-        SQL = Replace(SQL, "#impret#", "f.trefacpr")
+        Sql = Replace(Sql, "#porret#", "F.retfacpr")
+        Sql = Replace(Sql, "#impret#", "f.trefacpr")
         
         
-        SQL = SQL & ", f.fecharec,f.numregis " 'para proveedores pondremos fecha reepcion -->FECHA OPERACION
-        SQL = SQL & " FROM ariconta" & NumeroConta & ".factpro f,ariconta" & NumeroConta & ".factpro_totales , "
-        SQL = SQL & " (SELECT @rownum:=" & NumRegElim & ") r "
-        SQL = SQL & " where f.numserie=factpro_totales.numserie and f.numregis=factpro_totales.numregis and"
-        SQL = SQL & " f.anofactu = factpro_totales.anofactu"
+        Sql = Sql & ", f.fecharec,f.numregis " 'para proveedores pondremos fecha reepcion -->FECHA OPERACION
+        Sql = Sql & " FROM ariconta" & NumeroConta & ".factpro f,ariconta" & NumeroConta & ".factpro_totales , "
+        Sql = Sql & " (SELECT @rownum:=" & NumRegElim & ") r "
+        Sql = Sql & " where f.numserie=factpro_totales.numserie and f.numregis=factpro_totales.numregis and"
+        Sql = Sql & " f.anofactu = factpro_totales.anofactu"
     End If
     
     
-    SQL = SQL & " AND " & cadselect
+    Sql = Sql & " AND " & cadselect
     
     
     If Not Emitidas Then
-        If chkSoloRea.Value = 1 Then SQL = SQL & " AND codconce340='X'"
+        If chkSoloRea.Value = 1 Then Sql = Sql & " AND codconce340='X'"
     End If
     
     'ORDEN
-    SQL = SQL & " ORDER BY "
+    Sql = Sql & " ORDER BY "
     If Emitidas Then
-        SQL = SQL & "f.fecfactu,f.numserie,f.numfactu "
+        Sql = Sql & "f.fecfactu,f.numserie,f.numfactu "
     Else
-        SQL = SQL & "f.fecharec,f.numserie,f.numregis "
+        Sql = Sql & "f.fecharec,f.numserie,f.numregis "
     End If
     
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     DoEvents
-    SQL = ""
+    Sql = ""
     While Not miRsAux.EOF
         '
             
         
         'Primer trozo comun codusu, codigo ,Numfac ,FechaFac ,cta ,Cliente ,NIF ,Imponible ,IVA ,ImpIVA
         NumRegElim = miRsAux!rownum
-        SQL = SQL & ", (" & vUsu.Codigo & "," & miRsAux!rownum & ","
+        Sql = Sql & ", (" & vUsu.Codigo & "," & miRsAux!rownum & ","
         If Emitidas Then
             RC = "'" & miRsAux!NUmSerie & "'," & Format(miRsAux!NumFactu, "000000")
         Else
@@ -1231,40 +1231,40 @@ Dim TolLiqIva As Currency
         Label13.Refresh
         
         'If RC = "337943" Then S top
-        SQL = SQL & RC & "," & DBSet(miRsAux!FecFactu, "F") & ","
+        Sql = Sql & RC & "," & DBSet(miRsAux!FecFactu, "F") & ","
         RC = DBLet(miRsAux!codpais, "T")
         If RC = "" Then RC = "ES"
-        SQL = SQL & DBSet(RC, "T") & "," & DBSet(miRsAux!Nommacta, "T") & "," & DBSet(miRsAux!nifdatos, "T") & ","
+        Sql = Sql & DBSet(RC, "T") & "," & DBSet(miRsAux!Nommacta, "T") & "," & DBSet(miRsAux!nifdatos, "T") & ","
         
         'Impinible porceiva impoiva
         TolLiqIva = DBLet(miRsAux!Impoiva, "N")
-        SQL = SQL & DBSet(miRsAux!Baseimpo, "N") & "," & DBSet(miRsAux!porciva, "N") & "," & DBSet(TolLiqIva, "N", "N") & ","
+        Sql = Sql & DBSet(miRsAux!Baseimpo, "N") & "," & DBSet(miRsAux!porciva, "N") & "," & DBSet(TolLiqIva, "N", "N") & ","
          
         If Emitidas Then
             RC = "null,0"
             If Not IsNull(miRsAux!porcrec) Then
                 If miRsAux!porcrec > 0 Then RC = DBSet(miRsAux!porcrec, "N") & "," & DBSet(miRsAux!ImpoRec, "N", "N")
             End If
-            SQL = SQL & RC & ","
+            Sql = Sql & RC & ","
             'Abril 2020
-            SQL = SQL & DBSet(miRsAux!porreten, "N") & ","
-            SQL = SQL & DBSet(miRsAux!imprete, "F")
+            Sql = Sql & DBSet(miRsAux!porreten, "N") & ","
+            Sql = Sql & DBSet(miRsAux!imprete, "F")
             
-            SQL = SQL & ")"
+            Sql = Sql & ")"
         Else
             ',FechaCon,Total
-            SQL = SQL & DBSet(miRsAux!fecharec, "F") & ","
+            Sql = Sql & DBSet(miRsAux!fecharec, "F") & ","
             
             'If miRsAux!nodeducible Then
             '
             'End If
             TolLiqIva = DBLet(miRsAux!Impoiva, "N")
             
-            SQL = SQL & DBSet(TolLiqIva, "N") & "," & miRsAux!NUmSerie & "," & miRsAux!Numregis & ","
+            Sql = Sql & DBSet(TolLiqIva, "N") & "," & miRsAux!NUmSerie & "," & miRsAux!Numregis & ","
             If miRsAux!CodOpera = 4 Then
-                SQL = SQL & "'S2'"
+                Sql = Sql & "'S2'"
             Else
-                SQL = SQL & "''"
+                Sql = Sql & "''"
             End If
             
             'Abril 2020
@@ -1274,11 +1274,11 @@ Dim TolLiqIva As Currency
 
             
             
-            SQL = SQL & ")"
+            Sql = Sql & ")"
             
         End If
         
-        If Len(SQL) > 1000 Then HazInsertTmp
+        If Len(Sql) > 1000 Then HazInsertTmp
         
         
         miRsAux.MoveNext
@@ -1296,13 +1296,13 @@ eCargarTemporal:
 End Function
 
 Private Sub HazInsertTmp()
-    If SQL <> "" Then
-        SQL = Mid(SQL, 2)
-        SQL = " VALUES " & SQL
-        SQL = cad & SQL
-        Conn.Execute SQL
+    If Sql <> "" Then
+        Sql = Mid(Sql, 2)
+        Sql = " VALUES " & Sql
+        Sql = cad & Sql
+        Conn.Execute Sql
         'Ejecuta SQL
-        SQL = ""
+        Sql = ""
     End If
 End Sub
 
@@ -1376,14 +1376,14 @@ End Function
 
 
 Private Function EmpresasSeleccionadas() As Integer
-Dim SQL As String
-Dim i As Integer
+Dim Sql As String
+Dim I As Integer
 Dim NSel As Integer
 
     NSel = 0
-    For i = 1 To ListView1(1).ListItems.Count
-        If Me.ListView1(1).ListItems(i).Checked Then NSel = NSel + 1
-    Next i
+    For I = 1 To ListView1(1).ListItems.Count
+        If Me.ListView1(1).ListItems(I).Checked Then NSel = NSel + 1
+    Next I
     EmpresasSeleccionadas = NSel
 
 End Function
@@ -1397,7 +1397,7 @@ Private Sub CargarListView(Index As Integer)
 'en un ListView
 Dim Rs As ADODB.Recordset
 Dim ItmX As ListItem
-Dim SQL As String
+Dim Sql As String
 
     On Error GoTo ECargarList
 
@@ -1407,18 +1407,18 @@ Dim SQL As String
     ListView1(Index).ColumnHeaders.Add , , "Código", 600
     ListView1(Index).ColumnHeaders.Add , , "Descripción", 3200
     
-    SQL = "SELECT codempre, nomempre, conta "
-    SQL = SQL & " FROM usuarios.empresasariconta "
+    Sql = "SELECT codempre, nomempre, conta "
+    Sql = Sql & " FROM usuarios.empresasariconta "
     
     If Not vParam.EsMultiseccion Then
-        SQL = SQL & " where conta = " & DBSet(Conn.DefaultDatabase, "T")
+        Sql = Sql & " where conta = " & DBSet(Conn.DefaultDatabase, "T")
     Else
-        SQL = SQL & " where mid(conta,1,8) = 'ariconta'"
+        Sql = Sql & " where mid(conta,1,8) = 'ariconta'"
     End If
-    SQL = SQL & " ORDER BY codempre "
+    Sql = Sql & " ORDER BY codempre "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     While Not Rs.EOF
         
@@ -1483,13 +1483,13 @@ Dim F2 As Date
     If Me.optTipoFac(0).Value Then
         'CLientes
         cadselect = "f.fecfactu "
-        SQL = "delete from tmpfaclin where codusu = " & vUsu.Codigo
-        Conn.Execute SQL
+        Sql = "delete from tmpfaclin where codusu = " & vUsu.Codigo
+        Conn.Execute Sql
     Else
         'PRoveedores
         cadselect = "f.fecharec "
-        SQL = "delete from tmpfaclinprov where codusu = " & vUsu.Codigo
-        Conn.Execute SQL
+        Sql = "delete from tmpfaclinprov where codusu = " & vUsu.Codigo
+        Conn.Execute Sql
     End If
     
     cadselect = cadselect & RC
@@ -1499,18 +1499,18 @@ Dim F2 As Date
     NumRegElim = 0
     'Para cada empresa
     'Para cada periodo
-    For i = 1 To Me.ListView1(1).ListItems.Count  'List2.ListCount - 1
-        If Me.ListView1(1).ListItems(i).Checked Then
+    For I = 1 To Me.ListView1(1).ListItems.Count  'List2.ListCount - 1
+        If Me.ListView1(1).ListItems(I).Checked Then
                 Set miRsAux = New ADODB.Recordset
                     
-            Label13.Caption = "Leyendo facturas " & ListView1(1).ListItems(i).SubItems(1)
+            Label13.Caption = "Leyendo facturas " & ListView1(1).ListItems(I).SubItems(1)
             Label13.Refresh
 
-              If Not CargarTemporal(CInt(ListView1(1).ListItems(i).Text)) Then Exit Function
+              If Not CargarTemporal(CInt(ListView1(1).ListItems(I).Text)) Then Exit Function
               
               Set miRsAux = Nothing
         End If
-    Next i
+    Next I
     
     
     InsertaTmpFacturas = True
@@ -1558,61 +1558,61 @@ Dim EpigrafeIAE As String
     '4) Nombre o Razon social
     cad = IIf(optTipoFac(0).Value, "E", "R")
     
-    SQL = vEmpresa.NombreEmpresaOficial
-    SQL = Replace(SQL, ".", "")
-    SQL = Replace(SQL, ",", "")
-    cad = Me.txtAno(0).Text & vEmpresa.NIF & cad & SQL
+    Sql = vEmpresa.NombreEmpresaOficial
+    Sql = Replace(Sql, ".", "")
+    Sql = Replace(Sql, ",", "")
+    cad = Me.txtAno(0).Text & vEmpresa.NIF & cad & Sql
     If Me.cmbPeriodo(0).ListIndex > 0 Then
         'HA pedido un periodo
         
         If vParam.periodos = 0 Then
-            SQL = cmbPeriodo(0).ListIndex & "T"
+            Sql = cmbPeriodo(0).ListIndex & "T"
         Else
-            SQL = Format(cmbPeriodo(0).ListIndex, "00")
+            Sql = Format(cmbPeriodo(0).ListIndex, "00")
         End If
-        SQL = "_" & SQL
+        Sql = "_" & Sql
     Else
-        SQL = ""
+        Sql = ""
     End If
-    cad = cad & SQL & ".csv"
+    cad = cad & Sql & ".csv"
     CadenaDesdeOtroForm = cad
     If Me.optTipoFac(0).Value Then
         cad = ""
         'Abril 2020
         If vParam.periodos = 0 Then
-            SQL = "concat(((month(Fecha)-1) div 3)+1,'T')"
+            Sql = "concat(((month(Fecha)-1) div 3)+1,'T')"
         Else
-            SQL = "lpad(month(Fecha),2,'0')"
+            Sql = "lpad(month(Fecha),2,'0')"
         End If
-        SQL = "SELECT year(fecha) ejercicio, " & SQL & " periodo , 1 tipoActiviad , '" & EpigrafeIAE & "' as epigrafe, "
-        SQL = SQL & "'F1' as ""Tipo factura"", 'I01' as ""Concepto del ingreso"", '' as ""Concepto computable"" "
+        Sql = "SELECT year(fecha) ejercicio, " & Sql & " periodo , 1 tipoActiviad , '" & EpigrafeIAE & "' as epigrafe, "
+        Sql = Sql & "'F1' as ""Tipo factura"", 'I01' as ""Concepto del ingreso"", '' as ""Concepto computable"" "
         'lo que estaba
-        SQL = SQL & ", date_format(Fecha ,'%d/%m/%Y')  ""Fecha Expedición"",'' as ""Fecha Operación"",numserie ""Serie(Identificación de la Factura)"",numfac as ""Número(Identificación de la Factura)"""
-        SQL = SQL & ",'' as ""Número-Final(Identificación de la Factura)"""
-        SQL = SQL & ",  if(cta='ES','',if(coalesce(intracom,0)=1,'02','06'))   ""Tipo(NIF Destinatario)"""
-        SQL = SQL & ",cta as ""Código País(NIF Destinatario)"""
-        SQL = SQL & ",substring(nif,1,20)  ""Identificación(NIF Destinatario)"""
-        SQL = SQL & ",substring(cliente,1,40) ""Nombre Destinatario"""
+        Sql = Sql & ", date_format(Fecha ,'%d/%m/%Y')  ""Fecha Expedición"",'' as ""Fecha Operación"",numserie ""Serie(Identificación de la Factura)"",numfac as ""Número(Identificación de la Factura)"""
+        Sql = Sql & ",'' as ""Número-Final(Identificación de la Factura)"""
+        Sql = Sql & ",  if(cta='ES','',if(coalesce(intracom,0)=1,'02','06'))   ""Tipo(NIF Destinatario)"""
+        Sql = Sql & ",cta as ""Código País(NIF Destinatario)"""
+        Sql = Sql & ",substring(nif,1,20)  ""Identificación(NIF Destinatario)"""
+        Sql = Sql & ",substring(cliente,1,40) ""Nombre Destinatario"""
         'SQL = SQL & ",'' as ""Fa ctura Sustitutiva"""  marzo 2020 YA no esta
-        SQL = SQL & ",'' as ""Clave de Operación"""
-        SQL = SQL & ", imponible + impiva + recargo ""Total Factura"""
-        SQL = SQL & ",imponible ""Base Imponible"""
-        SQL = SQL & ",iva ""Tipo de IVA"""
-        SQL = SQL & ",impiva ""Cuota IVA Repercutida"""
-        SQL = SQL & ",coalesce(porcrec,'') as ""Tipo de Recargo Eq."""
-        SQL = SQL & ",if (coalesce(recargo,0)=0,'',recargo) as ""Cuota Recargo Eq."""
-        SQL = SQL & ",'' as ""Fecha(Cobro)"""
-        SQL = SQL & ",'' as ""Importe(Cobro)"""
-        SQL = SQL & ",'' as ""Medio Utilizado(Cobro)"""
-        SQL = SQL & ", '' as ""Identificación Medio Utilizado(Cobro)""  "
+        Sql = Sql & ",'' as ""Clave de Operación"""
+        Sql = Sql & ", imponible + impiva + recargo ""Total Factura"""
+        Sql = Sql & ",imponible ""Base Imponible"""
+        Sql = Sql & ",iva ""Tipo de IVA"""
+        Sql = Sql & ",impiva ""Cuota IVA Repercutida"""
+        Sql = Sql & ",coalesce(porcrec,'') as ""Tipo de Recargo Eq."""
+        Sql = Sql & ",if (coalesce(recargo,0)=0,'',recargo) as ""Cuota Recargo Eq."""
+        Sql = Sql & ",'' as ""Fecha(Cobro)"""
+        Sql = Sql & ",'' as ""Importe(Cobro)"""
+        Sql = Sql & ",'' as ""Medio Utilizado(Cobro)"""
+        Sql = Sql & ", '' as ""Identificación Medio Utilizado(Cobro)""  "
         'abril 2020. De momento vacios
-        SQL = SQL & ",coalesce(retencion,'') as ""Tipo de retencion"""
-        SQL = SQL & ",if (coalesce(ImponibleAnt,0)=0,'',ImponibleAnt) as ""Importe retenido"""
+        Sql = Sql & ",coalesce(retencion,'') as ""Tipo de retencion"""
+        Sql = Sql & ",if (coalesce(ImponibleAnt,0)=0,'',ImponibleAnt) as ""Importe retenido"""
         
         
         
         
-        SQL = SQL & " from tmpfaclin left join paises on cta=codpais where codusu=" & vUsu.Codigo
+        Sql = Sql & " from tmpfaclin left join paises on cta=codpais where codusu=" & vUsu.Codigo
 
 
 
@@ -1620,55 +1620,55 @@ Dim EpigrafeIAE As String
         cad = ""
         'Abril 2020
         If vParam.periodos = 0 Then
-            SQL = "concat(((month(Fechacon)-1) div 3)+1,'T')"
+            Sql = "concat(((month(Fechacon)-1) div 3)+1,'T')"
         Else
-            SQL = "lpad(month(Fechacon),2,'0')"
+            Sql = "lpad(month(Fechacon),2,'0')"
         End If
-        SQL = "SELECT year(Fechacon) ejercicio, " & SQL & " periodo , 1 tipoActiviad , '" & EpigrafeIAE & "' as epigrafe, "
-        SQL = SQL & "'F1' as ""Tipo factura"", 'G01' as ""Concepto del gasto"", '' as ""Gasto deducible"" "
+        Sql = "SELECT year(Fechacon) ejercicio, " & Sql & " periodo , 1 tipoActiviad , '" & EpigrafeIAE & "' as epigrafe, "
+        Sql = Sql & "'F1' as ""Tipo factura"", 'G01' as ""Concepto del gasto"", '' as ""Gasto deducible"" "
     
     
-        SQL = SQL & ", date_format(FechaFac ,'%d/%m/%Y') as ""Fecha Expedición"""
-        SQL = SQL & ",date_format(Fechacon ,'%d/%m/%Y')  as ""Fecha Operación"""
-        SQL = SQL & ",numfac as ""Serie-Número(Identificación Factura del Expedidor)"""
-        SQL = SQL & ", '' as ""Número-Final(Identificación Factura del Expedidor)"""
-        SQL = SQL & ",concat(if(tipoiva=1,'',tipoiva),replace(format(suplidos,0),',','')) as  ""Número Recepción"""
-        SQL = SQL & ",'' as ""Número Recepción Final"""
-        SQL = SQL & ",  if(cta='ES','',if(coalesce(intracom,0)=1,'02','06'))  as ""Tipo(NIF Expedidor)"""
-        SQL = SQL & ",cta as ""Código País(NIF Expedidor)"""
-        SQL = SQL & ",substring(nif,1,20)  as ""Identificación(NIF Expedidor)"""
-        SQL = SQL & ",substring(cliente,1,40) as ""Nombre Expedidor"""
+        Sql = Sql & ", date_format(FechaFac ,'%d/%m/%Y') as ""Fecha Expedición"""
+        Sql = Sql & ",date_format(Fechacon ,'%d/%m/%Y')  as ""Fecha Operación"""
+        Sql = Sql & ",numfac as ""Serie-Número(Identificación Factura del Expedidor)"""
+        Sql = Sql & ", '' as ""Número-Final(Identificación Factura del Expedidor)"""
+        Sql = Sql & ",concat(if(tipoiva=1,'',tipoiva),replace(format(suplidos,0),',','')) as  ""Número Recepción"""
+        Sql = Sql & ",'' as ""Número Recepción Final"""
+        Sql = Sql & ",  if(cta='ES','',if(coalesce(intracom,0)=1,'02','06'))  as ""Tipo(NIF Expedidor)"""
+        Sql = Sql & ",cta as ""Código País(NIF Expedidor)"""
+        Sql = Sql & ",substring(nif,1,20)  as ""Identificación(NIF Expedidor)"""
+        Sql = Sql & ",substring(cliente,1,40) as ""Nombre Expedidor"""
         'SQL = SQL & ",'' as ""Factura Sustitutiva"""
         
         'Diciembre19. En clave de operacion hay que poner S2 para las Inv. sujeto pasivo. Esta grabado en el campo NoDeducible
         'SQL = SQL & ",'' as ""Clave de Operación"""
-        SQL = SQL & ",NoDeducible as ""Clave de Operación"""
-        SQL = SQL & ",imponible + impiva as ""Total Factura"""
-        SQL = SQL & ",imponible  as ""Base Imponible"""
-        SQL = SQL & ",iva as ""Tipo de IVA"""
-        SQL = SQL & ",impiva as ""Cuota IVA Soportado"""
-        SQL = SQL & ",impiva as ""Cuota Deducible"""
-        SQL = SQL & ",'' as ""Tipo de Recargo Eq."""
-        SQL = SQL & ",'' as ""Cuota Recargo Eq."""
-        SQL = SQL & ",'' as ""Fecha(Pago)"""
-        SQL = SQL & ",'' as ""Importe(Pago)"""
-        SQL = SQL & ",'' as ""Medio Utilizado(Pago)"""
-        SQL = SQL & ",'' as ""Identificación Medio Utilizado(Pago)"""
+        Sql = Sql & ",NoDeducible as ""Clave de Operación"""
+        Sql = Sql & ",imponible + impiva as ""Total Factura"""
+        Sql = Sql & ",imponible  as ""Base Imponible"""
+        Sql = Sql & ",iva as ""Tipo de IVA"""
+        Sql = Sql & ",impiva as ""Cuota IVA Soportado"""
+        Sql = Sql & ",impiva as ""Cuota Deducible"""
+        Sql = Sql & ",'' as ""Tipo de Recargo Eq."""
+        Sql = Sql & ",'' as ""Cuota Recargo Eq."""
+        Sql = Sql & ",'' as ""Fecha(Pago)"""
+        Sql = Sql & ",'' as ""Importe(Pago)"""
+        Sql = Sql & ",'' as ""Medio Utilizado(Pago)"""
+        Sql = Sql & ",'' as ""Identificación Medio Utilizado(Pago)"""
         'abril 2020
         'de momento vacio
         'SQL = SQL & ",coalesce(retencion,'') as ""Tipo de retencion"""
         'SQL = SQL & ",if (coalesce(ImponibleAnt,0)=0,'',ImponibleAnt) as ""Importe retenido"""
-        SQL = SQL & ",'' as ""Tipo de retencion"""
-        SQL = SQL & ",'' as ""Importe retenido"""
+        Sql = Sql & ",'' as ""Tipo de retencion"""
+        Sql = Sql & ",'' as ""Importe retenido"""
         
-        SQL = SQL & "from tmpfaclinprov left join paises on cta=codpais where codusu=" & vUsu.Codigo
+        Sql = Sql & "from tmpfaclinprov left join paises on cta=codpais where codusu=" & vUsu.Codigo
         
     End If
-    SQL = SQL & " ORDER BY CODIGO"
+    Sql = Sql & " ORDER BY CODIGO"
     
     'LLamos a la funcion
         
-    GeneraFicheroCSV SQL, App.Path & "\FraExpor.txt", True
+    GeneraFicheroCSV Sql, App.Path & "\FraExpor.txt", True
     cad = CadenaDesdeOtroForm
     GuardarComo
     

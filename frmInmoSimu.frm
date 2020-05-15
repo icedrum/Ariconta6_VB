@@ -2,7 +2,7 @@ VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmInmoSimu 
    BorderStyle     =   3  'Fixed Dialog
-   ClientHeight    =   5715
+   ClientHeight    =   6630
    ClientLeft      =   45
    ClientTop       =   435
    ClientWidth     =   11745
@@ -10,7 +10,7 @@ Begin VB.Form frmInmoSimu
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   5715
+   ScaleHeight     =   6630
    ScaleWidth      =   11745
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
@@ -25,10 +25,10 @@ Begin VB.Form frmInmoSimu
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   4965
+      Height          =   5925
       Left            =   7110
-      TabIndex        =   17
-      Top             =   -30
+      TabIndex        =   19
+      Top             =   0
       Width           =   4455
       Begin VB.TextBox txtFecha 
          Alignment       =   1  'Right Justify
@@ -45,7 +45,7 @@ Begin VB.Form frmInmoSimu
          Index           =   0
          Left            =   2880
          MaxLength       =   10
-         TabIndex        =   2
+         TabIndex        =   4
          Tag             =   "imgConcepto"
          Top             =   750
          Width           =   1305
@@ -53,7 +53,7 @@ Begin VB.Form frmInmoSimu
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   3870
-         TabIndex        =   22
+         TabIndex        =   24
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -91,7 +91,7 @@ Begin VB.Form frmInmoSimu
          Height          =   285
          Index           =   8
          Left            =   180
-         TabIndex        =   23
+         TabIndex        =   25
          Top             =   780
          Width           =   2325
       End
@@ -107,11 +107,87 @@ Begin VB.Form frmInmoSimu
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   2145
+      Height          =   2985
       Left            =   120
-      TabIndex        =   14
+      TabIndex        =   16
       Top             =   0
       Width           =   6915
+      Begin VB.TextBox txtNConcepto 
+         BackColor       =   &H80000018&
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   2
+         Left            =   2610
+         Locked          =   -1  'True
+         TabIndex        =   29
+         Top             =   1920
+         Width           =   4095
+      End
+      Begin VB.TextBox txtConcepto 
+         Alignment       =   1  'Right Justify
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   2
+         Left            =   1260
+         TabIndex        =   2
+         Tag             =   "imgConcepto"
+         Top             =   1920
+         Width           =   1305
+      End
+      Begin VB.TextBox txtNConcepto 
+         BackColor       =   &H80000018&
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   3
+         Left            =   2610
+         Locked          =   -1  'True
+         TabIndex        =   28
+         Top             =   2400
+         Width           =   4095
+      End
+      Begin VB.TextBox txtConcepto 
+         Alignment       =   1  'Right Justify
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   3
+         Left            =   1260
+         TabIndex        =   3
+         Tag             =   "imgConcepto"
+         Top             =   2400
+         Width           =   1305
+      End
       Begin VB.TextBox txtNConcepto 
          BackColor       =   &H80000018&
          BeginProperty Font 
@@ -127,8 +203,8 @@ Begin VB.Form frmInmoSimu
          Index           =   1
          Left            =   2610
          Locked          =   -1  'True
-         TabIndex        =   25
-         Top             =   1380
+         TabIndex        =   27
+         Top             =   1140
          Width           =   4125
       End
       Begin VB.TextBox txtNConcepto 
@@ -146,8 +222,8 @@ Begin VB.Form frmInmoSimu
          Index           =   0
          Left            =   2610
          Locked          =   -1  'True
-         TabIndex        =   24
-         Top             =   960
+         TabIndex        =   26
+         Top             =   720
          Width           =   4125
       End
       Begin VB.TextBox txtConcepto 
@@ -166,7 +242,7 @@ Begin VB.Form frmInmoSimu
          Left            =   1260
          TabIndex        =   0
          Tag             =   "imgConcepto"
-         Top             =   960
+         Top             =   720
          Width           =   1305
       End
       Begin VB.TextBox txtConcepto 
@@ -185,8 +261,41 @@ Begin VB.Form frmInmoSimu
          Left            =   1260
          TabIndex        =   1
          Tag             =   "imgConcepto"
-         Top             =   1380
+         Top             =   1140
          Width           =   1305
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Seccion"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Index           =   9
+         Left            =   120
+         TabIndex        =   32
+         Top             =   1560
+         Width           =   1110
+      End
+      Begin VB.Image imgConcepto 
+         Height          =   255
+         Index           =   3
+         Left            =   960
+         Top             =   2400
+         Width           =   255
+      End
+      Begin VB.Image imgConcepto 
+         Height          =   255
+         Index           =   2
+         Left            =   960
+         Top             =   1920
+         Width           =   255
       End
       Begin VB.Label Label3 
          Caption         =   "Concepto"
@@ -202,23 +311,23 @@ Begin VB.Form frmInmoSimu
          ForeColor       =   &H00800000&
          Height          =   255
          Index           =   6
-         Left            =   270
-         TabIndex        =   21
-         Top             =   630
+         Left            =   120
+         TabIndex        =   23
+         Top             =   360
          Width           =   1260
       End
       Begin VB.Image imgConcepto 
          Height          =   255
          Index           =   1
          Left            =   960
-         Top             =   1380
+         Top             =   1140
          Width           =   255
       End
       Begin VB.Image imgConcepto 
          Height          =   255
          Index           =   0
          Left            =   960
-         Top             =   960
+         Top             =   720
          Width           =   255
       End
       Begin VB.Label Label3 
@@ -235,8 +344,8 @@ Begin VB.Form frmInmoSimu
          Height          =   195
          Index           =   1
          Left            =   270
-         TabIndex        =   16
-         Top             =   1380
+         TabIndex        =   18
+         Top             =   1140
          Width           =   735
       End
       Begin VB.Label Label3 
@@ -253,9 +362,45 @@ Begin VB.Form frmInmoSimu
          Height          =   195
          Index           =   0
          Left            =   270
-         TabIndex        =   15
-         Top             =   960
+         TabIndex        =   17
+         Top             =   720
          Width           =   780
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Desde"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Index           =   11
+         Left            =   360
+         TabIndex        =   30
+         Top             =   1920
+         Width           =   780
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Hasta"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Index           =   10
+         Left            =   360
+         TabIndex        =   31
+         Top             =   2400
+         Width           =   735
       End
    End
    Begin VB.CommandButton cmdCancelar 
@@ -272,8 +417,8 @@ Begin VB.Form frmInmoSimu
       EndProperty
       Height          =   375
       Left            =   10350
-      TabIndex        =   4
-      Top             =   5160
+      TabIndex        =   6
+      Top             =   6120
       Width           =   1215
    End
    Begin VB.CommandButton cmdAccion 
@@ -289,8 +434,8 @@ Begin VB.Form frmInmoSimu
       Height          =   375
       Index           =   1
       Left            =   8790
-      TabIndex        =   3
-      Top             =   5160
+      TabIndex        =   5
+      Top             =   6120
       Width           =   1455
    End
    Begin VB.CommandButton cmdAccion 
@@ -307,8 +452,8 @@ Begin VB.Form frmInmoSimu
       Height          =   375
       Index           =   0
       Left            =   150
-      TabIndex        =   5
-      Top             =   5040
+      TabIndex        =   7
+      Top             =   6120
       Width           =   1335
    End
    Begin VB.Frame FrameTipoSalida 
@@ -324,8 +469,8 @@ Begin VB.Form frmInmoSimu
       EndProperty
       Height          =   2805
       Left            =   120
-      TabIndex        =   6
-      Top             =   2130
+      TabIndex        =   8
+      Top             =   3120
       Width           =   6915
       Begin VB.CommandButton PushButtonImpr 
          Caption         =   "Propiedades"
@@ -340,7 +485,7 @@ Begin VB.Form frmInmoSimu
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   20
+         TabIndex        =   22
          Top             =   720
          Width           =   1515
       End
@@ -349,7 +494,7 @@ Begin VB.Form frmInmoSimu
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   19
+         TabIndex        =   21
          Top             =   1680
          Width           =   255
       End
@@ -358,7 +503,7 @@ Begin VB.Form frmInmoSimu
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   18
+         TabIndex        =   20
          Top             =   1200
          Width           =   255
       End
@@ -376,7 +521,7 @@ Begin VB.Form frmInmoSimu
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   13
+         TabIndex        =   15
          Top             =   1680
          Width           =   4665
       End
@@ -394,7 +539,7 @@ Begin VB.Form frmInmoSimu
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   12
+         TabIndex        =   14
          Top             =   1200
          Width           =   4665
       End
@@ -412,7 +557,7 @@ Begin VB.Form frmInmoSimu
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   11
+         TabIndex        =   13
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -431,7 +576,7 @@ Begin VB.Form frmInmoSimu
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   10
+         TabIndex        =   12
          Top             =   2160
          Width           =   975
       End
@@ -449,7 +594,7 @@ Begin VB.Form frmInmoSimu
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   9
+         TabIndex        =   11
          Top             =   1680
          Width           =   975
       End
@@ -467,7 +612,7 @@ Begin VB.Form frmInmoSimu
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   8
+         TabIndex        =   10
          Top             =   1200
          Width           =   1515
       End
@@ -485,11 +630,28 @@ Begin VB.Form frmInmoSimu
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   7
+         TabIndex        =   9
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
       End
+   End
+   Begin VB.Label lblInd 
+      Caption         =   "Desde"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   195
+      Left            =   2040
+      TabIndex        =   33
+      Top             =   6240
+      Width           =   5460
    End
 End
 Attribute VB_Name = "frmInmoSimu"
@@ -521,15 +683,16 @@ Public FechaEnt As String
 
 Private WithEvents frmCon As frmInmoConceptos
 Attribute frmCon.VB_VarHelpID = -1
-Private WithEvents frmCC As frmCCCentroCoste
-Attribute frmCC.VB_VarHelpID = -1
+Private WithEvents frmSec As frmInmoSeccion
+Attribute frmSec.VB_VarHelpID = -1
+'Private WithEvents frmCC As frmCCCentroCoste
 Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
 
 Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim i As Integer
+Dim I As Integer
 Dim IndCodigo As Integer
 
 
@@ -555,7 +718,7 @@ End Sub
 
 Private Sub cmdAccion_Click(Index As Integer)
 Dim tabla As String
-
+Dim B As Boolean
     If Not DatosOK Then Exit Sub
     
     
@@ -569,8 +732,14 @@ Dim tabla As String
     
     If Not MontaSQL Then Exit Sub
     
-    If Not HazSimulacion(cadselect, txtFecha(0).Text, 0) Then Exit Sub
-
+    Screen.MousePointer = vbHourglass
+    lblInd.Caption = "Iniciando"
+    lblInd.Refresh
+    B = HazSimulacion(cadselect, txtFecha(0).Text, 0, lblInd)
+    lblInd.Caption = ""
+    Screen.MousePointer = vbDefault
+    If Not B Then Exit Sub
+    
     cadselect = "tmpsimulainmo.codusu = " & vUsu.Codigo
     cadFormula = "{tmpsimulainmo.codusu}=" & vUsu.Codigo
     
@@ -616,7 +785,7 @@ End Sub
 
 Private Sub Form_Load()
     Me.Icon = frmppal.Icon
-        
+    lblInd.Caption = ""
     'Otras opciones
     Me.Caption = "Simulación de Amortización"
 
@@ -627,9 +796,9 @@ Private Sub Form_Load()
     End With
 
 
-    For i = 0 To 1
-        Me.imgConcepto(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 0 To 3
+        Me.imgConcepto(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
      
     txtFecha(0).Text = SugerirFechaNuevo
      
@@ -647,14 +816,27 @@ Private Sub frmF_Selec(vFecha As Date)
     txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
+Private Sub frmSec_DatoSeleccionado(CadenaSeleccion As String)
+    Sql = CadenaSeleccion
+End Sub
+
 Private Sub imgConcepto_Click(Index As Integer)
     
     Sql = ""
     AbiertoOtroFormEnListado = True
-    Set frmCon = New frmInmoConceptos
-    frmCon.DatosADevolverBusqueda = True
-    frmCon.Show vbModal
-    Set frmCon = Nothing
+    If Index < 2 Then
+        Set frmCon = New frmInmoConceptos
+        frmCon.DatosADevolverBusqueda = True
+        frmCon.Show vbModal
+        Set frmCon = Nothing
+    Else
+        Set frmSec = frmInmoSeccion
+        frmSec.DatosADevolverBusqueda = True
+        frmSec.Show vbModal
+        Set frmSec = Nothing
+    
+        
+    End If
     If Sql <> "" Then
         Me.txtConcepto(Index).Text = RecuperaValor(Sql, 1)
         Me.txtNConcepto(Index).Text = RecuperaValor(Sql, 2)
@@ -764,6 +946,9 @@ Dim cad As String, cadTipo As String 'tipo cliente
         Case 0, 1 'Tipos de concepto de inmovilizado
             txtNConcepto(Index).Text = DevuelveDesdeBD("nomconam", "inmovcon", "codconam", txtConcepto(Index), "N")
             If txtConcepto(Index).Text <> "" Then txtConcepto(Index).Text = Format(txtConcepto(Index).Text, "0000")
+        Case 2, 3
+            txtNConcepto(Index).Text = DevuelveDesdeBD("nomsecin", "inmovseccion", "codsecin", txtConcepto(Index), "N")
+            If txtConcepto(Index).Text <> "" Then txtConcepto(Index).Text = Format(txtConcepto(Index).Text, "0000")
     End Select
 
 End Sub
@@ -777,16 +962,16 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim Sql2 As String
 
-    'Monto el SQL
-    Sql = "Select conconam Concepto,nomconam Descripción,codinmov Elemento,nominmov Descripción,fechaadq FechaAdquisicion,valoradq ValorAdquisicion,amortacu AmortAcumulada,totalamor TotalAmortizacion, "
-    Sql = Sql & "valoradq - amortacu - totalamor Pendiente "
-    Sql = Sql & " FROM tmpsimulainmo "
+    Sql = " Select codsecin,nomsecin,tmpsimulainmo.conconam Concepto,nomconam Descripción,tmpsimulainmo.codinmov Elemento,tmpsimulainmo.nominmov Descripción"
+    Sql = Sql & " ,tmpsimulainmo.fechaadq FechaAdquisicion,tmpsimulainmo.valoradq ValorAdquisicion,tmpsimulainmo.amortacu AmortAcumulada"
+    Sql = Sql & " ,totalamor TotalAmortizacion, tmpsimulainmo.valoradq - tmpsimulainmo.amortacu - totalamor Pendiente"
+    Sql = Sql & " FROM tmpsimulainmo  left join inmovele on tmpsimulainmo.codinmov=inmovele.codinmov"
+    Sql = Sql & " left join inmovseccion on codsecin =seccion"
     
     If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
     
-    Sql = Sql & " ORDER BY 1,2,3"
+    Sql = Sql & " ORDER BY 1,3,5"
         
     'LLamos a la funcion
     GeneraFicheroCSV Sql, txtTipoSalida(1).Text
@@ -807,7 +992,7 @@ Dim CADENA As String
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     
     cadNomRPT = nomDocu
-
+    If UCase(Right(nomDocu, 4)) = "S.RPT" Then vMostrarTree = True
     If vParam.autocoste Then
         cadParam = cadParam & "pAnalitica=1|"
         numParam = numParam + 1
@@ -838,7 +1023,8 @@ Dim Situacion As String
     MontaSQL = False
     
     If Not PonerDesdeHasta("inmovele.conconam", "COI", Me.txtConcepto(0), txtNConcepto(0), Me.txtConcepto(1), txtNConcepto(1), "pDHConcepto=""") Then Exit Function
-            
+    If Not PonerDesdeHasta("inmovele.seccion", "CCI", Me.txtConcepto(2), Me.txtConcepto(2), Me.txtConcepto(3), Me.txtConcepto(3), "pDHSecci=""") Then Exit Function
+    
     If cadFormula <> "" Then cadFormula = "(" & cadFormula & ")"
     If cadselect <> "" Then cadselect = "(" & cadselect & ")"
             
@@ -848,7 +1034,7 @@ End Function
 
 
 Private Function DatosOK() As Boolean
-Dim i As Integer
+Dim I As Integer
 Dim CADENA As String
 
     DatosOK = False
@@ -903,17 +1089,17 @@ Dim RC As String
         Select Case Val(RC)
         Case 2
             'Semestral
-            i = 6
+            I = 6
             'Siempre es la ultima fecha de mes
         Case 3
             'Trimestral
-            i = 3
+            I = 3
         Case 4
             'Mensual
-            i = 1
+            I = 1
         Case Else
             'Anual
-            i = 12
+            I = 12
         End Select
         RC = PonFecha
     Else
@@ -929,22 +1115,22 @@ Private Function PonFecha() As Date
 Dim d As Date
 'Dada la fecha en Cad y los meses k tengo k sumar
 'Pongo la fecha
-d = DateAdd("m", i, CDate(cad))
+d = DateAdd("m", I, CDate(cad))
 Select Case Month(d)
 Case 2
     If ((Year(d) - 2000) Mod 4) = 0 Then
-        i = 29
+        I = 29
     Else
-        i = 28
+        I = 28
     End If
 Case 1, 3, 5, 7, 8, 10, 12
     '31
-        i = 31
+        I = 31
 Case Else
     '30
-        i = 30
+        I = 30
 End Select
-cad = i & "/" & Month(d) & "/" & Year(d)
+cad = I & "/" & Month(d) & "/" & Year(d)
 PonFecha = CDate(cad)
 End Function
 
