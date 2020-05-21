@@ -91,6 +91,10 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+Public PrimerVezFich As Boolean
+
+
 Private Sub cmdAcciones_Click(Index As Integer)
     If Index = 1 Then
         CadenaDesdeOtroForm = txtCD1(0).Text
@@ -106,13 +110,14 @@ End Sub
 
 Private Sub Form_Load()
     Me.Icon = frmppal.Icon
+    
 End Sub
 
 Private Sub ImgCd1_Click(Index As Integer)
 
-
+    
     cd1.FileName = ""
-    cd1.InitDir = "c:\"
+    If PrimerVezFich Then cd1.InitDir = "c:\"
     cd1.CancelError = False
     If Index = 0 Then
         cd1.Filter = "DAT (*.dat)|*.dat|RTF (*.rtf)|*.rtf"

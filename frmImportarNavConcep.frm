@@ -675,7 +675,7 @@ Private Function SugerirCodigoSiguiente() As String
     Dim Sql As String
     Dim Rs As ADODB.Recordset
     
-    Sql = "Select Max(concepto) from importnavconceptos where concepto<100"
+    Sql = "Select Max(concepto) from importnavconceptos where concepto<99"
     
     Set Rs = New ADODB.Recordset
     Rs.Open Sql, Conn, , , adCmdText
@@ -801,7 +801,16 @@ Dim B As Boolean
 B = CompForm(Me)
 If Not B Then Exit Function
 
+
+
+
 If Modo = 1 Then
+    If Val(txtaux(0).Text) > 98 Then
+        MsgBox "Valor maximo 99", vbExclamation
+        B = False
+    End If
+
+
     'Estamos insertando
      Datos = DevuelveDesdeBD("concepto", "importnavconceptos", "concepto", txtaux(0).Text, "T")
      If Datos <> "" Then

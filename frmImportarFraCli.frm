@@ -317,7 +317,7 @@ Option Explicit
 Private Const IdPrograma = 1413
 
 
-Private Const NumeroCamposTratarFraCli = 20
+Private Const NumeroCamposTratarFraCli = 21
 
 
 
@@ -403,13 +403,13 @@ Private Sub ImportarFraCLI()
             Set miRsAux = New ADODB.Recordset
             cad = "select codigo,texto1,texto2,observa1 from tmptesoreriacomun where codusu =" & vUsu.Codigo & " ORDER BY codigo"
             miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-            i = 0
+            I = 0
             While Not miRsAux.EOF
-                i = i + 1
+                I = I + 1
                 ListView1.ListItems.Add , "K" & miRsAux!Codigo
-                ListView1.ListItems(i).Text = DBLet(miRsAux!texto1, "T")
-                ListView1.ListItems(i).SubItems(1) = DBLet(miRsAux!texto2, "T")
-                ListView1.ListItems(i).SubItems(2) = DBLet(miRsAux!observa1, "T")
+                ListView1.ListItems(I).Text = DBLet(miRsAux!texto1, "T")
+                ListView1.ListItems(I).SubItems(1) = DBLet(miRsAux!texto2, "T")
+                ListView1.ListItems(I).SubItems(2) = DBLet(miRsAux!observa1, "T")
                 miRsAux.MoveNext
             Wend
             miRsAux.Close
@@ -594,13 +594,13 @@ Dim RC As Byte
         Set miRsAux = New ADODB.Recordset
         cad = "select codigo,texto1,texto2,observa1 from tmptesoreriacomun where codusu =" & vUsu.Codigo & " ORDER BY codigo"
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         While Not miRsAux.EOF
-            i = i + 1
+            I = I + 1
             ListView1.ListItems.Add , "K" & miRsAux!Codigo
-            ListView1.ListItems(i).Text = miRsAux!texto1
-            ListView1.ListItems(i).SubItems(1) = miRsAux!texto2
-            ListView1.ListItems(i).SubItems(2) = miRsAux!observa1
+            ListView1.ListItems(I).Text = miRsAux!texto1
+            ListView1.ListItems(I).SubItems(1) = miRsAux!texto2
+            ListView1.ListItems(I).SubItems(2) = miRsAux!observa1
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -619,14 +619,14 @@ Dim RC As Byte
         Set miRsAux = New ADODB.Recordset
         cad = "select tmpintefrafracli.*,nommacta from tmpintefrafracli left join cuentas on tmpintefrafracli.cta_cli=cuentas.codmacta WHERE codusu =" & vUsu.Codigo & " ORDER BY codigo"
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         While Not miRsAux.EOF
-            i = i + 1
-            ListView1.ListItems.Add , "C" & Format(i, "000"), miRsAux!Serie
-            ListView1.ListItems(i).SubItems(1) = miRsAux!FACTURA
-            ListView1.ListItems(i).SubItems(2) = miRsAux!Fecha
-            ListView1.ListItems(i).SubItems(3) = DBLet(miRsAux!cta_cli, "T")
-            ListView1.ListItems(i).SubItems(4) = " "
+            I = I + 1
+            ListView1.ListItems.Add , "C" & Format(I, "000"), miRsAux!Serie
+            ListView1.ListItems(I).SubItems(1) = miRsAux!FACTURA
+            ListView1.ListItems(I).SubItems(2) = miRsAux!Fecha
+            ListView1.ListItems(I).SubItems(3) = DBLet(miRsAux!cta_cli, "T")
+            ListView1.ListItems(I).SubItems(4) = " "
             
             cad = DBLet(miRsAux!Nommacta, "T")
             If cad = "" Then
@@ -634,24 +634,24 @@ Dim RC As Byte
                 cad = DevuelveDesdeBD("nommacta", "tmpcuentas", cad, miRsAux!cta_cli, "T")
                 If cad = "" Then
                     cad = "ERROR"
-                    ListView1.ListItems(i).ForeColor = vbRed
-                    ListView1.ListItems(i).ListSubItems(3).ForeColor = vbRed
-                    ListView1.ListItems(i).ListSubItems(4).ForeColor = vbRed
+                    ListView1.ListItems(I).ForeColor = vbRed
+                    ListView1.ListItems(I).ListSubItems(3).ForeColor = vbRed
+                    ListView1.ListItems(I).ListSubItems(4).ForeColor = vbRed
                 Else
-                    ListView1.ListItems(i).ListSubItems(4).ForeColor = vbBlue
-                    ListView1.ListItems(i).ListSubItems(4).ToolTipText = "Nueva cuenta"
+                    ListView1.ListItems(I).ListSubItems(4).ForeColor = vbBlue
+                    ListView1.ListItems(I).ListSubItems(4).ToolTipText = "Nueva cuenta"
                 End If
             End If
-            ListView1.ListItems(i).SubItems(4) = cad
+            ListView1.ListItems(I).SubItems(4) = cad
             
             
-            ListView1.ListItems(i).SubItems(5) = " "
-            If DBLet(miRsAux!impret, "N") <> 0 Then ListView1.ListItems(i).SubItems(5) = Format(miRsAux!impret, FormatoImporte) 'DBLet(miRsAux!calculoimponible, "N")
+            ListView1.ListItems(I).SubItems(5) = " "
+            If DBLet(miRsAux!impret, "N") <> 0 Then ListView1.ListItems(I).SubItems(5) = Format(miRsAux!impret, FormatoImporte) 'DBLet(miRsAux!calculoimponible, "N")
             
-            ListView1.ListItems(i).SubItems(6) = " " & Format(miRsAux!calculoimponible, FormatoImporte) 'DBLet(miRsAux!calculoimponible, "N")
-            ListView1.ListItems(i).SubItems(7) = Format(miRsAux!impventa, FormatoImporte) 'DBLet(miRsAux!impventa, "N")
-            ListView1.ListItems(i).SubItems(8) = Format(miRsAux!ImpIva, FormatoImporte) 'DBLet(miRsAux!ImpIva, "N")
-            ListView1.ListItems(i).SubItems(9) = Format(miRsAux!TotalFactura, FormatoImporte) 'DBLet(miRsAux!TotalFactura, "N")
+            ListView1.ListItems(I).SubItems(6) = " " & Format(miRsAux!calculoimponible, FormatoImporte) 'DBLet(miRsAux!calculoimponible, "N")
+            ListView1.ListItems(I).SubItems(7) = Format(miRsAux!impventa, FormatoImporte) 'DBLet(miRsAux!impventa, "N")
+            ListView1.ListItems(I).SubItems(8) = Format(miRsAux!ImpIva, FormatoImporte) 'DBLet(miRsAux!ImpIva, "N")
+            ListView1.ListItems(I).SubItems(9) = Format(miRsAux!TotalFactura, FormatoImporte) 'DBLet(miRsAux!TotalFactura, "N")
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -674,12 +674,12 @@ Dim RC As Byte
         Set miRsAux = New ADODB.Recordset
         cad = "select codigo,texto1,texto2,observa1 from tmptesoreriacomun where codusu =" & vUsu.Codigo & " ORDER BY codigo"
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         While Not miRsAux.EOF
-            i = i + 1
+            I = I + 1
             ListView1.ListItems.Add , "K" & miRsAux!Codigo
-            ListView1.ListItems(i).Text = miRsAux!texto2
-            ListView1.ListItems(i).SubItems(1) = miRsAux!observa1
+            ListView1.ListItems(I).Text = miRsAux!texto2
+            ListView1.ListItems(I).SubItems(1) = miRsAux!observa1
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -697,13 +697,13 @@ Dim RC As Byte
         Set miRsAux = New ADODB.Recordset
         cad = "select codigo,texto1,texto2,observa1 from tmptesoreriacomun where codusu =" & vUsu.Codigo & " ORDER BY codigo"
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         While Not miRsAux.EOF
-            i = i + 1
+            I = I + 1
             ListView1.ListItems.Add , "K" & miRsAux!Codigo
-            ListView1.ListItems(i).Text = miRsAux!texto1
-            ListView1.ListItems(i).SubItems(1) = miRsAux!texto2
-            ListView1.ListItems(i).SubItems(2) = miRsAux!observa1
+            ListView1.ListItems(I).Text = miRsAux!texto1
+            ListView1.ListItems(I).SubItems(1) = miRsAux!texto2
+            ListView1.ListItems(I).SubItems(2) = miRsAux!observa1
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -721,46 +721,46 @@ Dim RC As Byte
     cad = "select tmpintefrafracli.*,nommacta from tmpintefrafracli left join cuentas on cta_cli=cuentas.codmacta where codusu= " & vUsu.Codigo
     cad = cad & " ORDER BY codigo"
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    i = 0
+    I = 0
     While Not miRsAux.EOF
-        i = i + 1
-        ListView1.ListItems.Add , "K" & i
+        I = I + 1
+        ListView1.ListItems.Add , "K" & I
         If DBLet(miRsAux!Serie, "T") <> "" Then
             
-            ListView1.ListItems(i).Text = miRsAux!Serie
-            ListView1.ListItems(i).SubItems(1) = Format(miRsAux!FACTURA, "000000")
-            ListView1.ListItems(i).SubItems(2) = miRsAux!Fecha
+            ListView1.ListItems(I).Text = miRsAux!Serie
+            ListView1.ListItems(I).SubItems(1) = Format(miRsAux!FACTURA, "000000")
+            ListView1.ListItems(I).SubItems(2) = miRsAux!Fecha
             
-            ListView1.ListItems(i).SubItems(3) = DBLet(miRsAux!Nommacta, "T")
+            ListView1.ListItems(I).SubItems(3) = DBLet(miRsAux!Nommacta, "T")
             
             
-            ListView1.ListItems(i).SubItems(4) = Format(miRsAux!impventa, FormatoImporte)
-            ListView1.ListItems(i).SubItems(5) = Format(miRsAux!IVA, FormatoImporte)
-            ListView1.ListItems(i).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
-            ListView1.ListItems(i).SubItems(7) = " " 'separado
+            ListView1.ListItems(I).SubItems(4) = Format(miRsAux!impventa, FormatoImporte)
+            ListView1.ListItems(I).SubItems(5) = Format(miRsAux!IVA, FormatoImporte)
+            ListView1.ListItems(I).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
+            ListView1.ListItems(I).SubItems(7) = " " 'separado
             
-            ListView1.ListItems(i).SubItems(8) = Format(miRsAux!calculoimponible, FormatoImporte)
-            ListView1.ListItems(i).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!calculoimponible, FormatoImporte)
-            ListView1.ListItems(i).SubItems(10) = Format(miRsAux!TotalFactura, FormatoImporte)
+            ListView1.ListItems(I).SubItems(8) = Format(miRsAux!calculoimponible, FormatoImporte)
+            ListView1.ListItems(I).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!calculoimponible, FormatoImporte)
+            ListView1.ListItems(I).SubItems(10) = Format(miRsAux!TotalFactura, FormatoImporte)
             
             If vEmpresa.TieneTesoreria Then
                 cad = " "
                 If DBLet(miRsAux!IBAN, "T") <> "" Or DBLet(miRsAux!txtcsb, "T") <> "" Then cad = "*"
-                ListView1.ListItems(i).SubItems(11) = cad
+                ListView1.ListItems(I).SubItems(11) = cad
             End If
             
         Else
             
-            ListView1.ListItems(i).Text = " "
-            ListView1.ListItems(i).SubItems(3) = "              IVA " & miRsAux!IVA & "%"
-            ListView1.ListItems(i).SubItems(4) = Format(miRsAux!impventa, FormatoImporte)
-            ListView1.ListItems(i).SubItems(5) = Format(miRsAux!IVA, FormatoImporte)
-            ListView1.ListItems(i).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
+            ListView1.ListItems(I).Text = " "
+            ListView1.ListItems(I).SubItems(3) = "              IVA " & miRsAux!IVA & "%"
+            ListView1.ListItems(I).SubItems(4) = Format(miRsAux!impventa, FormatoImporte)
+            ListView1.ListItems(I).SubItems(5) = Format(miRsAux!IVA, FormatoImporte)
+            ListView1.ListItems(I).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
             For NF = 1 To 10
-                If NF < 3 Or NF > 6 Then ListView1.ListItems(i).SubItems(NF) = " "
+                If NF < 3 Or NF > 6 Then ListView1.ListItems(I).SubItems(NF) = " "
             Next
             
-            If vEmpresa.TieneTesoreria Then ListView1.ListItems(i).SubItems(11) = " "
+            If vEmpresa.TieneTesoreria Then ListView1.ListItems(I).SubItems(11) = " "
             
         End If
         
@@ -963,7 +963,8 @@ Dim Aux As String
     Msg$ = Msg$ & "Tipo retencion|Cta ventas|ccoste|Importe venta|Porcentaje IVA|Importe IVA|Porcentaje recargo|Impor Recargo|Total factura|INTREGRACION|"
     '28 marzo
     Msg$ = Msg$ & "iban|txtcsb|"
-    
+    '19 mao 2020
+    Msg$ = Msg$ & "fecvto|"
     
     'Preparamos tabla de insercion
     Conn.Execute "DELETE FROM tmpintefrafracli WHERE codusu = " & vUsu.Codigo
@@ -1048,15 +1049,15 @@ Private Sub SeparaLineaCliente()
 Dim NuevaLinea As Boolean
 
     CadenaDesdeOtroForm = "INSERT INTO tmpintefrafracli(codusu,Codigo,serie,factura,fecha,cta_cli,fpago,tipo_operacion,ctaret,impret"
-    CadenaDesdeOtroForm = CadenaDesdeOtroForm & ",tipo_ret,ctaventas,Ccoste,impventa,iva,impiva,recargo,imprecargo,totalfactura,integracion,iban,txtcsb"
+    CadenaDesdeOtroForm = CadenaDesdeOtroForm & ",tipo_ret,ctaventas,Ccoste,impventa,iva,impiva,recargo,imprecargo,totalfactura,integracion,iban,txtcsb,fecvto"
     CadenaDesdeOtroForm = CadenaDesdeOtroForm & ") VALUES (" & vUsu.Codigo & "," & NumRegElim
     
 
     'Vemos los campos.
     ' 0       1         2       3           4           5               6           7       8       9           10
     'SERIE  FACTURA  FECHA  CTA. CLI.    F.PAGO    TIPO OPERACION   CTA.RET.   IMP.RET   TIPO RET. CTA.VENTAS   CCOST
-    '  11       12          13         14       15          16              17          18       1,9
-    'IMP.VENTA  % I.V.A.  MP.IVA    % R.E.    IMP. REC.   TOTAL FACTURA   INTEGRACION   IBAN    txtcsb
+    '  11       12          13         14       15          16              17          18       1,9       20
+    'IMP.VENTA  % I.V.A.  MP.IVA    % R.E.    IMP. REC.   TOTAL FACTURA   INTEGRACION   IBAN    txtcsb    fecvto
     LineaConErrores = False
     
    
@@ -1179,8 +1180,8 @@ Dim ValorSQL As String
     'Vemos los campos.
     ' 0       1         2       3           4           5               6           7       8       9
     'SERIE  FACTURA  FECHA  CTA. CLI.    F.PAGO    TIPO OPERACION   CTA.RET.   IMP.RET   TIPO RET. CTA.VENTAS
-    '10      11       12          13         14       15          16              17          18          19
-    'CC    IMP.VENTA  % I.V.A.  MP.IVA    % R.E.    IMP. REC.   TOTAL FACTURA   INTEGRACION  iban     txtcsb
+    '10      11       12          13         14       15          16              17          18          19      20
+    'CC    IMP.VENTA  % I.V.A.  MP.IVA    % R.E.    IMP. REC.   TOTAL FACTURA   INTEGRACION  iban     txtcsb    fecvto
     ValorSQL = "NULL"
     Select Case QueCampo
     'Numerico REQUERIDO
@@ -1229,7 +1230,8 @@ Dim ValorSQL As String
         End If
     
     'Fecha
-    Case 2
+    Case 2, 20
+       
         
         If strArray(QueCampo) = "" Then strArray(QueCampo) = "1900-01-01"
         
@@ -1304,6 +1306,7 @@ End Sub
 
 Private Function ComprobacionDatosBDFacturas() As Boolean
 Dim FechaMinima As Date
+Dim Cad2 As String
 
 On Error GoTo eComprobacionDatosBD
     ComprobacionDatosBDFacturas = False
@@ -1353,24 +1356,59 @@ On Error GoTo eComprobacionDatosBD
     miRsAux.Close
     
     'Cuentas
+    Cad2 = ""
     cad = "select distinct cta_cli from tmpintefrafracli where cta_cli<>''  and codusu=" & vUsu.Codigo & " and not cta_cli in (select codmacta from cuentas where apudirec='S')"
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         cad = miRsAux.Fields(0)
         AnyadeEnErrores "No existe cta cliente"
         miRsAux.MoveNext
+        Cad2 = "N"
     Wend
     miRsAux.Close
     
+    If Cad2 = "" Then
+        
+        cad = "select codmacta from cuentas where apudirec='S' and fecbloq<=" & DBSet(FechaMinima, "F")
+        cad = cad & " and codmacta  IN (select distinct cta_cli from tmpintefrafracli where cta_cli<>''  and codusu=" & vUsu.Codigo & ")"
+        miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        While Not miRsAux.EOF
+            cad = miRsAux.Fields(0)
+            AnyadeEnErrores "Cta cliente bloqueada"
+            miRsAux.MoveNext
+        Wend
+        miRsAux.Close
+    
+    
+    End If
         
     cad = "select distinct ctaventas from tmpintefrafracli where ctaventas<>''  and codusu=" & vUsu.Codigo & " and not ctaventas in (select codmacta from cuentas where apudirec='S')"
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad2 = ""
     While Not miRsAux.EOF
         cad = miRsAux.Fields(0)
         AnyadeEnErrores "No existe cuenta ventas"
         miRsAux.MoveNext
+        Cad2 = "B"
     Wend
     miRsAux.Close
+     
+    
+    If Cad2 = "" Then
+        
+        cad = "select codmacta from cuentas where apudirec='S' and fecbloq<=" & DBSet(FechaMinima, "F")
+        cad = cad & " and codmacta  IN (select distinct ctaventas from tmpintefrafracli where ctaventas<>''  and codusu=" & vUsu.Codigo & ")"
+        miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        While Not miRsAux.EOF
+            cad = miRsAux.Fields(0)
+            AnyadeEnErrores "Cta venta bloqueada"
+            miRsAux.MoveNext
+        Wend
+        miRsAux.Close
+    
+    
+    End If
+     
      
     'Retencion (si lleva
     If Me.optVarios(0).Value Then
@@ -1446,7 +1484,7 @@ On Error GoTo eComprobacionDatosBD
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         While Not miRsAux.EOF
             cad = miRsAux!FACTURA
-            AnyadeEnErrores "No existe centro de coste: " & miRsAux!CCoste
+            AnyadeEnErrores "No existe centro de coste: " & miRsAux!cCoste
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -1985,8 +2023,8 @@ Dim Tipointegracion As Byte
                         End If
                     End If
                     tCobro = tCobro & Aux
-                    
-                    CargarCobrosSobreCollectionConSQLInsert ColCob, CStr(K), miRsAux!Fecha, TotalFac, tCobro
+                    Aux = IIf(IsNull(miRsAux!Fecvto), "", CStr(miRsAux!Fecvto))
+                    CargarCobrosSobreCollectionConSQLInsert ColCob, CStr(K), miRsAux!Fecha, TotalFac, Aux, tCobro
                 End If
                 
                 
@@ -1997,7 +2035,7 @@ Dim Tipointegracion As Byte
                 
                 
                 Fecha = miRsAux!Fecha
-                i = 0
+                I = 0
                 FACTURA = cad
                 Set ColBases = Nothing
                 Set ColBases = New Collection
@@ -2008,10 +2046,10 @@ Dim Tipointegracion As Byte
         'Lineas
         'INSERT INTO factcli_lineas (aplicret,imporec,anofactu,codccost,
         'impoiva,porcrec,porciva,baseimpo,codigiva,codmacta,numlinea,fecfactu,numserie,numfactu
-        i = i + 1
-        cad = "(0," & DBSet(miRsAux!recargo, "T") & "," & Year(Fecha) & "," & DBSet(miRsAux!CCoste, "T", "S") & ","
+        I = I + 1
+        cad = "(0," & DBSet(miRsAux!recargo, "T") & "," & Year(Fecha) & "," & DBSet(miRsAux!cCoste, "T", "S") & ","
         cad = cad & DBSet(miRsAux!ImpIva, "N") & "," & DBSet(miRsAux!recargo, "N", "S") & "," & DBSet(miRsAux!IVA, "N")
-        cad = cad & "," & DBSet(miRsAux!impventa, "N", "N") & "," & DBSet(miRsAux!TipoIva, "N") & "," & DBSet(miRsAux!ctaventas, "T") & "," & i
+        cad = cad & "," & DBSet(miRsAux!impventa, "N", "N") & "," & DBSet(miRsAux!TipoIva, "N") & "," & DBSet(miRsAux!ctaventas, "T") & "," & I
         cad = cad & "," & DBSet(Fecha, "F", "N") & "," & DBSet(Trim(Mid(FACTURA, 1, 3)), "T") & "," & DBSet(Mid(FACTURA, 4), "N") & ")"
         
         ColBases.Add cad
@@ -2071,9 +2109,9 @@ Dim B As Boolean
         
         'Lineas
         cad = ""
-        For i = 1 To C.Count
-            cad = cad & ", " & C.Item(i)
-        Next i
+        For I = 1 To C.Count
+            cad = cad & ", " & C.Item(I)
+        Next I
         
        
         If Me.optVarios(1).Value Then
@@ -2101,16 +2139,16 @@ Dim B As Boolean
         cad = cad & " order by 1,2,3"
         Set RT = New ADODB.Recordset
         RT.Open cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         cad = ""
         While Not RT.EOF
-            i = i + 1
+            I = I + 1
             If Me.optVarios(1).Value Then
                 cad = cad & ", (" & DBSet(Trim(Mid(FacturaC, 1, 3)), "T") & "," & NumRegElim & "," & DBSet(Fecha, "F") & "," & Year(Fecha)
             Else
                 cad = cad & ", (" & DBSet(Trim(Mid(FacturaC, 1, 3)), "T") & "," & DBSet(Mid(FacturaC, 4), "N") & "," & DBSet(Fecha, "F") & "," & Year(Fecha)
             End If
-            cad = cad & "," & i & "," & DBSet(RT!Baseimpo, "N") & "," & RT!codigiva & "," & DBSet(RT!porciva, "N", "S")
+            cad = cad & "," & I & "," & DBSet(RT!Baseimpo, "N") & "," & RT!codigiva & "," & DBSet(RT!porciva, "N", "S")
             cad = cad & "," & DBSet(RT!porcrec, "N") & "," & DBSet(RT!Imporiva, "N") & "," & DBSet(RT!imporrec, "N") & ")"
             RT.MoveNext  'rT!
         Wend
@@ -2147,9 +2185,9 @@ Dim B As Boolean
         'insert into cobros(agente,nomclien, domclien, pobclien, cpclien, proclien, codpais, nifclien,
         'numserie,numfactu,fecfactu,numorden,codmacta,codforpa,fecvenci,impvenci,ctabanc1,iban,text33csb)
         cad = ""
-        For i = 1 To Cobros.Count
-            cad = cad & ", " & Cobros.Item(i)
-        Next i
+        For I = 1 To Cobros.Count
+            cad = cad & ", " & Cobros.Item(I)
+        Next I
         cad = Mid(cad, 2)
         
         If Me.optVarios(1).Value Then
@@ -2266,13 +2304,16 @@ Private Sub ListView1_DblClick()
         If ListView1.SelectedItem.SubItems(11) = "*" Then
             'Han puesto observaciones y/o IBAN
             cad = "serie =" & DBSet(ListView1.SelectedItem.Text, "T") & " AND  factura =" & ListView1.SelectedItem.SubItems(1) & " AND codusu"
-            cad = DevuelveDesdeBD("concat(coalesce(iban,''),'|',coalesce(txtcsb,''),'|')", "tmpintefrafracli", cad, CStr(vUsu.Codigo))
+            cad = DevuelveDesdeBD("concat(coalesce(iban,''),'|',coalesce(txtcsb,''),'|',coalesce(fecvto,''),'|')", "tmpintefrafracli", cad, CStr(vUsu.Codigo))
             If cad <> "" Then
                 With ListView1.SelectedItem
                     CadenaDesdeOtroForm = "Cliente: " & .SubItems(3) & vbCrLf
                     CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Factura: " & .Text & .SubItems(1) & vbCrLf & vbCrLf
                     CadenaDesdeOtroForm = CadenaDesdeOtroForm & "IBAN: " & RecuperaValor(cad, 1) & vbCrLf
                     CadenaDesdeOtroForm = CadenaDesdeOtroForm & "TxtCSB: " & RecuperaValor(cad, 2) & vbCrLf
+                    cad = Trim(RecuperaValor(cad, 3))
+                    If cad <> "" Then If CDate(cad) < vParam.fechaini Then cad = ""
+                    If cad <> "" Then CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Fecha vto: " & cad & vbCrLf
                 End With
                 MsgBox CadenaDesdeOtroForm, vbInformation
             End If
@@ -2379,12 +2420,12 @@ Dim RC As Byte
         Set miRsAux = New ADODB.Recordset
         cad = "select codigo,texto1,texto2,observa1 from tmptesoreriacomun where codusu =" & vUsu.Codigo & " ORDER BY codigo"
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         While Not miRsAux.EOF
-            i = i + 1
+            I = I + 1
             ListView1.ListItems.Add , "K" & miRsAux!Codigo
-            ListView1.ListItems(i).Text = miRsAux!texto1
-            ListView1.ListItems(i).SubItems(1) = miRsAux!observa1
+            ListView1.ListItems(I).Text = miRsAux!texto1
+            ListView1.ListItems(I).SubItems(1) = miRsAux!observa1
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -2407,28 +2448,28 @@ Dim RC As Byte
         Set miRsAux = New ADODB.Recordset
         cad = "select tmpintefrafracli.*,nommacta from tmpintefrafracli left join cuentas on tmpintefrafracli.cta_cli=cuentas.codmacta WHERE codusu =" & vUsu.Codigo & " ORDER BY codigo"
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         While Not miRsAux.EOF
-            i = i + 1
-            ListView1.ListItems.Add , "C" & Format(i, "000"), miRsAux!Serie
-            ListView1.ListItems(i).SubItems(1) = miRsAux!FACTURA
+            I = I + 1
+            ListView1.ListItems.Add , "C" & Format(I, "000"), miRsAux!Serie
+            ListView1.ListItems(I).SubItems(1) = miRsAux!FACTURA
             
             'Queremnos pintar el numero de factura
             cad = "ctacontr = " & DBSet(miRsAux!cta_cli, "T") & " AND numfaccl=" & miRsAux!FACTURA & " AND codusu "
             cad = DevuelveDesdeBD("numfacpr", "tmpintegrapu", cad, CStr(vUsu.Codigo))
             If cad <> "" Then
-                ListView1.ListItems(i).SubItems(1) = cad
+                ListView1.ListItems(I).SubItems(1) = cad
             End If
-            ListView1.ListItems(i).SubItems(2) = miRsAux!Fecha
-            ListView1.ListItems(i).SubItems(3) = DBLet(miRsAux!cta_cli, "T")
-            ListView1.ListItems(i).SubItems(4) = DBLet(miRsAux!Nommacta, "T")
+            ListView1.ListItems(I).SubItems(2) = miRsAux!Fecha
+            ListView1.ListItems(I).SubItems(3) = DBLet(miRsAux!cta_cli, "T")
+            ListView1.ListItems(I).SubItems(4) = DBLet(miRsAux!Nommacta, "T")
             'retencion
-            ListView1.ListItems(i).SubItems(5) = " "
+            ListView1.ListItems(I).SubItems(5) = " "
             
-            ListView1.ListItems(i).SubItems(6) = " " & Format(miRsAux!calculoimponible, FormatoImporte) 'DBLet(miRsAux!calculoimponible, "N")
-            ListView1.ListItems(i).SubItems(7) = Format(miRsAux!impventa, FormatoImporte) 'DBLet(miRsAux!impventa, "N")
-            ListView1.ListItems(i).SubItems(8) = Format(miRsAux!ImpIva, FormatoImporte) 'DBLet(miRsAux!ImpIva, "N")
-            ListView1.ListItems(i).SubItems(9) = Format(miRsAux!TotalFactura, FormatoImporte) 'DBLet(miRsAux!TotalFactura, "N")
+            ListView1.ListItems(I).SubItems(6) = " " & Format(miRsAux!calculoimponible, FormatoImporte) 'DBLet(miRsAux!calculoimponible, "N")
+            ListView1.ListItems(I).SubItems(7) = Format(miRsAux!impventa, FormatoImporte) 'DBLet(miRsAux!impventa, "N")
+            ListView1.ListItems(I).SubItems(8) = Format(miRsAux!ImpIva, FormatoImporte) 'DBLet(miRsAux!ImpIva, "N")
+            ListView1.ListItems(I).SubItems(9) = Format(miRsAux!TotalFactura, FormatoImporte) 'DBLet(miRsAux!TotalFactura, "N")
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -2471,13 +2512,13 @@ Dim B As Boolean
         Set miRsAux = New ADODB.Recordset
         cad = "select codigo,texto1,texto2,observa1 from tmptesoreriacomun where codusu =" & vUsu.Codigo & " ORDER BY codigo"
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         While Not miRsAux.EOF
-            i = i + 1
+            I = I + 1
             ListView1.ListItems.Add , "K" & miRsAux!Codigo
-            ListView1.ListItems(i).Text = miRsAux!texto1
-            ListView1.ListItems(i).SubItems(1) = miRsAux!texto2
-            ListView1.ListItems(i).SubItems(2) = miRsAux!observa1
+            ListView1.ListItems(I).Text = miRsAux!texto1
+            ListView1.ListItems(I).SubItems(1) = miRsAux!texto2
+            ListView1.ListItems(I).SubItems(2) = miRsAux!observa1
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -2497,12 +2538,12 @@ Dim B As Boolean
         Set miRsAux = New ADODB.Recordset
         cad = "select codigo,texto1,texto2,observa1 from tmptesoreriacomun where codusu =" & vUsu.Codigo & " ORDER BY codigo"
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         While Not miRsAux.EOF
-            i = i + 1
+            I = I + 1
             ListView1.ListItems.Add , "K" & miRsAux!Codigo
-            ListView1.ListItems(i).Text = miRsAux!texto2
-            ListView1.ListItems(i).SubItems(1) = miRsAux!observa1
+            ListView1.ListItems(I).Text = miRsAux!texto2
+            ListView1.ListItems(I).SubItems(1) = miRsAux!observa1
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -2520,13 +2561,13 @@ Dim B As Boolean
         Set miRsAux = New ADODB.Recordset
         cad = "select codigo,texto1,texto2,observa1 from tmptesoreriacomun where codusu =" & vUsu.Codigo & " ORDER BY codigo"
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         While Not miRsAux.EOF
-            i = i + 1
+            I = I + 1
             ListView1.ListItems.Add , "K" & miRsAux!Codigo
-            ListView1.ListItems(i).Text = miRsAux!texto1
-            ListView1.ListItems(i).SubItems(1) = miRsAux!texto2
-            ListView1.ListItems(i).SubItems(2) = miRsAux!observa1
+            ListView1.ListItems(I).Text = miRsAux!texto1
+            ListView1.ListItems(I).SubItems(1) = miRsAux!texto2
+            ListView1.ListItems(I).SubItems(2) = miRsAux!observa1
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -2551,49 +2592,49 @@ Dim B As Boolean
     cad = "select tmpintefrafracli.*,nommacta from tmpintefrafracli left join cuentas on cta_cli=cuentas.codmacta where codusu= " & vUsu.Codigo
     cad = cad & " ORDER BY codigo"
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    i = 0
+    I = 0
     While Not miRsAux.EOF
-        i = i + 1
-        ListView1.ListItems.Add , "K" & i
+        I = I + 1
+        ListView1.ListItems.Add , "K" & I
         If DBLet(miRsAux!Serie, "T") <> "" Then
             
-            ListView1.ListItems(i).Text = miRsAux!Serie
-            ListView1.ListItems(i).SubItems(1) = Format(miRsAux!FACTURA, "000000")
-            ListView1.ListItems(i).SubItems(2) = miRsAux!Fecha
+            ListView1.ListItems(I).Text = miRsAux!Serie
+            ListView1.ListItems(I).SubItems(1) = Format(miRsAux!FACTURA, "000000")
+            ListView1.ListItems(I).SubItems(2) = miRsAux!Fecha
             
-            ListView1.ListItems(i).SubItems(3) = DBLet(miRsAux!Nommacta, "T")
+            ListView1.ListItems(I).SubItems(3) = DBLet(miRsAux!Nommacta, "T")
             
             
-            ListView1.ListItems(i).SubItems(4) = Format(miRsAux!impventa, FormatoImporte)
-            ListView1.ListItems(i).SubItems(5) = Format(miRsAux!IVA, FormatoImporte)
-            ListView1.ListItems(i).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
-            ListView1.ListItems(i).SubItems(7) = " " 'separado
+            ListView1.ListItems(I).SubItems(4) = Format(miRsAux!impventa, FormatoImporte)
+            ListView1.ListItems(I).SubItems(5) = Format(miRsAux!IVA, FormatoImporte)
+            ListView1.ListItems(I).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
+            ListView1.ListItems(I).SubItems(7) = " " 'separado
             If B Then
-                ListView1.ListItems(i).SubItems(8) = Format(miRsAux!calculoimponible, FormatoImporte)
+                ListView1.ListItems(I).SubItems(8) = Format(miRsAux!calculoimponible, FormatoImporte)
             Else
-                ListView1.ListItems(i).SubItems(8) = Format(DBLet(miRsAux!impret, "N"), FormatoImporte)
+                ListView1.ListItems(I).SubItems(8) = Format(DBLet(miRsAux!impret, "N"), FormatoImporte)
             End If
-            ListView1.ListItems(i).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!calculoimponible, FormatoImporte)
-            ListView1.ListItems(i).SubItems(10) = Format(miRsAux!TotalFactura, FormatoImporte)
+            ListView1.ListItems(I).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!calculoimponible, FormatoImporte)
+            ListView1.ListItems(I).SubItems(10) = Format(miRsAux!TotalFactura, FormatoImporte)
             
             If vEmpresa.TieneTesoreria Then
                 cad = " "
                 If DBLet(miRsAux!IBAN, "T") <> "" Or DBLet(miRsAux!txtcsb, "T") <> "" Then cad = "*"
-                ListView1.ListItems(i).SubItems(11) = cad
+                ListView1.ListItems(I).SubItems(11) = cad
             End If
             
         Else
             
-            ListView1.ListItems(i).Text = " "
-            ListView1.ListItems(i).SubItems(3) = "              IVA " & miRsAux!IVA & "%"
-            ListView1.ListItems(i).SubItems(4) = Format(miRsAux!impventa, FormatoImporte)
-            ListView1.ListItems(i).SubItems(5) = Format(miRsAux!IVA, FormatoImporte)
-            ListView1.ListItems(i).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
+            ListView1.ListItems(I).Text = " "
+            ListView1.ListItems(I).SubItems(3) = "              IVA " & miRsAux!IVA & "%"
+            ListView1.ListItems(I).SubItems(4) = Format(miRsAux!impventa, FormatoImporte)
+            ListView1.ListItems(I).SubItems(5) = Format(miRsAux!IVA, FormatoImporte)
+            ListView1.ListItems(I).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
             For NF = 1 To 10
-                If NF < 3 Or NF > 6 Then ListView1.ListItems(i).SubItems(NF) = " "
+                If NF < 3 Or NF > 6 Then ListView1.ListItems(I).SubItems(NF) = " "
             Next
             
-            If vEmpresa.TieneTesoreria Then ListView1.ListItems(i).SubItems(11) = " "
+            If vEmpresa.TieneTesoreria Then ListView1.ListItems(I).SubItems(11) = " "
             
         End If
         
@@ -2963,11 +3004,11 @@ Dim Actual As Boolean
                     End If
                     tCobro = tCobro & Aux
 
-                    CargarCobrosSobreCollectionConSQLInsert ColCob, CStr(K), miRsAux!Fecha, TotalFac, tCobro
+                    CargarCobrosSobreCollectionConSQLInsert ColCob, CStr(K), miRsAux!Fecha, TotalFac, "", tCobro
             End If
             
 
-        i = 0
+        I = 0
         FACTURA = cad
         Set ColBases = Nothing
         Set ColBases = New Collection
@@ -2975,10 +3016,10 @@ Dim Actual As Boolean
         'Lineas
         'INSERT INTO factpro_lineas (aplicret,imporec,anofactu,codccost,
         'impoiva,porcrec,porciva,baseimpo,codigiva,codmacta,numlinea,fecfactu,numserie,numfactu
-        i = i + 1
-        cad = "(1," & DBSet(miRsAux!recargo, "T") & "," & Year(fRecep) & "," & DBSet(miRsAux!CCoste, "T", "S") & ","
+        I = I + 1
+        cad = "(1," & DBSet(miRsAux!recargo, "T") & "," & Year(fRecep) & "," & DBSet(miRsAux!cCoste, "T", "S") & ","
         cad = cad & DBSet(miRsAux!ImpIva, "N") & "," & DBSet(miRsAux!recargo, "N", "S") & "," & DBSet(miRsAux!IVA, "N")
-        cad = cad & "," & DBSet(miRsAux!impventa, "N", "N") & "," & DBSet(miRsAux!TipoIva, "N") & "," & DBSet(miRsAux!ctaventas, "T") & "," & i
+        cad = cad & "," & DBSet(miRsAux!impventa, "N", "N") & "," & DBSet(miRsAux!TipoIva, "N") & "," & DBSet(miRsAux!ctaventas, "T") & "," & I
         cad = cad & "," & DBSet(fRecep, "F", "N") & "," & DBSet(miRsAux!Serie, "T") & "," & NumRegElim & ")"
         
         ColBases.Add cad
@@ -3052,13 +3093,13 @@ Dim RC As Byte
         Set miRsAux = New ADODB.Recordset
         cad = "select codigo,texto1,texto2,observa1 from tmptesoreriacomun where codusu =" & vUsu.Codigo & " ORDER BY codigo"
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         While Not miRsAux.EOF
-            i = i + 1
+            I = I + 1
             ListView1.ListItems.Add , "K" & miRsAux!Codigo
-            ListView1.ListItems(i).Text = miRsAux!texto1
-            ListView1.ListItems(i).SubItems(1) = miRsAux!texto2
-            ListView1.ListItems(i).SubItems(2) = miRsAux!observa1
+            ListView1.ListItems(I).Text = miRsAux!texto1
+            ListView1.ListItems(I).SubItems(1) = miRsAux!texto2
+            ListView1.ListItems(I).SubItems(2) = miRsAux!observa1
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -3075,12 +3116,12 @@ Dim RC As Byte
         Set miRsAux = New ADODB.Recordset
         cad = "select codigo,texto1,texto2,observa1 from tmptesoreriacomun where codusu =" & vUsu.Codigo & " ORDER BY codigo"
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         While Not miRsAux.EOF
-            i = i + 1
+            I = I + 1
             ListView1.ListItems.Add , "K" & miRsAux!Codigo
-            ListView1.ListItems(i).Text = miRsAux!texto2
-            ListView1.ListItems(i).SubItems(1) = miRsAux!observa1
+            ListView1.ListItems(I).Text = miRsAux!texto2
+            ListView1.ListItems(I).SubItems(1) = miRsAux!observa1
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -3099,10 +3140,10 @@ Dim RC As Byte
     cad = "select tmpintefrafracli.*,nommacta from tmpintefrafracli left join cuentas on cta_cli=cuentas.codmacta where codusu= " & vUsu.Codigo
     cad = cad & " ORDER BY codigo"
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    i = 0
+    I = 0
     K = -1
     While Not miRsAux.EOF
-        i = i + 1
+        I = I + 1
         
        
             ListView1.ListItems.Add
@@ -3112,19 +3153,19 @@ Dim RC As Byte
                 cad = Format(miRsAux!FACTURA, "000")
             End If
             K = miRsAux!FACTURA
-            ListView1.ListItems(i).Text = cad
-            ListView1.ListItems(i).SubItems(1) = miRsAux!Fecha
-            ListView1.ListItems(i).SubItems(2) = miRsAux!cta_cli
-            ListView1.ListItems(i).SubItems(3) = miRsAux!Nommacta
-            ListView1.ListItems(i).SubItems(4) = DBLet(miRsAux!IBAN, "T")
-            ListView1.ListItems(i).SubItems(5) = DBLet(miRsAux!txtcsb, "T")
+            ListView1.ListItems(I).Text = cad
+            ListView1.ListItems(I).SubItems(1) = miRsAux!Fecha
+            ListView1.ListItems(I).SubItems(2) = miRsAux!cta_cli
+            ListView1.ListItems(I).SubItems(3) = miRsAux!Nommacta
+            ListView1.ListItems(I).SubItems(4) = DBLet(miRsAux!IBAN, "T")
+            ListView1.ListItems(I).SubItems(5) = DBLet(miRsAux!txtcsb, "T")
             
             If CStr(miRsAux!Serie) = "H" Then
-                ListView1.ListItems(i).SubItems(6) = " "
-                ListView1.ListItems(i).SubItems(7) = Format(miRsAux!impventa, FormatoImporte)
+                ListView1.ListItems(I).SubItems(6) = " "
+                ListView1.ListItems(I).SubItems(7) = Format(miRsAux!impventa, FormatoImporte)
             Else
-                ListView1.ListItems(i).SubItems(6) = Format(miRsAux!impventa, FormatoImporte)
-                ListView1.ListItems(i).SubItems(7) = " "
+                ListView1.ListItems(I).SubItems(6) = Format(miRsAux!impventa, FormatoImporte)
+                ListView1.ListItems(I).SubItems(7) = " "
             End If
             
       
@@ -3430,7 +3471,7 @@ On Error GoTo eComprobacionDatosBDAsientos
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         While Not miRsAux.EOF
             cad = miRsAux!FACTURA
-            AnyadeEnErrores "No existe centro de coste asiento: " & miRsAux!CCoste
+            AnyadeEnErrores "No existe centro de coste asiento: " & miRsAux!cCoste
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -3546,12 +3587,12 @@ Dim ACtuala As Boolean
             Contador = rsContador!contado2
         End If
         'hlinapu(numdiari,fechaent,numasien,linliapu,codmacta,numdocum,codconce,ampconce,timporteD,codccost,timporteH,ctacontr,idcontab)
-        i = 0
+        I = 0
         ValorEnBD = -1
         
         While Not miRsAux.EOF
             If miRsAux!FACTURA <> ValorEnBD Then
-                i = i + 1
+                I = I + 1
                 
                 'Nuevo asiento
                 If ValorEnBD > 0 Then
@@ -3563,7 +3604,7 @@ Dim ACtuala As Boolean
                 'hcabapu(numdiari,fechaent,numasien,obsdiari,feccreacion,usucreacion,desdeaplicacion)
                 
                 cad = "INSERT INTO hcabapu(numdiari,fechaent,numasien,obsdiari,feccreacion,usucreacion,desdeaplicacion) VALUES "
-                cad = cad & "(" & strArray(2) & "," & DBSet(miRsAux!Fecha, "F") & "," & Contador + i & ",'Desde importacion apuntes. Fecha " & Now() & "',now()," & DBSet(vUsu.Login, "T")
+                cad = cad & "(" & strArray(2) & "," & DBSet(miRsAux!Fecha, "F") & "," & Contador + I & ",'Desde importacion apuntes. Fecha " & Now() & "',now()," & DBSet(vUsu.Login, "T")
                 cad = cad & ",'Ariconta6');"
                 'Inserto YA la cabecera
                 Conn.Execute cad
@@ -3573,7 +3614,7 @@ Dim ACtuala As Boolean
             End If
             K = K + 1
             'cad = "hlinapu(numdiari,fechaent,numasien,linliapu,codmacta,numdocum,
-            FacturaAnterior = "(" & strArray(2) & "," & DBSet(miRsAux!Fecha, "F") & "," & Contador + i & "," & K & "," & DBSet(miRsAux!cta_cli, "T") & "," & DBSet(miRsAux!IBAN, "T", "N") & ","
+            FacturaAnterior = "(" & strArray(2) & "," & DBSet(miRsAux!Fecha, "F") & "," & Contador + I & "," & K & "," & DBSet(miRsAux!cta_cli, "T") & "," & DBSet(miRsAux!IBAN, "T", "N") & ","
             'codconce,ampconce,timporteD,timporteH,,codccost,ctacontr,idcontab
             If miRsAux!Serie = "D" Then
                 'Al debe
@@ -3583,7 +3624,7 @@ Dim ACtuala As Boolean
                 FacturaAnterior = FacturaAnterior & RecuperaValor(CadenaDesdeOtroForm, 2) & "," & DBSet(Mid(Trim(strArray(1) & " " & miRsAux!txtcsb), 1, 50), "T", "N")
                 FacturaAnterior = FacturaAnterior & ",NULL," & DBSet(miRsAux!impventa, "N")
             End If
-            FacturaAnterior = FacturaAnterior & "," & DBSet(miRsAux!CCoste, "T", "S") & "," & DBSet(miRsAux!ctaventas, "T", "S") & ",'contab')"
+            FacturaAnterior = FacturaAnterior & "," & DBSet(miRsAux!cCoste, "T", "S") & "," & DBSet(miRsAux!ctaventas, "T", "S") & ",'contab')"
             cad = cad & ", " & FacturaAnterior
             miRsAux.MoveNext
         Wend
@@ -3602,7 +3643,7 @@ Dim ACtuala As Boolean
         cad = "contado2"
         If ACtuala Then cad = "contado1"
         
-        cad = "UPDATE contadores set " & cad & " = " & Contador + i & " WHERE tiporegi='0'"
+        cad = "UPDATE contadores set " & cad & " = " & Contador + I & " WHERE tiporegi='0'"
         Conn.Execute cad
         
 eInsertarAsientosBD:
@@ -3645,13 +3686,13 @@ Dim MismaFactura As Boolean
         Set miRsAux = New ADODB.Recordset
         cad = "select codigo,texto1,texto2,observa1 from tmptesoreriacomun where codusu =" & vUsu.Codigo & " ORDER BY codigo"
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         While Not miRsAux.EOF
-            i = i + 1
+            I = I + 1
             ListView1.ListItems.Add , "K" & miRsAux!Codigo
-            ListView1.ListItems(i).Text = miRsAux!texto1
-            ListView1.ListItems(i).SubItems(1) = miRsAux!texto2
-            ListView1.ListItems(i).SubItems(2) = miRsAux!observa1
+            ListView1.ListItems(I).Text = miRsAux!texto1
+            ListView1.ListItems(I).SubItems(1) = miRsAux!texto2
+            ListView1.ListItems(I).SubItems(2) = miRsAux!observa1
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -3671,12 +3712,12 @@ Dim MismaFactura As Boolean
         Set miRsAux = New ADODB.Recordset
         cad = "select codigo,texto1,texto2,observa1 from tmptesoreriacomun where codusu =" & vUsu.Codigo & " ORDER BY codigo"
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         While Not miRsAux.EOF
-            i = i + 1
+            I = I + 1
             ListView1.ListItems.Add , "K" & miRsAux!Codigo
-            ListView1.ListItems(i).Text = miRsAux!texto2
-            ListView1.ListItems(i).SubItems(1) = miRsAux!observa1
+            ListView1.ListItems(I).Text = miRsAux!texto2
+            ListView1.ListItems(I).SubItems(1) = miRsAux!observa1
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -3694,13 +3735,13 @@ Dim MismaFactura As Boolean
         Set miRsAux = New ADODB.Recordset
         cad = "select codigo,texto1,texto2,observa1 from tmptesoreriacomun where codusu =" & vUsu.Codigo & " ORDER BY codigo"
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         While Not miRsAux.EOF
-            i = i + 1
+            I = I + 1
             ListView1.ListItems.Add , "K" & miRsAux!Codigo
-            ListView1.ListItems(i).Text = miRsAux!texto1
-            ListView1.ListItems(i).SubItems(1) = miRsAux!texto2
-            ListView1.ListItems(i).SubItems(2) = miRsAux!observa1
+            ListView1.ListItems(I).Text = miRsAux!texto1
+            ListView1.ListItems(I).SubItems(1) = miRsAux!texto2
+            ListView1.ListItems(I).SubItems(2) = miRsAux!observa1
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -3730,10 +3771,10 @@ Dim MismaFactura As Boolean
     cad = "select tmpintefrafracli.*,nommacta from tmpintefrafracli left join cuentas on cta_cli=cuentas.codmacta where codusu= " & vUsu.Codigo
     cad = cad & " ORDER BY codigo"
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    i = 0
+    I = 0
     While Not miRsAux.EOF
-        i = i + 1
-        ListView1.ListItems.Add , "K" & i
+        I = I + 1
+        ListView1.ListItems.Add , "K" & I
         MismaFactura = False
         If FraProStd Then
             If DBLet(miRsAux!FACTURA, "T") = "" Then MismaFactura = True
@@ -3742,47 +3783,47 @@ Dim MismaFactura As Boolean
         End If
         If Not MismaFactura Then
             
-            ListView1.ListItems(i).Text = miRsAux!Serie
+            ListView1.ListItems(I).Text = miRsAux!Serie
             If FraProStd Then
-                ListView1.ListItems(i).SubItems(1) = miRsAux!FACTURA
+                ListView1.ListItems(I).SubItems(1) = miRsAux!FACTURA
             Else
-                ListView1.ListItems(i).SubItems(1) = Format(miRsAux!FACTURA, "000000")
+                ListView1.ListItems(I).SubItems(1) = Format(miRsAux!FACTURA, "000000")
             End If
-            ListView1.ListItems(i).SubItems(2) = miRsAux!Fecha
+            ListView1.ListItems(I).SubItems(2) = miRsAux!Fecha
             
-            ListView1.ListItems(i).SubItems(3) = DBLet(miRsAux!Nommacta, "T")
+            ListView1.ListItems(I).SubItems(3) = DBLet(miRsAux!Nommacta, "T")
             
             
-            ListView1.ListItems(i).SubItems(4) = Format(miRsAux!impventa, FormatoImporte)
-            ListView1.ListItems(i).SubItems(5) = Format(miRsAux!IVA, FormatoImporte)
-            ListView1.ListItems(i).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
-            ListView1.ListItems(i).SubItems(7) = " " 'separador
+            ListView1.ListItems(I).SubItems(4) = Format(miRsAux!impventa, FormatoImporte)
+            ListView1.ListItems(I).SubItems(5) = Format(miRsAux!IVA, FormatoImporte)
+            ListView1.ListItems(I).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
+            ListView1.ListItems(I).SubItems(7) = " " 'separador
             If B Then
-                ListView1.ListItems(i).SubItems(8) = Format(miRsAux!calculoimponible, FormatoImporte)
+                ListView1.ListItems(I).SubItems(8) = Format(miRsAux!calculoimponible, FormatoImporte)
             Else
-                ListView1.ListItems(i).SubItems(8) = Format(DBLet(miRsAux!impret, "N"), FormatoImporte)
+                ListView1.ListItems(I).SubItems(8) = Format(DBLet(miRsAux!impret, "N"), FormatoImporte)
             End If
-            ListView1.ListItems(i).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!calculoimponible, FormatoImporte)
-            ListView1.ListItems(i).SubItems(10) = Format(miRsAux!TotalFactura, FormatoImporte)
+            ListView1.ListItems(I).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!calculoimponible, FormatoImporte)
+            ListView1.ListItems(I).SubItems(10) = Format(miRsAux!TotalFactura, FormatoImporte)
             
             If vEmpresa.TieneTesoreria Then
                 cad = " "
                 If DBLet(miRsAux!IBAN, "T") <> "" Or DBLet(miRsAux!txtcsb, "T") <> "" Then cad = "*"
-                ListView1.ListItems(i).SubItems(11) = cad
+                ListView1.ListItems(I).SubItems(11) = cad
             End If
             
         Else
             
-            ListView1.ListItems(i).Text = " "
-            ListView1.ListItems(i).SubItems(3) = "              IVA " & miRsAux!IVA & "%"
-            ListView1.ListItems(i).SubItems(4) = Format(miRsAux!impventa, FormatoImporte)
-            ListView1.ListItems(i).SubItems(5) = Format(miRsAux!IVA, FormatoImporte)
-            ListView1.ListItems(i).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
+            ListView1.ListItems(I).Text = " "
+            ListView1.ListItems(I).SubItems(3) = "              IVA " & miRsAux!IVA & "%"
+            ListView1.ListItems(I).SubItems(4) = Format(miRsAux!impventa, FormatoImporte)
+            ListView1.ListItems(I).SubItems(5) = Format(miRsAux!IVA, FormatoImporte)
+            ListView1.ListItems(I).SubItems(6) = Format(miRsAux!ImpIva, FormatoImporte)
             For NF = 1 To 10
-                If NF < 3 Or NF > 6 Then ListView1.ListItems(i).SubItems(NF) = " "
+                If NF < 3 Or NF > 6 Then ListView1.ListItems(I).SubItems(NF) = " "
             Next
             
-            If vEmpresa.TieneTesoreria Then ListView1.ListItems(i).SubItems(11) = " "
+            If vEmpresa.TieneTesoreria Then ListView1.ListItems(I).SubItems(11) = " "
             
         End If
         
@@ -4293,7 +4334,7 @@ On Error GoTo eComprobacionDatosBD
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         While Not miRsAux.EOF
             cad = miRsAux!FACTURA
-            AnyadeEnErrores "No existe centro de coste: " & miRsAux!CCoste
+            AnyadeEnErrores "No existe centro de coste: " & miRsAux!cCoste
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -4526,9 +4567,9 @@ Dim Tipointegracion As Byte
                     End If
                     tCobro = tCobro & Aux
                     
-                    CargarCobrosSobreCollectionConSQLInsert ColCob, CStr(K), miRsAux!Fecha, TotalFac, tCobro
+                    CargarCobrosSobreCollectionConSQLInsert ColCob, CStr(K), miRsAux!Fecha, TotalFac, "", tCobro
                 End If
-                
+
                 
                 
                 
@@ -4537,7 +4578,7 @@ Dim Tipointegracion As Byte
                 
                 
                 Fecha = miRsAux!Fecha
-                i = 0
+                I = 0
                 FACTURA = cad
                 Set ColBases = Nothing
                 Set ColBases = New Collection
@@ -4547,10 +4588,10 @@ Dim Tipointegracion As Byte
         
         'Lineas
       
-        i = i + 1
+        I = I + 1
         cad = "(0," & DBSet(miRsAux!recargo, "T") & "," & Year(Fecha) & ",NULL," 'codccost?
         cad = cad & DBSet(miRsAux!ImpIva, "N") & "," & DBSet(miRsAux!recargo, "N", "S") & "," & DBSet(miRsAux!IVA, "N")
-        cad = cad & "," & DBSet(miRsAux!impventa, "N", "N") & "," & DBSet(miRsAux!TipoIva, "N") & "," & DBSet(miRsAux!ctaventas, "T") & "," & i
+        cad = cad & "," & DBSet(miRsAux!impventa, "N", "N") & "," & DBSet(miRsAux!TipoIva, "N") & "," & DBSet(miRsAux!ctaventas, "T") & "," & I
         cad = cad & "," & DBSet(Fecha, "F", "N") & ",'" & miRsAux!Serie & "'," & NumRegElim & ")"
         
         ColBases.Add cad
@@ -4602,9 +4643,9 @@ Dim B As Boolean
         
         'Lineas
         cad = ""
-        For i = 1 To C.Count
-            cad = cad & ", " & C.Item(i)
-        Next i
+        For I = 1 To C.Count
+            cad = cad & ", " & C.Item(I)
+        Next I
         
 
         cad = "fecharec,numserie,numregis) VALUES " & Mid(cad, 2)
@@ -4624,12 +4665,12 @@ Dim B As Boolean
         cad = cad & " order by 1,2,3"
         Set RT = New ADODB.Recordset
         RT.Open cad, Conn, adOpenKeyset, adLockPessimistic, adCmdText
-        i = 0
+        I = 0
         cad = ""
         While Not RT.EOF
-            i = i + 1
+            I = I + 1
                 cad = cad & ", (" & DBSet(Serie_, "T") & "," & NumRegElim & "," & DBSet(Fecha, "F") & "," & Year(Fecha)
-            cad = cad & "," & i & "," & DBSet(RT!Baseimpo, "N") & "," & RT!codigiva & "," & DBSet(RT!porciva, "N", "S")
+            cad = cad & "," & I & "," & DBSet(RT!Baseimpo, "N") & "," & RT!codigiva & "," & DBSet(RT!porciva, "N", "S")
             cad = cad & "," & DBSet(RT!porcrec, "N") & "," & DBSet(RT!Imporiva, "N") & "," & DBSet(RT!imporrec, "N") & ")"
             RT.MoveNext  'rT!
         Wend
@@ -4661,9 +4702,9 @@ Dim B As Boolean
         'insert into cobros(agente,nomclien, domclien, pobclien, cpclien, proclien, codpais, nifclien,
         'numserie,numfactu,fecfactu,numorden,codmacta,codforpa,fecvenci,impvenci,ctabanc1,iban,text33csb)
         cad = ""
-        For i = 1 To Cobros.Count
-            cad = cad & ", " & Cobros.Item(i)
-        Next i
+        For I = 1 To Cobros.Count
+            cad = cad & ", " & Cobros.Item(I)
+        Next I
         cad = Mid(cad, 2)
         
         cad = "INSERT INTO pagos(nomprove,domprove,pobprove,cpprove,proprove,codpais,nifprove,numserie,numfactu,fecfactu,codmacta,codforpa,ctabanc1,iban,text1csb,text2csb,numorden,fecefect,impefect) VALUES " & cad
@@ -4735,10 +4776,10 @@ Dim B As Boolean
         clmX.Width = 3900
         
     
-        For i = 1 To 5
+        For I = 1 To 5
             Set clmX = ListView1.ColumnHeaders.Add()
-            clmX.Text = RecuperaValor("Reten|Suplidos|Base|IVA|Total|", CInt(i))
-            clmX.Width = IIf(i < 3, 1050, 1250)
+            clmX.Text = RecuperaValor("Reten|Suplidos|Base|IVA|Total|", CInt(I))
+            clmX.Width = IIf(I < 3, 1050, 1250)
             clmX.Alignment = lvwColumnRight
         Next
     

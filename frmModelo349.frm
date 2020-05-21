@@ -1260,7 +1260,7 @@ On Error GoTo EComprobarCuentas349
     'Factura extranjero
     Sql = Sql & " AND factcli.codopera=1"
     
-'    'Pero si tiene serie de AUTOFACTURAS, la quitamos
+
     Sql = Sql & " group by factcli.codmacta,factcli.nifdatos,tipo "
 
     

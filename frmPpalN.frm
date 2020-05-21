@@ -833,7 +833,7 @@ Dim AbiertoFormulario  As Boolean
     
     Select Case Control.Id
         Case XTPCommandBarsSpecialCommands.XTP_ID_RIBBONCONTROLTAB:
-            If PrimeraVez Then Stop
+            'If PrimeraVez Then S top
             If frmInbox.CalendarControl.visible = True Then
                 If UCase(frmppal.RibbonBar.SelectedTab.Caption) <> "AGENDA" Then
                    

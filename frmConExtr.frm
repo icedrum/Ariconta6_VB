@@ -926,7 +926,7 @@ Dim ImpH As Currency
 
 Private Sub adodc1_MoveComplete(ByVal adReason As ADODB.EventReasonEnum, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pRecordset As ADODB.Recordset)
     On Error Resume Next
-    Label10.Caption = DBLet(Adodc1.Recordset!Nommacta, "T")
+    Label10.Caption = DBLet(adodc1.Recordset!Nommacta, "T")
     If Err.Number <> 0 Then
         Err.Clear
         Label10.Caption = ""
@@ -1417,12 +1417,22 @@ Private Sub Text3_LostFocus(Index As Integer)
                 
                 'If ValorAnterior <> Text3(Index).Text Then RefrescarDatos
             Else
+                
+                If LCase(Mid(Sql, 1, 19)) <> "no existe la cuenta" Then RC = ""
+                
                 MsgBox Sql, vbExclamation
                 Text3(2).Text = ""
                 Text5.Text = ""
                 ListView1.ListItems.Clear
-                PonerModoUsuarioGnral 0, "ariconta"
-                PonerFoco Text3(2)
+                If RC <> "" Then
+                    Text3(2).Text = RC
+                    OtraCuenta 0
+                
+                End If
+                
+                If ListView1.ListItems.Count = 0 Then PonerFoco Text3(2)
+                If Text3(2).Text = "" Then PonerModoUsuarioGnral 0, "ariconta"
+                    
             End If
      End Select
 End Sub
@@ -1488,7 +1498,7 @@ Private Sub CargaGrid()
 
 
 
-    Adodc1.ConnectionString = Conn
+    adodc1.ConnectionString = Conn
     Sql = " codusu, cta, numdiari, Pos, fechaent, numasien, linliapu, nomdocum, contra, ampconce, timporteD, timporteH, saldo,ccost, Punteada"
     If Text3(2).Text <> "" Then
         Sql = Sql & ",nommacta"
@@ -1500,13 +1510,13 @@ Private Sub CargaGrid()
     End If
     Sql = Sql & " AND cta = '" & Text3(2).Text & "' ORDER BY POS"
     
-    Adodc1.RecordSource = Sql
-    Adodc1.Refresh
+    adodc1.RecordSource = Sql
+    adodc1.Refresh
     
     
     
     Label101.Caption = "Total lineas:   "
-    Label101.Caption = Label101.Caption & Me.Adodc1.Recordset.RecordCount
+    Label101.Caption = Label101.Caption & Me.adodc1.Recordset.RecordCount
     
 End Sub
 
@@ -1706,11 +1716,15 @@ Dim I As Integer
     IT.SubItems(8) = Format(TotalPeriodo, FormatoImporte)
     
         IT.SubItems(3) = " ***  TOTAL *** "
-        For I = 3 To 9
-            IT.ListSubItems(I).Bold = True
-        Next
+        
         
         If chkTotal.Value = 1 Then
+            
+            For I = 3 To 9
+                IT.ListSubItems(I).Bold = True
+            Next
+            
+            
             IT.EnsureVisible
             If TotalPeriodo < 0 Then
                 IT.ListSubItems(8).ForeColor = vbRed
@@ -1721,6 +1735,10 @@ Dim I As Integer
                     IT.SubItems(8) = " "
                 End If
             End If
+        Else
+            
+            IT.ListSubItems(3).Bold = True
+        
         End If
     
     
@@ -1786,8 +1804,9 @@ Private Function ObtenerCuentaNormal(ConMovimientos As Boolean, Siguiente As Boo
         Sql = Sql & " fechaent >= '" & Format(Text3(0).Text, FormatoFecha) & "'"
         Sql = Sql & " AND fechaent <= '" & Format(Text3(1).Text, FormatoFecha) & "'"
         
-         If Me.chkCtaConMov.Value = 1 Then Sql = Sql & " and codconce < 900"
-        
+        If Me.chkCtaSaldo.Value = 0 Then
+            If Me.chkCtaConMov.Value = 1 Then Sql = Sql & " and codconce < 900"
+        End If
         
     Else
         Sql = "select codmacta from cuentas WHERE apudirec='S'  "

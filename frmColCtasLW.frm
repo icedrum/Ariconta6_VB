@@ -645,8 +645,18 @@ Private Sub BotonModificar()
     frmCuentas.CodCta = wndReportControl.SelectedRows(0).Record.Item(1).Caption
     frmCuentas.Show vbModal
     If CadenaDesdeOtroForm <> "" Then
-        CargaGrid
-        SituaGrid CadenaDesdeOtroForm
+              
+        
+        CuentasParaSaldos = "concat(nommacta,'|',coalesce(fecbloq,''),'|')"
+        CuentasParaSaldos = DevuelveDesdeBD(CuentasParaSaldos, "cuentas", "codmacta", CadenaDesdeOtroForm, "T")
+        
+        wndReportControl.SelectedRows(0).Record.Item(2).Caption = RecuperaValor(CuentasParaSaldos, 1)
+        CuentasParaSaldos = RecuperaValor(CuentasParaSaldos, 2)
+        If CuentasParaSaldos <> "" Then CuentasParaSaldos = Format(CuentasParaSaldos, "dd/mm/yyyy")
+        wndReportControl.SelectedRows(0).Record.Item(3).Caption = CuentasParaSaldos
+        CuentasParaSaldos = ""
+        CadenaDesdeOtroForm = ""
+        'SituaGrid CadenaDesdeOtroForm
     End If
 End Sub
 
@@ -664,36 +674,42 @@ Dim Sql As String
     
     '### a mano
     Sql = "Seguro que desea eliminar la cuenta:"
-    Sql = Sql & vbCrLf & "Código: " & wndReportControl.SelectedRows(0).Record.Item(0)
-    Sql = Sql & vbCrLf & "Denominación: " & wndReportControl.SelectedRows(0).Record.Item(0)
+    Sql = Sql & vbCrLf & "Código: " & wndReportControl.SelectedRows(0).Record.Item(1).Caption
+    Sql = Sql & vbCrLf & "Denominación: " & wndReportControl.SelectedRows(0).Record.Item(2).Caption
     If MsgBox(Sql, vbQuestion + vbYesNoCancel) = vbYes Then
         
-        Sql = wndReportControl.SelectedRows(0).Record.Item(0)
+        Sql = wndReportControl.SelectedRows(0).Record.Item(1).Caption
         Screen.MousePointer = vbHourglass
         If SepuedeEliminarCuenta(Sql) Then
+        
+        
             'Hay que eliminar
             Screen.MousePointer = vbHourglass
+        
+              
+            Conn.Execute "Delete from departamentos where codmacta = " & DBSet(Sql, "T")
+            Conn.Execute "Delete from cuentas where codmacta= " & DBSet(Sql, "T")
             
-     '       Sql = "Delete from departamentos where codmacta = " & DBSet(Adodc1.Recordset!codmacta, "T")
-            Conn.Execute Sql
-            
-     '       Sql = "Delete from cuentas where codmacta='" & Adodc1.Recordset!codmacta & "'"
-            Conn.Execute Sql
             Screen.MousePointer = vbHourglass
             espera 0.5
             
-            'NumRegElim = Adodc1.Recordset.AbsolutePosition - 1
-            CargaGrid
-            'DataGrid1.Enabled = True
-            'If NumRegElim > 0 Then
-            '    If NumRegElim >= Adodc1.Recordset.RecordCount Then
-            '        Adodc1.Recordset.MoveLast
-            '    Else
-            '        Adodc1.Recordset.Move NumRegElim
-            '        'DataGrid1.Bookmark = Adodc1.Recordset.AbsolutePosition
-            '    End If
-            'End If
+            Sql = ""
+            NumRegElim = wndReportControl.SelectedRows(0).Record.Index
+            If NumRegElim > 0 Then
+                
+                If NumRegElim < wndReportControl.Records.Count - 1 Then
+                    'Esta a mitad
+                    Sql = wndReportControl.Rows(NumRegElim + 1).Record.Item(1).Caption
+                Else
+                    
+                    Sql = wndReportControl.Rows(NumRegElim - 1).Record.Item(1).Caption
+                End If
+            End If
+            wndReportControl.Records.RemoveAt wndReportControl.SelectedRows(0).Record.Index
             
+          wndReportControl.Populate
+            
+            If Sql <> "" Then SituaGrid Sql
         End If
     End If
 Error2:
@@ -1112,8 +1128,13 @@ Dim C As String
                     wndReportControl.PaintManager.HorizontalGridStyle = xtpGridNoLines
                     wndReportControl.PaintManager.VerticalGridStyle = xtpGridNoLines
                 End If
-                Screen.MousePointer = vbHourglass
-            espera 0.25
+                
+                For I = 1 To 10
+                    Screen.MousePointer = vbHourglass
+                    DoEvents
+                    espera 0.1
+                Next
+                wndReportControl.Populate
             Screen.MousePointer = vbDefault
         Case Else
     End Select
@@ -1289,6 +1310,7 @@ Private Sub CargaGrid3(DesdeGargaGrid As Boolean)
             miRsAux.MoveNext
         Wend
         miRsAux.Close
+        wndReportControl.Populate
     End If
    'utlimoIndiceTop = Me.wndReportControl.Records.Count - 24
    'If utlimoIndiceTop < 1 Then utlimoIndiceTop = 1

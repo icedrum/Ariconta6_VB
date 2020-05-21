@@ -2,7 +2,7 @@ Attribute VB_Name = "modTesoreria"
 Option Explicit
 
 Public Function CargarCobrosTemporal(Forpa As String, FecFactu As String, TotalFac As Currency) As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim CadValues As String
 Dim Rsvenci As ADODB.Recordset
 Dim FecVenci As String
@@ -12,17 +12,17 @@ Dim ImpVenci As Currency
 
     CargarCobrosTemporal = False
 
-    SQL = "SELECT numerove, primerve, restoven FROM formapago WHERE codforpa=" & DBSet(Forpa, "N")
+    Sql = "SELECT numerove, primerve, restoven FROM formapago WHERE codforpa=" & DBSet(Forpa, "N")
     
     Set Rsvenci = New ADODB.Recordset
-    Rsvenci.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rsvenci.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     CadValues = ""
     
     If Not Rsvenci.EOF Then
         If Rsvenci.Fields(0).Value > 0 Then
             '-------- Primer Vencimiento
-            i = 1
+            I = 1
             'FECHA VTO
             FecVenci = CDate(FecFactu)
             FecVenci = DateAdd("d", DBLet(Rsvenci!primerve, "N"), FecVenci)
@@ -38,27 +38,27 @@ Dim ImpVenci As Currency
                     ImpVenci = Round2(ImpVenci + (TotalFac - ImpVenci * Rsvenci.Fields(0).Value), 2)
                 End If
             End If
-            CadValues = "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
+            CadValues = "(" & vUsu.Codigo & "," & DBSet(I, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
             
             'Resto Vencimientos
             '--------------------------------------------------------------------
-            For i = 2 To Rsvenci!numerove
+            For I = 2 To Rsvenci!numerove
                 FecVenci = DateAdd("d", DBLet(Rsvenci!restoven, "N"), FecVenci)
                     
                 'IMPORTE Resto de Vendimientos
                 ImpVenci = Round2(TotalFac / Rsvenci.Fields(0).Value, 2)
                 
-                CadValues = CadValues & "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
-            Next i
+                CadValues = CadValues & "(" & vUsu.Codigo & "," & DBSet(I, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
+            Next I
         End If
     End If
     
     Set Rsvenci = Nothing
     
     If CadValues <> "" Then
-        SQL = "INSERT INTO tmpcobros (codusu, numorden, fecvenci, impvenci)"
-        SQL = SQL & " VALUES " & Mid(CadValues, 1, Len(CadValues) - 1)
-        Conn.Execute SQL
+        Sql = "INSERT INTO tmpcobros (codusu, numorden, fecvenci, impvenci)"
+        Sql = Sql & " VALUES " & Mid(CadValues, 1, Len(CadValues) - 1)
+        Conn.Execute Sql
     End If
     
     CargarCobrosTemporal = True
@@ -73,8 +73,8 @@ End Function
 'Cada linea el SQL
 '       insert into cobros(numserie,numfactu,fecfactu,codmacta,codforpa,ctabanc1,iban,text33csb,numorden,fecvenci,impvenci)
 '    Para ello enviaremos TODO el sql menos y numorden fecvenci e impvenci
-Public Function CargarCobrosSobreCollectionConSQLInsert(ByRef ColCobros As Collection, Forpa As String, FecFactu As String, TotalFac As Currency, PartFijaSQL As String) As Boolean
-Dim SQL As String
+Public Function CargarCobrosSobreCollectionConSQLInsert(ByRef ColCobros As Collection, Forpa As String, FecFactu As String, TotalFac As Currency, FechaVto As String, PartFijaSQL As String) As Boolean
+Dim Sql As String
 Dim Rsvenci As ADODB.Recordset
 Dim FecVenci As String
 Dim ImpVenci As Currency
@@ -84,49 +84,63 @@ Dim ImpVenci As Currency
     CargarCobrosSobreCollectionConSQLInsert = False
 
     Set ColCobros = New Collection
-    
-    SQL = "SELECT numerove, primerve, restoven FROM formapago WHERE codforpa=" & DBSet(Forpa, "N")
+    If FechaVto <> "" Then
+        If CDate(FechaVto) < "01/01/2020" Then FechaVto = ""
+    End If
+    If FechaVto <> "" Then
+            'Ha puesto una fecha de vto
+        Sql = "SELECT 1 numerove, 0 primerve,1  restoven "
+    Else
+        Sql = "SELECT numerove, primerve, restoven "
+    End If
+    Sql = Sql & " FROM formapago WHERE codforpa=" & DBSet(Forpa, "N")
     
     Set Rsvenci = New ADODB.Recordset
-    Rsvenci.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rsvenci.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
 
     
     If Not Rsvenci.EOF Then
-        If Rsvenci.Fields(0).Value > 0 Then
+    
+        
             '-------- Primer Vencimiento
-            
+        If FechaVto <> "" Then
+            FecVenci = CDate(FechaVto)
+        
+        Else
             'FECHA VTO
             FecVenci = CDate(FecFactu)
             FecVenci = DateAdd("d", DBLet(Rsvenci!primerve, "N"), FecVenci)
             '===
-            
-            'IMPORTE del Vencimiento
-            If Rsvenci!numerove = 1 Then
-                ImpVenci = TotalFac
-            Else
-                ImpVenci = Round2(TotalFac / Rsvenci.Fields(0).Value, 2)
-                'Comprobar que la suma de los vencimientos cuadra con el total de la factura
-                If ImpVenci * Rsvenci!numerove <> TotalFac Then
-                    ImpVenci = Round2(ImpVenci + (TotalFac - ImpVenci * Rsvenci.Fields(0).Value), 2)
-                End If
-            End If
-            'CadValues = "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
-            ColCobros.Add PartFijaSQL & "1," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & ")"
-            
-            
-            'Resto Vencimientos
-            '--------------------------------------------------------------------
-            For i = 2 To Rsvenci!numerove
-                FecVenci = DateAdd("d", DBLet(Rsvenci!restoven, "N"), FecVenci)
-                    
-                'IMPORTE Resto de Vendimientos
-                ImpVenci = Round2(TotalFac / Rsvenci.Fields(0).Value, 2)
-                
-                'CadValues = CadValues & "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
-                ColCobros.Add PartFijaSQL & i & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & ")"
-            Next i
         End If
+        
+        'IMPORTE del Vencimiento
+        If Rsvenci!numerove = 1 Then
+            ImpVenci = TotalFac
+        Else
+            ImpVenci = Round2(TotalFac / Rsvenci.Fields(0).Value, 2)
+            'Comprobar que la suma de los vencimientos cuadra con el total de la factura
+            If ImpVenci * Rsvenci!numerove <> TotalFac Then
+                ImpVenci = Round2(ImpVenci + (TotalFac - ImpVenci * Rsvenci.Fields(0).Value), 2)
+            End If
+        End If
+        
+        'CadValues = "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
+        ColCobros.Add PartFijaSQL & "1," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & ")"
+        
+            
+        'Resto Vencimientos
+        '--------------------------------------------------------------------
+        For I = 2 To Rsvenci!numerove
+            FecVenci = DateAdd("d", DBLet(Rsvenci!restoven, "N"), FecVenci)
+                
+            'IMPORTE Resto de Vendimientos
+            ImpVenci = Round2(TotalFac / Rsvenci.Fields(0).Value, 2)
+            
+            'CadValues = CadValues & "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & "),"
+            ColCobros.Add PartFijaSQL & I & "," & DBSet(FecVenci, "F") & "," & DBSet(ImpVenci, "N") & ")"
+        Next I
+        
     End If
     
     Set Rsvenci = Nothing
@@ -151,16 +165,16 @@ End Function
 
 
 Public Function BancoPropio() As String
-Dim SQL As String
+Dim Sql As String
 Dim Rs As ADODB.Recordset
 
     BancoPropio = ""
 
-    SQL = "select codmacta from bancos "
+    Sql = "select codmacta from bancos "
     
-    If TotalRegistrosConsulta(SQL) = 1 Then
+    If TotalRegistrosConsulta(Sql) = 1 Then
         Set Rs = New ADODB.Recordset
-        Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not Rs.EOF Then BancoPropio = DBLet(Rs!codmacta, "T")
         Set Rs = Nothing
     End If
@@ -175,55 +189,55 @@ End Function
 
 
 Public Function HayQueMostrarEliminarRiesgoTalPag() As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Col As Collection
     
     On Error GoTo eHayQueMostrarEliminarRiesgoTalPag
     HayQueMostrarEliminarRiesgoTalPag = False
     Set miRsAux = New ADODB.Recordset
-    SQL = "Select codigo,anyo,codmacta,tiporem  from remesas where  tiporem > 1  AND (situacion ='Q' or situacion ='Y') ORDER BY codmacta,1,2 "
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    SQL = ""
+    Sql = "Select codigo,anyo,codmacta,tiporem  from remesas where  tiporem > 1  AND (situacion ='Q' or situacion ='Y') ORDER BY codmacta,1,2 "
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Sql = ""
     Set Col = New Collection
     Msg = ""
     While Not miRsAux.EOF
         If Msg <> miRsAux!codmacta Then
             '
             '           tiporem|dias                Resto. Remesas
-            If Msg <> "" Then Col.Add SQL
+            If Msg <> "" Then Col.Add Sql
             
             
-            SQL = "concat( pagaredias,'|',talondias,'|')"
-            Msg = DevuelveDesdeBD(SQL, "bancos", "codmacta", miRsAux!codmacta, "T")
+            Sql = "concat( pagaredias,'|',talondias,'|')"
+            Msg = DevuelveDesdeBD(Sql, "bancos", "codmacta", miRsAux!codmacta, "T")
             If Msg = "" Then Err.Raise 513, "No existe banco?" & miRsAux!codmacta
             If miRsAux!Tiporem = 2 Then
-                SQL = RecuperaValor(Msg, 1)
+                Sql = RecuperaValor(Msg, 1)
             Else
-                SQL = RecuperaValor(Msg, 2)
+                Sql = RecuperaValor(Msg, 2)
             End If
-            If SQL = "" Then SQL = "0"
-            Msg = Val(SQL) + 1
-            SQL = Format(Msg, "000")
+            If Sql = "" Then Sql = "0"
+            Msg = Val(Sql) + 1
+            Sql = Format(Msg, "000")
             Msg = miRsAux!codmacta
             
         End If
         
-        SQL = SQL & ", (" & miRsAux!Codigo & "," & miRsAux!Anyo & ")"
+        Sql = Sql & ", (" & miRsAux!Codigo & "," & miRsAux!Anyo & ")"
         miRsAux.MoveNext
     Wend
     miRsAux.Close
     
-    If SQL <> "" Then Col.Add SQL
+    If Sql <> "" Then Col.Add Sql
         
         
-    For i = 1 To Col.Count
-        SQL = Col.Item(i)
-        J = Val(Mid(SQL, 1, 3))
-        SQL = Mid(SQL, 5)
+    For I = 1 To Col.Count
+        Sql = Col.Item(I)
+        J = Val(Mid(Sql, 1, 3))
+        Sql = Mid(Sql, 5)
         
         Msg = "select count(*)"
         Msg = Msg & " from cobros where (codrem,anyorem) in ("
-        Msg = Msg & SQL
+        Msg = Msg & Sql
         Msg = Msg & ") and date_add(fecvenci, interval " & J & " day) <now()"
         Msg = Msg & " order by fecvenci"
         miRsAux.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -232,7 +246,7 @@ Dim Col As Collection
         End If
         miRsAux.Close
         If HayQueMostrarEliminarRiesgoTalPag Then Exit For
-    Next i
+    Next I
         
 eHayQueMostrarEliminarRiesgoTalPag:
     If Err.Number <> 0 Then MuestraError Err.Number, Err.Description
@@ -244,34 +258,34 @@ End Function
 
 
 Public Function QueRemesasMostrarEliminarRiesgoTalPag2(SoloEfectos As Boolean) As String
-Dim SQL As String
+Dim Sql As String
 Dim Col As Collection
     
     On Error GoTo eHayQueMostrarEliminarRiesgoTalPag
     QueRemesasMostrarEliminarRiesgoTalPag2 = ""
     Set miRsAux = New ADODB.Recordset
-    SQL = ">"
-    If SoloEfectos Then SQL = "="
-    SQL = "Select codigo,anyo,codmacta,tiporem  from remesas where  tiporem " & SQL
+    Sql = ">"
+    If SoloEfectos Then Sql = "="
+    Sql = "Select codigo,anyo,codmacta,tiporem  from remesas where  tiporem " & Sql
     
-    SQL = SQL & " 1  "
-    SQL = SQL & " AND lcase(descripcion)<>'traspasada' AND (situacion ='Q' or situacion ='Y') ORDER BY codmacta,1,2 "
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    SQL = ""
+    Sql = Sql & " 1  "
+    Sql = Sql & " AND lcase(descripcion)<>'traspasada' AND (situacion ='Q' or situacion ='Y') ORDER BY codmacta,1,2 "
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Sql = ""
     Set Col = New Collection
     Msg = ""
     While Not miRsAux.EOF
         If Msg <> miRsAux!codmacta Then
             '
             '           tiporem|dias                Resto. Remesas
-            If Msg <> "" Then Col.Add SQL
+            If Msg <> "" Then Col.Add Sql
             
             If SoloEfectos Then
-                SQL = "'0|0|'"
+                Sql = "'0|0|'"
             Else
-                SQL = "concat( pagaredias,'|',talondias,'|')"
+                Sql = "concat( pagaredias,'|',talondias,'|')"
             End If
-            Msg = DevuelveDesdeBD(SQL, "bancos", "codmacta", miRsAux!codmacta, "T")
+            Msg = DevuelveDesdeBD(Sql, "bancos", "codmacta", miRsAux!codmacta, "T")
             
             
             
@@ -282,30 +296,30 @@ Dim Col As Collection
             If Msg = "" Then Err.Raise 513, , "No existe banco?" & miRsAux!codmacta
             
             If miRsAux!Tiporem = 2 Then
-                SQL = Format(RecuperaValor(Msg, 1), "000")
+                Sql = Format(RecuperaValor(Msg, 1), "000")
             Else
-                SQL = Format(RecuperaValor(Msg, 2), "000")
+                Sql = Format(RecuperaValor(Msg, 2), "000")
             End If
             Msg = miRsAux!codmacta
             
         End If
         
-        SQL = SQL & ", (" & miRsAux!Codigo & "," & miRsAux!Anyo & ")"
+        Sql = Sql & ", (" & miRsAux!Codigo & "," & miRsAux!Anyo & ")"
         miRsAux.MoveNext
     Wend
     miRsAux.Close
     
-    If SQL <> "" Then Col.Add SQL
+    If Sql <> "" Then Col.Add Sql
         
         
-    For i = 1 To Col.Count
-        SQL = Col.Item(i)
-        J = Val(Mid(SQL, 1, 3))
-        SQL = Mid(SQL, 5)
+    For I = 1 To Col.Count
+        Sql = Col.Item(I)
+        J = Val(Mid(Sql, 1, 3))
+        Sql = Mid(Sql, 5)
         
         Msg = "select distinct codrem,anyorem "
         Msg = Msg & " from cobros where (codrem,anyorem) in ("
-        Msg = Msg & SQL
+        Msg = Msg & Sql
         Msg = Msg & ") and date_add(fecvenci, interval " & J & " day) <=now()"
         Msg = Msg & " order by fecvenci"
         miRsAux.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -316,7 +330,7 @@ Dim Col As Collection
         miRsAux.Close
         
         
-    Next i
+    Next I
         
 eHayQueMostrarEliminarRiesgoTalPag:
     If Err.Number <> 0 Then MuestraError Err.Number, Err.Description

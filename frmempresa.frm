@@ -153,72 +153,72 @@ Begin VB.Form frmempresa
       TabCaption(0)   =   "Datos básicos"
       TabPicture(0)   =   "frmempresa.frx":000C
       Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "Text1(17)"
-      Tab(0).Control(1)=   "Text1(16)"
-      Tab(0).Control(2)=   "Text1(15)"
-      Tab(0).Control(3)=   "Text1(14)"
-      Tab(0).Control(4)=   "Text1(13)"
-      Tab(0).Control(5)=   "Text1(12)"
-      Tab(0).Control(6)=   "Text1(11)"
-      Tab(0).Control(7)=   "Text1(10)"
-      Tab(0).Control(8)=   "Text1(9)"
-      Tab(0).Control(9)=   "Text1(8)"
-      Tab(0).Control(10)=   "Text1(7)"
-      Tab(0).Control(11)=   "Text1(2)"
-      Tab(0).Control(12)=   "Text1(1)"
-      Tab(0).Control(13)=   "Text1(0)"
+      Tab(0).Control(0)=   "Label1(0)"
+      Tab(0).Control(1)=   "Label1(1)"
+      Tab(0).Control(2)=   "Label1(4)"
+      Tab(0).Control(3)=   "Label1(7)"
+      Tab(0).Control(4)=   "Label1(8)"
+      Tab(0).Control(5)=   "Label1(9)"
+      Tab(0).Control(6)=   "Label1(10)"
+      Tab(0).Control(7)=   "Label1(11)"
+      Tab(0).Control(8)=   "Label1(12)"
+      Tab(0).Control(9)=   "Label1(13)"
+      Tab(0).Control(10)=   "Label1(14)"
+      Tab(0).Control(11)=   "Label1(15)"
+      Tab(0).Control(12)=   "Label1(16)"
+      Tab(0).Control(13)=   "Label1(17)"
       Tab(0).Control(14)=   "Label2"
-      Tab(0).Control(15)=   "Label1(17)"
-      Tab(0).Control(16)=   "Label1(16)"
-      Tab(0).Control(17)=   "Label1(15)"
-      Tab(0).Control(18)=   "Label1(14)"
-      Tab(0).Control(19)=   "Label1(13)"
-      Tab(0).Control(20)=   "Label1(12)"
-      Tab(0).Control(21)=   "Label1(11)"
-      Tab(0).Control(22)=   "Label1(10)"
-      Tab(0).Control(23)=   "Label1(9)"
-      Tab(0).Control(24)=   "Label1(8)"
-      Tab(0).Control(25)=   "Label1(7)"
-      Tab(0).Control(26)=   "Label1(4)"
-      Tab(0).Control(27)=   "Label1(1)"
-      Tab(0).Control(28)=   "Label1(0)"
+      Tab(0).Control(15)=   "Text1(0)"
+      Tab(0).Control(16)=   "Text1(1)"
+      Tab(0).Control(17)=   "Text1(2)"
+      Tab(0).Control(18)=   "Text1(7)"
+      Tab(0).Control(19)=   "Text1(8)"
+      Tab(0).Control(20)=   "Text1(9)"
+      Tab(0).Control(21)=   "Text1(10)"
+      Tab(0).Control(22)=   "Text1(11)"
+      Tab(0).Control(23)=   "Text1(12)"
+      Tab(0).Control(24)=   "Text1(13)"
+      Tab(0).Control(25)=   "Text1(14)"
+      Tab(0).Control(26)=   "Text1(15)"
+      Tab(0).Control(27)=   "Text1(16)"
+      Tab(0).Control(28)=   "Text1(17)"
       Tab(0).ControlCount=   29
       TabCaption(1)   =   "Otros datos"
       TabPicture(1)   =   "frmempresa.frx":0028
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Text1(34)"
-      Tab(1).Control(1)=   "Text1(33)"
-      Tab(1).Control(2)=   "Text1(32)"
-      Tab(1).Control(3)=   "Text1(31)"
-      Tab(1).Control(4)=   "Text1(20)"
-      Tab(1).Control(5)=   "Text1(26)"
-      Tab(1).Control(6)=   "Text1(25)"
-      Tab(1).Control(7)=   "Text1(24)"
-      Tab(1).Control(8)=   "Text1(23)"
-      Tab(1).Control(9)=   "Text1(22)"
-      Tab(1).Control(10)=   "Text1(21)"
-      Tab(1).Control(11)=   "Text1(19)"
-      Tab(1).Control(12)=   "Text1(3)"
-      Tab(1).Control(13)=   "Text1(4)"
-      Tab(1).Control(14)=   "Text1(5)"
-      Tab(1).Control(15)=   "Text1(6)"
+      Tab(1).Control(0)=   "Label1(18)"
+      Tab(1).Control(1)=   "Label1(6)"
+      Tab(1).Control(2)=   "Label1(5)"
+      Tab(1).Control(3)=   "Label1(3)"
+      Tab(1).Control(4)=   "Label1(2)"
+      Tab(1).Control(5)=   "Label1(19)"
+      Tab(1).Control(6)=   "Label1(21)"
+      Tab(1).Control(7)=   "Label1(22)"
+      Tab(1).Control(8)=   "Label1(23)"
+      Tab(1).Control(9)=   "Label1(24)"
+      Tab(1).Control(10)=   "Label1(25)"
+      Tab(1).Control(11)=   "Label1(26)"
+      Tab(1).Control(12)=   "Label1(28)"
+      Tab(1).Control(13)=   "Label1(30)"
+      Tab(1).Control(14)=   "Label1(20)"
+      Tab(1).Control(15)=   "Label1(31)"
       Tab(1).Control(16)=   "Text1(18)"
-      Tab(1).Control(17)=   "Label1(31)"
-      Tab(1).Control(18)=   "Label1(20)"
-      Tab(1).Control(19)=   "Label1(30)"
-      Tab(1).Control(20)=   "Label1(28)"
-      Tab(1).Control(21)=   "Label1(26)"
-      Tab(1).Control(22)=   "Label1(25)"
-      Tab(1).Control(23)=   "Label1(24)"
-      Tab(1).Control(24)=   "Label1(23)"
-      Tab(1).Control(25)=   "Label1(22)"
-      Tab(1).Control(26)=   "Label1(21)"
-      Tab(1).Control(27)=   "Label1(19)"
-      Tab(1).Control(28)=   "Label1(2)"
-      Tab(1).Control(29)=   "Label1(3)"
-      Tab(1).Control(30)=   "Label1(5)"
-      Tab(1).Control(31)=   "Label1(6)"
-      Tab(1).Control(32)=   "Label1(18)"
+      Tab(1).Control(17)=   "Text1(6)"
+      Tab(1).Control(18)=   "Text1(5)"
+      Tab(1).Control(19)=   "Text1(4)"
+      Tab(1).Control(20)=   "Text1(3)"
+      Tab(1).Control(21)=   "Text1(19)"
+      Tab(1).Control(22)=   "Text1(21)"
+      Tab(1).Control(23)=   "Text1(22)"
+      Tab(1).Control(24)=   "Text1(23)"
+      Tab(1).Control(25)=   "Text1(24)"
+      Tab(1).Control(26)=   "Text1(25)"
+      Tab(1).Control(27)=   "Text1(26)"
+      Tab(1).Control(28)=   "Text1(20)"
+      Tab(1).Control(29)=   "Text1(31)"
+      Tab(1).Control(30)=   "Text1(32)"
+      Tab(1).Control(31)=   "Text1(33)"
+      Tab(1).Control(32)=   "Text1(34)"
       Tab(1).ControlCount=   33
       TabCaption(2)   =   "Presentación IVA"
       TabPicture(2)   =   "frmempresa.frx":0044
@@ -1925,8 +1925,8 @@ Dim Modo As Byte
 Dim ModoLineas As Byte
 
 Private Sub cmdAceptar_Click()
-    Dim Cad As String
-    Dim i As Integer
+    Dim cad As String
+    Dim I As Integer
     Dim HayPpal As Boolean
     Dim Aux As String
     
@@ -1951,42 +1951,48 @@ Private Sub cmdAceptar_Click()
                 InsertarModificarEmpresa False
                 '-----------------------------------------
                 'Hacemos insertar
-                If Adodc1.Recordset.EOF Then
-                    i = InsertarDesdeForm(Me)
+                If adodc1.Recordset.EOF Then
+                    I = InsertarDesdeForm(Me)
                 Else
-                    i = ModificaDesdeFormulario(Me)
+                    I = ModificaDesdeFormulario(Me)
                 End If
-                If i = -1 Then PonerModo 0
+                If I = -1 Then PonerModo 0
             End If
 
     Case 5
         'IAE
         
         
-        Cad = ""
-        If Combo2(0).ListIndex < 0 Then Cad = Cad & "Tipo actividad" & vbCrLf
-        If Combo2(1).ListIndex < 0 Then Cad = Cad & "Principal: SI - NO" & vbCrLf
+        cad = ""
+        If Combo2(0).ListIndex < 0 Then cad = cad & "Tipo actividad" & vbCrLf
+        If Combo2(1).ListIndex < 0 Then cad = cad & "Principal: SI - NO" & vbCrLf
         txtaux(1).Text = Trim(txtaux(1).Text)
+        If txtaux(1).Text <> "" Then
+            If Len(txtaux(1).Text) <> 4 Then cad = "Epigrafe, si se indica, de cuatro caracteres"
+        End If
        ' If txtaux(1).Text = "" Then Cad = Cad & "Epigrafe "
-        If Cad <> "" Then
-            MsgBox "Campos obligatorios: " & vbCrLf & Cad, vbExclamation
+        If cad <> "" Then
+            MsgBox "Campos obligatorios: " & vbCrLf & cad, vbExclamation
             Exit Sub
         End If
+        
+        
+        
         
         Aux = ""
         If ModoLineas = 0 Then
             'insertar
             
-            Cad = DevuelveDesdeBD("max(codigo)", "empresaactiv", "1", "1")
-            NumRegElim = Val(Cad) + 1
-            Cad = "INSERT INTO empresaactiv(codigo,id,Epigrafe,ppal)  VALUES   (" & NumRegElim & "," & Combo2(0).ItemData(Combo2(0).ListIndex) & ","
-            Cad = Cad & DBSet(txtaux(1).Text, "T", "S") & "," & Combo2(1).ListIndex & ")"
+            cad = DevuelveDesdeBD("max(codigo)", "empresaactiv", "1", "1")
+            NumRegElim = Val(cad) + 1
+            cad = "INSERT INTO empresaactiv(codigo,id,Epigrafe,ppal)  VALUES   (" & NumRegElim & "," & Combo2(0).ItemData(Combo2(0).ListIndex) & ","
+            cad = cad & DBSet(txtaux(1).Text, "T", "S") & "," & Combo2(1).ListIndex & ")"
             If Combo2(1).ListIndex = 1 Then Aux = "UPDATE empresaactiv SET ppal=0 "
         Else
             'modificad
             NumRegElim = Me.AdoAux(0).Recordset!Codigo
-            Cad = "REPLACE INTO empresaactiv (codigo,id,Epigrafe,ppal)  VALUES   (" & NumRegElim & "," & Combo2(0).ItemData(Combo2(0).ListIndex) & ","
-            Cad = Cad & DBSet(txtaux(1).Text, "T", "S") & "," & Combo2(1).ListIndex & ")"
+            cad = "REPLACE INTO empresaactiv (codigo,id,Epigrafe,ppal)  VALUES   (" & NumRegElim & "," & Combo2(0).ItemData(Combo2(0).ListIndex) & ","
+            cad = cad & DBSet(txtaux(1).Text, "T", "S") & "," & Combo2(1).ListIndex & ")"
             
             If Me.AdoAux(0).Recordset!Ppal = "*" Then
                 
@@ -2000,7 +2006,7 @@ Private Sub cmdAceptar_Click()
         End If
         
         If Aux <> "" Then Conn.Execute Aux
-        Conn.Execute Cad
+        Conn.Execute cad
         LLamaLineas False, 0
         CargaGrid True
         PonerModo 0
@@ -2100,9 +2106,9 @@ Private Sub Form_Load()
     
     
     
-    Adodc1.ConnectionString = Conn
-    Adodc1.RecordSource = "Select * from empresa2"
-    Adodc1.Refresh
+    adodc1.ConnectionString = Conn
+    adodc1.RecordSource = "Select * from empresa2"
+    adodc1.Refresh
     
     If vEmpresa Is Nothing Then
         'No hay datos
@@ -2130,7 +2136,7 @@ Private Sub Form_Load()
     
     
     
-    If Adodc1.Recordset.EOF Then Text1(38).Text = "1"  'Codigo para la tabla 2 de empresa
+    If adodc1.Recordset.EOF Then Text1(38).Text = "1"  'Codigo para la tabla 2 de empresa
     If Toolbar1.Buttons(1).Enabled Then _
         Toolbar1.Buttons(1).Enabled = (vUsu.Nivel <= 1)
     cmdAceptar.Enabled = (vUsu.Nivel <= 1)
@@ -2188,31 +2194,31 @@ End Sub
 '   formulario en funcion del modo en k vayamos a trabajar
 '
 Private Sub PonerModo(Kmodo As Integer)
-    Dim i As Integer
+    Dim I As Integer
     Modo = Kmodo
     
-    For i = 1 To Text1.Count - 1
-        Text1(i).BackColor = vbWhite
-    Next i
+    For I = 1 To Text1.Count - 1
+        Text1(I).BackColor = vbWhite
+    Next I
     
     Select Case Kmodo
     Case 0
         'Preparamos para ver los datos
-        For i = 1 To Text1.Count - 1
-            Text1(i).Locked = True
-        Next i
+        For I = 1 To Text1.Count - 1
+            Text1(I).Locked = True
+        Next I
         lblIndicador.Caption = ""
     Case 3
         'Preparamos para que pueda insertar
-        For i = 1 To Text1.Count - 1
-            Text1(i).Text = ""
-            Text1(i).Locked = False
-        Next i
+        For I = 1 To Text1.Count - 1
+            Text1(I).Text = ""
+            Text1(I).Locked = False
+        Next I
         lblIndicador.Caption = "INSERTAR"
     Case 4
-        For i = 1 To Text1.Count - 1
-            Text1(i).Locked = False
-        Next i
+        For I = 1 To Text1.Count - 1
+            Text1(I).Locked = False
+        Next I
         lblIndicador.Caption = "MODIFICAR"
         
         
@@ -2258,8 +2264,8 @@ Private Sub PonerCampos()
         Limpiar Me
         CargaGrid False
     End If
-    If Adodc1.Recordset.EOF Then Exit Sub
-    PonerCamposForma Me, Adodc1
+    If adodc1.Recordset.EOF Then Exit Sub
+    PonerCamposForma Me, adodc1
 End Sub
 
 Private Function PonTextoNivel(Nivel As Integer) As String
@@ -2274,7 +2280,7 @@ End Function
 Private Function DatosOK() As Boolean
     Dim Rs As ADODB.Recordset
     Dim B As Boolean
-    Dim i As Integer
+    Dim I As Integer
     Dim J As Integer
     Dim K As Integer
     
@@ -2286,9 +2292,9 @@ Private Function DatosOK() As Boolean
     'Comprobamos que tienen n niveles, y solo n
     J = CInt(Text1(7).Text)
     K = 0
-    For i = 8 To 17
-        If Text1(i).Text <> "" Then K = K + 1
-    Next i
+    For I = 8 To 17
+        If Text1(I).Text <> "" Then K = K + 1
+    Next I
     If K <> J Then
         MsgBox "Niveles contables: " & J & vbCrLf & "Niveles parametrizados: " & K, vbExclamation
         Exit Function
@@ -2297,18 +2303,18 @@ Private Function DatosOK() As Boolean
     'K los niveles sean consecitivos sin saltar ninguno y sin ser menor
     J = 1
     K = CInt(Text1(8).Text)
-    For i = 9 To 17
-        If Text1(i).Text = "" Then
-            J = 1000 + i
+    For I = 9 To 17
+        If Text1(I).Text = "" Then
+            J = 1000 + I
         Else
-            J = CInt(Text1(i).Text)
+            J = CInt(Text1(I).Text)
         End If
         If J <= K Then
             MsgBox "Error en la asignacion de niveles. ", vbExclamation
             Exit Function
         End If
         K = J
-    Next i
+    Next I
     
     'letraseti   Es si esta inscrita en el regimend e dolucion
     If Text1(28).Text <> "" Then
@@ -2364,7 +2370,7 @@ End With
 End Sub
 
 Private Sub ToolbarAux_ButtonClick(ByVal Button As MSComctlLib.Button)
-Dim Cad As String
+Dim cad As String
     If Modo <> 0 Then Exit Sub
     
     
@@ -2398,19 +2404,19 @@ Dim Cad As String
         
         
         
-        Cad = "Desea eliminar la actividad: " & vbCrLf & AdoAux(0).Recordset!descr & vbCrLf
-        Cad = Cad & "Epigrafe: " & DBLet(AdoAux(0).Recordset!epigrafe, "T")
-        Cad = Cad & vbCrLf & vbCrLf & "¿Continuar?"
-        If MsgBox(Cad, vbYesNoCancel + vbQuestion) <> vbYes Then Exit Sub
+        cad = "Desea eliminar la actividad: " & vbCrLf & AdoAux(0).Recordset!descr & vbCrLf
+        cad = cad & "Epigrafe: " & DBLet(AdoAux(0).Recordset!epigrafe, "T")
+        cad = cad & vbCrLf & vbCrLf & "¿Continuar?"
+        If MsgBox(cad, vbYesNoCancel + vbQuestion) <> vbYes Then Exit Sub
         
         
-        Cad = "Delete from empresaactiv WHERE codigo =" & AdoAux(0).Recordset!Codigo
-        Conn.Execute Cad
+        cad = "Delete from empresaactiv WHERE codigo =" & AdoAux(0).Recordset!Codigo
+        Conn.Execute cad
         
         If AdoAux(0).Recordset!Ppal = "*" Then
-            Cad = " codigo <> " & AdoAux(0).Recordset!Codigo & " AND 1"
-            Cad = DevuelveDesdeBD("min(codigo)", "empresaactiv", Cad, "1")
-            If Cad <> "" Then Cad = "UPDATE empresaactiv SET ppal=1 WHERE codigo = " & Cad
+            cad = " codigo <> " & AdoAux(0).Recordset!Codigo & " AND 1"
+            cad = DevuelveDesdeBD("min(codigo)", "empresaactiv", cad, "1")
+            If cad <> "" Then cad = "UPDATE empresaactiv SET ppal=1 WHERE codigo = " & cad
         End If
         CargaGrid True
     End If
@@ -2429,15 +2435,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
     
     On Error Resume Next
 
-    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 0 Or Modo = 2)
@@ -2450,31 +2456,31 @@ Dim Cad As String
 End Sub
 
 Private Sub CargaGrid(Enlaza As Boolean)
-Dim SQL
+Dim Sql
 Dim Index As Integer
 Dim B As Boolean
 Dim tots As String
 
     Index = 0
     
-    SQL = "select codigo,empresaactiv.id,"
+    Sql = "select codigo,empresaactiv.id,"
     'concat(clave,' - ',substring(descripcion,1,60)) descr"
-    SQL = SQL & "concat(clave,' - ',substring(descripcion,if(instr(descripcion,':')>0,instr(descripcion,':')+2,1),255)) descr"
-    SQL = SQL & " ,epigrafe,if(ppal=1,'*','') Ppal"
-    SQL = SQL & " from empresaactiv left join usuarios.wepigrafeiae on empresaactiv.id=wepigrafeiae.id WHERE "
+    Sql = Sql & "concat(clave,' - ',substring(descripcion,if(instr(descripcion,':')>0,instr(descripcion,':')+2,1),255)) descr"
+    Sql = Sql & " ,epigrafe,if(ppal=1,'*','') Ppal"
+    Sql = Sql & " from empresaactiv left join usuarios.wepigrafeiae on empresaactiv.id=wepigrafeiae.id WHERE "
     If Enlaza Then
-        SQL = SQL & " true"
+        Sql = Sql & " true"
     Else
-        SQL = SQL & " false"
+        Sql = Sql & " false"
     End If
-    SQL = SQL & " ORDER BY ppal desc,codigo"
+    Sql = Sql & " ORDER BY ppal desc,codigo"
     
     
     B = DataGridAux(Index).Enabled
     DataGridAux(Index).Enabled = False
     
     AdoAux(Index).ConnectionString = Conn
-    AdoAux(Index).RecordSource = SQL
+    AdoAux(Index).RecordSource = Sql
     AdoAux(Index).CursorType = adOpenDynamic
     AdoAux(Index).LockType = adLockPessimistic
     DataGridAux(Index).ScrollBars = dbgNone
@@ -2491,11 +2497,11 @@ Dim tots As String
         DataGridAux(Index).Refresh
     End If
 
-    For i = 0 To DataGridAux(Index).Columns.Count - 1
-        DataGridAux(Index).Columns(i).AllowSizing = False
-    Next i
+    For I = 0 To DataGridAux(Index).Columns.Count - 1
+        DataGridAux(Index).Columns(I).AllowSizing = False
+    Next I
     
-    CargaGridGnral Me.DataGridAux(Index), Me.AdoAux(Index), CStr(SQL), True
+    CargaGridGnral Me.DataGridAux(Index), Me.AdoAux(Index), CStr(Sql), True
     
     'codigo,empresaactiv.id,concat(clave,' - ',substring(descripcion,1,50)) descr,epigrafe,if(ppal=1,'*','') Ppal"
             tots = "N||||0|;N||||0|;S|Combo2(0)|C|Clave|6405|;S|txtaux(1)|T|Epigrafe|995|;S|Combo2(1)|C|Ppal|805|;"
@@ -2507,9 +2513,9 @@ Dim tots As String
             If (Enlaza = True) And (Not AdoAux(Index).Recordset.EOF) Then 'per a que pose els valors de les arees de text la primera volta
             
             Else
-                For i = 0 To 4
+                For I = 0 To 4
                  '   txtaux(i).Text = ""
-                Next i
+                Next I
                 
             End If
 

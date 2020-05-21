@@ -1259,7 +1259,7 @@ Begin VB.Form frmAlfresQFRA
          TabIndex        =   29
          Text            =   "frmAlfresQFRA.frx":0050
          Top             =   420
-         Width           =   5295
+         Width           =   5055
       End
       Begin VB.TextBox Text1 
          BeginProperty Font 
@@ -1291,12 +1291,12 @@ Begin VB.Form frmAlfresQFRA
          EndProperty
          Height          =   375
          Index           =   3
-         Left            =   9600
-         MaxLength       =   10
+         Left            =   9120
+         MaxLength       =   20
          TabIndex        =   2
          Text            =   "Text1"
          Top             =   420
-         Width           =   2175
+         Width           =   2655
       End
       Begin VB.TextBox Text1 
          BeginProperty Font 
@@ -1738,7 +1738,7 @@ On Error GoTo eCmdAceptar_Click
     If Text1(5).Text <> "" And Text1(9).Text <> "" Then
         Msg = ""
         If Not ComprobarPeriodo(True, 0) Then
-            If Msg = "" Then Msg = "Error comprobando peridod"
+            If Msg = "" Then Msg = "Error comprobando peridodo"
         
         End If
         If Msg <> "" Then
@@ -2376,7 +2376,7 @@ Dim Id As String
                 If InStr(1, Text1(3).Text, Mid("*?""<>|", I, 1)) > 0 Then Limpi = True
             Next I
             If Limpi Then
-                MsgBox "El numero de factura no pude contaener los siguientes caracteres:  *?""<>| ", vbExclamation
+                MsgBox "El numero de factura no pude contener los siguientes caracteres:  *?""<>| ", vbExclamation
                 Text1(3).Text = ""
             End If
         Case 11

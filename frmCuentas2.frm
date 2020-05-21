@@ -2812,9 +2812,25 @@ Private Sub Form_Load()
             kCampo = 0
         End If
     End If
-
     
-    If vModo = 1 Or vModo = 0 Or (vModo = 2 And (Text1(11).Text = "S" Or chkUltimo.Value = 1)) Then
+    Dim B As Boolean
+    ' 0.- Ver solo
+' 1.- Añadir
+' 2.- Modificar
+' 3.- Buscar
+
+' 5.- Lineas
+    B = False
+    Text1(12).MaxLength = 2
+    If vModo >= 1 And vModo <= 3 Then
+        If vModo = 2 Then
+            If Text1(11).Text = "S" Or chkUltimo.Value = 1 Then B = True
+        Else
+            B = True
+            If vModo = 3 Then Text1(12).MaxLength = 10
+        End If
+    End If
+    If B Then
         Me.Text1(12).Enabled = True
         Me.Text1(30).Enabled = True
         For I = 2 To 3

@@ -599,11 +599,16 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+
+
+
 'Private WithEvents frmB As frmBuscaGrid
 Private WithEvents frmC As frmColCtas
 Attribute frmC.VB_VarHelpID = -1
 Private WithEvents frmB As frmBasico2
 Attribute frmB.VB_VarHelpID = -1
+
+
 
 Private CadenaConsulta As String
 Private TextoBusqueda As String
@@ -932,12 +937,16 @@ Private Sub DataGrid1_DblClick()
 End Sub
 
 Private Sub Form_Activate()
-    Screen.MousePointer = vbDefault
+    
     If ListView1(0).ListItems.Count = 0 Then
+        DoEvents
+        
+        Screen.MousePointer = vbHourglass
         CargaCentros
         CargaConceptos
         CargaHistorico
     End If
+    Screen.MousePointer = vbDefault
 End Sub
 
 
@@ -993,6 +1002,8 @@ Private Sub Form_Load()
     
     CargaGrid "importnavconcepcentro.codcentro >0 "
     lblIndicador.Caption = ""
+    
+    Me.Tag = ""
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -1396,7 +1407,9 @@ Dim B As Boolean
     'Calculamos las abses por seccion
     L.Caption = "Calculos"
     L.Refresh
-    If B Then CalculoDeBases
+    If B Then
+        B = CalculoDBases
+    End If
     
     If B Then
         jj = InStrRev(Fichero, "\")
@@ -1426,6 +1439,9 @@ Dim LineaVacia As Boolean
 Dim Depuracion As Boolean
 Dim NF2 As Integer
 Dim LongitudLinea As Integer
+Dim UpdateCampos As String
+Dim Leer As Boolean
+Dim Fin As Boolean
 
     On Error GoTo EProcesarFichero
     ProcesarFichero = False
@@ -1461,13 +1477,61 @@ Dim LongitudLinea As Integer
     If UCase(Right(Ficher, 3)) = "DAT" Then
         
         
-        
-        
-         While Not EOF(NF)
-                Line Input #NF, Sql
-                If Len(Sql) > LongitudLinea Then Err.Raise 513, , "Longitud linea cabecera incorrecta " & Sql
-                Sql = Mid(Sql & Space(LongitudLinea), 1, LongitudLinea)
-                Linea = Linea & Sql
+         InicioLineas = ""
+         Leer = True
+         Fin = EOF(NF)
+         While Not Fin
+                
+                If Leer Then
+                    Line Input #NF, Sql
+                Else
+                    If InicioLineas = "" Then
+                        Leer = True  'para que vuelva a leer, si hay, lineas
+                        Sql = ""
+                    Else
+                        Sql = Mid(InicioLineas, 1, LongitudLinea)
+                        InicioLineas = Mid(InicioLineas, LongitudLinea + 1)
+                        If InStr(1, Sql, vbLf) > 0 Then Sql = Replace(Sql, vbLf, "")
+                    End If
+                End If
+                If InStr(1, Sql, vbLf) > 0 Then
+                    'NO lleva el tipico salto de linea CRLF, lleva sole LF
+                    If Leer Then
+                        'Es el primero, meto lo leeido en variable quitando LF
+                        InicioLineas = Mid(Sql, 1, Len(Sql) - 1)
+                    End If
+                    
+                    Sql = Mid(InicioLineas, 1, LongitudLinea)
+                    InicioLineas = Mid(InicioLineas, LongitudLinea + 1)
+                        
+                    
+                    Leer = False
+                End If
+                
+                If Len(Sql) > LongitudLinea Then
+                
+                    If Leer Then
+                        'Es el primero
+                        InicioLineas = Sql
+                        Sql = ""
+                        Leer = False
+                    End If
+                End If
+                
+                
+                If Sql <> "" Then
+                    If Mid(Sql, 1, 3) = "***" Then
+                        'LINEA NO VALIDA
+                        If Depuracion Then Print #NF2, Sql
+                    
+                    Else
+                        Sql = Mid(Sql & Space(LongitudLinea), 1, LongitudLinea)
+                        Linea = Linea & Sql
+                    End If
+               End If
+               
+               
+               If Leer Then Fin = EOF(NF)
          Wend
         'FICHERO .dat
         Sql = ""
@@ -1500,7 +1564,7 @@ Dim LongitudLinea As Integer
     NF = -1
     If Depuracion Then Close #NF2: NF2 = -1
     If ColLineas.Count = 0 Then Exit Function
-    
+    InicioLineas = ""
     
     'Trozo comun a todas las lineas
     'Sera los primeros "J" caracteres
@@ -1510,12 +1574,18 @@ Dim LongitudLinea As Integer
     '38220500052453  EN FCs
     Linea = ColLineas(1)
     TrozoComun = Mid(Linea, 1, LenTrozoComun)
+    UpdateCampos = ""
+    
     
     'Para los insertes de las lineas
     If TipoFichero = 0 Then
-        Sql = Mid(Linea, 17, 8)
-        InicioLineas = ", ('" & Mid(Linea, 2, 3) & "','" & Mid(Linea, 5, 10) & "','"
-    
+        InicioLineas = Mid(Linea, 17, 8)
+        Sql = Mid(InicioLineas, 7, 2) & Mid(InicioLineas, 5, 2) & Mid(InicioLineas, 1, 4)
+        
+        
+        
+        InicioLineas = ", ('" & Mid(Linea, 2, 3) & "','" & Mid(Linea, 5, 10) & "',"
+        
     Else
         '  1.- FA  2.-FV    Ver ImportarFactura
         If TipoFichero = 1 Then
@@ -1526,7 +1596,7 @@ Dim LongitudLinea As Integer
             InicioLineas = ", ('" & Mid(Linea, 2, 3) & "','" & Mid(Linea, 5, 10) & "',"
         End If
     End If
-    InicioLineas = InicioLineas & Mid(Sql, 1, 4) & "-" & Mid(Sql, 5, 2) & "-" & Mid(Sql, 8, 2) & "',"
+    InicioLineas = InicioLineas & "'" & Mid(Sql, 5, 4) & "-" & Mid(Sql, 3, 2) & "-" & Mid(Sql, 1, 2) & "',"
     
     
     'importnavtmp(tienda,numfac,fechafac,secuencial,articulo,area,seccion,subseccion,grupo,subgrupo,
@@ -1540,6 +1610,8 @@ Dim LongitudLinea As Integer
     TextoBusqueda = ""
     For jj = 2 To ColLineas.Count
         
+       
+        
         Linea = ColLineas(jj)
         If Len(Linea) <> LongitudLinea Then Err.Raise 513, , "Longitud linea incorrecta. Linea " & jj & " - " & Len(Linea)
         
@@ -1549,18 +1621,14 @@ Dim LongitudLinea As Integer
         
         
         LineaVacia = False
-        Sql = Mid(Linea, 29)
-        If Trim(Sql) = "" Then
-           ' If Depuracion Then Print #NF2, "Linea vacia (" & jj & ")" & Linea
-            LineaVacia = True
-        End If
+        
         
         
         
         'Montamos el INSERT
         'tienda,numfac,fechafac,secuencial
         Sql = InicioLineas & jj - 1 & ","
-        OtraCadena2
+        
                 
                 
         Select Case TipoFichero
@@ -1586,44 +1654,100 @@ Dim LongitudLinea As Integer
             'precosteiva1   impcosteiva ,signo
             Sql = Sql & Mid(Linea, 134, 11) & "','" & Mid(Linea, 145, 11) & "','" & Mid(Linea, 205, 1)
             
-            
-            
-            Sql = Sql & "','" & oTRAcADENA & "',null)"
+                        
+            OtraCadena2 = ""
+            Sql = Sql & "','" & OtraCadena2 & "',null)"
         
         Case 1
             '          ______________
             'Facturas  ADMINISTRACION
             'articulo,area,seccion,subseccion,grupo,subgrupo
-            Sql = Sql & "null,null,100,null,null,null,null"
+            If Mid(Linea, 23, 2) = "04" Then
+                'Linea de totales. NO lo trato
+                LineaVacia = True
+                
+                'Son 5 posiciones. cogeremos las 4
+                UpdateCampos = "UPDATE importnavtmp SET porceniva = " & Mid(Linea, 26, 4)
+            Else
             
+                'articulo,area,seccion,subseccion,grupo,subgrupo
+                Sql = Sql & "'AD','ARE',99,0,0,0,"
+                
+                
+                'cajaformser,cajaformserDec,udformato  -> de ahi extraeremos las unidades
+                Sql = Sql & "1,1,1,"
+                
+                'precioventa,importeventa,precosteud,
+                'Sql = Sql & Mid(Linea, 88, 8) & "','" & Mid(Linea, 96, 10) & "','" & Mid(Linea, 106, 9) & "','"
+                OtraCadena2 = Mid(Linea, 277, 8)
+                Sql = Sql & "'" & OtraCadena2 & "',0,0,"
+                
+                'imporcoste,porceniva,porcenrecequiv
+                'Sql = Sql & Mid(Linea, 115, 11) & "','" & Mid(Linea, 126, 4) & "','" & Mid(Linea, 130, 4) & "','"
+                Sql = Sql & "0,0,0,"
+                
+                'precosteiva1   impcosteiva ,signo
+                Sql = Sql & "0,'" & Mid(Linea, 275, 10) & "','" & Mid(Linea, 289, 1) & "'"
+                
+                'unidades,observaciones
+                OtraCadena2 = Trim(Mid(Linea, 25, 250))
+                Sql = Sql & ",1," & DBSet(OtraCadena2, "T") & ")"
+                
             
-            'cajaformser,cajaformserDec,udformato  -> de ahi extraeremos las unidades
-            'If Mid(Linea, 80, 3) <> "000" Then S top
-            Sql = Sql & Mid(Linea, 74, 6) & "','" & Mid(Linea, 80, 3) & "','" & Mid(Linea, 82, 6) & "','"
-            
-            'precioventa,importeventa,precosteud,
-            Sql = Sql & Mid(Linea, 88, 8) & "','" & Mid(Linea, 96, 10) & "','" & Mid(Linea, 106, 9) & "','"
-            
-            
-            'imporcoste,porceniva,porcenrecequiv
-            Sql = Sql & Mid(Linea, 115, 11) & "','" & Mid(Linea, 126, 4) & "','" & Mid(Linea, 130, 4) & "','"
-            
-            'precosteiva1   impcosteiva ,signo
-            Sql = Sql & Mid(Linea, 134, 11) & "','" & Mid(Linea, 145, 11) & "','" & Mid(Linea, 205, 1)
-            
-            
-            
-            Sql = Sql & "','" & oTRAcADENA & "')"
-        
-            
-        
-        
+            End If
         
         Case 2
             '         ______________
             'Facturas   AUTOVENTAS
-        
-        
+            
+            If Mid(Linea, 24, 2) = "04" Then
+                'Linea de totales. NO lo trato
+                LineaVacia = True
+                
+            Else
+            
+            
+                 'articulo,area,seccion,subseccion,grupo,subgrupo
+                 Sql = Sql & "'" & Mid(Linea, 77, 8) & "','" & Mid(Linea, 115, 2) & "','" & Mid(Linea, 117, 2) & "','00','00','00','"
+                 
+                 'miRsAux!cajaformser + (miRsAux!cajaformserDec / 1000)
+                 'cajaformser,cajaformserDec,udformato  -> de ahi extraeremos las unidades
+                 'If Mid(Linea, 80, 3) <> "000" Then S top
+                 OtraCadena2 = "000" + Mid(Linea, 139, 9)
+                 Sql = Sql & Mid(OtraCadena2, 1, 9) & "','" & Mid(OtraCadena2, 10, 3) & "','" & Mid(Linea, 147, 6) & "','"
+                 
+
+     
+                 
+                 
+                 'precioventa,importeventa
+                 OtraCadena2 = Right(Mid(Linea, 119, 10), 8)
+                 Sql = Sql & OtraCadena2 & "','"
+                 OtraCadena2 = Mid(Linea, 129, 10)
+                 Sql = Sql & OtraCadena2 & "','"
+                 
+                 'precosteud
+                 OtraCadena2 = Mid(Linea, 153, 12)
+                 'lo adaptamos a BD que es
+                 'quitamos el ultimo cero de la dcha
+                 OtraCadena2 = Mid(OtraCadena2, 1, 11)
+                 'Y los dos primeros ceros
+                 OtraCadena2 = Mid(OtraCadena2, 3, 9)
+                 Sql = Sql & OtraCadena2 & "','"
+                 
+                 'imporcoste,porceniva,porcenrecequiv   'IVA son 5, cojo 4
+                 OtraCadena2 = Right(Mid(Linea, 164, 12), 11)
+                 Sql = Sql & OtraCadena2 & "','" & Right(Mid(Linea, 177, 5), 4) & "','0000','"
+                 
+                 'precosteiva1   impcosteiva ,signo
+                 OtraCadena2 = Right(Mid(Linea, 164, 12), 11)
+                 Sql = Sql & OtraCadena2 & "','" & OtraCadena2 & "','" & Mid(Linea, 182, 1)
+                 
+                             
+                 OtraCadena2 = ""
+                 Sql = Sql & "','" & OtraCadena2 & "',null)"
+            End If
+                
         
         End Select
         
@@ -1636,19 +1760,25 @@ Dim LongitudLinea As Integer
             If Len(TextoBusqueda) > 2000 Then Sql = ""
         End If
         If Sql = "" Then
-            TextoBusqueda = Mid(TextoBusqueda, 2) 'quitamos la primera cma
-            Sql = "INSERT INTO importnavtmp(tienda,numfac,fechafac,secuencial,articulo,area,seccion,subseccion,grupo,subgrupo,cajaformser,cajaformserDec,udformato,"
-            Sql = Sql & "precioventa,importeventa,precosteud,imporcoste,porceniva,porcenrecequiv,precosteiva1,impcosteiva,signo,unidades,observaciones) VALUES "
-            Sql = Sql & TextoBusqueda
-            
-            Conn.Execute Sql
+            If TextoBusqueda <> "" Then
+                TextoBusqueda = Mid(TextoBusqueda, 2) 'quitamos la primera cma
+                Sql = "INSERT INTO importnavtmp(tienda,numfac,fechafac,secuencial,articulo,area,seccion,subseccion,grupo,subgrupo,cajaformser,cajaformserDec,udformato,"
+                Sql = Sql & "precioventa,importeventa,precosteud,imporcoste,porceniva,porcenrecequiv,precosteiva1,impcosteiva,signo,unidades,observaciones) VALUES "
+                Sql = Sql & TextoBusqueda
+                
+                Conn.Execute Sql
+            End If
             TextoBusqueda = ""
         End If
         
         
     Next jj
 
-
+    If UpdateCampos <> "" Then
+        espera 0.5
+        Conn.Execute UpdateCampos
+    End If
+    
     If jj > 0 Then
         ProcesarFichero = True
     Else
@@ -1662,6 +1792,9 @@ EProcesarFichero:
     If NF > 0 Then Close #NF
     If NF2 > 0 Then Close #NF2
 End Function
+
+
+
 
 
 
@@ -1800,7 +1933,7 @@ Private Sub ImprimeLineaDebug(LineaDebug As String, Valor, Posiciones As Integer
     LineaDebug = LineaDebug & Right(String(Posiciones, " ") & Valor, Posiciones) & "|"
 End Sub
 
-Private Sub CalculoDeBases()
+Private Function CalculoDBases() As Boolean
 Dim Base As Currency
 Dim PorcenFranquicia As Currency
 Dim Unidades As Currency
@@ -1815,9 +1948,14 @@ Dim CosteSinPorcen As Currency
 Dim ImprimeLinea As Boolean   'Para el debug
 Dim LinDebug As String
 
+    On Error GoTo eCalculoDBases
+    CalculoDBases = False
+
+
     Sql = "select * from importnavtmp "
     
-    PorcenFranquicia = 0.05
+    PorcenFranquicia = 0
+    If TipoFichero <> 1 Then PorcenFranquicia = 0.05
     
     Set miRsAux = New ADODB.Recordset
     miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -1851,7 +1989,7 @@ Dim LinDebug As String
         
         Intermedio = Val(miRsAux!udformato)
         Unidades = CCur(Base * Intermedio)
-        If miRsAux!signo = "-" Then Unidades = -Unidades
+        If miRsAux!SIGNO = "-" Then Unidades = -Unidades
             
         ImprimeLineaDebug LinDebug, Unidades, 8
             
@@ -1861,8 +1999,8 @@ Dim LinDebug As String
         IVA = IVA / 100     'calculo el tanto por uno
                 
         'Coste con IVA
+        ImprimeLineaDebug LinDebug, miRsAux!precosteud, 8
         PreCoste = miRsAux!precosteud / 1000
-        ImprimeLineaDebug LinDebug, PreCoste, 8
         
         'Coste * uDs
         PreCoste = Round2(PreCoste * Unidades, 2)
@@ -1870,31 +2008,41 @@ Dim LinDebug As String
         
         'DEBGU: Venta   Imp. Coste  IVA Vta s/iva   Imp. V.s/iva    Margen  Cuota 5%    Base Imp.   IVA Total
         'PVP sin IVA.   Octubre 2016 UNITARIO
+        
         Base = miRsAux!precioventa / 100
         ImprimeLineaDebug LinDebug, Base, 8
-        Base = Round(((Base / Unidades) / (1 + IVA)) * Unidades, 3)
-        
-        'Debug. Im`porte coste:
-        ImprimeLineaDebug LinDebug, Base, 8 'PVP sin iva
-        ImprimeLineaDebug LinDebug, IVA * 100, 10
-        
-        'BaseImponible = Base * Unidades
-        BaseImponible = Round2(Base * Unidades, 2)
-        ImprimeLineaDebug LinDebug, BaseImponible, 8
-    
-        'Intermedio = Base - PreCoste
-        'Intermedio = BaseImponible - PreCoste
-        Intermedio = Round2(BaseImponible - PreCoste, 2)
-        
-        ImprimeLineaDebug LinDebug, Intermedio, 8
         
         
-        Margen = (Intermedio * PorcenFranquicia)
-        ImprimeLineaDebug LinDebug, Margen, 8
+        If TipoFichero <> 1 Then
         
-        Margen = Intermedio - Margen
-        ImprimeLineaDebug LinDebug, Margen, 8  'margen burot
-       
+            Base = Round(((Base / Unidades) / (1 + IVA)) * Unidades, 3)
+            
+            'Debug. Im`porte coste:
+            ImprimeLineaDebug LinDebug, Base, 8 'PVP sin iva
+            ImprimeLineaDebug LinDebug, IVA * 100, 10
+            
+            'BaseImponible = Base * Unidades
+            BaseImponible = Round2(Base * Unidades, 2)
+            ImprimeLineaDebug LinDebug, BaseImponible, 8
+        
+            'Intermedio = Base - PreCoste
+            'Intermedio = BaseImponible - PreCoste
+            Intermedio = Round2(BaseImponible - PreCoste, 2)
+            
+            ImprimeLineaDebug LinDebug, Intermedio, 8
+            
+            
+            Margen = (Intermedio * PorcenFranquicia)
+            ImprimeLineaDebug LinDebug, Margen, 8
+            
+            Margen = Intermedio - Margen
+            ImprimeLineaDebug LinDebug, Margen, 8  'margen burot
+        Else
+            Intermedio = 0
+            Margen = 0
+            PreCoste = Base
+            
+        End If
         'Base = Round(PreCoste + (Intermedio * PorcenFranquicia), 2)
         
         ''ImprimeLineaDebug LinDebug, Base, 8
@@ -1956,9 +2104,13 @@ Dim LinDebug As String
     Sql = "INSERT INTO importanatmptotal(seccion,porceniva,base,iva,Modificad,tipoiva) VALUES " & Sql
     Conn.Execute Sql
     
+    CalculoDBases = True
+    
+eCalculoDBases:
+    If Err.Number <> 0 Then MuestraError Err.Number, , Err.Description & vbCrLf & LinDebug
     Set miRsAux = Nothing
     
-End Sub
+End Function
 
 Private Sub ElLbl(ByRef TEXTO As String)
     lblIndicador.Caption = TEXTO
@@ -1976,6 +2128,7 @@ Dim Fecha As Date
     
     CadenaDesdeOtroForm = ""
     ElLbl "Leyendo fichero"
+    frmImportarNavProceso.PrimerVezFich = Me.Tag = ""
     frmImportarNavProceso.Show vbModal
     ElLbl ""
     If CadenaDesdeOtroForm = "" Then Exit Sub
@@ -2002,6 +2155,9 @@ Dim Fecha As Date
         MsgBoxA Fichero, vbExclamation
         Exit Sub
     End If
+    
+    
+    Me.Tag = "S"  'para que deje el CD.opendialog en la carpeta donde estaba
     
     'Vere si el fichero YA ha sido procesado
     Fichero = Dir(CadenaDesdeOtroForm)

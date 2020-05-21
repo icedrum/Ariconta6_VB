@@ -2114,7 +2114,7 @@ Dim Img As Image
     Me.imgCuentas(3).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
     For I = 0 To 5
-        Me.ImgFec(I).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+        Me.imgFec(I).Picture = frmppal.imgIcoForms.ListImages(2).Picture
     Next I
     
     ' Botonera Principal
@@ -2955,7 +2955,7 @@ End Function
 
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
   ' Botonera Principal
-'    Stop
+'    St op
 '
 '    With Me.Toolbar1
 '        i = 30
