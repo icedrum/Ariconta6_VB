@@ -150,6 +150,8 @@ Public myCol As Collection  'Multiproposito
 Public RespuestaMsgBox As Integer  'Para el msgbox del codejock
 
 
+Public NoLeasCalendar As Boolean
+
     'Para los asientos k vemos desde la consulta de extractos
     '  0.- NADA
     '  1.- SIIII
@@ -2049,3 +2051,13 @@ End Function
 
 
 
+
+
+'Cada vez que hace DOEVENTS, el calendar lanza evento de consulta.
+'En local no pasa nada, pero en remoto retrasa los procesos
+Public Sub DoEvent2()
+
+    NoLeasCalendar = True
+    DoEvents
+    NoLeasCalendar = False
+End Sub

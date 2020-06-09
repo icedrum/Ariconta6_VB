@@ -1150,12 +1150,12 @@ Dim res
 
     If PrimeraVez Then
         PrimeraVez = False
-        DoEvents
+        
         
     
         
         AccionesIncioAbrirProgramaEmpresa
-        
+        'DoEvents
    
 
     End If
@@ -1932,6 +1932,22 @@ Dim RN As ADODB.Recordset
 
     If RibbonSeHaCreado Then RibbonBar.RemoveAllTabs
     
+    Set RsMenusUsuarios = New ADODB.Recordset
+    cad = "select codigo,ver from menus_usuarios where aplicacion = " & DBSet("ariconta", "T")
+    cad = cad & " and codusu = " & DBSet(vUsu.Id, "N")
+    If Not vEmpresa.TieneTesoreria Then cad = cad & " and not codigo in (select codigo from menus where aplicacion = " & DBSet("ariconta", "T") & " and tipo = 1)"
+    If Not vEmpresa.TieneContabilidad Then
+        cad = cad & " and not codigo in (select codigo from menus where aplicacion = " & DBSet("ariconta", "T") & " and tipo = 0"
+        'El 2 debe mostrarse ya que son datos generales, y necestiamos ver Cuentas y bancos
+        cad = cad & " and codigo <>2)"
+    End If
+    cad = cad & " ORDER by codigo"
+    RsMenusUsuarios.Open cad, Conn, adOpenKeyset, adLockOptimistic, adCmdText
+    
+    
+    
+    
+    
     cad = "Select * from menus where aplicacion = 'ariconta' and padre =0 ORDER BY padre,orden "
     RN.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not RN.EOF
@@ -1940,14 +1956,14 @@ Dim RN As ADODB.Recordset
         If Not BloqueaPuntoMenu(RN!Codigo, "ariconta") Then
              Habilitado = True
              
-             If Not MenuVisibleUsuario(DBLet(RN!Codigo), "ariconta") Then
+             If Not MenuVisibleUsuarioPRE(DBLet(RN!Codigo), "ariconta") Then
                 Habilitado = False
                 If RN!Codigo = 1 Then Habilitado = vUsu.Nivel = 0
                     
                  
              Else
          
-                 If (MenuVisibleUsuario(DBLet(RN!Padre), "ariconta") And DBLet(RN!Padre) <> 0) Or DBLet(RN!Padre) = 0 Then
+                 If (MenuVisibleUsuarioPRE(DBLet(RN!Padre), "ariconta") And DBLet(RN!Padre) <> 0) Or DBLet(RN!Padre) = 0 Then
                      'OK todo habilitado
                  Else
                      Habilitado = False
@@ -2025,6 +2041,7 @@ eCargaMenu:
     Set Control = Nothing
     Set RN = Nothing
     Set Rn2 = Nothing
+    Set RsMenusUsuarios = Nothing
 End Sub
 
 Private Sub PonerTabPorDefecto(AntiguoTabSeleccionado As Integer)
@@ -2080,10 +2097,10 @@ Private Sub CargaMenuConfiguracion(IdMenu As Integer)
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "ariconta") Then
+                If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Codigo), "ariconta") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
+                    If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
                 End If
            
            
@@ -2160,10 +2177,10 @@ Dim B As Boolean
                 
 '                If Cargamos Then
                      Habilitado = True
-                     If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "ariconta") Then
+                     If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Codigo), "ariconta") Then
                          Habilitado = False
                      Else
-                         If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
+                         If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
                      End If
                 
                     
@@ -2217,10 +2234,10 @@ Dim OtroCon
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "ariconta") Then
+                If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Codigo), "ariconta") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
+                    If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
                 End If
                 
 
@@ -2316,10 +2333,10 @@ Dim B As Boolean
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "ariconta") Then
+                If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Codigo), "ariconta") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
+                    If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
                 End If
             End If
             
@@ -2398,10 +2415,10 @@ Private Sub CargaMenuInmovilizado(IdMenu As Integer)
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "ariconta") Then
+                If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Codigo), "ariconta") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
+                    If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
                 End If
             End If
             
@@ -2472,10 +2489,10 @@ Dim GrupRem As RibbonGroup
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "ariconta") Then
+                If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Codigo), "ariconta") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
+                    If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
                 End If
             End If
             
@@ -2545,10 +2562,10 @@ Private Sub CargaMenuTesoreriaPagos(IdMenu As Integer)
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "ariconta") Then
+                If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Codigo), "ariconta") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
+                    If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
                 End If
             End If
             
@@ -2596,10 +2613,10 @@ Private Sub CargaMenuTesoreriaInformes(IdMenu As Integer)
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "ariconta") Then
+                If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Codigo), "ariconta") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
+                    If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
                 End If
             End If
             
@@ -2662,10 +2679,10 @@ Private Sub CargaMenuAnaliticaPResupuestaria(IdMenu As Integer)
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "ariconta") Then
+                If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Codigo), "ariconta") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
+                    If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
                 End If
             End If
             
@@ -2710,10 +2727,10 @@ Dim GrupPag As RibbonGroup
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "ariconta") Then
+                If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Codigo), "ariconta") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
+                    If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
                 End If
             End If
 '        1301    "Renumeración de asientos"  0
@@ -2772,10 +2789,10 @@ Dim Col As Collection
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "ariconta") Then
+                If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Codigo), "ariconta") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
+                    If Not MenuVisibleUsuarioPRE(DBLet(Rn2!Padre), "ariconta") Then Habilitado = False
                 End If
             End If
             
@@ -3490,7 +3507,7 @@ Dim Tiene_A_cancelar As Byte    '0: NO    1:  Cobros      2 : Pagos     3 Los do
     
     
     If vParam.SIITiene Then
-        DoEvents
+        DoEvent2
         Screen.MousePointer = vbHourglass
         espera 0.1
     

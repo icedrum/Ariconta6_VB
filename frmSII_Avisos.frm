@@ -434,7 +434,7 @@ Private Sub cmdComunicar_Click()
         
         
         'volvemos a cargar
-        DoEvents
+        DoEvent2
         Screen.MousePointer = vbHourglass
 
         MarcarComoCheck = False
@@ -565,7 +565,7 @@ Private Sub Form_Activate()
     If PrimeraVez Then
         PrimeraVez = False
         Me.Refresh
-        DoEvents
+        DoEvent2
         CargaDatos
         'CargaDatosPrueba "", False
      
@@ -918,7 +918,7 @@ End Sub
 
 Private Function SQL_() As String
 Dim Sql As String
-Dim aux As String
+Dim Aux As String
     If Me.cboTipo.ListIndex = 0 Then
         'EMITIDAS
         Sql = "select factcli.numserie,factcli.numfactu, factcli.fecfactu,factcli.codmacta,factcli.nommacta"
@@ -932,8 +932,8 @@ Dim aux As String
         
        
        
-        aux = "fecfactu"
-        If vParam.SII_Periodo_DesdeLiq Then aux = "fecliqcl"
+        Aux = "fecfactu"
+        If vParam.SII_Periodo_DesdeLiq Then Aux = "fecliqcl"
         
         
     Else
@@ -950,19 +950,19 @@ Dim aux As String
         'añadimos fechar geistro contable, que será la que sube al SII
         'Aux = "fecharec"
         If vParam.SII_ProvDesdeFechaRecepcion Then
-            aux = "fecharec"
+            Aux = "fecharec"
         Else
-            aux = "date(fecregcontable)"
+            Aux = "date(fecregcontable)"
         End If
-        If vParam.SII_Periodo_DesdeLiq Then aux = "fecliqpr"
+        If vParam.SII_Periodo_DesdeLiq Then Aux = "fecliqpr"
         
     End If
-    Sql = Sql & " WHERE " & aux & " >=" & DBSet(vParam.SIIFechaInicio, "F")
+    Sql = Sql & " WHERE " & Aux & " >=" & DBSet(vParam.SIIFechaInicio, "F")
     'oTRA criba
     'vAMOS A ACOTAR DESDE FECHA INICIO EJERCICIO   mARZO 20120
-    Sql = Sql & " and " & aux & " >=" & DBSet(vParam.fechaini, "F")
+    Sql = Sql & " and " & Aux & " >=" & DBSet(vParam.fechaini, "F")
     
-    Sql = Sql & " AND " & aux & " <= " & DBSet(Now, "F")
+    Sql = Sql & " AND " & Aux & " <= " & DBSet(Now, "F")
     
     Sql = Sql & " and (csv is null or resultado='AceptadoConErrores')"
 
@@ -977,7 +977,7 @@ Dim aux As String
 '
     
     
-    If Text3(0).Text <> "" Then Sql = Sql & " AND " & aux & " = " & DBSet(Text3(0).Text, "F")
+    If Text3(0).Text <> "" Then Sql = Sql & " AND " & Aux & " = " & DBSet(Text3(0).Text, "F")
    
     
     
@@ -985,7 +985,7 @@ Dim aux As String
     
     
     'ORdenacion
-    Sql = Sql & " ORDER BY " & aux & ", numserie, numfactu"
+    Sql = Sql & " ORDER BY " & Aux & ", numserie, numfactu"
     
     
     SQL_ = Sql
@@ -1672,7 +1672,7 @@ Dim B As Boolean
                 CuantasLlevo = CuantasLlevo + 1
                 If CuantasLlevo > 40 Then
                     Screen.MousePointer = vbHourglass
-                    DoEvents
+                    DoEvent2
                     CuantasLlevo = 0
                     Label1.Caption = "Leyendo BD"
                     Label1.Refresh
@@ -1692,7 +1692,7 @@ Dim B As Boolean
     Wend
     miRsAux.Close
     
-    DoEvents
+    DoEvent2
     Screen.MousePointer = vbHourglass
     Label1.Caption = "Leyendo BD"
     Label1.Refresh

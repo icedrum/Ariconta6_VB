@@ -3549,6 +3549,7 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
             Set frmUtil = New frmUtilidades
             
             'Si myCol esta establecida y tiene registro , comprueba que no han sido cuadrados ya
+            CadenaDesdeOtroForm = ""
             Screen.MousePointer = vbHourglass
             CompruebaColectionDescuadrados
             Screen.MousePointer = vbDefault

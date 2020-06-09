@@ -9077,7 +9077,7 @@ End Function
 
 Private Function DesvincularFactura() As Boolean
 On Error Resume Next
-    Sql = "UPDATE factpro set numasien=NULL, fechaent=NULL, numdiari=NULL"
+    Sql = "UPDATE factpro set numasien=NULL, fechaent=NULL, numdiari=NULL, fecregcontable = fecregcontable"
     Sql = Sql & " WHERE numregis = " & Data1.Recordset!Numregis
     Sql = Sql & " AND numserie = '" & Data1.Recordset!NUmSerie & "'"
     Sql = Sql & " AND anofactu =" & Data1.Recordset!anofactu

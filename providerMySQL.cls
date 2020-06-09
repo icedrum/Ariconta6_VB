@@ -134,7 +134,7 @@ Private Sub m_pCalendar_DoDeleteEvent(ByVal pEvent As XtremeCalendarControl.Cale
     End If
     
     Dim strSQL As String
-    strSQL = "DELETE FROM usuarios.CalendarEvents WHERE EventID = " & pEvent.id
+    strSQL = "DELETE FROM usuarios.CalendarEvents WHERE EventID = " & pEvent.Id
     
     m_Connection.Execute strSQL, , adExecuteNoRecords
     
@@ -147,7 +147,7 @@ Private Sub m_pCalendar_DoDeleteRPattern(ByVal pPattern As XtremeCalendarControl
     End If
     
     Dim strSQL As String
-    strSQL = "DELETE FROM usuarios.CalendarRecurrencePatterns WHERE RecurrencePatternID = " & pPattern.id
+    strSQL = "DELETE FROM usuarios.CalendarRecurrencePatterns WHERE RecurrencePatternID = " & pPattern.Id
     
     m_Connection.Execute strSQL, , adExecuteNoRecords
     
@@ -223,6 +223,8 @@ Private Sub m_pCalendar_DoRetrieveDayEvents(ByVal dtDay As Date, ByVal pEvents A
 
     If Not m_bOpened Then
         Exit Sub
+    Else
+        If NoLeasCalendar Then Exit Sub
     End If
         
     Dim strSQL As String

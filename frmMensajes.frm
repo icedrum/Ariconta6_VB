@@ -3705,8 +3705,8 @@ Attribute frmCob.VB_VarHelpID = -1
 
 Private PrimeraVez As Boolean
 
-Dim i As Integer
-Dim SQL As String
+Dim I As Integer
+Dim Sql As String
 Dim Rs As Recordset
 Dim ItmX As ListItem
 Dim Errores As String
@@ -3733,15 +3733,15 @@ Private Sub chkVarios_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub CmdAcepBancoRem_Click()
-Dim i As Integer
+Dim I As Integer
 
     CadenaDesdeOtroForm = ""
 
-    For i = 1 To ListView10.ListItems.Count
-        If ListView10.ListItems(i).Checked Then
-            CadenaDesdeOtroForm = CadenaDesdeOtroForm & "'" & Trim(ListView10.ListItems(i).Text) & "',"
+    For I = 1 To ListView10.ListItems.Count
+        If ListView10.ListItems(I).Checked Then
+            CadenaDesdeOtroForm = CadenaDesdeOtroForm & "'" & Trim(ListView10.ListItems(I).Text) & "',"
         End If
-    Next i
+    Next I
         
     If CadenaDesdeOtroForm <> "" Then CadenaDesdeOtroForm = Mid(CadenaDesdeOtroForm, 1, Len(CadenaDesdeOtroForm) - 1)
     
@@ -3749,8 +3749,8 @@ Dim i As Integer
 End Sub
 
 Private Sub cmdAcepIconos_Click()
-Dim i As Integer
-Dim SQL As String
+Dim I As Integer
+Dim Sql As String
 Dim CadenaIconos As String
 
 
@@ -3766,24 +3766,24 @@ Dim MargenY As Single
 Dim Ocupado As Boolean
     'Ponemos los que ha desmarcado a cero
     CadenaIconos = ""
-    For i = 1 To ListView6.ListItems.Count
-        If Not ListView6.ListItems(i).Checked Then
-            CadenaIconos = CadenaIconos & ListView6.ListItems(i).Text & ","
+    For I = 1 To ListView6.ListItems.Count
+        If Not ListView6.ListItems(I).Checked Then
+            CadenaIconos = CadenaIconos & ListView6.ListItems(I).Text & ","
         End If
-    Next i
+    Next I
     If CadenaIconos <> "" Then
         CadenaIconos = Mid(CadenaIconos, 1, Len(CadenaIconos) - 1)
-        SQL = "update menus_usuarios set posx = 0, posy = 0, vericono = 0 where aplicacion = 'ariconta' and codusu = " & vUsu.Id & " and codigo in (" & CadenaIconos & ")"
-        Conn.Execute SQL
+        Sql = "update menus_usuarios set posx = 0, posy = 0, vericono = 0 where aplicacion = 'ariconta' and codusu = " & vUsu.Id & " and codigo in (" & CadenaIconos & ")"
+        Conn.Execute Sql
     End If
 
     
 
-    For i = 1 To ListView6.ListItems.Count
-        If ListView6.ListItems(i).Checked Then
+    For I = 1 To ListView6.ListItems.Count
+        If ListView6.ListItems(I).Checked Then
             'SI NO ERA VISIBLE le busco el hueco
-            If ListView6.ListItems(i).SubItems(2) = "0" Then
-                SQL = ""
+            If ListView6.ListItems(I).SubItems(2) = "0" Then
+                Sql = ""
                 For J = 1 To 8
                     For K = 1 To 5
                         DevuelCoordenadasCuadricula J, K, Px, Py
@@ -3804,23 +3804,23 @@ Dim Ocupado As Boolean
                         
                         If Not Ocupado Then
                             'OK. Este es. Lo ponemos a true y actualizamos BD
-                            ListView6.ListItems(i).SubItems(2) = "1"
-                            ListView6.ListItems(i).SubItems(3) = Px
-                            ListView6.ListItems(i).SubItems(4) = Py
-                            SQL = "update menus_usuarios set posx = " & DBSet(Px, "N")
-                            SQL = SQL & ", posy = " & DBSet(Py, "N") & ", vericono = 1 where "
-                            SQL = SQL & "aplicacion = 'ariconta' and codusu = " & vUsu.Id
-                            SQL = SQL & " and codigo =" & DBSet(ListView6.ListItems(i).Text, "T")
-                            Conn.Execute SQL
+                            ListView6.ListItems(I).SubItems(2) = "1"
+                            ListView6.ListItems(I).SubItems(3) = Px
+                            ListView6.ListItems(I).SubItems(4) = Py
+                            Sql = "update menus_usuarios set posx = " & DBSet(Px, "N")
+                            Sql = Sql & ", posy = " & DBSet(Py, "N") & ", vericono = 1 where "
+                            Sql = Sql & "aplicacion = 'ariconta' and codusu = " & vUsu.Id
+                            Sql = Sql & " and codigo =" & DBSet(ListView6.ListItems(I).Text, "T")
+                            Conn.Execute Sql
                            Exit For
                         End If
                     Next K
-                    If SQL <> "" Then Exit For
+                    If Sql <> "" Then Exit For
                 Next J
             End If
            
         End If
-    Next i
+    Next I
     Reorganizar = True
     
     Unload Me
@@ -3857,38 +3857,38 @@ Dim J As Integer
     
     Conn.BeginTrans
     
-    For i = 1 To Me.ListView12.ListItems.Count
-        If ListView12.ListItems(i).Checked Then
+    For I = 1 To Me.ListView12.ListItems.Count
+        If ListView12.ListItems(I).Checked Then
         
-            SQL = "select * from talones_facturas where codigo = " & DBSet(Codigo, "N") & " and " & MontaWhere(i, False)
+            Sql = "select * from talones_facturas where codigo = " & DBSet(Codigo, "N") & " and " & MontaWhere(I, False)
         
-            If TotalRegistrosConsulta(SQL) = 0 Then
+            If TotalRegistrosConsulta(Sql) = 0 Then
                 
-                SQL = "insert into `talones_facturas` (`codigo`,`numserie`,`numfactu`,`fecfactu`, "
-                SQL = SQL & "`numorden`,`importe`,`contabilizado`) VALUES ("
-                SQL = SQL & DBSet(Codigo, "N") & "," & DBSet(ListView12.ListItems(i).Text, "T") & "," & DBSet(ListView12.ListItems(i).SubItems(1), "N") & ","
-                SQL = SQL & DBSet(ListView12.ListItems(i).SubItems(2), "F") & "," & DBSet(ListView12.ListItems(i).SubItems(4), "N") & ","
-                SQL = SQL & DBSet(Trim(ListView12.ListItems(i).SubItems(9)), "N") & ",0) "
+                Sql = "insert into `talones_facturas` (`codigo`,`numserie`,`numfactu`,`fecfactu`, "
+                Sql = Sql & "`numorden`,`importe`,`contabilizado`) VALUES ("
+                Sql = Sql & DBSet(Codigo, "N") & "," & DBSet(ListView12.ListItems(I).Text, "T") & "," & DBSet(ListView12.ListItems(I).SubItems(1), "N") & ","
+                Sql = Sql & DBSet(ListView12.ListItems(I).SubItems(2), "F") & "," & DBSet(ListView12.ListItems(I).SubItems(4), "N") & ","
+                Sql = Sql & DBSet(Trim(ListView12.ListItems(I).SubItems(9)), "N") & ",0) "
 
-                Conn.Execute SQL
+                Conn.Execute Sql
                 
                 ' ahora en cobros
                 ' sacamos el tipforpa
-                SQL = MontaWhere(i, False)
+                Sql = MontaWhere(I, False)
                 
-                SQL = " WHERE cobros.codforpa=formapago.codforpa and " & SQL
-                SQL = "select tipforpa from cobros,formapago " & SQL
+                Sql = " WHERE cobros.codforpa=formapago.codforpa and " & Sql
+                Sql = "select tipforpa from cobros,formapago " & Sql
                 
-                TipForpa = DevuelveValor(SQL)
+                TipForpa = DevuelveValor(Sql)
                 
                 'actualizamos cobros
-                SQL = "UPDATE cobros SET recedocu=1 "
-                SQL = SQL & ", impcobro = coalesce(impcobro,0) + " & DBSet(Trim(ListView12.ListItems(i).SubItems(9)), "N")
-                SQL = SQL & ", fecultco = " & DBSet(FecCobro, "F")
+                Sql = "UPDATE cobros SET recedocu=1 "
+                Sql = Sql & ", impcobro = coalesce(impcobro,0) + " & DBSet(Trim(ListView12.ListItems(I).SubItems(9)), "N")
+                Sql = Sql & ", fecultco = " & DBSet(FecCobro, "F")
                 'Fecha vencimiento tb le pongo la de la recpcion
-                SQL = SQL & ", fecvenci = " & DBSet(FecVenci, "F")
+                Sql = Sql & ", fecvenci = " & DBSet(FecVenci, "F")
                 'BANCO LO PONGO EN OBSERVACION
-                SQL = SQL & ", observa = " & DBSet(Banco, "T")
+                Sql = Sql & ", observa = " & DBSet(Banco, "T")
                 'Si no era forma de pago talon/pagare la pongo
                 If Tipo = 0 Then
                     J = vbPagare
@@ -3901,24 +3901,24 @@ Dim J As Integer
                 If TipForpa <> J Then
                     'AQUI BUSCARE una forma de pago
                     J = Val(DevuelveDesdeBD("codforpa", "formapago", "tipforpa", CStr(J)))
-                    If J > 0 Then SQL = SQL & ", codforpa = " & J
+                    If J > 0 Then Sql = Sql & ", codforpa = " & J
                     
                 End If
                             
-                Conn.Execute SQL & MontaWhere(i, True)
+                Conn.Execute Sql & MontaWhere(I, True)
             Else
-                SQL = "UPDATE cobros SET recedocu=1 "
+                Sql = "UPDATE cobros SET recedocu=1 "
                 Importe = 0
-                If Trim(ListView12.ListItems(i).SubItems(9)) <> "" Then Importe = ImporteFormateado(ListView12.ListItems(i).SubItems(9))
-                Importe = DevuelveValor("select importe from talones_facturas where codigo = " & DBSet(Codigo, "N") & " and " & MontaWhere(i, False)) + Importe
+                If Trim(ListView12.ListItems(I).SubItems(9)) <> "" Then Importe = ImporteFormateado(ListView12.ListItems(I).SubItems(9))
+                Importe = DevuelveValor("select importe from talones_facturas where codigo = " & DBSet(Codigo, "N") & " and " & MontaWhere(I, False)) + Importe
 
                 
-                SQL = SQL & ", impcobro =  " & DBSet(Importe, "N")
-                SQL = SQL & ", fecultco = " & DBSet(FecCobro, "F")
+                Sql = Sql & ", impcobro =  " & DBSet(Importe, "N")
+                Sql = Sql & ", fecultco = " & DBSet(FecCobro, "F")
                 'Fecha vencimiento tb le pongo la de la recpcion
-                SQL = SQL & ", fecvenci = " & DBSet(FecVenci, "F")
+                Sql = Sql & ", fecvenci = " & DBSet(FecVenci, "F")
                 'BANCO LO PONGO EN OBSERVACION
-                SQL = SQL & ", observa = " & DBSet(Banco, "T")
+                Sql = Sql & ", observa = " & DBSet(Banco, "T")
                 
                 'If TipForpa <> J Then
                 '    'AQUI BUSCARE una forma de pago
@@ -3927,16 +3927,16 @@ Dim J As Integer
                 '
                 'End If
                             
-                Conn.Execute SQL & MontaWhere(i, True)
+                Conn.Execute Sql & MontaWhere(I, True)
             
             End If
         
-            CadenaDesdeOtroForm = CadenaDesdeOtroForm & "(" & DBSet(ListView12.ListItems(i).Text, "T") & "," & DBSet(ListView12.ListItems(i).SubItems(1), "N") & "," & DBSet(ListView12.ListItems(i).SubItems(2), "F") & "," & DBSet(ListView12.ListItems(i).SubItems(4), "N") & "),"
+            CadenaDesdeOtroForm = CadenaDesdeOtroForm & "(" & DBSet(ListView12.ListItems(I).Text, "T") & "," & DBSet(ListView12.ListItems(I).SubItems(1), "N") & "," & DBSet(ListView12.ListItems(I).SubItems(2), "F") & "," & DBSet(ListView12.ListItems(I).SubItems(4), "N") & "),"
             
         Else
             'Obtengo el importe del vto
-            Importe = DevuelveValor("select impcobro from cobros " & MontaWhere(i, True))
-            importe2 = DevuelveValor("select importe from talones_facturas where codigo = " & DBSet(Codigo, "N") & " and " & MontaWhere(i, False))
+            Importe = DevuelveValor("select impcobro from cobros " & MontaWhere(I, True))
+            importe2 = DevuelveValor("select importe from talones_facturas where codigo = " & DBSet(Codigo, "N") & " and " & MontaWhere(I, False))
             
             If Importe <> importe2 Then
                 'TODO EL IMPORTE estaba en la linea. Fecultco a NULL
@@ -3946,32 +3946,32 @@ Dim J As Integer
                 J = 0
             End If
             
-            SQL = "Delete from talones_facturas"
-            SQL = SQL & " WHERE codigo =" & DBSet(Codigo, "N")
-            SQL = SQL & " AND " & MontaWhere(i, False)
-            Conn.Execute SQL
+            Sql = "Delete from talones_facturas"
+            Sql = Sql & " WHERE codigo =" & DBSet(Codigo, "N")
+            Sql = Sql & " AND " & MontaWhere(I, False)
+            Conn.Execute Sql
             
             'Updateo en cobros reestableciendo los valores
             
-            SQL = "UPDATE cobros SET recedocu=0"
+            Sql = "UPDATE cobros SET recedocu=0"
             If J = 0 Then
-                SQL = SQL & ", impcobro = NULL, fecultco = NULL"
+                Sql = Sql & ", impcobro = NULL, fecultco = NULL"
             Else
-                SQL = SQL & ", impcobro = " & TransformaComasPuntos(CStr(Importe))  'NO somos capace sde ver cual fue la utlima fecha de amortizacion
+                Sql = Sql & ", impcobro = " & TransformaComasPuntos(CStr(Importe))  'NO somos capace sde ver cual fue la utlima fecha de amortizacion
             End If
-            SQL = SQL & ", observa = NULL"
-            SQL = SQL & " WHERE " & MontaWhere(i, False)
+            Sql = Sql & ", observa = NULL"
+            Sql = Sql & " WHERE " & MontaWhere(I, False)
             
-            Conn.Execute SQL
+            Conn.Execute Sql
         End If
         
         'ponemos la situacion
-        SQL = "update cobros set situacion = if(impvenci + coalesce(gastos,0) - coalesce(impcobro,0) = 0,1,0) "
-        SQL = SQL & " where " & MontaWhere(i, False)
-        Conn.Execute SQL
+        Sql = "update cobros set situacion = if(impvenci + coalesce(gastos,0) - coalesce(impcobro,0) = 0,1,0) "
+        Sql = Sql & " where " & MontaWhere(I, False)
+        Conn.Execute Sql
         
         
-    Next i
+    Next I
     Conn.CommitTrans
     Exit Sub
     
@@ -3982,19 +3982,19 @@ End Sub
 
 
 
-Private Function MontaWhere(i As Integer, conWhere As Boolean) As String
-Dim SQL As String
+Private Function MontaWhere(I As Integer, conWhere As Boolean) As String
+Dim Sql As String
     
     If conWhere Then
-        SQL = " WHERE "
+        Sql = " WHERE "
     Else
-        SQL = " "
+        Sql = " "
     End If
-    SQL = SQL & " numserie = " & DBSet(ListView12.ListItems(i).Text, "T")
-    SQL = SQL & " and numfactu = " & DBSet(ListView12.ListItems(i).SubItems(1), "N") & " and fecfactu = " & DBSet(ListView12.ListItems(i).SubItems(2), "F")
-    SQL = SQL & " and numorden = " & DBSet(ListView12.ListItems(i).SubItems(4), "N")
+    Sql = Sql & " numserie = " & DBSet(ListView12.ListItems(I).Text, "T")
+    Sql = Sql & " and numfactu = " & DBSet(ListView12.ListItems(I).SubItems(1), "N") & " and fecfactu = " & DBSet(ListView12.ListItems(I).SubItems(2), "F")
+    Sql = Sql & " and numorden = " & DBSet(ListView12.ListItems(I).SubItems(4), "N")
     
-    MontaWhere = SQL
+    MontaWhere = Sql
 
 End Function
 
@@ -4031,14 +4031,14 @@ End Function
 Private Sub cmdAumentoDigi_Click(Index As Integer)
     
     If Index = 0 Then
-        SQL = Label17(1).Caption & vbCrLf & vbCrLf & "¿Continuar?"
-        i = CInt(MsgBox(SQL, vbQuestion + vbYesNoCancel))
-        If i <> vbYes Then
-            If i = vbNo Then Exit Sub
+        Sql = Label17(1).Caption & vbCrLf & vbCrLf & "¿Continuar?"
+        I = CInt(MsgBox(Sql, vbQuestion + vbYesNoCancel))
+        If I <> vbYes Then
+            If I = vbNo Then Exit Sub
         Else
-            SQL = InputBox("Escriba password de seguridad", "CLAVE")
-            If UCase(SQL) <> "ARIADNA" Then
-                If SQL <> "" Then MsgBox "Clave incorrecta", vbExclamation
+            Sql = InputBox("Escriba password de seguridad", "CLAVE")
+            If UCase(Sql) <> "ARIADNA" Then
+                If Sql <> "" Then MsgBox "Clave incorrecta", vbExclamation
                 Exit Sub
             End If
             CadenaDesdeOtroForm = "OK"
@@ -4067,8 +4067,8 @@ Private Sub cmdBlEmp_Click(Index As Integer)
         'Index Me dira que listview
         For Ok = ListView2(Index).ListItems.Count To 1 Step -1
             If ListView2(Index).ListItems(Ok).Selected Then
-                i = ListView2(Index).ListItems(Ok).Index
-                PasarUnaEmpresaBloqueada Index = 0, i
+                I = ListView2(Index).ListItems(Ok).Index
+                PasarUnaEmpresaBloqueada Index = 0, I
             End If
         Next Ok
     Case Else
@@ -4100,8 +4100,8 @@ Dim IT
         NE = 1 'icono
     End If
     
-    SQL = ListView2(Origen).ListItems(Indice).Key
-    Set IT = ListView2(Destino).ListItems.Add(, SQL)
+    Sql = ListView2(Origen).ListItems(Indice).Key
+    Set IT = ListView2(Destino).ListItems.Add(, Sql)
     IT.SmallIcon = NE
     IT.Text = ListView2(Origen).ListItems(Indice).Text
     IT.SubItems(1) = ListView2(Origen).ListItems(Indice).SubItems(1)
@@ -4112,17 +4112,17 @@ End Sub
 
 Private Sub cmdBloqEmpre_Click(Index As Integer)
     If Index = 0 Then
-        SQL = "DELETE FROM usuarios.usuarioempresasariconta WHERE codusu =" & Parametros
-        Conn.Execute SQL
-        SQL = ""
-        For i = 1 To ListView2(1).ListItems.Count
-            SQL = SQL & ", (" & Parametros & "," & Val(Mid(ListView2(1).ListItems(i).Key, 2)) & ")"
-        Next i
-        If SQL <> "" Then
+        Sql = "DELETE FROM usuarios.usuarioempresasariconta WHERE codusu =" & Parametros
+        Conn.Execute Sql
+        Sql = ""
+        For I = 1 To ListView2(1).ListItems.Count
+            Sql = Sql & ", (" & Parametros & "," & Val(Mid(ListView2(1).ListItems(I).Key, 2)) & ")"
+        Next I
+        If Sql <> "" Then
             'Quitmos la primera coma
-            SQL = Mid(SQL, 2)
-            SQL = "INSERT INTO usuarios.usuarioempresasariconta(codusu,codempre) VALUES " & SQL
-            If Not EjecutaSQL(SQL) Then MsgBox "Se han producido errores insertando datos", vbExclamation
+            Sql = Mid(Sql, 2)
+            Sql = "INSERT INTO usuarios.usuarioempresasariconta(codusu,codempre) VALUES " & Sql
+            If Not EjecutaSQL(Sql) Then MsgBox "Se han producido errores insertando datos", vbExclamation
         End If
     End If
     Unload Me
@@ -4139,42 +4139,42 @@ Dim Anyo As Integer
     Else
         Screen.MousePointer = vbHourglass
         Anyo = 0
-        i = 0
+        I = 0
         Do
           
-            SQL = "select numasien,fechaent from hcabapu where fechaent >= '"
-            SQL = SQL & Format(DateAdd("yyyy", Anyo, vParam.fechaini), FormatoFecha)
-            SQL = SQL & "' AND fechaent <= '" & Format(DateAdd("yyyy", Anyo, vParam.fechafin), FormatoFecha) & "' ORDER By NumAsien"
+            Sql = "select numasien,fechaent from hcabapu where fechaent >= '"
+            Sql = Sql & Format(DateAdd("yyyy", Anyo, vParam.fechaini), FormatoFecha)
+            Sql = Sql & "' AND fechaent <= '" & Format(DateAdd("yyyy", Anyo, vParam.fechafin), FormatoFecha) & "' ORDER By NumAsien"
             Set Rs = New ADODB.Recordset
-            Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+            Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
             ii = 0
             While Not Rs.EOF
                J = Rs.Fields(0)
                'Igual
                 If J - ii = 0 Then
                     
-                    SQL = Format(J, "00000")
-                    SQL = SQL & "  -  " & Format(Rs!FechaEnt, "dd/mm/yyyy")
-                    Text5.Text = Text5.Text & SQL & vbCrLf
-                    i = i + 1
+                    Sql = Format(J, "00000")
+                    Sql = Sql & "  -  " & Format(Rs!FechaEnt, "dd/mm/yyyy")
+                    Text5.Text = Text5.Text & Sql & vbCrLf
+                    I = I + 1
                 Else
                     If J - ii > 1 Then
                         If J - ii = 2 Then
-                            SQL = Format(J - 1, "00000")
+                            Sql = Format(J - 1, "00000")
                         Else
-                            SQL = "Entre " & Format(ii, "00000") & "  y  " & Format(J, "00000")
+                            Sql = "Entre " & Format(ii, "00000") & "  y  " & Format(J, "00000")
                         End If
-                        SQL = SQL & " (" & CStr(Year(vParam.fechaini) + Anyo) & ")"
-                        Text6.Text = Text6.Text & SQL & vbCrLf
-                        i = i + 1
+                        Sql = Sql & " (" & CStr(Year(vParam.fechaini) + Anyo) & ")"
+                        Text6.Text = Text6.Text & Sql & vbCrLf
+                        I = I + 1
                     End If
                 End If
                 ii = J
                 'Refrescamos
-                If i > 50 Then
+                If I > 50 Then
                     Text5.Refresh
                     Text6.Refresh
-                    i = 0
+                    I = 0
                 End If
                 
                 '
@@ -4241,18 +4241,18 @@ Private Sub cmdCtaBalan_Click(Index As Integer)
             Exit Sub
         End If
         'Esto es el OPTION
-        SQL = ""
-        For i = 0 To 2
-            If Option1(i).Value Then SQL = SQL & Mid(Option1(i).Caption, 1, 1)
-        Next i
-        If SQL = "" Then
+        Sql = ""
+        For I = 0 To 2
+            If Option1(I).Value Then Sql = Sql & Mid(Option1(I).Caption, 1, 1)
+        Next I
+        If Sql = "" Then
             MsgBox "Seleccione una opción de la cuenta (Saldo - Debe - Haber )"
             Exit Sub
         End If
         
         'RESTA y la resta
-        SQL = SQL & "|" & Abs(Me.chkResta.Value)
-        CadenaDesdeOtroForm = Text3.Text & "|" & SQL & "|"
+        Sql = Sql & "|" & Abs(Me.chkResta.Value)
+        CadenaDesdeOtroForm = Text3.Text & "|" & Sql & "|"
     End If
     Unload Me
 End Sub
@@ -4266,13 +4266,13 @@ Private Sub cmdEliminarRiesgoT_Click(Index As Integer)
         ElseIf Not IsDate(txtFecha(1).Text) Then
             Codigo = "Fecha incorrecta"
         Else
-            i = CInt(FechaCorrecta2(CDate(txtFecha(1).Text)))
-            If i > 1 Then
-                If i = 2 Then
+            I = CInt(FechaCorrecta2(CDate(txtFecha(1).Text)))
+            If I > 1 Then
+                If I = 2 Then
                     Codigo = varTxtFec
                 
                 Else
-                    If i = 3 Then
+                    If I = 3 Then
                         Codigo = "El ejercicio al que pertenece la fecha: " & txtFecha(1).Text & " está cerrado."
                     Else
                         Codigo = "Ejercicio para: " & txtFecha(1).Text & " todavía no activo"
@@ -4305,42 +4305,42 @@ Dim Salir As Boolean
         
         'Alguna seleccionada
         Referencia = ""
-        SQL = ""
-        For i = 1 To ListView13.ListItems.Count
-            If ListView13.ListItems(i).Checked Then SQL = SQL & "X"
+        Sql = ""
+        For I = 1 To ListView13.ListItems.Count
+            If ListView13.ListItems(I).Checked Then Sql = Sql & "X"
         Next
-        If SQL = "" Then Referencia = "-Seleccione alguna remesa para eliminar riesgo"
+        If Sql = "" Then Referencia = "-Seleccione alguna remesa para eliminar riesgo"
         
                 
         'Fecha seleccionada
         Codigo = ""
-        i = 2
+        I = 2
         If Me.txtFecha(2).Text = "" Then
             Codigo = "-Fecha requerida"
         ElseIf Not IsDate(txtFecha(2).Text) Then
             Codigo = "-Fecha incorrecta"
         Else
-            i = CInt(FechaCorrecta2(CDate(txtFecha(2).Text)))
-            If i > 1 Then
-                If i = 2 Then
+            I = CInt(FechaCorrecta2(CDate(txtFecha(2).Text)))
+            If I > 1 Then
+                If I = 2 Then
                     Codigo = "-" & varTxtFec
                 
                 Else
-                    If i = 3 Then
+                    If I = 3 Then
                         Codigo = "-El ejercicio al que pertenece la fecha: " & txtFecha(2).Text & " está cerrado."
                     Else
                         Codigo = "-Ejercicio para: " & txtFecha(2).Text & " todavía no activo"
                     End If
                 End If
             Else
-                i = 0
+                I = 0
             End If
         End If
         If Referencia <> "" Then Codigo = vbCrLf & Referencia & vbCrLf & Codigo
         
         If Codigo <> "" Then
             MsgBox Codigo, vbExclamation
-            If i > 0 Then
+            If I > 0 Then
                 Me.txtFecha(2).Text = ""
                 PonFoco Me.txtFecha(2)
             End If
@@ -4353,24 +4353,24 @@ Dim Salir As Boolean
         Screen.MousePointer = vbHourglass
         Set Forpa = New Ctipoformapago
         Byt = 100
-        For i = 1 To ListView13.ListItems.Count
+        For I = 1 To ListView13.ListItems.Count
             
-            If ListView13.ListItems(i).Checked Then
+            If ListView13.ListItems(I).Checked Then
             
                 
                 J = vbPagare
-                If CByte(ListView13.ListItems(i).Tag) = 3 Then J = vbTalon
-                If CByte(ListView13.ListItems(i).Tag) = 127 Then J = vbConfirming
-                If CByte(ListView13.ListItems(i).Tag) = 1 Then J = vbTipoPagoRemesa
+                If CByte(ListView13.ListItems(I).Tag) = 3 Then J = vbTalon
+                If CByte(ListView13.ListItems(I).Tag) = 127 Then J = vbConfirming
+                If CByte(ListView13.ListItems(I).Tag) = 1 Then J = vbTipoPagoRemesa
                 If Forpa.Leer(CInt(J)) = 0 Then
                     
             
                     Conn.BeginTrans
                     If J = vbTipoPagoRemesa Then
                         
-                         Byt = RemesasEliminarVtosTalonesPagares(CByte(vbTipoPagoRemesa), ListView13.ListItems(i).Text, ListView13.ListItems(i).SubItems(1), CDate(txtFecha(2).Text), Forpa, Me.chkVarios(1).Value)
+                         Byt = RemesasEliminarVtosTalonesPagares(CByte(vbTipoPagoRemesa), ListView13.ListItems(I).Text, ListView13.ListItems(I).SubItems(1), CDate(txtFecha(2).Text), Forpa, Me.chkVarios(1).Value)
                     Else
-                        Byt = RemesasEliminarVtosTalonesPagares(CByte(ListView13.ListItems(i).Tag), ListView13.ListItems(i).Text, ListView13.ListItems(i).SubItems(1), CDate(txtFecha(2).Text), Forpa, Me.chkVarios(1).Value)
+                        Byt = RemesasEliminarVtosTalonesPagares(CByte(ListView13.ListItems(I).Tag), ListView13.ListItems(I).Text, ListView13.ListItems(I).SubItems(1), CDate(txtFecha(2).Text), Forpa, Me.chkVarios(1).Value)
                     End If
                     
                     If Byt < 2 Then
@@ -4410,23 +4410,23 @@ End Sub
 Private Sub cmdEmpresa_Click(Index As Integer)
     CadenaDesdeOtroForm = ""
     If Index = 0 Then
-        SQL = ""
+        Sql = ""
         Parametros = ""
-        For i = 1 To lwE.ListItems.Count
-            If Me.lwE.ListItems(i).Checked Then
-                SQL = SQL & Me.lwE.ListItems(i).Text & "|"
+        For I = 1 To lwE.ListItems.Count
+            If Me.lwE.ListItems(I).Checked Then
+                Sql = Sql & Me.lwE.ListItems(I).Text & "|"
                 Parametros = Parametros & "1" 'Contador
             End If
-        Next i
-        CadenaDesdeOtroForm = Len(Parametros) & "|" & SQL
+        Next I
+        CadenaDesdeOtroForm = Len(Parametros) & "|" & Sql
         'Vemos las conta
-        SQL = ""
-        For i = 1 To lwE.ListItems.Count
-            If Me.lwE.ListItems(i).Checked Then
-                SQL = SQL & Me.lwE.ListItems(i).Tag & "|"
+        Sql = ""
+        For I = 1 To lwE.ListItems.Count
+            If Me.lwE.ListItems(I).Checked Then
+                Sql = Sql & Me.lwE.ListItems(I).Tag & "|"
             End If
-        Next i
-        CadenaDesdeOtroForm = CadenaDesdeOtroForm & SQL
+        Next I
+        CadenaDesdeOtroForm = CadenaDesdeOtroForm & Sql
     End If
     Unload Me
 End Sub
@@ -4439,9 +4439,9 @@ Private Sub cmdGenerarVto_Click()
     
     If Opcion = 28 Then
         'PAGOS
-            SQL = "delete from tmppagos where codusu = " & DBSet(vUsu.Codigo, "N")
-            Conn.Execute SQL
-            SQL = ""
+            Sql = "delete from tmppagos where codusu = " & DBSet(vUsu.Codigo, "N")
+            Conn.Execute Sql
+            Sql = ""
             frmFacturasPro.CargarPagosTemporal RecuperaValor(Codigo, 1), RecuperaValor(Codigo, 2), CCur(RecuperaValor(Codigo, 3))
             Set frmPag = frmFacturasProPag
             ContinuarPago = False
@@ -4449,10 +4449,10 @@ Private Sub cmdGenerarVto_Click()
                         
             frmPag.Show vbModal
             Set frmPag = Nothing
-            If SQL <> "" Then
+            If Sql <> "" Then
             
             
-                frmFacturasPro.EstablecerValoresSeleccionPago SQL
+                frmFacturasPro.EstablecerValoresSeleccionPago Sql
                 If ContinuarPago Then
                     frmFacturasPro.InsertarPagos ""
                     ContinuarPago = False
@@ -4462,9 +4462,9 @@ Private Sub cmdGenerarVto_Click()
             End If
     ElseIf Opcion = 27 Then
         'COBROS
-        SQL = "delete from tmpcobros where codusu = " & DBSet(vUsu.Codigo, "N")
-        Conn.Execute SQL
-        SQL = ""
+        Sql = "delete from tmpcobros where codusu = " & DBSet(vUsu.Codigo, "N")
+        Conn.Execute Sql
+        Sql = ""
         'If CargarCobrosTemporal(Text1(5).Text, Text1(1).Text, ImporteFormateado(Text1(13).Text)) Then
         If CargarCobrosTemporal(RecuperaValor(Codigo, 1), RecuperaValor(Codigo, 2), CCur(RecuperaValor(Codigo, 3))) Then
     
@@ -4478,14 +4478,14 @@ Private Sub cmdGenerarVto_Click()
             frmCob.Show vbModal
             Set frmCob = Nothing
     
-            frmFacturasCli.EstableceValoresCobro CStr(SQL)
+            frmFacturasCli.EstableceValoresCobro CStr(Sql)
             If ContinuarCobro Then
-                SQL = ""
-                If frmFacturasCli.InsertarCobros(SQL) Then
+                Sql = ""
+                If frmFacturasCli.InsertarCobros(Sql) Then
                     CargaCobrosFactura
                     If frmFacturasCli.HayQueContabilizarDesdePantallaCobros Then frmFacturasCli.ContabilizarCobros
                 Else
-                    MsgBox SQL, vbExclamation
+                    MsgBox Sql, vbExclamation
                 End If
             End If
         End If
@@ -4498,19 +4498,19 @@ Private Sub cmdGeneraTransfer_Click(Index As Integer)
         CadenaDesdeOtroForm = ""
         
     Else
-        SQL = ""
+        Sql = ""
         If txtFecha(3).Text = "" Then
-            SQL = "Fecha cobro debe tener valor"
+            Sql = "Fecha cobro debe tener valor"
         Else
             If Not EsFechaOK(txtFecha(3)) Then
-                SQL = "Fecha incorrecta"
+                Sql = "Fecha incorrecta"
             Else
-                If CDate(txtFecha(3).Text) < CDate(Format(Now, "dd/mm/yyyy")) Then SQL = "Fecha debe ser igual o superior a hoy"
+                If CDate(txtFecha(3).Text) < CDate(Format(Now, "dd/mm/yyyy")) Then Sql = "Fecha debe ser igual o superior a hoy"
             End If
         End If
             
-        If SQL <> "" Then
-            MsgBox SQL, vbExclamation
+        If Sql <> "" Then
+            MsgBox Sql, vbExclamation
             PonFoco txtFecha(3)
             Exit Sub
         End If
@@ -4526,10 +4526,10 @@ Private Sub cmdIntegAsiento_Click(Index As Integer)
     If Index = 1 Then
         CadenaDesdeOtroForm = ""
     Else
-        For i = 0 To 1
-            If txtConcepto(i).Text = "" Or txtConceptoNom(i).Text = "" Then
+        For I = 0 To 1
+            If txtConcepto(I).Text = "" Or txtConceptoNom(I).Text = "" Then
                 MsgBox "Concepto tienen que tener un valor correcto", vbExclamation
-                PonFoco txtConcepto(i)
+                PonFoco txtConcepto(I)
                 Exit Sub
             End If
             
@@ -4557,9 +4557,9 @@ Private Sub cmdIntegFraNav_Click(Index As Integer)
         
           
           
-        i = CInt(FechaCorrecta2(CDate(txtFecha(0).Text), True))
-        If i > 2 Then Exit Sub 'fuera ejercicios
-        If i = 2 Then
+        I = CInt(FechaCorrecta2(CDate(txtFecha(0).Text), True))
+        If I > 2 Then Exit Sub 'fuera ejercicios
+        If I = 2 Then
             If vUsu.Nivel > 0 Then Exit Sub
         End If
         
@@ -4817,9 +4817,9 @@ Dim W As Integer, H As Integer
     Case 18
         Me.FrameImpPunteo.visible = True
         Caption = "Importes"
-        For i = 0 To 8
-            Me.txtImporteP(i).Text = RecuperaValor(Parametros, i + 1)
-        Next i
+        For I = 0 To 8
+            Me.txtImporteP(I).Text = RecuperaValor(Parametros, I + 1)
+        Next I
         W = Me.FrameImpPunteo.Width
         H = Me.FrameImpPunteo.Height + 300
         cmdPunteo.Cancel = True
@@ -5025,8 +5025,8 @@ Dim W As Integer, H As Integer
         Me.Caption = "IBAN"
         PonerFrameVisible FrameValidaIBAN, H, W
         H = H + 30
-        For i = 0 To 5
-            Me.txtIbanES(i).Text = ""
+        For I = 0 To 5
+            Me.txtIbanES(I).Text = ""
         Next
         Me.cboPais.ListIndex = 0
         
@@ -5037,12 +5037,12 @@ Dim W As Integer, H As Integer
         
         cboRiesgoYelConfirming.Clear
         If Banco = "" Then
-            i = CInt(Tipo)
-            If i <> 2 Then
+            I = CInt(Tipo)
+            If I <> 2 Then
                 cboRiesgoYelConfirming.AddItem "Remesas talón - pagaré"
                 cboRiesgoYelConfirming.ItemData(cboRiesgoYelConfirming.NewIndex) = 1
             End If
-            If i = 2 Then
+            If I = 2 Then
                 cboRiesgoYelConfirming.AddItem "Pago confirming vencidos"
                 cboRiesgoYelConfirming.ItemData(cboRiesgoYelConfirming.NewIndex) = 2
             End If
@@ -5070,7 +5070,7 @@ Dim W As Integer, H As Integer
     Case 64
         Me.Caption = "Transferencias(Fichero)"
         PonerFrameVisible FrameGeneraTransfer, H, W
-        SQL = ""
+        Sql = ""
         Label7(7).Caption = "Transferencias " & IIf(RecuperaValor(Parametros, 3) = "1", "pagos", "abonos")
         
         H = H + 240
@@ -5125,9 +5125,9 @@ Private Sub CargaValoresHco()
 '1.- Vendran empipados: Cuenta, PunteadoD, punteadoH, pdteD,PdteH
 
 Label6.Caption = RecuperaValor(Parametros, 1)
-For i = 0 To 3
-    Me.txtsaldo(i).Text = RecuperaValor(Parametros, i + 2)
-Next i
+For I = 0 To 3
+    Me.txtsaldo(I).Text = RecuperaValor(Parametros, I + 2)
+Next I
 CalculaSaldosFinales
 End Sub
 
@@ -5135,10 +5135,10 @@ End Sub
 
 Private Sub CalculaSaldosFinales()
 Dim Importe As Currency
-    For i = 0 To 3
-        Importe = ImporteFormateado(txtsaldo(i).Text)
-        txtsaldo(i).Tag = Importe
-    Next i
+    For I = 0 To 3
+        Importe = ImporteFormateado(txtsaldo(I).Text)
+        txtsaldo(I).Tag = Importe
+    Next I
     txtsaldo(4).Text = ""
     txtsaldo(5).Text = ""
     
@@ -5163,13 +5163,13 @@ Dim Importe As Currency
     'Ahora veremos si tiene del periodo
     txtsaldo(8).Text = ""
     txtsaldo(9).Text = ""
-    SQL = RecuperaValor(Parametros, 6)
-    If SQL = "" Then
+    Sql = RecuperaValor(Parametros, 6)
+    If Sql = "" Then
         NE = 0
         
     Else
         NE = 1
-        Importe = CCur(SQL)
+        Importe = CCur(Sql)
         If Importe >= 0 Then
             txtsaldo(8).Text = Format(Importe, FormatoImporte)
         Else
@@ -5182,9 +5182,9 @@ Dim Importe As Currency
     txtsaldo(8).visible = (NE = 1)
     
     'Descripcion cuenta
-    SQL = Trim(RecuperaValor(Parametros, 7))   'Descripcion cuenta
-    If SQL <> "" Then SQL = " - " & SQL
-    Label6.Caption = Label6.Caption & SQL
+    Sql = Trim(RecuperaValor(Parametros, 7))   'Descripcion cuenta
+    If Sql <> "" Then Sql = " - " & Sql
+    Label6.Caption = Label6.Caption & Sql
     
     
     
@@ -5205,23 +5205,23 @@ On Error GoTo Ecargaempresas
 
     VerEmresasProhibidas Prohibidas
     
-    SQL = "Select * from usuarios.empresasariconta "
-    If vUsu.Codigo > 0 Then SQL = SQL & " WHERE codempre<100 and conta like 'ariconta%'"
-    SQL = SQL & " order by codempre"
+    Sql = "Select * from usuarios.empresasariconta "
+    If vUsu.Codigo > 0 Then Sql = Sql & " WHERE codempre<100 and conta like 'ariconta%'"
+    Sql = Sql & " order by codempre"
     Set lwE.SmallIcons = Me.ImageList1
     lwE.ListItems.Clear
     Set Rs = New ADODB.Recordset
-    i = -1
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    I = -1
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     While Not Rs.EOF
-        SQL = "|" & Rs!codempre & "|"
-        If InStr(1, Prohibidas, SQL) = 0 Then
+        Sql = "|" & Rs!codempre & "|"
+        If InStr(1, Prohibidas, Sql) = 0 Then
             Set ItmX = lwE.ListItems.Add(, , Rs!nomempre, , 3)
             ItmX.Tag = Rs!codempre
             If ItmX.Tag = vEmpresa.codempre Then
                 If CadenaDesdeOtroForm = "" Then
                     ItmX.Checked = True
-                    i = ItmX.Index
+                    I = ItmX.Index
                 End If
             End If
             ItmX.ToolTipText = Rs!CONTA
@@ -5229,7 +5229,7 @@ On Error GoTo Ecargaempresas
         Rs.MoveNext
     Wend
     Rs.Close
-    If i > 0 Then Set lwE.SelectedItem = lwE.ListItems(i)
+    If I > 0 Then Set lwE.SelectedItem = lwE.ListItems(I)
     
     CadenaDesdeOtroForm = ""
     
@@ -5242,10 +5242,10 @@ Private Sub VerEmresasProhibidas(ByRef VarProhibidas As String)
 
 On Error GoTo EVerEmresasProhibidas
     VarProhibidas = "|"
-    SQL = "Select codempre from usuarios.usuarioempresasariconta WHERE codusu = " & (vUsu.Codigo Mod 1000)
-    SQL = SQL & " order by codempre"
+    Sql = "Select codempre from usuarios.usuarioempresasariconta WHERE codusu = " & (vUsu.Codigo Mod 1000)
+    Sql = Sql & " order by codempre"
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     While Not Rs.EOF
           VarProhibidas = VarProhibidas & Rs!codempre & "|"
           Rs.MoveNext
@@ -5261,37 +5261,37 @@ End Sub
 
 
 Private Sub frmC_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub frmCob_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub frmD_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    SQL = vFecha
+    Sql = vFecha
 End Sub
 
 Private Sub frmPag_DatoSeleccionado2(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub Image3_Click()
     Set frmC = New frmColCtas
     frmC.ConfigurarBalances = 1
     frmC.DatosADevolverBusqueda = "0|1"
-    SQL = ""
+    Sql = ""
     frmC.Show vbModal
     Set frmC = Nothing
-    If SQL <> "" Then Text3.Text = RecuperaValor(SQL, 1)
+    If Sql <> "" Then Text3.Text = RecuperaValor(Sql, 1)
     
 End Sub
 
@@ -5309,34 +5309,34 @@ Private Sub imgCheck_Click(Index As Integer)
     Select Case Index
         ' ICONOS VISIBLES EN EL LISTVIEW DEL FRMPPAL
         Case 2 ' marcar todos
-            For i = 1 To ListView6.ListItems.Count
-                ListView6.ListItems(i).Checked = True
-            Next i
+            For I = 1 To ListView6.ListItems.Count
+                ListView6.ListItems(I).Checked = True
+            Next I
         Case 3 ' desmarcar todos
-            For i = 1 To ListView6.ListItems.Count
-                ListView6.ListItems(i).Checked = False
-            Next i
+            For I = 1 To ListView6.ListItems.Count
+                ListView6.ListItems(I).Checked = False
+            Next I
             
         ' bancos remesados
         Case 4 ' marcar todos
-            For i = 1 To ListView10.ListItems.Count
-                ListView10.ListItems(i).Checked = True
-            Next i
+            For I = 1 To ListView10.ListItems.Count
+                ListView10.ListItems(I).Checked = True
+            Next I
         Case 5 ' desmarcar todos
-            For i = 1 To ListView10.ListItems.Count
-                If ListView10.ListItems(i).Text <> Parametros Then ListView10.ListItems(i).Checked = False
-            Next i
+            For I = 1 To ListView10.ListItems.Count
+                If ListView10.ListItems(I).Text <> Parametros Then ListView10.ListItems(I).Checked = False
+            Next I
             
         ' talones/pagares pendientes
         Case 6 ' marcar todos
-            For i = 1 To ListView12.ListItems.Count
-                ListView12.ListItems(i).Checked = True
-            Next i
+            For I = 1 To ListView12.ListItems.Count
+                ListView12.ListItems(I).Checked = True
+            Next I
             SumaTotales
         Case 7 ' desmarcar todos
-            For i = 1 To ListView12.ListItems.Count
-                ListView12.ListItems(i).Checked = (ListView12.ListItems(i).Tag = 1)
-            Next i
+            For I = 1 To ListView12.ListItems.Count
+                ListView12.ListItems(I).Checked = (ListView12.ListItems(I).Tag = 1)
+            Next I
             txtSuma.Text = ""
             
     End Select
@@ -5347,13 +5347,13 @@ End Sub
 
 
 Private Sub imgConcepto_Click(Index As Integer)
-    SQL = ""
+    Sql = ""
     Set frmCon = New frmConceptos
     frmCon.DatosADevolverBusqueda = "0|"
     frmCon.Show vbModal
-    If SQL <> "" Then
-        Me.txtConcepto(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtConceptoNom(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtConcepto(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtConceptoNom(Index).Text = RecuperaValor(Sql, 2)
     End If
     Set frmCon = Nothing
 End Sub
@@ -5362,24 +5362,24 @@ Private Sub imgCtas_Click(Index As Integer)
     Set frmC = New frmColCtas
     frmC.ConfigurarBalances = 0
     frmC.DatosADevolverBusqueda = "0|1"
-    SQL = ""
+    Sql = ""
     frmC.Show vbModal
     Set frmC = Nothing
-    If SQL <> "" Then
-        Me.txtCodmacta(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNommacta(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtCodmacta(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNommacta(Index).Text = RecuperaValor(Sql, 2)
     End If
 End Sub
 
 Private Sub imgDiario_Click(Index As Integer)
-    SQL = ""
+    Sql = ""
     
     Set frmD = New frmTiposDiario
     frmD.DatosADevolverBusqueda = "0|"
     frmD.Show vbModal
-    If SQL <> "" Then
-        Me.txtConcepto(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtConceptoNom(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtConcepto(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtConceptoNom(Index).Text = RecuperaValor(Sql, 2)
     End If
     Set frmCon = Nothing
 End Sub
@@ -5388,10 +5388,10 @@ Private Sub imgFec_Click(Index As Integer)
     Set frmF = New frmCal
     frmF.Fecha = Now
     If Me.txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
-    SQL = ""
+    Sql = ""
     frmF.Show vbModal
     Set frmF = Nothing
-    If SQL <> "" Then txtFecha(Index).Text = Format(SQL, "dd/mm/yyyy")
+    If Sql <> "" Then txtFecha(Index).Text = Format(Sql, "dd/mm/yyyy")
 End Sub
 
 Private Sub ListView10_ItemCheck(ByVal Item As MSComctlLib.ListItem)
@@ -5410,9 +5410,9 @@ Private Sub ListView12_ItemCheck(ByVal Item As MSComctlLib.ListItem)
 End Sub
 
 Private Sub ListView13_ItemCheck(ByVal Item As MSComctlLib.ListItem)
-    For i = 1 To ListView13.ListItems.Count
-        If Item.Index <> i Then
-            ListView13.ListItems(i).Checked = False
+    For I = 1 To ListView13.ListItems.Count
+        If Item.Index <> I Then
+            ListView13.ListItems(I).Checked = False
         Else
             'txtFecha(2).Text = ListView13.ListItems(i).SubItems(2)
         End If
@@ -5469,11 +5469,11 @@ End Sub
 Private Sub optIBAN_Intro_Click(Index As Integer)
 Dim B As Boolean
     If Me.cboPais.ListIndex = 0 Then
-        For i = 0 To 5
+        For I = 0 To 5
             B = Index = 1
-            If i = 5 Then B = Not B
-            BloqueaTXT txtIbanES(i), B
-        Next i
+            If I = 5 Then B = Not B
+            BloqueaTXT txtIbanES(I), B
+        Next I
         PonFoco txtIbanES(IIf(Index = 0, 0, 5))
             
     End If
@@ -5502,28 +5502,28 @@ Private Sub PonerCamposBalance()
         Label16.Caption = "NUEVO"
         Label16.ForeColor = &H800000
         Me.chkPintar.Value = 1
-        For i = 0 To 3
-            Text1(i).Text = ""
-        Next i
+        For I = 0 To 3
+            Text1(I).Text = ""
+        Next I
 
     Else
         'NumBalan|Pasivo|codigo|padre|Orden|tipo|deslinea|texlinea|formula|TienenCtas|Negrita|LibroCD|
         Text1(0).Text = RecuperaValor(Parametros, 7)
         Text1(1).Text = RecuperaValor(Parametros, 8)
-        i = Val(RecuperaValor(Parametros, 10))
-        If i = 1 Then
+        I = Val(RecuperaValor(Parametros, 10))
+        If I = 1 Then
             'Tiene cuentas
             Text1(2).Text = ""
             Text1(2).Enabled = False
         Else
             Text1(2).Text = RecuperaValor(Parametros, 9)
         End If
-        i = Val(RecuperaValor(Parametros, 11))
-        chkNegrita.Value = i
-        i = Val(RecuperaValor(Parametros, 12))
-        chkCero.Value = i
-        i = Val(RecuperaValor(Parametros, 13))
-        chkPintar.Value = i
+        I = Val(RecuperaValor(Parametros, 11))
+        chkNegrita.Value = I
+        I = Val(RecuperaValor(Parametros, 12))
+        chkCero.Value = I
+        I = Val(RecuperaValor(Parametros, 13))
+        chkPintar.Value = I
         Text1(3).Text = RecuperaValor(Parametros, 14)
     End If
 End Sub
@@ -5544,10 +5544,10 @@ Private Sub PonerCamposCtaBalance()
     Else
         Text3.Enabled = False
         Text3.Text = RecuperaValor(Parametros, 2)
-        i = Val(RecuperaValor(Parametros, 3))
-        Option1(i).Value = True
-        i = Val(RecuperaValor(Parametros, 4))
-        chkResta.Value = i
+        I = Val(RecuperaValor(Parametros, 3))
+        Option1(I).Value = True
+        I = Val(RecuperaValor(Parametros, 4))
+        chkResta.Value = I
     End If
 End Sub
 
@@ -5573,63 +5573,63 @@ On Error GoTo EInse
     'Hay k comprobar, si tiene formula k sea correcta
     Text1(2).Text = UCase(Trim(Text1(2).Text))
     If Text1(2).Text <> "" Then
-        SQL = CompruebaFormulaConfigBalan(CInt(RecuperaValor(Parametros, 1)), Text1(2).Text)
-        If SQL <> "" Then
-            MsgBox SQL, vbExclamation
+        Sql = CompruebaFormulaConfigBalan(CInt(RecuperaValor(Parametros, 1)), Text1(2).Text)
+        If Sql <> "" Then
+            MsgBox Sql, vbExclamation
             Exit Function
         End If
     End If
     If Opcion = 7 Then
-        SQL = "INSERT INTO balances_texto (NumBalan, Pasivo, codigo, padre, "
-        SQL = SQL & "Orden, tipo, deslinea, texlinea, formula, TienenCtas, Negrita,A_Cero,Pintar,LibroCD) VALUES ("
-        SQL = SQL & RecuperaValor(Parametros, 1)  'Numero
-        SQL = SQL & ",'" & RecuperaValor(Parametros, 2) 'pasivo
-        SQL = SQL & "'," & RecuperaValor(Parametros, 3)  'Codigo
+        Sql = "INSERT INTO balances_texto (NumBalan, Pasivo, codigo, padre, "
+        Sql = Sql & "Orden, tipo, deslinea, texlinea, formula, TienenCtas, Negrita,A_Cero,Pintar,LibroCD) VALUES ("
+        Sql = Sql & RecuperaValor(Parametros, 1)  'Numero
+        Sql = Sql & ",'" & RecuperaValor(Parametros, 2) 'pasivo
+        Sql = Sql & "'," & RecuperaValor(Parametros, 3)  'Codigo
         Aux = RecuperaValor(Parametros, 4) 'padre
         If Aux = "" Then
             Aux = ",NULL,"
         Else
             Aux = ",'" & Aux & "',"
         End If
-        SQL = SQL & Aux
-        SQL = SQL & RecuperaValor(Parametros, 5)
+        Sql = Sql & Aux
+        Sql = Sql & RecuperaValor(Parametros, 5)
         If Text1(2).Text = "" Then
             Aux = "0"
         Else
             Aux = "1"
         End If
-        SQL = SQL & "," & Aux
-        SQL = SQL & ",'" & Text1(0).Text 'Text linea
-        SQL = SQL & "','" & Text1(1).Text 'Desc linea
-        SQL = SQL & "','" & Text1(2).Text 'Formula
-        SQL = SQL & "',0," & chkNegrita.Value
-        SQL = SQL & "," & Me.chkCero.Value
-        SQL = SQL & "," & Me.chkPintar.Value
-        SQL = SQL & ",'" & Text1(3).Text 'Libro CD
-        SQL = SQL & "')"
+        Sql = Sql & "," & Aux
+        Sql = Sql & ",'" & Text1(0).Text 'Text linea
+        Sql = Sql & "','" & Text1(1).Text 'Desc linea
+        Sql = Sql & "','" & Text1(2).Text 'Formula
+        Sql = Sql & "',0," & chkNegrita.Value
+        Sql = Sql & "," & Me.chkCero.Value
+        Sql = Sql & "," & Me.chkPintar.Value
+        Sql = Sql & ",'" & Text1(3).Text 'Libro CD
+        Sql = Sql & "')"
     Else
         'Modificar
         'NumBalan|Pasivo|codigo|padre|Orden|tipo|deslinea|texlinea|formula|TienenCtas|Negrita|
-        SQL = "UPDATE balances_texto SET "
-        SQL = SQL & "deslinea='" & Text1(0).Text & "',"
-        SQL = SQL & "texlinea='" & Text1(1).Text & "',"
-        SQL = SQL & "formula='" & Text1(2).Text & "',"
+        Sql = "UPDATE balances_texto SET "
+        Sql = Sql & "deslinea='" & Text1(0).Text & "',"
+        Sql = Sql & "texlinea='" & Text1(1).Text & "',"
+        Sql = Sql & "formula='" & Text1(2).Text & "',"
         If Text1(2).Text = "" Then
             Aux = "0"
         Else
             Aux = "1"
         End If
-        SQL = SQL & "Tipo =" & Aux & ","
-        SQL = SQL & "Negrita = " & chkNegrita.Value
-        SQL = SQL & ", A_Cero = " & Me.chkCero.Value
-        SQL = SQL & ", Pintar = " & Me.chkPintar.Value
-        SQL = SQL & ", LibroCD = '" & Text1(3).Text & "'"
-        SQL = SQL & " WHERE numbalan =" & RecuperaValor(Parametros, 1)
-        SQL = SQL & " AND Pasivo = '" & RecuperaValor(Parametros, 2)
-        SQL = SQL & "' AND codigo = " & RecuperaValor(Parametros, 3)
+        Sql = Sql & "Tipo =" & Aux & ","
+        Sql = Sql & "Negrita = " & chkNegrita.Value
+        Sql = Sql & ", A_Cero = " & Me.chkCero.Value
+        Sql = Sql & ", Pintar = " & Me.chkPintar.Value
+        Sql = Sql & ", LibroCD = '" & Text1(3).Text & "'"
+        Sql = Sql & " WHERE numbalan =" & RecuperaValor(Parametros, 1)
+        Sql = Sql & " AND Pasivo = '" & RecuperaValor(Parametros, 2)
+        Sql = Sql & "' AND codigo = " & RecuperaValor(Parametros, 3)
         
     End If
-    Conn.Execute SQL
+    Conn.Execute Sql
     InsertarModificar = True
     'Ha insertado
     'Devuelve el texto, el texto auxiliar, y si es formula o no, descripcion cta y concepto oficial
@@ -5657,11 +5657,11 @@ End Sub
 Private Sub LeerCadenaFicheroTexto()
 On Error GoTo ELeerCadenaFicheroTexto
     'Son dos lineas. La primaera indica k campo y la segunda el valor
-    Line Input #i, SQL
-    Line Input #i, SQL
+    Line Input #I, Sql
+    Line Input #I, Sql
     Exit Sub
 ELeerCadenaFicheroTexto:
-    SQL = ""
+    Sql = ""
     Err.Clear
 End Sub
 
@@ -5680,12 +5680,12 @@ Private Function ValorSQL(ByRef C As String) As String
         ValorSQL = "'" & C & "'"
     End If
 End Function
-Private Function EjecutaSQL2(SQL As String) As Boolean
+Private Function EjecutaSQL2(Sql As String) As Boolean
     EjecutaSQL2 = False
     On Error Resume Next
-    Conn.Execute SQL
+    Conn.Execute Sql
     If Err.Number <> 0 Then
-        AnyadeErrores "SQL: " & SQL, Err.Description
+        AnyadeErrores "SQL: " & Sql, Err.Description
         Err.Clear
     Else
         EjecutaSQL2 = True
@@ -5720,21 +5720,21 @@ End Sub
 Private Function ExisteCuenta(Cta As String) As Boolean
     
     ExisteCuenta = False
-    SQL = DevuelveDesdeBD("codmacta", "cuentas", "codmacta", Cta, "T")
-    If SQL <> "" Then ExisteCuenta = True
+    Sql = DevuelveDesdeBD("codmacta", "cuentas", "codmacta", Cta, "T")
+    If Sql <> "" Then ExisteCuenta = True
     
 End Function
 
 Private Sub Text3_LostFocus()
     If IsNumeric(Text3.Text) Then
         If InStr(1, Text3.Text, ".") > 0 Then
-            SQL = Trim(Text3.Text)
+            Sql = Trim(Text3.Text)
             Errores = ""
-            If CuentaCorrectaUltimoNivel(SQL, Errores) Then
-                Text3.Text = SQL
+            If CuentaCorrectaUltimoNivel(Sql, Errores) Then
+                Text3.Text = Sql
                 
             Else
-                If SQL <> "" Then Text3.Text = SQL
+                If Sql <> "" Then Text3.Text = Sql
             End If
         End If
     End If
@@ -5818,13 +5818,13 @@ Dim ImporOfertado As Currency
     'Ok, Ahora pongo los labels
     frmTESCobrosDivVto.Opcion = 27
     frmTESCobrosDivVto.Label4(56).Caption = Label33.Caption
-    frmTESCobrosDivVto.txtCodigo(2).Text = ListView12.SelectedItem.SubItems(3)
+    frmTESCobrosDivVto.txtcodigo(2).Text = ListView12.SelectedItem.SubItems(3)
     frmTESCobrosDivVto.OfertaImportePdte = ImporOfertado
     frmTESCobrosDivVto.Label4(57).Caption = ListView12.SelectedItem.Text & Format(ListView12.SelectedItem.SubItems(1), "0000000") & " / " & ListView12.SelectedItem.SubItems(4) & "      de " & Format(ListView12.SelectedItem.SubItems(2), "dd/mm/yyyy")
     
     'Si ya ha cobrado algo...
     Im = DBLet(ComprobarCero(Trim(ListView12.SelectedItem.SubItems(8))), "N")
-    If Im > 0 Then frmTESCobrosDivVto.txtCodigo(1).Text = ListView12.SelectedItem.SubItems(9)
+    If Im > 0 Then frmTESCobrosDivVto.txtcodigo(1).Text = ListView12.SelectedItem.SubItems(9)
     
     If Text1(0).Text = "" Then
         MsgBox "El cobro no tiene forma de pago. Revise.", vbExclamation
@@ -5886,7 +5886,7 @@ End Sub
 Private Sub EjecutarSQL()
     On Error Resume Next
     
-    Conn.Execute SQL
+    Conn.Execute Sql
     If Err.Number <> 0 Then
         If Conn.Errors(0).Number = 1062 Then
             Err.Clear
@@ -5901,18 +5901,18 @@ End Sub
 
 Private Sub cargarObservacionesCuenta()
     Set Rs = New ADODB.Recordset
-    SQL = "select codmacta,nommacta,obsdatos from cuentas where codmacta = '" & Parametros & "'"
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = "select codmacta,nommacta,obsdatos from cuentas where codmacta = '" & Parametros & "'"
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
-        SQL = Rs!codmacta & "|" & Rs!Nommacta & "|" & DBMemo(Rs!obsdatos) & "|"
+        Sql = Rs!codmacta & "|" & Rs!Nommacta & "|" & DBMemo(Rs!obsdatos) & "|"
     Else
-        SQL = "Err|ERROR  LEYENDO DATOS CUENTAS | ****  ERROR ****|"
+        Sql = "Err|ERROR  LEYENDO DATOS CUENTAS | ****  ERROR ****|"
     End If
     Rs.Close
     Set Rs = Nothing
-    For i = 1 To 3
-        Text1(i + 3).Text = RecuperaValor(SQL, i)
-    Next i
+    For I = 1 To 3
+        Text1(I + 3).Text = RecuperaValor(Sql, I)
+    Next I
 End Sub
 
 
@@ -5920,22 +5920,22 @@ Private Sub cargaempresasbloquedas()
 Dim IT As ListItem
     On Error GoTo Ecargaempresasbloquedas
     Set Rs = New ADODB.Recordset
-    SQL = "select empresasariconta.codempre,nomempre,nomresum,usuarioempresasariconta.codempre bloqueada from usuarios.empresasariconta left join usuarios.usuarioempresasariconta on "
-    SQL = SQL & " empresasariconta.codempre = usuarioempresasariconta.codempre And (usuarioempresasariconta.codusu = " & Parametros & " Or codusu Is Null)"
+    Sql = "select empresasariconta.codempre,nomempre,nomresum,usuarioempresasariconta.codempre bloqueada from usuarios.empresasariconta left join usuarios.usuarioempresasariconta on "
+    Sql = Sql & " empresasariconta.codempre = usuarioempresasariconta.codempre And (usuarioempresasariconta.codusu = " & Parametros & " Or codusu Is Null)"
     '[Monica] solo ariconta
-    SQL = SQL & " WHERE conta like 'ariconta%' "
-    SQL = SQL & " ORDER BY empresasariconta.codempre"
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Sql = Sql & " WHERE conta like 'ariconta%' "
+    Sql = Sql & " ORDER BY empresasariconta.codempre"
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     While Not Rs.EOF
         Errores = Format(Rs!codempre, "00000")
-        SQL = "C" & Errores
+        Sql = "C" & Errores
         
         If IsNull(Rs!bloqueada) Then
             'Va al list de la derecha
-            Set IT = ListView2(0).ListItems.Add(, SQL)
+            Set IT = ListView2(0).ListItems.Add(, Sql)
             IT.SmallIcon = 1
         Else
-            Set IT = ListView2(1).ListItems.Add(, SQL)
+            Set IT = ListView2(1).ListItems.Add(, Sql)
             IT.SmallIcon = 2
         End If
         IT.Text = Errores
@@ -5973,18 +5973,18 @@ End Sub
 
 
 Private Function CobroContabilizado(Serie As String, FACTURA As String, Fecha As String, Orden As String) As Boolean
-Dim SQL As String
+Dim Sql As String
 
-    SQL = "select * from hlinapu where numserie = " & DBSet(Serie, "T") & " and numfaccl = " & DBSet(FACTURA, "N") & " and fecfactu = " & DBSet(Fecha, "F") & " and numorden = " & DBSet(Orden, "N")
-    CobroContabilizado = (TotalRegistrosConsulta(SQL) <> 0)
+    Sql = "select * from hlinapu where numserie = " & DBSet(Serie, "T") & " and numfaccl = " & DBSet(FACTURA, "N") & " and fecfactu = " & DBSet(Fecha, "F") & " and numorden = " & DBSet(Orden, "N")
+    CobroContabilizado = (TotalRegistrosConsulta(Sql) <> 0)
 
 End Function
 
 Private Function PagoContabilizado(Serie As String, Proveedor As String, FACTURA As String, Fecha As String, Orden As String) As Boolean
-Dim SQL As String
+Dim Sql As String
 
-    SQL = "select * from hlinapu where numserie = " & DBSet(Serie, "T") & " and codmacta = " & DBSet(Proveedor, "T") & " and numfacpr = " & DBSet(FACTURA, "T") & " and fecfactu = " & DBSet(Fecha, "F") & " and numorden = " & DBSet(Orden, "N")
-    PagoContabilizado = (TotalRegistrosConsulta(SQL) <> 0)
+    Sql = "select * from hlinapu where numserie = " & DBSet(Serie, "T") & " and codmacta = " & DBSet(Proveedor, "T") & " and numfacpr = " & DBSet(FACTURA, "T") & " and fecfactu = " & DBSet(Fecha, "F") & " and numorden = " & DBSet(Orden, "N")
+    PagoContabilizado = (TotalRegistrosConsulta(Sql) <> 0)
 
 End Function
 
@@ -6602,10 +6602,10 @@ Dim Pos As Long
             IT.SubItems(4) = ""
         End If
         
-        SQL = "select devuelto from cobros where numserie = " & DBSet(Rs.Fields(0), "T") & " and numfactu = " & DBSet(Rs.Fields(1), "N")
-        SQL = SQL & " and fecfactu = " & DBSet(Rs.Fields(2), "F") & " and numorden = " & DBSet(Rs.Fields(3), "N")
+        Sql = "select devuelto from cobros where numserie = " & DBSet(Rs.Fields(0), "T") & " and numfactu = " & DBSet(Rs.Fields(1), "N")
+        Sql = Sql & " and fecfactu = " & DBSet(Rs.Fields(2), "F") & " and numorden = " & DBSet(Rs.Fields(3), "N")
         
-        If DevuelveValor(SQL) = 1 Then
+        If DevuelveValor(Sql) = 1 Then
             IT.SmallIcon = 42
         End If
         
@@ -6660,7 +6660,7 @@ Dim FechaContab As Date
     ListView9.ColumnHeaders.Add , , "ID", 0, 1  'Oculto. Numserie|numfac
     
     Me.Refresh
-    DoEvents
+    DoEvent2
     Screen.MousePointer = vbHourglass
     Me.Label30.Caption = "Leyendo BD"
     Label30.Refresh
@@ -6681,7 +6681,7 @@ Dim FechaContab As Date
     Rs.Open cad, Conn, adOpenKeyset, adLockOptimistic, adCmdText
     If Rs.EOF Then Err.Raise 513, , "No se encontro remesa: " & RecuperaValor(Parametros, 1) & " " & RecuperaValor(Parametros, 2)
     FechaContab = "31/12/2200"
-    i = 0
+    I = 0
     While Not Rs.EOF
         If Not IsNull(Rs!fecultco) Then
             If FechaContab > Rs!fecultco Then FechaContab = Rs!fecultco
@@ -6789,29 +6789,29 @@ Dim FechaContab As Date
         Set IT = ListView9.ListItems.Add
         cad = Col.Item(J)
         IT.Text = RecuperaValor(cad, 1)
-        For i = 1 To 4
-            IT.SubItems(i) = RecuperaValor(cad, i + 1)
+        For I = 1 To 4
+            IT.SubItems(I) = RecuperaValor(cad, I + 1)
         Next
         IT.SubItems(5) = RecuperaValor(cad, 6)
                         
         'gastos
-        SQL = RecuperaValor(cad, 7)
-        If SQL <> 0 Then
-            IT.SubItems(6) = Format(CCur(SQL), "###,###,##0.00")
+        Sql = RecuperaValor(cad, 7)
+        If Sql <> 0 Then
+            IT.SubItems(6) = Format(CCur(Sql), "###,###,##0.00")
         Else
             IT.SubItems(6) = " "
         End If
         
         'importe
-        SQL = RecuperaValor(cad, 8)
-        If SQL <> 0 Then
-            IT.SubItems(7) = Format(SQL, "###,###,##0.00")
+        Sql = RecuperaValor(cad, 8)
+        If Sql <> 0 Then
+            IT.SubItems(7) = Format(Sql, "###,###,##0.00")
         Else
             IT.SubItems(7) = " "
         End If
         
-        SQL = RecuperaValor(cad, 9)
-        If SQL = "*" Then
+        Sql = RecuperaValor(cad, 9)
+        If Sql = "*" Then
             IT.SmallIcon = 42
             IT.ToolTipText = "Devolucion"
         End If
@@ -7253,22 +7253,22 @@ End Sub
 
 
 Private Function SumaTotales() As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Suma As Currency
     
     Suma = 0
     txtSuma.Text = ""
     
-    For i = 1 To Me.ListView12.ListItems.Count
-        If Me.ListView12.ListItems(i).Checked Then
-            If Me.ListView12.ListItems(i).ForeColor = vbBlue Then
+    For I = 1 To Me.ListView12.ListItems.Count
+        If Me.ListView12.ListItems(I).Checked Then
+            If Me.ListView12.ListItems(I).ForeColor = vbBlue Then
                 'Este estaba seleccionado en el talon ANTERIORmente
-                Suma = Suma + ComprobarCero(Trim(Me.ListView12.ListItems(i).SubItems(8)))
+                Suma = Suma + ComprobarCero(Trim(Me.ListView12.ListItems(I).SubItems(8)))
             Else
-                Suma = Suma + ComprobarCero(Trim(Me.ListView12.ListItems(i).SubItems(9)))
+                Suma = Suma + ComprobarCero(Trim(Me.ListView12.ListItems(I).SubItems(9)))
             End If
         End If
-    Next i
+    Next I
     
     If Suma <> 0 Then txtSuma.Text = Format(Suma, "###,###,##0.00")
 
@@ -7434,10 +7434,10 @@ Private Sub txtCodmacta_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCodmacta_LostFocus(Index As Integer)
-    SQL = Trim(txtCodmacta(Index).Text)
+    Sql = Trim(txtCodmacta(Index).Text)
     Errores = ""
-    If CuentaCorrectaUltimoNivel(SQL, Errores) Then
-        Me.txtCodmacta(Index).Text = SQL
+    If CuentaCorrectaUltimoNivel(Sql, Errores) Then
+        Me.txtCodmacta(Index).Text = Sql
         Me.txtNommacta(Index).Text = Errores
     Else
         If Me.txtCodmacta(Index).Text <> "" Then MsgBox Errores, vbExclamation
@@ -7472,20 +7472,20 @@ Private Sub txtConcepto_LostFocus(Index As Integer)
         Exit Sub
     End If
     txtConcepto(Index).Text = Trim(txtConcepto(Index).Text)
-    SQL = ""
+    Sql = ""
     If txtConcepto(Index).Text <> "" Then
         If PonerFormatoEntero(txtConcepto(Index)) Then
-            SQL = DevuelveDesdeBD("nomconce", "conceptos", "codconce", txtConcepto(Index).Text)
-            If SQL = "" Then MsgBox "No existe el concepto", vbExclamation
+            Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", txtConcepto(Index).Text)
+            If Sql = "" Then MsgBox "No existe el concepto", vbExclamation
         End If
     End If
-    If SQL = "" Then
+    If Sql = "" Then
         If txtConcepto(Index).Text <> "" Then
             txtConcepto(Index).Text = ""
             PonFoco txtConcepto(Index)
         End If
     End If
-    Me.txtConceptoNom(Index).Text = SQL
+    Me.txtConceptoNom(Index).Text = Sql
 End Sub
 
 Private Sub txtDiario_GotFocus(Index As Integer)
@@ -7512,20 +7512,20 @@ Private Sub txtDiario_LostFocus(Index As Integer)
         Exit Sub
     End If
     txtDiario(Index).Text = Trim(txtDiario(Index).Text)
-    SQL = ""
+    Sql = ""
     If txtDiario(Index).Text <> "" Then
         If PonerFormatoEntero(txtDiario(Index)) Then
-            SQL = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", txtDiario(Index).Text)
-            If SQL = "" Then MsgBox "No existe el diario", vbExclamation
+            Sql = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", txtDiario(Index).Text)
+            If Sql = "" Then MsgBox "No existe el diario", vbExclamation
         End If
     End If
-    If SQL = "" Then
+    If Sql = "" Then
         If txtDiario(Index).Text <> "" Then
             txtDiario(Index).Text = ""
             PonFoco txtDiario(Index)
         End If
     End If
-    Me.txtDiarioNom(Index).Text = SQL
+    Me.txtDiarioNom(Index).Text = Sql
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
@@ -7575,9 +7575,9 @@ Private Sub txtIbanES_LostFocus(Index As Integer)
         If Index = 4 Then PonleFoco Me.cmdValidarIBAN(0)
     Case 5
         If Me.optIBAN_Intro(1).Value Then
-            For i = 0 To 4
-                txtIbanES(i).Text = ""
-            Next i
+            For I = 0 To 4
+                txtIbanES(I).Text = ""
+            Next I
         End If
     End Select
 End Sub
@@ -7586,22 +7586,22 @@ End Sub
 Private Sub ValidarIBANEspanaSeparado()
 
     'Validamos el CC
-    SQL = txtIbanES(1).Text & txtIbanES(2).Text & txtIbanES(3).Text & txtIbanES(4).Text
-    If Len(SQL) <> 20 Then
+    Sql = txtIbanES(1).Text & txtIbanES(2).Text & txtIbanES(3).Text & txtIbanES(4).Text
+    If Len(Sql) <> 20 Then
         Errores = "Longitud CCC debe ser 20"
         Exit Sub
     End If
     
-    SQL = txtIbanES(1).Text & txtIbanES(2).Text & txtIbanES(4).Text
-    SQL = CodigoDeControl(SQL)
-    If SQL <> txtIbanES(3).Text Then
-        Errores = "Digitos de control  calcluado distinto del introducido : " & SQL & " --- " & txtIbanES(3).Text
+    Sql = txtIbanES(1).Text & txtIbanES(2).Text & txtIbanES(4).Text
+    Sql = CodigoDeControl(Sql)
+    If Sql <> txtIbanES(3).Text Then
+        Errores = "Digitos de control  calcluado distinto del introducido : " & Sql & " --- " & txtIbanES(3).Text
         Exit Sub
     End If
     
     'Vamos bien. Vamos a por el IBAN
-    SQL = txtIbanES(1).Text & txtIbanES(2).Text & txtIbanES(3).Text & txtIbanES(4).Text
-    If Not DevuelveIBAN2("ES", SQL, Errores) Then
+    Sql = txtIbanES(1).Text & txtIbanES(2).Text & txtIbanES(3).Text & txtIbanES(4).Text
+    If Not DevuelveIBAN2("ES", Sql, Errores) Then
         Errores = "ERROR"
         Exit Sub
     End If
@@ -7612,41 +7612,41 @@ Private Sub ValidarIBANEspanaSeparado()
     End If
     
     'LLegados aqui, iban correcto
-    SQL = txtIbanES(0).Text & txtIbanES(1).Text & txtIbanES(2).Text & txtIbanES(3).Text & txtIbanES(4).Text
-    txtIbanES(5).Text = DevuelveIBANSeparado(SQL)
+    Sql = txtIbanES(0).Text & txtIbanES(1).Text & txtIbanES(2).Text & txtIbanES(3).Text & txtIbanES(4).Text
+    txtIbanES(5).Text = DevuelveIBANSeparado(Sql)
     Errores = ""
 End Sub
 
 Private Sub ValidarIBANEspanaJunto()
     txtIbanES(5).Text = Replace(txtIbanES(5).Text, " ", "")
-    SQL = txtIbanES(5).Text
-    If Len(SQL) <> 24 Then
+    Sql = txtIbanES(5).Text
+    If Len(Sql) <> 24 Then
         Errores = "Longitud IBAN debe ser 24"
         Exit Sub
     End If
-    If Mid(SQL, 1, 2) <> "ES" Then
+    If Mid(Sql, 1, 2) <> "ES" Then
         Errores = "Debe empezar por ES"
         Exit Sub
     End If
-    SQL = Mid(SQL, 3)
-    If Not IsNumeric(SQL) Then
+    Sql = Mid(Sql, 3)
+    If Not IsNumeric(Sql) Then
         Errores = "Deben ser numeros"
         Exit Sub
     End If
     
     
     'CC
-    SQL = Mid(txtIbanES(5).Text, 5, 4) & Mid(txtIbanES(5).Text, 9, 4) & Mid(txtIbanES(5).Text, 15, 10)
-    SQL = CodigoDeControl(SQL)
-    If SQL <> Mid(txtIbanES(5).Text, 13, 2) Then
-        Errores = "Digitos de control  calculado distinto del introducido : " & SQL & " --- " & Mid(txtIbanES(5).Text, 13, 2)
+    Sql = Mid(txtIbanES(5).Text, 5, 4) & Mid(txtIbanES(5).Text, 9, 4) & Mid(txtIbanES(5).Text, 15, 10)
+    Sql = CodigoDeControl(Sql)
+    If Sql <> Mid(txtIbanES(5).Text, 13, 2) Then
+        Errores = "Digitos de control  calculado distinto del introducido : " & Sql & " --- " & Mid(txtIbanES(5).Text, 13, 2)
         Exit Sub
     End If
 
     
     
-    SQL = Mid(txtIbanES(5).Text, 5)
-    If Not DevuelveIBAN2("ES", SQL, Errores) Then
+    Sql = Mid(txtIbanES(5).Text, 5)
+    If Not DevuelveIBAN2("ES", Sql, Errores) Then
         Errores = "ERROR"
         Exit Sub
     End If
@@ -7674,11 +7674,11 @@ Dim Visi As Boolean
     
     
     
-    SQL = "Confirming vencidos"
-    If Visi Then SQL = "Cancelación remesas cuentas puente"
+    Sql = "Confirming vencidos"
+    If Visi Then Sql = "Cancelación remesas cuentas puente"
     txtFecha(2).Text = Format(Now, "dd/mm/yyyy")
     chkVarios(1).Value = 0
-    Label52(1).Caption = SQL
+    Label52(1).Caption = Sql
     Label52(1).Refresh
     cmdElimRiesgoTalPag(1).visible = Visi
     lblFecha(2).visible = Visi
@@ -7698,22 +7698,22 @@ Dim IT
     Me.ListView13.ListItems.Clear
     If TalonPagare >= 1 Then
         
-        SQL = QueRemesasMostrarEliminarRiesgoTalPag2(TalonPagare = 3)
-        If SQL = "" Then Exit Sub
-        SQL = Mid(SQL, 2)
+        Sql = QueRemesasMostrarEliminarRiesgoTalPag2(TalonPagare = 3)
+        If Sql = "" Then Exit Sub
+        Sql = Mid(Sql, 2)
         
-        SQL = " IN (" & SQL & ") ORDER BY fecremesa"
-        SQL = " from remesas,cuentas where remesas.codmacta=cuentas.codmacta and  (codigo,anyo)" & SQL
+        Sql = " IN (" & Sql & ") ORDER BY fecremesa"
+        Sql = " from remesas,cuentas where remesas.codmacta=cuentas.codmacta and  (codigo,anyo)" & Sql
         If TalonPagare = 1 Then
-            SQL = " if(tiporem=2,'Pagare','Talon'),if(situacion='Y','Elimindos','Abonado'),Descripcion,tiporem " & SQL
+            Sql = " if(tiporem=2,'Pagare','Talon'),if(situacion='Y','Elimindos','Abonado'),Descripcion,tiporem " & Sql
         Else
-            SQL = " if(tiporem=1,'Efectos','Efectos'),if(situacion='Y','Elimindos','Abonado'),Descripcion,tiporem " & SQL
+            Sql = " if(tiporem=1,'Efectos','Efectos'),if(situacion='Y','Elimindos','Abonado'),Descripcion,tiporem " & Sql
         End If
-        SQL = "select codigo,anyo,fecremesa,situacion,nommacta,importe," & SQL
+        Sql = "select codigo,anyo,fecremesa,situacion,nommacta,importe," & Sql
         
         
     
-        Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         While Not Rs.EOF
             Set IT = ListView13.ListItems.Add
             
@@ -7735,25 +7735,25 @@ Dim IT
     Else
     
         'Veremos si hay riesgo CONFIRMING
-        SQL = "select codigo,anyo,fecha,situacion,nommacta,importe,"
-        SQL = SQL & " 'Confirming',if(situacion='Y','Elimindos','Abonado'),transferencias.Descripcion,127 subtipo  "
+        Sql = "select codigo,anyo,fecha,situacion,nommacta,importe,"
+        Sql = Sql & " 'Confirming',if(situacion='Y','Elimindos','Abonado'),transferencias.Descripcion,127 subtipo  "
         
-        SQL = SQL & " FROM transferencias, bancos,cuentas WHERE transferencias.codmacta=bancos.codmacta "
-        SQL = SQL & " AND transferencias.codmacta=cuentas.codmacta and "
-        SQL = SQL & " transferencias.tipotrans = 0 and transferencias.subtipo = 2 and situacion>='Q' and situacion <'Z' "
+        Sql = Sql & " FROM transferencias, bancos,cuentas WHERE transferencias.codmacta=bancos.codmacta "
+        Sql = Sql & " AND transferencias.codmacta=cuentas.codmacta and "
+        Sql = Sql & " transferencias.tipotrans = 0 and transferencias.subtipo = 2 and situacion>='Q' and situacion <'Z' "
         
         If vParamT.ConfirmingCtaPuente Then
             'Nada
         Else
-            SQL = SQL & " and ctaconfirming<>'' "  'Solo si lleva cta confirming
-            SQL = SQL & "  AND (codigo,anyo) IN (Select distinct nrodocum,anyodocum  from pagos, bancos  where bancos.codmacta =pagos.ctabanc1"
-            SQL = SQL & "  and ctaconfirming<>'' and DATE_ADD(now() , INTERVAL coalesce(confirmingriesgo,0) DAY) >fecefect AND situacion=0 and situdocum>='Q' and situdocum <'Z' )"
+            Sql = Sql & " and ctaconfirming<>'' "  'Solo si lleva cta confirming
+            Sql = Sql & "  AND (codigo,anyo) IN (Select distinct nrodocum,anyodocum  from pagos, bancos  where bancos.codmacta =pagos.ctabanc1"
+            Sql = Sql & "  and ctaconfirming<>'' and DATE_ADD(now() , INTERVAL coalesce(confirmingriesgo,0) DAY) >fecefect AND situacion=0 and situdocum>='Q' and situdocum <'Z' )"
             
         End If
         
         
         
-        Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         While Not Rs.EOF
             Set IT = ListView13.ListItems.Add
             
@@ -7794,15 +7794,15 @@ End Sub
 Private Sub ValoresTransferencia()
     Set Rs = New ADODB.Recordset
     
-    SQL = IIf(RecuperaValor(Parametros, 3) = "1", "0", "1") '1. Es el 0 en la BD y cero es el 1 en la BD . NOOOOOOOOOOOOOOO!!!!
-    SQL = " AND tipotrans = " & SQL
-    SQL = " AND anyo = " & DBSet(RecuperaValor(Parametros, 2), "N") & SQL
-    SQL = " where codigo = " & DBSet(RecuperaValor(Parametros, 1), "N") & SQL
+    Sql = IIf(RecuperaValor(Parametros, 3) = "1", "0", "1") '1. Es el 0 en la BD y cero es el 1 en la BD . NOOOOOOOOOOOOOOO!!!!
+    Sql = " AND tipotrans = " & Sql
+    Sql = " AND anyo = " & DBSet(RecuperaValor(Parametros, 2), "N") & Sql
+    Sql = " where codigo = " & DBSet(RecuperaValor(Parametros, 1), "N") & Sql
     
-    SQL = "Select * from transferencias" & SQL
+    Sql = "Select * from transferencias" & Sql
     
     
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Rs.EOF Then
         Me.cmdGeneraTransfer(0).Enabled = False
@@ -7823,22 +7823,22 @@ End Sub
 Private Sub CargaResultadoCuentasIncrementar()
     On Error GoTo eCargaResultadoCuentasIncrementar
     
-    i = RecuperaValor(Parametros, 1)    'Cuantos ceros
+    I = RecuperaValor(Parametros, 1)    'Cuantos ceros
     J = RecuperaValor(Parametros, 2) - 1  'Posicion es donde va. Luego qitaremos lo de antes, y pondremos los ceros
-    Errores = String(i, "0")
-    SQL = "Select codmacta,nommacta from cuentas WHERE apudirec='S' and codmacta like '" & Replace(Me.cboAumento.Text, "*", "%")
-    SQL = SQL & "'  "
+    Errores = String(I, "0")
+    Sql = "Select codmacta,nommacta from cuentas WHERE apudirec='S' and codmacta like '" & Replace(Me.cboAumento.Text, "*", "%")
+    Sql = Sql & "'  "
     ListView2(2).ListItems.Clear
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NumRegElim = 0
     While Not Rs.EOF
         NumRegElim = NumRegElim + 1
         ListView2(2).ListItems.Add , , CStr(Rs!codmacta)
         'Update en codmacta
-        SQL = Mid(Rs!codmacta, 1, J) & Errores & Mid(Rs!codmacta, J + 1)
+        Sql = Mid(Rs!codmacta, 1, J) & Errores & Mid(Rs!codmacta, J + 1)
         
-        ListView2(2).ListItems(NumRegElim).SubItems(1) = SQL
+        ListView2(2).ListItems(NumRegElim).SubItems(1) = Sql
         
         ListView2(2).ListItems(NumRegElim).SubItems(2) = Rs!Nommacta
         Rs.MoveNext

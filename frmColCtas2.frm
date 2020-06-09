@@ -958,7 +958,7 @@ Private Sub Form_Activate()
         
         CargarNiveles 1
         PrimeraVez = False
-        DoEvents
+        DoEvent2
         'Vamos a ver si funciona 30 Sept 2003
         Select Case ConfigurarBalances
             Case 0, 1, 2, 5, 6
@@ -1168,7 +1168,7 @@ Dim C As String
                 BotonAnyadir C
                 If CadenaDesdeOtroForm <> "" Then
                     Me.Refresh
-                    DoEvents
+                    DoEvent2
                     Screen.MousePointer = vbHourglass
                     CadenaDesdeOtroForm = " codmacta = '" & CadenaDesdeOtroForm & "'"
                     PonerResultadosBusquedaAvanzada

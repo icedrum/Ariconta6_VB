@@ -1212,7 +1212,7 @@ Dim TolLiqIva As Currency
     End If
     
     miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    DoEvents
+    DoEvent2
     Sql = ""
     While Not miRsAux.EOF
         '

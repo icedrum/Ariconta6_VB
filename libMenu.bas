@@ -10,15 +10,17 @@ Private Const CoordX = "450,14182|2085,166|3720,189|5355,213|6990,236|8625,261|1
 Private Const CoordY = "30,04725|1665,071|3300,095|4935,118|6570,142|"
   
   
+Public RsMenusUsuarios As ADODB.Recordset
+
 
   
 Public Sub CargaMenu(aplicacion As String, ByRef Tr1 As TreeView)
-Dim Cad As String
+Dim cad As String
 Dim RN As ADODB.Recordset
 Dim N As Node
 Dim NodoPadre As String
 Dim ClaveNodo As String
-Dim SQL As String
+Dim Sql As String
 
     Set RN = New ADODB.Recordset
     
@@ -28,8 +30,8 @@ Dim SQL As String
     Tr1.Nodes.Clear
     
     
-    Cad = "Select * from menus where aplicacion = '" & aplicacion & "' ORDER BY padre,orden"
-    RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    cad = "Select * from menus where aplicacion = '" & aplicacion & "' ORDER BY padre,orden"
+    RN.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not RN.EOF
     
         If aplicacion = "introcon" Then
@@ -304,7 +306,7 @@ End Sub
 
 Private Function NodoASQL(ByRef N As Node) As String
 Dim Codigo As Long
-Dim SQL As String
+Dim Sql As String
 
     'Aux = "INSERT INTO appnuevomenus(aplicacion,codigo,padre,descripcion,orden,ocultar,imagen) VALUES " & SQL
     ' apli,
@@ -317,44 +319,44 @@ Dim SQL As String
         
     End If
     If N.Parent Is Nothing Then
-        SQL = "0"
+        Sql = "0"
     Else
-        SQL = Mid(N.Parent.Key, 3)
+        Sql = Mid(N.Parent.Key, 3)
     End If
-    SQL = Codigo & "," & SQL & ",'" & N.Text & "',"
+    Sql = Codigo & "," & Sql & ",'" & N.Text & "',"
     If N.ForeColor = vbRed Then
-        SQL = SQL & "1"
+        Sql = Sql & "1"
     Else
-        SQL = SQL & "0"
+        Sql = Sql & "0"
     End If
-    NodoASQL = SQL & ",0"
+    NodoASQL = Sql & ",0"
     
 End Function
 
 Public Sub ActualizarExpansionMenus(Usuario As Long, ByRef Tr1 As TreeView, aplicacion As String)
-Dim SQL As String
+Dim Sql As String
 Dim Sql2 As String
 Dim Sql3 As String
 Dim Rs As ADODB.Recordset
-Dim i As Long
+Dim I As Long
 
     On Error GoTo eActualizarExpansionMenus
     
     'seleccionamos todos los que sean padres
-    For i = 1 To Tr1.Nodes.Count
+    For I = 1 To Tr1.Nodes.Count
     
         Sql2 = "update menus_usuarios set expandido = "
         
-        If Tr1.Nodes(i).Expanded Then
+        If Tr1.Nodes(I).Expanded Then
             Sql3 = Sql2 & "1" 'expandido
         Else
             Sql3 = Sql2 & "0" 'no expandido
         End If
         
-        Sql3 = Sql3 & "  where codigo = " & DBSet(Mid(Tr1.Nodes(i).Key, 3, 6), "N") & " and codusu = " & DBSet(Usuario, "N") & " and aplicacion = " & DBSet(aplicacion, "T")
+        Sql3 = Sql3 & "  where codigo = " & DBSet(Mid(Tr1.Nodes(I).Key, 3, 6), "N") & " and codusu = " & DBSet(Usuario, "N") & " and aplicacion = " & DBSet(aplicacion, "T")
     
         Conn.Execute Sql3
-    Next i
+    Next I
         
         
     Exit Sub
@@ -367,27 +369,27 @@ End Sub
 
 '******  Cada vez que hace mouseup, actualiza TODOS los iconos?
 Public Sub ActualizarItems(Usuario As Long, ByRef Lv1 As ListView, aplicacion As String)
-Dim SQL As String
+Dim Sql As String
 Dim Sql2 As String
 Dim Sql3 As String
 Dim Rs As ADODB.Recordset
-Dim i As Long
+Dim I As Long
 
     On Error GoTo eActualizarItems
     
-    SQL = "update menus_usuarios set posx = 0, posy = 0 where codusu = " & Usuario & " and aplicacion = " & DBSet(aplicacion, "T") & " and "
-    SQL = SQL & " codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & ")"
+    Sql = "update menus_usuarios set posx = 0, posy = 0 where codusu = " & Usuario & " and aplicacion = " & DBSet(aplicacion, "T") & " and "
+    Sql = Sql & " codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & ")"
     
-    Conn.Execute SQL
+    Conn.Execute Sql
     
-    For i = 1 To Lv1.ListItems.Count
-        Debug.Print i & "  x,y   " & Lv1.ListItems(i).Left & ", " & Lv1.ListItems(i).top
-        SQL = "update menus_usuarios set posx = " & DBSet(Lv1.ListItems(i).Left, "N") & ", posy = " & DBSet(Lv1.ListItems(i).top, "N") & " where codusu = " & Usuario & " and aplicacion = " & DBSet(aplicacion, "T") & " and "
-        SQL = SQL & " codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & " and descripcion =  " & DBSet(Lv1.ListItems(i).Text, "T") & ")"
+    For I = 1 To Lv1.ListItems.Count
+        Debug.Print I & "  x,y   " & Lv1.ListItems(I).Left & ", " & Lv1.ListItems(I).top
+        Sql = "update menus_usuarios set posx = " & DBSet(Lv1.ListItems(I).Left, "N") & ", posy = " & DBSet(Lv1.ListItems(I).top, "N") & " where codusu = " & Usuario & " and aplicacion = " & DBSet(aplicacion, "T") & " and "
+        Sql = Sql & " codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & " and descripcion =  " & DBSet(Lv1.ListItems(I).Text, "T") & ")"
     
-        Conn.Execute SQL
+        Conn.Execute Sql
 
-    Next i
+    Next I
     
         
     Exit Sub
@@ -402,7 +404,7 @@ Dim CoordX As String
 Dim CoordY As String
 Dim X As Currency
 Dim Y As Currency
-Dim SQL As String
+Dim Sql As String
 Dim J As Integer
 
     On Error GoTo eRecolocarItems
@@ -412,35 +414,35 @@ Dim J As Integer
     CoordY = "30,04725|1665,071|3300,095|4935,118|6570,142|"
 
 
-    For i = 1 To Lv1.ListItems.Count
-        If i <= 8 Then
+    For I = 1 To Lv1.ListItems.Count
+        If I <= 8 Then
             Y = RecuperaValor(CoordY, 1)
-            J = i
-        ElseIf i <= 16 Then
+            J = I
+        ElseIf I <= 16 Then
             Y = RecuperaValor(CoordY, 2)
-            J = i - 8
-        ElseIf i <= 24 Then
+            J = I - 8
+        ElseIf I <= 24 Then
             Y = RecuperaValor(CoordY, 3)
-            J = i - 16
-        ElseIf i <= 32 Then
+            J = I - 16
+        ElseIf I <= 32 Then
             Y = RecuperaValor(CoordY, 4)
-            J = i - 32
+            J = I - 32
         End If
         
         X = RecuperaValor(CoordX, J)
             
-        Lv1.ListItems(i).Left = X
-        Lv1.ListItems(i).top = Y
+        Lv1.ListItems(I).Left = X
+        Lv1.ListItems(I).top = Y
             
             
-        Debug.Print i & "  x,y   " & Lv1.ListItems(i).Left & ", " & Lv1.ListItems(i).top
+        Debug.Print I & "  x,y   " & Lv1.ListItems(I).Left & ", " & Lv1.ListItems(I).top
         
-        SQL = "update menus_usuarios set posx = " & DBSet(X, "N") & ", posy = " & DBSet(Y, "N") & " where codusu = " & vUsu.Id & " and aplicacion = " & DBSet(aplicacion, "T") & " and "
-        SQL = SQL & " codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & " and descripcion =  " & DBSet(Lv1.ListItems(i).Text, "T") & ")"
+        Sql = "update menus_usuarios set posx = " & DBSet(X, "N") & ", posy = " & DBSet(Y, "N") & " where codusu = " & vUsu.Id & " and aplicacion = " & DBSet(aplicacion, "T") & " and "
+        Sql = Sql & " codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & " and descripcion =  " & DBSet(Lv1.ListItems(I).Text, "T") & ")"
     
-        Conn.Execute SQL
+        Conn.Execute Sql
 
-    Next i
+    Next I
 
 
     Exit Sub
@@ -457,8 +459,8 @@ Public Sub DevuelCoordenadasCuadricula(ColX As Integer, ColY As Integer, ByRef P
 End Sub
 
 Public Sub ActualizarItemCuadricula(Usuario As Long, ByRef Lv1 As ListView, aplicacion As String, X As Single, Y As Single, ByRef VolverACargarLw As Boolean)
-Dim SQL As String
-Dim i As Integer
+Dim Sql As String
+Dim I As Integer
 Dim Valor As Currency
 
     On Error GoTo eActualizarItems
@@ -475,14 +477,14 @@ Dim Valor As Currency
             Lv1.SelectedItem.Left = Valor
             If X < 0 Then VolverACargarLw = True
         Else
-            For i = 2 To 8
-                Valor = RecuperaValor(CoordX, i)
+            For I = 2 To 8
+                Valor = RecuperaValor(CoordX, I)
                 If X <= Valor + 817 Then
                     Lv1.SelectedItem.Left = Valor
                     Exit For
                 Else
                     'Es la utlima. No puede ir a mas
-                    If i = 8 Then Lv1.SelectedItem.Left = Valor
+                    If I = 8 Then Lv1.SelectedItem.Left = Valor
                 End If
             Next
         End If
@@ -492,25 +494,25 @@ Dim Valor As Currency
             Lv1.SelectedItem.top = Valor
             If Y < 0 Then VolverACargarLw = True
         Else
-            For i = 1 To 5
-            Valor = RecuperaValor(CoordY, i)
+            For I = 1 To 5
+            Valor = RecuperaValor(CoordY, I)
                 If Y <= Valor + 817 Then
                     Lv1.SelectedItem.top = Valor
                     Exit For
                 Else
                     'Es la utlima. No puede ir a mas
-                    If i = 5 Then Lv1.SelectedItem.top = Valor
+                    If I = 5 Then Lv1.SelectedItem.top = Valor
                 End If
             Next
         End If
         
-        SQL = "select count(*) from menus_usuarios where posx = " & DBSet(Lv1.SelectedItem.Left, "N") & " and posy = " & DBSet(Lv1.SelectedItem.top, "N") & " and  codusu = " & Usuario & " and aplicacion = 'ariconta'  and "
-        SQL = SQL & " codigo in (select codigo from menus where aplicacion = 'ariconta')"
-        If TotalRegistros(SQL) = 0 Then
-            SQL = "update menus_usuarios set posx = " & DBSet(Lv1.SelectedItem.Left, "N") & ", posy = " & DBSet(Lv1.SelectedItem.top, "N") & " where codusu = " & Usuario & " and aplicacion = " & DBSet(aplicacion, "T") & " and "
-            SQL = SQL & " codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & " and descripcion =  " & DBSet(Lv1.SelectedItem, "T") & ")"
+        Sql = "select count(*) from menus_usuarios where posx = " & DBSet(Lv1.SelectedItem.Left, "N") & " and posy = " & DBSet(Lv1.SelectedItem.top, "N") & " and  codusu = " & Usuario & " and aplicacion = 'ariconta'  and "
+        Sql = Sql & " codigo in (select codigo from menus where aplicacion = 'ariconta')"
+        If TotalRegistros(Sql) = 0 Then
+            Sql = "update menus_usuarios set posx = " & DBSet(Lv1.SelectedItem.Left, "N") & ", posy = " & DBSet(Lv1.SelectedItem.top, "N") & " where codusu = " & Usuario & " and aplicacion = " & DBSet(aplicacion, "T") & " and "
+            Sql = Sql & " codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & " and descripcion =  " & DBSet(Lv1.SelectedItem, "T") & ")"
         
-            Conn.Execute SQL
+            Conn.Execute Sql
         Else
         
 ' no hace falta actualizarlo es donde estaba
@@ -535,26 +537,58 @@ End Sub
 
 
 Public Function MenuVisibleUsuario(Proceso As Long, aplicacion As String) As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Excepcion As String
 
-
-    SQL = "select ver from menus_usuarios where codigo = " & DBSet(Proceso, "N") & " and aplicacion = " & DBSet(aplicacion, "T")
-    SQL = SQL & " and codusu = " & DBSet(vUsu.Id, "N")
+    
+    Sql = "select ver from menus_usuarios where codigo = " & DBSet(Proceso, "N") & " and aplicacion = " & DBSet(aplicacion, "T")
+    Sql = Sql & " and codusu = " & DBSet(vUsu.Id, "N")
     
     If Not vEmpresa.TieneTesoreria Then
-        SQL = SQL & " and not codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & " and tipo = 1)"
+        Sql = Sql & " and not codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & " and tipo = 1)"
     End If
      
     If Not vEmpresa.TieneContabilidad Then
-        SQL = SQL & " and not codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & " and tipo = 0"
+        Sql = Sql & " and not codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & " and tipo = 0"
         'El 2 debe mostrarse ya que son datos generales, y necestiamos ver Cuentas y bancos
-        SQL = SQL & " and codigo <>2)"
+        Sql = Sql & " and codigo <>2)"
     End If
     
-    MenuVisibleUsuario = (DevuelveValor(SQL) = 1)
+    MenuVisibleUsuario = (DevuelveValor(Sql) = 1)
 
 End Function
+
+'David
+' Junio 2020
+'  No quiero ir 600 veces a la BD , quiero ir una y traerlo
+Public Function MenuVisibleUsuarioPRE(Proceso As Long, aplicacion As String) As Boolean
+
+Dim N As Long
+
+    
+'    Sql = "select ver from menus_usuarios where codigo = " & DBSet(Proceso, "N") & " and aplicacion = " & DBSet(aplicacion, "T")
+'    Sql = Sql & " and codusu = " & DBSet(vUsu.Id, "N")
+    RsMenusUsuarios.Find "codigo = " & Proceso, , adSearchForward, 1
+    N = -1
+    If Not RsMenusUsuarios.EOF Then
+        If DBLet(RsMenusUsuarios.Fields(1), "N") = 1 Then N = 1
+    End If
+    'If Not vEmpresa.TieneTesoreria Then
+    '    Sql = Sql & " and not codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & " and tipo = 1)"
+    'End If
+     
+    'If Not vEmpresa.TieneContabilidad Then
+    '    Sql = Sql & " and not codigo in (select codigo from menus where aplicacion = " & DBSet(aplicacion, "T") & " and tipo = 0"
+        'El 2 debe mostrarse ya que son datos generales, y necestiamos ver Cuentas y bancos
+   '     Sql = Sql & " and codigo <>2)"
+   ' End If
+    
+    MenuVisibleUsuarioPRE = N = 1
+
+End Function
+
+
+
 
 Public Function BloqueaPuntoMenu(IdProg As Long, aplicacion As String) As Boolean
 Dim EsdeAnalitica As Boolean

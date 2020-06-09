@@ -1807,7 +1807,7 @@ On Error GoTo eCargaLw
     Next
     
     
-    DoEvents
+    DoEvent2
     Me.ListView5.ListItems.Clear
     Set miRsAux = New ADODB.Recordset
     
@@ -2012,7 +2012,7 @@ Dim LineaApu As Integer
             End If
             If (N Mod 10) = 0 Then
                 Me.Refresh
-                DoEvents
+                DoEvent2
                 Screen.MousePointer = vbHourglass
             End If
             

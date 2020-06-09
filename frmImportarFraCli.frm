@@ -950,7 +950,7 @@ End Sub
 
 Private Function ImportarFichFracli() As Byte
 Dim Aux As String
-
+Dim K As Integer
 
 
     On Error GoTo eImportarFicheroFracli
@@ -998,9 +998,14 @@ Dim Aux As String
             
             strArray = Split(cad, ";")
             
-            If UBound(strArray) = NumeroCamposTratarFraCli - 1 Then
-                'Falta el ultimo punto y coma
+            
+            K = UBound(strArray) - (NumeroCamposTratarFraCli - 1)
+            'If UBound(strArray) = NumeroCamposTratarFraCli - 1 Then
+            
+            If K = 0 Or K = -1 Then
+                'Falta el ultimo, o los dos ul punto y coma
                 cad = cad & ";"
+                If K = -1 Then cad = cad & ";"
                 strArray = Split(cad, ";")
             End If
             
@@ -4841,7 +4846,7 @@ Dim paraDoEvents As Byte
         PonerLabel miRsAux!txtcsb
         If paraDoEvents > 110 Then
             paraDoEvents = 0
-            DoEvents
+            DoEvent2
         End If
         miRsAux.MoveNext
         

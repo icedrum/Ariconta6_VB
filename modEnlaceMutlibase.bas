@@ -1,8 +1,8 @@
 Attribute VB_Name = "modEnlaceMutlibase"
 Private Cnn As Connection
 
-Private Cad As String
-Private RS As ADODB.Recordset
+Private cad As String
+Private Rs As ADODB.Recordset
 
 
 Private Function AbreConexionMultibase() As Boolean
@@ -11,32 +11,32 @@ Private Function AbreConexionMultibase() As Boolean
     AbreConexionMultibase = False
     
     
-    Cad = "Provider=MSDASQL.1;Persist Security Info=False;Data Source=" & vParam.EnlazaCtasMultibase
+    cad = "Provider=MSDASQL.1;Persist Security Info=False;Data Source=" & vParam.EnlazaCtasMultibase
     Set Cnn = New Connection
     
-    Cnn.Open Cad
+    Cnn.Open cad
     
     AbreConexionMultibase = True
     Exit Function
 EAbreConexionMultibase:
-    SQL = "Abrir conexión multibase" & vbCrLf & vbCrLf
-    SQL = SQL & "ODBC: " & vParam.EnlazaCtasMultibase & vbCrLf
-    SQL = SQL & Err.Description
-    SQL = SQL & vbCrLf & vbCrLf & vbCrLf
-    SQL = SQL & "¿Intentar enlazar con " & vParam.EnlazaCtasMultibase & " durante esta sesion?"
+    Sql = "Abrir conexión multibase" & vbCrLf & vbCrLf
+    Sql = Sql & "ODBC: " & vParam.EnlazaCtasMultibase & vbCrLf
+    Sql = Sql & Err.Description
+    Sql = Sql & vbCrLf & vbCrLf & vbCrLf
+    Sql = Sql & "¿Intentar enlazar con " & vParam.EnlazaCtasMultibase & " durante esta sesion?"
     
-    If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then vParam.EnlazaCtasMultibase = ""
+    If MsgBox(Sql, vbQuestion + vbYesNoCancel) <> vbYes Then vParam.EnlazaCtasMultibase = ""
     
     
     
     Set Cnn = Nothing
-    Cad = ""
+    cad = ""
     
 End Function
 
 
 Public Sub HacerEnlaceMultibase(Opcion As Byte, Datos As String)
-    DoEvents
+    DoEvent2
     espera 0.2
     If Not AbreConexionMultibase Then Exit Sub
     
@@ -63,22 +63,22 @@ Dim Existe As Boolean
 
     On Error GoTo EInsertaCuentaMultibase
     
-    Set RS = New ADODB.Recordset
-    Cad = "Select * from smacta where codmacta ='" & RecuperaValor(Datos, 1) & "'"
+    Set Rs = New ADODB.Recordset
+    cad = "Select * from smacta where codmacta ='" & RecuperaValor(Datos, 1) & "'"
     
-    RS.Open Cad, Cnn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Cnn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Existe = False
-    If Not RS.EOF Then Existe = True
-    RS.Close
-    Set RS = Nothing
+    If Not Rs.EOF Then Existe = True
+    Rs.Close
+    Set Rs = Nothing
     
     
     If Existe Then Exit Sub
         
     'NO EXISTE. La creo
-    Cad = "INSERT INTO smacta (codmacta,nommacta,apudirec) VALUES (""" & RecuperaValor(Datos, 1)
-    Cad = Cad & """,""" & RecuperaValor(Datos, 2) & """,""S"")"
-    Cnn.Execute Cad
+    cad = "INSERT INTO smacta (codmacta,nommacta,apudirec) VALUES (""" & RecuperaValor(Datos, 1)
+    cad = cad & """,""" & RecuperaValor(Datos, 2) & """,""S"")"
+    Cnn.Execute cad
     Exit Sub
 EInsertaCuentaMultibase:
     MsgBox "Creando cta. multibase" & vbCrLf & Err.Description, vbExclamation
@@ -92,10 +92,10 @@ Private Sub UpdateaCuentaMultibase(Datos As String)
     InsertaCuentaMultibase Datos
     
     'NO EXISTE. La creo
-    Cad = "UPDATE smacta SET nommacta = """ & RecuperaValor(Datos, 2) & """ WHERE"
-    Cad = Cad & " codmacta= """ & RecuperaValor(Datos, 1) & """"
+    cad = "UPDATE smacta SET nommacta = """ & RecuperaValor(Datos, 2) & """ WHERE"
+    cad = cad & " codmacta= """ & RecuperaValor(Datos, 1) & """"
     
-    Cnn.Execute Cad
+    Cnn.Execute cad
     Exit Sub
 EUpdateaCuentaMultibase:
     MsgBox "Update: cta. multibase" & vbCrLf & Err.Description, vbExclamation

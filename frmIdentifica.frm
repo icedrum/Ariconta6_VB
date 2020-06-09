@@ -352,11 +352,11 @@ Private Sub Form_Load()
     PrimeraVez = True
     CargaImagen
     Me.BackColor = vbWhite
-    i = 9705
-    If Screen.TwipsPerPixelX = 12 Then i = 7715
+    I = 9705
+    If Screen.TwipsPerPixelX = 12 Then I = 7715
         
     Me.Height = 5625 '5535
-    Me.Width = i ' 7935
+    Me.Width = I ' 7935
     
     
 '    '?????????????? QUITAR ESTO
@@ -479,7 +479,7 @@ End Sub
 
 
 Private Sub UsuarioCorrecto()
-Dim SQL As String
+Dim Sql As String
 Dim PrimeraBD As String
 Dim EmpreProhibid As String
 
@@ -522,10 +522,10 @@ Dim EmpreProhibid As String
 
         ' antes de cerrar la conexion cojo de usuarios.empresasariconta la primera que encuentre
         ' que no este bloqueada
-        SQL = "select min(codempre) from usuarios.empresasariconta  "
-        SQL = SQL & " WHERE not codempre in (select codempre from usuarios.usuarioempresasariconta where codusu =" & vUsu.Id & ")"
+        Sql = "select min(codempre) from usuarios.empresasariconta  "
+        Sql = Sql & " WHERE not codempre in (select codempre from usuarios.usuarioempresasariconta where codusu =" & vUsu.Id & ")"
         
-        PrimeraBD = DevuelveValor(SQL)
+        PrimeraBD = DevuelveValor(Sql)
 
 
         'Cerramos la conexion
@@ -534,9 +534,9 @@ Dim EmpreProhibid As String
             
                'Veo si la empresa prohibida es esta
        If EmpreProhibid <> "" Then
-            SQL = Trim(Replace(CadenaDesdeOtroForm, "ariconta", ""))
-            SQL = "|" & SQL & "|"
-            If InStr(1, EmpreProhibid, SQL) > 0 Then
+            Sql = Trim(Replace(CadenaDesdeOtroForm, "ariconta", ""))
+            Sql = "|" & Sql & "|"
+            If InStr(1, EmpreProhibid, Sql) > 0 Then
                 'Empresa entre las prohibidas. BUscamois otra
                 If PrimeraBD = 0 Then
                     MsgBox "NO teiene acceso a empresas del sistema", vbCritical
@@ -583,17 +583,20 @@ End Sub
 
 
 Private Sub HacerAccionesBD()
-Dim SQL As String
+Dim Sql As String
     
     T1 = Timer
     
     'Limpiamos datos blanace
     CadenaDesdeOtroForm = " WHERE codusu = " & vUsu.Codigo
+    
     Conn.Execute "Delete from zbloqueos " & CadenaDesdeOtroForm
     Conn.Execute "Delete from tmpconextcab " & CadenaDesdeOtroForm
     Conn.Execute "Delete from tmpactualizar " & CadenaDesdeOtroForm
     Conn.Execute "Delete from tmptesoreriacomun  " & CadenaDesdeOtroForm
 
+    
+    NoLeasCalendar = False 'Si es true NO lo lee, se lo salta
     CarpetasDeAriconta
     
     CadenaDesdeOtroForm = ""
@@ -602,7 +605,7 @@ Dim SQL As String
     T1 = Timer - T1
     If T1 < 1 Then espera 0.2
     
-    DoEvents
+  '  DoEvents
     espera 0.2
 End Sub
 

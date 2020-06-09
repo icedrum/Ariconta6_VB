@@ -198,7 +198,7 @@ On Error GoTo eProcesaFicheroClientes
                 Lb.Tag = Val(Lb.Tag) + Val(T1)
                 T1 = Timer
                 Screen.MousePointer = vbHourglass
-                DoEvents
+                DoEvent2
             End If
             Lb.Caption = "Leyendo facturas fich. " & Lb.Tag & "s " & NumDeFactu
             Lb.Refresh
@@ -792,7 +792,7 @@ Dim CtaReten As String
                 InsTotales = InsTotales & cad
                  NumLiena2 = NumLiena2 + 1
                 
-                'Stop
+                '
                 TotalFac = TotalAprox
             End If
             INsFactura = Replace(INsFactura, "#BASES#", TransformaComasPuntos(CStr(Tbases)))
@@ -1059,7 +1059,7 @@ Dim CtaReten As String
                     '                                                           base      ret           iva      recar          suplidos     total
                     InsrListadoFacturasFichero = InsrListadoFacturasFichero & " #BASES# , #BASESRET# ,#totivas# ,#totrecargo# , #suplidos# , #totfaccl# , " & NA & ")"
                 Else
-                    'Stop
+                    '
                 End If
             Else
                 'BASES
@@ -1491,7 +1491,7 @@ Dim CadenaInserPorsiSuplidos As String
                 InsTotales = InsTotales & cad
                  NumLiena2 = NumLiena2 + 1
                 
-                'Stop
+                '
                 TotalFac = TotalAprox
             End If
             INsFactura = Replace(INsFactura, "#BASES#", TransformaComasPuntos(CStr(Tbases)))
@@ -1683,7 +1683,7 @@ Dim CadenaInserPorsiSuplidos As String
                     '                                                           base      ret           iva      recar          suplidos     total
                     InsrListadoFacturasFichero = InsrListadoFacturasFichero & " #BASES# , #BASESRET# ,#totivas# ,#totrecargo# , #suplidos# , #totfaccl# , " & NA & ")"
                 Else
-                    'Stop
+                    '
                 End If
             Else
                 'BASES

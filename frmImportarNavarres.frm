@@ -939,7 +939,7 @@ End Sub
 Private Sub Form_Activate()
     
     If ListView1(0).ListItems.Count = 0 Then
-        DoEvents
+        DoEvent2
         
         Screen.MousePointer = vbHourglass
         CargaCentros
@@ -1636,28 +1636,72 @@ Dim Fin As Boolean
             '                       _________
             'LO que habia. Facturas  CENTRAL
             'articulo,area,seccion,subseccion,grupo,subgrupo
-            Sql = Sql & "'" & Mid(Linea, 56, 8) & "','" & Mid(Linea, 64, 2) & "','" & Mid(Linea, 66, 2) & "','"
-            Sql = Sql & Mid(Linea, 68, 2) & "','" & Mid(Linea, 70, 2) & "','" & Mid(Linea, 72, 2) & "','"
             
             
-            'cajaformser,cajaformserDec,udformato  -> de ahi extraeremos las unidades
-            'If Mid(Linea, 80, 3) <> "000" Then S top
-            Sql = Sql & Mid(Linea, 74, 6) & "','" & Mid(Linea, 80, 3) & "','" & Mid(Linea, 82, 6) & "','"
-            
-            'precioventa,importeventa,precosteud,
-            Sql = Sql & Mid(Linea, 88, 8) & "','" & Mid(Linea, 96, 10) & "','" & Mid(Linea, 106, 9) & "','"
-            
-            
-            'imporcoste,porceniva,porcenrecequiv
-            Sql = Sql & Mid(Linea, 115, 11) & "','" & Mid(Linea, 126, 4) & "','" & Mid(Linea, 130, 4) & "','"
-            
-            'precosteiva1   impcosteiva ,signo
-            Sql = Sql & Mid(Linea, 134, 11) & "','" & Mid(Linea, 145, 11) & "','" & Mid(Linea, 205, 1)
-            
-                        
-            OtraCadena2 = ""
-            Sql = Sql & "','" & OtraCadena2 & "',null)"
-        
+            If Mid(Linea, 15, 2) = "04" Then  'modificacioni
+                'Totales
+                'Linea de totales. NO lo trato
+                LineaVacia = True
+                
+            Else
+                If Mid(Linea, 15, 2) = "XX" Then 'Junio2020   Debiera entra aqui si fuera linea a linea. Ahora va con totales. Linea a liena seria "02"
+                    Sql = Sql & "'" & Mid(Linea, 56, 8) & "','" & Mid(Linea, 64, 2) & "','" & Mid(Linea, 66, 2) & "','"
+                    Sql = Sql & Mid(Linea, 68, 2) & "','" & Mid(Linea, 70, 2) & "','" & Mid(Linea, 72, 2) & "','"
+                    
+                    
+                    'cajaformser,cajaformserDec,udformato  -> de ahi extraeremos las unidades
+                    'If Mid(Linea, 80, 3) <> "000" Then S top
+                    Sql = Sql & Mid(Linea, 74, 6) & "','" & Mid(Linea, 80, 3) & "','" & Mid(Linea, 82, 6) & "','"
+                    
+                    'precioventa,importeventa,precosteud,
+                    Sql = Sql & Mid(Linea, 88, 8) & "','" & Mid(Linea, 96, 10) & "','" & Mid(Linea, 106, 9) & "','"
+                    
+                    
+                    'imporcoste,porceniva,porcenrecequiv
+                    Sql = Sql & Mid(Linea, 115, 11) & "','" & Mid(Linea, 126, 4) & "','" & Mid(Linea, 130, 4) & "','"
+                    
+                    'precosteiva1   impcosteiva ,signo
+                    Sql = Sql & Mid(Linea, 134, 11) & "','" & Mid(Linea, 145, 11) & "','" & Mid(Linea, 205, 1)
+                    
+                                
+                    OtraCadena2 = ""
+                    Sql = Sql & "','" & OtraCadena2 & "',null)"
+                ElseIf Mid(Linea, 15, 2) = "03" Then
+                    'Total por seccion   Junio2020
+                          
+                    'articulo,area,seccion,subseccion,grupo,subgrupo
+                    Sql = Sql & "'AD','ARE','" & Mid(Linea, 17, 2) & "',0,0,0,"
+                    
+                    
+                    'cajaformser,cajaformserDec,udformato  -> de ahi extraeremos las unidades
+                    Sql = Sql & "1,0,1,"
+                    
+                    'precioventa,importeventa,precosteud,
+                    
+                    OtraCadena2 = Mid(Linea, 106, 11) 'deberia ser este, pero como tiene 8 de longitud
+                    'deberia ser este, pero como tiene 8 de longitud y solo necesito 2 decimales
+                    '00000167790  de aqui son 167.79
+                    OtraCadena2 = Mid(Linea, 108, 8)
+                    
+                    Sql = Sql & "'" & OtraCadena2 & "',0,0,"
+                    
+                    'imporcoste,porceniva,porcenrecequiv
+                    'IVa coje 4 decimales. Quitamos el primero. Empezaria en 79
+                    Sql = Sql & "0,'" & Mid(Linea, 80, 4) & "',0,"
+                    
+                    'precosteiva1   impcosteiva ,signo
+                    Sql = Sql & "0,'" & Mid(Linea, 143, 11) & "','" & Mid(Linea, 155, 1) & "'"
+                    
+                    'unidades,observaciones
+                    OtraCadena2 = ""
+                    Sql = Sql & ",1," & DBSet(OtraCadena2, "T") & ")"
+                    
+                    
+                Else
+                    LineaVacia = True
+                    Sql = ""
+                End If
+            End If
         Case 1
             '          ______________
             'Facturas  ADMINISTRACION
@@ -1778,6 +1822,20 @@ Dim Fin As Boolean
         espera 0.5
         Conn.Execute UpdateCampos
     End If
+    
+    
+    
+    If jj > 0 Then
+        If TipoFichero = 0 Then
+            'El secuecnial debe emezar en uno
+            Sql = DevuelveDesdeBD("Min(secuencial)", "importnavtmp", "1", "1")
+            Sql = Val(Sql) - 1
+            Sql = "UPDATE importnavtmp set secuencial=secuencial - " & Sql
+            Conn.Execute Sql
+            espera 0.2
+        End If
+    End If
+    
     
     If jj > 0 Then
         ProcesarFichero = True
@@ -1964,7 +2022,7 @@ Dim LinDebug As String
        ImprimeLinea = False
        LinDebug = ""
         
-       If miRsAux!seccion = 16 Then
+       If miRsAux!seccion = 15 Then
              
             ImprimeLinea = True
         End If
@@ -2013,34 +2071,74 @@ Dim LinDebug As String
         ImprimeLineaDebug LinDebug, Base, 8
         
         
-        If TipoFichero <> 1 Then
+        If TipoFichero = 0 Then
         
-            Base = Round(((Base / Unidades) / (1 + IVA)) * Unidades, 3)
-            
-            'Debug. Im`porte coste:
-            ImprimeLineaDebug LinDebug, Base, 8 'PVP sin iva
-            ImprimeLineaDebug LinDebug, IVA * 100, 10
-            
-            'BaseImponible = Base * Unidades
-            BaseImponible = Round2(Base * Unidades, 2)
-            ImprimeLineaDebug LinDebug, BaseImponible, 8
         
-            'Intermedio = Base - PreCoste
-            'Intermedio = BaseImponible - PreCoste
-            Intermedio = Round2(BaseImponible - PreCoste, 2)
+            If True Then
+                'modificacion del 02 Junio
             
-            ImprimeLineaDebug LinDebug, Intermedio, 8
+                Intermedio = 0
+                Margen = 0
+                PreCoste = Base * IIf(miRsAux!SIGNO = "-", -1, 1)
+            Else
+''                'Antes
+''                Base = Round(((Base / Unidades) / (1 + IVA)) * Unidades, 3)
+''
+''                'Debug. Im`porte coste:
+''                ImprimeLineaDebug LinDebug, Base, 8 'PVP sin iva
+''                ImprimeLineaDebug LinDebug, IVA * 100, 10
+''
+''                'BaseImponible = Base * Unidades
+''                BaseImponible = Round2(Base * Unidades, 2)
+''                ImprimeLineaDebug LinDebug, BaseImponible, 8
+''
+''                'Intermedio = Base - PreCoste
+''                'Intermedio = BaseImponible - PreCoste
+''                Intermedio = Round2(BaseImponible - PreCoste, 2)
+''
+''                ImprimeLineaDebug LinDebug, Intermedio, 8
+''
+''
+''                Margen = (Intermedio * PorcenFranquicia)
+''                ImprimeLineaDebug LinDebug, Margen, 8
+''
+''                Margen = Intermedio - Margen
+''                ImprimeLineaDebug LinDebug, Margen, 8  'margen burot
+''
+''
+            End If
             
             
-            Margen = (Intermedio * PorcenFranquicia)
-            ImprimeLineaDebug LinDebug, Margen, 8
-            
-            Margen = Intermedio - Margen
-            ImprimeLineaDebug LinDebug, Margen, 8  'margen burot
-        Else
+        ElseIf TipoFichero = 1 Then
             Intermedio = 0
             Margen = 0
             PreCoste = Base
+            
+            
+        ElseIf TipoFichero = 2 Then
+            'Autoventas
+            Base = Round(((Base / Unidades) / (1 + IVA)) * Unidades, 3)
+
+            'Debug. Im`porte coste:
+            ImprimeLineaDebug LinDebug, Base, 8 'PVP sin iva
+            ImprimeLineaDebug LinDebug, IVA * 100, 10
+    
+            'BaseImponible = Base * Unidades
+            BaseImponible = Round2(Base * Unidades, 2)
+            ImprimeLineaDebug LinDebug, BaseImponible, 8
+    
+            'Intermedio = Base - PreCoste
+            'Intermedio = BaseImponible - PreCoste
+            Intermedio = Round2(BaseImponible - PreCoste, 2)
+    
+            ImprimeLineaDebug LinDebug, Intermedio, 8
+    
+    
+            Margen = (Intermedio * PorcenFranquicia)
+            ImprimeLineaDebug LinDebug, Margen, 8
+    
+            Margen = Intermedio - Margen
+            ImprimeLineaDebug LinDebug, Margen, 8  'margen burot
             
         End If
         'Base = Round(PreCoste + (Intermedio * PorcenFranquicia), 2)

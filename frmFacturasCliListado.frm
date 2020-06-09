@@ -1253,6 +1253,7 @@ End Sub
 
 
 Private Sub cmdAccion_Click(Index As Integer)
+Dim B As Boolean
 
     If Not DatosOK Then Exit Sub
     
@@ -1272,10 +1273,17 @@ Private Sub cmdAccion_Click(Index As Integer)
     tabla = "(" & tabla & ") inner join usuarios.wtipopera aa on factcli.codopera = aa.codigo "
     
     
+    B = True
+    Screen.MousePointer = vbHourglass
+    If Not MontaSQL Then B = False
+    If B Then
+        If Not HayRegParaInforme(tabla, cadselect) Then B = False
+    End If
+    If Not B Then
+        Screen.MousePointer = vbDefault
+        Exit Sub
+    End If
     
-    If Not MontaSQL Then Exit Sub
-    
-    If Not HayRegParaInforme(tabla, cadselect) Then Exit Sub
     
     If optTipoSal(1).Value Then
         'EXPORTAR A CSV
@@ -1291,7 +1299,7 @@ Private Sub cmdAccion_Click(Index As Integer)
         End If
         SoloImprimir = False
         If Index = 0 Then SoloImprimir = True 'ha pulsado impirmir
-        
+        Screen.MousePointer = vbHourglass
         AccionesCrystal
     End If
     

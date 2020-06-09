@@ -901,10 +901,10 @@ Private WithEvents frmCon  As frmConceptos
 Attribute frmCon.VB_VarHelpID = -1
 Private frmCtas As frmCtasAgrupadas
 
-Private SQL As String
-Dim Cad As String
+Private Sql As String
+Dim cad As String
 Dim RC As String
-Dim i As Integer
+Dim I As Integer
 Dim IndCodigo As Integer
 Dim PrimeraVez As String
 Dim Rs As ADODB.Recordset
@@ -941,9 +941,9 @@ End Sub
 
 Private Sub ChkEvolSaldo_Click(Index As Integer)
     If ChkEvolSaldo(Index).Value = 1 Then
-        For i = 1 To 10
-            If i <> Index Then ChkEvolSaldo(i).Value = 0
-        Next i
+        For I = 1 To 10
+            If I <> Index Then ChkEvolSaldo(I).Value = 0
+        Next I
     End If
 
 End Sub
@@ -1003,18 +1003,18 @@ Dim B As Boolean
     
     
     Screen.MousePointer = vbHourglass
-    SQL = "DELETE FROM tmpconextcab where codusu =" & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "DELETE FROM tmpconextcab where codusu =" & vUsu.Codigo
+    Conn.Execute Sql
     
-    SQL = "DELETE FROM tmpconext where codusu =" & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "DELETE FROM tmpconext where codusu =" & vUsu.Codigo
+    Conn.Execute Sql
     
-    SQL = "DELETE FROM tmpevolsal where codusu =" & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "DELETE FROM tmpevolsal where codusu =" & vUsu.Codigo
+    Conn.Execute Sql
     
     
     
-    DoEvents 'Para que no bloquee la pantalla
+    DoEvent2 'Para que no bloquee la pantalla
     Label2(29).Caption = "Leyendo datos BD"
     Label2(29).Refresh
     B = ListadoEvolucionMensual
@@ -1073,9 +1073,9 @@ Private Sub Form_Load()
     'Otras opciones
     Me.Caption = "Evolución de Saldos"
 
-    For i = 6 To 7
-        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 6 To 7
+        Me.imgCuentas(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
     
     PrimeraVez = True
      
@@ -1194,7 +1194,7 @@ End Sub
 
 
 Private Sub txtCta_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim RC As String
 Dim Hasta As Integer
 
@@ -1223,11 +1223,11 @@ Dim Hasta As Integer
         Case 6, 7 'Cuentas
             
             RC = txtCta(Index).Text
-            If CuentaCorrectaUltimoNivelSIN(RC, SQL) Then
+            If CuentaCorrectaUltimoNivelSIN(RC, Sql) Then
                 txtCta(Index) = RC
-                txtNCta(Index).Text = SQL
+                txtNCta(Index).Text = Sql
             Else
-                MsgBox SQL, vbExclamation
+                MsgBox Sql, vbExclamation
                 txtCta(Index).Text = ""
                 txtNCta(Index).Text = ""
                 PonFoco txtCta(Index)
@@ -1251,22 +1251,22 @@ Dim F As Date
     
 
 
-    SQL = "SELECT `tmpevolsal`.`codmacta` cuenta, `tmpevolsal`.`nommacta` nombre , `tmpevolsal`.`apertura` "
+    Sql = "SELECT `tmpevolsal`.`codmacta` cuenta, `tmpevolsal`.`nommacta` nombre , `tmpevolsal`.`apertura` "
     '`tmpevolsal`.`importemes1`, `tmpevolsal`.`importemes2`, `tmpevolsal`.`importemes3`, `tmpevolsal`.`importemes4`, `tmpevolsal`.`importemes5`, `tmpevolsal`.`importemes6`, `tmpevolsal`.`importemes7`, `tmpevolsal`.`importemes8`, `tmpevolsal`.`importemes9`, `tmpevolsal`.`importemes10`, `tmpevolsal`.`importemes11`, `tmpevolsal`.`importemes12`"
     RC = cmbEjercicios(0).List(cmbEjercicios(0).ListIndex)
     RC = Trim(Mid(RC, 1, InStr(1, RC, "-") - 1))
     F = CDate(RC)
-    For i = 1 To 12
-        Cad = UCase(Format(F, "mmm- yy"))
-        SQL = SQL & ", tmpevolsal.importemes" & i & " as '" & Cad & "'"
+    For I = 1 To 12
+        cad = UCase(Format(F, "mmm- yy"))
+        Sql = Sql & ", tmpevolsal.importemes" & I & " as '" & cad & "'"
         F = DateAdd("m", 1, F)
     Next
     
-    SQL = SQL & " FROM   `tmpevolsal` `tmpevolsal` where codusu =" & vUsu.Codigo
+    Sql = Sql & " FROM   `tmpevolsal` `tmpevolsal` where codusu =" & vUsu.Codigo
 
         
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1394,14 +1394,14 @@ Private Function DatosOK() As Boolean
     
     DatosOK = False
     
-    SQL = ""
-    For i = 1 To 10
-        If Me.ChkEvolSaldo(i).visible Then
-            If Me.ChkEvolSaldo(i).Value = 1 Then SQL = SQL & "1"
+    Sql = ""
+    For I = 1 To 10
+        If Me.ChkEvolSaldo(I).visible Then
+            If Me.ChkEvolSaldo(I).Value = 1 Then Sql = Sql & "1"
         End If
-    Next i
+    Next I
     
-    If Len(SQL) <> 1 Then
+    If Len(Sql) <> 1 Then
         MsgBox "Eliga un nivel (y solo uno) para el listado de  evolución mesual de saldos", vbExclamation
         Exit Function
     End If
@@ -1487,23 +1487,23 @@ Dim C As String
 End Function
 
 Private Sub PonerNiveles()
-Dim i As Integer
+Dim I As Integer
 Dim J As Integer
 
 
     Frame2.visible = True
     ChkEvolSaldo(10).visible = True
-    For i = 1 To vEmpresa.numnivel - 1
-        J = DigitosNivel(i)
-        Cad = "Digitos:" & J
-        ChkEvolSaldo(i).visible = True
-        ChkEvolSaldo(i).Tag = J
-        Me.ChkEvolSaldo(i).Caption = Cad
+    For I = 1 To vEmpresa.numnivel - 1
+        J = DigitosNivel(I)
+        cad = "Digitos:" & J
+        ChkEvolSaldo(I).visible = True
+        ChkEvolSaldo(I).Tag = J
+        Me.ChkEvolSaldo(I).Caption = cad
         
-    Next i
-    For i = vEmpresa.numnivel To 9
-        ChkEvolSaldo(i).visible = False
-    Next i
+    Next I
+    For I = vEmpresa.numnivel To 9
+        ChkEvolSaldo(I).visible = False
+    Next I
     
     
 End Sub
@@ -1516,12 +1516,12 @@ Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 Dim FechaIncioEjercicio As Date
 Dim FechaFinEjercicio As Date
-Dim Cad As String
+Dim cad As String
         On Error GoTo ECargaComboEjericios
         
         Set Rs = New ADODB.Recordset
-        Cad = "Select min(fechaent) from hcabapu"  'FECHA MINIMA
-        Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        cad = "Select min(fechaent) from hcabapu"  'FECHA MINIMA
+        Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         FechaIncioEjercicio = vParam.fechaini
         If Not Rs.EOF Then
             If Not IsNull(Rs.Fields(0)) Then FechaIncioEjercicio = Rs.Fields(0)
@@ -1547,23 +1547,23 @@ Dim Cad As String
         cmbEjercicios(Indice).Clear
         CONT = 0
         While FechaIncioEjercicio <= FechaFinEjercicio
-                Cad = Format(FechaIncioEjercicio, "dd/mm/yyyy")
+                cad = Format(FechaIncioEjercicio, "dd/mm/yyyy")
                 FechaIncioEjercicio = DateAdd("yyyy", 1, FechaIncioEjercicio)
                 FechaIncioEjercicio = DateAdd("d", -1, FechaIncioEjercicio)
-                Cad = Cad & " - " & Format(FechaIncioEjercicio, "dd/mm/yyyy")
+                cad = cad & " - " & Format(FechaIncioEjercicio, "dd/mm/yyyy")
                 'Le pongo una marca de actual o ssiguiente
-                i = 0 'pAra memorizar cual es el que apunta
+                I = 0 'pAra memorizar cual es el que apunta
                 If FechaIncioEjercicio > vParam.fechaini Then
                     If FechaIncioEjercicio = vParam.fechafin Then
-                        Cad = Cad & "     Actual"
-                        i = 1
+                        cad = cad & "     Actual"
+                        I = 1
                     Else
-                        Cad = Cad & "     Siguiente"
+                        cad = cad & "     Siguiente"
                     End If
                 End If
                 'Meto en el combo
-                cmbEjercicios(Indice).AddItem Cad
-                If i = 1 Then CONT = cmbEjercicios(Indice).NewIndex
+                cmbEjercicios(Indice).AddItem cad
+                If I = 1 Then CONT = cmbEjercicios(Indice).NewIndex
                 'Paso a inicio del ejercicio siguiente sumandole un dia
                 'al fin del anterior
                 FechaIncioEjercicio = DateAdd("d", 1, FechaIncioEjercicio)
@@ -1591,40 +1591,40 @@ Dim Tipo As Integer
     '   Con simple mid obtenemos inicio / fin
     
     
-    SQL = cmbEjercicios(0).List(cmbEjercicios(0).ListIndex)
-    RC = Mid(SQL, 1, 10)
+    Sql = cmbEjercicios(0).List(cmbEjercicios(0).ListIndex)
+    RC = Mid(Sql, 1, 10)
     FechaIncioEjercicio = CDate(RC)
-    RC = Mid(SQL, 14, 10)
+    RC = Mid(Sql, 14, 10)
     FechaFinEjercicio = CDate(RC)
     
     
     If Me.ChkEvolSaldo(10).Value Then
-        SQL = "Select hlinapu.codmacta,nommacta from hlinapu left join cuentas on hlinapu.codmacta=cuentas.codmacta "
+        Sql = "Select hlinapu.codmacta,nommacta from hlinapu left join cuentas on hlinapu.codmacta=cuentas.codmacta "
     Else
         CONT = 1
-        For i = 1 To 10
-            If Me.ChkEvolSaldo(i).Value Then
-                CONT = ChkEvolSaldo(i).Tag
+        For I = 1 To 10
+            If Me.ChkEvolSaldo(I).Value Then
+                CONT = ChkEvolSaldo(I).Tag
                 Exit For
             End If
         Next
-        SQL = "Select substring(hlinapu.codmacta,1," & CONT & ") as codmacta,nommacta from hlinapu left join cuentas on substring(hlinapu.codmacta,1," & CONT & ")=cuentas.codmacta"
+        Sql = "Select substring(hlinapu.codmacta,1," & CONT & ") as codmacta,nommacta from hlinapu left join cuentas on substring(hlinapu.codmacta,1," & CONT & ")=cuentas.codmacta"
     End If
     'Si tienen desde /hasta
-    SQL = SQL & " WHERE TRUE "
-    If txtCta(6).Text <> "" Then SQL = SQL & " AND hlinapu.codmacta >= '" & txtCta(6).Text & "'"
-    If txtCta(7).Text <> "" Then SQL = SQL & " AND hlinapu.codmacta <= '" & txtCta(7).Text & "'"
+    Sql = Sql & " WHERE TRUE "
+    If txtCta(6).Text <> "" Then Sql = Sql & " AND hlinapu.codmacta >= '" & txtCta(6).Text & "'"
+    If txtCta(7).Text <> "" Then Sql = Sql & " AND hlinapu.codmacta <= '" & txtCta(7).Text & "'"
 
     If Year(vParam.fechaini) = Year(vParam.fechafin) Then
         'Año natural
-        SQL = SQL & " AND year(fechaent) = " & Year(FechaIncioEjercicio)
+        Sql = Sql & " AND year(fechaent) = " & Year(FechaIncioEjercicio)
     Else
         'Años fiscales partidos . Coooperativas agricolas
-        SQL = SQL & " AND ( (year(fechaent) = " & Year(FechaIncioEjercicio) & " and month(fechaent) >=" & Month(FechaIncioEjercicio) & ") OR "
-        SQL = SQL & " (year(fechaent) =" & Year(FechaIncioEjercicio) + 1 & " AND month(fechaent) < " & Month(FechaIncioEjercicio) & "))"
+        Sql = Sql & " AND ( (year(fechaent) = " & Year(FechaIncioEjercicio) & " and month(fechaent) >=" & Month(FechaIncioEjercicio) & ") OR "
+        Sql = Sql & " (year(fechaent) =" & Year(FechaIncioEjercicio) + 1 & " AND month(fechaent) < " & Month(FechaIncioEjercicio) & "))"
     End If
     
-     SQL = SQL & " GROUP BY 1"
+     Sql = Sql & " GROUP BY 1"
     
     
     If Option1.Value Then Tipo = 0
@@ -1636,28 +1636,28 @@ Dim Tipo As Integer
     
     QuitarTambienElCierre = FechaIncioEjercicio < vParam.fechaini
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
         FijarValoresEvolucionMensualSaldos FechaIncioEjercicio, FechaFinEjercicio
         
         'PAra el SQL
-        SQL = ""
+        Sql = ""
         If Year(vParam.fechaini) = Year(vParam.fechafin) Then
             'Año natural
-            SQL = SQL & " AND year(fechaent) = " & Year(FechaIncioEjercicio)
+            Sql = Sql & " AND year(fechaent) = " & Year(FechaIncioEjercicio)
         Else
             'Años fiscales partidos . Coooperativas agricolas
             'Sql = Sql & " AND ( (year(fechaent) = " & Year(FechaIncioEjercicio) & " and month(fechaent) >=" & Month(FechaIncioEjercicio) & ") OR "
             'Sql = Sql & " (year(fechaent) =" & Year(FechaIncioEjercicio) + 1 & " AND month(fechaent) < " & Month(FechaIncioEjercicio) & "))"
             
-            SQL = " AND fechaent>=" & DBSet(FechaIncioEjercicio, "F") & " AND fechaent <=" & DBSet(FechaFinEjercicio, "F")
+            Sql = " AND fechaent>=" & DBSet(FechaIncioEjercicio, "F") & " AND fechaent <=" & DBSet(FechaFinEjercicio, "F")
             
         End If
         CONT = 0
         While Not Rs.EOF
             Label2(29).Caption = Rs!codmacta & " " & Mid(Rs!Nommacta, 1, 20) & " ..."
             Me.Refresh
-            DatosEvolucionMensualSaldos Rs!codmacta, Rs!Nommacta, SQL, True, False, QuitarTambienElCierre, FechaIncioEjercicio, Tipo, chkAcumulado.Value = 1
+            DatosEvolucionMensualSaldos Rs!codmacta, Rs!Nommacta, Sql, True, False, QuitarTambienElCierre, FechaIncioEjercicio, Tipo, chkAcumulado.Value = 1
             Rs.MoveNext
             If CONT > 150 Then
                 If Not Me.visible Then
@@ -1666,7 +1666,7 @@ Dim Tipo As Integer
                     Exit Function
                 End If
                 CONT = 0
-                DoEvents
+                DoEvent2
                 Screen.MousePointer = vbHourglass
             End If
             CONT = CONT + 1
@@ -1679,9 +1679,9 @@ Dim Tipo As Integer
     'Hacemos el conteo para ver si tiene o no movimientos
     Label2(29).Caption = "Comprobando valores"
     Label2(29).Refresh
-    SQL = "Select count(*) from tmpconextcab"
-    SQL = SQL & " WHERE codusu =" & vUsu.Codigo
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = "Select count(*) from tmpconextcab"
+    Sql = Sql & " WHERE codusu =" & vUsu.Codigo
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     CONT = 0
     If Not Rs.EOF Then CONT = DBLet(Rs.Fields(0), "N")
     Rs.Close

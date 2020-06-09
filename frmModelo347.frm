@@ -942,7 +942,7 @@ Dim nomDocu As String
     
     Label2(31).Caption = ""
     Label2(30).Caption = ""
-    DoEvents
+    DoEvent2
     Screen.MousePointer = vbDefault
     
 
@@ -2089,7 +2089,7 @@ On Error GoTo EComprobarCuentas347
     End If
     
     Label2(31).Caption = "Comprobando datos facturas proveedor"
-    DoEvents
+    DoEvent2
     espera 0.2
     
     
@@ -2116,7 +2116,7 @@ On Error GoTo EComprobarCuentas347
     While Not Rs.EOF
         Label2(31).Caption = "PRO " & Rs!nifdatos
         Label2(31).Refresh
-        DoEvents
+        DoEvent2
         'SQL = "Select factpro.*," & cad & " fecha from " & Contabilidad & ".factpro factpro where codmacta = '" & Rs.Fields(0) & "' AND "
         Sql = "Select factpro.*," & cad & " fecha from " & Contabilidad & ".factpro factpro where "
         Sql = Sql & " nifdatos = " & DBSet(Rs!nifdatos, "T")
@@ -2244,7 +2244,7 @@ On Error GoTo EComprobarCuentas347
     ' CObros en metalico superiores a 6000
     Label2(31).Caption = "Cobros metalico"
     Label2(31).Refresh
-    DoEvents
+    DoEvent2
     Sql = "Select ImporteMaxEfec340 from " & Contabilidad & ".parametros "
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     'NO pues ser eof

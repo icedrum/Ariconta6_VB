@@ -1235,6 +1235,7 @@ Dim I As Integer
     End If
     
     
+    chkCtaConMov.Value = CheckValueLeer(Name)
     
     PonerModoUsuarioGnral 0, "ariconta"
     
@@ -1244,6 +1245,7 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
     If vParam.RemarcaTotalExtr Then CheckValueGuardar Me.Name, Me.chkTotal
+    CheckValueGuardar Me.Name, Me.chkCtaConMov.Value
 End Sub
 
 Private Sub frmC_Selec(vFecha As Date)

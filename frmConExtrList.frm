@@ -1458,7 +1458,7 @@ Dim B As Boolean
         B = (CargaDatosConExt(Rs!codmacta, txtFecha(0).Text, txtFecha(1).Text, cadselect, Rs.Fields(3).Value) = 0)
    
    
-        DoEvents
+        DoEvent2
         If PararProceso Then B = False   'Parara el proceso
         
         Rs.MoveNext

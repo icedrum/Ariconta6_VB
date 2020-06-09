@@ -1306,6 +1306,7 @@ Private Sub Check1_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub cmdAccion_Click(Index As Integer)
+Dim B As Boolean
 
     If Not DatosOK Then Exit Sub
     
@@ -1330,10 +1331,16 @@ Private Sub cmdAccion_Click(Index As Integer)
     tabla = "(" & tabla & ") inner join tipofpago on formapago.tipforpa = tipofpago.tipoformapago "
     tabla = "(" & tabla & ") inner join usuarios.wtipopera aa on factpro.codopera = aa.codigo "
     
-    If Not MontaSQL Then Exit Sub
-    
-    If Not HayRegParaInforme(tabla, cadselect) Then Exit Sub
-    
+    B = True
+    Screen.MousePointer = vbHourglass
+    If Not MontaSQL Then B = False
+    If B Then
+        If Not HayRegParaInforme(tabla, cadselect) Then B = False
+    End If
+    If Not B Then
+        Screen.MousePointer = vbDefault
+        Exit Sub
+    End If
     If optTipoSal(1).Value Then
         'EXPORTAR A CSV
         AccionesCSV

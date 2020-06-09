@@ -875,8 +875,8 @@ Option Explicit
 Private Const IdPrograma = 105
 
 Dim PrimeraVez As Boolean
-Dim SQL As String
-Dim i As Integer
+Dim Sql As String
+Dim I As Integer
 Dim UsuarioOrigen As Long
 
 Dim rsEmpresasAriconta As ADODB.Recordset
@@ -917,15 +917,15 @@ Private Sub cmdFrameUsu_Click(Index As Integer)
             End If
         End If
     
-        For i = 0 To Text2.Count - 1
-            Text2(i).Text = Trim(Text2(i).Text)
-            If i < 4 Then
-                If Text2(i).Text = "" Then
-                    MsgBox Label4(i).Caption & " requerido.", vbExclamation
+        For I = 0 To Text2.Count - 1
+            Text2(I).Text = Trim(Text2(I).Text)
+            If I < 4 Then
+                If Text2(I).Text = "" Then
+                    MsgBox Label4(I).Caption & " requerido.", vbExclamation
                     Exit Sub
                 End If
             End If
-        Next i
+        Next I
         
         If Combo2.ListIndex < 0 Then
             MsgBox "Seleccione un nivel de acceso", vbExclamation
@@ -946,9 +946,9 @@ Private Sub cmdFrameUsu_Click(Index As Integer)
         
         'Ahora vamos con los campos de e-mail
         CadenaDesdeOtroForm = ""
-        For i = 4 To 7
-            If Text2(i).Text <> "" Then CadenaDesdeOtroForm = CadenaDesdeOtroForm & "1"
-        Next i
+        For I = 4 To 7
+            If Text2(I).Text <> "" Then CadenaDesdeOtroForm = CadenaDesdeOtroForm & "1"
+        Next I
         
         If Len(CadenaDesdeOtroForm) > 0 And Len(CadenaDesdeOtroForm) <> 4 Then
             MsgBox "Falta por rellenar correctamente los datos del e-mail.", vbExclamation
@@ -957,17 +957,17 @@ Private Sub cmdFrameUsu_Click(Index As Integer)
         End If
         
         'Compruebo que el login es unico
-        i = 0
+        I = 0
         If UCase(Label6.Caption) = "NUEVO" Then
             Set miRsAux = New ADODB.Recordset
-            SQL = "Select login from usuarios.usuarios where login='" & Text2(0).Text & "'"
-            miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-            SQL = ""
-            If Not miRsAux.EOF Then SQL = "Ya existe en la tabla usuarios uno con el login: " & miRsAux.Fields(0)
+            Sql = "Select login from usuarios.usuarios where login='" & Text2(0).Text & "'"
+            miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            Sql = ""
+            If Not miRsAux.EOF Then Sql = "Ya existe en la tabla usuarios uno con el login: " & miRsAux.Fields(0)
             miRsAux.Close
             Set miRsAux = Nothing
-            If SQL <> "" Then
-                MsgBox SQL, vbExclamation
+            If Sql <> "" Then
+                MsgBox Sql, vbExclamation
                 Exit Sub
             End If
             
@@ -975,11 +975,11 @@ Private Sub cmdFrameUsu_Click(Index As Integer)
             'MODIFICAR
             If FrameUsuario.Tag = 0 Then
                 'Estoy modificando un dato normal
-                i = CInt(ListView1.SelectedItem.Text)
+                I = CInt(ListView1.SelectedItem.Text)
             Else
                 'Estoy agregando un usuario que ya existia en contabiñlidad
                 'es decir, le estoy asignando su NIVELUSU de contabilidad
-                i = CInt(FrameUsuario.Tag)
+                I = CInt(FrameUsuario.Tag)
             End If
         End If
         
@@ -988,7 +988,7 @@ Private Sub cmdFrameUsu_Click(Index As Integer)
         Else
             UsuarioOrigen = 0
         End If
-        InsertarModificar i
+        InsertarModificar I
         
     End If
     
@@ -1011,12 +1011,12 @@ Private Sub cmdFrameUsu_Click(Index As Integer)
     
     CargaUsuarios
     If CadenaDesdeOtroForm <> "" Then
-        For i = 1 To ListView1.ListItems.Count
-            If ListView1.ListItems(i).Text = CadenaDesdeOtroForm Then
-                Set ListView1.SelectedItem = ListView1.ListItems(i)
+        For I = 1 To ListView1.ListItems.Count
+            If ListView1.ListItems(I).Text = CadenaDesdeOtroForm Then
+                Set ListView1.SelectedItem = ListView1.ListItems(I)
                 Exit For
             End If
-        Next i
+        Next I
     End If
     DatosUsusario
     CadenaDesdeOtroForm = ""
@@ -1032,7 +1032,7 @@ End Sub
 Private Sub InsertarModificar(ByVal CodigoUsuario As Integer)
 Dim Ant As Integer
 Dim Fin As Boolean
-Dim SQL2 As String
+Dim Sql2 As String
 Dim Excepcion As String
 Dim CodUsuarioOrigen As Integer
 
@@ -1049,17 +1049,17 @@ On Error GoTo EInsertarModificar
     If UCase(Label6.Caption) = "NUEVO" Then
         
         'Nuevo
-        SQL = "Select codusu from usuarios.usuarios where codusu > 0"
-        miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Sql = "Select codusu from usuarios.usuarios where codusu > 0"
+        miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         
         Ant = 1
-        i = 1
+        I = 1
         Fin = False
         If miRsAux.EOF Then Fin = True
         While Not Fin
             If miRsAux!CodUsu - Ant > 0 Then
                 'Hay un salto
-                i = Ant
+                I = Ant
                 Fin = True
             Else
                 Ant = Ant + 1
@@ -1068,34 +1068,34 @@ On Error GoTo EInsertarModificar
                 miRsAux.MoveNext
                 If miRsAux.EOF Then
                     Fin = True
-                    i = Ant
+                    I = Ant
                 End If
             End If
         Wend
         miRsAux.Close
 
         
-        SQL = "INSERT INTO usuarios.usuarios (codusu, nomusu,  nivelusu, login, passwordpropio,dirfich,skin, solotesoreria) VALUES ("
-        SQL = SQL & i
-        SQL = SQL & ",'" & Text2(1).Text & "',"
+        Sql = "INSERT INTO usuarios.usuarios (codusu, nomusu,  nivelusu, login, passwordpropio,dirfich,skin, solotesoreria) VALUES ("
+        Sql = Sql & I
+        Sql = Sql & ",'" & Text2(1).Text & "',"
         'Combo
-        SQL = SQL & Combo2.ItemData(Combo2.ListIndex) & ",'"
-        SQL = SQL & Text2(0).Text & "','"
-        SQL = SQL & Text2(3).Text & "',"
+        Sql = Sql & Combo2.ItemData(Combo2.ListIndex) & ",'"
+        Sql = Sql & Text2(0).Text & "','"
+        Sql = Sql & Text2(3).Text & "',"
         'DIR FICH tiene
         If Text2(4).Text = "" Then
             CadenaDesdeOtroForm = "NULL"
         Else
             CadenaDesdeOtroForm = ""
-            For i = 4 To 7
-                CadenaDesdeOtroForm = CadenaDesdeOtroForm & Text2(i).Text & "|"
-            Next i
+            For I = 4 To 7
+                CadenaDesdeOtroForm = CadenaDesdeOtroForm & Text2(I).Text & "|"
+            Next I
             CadenaDesdeOtroForm = "'" & CadenaDesdeOtroForm & "'"
         End If
-        SQL = SQL & CadenaDesdeOtroForm
+        Sql = Sql & CadenaDesdeOtroForm
         
-        SQL = SQL & "," & Combo5.ItemData(Combo5.ListIndex) & ","
-        SQL = SQL & ChkSoloTesoreria.Value & ")"
+        Sql = Sql & "," & Combo5.ItemData(Combo5.ListIndex) & ","
+        Sql = Sql & ChkSoloTesoreria.Value & ")"
         
         
         
@@ -1103,33 +1103,35 @@ On Error GoTo EInsertarModificar
         AbrirRsEmpresas
         While Not rsEmpresasAriconta.EOF
             
-            SQL2 = "INSERT INTO ariconta" & rsEmpresasAriconta!codempre & ".menus_usuarios (codusu,codigo,aplicacion,ver,creareliminar,modificar,imprimir,especial,expandido) "
-            SQL2 = SQL2 & " select " & i & ",codigo, aplicacion, "
+            Sql2 = "INSERT INTO ariconta" & rsEmpresasAriconta!codempre & ".menus_usuarios (codusu,codigo,aplicacion,ver,creareliminar,modificar,imprimir,especial,expandido) "
+            Sql2 = Sql2 & " select " & I & ",codigo, aplicacion, "
             
             ' insertamos sin partir de ningún usuario
             If UsuarioOrigen <= 0 Then
                 Select Case Combo2.ItemData(Combo2.ListIndex)
                     Case 0 ' superusuario
-                        SQL2 = SQL2 & "1,1,1,1,1,0"
+                        Sql2 = Sql2 & "1,1,1,1,1,0"
                     Case 1 ' administrador
-                        SQL2 = SQL2 & "1,1,1,1,1,0"
+                        Sql2 = Sql2 & "1,1,1,1,1,0"
                     Case 2 ' normal
-                        SQL2 = SQL2 & "1,1,1,1,1,0"
+                        Sql2 = Sql2 & "1,1,1,1,1,0"
                     Case 3 ' consulta
-                        SQL2 = SQL2 & "1,0,0,1,0,0"
+                        Sql2 = Sql2 & "1,0,0,1,0,0"
                 End Select
                         
-                SQL2 = SQL2 & " from  ariconta" & rsEmpresasAriconta!codempre & ".menus_usuarios "
-                SQL2 = SQL2 & " where aplicacion in ('ariconta','introcon') and codusu = 0"
+                Sql2 = Sql2 & " from  ariconta" & rsEmpresasAriconta!codempre & ".menus_usuarios "
+                Sql2 = Sql2 & " where aplicacion in ('ariconta','introcon') and codusu = 0"
             ' insertamos partiendo de un usuario
             Else
-                SQL2 = SQL2 & " ver, creareliminar, modificar, imprimir, especial, expandido "
-                SQL2 = SQL2 & " from  ariconta" & rsEmpresasAriconta!codempre & ".menus_usuarios "
-                SQL2 = SQL2 & " where aplicacion in ('ariconta','introcon') and codusu = " & DBSet(CodUsuarioOrigen, "N")
+                Sql2 = Sql2 & " ver, creareliminar, modificar, imprimir, especial, expandido "
+                Sql2 = Sql2 & " from  ariconta" & rsEmpresasAriconta!codempre & ".menus_usuarios "
+                Sql2 = Sql2 & " where aplicacion in ('ariconta','introcon') and codusu = " & DBSet(CodUsuarioOrigen, "N")
                 
             
             End If
-            Conn.Execute SQL2
+            If Not Ejecuta(Sql2) Then
+                MsgBox "Consulte sopore tecnico. Error  ariconta" & rsEmpresasAriconta!codempre & ".menus_usuarios " & Sql2
+            End If
             
             
             Excepcion = ""
@@ -1146,43 +1148,43 @@ On Error GoTo EInsertarModificar
             End Select
             
             If Excepcion <> "" Then
-                SQL2 = "update  ariconta" & rsEmpresasAriconta!codempre & ".menus_usuarios set ver = 0, creareliminar=0, modificar=0, imprimir = 0, especial= 0, expandido = 0 "
-                SQL2 = SQL2 & " where aplicacion in ('ariconta') and codusu = " & DBSet(i, "N")
-                SQL2 = SQL2 & " and (codigo in " & Excepcion
-                SQL2 = SQL2 & " or codigo in (select codigo from  ariconta" & rsEmpresasAriconta!codempre & ".menus where padre in " & Excepcion & " and aplicacion in ('ariconta')))"
+                Sql2 = "update  ariconta" & rsEmpresasAriconta!codempre & ".menus_usuarios set ver = 0, creareliminar=0, modificar=0, imprimir = 0, especial= 0, expandido = 0 "
+                Sql2 = Sql2 & " where aplicacion in ('ariconta') and codusu = " & DBSet(I, "N")
+                Sql2 = Sql2 & " and (codigo in " & Excepcion
+                Sql2 = Sql2 & " or codigo in (select codigo from  ariconta" & rsEmpresasAriconta!codempre & ".menus where padre in " & Excepcion & " and aplicacion in ('ariconta')))"
             
-                Conn.Execute SQL2
+                Conn.Execute Sql2
             End If
             
             If Not vEmpresa.TieneTesoreria Then
                 
-                SQL2 = "update  ariconta" & rsEmpresasAriconta!codempre & ".menus_usuarios set ver = 0, creareliminar=0, modificar=0, imprimir = 0, especial= 0, expandido = 0 "
-                SQL2 = SQL2 & " where aplicacion in ('ariconta') and codusu = " & DBSet(i, "N")
-                SQL2 = SQL2 & " codigo in (select codigo from  ariconta" & rsEmpresasAriconta!codempre & ".menus where aplicacion = 'ariconta' and tipo = 1)"
+                Sql2 = "update  ariconta" & rsEmpresasAriconta!codempre & ".menus_usuarios set ver = 0, creareliminar=0, modificar=0, imprimir = 0, especial= 0, expandido = 0 "
+                Sql2 = Sql2 & " where aplicacion in ('ariconta') and codusu = " & DBSet(I, "N")
+                Sql2 = Sql2 & " codigo in (select codigo from  ariconta" & rsEmpresasAriconta!codempre & ".menus where aplicacion = 'ariconta' and tipo = 1)"
             
-                Conn.Execute SQL2
+                Conn.Execute Sql2
             End If
             rsEmpresasAriconta.MoveNext
         Wend
         CerrarRsEmpresas
         
     Else
-        SQL = "UPDATE usuarios.usuarios Set nomusu='" & Text2(1).Text
+        Sql = "UPDATE usuarios.usuarios Set nomusu='" & Text2(1).Text
         
         'Si el combo es administrador compruebo que no fuera en un principio SUPERUSUARIO
         If Combo2.ListIndex = 2 Then
             'Si el combo1 es 3 entonces es super
             If Combo1.ListIndex = 3 Then
-                i = 0
+                I = 0
             Else
-                i = 1
+                I = 1
             End If
         Else
-            i = Combo2.ItemData(Combo2.ListIndex)
+            I = Combo2.ItemData(Combo2.ListIndex)
         End If
-        SQL = SQL & "' , nivelusu =" & i
+        Sql = Sql & "' , nivelusu =" & I
         'SQL = SQL & "  , login = '" & Text2(2).Text
-        SQL = SQL & "  , passwordpropio = '" & Text2(3).Text & "'"
+        Sql = Sql & "  , passwordpropio = '" & Text2(3).Text & "'"
         
         
         'El e-mail
@@ -1190,38 +1192,38 @@ On Error GoTo EInsertarModificar
             CadenaDesdeOtroForm = "NULL"
         Else
             CadenaDesdeOtroForm = ""
-            For i = 4 To 7
-                CadenaDesdeOtroForm = CadenaDesdeOtroForm & Text2(i).Text & "|"
-            Next i
+            For I = 4 To 7
+                CadenaDesdeOtroForm = CadenaDesdeOtroForm & Text2(I).Text & "|"
+            Next I
             CadenaDesdeOtroForm = "'" & CadenaDesdeOtroForm & "'"
         End If
-        SQL = SQL & " ,dirfich = " & CadenaDesdeOtroForm
+        Sql = Sql & " ,dirfich = " & CadenaDesdeOtroForm
         
         
-        SQL = SQL & " ,skin = " & Combo4.ItemData(Combo4.ListIndex)
+        Sql = Sql & " ,skin = " & Combo4.ItemData(Combo4.ListIndex)
         
-        SQL = SQL & " ,solotesoreria = " & ChkSoloTesoreria.Value
+        Sql = Sql & " ,solotesoreria = " & ChkSoloTesoreria.Value
         
         'aqui, en lugar del selecteditem tengo k pasarle el codigo de usuario
         'ya que cuando es nuevo usario y cojo los datos desde otra aplicacion entonces
         'no lo tengo selected y enonces peta
         
-        SQL = SQL & " WHERE codusu = " & CodigoUsuario
+        Sql = Sql & " WHERE codusu = " & CodigoUsuario
         
         If UsuarioOrigen <= 0 Then
-            SQL2 = "update menus_usuarios set "
+            Sql2 = "update menus_usuarios set "
             Select Case Combo2.ItemData(Combo2.ListIndex)
                 Case 0 'super
-                    SQL2 = SQL2 & " ver=1, creareliminar=1, modificar=1, imprimir=1, especial=1"
+                    Sql2 = Sql2 & " ver=1, creareliminar=1, modificar=1, imprimir=1, especial=1"
                 Case 1 'administrador
-                    SQL2 = SQL2 & " ver=1, creareliminar=1, modificar=1, imprimir=1, especial=1"
+                    Sql2 = Sql2 & " ver=1, creareliminar=1, modificar=1, imprimir=1, especial=1"
                 Case 2 'normal
-                    SQL2 = SQL2 & " ver=1, creareliminar=1, modificar=1, imprimir=1, especial=1"
+                    Sql2 = Sql2 & " ver=1, creareliminar=1, modificar=1, imprimir=1, especial=1"
                 Case 3 'consulta
-                    SQL2 = SQL2 & " ver=1, creareliminar=0, modificar=0, imprimir=1, especial=0"
+                    Sql2 = Sql2 & " ver=1, creareliminar=0, modificar=0, imprimir=1, especial=0"
             End Select
-            SQL2 = SQL2 & " where codusu = " & DBSet(CodigoUsuario, "N")
-            SQL2 = SQL2 & " and aplicacion in ('ariconta') "
+            Sql2 = Sql2 & " where codusu = " & DBSet(CodigoUsuario, "N")
+            Sql2 = Sql2 & " and aplicacion in ('ariconta') "
         Else
             'ANTES. MONICA
             'Sql2 = "update menus_usuarios destino, menus_usuarios fuente set "
@@ -1231,16 +1233,16 @@ On Error GoTo EInsertarModificar
             'Sql2 = Sql2 & " and fuente.codusu = " & DBSet(UsuarioOrigen, "N")
             'Sql2 = Sql2 & " and fuente.aplicacion in ('ariconta') "
             'Sql2 = Sql2 & " and fuente.codigo = destino.codigo "
-            SQL2 = "DELETE FROM menus_usuarios WHERE codusu = " & CodigoUsuario
-            Conn.Execute SQL2
+            Sql2 = "DELETE FROM menus_usuarios WHERE codusu = " & CodigoUsuario
+            Conn.Execute Sql2
             
             'Preparo el INSERT
-            SQL2 = "INSERT INTO menus_usuarios (codusu,codigo,aplicacion,ver,creareliminar,modificar,imprimir,especial,expandido,textovisible,vericono) "
-            SQL2 = SQL2 & " SELECT " & CodigoUsuario & ",codigo,aplicacion,ver,creareliminar,modificar,imprimir,especial,expandido,textovisible,vericono FROM menus_usuarios WHERE codusu = " & UsuarioOrigen
+            Sql2 = "INSERT INTO menus_usuarios (codusu,codigo,aplicacion,ver,creareliminar,modificar,imprimir,especial,expandido,textovisible,vericono) "
+            Sql2 = Sql2 & " SELECT " & CodigoUsuario & ",codigo,aplicacion,ver,creareliminar,modificar,imprimir,especial,expandido,textovisible,vericono FROM menus_usuarios WHERE codusu = " & UsuarioOrigen
             
         End If
         
-        Conn.Execute SQL2
+        Conn.Execute Sql2
         
         
         Excepcion = ""
@@ -1257,24 +1259,24 @@ On Error GoTo EInsertarModificar
         End Select
         
         If Excepcion <> "" Then
-            SQL2 = "update menus_usuarios set ver = 0, creareliminar=0, modificar=0, imprimir = 0, especial= 0, expandido = 0"
-            SQL2 = SQL2 & " where aplicacion in ('ariconta') and codusu = " & DBSet(CodigoUsuario, "N")
-            SQL2 = SQL2 & " and (codigo in " & Excepcion
-            SQL2 = SQL2 & " or codigo in (select codigo from menus where padre in " & Excepcion & " and aplicacion in ('ariconta')))"
+            Sql2 = "update menus_usuarios set ver = 0, creareliminar=0, modificar=0, imprimir = 0, especial= 0, expandido = 0"
+            Sql2 = Sql2 & " where aplicacion in ('ariconta') and codusu = " & DBSet(CodigoUsuario, "N")
+            Sql2 = Sql2 & " and (codigo in " & Excepcion
+            Sql2 = Sql2 & " or codigo in (select codigo from menus where padre in " & Excepcion & " and aplicacion in ('ariconta')))"
             
-            Conn.Execute SQL2
+            Conn.Execute Sql2
         End If
         
         If Not vEmpresa.TieneTesoreria Then
-            SQL2 = "update menus_usuarios set ver = 0, creareliminar=0, modificar=0, imprimir = 0, especial= 0, expandido = 0"
-            SQL2 = SQL2 & " where aplicacion in ('ariconta') and codusu = " & DBSet(CodigoUsuario, "N")
-            SQL2 = SQL2 & " and codigo in (select codigo from menus where aplicacion = 'ariconta' and tipo = 1)"
-            Conn.Execute SQL2
+            Sql2 = "update menus_usuarios set ver = 0, creareliminar=0, modificar=0, imprimir = 0, especial= 0, expandido = 0"
+            Sql2 = Sql2 & " where aplicacion in ('ariconta') and codusu = " & DBSet(CodigoUsuario, "N")
+            Sql2 = Sql2 & " and codigo in (select codigo from menus where aplicacion = 'ariconta' and tipo = 1)"
+            Conn.Execute Sql2
         End If
         
         
     End If
-    Conn.Execute SQL
+    Conn.Execute Sql
     
     
     CadenaDesdeOtroForm = ""
@@ -1286,7 +1288,7 @@ End Sub
 
 
 Private Sub cmdUsu_Click(Index As Integer)
-Dim k As Integer
+Dim K As Integer
 
     Select Case Index
     Case 0, 1
@@ -1300,7 +1302,7 @@ Dim k As Integer
             CargaCombo6 0
             
             Label6.Caption = "NUEVO"
-            i = 0 'Para el foco
+            I = 0 'Para el foco
             
             Combo2.ListIndex = -1
             Combo4.ListIndex = -1
@@ -1312,15 +1314,15 @@ Dim k As Integer
             If ListView1.SelectedItem Is Nothing Then Exit Sub
             Label6.Caption = "MODIFICAR"
             Set miRsAux = New ADODB.Recordset
-            SQL = "Select * from usuarios.usuarios where codusu = " & ListView1.SelectedItem.Text
-            miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            Sql = "Select * from usuarios.usuarios where codusu = " & ListView1.SelectedItem.Text
+            miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             If miRsAux.EOF Then
                 MsgBox "Error inesperado: Leer datos usuarios", vbExclamation
             Else
                 'LimpiarCamposUsuario
                 PonerDatosUsuario
             End If
-            i = 1 'Para el foco
+            I = 1 'Para el foco
             FrameUsuario.Tag = 0  'Marcamos que es una modificacion desde un usuario existente
         End If
         Text2(0).Enabled = (Index = 0)
@@ -1334,32 +1336,32 @@ Dim k As Integer
         
         If Not vEmpresa.TieneTesoreria Then Me.ChkSoloTesoreria.Value = 0
         
-        Text2(i).SetFocus
+        Text2(I).SetFocus
         
     Case 2, 3
         If ListView1.SelectedItem Is Nothing Then Exit Sub
-        i = vUsu.Codigo Mod 1000
-        If i = CInt(ListView1.SelectedItem.Text) Then
+        I = vUsu.Codigo Mod 1000
+        If I = CInt(ListView1.SelectedItem.Text) Then
             MsgBox "El usuario es el mismo con el que esta trabajando actualmente", vbInformation
             Exit Sub
         End If
         
         If Index = 2 Then
             
-            SQL = "El usuario " & ListView1.SelectedItem.SubItems(1) & " será eliminado y no tendra acceso a los programas de Ariadna (Ariconta, ariges....) ." & vbCrLf
-            SQL = SQL & vbCrLf & "                              ¿Desea continuar?"
-            If MsgBox(SQL, vbQuestion + vbYesNo) = vbNo Then Exit Sub
-            SQL = "DELETE from usuarios.usuarios where codusu = " & ListView1.SelectedItem.Text
+            Sql = "El usuario " & ListView1.SelectedItem.SubItems(1) & " será eliminado y no tendra acceso a los programas de Ariadna (Ariconta, ariges....) ." & vbCrLf
+            Sql = Sql & vbCrLf & "                              ¿Desea continuar?"
+            If MsgBox(Sql, vbQuestion + vbYesNo) = vbNo Then Exit Sub
+            Sql = "DELETE from usuarios.usuarios where codusu = " & ListView1.SelectedItem.Text
             
         Else
-            SQL = "Al usuario " & ListView1.SelectedItem.SubItems(1) & " no le estará permitido el acceso al programas Ariconta." & vbCrLf
-            SQL = SQL & vbCrLf & "                              ¿Desea continuar?"
-            If MsgBox(SQL, vbQuestion + vbYesNo) = vbNo Then Exit Sub
-            SQL = "UPDATE usuarios.usuarios SET nivelusu = -1 WHERE codusu = " & ListView1.SelectedItem.Text
+            Sql = "Al usuario " & ListView1.SelectedItem.SubItems(1) & " no le estará permitido el acceso al programas Ariconta." & vbCrLf
+            Sql = Sql & vbCrLf & "                              ¿Desea continuar?"
+            If MsgBox(Sql, vbQuestion + vbYesNo) = vbNo Then Exit Sub
+            Sql = "UPDATE usuarios.usuarios SET nivelusu = -1 WHERE codusu = " & ListView1.SelectedItem.Text
         End If
         Screen.MousePointer = vbHourglass
         
-        Conn.Execute SQL
+        Conn.Execute Sql
     
         '//El codigo siguiente seria mas logico meterlo en el modulo de usuario
         '   pero de momento un saco de cemento
@@ -1394,16 +1396,16 @@ End Sub
 Private Sub EliminarAuxiliaresUsuario(CodUsu As Long)
 
     On Error GoTo EEliminarAuxiliaresUsuario
-    SQL = "DELETE FROM usuarios.usuarioempresasariconta where codusu =" & CodUsu
-    Conn.Execute SQL
+    Sql = "DELETE FROM usuarios.usuarioempresasariconta where codusu =" & CodUsu
+    Conn.Execute Sql
     
-    SQL = "DELETE FROM usuarios.appmenususuario where  codusu =" & CodUsu
-    Conn.Execute SQL
+    Sql = "DELETE FROM usuarios.appmenususuario where  codusu =" & CodUsu
+    Conn.Execute Sql
     
     AbrirRsEmpresas
     While Not rsEmpresasAriconta.EOF
-        SQL = "DELETE FROM  ariconta" & rsEmpresasAriconta!codempre & ".menus_usuarios where codusu = " & CodUsu
-        Conn.Execute SQL
+        Sql = "DELETE FROM  ariconta" & rsEmpresasAriconta!codempre & ".menus_usuarios where codusu = " & CodUsu
+        Conn.Execute Sql
         rsEmpresasAriconta.MoveNext
     Wend
     CerrarRsEmpresas
@@ -1421,30 +1423,30 @@ Private Sub PonerDatosUsuario()
      Text2(1).Text = miRsAux!nomusu
      Text2(2).Text = miRsAux!passwordpropio
      Text2(3).Text = miRsAux!passwordpropio
-     i = miRsAux!nivelusu
+     I = miRsAux!nivelusu
 
-    Select Case i
+    Select Case I
         Case 0
-            i = 3
+            I = 3
         Case 1
-            i = 2
+            I = 2
         Case 2
-            i = 1
+            I = 1
         Case 3
-            i = 0
+            I = 0
     End Select
 
 
-    Combo2.ListIndex = i
+    Combo2.ListIndex = I
     
     PosicionarCombo Combo4, miRsAux!Skin
      
      'Cargamos los datos del correo e-mail
-     SQL = Trim(DBLet(miRsAux!Dirfich, "T"))
-     If SQL <> "" Then
-         For i = 1 To 4
-             Text2(3 + i).Text = RecuperaValor(SQL, i)
-         Next i
+     Sql = Trim(DBLet(miRsAux!Dirfich, "T"))
+     If Sql <> "" Then
+         For I = 1 To 4
+             Text2(3 + I).Text = RecuperaValor(Sql, I)
+         Next I
      End If
      
      Me.ChkSoloTesoreria.Value = DBLet(miRsAux!SoloTesoreria)
@@ -1533,8 +1535,8 @@ Dim Cad2 As String
     If Leer Then
     
         Combo3(1).ListIndex = 0
-        i = vControl.UltAccesoBDs  'RecuperaValor(CadenaControl, 6)
-        Combo3(1).ListIndex = i
+        I = vControl.UltAccesoBDs  'RecuperaValor(CadenaControl, 6)
+        Combo3(1).ListIndex = I
     Else
         'GUARDAR
         vControl.UltAccesoBDs = Combo3(1).ListIndex
@@ -1555,16 +1557,16 @@ Dim Itm As ListItem
     Set miRsAux = New ADODB.Recordset
     '                               Aquellos usuarios k tengan nivel usu -1 NO son de conta
     '  QUitamos codusu=0 pq es el usuario ROOT
-    SQL = "Select * from usuarios.usuarios where nivelusu >=0 "
+    Sql = "Select * from usuarios.usuarios where nivelusu >=0 "
     
     ' solo vemos root si somos root
     If vUsu.Login = "root" Then
-        SQL = SQL & " and codusu >= 0 order by codusu"
+        Sql = Sql & " and codusu >= 0 order by codusu"
     Else
-        SQL = SQL & " and codusu > 0 order by codusu"
+        Sql = Sql & " and codusu > 0 order by codusu"
     End If
     
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         Set Itm = ListView1.ListItems.Add
         Itm.Text = miRsAux!CodUsu
@@ -1575,8 +1577,8 @@ Dim Itm As ListItem
             Itm.SmallIcon = 5
         End If
         'Nombre y nivel de usuario
-        SQL = miRsAux!nivelusu & "|" & miRsAux!nomusu & "|"
-        Itm.Tag = SQL
+        Sql = miRsAux!nivelusu & "|" & miRsAux!nomusu & "|"
+        Itm.Tag = Sql
         'Sig
         miRsAux.MoveNext
     Wend
@@ -1606,14 +1608,14 @@ On Error GoTo EDatosUsu
     
     Text4.Text = RecuperaValor(ListView1.SelectedItem.Tag, 2)
     'NIVEL
-    SQL = RecuperaValor(ListView1.SelectedItem.Tag, 1)
+    Sql = RecuperaValor(ListView1.SelectedItem.Tag, 1)
     '                           COMBO                      en Bd
     '                       0.- Consulta                     3
     '                       1.- Normal                       2
     '                       2.- Administrador                1
     '                       3.- SuperUsuario (root)          0
-    If Not IsNumeric(SQL) Then SQL = 3
-    Select Case Val(SQL)
+    If Not IsNumeric(Sql) Then Sql = 3
+    Select Case Val(Sql)
     Case 2
         Combo1.ListIndex = 1
     Case 1
@@ -1625,32 +1627,32 @@ On Error GoTo EDatosUsu
     End Select
     
     
-    SQL = DevuelveValor("select skin from usuarios.usuarios where codusu = " & ListView1.SelectedItem.Text)
-    PosicionarCombo Combo5, CInt(Val(SQL))
+    Sql = DevuelveValor("select skin from usuarios.usuarios where codusu = " & ListView1.SelectedItem.Text)
+    PosicionarCombo Combo5, CInt(Val(Sql))
     
     
-    SQL = "select empresasariconta.codempre,nomempre,nomresum,usuarioempresasariconta.codempre bloqueada from usuarios.empresasariconta left join usuarios.usuarioempresasariconta on "
-    SQL = SQL & " empresasariconta.codempre = usuarioempresasariconta.codempre And (usuarioempresasariconta.codusu = " & ListView1.SelectedItem.Text & " Or codusu Is Null)"
+    Sql = "select empresasariconta.codempre,nomempre,nomresum,usuarioempresasariconta.codempre bloqueada from usuarios.empresasariconta left join usuarios.usuarioempresasariconta on "
+    Sql = Sql & " empresasariconta.codempre = usuarioempresasariconta.codempre And (usuarioempresasariconta.codusu = " & ListView1.SelectedItem.Text & " Or codusu Is Null)"
     
     
     If Combo3(1).ListIndex > 0 Then
-            SQL = SQL & " WHERE "
-        If Combo3(1).ListIndex = 1 Then SQL = SQL & " NOT "
-        SQL = SQL & " (usuarioempresasariconta.codempre is null) "
+            Sql = Sql & " WHERE "
+        If Combo3(1).ListIndex = 1 Then Sql = Sql & " NOT "
+        Sql = Sql & " (usuarioempresasariconta.codempre is null) "
     End If
     
     '[Monica] sólo empresas de ariconta nuevas
-    If InStr(1, SQL, "WHERE") <> 0 Then
-        SQL = SQL & " and empresasariconta.conta like 'ariconta%' "
+    If InStr(1, Sql, "WHERE") <> 0 Then
+        Sql = Sql & " and empresasariconta.conta like 'ariconta%' "
     Else
-        SQL = SQL & " WHERE empresasariconta.conta like 'ariconta%' "
+        Sql = Sql & " WHERE empresasariconta.conta like 'ariconta%' "
     End If
     
     'EL orden
-    SQL = SQL & " ORDER BY empresasariconta.codempre"
+    Sql = Sql & " ORDER BY empresasariconta.codempre"
     
     Set miRsAux = New ADODB.Recordset
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     While Not miRsAux.EOF
         Set ItmX = ListView2.ListItems.Add
@@ -1717,9 +1719,9 @@ Dim AsignarDatos As Boolean
             'Si existe, y el usuario tiene nivel conta >=0 entonces
             ' existe en la conta. Si existe pero el nivel conta es -1 entonces
             'lo que hacemos es ponerle los datos y que cambie la opcion de nivel usu
-            SQL = "Select * from usuarios.usuarios where login='" & Text2(0).Text & "'"
+            Sql = "Select * from usuarios.usuarios where login='" & Text2(0).Text & "'"
             Set miRsAux = New ADODB.Recordset
-            miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             If Not miRsAux.EOF Then
                 'Tiene nivel usu
                 If miRsAux!nivelusu > 0 Then
@@ -1732,9 +1734,9 @@ Dim AsignarDatos As Boolean
                         MsgBox "Esta intentando modificar datos del usuario ADMINISTRADOR", vbCritical
                         AsignarDatos = False
                     Else
-                        SQL = "El usuario existe para otras aplicaciones de Ariadna Software." & vbCrLf
-                        SQL = SQL & "¿Desea agregarlo como usuario a la contabilidad?"
-                        If MsgBox(SQL, vbQuestion + vbYesNoCancel) = vbYes Then AsignarDatos = True
+                        Sql = "El usuario existe para otras aplicaciones de Ariadna Software." & vbCrLf
+                        Sql = Sql & "¿Desea agregarlo como usuario a la contabilidad?"
+                        If MsgBox(Sql, vbQuestion + vbYesNoCancel) = vbYes Then AsignarDatos = True
                     End If
                     If AsignarDatos Then
                         PonerDatosUsuario
@@ -1756,9 +1758,9 @@ Dim AsignarDatos As Boolean
 End Sub
 
 Private Sub LimpiarCamposUsuario()
-    For i = 0 To 7
-        Text2(i).Text = ""
-    Next i
+    For I = 0 To 7
+        Text2(I).Text = ""
+    Next I
 End Sub
 Private Sub LeerEditorMenus()
     On Error GoTo ELeerEditorMenus
@@ -1863,19 +1865,19 @@ End Sub
 
 
 Private Sub GuardarMenuUsuario()
-    SQL = "DELETE from usuarios.appmenusUsuario where aplicacion='Conta' AND codusu =" & ListView1.SelectedItem.Text
-    Conn.Execute SQL
+    Sql = "DELETE from usuarios.appmenusUsuario where aplicacion='Conta' AND codusu =" & ListView1.SelectedItem.Text
+    Conn.Execute Sql
     
-    i = 0
-    SQL = "INSERT INTO usuarios.appmenususuario (aplicacion, codusu, codigo, tag) VALUES ('Conta'," & ListView1.SelectedItem.Text & ","
+    I = 0
+    Sql = "INSERT INTO usuarios.appmenususuario (aplicacion, codusu, codigo, tag) VALUES ('Conta'," & ListView1.SelectedItem.Text & ","
     RecursivoBD TreeView1.Nodes(1)
 End Sub
 
-Private Sub InsertaBD(vtag As String)
+Private Sub InsertaBD(vTag As String)
 Dim C As String
-    i = i + 1
+    I = I + 1
     'SQL = "INSERT INTO appmenususuario (aplicacion, codusu, codigo, tag)
-    C = SQL & i & ",'" & vtag & "')"
+    C = Sql & I & ",'" & vTag & "')"
     Conn.Execute C
 End Sub
 
@@ -1956,16 +1958,16 @@ End Sub
 
 
 Private Sub CargaCombo6(Usuario As Integer)
-Dim SQL As String
+Dim Sql As String
 Dim Rs As ADODB.Recordset
 
     'skin
     Combo6.Clear
     
-    SQL = "select codusu, login from usuarios.usuarios where codusu <> " & DBSet(Usuario, "N") & " and login <> 'root' and nivelusu > -1 order by 1"
+    Sql = "select codusu, login from usuarios.usuarios where codusu <> " & DBSet(Usuario, "N") & " and login <> 'root' and nivelusu > -1 order by 1"
     
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     Combo6.AddItem "Ninguno"
     Combo6.ItemData(Combo6.NewIndex) = 0

@@ -1688,7 +1688,7 @@ Dim ColImporte As Collection   ' Para la cuenta que estamos procesando llevará y
             
             PB.Value = Round((C1 / CONT), 3) * 1000
             PB.Refresh
-            DoEvents
+            DoEvent2
             If PulsadoCancelar Then Rs.MoveLast
            
             'Siguiente cta
@@ -2588,7 +2588,7 @@ Dim importesL(3) As Currency   '0 anteriro d   anterior h     periodo d     peri
             Rs.MoveNext
         
             If (CONT Mod 30) = 1 Then
-                DoEvents
+                DoEvent2
                 If PulsadoCancelar Then
                     Rs.Close
                     Set Rs = Nothing

@@ -602,7 +602,7 @@ Attribute frmPre.VB_VarHelpID = -1
 Private Modo As Byte
 Dim gridCargado As Boolean 'Si el DataGrid ya tiene todos los Datos cargados.
 Dim PrimeraVez As Boolean
-Dim Cad As String
+Dim cad As String
 
 
 Private Sub cmdAceptar_Click()
@@ -617,13 +617,13 @@ Dim Ivas As Currency
   
     Set miRsAux = New ADODB.Recordset
    
-    Cad = ""
+    cad = ""
     Bases = 0: Ivas = 0
     data2.Recordset.MoveFirst
     While Not data2.Recordset.EOF
-        Cad = Cad & vbCrLf & "IVA: " & data2.Recordset.Fields(0) & "% " & vbCrLf
-        Cad = Cad & "Base: " & data2.Recordset.Fields(1) & vbCrLf
-        Cad = Cad & "Imp iva: " & data2.Recordset.Fields(2) & vbCrLf
+        cad = cad & vbCrLf & "IVA: " & data2.Recordset.Fields(0) & "% " & vbCrLf
+        cad = cad & "Base: " & data2.Recordset.Fields(1) & vbCrLf
+        cad = cad & "Imp iva: " & data2.Recordset.Fields(2) & vbCrLf
         Bases = Bases + data2.Recordset.Fields(1)
         Ivas = Ivas + data2.Recordset.Fields(2)
         
@@ -632,11 +632,11 @@ Dim Ivas As Currency
     data2.Recordset.MoveFirst
     
     
-    Cad = Cad & vbCrLf & vbCrLf
-    Cad = Cad & "TOTAL" & vbCrLf & "               " & Bases & " +  " & Ivas & " = " & Bases + Ivas & vbCrLf
+    cad = cad & vbCrLf & vbCrLf
+    cad = cad & "TOTAL" & vbCrLf & "               " & Bases & " +  " & Ivas & " = " & Bases + Ivas & vbCrLf
     
-    Cad = String(40, "*") & Cad & String(40, "*") & vbCrLf & "¿Generar factura?"
-    If MsgBox(Cad, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+    cad = String(40, "*") & cad & String(40, "*") & vbCrLf & "¿Generar factura?"
+    If MsgBox(cad, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     
     
     
@@ -677,22 +677,22 @@ End Sub
 
 
 Private Sub DataGrid1_RowColChange(LastRow As Variant, ByVal LastCol As Integer)
-    If Not data1.Recordset.EOF And gridCargado And Modo = 4 Then
+    If Not Data1.Recordset.EOF And gridCargado And Modo = 4 Then
        CargaTxtAux True, False
        'txtAux.SelStart = Len(Me.txtAux.Text)
        
-       txtAux(0).SetFocus
+       txtaux(0).SetFocus
        
-       txtAux(0).SelStart = 0
-       txtAux(0).SelLength = Len(Me.txtAux(0).Text)
-       txtAux(0).Refresh
+       txtaux(0).SelStart = 0
+       txtaux(0).SelLength = Len(Me.txtaux(0).Text)
+       txtaux(0).Refresh
        PonIndicador
     End If
 End Sub
 
 Private Sub PonIndicador()
 On Error Resume Next
-       Me.lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
+       Me.lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
        If Err.Number <> 0 Then
             Me.lblIndicador.Caption = ""
             Err.Clear
@@ -705,7 +705,7 @@ Private Sub Form_Activate()
          PrimeraVez = False
          CargaDatosFra
          CargaTxtAux True, False
-         PonFoco txtAux(0)
+         PonFoco txtaux(0)
     End If
 End Sub
 
@@ -751,14 +751,14 @@ On Error GoTo ECarga
 
     gridCargado = False
     
-    Cad = "select seccion,descripcion,base,porceniva,iva,base+iva from "
-    Cad = Cad & " importanatmptotal,importnavconceptos where seccion=concepto ORDER BY seccion, iva"
+    cad = "select seccion,descripcion,base,porceniva,iva,base+iva from "
+    cad = cad & " importanatmptotal,importnavconceptos where seccion=concepto ORDER BY seccion, iva"
 
-    data1.ConnectionString = Conn
-    data1.RecordSource = Cad
-    data1.CursorType = adOpenDynamic
-    data1.LockType = adLockPessimistic
-    data1.Refresh
+    Data1.ConnectionString = Conn
+    Data1.RecordSource = cad
+    Data1.CursorType = adOpenDynamic
+    Data1.LockType = adLockPessimistic
+    Data1.Refresh
    
     
     PrimeraVez = False
@@ -788,12 +788,12 @@ On Error GoTo ECarga
     
     
     
-    Cad = "select  porceniva '%iva',sum(base) base,sum(iva) IVA,sum(base+iva) Total"
-    Cad = Cad & " from importanatmptotal  group by 1"
+    cad = "select  porceniva '%iva',sum(base) base,sum(iva) IVA,sum(base+iva) Total"
+    cad = cad & " from importanatmptotal  group by 1"
 
 
     data2.ConnectionString = Conn
-    data2.RecordSource = Cad
+    data2.RecordSource = cad
     data2.CursorType = adOpenDynamic
     data2.LockType = adLockPessimistic
     data2.Refresh
@@ -829,9 +829,9 @@ Dim J As Byte
 
     If Not visible Then
         'Fijamos el alto (ponerlo en la parte inferior del form)
-        txtAux(0).top = 290
-        txtAux(0).visible = visible
-        txtAux(1).visible = visible
+        txtaux(0).top = 290
+        txtaux(0).visible = visible
+        txtaux(1).visible = visible
     Else
         DeseleccionaGrid Me.DataGrid1
         If DataGrid1.Row < 0 Then
@@ -842,16 +842,16 @@ Dim J As Byte
         
         For J = 0 To 3
             If Limpiar Then
-                txtAux(J).Text = ""
+                txtaux(J).Text = ""
             Else
-                txtAux(J).Text = Format(data1.Recordset.Fields(J + 2), FormatoImporte)
+                txtaux(J).Text = Format(Data1.Recordset.Fields(J + 2), FormatoImporte)
             End If
-            txtAux(J).top = alto
-            txtAux(J).Locked = J > 0
-            txtAux(J).Height = DataGrid1.RowHeight
-            txtAux(J).Left = DataGrid1.Columns(J + 2).Left + 130
-            txtAux(J).Width = DataGrid1.Columns(J + 2).Width - 10
-            txtAux(J).visible = visible
+            txtaux(J).top = alto
+            txtaux(J).Locked = J > 0
+            txtaux(J).Height = DataGrid1.RowHeight
+            txtaux(J).Left = DataGrid1.Columns(J + 2).Left + 130
+            txtaux(J).Width = DataGrid1.Columns(J + 2).Width - 10
+            txtaux(J).visible = visible
         Next
         
 
@@ -884,16 +884,16 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub frmPre_DatoSeleccionado(CadenaSeleccion As String)
-    Cad = CadenaSeleccion
+    cad = CadenaSeleccion
 End Sub
 
 
 Private Sub txtaux_GotFocus(Index As Integer)
-    txtAux(Index).SelStart = 0
-    txtAux(Index).SelLength = Len(txtAux(Index).Text)
+    txtaux(Index).SelStart = 0
+    txtaux(Index).SelLength = Len(txtaux(Index).Text)
 End Sub
 
-Private Sub TxtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
 On Error GoTo EKeyD
     If KeyCode = 38 Or KeyCode = 40 Then
         ModificarExistencia
@@ -903,13 +903,13 @@ On Error GoTo EKeyD
         Case 38 'Desplazamieto Fecha Hacia Arriba
                 If DataGrid1.Bookmark > 0 Then
                     DataGrid1.Bookmark = DataGrid1.Bookmark - 1
-                    PonFoco txtAux(Index)
+                    PonFoco txtaux(Index)
                 End If
         
         Case 40 'Desplazamiento Flecha Hacia Abajo
                 PasarSigReg
-                Me.txtAux(Index).SelStart = 0
-                Me.txtAux(Index).SelLength = Len(Me.txtAux(Index).Text)
+                Me.txtaux(Index).SelStart = 0
+                Me.txtaux(Index).SelLength = Len(Me.txtaux(Index).Text)
                 'txtaux.Refresh
     End Select
 EKeyD:
@@ -936,7 +936,7 @@ End Sub
 Private Sub txtAux_LostFocus(Index As Integer)
 Dim Importe As Currency
     If Screen.ActiveControl.Name = "cmdCancelar" Then Exit Sub
-    With txtAux(Index)
+    With txtaux(Index)
         .Text = Trim(.Text)
         If .Text = "" Then
             .Text = "0,00"
@@ -945,18 +945,18 @@ Dim Importe As Currency
                     MsgBox "Importes deben ser numéricos.", vbExclamation
                     On Error Resume Next
                     .Text = "0,00"
-                    PonFoco txtAux
+                    PonFoco txtaux
                     Exit Sub
                 End If
                 
                 
                 'Es numerico
                 If InStr(1, .Text, ",") > 0 Then
-                    Cad = ImporteFormateado(.Text)
+                    cad = ImporteFormateado(.Text)
                 Else
-                    Cad = TransformaPuntosComas(.Text)
+                    cad = TransformaPuntosComas(.Text)
                 End If
-                If CadenaCurrency(Cad, Importe) Then .Text = Format(Importe, "0.00")
+                If CadenaCurrency(cad, Importe) Then .Text = Format(Importe, "0.00")
                     
                 
         
@@ -1015,19 +1015,19 @@ End Sub
 
 
 Private Sub BotonModificar()
-    If data1.Recordset.EOF Then Exit Sub
+    If Data1.Recordset.EOF Then Exit Sub
     PonerModo 4
     CargaTxtAux True, True
-    PonleFoco txtAux
+    PonleFoco txtaux
 End Sub
 
 
-Private Function DatosOk() As Boolean
+Private Function DatosOK() As Boolean
 'Solo se actualiza el campo de Existencia Real
-    txtAux(0).Text = Trim(txtAux(0).Text)
-    DatosOk = False
-    If txtAux(0).Text <> "" Then
-        If EsNumerico(txtAux(0).Text) Then DatosOk = True
+    txtaux(0).Text = Trim(txtaux(0).Text)
+    DatosOK = False
+    If txtaux(0).Text <> "" Then
+        If EsNumerico(txtaux(0).Text) Then DatosOK = True
     End If
 End Function
 
@@ -1048,11 +1048,11 @@ End Sub
 
 Private Sub PasarSigReg()
 'Nos situamos en el siguiente registro
-    If DataGrid1.Bookmark < data1.Recordset.RecordCount Then
+    If DataGrid1.Bookmark < Data1.Recordset.RecordCount Then
 '        DataGrid1.Row = DataGrid1.Row + 1
         DataGrid1.Bookmark = DataGrid1.Bookmark + 1
-        PonleFoco Me.txtAux(0)
-    ElseIf DataGrid1.Bookmark = data1.Recordset.RecordCount Then
+        PonleFoco Me.txtaux(0)
+    ElseIf DataGrid1.Bookmark = Data1.Recordset.RecordCount Then
        PonleFoco cmdAceptar
     End If
     
@@ -1064,18 +1064,18 @@ Private Function ModificarExistencia() As Boolean
 Dim NumReg As Long
 
 
-    If DatosOk Then
+    If DatosOK Then
         
         If ActualizarExistencia() Then
             
-            NumReg = data1.Recordset.AbsolutePosition
+            NumReg = Data1.Recordset.AbsolutePosition
             CargaGrid
             
                     
-            If NumReg < data1.Recordset.RecordCount Then
-                data1.Recordset.Move NumReg - 1
+            If NumReg < Data1.Recordset.RecordCount Then
+                Data1.Recordset.Move NumReg - 1
             Else
-                data1.Recordset.MoveLast
+                Data1.Recordset.MoveLast
             End If
         End If
 
@@ -1093,7 +1093,7 @@ End Function
 
 Private Function ActualizarExistencia() As Boolean
 'Actualiza la cantidad de stock Inventariada (Existencia Real en Almacen)
-Dim SQL As String
+Dim Sql As String
 Dim Cantidad As Currency
 
 
@@ -1102,26 +1102,26 @@ Dim Cantidad As Currency
     
         
 
-    If InStr(1, txtAux(0).Text, ",") > 0 Then
-        Cad = ImporteFormateado(txtAux(0).Text)
+    If InStr(1, txtaux(0).Text, ",") > 0 Then
+        cad = ImporteFormateado(txtaux(0).Text)
     Else
-        Cad = TransformaPuntosComas(txtAux(0).Text)
+        cad = TransformaPuntosComas(txtaux(0).Text)
     End If
-    Cantidad = TransformaPuntosComas(Cad)
+    Cantidad = TransformaPuntosComas(cad)
     
    
     
-    If Cantidad <> data1.Recordset!Base Then
+    If Cantidad <> Data1.Recordset!Base Then
     
         
-        SQL = "UPDATE importanatmptotal SET base =  " & TransformaComasPuntos(CStr(Cantidad))
-        Cantidad = (Cantidad * data1.Recordset!porceniva) / 100
+        Sql = "UPDATE importanatmptotal SET base =  " & TransformaComasPuntos(CStr(Cantidad))
+        Cantidad = (Cantidad * Data1.Recordset!porceniva) / 100
         Cantidad = Round2(Cantidad, 2)
-        SQL = SQL & " , iva=" & TransformaComasPuntos(CStr(Cantidad))
-        SQL = SQL & " , Modificad=1"
-        SQL = SQL & " WHERE seccion = " & data1.Recordset!seccion & " AND porceniva="
-        SQL = SQL & TransformaComasPuntos(CStr(data1.Recordset!porceniva))
-        Conn.Execute SQL
+        Sql = Sql & " , iva=" & TransformaComasPuntos(CStr(Cantidad))
+        Sql = Sql & " , Modificad=1"
+        Sql = Sql & " WHERE seccion = " & Data1.Recordset!seccion & " AND porceniva="
+        Sql = Sql & TransformaComasPuntos(CStr(Data1.Recordset!porceniva))
+        Conn.Execute Sql
         
         
        
@@ -1131,7 +1131,7 @@ Dim Cantidad As Currency
 EActualizar:
     If Err.Number <> 0 Then
         'Hay error , almacenamos y salimos
-         MuestraError Err.Number, SQL, Err.Description
+         MuestraError Err.Number, Sql, Err.Description
          ActualizarExistencia = False
     Else
         ActualizarExistencia = True
@@ -1142,15 +1142,25 @@ End Function
 
 Private Sub CargaDatosFra()
     Set miRsAux = New ADODB.Recordset
-    Cad = "select tienda,descripcion ,fechafac, numfac from importnavtmp,importnavcentros where tienda=codcentro and secuencial=1"
-    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-   
-    Me.txtDatos(0).Text = miRsAux.Fields(0)
-    Me.txtDatos(1).Text = miRsAux.Fields(1)
-    Me.txtDatos(2).Text = Format(miRsAux.Fields(2), "dd/mm/yyyy")
-    Me.txtDatos(3).Text = miRsAux.Fields(3)
-    Me.Text3.Text = txtDatos(2).Text
-    Me.txtDatos(5).Text = miRsAux.Fields(0) & " " & miRsAux.Fields(1)
+    cad = "select tienda,descripcion ,fechafac, numfac from importnavtmp,importnavcentros where tienda=codcentro and secuencial=1"
+    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If miRsAux.EOF Then
+        Me.txtDatos(0).Text = "Error"
+        Me.txtDatos(1).Text = "Error"
+        Me.txtDatos(2).Text = "Error"
+        Me.txtDatos(3).Text = "Error"
+        Me.Text3.Text = txtDatos(2).Text
+        Me.txtDatos(5).Text = "Error"
+        Me.cmdAceptar.Enabled = False
+    Else
+        Me.txtDatos(0).Text = miRsAux.Fields(0)
+        Me.txtDatos(1).Text = miRsAux.Fields(1)
+        Me.txtDatos(2).Text = Format(miRsAux.Fields(2), "dd/mm/yyyy")
+        Me.txtDatos(3).Text = miRsAux.Fields(3)
+        Me.Text3.Text = txtDatos(2).Text
+        Me.txtDatos(5).Text = miRsAux.Fields(0) & " " & miRsAux.Fields(1)
+        Me.cmdAceptar.Enabled = True
+    End If
     miRsAux.Close
     
 End Sub
@@ -1169,13 +1179,13 @@ Private Function DatosCorrecto() As Boolean
             
             
     'Vamos a ver si NO existe una factura de CONSUM con ese numero de facvura
-    Cad = DevuelveDesdeBD("Ctaconsum", "importnavparam ", "1", "1")
-    Cad = "codmacta = '" & Cad & "' AND fecharec>='" & Year(vParam.fechaini) & "-01-01' AND numfactu"
-    Cad = DevuelveDesdeBD("numfactu", "factpro", Cad, Me.txtDatos(3).Text, "T")
-    If Cad <> "" Then
-        Cad = "Ya existe la factura de consum nº:  " & Me.txtDatos(3).Text & vbCrLf & vbCrLf
-        Cad = Cad & vbCrLf & "¿Continuar?"
-        If MsgBox(Cad, vbQuestion + vbYesNo) <> vbYes Then Exit Function
+    cad = DevuelveDesdeBD("Ctaconsum", "importnavparam ", "1", "1")
+    cad = "codmacta = '" & cad & "' AND fecharec>='" & Year(vParam.fechaini) & "-01-01' AND numfactu"
+    cad = DevuelveDesdeBD("numfactu", "factpro", cad, Me.txtDatos(3).Text, "T")
+    If cad <> "" Then
+        cad = "Ya existe la factura de consum nº:  " & Me.txtDatos(3).Text & vbCrLf & vbCrLf
+        cad = cad & vbCrLf & "¿Continuar?"
+        If MsgBox(cad, vbQuestion + vbYesNo) <> vbYes Then Exit Function
     End If
         
             
@@ -1226,10 +1236,10 @@ Private Function DatosCorrecto() As Boolean
     
     If NumRegElim = 0 Then
         
-        Cad = "La factura corresponde a un periodo ya liquidado. " & vbCrLf
-        Cad = Cad & vbCrLf & " ¿Desea continuar igualmente ?"
+        cad = "La factura corresponde a un periodo ya liquidado. " & vbCrLf
+        cad = cad & vbCrLf & " ¿Desea continuar igualmente ?"
       
-        If MsgBox(Cad, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Function
+        If MsgBox(cad, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Function
     End If
         
     
