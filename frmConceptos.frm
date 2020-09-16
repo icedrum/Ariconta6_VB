@@ -514,7 +514,7 @@ Private Const IdPrograma = 203
 
 Private frmMens As frmMensajes
 
-
+Dim PrimeraVez As Boolean
 Private CadenaConsulta As String
 Private CadB As String
 
@@ -536,7 +536,7 @@ Dim Modo As Byte
 
 Private Sub PonerModo(vModo)
 Dim B As Boolean
-Dim i As Integer
+Dim I As Integer
 
     Modo = vModo
 
@@ -549,27 +549,27 @@ Dim i As Integer
     
     B = (Modo = 0 Or Modo = 2)
         
-    txtAux(0).Visible = Not B
-    txtAux(1).Visible = Not B
-    Combo1.Visible = Not B
-    Combo2.Visible = Not B
+    txtAux(0).visible = Not B
+    txtAux(1).visible = Not B
+    Combo1.visible = Not B
+    Combo2.visible = Not B
     
-    For i = 0 To txtAux.Count - 1
-        txtAux(i).BackColor = vbWhite
-    Next i
+    For I = 0 To txtAux.Count - 1
+        txtAux(I).BackColor = vbWhite
+    Next I
     Combo1.BackColor = vbWhite
     Combo2.BackColor = vbWhite
     
     'Prueba
     
     
-    cmdAceptar.Visible = Not B
-    cmdCancelar.Visible = Not B
+    cmdAceptar.visible = Not B
+    cmdCancelar.visible = Not B
     DataGrid1.Enabled = B
     
     'Si es regresar
     If DatosADevolverBusqueda <> "" Then
-        cmdRegresar.Visible = B
+        cmdRegresar.visible = B
     End If
     txtAux(0).Enabled = (Modo <> 4)
     
@@ -627,11 +627,11 @@ End Sub
 
 
 Private Sub BotonVerTodos()
-    CargaGrid ""
+    CargaGrid2 "", False
 End Sub
 
 Private Sub BotonBuscar()
-    CargaGrid "codconce = -1"
+    CargaGrid2 "false", False
     'Buscar
     txtAux(0).Text = ""
     txtAux(1).Text = ""
@@ -643,14 +643,14 @@ Private Sub BotonModificar()
     '---------
     'MODIFICAR
     '----------
-    Dim Cad As String
+    Dim cad As String
     Dim anc As Single
-    Dim i As Integer
+    Dim I As Integer
     If adodc1.Recordset.EOF Then Exit Sub
     If adodc1.Recordset.RecordCount < 1 Then Exit Sub
 
 
-    If adodc1.Recordset!codconce > 899 Then
+    If adodc1.Recordset!CodConce > 899 Then
         MsgBox "La aplicación se reserva los 100 ultimos conceptos", vbExclamation
         Exit Sub
     End If
@@ -658,8 +658,8 @@ Private Sub BotonModificar()
     Me.lblIndicador.Caption = "MODIFICAR"
     DeseleccionaGrid
     If DataGrid1.Bookmark < DataGrid1.FirstRow Or DataGrid1.Bookmark > (DataGrid1.FirstRow + DataGrid1.VisibleRows - 1) Then
-        i = DataGrid1.Bookmark - DataGrid1.FirstRow
-        DataGrid1.Scroll 0, i
+        I = DataGrid1.Bookmark - DataGrid1.FirstRow
+        DataGrid1.Scroll 0, I
         DataGrid1.Refresh
     End If
     
@@ -672,8 +672,8 @@ Private Sub BotonModificar()
     'Llamamos al form
     txtAux(0).Text = DataGrid1.Columns(0).Text
     txtAux(1).Text = DataGrid1.Columns(1).Text
-    i = adodc1.Recordset!TipoConce
-    Combo1.ListIndex = i - 1
+    I = adodc1.Recordset!TipoConce
+    Combo1.ListIndex = I - 1
     If DBLet(adodc1.Recordset!EsEfectivo340, "T") = "" Then
         Combo2.ListIndex = 0
     Else
@@ -706,7 +706,7 @@ Dim Sql As String
     On Error GoTo Error2
     'Ciertas comprobaciones
     If adodc1.Recordset.EOF Then Exit Sub
-    If adodc1.Recordset!codconce > 899 Then
+    If adodc1.Recordset!CodConce > 899 Then
         MsgBox "La aplicación se reserva los 100 ultimos conceptos", vbExclamation
         Exit Sub
     End If
@@ -718,9 +718,9 @@ Dim Sql As String
     Sql = Sql & vbCrLf & "Denominación: " & adodc1.Recordset.Fields(1)
     If MsgBox(Sql, vbQuestion + vbYesNoCancel) = vbYes Then
         'Hay que eliminar
-        Sql = "Delete from conceptos where codconce=" & adodc1.Recordset!codconce
+        Sql = "Delete from conceptos where codconce=" & adodc1.Recordset!CodConce
         Conn.Execute Sql
-        CargaGrid ""
+        CargaGrid2 "", False
         adodc1.Recordset.Cancel
     End If
     Exit Sub
@@ -736,7 +736,7 @@ End Sub
 
 
 Private Sub cmdAceptar_Click()
-Dim i As Integer
+Dim I As Integer
 Dim CadB As String
     Select Case Modo
     Case 1
@@ -744,7 +744,7 @@ Dim CadB As String
         CadB = ObtenerBusqueda(Me)
         If CadB <> "" Then
             PonerModo 0
-            CargaGrid CadB
+            CargaGrid2 CadB, False
         End If
     Case 3
         If DatosOK Then
@@ -752,7 +752,7 @@ Dim CadB As String
             'Hacemos insertar
             If InsertarDesdeForm(Me) Then
                 'MsgBox "Registro insertado.", vbInformation
-                CargaGrid
+                CargaGrid2 "", False
                 BotonAnyadir
             End If
         End If
@@ -762,10 +762,10 @@ Dim CadB As String
                 '-----------------------------------------
                 'Hacemos insertar
                 If ModificaDesdeFormulario(Me) Then
-                    i = adodc1.Recordset.Fields(0)
+                    I = adodc1.Recordset.Fields(0)
                     PonerModo 0
-                    CargaGrid
-                    adodc1.Recordset.Find (adodc1.Recordset.Fields(0).Name & " =" & i)
+                    CargaGrid2 "", False
+                    adodc1.Recordset.Find (adodc1.Recordset.Fields(0).Name & " =" & I)
                 End If
             End If
     End Select
@@ -776,7 +776,7 @@ End Sub
 Private Sub cmdCancelar_Click()
     Select Case Modo
         Case 1
-            CargaGrid
+            CargaGrid2 "", False
         Case 3
             DataGrid1.AllowAddNew = False
             'CargaGrid
@@ -789,7 +789,7 @@ Private Sub cmdCancelar_Click()
 End Sub
 
 Private Sub cmdRegresar_Click()
-Dim Cad As String
+Dim cad As String
 
     If adodc1.Recordset.EOF Then
         MsgBox "Ningún registro a devolver.", vbExclamation
@@ -802,14 +802,14 @@ Dim Cad As String
             MsgBox "Los conceptos superiores a 900 se los reserva la aplicación.", vbExclamation
             Exit Sub
         Else
-            Cad = "Los conceptos superiores a 900 son de la aplicación y no deberia utilizarlis. ¿Desea continuar de igual modo?"
-            If MsgBox(Cad, vbQuestion + vbYesNo) <> vbYes Then Exit Sub
+            cad = "Los conceptos superiores a 900 son de la aplicación y no deberia utilizarlis. ¿Desea continuar de igual modo?"
+            If MsgBox(cad, vbQuestion + vbYesNo) <> vbYes Then Exit Sub
         End If
     End If
-    Cad = adodc1.Recordset.Fields(0) & "|"
-    Cad = Cad & adodc1.Recordset.Fields(1) & "|"
-    Cad = Cad & adodc1.Recordset.Fields(2) & "|"
-    RaiseEvent DatoSeleccionado(Cad)
+    cad = adodc1.Recordset.Fields(0) & "|"
+    cad = cad & adodc1.Recordset.Fields(1) & "|"
+    cad = cad & adodc1.Recordset.Fields(2) & "|"
+    RaiseEvent DatoSeleccionado(cad)
     Unload Me
 End Sub
 
@@ -847,7 +847,7 @@ End Sub
 
 
 Private Sub DataGrid1_DblClick()
-    If cmdRegresar.Visible Then cmdRegresar_Click
+    If cmdRegresar.visible Then cmdRegresar_Click
 End Sub
 
 Private Sub DataGrid1_KeyPress(KeyAscii As Integer)
@@ -855,6 +855,11 @@ Private Sub DataGrid1_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub Form_Activate()
+    If PrimeraVez Then
+        PrimeraVez = False
+        CargaGrid2 "", True
+    End If
+
     Screen.MousePointer = vbDefault
 End Sub
 ' ### [DavidV] 23/12/2016: Activar/desactivar la rueda del ratón.
@@ -911,7 +916,7 @@ Private Sub Form_Load()
     
     CargaCombo
     
-    cmdRegresar.Visible = (DatosADevolverBusqueda <> "")
+    cmdRegresar.visible = (DatosADevolverBusqueda <> "")
     
     DespalzamientoVisible False
     
@@ -929,7 +934,7 @@ Private Sub Form_Load()
     End If
     
     If vWhere <> "" Then CadenaConsulta = CadenaConsulta & " and " & vWhere
-    CargaGrid
+    PrimeraVez = True
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -1012,14 +1017,14 @@ Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
 End Sub
 
 Private Sub DespalzamientoVisible(bol As Boolean)
-    FrameDesplazamiento.Visible = bol
+    FrameDesplazamiento.visible = bol
     FrameDesplazamiento.Enabled = bol
 End Sub
 
-Private Sub CargaGrid(Optional Sql As String)
+Private Sub CargaGrid2(Optional Sql As String, Optional privez As Boolean)
     Dim J As Integer
     Dim TotalAncho As Integer
-    Dim i As Integer
+    Dim I As Integer
     
     adodc1.ConnectionString = Conn
     If Sql <> "" Then
@@ -1035,32 +1040,32 @@ Private Sub CargaGrid(Optional Sql As String)
     
     DataGrid1.AllowRowSizing = False
     DataGrid1.RowHeight = 350 '290
-    
+    If privez Then DataGrid1.ReBind
     
     'Nombre producto
-    i = 0
-        DataGrid1.Columns(i).Caption = "Cod."
-        DataGrid1.Columns(i).Width = 600
-        DataGrid1.Columns(i).NumberFormat = "000"
+    I = 0
+        DataGrid1.Columns(I).Caption = "Cod."
+        DataGrid1.Columns(I).Width = 600
+        DataGrid1.Columns(I).NumberFormat = "000"
         
     
     'Leemos del vector en 2
-    i = 1
-        DataGrid1.Columns(i).Caption = "Denominación"
-        DataGrid1.Columns(i).Width = 3000
-        TotalAncho = TotalAncho + DataGrid1.Columns(i).Width
+    I = 1
+        DataGrid1.Columns(I).Caption = "Denominación"
+        DataGrid1.Columns(I).Width = 3000
+        TotalAncho = TotalAncho + DataGrid1.Columns(I).Width
     
     'El importe es campo calculado
-    i = 2
-        DataGrid1.Columns(i).Visible = False
+    I = 2
+        DataGrid1.Columns(I).visible = False
         
-    i = 3
-        DataGrid1.Columns(i).Caption = "Tipo concepto"
-        DataGrid1.Columns(i).Width = 1830
+    I = 3
+        DataGrid1.Columns(I).Caption = "Tipo concepto"
+        DataGrid1.Columns(I).Width = 1830
         
-    i = 4
-        DataGrid1.Columns(i).Caption = "Efectivo"
-        DataGrid1.Columns(i).Width = 870
+    I = 4
+        DataGrid1.Columns(I).Caption = "Efectivo"
+        DataGrid1.Columns(I).Width = 870
         
         'Fiajamos el cadancho
     If Not CadAncho Then
@@ -1163,12 +1168,12 @@ End Sub
 Private Function SepuedeBorrar() As Boolean
 Dim Sql As String
     SepuedeBorrar = False
-    Sql = DevuelveDesdeBD("tipoamor", "paramamort", "condebes", adodc1.Recordset!codconce, "N")
+    Sql = DevuelveDesdeBD("tipoamor", "paramamort", "condebes", adodc1.Recordset!CodConce, "N")
     If Sql <> "" Then
         MsgBox "Esta vinculada con parametros de amortizacion", vbExclamation
         Exit Function
     End If
-    Sql = DevuelveDesdeBD("tipoamor", "paramamort", "conhaber", adodc1.Recordset!codconce, "N")
+    Sql = DevuelveDesdeBD("tipoamor", "paramamort", "conhaber", adodc1.Recordset!CodConce, "N")
     If Sql <> "" Then
         MsgBox "Esta vinculada con parametros de amortizacion", vbExclamation
         Exit Function
@@ -1181,10 +1186,10 @@ Dim Sql As String
     If vEmpresa.TieneTesoreria Then
 
         Set miRsAux = New ADODB.Recordset
-        Sql = "Select * from tipofpago where condecli =" & adodc1.Recordset!codconce
-        Sql = Sql & " OR conhacli =" & adodc1.Recordset!codconce
-        Sql = Sql & " OR condepro =" & adodc1.Recordset!codconce
-        Sql = Sql & " OR conhapro =" & adodc1.Recordset!codconce
+        Sql = "Select * from tipofpago where condecli =" & adodc1.Recordset!CodConce
+        Sql = Sql & " OR conhacli =" & adodc1.Recordset!CodConce
+        Sql = Sql & " OR condepro =" & adodc1.Recordset!CodConce
+        Sql = Sql & " OR conhapro =" & adodc1.Recordset!CodConce
         miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If miRsAux.EOF Then Sql = ""
         miRsAux.Close
@@ -1221,20 +1226,20 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
     
     On Error Resume Next
 
-    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2)
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 0 Or Modo = 2)
-        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2)
         
         Toolbar1.Buttons(5).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
         Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)

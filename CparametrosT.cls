@@ -499,6 +499,7 @@ End Property
 
 
 
+
 'Public Property Let nctafact(ByVal vData As String)
 ''se usa cuando se asigna un valor a la propiedad, en el
 ''lado izquierdo de la asignacion

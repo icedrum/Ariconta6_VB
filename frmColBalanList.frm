@@ -428,7 +428,7 @@ Public NomBalan As String
 Private WithEvents frmBal As frmBasico
 Attribute frmBal.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 
 
 
@@ -461,7 +461,7 @@ Private Sub cmdAccion_Click(Index As Integer)
     InicializarVbles True
     
     'Vamos a utilizar la temporal de balances donde dejara los valores
-    GeneraDatosBalanConfigImpresion txtBalan(0)
+    GeneraDatosBalanConfigImpresion txtBalan(0), False
     
     
     If Not PonerDesdeHasta("balances.numbalan", "BAL", Me.txtBalan(0), Me.txtNBalan(0), Me.txtBalan(1), Me.txtNBalan(1), "pDH=""") Then Exit Sub
@@ -512,9 +512,9 @@ Private Sub Form_Load()
     'Otras opciones
     Me.Caption = "Impresión de Balances"
 
-    For i = 0 To 1
-        Me.imgBalan(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 0 To 1
+        Me.imgBalan(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
     
     txtBalan(0).Text = Format(NumBalan, "000")
     txtBalan(1).Text = Format(NumBalan, "000")
@@ -526,7 +526,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmBal_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub ImgBalan_Click(Index As Integer)
@@ -597,10 +597,10 @@ Private Sub txtBalan_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtBalan_LostFocus(Index As Integer)
-Dim Cad As String, cadTipo As String 'tipo cliente
+Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtBalan(Index).Text = Trim(txtBalan(Index).Text)
@@ -628,18 +628,18 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 '            lblCuentas(Index).Caption = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", txtCuentas(Index), "T")
             Cta = (txtBalan(Index).Text)
                                     '********
-            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
             If B = 0 Then
                 MsgBox "NO existe la cuenta: " & txtBalan(Index).Text, vbExclamation
                 txtBalan(Index).Text = ""
                 txtNBalan(Index).Text = ""
             Else
                 txtBalan(Index).Text = Cta
-                txtNBalan(Index).Text = SQL
+                txtNBalan(Index).Text = Sql
                 If B = 1 Then
                     txtNBalan(Index).Tag = ""
                 Else
-                    txtNBalan(Index).Tag = SQL
+                    txtNBalan(Index).Tag = Sql
                 End If
                 Hasta = -1
                 If Index = 6 Then
@@ -676,13 +676,13 @@ End Sub
 Private Sub AccionesCSV()
     
     'Monto el SQL
-    SQL = "Select balances.numbalan as codigo, balances.descripcion as descripcion, Balans.ctaingreso as CtaIngresos, Balans.ctagastos as CtaGastos, Balans.sufijoem as sufijoem, Balans.idcedente as cedente,"
-    SQL = SQL & " Balans.iban as IBAN, ccoste.nomccost  as CentroCoste "
-    SQL = SQL & " FROM Balans left join ccoste on Balans.codccost = ccoste.codccost "
-    If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
+    Sql = "Select balances.numbalan as codigo, balances.descripcion as descripcion, Balans.ctaingreso as CtaIngresos, Balans.ctagastos as CtaGastos, Balans.sufijoem as sufijoem, Balans.idcedente as cedente,"
+    Sql = Sql & " Balans.iban as IBAN, ccoste.nomccost  as CentroCoste "
+    Sql = Sql & " FROM Balans left join ccoste on Balans.codccost = ccoste.codccost "
+    If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
         
     'LLamoa a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 

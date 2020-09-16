@@ -49,10 +49,20 @@ Begin VB.Form frmSII_Avisos
       TabIndex        =   4
       Top             =   0
       Width           =   15615
+      Begin VB.CommandButton cmdExportar 
+         Height          =   495
+         Left            =   11040
+         Picture         =   "frmSII_Avisos.frx":0000
+         Style           =   1  'Graphical
+         TabIndex        =   16
+         ToolTipText     =   "Exportar"
+         Top             =   240
+         Width           =   495
+      End
       Begin VB.CommandButton cmdRefrescar 
          Height          =   495
          Left            =   9840
-         Picture         =   "frmSII_Avisos.frx":0000
+         Picture         =   "frmSII_Avisos.frx":058A
          Style           =   1  'Graphical
          TabIndex        =   15
          ToolTipText     =   "Refrescar datos"
@@ -88,9 +98,9 @@ Begin VB.Form frmSII_Avisos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   360
-         ItemData        =   "frmSII_Avisos.frx":0A02
+         ItemData        =   "frmSII_Avisos.frx":0F8C
          Left            =   4080
-         List            =   "frmSII_Avisos.frx":0A04
+         List            =   "frmSII_Avisos.frx":0F8E
          Style           =   2  'Dropdown List
          TabIndex        =   2
          Top             =   480
@@ -107,9 +117,9 @@ Begin VB.Form frmSII_Avisos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   360
-         ItemData        =   "frmSII_Avisos.frx":0A06
+         ItemData        =   "frmSII_Avisos.frx":0F90
          Left            =   2400
-         List            =   "frmSII_Avisos.frx":0A08
+         List            =   "frmSII_Avisos.frx":0F92
          Style           =   2  'Dropdown List
          TabIndex        =   1
          Top             =   480
@@ -126,9 +136,9 @@ Begin VB.Form frmSII_Avisos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   360
-         ItemData        =   "frmSII_Avisos.frx":0A0A
+         ItemData        =   "frmSII_Avisos.frx":0F94
          Left            =   120
-         List            =   "frmSII_Avisos.frx":0A11
+         List            =   "frmSII_Avisos.frx":0F9B
          Style           =   2  'Dropdown List
          TabIndex        =   0
          Top             =   480
@@ -137,7 +147,7 @@ Begin VB.Form frmSII_Avisos
       Begin VB.CommandButton cmdComunicar 
          Height          =   495
          Left            =   9240
-         Picture         =   "frmSII_Avisos.frx":0A21
+         Picture         =   "frmSII_Avisos.frx":0FAB
          Style           =   1  'Graphical
          TabIndex        =   6
          ToolTipText     =   "Comunicar facturas"
@@ -147,9 +157,10 @@ Begin VB.Form frmSII_Avisos
       Begin VB.CommandButton cmdModificar 
          Height          =   495
          Left            =   10440
-         Picture         =   "frmSII_Avisos.frx":1423
+         Picture         =   "frmSII_Avisos.frx":19AD
          Style           =   1  'Graphical
          TabIndex        =   5
+         ToolTipText     =   "Ver/Modificar factura"
          Top             =   240
          Width           =   495
       End
@@ -208,7 +219,7 @@ Begin VB.Form frmSII_Avisos
          Height          =   240
          Index           =   0
          Left            =   7680
-         Picture         =   "frmSII_Avisos.frx":1E25
+         Picture         =   "frmSII_Avisos.frx":23AF
          Top             =   240
          Width           =   240
       End
@@ -233,15 +244,15 @@ Begin VB.Form frmSII_Avisos
       Begin VB.Image Image1 
          Height          =   540
          Left            =   14280
-         Picture         =   "frmSII_Avisos.frx":1EB0
+         Picture         =   "frmSII_Avisos.frx":243A
          Stretch         =   -1  'True
          Top             =   240
          Width           =   540
       End
       Begin VB.Image Image2 
          Height          =   570
-         Left            =   13560
-         Picture         =   "frmSII_Avisos.frx":2A09
+         Left            =   13680
+         Picture         =   "frmSII_Avisos.frx":2F93
          Stretch         =   -1  'True
          Top             =   240
          Width           =   615
@@ -250,7 +261,7 @@ Begin VB.Form frmSII_Avisos
          Height          =   240
          Index           =   1
          Left            =   8400
-         Picture         =   "frmSII_Avisos.frx":35F4
+         Picture         =   "frmSII_Avisos.frx":3B7E
          ToolTipText     =   "Seleccionar todo"
          Top             =   480
          Width           =   240
@@ -259,7 +270,7 @@ Begin VB.Form frmSII_Avisos
          Height          =   240
          Index           =   0
          Left            =   8760
-         Picture         =   "frmSII_Avisos.frx":373E
+         Picture         =   "frmSII_Avisos.frx":3CC8
          ToolTipText     =   "Quitar seleccion"
          Top             =   480
          Width           =   240
@@ -268,10 +279,10 @@ Begin VB.Form frmSII_Avisos
          Caption         =   "aa"
          ForeColor       =   &H00404040&
          Height          =   255
-         Left            =   11040
+         Left            =   11640
          TabIndex        =   8
          Top             =   360
-         Width           =   2055
+         Width           =   1695
       End
    End
    Begin MSComctlLib.StatusBar statusBar 
@@ -450,6 +461,15 @@ Private Sub cmdComunicar_Click()
 
 
 End Sub
+
+Private Sub cmdExportar_Click()
+    
+    If Me.wndReportControl.Records.Count = 0 Then Exit Sub
+    
+    ExportarCSV
+    
+End Sub
+
 
 Private Sub cmdModificar_Click()
 Dim Sql As String
@@ -912,9 +932,9 @@ Private Function SQL_ASWSII()
 End Function
 
 
-Private Sub CargaRs()
-
-End Sub
+'Private Sub CargaRs()
+'
+'End Sub
 
 Private Function SQL_() As String
 Dim Sql As String
@@ -1992,3 +2012,23 @@ End Sub
 ''End Sub
 ''
 ''
+
+
+Private Sub ExportarCSV()
+Dim Sql As String
+    
+    On Error GoTo eExportarCsv
+    
+    Sql = SQL_
+        
+    'LLamos a la funcion
+    Screen.MousePointer = vbHourglass
+    If GeneraFicheroCSV(Sql, App.Path & "\DatosPdeSII.csv", True) Then
+        LanzaVisorMimeDocumento Me.hwnd, App.Path & "\DatosPdeSII.csv"
+    End If
+
+    
+eExportarCsv:
+    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description
+    Screen.MousePointer = vbDefault
+End Sub

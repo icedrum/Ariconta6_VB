@@ -924,6 +924,9 @@ Public Const ID_AseguComprobarVtos = 418
 Public Const ID_SII = 416
 
 
+Public Const ID_FraVariasConce = 420
+Public Const ID_FraVarias = 421
+
 
 
 
@@ -995,7 +998,7 @@ Public Const ID_Aumentardígitoscontables = 1410
 Public Const ID_TraspasocodigosdeIVA = 1411
 Public Const ID_Accionesrealizadas = 1412
 Public Const ID_ImportarFacturasCliente = 1413
-
+Public Const ID_AVNICS = 1416
 
 Public Const ID_Licencia_Usuario_Final_txt = 2001
 Public Const ID_Licencia_Usuario_Final_web = 2002

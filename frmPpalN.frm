@@ -734,7 +734,7 @@ Dim N_Skin As Integer
 End Sub
 
 Public Sub SetBackstageTheme()
-Dim I As Integer
+Dim i As Integer
     Dim nTheme As XtremeCommandBars.XTPBackstageButtonControlAppearanceStyle
     nTheme = xtpAppearanceResource
 
@@ -746,8 +746,8 @@ Dim I As Integer
    ' End If
     
     If Not (pageBackstageHelp Is Nothing) Then
-        For I = 0 To 4
-            pageBackstageHelp.btnAcciones(I).Appearance = nTheme
+        For i = 0 To 4
+            pageBackstageHelp.btnAcciones(i).Appearance = nTheme
         Next
         
     End If
@@ -1153,7 +1153,7 @@ Dim res
         
         
     
-        
+        DoEvent2
         AccionesIncioAbrirProgramaEmpresa
         'DoEvents
    
@@ -1391,7 +1391,7 @@ Dim TamanyoImgComun As Integer
 End Sub
 
 Public Sub GetIconsFromLibrary(ByVal sLibraryFilePath As String, ByVal op As Integer, ByVal tam As Integer)
-    Dim I As Integer
+    Dim i As Integer
     Dim tRes As ResType, iCount As Integer
         
     opcio = op
@@ -1453,10 +1453,10 @@ Private Sub Form_Unload(Cancel As Integer)
     
     'close all sub forms
     On Error Resume Next
-    Dim I As Long
-    For I = Forms.Count - 1 To 1 Step -1
+    Dim i As Long
+    For i = Forms.Count - 1 To 1 Step -1
         
-        Unload Forms(I)
+        Unload Forms(i)
     Next
     
     
@@ -1467,10 +1467,10 @@ End Sub
 
 
 Private Sub GuardarDatosUltimaTab()
-    I = RibbonBar.SelectedTab.Id
-    If I = ID_TAB_CALENDAR_HOME Then Exit Sub 'no guardo este tab
-    If I <> vUsu.TabPorDefecto Then
-        vUsu.TabPorDefecto = I
+    i = RibbonBar.SelectedTab.Id
+    If i = ID_TAB_CALENDAR_HOME Then Exit Sub 'no guardo este tab
+    If i <> vUsu.TabPorDefecto Then
+        vUsu.TabPorDefecto = i
         vUsu.GuardarTabPorDefecto
     End If
 End Sub
@@ -1548,8 +1548,8 @@ Private Sub LoadIcons()
     T = Array(1, ID_Conceptos, ID_TiposdeIVA, ID_Bancos, ID_FormasdePago, ID_FacturasRecibidas, 1, ID_FacturasEmitidas, ID_LibroFacturasRecibidas, 1, 1, 1, 1, 1, 1, _
         ID_RelaciónClientesporcuenta, ID_RelacionProveedoresporcuenta, 1, 1, 1, ID_RealizarCobro, ID_RealizarPago, 1, ID_Elementos, 1, 1, 1, 1, 1, ID_Punteoextractobancario, _
         1, ID_InformePagospendientes, 1, 1, ID_Empresa, ID_ParametrosContabilidad, 1, ID_Contadores, ID_Extractos, ID_CarteradePagos, 1, 1, 1, ID_Punteo, 1, _
-        1, ID_PlanContable, 1, ID_ConsoPyG, 1, ID_Informes, 1, ID_Usuarios, 1, 1, 1, 1, ID_Nuevaempresa, ID_ConfigurarBalances, 1, _
-        ID_ConsoSitu, 1, 1, 1, 1, 1, ID_ConceptosInm, 1, 1, ID_GenerarAmortización, 1, 1, 1, 1, 1, _
+        ID_AVNICS, ID_PlanContable, 1, ID_ConsoPyG, 1, ID_Informes, 1, ID_Usuarios, 1, 1, 1, 1, ID_Nuevaempresa, ID_ConfigurarBalances, 1, _
+        ID_ConsoSitu, 1, 1, ID_FraVarias, 1, ID_FraVariasConce, ID_ConceptosInm, 1, 1, ID_GenerarAmortización, 1, 1, 1, 1, 1, _
         ID_ImportarFacturasCliente, 1, 1, ID_Compensarcliente, ID_SumasySaldos, ID_CuentadeExplotación, ID_BalancedeSituación, ID_PérdidasyGanancias, 1, 1, 1, 1, 1, ID_CarteradeCobros, ID_InformeCobrosPendientes, _
         ID_Renumeracióndeasientos, ID_CierredeEjercicio, ID_Deshacercierre, ID_DiarioOficial, ID_PresentaciónTelemáticadeLibros, ID_Traspasodecuentasenapuntes, ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, 1, 1, 1, 1, 1, _
         ID_Traspasodecuentasenapuntes, ID_Aumentardígitoscontables, 1, 1, 1, 1, 1, ID_LibroFacturasEmitidas, 1, 1, ID_Remesas, 1, ID_Consolidado, 1, ID_GraficosChart, _
@@ -1651,10 +1651,10 @@ Private Sub LoadIcons()
         CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\suministro-inmediato-informacion.bmp", ID_SII, xtpImageNormal
             
             
-        Dim I As Integer
-        For I = 1 To 17
-            SuiteControlsGlobalSettings.Icons.LoadIcon App.Path & "\styles\TreeView\icon" & I & ".ico", I, xtpImageNormal
-        Next I
+        Dim i As Integer
+        For i = 1 To 17
+            SuiteControlsGlobalSettings.Icons.LoadIcon App.Path & "\styles\TreeView\icon" & i & ".ico", i, xtpImageNormal
+        Next i
 End Sub
 
 Private Sub SaveRibbonBarToXML()
@@ -2056,14 +2056,14 @@ Dim Anterior As Integer
     End If
     
     cad = ""
-    For I = 0 To RibbonBar.TabCount - 1
-        J = RibbonBar.Tab(I).Id
+    For i = 0 To RibbonBar.TabCount - 1
+        J = RibbonBar.Tab(i).Id
         'Debug.Print J & " " & RibbonBar.Tab(i).Caption
         If J = Anterior Then
             
-            RibbonBar.Tab(I).visible = True
-            RibbonBar.Tab(I).Selected = True
-            Set RibbonBar.SelectedTab = RibbonBar.Tab(I)
+            RibbonBar.Tab(i).visible = True
+            RibbonBar.Tab(i).Selected = True
+            Set RibbonBar.SelectedTab = RibbonBar.Tab(i)
             cad = "OK"
             Exit For
         End If
@@ -2289,6 +2289,7 @@ Dim GropCli As RibbonGroup
 Dim GrupPag As RibbonGroup
 Dim Consoli As RibbonGroup
 Dim OpsAseg As RibbonGroup
+Dim FraVarias As RibbonGroup
 Dim Insertado As Boolean
 Dim B As Boolean
 
@@ -2302,8 +2303,8 @@ Dim B As Boolean
         Set GropCli = TabNuevo.Groups.AddGroup("EMITIDAS", cad & "0")
         Set GrupPag = TabNuevo.Groups.AddGroup("RECIBIDAS", cad & "1")
         Set GroupNew = TabNuevo.Groups.AddGroup("I.V.A.", cad & "2")
-            
-
+        Set FraVarias = TabNuevo.Groups.AddGroup("FACTURAS VARIAS", cad & "3")
+    
 '
 '        401 "Facturas Emitidas" 14
 '        402 "Libro Facturas Emitidas"   16
@@ -2322,6 +2323,11 @@ Dim B As Boolean
 '        416 SII
 '        417 ID_AseguComunicaSeguroAvisos
 '        418 ID_AseguComprobarVtos
+
+'        420  fra varias conceto
+'        421  fra varias mto
+
+
         'todos los hijos que cuelgan en la tab
         cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
         
@@ -2363,6 +2369,9 @@ Dim B As Boolean
                        Insertado = False
                     End If
                 End If
+            Case ID_FraVarias, ID_FraVariasConce
+                'Set Control = FraVarias.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                Set Control = FraVarias.Add(xtpControlButton, Rn2!Codigo, IIf(Rn2!Codigo = ID_FraVarias, "Facturas", "Conceptos"))
             Case Else
                 B = True
                 If Rn2!Codigo = ID_SII Then
@@ -2785,7 +2794,7 @@ Dim Col As Collection
         cad = ""
         Set Col = New Collection
         While Not Rn2.EOF
-           I = I + 1
+           i = i + 1
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
                 Habilitado = True
     
@@ -2818,6 +2827,7 @@ Dim Col As Collection
             '1412    "Acciones realizadas"
             '1413    Importar fras cliente
             '1414    importacon facturas (de momento consum)
+            '1416    ID_AVNICS
             
         'Ya puedo utilizar numregelim
         If cad <> "" Then
@@ -2956,7 +2966,7 @@ Private Sub AbrirFormularios(Accion As Long)
         
         Case 301 ' asientos
             Screen.MousePointer = vbHourglass
-            frmAsientosHco.ASIENTO = ""
+            frmAsientosHco.Asiento = ""
             frmAsientosHco.DesdeNorma43 = 0
             frmAsientosHco.Show vbModal
         Case 303 ' extractos
@@ -3059,6 +3069,16 @@ Private Sub AbrirFormularios(Accion As Long)
         Case 419
             'Libros OFICIALES AEAT
             frmAEAT_LibrosOficiales.Show vbModal
+            
+            
+            
+        Case ID_FraVariasConce
+            frmFVARConceptos.Show vbModal
+            
+        Case ID_FraVarias
+            Screen.MousePointer = vbHourglass
+            frmFVARFacturas.Show vbModal
+            
         Case 502 ' conceptos
             Screen.MousePointer = vbHourglass
             frmInmoConceptos.Show vbModal
@@ -3283,7 +3303,7 @@ Private Sub AbrirFormularios(Accion As Long)
         Case 1412 'log de acciones
             Screen.MousePointer = vbHourglass
             Load frmLog
-            DoEvents
+            DoEvent2
             frmLog.Show vbModal
             Screen.MousePointer = vbDefault
         Case 1413
@@ -3295,8 +3315,9 @@ Private Sub AbrirFormularios(Accion As Long)
         Case 1415
              frmMensajes.Opcion = 62
              frmMensajes.Show vbModal
-                
             
+        Case ID_AVNICS
+             frmAVNAvnics.Show vbModal
             
         Case Else
   

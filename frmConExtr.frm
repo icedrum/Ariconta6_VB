@@ -1693,7 +1693,8 @@ Dim I As Integer
     If d <> 0 Then IT.SubItems(6) = Format(d, FormatoImporte)
     If H <> 0 Then IT.SubItems(7) = Format(H, FormatoImporte)
     IT.SubItems(8) = Format(d - H, FormatoImporte)
-    
+    ListView1.Refresh
+    Screen.MousePointer = vbHourglass
 End Sub
 
 

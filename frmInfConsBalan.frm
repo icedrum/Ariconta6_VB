@@ -274,7 +274,6 @@ Begin VB.Form frmInfConsBalan
          Left            =   5040
          TabIndex        =   3
          Top             =   1920
-         Visible         =   0   'False
          Width           =   1545
       End
       Begin VB.TextBox txtNBalan 
@@ -708,7 +707,7 @@ Attribute frmC.VB_VarHelpID = -1
 Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim PrimeraVez As String
 Dim Rs As ADODB.Recordset
@@ -800,22 +799,22 @@ Dim Contabilidades As String
     Screen.MousePointer = vbHourglass
     
     Contabilidades = ""
-    For I = 1 To ListView1.ListItems.Count
-        If ListView1.ListItems(I).Checked Then Contabilidades = Contabilidades & ListView1.ListItems(I) & "|"
-    Next I
+    For i = 1 To ListView1.ListItems.Count
+        If ListView1.ListItems(i).Checked Then Contabilidades = Contabilidades & ListView1.ListItems(i) & "|"
+    Next i
     
     
-    I = -1
+    i = -1
     If chkBalPerCompa.Value = 1 Then
-        I = Val(cmbFecha(1).ListIndex)
-        I = I + 1
-        If I = 0 Then I = -1
+        i = Val(cmbFecha(1).ListIndex)
+        i = i + 1
+        If i = 0 Then i = -1
     End If
     
     
     
     
-    GeneraDatosBalanceConfigurable CInt(txtBalan(0).Text), Me.cmbFecha(0).ListIndex + 1, CInt(cmbFecha(2).Text), I, Val(cmbFecha(3).Text), False, Contabilidades, pb2
+    GeneraDatosBalanceConfigurable CInt(txtBalan(0).Text), Me.cmbFecha(0).ListIndex + 1, CInt(cmbFecha(2).Text), i, Val(cmbFecha(3).Text), False, Contabilidades, pb2
 
 '
 
@@ -1004,9 +1003,9 @@ End Sub
 
 
 Private Sub imgCheck_Click(Index As Integer)
-    For I = 1 To Me.ListView1.ListItems.Count
-        Me.ListView1.ListItems(I).Checked = Index = 1
-    Next I
+    For i = 1 To Me.ListView1.ListItems.Count
+        Me.ListView1.ListItems(i).Checked = Index = 1
+    Next i
 End Sub
 
 Private Sub optTipoSal_Click(Index As Integer)
@@ -1156,12 +1155,12 @@ Dim optExportar As Integer
     
     cadNomRPT = ""
     ConTexto = 0
-    For I = 1 To Me.ListView1.ListItems.Count
-        If Me.ListView1.ListItems(I).Checked Then
+    For i = 1 To Me.ListView1.ListItems.Count
+        If Me.ListView1.ListItems(i).Checked Then
             UltimoNivel = UltimoNivel + 1
             
-            cadNomRPT = cadNomRPT & "  -  " & ListView1.ListItems(I).SubItems(1)
-            If Me.ListView1.ListItems(I).Tag = vEmpresa.codempre Then ConTexto = 1
+            cadNomRPT = cadNomRPT & "  -  " & ListView1.ListItems(i).SubItems(1)
+            If Me.ListView1.ListItems(i).Tag = vEmpresa.codempre Then ConTexto = 1
     
         End If
     Next
@@ -1187,7 +1186,7 @@ Dim optExportar As Integer
 
     'If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     cadNomRPT = "balanceConso.rpt"
-
+    If Me.chkBalPerCompa.Value = 1 Then cadNomRPT = "balanceConsoComp.rpt"
     cadFormula = "{tmpimpbalan.codusu}=" & vUsu.Codigo
 
 '+++
@@ -1205,7 +1204,7 @@ Dim optExportar As Integer
                 CONT = 1
             End If
 
-        RC = Rs!perdidas
+        RC = Rs!PERDIDAS
     End If
     Rs.Close
     Set Rs = Nothing
@@ -1230,8 +1229,19 @@ Dim optExportar As Integer
     Else
         RC = cmbFecha(0).List(cmbFecha(0).ListIndex)
     End If
-    RC = RC & " " & cmbFecha(2).Text 'txtAno(0).Text
-    RC = "fec1= """ & RC & """|"
+    
+    'Agosto 2020
+    'Si es años aprtidos, pintaresmos como año el de INICIO de ejercicio
+    i = 0
+    If Month(vParam.fechaini) > 1 Then
+        If Month(vParam.fechaini) > (cmbFecha(0).ListIndex + 1) Then i = 1
+    End If
+    
+    
+    
+    
+    RC = RC & " " & Val(cmbFecha(2).Text) - i 'txtAno(0).Text
+    RC = "fec1= """ & Trim(RC) & """|"
     Sql = Sql & RC
     
     
@@ -1239,17 +1249,29 @@ Dim optExportar As Integer
             'PGC 2008 SOlo pone el año, NO el mes
             If vParam.NuevoPlanContable Then
                 RC = ""
+                
+                If Month(vParam.fechafin) <> Val(cmbFecha(0).ListIndex + 1) Then RC = Mid(cmbFecha(0).Text, 1, 3)
+                Sql = Sql & "vMes= """ & RC & """|"
+                RC = ""
             Else
                 RC = cmbFecha(1).List(cmbFecha(1).ListIndex)
             End If
-            RC = RC & " " & cmbFecha(3).Text 'txtAno(1).Text
+            RC = RC & " " & Val(cmbFecha(3).Text) - i 'txtAno(1).Text
             RC = "Fec2= """ & RC & """|"
             Sql = Sql & RC
+            
+            
+            RC = ""
+            If Month(vParam.fechafin) <> Val(cmbFecha(1).ListIndex + 1) Then RC = UCase(Mid(cmbFecha(1).Text, 1, 1)) & Mid(cmbFecha(1).Text, 2, 2)
+            RC = "vMes2= """ & RC & """|"
+            Sql = Sql & RC
+            
             
 
     Else
         'Pong el nombre del mes
-        RC = UCase(Mid(cmbFecha(0).Text, 1, 1)) & Mid(cmbFecha(0).Text, 2, 2)
+        RC = ""
+        If Month(vParam.fechafin) <> Val(cmbFecha(0).ListIndex + 1) Then RC = UCase(Mid(cmbFecha(0).Text, 1, 1)) & Mid(cmbFecha(0).Text, 2, 2)
         RC = "vMes= """ & RC & """|"
         Sql = Sql & RC
     End If
@@ -1324,9 +1346,9 @@ Private Function DatosOK() As Boolean
     End If
     
     cad = ""
-    For I = 1 To Me.ListView1.ListItems.Count
-        If Me.ListView1.ListItems(I).Checked Then cad = cad & "X"
-    Next I
+    For i = 1 To Me.ListView1.ListItems.Count
+        If Me.ListView1.ListItems(i).Checked Then cad = cad & "X"
+    Next i
 
     If cad = "" Then
         MsgBoxA "Seleccione almenos una empresa", vbExclamation
@@ -1344,8 +1366,8 @@ L = 1
 Do
     cad = RecuperaValor(Lista, L)
     If cad <> "" Then
-        I = Val(cad)
-        With cmbFecha(I)
+        i = Val(cad)
+        With cmbFecha(i)
             .Clear
             For CONT = 1 To 12
                 RC = "25/" & CONT & "/2002"
@@ -1371,10 +1393,10 @@ Dim J As Integer
     cmbFecha(3).Clear
     
     J = Year(vParam.fechafin) + 1 - 2000
-    For I = 1 To J
-        cmbFecha(2).AddItem "20" & Format(I, "00")
-        cmbFecha(3).AddItem "20" & Format(I, "00")
-    Next I
+    For i = 1 To J
+        cmbFecha(2).AddItem "20" & Format(i, "00")
+        cmbFecha(3).AddItem "20" & Format(i, "00")
+    Next i
 
 End Sub
 
@@ -1439,7 +1461,7 @@ ECargarList:
 End Sub
 
 Private Function DevuelveProhibidas() As String
-Dim I As Integer
+Dim i As Integer
 
 
     On Error GoTo EDevuelveProhibidas
@@ -1448,8 +1470,8 @@ Dim I As Integer
 
     Set miRsAux = New ADODB.Recordset
 
-    I = vUsu.Codigo Mod 100
-    miRsAux.Open "Select * from usuarios.usuarioempresasariconta WHERE codusu =" & I, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    i = vUsu.Codigo Mod 100
+    miRsAux.Open "Select * from usuarios.usuarioempresasariconta WHERE codusu =" & i, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     DevuelveProhibidas = ""
     While Not miRsAux.EOF
         DevuelveProhibidas = DevuelveProhibidas & miRsAux.Fields(1) & "|"

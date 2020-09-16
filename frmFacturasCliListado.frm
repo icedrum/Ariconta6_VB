@@ -1891,9 +1891,13 @@ Dim I As Integer
     
     If Not CargarTemporal Then Exit Function
     
-    
+    'Julio 2020
+    ' QUito esto de los suplidos.  Si estaba puesto (rc="S") entonces las facturas con suplidos NO salen en el listado
     RC = "S"
     If optVarios(1).Value Then RC = "S"
+    
+    'aqui esta quitado. Deben salir (PROASISTENCIA) Jul2020
+    RC = ""
     If Check1(1).Value And optVarios(1).Value Then RC = ""
     If RC <> "" Then
         RC = "  AND {tiposiva.tipodiva}<>4"  'SUPLIDOS NO

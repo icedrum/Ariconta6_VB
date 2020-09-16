@@ -1905,7 +1905,7 @@ Dim ImpAntH As Currency
     
     If txtCuentas(0).Text <> "" Or txtCuentas(1).Text <> "" Then
         Sql = "delete from tmplinccexplo where codusu = " & vUsu.Codigo
-        Sql = Sql & " and not codmacta in (select codmacta from codmacta where (1=1) "
+        Sql = Sql & " and not codmacta in (select codmacta from cuentas where (1=1) "
         If txtCuentas(0).Text <> "" Then Sql = Sql & " and codmacta >= " & DBSet(txtCuentas(0).Text, "T")
         If txtCuentas(1).Text <> "" Then Sql = Sql & " and codmacta <= " & DBSet(txtCuentas(1).Text, "T")
         Sql = Sql & ")"

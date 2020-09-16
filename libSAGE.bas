@@ -673,7 +673,7 @@ End Function
 
 
 Private Function CrearFacturaClientes(NA As Long, FechaEnt As Date, NumDiari As Integer) As Boolean
-Dim I  As Integer
+Dim i  As Integer
 Dim cad As String
 Dim Sql As String
 
@@ -903,7 +903,7 @@ Dim CtaReten As String
                             NumLiena2 = 1
                             
                         Else
-                            If InStr(1, R2!Numdocum, NumDeFactu) > 0 Then
+                            If InStr(1, R2!numdocum, NumDeFactu) > 0 Then
                                 TotalAprox = R2!timported
                                 NumLiena2 = 1
                             Else
@@ -929,7 +929,7 @@ Dim CtaReten As String
                         NumLiena2 = 1
                         
                     Else
-                        If InStr(1, R2!Numdocum, NumDeFactu) > 0 Then
+                        If InStr(1, R2!numdocum, NumDeFactu) > 0 Then
                             ImporReten = DBLet(R2!timported, "N") + DBLet(R2!timporteH, "N")
                             CtaReten = R2!codmacta
                             NumLiena2 = 1
@@ -954,8 +954,8 @@ Dim CtaReten As String
                 'numserie,numfactu,fecfactu,anofactu,numlinea,codigiva,baseimpo,porciva,porcrec,impoiva,imporec
                 
                 cad = ", ('" & Rs!NUmSerie & "'," & NumDeFactu & "," & DBSet(Rs!FechaEnt, "F") & "," & Year(Rs!FechaEnt) & "," & NumLiena2
-                I = DevuelveTipoIva(Rs!codmacta, False)
-                cad = cad & "," & I & "," & DBSet(Rs!Baseimpo, "N")
+                i = DevuelveTipoIva(Rs!codmacta, False)
+                cad = cad & "," & i & "," & DBSet(Rs!Baseimpo, "N")
                 cad = cad & "," & DBSet(miRsAux!porceiva, "N") & ",NULL," & DBSet(Rs!timporteH, "N") & ",null"
                 
                 TotIVA = TotIVA + Rs!timporteH
@@ -1073,7 +1073,7 @@ Dim CtaReten As String
                     Else
                         ImportAuxiliar = Rs!timporteH
                     End If
-                    cad = cad & ",'" & Rs!codmacta & "'," & DBSet(ImportAuxiliar, "N") & ",'" & Rs!CodCcost & "')"
+                    cad = cad & ",'" & Rs!codmacta & "'," & DBSet(ImportAuxiliar, "N") & ",'" & Rs!CodCCost & "')"
                     NumLienaB = NumLienaB + 1
                     InsBases = InsBases & cad
                 End If
@@ -1125,10 +1125,10 @@ End Function
 
 
 'Insertamos en la tabla tmptesoreriacomun . Cad registro llevará el insert into a realizar
-Private Sub InsertaEnTmpInsertrs(CADENA As String)
+Private Sub InsertaEnTmpInsertrs(Cadena As String)
 Dim cad As String
     NumRegElim = NumRegElim + 1
-    cad = Replace(CADENA, "'", "·")
+    cad = Replace(Cadena, "'", "·")
     cad = "INSERT INTO tmptesoreriacomun(codusu,codigo,Texto) VALUES (" & vUsu.Codigo & "," & NumRegElim & ",'" & cad & "')"
     Conn.Execute cad
 End Sub
@@ -1355,7 +1355,7 @@ Private Function ComprobarNumerosDeFactura(Cliente As Boolean) As Boolean
         NumAsien = NumAsien + 1
         
         'select codigo,texto1,texto2,observa1 from tmptesoreriacomun
-        Msg = "(" & vUsu.Codigo & "," & NumAsien & "," & DBSet(miRsAux!CodCcost, "T") & ",'','No existe centro de coste')"
+        Msg = "(" & vUsu.Codigo & "," & NumAsien & "," & DBSet(miRsAux!CodCCost, "T") & ",'','No existe centro de coste')"
         SerieDeFactu = SerieDeFactu & ", " & Msg
     
         
@@ -1386,7 +1386,7 @@ End Function
 
 
 Private Function CrearFacturaProveedores(NA As Long, FechaEnt As Date, NumDiari As Integer) As Boolean
-Dim I  As Integer
+Dim i  As Integer
 Dim cad As String
 Dim Sql As String
 
@@ -1589,7 +1589,7 @@ Dim CadenaInserPorsiSuplidos As String
                             NumLiena2 = 1
                             
                         Else
-                            If InStr(1, R2!Numdocum, NumDeFactu) > 0 Then
+                            If InStr(1, R2!numdocum, NumDeFactu) > 0 Then
                                 TotalAprox = R2!timporteH
                                 NumLiena2 = 1
                             Else
@@ -1611,8 +1611,8 @@ Dim CadenaInserPorsiSuplidos As String
                 'INSERT INTO factpro_lineas (numserie, numregis, fecharec,anofactu, numlinea, codmacta, baseimpo, codccost)
                 
                 cad = ", ('" & Rs!NUmSerie & "'," & NumDeFactu & "," & DBSet(Rs!FechaEnt, "F") & "," & Year(Rs!FechaEnt) & "," & NumLiena2
-                I = DevuelveTipoIva(Rs!codmacta, True)
-                cad = cad & "," & I & "," & DBSet(Rs!Baseimpo, "N")
+                i = DevuelveTipoIva(Rs!codmacta, True)
+                cad = cad & "," & i & "," & DBSet(Rs!Baseimpo, "N")
                 cad = cad & "," & DBSet(miRsAux!porceiva, "N") & ",NULL," & DBSet(Rs!timported, "N") & ",null"
                 
                 TotIVA = TotIVA + Rs!timported
@@ -1695,7 +1695,7 @@ Dim CadenaInserPorsiSuplidos As String
                     Else
                         ImportAuxiliar = Rs!timported
                     End If
-                    cad = cad & ",'" & Rs!codmacta & "'," & DBSet(ImportAuxiliar, "N") & ",'" & Rs!CodCcost & "')"
+                    cad = cad & ",'" & Rs!codmacta & "'," & DBSet(ImportAuxiliar, "N") & ",'" & Rs!CodCCost & "')"
                     NumLienaB = NumLienaB + 1
                     InsBases = InsBases & cad
                 End If

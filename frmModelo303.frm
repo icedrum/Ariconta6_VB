@@ -1293,6 +1293,7 @@ End Sub
 Private Sub CadenaAdicional303_Nuevo()
 Dim Sql As String
 Dim Rs As ADODB.Recordset
+Dim DUA As Currency
     'REGISTRO T30303>
     
     
@@ -1358,11 +1359,13 @@ Dim Rs As ADODB.Recordset
 
     'IVA a la importación liquidado por la Aduana pendiente de ingreso  [77]
     ' Abril 2020
+    DUA = 0
     If vParam.InscritoDeclarDUA Then
-        Sql = "select  sum(bases) base from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 77"
+        Sql = "select  sum(bases) base,sum(ivas) iva from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 77"
         Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not Rs.EOF Then
-            DevuelveImporte DBLet(Rs!Base, "N"), 0
+            DevuelveImporte DBLet(Rs!IVA, "N"), 0
+            DUA = Rs!IVA
         Else
             DevuelveImporte 0, 0
         End If
@@ -1380,14 +1383,14 @@ Dim Rs As ADODB.Recordset
     cad = cad & String(17, "0")
     
     'Campo19. Resultado
-    DevuelveImporte ImpTotal - ImpCompensa, 0
+    DevuelveImporte ImpTotal - ImpCompensa - DUA, 0
 
     'Campo20. A deducor
     'DevuelveImporte ImpTotal - ImpCompensa, 0
     DevuelveImporte 0, 0
 
     'Campo21. Resultado de la liquidacion
-    DevuelveImporte ImpTotal - ImpCompensa, 0
+    DevuelveImporte ImpTotal - ImpCompensa - DUA, 0
 
 End Sub
 
@@ -1661,6 +1664,7 @@ Dim Rs As ADODB.Recordset
 '    'operaciones interiores
 
     '[Monica]24/06/2016: en las facturas de proveedores faltaba añadir las fras de ISP, he añadido el 12
+    
     Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente in ( 2, 12 )  "
 
     
@@ -1705,7 +1709,10 @@ Dim Rs As ADODB.Recordset
     Set Rs = Nothing
     
     'importaciones
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 32 "
+    'y DUA
+    'Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 32 "
+    Sql = " (32,77)"
+    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente IN " & Sql
     
     Set Rs = New ADODB.Recordset
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -1977,7 +1984,7 @@ Dim nomDocu As String
     cadParam = cadParam & "pAno=" & txtAno(0).Text & "|"
     numParam = numParam + 3
     
-    cadParam = cadParam & "pDUA=" & Abs(vParam.InscritoDeclarDUA) & "|"
+    cadParam = cadParam & "pDUA=" & IIf(vParam.InscritoDeclarDUA, 1, 0) & "|"
     numParam = numParam + 1
     
     

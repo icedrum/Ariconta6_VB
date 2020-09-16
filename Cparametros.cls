@@ -182,6 +182,10 @@ Private mvarinscritoDeclarDUA As Boolean
     
 Private mvarRemarcaTotalExtr As Boolean
 Private mvarcolCtasConSaldos As Boolean
+Private mvarAnyadeNumFaproAmpliacApunte As Boolean
+
+Private mvarObsrvacionesLineasFrapro As Boolean
+
 
 
 '------------------------------------------------
@@ -567,33 +571,33 @@ Public Property Get periodos() As String
 End Property
 
 
-Public Property Let grupogto(ByVal vData As String)
+Public Property Let GrupoGto(ByVal vData As String)
 'se usa cuando se asigna un valor a la propiedad, en el
 'lado izquierdo de la asignacion
 'Syntax: X.grupogto = 5
      mvargrupogto = vData
 End Property
 
-Public Property Get grupogto() As String
+Public Property Get GrupoGto() As String
 'se usa cuando se asigna un valor a la propiedad, en el
 'lado derecho de la asignacion
 'Syntax: Debug.Print X.grupogto
-     grupogto = mvargrupogto
+     GrupoGto = mvargrupogto
 End Property
 
 
-Public Property Let grupovta(ByVal vData As String)
+Public Property Let GrupoVta(ByVal vData As String)
 'se usa cuando se asigna un valor a la propiedad, en el
 'lado izquierdo de la asignacion
 'Syntax: X.grupovta = 5
      mvargrupovta = vData
 End Property
 
-Public Property Get grupovta() As String
+Public Property Get GrupoVta() As String
 'se usa cuando se asigna un valor a la propiedad, en el
 'lado derecho de la asignacion
 'Syntax: Debug.Print X.grupovta
-     grupovta = mvargrupovta
+     GrupoVta = mvargrupovta
 End Property
 
 
@@ -661,12 +665,12 @@ End Property
 
 
 
-Public Property Let grupoord(ByVal vData As String)
+Public Property Let GrupoOrd(ByVal vData As String)
      mvargrupoord = vData
 End Property
 
-Public Property Get grupoord() As String
-     grupoord = mvargrupoord
+Public Property Get GrupoOrd() As String
+     GrupoOrd = mvargrupoord
 End Property
 
 
@@ -689,15 +693,15 @@ End Property
 
 
 
-Public Property Let anofactu(ByVal vData As Integer)
+Public Property Let Anofactu(ByVal vData As Integer)
      mvaranofactu = vData
 End Property
 
-Public Property Get anofactu() As Integer
+Public Property Get Anofactu() As Integer
 'se usa cuando se asigna un valor a la propiedad, en el
 'lado derecho de la asignacion
 'Syntax: Debug.Print X.anofactu
-     anofactu = mvaranofactu
+     Anofactu = mvaranofactu
 End Property
 
 
@@ -713,12 +717,12 @@ Public Property Get perfactu() As Integer
 End Property
 
 
-Public Property Let nctafact(ByVal vData As String)
-'se usa cuando se asigna un valor a la propiedad, en el
-'lado izquierdo de la asignacion
-'Syntax: X.nctafact = 5
-     mvarnctafact = vData
-End Property
+'Public Property Let nctafac_t(ByVal vData As String)
+''se usa cuando se asigna un valor a la propiedad, en el
+''lado izquierdo de la asignacion
+''Syntax: X.nctafact = 5
+'     mvarnctafact = vData
+'End Property
 
 Public Property Get nctafact() As String
 'se usa cuando se asigna un valor a la propiedad, en el
@@ -1115,6 +1119,16 @@ Public Property Get colCtasConSaldos() As Boolean
 End Property
 
 
+Public Property Get AnyadeNumFaproAmpliacApunte() As Boolean
+    AnyadeNumFaproAmpliacApunte = mvarAnyadeNumFaproAmpliacApunte
+End Property
+
+
+Public Property Get ObsrvacionesLineasFrapro() As Boolean
+    ObsrvacionesLineasFrapro = mvarObsrvacionesLineasFrapro
+End Property
+
+
 
 '------------------------------------------------
 'FUNCIONES del modulo Cparametros
@@ -1146,14 +1160,14 @@ Public Function Leer() As Byte
             mvarlimimpcl = Rs!limimpcl
             'mvarconpresu = RS!conpresu
             mvarperiodos = Rs!periodos
-            mvargrupogto = DBLet(Rs!grupogto)
-            mvargrupovta = DBLet(Rs!grupovta)
+            mvargrupogto = DBLet(Rs!GrupoGto)
+            mvargrupovta = DBLet(Rs!GrupoVta)
             mvarctaperga = DBLet(Rs!ctaperga)
             mvarabononeg = Rs!abononeg
-            mvargrupoord = DBLet(Rs!grupoord)
+            mvargrupoord = DBLet(Rs!GrupoOrd)
             mvartinumfac = Rs!tinumfac
             mvarmodhcofa = Rs!modhcofa
-            mvaranofactu = Rs!anofactu
+            mvaranofactu = Rs!Anofactu
             mvarperfactu = Rs!perfactu
             mvarnctafact = Rs!nctafact
             mvarAsienActAuto = Rs!AsienActAuto
@@ -1242,6 +1256,10 @@ Dim Nuevos As String
             mvarinscritoDeclarDUA = False
             mvarRemarcaTotalExtr = False
             mvarcolCtasConSaldos = False
+            mvarAnyadeNumFaproAmpliacApunte = False
+            mvarObsrvacionesLineasFrapro = False
+
+
             
             Nuevos = ""
             
@@ -1354,15 +1372,25 @@ Dim Nuevos As String
             mvarcolCtasConSaldos = (DBLet(Rs!colCtasConSaldos, "N") = 1)
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Formulario cuentas con saldos"
             
+            mvarAnyadeNumFaproAmpliacApunte = (DBLet(Rs!anyadenumfacproContab, "N") = 1)
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Añadir NºFac pro en ampliacion"
+            
+            mvarObsrvacionesLineasFrapro = (DBLet(Rs!obsrlinfact, "N") = 1)
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Observaciones lineas factura proveedor"
+            
+            
+
+
+            
             
         If Err.Number <> 0 Then Err.Clear
         If Nuevos <> "" Then MsgBox "Faltan parametros. El programa continuara. Avise soporte tecnico" & vbCrLf & vbCrLf & Nuevos, vbExclamation
     
 End Sub
 
-Private Sub AgregarMsg(CADENA As String, Trozo As String)
+Private Sub AgregarMsg(Cadena As String, Trozo As String)
     
-        CADENA = CADENA & vbCrLf & Trozo
+        Cadena = Cadena & vbCrLf & Trozo
         Err.Clear
 End Sub
 

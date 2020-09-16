@@ -290,12 +290,13 @@ Dim C As Integer
     End If
     
     If C = 2 Then
-        DoEvents
+        DoEvent2
         If Timer - SegundoIncial < 20 Then
             Screen.MousePointer = vbHourglass
             espera 1
             'If Timer - SegundoIncial > 5 Then
         Else
+        
             PuedoCerrar = True
         End If
     Else
@@ -362,6 +363,9 @@ Dim NomImpre As String
     Set mapp = CreateObject("CrystalRuntime.Application")
     Set mrpt = mapp.OpenReport(Informe)
        
+    mapp.CanClose
+       
+       
     If NumCopias2 = 0 Then NumCopias2 = 1
     Text1(0).Text = NumCopias2
        
@@ -379,8 +383,16 @@ Dim NomImpre As String
             Else
                 If InStr(1, mrpt.Database.Tables(i).Name, "_alias") <> 0 Then
                     mrpt.Database.Tables(i).Location = "ariconta" & vEmpresa.codempre & "." & Mid(mrpt.Database.Tables(i).Name, 1, InStr(1, mrpt.Database.Tables(i).Name, "_") - 1) ', "")
+                
                 End If
             End If
+      Else
+        If mrpt.Database.Tables(i).ConnectionProperties.Item("DSN") = "vUsuarios" Then
+            mrpt.Database.Tables(i).SetLogOnInfo vControl.ODBC, "usuarios"
+
+            mrpt.Database.Tables(i).Location = "usuarios" & "." & mrpt.Database.Tables(i).Name
+            
+        End If
       End If
     Next i
     

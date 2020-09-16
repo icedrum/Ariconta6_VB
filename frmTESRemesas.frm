@@ -238,7 +238,7 @@ Begin VB.Form frmTESRemesas
          EndProperty
          Height          =   360
          Index           =   4
-         Left            =   12060
+         Left            =   13020
          TabIndex        =   62
          Tag             =   "Importe|N|N|||reclama|importes|||"
          Top             =   4200
@@ -251,14 +251,14 @@ Begin VB.Form frmTESRemesas
          Left            =   150
          TabIndex        =   30
          Top             =   3840
-         Width           =   11655
+         Width           =   12615
          Begin MSComctlLib.ListView lwCobros2 
             Height          =   4215
-            Left            =   0
+            Left            =   120
             TabIndex        =   31
             Top             =   360
-            Width           =   11655
-            _ExtentX        =   20558
+            Width           =   12495
+            _ExtentX        =   22040
             _ExtentY        =   7435
             View            =   3
             LabelEdit       =   1
@@ -282,7 +282,7 @@ Begin VB.Form frmTESRemesas
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            NumItems        =   12
+            NumItems        =   13
             BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
                Text            =   "Tipo"
                Object.Width           =   1763
@@ -310,7 +310,7 @@ Begin VB.Form frmTESRemesas
             BeginProperty ColumnHeader(6) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
                SubItemIndex    =   5
                Text            =   "Cliente"
-               Object.Width           =   5821
+               Object.Width           =   6174
             EndProperty
             BeginProperty ColumnHeader(7) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
                Alignment       =   1
@@ -343,23 +343,28 @@ Begin VB.Form frmTESRemesas
                Text            =   "ImporteOrden"
                Object.Width           =   0
             EndProperty
+            BeginProperty ColumnHeader(13) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+               SubItemIndex    =   12
+               Text            =   "Obs."
+               Object.Width           =   1323
+            EndProperty
          End
          Begin VB.Image imgCheck 
             Height          =   240
             Index           =   1
-            Left            =   11310
+            Left            =   12360
             Picture         =   "frmTESRemesas.frx":0050
             ToolTipText     =   "Seleccionar"
-            Top             =   30
+            Top             =   120
             Width           =   240
          End
          Begin VB.Image imgCheck 
             Height          =   240
             Index           =   0
-            Left            =   10950
+            Left            =   12000
             Picture         =   "frmTESRemesas.frx":019A
             ToolTipText     =   "Quitar seleccion"
-            Top             =   30
+            Top             =   120
             Width           =   240
          End
       End
@@ -501,7 +506,7 @@ Begin VB.Form frmTESRemesas
             EndProperty
             Height          =   360
             Index           =   0
-            Left            =   11880
+            Left            =   12840
             TabIndex        =   20
             Top             =   3150
             Width           =   1815
@@ -958,7 +963,7 @@ Begin VB.Form frmTESRemesas
             ForeColor       =   &H00000000&
             Height          =   240
             Index           =   0
-            Left            =   11910
+            Left            =   12870
             TabIndex        =   75
             Top             =   2895
             Width           =   1770
@@ -1665,7 +1670,7 @@ Begin VB.Form frmTESRemesas
          ForeColor       =   &H00000080&
          Height          =   240
          Index           =   72
-         Left            =   12090
+         Left            =   13050
          TabIndex        =   63
          Top             =   3900
          Width           =   1575
@@ -2114,7 +2119,7 @@ Dim Img As Image
     Me.imgCuentas(3).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
     For I = 0 To 5
-        Me.imgFec(I).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+        Me.ImgFec(I).Picture = frmppal.imgIcoForms.ListImages(2).Picture
     Next I
     
     ' Botonera Principal
@@ -2434,6 +2439,30 @@ Dim co As Integer
     
 End Sub
 
+Private Sub lwCobros2_DblClick()
+    If lwCobros2.ListItems.Count > 0 Then
+        If Not lwCobros2.SelectedItem Is Nothing Then
+            
+            If lwCobros2.SelectedItem.SubItems(12) = "*" Then
+                Sql = "numserie ='" & lwCobros2.SelectedItem.Text & "' AND numfactu =" & lwCobros2.SelectedItem.SubItems(1)
+                Sql = Sql & " AND fecfactu =" & DBSet(lwCobros2.SelectedItem.SubItems(2), "F") & " AND numorden "
+        
+            
+                Sql = DevuelveDesdeBD("observa", "cobros", Sql, lwCobros2.SelectedItem.SubItems(3))
+                
+            
+                
+                frmZoom.pValor = Sql
+                frmZoom.pModo = 2
+                frmZoom.Caption = "Observaciones cobro"
+                frmZoom.Show vbModal
+                
+            End If
+        End If
+    End If
+        
+End Sub
+
 Private Sub lwCobros2_ItemCheck(ByVal Item As MSComctlLib.ListItem)
 
     
@@ -2739,7 +2768,7 @@ Dim B As Boolean
     
         Me.FrameCreacionRemesa.visible = True
         Me.FrameCreacionRemesa.Enabled = True
-        Me.lwCobros2.Width = 11664
+        Me.lwCobros2.Width = 12495 '11664
         FrameCreacionRemesa.Refresh
     End If
     
@@ -3209,7 +3238,7 @@ Dim Icono As Integer
                 IT.ListSubItems(3).Tag = "NO"
                 
             Else
-                If Not ComprobarIBANCuentaBancaria(miRsAux!IBAN, cad) Then
+                If Not ComprobarIBANCuentaBancaria2(miRsAux!IBAN, cad) Then
                     IT.ListSubItems(3).ForeColor = vbRed
                     IT.ListSubItems(3).ToolTipText = cad
                     IT.ListSubItems(3).Tag = "NO"
@@ -3252,6 +3281,17 @@ Dim Icono As Integer
         End If
             
         If DBLet(miRsAux!Devuelto, "N") = 1 Then Icono = 42
+        
+        
+        'Si tiene observaciones
+        If DBLet(miRsAux!observa, "T") <> "" Then
+          IT.SubItems(12) = "*"
+          Cad3 = miRsAux!observa
+          If Len(Cad3) > 60 Then Cad3 = Mid(Cad3, 1, 57) & "..."
+          IT.ListSubItems(12).ToolTipText = Cad3
+        Else
+            IT.SubItems(12) = " "
+        End If
         
         If Icono > 0 Then IT.SmallIcon = Icono
             
@@ -3411,7 +3451,7 @@ Dim PrVezColumn As Boolean
     lw1.ColumnHeaders.Add , , "T", 0, 1
     If PrVezColumn Then
         Me.Refresh
-        DoEvents
+        DoEvent2
         Screen.MousePointer = vbHourglass
     End If
     
@@ -4294,7 +4334,7 @@ Dim ImporteQueda As Currency
         Screen.MousePointer = vbHourglass
         Label2.Caption = "Generando remesa " & NumeroRemesa & " del banco " & Rs!Cta
         Me.Refresh
-        DoEvents
+        DoEvent2
     
     
         If Opcion = 0 Then

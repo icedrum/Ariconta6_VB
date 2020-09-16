@@ -2801,7 +2801,7 @@ Begin VB.Form frmFacturasCli
    End
    Begin MSAdodcLib.Adodc Data1 
       Height          =   330
-      Left            =   3720
+      Left            =   720
       Top             =   10320
       Visible         =   0   'False
       Width           =   2055
@@ -7891,11 +7891,11 @@ Dim Contador As Integer
     Else
         Set IT = lw1.ListItems.Add()
 
-        IT.Text = Me.adodc1.Recordset!Orden '"Nuevo " & Contador
+        IT.Text = Me.Adodc1.Recordset!Orden '"Nuevo " & Contador
         
-        IT.SubItems(1) = Me.adodc1.Recordset.Fields(5)  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
+        IT.SubItems(1) = Me.Adodc1.Recordset.Fields(5)  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
         IT.SubItems(2) = vpaz
-        IT.SubItems(3) = Me.adodc1.Recordset.Fields(0)
+        IT.SubItems(3) = Me.Adodc1.Recordset.Fields(0)
         
         Set IT = Nothing
     End If

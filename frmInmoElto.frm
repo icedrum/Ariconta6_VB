@@ -2505,7 +2505,9 @@ Private Sub cmdAceptar_Click()
                        End If
                         
                        'Ponemos la cadena consulta
-                        If SituarData1 Then
+                       CadenaConsulta = "Select * from " & NombreTabla & " WHERE codinmov = " & Text1(0).Text
+                       Data1.RecordSource = CadenaConsulta
+                       If SituarData1 Then
                             lblIndicador.Caption = ""
                             'Ahora preguntamos si tiene centros de desea agregar centros de reparto
                             Sql = "¿Desea agregar sub centros de reparto?"
