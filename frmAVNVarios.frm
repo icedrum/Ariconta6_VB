@@ -1637,10 +1637,10 @@ Private Sub KEYpress(KeyAscii As Integer)
 End Sub
 
 Private Sub CmdAcepAyuda123_Click()
-Dim i As Byte
+Dim I As Byte
 Dim Sql As String
 Dim cadwhere As String
-Dim Nregs As Long
+Dim NRegs As Long
 Dim C As Object
 Dim Rs As ADODB.Recordset
 Dim nReceptores As Long
@@ -1653,9 +1653,9 @@ Dim Mens As String
 
     Sql = "SELECT  count(*) from movim where " & cadwhere
 
-    Nregs = TotalRegistros(Sql)
+    NRegs = TotalRegistros(Sql)
 
-    If Nregs <> 0 Then
+    If NRegs <> 0 Then
         Screen.MousePointer = vbHourglass
         
         Mens = "Cálculo del Total de perceptores: "
@@ -1692,7 +1692,7 @@ Private Sub CmdAcepCancelacion_Click()
 Dim cDesde As String, cHasta As String 'cadena codigo Desde/Hasta
 Dim nDesde As String, nHasta As String 'cadena Descripcion Desde/Hasta
 Dim cadTABLA As String, cOrden As String
-Dim i As Byte
+Dim I As Byte
 Dim NReg As Long
 Dim cadwhere As String
 Dim cad As String
@@ -1720,7 +1720,7 @@ End Sub
 
 Private Sub cmdAceptar_Click()
 Dim Sql As String
-Dim i As Byte
+Dim I As Byte
 Dim cadwhere As String
 
     If Not DatosOK Then Exit Sub
@@ -2018,7 +2018,7 @@ End Sub
 
 Private Sub txtcodigo_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
-Dim i As Integer
+Dim I As Integer
 Dim Sql As String
 Dim RC As String
 
@@ -2357,10 +2357,10 @@ Private Function PasarCalculoAContab(cadwhere As String) As Boolean
 Dim Sql As String
 Dim Rs As ADODB.Recordset
 Dim B As Boolean
-Dim i As Integer
+Dim I As Integer
 Dim NumLinea As Long
 Dim Mc As Contadores
-Dim numdocum As String
+Dim Numdocum As String
 Dim Ampliacion As String
 Dim ampliaciond As String
 Dim ampliacionh As String
@@ -2415,7 +2415,7 @@ Dim codmacta As String
             
             Rs.Open Sql, Conn, adOpenDynamic, adLockOptimistic, adCmdText
             
-            i = 0
+            I = 0
             ImporteD = 0
             ImporteH = 0
             
@@ -2429,12 +2429,12 @@ Dim codmacta As String
                 codmacta = ""
                 codmacta = DevuelveDesdeBDNew(cConta, "avnic", "codmacta", "codavnic", Rs.Fields(0).Value, "N", , "anoejerc", Year(CDate(txtCodigo(0).Text)), "N")
                 
-                numdocum = "Av-" & Format(DBLet(Rs!codavnic, "N"), "000000")
+                Numdocum = "Av-" & Format(DBLet(Rs!codavnic, "N"), "000000")
                 ' ******************IMPORTE BRUTO
-                i = i + 1
+                I = I + 1
                 
                 cad = "1," & DBSet(txtCodigo(0).Text, "F") & "," & DBSet(Mc.Contador, "N") & ","
-                cad = cad & DBSet(i, "N") & "," & DBSet(txtCodigo(6), "T") & "," & DBSet(numdocum, "T") & ","
+                cad = cad & DBSet(I, "N") & "," & DBSet(txtCodigo(6), "T") & "," & DBSet(Numdocum, "T") & ","
                 
                 ' COMPROBAMOS EL SIGNO DEL IMPORTE PQ NO PERMITIMOS INTRODUCIR APUNTES CON IMPORTES NEGATIVOS
                 If Rs.Fields(2).Value > 0 Then
@@ -2454,17 +2454,17 @@ Dim codmacta As String
                 cad = "(" & cad & ")"
                 
                 B = InsertarLinAsientoDia(cad, cadMen, cConta)
-                cadMen = "Insertando Lin. Asiento: " & i
+                cadMen = "Insertando Lin. Asiento: " & I
             
                 IncrementarProgres Me.Pb1, 1
-                Me.lblProgres(1).Caption = "Insertando línea de Asiento en Contabilidad...   (" & i & " de " & NumLinea & ")"
+                Me.lblProgres(1).Caption = "Insertando línea de Asiento en Contabilidad...   (" & I & " de " & NumLinea & ")"
                 Me.Refresh
                 
                 ' ******************RETENCION
-                i = i + 1
+                I = I + 1
                 
                 cad = "1," & DBSet(txtCodigo(0).Text, "F") & "," & DBSet(Mc.Contador, "N") & ","
-                cad = cad & DBSet(i, "N") & "," & DBSet(txtCodigo(5), "T") & "," & DBSet(numdocum, "T") & ","
+                cad = cad & DBSet(I, "N") & "," & DBSet(txtCodigo(5), "T") & "," & DBSet(Numdocum, "T") & ","
                 
                 ' COMPROBAMOS EL SIGNO DEL IMPORTE PQ NO PERMITIMOS INTRODUCIR APUNTES CON IMPORTES NEGATIVOS
                 If Rs.Fields(3).Value > 0 Then
@@ -2484,17 +2484,17 @@ Dim codmacta As String
                 cad = "(" & cad & ")"
                 
                 B = InsertarLinAsientoDia(cad, cadMen, cConta)
-                cadMen = "Insertando Lin. Asiento: " & i
+                cadMen = "Insertando Lin. Asiento: " & I
             
                 IncrementarProgres Me.Pb1, 1
-                Me.lblProgres(1).Caption = "Insertando línea de Asiento en Contabilidad...   (" & i & " de " & NumLinea & ")"
+                Me.lblProgres(1).Caption = "Insertando línea de Asiento en Contabilidad...   (" & I & " de " & NumLinea & ")"
                 Me.Refresh
                 
                 ' ******************IMPORTE NETO
-                i = i + 1
+                I = I + 1
                 
                 cad = "1," & DBSet(txtCodigo(0).Text, "F") & "," & DBSet(Mc.Contador, "N") & ","
-                cad = cad & DBSet(i, "N") & "," & DBSet(codmacta, "T") & "," & DBSet(numdocum, "T") & ","
+                cad = cad & DBSet(I, "N") & "," & DBSet(codmacta, "T") & "," & DBSet(Numdocum, "T") & ","
                 
                 ' COMPROBAMOS EL SIGNO DEL IMPORTE PQ NO PERMITIMOS INTRODUCIR APUNTES CON IMPORTES NEGATIVOS
                 If Rs.Fields(1).Value > 0 Then
@@ -2514,14 +2514,14 @@ Dim codmacta As String
                 cad = "(" & cad & ")"
                 
                 B = InsertarLinAsientoDia(cad, cadMen, cConta)
-                cadMen = "Insertando Lin. Asiento: " & i
+                cadMen = "Insertando Lin. Asiento: " & I
             
                 B = InsertarEnTesoreriaNew(txtCodigo(0).Text, txtCodigo(1).Text, Rs.Fields(0).Value, Year(CDate(txtCodigo(0).Text)), txtCodigo(4).Text, txtCodigo(2).Text, txtCodigo(3).Text, cadMen)
                 cadMen = "Insertando en Tesoreria: "
                
             
                 IncrementarProgres Me.Pb1, 1
-                Me.lblProgres(1).Caption = "Insertando línea de Asiento en Contabilidad...   (" & i & " de " & NumLinea & ")"
+                Me.lblProgres(1).Caption = "Insertando línea de Asiento en Contabilidad...   (" & I & " de " & NumLinea & ")"
                 Me.Refresh
                 
             
@@ -2654,7 +2654,7 @@ End Function
 
 
 Private Sub VisualizarFrameResultado(B As Boolean)
-Dim i As Integer
+Dim I As Integer
 
     FrameResultado.visible = B
     FrameResultado.Enabled = B
@@ -2662,9 +2662,9 @@ Dim i As Integer
     CmdAcepCancelacion.Enabled = Not B
     If B Then
         cmdCancel(1).Caption = "Salir"
-        For i = 10 To 19
-            txtCodigo(i).Enabled = False
-        Next i
+        For I = 10 To 19
+            txtCodigo(I).Enabled = False
+        Next I
         imgBuscar(7).Enabled = False
         ImgFec(2).Enabled = False
         ImgFec(3).Enabled = False
@@ -2751,7 +2751,7 @@ End Function
 Private Sub ValoresPorDefecto()
 Dim MesAnt As Byte
 Dim AnoAnt As Integer
-Dim fec As Date
+Dim Fec As Date
 
     AnoAnt = Year(Now)
     MesAnt = Month(Now) - 1
@@ -2767,11 +2767,11 @@ Dim fec As Date
         MesAnt = 1
         AnoAnt = AnoAnt + 1
     End If
-    fec = CDate("01/" & Format(MesAnt, "00") & "/" & Format(AnoAnt, "0000"))
+    Fec = CDate("01/" & Format(MesAnt, "00") & "/" & Format(AnoAnt, "0000"))
     ' al primer dia de este mes le quitamos 1 para que nos de el ultimo dia del mes anterior
-    fec = fec - 1
+    Fec = Fec - 1
     
-    txtCodigo(1).Text = Format(fec, "dd/mm/yyyy")
+    txtCodigo(1).Text = Format(Fec, "dd/mm/yyyy")
     
 End Sub
 

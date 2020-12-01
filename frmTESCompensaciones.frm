@@ -509,6 +509,7 @@ Dim B As Boolean
         End If
     Next
     If Sql <> "" Then
+        Sql = ""
         For NumRegElim = 1 To lw1(1).ListItems.Count
             If lw1(1).ListItems(NumRegElim).Checked Then
                 Sql = "1"
@@ -736,7 +737,7 @@ Dim B As Boolean
                 SqlLog = DevuelveDesdeBD("max(codigo)", "compensaclipro", "1", "1")
                 If SqlLog = "" Then SqlLog = 0
                 NumRegElim = Val(SqlLog) + 1
-                I = 0
+                i = 0
                 
                 'insert into compensaclipro_facturas(codigo,linea,EsCobro,codmacta,numserie,numfactu,fecfactu, numorden,importe,gastos,impcobro,fechavto ,destino,compensado )
                 SqlLog = "INSERT INTO compensaclipro(codigo,autom,fecha,login,PC,codmacta,nommacta,resultado,fechahora) VALUES (" & NumRegElim & ",0,"
@@ -746,27 +747,27 @@ Dim B As Boolean
                     CadeCompenHco = Replace(CadeCompenHco, "###codcomep###", CStr(NumRegElim))
                     CadeCompenHco = Mid(CadeCompenHco, 2) 'quito la primera coma
                     SqlLog = "insert into compensaclipro_facturas(codigo,linea,EsCobro,codmacta,numserie,numfactu,fecfactu, numorden,importe,gastos,impcobro,fechavto ,destino,compensado ) VALUES " & CadeCompenHco
-                    If Ejecuta(SqlLog, False) Then I = 1
+                    If Ejecuta(SqlLog, False) Then i = 1
                 End If
                 
                 
-                If I = 0 Then
+                If i = 0 Then
                     'Ha habiado un error. Meto log, que avisen soporte
                     SqlLog = "Cliente      : " & Text1(0) & " " & Text2(0)
                     SqlLog = SqlLog & vbCrLf & "Proveedores  : " & Text4
                     SqlLog = SqlLog & vbCrLf & "Fras Cliente : "
-                    For I = 1 To Me.lw1(0).ListItems.Count
-                        If lw1(0).ListItems(I).Checked Then
-                            SqlLog = SqlLog & vbCrLf & lw1(0).ListItems(I).Text & " " & lw1(0).ListItems(I).SubItems(1) & " " & lw1(0).ListItems(I).SubItems(2) & " " & lw1(0).ListItems(I).SubItems(3) & " " & lw1(0).ListItems(I).SubItems(4) & " "
+                    For i = 1 To Me.lw1(0).ListItems.Count
+                        If lw1(0).ListItems(i).Checked Then
+                            SqlLog = SqlLog & vbCrLf & lw1(0).ListItems(i).Text & " " & lw1(0).ListItems(i).SubItems(1) & " " & lw1(0).ListItems(i).SubItems(2) & " " & lw1(0).ListItems(i).SubItems(3) & " " & lw1(0).ListItems(i).SubItems(4) & " "
                         End If
-                    Next I
+                    Next i
                     
                     SqlLog = SqlLog & vbCrLf & "Fras Proveedor : "
-                    For I = 1 To Me.lw1(1).ListItems.Count
-                        If lw1(1).ListItems(I).Checked Then
-                            SqlLog = SqlLog & vbCrLf & lw1(1).ListItems(I).Text & " " & lw1(1).ListItems(I).SubItems(6) & " " & lw1(1).ListItems(I).SubItems(1) & " " & lw1(1).ListItems(I).SubItems(2) & " " & lw1(1).ListItems(I).SubItems(3) & " " & lw1(1).ListItems(I).SubItems(4) & " "
+                    For i = 1 To Me.lw1(1).ListItems.Count
+                        If lw1(1).ListItems(i).Checked Then
+                            SqlLog = SqlLog & vbCrLf & lw1(1).ListItems(i).Text & " " & lw1(1).ListItems(i).SubItems(6) & " " & lw1(1).ListItems(i).SubItems(1) & " " & lw1(1).ListItems(i).SubItems(2) & " " & lw1(1).ListItems(i).SubItems(3) & " " & lw1(1).ListItems(i).SubItems(4) & " "
                         End If
-                    Next I
+                    Next i
                     vLog.Insertar 26, vUsu, SqlLog
                 
                     MsgBoxA "Error insertando en tabla historico compensaciones. Avise soporte técnico", vbExclamation
@@ -816,9 +817,9 @@ Private Sub imgCheck_Click(Index As Integer)
     J = IIf((Index Mod 2) = 0, 0, 1)
     Im = 0
     If lw1(NumRegElim).ListItems.Count = 0 Then Exit Sub
-    For I = 1 To lw1(NumRegElim).ListItems.Count
-        lw1(NumRegElim).ListItems(I).Checked = J = 1
-        If J = 1 Then Im = Im + ImporteFormateado(lw1(NumRegElim).ListItems(I).SubItems(4))
+    For i = 1 To lw1(NumRegElim).ListItems.Count
+        lw1(NumRegElim).ListItems(i).Checked = J = 1
+        If J = 1 Then Im = Im + ImporteFormateado(lw1(NumRegElim).ListItems(i).SubItems(4))
     Next
     'Arrastro
     Text3(NumRegElim).Tag = Im
@@ -1104,7 +1105,7 @@ Dim Aux As String
             Set IT = lw1(Indice).ListItems.Add()
             If Indice = 0 Then
                 IT.Text = miRsAux!NUmSerie
-                IT.SubItems(1) = miRsAux!NumFactu
+                IT.SubItems(1) = miRsAux!numfactu
                 IT.SubItems(2) = miRsAux!FecFactu
                 IT.SubItems(3) = miRsAux!numorden
                 'Importe:
@@ -1124,7 +1125,7 @@ Dim Aux As String
                     Text4.Text = Text4.Text & miRsAux!codmacta & "   " & miRsAux!Nommacta
                     Sql = "D"
                 End If
-                IT.SubItems(1) = miRsAux!NumFactu
+                IT.SubItems(1) = miRsAux!numfactu
                 IT.SubItems(2) = miRsAux!FecFactu
                 IT.SubItems(3) = miRsAux!numorden
                 
@@ -1138,11 +1139,11 @@ Dim Aux As String
                 IT.SubItems(6) = miRsAux!NUmSerie
                         
                 'Para la hco compensacion
-                IT.SubItems(7) = "0," & DBSet(miRsAux!codmacta, "T") & "," & DBSet(miRsAux!NUmSerie, "T") & "," & DBSet(miRsAux!NumFactu, "T") & "," & DBSet(miRsAux!FecFactu, "F")
+                IT.SubItems(7) = "0," & DBSet(miRsAux!codmacta, "T") & "," & DBSet(miRsAux!NUmSerie, "T") & "," & DBSet(miRsAux!numfactu, "T") & "," & DBSet(miRsAux!FecFactu, "F")
                 IT.SubItems(7) = IT.SubItems(7) & "," & DBSet(miRsAux!numorden, "N") & "," & DBSet(miRsAux!ImpEfect, "N") & ",null"
                 IT.SubItems(7) = IT.SubItems(7) & "," & DBSet(miRsAux!imppagad, "N", "S") & "," & DBSet(miRsAux!fecefect, "F")
             Else
-                IT.SubItems(6) = "1," & DBSet(miRsAux!codmacta, "T") & "," & DBSet(miRsAux!NUmSerie, "T") & "," & Format(miRsAux!NumFactu, "000000") & "," & DBSet(miRsAux!FecFactu, "F")
+                IT.SubItems(6) = "1," & DBSet(miRsAux!codmacta, "T") & "," & DBSet(miRsAux!NUmSerie, "T") & "," & Format(miRsAux!numfactu, "000000") & "," & DBSet(miRsAux!FecFactu, "F")
                 IT.SubItems(6) = IT.SubItems(6) & "," & DBSet(miRsAux!numorden, "T") & "," & DBSet(miRsAux!ImpVenci, "N") & "," & DBSet(miRsAux!Gastos, "N", "S")
                 IT.SubItems(6) = IT.SubItems(6) & "," & DBSet(miRsAux!impcobro, "N", "S") & "," & DBSet(miRsAux!FecVenci, "F")
             End If
@@ -1173,6 +1174,11 @@ Dim CompensaSobreCobros As Byte
 Dim LineaHcoCompensa As Integer
 Dim FrasCli As String
 Dim FrasPro As String
+Dim FraGastos As String
+Dim Gastos As Currency
+
+
+
     '0: NO compensa
     '1: Cobros
     '2: Pagos
@@ -1297,6 +1303,25 @@ Dim FrasPro As String
                     
                     J = 0 'no es el vto destino
                     Im = ImporteFormateado(.SubItems(4))
+                    
+                    Gastos = 0    'Para ver si añade a cuena de gastos
+                    FraGastos = ""
+                    CadenaUpdate = " `numserie`='" & .Text & "' and numfactu=" & .SubItems(1)
+                    CadenaUpdate = CadenaUpdate & " and `fecfactu`='" & Format(.SubItems(2), FormatoFecha) & "' and `numorden`"
+                    CadenaUpdate = DevuelveDesdeBD("gastos", "cobros", CadenaUpdate, .SubItems(3))
+                    If CadenaUpdate <> "" Then
+                        Gastos = CCur(CadenaUpdate)
+                        If Gastos > 0 Then
+                            If Gastos > Im Then Err.Raise 513, , "Mas gastos que importe vencimiento"
+                            Im = Im - Gastos
+                        
+                            FraGastos = DevuelveDesdeBD("ctabenbanc", "paramtesor", "1", "1")
+                            If FraGastos = "" Then Err.Raise 513, , "Falta configurar cta beneficios bancarios"
+                        End If
+                    End If
+                    
+                    
+                    
                     CadenaUpdate = ""
                     'Si compensa sobre un vto de cobro
                     If CompensaSobreCobros = 1 Then
@@ -1349,6 +1374,7 @@ Dim FrasPro As String
                                 Im = ImporteFormateado(.SubItems(4)) - Im
                             End If
                         End If
+                    
                     End If
                     
                     
@@ -1367,18 +1393,31 @@ Dim FrasPro As String
                     End If
                     'codconce numdocum, ampconce , codmacta, timporteD,timporteH, ctacontr
                     Sql = FP.condecli & ",'" & .Text & Format(.SubItems(1), "000000") & "','"
+                    
+        
         
                     Sql = Sql & DevNombreSQL(Mid(Ampliacion, 1, 30)) & "','" & Text1(0).Text & "',"
-
+                    
+                    'Por si llevara gastos
+                    If Gastos > 0 Then
+                        FraGastos = DevNombreSQL(Mid(Ampliacion, 1, 30)) & "','" & FraGastos & "',"
+                        FraGastos = FP.condecli & ",'" & .Text & Format(.SubItems(1), "000000") & "','" & FraGastos
+                    End If
+                    
                     'Importe
                     If VaAlDebe Then
                         Sql = Sql & TransformaComasPuntos(CStr(Im)) & ",NULL"
                     Else
                         Sql = Sql & "NULL," & TransformaComasPuntos(CStr(Im))
                     End If
+                    FraGastos = FraGastos & "NULL," & TransformaComasPuntos(CStr(Gastos))
+                    
+                    
+                    
                     
                     'Contrapartida. esta guaddad en ContrapartidaPago
                     Sql = Sql & "," & ContrapartidaPago & ","
+                    FraGastos = FraGastos & "," & ContrapartidaPago & ","
                     
                     'Habran dos pipes.
                     '   1.- lo que tengo que insertar en hlinapu
@@ -1392,6 +1431,12 @@ Dim FrasPro As String
                     Ampliacion = Ampliacion & " and `fecfactu`='" & Format(.SubItems(2), FormatoFecha) & "' and `numorden`=" & .SubItems(3) & "|"
             
                     CCli.Add Sql & Ampliacion
+                    
+                    If Gastos > 0 Then
+                        CCli.Add FraGastos & "|" & "|"
+                    
+                    End If
+                   
                 End With
             End If
     Next NumRegElim
@@ -1617,7 +1662,7 @@ Dim FrasPro As String
     End If
     Exit Function
 ECrearColecciones:
-    MuestraError Err.Number
+    MuestraError Err.Number, , Err.Description
 End Function
 
 

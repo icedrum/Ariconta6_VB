@@ -94,7 +94,7 @@ Dim cad As String
 Dim Aux As String
 Dim Ch As String
 Dim Fin As Boolean
-Dim i, J As String
+Dim I, J As String
 
 On Error GoTo ErrSepara
 SeparaCampoBusqueda = 1
@@ -103,14 +103,14 @@ cad = ""
 Select Case Tipo
 Case "N"
     '----------------  NUMERICO  ---------------------
-    i = CararacteresCorrectos(Cadena, "N")
-    If i > 0 Then Exit Function  'Ha habido un error y salimos
+    I = CararacteresCorrectos(Cadena, "N")
+    If I > 0 Then Exit Function  'Ha habido un error y salimos
     'Comprobamos si hay intervalo ':'
-    i = InStr(1, Cadena, ":")
-    If i > 0 Then
+    I = InStr(1, Cadena, ":")
+    If I > 0 Then
         'Intervalo numerico
-        cad = Mid(Cadena, 1, i - 1)
-        Aux = Mid(Cadena, i + 1)
+        cad = Mid(Cadena, 1, I - 1)
+        Aux = Mid(Cadena, I + 1)
         If Not IsNumeric(cad) Or Not IsNumeric(Aux) Then Exit Function  'No son numeros
         'Intervalo correcto
         'Construimos la cadena
@@ -124,19 +124,19 @@ Case "N"
                 DevSQL = "1=1"
              Else
                     Fin = False
-                    i = 1
+                    I = 1
                     cad = ""
                     Aux = "NO ES NUMERO"
                     While Not Fin
-                        Ch = Mid(Cadena, i, 1)
+                        Ch = Mid(Cadena, I, 1)
                         If Ch = ">" Or Ch = "<" Or Ch = "=" Then
                             cad = cad & Ch
                             Else
-                                Aux = Mid(Cadena, i)
+                                Aux = Mid(Cadena, I)
                                 Fin = True
                         End If
-                        i = i + 1
-                        If i > Len(Cadena) Then Fin = True
+                        I = I + 1
+                        If I > Len(Cadena) Then Fin = True
                     Wend
                     'En aux debemos tener el numero
                     If Not IsNumeric(Aux) Then Exit Function
@@ -147,14 +147,14 @@ Case "N"
         End If
 Case "F"
      '---------------- FECHAS ------------------
-    i = CararacteresCorrectos(Cadena, "F")
-    If i = 1 Then Exit Function
+    I = CararacteresCorrectos(Cadena, "F")
+    If I = 1 Then Exit Function
     'Comprobamos si hay intervalo ':'
-    i = InStr(1, Cadena, ":")
-    If i > 0 Then
+    I = InStr(1, Cadena, ":")
+    If I > 0 Then
         'Intervalo de fechas
-        cad = Mid(Cadena, 1, i - 1)
-        Aux = Mid(Cadena, i + 1)
+        cad = Mid(Cadena, 1, I - 1)
+        Aux = Mid(Cadena, I + 1)
         If Not EsFechaOKString(cad) Or Not EsFechaOKString(Aux) Then Exit Function  'Fechas incorrectas
         'Intervalo correcto
         'Construimos la cadena
@@ -171,19 +171,19 @@ Case "F"
                   DevSQL = "1=1"
             Else
                 Fin = False
-                i = 1
+                I = 1
                 cad = ""
                 Aux = "NO ES FECHA"
                 While Not Fin
-                    Ch = Mid(Cadena, i, 1)
+                    Ch = Mid(Cadena, I, 1)
                     If Ch = ">" Or Ch = "<" Or Ch = "=" Then
                         cad = cad & Ch
                         Else
-                            Aux = Mid(Cadena, i)
+                            Aux = Mid(Cadena, I)
                             Fin = True
                     End If
-                    i = i + 1
-                    If i > Len(Cadena) Then Fin = True
+                    I = I + 1
+                    If I > Len(Cadena) Then Fin = True
                 Wend
                 'En aux debemos tener el numero
                 If Not EsFechaOKString(Aux) Then Exit Function
@@ -199,8 +199,8 @@ Case "F"
     
 Case "T"
     '---------------- TEXTO ------------------
-    i = CararacteresCorrectos(Cadena, "T")
-    If i = 1 Then Exit Function
+    I = CararacteresCorrectos(Cadena, "T")
+    If I = 1 Then Exit Function
     
     'Comprobamos que no es el mayor
      If Cadena = ">>" Or Cadena = "<<" Then
@@ -209,12 +209,12 @@ Case "T"
     End If
     
     
-    i = InStr(1, Cadena, ":")
-    If i > 0 Then
+    I = InStr(1, Cadena, ":")
+    If I > 0 Then
         'Intervalo numerico
 
-        cad = Mid(Cadena, 1, i - 1)
-        Aux = Mid(Cadena, i + 1)
+        cad = Mid(Cadena, 1, I - 1)
+        Aux = Mid(Cadena, I + 1)
         
         'Intervalo correcto
         'Construimos la cadena
@@ -228,7 +228,7 @@ Case "T"
     Else
     
         'Cambiamos el * por % puesto que en ADO es el caraacter para like
-        i = 1
+        I = 1
         Aux = Cadena
         
         '++
@@ -240,15 +240,15 @@ Case "T"
         '++
         
         
-        While i <> 0
-            i = InStr(1, Aux, "*")
-            If i > 0 Then Aux = Mid(Aux, 1, i - 1) & "%" & Mid(Aux, i + 1)
+        While I <> 0
+            I = InStr(1, Aux, "*")
+            If I > 0 Then Aux = Mid(Aux, 1, I - 1) & "%" & Mid(Aux, I + 1)
         Wend
         'Cambiamos el ? por la _ pue es su omonimo
-        i = 1
-        While i <> 0
-            i = InStr(1, Aux, "?")
-            If i > 0 Then Aux = Mid(Aux, 1, i - 1) & "_" & Mid(Aux, i + 1)
+        I = 1
+        While I <> 0
+            I = InStr(1, Aux, "?")
+            If I > 0 Then Aux = Mid(Aux, 1, I - 1) & "_" & Mid(Aux, I + 1)
         Wend
         cad = Mid(Cadena, 1, 2)
         If cad = "<>" Then
@@ -268,8 +268,8 @@ Case "B"
     'Los booleanos. Valores buenos son
     'Verdadero , Falso, True, False, = , <>
     'Igual o distinto
-    i = InStr(1, Cadena, "<>")
-    If i = 0 Then
+    I = InStr(1, Cadena, "<>")
+    If I = 0 Then
         'IGUAL A valor
         cad = " = "
         Else
@@ -277,8 +277,8 @@ Case "B"
         cad = " <> "
     End If
     'Verdadero o falso
-    i = InStr(1, Cadena, "V")
-    If i > 0 Then
+    I = InStr(1, Cadena, "V")
+    If I > 0 Then
             Aux = "True"
             Else
             Aux = "False"
@@ -289,14 +289,14 @@ Case "B"
    
 Case "FH"
      '---------------- FECHAS ------------------
-    i = CararacteresCorrectos(Cadena, "F")
-    If i = 1 Then Exit Function
+    I = CararacteresCorrectos(Cadena, "F")
+    If I = 1 Then Exit Function
     'Comprobamos si hay intervalo ':'
-    i = InStr(1, Cadena, ":")
-    If i > 0 Then
+    I = InStr(1, Cadena, ":")
+    If I > 0 Then
         'Intervalo de fechas
-        cad = Mid(Cadena, 1, i - 1)
-        Aux = Mid(Cadena, i + 1)
+        cad = Mid(Cadena, 1, I - 1)
+        Aux = Mid(Cadena, I + 1)
         If Not EsFechaOKString(cad) Or Not EsFechaOKString(Aux) Then Exit Function  'Fechas incorrectas
         'Intervalo correcto
         'Construimos la cadena
@@ -313,19 +313,19 @@ Case "FH"
                   DevSQL = "1=1"
             Else
                 Fin = False
-                i = 1
+                I = 1
                 cad = ""
                 Aux = "NO ES FECHA"
                 While Not Fin
-                    Ch = Mid(Cadena, i, 1)
+                    Ch = Mid(Cadena, I, 1)
                     If Ch = ">" Or Ch = "<" Or Ch = "=" Then
                         cad = cad & Ch
                         Else
-                            Aux = Mid(Cadena, i)
+                            Aux = Mid(Cadena, I)
                             Fin = True
                     End If
-                    i = i + 1
-                    If i > Len(Cadena) Then Fin = True
+                    I = I + 1
+                    If I > Len(Cadena) Then Fin = True
                 Wend
                 'En aux debemos tener el numero
                 If Not EsFechaOKString(Aux) Then Exit Function
@@ -353,7 +353,7 @@ End Function
 
 
 Private Function CararacteresCorrectos(vCad As String, Tipo As String) As Byte
-Dim i As Integer
+Dim I As Integer
 Dim Ch As String
 Dim Error As Boolean
 
@@ -362,8 +362,8 @@ Error = False
 Select Case Tipo
 Case "N"
     'Numero. Aceptamos numeros, >,< = :
-    For i = 1 To Len(vCad)
-        Ch = Mid(vCad, i, 1)
+    For I = 1 To Len(vCad)
+        Ch = Mid(vCad, I, 1)
         Select Case Ch
             Case "0" To "9"
             Case "<", ">", ":", "=", ".", " ", "-"
@@ -371,11 +371,11 @@ Case "N"
                 Error = True
                 Exit For
         End Select
-    Next i
+    Next I
 Case "T"
     'Texto aceptamos numeros, letras y el interrogante y el asterisco
-    For i = 1 To Len(vCad)
-        Ch = Mid(vCad, i, 1)
+    For I = 1 To Len(vCad)
+        Ch = Mid(vCad, I, 1)
         Select Case Ch
             Case "a" To "z"
             Case "è", "é", "í" 'Añade Laura: 16/03/06
@@ -393,11 +393,11 @@ Case "T"
                 Exit For
                 
         End Select
-    Next i
+    Next I
 Case "F"
     'Numeros , "/" ,":"
-    For i = 1 To Len(vCad)
-        Ch = Mid(vCad, i, 1)
+    For I = 1 To Len(vCad)
+        Ch = Mid(vCad, I, 1)
         Select Case Ch
             Case "0" To "9"
             Case "<", ">", ":", "/", "="
@@ -405,11 +405,11 @@ Case "F"
                 Error = True
                 Exit For
         End Select
-    Next i
+    Next I
 Case "B"
     'Numeros , "/" ,":"
-    For i = 1 To Len(vCad)
-        Ch = Mid(vCad, i, 1)
+    For I = 1 To Len(vCad)
+        Ch = Mid(vCad, I, 1)
         Select Case Ch
             Case "0" To "9"
             Case "<", ">", ":", "/", "=", " "
@@ -417,7 +417,7 @@ Case "B"
                 Error = True
                 Exit For
         End Select
-    Next i
+    Next I
 End Select
 'Si no ha habido error cambiamos el retorno
 If Not Error Then CararacteresCorrectos = 0
@@ -628,7 +628,7 @@ While Not RT.EOF
         ImporteD = ""
     End If
     RC = RC & "," & TransformaComasPuntos(CStr(ACUM)) & ",'" & ImporteD & "',"
-    RC = RC & DBSet(RT!numdocum, "T") & "," & DBSet(RT!Ampconce, "T") & ",'" & Cta & "',"
+    RC = RC & DBSet(RT!Numdocum, "T") & "," & DBSet(RT!Ampconce, "T") & ",'" & Cta & "',"
 '    If IsNull(RT!ctacontr) Then
 '        RC = RC & "NULL"
 '    Else
@@ -813,7 +813,7 @@ Dim Rs2 As ADODB.Recordset
 Dim ImporteTot As Currency
 Dim ImporteLinea As Currency
 Dim UltSubCC As String
-Dim Nregs As Long
+Dim NRegs As Long
 
     On Error GoTo eHacerRepartoSubcentrosCoste
 
@@ -2843,7 +2843,13 @@ Public Sub FijaValoresLibroResumen(FIni As Date, FFin As Date, Nivel As Integer,
     Sql = "INSERT INTO tmpdirioresum (codusu, clave, fecha, asiento, cuenta, titulo, concepto, debe, haber) VALUES (" & vUsu.Codigo & ","
     vFecha1 = FIni
     vFecha2 = FFin
+    
+    'Septiembre 2020
     A3 = Nivel
+    If Nivel = 10 Then A3 = vEmpresa.DigitosUltimoNivel
+    
+    
+    
     EjerciciosCerrados = EjerciciosCerr
     
     'Numero de asiento
@@ -3014,7 +3020,12 @@ Dim Rs As Recordset
 
     Conn.Execute "DELETE from tmpdiarresum where codusu =" & vUsu.Codigo
     
-    Aux = "Select codmacta from hlinapu"
+    Aux = "SELECT "
+    If A3 <> vEmpresa.DigitosUltimoNivel Then Aux = Aux & "substring(codmacta,1," & A3 & ")  "
+    Aux = Aux & "codmacta , " & vUsu.Codigo & " codusu , sum(coalesce(timported,0)) ,sum(coalesce(timporteh,0))"
+    
+    'Aux = "Select codmacta from hlinapu"
+    Aux = Aux & " from hlinapu"
     If EjerciciosCerrados Then Aux = Aux & "1"
     Aux = Aux & " WHERE "
     Select Case Opcion
@@ -3036,43 +3047,51 @@ Dim Rs As Recordset
     'Fechas
     Aux = Aux & " AND fechaent >='" & Format(vFecha1, FormatoFecha)
     Aux = Aux & "' AND fechaent <='" & Format(vFecha2, FormatoFecha)
-    Aux = Aux & "' GROUP BY codmacta"
+    Aux = Aux & "' GROUP BY 1 "
     
-    Set Rs = New ADODB.Recordset
-    Rs.Open Aux, Conn, adOpenForwardOnly, adCmdText
-    While Not Rs.EOF
-        vCta = Rs.Fields(0)
-        vCta = Mid(vCta, 1, A3)
-        Insertatmpdiarresum
-        Rs.MoveNext
-    Wend
-    Rs.Close
     
+    Aux = "INSERT INTO tmpdiarresum(codmacta,codusu,debe,haber) " & Aux
+    Conn.Execute Aux
+    
+    
+    '------------->> ANTES SEPTIEMBRE
        
-    'Ya tenemos en tmpdiarresum
-    'las subcuentas del diario
-    Codigo = "Select * from tmpdiarresum where codusu =" & vUsu.Codigo
-    Rs.Open Codigo, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    While Not Rs.EOF
-        vCta = Rs.Fields(1)
-        'para cada cuenta, obtienes los importes
-        CalcularImporteCierreAperturaPyG Opcion
-        If ImCierrD <> 0 Or ImCierrH <> 0 Then
-            d = TransformaComasPuntos(CStr(ImCierrD))
-            H = TransformaComasPuntos(CStr(ImCierrH))
-            InsertarTMP
-        Else
-            Conn.Execute "DELETE from tmpdiarresum where codusu =" & vUsu.Codigo & " AND codmacta='" & vCta & "';"
-        End If
-        Rs.MoveNext
-    Wend
-    Rs.Close
-    
+''''                            Set Rs = New ADODB.Recordset
+''''                            Rs.Open Aux, Conn, adOpenForwardOnly, adCmdText
+''''                            While Not Rs.EOF
+''''                                vCta = Rs.Fields(0)
+''''                                vCta = Mid(vCta, 1, A3)
+''''                                Insertatmpdiarresum
+''''                                Rs.MoveNext
+''''                            Wend
+''''                            Rs.Close
+''''
+''''
+''''                            'Ya tenemos en tmpdiarresum
+''''                            'las subcuentas del diario
+''''                            Codigo = "Select * from tmpdiarresum where codusu =" & vUsu.Codigo
+''''                            Rs.Open Codigo, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+''''                            While Not Rs.EOF
+''''                                vCta = Rs.Fields(1)
+''''                                'para cada cuenta, obtienes los importes
+''''                                CalcularImporteCierreAperturaPyG Opcion
+''''                                If ImCierrD <> 0 Or ImCierrH <> 0 Then
+''''                                    d = TransformaComasPuntos(CStr(ImCierrD))
+''''                                    H = TransformaComasPuntos(CStr(ImCierrH))
+''''                                    InsertarTMP
+''''                                Else
+''''                                    Conn.Execute "DELETE from tmpdiarresum where codusu =" & vUsu.Codigo & " AND codmacta='" & vCta & "';"
+''''                                End If
+''''                                Rs.MoveNext
+''''                            Wend
+''''                            Rs.Close
+''''
     
     'Ahora si la opcion es 3 no seguimos. Esto de abajo es para insertar
     If Opcion = 3 Then Exit Sub
     
     'Volvemos abri el temporal del diario resumen
+    Set Rs = New ADODB.Recordset
     Codigo = "select tmpdiarresum.*, nommacta from tmpdiarresum,cuentas where tmpdiarresum.codmacta = cuentas.codmacta and codusu =" & vUsu.Codigo
     Codigo = Codigo & " order by codmacta"
     Rs.Open Codigo, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -3105,6 +3124,109 @@ Dim Rs As Recordset
     Set Rs = Nothing
 End Sub
 
+'Septiembre 2020
+'MAL PARIDO
+'''Private Sub GeneraAperturaResumen(Opcion As Byte)
+'''Dim Rs As Recordset
+'''
+'''    Conn.Execute "DELETE from tmpdiarresum where codusu =" & vUsu.Codigo
+'''
+'''    Aux = "Select codmacta from hlinapu"
+'''    If EjerciciosCerrados Then Aux = Aux & "1"
+'''    Aux = Aux & " WHERE "
+'''    Select Case Opcion
+'''    Case 0
+'''        'Apertura. El primero
+'''        Aux = Aux & "codconce = 970"
+'''    Case 1
+'''        'Py G
+'''        'Eje: Diciembre:    234
+'''        '     Py G:         235
+'''        '     Cierre:       236
+'''        Aux = Aux & "codconce = 960"
+'''    Case 2
+'''        Aux = Aux & "codconce = 980"
+'''    Case 3
+'''        Aux = Aux & "(codconce = 960 or codconce = 980)"
+'''        'Este no insertara
+'''    End Select
+'''    'Fechas
+'''    Aux = Aux & " AND fechaent >='" & Format(vFecha1, FormatoFecha)
+'''    Aux = Aux & "' AND fechaent <='" & Format(vFecha2, FormatoFecha)
+'''    Aux = Aux & "' GROUP BY codmacta"
+'''
+'''    Set Rs = New ADODB.Recordset
+'''    Rs.Open Aux, Conn, adOpenForwardOnly, adCmdText
+'''    While Not Rs.EOF
+'''        vCta = Rs.Fields(0)
+'''        vCta = Mid(vCta, 1, A3)
+'''        Insertatmpdiarresum
+'''        Rs.MoveNext
+'''    Wend
+'''    Rs.Close
+'''
+'''
+'''    'Ya tenemos en tmpdiarresum
+'''    'las subcuentas del diario
+'''    Codigo = "Select * from tmpdiarresum where codusu =" & vUsu.Codigo
+'''    Rs.Open Codigo, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+'''    While Not Rs.EOF
+'''        vCta = Rs.Fields(1)
+'''        'para cada cuenta, obtienes los importes
+'''        CalcularImporteCierreAperturaPyG Opcion
+'''        If ImCierrD <> 0 Or ImCierrH <> 0 Then
+'''            d = TransformaComasPuntos(CStr(ImCierrD))
+'''            H = TransformaComasPuntos(CStr(ImCierrH))
+'''            InsertarTMP
+'''        Else
+'''            Conn.Execute "DELETE from tmpdiarresum where codusu =" & vUsu.Codigo & " AND codmacta='" & vCta & "';"
+'''        End If
+'''        Rs.MoveNext
+'''    Wend
+'''    Rs.Close
+'''
+'''
+'''    'Ahora si la opcion es 3 no seguimos. Esto de abajo es para insertar
+'''    If Opcion = 3 Then Exit Sub
+'''
+'''    'Volvemos abri el temporal del diario resumen
+'''    Codigo = "select tmpdiarresum.*, nommacta from tmpdiarresum,cuentas where tmpdiarresum.codmacta = cuentas.codmacta and codusu =" & vUsu.Codigo
+'''    Codigo = Codigo & " order by codmacta"
+'''    Rs.Open Codigo, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+'''    Select Case Opcion
+'''    Case 0
+'''        VFecha3 = vFecha1
+'''        Codigo = "APERTURA"
+'''    Case 1
+'''        Codigo = "PERDIDAS Y GANACIAS"
+'''        VFecha3 = vFecha2
+'''    Case 2
+'''        Codigo = "CIERRE"
+'''        VFecha3 = vFecha2
+'''    End Select
+'''    Codigo = Codigo & " AL "
+'''
+'''
+'''    If Not Rs.EOF Then
+'''        While Not Rs.EOF
+'''            ImpD = Rs.Fields(2)
+'''            ImpH = Rs.Fields(3)
+'''            vCta = "'" & Rs.Fields(1) & "','" & DevNombreSQL(Rs.Fields(4)) & "'"
+'''            InsertaParaListadoDiarioResum
+'''            Rs.MoveNext
+'''        Wend
+'''        'Aumentamos el contador
+'''        NumAsiento = NumAsiento + 1
+'''    End If
+'''    Rs.Close
+'''    Set Rs = Nothing
+'''End Sub
+
+
+
+
+
+
 
 Private Sub InsertarTMP()
     Aux = "UPDATE tmpdiarresum set debe = " & d & ", Haber = " & H
@@ -3123,19 +3245,19 @@ Private Sub InsertaParaListadoDiarioResum()
 If ImpD <> 0 Then
     d = TransformaComasPuntos(CStr(ImpD))
     H = "NULL"
-    InsertaParaListadoDiarioResum2 "DEBE"
+    InsertaParaListadoDiarioResum4 "DEBE"
 End If
 If ImpH <> 0 Then
     H = TransformaComasPuntos(CStr(ImpH))
     d = "NULL"
-    InsertaParaListadoDiarioResum2 "HABER"
+    InsertaParaListadoDiarioResum4 "HABER"
 End If
 
 
 
 End Sub
 
-Private Sub InsertaParaListadoDiarioResum2(DebeHaber As String)
+Private Sub InsertaParaListadoDiarioResum4(DebeHaber As String)
 Dim C As String
 
 ' clave, fecha, asiento, cuenta, titulo, concepto, debe, haber)
@@ -3259,7 +3381,7 @@ Dim cad As String
     miSQL = Sql & "'" & Codigo & "','" & vCta & "',"
     While Not RT.EOF
         A1 = A1 + 1
-        cad = A1 & ",'" & DevNombreSQL(DBLet(RT!numdocum)) & "','"
+        cad = A1 & ",'" & DevNombreSQL(DBLet(RT!Numdocum)) & "','"
         cad = cad & Format(RT!FechaEnt, FormatoFecha) & "','" & DevNombreSQL(DBLet(RT!Ampconce)) & "',"
         If IsNull(RT!timported) Then
             ImpD = 0
@@ -3802,13 +3924,13 @@ Dim AuxPyG As String
         
         
         
-        
+        PB.Tag = -1
         
         CargaArbol 0, 0, -1, "", Mes1, Anyo1, Mes2, Anyo2, vContabilidad, False, PB, EsBalancePerdidas_y_ganancias, ImportesDeSoloUnMes
         
     
             
-        
+        If Not PB Is Nothing Then PB.visible = False
         
         'Cuando termina de cargar el arbol vamos calculando las sumas
         Sql = "SELECT * FROM "
@@ -3888,14 +4010,14 @@ Dim AuxPyG As String
     Set RT = Nothing
 End Function
 
-Private Sub CargaArbol(ByRef vImporte As Currency, ByRef vimporte2 As Currency, Padre As Integer, Pasivo As String, ByRef Mes1 As Integer, ByRef Anyo1 As Integer, ByRef Mes2 As Integer, ByRef Anyo2 As Integer, ByRef Contabilidades As String, EsListado As Boolean, ByRef PrB As ProgressBar, EsPerdidasyGanancias As Boolean, ElImporteDeSoloUnMes As Boolean)
+Private Sub CargaArbol(ByRef vImporte As Currency, ByRef vimporte2 As Currency, Padre As Integer, Pasivo As String, ByRef Mes1 As Integer, ByRef Anyo1 As Integer, ByRef Mes2 As Integer, ByRef Anyo2 As Integer, ByRef Contabilidades As String, EsListado As Boolean, ByRef PrB_ As ProgressBar, EsPerdidasyGanancias As Boolean, ElImporteDeSoloUnMes As Boolean)
 Dim Rs As ADODB.Recordset
 Dim nodImporte As Currency
 Dim MiAux As String
 Dim OtroImporte As Currency
 Dim OtroImporte2 As Currency
 Dim QueCuentas As String
-Dim Nregs As Long
+Dim NRegs As Long
 
 'Nuevo PGC.  Puede ser que UN nodo raiz sea la SUMA , con lo cual pasan dos cosas:
 '   .- 1: Puede que tenga nodos colgando, que habra que calcular
@@ -3914,12 +4036,21 @@ Dim Tipo As Integer
     MiAux = "balances_texto where numbalan=" & NumAsiento & " AND padre" & MiAux
     MiAux = "Select * from " & MiAux
     
-    If Not PrB Is Nothing Then
-        Nregs = TotalRegistrosConsulta(MiAux)
-        If Nregs <> 0 Then
-            PrB.visible = True
-            CargarProgres PrB, Nregs
-        End If
+    If Not PrB_ Is Nothing Then
+        
+        If Padre < 0 Then
+            
+        
+            NRegs = TotalRegistrosConsulta("Select codigo from balances_texto WHERE numbalan =" & NumAsiento)
+            NRegs = NRegs + 2
+            PrB_.Value = 0
+            PrB_.Max = NRegs
+            PrB_.Tag = NRegs
+            PrB_.visible = True
+        
+            
+    
+       End If
     End If
 
             
@@ -3929,9 +4060,14 @@ Dim Tipo As Integer
     Rs.Open MiAux & " ORDER By Orden", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     While Not Rs.EOF
     
-    
-        If Not PrB Is Nothing Then
-            IncrementarProgres PrB, 1
+         If Not PrB_ Is Nothing Then
+            If PrB_.Value < PrB_.Max Then
+                PrB_.Value = PrB_.Value + 1
+            Else
+                PrB_.Value = PrB_.Value - 1
+            End If
+            PrB_.Refresh
+            DoEvents
         End If
        
     
@@ -3945,7 +4081,6 @@ Dim Tipo As Integer
         End If
         If Tipo = 0 Then
         
-        
            
         
             If Rs!tienenctas = 1 Then
@@ -3956,15 +4091,15 @@ Dim Tipo As Integer
                     QueCuentas = PonerCuentasBalances(Rs!Pasivo, Rs!Codigo)
                 Else
                     'IMPORTES
-                    OtroImporte = CalculaImporteCtas(Rs!Pasivo, Rs!Codigo, Mes1, Anyo1, True, Contabilidades, EsPerdidasyGanancias, ElImporteDeSoloUnMes)
+                    OtroImporte = CalculaImporteCtas_(Rs!Pasivo, Rs!Codigo, Mes1, Anyo1, True, Contabilidades, EsPerdidasyGanancias, ElImporteDeSoloUnMes)
                 
                     'Debug.Print Rs!Pasivo & Rs!Codigo & " " & OtroImporte
                 
                 
-                    If Mes2 > 0 Then OtroImporte2 = CalculaImporteCtas(Rs!Pasivo, Rs!Codigo, Mes2, Anyo2, False, Contabilidades, EsPerdidasyGanancias, ElImporteDeSoloUnMes)
+                    If Mes2 > 0 Then OtroImporte2 = CalculaImporteCtas_(Rs!Pasivo, Rs!Codigo, Mes2, Anyo2, False, Contabilidades, EsPerdidasyGanancias, ElImporteDeSoloUnMes)
                 End If
             Else
-                CargaArbol OtroImporte, OtroImporte2, Rs!Codigo, Rs!Pasivo, Mes1, Anyo1, Mes2, Anyo2, Contabilidades, EsListado, PrB, EsPerdidasyGanancias, ElImporteDeSoloUnMes
+                CargaArbol OtroImporte, OtroImporte2, Rs!Codigo, Rs!Pasivo, Mes1, Anyo1, Mes2, Anyo2, Contabilidades, EsListado, PrB_, EsPerdidasyGanancias, ElImporteDeSoloUnMes
                 QueCuentas = ""
                 
             End If
@@ -3998,13 +4133,13 @@ Dim Tipo As Integer
     Wend
     Rs.Close
     
-    If Not PrB Is Nothing Then PrB.visible = False
+    
     
 End Sub
 
 
 
-Private Function CalculaImporteCtas(Pasivo As String, Codigo As Integer, ByRef mess1 As Integer, ByRef anyos1 As Integer, Año1_o2 As Boolean, ByRef Contabilidades As String, EsPerdidasyGanancias As Boolean, ImporteSoloUnMes As Boolean) As Currency
+Private Function CalculaImporteCtas_(Pasivo As String, Codigo As Integer, ByRef mess1 As Integer, ByRef anyos1 As Integer, Año1_o2 As Boolean, ByRef Contabilidades As String, EsPerdidasyGanancias As Boolean, ImporteSoloUnMes As Boolean) As Currency
 Dim RT As ADODB.Recordset
 Dim X As Integer
 Dim Y As Integer
@@ -4014,13 +4149,14 @@ Dim QuitarUno As Boolean
 Dim Contador As Integer
 Dim ContaX As String
 
+
         If Contabilidades = "" Then
             ContaX = "-1|"
         Else
             ContaX = Contabilidades
         End If
         Set RT = New ADODB.Recordset
-        CalculaImporteCtas = 0
+        CalculaImporteCtas_ = 0
         vI2 = 0
         Contador = 0
         'para cada contbilida
@@ -4054,7 +4190,7 @@ Dim ContaX As String
     Wend
     Set RT = Nothing
     Contabilidad = -1
-    CalculaImporteCtas = vI2
+    CalculaImporteCtas_ = vI2
 End Function
 
 
@@ -4072,7 +4208,7 @@ Dim B1 As Byte
 Dim ColImportes As Collection
 Dim RN As ADODB.Recordset
 Dim cad As String
-
+Dim CalculoPyG As Boolean
 
     Set RC = New ADODB.Recordset
         
@@ -4125,6 +4261,11 @@ Dim cad As String
     Set RN = New ADODB.Recordset
     While Not RC.EOF
                                                                                                             
+                                                                                                            
+                                                           
+                                                                                                            
+                                                                                                            
+                                                                                                            
             cad = "SELECT substring(line.codmacta,1," & Len(RC!codmacta)
             cad = cad & ") as codmacta,'' nommacta ,   year(fechaent) anyo,month(fechaent) mes,"
             cad = cad & " sum(coalesce(timported,0)) debe, sum(coalesce(timporteh,0)) haber FROM "
@@ -4159,6 +4300,11 @@ Dim cad As String
 
             
             
+            
+         'FALTA:   en ejercicicos cerrados tambien debe quitar 6 y 7 si lo solicita, pero hasta el mes selecionado
+
+         If RC!codmacta = Mid(vParam.ctaperga, 1, 3) Then Stop
+         
         'Balance de situacion. Tratar cta perdidas y ganancias
         If Not EsBalancePerdidas_y_ganancias And RC!codmacta = Mid(vParam.ctaperga, 1, 3) Then
             
@@ -4166,7 +4312,14 @@ Dim cad As String
                 ImCierrD = 0
                 If Len(vCta) > 5 Then vCta = RC!codmacta   'Esta situacion se da porque NO ha tenido pyg ni movimientos
                 
+                
+                CalculoPyG = False
+                
                 If F1 < vParam.fechaini Then
+                    If Month(F2) = Month(vParam.fechafin) Then CalculoPyG = True
+                End If
+                
+                If CalculoPyG Then
                     'Ejercicios cerrados
                     ObtenerPerdidasyGanancias EjerciciosCerrados, F1, F2, 3    'SOLO LE QUITO EL CIERRE
                 Else
@@ -4174,11 +4327,6 @@ Dim cad As String
                     If Saldo6y7en129 Then
                          'Obtenemos las pyg del ejercicio
                          OntenerPyGActual F1, F2
-                         
-                         'Suposicion 1
-                         'Cuamd es el ejercicio siguiente, en impD y imph tengo el saldo de la cuenta
-                         'aunque este deberia ser 0, ya que el PYG lo salda
-                        ' ImpD = 0: ImpH = 0
                          
                     End If
                 End If
@@ -4243,6 +4391,9 @@ Dim cad As String
     CalculaImporteCtas1Contabilidad = I1
     Set RC = Nothing
 End Function
+
+
+
 
 
 
@@ -5684,7 +5835,6 @@ Dim Rs As ADODB.Recordset
 ECtaB:
     MuestraError Err.Number
 End Function
-
 
 
 

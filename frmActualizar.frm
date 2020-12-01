@@ -960,11 +960,12 @@ Dim TipoDIva As Byte
         Else
             Cad2 = RecuperaValor(vParam.AmpliacionFacurasPro, 1)
         End If
-        Cad2 = Cad2 & " " & DevNombreSQL(RF!numfactu)
+        Cad2 = Cad2 & " " & RF!numfactu
         
         Cad2 = Cad2 & " (" & Format(RF!FecFactu, "ddmmyy") & ")"
     Case 2
-        Cad2 = DevNombreSQL(DBLet(RF!Nommacta))
+        'Cad2 = DevNombreSQL(DBLet(RF!Nommacta))
+        Cad2 = DBLet(RF!Nommacta)
         
         
     Case Else

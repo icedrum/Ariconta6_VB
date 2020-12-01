@@ -120,7 +120,7 @@ Private Sub wndDatePicker_KeyDown(KeyCode As Integer, Shift As Integer)
 Dim cerrar As Boolean
     
     cerrar = False
-    If KeyCode = 13 Or KeyCode = 144 Then 'enter
+    If KeyCode = 13 Or KeyCode = 144 Or KeyCode = 127 Then 'enter
         Fecha = Me.wndDatePicker.Selection(0).DateBegin
         cerrar = True
     ElseIf KeyCode = 27 Then

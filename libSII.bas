@@ -41,8 +41,13 @@ Dim FIncio As Date
         C2 = C2 & " fecfactu >=" & DBSet(FIncio, "F")
         C2 = C2 & " AND fecfactu <= " & DBSet(F, "F")
     End If
+    
+    'Noviembre 2020
+    C2 = C2 & " AND REG_FE_FA_IDFA_FechaExpedicionFacturaEmisor>=" & DBSet(vParam.fechaini, "F")
+    
+    
     C2 = C2 & " and (csv is null or resultado='AceptadoConErrores')"
-
+    
     Aux = ""
     RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not RN.EOF Then
@@ -69,6 +74,12 @@ Dim FIncio As Date
                 C2 = C2 & " AND DATE(fecregcontable) <= " & DBSet(F, "F")
             End If
         End If
+        
+        'Noviembre 2020
+        C2 = C2 & " AND REG_FR_FechaRegContable>=" & DBSet(vParam.fechaini, "F")
+    
+        
+        
         C2 = C2 & " and (csv is null or resultado='AceptadoConErrores')"
         RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not RN.EOF Then
@@ -170,7 +181,7 @@ Dim B As Boolean
     If FacturaResumenTicket Then
         'INCIO de las factiras de tickets agrupadas
         If DBLet(RN!FraResumenIni, "T") = "" Then
-            NumFactura = RN!NUmSerie & Format(RN!NumFactu, "0000000")
+            NumFactura = RN!NUmSerie & Format(RN!numfactu, "0000000")
         Else
             NumFactura = RN!FraResumenIni
         End If
@@ -179,7 +190,7 @@ Dim B As Boolean
         'FACTURAS "NORMALES"
         NumFactura = RN!NUmSerie
         If DBLet(RN!Sii_SoloNUmeroFra, "N") = 1 Then NumFactura = ""
-        NumFactura = NumFactura & Format(RN!NumFactu, "0000000")
+        NumFactura = NumFactura & Format(RN!numfactu, "0000000")
     End If
     
     'REG_IDF_NumSerieFacturaEmisor
@@ -193,7 +204,7 @@ Dim B As Boolean
         Aux = DBLet(RN!FraResumenFin, "T")
         
         'Si no hay nada, dejo lo que haciamos antes
-        If Aux = "" Then Aux = "FTI" & Format(RN!NumFactu, "0000000")
+        If Aux = "" Then Aux = "FTI" & Format(RN!numfactu, "0000000")
         Sql = Sql & DBSet(Aux, "T")
     Else
         Sql = Sql & "null"
@@ -226,13 +237,13 @@ Dim B As Boolean
     Clave = DevuelveClaveTranscendenciaEmitida(RN)
     Sql = Sql & DBSet(Clave, "T") & "," & DBSet(RN!totfaccl, "N") & ",NULL,"
     If FacturaResumenTicket Then
-        Aux = "Factura " & RN!NUmSerie & RN!NumFactu
+        Aux = "Factura " & RN!NUmSerie & RN!numfactu
     Else
     
         If vParam.TipoIntegracionSeleccionable = 1 Then
             Aux = "VENTAS"
         Else
-            Aux = "Factura " & RN!NUmSerie & RN!NumFactu
+            Aux = "Factura " & RN!NUmSerie & RN!numfactu
         End If
     End If
     Sql = Sql & DBSet(Aux, "T") & ","
@@ -373,7 +384,7 @@ Dim B As Boolean
         While Not RN.EOF
             If RN!TipoDIva <> 4 Then
             
-                If RN!porciva = 0 Then
+                If RN!PorcIva = 0 Then
                     B = False
                     
                     LlevaIvasCero = True
@@ -382,7 +393,7 @@ Dim B As Boolean
                     B = True
                 End If
                 If B Then
-                    Aux = "," & DBSet(RN!porciva, "N") & "," & DBSet(RN!Baseimpo, "N") & "," & DBSet(RN!Impoiva, "N") & ","
+                    Aux = "," & DBSet(RN!PorcIva, "N") & "," & DBSet(RN!Baseimpo, "N") & "," & DBSet(RN!Impoiva, "N") & ","
                     If IsNull(RN!porcrec) Then
                         Aux = Aux & "NULL,NULL"
                     Else
@@ -701,7 +712,7 @@ Dim NoDeducible As Boolean  '2019 Septiembre
 '#4
     'REG_IDF_NumSerieFacturaEmisor,REG_IDF_NumSerieFacturaEmisorResumenFin,REG_IDF_FechaExpedicionFacturaEmisor,REG_FE_TipoFactura,REG_FE_TipoRectificativa
     'Si son de tickets agrupados deberiamos poner primera y ultima. De momento null
-    Sql = Sql & DBSet(RN!NumFactu, "T") & "," & "NULL," & DBSet(RN!FecFactu, "F") & ","
+    Sql = Sql & DBSet(RN!numfactu, "T") & "," & "NULL," & DBSet(RN!FecFactu, "F") & ","
     Clave = DevuelveTipoFacturaRecibida(RN)
     Aux = ""
     If Clave = "R1" Then Aux = "I"  'factura rectificativa por diferencias
@@ -743,7 +754,7 @@ Dim NoDeducible As Boolean  '2019 Septiembre
     
     If vParam.TipoIntegracionSeleccionable = 1 Then
         Aux = "numserie =" & DBSet(RN!NUmSerie, "T") & " AND numregis =" & RN!Numregis & " AND anofactu "
-        Aux = DevuelveDesdeBD("codmacta", "factpro_lineas", Aux, CStr(RN!anofactu) & " ORDER by numlinea", "N")
+        Aux = DevuelveDesdeBD("codmacta", "factpro_lineas", Aux, CStr(RN!Anofactu) & " ORDER by numlinea", "N")
         If Aux = "" Then
             Aux = "6000"
         Else
@@ -759,7 +770,7 @@ Dim NoDeducible As Boolean  '2019 Septiembre
         
     Else
         'SQL = SQL & "'Factura" & IIf(RN!NUmSerie = 1, "", " ser: " & RN!NUmSerie) & " " & RN!NumFactu & "',"
-        Sql = Sql & "'Factura" & RN!NumFactu & "',"
+        Sql = Sql & "'Factura" & RN!numfactu & "',"
     End If
     
     
@@ -840,7 +851,7 @@ Dim NoDeducible As Boolean  '2019 Septiembre
         'TipoImpositivo,BaseImponible,CuotaRepercutida,TipoREquivalencia,CuotaREquivalencia,"
         While Not RN.EOF
             
-            Aux = "," & DBSet(RN!porciva, "N") & "," & DBSet(RN!Baseimpo, "N") & "," & DBSet(RN!Impoiva, "N") & ","
+            Aux = "," & DBSet(RN!PorcIva, "N") & "," & DBSet(RN!Baseimpo, "N") & "," & DBSet(RN!Impoiva, "N") & ","
             If IsNull(RN!porcrec) Then
                 Aux = Aux & "NULL,NULL"
             Else
@@ -885,7 +896,7 @@ Dim NoDeducible As Boolean  '2019 Septiembre
                 'Si el tipo de IVA es REA
                 Aux = ",null," & DBSet(RN!Baseimpo, "N") & ",null,null,null,"
                 '% REA impor REA
-                Aux = Aux & DBSet(RN!porciva, "N") & "," & DBSet(RN!Impoiva, "N")
+                Aux = Aux & DBSet(RN!PorcIva, "N") & "," & DBSet(RN!Impoiva, "N")
             
                 
             Else
@@ -893,7 +904,7 @@ Dim NoDeducible As Boolean  '2019 Septiembre
                     
                     
                 
-                    Aux = "," & DBSet(RN!porciva, "N") & "," & DBSet(RN!Baseimpo, "N") & "," & DBSet(RN!Impoiva, "N") & ","
+                    Aux = "," & DBSet(RN!PorcIva, "N") & "," & DBSet(RN!Baseimpo, "N") & "," & DBSet(RN!Impoiva, "N") & ","
                     If IsNull(RN!porcrec) Then
                         Aux = Aux & "NULL,NULL"
                     Else

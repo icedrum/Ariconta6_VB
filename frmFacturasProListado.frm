@@ -1375,7 +1375,7 @@ Dim B As Boolean
     If Legalizacion <> "" Then
         CadenaDesdeOtroForm = "OK"
     End If
-    
+    Screen.MousePointer = vbDefault
 End Sub
 
 Private Sub cmdCancelar_Click()

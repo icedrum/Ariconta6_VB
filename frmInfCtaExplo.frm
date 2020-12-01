@@ -616,9 +616,9 @@ Begin VB.Form frmInfCtaExplo
          EndProperty
          Height          =   255
          Index           =   7
-         Left            =   2520
+         Left            =   2640
          TabIndex        =   39
-         Top             =   1500
+         Top             =   2400
          Width           =   4095
       End
       Begin VB.Label lblAsiento 
@@ -1056,7 +1056,7 @@ Private Sub cmdAccion_Click(Index As Integer)
     End If
     
     
-    
+   Screen.MousePointer = vbHourglass
     If optTipoSal(1).Value Then
         'EXPORTAR A CSV
         AccionesCSV
@@ -1075,7 +1075,9 @@ Private Sub cmdAccion_Click(Index As Integer)
         AccionesCrystal
     End If
     
+    lblCuentas(7).Caption = ""
     
+    Screen.MousePointer = vbDefault
 End Sub
 
 Private Sub cmdCancelar_Click()
@@ -1128,7 +1130,8 @@ Private Sub Form_Load()
     
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
-    
+        
+    lblCuentas(7).Caption = ""
 End Sub
 
 
@@ -1534,8 +1537,8 @@ Dim Anyo As String
     End If
     vFecha = Format(Day(vParam.fechaini), "00") & "/" & Month(vParam.fechaini) & "/" & Anyo
     
-    cadFormula = "{hlinapu.codconce}<>960 AND mid({hlinapu.codmacta},1,1) IN [" & DBSet(vParam.grupogto, "T") & "," & DBSet(vParam.grupovta, "T") & "]" ''6','7']"
-    cadselect = "hlinapu.codconce<>960 AND mid(hlinapu.codmacta,1,1) IN (" & DBSet(vParam.grupogto, "T") & "," & DBSet(vParam.grupovta, "T") & ")" ''6','7')"
+    cadFormula = "{hlinapu.codconce}<>960 AND mid({hlinapu.codmacta},1,1) IN [" & DBSet(vParam.GrupoGto, "T") & "," & DBSet(vParam.GrupoVta, "T") & "]" ''6','7']"
+    cadselect = "hlinapu.codconce<>960 AND mid(hlinapu.codmacta,1,1) IN (" & DBSet(vParam.GrupoGto, "T") & "," & DBSet(vParam.GrupoVta, "T") & ")" ''6','7')"
     
     
     'Montamos la fecha de inicio del periodo solicitado
@@ -1720,10 +1723,13 @@ Dim FechaF As Date
 Dim FechaIAnt As Date
 Dim FechaFAnt As Date
 Dim I As Integer
-Dim CADENA As String
+Dim Cadena As String
 Dim Digitos As Integer
 Dim ConceptoPerdidasyGanancias As Integer
-    
+            
+            
+    lblCuentas(7).Caption = "Preparando datos"
+    lblCuentas(7).Refresh
     
     ConceptoPerdidasyGanancias = 960 'ponia 970 en el sqql de abjao 970
     
@@ -1773,10 +1779,22 @@ Dim ConceptoPerdidasyGanancias As Integer
 
     'Metemos saldos del periodo 1
     IncrementarProgres pb2, 1
+    'Noviembre 2020. Dividimos por lo menos en dos fases
+    lblCuentas(7).Caption = "Cuentas 6 ant"
+    lblCuentas(7).Refresh
     Sql = "insert into tmpevolsal(codusu,codmacta,apertura,importemes1) "
     Sql = Sql & "select " & vUsu.Codigo & ", codmacta , 1, sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) "
     Sql = Sql & " from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
-    Sql = Sql & "  AND mid(hlinapu.codmacta,1,1) IN ('6','7') "
+    Sql = Sql & "  AND mid(hlinapu.codmacta,1,1) IN ('6') "
+    Sql = Sql & " and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaFAnt, "F") & " GROUP BY codmacta"
+    Conn.Execute Sql
+    
+    lblCuentas(7).Caption = "Cuentas 7 ant"
+    lblCuentas(7).Refresh
+    Sql = "insert into tmpevolsal(codusu,codmacta,apertura,importemes1) "
+    Sql = Sql & "select " & vUsu.Codigo & ", codmacta , 1, sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) "
+    Sql = Sql & " from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
+    Sql = Sql & "  AND mid(hlinapu.codmacta,1,1) IN ('7') "
     Sql = Sql & " and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaFAnt, "F") & " GROUP BY codmacta"
     Conn.Execute Sql
     
@@ -1784,13 +1802,22 @@ Dim ConceptoPerdidasyGanancias As Integer
     'Actualizamos acumulados del periodo anterior
     'activo
     IncrementarProgres pb2, 1
+    lblCuentas(7).Caption = "Cuentas 6 "
+    lblCuentas(7).Refresh
     Sql = "insert into tmpevolsal(codusu,codmacta,apertura,importemes1) "
     Sql = Sql & "select " & vUsu.Codigo & ", codmacta , 2, sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) "
     Sql = Sql & " from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
-    Sql = Sql & "  AND mid(hlinapu.codmacta,1,1) IN ('6','7') "
+    Sql = Sql & "  AND mid(hlinapu.codmacta,1,1) IN ('6') "
     Sql = Sql & " and fechaent between " & DBSet(FechaI, "F") & " and " & DBSet(FechaF, "F") & " GROUP BY codmacta"
     Conn.Execute Sql
-    
+    lblCuentas(7).Caption = "Cuentas 7 "
+    lblCuentas(7).Refresh
+    Sql = "insert into tmpevolsal(codusu,codmacta,apertura,importemes1) "
+    Sql = Sql & "select " & vUsu.Codigo & ", codmacta , 2, sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) "
+    Sql = Sql & " from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
+    Sql = Sql & "  AND mid(hlinapu.codmacta,1,1) IN ('7') "
+    Sql = Sql & " and fechaent between " & DBSet(FechaI, "F") & " and " & DBSet(FechaF, "F") & " GROUP BY codmacta"
+    Conn.Execute Sql
     
     'Saldos grupo 7 al reves
     IncrementarProgres pb2, 1
@@ -1815,6 +1842,8 @@ Dim ConceptoPerdidasyGanancias As Integer
     
     
     'Metemos en la tabla del informe
+    lblCuentas(7).Caption = "Insertar tmp impresion"
+    lblCuentas(7).Refresh
     IncrementarProgres pb2, 1
     Sql = "INSERT INTO tmpbalancesumas(codusu,cta,nomcta,TotalD,TotalH)"
     Sql = Sql & "SELECT codusu,tmpevolsal.codmacta,if(cuentas.nommacta is null,'ERROR',cuentas.nommacta),sum(if(apertura<2,importemes1,0)),"
@@ -1831,6 +1860,8 @@ Dim ConceptoPerdidasyGanancias As Integer
     Conn.Execute Sql
     
     IncrementarProgres pb2, 1
+    lblCuentas(7).Caption = "Abriendo"
+    
     
     CargarTablaTemporal = True
         
@@ -1841,6 +1872,8 @@ Dim ConceptoPerdidasyGanancias As Integer
 eCargarTablaTemporal:
     pb2.visible = False
     MuestraError Err.Number, "Cargando tabla temporal", Err.Description
+    lblCuentas(7).Caption = ""
+    
 End Function
 
 
@@ -1948,7 +1981,7 @@ Private Function DatosOK() As Boolean
         Exit Function
     End If
 
-    If vParam.grupoord <> "" And vParam.Automocion <> "" Then
+    If vParam.GrupoOrd <> "" And vParam.Automocion <> "" Then
         If CDate("01/" & cmbFecha(2).ListIndex + 1 & "/" & txtAno(4).Text) > vParam.fechafin Then
             'Ha seleccionado a uno o dos digitos
             If chkCtaExplo(1).Value = 1 Or chkCtaExplo(2).Value = 1 Then

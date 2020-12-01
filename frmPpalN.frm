@@ -734,7 +734,7 @@ Dim N_Skin As Integer
 End Sub
 
 Public Sub SetBackstageTheme()
-Dim i As Integer
+Dim I As Integer
     Dim nTheme As XtremeCommandBars.XTPBackstageButtonControlAppearanceStyle
     nTheme = xtpAppearanceResource
 
@@ -746,8 +746,8 @@ Dim i As Integer
    ' End If
     
     If Not (pageBackstageHelp Is Nothing) Then
-        For i = 0 To 4
-            pageBackstageHelp.btnAcciones(i).Appearance = nTheme
+        For I = 0 To 4
+            pageBackstageHelp.btnAcciones(I).Appearance = nTheme
         Next
         
     End If
@@ -1391,7 +1391,7 @@ Dim TamanyoImgComun As Integer
 End Sub
 
 Public Sub GetIconsFromLibrary(ByVal sLibraryFilePath As String, ByVal op As Integer, ByVal tam As Integer)
-    Dim i As Integer
+    Dim I As Integer
     Dim tRes As ResType, iCount As Integer
         
     opcio = op
@@ -1453,10 +1453,10 @@ Private Sub Form_Unload(Cancel As Integer)
     
     'close all sub forms
     On Error Resume Next
-    Dim i As Long
-    For i = Forms.Count - 1 To 1 Step -1
+    Dim I As Long
+    For I = Forms.Count - 1 To 1 Step -1
         
-        Unload Forms(i)
+        Unload Forms(I)
     Next
     
     
@@ -1467,10 +1467,10 @@ End Sub
 
 
 Private Sub GuardarDatosUltimaTab()
-    i = RibbonBar.SelectedTab.Id
-    If i = ID_TAB_CALENDAR_HOME Then Exit Sub 'no guardo este tab
-    If i <> vUsu.TabPorDefecto Then
-        vUsu.TabPorDefecto = i
+    I = RibbonBar.SelectedTab.Id
+    If I = ID_TAB_CALENDAR_HOME Then Exit Sub 'no guardo este tab
+    If I <> vUsu.TabPorDefecto Then
+        vUsu.TabPorDefecto = I
         vUsu.GuardarTabPorDefecto
     End If
 End Sub
@@ -1651,10 +1651,10 @@ Private Sub LoadIcons()
         CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\suministro-inmediato-informacion.bmp", ID_SII, xtpImageNormal
             
             
-        Dim i As Integer
-        For i = 1 To 17
-            SuiteControlsGlobalSettings.Icons.LoadIcon App.Path & "\styles\TreeView\icon" & i & ".ico", i, xtpImageNormal
-        Next i
+        Dim I As Integer
+        For I = 1 To 17
+            SuiteControlsGlobalSettings.Icons.LoadIcon App.Path & "\styles\TreeView\icon" & I & ".ico", I, xtpImageNormal
+        Next I
 End Sub
 
 Private Sub SaveRibbonBarToXML()
@@ -2056,14 +2056,14 @@ Dim Anterior As Integer
     End If
     
     cad = ""
-    For i = 0 To RibbonBar.TabCount - 1
-        J = RibbonBar.Tab(i).Id
+    For I = 0 To RibbonBar.TabCount - 1
+        J = RibbonBar.Tab(I).Id
         'Debug.Print J & " " & RibbonBar.Tab(i).Caption
         If J = Anterior Then
             
-            RibbonBar.Tab(i).visible = True
-            RibbonBar.Tab(i).Selected = True
-            Set RibbonBar.SelectedTab = RibbonBar.Tab(i)
+            RibbonBar.Tab(I).visible = True
+            RibbonBar.Tab(I).Selected = True
+            Set RibbonBar.SelectedTab = RibbonBar.Tab(I)
             cad = "OK"
             Exit For
         End If
@@ -2794,7 +2794,7 @@ Dim Col As Collection
         cad = ""
         Set Col = New Collection
         While Not Rn2.EOF
-           i = i + 1
+           I = I + 1
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
                 Habilitado = True
     
@@ -3206,8 +3206,13 @@ Private Sub AbrirFormularios(Accion As Long)
             frmTESInfSituacionCta.Show vbModal
         
         Case 903 ' Situación Tesoreria
-            frmTESInfSituacion.Show vbModal
         
+        
+            'NOVIEMBRE 2020
+            'Este informe es muy mejorable. De momento vamos a poner el listado como el que habia en Arimoney
+            'frmTESInfSituacion.Show vbModal
+            frmTESInfTesoreria.Show vbModal
+            
         
         ' Analitica
         Case 1001 ' Centros de Coste

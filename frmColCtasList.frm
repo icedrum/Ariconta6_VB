@@ -82,6 +82,51 @@ Begin VB.Form frmColCtasList
       TabIndex        =   16
       Top             =   0
       Width           =   4455
+      Begin VB.Frame FrameDatosFiscales 
+         Height          =   1215
+         Left            =   120
+         TabIndex        =   43
+         Top             =   1200
+         Visible         =   0   'False
+         Width           =   4215
+         Begin VB.OptionButton Option1 
+            Caption         =   "Datos filiación"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Index           =   2
+            Left            =   120
+            TabIndex        =   45
+            Top             =   240
+            Value           =   -1  'True
+            Width           =   2025
+         End
+         Begin VB.OptionButton Option1 
+            Caption         =   "Datos tesorería"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Index           =   3
+            Left            =   120
+            TabIndex        =   44
+            Top             =   720
+            Width           =   1950
+         End
+      End
       Begin VB.Frame Frame2 
          Height          =   2355
          Left            =   90
@@ -787,7 +832,7 @@ Option Explicit
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
 Dim i As Integer
@@ -878,24 +923,24 @@ Private Sub Form_Load()
      
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
-    
+    FrameDatosFiscales.BorderStyle = 0
     PonerNiveles
 End Sub
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
-    SQL = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     Set frmCtas = New frmColCtas
     frmCtas.DatosADevolverBusqueda = True
     frmCtas.Show vbModal
     Set frmCtas = Nothing
-    If SQL <> "" Then
-        Me.txtCuentas(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNCuentas(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtCuentas(Index)
     End If
@@ -906,7 +951,10 @@ End Sub
 
 
 Private Sub Option1_Click(Index As Integer)
-    Me.Frame2.visible = Option1(0).Value
+    If Index < 2 Then
+        Me.Frame2.visible = Option1(0).Value
+        FrameDatosFiscales.visible = Not Option1(0).Value
+    End If
 End Sub
 
 Private Sub optTipoSal_Click(Index As Integer)
@@ -971,7 +1019,7 @@ Private Sub txtCuentas_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
@@ -998,18 +1046,18 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
         Case 0, 1 'cuentas
             Cta = (txtCuentas(Index).Text)
                                     '********
-            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
             If B = 0 Then
                 MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
             Else
                 txtCuentas(Index).Text = Cta
-                txtNCuentas(Index).Text = SQL
+                txtNCuentas(Index).Text = Sql
                 If B = 1 Then
                     txtNCuentas(Index).Tag = ""
                 Else
-                    txtNCuentas(Index).Tag = SQL
+                    txtNCuentas(Index).Tag = Sql
                 End If
                 Hasta = -1
                 If Index = 6 Then
@@ -1045,20 +1093,27 @@ Dim Sql2 As String
 
     'Monto el SQL
     If Option1(0).Value Then
-        SQL = "Select  codmacta as Código ,nommacta as Denominación, apudirec as Apu_Directos FROM cuentas "
+        Sql = "Select  codmacta as Código ,nommacta as Denominación, apudirec as Apu_Directos FROM cuentas "
     Else
-        SQL = "Select  codmacta as Código ,nommacta as Denominación, nifdatos as NIF, model347, dirdatos as Dirección, codposta as CP, despobla as Población FROM cuentas "
+        If Option1(3).Value Then
+            Sql = "Select  codmacta as Código ,nommacta as Denominación, coalesce(cuentas.iban,'') IBAN, coalesce(nomforpa,'') as 'Forma pago' "
+            Sql = Sql & " ,SEPA_Refere 'Ref. Sepa', If (embargo=1,'Si','') Embargo , if (coalesce(tiporetencion,0)>0,'Si','')  Retencion  , coalesce(numpoliz,'') 'Póliza' "
+            Sql = Sql & " FROM cuentas left join formapago on forpa=codforpa"
+        Else
+            Sql = "Select  codmacta as Código ,nommacta as Denominación, nifdatos as NIF, model347, dirdatos as Dirección, codposta as CP, despobla as Población  FROM cuentas "
+        End If
+        
     End If
     
     
-    If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
+    If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
     
     i = 1
     If optVarios(1).Value Then i = 2 'nombre
-    SQL = SQL & " ORDER BY " & i
+    Sql = Sql & " ORDER BY " & i
         
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1088,7 +1143,14 @@ Dim nomDocu As String
             numParam = numParam + 1
         End If
     Else
-        indRPT = "0201-01" '"colCuentas2.rpt"
+    
+        
+    
+        If Option1(3).Value Then
+            indRPT = "0201-03" 'cuentas tesoreria
+        Else
+            indRPT = "0201-01" '"colCuentas2.rpt"
+        End If
     End If
 
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
@@ -1109,7 +1171,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -1121,7 +1183,7 @@ Dim RC2 As String
     If cadFormula <> "" Then cadFormula = "(" & cadFormula & ")"
     If cadselect <> "" Then cadselect = "(" & cadselect & ")"
             
-    SQL = ""
+    Sql = ""
     Sql2 = ""
     RC = ""
     RC2 = ""
@@ -1129,15 +1191,15 @@ Dim RC2 As String
         For i = 1 To Check1.Count - 2  'El 10 k es el ultimo nivel no lo quiero
             If Check1(i).visible Then
                 If Check1(i).Value = 1 Then
-                    SQL = ""
+                    Sql = ""
                     Sql2 = ""
                     J = DigitosNivel(i)
                     For CONT = 1 To J
-                        SQL = SQL & "?"
+                        Sql = Sql & "?"
                         Sql2 = Sql2 & "_"
                     Next CONT
                     If RC <> "" Then RC = RC & " OR "
-                    RC = RC & " ({cuentas.codmacta} like '" & SQL & "')"
+                    RC = RC & " ({cuentas.codmacta} like '" & Sql & "')"
                     If RC2 <> "" Then RC2 = RC2 & " OR "
                     RC2 = RC2 & " (cuentas.codmacta like '" & Sql2 & "')"
                 End If

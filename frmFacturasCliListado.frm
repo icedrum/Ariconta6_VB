@@ -1226,7 +1226,7 @@ Attribute frmCtas.VB_VarHelpID = -1
 Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim tabla As String
 
@@ -1306,7 +1306,7 @@ Dim B As Boolean
     If Legalizacion <> "" Then
         CadenaDesdeOtroForm = "OK"
     End If
-    
+    Screen.MousePointer = vbDefault
 End Sub
 
 Private Sub cmdCancelar_Click()
@@ -1344,13 +1344,13 @@ Private Sub Form_Load()
     'Otras opciones
     Me.Caption = "Listado de Facturas de Cliente"
 
-    For I = 0 To 1
-        Me.imgSerie(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To 1
+        Me.imgSerie(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
      
-    For I = 0 To 1
-        Me.imgCuentas(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To 1
+        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
      
     ' La Ayuda
     With Me.ToolbarAyuda
@@ -1407,7 +1407,7 @@ Private Sub frmF_Selec(vFecha As Date)
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
-Dim I As Integer
+Dim i As Integer
 Dim TotalCant As Currency
 Dim TotalImporte As Currency
 
@@ -1416,13 +1416,13 @@ Dim TotalImporte As Currency
     Select Case Index
         ' tabla de codigos de iva
         Case 0
-            For I = 1 To ListView1(1).ListItems.Count
-                ListView1(1).ListItems(I).Checked = False
-            Next I
+            For i = 1 To ListView1(1).ListItems.Count
+                ListView1(1).ListItems(i).Checked = False
+            Next i
         Case 1
-            For I = 1 To ListView1(1).ListItems.Count
-                ListView1(1).ListItems(I).Checked = True
-            Next I
+            For i = 1 To ListView1(1).ListItems.Count
+                ListView1(1).ListItems(i).Checked = True
+            Next i
     End Select
     
     Screen.MousePointer = vbDefault
@@ -1842,7 +1842,7 @@ Dim Sql As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
-Dim I As Integer
+Dim i As Integer
 
 
     MontaSQL = False
@@ -1858,11 +1858,11 @@ Dim I As Integer
     End If
             
     Sql = ""
-    For I = 1 To Me.ListView1(1).ListItems.Count
-        If Me.ListView1(1).ListItems(I).Checked Then
-            Sql = Sql & Me.ListView1(1).ListItems(I).Text & ","
+    For i = 1 To Me.ListView1(1).ListItems.Count
+        If Me.ListView1(1).ListItems(i).Checked Then
+            Sql = Sql & Me.ListView1(1).ListItems(i).Text & ","
         End If
-    Next I
+    Next i
     
     If Sql <> "" Then
         ' quitamos la ultima coma
@@ -1993,9 +1993,9 @@ Dim Rs As ADODB.Recordset
 Dim Sql As String
 Dim J As Long
 
-    For I = 1 To Combo1.Count - 1
-        Combo1(I).Clear
-    Next I
+    For i = 1 To Combo1.Count - 1
+        Combo1(i).Clear
+    Next i
 
     'Tipo de factura
     Set Rs = New ADODB.Recordset
@@ -2005,11 +2005,11 @@ Dim J As Long
     Combo1(0).AddItem "Todos"
     Combo1(0).ItemData(Combo1(0).NewIndex) = Asc(1)
     
-    I = 0
+    i = 0
     While Not Rs.EOF
         Combo1(0).AddItem Rs!Descripcion
         Combo1(0).ItemData(Combo1(0).NewIndex) = Asc(Rs!Codigo)
-        I = I + 1
+        i = i + 1
         Rs.MoveNext
     Wend
     Rs.Close

@@ -586,7 +586,7 @@ Dim Modo As Byte
 
 Private Sub PonerModo(vModo)
 Dim B As Boolean
-Dim I As Integer
+Dim i As Integer
     Modo = vModo
     
     B = (Modo = 2)
@@ -600,11 +600,11 @@ Dim I As Integer
     B = (Modo = 0 Or Modo = 2)
     
     
-    For I = 0 To txtaux.Count - 1
-        txtaux(I).BackColor = vbWhite
-        txtaux(I).visible = Not B
+    For i = 0 To txtAux.Count - 1
+        txtAux(i).BackColor = vbWhite
+        txtAux(i).visible = Not B
 
-    Next I
+    Next i
     Combo1.visible = Not B
     
     cmdAceptar.visible = Not B
@@ -617,7 +617,7 @@ Dim I As Integer
     End If
     'Si estamo mod or insert
     
-    txtaux(0).Enabled = (Modo <> 4)
+    txtAux(0).Enabled = (Modo <> 4)
 
     PonerModoUsuarioGnral Modo, "ariconta"
 
@@ -651,7 +651,7 @@ Private Sub BotonBuscar()
     'Buscar
     
     LLamaLineas DataGrid1.top + 250, 1
-    PonFoco txtaux(0)
+    PonFoco txtAux(0)
 End Sub
 
 Private Sub BotonModificar()
@@ -661,9 +661,9 @@ End Sub
 Private Sub LLamaLineas(alto As Single, xModo As Byte)
     PonerModo xModo
     'Fijamos el ancho
-    For I = 0 To txtaux.Count - 1
-        txtaux(I).top = alto
-        If xModo = 1 Then txtaux(I).Text = ""
+    For i = 0 To txtAux.Count - 1
+        txtAux(i).top = alto
+        If xModo = 1 Then txtAux(i).Text = ""
     Next
     Combo1.top = alto
 End Sub
@@ -677,7 +677,7 @@ Private Sub adodc1_MoveComplete(ByVal adReason As ADODB.EventReasonEnum, ByVal p
 End Sub
 
 Private Sub cmdAceptar_Click()
-Dim I As Integer
+Dim i As Integer
 Dim CadB As String
 Select Case Modo
     Case 1
@@ -703,10 +703,10 @@ Select Case Modo
                 '-----------------------------------------
                 'Hacemos insertar
                 If ModificaDesdeFormulario(Me) Then
-                    I = adodc1.Recordset.Fields(0)
+                    i = adodc1.Recordset.Fields(0)
                     PonerModo 0
                     CargaGrid
-                    adodc1.Recordset.Find (adodc1.Recordset.Fields(0).Name & " =" & I)
+                    adodc1.Recordset.Find (adodc1.Recordset.Fields(0).Name & " =" & i)
                 End If
             End If
     End Select
@@ -899,7 +899,7 @@ End Sub
 Private Sub CargaGrid(Optional Sql As String)
     Dim J As Integer
     Dim TotalAncho As Integer
-    Dim I As Integer
+    Dim i As Integer
     Dim tots As String
     
     
@@ -909,7 +909,7 @@ Private Sub CargaGrid(Optional Sql As String)
 
     AplicaFitros Sql
     Sql = "Select codigo,fecha,codmacta,nommacta,login,if(autom=1,'*','') autom,resultado from compensaclipro " & Sql
-    Sql = Sql & " ORDER BY codigo"
+    Sql = Sql & " ORDER BY fecha desc,codigo"
     
     adodc1.RecordSource = Sql
     adodc1.CursorType = adOpenDynamic
@@ -947,7 +947,7 @@ Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
 End Sub
 
 Private Sub txtaux_GotFocus(Index As Integer)
-    ConseguirFoco txtaux(Index), Modo
+    ConseguirFoco txtAux(Index), Modo
 End Sub
 
 Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
@@ -959,17 +959,17 @@ Private Sub txtaux_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtAux_LostFocus(Index As Integer)
-    If Not PerderFocoGnral(txtaux(Index), Modo) Then Exit Sub
+    If Not PerderFocoGnral(txtAux(Index), Modo) Then Exit Sub
 
-    txtaux(Index).Text = Trim(txtaux(Index).Text)
-    If txtaux(Index).Text = "" Then Exit Sub
+    txtAux(Index).Text = Trim(txtAux(Index).Text)
+    If txtAux(Index).Text = "" Then Exit Sub
     If Modo = 1 Then Exit Sub 'Busquedas
     If Index = 0 Then
-        If Not IsNumeric(txtaux(0).Text) Then
+        If Not IsNumeric(txtAux(0).Text) Then
             MsgBox "Código concepto tiene que ser numérico", vbExclamation
             Exit Sub
         End If
-        txtaux(0).Text = Format(txtaux(0).Text, "000")
+        txtAux(0).Text = Format(txtAux(0).Text, "000")
     End If
 End Sub
 
@@ -982,9 +982,9 @@ If Not B Then Exit Function
 
 If Modo = 3 Then
     'Estamos insertando
-     Datos = DevuelveDesdeBD("CODIGO", "Agentes", "codigo", txtaux(0).Text, "N")
+     Datos = DevuelveDesdeBD("CODIGO", "Agentes", "codigo", txtAux(0).Text, "N")
      If Datos <> "" Then
-        MsgBox "Ya existe el concepto : " & txtaux(0).Text, vbExclamation
+        MsgBox "Ya existe el concepto : " & txtAux(0).Text, vbExclamation
         B = False
     End If
 End If

@@ -340,7 +340,6 @@ Public Function ImprimeGeneral() As Boolean
         .ConSubInforme = conSubRPT
 
         .NumCopias2 = 1
-
         .SoloImprimir = SoloImprimir
         .ExportarPDF = ExportarPDF
         .MostrarTree = vMostrarTree

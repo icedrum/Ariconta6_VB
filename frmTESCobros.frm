@@ -3729,7 +3729,7 @@ End Sub
 
 Private Sub cmdAceptar_Click()
     Dim cad As String
-    Dim i As Integer
+    Dim I As Integer
     
     Screen.MousePointer = vbHourglass
     On Error GoTo Error1
@@ -3742,7 +3742,7 @@ Private Sub cmdAceptar_Click()
             '-----------------------------------------
             'Hacemos insertar
             If InsertarDesdeForm2(Me, 1) Then
-                data1.RecordSource = "Select * from " & NombreTabla & ObtenerWhereCab(True) & Ordenacion
+                Data1.RecordSource = "Select * from " & NombreTabla & ObtenerWhereCab(True) & Ordenacion
                 PosicionarData
                 PonerCampos
             End If
@@ -3764,7 +3764,7 @@ Private Sub cmdAceptar_Click()
                     cad = ""
                     PonPendiente
                     '-- Esto permanece para saber donde estamos
-                    lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
+                    lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
 
                 Else
                     LimpiarCampos
@@ -3811,7 +3811,7 @@ Private Sub cmdAux_Click(Index As Integer)
             frmDia.Show vbModal
             Set frmDia = Nothing
             
-            PonFoco txtaux(5)
+            PonFoco txtAux(5)
             
         Case 2 ' cocnepto de devolucion
             Set frmDev = New frmBasico
@@ -3857,11 +3857,11 @@ End Sub
 
 Private Function SituarData() As Boolean
     Dim posicion As Long
-    Dim SQL As String
+    Dim Sql As String
     On Error GoTo ESituarData1
         SituarData = False
                     
-        With data1
+        With Data1
             'Vemos poscion
             posicion = .Recordset.AbsolutePosition - 1
             'Actualizamos el recordset
@@ -3935,7 +3935,7 @@ Private Sub BotonBuscar()
         PonFoco Text1(13)
         Else
             HacerBusqueda
-            If data1.Recordset.EOF Then
+            If Data1.Recordset.EOF Then
                  '### A mano
                 Text1(kCampo).Text = ""
                 Text1(kCampo).BackColor = vbYellow
@@ -3960,21 +3960,21 @@ Private Sub BotonVerTodos()
 End Sub
 
 Private Sub Desplazamiento(Index As Integer)
-    If data1.Recordset.EOF Then Exit Sub
+    If Data1.Recordset.EOF Then Exit Sub
     Select Case Index
         Case 1
-            data1.Recordset.MoveFirst
+            Data1.Recordset.MoveFirst
         Case 2
-            data1.Recordset.MovePrevious
-            If data1.Recordset.BOF Then data1.Recordset.MoveFirst
+            Data1.Recordset.MovePrevious
+            If Data1.Recordset.BOF Then Data1.Recordset.MoveFirst
         Case 3
-            data1.Recordset.MoveNext
-            If data1.Recordset.EOF Then data1.Recordset.MoveLast
+            Data1.Recordset.MoveNext
+            If Data1.Recordset.EOF Then Data1.Recordset.MoveLast
         Case 4
-            data1.Recordset.MoveLast
+            Data1.Recordset.MoveLast
     End Select
     PonerCampos
-    lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
+    lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
 End Sub
 
 Private Sub BotonModificar()
@@ -4014,7 +4014,7 @@ Dim N As Byte
         
         
         'Si es una remesa de talon/pagare tb dejare modificar el numero de talon pagare
-        If Val(DBLet(data1.Recordset!Tiporem)) > 1 Then
+        If Val(DBLet(Data1.Recordset!Tiporem)) > 1 Then
             Text1(27).Locked = False
             Text1(27).BackColor = vbWhite
         End If
@@ -4039,31 +4039,31 @@ End Sub
 
 Private Sub BotonEliminar()
     Dim cad As String
-    Dim i As Integer
-    Dim SQL As String
+    Dim I As Integer
+    Dim Sql As String
     Dim SqlLog As String
     
 
     'Ciertas comprobaciones
-    If data1.Recordset.EOF Then Exit Sub
+    If Data1.Recordset.EOF Then Exit Sub
     
     'Comprobamos si se puede eliminar
-    i = SePuedeEliminar2
-    If i < 3 Then Exit Sub
+    I = SePuedeEliminar2
+    If I < 3 Then Exit Sub
     '### a mano
     cad = "Seguro que desea eliminar de la BD el registro actual:"
-    cad = cad & vbCrLf & data1.Recordset.Fields(0) & "  " & data1.Recordset.Fields(1) & " "
-    cad = cad & data1.Recordset.Fields(2) & "  " & data1.Recordset.Fields(3)
-    i = MsgBox(cad, vbQuestion + vbYesNoCancel + vbDefaultButton2)
+    cad = cad & vbCrLf & Data1.Recordset.Fields(0) & "  " & Data1.Recordset.Fields(1) & " "
+    cad = cad & Data1.Recordset.Fields(2) & "  " & Data1.Recordset.Fields(3)
+    I = MsgBox(cad, vbQuestion + vbYesNoCancel + vbDefaultButton2)
     'Borramos
-    If i = vbYes Then
+    If I = vbYes Then
         'Borro el elemento
-        SQL = "Delete from cobros  WHERE numserie = '" & data1.Recordset!NUmSerie & "' AND numfactu = " & data1.Recordset!NumFactu
-        SQL = SQL & " AND fecfactu = " & DBSet(data1.Recordset!FecFactu, "F") & " AND numorden =" & data1.Recordset!numorden
+        Sql = "Delete from cobros  WHERE numserie = '" & Data1.Recordset!NUmSerie & "' AND numfactu = " & Data1.Recordset!numfactu
+        Sql = Sql & " AND fecfactu = " & DBSet(Data1.Recordset!FecFactu, "F") & " AND numorden =" & Data1.Recordset!numorden
         
         DataGridAux(1).Enabled = False
-        NumRegElim = data1.Recordset.AbsolutePosition
-        Conn.Execute SQL
+        NumRegElim = Data1.Recordset.AbsolutePosition
+        Conn.Execute Sql
 
         SqlLog = "Serie      : " & Text1(13).Text
         SqlLog = SqlLog & vbCrLf & "Factura    : " & Text1(1).Text
@@ -4075,19 +4075,19 @@ Private Sub BotonEliminar()
         vLog.Insertar 23, vUsu, SqlLog
 
 
-        data1.Refresh
-        If data1.Recordset.EOF Then
+        Data1.Refresh
+        If Data1.Recordset.EOF Then
             'Solo habia un registro
             LimpiarCampos
             CargaList 0, False
             PonerModo 0
             Else
-                data1.Recordset.MoveFirst
+                Data1.Recordset.MoveFirst
                 NumRegElim = NumRegElim - 1
                 If NumRegElim > 1 Then
-                    For i = 1 To NumRegElim - 1
-                        data1.Recordset.MoveNext
-                    Next i
+                    For I = 1 To NumRegElim - 1
+                        Data1.Recordset.MoveNext
+                    Next I
                 End If
                 PonerCampos
                 DataGridAux(1).Enabled = True
@@ -4103,7 +4103,7 @@ Private Sub cmdRegresar_Click()
 Dim cad As String
 Dim impo As Currency
     
-    If data1.Recordset.EOF Then
+    If Data1.Recordset.EOF Then
         MsgBox "Ningún registro devuelto.", vbExclamation
         Exit Sub
     End If
@@ -4167,7 +4167,7 @@ Private Sub Form_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub Form_Load()
-Dim i As Integer
+Dim I As Integer
 
 
     PrimeraVez = True
@@ -4241,13 +4241,13 @@ Dim i As Integer
     CargarCombo
     
     'Cargo los iconos
-    For i = 0 To imgCuentas.Count - 1
-        imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 0 To imgCuentas.Count - 1
+        imgCuentas(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
     
-    For i = 0 To imgppal.Count - 1
-        imgppal(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 0 To imgppal.Count - 1
+        imgppal(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
     
     imgSerie.Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgDepart.Picture = frmppal.imgIcoForms.ListImages(1).Picture
@@ -4277,9 +4277,9 @@ Dim i As Integer
     'Vemos como esta guardado el valor del check
     chkVistaPrevia.Value = CheckValueLeer(Name)
     'ASignamos un SQL al DATA1
-    data1.ConnectionString = Conn
-    data1.RecordSource = "Select * from " & NombreTabla & " WHERE FALSE"
-    data1.Refresh
+    Data1.ConnectionString = Conn
+    Data1.RecordSource = "Select * from " & NombreTabla & " WHERE FALSE"
+    Data1.Refresh
     If DatosADevolverBusqueda = "" Then
         PonerModo 0
     Else
@@ -4381,7 +4381,7 @@ Private Sub frmC_Selec(vFecha As Date)
 End Sub
 
 Private Sub frmC1_Selec(vFecha As Date)
-    txtaux(CInt(cmdAux(1).Tag)).Text = Format(vFecha, "dd/mm/yyyy")
+    txtAux(CInt(cmdAux(1).Tag)).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
@@ -4663,8 +4663,8 @@ End Sub
 '----------------------------------------------------------------
 '----------------------------------------------------------------
 Private Sub Text1_LostFocus(Index As Integer)
-    Dim i As Integer
-    Dim SQL As String
+    Dim I As Integer
+    Dim Sql As String
     Dim Valor
     
     If Text1(Index).Text = "" Then Exit Sub
@@ -4679,29 +4679,29 @@ Private Sub Text1_LostFocus(Index As Integer)
     Case 4, 9
             'Cuentas          'Cuentas
             'Cuentas          'Cuentas
-        i = DevuelveText2Relacionado(Index)
+        I = DevuelveText2Relacionado(Index)
         DevfrmCCtas = Text1(Index).Text
-        If CuentaCorrectaUltimoNivel(DevfrmCCtas, SQL) Then
+        If CuentaCorrectaUltimoNivel(DevfrmCCtas, Sql) Then
             Text1(Index).Text = DevfrmCCtas
-            If Modo >= 2 Then Text2(i).Text = SQL
+            If Modo >= 2 Then Text2(I).Text = Sql
         Else
             If Modo >= 2 Then
-                MsgBox SQL, vbExclamation
+                MsgBox Sql, vbExclamation
                 Text1(Index).Text = ""
                 PonerFoco Text1(Index)
             End If
             
-            Text2(i).Text = ""
+            Text2(I).Text = ""
         End If
         
         'Poner la cuenta bancaria a partir de la cuenta
         If DevfrmCCtas <> "" Then
             If Modo > 2 And Index = 4 Then
-                SQL = ""
+                Sql = ""
                 If Modo = 4 Then
-                    SQL = DBLet(data1.Recordset!IBAN)
+                    Sql = DBLet(Data1.Recordset!IBAN)
                 Else
-                    SQL = Text1(19).Text
+                    Sql = Text1(19).Text
                 End If
                 Valor = DevuelveLaCtaBanco(DevfrmCCtas)
                 If Len(Valor) = 1 Then
@@ -4710,11 +4710,11 @@ Private Sub Text1_LostFocus(Index As Integer)
                     Valor = RecuperaValor(CStr(Valor), 1)
                 End If
                 If CStr(Valor) <> "" Then
-                    If SQL <> Valor Then
-                        If SQL <> "" Then If MsgBox("Poner Cuenta bancaria de la registro del cliente: " & Replace(CStr(Valor), "|", " - ") & "?", vbQuestion + vbYesNo) = vbYes Then SQL = ""
+                    If Sql <> Valor Then
+                        If Sql <> "" Then If MsgBox("Poner Cuenta bancaria de la registro del cliente: " & Replace(CStr(Valor), "|", " - ") & "?", vbQuestion + vbYesNo) = vbYes Then Sql = ""
                         
                     End If
-                    If SQL = "" Then
+                    If Sql = "" Then
                         Text1(19).Text = Valor
                         Text1(10).Text = DevuelveIBANSeparado(Valor)
                     End If
@@ -4727,16 +4727,16 @@ Private Sub Text1_LostFocus(Index As Integer)
             If Index = 4 Then
                 'Veremos si es asegurado
                 If vParamT.TieneOperacionesAseguradas Then
-                    SQL = DevuelveDesdeBD("numpoliz", "cuentas", "codmacta", DevfrmCCtas, "T")
+                    Sql = DevuelveDesdeBD("numpoliz", "cuentas", "codmacta", DevfrmCCtas, "T")
                 End If
                 
                 
                 If Modo = 3 Then
-                    SQL = "concat(if( isnull(forpa),'',forpa),'|',if(isnull(ctabanco),'',ctabanco),'|')"
-                    SQL = DevuelveDesdeBD(SQL, "cuentas", "codmacta", DevfrmCCtas, "T")
-                    If SQL <> "||" Then
-                        Text1(0).Text = RecuperaValor(SQL, 1)
-                        Text1(9).Text = RecuperaValor(SQL, 2)
+                    Sql = "concat(if( isnull(forpa),'',forpa),'|',if(isnull(ctabanco),'',ctabanco),'|')"
+                    Sql = DevuelveDesdeBD(Sql, "cuentas", "codmacta", DevfrmCCtas, "T")
+                    If Sql <> "||" Then
+                        Text1(0).Text = RecuperaValor(Sql, 1)
+                        Text1(9).Text = RecuperaValor(Sql, 2)
                         If Text1(9).Text <> "" Then Text2(2).Text = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", Text1(9).Text, "T", Text1(9).Text)
                         If Text1(0).Text <> "" Then Text1_LostFocus 0   'VOLVEMOS A LLAMR a la lostfocus, cuidado con las variables
                     End If
@@ -4748,19 +4748,19 @@ Private Sub Text1_LostFocus(Index As Integer)
                     If Trim(Text1(Index).Text) <> CtaAnt Then CargarDatosCuenta Text1(Index), False
                 Else
                     If Modo = 4 Then
-                        If Text1(Index).Text <> CStr(data1.Recordset!codmacta) Then
+                        If Text1(Index).Text <> CStr(Data1.Recordset!codmacta) Then
                             Text1(42).Text = ""
                             CtaAnt = ""
                         End If
                         'No ha puesto los datos fiscales
                         If Text1(42).Text = "" Then
                             If Trim(Text1(Index).Text) <> CtaAnt Then
-                                i = 1 'Cargamos todo
+                                I = 1 'Cargamos todo
                             Else
-                                i = 0 'Solo datos fiscales, NO forma pago
+                                I = 0 'Solo datos fiscales, NO forma pago
                             End If
                         
-                            CargarDatosCuenta Text1(Index), i = 0
+                            CargarDatosCuenta Text1(Index), I = 0
                         End If
                     End If
                 End If
@@ -4773,20 +4773,20 @@ Private Sub Text1_LostFocus(Index As Integer)
         vTipForpa = ""
         DevfrmCCtas = "tipforpa"
         If Not IsNumeric(Text1(Index).Text) Then
-            SQL = "Campo Forma pago debe ser numérico: " & Text1(Index).Text
-            MsgBox SQL, vbExclamation
-            SQL = ""
+            Sql = "Campo Forma pago debe ser numérico: " & Text1(Index).Text
+            MsgBox Sql, vbExclamation
+            Sql = ""
         Else
-            SQL = DevuelveDesdeBD("nomforpa", "formapago", "codforpa", Text1(Index).Text, "N", DevfrmCCtas)
-            If SQL = "" Then
-                SQL = "Forma de pago inexistente: " & Text1(Index).Text
-                MsgBox SQL, vbExclamation
-                SQL = ""
+            Sql = DevuelveDesdeBD("nomforpa", "formapago", "codforpa", Text1(Index).Text, "N", DevfrmCCtas)
+            If Sql = "" Then
+                Sql = "Forma de pago inexistente: " & Text1(Index).Text
+                MsgBox Sql, vbExclamation
+                Sql = ""
             Else
                 vTipForpa = DevfrmCCtas
             End If
         End If
-        Text2(1).Text = SQL
+        Text2(1).Text = Sql
         If vTipForpa = "" Then
             Text1(Index).Text = ""
             PonerFoco Text1(Index)
@@ -4825,19 +4825,19 @@ Private Sub Text1_LostFocus(Index As Integer)
             If Modo = 3 Then
                 If Text1(13).Text = "AN" And vParamT.ImpresionRecibosConObserva Then
                     'TAXCO
-                    SQL = DevuelveDesdeBD("max(numfactu)", "cobros", "numserie", Text1(13).Text, "T")
-                    SQL = Val(SQL) + 1
-                    Text1(1).Text = Format(SQL, "000000")
+                    Sql = DevuelveDesdeBD("max(numfactu)", "cobros", "numserie", Text1(13).Text, "T")
+                    Sql = Val(Sql) + 1
+                    Text1(1).Text = Format(Sql, "000000")
                     Text1(3).Text = "01"
-                    Text1(11).Text = Format(SQL, "000000") & " " & Format(Now, "dd/mm/yyyy")
+                    Text1(11).Text = Format(Sql, "000000") & " " & Format(Now, "dd/mm/yyyy")
                     Text1(2).Text = Format(Now, "dd/mm/yyyy")
                     Text1(5).Text = Format(Now, "dd/mm/yyyy")
                     
-                    SQL = "codigo"
-                    Valor = CStr(DevuelveDesdeBD("nombre", "agentes", "1", "1 ORDER BY codigo", "N", SQL))
-                    Text1(34).Text = SQL
+                    Sql = "codigo"
+                    Valor = CStr(DevuelveDesdeBD("nombre", "agentes", "1", "1 ORDER BY codigo", "N", Sql))
+                    Text1(34).Text = Sql
                     Text2(5).Text = CStr(Valor)
-                    SQL = ""
+                    Sql = ""
                     
                     Text1(9).Text = "5700000002"
                     Text2(2).Text = "CAJA AUX. 1. COBROS VENTANILLA"   'DevuelveDesdeBD("nombre", "agentes", "1", Text1(9).Text, "N")
@@ -4857,49 +4857,49 @@ Private Sub Text1_LostFocus(Index As Integer)
     '28 To 31, 10, 26
     Case 10
         'Cuenta bancaria
-        SQL = ""
+        Sql = ""
         Text1(Index).Text = Trim(Text1(Index).Text)
         If Text1(Index).Text <> "" Then
             Text1(Index).Text = UCase(Text1(Index).Text)
-            SQL = Replace(Text1(Index).Text, " ", "")
-            If Not EsIBAN_Correcto(SQL) Then
+            Sql = Replace(Text1(Index).Text, " ", "")
+            If Not EsIBAN_Correcto(Sql) Then
             
             End If
         End If
-        Text1(19).Text = SQL
+        Text1(19).Text = Sql
         
         
     Case 33
         
         If Not IsNumeric(Text1(Index).Text) Then
             MsgBox "Departamento debe ser numérico: " & Text1(Index).Text, vbExclamation
-            i = 0
+            I = 0
         Else
-            i = 1
+            I = 1
             PonerDepartamenteo
-            If Text2(4).Text = "" Then i = 0
+            If Text2(4).Text = "" Then I = 0
         End If
-        If i = 0 Then
+        If I = 0 Then
             Text1(Index).Text = ""
             PonerFoco Text1(Index)
             Text2(4).Text = ""
         End If
         
     Case 34
-        i = 0
+        I = 0
         If Text1(34).Text <> "" Then
-            SQL = DevuelveDesdeBD("nombre", "agentes", "codigo", Text1(Index).Text, "N")
-            If SQL = "" Then
+            Sql = DevuelveDesdeBD("nombre", "agentes", "codigo", Text1(Index).Text, "N")
+            If Sql = "" Then
                 MsgBox "No existe el agente: " & Text1(34).Text, vbExclamation
-                i = 2
+                I = 2
             Else
-                i = 1
+                I = 1
             End If
         Else
-            SQL = ""
+            Sql = ""
         End If
-        Text2(5).Text = SQL
-        If i = 2 Then PonerFoco Text1(34)
+        Text2(5).Text = Sql
+        If I = 2 Then PonerFoco Text1(34)
             
     Case 19
         Text1(Index).Text = UCase(Text1(Index).Text)
@@ -5031,7 +5031,7 @@ Dim frmTESVerCobPag As frmTESVerCobrosPagos
     
     If CadenaDesdeOtroForm <> "" Then
         PonerDatoDevuelto CadenaDesdeOtroForm
-        If (Not data1.Recordset.EOF) And DatosADevolverBusqueda <> "" Then cmdRegresar_Click
+        If (Not Data1.Recordset.EOF) And DatosADevolverBusqueda <> "" Then cmdRegresar_Click
     Else   'de ha devuelto datos, es decir NO ha devuelto datos
         ' Text1(kCampo).SetFocus
         PonerFoco Text1(kCampo)
@@ -5044,16 +5044,16 @@ Private Sub PonerCadenaBusqueda()
 Screen.MousePointer = vbHourglass
 On Error GoTo EEPonerBusq
 
-data1.RecordSource = CadenaConsulta
-data1.Refresh
-If data1.Recordset.RecordCount <= 0 Then
+Data1.RecordSource = CadenaConsulta
+Data1.Refresh
+If Data1.Recordset.RecordCount <= 0 Then
     MsgBox "No hay ningún registro en la tabla " & NombreTabla, vbInformation
     Screen.MousePointer = vbDefault
     Exit Sub
 
     Else
         PonerModo 2
-        data1.Recordset.MoveFirst
+        Data1.Recordset.MoveFirst
         PonerCampos
 End If
 
@@ -5067,12 +5067,12 @@ EEPonerBusq:
 End Sub
 
 Private Sub PonerCampos()
-    Dim i As Integer
+    Dim I As Integer
     Dim mTag As CTag
-    Dim SQL As String
+    Dim Sql As String
 
-    If data1.Recordset.EOF Then Exit Sub
-    PonerCamposForma2 Me, data1, 1
+    If Data1.Recordset.EOF Then Exit Sub
+    PonerCamposForma2 Me, Data1, 1
 '    PonerCtasIVA
     
     Text2(0).Text = PonerNombreDeCod(Text1(4), "cuentas", "nommacta", "codmacta", "T")
@@ -5115,7 +5115,7 @@ Private Sub PonerCampos()
     PonPendiente
     
     '-- Esto permanece para saber donde estamos
-    lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
+    lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
     
 End Sub
 
@@ -5125,7 +5125,7 @@ Dim Importe As Currency
 
     On Error GoTo EPonPendiente
     'Pendiente
-    Importe = data1.Recordset!ImpVenci + DBLet(data1.Recordset!Gastos, "N") - DBLet(data1.Recordset!impcobro, "N")
+    Importe = Data1.Recordset!ImpVenci + DBLet(Data1.Recordset!Gastos, "N") - DBLet(Data1.Recordset!impcobro, "N")
     txtPendiente.Text = Format(Importe, FormatoImporte)
     
 EPonPendiente:
@@ -5141,7 +5141,7 @@ End Sub
 '   formulario en funcion del modo en k vayamos a trabajar
 '
 Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
-    Dim i As Integer
+    Dim I As Integer
     Dim B As Boolean
     Dim Bo As Boolean
     
@@ -5149,15 +5149,15 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
     If Modo = 1 Then
         'Ponemos todos a fondo blanco
         '### a mano
-        For i = 0 To Text1.Count - 1
+        For I = 0 To Text1.Count - 1
             Bo = True
-            If i = 26 Then
+            If I = 26 Then
                 Bo = False
             Else
-                If i >= 28 And i <= 31 Then Bo = False
+                If I >= 28 And I <= 31 Then Bo = False
             End If
-            If Bo Then Text1(i).BackColor = &H80000018
-        Next i
+            If Bo Then Text1(I).BackColor = &H80000018
+        Next I
         
     ElseIf Modo = 4 Then
         Me.SSTab2.TabEnabled(2) = True
@@ -5173,8 +5173,8 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
        
     'Modo 2. Hay datos y estamos visualizandolos
     B = (Kmodo = 2)
-    If Not data1.Recordset Is Nothing Then
-        DespalzamientoVisible B And (data1.Recordset.RecordCount > 1)
+    If Not Data1.Recordset Is Nothing Then
+        DespalzamientoVisible B And (Data1.Recordset.RecordCount > 1)
     End If
     
     If DatosADevolverBusqueda <> "" Then
@@ -5200,20 +5200,20 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
     
     B = Modo = 2 Or Modo = 0 Or Modo = 5
     
-    For i = 0 To Text1.Count - 1
+    For I = 0 To Text1.Count - 1
         Bo = True
-        If i = 26 Then
+        If I = 26 Then
             Bo = False
         Else
-            If i >= 28 And i <= 31 Then Bo = False
+            If I >= 28 And I <= 31 Then Bo = False
         End If
         If Bo Then
-            Text1(i).Locked = B
+            Text1(I).Locked = B
             If Modo <> 1 Then
-                Text1(i).BackColor = vbWhite
+                Text1(I).BackColor = vbWhite
             End If
         End If
-    Next i
+    Next I
     
     'Empieza siempre a false
     Toolbar2.Buttons(2).Enabled = False
@@ -5228,22 +5228,22 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
     ' Es decir, si estamos en modo busqueda, insercion o modificacion estaran enables
     ' si no  disable. la variable b nos devuelve esas opciones
     B = (Modo = 2) Or Modo = 0
-    For i = 0 To Text1.Count - 1
+    For I = 0 To Text1.Count - 1
         Bo = True
-        If i = 26 Then
+        If I = 26 Then
             Bo = False
         Else
-            If i >= 28 And i <= 31 Then Bo = False
+            If I >= 28 And I <= 31 Then Bo = False
         End If
-        If Bo Then Text1(i).Locked = B
-    Next i
+        If Bo Then Text1(I).Locked = B
+    Next I
     
     frameContene.Enabled = Not B
     
-    For i = 0 To 6
-        If i < 4 And i <> 3 Then imgCuentas(i).visible = Not B
-        Me.imgFecha(i).visible = Not B
-    Next i
+    For I = 0 To 6
+        If I < 4 And I <> 3 Then imgCuentas(I).visible = Not B
+        Me.imgFecha(I).visible = Not B
+    Next I
     
     Me.imgSerie.visible = Not B
     Me.imgDepart.visible = Not B
@@ -5269,19 +5269,19 @@ Private Sub PonerModo(Kmodo As Integer, Optional indFrame As Integer)
         LLamaLineas 1, 3, anc
     End If
 
-    For i = 0 To txtaux1.Count - 1
-        If i <> 8 Then txtaux1(i).BackColor = vbWhite
-    Next i
+    For I = 0 To txtaux1.Count - 1
+        If I <> 8 Then txtaux1(I).BackColor = vbWhite
+    Next I
     
     Check1(2).Enabled = (Modo = 1)
     'Check1(4).Enabled = (Modo = 1)
-    i = 0
+    I = 0
     If Modo < 3 Then
-        i = 1
+        I = 1
     Else
-        If Modo = 3 Or Modo = 4 Then i = IIf(vUsu.Nivel < 0, 1, 0)
+        If Modo = 3 Or Modo = 4 Then I = IIf(vUsu.Nivel < 0, 1, 0)
     End If
-    Check1(5).Enabled = i = 1
+    Check1(5).Enabled = I = 1
     
     Combo1.Enabled = False '(Modo = 1) Or ((vUsu.Nombre = "root") And Modo = 4)
     
@@ -5399,12 +5399,27 @@ Dim Tipo As Integer
     Text1(19).Text = Replace(Text1(10).Text, " ", "")
     
         If Modo = 4 Then
-            If DBLet(Me.data1.Recordset!recedocu, "N") = 1 Then
+            If DBLet(Me.Data1.Recordset!recedocu, "N") = 1 Then
                 'Tiene la marca de documento recibido
                 'Veremos si se la ha quitado
                 If Me.Check1(0).Value = 0 Then
-                    DevfrmCCtas = "Seguro que desea quitarle la marca de documento recibido?"
-                    If MsgBox(DevfrmCCtas, vbQuestion + vbYesNo) = vbNo Then Exit Function
+                    'Primero SI ESTA VINCULADO a un talon/pagare NO dejo cambiar esta marca
+                    DevfrmCCtas = "numserie='" & Data1.Recordset!NUmSerie
+                    DevfrmCCtas = DevfrmCCtas & "' AND fecfactu='" & Format(Data1.Recordset!FecFactu, FormatoFecha)
+                    DevfrmCCtas = DevfrmCCtas & "' AND numfactu=" & Data1.Recordset!numfactu
+                    DevfrmCCtas = DevfrmCCtas & " AND numorden"
+                    DevfrmCCtas = DevuelveDesdeBD("codigo", "talones_facturas", DevfrmCCtas, Data1.Recordset!numorden)
+                    If DevfrmCCtas <> "" Then
+                        DevfrmCCtas = "Esta en la recepcion de documentos. Numero: " & DevfrmCCtas
+                        DevfrmCCtas = DevfrmCCtas & vbCrLf & "NO puede quitar la marca de documento recibido"
+                        MsgBox DevfrmCCtas, vbExclamation
+                        DevfrmCCtas = ""
+                        Exit Function
+                    
+                    Else
+                        DevfrmCCtas = "Seguro que desea quitarle la marca de documento recibido?"
+                        If MsgBox(DevfrmCCtas, vbQuestion + vbYesNo) = vbNo Then Exit Function
+                    End If
                 End If
             End If
         End If
@@ -5524,13 +5539,13 @@ Private Function SePuedeEliminar2() As Byte
     SePuedeEliminar2 = 0 'NO se puede eliminar
 
     SePuedeEliminar2 = 1
-    If Val(DBLet(data1.Recordset!Codrem)) > 0 Then
+    If Val(DBLet(Data1.Recordset!Codrem)) > 0 Then
         MsgBox "Pertenece a una remesa", vbExclamation
         'Noviembre 2009
         If vUsu.Nivel < 2 Then
-            If CStr(data1.Recordset!siturem) = "Q" Or CStr(data1.Recordset!siturem) = "Y" Then
+            If CStr(Data1.Recordset!siturem) = "Q" Or CStr(Data1.Recordset!siturem) = "Y" Then
                 'DEJO ELIMINARLO
-                If MsgBox("Efecto remesado. Situacion: " & data1.Recordset!siturem & vbCrLf & "¿Continuar?", vbQuestion + vbYesNo) = vbNo Then
+                If MsgBox("Efecto remesado. Situacion: " & Data1.Recordset!siturem & vbCrLf & "¿Continuar?", vbQuestion + vbYesNo) = vbNo Then
                     SePuedeEliminar2 = 0
                     Exit Function
                 End If
@@ -5546,26 +5561,26 @@ Private Function SePuedeEliminar2() As Byte
     End If
     
     'Si no esta en transferencia
-    If Val(DBLet(data1.Recordset!transfer)) > 0 Then
-        If data1.Recordset!ImpVenci < 0 Then
-            MsgBox "Pertenece a una transferencia: " & Val(data1.Recordset!transfer), vbExclamation
+    If Val(DBLet(Data1.Recordset!transfer)) > 0 Then
+        If Data1.Recordset!ImpVenci < 0 Then
+            MsgBox "Pertenece a una transferencia: " & Val(Data1.Recordset!transfer), vbExclamation
             Exit Function
         Else
-            MsgBox "Pertenece a una gestion anticipada de facturas: " & data1.Recordset!transfer, vbExclamation
+            MsgBox "Pertenece a una gestion anticipada de facturas: " & Data1.Recordset!transfer, vbExclamation
         End If
         
     End If
     
     
     'Si  tiene documento recibido
-    If Val(DBLet(data1.Recordset!recedocu)) > 0 Then
+    If Val(DBLet(Data1.Recordset!recedocu)) > 0 Then
         'Documento recibido
         '
-        DevfrmCCtas = "numserie='" & data1.Recordset!NUmSerie
-        DevfrmCCtas = DevfrmCCtas & "' AND fecfactu='" & Format(data1.Recordset!FecFactu, FormatoFecha)
-        DevfrmCCtas = DevfrmCCtas & "' AND numfactu=" & data1.Recordset!NumFactu
+        DevfrmCCtas = "numserie='" & Data1.Recordset!NUmSerie
+        DevfrmCCtas = DevfrmCCtas & "' AND fecfactu='" & Format(Data1.Recordset!FecFactu, FormatoFecha)
+        DevfrmCCtas = DevfrmCCtas & "' AND numfactu=" & Data1.Recordset!numfactu
         DevfrmCCtas = DevfrmCCtas & " AND numorden"
-        DevfrmCCtas = DevuelveDesdeBD("codigo", "talones_facturas", DevfrmCCtas, data1.Recordset!numorden)
+        DevfrmCCtas = DevuelveDesdeBD("codigo", "talones_facturas", DevfrmCCtas, Data1.Recordset!numorden)
         If DevfrmCCtas <> "" Then
             DevfrmCCtas = "Esta en la recepcion de documentos. Numero: " & DevfrmCCtas
             MsgBox DevfrmCCtas, vbExclamation
@@ -5616,10 +5631,42 @@ Dim o As Boolean
 End Sub
     
 
+Private Function mismoImportepagadoQueBD() As Boolean
+Dim C As String
+    
+    C = "numserie = " & DBSet(Text1(13).Text, "T") & " AND numfactu = " & Text1(1).Text
+    C = C & " AND fecfactu = " & DBSet(Text1(2).Text, "F") & " AND numorden"
+    C = DevuelveDesdeBD("coalesce(impcobro,0)", "cobros", C, Text1(3).Text)
+    If C = "0" Then C = ""
+    If C <> "" Then C = Format(C, FormatoImporte)
+    If Text1(8).Text <> C Then
+        mismoImportepagadoQueBD = False
+        C = "Revise el cobro. Puede que se haya realizado el cobros. " & vbCrLf & " ->> " & Text1(8).Text & "  //  " & C
+        If vUsu.Nivel = 0 Then
+            C = C & vbCrLf & " ¿Desea continuar?"
+            If MsgBox(C, vbQuestion + vbYesNoCancel) = vbYes Then mismoImportepagadoQueBD = True
+        Else
+            MsgBox C, vbExclamation
+        End If
+    Else
+        mismoImportepagadoQueBD = True
+    End If
+End Function
+
 
 
 Private Sub RealizarPagoCuenta()
 Dim impo As Currency
+
+
+    'Noviembre 2020
+    'Radio taxi.
+    ' Tienen dos ventanas abiertas con el mismo cobro. Cobran en una, la otra no refresca , y vuelve a hacer el cobro
+    If Not mismoImportepagadoQueBD Then Exit Sub
+    
+    
+
+
     'Para realizar pago a cuenta... Varias cosas.
     'Primero. Hay por pagar
     impo = ImporteFormateado(Text1(6).Text)
@@ -5671,17 +5718,17 @@ End Sub
 Private Sub DividirVencimiento()
 Dim Im As Currency
 
-    If data1.Recordset Is Nothing Then Exit Sub
-    If data1.Recordset.EOF Then Exit Sub
+    If Data1.Recordset Is Nothing Then Exit Sub
+    If Data1.Recordset.EOF Then Exit Sub
     
     'Si esta totalmente cobrado pues no podemos desdoblar ekl vto
     
     
     
-    If Val(DBLet(data1.Recordset!transfer, "N")) > 0 Then
+    If Val(DBLet(Data1.Recordset!transfer, "N")) > 0 Then
     
         'Si es un "recibo de factura anticipado" dejo pasar
-        If Val(DBLet(data1.Recordset!ReciboAnticipado, "N")) = 1 Then
+        If Val(DBLet(Data1.Recordset!ReciboAnticipado, "N")) = 1 Then
             'Si que dejo pasar a las siguientes comprobaciones
         Else
             MsgBox "Pertenece a una transferencia", vbExclamation
@@ -5690,12 +5737,19 @@ Dim Im As Currency
     End If
     
     
-    Im = data1.Recordset!ImpVenci + DBLet(data1.Recordset!Gastos, "N")
-    Im = Im - DBLet(data1.Recordset!impcobro, "N")
+    Im = Data1.Recordset!ImpVenci + DBLet(Data1.Recordset!Gastos, "N")
+    Im = Im - DBLet(Data1.Recordset!impcobro, "N")
     If Im = 0 Then
         MsgBox "NO puede dividir el vencimiento. Importe totalmente cobrado", vbExclamation
         Exit Sub
     End If
+    
+    
+    'Noviembre 2020
+    'Radio taxi.
+    ' Tienen dos ventanas abiertas con el mismo cobro. Cobran en una, la otra no refresca , y vuelve a hacer el cobro
+    If Not mismoImportepagadoQueBD Then Exit Sub
+    
     
     
        'CadenaDesdeOtroForm. Pipes
@@ -5703,23 +5757,23 @@ Dim Im As Currency
         '           2.- Numero vto
         '           3.- Importe maximo
     
-    CadenaDesdeOtroForm = "numserie = '" & data1.Recordset!NUmSerie & "' AND numfactu = " & data1.Recordset!NumFactu
-    CadenaDesdeOtroForm = CadenaDesdeOtroForm & " AND fecfactu = '" & Format(data1.Recordset!FecFactu, FormatoFecha) & "'|"
-    CadenaDesdeOtroForm = CadenaDesdeOtroForm & data1.Recordset!numorden & "|"
+    CadenaDesdeOtroForm = "numserie = '" & Data1.Recordset!NUmSerie & "' AND numfactu = " & Data1.Recordset!numfactu
+    CadenaDesdeOtroForm = CadenaDesdeOtroForm & " AND fecfactu = '" & Format(Data1.Recordset!FecFactu, FormatoFecha) & "'|"
+    CadenaDesdeOtroForm = CadenaDesdeOtroForm & Data1.Recordset!numorden & "|"
     CadenaDesdeOtroForm = CadenaDesdeOtroForm & CStr(Im) & "|"
     
     
     'Ok, Ahora pongo los labels
     frmTESCobrosDivVto.Opcion = 27
     frmTESCobrosDivVto.Label4(56).Caption = Text2(0).Text
-    frmTESCobrosDivVto.txtcodigo(2).Text = Text1(5).Text
+    frmTESCobrosDivVto.txtCodigo(2).Text = Text1(5).Text
     
-    frmTESCobrosDivVto.Label4(57).Caption = data1.Recordset!NUmSerie & Format(data1.Recordset!NumFactu, "000000") & " / " & data1.Recordset!numorden & "      de " & Format(data1.Recordset!FecFactu, "dd/mm/yyyy")
+    frmTESCobrosDivVto.Label4(57).Caption = Data1.Recordset!NUmSerie & Format(Data1.Recordset!numfactu, "000000") & " / " & Data1.Recordset!numorden & "      de " & Format(Data1.Recordset!FecFactu, "dd/mm/yyyy")
     
     'Si ya ha cobrado algo...
-    Im = DBLet(data1.Recordset!impcobro, "N")
+    Im = DBLet(Data1.Recordset!impcobro, "N")
     'If Im > 0 Then frmTESCobrosDivVto.txtCodigo(1).Text = txtPendiente.Text
-    frmTESCobrosDivVto.txtcodigo(1).Text = txtPendiente.Text
+    frmTESCobrosDivVto.txtCodigo(1).Text = txtPendiente.Text
     
     
     If Text1(0).Text = "" Then
@@ -5731,9 +5785,9 @@ Dim Im As Currency
     frmTESCobrosDivVto.Show vbModal
     If CadenaDesdeOtroForm <> "" Then
         CadenaConsulta = "Select * from cobros WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1) 'CadenaConsulta
-        data1.RecordSource = CadenaConsulta
-        data1.Refresh
-        If data1.Recordset.RecordCount <= 0 Then
+        Data1.RecordSource = CadenaConsulta
+        Data1.Refresh
+        If Data1.Recordset.RecordCount <= 0 Then
             MsgBox "No hay ningún registro en la tabla " & NombreTabla, vbInformation
         Else
             DevfrmCCtas = ""
@@ -5784,10 +5838,10 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
         
         Case 4
             'Generar Cobros
-            If Me.data1.Recordset.EOF Then Exit Sub
+            If Me.Data1.Recordset.EOF Then Exit Sub
             If Modo <> 2 Then Exit Sub
             If vTipForpa <> "" Then
-                If (Val(vTipForpa) <> vbTipoPagoRemesa) Or (Val(vTipForpa) = vbTipoPagoRemesa And Val(DBLet(data1.Recordset!Codrem)) = 0) Then
+                If (Val(vTipForpa) <> vbTipoPagoRemesa) Or (Val(vTipForpa) = vbTipoPagoRemesa And Val(DBLet(Data1.Recordset!Codrem)) = 0) Then
                     If SePuedeEliminar2 < 3 Then Exit Sub
                 
                     'Bloqueamos
@@ -5871,7 +5925,7 @@ End Sub
 
 Private Sub CargaGrid(Index As Integer, Enlaza As Boolean)
 Dim B As Boolean
-Dim i As Byte
+Dim I As Byte
 Dim tots As String
 
     tots = MontaSQLCarga(Index, Enlaza)
@@ -5916,7 +5970,7 @@ Private Function MontaSQLCarga(Index As Integer, Enlaza As Boolean) As String
 ' Si ENLAZA -> Enlaça en el data1
 '           -> Si no el carreguem sense enllaçar a cap camp
 '--------------------------------------------------------------------
-Dim SQL As String
+Dim Sql As String
 Dim tabla As String
     
     ' ********* si n'hi han tabs, dona igual si en datagrid o no ***********
@@ -5929,27 +5983,27 @@ Dim tabla As String
             'Prueba david 'MARZO 2017
             If Enlaza Then
                     
-                    SQL = "SELECT hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden, hlinapu.fecdevol, "
-                    SQL = SQL & "hlinapu.coddevol, usuarios.wdevolucion.descripcion, hlinapu.tiporem, "
-                    SQL = SQL & "CASE hlinapu.tiporem WHEN 1 THEN 'Efectos' WHEN 2 THEN 'Pagarés' WHEN 3 THEN 'Talones' END as TTipo, codrem, anyorem, (coalesce(timported,0) - coalesce(timporteh,0)) impcobro  "
-                    SQL = SQL & " FROM " & tabla & " LEFT JOIN usuarios.wdevolucion ON hlinapu.coddevol = usuarios.wdevolucion.codigo "
+                    Sql = "SELECT hlinapu.numserie, hlinapu.numfaccl, hlinapu.fecfactu, hlinapu.numorden, hlinapu.fecdevol, "
+                    Sql = Sql & "hlinapu.coddevol, usuarios.wdevolucion.descripcion, hlinapu.tiporem, "
+                    Sql = Sql & "CASE hlinapu.tiporem WHEN 1 THEN 'Efectos' WHEN 2 THEN 'Pagarés' WHEN 3 THEN 'Talones' END as TTipo, codrem, anyorem, (coalesce(timported,0) - coalesce(timporteh,0)) impcobro  "
+                    Sql = Sql & " FROM " & tabla & " LEFT JOIN usuarios.wdevolucion ON hlinapu.coddevol = usuarios.wdevolucion.codigo "
                     If Enlaza Then
-                        SQL = SQL & Replace(Replace(ObtenerWhereCab(True), "cobros", "hlinapu"), "numfactu", "numfaccl")
+                        Sql = Sql & Replace(Replace(ObtenerWhereCab(True), "cobros", "hlinapu"), "numfactu", "numfaccl")
                     Else
-                        SQL = SQL & " WHERE hlinapu.codmacta is null"
+                        Sql = Sql & " WHERE hlinapu.codmacta is null"
                     End If
                     
-                    SQL = SQL & " and hlinapu.esdevolucion = 1 "
-                    SQL = SQL & " ORDER BY 1,2,3,4,5"
+                    Sql = Sql & " and hlinapu.esdevolucion = 1 "
+                    Sql = Sql & " ORDER BY 1,2,3,4,5"
             Else
-                SQL = "SELECT '' numserie,  0 numfaccl, 1 fecfactu, 1 numorden,  1 fecdevol, 1 coddevol, 1 descripcion,"
-                SQL = SQL & " 1 tiporem, 1 TTipo, 1 codrem, 1 anyorem, 0 impcobro   from bancos  where codmacta=-1"
+                Sql = "SELECT '' numserie,  0 numfaccl, 1 fecfactu, 1 numorden,  1 fecdevol, 1 coddevol, 1 descripcion,"
+                Sql = Sql & " 1 tiporem, 1 TTipo, 1 codrem, 1 anyorem, 0 impcobro   from bancos  where codmacta=-1"
             End If
             
     End Select
     ' ********************************************************************************
     
-    MontaSQLCarga = SQL
+    MontaSQLCarga = Sql
 End Function
 
 
@@ -5972,7 +6026,7 @@ Dim cad As String, Indicador As String
     cad = "(numserie=" & DBSet(Text1(13).Text, "T") & " and numfactu = " & DBSet(Text1(1).Text, "N") & " and fecfactu = " & DBSet(Text1(2).Text, "F") & " and numorden = " & DBSet(Text1(3).Text, "N") & ") "
     
     ' *** gastar SituarData o SituarDataMULTI depenent de si la PK es simple o composta ***
-    If SituarDataMULTI(data1, cad, Indicador) Then
+    If SituarDataMULTI(Data1, cad, Indicador) Then
         If ModoLineas <> 1 Then PonerModo 2
         lblIndicador.Caption = Indicador
     Else
@@ -6036,9 +6090,9 @@ Dim B As Boolean
     B = (xModo = 1 Or xModo = 2) 'Insertar o Modificar Llínies
     Select Case Index
         Case 0 'hlinapu
-            For jj = 5 To txtaux.Count - 1
-                txtaux(jj).visible = B
-                txtaux(jj).top = alto
+            For jj = 5 To txtAux.Count - 1
+                txtAux(jj).visible = B
+                txtAux(jj).top = alto
             Next jj
         
         Case 1 'lineas de factura
@@ -6111,7 +6165,7 @@ End Sub
 
 Private Sub CargarCombo()
 Dim Rs As ADODB.Recordset
-Dim SQL As String
+Dim Sql As String
 Dim J As Long
     
     cboSituRem.Clear
@@ -6122,13 +6176,13 @@ Dim J As Long
 
     'Tipo de situacion de remesa
     Set Rs = New ADODB.Recordset
-    SQL = "SELECT * FROM usuarios.wtiposituacionrem ORDER BY situacio"
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    i = 0
+    Sql = "SELECT * FROM usuarios.wtiposituacionrem ORDER BY situacio"
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    I = 0
     While Not Rs.EOF
         cboSituRem.AddItem Rs!descsituacion
         cboSituRem.ItemData(cboSituRem.NewIndex) = Asc(Rs!situacio)
-        i = i + 1
+        I = I + 1
         Rs.MoveNext
     Wend
     Rs.Close
@@ -6169,7 +6223,7 @@ End Sub
 
 
 Private Sub BotonEliminarLinea(Index As Integer)
-Dim SQL As String
+Dim Sql As String
 Dim vWhere As String
 Dim Eliminar As Boolean
 
@@ -6196,12 +6250,12 @@ Dim Eliminar As Boolean
     ' canviar els noms, els formats i el DELETE *****
     Select Case Index
         Case 1 'linea de asiento
-            SQL = "¿Seguro que desea eliminar la línea de la factura?"
-            SQL = SQL & vbCrLf & "Serie: " & AdoAux(Index).Recordset!NUmSerie & " - " & AdoAux(Index).Recordset!NumFactu & " - " & AdoAux(Index).Recordset!FecFactu & " - " & AdoAux(Index).Recordset!NumLinea
-            If MsgBox(SQL, vbQuestion + vbYesNo) = vbYes Then
+            Sql = "¿Seguro que desea eliminar la línea de la factura?"
+            Sql = Sql & vbCrLf & "Serie: " & AdoAux(Index).Recordset!NUmSerie & " - " & AdoAux(Index).Recordset!numfactu & " - " & AdoAux(Index).Recordset!FecFactu & " - " & AdoAux(Index).Recordset!NumLinea
+            If MsgBox(Sql, vbQuestion + vbYesNo) = vbYes Then
                 Eliminar = True
-                SQL = "DELETE FROM factcli_lineas "
-                SQL = SQL & Replace(vWhere, "factcli", "factcli_lineas") & " and numlinea = " & DBLet(AdoAux(Index).Recordset!NumLinea, "N")
+                Sql = "DELETE FROM factcli_lineas "
+                Sql = Sql & Replace(vWhere, "factcli", "factcli_lineas") & " and numlinea = " & DBLet(AdoAux(Index).Recordset!NumLinea, "N")
                 
             End If
         
@@ -6210,7 +6264,7 @@ Dim Eliminar As Boolean
     If Eliminar Then
         NumRegElim = AdoAux(Index).Recordset.AbsolutePosition
         TerminaBloquear
-        Conn.Execute SQL
+        Conn.Execute Sql
         
   '      RecalcularTotales
         
@@ -6224,9 +6278,9 @@ Dim Eliminar As Boolean
         'Creo que no hace falta volver a situar el datagrid
         'If SituarData1(0) Then
         If True Then
-            lblIndicador.Caption = data1.Recordset.AbsolutePosition & " de " & data1.Recordset.RecordCount
+            lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
             
-            data1.Refresh
+            Data1.Refresh
             PonerModo 2
         Else
             PonerModo 0
@@ -6284,7 +6338,7 @@ Private Sub BotonVerAsiento()
 
     Set frmAsi = New frmAsientosHco
     
-    frmAsi.ASIENTO = lwCobros.SelectedItem.Text & "|" & lwCobros.SelectedItem.SubItems(1) & "|" & lwCobros.SelectedItem.SubItems(2) & "|" '& Me.AdoAux(0).Recordset.Fields(5) & "|" & Me.AdoAux(0).Recordset.Fields(6) & "|" & Me.AdoAux(0).Recordset.Fields(7) & "|"
+    frmAsi.Asiento = lwCobros.SelectedItem.Text & "|" & lwCobros.SelectedItem.SubItems(1) & "|" & lwCobros.SelectedItem.SubItems(2) & "|" '& Me.AdoAux(0).Recordset.Fields(5) & "|" & Me.AdoAux(0).Recordset.Fields(6) & "|" & Me.AdoAux(0).Recordset.Fields(7) & "|"
     frmAsi.SoloImprimir = True
     frmAsi.Show vbModal
     
@@ -6340,23 +6394,23 @@ Dim ImpresionDesdeApu As Boolean
 End Sub
 
 Private Sub CargarTemporal()
-Dim SQL As String
+Dim Sql As String
 Dim Rs As ADODB.Recordset
 
-    SQL = "delete from tmppendientes where codusu = " & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "delete from tmppendientes where codusu = " & vUsu.Codigo
+    Conn.Execute Sql
                                                                               
     ' en tmppendientes metemos la clave primaria de cobros_recibidos y el importe en letra
                                                       'importe=nro factura,   codforpa=linea de cobros_realizados
-    SQL = "insert into tmppendientes (codusu,serie_cta,importe,fecha,numorden,codforpa, observa) values ("
-    SQL = SQL & vUsu.Codigo & "," & DBSet(lwCobros.SelectedItem.SubItems(10), "T") & "," 'numserie
-    SQL = SQL & DBSet(lwCobros.SelectedItem.SubItems(11), "N") & "," 'numfactu
-    SQL = SQL & DBSet(lwCobros.SelectedItem.SubItems(12), "F") & "," 'fecfactu
-    SQL = SQL & DBSet(lwCobros.SelectedItem.SubItems(13), "N") & "," 'numorden
-    SQL = SQL & DBSet(lwCobros.SelectedItem.SubItems(14), "N") & "," 'numlinea
-    SQL = SQL & DBSet(EscribeImporteLetra(ImporteFormateado(CStr(lwCobros.SelectedItem.SubItems(9)))), "T") & ") "
+    Sql = "insert into tmppendientes (codusu,serie_cta,importe,fecha,numorden,codforpa, observa) values ("
+    Sql = Sql & vUsu.Codigo & "," & DBSet(lwCobros.SelectedItem.SubItems(10), "T") & "," 'numserie
+    Sql = Sql & DBSet(lwCobros.SelectedItem.SubItems(11), "N") & "," 'numfactu
+    Sql = Sql & DBSet(lwCobros.SelectedItem.SubItems(12), "F") & "," 'fecfactu
+    Sql = Sql & DBSet(lwCobros.SelectedItem.SubItems(13), "N") & "," 'numorden
+    Sql = Sql & DBSet(lwCobros.SelectedItem.SubItems(14), "N") & "," 'numlinea
+    Sql = Sql & DBSet(EscribeImporteLetra(ImporteFormateado(CStr(lwCobros.SelectedItem.SubItems(9)))), "T") & ") "
     
-    Conn.Execute SQL
+    Conn.Execute Sql
 
 End Sub
 
@@ -6365,7 +6419,7 @@ Private Sub BotonAnyadirLinea(Index As Integer, Limpia As Boolean)
 Dim NumF As String
 Dim vWhere As String, vTabla As String
 Dim anc As Single
-Dim i As Integer
+Dim I As Integer
 
     ModoLineas = 1 'Posem Modo Afegir Llínia
 
@@ -6412,18 +6466,18 @@ Dim i As Integer
                 ' *** valor per defecte a l'insertar i formateig de tots els camps ***
                 Case 0 'lineas de cobros realizados
                     If Limpia Then
-                        For i = 0 To txtaux.Count - 1
-                            txtaux(i).Text = ""
-                        Next i
+                        For I = 0 To txtAux.Count - 1
+                            txtAux(I).Text = ""
+                        Next I
                     End If
-                    txtaux(0).Text = Text1(13).Text 'serie
-                    txtaux(1).Text = Text1(1).Text 'numfactu
-                    txtaux(2).Text = Text1(2).Text 'fecha
-                    txtaux(3).Text = Text1(3).Text 'nro vencimiento
+                    txtAux(0).Text = Text1(13).Text 'serie
+                    txtAux(1).Text = Text1(1).Text 'numfactu
+                    txtAux(2).Text = Text1(2).Text 'fecha
+                    txtAux(3).Text = Text1(3).Text 'nro vencimiento
                     
-                    txtaux(4).Text = Format(NumF, "0000") 'linea contador
+                    txtAux(4).Text = Format(NumF, "0000") 'linea contador
                     
-                    PonFoco txtaux(5)
+                    PonFoco txtAux(5)
             
             End Select
 
@@ -6433,7 +6487,7 @@ End Sub
 
 Private Sub BotonModificarLinea(Index As Integer)
     Dim anc As Single
-    Dim i As Integer
+    Dim I As Integer
     Dim J As Integer
 
     If AdoAux(Index).Recordset.EOF Then Exit Sub
@@ -6453,8 +6507,8 @@ Private Sub BotonModificarLinea(Index As Integer)
     Select Case Index
         Case 1 ' *** pose els index de llínies que tenen datagrid (en o sense tab) ***
             If DataGridAux(Index).Bookmark < DataGridAux(Index).FirstRow Or DataGridAux(Index).Bookmark > (DataGridAux(Index).FirstRow + DataGridAux(Index).VisibleRows - 1) Then
-                i = DataGridAux(Index).Bookmark - DataGridAux(Index).FirstRow
-                DataGridAux(Index).Scroll 0, i
+                I = DataGridAux(Index).Bookmark - DataGridAux(Index).FirstRow
+                DataGridAux(Index).Scroll 0, I
                 DataGridAux(Index).Refresh
             End If
 
@@ -6503,10 +6557,10 @@ End Function
 
 
 Private Function RecalcularTotalesCobros() As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim SqlInsert As String
 Dim SqlValues As String
-Dim i As Long
+Dim I As Long
 Dim Rs As ADODB.Recordset
 
 Dim Baseimpo As Currency
@@ -6517,20 +6571,20 @@ Dim Baseimpo As Currency
 
     Baseimpo = 0
     
-    SQL = "select sum(coalesce(timporteh,0) - coalesce(timported,0)) importe from hlinapu "
-    SQL = SQL & " where numserie = " & DBSet(Text1(13).Text, "T") & " and numfaccl = " & DBSet(Text1(1).Text, "N") & " and fecfactu = " & DBSet(Text1(2).Text, "F")
-    SQL = SQL & " and numorden = " & DBSet(Text1(3).Text, "N")
+    Sql = "select sum(coalesce(timporteh,0) - coalesce(timported,0)) importe from hlinapu "
+    Sql = Sql & " where numserie = " & DBSet(Text1(13).Text, "T") & " and numfaccl = " & DBSet(Text1(1).Text, "N") & " and fecfactu = " & DBSet(Text1(2).Text, "F")
+    Sql = Sql & " and numorden = " & DBSet(Text1(3).Text, "N")
     
-    Baseimpo = DevuelveValor(SQL)
+    Baseimpo = DevuelveValor(Sql)
     
     Text1(6).Text = Format(Baseimpo, FormatoImporte)
     
-    SQL = "update cobros set "
-    SQL = SQL & " impcobro = " & DBSet(Baseimpo, "N")
-    SQL = SQL & " where numserie= " & DBSet(Text1(13).Text, "T") & " and numfactu= " & DBSet(Text1(1).Text, "N") & " and fecfactu = " & DBSet(Text1(2).Text, "F")
-    SQL = SQL & " and numorden = " & DBSet(Text1(3).Text, "N")
+    Sql = "update cobros set "
+    Sql = Sql & " impcobro = " & DBSet(Baseimpo, "N")
+    Sql = Sql & " where numserie= " & DBSet(Text1(13).Text, "T") & " and numfactu= " & DBSet(Text1(1).Text, "N") & " and fecfactu = " & DBSet(Text1(2).Text, "F")
+    Sql = Sql & " and numorden = " & DBSet(Text1(3).Text, "N")
     
-    Conn.Execute SQL
+    Conn.Execute Sql
     
     RecalcularTotalesCobros = True
     Exit Function
@@ -6573,7 +6627,7 @@ Dim cad As String
                 Conn.RollbackTrans
             End If
             
-            B = BLOQUEADesdeFormulario2(Me, data1, 1)
+            B = BLOQUEADesdeFormulario2(Me, Data1, 1)
             
             Select Case NumTabMto
                 Case 0, 1 ' *** els index de les llinies en grid (en o sense tab) ***
@@ -6586,9 +6640,9 @@ Dim cad As String
                     Limp = True
 
                     If Limp Then
-                        For i = 0 To txtaux.Count - 1
-                            txtaux(i).Text = ""
-                        Next i
+                        For I = 0 To txtAux.Count - 1
+                            txtAux(I).Text = ""
+                        Next I
                     End If
                     ModoLineas = 0
                     If B Then
@@ -6682,7 +6736,7 @@ End Sub
 
 Private Function DatosOkLlin(nomframe As String) As Boolean
 Dim Rs As ADODB.Recordset
-Dim SQL As String
+Dim Sql As String
 Dim B As Boolean
 Dim cant As Integer
 Dim Mens As String
@@ -6715,11 +6769,11 @@ EDatosOKLlin:
 End Function
 
 Private Sub txtaux_GotFocus(Index As Integer)
-    ConseguirFoco txtaux(Index), Modo
+    ConseguirFoco txtAux(Index), Modo
 End Sub
 
 
-Private Sub TxtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     KEYdown KeyCode
 End Sub
 
@@ -6748,41 +6802,41 @@ Private Sub txtAux_LostFocus(Index As Integer)
     Dim Importe As Currency
         
         
-    If Not PerderFocoGnral(txtaux(Index), Modo) Then Exit Sub
+    If Not PerderFocoGnral(txtAux(Index), Modo) Then Exit Sub
     
-    If txtaux(Index).Text = "" Then Exit Sub
+    If txtAux(Index).Text = "" Then Exit Sub
     
     Select Case Index
         Case 5 ' diario
-            RC = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", txtaux(5), "N")
+            RC = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", txtAux(5), "N")
             If RC = "" Then
                 MsgBox "No existe el tipo de diario. Reintroduzca.", vbExclamation
-                PonFoco txtaux(5)
+                PonFoco txtAux(5)
             End If
                 
         Case 6, 11 ' fecha
-            If Not EsFechaOK(txtaux(Index)) Then
-                MsgBox "Fecha incorrecta: " & txtaux(Index).Text, vbExclamation
-                txtaux(Index).Text = ""
-                PonerFoco txtaux(Index)
+            If Not EsFechaOK(txtAux(Index)) Then
+                MsgBox "Fecha incorrecta: " & txtAux(Index).Text, vbExclamation
+                txtAux(Index).Text = ""
+                PonerFoco txtAux(Index)
             End If
             
         Case 7 ' asiento
-            PonerFormatoEntero txtaux(Index)
+            PonerFormatoEntero txtAux(Index)
         
         Case 8 ' usuario
         
         Case 9
            ' IMPORTE
-             txtaux(Index) = ImporteSinFormato(txtaux(Index))
+             txtAux(Index) = ImporteSinFormato(txtAux(Index))
             
         Case 10 'tipo
-            txtaux(Index).Text = UCase(txtaux(Index).Text)
+            txtAux(Index).Text = UCase(txtAux(Index).Text)
         
         Case 12 ' cuenta de cobro
-            RC = txtaux(12).Text
+            RC = txtAux(12).Text
             If CuentaCorrectaUltimoNivel(RC, "") Then
-                txtaux(12).Text = RC
+                txtAux(12).Text = RC
             End If
         
     End Select
@@ -6792,26 +6846,26 @@ End Sub
 
 Private Sub CargarDatosCuenta(Cuenta As String, SoloDatosFiscales As Boolean)
 Dim Rs As ADODB.Recordset
-Dim SQL As String
+Dim Sql As String
 
     On Error GoTo eTraerDatosCuenta
     
-    SQL = "select * from cuentas where codmacta = " & DBSet(Cuenta, "T")
+    Sql = "select * from cuentas where codmacta = " & DBSet(Cuenta, "T")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not SoloDatosFiscales Then
         Text1(0).Text = ""
         Text2(1).Text = ""
     End If
-    For i = 36 To 42
-        Text1(i).Text = ""
-    Next i
+    For I = 36 To 42
+        Text1(I).Text = ""
+    Next I
     
     If Not Rs.EOF Then
         If Not SoloDatosFiscales Then
-            Text1(0).Text = DBLet(Rs!Forpa, "N")
+            Text1(0).Text = DBLet(Rs!forpa, "N")
             Text2(1).Text = PonerNombreDeCod(Text1(0), "formapago", "nomforpa", "codforpa", "N")
         End If
         Text1(42).Text = DBLet(Rs!Nommacta, "T")
@@ -6902,7 +6956,7 @@ End Sub
 
 
 Private Function GeneraDatosImpresion() As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim MostrarDelRs  As Boolean
 Dim cad As String
 Dim Importe As Currency
@@ -6926,32 +6980,32 @@ Dim Importe As Currency
     
     'Estos datos ya veremos com, y cuadno los relleno
     Set miRsAux = New ADODB.Recordset
-    SQL = "select nifempre,siglasvia,direccion,numero,escalera,piso,puerta,codpos,poblacion,provincia from empresa2"
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = "select nifempre,siglasvia,direccion,numero,escalera,piso,puerta,codpos,poblacion,provincia from empresa2"
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     'sql= "'1234567890A','Ariadna Software ','Franco Tormo 3, Bajo Izda','46007','Valencia'"
-    SQL = "'##########','" & vEmpresa.nomempre & "','#############','######','##########','##########'"
+    Sql = "'##########','" & vEmpresa.nomempre & "','#############','######','##########','##########'"
     If Not miRsAux.EOF Then
-        SQL = ""
+        Sql = ""
         For J = 1 To 6
-            SQL = SQL & DBLet(miRsAux.Fields(J), "T") & " "
+            Sql = Sql & DBLet(miRsAux.Fields(J), "T") & " "
         Next J
-        SQL = Trim(SQL)
-        SQL = "'" & DBLet(miRsAux!nifempre, "T") & "','" & DevNombreSQL(vEmpresa.nomempre) & "','" & DevNombreSQL(SQL) & "'"
-        SQL = SQL & ",'" & DBLet(miRsAux!codpos, "T") & "','" & DevNombreSQL(DBLet(miRsAux!Poblacion, "T")) & "','" & DevNombreSQL(DBLet(miRsAux!Poblacion, "T")) & "'"
+        Sql = Trim(Sql)
+        Sql = "'" & DBLet(miRsAux!nifempre, "T") & "','" & DevNombreSQL(vEmpresa.nomempre) & "','" & DevNombreSQL(Sql) & "'"
+        Sql = Sql & ",'" & DBLet(miRsAux!codpos, "T") & "','" & DevNombreSQL(DBLet(miRsAux!Poblacion, "T")) & "','" & DevNombreSQL(DBLet(miRsAux!Poblacion, "T")) & "'"
         'Poblacion = DevNombreSQL(DBLet(miRsAux!Poblacion, "T"))
         
     End If
     miRsAux.Close
  
-    Msg = Msg & SQL
+    Msg = Msg & Sql
     'otralinea,saludos
     Msg = Msg & ",NULL"
     'parrafo1
         
-    SQL = "X"
+    Sql = "X"
     
 
-    Msg = Msg & ",'" & SQL & "'"
+    Msg = Msg & ",'" & Sql & "'"
     
 
     
@@ -6961,9 +7015,9 @@ Dim Importe As Currency
     Conn.Execute Msg
 
     'Empezamos
-    SQL = "INSERT INTO tmptesoreriacomun (codusu, codigo, texto1, texto2, texto3, texto4, texto5, "
-    SQL = SQL & "texto6, importe1, importe2, fecha1, fecha2, fecha3, observa1, observa2, opcion,Texto)"
-    SQL = SQL & " VALUES (" & vUsu.Codigo & ",1,"
+    Sql = "INSERT INTO tmptesoreriacomun (codusu, codigo, texto1, texto2, texto3, texto4, texto5, "
+    Sql = Sql & "texto6, importe1, importe2, fecha1, fecha2, fecha3, observa1, observa2, opcion,Texto)"
+    Sql = Sql & " VALUES (" & vUsu.Codigo & ",1,"
 
 
     
@@ -7072,12 +7126,12 @@ Dim Importe As Currency
         If Msg = "" Then
         
         
-            For i = 0 To Text1.Count - 1
-                If i < 25 Or i > 31 Then Msg = Msg & Mid(Text1(i).Text & String(100, " "), 1, 100)
-            Next i
-            For i = 0 To Text2.Count - 1
-                If i <> 6 Then Msg = Msg & Mid(Text2(i).Text & String(100, " "), 1, 100)
-            Next i
+            For I = 0 To Text1.Count - 1
+                If I < 25 Or I > 31 Then Msg = Msg & Mid(Text1(I).Text & String(100, " "), 1, 100)
+            Next I
+            For I = 0 To Text2.Count - 1
+                If I <> 6 Then Msg = Msg & Mid(Text2(I).Text & String(100, " "), 1, 100)
+            Next I
         
         End If
         
@@ -7085,7 +7139,7 @@ Dim Importe As Currency
         Msg = DBSet(Msg, "T")
         cad = cad & Msg & ")"
         
-        Conn.Execute SQL & cad
+        Conn.Execute Sql & cad
         
     
     

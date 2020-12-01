@@ -270,6 +270,24 @@ Begin VB.Form frmTESMemoriaPlazos
          EndProperty
       End
       Begin VB.Label Label3 
+         Caption         =   "inidicador"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Index           =   0
+         Left            =   360
+         TabIndex        =   25
+         Top             =   1800
+         Width           =   6135
+      End
+      Begin VB.Label Label3 
          Caption         =   "Fecha Factura"
          BeginProperty Font 
             Name            =   "Verdana"
@@ -497,8 +515,8 @@ Attribute frmDpto.VB_VarHelpID = -1
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private SQL As String
-Dim Cad As String
+Private Sql As String
+Dim cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -608,23 +626,23 @@ Private Sub Form_Load()
         .Buttons(1).Image = 26
     End With
      
-    txtfecha(0).Text = Format(vParam.fechaini, "dd/mm/yyyy")
-    txtfecha(1).Text = Format(vParam.fechafin, "dd/mm/yyyy")
+    txtFecha(0).Text = Format(vParam.fechaini, "dd/mm/yyyy")
+    txtFecha(1).Text = Format(vParam.fechafin, "dd/mm/yyyy")
     
     
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
-    
+    Label3(0).Caption = ""
 End Sub
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
@@ -639,10 +657,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
+        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtfecha(Index)
+        PonFoco txtFecha(Index)
     End Select
     
     Screen.MousePointer = vbDefault
@@ -701,22 +719,22 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    SQL = "SELECT cobros.codmacta Cuenta, cobros.nomclien Descripcion, hlinapu.fecdevol FecDevol, "
-    SQL = SQL & "cobros.numserie Serie, cobros.numfactu Factura, cobros.fecfactu FecFra, cobros.numorden Vto, hlinapu.timporteh - hlinapu.timported Importe, "
-    SQL = SQL & "hlinapu.gastodev Gastos, hlinapu.coddevol Devol, wdevolucion.descripcion Descripcion "
-    SQL = SQL & " FROM  (cobros INNER JOIN hlinapu ON cobros.numserie = hlinapu.numserie AND "
-    SQL = SQL & " cobros.numfactu = hlinapu.numfaccl AND cobros.fecfactu = hlinapu.fecfactu AND "
-    SQL = SQL & " cobros.numorden = hlinapu.numorden) "
-    SQL = SQL & "  LEFT JOIN usuarios.wdevolucion ON hlinapu.coddevol = wdevolucion.codigo "
+    Sql = "SELECT cobros.codmacta Cuenta, cobros.nomclien Descripcion, hlinapu.fecdevol FecDevol, "
+    Sql = Sql & "cobros.numserie Serie, cobros.numfactu Factura, cobros.fecfactu FecFra, cobros.numorden Vto, hlinapu.timporteh - hlinapu.timported Importe, "
+    Sql = Sql & "hlinapu.gastodev Gastos, hlinapu.coddevol Devol, wdevolucion.descripcion Descripcion "
+    Sql = Sql & " FROM  (cobros INNER JOIN hlinapu ON cobros.numserie = hlinapu.numserie AND "
+    Sql = Sql & " cobros.numfactu = hlinapu.numfaccl AND cobros.fecfactu = hlinapu.fecfactu AND "
+    Sql = Sql & " cobros.numorden = hlinapu.numorden) "
+    Sql = Sql & "  LEFT JOIN usuarios.wdevolucion ON hlinapu.coddevol = wdevolucion.codigo "
     
-    If cadselect <> "" Then SQL = SQL & " where " & cadselect
+    If cadselect <> "" Then Sql = Sql & " where " & cadselect
     
     
-    SQL = SQL & " ORDER BY " & Sql2
+    Sql = Sql & " ORDER BY " & Sql2
 
             
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -748,7 +766,7 @@ Dim nomDocu As String
 End Sub
 
 Private Function CargarTemporal() As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim vSql As String
 Dim vSql1 As String
 Dim vSql2 As String
@@ -780,95 +798,144 @@ Dim PMAnt As Currency
 Dim F1Ant As String
 Dim F2Ant As String
 
-    On Error GoTo eCargarTemporal
+     On Error GoTo eCargarTemporal
 
     CargarTemporal = False
     
-    F1Ant = DateAdd("yyyy", -1, CDate(txtfecha(0).Text))
-    F2Ant = DateAdd("yyyy", -1, CDate(txtfecha(1).Text))
+    F1Ant = DateAdd("yyyy", -1, CDate(txtFecha(0).Text))
+    F2Ant = DateAdd("yyyy", -1, CDate(txtFecha(1).Text))
     
-    SQL = "delete from tmpimpbalance where codusu = " & vUsu.Codigo
-    Conn.Execute SQL
+    Label3(0).Caption = "Prepara datos"
+    Label3(0).Refresh
+    Sql = "delete from tmpimpbalance where codusu = " & vUsu.Codigo
+    Conn.Execute Sql
     
-    SQL = "insert into tmpimpbalance (codusu, codigo, descripcion, importe1, importe2) values (" & vUsu.Codigo & ","
+    Sql = "insert into tmpimpbalance (codusu, codigo, descripcion, importe1, importe2) values (" & vUsu.Codigo & ","
     
     SqlValues = ""
     
         
     ' ratio de operaciones pagadas
+    Label3(0).Caption = "Periodo"
+    Label3(0).Refresh
+    
+    Set miRsAux = New ADODB.Recordset
     
     vSql = "select round(datediff(fecultpa,factpro.fecharec) * impefect,2) a, impefect b from factpro inner join pagos on factpro.numserie = pagos.numserie and factpro.numfactu = pagos.numfactu and factpro.fecfactu = pagos.fecfactu "
     vSql = vSql & " where not pagos.fecultpa is null "
-    vSql = vSql & " and factpro.fecharec >=" & DBSet(txtfecha(0).Text, "F") & " and factpro.fecharec <= " & DBSet(txtfecha(1).Text, "F")
-    vSql = vSql & " and pagos.fecultpa <=" & DBSet(txtfecha(1).Text, "F")
-    
-    vSql1 = "select sum(a) from (" & vSql & ") aaa"
-    Valor1 = DevuelveValor(vSql1)
-    
-    vSql1 = "select sum(b) from (" & vSql & ") aaa"
-    Importe1 = DevuelveValor(vSql1)
-    
+    vSql = vSql & " and factpro.fecharec >=" & DBSet(txtFecha(0).Text, "F") & " and factpro.fecharec <= " & DBSet(txtFecha(1).Text, "F")
+    vSql = vSql & " and pagos.fecultpa <=" & DBSet(txtFecha(1).Text, "F")
+      
+    '
+    'vSql1 = "select sum(a) from (" & vSql & ") aaa"
+    'Valor1ant = DevuelveValor(vSql1)
+    'vSql1 = "select sum(b) from (" & vSql & ") aaa"
+    'Importe1ant = DevuelveValor(vSql1)
+      
+    Valor1 = 0
+    Importe1 = 0
+    vSql1 = "select sum(a),sum(b) from (" & vSql & ") aaa"
+    miRsAux.Open vSql1, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Not miRsAux.EOF Then
+        Valor1 = DBLet(miRsAux.Fields(0), "N")
+        Importe1 = DBLet(miRsAux.Fields(1), "N")
+    End If
+    miRsAux.Close
     Ratio1 = 0
     If Importe1 <> 0 Then Ratio1 = Round(Valor1 / Importe1, 2)
     
     ' ratio de operaciones pagadas (anterior)
-    
+    Label3(0).Caption = "Anterior"
+    Label3(0).Refresh
     vSql = "select round(datediff(fecultpa,factpro.fecharec) * impefect,2) a, impefect b from factpro inner join pagos on factpro.numserie = pagos.numserie and factpro.numfactu = pagos.numfactu and factpro.fecfactu = pagos.fecfactu "
     vSql = vSql & " where not pagos.fecultpa is null "
     vSql = vSql & " and factpro.fecharec >=" & DBSet(F1Ant, "F") & " and factpro.fecharec <= " & DBSet(F2Ant, "F")
     vSql = vSql & " and pagos.fecultpa <=" & DBSet(F2Ant, "F")
     
-    vSql1 = "select sum(a) from (" & vSql & ") aaa"
-    Valor1ant = DevuelveValor(vSql1)
-    
-    vSql1 = "select sum(b) from (" & vSql & ") aaa"
-    Importe1ant = DevuelveValor(vSql1)
+    'vSql1 = "select sum(a) from (" & vSql & ") aaa"
+    'Valor1ant = DevuelveValor(vSql1)
+    'vSql1 = "select sum(b) from (" & vSql & ") aaa"
+    'Importe1ant = DevuelveValor(vSql1)
+    Valor1ant = 0
+    Importe1ant = 0
+    vSql1 = "select sum(a),sum(b) from (" & vSql & ") aaa"
+    miRsAux.Open vSql1, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Not miRsAux.EOF Then
+        Valor1ant = DBLet(miRsAux.Fields(0), "N")
+        Importe1ant = DBLet(miRsAux.Fields(1), "N")
+    End If
+    miRsAux.Close
     
     Ratio1ant = 0
     If Importe1ant <> 0 Then Ratio1ant = Round(Valor1ant / Importe1ant, 2)
     
     
     SqlValues = "2,'Ratio de operaciones pagadas'," & DBSet(Ratio1, "N") & "," & DBSet(Ratio1ant, "N") & ")"
-    Conn.Execute SQL & SqlValues
+    Conn.Execute Sql & SqlValues
     
     ' importe pagos realizados
     SqlValues = "4,'Total pagos realizados'," & DBSet(Importe1, "N") & "," & DBSet(Importe1ant, "N") & ")"
-    Conn.Execute SQL & SqlValues
+    Conn.Execute Sql & SqlValues
     
     ' ratio de operaciones pendientes de pago
-    vSql = "select round(datediff(" & DBSet(txtfecha(1).Text, "F") & ",factpro.fecharec) * impefect,2) a, impefect b from factpro inner join pagos on factpro.numserie = pagos.numserie and factpro.numfactu = pagos.numfactu and factpro.fecfactu = pagos.fecfactu "
-    vSql = vSql & " where factpro.fecharec >=" & DBSet(txtfecha(0).Text, "F") & " and factpro.fecharec <= " & DBSet(txtfecha(1).Text, "F")
-    vSql = vSql & " and (pagos.fecultpa is null or pagos.fecultpa = '' or  pagos.fecultpa > " & DBSet(txtfecha(1).Text, "F") & ") "
+    Label3(0).Caption = "Pendintes"
+    Label3(0).Refresh
+    vSql = "select round(datediff(" & DBSet(txtFecha(1).Text, "F") & ",factpro.fecharec) * impefect,2) a, impefect b from factpro inner join pagos on factpro.numserie = pagos.numserie and factpro.numfactu = pagos.numfactu and factpro.fecfactu = pagos.fecfactu "
+    vSql = vSql & " where factpro.fecharec >=" & DBSet(txtFecha(0).Text, "F") & " and factpro.fecharec <= " & DBSet(txtFecha(1).Text, "F")
+    vSql = vSql & " and (pagos.fecultpa is null or pagos.fecultpa = '' or  pagos.fecultpa > " & DBSet(txtFecha(1).Text, "F") & ") "
     
-    vSql1 = "select sum(a) from (" & vSql & ") aaa"
-    Valor2 = DevuelveValor(vSql1)
+    'vSql1 = "select sum(a) from (" & vSql & ") aaa"
+    'Valor2 = DevuelveValor(vSql1)
+    'vSql1 = "select sum(b) from (" & vSql & ") aaa"
+    'importe2 = DevuelveValor(vSql1)
+    importe2 = 0
+    Valor2 = 0
+    vSql1 = "select sum(a),sum(b) from (" & vSql & ") aaa"
+    miRsAux.Open vSql1, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Not miRsAux.EOF Then
+        Valor2 = DBLet(miRsAux.Fields(0), "N")
+        importe2 = DBLet(miRsAux.Fields(1), "N")
+    End If
+    miRsAux.Close
     
-    vSql1 = "select sum(b) from (" & vSql & ") aaa"
-    importe2 = DevuelveValor(vSql1)
+    
     
     Ratio2 = 0
     If importe2 <> 0 Then Ratio2 = Round(Valor2 / importe2, 2)
     
     ' ratio de operaciones pendientes de pago (anterior)
+    Label3(0).Caption = "Pendientes anterior"
+    Label3(0).Refresh
     vSql = "select round(datediff(" & DBSet(F2Ant, "F") & ",factpro.fecharec) * impefect,2) a, impefect b from factpro inner join pagos on factpro.numserie = pagos.numserie and factpro.numfactu = pagos.numfactu and factpro.fecfactu = pagos.fecfactu "
     vSql = vSql & " where factpro.fecharec >=" & DBSet(F1Ant, "F") & " and factpro.fecharec <= " & DBSet(F2Ant, "F")
     vSql = vSql & " and (pagos.fecultpa is null or pagos.fecultpa = '' or  pagos.fecultpa > " & DBSet(F2Ant, "F") & ") "
     
-    vSql1 = "select sum(a) from (" & vSql & ") aaa"
-    Valor2ant = DevuelveValor(vSql1)
+    'vSql1 = "select sum(a) from (" & vSql & ") aaa"
+    'Valor2ant = DevuelveValor(vSql1)
+    'vSql1 = "select sum(b) from (" & vSql & ") aaa"
+    'Importe2ant = DevuelveValor(vSql1)
+    Valor2ant = 0
+    Importe2ant = 0
+    vSql1 = "select sum(a),sum(b) from (" & vSql & ") aaa"
+    miRsAux.Open vSql1, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Not miRsAux.EOF Then
+        Valor2ant = DBLet(miRsAux.Fields(0), "N")
+        Importe2ant = DBLet(miRsAux.Fields(1), "N")
+    End If
+    miRsAux.Close
     
-    vSql1 = "select sum(b) from (" & vSql & ") aaa"
-    Importe2ant = DevuelveValor(vSql1)
+    
+    
     
     Ratio2ant = 0
     If Importe2ant <> 0 Then Ratio2ant = Round(Valor2ant / Importe2ant, 2)
     
     SqlValues = "3,'Ratio de operaciones pendientes de pago'," & DBSet(Ratio2, "N") & "," & DBSet(Ratio2ant, "N") & ")"
-    Conn.Execute SQL & SqlValues
+    Conn.Execute Sql & SqlValues
     
     ' importe operaciones pendientes de pago
     SqlValues = "5,'Total pagos pendientes'," & DBSet(importe2, "N") & "," & DBSet(Importe2ant, "N") & ")"
-    Conn.Execute SQL & SqlValues
+    Conn.Execute Sql & SqlValues
     
     
     ' periodo medio de pago a proveedores
@@ -878,18 +945,22 @@ Dim F2Ant As String
     If (Importe1ant + Importe2ant) <> 0 Then PMAnt = Round(((Ratio1ant * Importe1ant) + (Ratio2ant * Importe2ant)) / (Importe1ant + Importe2ant), 2)
     
     SqlValues = "1,'Periodo medio de pago a proveedores'," & DBSet(PM, "N") & "," & DBSet(PMAnt, "N") & ")"
-    Conn.Execute SQL & SqlValues
+    Conn.Execute Sql & SqlValues
     
     
     CargarTemporal = True
-    Exit Function
+    
     
 eCargarTemporal:
-    MuestraError Err.Number, "Cargar Temporal", Err.Description
+    If Err.Number <> 0 Then
+        MuestraError Err.Number, "Cargar Temporal", Err.Description
+    
+    End If
+    Set miRsAux = Nothing
 End Function
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -898,36 +969,37 @@ Dim i As Integer
 
     MontaSQL = False
     
-    If Not PonerDesdeHasta(tabla & ".fecfactu", "F", Me.txtfecha(0), Me.txtfecha(0), Me.txtfecha(1), Me.txtfecha(1), "pDHFecha=""") Then Exit Function
+    If Not PonerDesdeHasta(tabla & ".fecfactu", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""") Then Exit Function
             
     If cadFormula <> "" Then cadFormula = "(" & cadFormula & ")"
     If cadselect <> "" Then cadselect = "(" & cadselect & ")"
     
     Screen.MousePointer = vbHourglass
     MontaSQL = CargarTemporal
+    Label3(0).Caption = ""
     Screen.MousePointer = vbDefault
 End Function
 
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
+    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
-    PonerFormatoFecha txtfecha(Index)
+    PonerFormatoFecha txtFecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtfecha(Index), 3
+    ConseguirFoco txtFecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtfecha(Index).Tag, Index
+        LanzaFormAyuda txtFecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
@@ -938,14 +1010,14 @@ Private Function DatosOK() As Boolean
     DatosOK = False
     
     ' debe introducir las fechas y el plazo en dias
-    If txtfecha(0).Text = "" Or txtfecha(1).Text = "" Then
+    If txtFecha(0).Text = "" Or txtFecha(1).Text = "" Then
         MsgBox "Debe introducir obligatoriamente el rango de fechas. Reintroduzca.", vbExclamation
-        PonFoco txtfecha(0)
+        PonFoco txtFecha(0)
         Exit Function
     Else
-        If DateDiff("yyyy", CDate(txtfecha(0).Text), CDate(txtfecha(1).Text)) > 1 Then
+        If DateDiff("yyyy", CDate(txtFecha(0).Text), CDate(txtFecha(1).Text)) > 1 Then
             MsgBox "La diferencia entre fechas ha de ser máximo de un año. Reintroduzca.", vbExclamation
-            PonFoco txtfecha(0)
+            PonFoco txtFecha(0)
             Exit Function
         End If
     End If

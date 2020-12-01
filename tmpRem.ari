@@ -2,23 +2,23 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02">
 <CstmrDrctDbtInitn>
 <GrpHdr>
-<MsgId>PRE20021210262734380RE30000012020</MsgId>
-   <CreDtTm>2020-02-12T10:26:27</CreDtTm>
-   <NbOfTxs>1</NbOfTxs>
-   <CtrlSum>6.41</CtrlSum>
+<MsgId>PRE20110916400247270RE30000512020</MsgId>
+   <CreDtTm>2020-11-09T16:40:02</CreDtTm>
+   <NbOfTxs>33</NbOfTxs>
+   <CtrlSum>22309.39</CtrlSum>
    <InitgPty>
-     <Nm>Agricola de Catadau S.C. Suministros</Nm>
+     <Nm>Herbelca S.L.</Nm>
      <Id>
         <OrgId>
            <Othr>
-              <Id>ES38000F46038881</Id>
+              <Id>ES25000B46135372</Id>
            </Othr>
         </OrgId>
       </Id>
    </InitgPty>
 </GrpHdr>
 <PmtInf>
-   <PmtInfId>RE000012020 12/02/20F46038881 0001</PmtInfId>
+   <PmtInfId>RE000512020 09/11/20B46135372 0001</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -33,29 +33,29 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>1996-12-16</ReqdColltnDt>
+   <ReqdColltnDt>2020-04-17</ReqdColltnDt>
    <Cdtr>
-      <Nm>Agricola de Catadau S.C. Suministros</Nm>
+      <Nm>Herbelca S.L.</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>RODRIGUEZ DE LA FUENTE    </AdrLine>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES5230582268501021006736</IBAN>
+         <IBAN>ES0720385790736000738632</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
       <FinInstnId>
-         <BIC>CCRIES2AXXX</BIC>
+         <BIC>CAHMESMMXXX</BIC>
       </FinInstnId>
    </CdtrAgt>
    <CdtrSchmeId>
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES38000F46038881</Id>
+                 <Id>ES25000B46135372</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -63,12 +63,141 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>4300000672A  0016129619961216001   </EndToEndId>
+          <EndToEndId>43001756  A  0500140420200217001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">6.41</InstdAmt>
+      <InstdAmt Ccy="EUR">175.06</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES4830821315823191936719</MndtId>
+            <MndtId>ES3420386323733000571530</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CAHMESMMXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>JOSE MULET CORTIJO</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>PLAZA PAIS VALENCIANO, 8 BAJO</AdrLine>
+              <AdrLine>12002   CASTELLON</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>733000571530</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES3420386323733000571530</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001404 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002523  A  0500142620200217002   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">10.25</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES4421005375110100036644</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CAIXESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ENRIQUE CHIRIVELLA LOPEZ</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>RAFAEL LAPESA MELGAR, 6 PTA.10</AdrLine>
+              <AdrLine>46017   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>110100036644</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES4421005375110100036644</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001426 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002296  A  0500141920200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">2181.23</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES0900930123430000252780</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CAIXESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>INNOVAGAS 2000, S.L.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>DR.MARA ON, 8</AdrLine>
+              <AdrLine>46017   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>430000252780</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES0900930123430000252780</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001419 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002771  A  0500143220200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">247.51</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES2030582008492720005237</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
@@ -78,30 +207,1637 @@
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>MIQUEL A O, RAFAEL</Nm>
+         <Nm>POLIT INSTAL.LACIONS I MANTENI</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>C/ RAMON ESTEVE, 1</AdrLine>
-              <AdrLine>CATADAU   46196     VALENCIA</AdrLine>
+              <AdrLine>C/ BENIFLA, 15 B</AdrLine>
+              <AdrLine>VILLALONGA   46720     VALENCIA</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>823191936719</Id>
+                   <Id>492720005237</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES4830821315823191936719</IBAN>
+            <IBAN>ES2030582008492720005237</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>REGISTRO GRAL.-SECC.SUMINISTRO Factura 0161296 de 16/Dic/1996</Ustrd>
+         <Ustrd>FACTURA  A-5001432 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43003164  A  0500144620200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">31.23</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES7131590047952133839627</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BCOEESMM159</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>FONT.Y SANE.MARTIN DONAT S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>AV.DEL OLMO, 6 BAJO</AdrLine>
+              <AdrLine>PICASSENT   46220     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>952133839627</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES7131590047952133839627</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001446 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002882  A  0500143920200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">183.15</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES3900491283172310086887</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSCHESMMXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>NESGAMA INSTALACIONES, S.L.U</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/MUNICH 72, 31-4</AdrLine>
+              <AdrLine>TORRENTE   46900     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>172310086887</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES3900491283172310086887</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001439 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002250  A  0500141620200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">2447.55</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES7730587388212720000423</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CCRIES2AXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>HNOS MOLINER MONTOLIU, CB</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ CALVARIO 5</AdrLine>
+              <AdrLine>SUERAS   12223     CASTELLON</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>212720000423</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES7730587388212720000423</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001416 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002231  A  0500141420200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">719.95</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES6120386508296000005225</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CAHMESMMXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>LAFARGA INSTALACIONES, C.B.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>AVDA.CAMP DE MORVEDRE, 27 BAJO</AdrLine>
+              <AdrLine>ESTIVELLA   46590     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>296000005225</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES6120386508296000005225</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001414 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002231  A  0500141520200217002   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">1324.05</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES6120386508296000005225</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CAHMESMMXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>LAFARGA INSTALACIONES, C.B.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>AVDA.CAMP DE MORVEDRE, 27 BAJO</AdrLine>
+              <AdrLine>ESTIVELLA   46590     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>296000005225</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES6120386508296000005225</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001415 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43003577  A  0500145620200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">129.47</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES0900815368510001040907</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>SOLTER, C.B.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/CASINOS, 4</AdrLine>
+              <AdrLine>LIRIA   46160     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>510001040907</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES0900815368510001040907</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001456 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+</PmtInf>
+<PmtInf>
+   <PmtInfId>RE000512020 09/11/20B46135372 0002</PmtInfId>
+   <PmtMtd>DD</PmtMtd>
+   <BtchBookg>false</BtchBookg>
+   <PmtTpInf>
+      <SvcLvl>
+          <Cd>SEPA</Cd>
+      </SvcLvl>
+      <LclInstrm>
+         <Cd>CORE</Cd>
+      </LclInstrm>
+      <SeqTp>RCUR</SeqTp>
+      <CtgyPurp>
+         <Cd>TRAD</Cd>
+      </CtgyPurp>
+   </PmtTpInf>
+   <ReqdColltnDt>2020-04-20</ReqdColltnDt>
+   <Cdtr>
+      <Nm>Herbelca S.L.</Nm>
+      <PstlAdr>
+          <Ctry>ES</Ctry>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
+      </PstlAdr>
+   </Cdtr>
+   <CdtrAcct>
+      <Id>
+         <IBAN>ES0720385790736000738632</IBAN>
+      </Id>
+   </CdtrAcct>
+   <CdtrAgt>
+      <FinInstnId>
+         <BIC>CAHMESMMXXX</BIC>
+      </FinInstnId>
+   </CdtrAgt>
+   <CdtrSchmeId>
+       <Id>
+          <PrvtId>
+             <Othr>
+                 <Id>ES25000B46135372</Id>
+                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
+             </Othr>
+          </PrvtId>
+       </Id>
+   </CdtrSchmeId>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43003967  A  0500147720200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">293.44</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES4430587460522720602439</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CCRIES2AXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>NICOLAS THOR MAORTUA MARTINEZ</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>ONDA, 42, ESQUINA  G.V.TARREGA MONT</AdrLine>
+              <AdrLine>12006   CASTELLON</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>522720602439</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES4430587460522720602439</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001477 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002694  A  0500143020200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">6.45</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES9401822327100011005708</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BBVAESMMXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ITACA, S.A.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>PARTIDA LA RAMBLETA S/N</AdrLine>
+              <AdrLine>POBLA TORNESA   12191     CASTELLON</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>100011005708</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES9401822327100011005708</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001430 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43004778  A  0500152520200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">2058.91</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES2630587024122720011640</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CCRIES2AXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ALDIMOSA DISTRIBUCION,S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ VELLUTERS 6, POL.I VARA QUART</AdrLine>
+              <AdrLine>46014   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>122720011640</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES2630587024122720011640</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001525 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+</PmtInf>
+<PmtInf>
+   <PmtInfId>RE000512020 09/11/20B46135372 0003</PmtInfId>
+   <PmtMtd>DD</PmtMtd>
+   <BtchBookg>false</BtchBookg>
+   <PmtTpInf>
+      <SvcLvl>
+          <Cd>SEPA</Cd>
+      </SvcLvl>
+      <LclInstrm>
+         <Cd>CORE</Cd>
+      </LclInstrm>
+      <SeqTp>RCUR</SeqTp>
+      <CtgyPurp>
+         <Cd>TRAD</Cd>
+      </CtgyPurp>
+   </PmtTpInf>
+   <ReqdColltnDt>2020-04-25</ReqdColltnDt>
+   <Cdtr>
+      <Nm>Herbelca S.L.</Nm>
+      <PstlAdr>
+          <Ctry>ES</Ctry>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
+      </PstlAdr>
+   </Cdtr>
+   <CdtrAcct>
+      <Id>
+         <IBAN>ES0720385790736000738632</IBAN>
+      </Id>
+   </CdtrAcct>
+   <CdtrAgt>
+      <FinInstnId>
+         <BIC>CAHMESMMXXX</BIC>
+      </FinInstnId>
+   </CdtrAgt>
+   <CdtrSchmeId>
+       <Id>
+          <PrvtId>
+             <Othr>
+                 <Id>ES25000B46135372</Id>
+                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
+             </Othr>
+          </PrvtId>
+       </Id>
+   </CdtrSchmeId>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002478  A  0500142420200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">186.87</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES6500750110460600624415</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>POPUESMMXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>VENTURA CONSTRUC.Y REHABILITACIONES,S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ ERMITA NOVA 18-10</AdrLine>
+              <AdrLine>GODELLA   46110     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>460600624415</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES6500750110460600624415</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001424 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002557  A  0500142820200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">41.14</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES8600815423730001189826</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>SUMINISTRES LLIRMAT, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>PLA DE L ARC 79</AdrLine>
+              <AdrLine>LIRIA   46160     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>730001189826</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES8600815423730001189826</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001428 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+</PmtInf>
+<PmtInf>
+   <PmtInfId>RE000512020 09/11/20B46135372 0004</PmtInfId>
+   <PmtMtd>DD</PmtMtd>
+   <BtchBookg>false</BtchBookg>
+   <PmtTpInf>
+      <SvcLvl>
+          <Cd>SEPA</Cd>
+      </SvcLvl>
+      <LclInstrm>
+         <Cd>CORE</Cd>
+      </LclInstrm>
+      <SeqTp>RCUR</SeqTp>
+      <CtgyPurp>
+         <Cd>TRAD</Cd>
+      </CtgyPurp>
+   </PmtTpInf>
+   <ReqdColltnDt>2020-04-28</ReqdColltnDt>
+   <Cdtr>
+      <Nm>Herbelca S.L.</Nm>
+      <PstlAdr>
+          <Ctry>ES</Ctry>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
+      </PstlAdr>
+   </Cdtr>
+   <CdtrAcct>
+      <Id>
+         <IBAN>ES0720385790736000738632</IBAN>
+      </Id>
+   </CdtrAcct>
+   <CdtrAgt>
+      <FinInstnId>
+         <BIC>CAHMESMMXXX</BIC>
+      </FinInstnId>
+   </CdtrAgt>
+   <CdtrSchmeId>
+       <Id>
+          <PrvtId>
+             <Othr>
+                 <Id>ES25000B46135372</Id>
+                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
+             </Othr>
+          </PrvtId>
+       </Id>
+   </CdtrSchmeId>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43000211  A  0500134920200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">345.36</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES8531590068822679300323</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BCOEESMM159</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>SILAR FONTANEROS, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/CERVANTES, 20</AdrLine>
+              <AdrLine>CHIVA   46370     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>822679300323</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES8531590068822679300323</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001349 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+</PmtInf>
+<PmtInf>
+   <PmtInfId>RE000512020 09/11/20B46135372 0005</PmtInfId>
+   <PmtMtd>DD</PmtMtd>
+   <BtchBookg>false</BtchBookg>
+   <PmtTpInf>
+      <SvcLvl>
+          <Cd>SEPA</Cd>
+      </SvcLvl>
+      <LclInstrm>
+         <Cd>CORE</Cd>
+      </LclInstrm>
+      <SeqTp>RCUR</SeqTp>
+      <CtgyPurp>
+         <Cd>TRAD</Cd>
+      </CtgyPurp>
+   </PmtTpInf>
+   <ReqdColltnDt>2020-04-30</ReqdColltnDt>
+   <Cdtr>
+      <Nm>Herbelca S.L.</Nm>
+      <PstlAdr>
+          <Ctry>ES</Ctry>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
+      </PstlAdr>
+   </Cdtr>
+   <CdtrAcct>
+      <Id>
+         <IBAN>ES0720385790736000738632</IBAN>
+      </Id>
+   </CdtrAcct>
+   <CdtrAgt>
+      <FinInstnId>
+         <BIC>CAHMESMMXXX</BIC>
+      </FinInstnId>
+   </CdtrAgt>
+   <CdtrSchmeId>
+       <Id>
+          <PrvtId>
+             <Othr>
+                 <Id>ES25000B46135372</Id>
+                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
+             </Othr>
+          </PrvtId>
+       </Id>
+   </CdtrSchmeId>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43001004  A  0500137920200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">331.27</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES0920386333463000210314</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CAHMESMMXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>JOSE MARIA PACHES BELE O</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ MIGUEL DE UNAMUNO 9-2 D</AdrLine>
+              <AdrLine>12003   CASTELLON</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>463000210314</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES0920386333463000210314</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001379 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002393  A  0500142120200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">50.42</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES8021007587740200022138</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CAIXESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>VICENTE LUIS GONELL LUNA</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/MESTRE JUAN SALES GUILLEM 26 BAJO</AdrLine>
+              <AdrLine>ALCORA   12110     CASTELLON</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>740200022138</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES8021007587740200022138</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001421 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002029  A  0500141220200217002   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">104.58</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES6200810228380001399440</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>JUAN MIGUEL CARREGUI ABELLA</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ SALVADOR GINER 3</AdrLine>
+              <AdrLine>BURRIANA   12530     CASTELLON</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>380001399440</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES6200810228380001399440</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001412 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002673  A  0500157620200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">6658.94</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES0730821499811064064429</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CCRIES2AXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>FRISUNTEC, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>RIBELLES COMINS, 47 BAJO</AdrLine>
+              <AdrLine>12006   CASTELLON</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>811064064429</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES0730821499811064064429</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>Compensa   A5001576 17/02/2020 R6000275 21/02/2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43001012  A  0500155620200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">11.66</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES2400815515210001690477</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ASSISTACASA 2005, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ CRONISTA CARRERES 10 BAJO IZQ</AdrLine>
+              <AdrLine>46003   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>210001690477</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES2400815515210001690477</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001556 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43001012  A  0500155820200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">134.70</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES2400815515210001690477</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ASSISTACASA 2005, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ CRONISTA CARRERES 10 BAJO IZQ</AdrLine>
+              <AdrLine>46003   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>210001690477</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES2400815515210001690477</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001558 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43001012  A  0500155520200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">165.30</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES2400815515210001690477</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ASSISTACASA 2005, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ CRONISTA CARRERES 10 BAJO IZQ</AdrLine>
+              <AdrLine>46003   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>210001690477</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES2400815515210001690477</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001555 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43001012  A  0500155720200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">200.96</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES2400815515210001690477</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ASSISTACASA 2005, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ CRONISTA CARRERES 10 BAJO IZQ</AdrLine>
+              <AdrLine>46003   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>210001690477</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES2400815515210001690477</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001557 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43001012  A  0500155420200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">52.36</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES2400815515210001690477</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>ASSISTACASA 2005, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ CRONISTA CARRERES 10 BAJO IZQ</AdrLine>
+              <AdrLine>46003   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>210001690477</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES2400815515210001690477</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001554 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002776  A  0500143320200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">75.80</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES5400811320210001106615</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>LA FONTANERIA, C.B.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>AVDA.SANTOS JUSTO Y PASTOR,133</AdrLine>
+              <AdrLine>46022   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>210001106615</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES5400811320210001106615</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001433 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+</PmtInf>
+<PmtInf>
+   <PmtInfId>RE000512020 09/11/20B46135372 0006</PmtInfId>
+   <PmtMtd>DD</PmtMtd>
+   <BtchBookg>false</BtchBookg>
+   <PmtTpInf>
+      <SvcLvl>
+          <Cd>SEPA</Cd>
+      </SvcLvl>
+      <LclInstrm>
+         <Cd>CORE</Cd>
+      </LclInstrm>
+      <SeqTp>RCUR</SeqTp>
+      <CtgyPurp>
+         <Cd>TRAD</Cd>
+      </CtgyPurp>
+   </PmtTpInf>
+   <ReqdColltnDt>2020-05-02</ReqdColltnDt>
+   <Cdtr>
+      <Nm>Herbelca S.L.</Nm>
+      <PstlAdr>
+          <Ctry>ES</Ctry>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
+      </PstlAdr>
+   </Cdtr>
+   <CdtrAcct>
+      <Id>
+         <IBAN>ES0720385790736000738632</IBAN>
+      </Id>
+   </CdtrAcct>
+   <CdtrAgt>
+      <FinInstnId>
+         <BIC>CAHMESMMXXX</BIC>
+      </FinInstnId>
+   </CdtrAgt>
+   <CdtrSchmeId>
+       <Id>
+          <PrvtId>
+             <Othr>
+                 <Id>ES25000B46135372</Id>
+                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
+             </Othr>
+          </PrvtId>
+       </Id>
+   </CdtrSchmeId>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43000932  A  0581057220181210002   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">173.12</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES3701822741100201549324</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BBVAESMMXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>IATIS, C.B.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ TREVIJANO 11-E 1</AdrLine>
+              <AdrLine>GRAO DE GANDIA   46730     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>100201549324</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES3701822741100201549324</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5810572 de Fecha 10 dic 2018</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+</PmtInf>
+<PmtInf>
+   <PmtInfId>RE000512020 09/11/20B46135372 0007</PmtInfId>
+   <PmtMtd>DD</PmtMtd>
+   <BtchBookg>false</BtchBookg>
+   <PmtTpInf>
+      <SvcLvl>
+          <Cd>SEPA</Cd>
+      </SvcLvl>
+      <LclInstrm>
+         <Cd>CORE</Cd>
+      </LclInstrm>
+      <SeqTp>RCUR</SeqTp>
+      <CtgyPurp>
+         <Cd>TRAD</Cd>
+      </CtgyPurp>
+   </PmtTpInf>
+   <ReqdColltnDt>2020-05-10</ReqdColltnDt>
+   <Cdtr>
+      <Nm>Herbelca S.L.</Nm>
+      <PstlAdr>
+          <Ctry>ES</Ctry>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
+      </PstlAdr>
+   </Cdtr>
+   <CdtrAcct>
+      <Id>
+         <IBAN>ES0720385790736000738632</IBAN>
+      </Id>
+   </CdtrAcct>
+   <CdtrAgt>
+      <FinInstnId>
+         <BIC>CAHMESMMXXX</BIC>
+      </FinInstnId>
+   </CdtrAgt>
+   <CdtrSchmeId>
+       <Id>
+          <PrvtId>
+             <Othr>
+                 <Id>ES25000B46135372</Id>
+                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
+             </Othr>
+          </PrvtId>
+       </Id>
+   </CdtrSchmeId>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43004861  A  0500153220200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">1152.45</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES5800810638590001172828</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>RTA MANAGEMENT GIA, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/ BABADILLO 4</AdrLine>
+              <AdrLine>28042   MADRID</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>590001172828</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES5800810638590001172828</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001532 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43004891  A  0500153820200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">1596.57</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES9421005087540200127399</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CAIXESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>VORWARTS GANDIA, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/MIRAMAR 14</AdrLine>
+              <AdrLine>GANDIA   46701     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>540200127399</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES9421005087540200127399</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001538 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+</PmtInf>
+<PmtInf>
+   <PmtInfId>RE000512020 09/11/20B46135372 0008</PmtInfId>
+   <PmtMtd>DD</PmtMtd>
+   <BtchBookg>false</BtchBookg>
+   <PmtTpInf>
+      <SvcLvl>
+          <Cd>SEPA</Cd>
+      </SvcLvl>
+      <LclInstrm>
+         <Cd>CORE</Cd>
+      </LclInstrm>
+      <SeqTp>RCUR</SeqTp>
+      <CtgyPurp>
+         <Cd>TRAD</Cd>
+      </CtgyPurp>
+   </PmtTpInf>
+   <ReqdColltnDt>2020-05-15</ReqdColltnDt>
+   <Cdtr>
+      <Nm>Herbelca S.L.</Nm>
+      <PstlAdr>
+          <Ctry>ES</Ctry>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
+      </PstlAdr>
+   </Cdtr>
+   <CdtrAcct>
+      <Id>
+         <IBAN>ES0720385790736000738632</IBAN>
+      </Id>
+   </CdtrAcct>
+   <CdtrAgt>
+      <FinInstnId>
+         <BIC>CAHMESMMXXX</BIC>
+      </FinInstnId>
+   </CdtrAgt>
+   <CdtrSchmeId>
+       <Id>
+          <PrvtId>
+             <Othr>
+                 <Id>ES25000B46135372</Id>
+                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
+             </Othr>
+          </PrvtId>
+       </Id>
+   </CdtrSchmeId>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43004796  A  0500152620200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">407.23</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES7000811518960001751382</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BSABESBBXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>OBRAS Y REFORMAS LEVANTE E ISLAS, S.L.</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/COLON 22-3F</AdrLine>
+              <AdrLine>46004   VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>960001751382</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES7000811518960001751382</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001526 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+</PmtInf>
+<PmtInf>
+   <PmtInfId>RE000512020 09/11/20B46135372 0009</PmtInfId>
+   <PmtMtd>DD</PmtMtd>
+   <BtchBookg>false</BtchBookg>
+   <PmtTpInf>
+      <SvcLvl>
+          <Cd>SEPA</Cd>
+      </SvcLvl>
+      <LclInstrm>
+         <Cd>CORE</Cd>
+      </LclInstrm>
+      <SeqTp>RCUR</SeqTp>
+      <CtgyPurp>
+         <Cd>TRAD</Cd>
+      </CtgyPurp>
+   </PmtTpInf>
+   <ReqdColltnDt>2020-05-17</ReqdColltnDt>
+   <Cdtr>
+      <Nm>Herbelca S.L.</Nm>
+      <PstlAdr>
+          <Ctry>ES</Ctry>
+          <AdrLine>Azagador de la Torre 93   </AdrLine>
+      </PstlAdr>
+   </Cdtr>
+   <CdtrAcct>
+      <Id>
+         <IBAN>ES0720385790736000738632</IBAN>
+      </Id>
+   </CdtrAcct>
+   <CdtrAgt>
+      <FinInstnId>
+         <BIC>CAHMESMMXXX</BIC>
+      </FinInstnId>
+   </CdtrAgt>
+   <CdtrSchmeId>
+       <Id>
+          <PrvtId>
+             <Othr>
+                 <Id>ES25000B46135372</Id>
+                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
+             </Othr>
+          </PrvtId>
+       </Id>
+   </CdtrSchmeId>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43002558  A  0500157520200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">193.60</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES4231381199852015354422</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BCOEESMM138</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>JAVIER GOMEZ BALLESTER</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>MAESTRO JULIO SANCHO, 24</AdrLine>
+              <AdrLine>BETXI   12459     CASTELLON</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>852015354422</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES4231381199852015354422</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001575 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43001543  A  0500140020200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">581.28</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES3931115099471152282925</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BCOEESMM111</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>INSTALACIONES VICENTE ROIG,S.L</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>RICARDO PORTALES, 8</AdrLine>
+              <AdrLine>VALL DE UXO   12600     CASTELLON</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>471152282925</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES3931115099471152282925</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001400 de Fecha 17 feb 2020</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>43003818  A  0500146820200217001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">37.53</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>ES6830960006112056877828</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>BCOEESMM096</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>IMAN SUMINISTRES, SLU</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>C/PIONERS 6-A.POL.IND. ALCODAR</AdrLine>
+              <AdrLine>GANDIA   46701     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>112056877828</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES6830960006112056877828</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>FACTURA  A-5001468 de Fecha 17 feb 2020</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>

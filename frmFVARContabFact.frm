@@ -641,7 +641,7 @@ Dim cDesde As String, cHasta As String 'cadena codigo Desde/Hasta
 Dim nDesde As String, nHasta As String 'cadena Descripcion Desde/Hasta
 Dim cadTABLA As String, cOrden As String
 Dim cadMen As String
-Dim i As Byte
+Dim I As Byte
 Dim Sql As String
 Dim Tipo As Byte
 Dim Nregs As Long
@@ -775,6 +775,7 @@ Dim Sql As String
         
    
         Case 8 ' Cta Contable de Banco
+            IndCodigo = 8
             Set frmBan = New frmBasico2
             AyudaBanco frmBan
             Set frmBan = Nothing
@@ -998,7 +999,7 @@ Dim cad As String
 End Function
 
 ' copiado del ariges
-Private Sub ContabilizarFacturas(cadTABLA As String, cadwhere As String)
+Private Sub ContabilizarFacturas(cadTABLA As String, CadWhere As String)
 'Contabiliza Facturas de Clientes o de Proveedores
 Dim Sql As String
 Dim B As Boolean
@@ -1078,7 +1079,7 @@ Dim cad As String
         
     BorrarTMPFacturas
     'Cargar tabla TEMP con las Facturas que vamos a Trabajar
-    B = CrearTMPFacturas(cadTABLA, cadwhere, True)
+    B = CrearTMPFacturas(cadTABLA, CadWhere, True)
     If Not B Then Exit Sub
             
     BorrarTMPErrComprob
@@ -1225,7 +1226,7 @@ Private Function PasarFacturasAContab(cadTABLA As String, FecVenci As String, Ba
 Dim Sql As String
 Dim Rs As ADODB.Recordset
 Dim B As Boolean
-Dim i As Integer
+Dim I As Integer
 Dim numfactu As Long
 Dim codigo1 As String
 
@@ -1272,7 +1273,7 @@ Dim codigo1 As String
             
         Set Rs = New ADODB.Recordset
         Rs.Open Sql, Conn, adOpenStatic, adLockPessimistic, adCmdText
-        i = 1
+        I = 1
 
         B = True
         'contabilizar cada una de las facturas seleccionadas
@@ -1283,9 +1284,9 @@ Dim codigo1 As String
             If PasarFacturaFac(Sql, FecVenci, Banpr, CCoste, cContaFra) = False And B Then B = False
             
             IncrementarProgres Me.Pb1, 1
-            Me.lblProgres(1).Caption = "Insertando Facturas en Contabilidad...   (" & i & " de " & numfactu & ")"
+            Me.lblProgres(1).Caption = "Insertando Facturas en Contabilidad...   (" & I & " de " & numfactu & ")"
             Me.Refresh
-            i = i + 1
+            I = I + 1
             Rs.MoveNext
         Wend
         Rs.Close

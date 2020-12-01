@@ -2909,7 +2909,7 @@ Private Sub Form_Load()
             Me.cmdCopiarDatos(2).visible = HayMasDeUnaEmpresa
             
             CargaGrid 2, False
-            
+            If Combo1.ListCount > 0 Then Combo1.ListIndex = 0
     Case 2
     
             Modo = 4
@@ -3452,7 +3452,7 @@ Private Sub Text1_LostFocus(Index As Integer)
                     If Mid(Text1(13).Text, 1, 2) = "ES" Then
                         MsgBox "IBAN incorrecto.", vbExclamation
                     Else
-                        MsgBox "IBAN paraece incorrecto.", vbExclamation
+                        MsgBox "IBAN parace incorrecto.", vbExclamation
                     End If
                 End If
             End If

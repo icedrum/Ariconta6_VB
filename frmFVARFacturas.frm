@@ -2871,6 +2871,7 @@ On Error GoTo EPonerModo
     BloqueaTXT Text1(28), Not (Modo = 1 Or (Modo = 4 And ModificarTotales))
     Text1(28).Enabled = (Modo = 1 Or (Modo = 4 And ModificarTotales))
     
+    Combo1(0).Enabled = (Modo = 1 Or Modo = 3 Or Modo = 4)
     Combo1(2).Enabled = (Modo = 1 Or Modo = 3 Or Modo = 4)
     Combo1(4).Enabled = (Modo = 1 Or Modo = 3 Or Modo = 4) And Combo1(2).ListIndex = 3
     Text1(35).Enabled = (Modo = 1 Or Modo = 3 Or Modo = 4) And Combo1(2).ListIndex = 3
@@ -5209,7 +5210,7 @@ Dim Rs As ADODB.Recordset
         Text1(34).Text = DBLet(Rs!codpais, "T")
         If Text1(34).Text <> "" Then Text2(34).Text = DevuelveDesdeBD("nompais", "paises", "codpais", Text1(34).Text, "T")
         
-        Text1(25).Text = DBLet(Rs!Forpa, "T")
+        Text1(25).Text = DBLet(Rs!forpa, "T")
         If Text1(25).Text <> "" Then Text2(25).Text = DevuelveDesdeBD("nomforpa", "formapago", "codforpa", Text1(25).Text, "N")
             
     End If
@@ -5303,7 +5304,7 @@ Private Sub Combo1_Click(Index As Integer)
             Text1(27).Text = ""
             Text2(27).Text = ""
             Text1(28).Text = ""
-            Text1(30).Text = ""
+            Text1(35).Text = "" 'ponia 30
             Combo1(4).ListIndex = -1
             Combo1(2).ListIndex = 0
         End If

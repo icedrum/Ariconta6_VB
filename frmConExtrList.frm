@@ -888,7 +888,7 @@ Attribute frmC.VB_VarHelpID = -1
 Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 Dim IndCodigo As Integer
 Dim PrimeraVez As String
 
@@ -998,9 +998,9 @@ Private Sub Form_Load()
     'Otras opciones
     Me.Caption = "Extracto de Cuentas"
     lblProgre.Caption = ""
-    For I = 0 To 1
-        Me.imgCuentas(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To 1
+        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
     
     PrimeraVez = True
      
@@ -1253,18 +1253,18 @@ Dim Rs As ADODB.Recordset
                        
                        
                 cad = ""
-                For I = 0 To Rs.Fields.Count - 1
-                    cad = cad & ";""" & Rs.Fields(I).Name & """"
-                Next I
+                For i = 0 To Rs.Fields.Count - 1
+                    cad = cad & ";""" & Rs.Fields(i).Name & """"
+                Next i
                 Print #NF, Mid(cad, 2)
                     
             End If
  
             
             cad = ""
-            For I = 0 To Rs.Fields.Count - 1
-                cad = cad & ";""" & DBLet(Rs.Fields(I).Value, "T") & """"
-            Next I
+            For i = 0 To Rs.Fields.Count - 1
+                cad = cad & ";""" & DBLet(Rs.Fields(i).Value, "T") & """"
+            Next i
             Print #NF, Mid(cad, 2)
     
             Rs.MoveNext
@@ -1422,49 +1422,76 @@ Dim B As Boolean
     Sql = "delete from tmpconext where codusu = " & vUsu.Codigo
     Conn.Execute Sql
 
-    Sql = "select hlinapu.codmacta, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)), "
-    Sql = Sql & "cuentas.nommacta from hlinapu inner join cuentas on hlinapu.codmacta = cuentas.codmacta where (1=1) "
-            
-    If txtNIF.Text <> "" Then
-        Sql = Sql & " and cuentas.nifdatos = " & DBSet(txtNIF, "T")
-    End If
-            
-    If cadselect <> "" Then Sql = Sql & " and " & cadselect
-    
-    ' si esta marcada solo cuentas con movimientos en el ejercicio actual
-    If chkMovim.Value = 1 Then
-        Sql = Sql & " and hlinapu.codmacta in (select distinct codmacta from hlinapu where fechaent >= " & DBSet(vParam.fechaini, "F") & " and codconce < 900) "
-    End If
-            
-    Sql = Sql & " group by 1,4 "
-            
-    Select Case Combo2.ListIndex
-        Case 0 'Todas
-        
-        Case 1 'saldo <> 0
-            Sql = Sql & " having sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) <> 0"
-        Case 2 'saldo = 0
-            Sql = Sql & " having sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) = 0"
-    End Select
-
     B = True
 
-    Set Rs = New ADODB.Recordset
-    Screen.MousePointer = vbHourglass
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    While Not Rs.EOF And B
-        lblProgre.Caption = Rs!codmacta & " " & Rs!Nommacta
-        lblProgre.Refresh
-        B = (CargaDatosConExt(Rs!codmacta, txtFecha(0).Text, txtFecha(1).Text, cadselect, Rs.Fields(3).Value) = 0)
-   
-   
-        DoEvent2
-        If PararProceso Then B = False   'Parara el proceso
-        
-        Rs.MoveNext
-    Wend
+    Dim i As Integer
     
-    Set Rs = Nothing
+    For i = 1 To 10
+        lblProgre.Caption = i & " de " & 10
+        lblProgre.Refresh
+        
+        
+        'El grupo 4 es el mas "extenso"
+        J = 0
+        If i = 4 Or i = 6 Then J = 9
+           
+        For K = 0 To J
+            Sql = "select hlinapu.codmacta, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)), "
+            'Sql = Sql & "cuentas.nommacta from hlinapu inner join cuentas on hlinapu.codmacta = cuentas.codmacta where (1=1) "
+            'Sep2020
+            Sql = Sql & "cuentas.nommacta from hlinapu inner join cuentas on hlinapu.codmacta = cuentas.codmacta where "
+            If J > 1 Then
+                lblProgre.Caption = "leyendo BD " & K
+                lblProgre.Refresh
+                Sql = Sql & "hlinapu.codmacta like '" & IIf(i = 10, "0", i) & K & "%'"
+            Else
+                Sql = Sql & "hlinapu.codmacta like '" & IIf(i = 10, "0", i) & "%'"
+            End If
+            If txtNIF.Text <> "" Then Sql = Sql & " and cuentas.nifdatos = " & DBSet(txtNIF, "T")
+            If cadselect <> "" Then Sql = Sql & " and " & cadselect
+            
+            ' si esta marcada solo cuentas con movimientos en el ejercicio actual
+            If chkMovim.Value = 1 Then
+                Sql = Sql & " and hlinapu.codmacta in (select distinct codmacta from hlinapu where fechaent >= " & DBSet(vParam.fechaini, "F") & " and codconce < 900) "
+            End If
+                    
+            Sql = Sql & " group by 1,4 "
+                    
+            Select Case Combo2.ListIndex
+                Case 0 'Todas
+                
+                Case 1 'saldo <> 0
+                    Sql = Sql & " having sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) <> 0"
+                Case 2 'saldo = 0
+                    Sql = Sql & " having sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) = 0"
+            End Select
+        
+            
+        
+            Set Rs = New ADODB.Recordset
+            Screen.MousePointer = vbHourglass
+            Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            While Not Rs.EOF And B
+                lblProgre.Caption = Rs!codmacta & " " & Rs!Nommacta
+                lblProgre.Refresh
+                B = (CargaDatosConExt(Rs!codmacta, txtFecha(0).Text, txtFecha(1).Text, cadselect, Rs.Fields(3).Value) = 0)
+           
+           
+                DoEvent2
+                If PararProceso Then B = False
+                
+                If Not B Then
+                    i = 10
+                    K = 10
+                End If
+                
+                Rs.MoveNext
+            Wend
+            
+            Set Rs = Nothing
+        Next K
+    Next i
+    
     
     CargaTemporal2 = B
     Screen.MousePointer = vbDefault
@@ -1495,7 +1522,7 @@ Dim Rs3 As ADODB.Recordset
     Sql = "delete from tmpconext where codusu = " & vUsu.Codigo
     Conn.Execute Sql
             
-            
+    
     Sql = "insert into tmpconextcab (codusu, cta, acumperD, acumperH, cuenta) select " & vUsu.Codigo & ", hlinapu.codmacta, sum(coalesce(timported,0)), sum(coalesce(timporteh,0)), "
     Sql = Sql & "concat(hlinapu.codmacta, ' - ', cuentas.nommacta) from hlinapu inner join cuentas on hlinapu.codmacta = cuentas.codmacta where (1=1) "
             

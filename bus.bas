@@ -113,6 +113,8 @@ Public Const vbConfirmingCaixa = 1      ' "       LA CAIXA
 Public Const vbConfirmingSantander = 2  ' "   grupo santander
 Public Const vbSabadell = 3  ' "   grupo santander
 Public Const vbConfirmingRural = 4  ' "   Caixa rural
+Public Const vbCaixaPopular = 5  ' "   Caixa popular
+Public Const vbBancaMarch = 6  ' "   BANCA MARCH
 
 
 '++

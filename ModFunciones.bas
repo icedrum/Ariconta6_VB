@@ -210,7 +210,7 @@ End Function
 Private Function ValorParaSQL(Valor, ByRef vTag As CTag) As String
 Dim Dev As String
 Dim d As Single
-Dim i As Integer
+Dim I As Integer
 Dim v
     Dev = ""
     If Valor <> "" Then
@@ -465,7 +465,7 @@ Public Function PonerCamposForma(ByRef formulario As Form, ByRef vData As Adodc)
     Dim cad As String
     Dim Valor As Variant
     Dim Campo As String  'Campo en la base de datos
-    Dim i As Integer
+    Dim I As Integer
 
     Set mTag = New CTag
     PonerCamposForma = False
@@ -538,14 +538,14 @@ Public Function PonerCamposForma(ByRef formulario As Form, ByRef vData As Adodc)
                     Else
                         Valor = vData.Recordset.Fields(Campo)
                     End If
-                    i = 0
-                    For i = 0 To Control.ListCount - 1
-                        If Control.ItemData(i) = Val(Valor) Then
-                            Control.ListIndex = i
+                    I = 0
+                    For I = 0 To Control.ListCount - 1
+                        If Control.ItemData(I) = Val(Valor) Then
+                            Control.ListIndex = I
                             Exit For
                         End If
-                    Next i
-                    If i = Control.ListCount Then Control.ListIndex = -1
+                    Next I
+                    If I = Control.ListCount Then Control.ListIndex = -1
                 End If 'de cargado
             End If 'de <>""
         End If
@@ -564,7 +564,7 @@ Dim mTag As CTag
 Dim cad As String
 Dim Valor As Variant
 Dim Campo As String  'Campo en la base de datos
-Dim i As Integer
+Dim I As Integer
     On Error GoTo EPonerCamposForma2
     
     Set mTag = New CTag
@@ -632,14 +632,14 @@ Dim i As Integer
                     If mTag.Cargado Then
                         Campo = mTag.Columna
                         Valor = DBLet(vData.Recordset.Fields(Campo))
-                        i = 0
-                        For i = 0 To Control.ListCount - 1
-                            If Control.ItemData(i) = Val(Valor) Then
-                                Control.ListIndex = i
+                        I = 0
+                        For I = 0 To Control.ListCount - 1
+                            If Control.ItemData(I) = Val(Valor) Then
+                                Control.ListIndex = I
                                 Exit For
                             End If
-                        Next i
-                        If i = Control.ListCount Then Control.ListIndex = -1
+                        Next I
+                        If I = Control.ListCount Then Control.ListIndex = -1
                     End If 'de cargado
                 End If
             End If 'de <>""
@@ -1297,52 +1297,52 @@ End Sub
 'recupera valor desde una cadena con pipes(acabada en pipes)
 'Para ello le decimos el orden  y ya ta
 Public Function RecuperaValor(ByRef Cadena As String, Orden As Integer) As String
-Dim i As Integer
+Dim I As Integer
 Dim J As Integer
 Dim CONT As Integer
 Dim cad As String
 
-i = 0
+I = 0
 CONT = 1
 cad = ""
 Do
-    J = i + 1
-    i = InStr(J, Cadena, "|")
-    If i > 0 Then
+    J = I + 1
+    I = InStr(J, Cadena, "|")
+    If I > 0 Then
         If CONT = Orden Then
-            cad = Mid(Cadena, J, i - J)
-            i = Len(Cadena) 'Para salir del bucle
+            cad = Mid(Cadena, J, I - J)
+            I = Len(Cadena) 'Para salir del bucle
             Else
                 CONT = CONT + 1
         End If
     End If
-Loop Until i = 0
+Loop Until I = 0
 RecuperaValor = cad
 End Function
 
 'recupera valor desde una cadena con pipes(acabada en pipes)
 'Para ello le decimos el orden  y ya ta
 Public Function RecuperaValorNew(ByRef Cadena As String, Separador As String, Orden As Integer) As String
-Dim i As Integer
+Dim I As Integer
 Dim J As Integer
 Dim CONT As Integer
 Dim cad As String
 
-    i = 0
+    I = 0
     CONT = 1
     cad = ""
     Do
-        J = i + 1
-        i = InStr(J, Cadena, Separador)
-        If i > 0 Then
+        J = I + 1
+        I = InStr(J, Cadena, Separador)
+        If I > 0 Then
             If CONT = Orden Then
-                cad = Mid(Cadena, J, i - J)
-                i = Len(Cadena) 'Para salir del bucle
+                cad = Mid(Cadena, J, I - J)
+                I = Len(Cadena) 'Para salir del bucle
                 Else
                     CONT = CONT + 1
             End If
         End If
-    Loop Until i = 0
+    Loop Until I = 0
     RecuperaValorNew = cad
 End Function
 
@@ -1353,29 +1353,29 @@ End Function
 'recupera valor desde una cadena con pipes(acabada en pipes)
 'Para ello le decimos el orden  y ya ta
 Public Function InsertaValor(ByRef Cadena As String, Orden As Integer, SubCadena As String) As String
-Dim i As Integer
+Dim I As Integer
 Dim J As Integer
 Dim CONT As Integer
 Dim cad As String
 Dim Cad2 As String
-i = 0
+I = 0
 CONT = 1
 cad = ""
 Do
-    J = i + 1
-    i = InStr(J, Cadena, "|")
-    If i > 0 Then
+    J = I + 1
+    I = InStr(J, Cadena, "|")
+    If I > 0 Then
         If CONT = Orden Then
-            cad = Mid(Cadena, J, i - J)
+            cad = Mid(Cadena, J, I - J)
             
-            Cad2 = Mid(Cadena, 1, J - 1) & SubCadena & Mid(Cadena, i, Len(Cadena))
+            Cad2 = Mid(Cadena, 1, J - 1) & SubCadena & Mid(Cadena, I, Len(Cadena))
             
-            i = Len(Cadena) 'Para salir del bucle
+            I = Len(Cadena) 'Para salir del bucle
             Else
                 CONT = CONT + 1
         End If
     End If
-Loop Until i = 0
+Loop Until I = 0
 InsertaValor = Cad2
 End Function
 
@@ -1392,7 +1392,7 @@ End Function
 'Para ello en el tag del button tendremos k poner un numero k nos diara hasta k nivel esta permitido
 
 Public Sub PonerOpcionesMenuGeneral(ByRef formulario As Form)
-Dim i As Integer
+Dim I As Integer
 Dim J As Integer
 
 
@@ -1403,14 +1403,14 @@ On Error GoTo EPonerOpcionesMenuGeneral
 With formulario
 
     'LA TOOLBAR  .--> Requisito, k se llame toolbar1
-    For i = 1 To .Toolbar1.Buttons.Count
-        If .Toolbar1.Buttons(i).Tag <> "" Then
-            J = Val(.Toolbar1.Buttons(i).Tag)
+    For I = 1 To .Toolbar1.Buttons.Count
+        If .Toolbar1.Buttons(I).Tag <> "" Then
+            J = Val(.Toolbar1.Buttons(I).Tag)
             If J < vUsu.Nivel Then
-                .Toolbar1.Buttons(i).Enabled = False
+                .Toolbar1.Buttons(I).Enabled = False
             End If
         End If
-    Next i
+    Next I
     
     'Esto es un poco salvaje. Por si acaso , no existe en este trozo pondremos los errores on resume next
     
@@ -1447,7 +1447,7 @@ Dim mTag As CTag
 Dim Aux As String
 Dim cadwhere As String
 Dim cadUPDATE As String
-Dim i As Integer
+Dim I As Integer
 
 On Error GoTo EModificaDesdeFormulario
     ModificaDesdeFormularioClaves = False
@@ -1951,14 +1951,14 @@ End Sub
 'Devuelve la variable parafijar la altura donde empiezan los txtaux
 ' y cuadren con el datagrid
 Public Function FijarVariableAnc(ByRef DTGRD1 As DataGrid) As Single
-Dim i As Integer
+Dim I As Integer
 
     If DTGRD1.Row < 0 Then
-        i = 0
+        I = 0
         Else
-        i = DTGRD1.Row
+        I = DTGRD1.Row
     End If
-    FijarVariableAnc = DTGRD1.RowTop(i) + DTGRD1.top + 15
+    FijarVariableAnc = DTGRD1.RowTop(I) + DTGRD1.top + 15
     
 End Function
 
@@ -2182,16 +2182,16 @@ Error1:
 End Function
 
 Public Function ImporteFormateadoSingle(Importe As String) As Single
-Dim i As Integer
+Dim I As Integer
 
     If Importe = "" Then
         ImporteFormateadoSingle = 0
     Else
         'Primero quitamos los puntos
         Do
-            i = InStr(1, Importe, ".")
-            If i > 0 Then Importe = Mid(Importe, 1, i - 1) & Mid(Importe, i + 1)
-        Loop Until i = 0
+            I = InStr(1, Importe, ".")
+            If I > 0 Then Importe = Mid(Importe, 1, I - 1) & Mid(Importe, I + 1)
+        Loop Until I = 0
         ImporteFormateadoSingle = Importe
     End If
 End Function
@@ -2307,34 +2307,34 @@ End Function
 
 Public Sub SituarItemList(ByRef LView As ListView)
 'Subir el item seleccionado del listview una posicion
-Dim i As Byte, Item As Byte
+Dim I As Byte, Item As Byte
 Dim Aux As String
 On Error Resume Next
    
-    For i = 1 To LView.ListItems.Count
-        If LView.ListItems(i).ToolTipText = vUsu.CadenaConexion Then
-            LView.ListItems(i).Selected = True
-            LView.ListItems(i).Bold = True
-            LView.ListItems(i).ListSubItems(1).Bold = True
-            LView.ListItems(i).ListSubItems(2).Bold = True
-            LView.ListItems(i).EnsureVisible
+    For I = 1 To LView.ListItems.Count
+        If LView.ListItems(I).ToolTipText = vUsu.CadenaConexion Then
+            LView.ListItems(I).Selected = True
+            LView.ListItems(I).Bold = True
+            LView.ListItems(I).ListSubItems(1).Bold = True
+            LView.ListItems(I).ListSubItems(2).Bold = True
+            LView.ListItems(I).EnsureVisible
             Exit For
         End If
-    Next i
+    Next I
     LView.SetFocus
     If Err.Number <> 0 Then Err.Clear
 End Sub
 
 
 Public Function QuitarCaracterNULL(vCad As String) As String
-Dim i As Integer
+Dim I As Integer
 
     Do
-        i = InStr(1, vCad, vbNullChar)
-        If i > 0 Then 'Hay null
-            vCad = Mid(vCad, 1, i - 1) & Mid(vCad, i + 2)
+        I = InStr(1, vCad, vbNullChar)
+        If I > 0 Then 'Hay null
+            vCad = Mid(vCad, 1, I - 1) & Mid(vCad, I + 2)
         End If
-    Loop Until i = 0
+    Loop Until I = 0
     QuitarCaracterNULL = vCad
 End Function
 
@@ -2626,7 +2626,7 @@ Public Sub PonerLongCamposGnral(ByRef formulario As Form, Modo As Byte, Opcion A
 '(IN) formulario y Modo en que se encuentra el formulario
 '(IN) Opcion : 1 para los TEXT1, 3 para los txtAux
 
-    Dim i As Integer
+    Dim I As Integer
     
     On Error Resume Next
 
@@ -2634,46 +2634,46 @@ Public Sub PonerLongCamposGnral(ByRef formulario As Form, Modo As Byte, Opcion A
         If Modo = 1 Then 'BUSQUEDA
             Select Case Opcion
                 Case 1 'Para los TEXT1
-                    For i = 0 To .Text1.Count - 1
-                        With .Text1(i)
+                    For I = 0 To .Text1.Count - 1
+                        With .Text1(I)
                             If .MaxLength <> 0 Then
                                .HelpContextID = .MaxLength 'guardamos es maxlenth para reestablecerlo despues
                                 .MaxLength = 0 'tamaño infinito
                             End If
                         End With
-                    Next i
+                    Next I
                 
                 Case 3 'para los TXTAUX
-                    For i = 0 To .txtAux.Count - 1
-                        With .txtAux(i)
+                    For I = 0 To .txtAux.Count - 1
+                        With .txtAux(I)
                             If .MaxLength <> 0 Then
                                .HelpContextID = .MaxLength 'guardamos es maxlenth para reestablecerlo despues
                                 .MaxLength = 0 'tamaño infinito
                             End If
                         End With
-                    Next i
+                    Next I
             End Select
             
         Else 'resto de modos
             Select Case Opcion
                 Case 1 'par los Text1
-                    For i = 0 To .Text1.Count - 1
-                        With .Text1(i)
+                    For I = 0 To .Text1.Count - 1
+                        With .Text1(I)
                             If .HelpContextID <> 0 Then
                                 .MaxLength = .HelpContextID 'volvemos a poner el valor real del maxlenth
                                 .HelpContextID = 0
                             End If
                         End With
-                    Next i
+                    Next I
                 Case 3 'para los txtAux
-                    For i = 0 To .txtAux.Count - 1
-                        With .txtAux(i)
+                    For I = 0 To .txtAux.Count - 1
+                        With .txtAux(I)
                             If .HelpContextID <> 0 Then
                                 .MaxLength = .HelpContextID 'volvemos a poner el valor real del maxlenth
                                 .HelpContextID = 0
                             End If
                         End With
-                    Next i
+                    Next I
             End Select
         End If
     End With
@@ -2957,7 +2957,7 @@ Public Function PonerFormatoDecimal(ByRef T As TextBox, tipoF As Single) As Bool
 Dim Valor As Double
 Dim PEntera As Currency
 Dim NoOK As Boolean
-Dim i As Byte
+Dim I As Byte
 Dim cadEnt As String
 'Dim mTas As CTag
 
@@ -2975,8 +2975,8 @@ Dim cadEnt As String
             Valor = ImporteFormateado(.Text)
         Else
             cadEnt = .Text
-            i = InStr(1, cadEnt, ".")
-            If i > 0 Then cadEnt = Mid(cadEnt, 1, i - 1)
+            I = InStr(1, cadEnt, ".")
+            If I > 0 Then cadEnt = Mid(cadEnt, 1, I - 1)
             If tipoF = 1 And Len(cadEnt) > 10 Then
                 MsgBox "El valor no puede ser mayor de 9999999999,99", vbExclamation
                 NoOK = True
@@ -3127,7 +3127,9 @@ On Error Resume Next
 End Sub
 
 Public Sub IncrementarProgres(ByRef PBar As ProgressBar, Veces As Integer)
+
 On Error Resume Next
+    
     PBar.Value = PBar.Value + ((Veces * PBar.Max) / CInt(PBar.Tag))
     If Err.Number <> 0 Then Err.Clear
 End Sub
@@ -3148,7 +3150,7 @@ End Function
 
 Public Function ComprobarContabilizacionFrasCliProv(Escliente As Boolean, NumConta As Integer, Optional DetenerProceso As Boolean) As Boolean
 Dim Sql As String
-Dim Nregs As Long
+Dim NRegs As Long
 Dim Rs As ADODB.Recordset
 Dim vCadena As String
     
@@ -3174,7 +3176,7 @@ Dim vCadena As String
             vCadena = "Facturas de Proveedor sin Nro.Asiento:" & vbCrLf & vbCrLf
         End If
         
-        Nregs = 1
+        NRegs = 1
         While Not Rs.EOF
             If Escliente Then
                 vCadena = vCadena & "Fra. " & DBLet(Rs!NUmSerie) & " " & Format(DBLet(Rs!numfactu), "0000000") & " " & DBLet(Rs!FecFactu, "F")
@@ -3183,13 +3185,13 @@ Dim vCadena As String
             
             End If
             
-            If (Nregs Mod 2) = 0 Then
+            If (NRegs Mod 2) = 0 Then
                 vCadena = vCadena & vbCrLf
             Else
                 vCadena = vCadena & "  "
             End If
             
-            Nregs = Nregs + 1
+            NRegs = NRegs + 1
             
             Rs.MoveNext
         Wend
@@ -3369,7 +3371,7 @@ Public Sub CargarCombo_Tabla(ByRef Cbo As ComboBox, NomTabla As String, NomCodig
 '(IN) ItemNulo: si es true se añade el primer item con linea en blanco
 Dim Sql As String
 Dim Rs As ADODB.Recordset
-Dim i As Integer
+Dim I As Integer
 
     On Error GoTo ErrCombo
     
@@ -3407,11 +3409,11 @@ Dim i As Integer
             '- si el codigo NomCodigo en alfanumerico no se puede cargar
             '- el codigo en ItemData y cargamos un indice ficticio
             '- y en el List el campo codigo NomCodigo
-            i = 1
+            I = 1
             While Not Rs.EOF
               Cbo.AddItem Rs.Fields(0).Value 'campo del codigo
-              Cbo.ItemData(Cbo.NewIndex) = i
-              i = i + 1
+              Cbo.ItemData(Cbo.NewIndex) = I
+              I = I + 1
               Rs.MoveNext
             Wend
         End If
