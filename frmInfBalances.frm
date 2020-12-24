@@ -25,7 +25,7 @@ Begin VB.Form frmInfBalances
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   5595
+      Height          =   5715
       Left            =   7110
       TabIndex        =   22
       Top             =   0
@@ -118,6 +118,23 @@ Begin VB.Form frmInfBalances
             EndProperty
          EndProperty
       End
+      Begin VB.Label lblInd 
+         Caption         =   "indicador"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   120
+         TabIndex        =   36
+         Top             =   5400
+         Width           =   4095
+      End
       Begin VB.Label Label3 
          Caption         =   "Fecha"
          BeginProperty Font 
@@ -183,7 +200,7 @@ Begin VB.Form frmInfBalances
       End
       Begin VB.Frame Frame2 
          BorderStyle     =   0  'None
-         Height          =   555
+         Height          =   630
          Left            =   120
          TabIndex        =   34
          Top             =   2250
@@ -692,7 +709,7 @@ Private frmCtas As frmCtasAgrupadas
 Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim i As Integer
+Dim I As Integer
 Dim IndCodigo As Integer
 Dim PrimeraVez As String
 Dim Rs As ADODB.Recordset
@@ -788,13 +805,13 @@ Dim F As Date
         
         'Si estasmos en jereccio actual o POSTERIOR, si la 129 (ctaperga ) tiene saldo AVISAMOS
         If Saldo6y7en129 Then
-            i = Val(cmbFecha(2).Text) 'año
+            I = Val(cmbFecha(2).Text) 'año
             If Me.chkBalPerCompa.Value Then
                 'Comparativo
-                If i < Val(cmbFecha(3).Text) Then i = Val(cmbFecha(3).Text)
+                If I < Val(cmbFecha(3).Text) Then I = Val(cmbFecha(3).Text)
                 
             End If
-            FechaIncioEjercicio = Format(vParam.fechaini, "dd/mm/") & CStr(i)
+            FechaIncioEjercicio = Format(vParam.fechaini, "dd/mm/") & CStr(I)
             If FechaIncioEjercicio >= vParam.fechaini Then
                 'Esta en ejerccio actual y siguiente"
                 cad = "fechaent>=" & DBSet(vParam.fechaini, "F") & " AND codmacta = '" & vParam.ctaperga & "' AND 1 "
@@ -823,11 +840,11 @@ Dim F As Date
 
 
     Screen.MousePointer = vbHourglass
-    i = -1
+    I = -1
     If chkBalPerCompa.Value = 1 Then
-        i = Val(cmbFecha(1).ListIndex)
-        i = i + 1
-        If i = 0 Then i = -1
+        I = Val(cmbFecha(1).ListIndex)
+        I = I + 1
+        If I = 0 Then I = -1
     End If
     
     
@@ -836,7 +853,7 @@ Dim F As Date
     
     
     
-    GeneraDatosBalanceConfigurable CInt(txtBalan(0).Text), Me.cmbFecha(0).ListIndex + 1, CInt(cmbFecha(2).Text), i, Val(cmbFecha(3).Text), False, -1, pb2, chkSoloMes.Value = 1
+    GeneraDatosBalanceConfigurable_ CInt(txtBalan(0).Text), Me.cmbFecha(0).ListIndex + 1, CInt(cmbFecha(2).Text), I, Val(cmbFecha(3).Text), False, -1, pb2, chkSoloMes.Value = 1, lblInd
 
 '
 
@@ -874,6 +891,7 @@ Dim F As Date
     If Legalizacion <> "" Then
         CadenaDesdeOtroForm = "OK"
     End If
+    lblInd.Caption = ""
     Screen.MousePointer = vbDefault
 End Sub
 
@@ -1015,7 +1033,7 @@ Private Sub Form_Load()
         
         cmbFecha(0).ListIndex = Month(CDate(RecuperaValor(Legalizacion, 3))) - 1
     End If
-    
+    lblInd.Caption = ""
 End Sub
 
 Private Sub PonerBalancePredeterminado()
@@ -1324,15 +1342,15 @@ Dim mesFinEjercicio As Boolean
     End If
     'Julio 2020
     'Si es años aprtidos, pintaresmos como año el de INICIO de ejercicio
-    i = 0
+    I = 0
     If Month(vParam.fechaini) > 1 Then
-        If Month(vParam.fechaini) > (cmbFecha(0).ListIndex + 1) Then i = 1
+        If Month(vParam.fechaini) > (cmbFecha(0).ListIndex + 1) Then I = 1
     End If
     
     If Me.chkBalPerCompa.Value = 1 Then
-        RC = RC & " " & Val(cmbFecha(2).Text) - i   ''Julio 2020  NO estaba
+        RC = RC & " " & Val(cmbFecha(2).Text) - I   ''Julio 2020  NO estaba
     Else
-        RC = RC & " " & cmbFecha(2).Text - i 'txtAno(0).Text
+        RC = RC & " " & cmbFecha(2).Text - I 'txtAno(0).Text
     End If
     RC = "fec1= """ & RC & """|"
     Sql = Sql & RC
@@ -1358,7 +1376,7 @@ Dim mesFinEjercicio As Boolean
             
             
             
-            RC = RC & " " & Val(cmbFecha(3).Text) - i 'JULIO2020
+            RC = RC & " " & Val(cmbFecha(3).Text) - I 'JULIO2020
             
             RC = "Fec2= """ & RC & """|"
             Sql = Sql & RC
@@ -1483,8 +1501,8 @@ L = 1
 Do
     cad = RecuperaValor(Lista, L)
     If cad <> "" Then
-        i = Val(cad)
-        With cmbFecha(i)
+        I = Val(cad)
+        With cmbFecha(I)
             .Clear
             For CONT = 1 To 12
                 RC = "25/" & CONT & "/2002"
@@ -1510,9 +1528,9 @@ Dim J As Integer
     cmbFecha(3).Clear
     
     J = Year(vParam.fechafin) + 1 - 2000
-    For i = 1 To J
-        cmbFecha(2).AddItem "20" & Format(i, "00")
-        cmbFecha(3).AddItem "20" & Format(i, "00")
-    Next i
+    For I = 1 To J
+        cmbFecha(2).AddItem "20" & Format(I, "00")
+        cmbFecha(3).AddItem "20" & Format(I, "00")
+    Next I
 
 End Sub

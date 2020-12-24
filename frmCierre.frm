@@ -2360,7 +2360,7 @@ Dim Ok As Boolean
         Sql = ""
         
         
-        pb1.visible = True
+        Pb1.visible = True
         Label2.Caption = ""
         'Ocultanmos el del fondo , para que no pegue pantallazos
         Me.Hide
@@ -2379,7 +2379,7 @@ Dim Ok As Boolean
         
         
         
-        pb1.visible = False
+        Pb1.visible = False
         Screen.MousePointer = vbDefault
     End If
     
@@ -2609,7 +2609,7 @@ Case 0
     H = fRenumeracion.Height
     W = fRenumeracion.Width
     Label2.Caption = ""
-    pb1.visible = False
+    Pb1.visible = False
     Caption = "Renumeración de asientos"
     
     
@@ -2785,8 +2785,8 @@ Dim RA As Recordset
           'progressbar
           Label2.Caption = NumeroAntiguo & " / " & RA.Fields(1)
           Label2.Refresh
-          I = Int((MaxAsiento / NumeroRegistros) * pb1.Max)
-          pb1.Value = I
+          I = Int((MaxAsiento / NumeroRegistros) * Pb1.Max)
+          Pb1.Value = I
           DoEvent2
           
         
@@ -2890,19 +2890,19 @@ On Error GoTo EPreparacionAsientos
     cad = " Set NumASien = NumASien + " & Suma
     cad = cad & " WHERE numasien>0 AND " & Sql
     
-    pb1.Max = 6
+    Pb1.Max = 6
     
     'Facturas clientes
     Label2.Caption = "Facturas clientes"
     Label2.Refresh
-    pb1.Value = 1
+    Pb1.Value = 1
     Sql = "UPDATE factcli" & cad
     Conn.Execute Sql
     
     'Facturas proveedores
     Label2.Caption = "Facturas proveedores"
     Label2.Refresh
-    pb1.Value = 2
+    Pb1.Value = 2
     Sql = "UPDATE factpro" & cad
     Conn.Execute Sql
     
@@ -2912,7 +2912,7 @@ On Error GoTo EPreparacionAsientos
     'Lineas hco asiento
     Label2.Caption = "Lineas asientos"
     Label2.Refresh
-    pb1.Value = 3
+    Pb1.Value = 3
     Sql = CadenaFechasActuralSiguiente(Option1(0).Value)
     Sql = "Select distinct(numasien) from hlinapu WHERE " & Sql
     Set Rs = New ADODB.Recordset
@@ -2929,27 +2929,27 @@ On Error GoTo EPreparacionAsientos
     'ASientos
     Label2.Caption = "Cabeceras asientos"
     Label2.Refresh
-    pb1.Value = 4
+    Pb1.Value = 4
     Sql = "UPDATE hcabapu " & cad
     Conn.Execute Sql
     
     'asientos ficheros
     Label2.Caption = "Líneas asientos ficheros"
     Label2.Refresh
-    pb1.Value = 5
+    Pb1.Value = 5
     Sql = "UPDATE hcabapu_fichdocs " & cad
     Conn.Execute Sql
     
     'Liquidaciones de Iva
     Label2.Caption = "Liquidaciones IVA"
     Label2.Refresh
-    pb1.Value = 6
+    Pb1.Value = 6
     Sql = "UPDATE liqiva " & cad
     Conn.Execute Sql
     
     Conn.Execute "set foreign_key_checks = 1"
     
-    pb1.Max = 1000
+    Pb1.Max = 1000
     PreparacionAsientos = True
     Exit Function
 
@@ -3411,12 +3411,12 @@ On Error GoTo ECuentas6y7
     'Para todas las cuentas de los grupos 6 y 7  ----> Vienen en parametros
     ' calculamos su saldo y si es distinto de 0 lo insertamos en hlinapu
     MaxAsiento = 1
-    If vParam.grupogto <> "" Then
-        If Not Subgrupo(vParam.grupogto, "") Then Exit Function
+    If vParam.GrupoGto <> "" Then
+        If Not Subgrupo(vParam.GrupoGto, "") Then Exit Function
     End If
     
-    If vParam.grupovta <> "" Then
-        If Not Subgrupo(vParam.grupovta, "") Then Exit Function
+    If vParam.GrupoVta <> "" Then
+        If Not Subgrupo(vParam.GrupoVta, "") Then Exit Function
     End If
         
         
@@ -3443,8 +3443,8 @@ On Error GoTo ECuentas9
     
     'Para todas las cuentas de los grupos 6 y 7  ----> Vienen en parametros
     ' calculamos su saldo y si es distinto de 0 lo insertamos en hlinapu
-    If vParam.grupoord <> "" And Text1(10).Text <> "" Then
-        If Not Subgrupo(vParam.grupoord, Text1(10).Text) Then Exit Function
+    If vParam.GrupoOrd <> "" And Text1(10).Text <> "" Then
+        If Not Subgrupo(vParam.GrupoOrd, Text1(10).Text) Then Exit Function
     End If
     
 
@@ -3697,8 +3697,8 @@ Dim F As Date
     
         Label3.Caption = Rs.Fields(1)
         Label3.Refresh
-        I = Int((CONT / NumeroRegistros) * pb1.Max)
-        pb1.Value = I
+        I = Int((CONT / NumeroRegistros) * Pb1.Max)
+        Pb1.Value = I
         Importe = Rs.Fields(0)
         If Importe <> 0 Then
             If Opcion = 4 Then
@@ -3913,6 +3913,27 @@ On Error GoTo EHacerElCierre
         Sql = "UPDATE contadores SET contado2 = 1 WHERE tiporegi='0'"
         Conn.Execute Sql
         
+        
+        'Diciembre 2020
+        If Year(vParam.fechaini) <> Year(vParam.fechafin) Then
+            I = Year(vParam.fechafin)
+            cad = ""
+            If I >= 2010 Then
+                    I = I - 2000
+                    If I >= 10 And I < 100 Then cad = "OK"
+            
+            End If
+            If cad = "" Then
+                MsgBoxA "****    REVISE CONTADORES FACTURAS PROVEEDOR     *****", vbCritical
+            Else
+            
+                Sql = I & "00000"
+                
+                Sql = "UPDATE contadores SET contado2 = " & Sql & " WHERE tiporegi='1'"
+                If Not EjecutaSQL(Sql) Then MsgBox "Error updateando contador proveeedores: " & vbCrLf & Sql, vbExclamation
+            End If
+        End If
+        
     End If
     
     HacerElCierre = True
@@ -4032,13 +4053,13 @@ Dim F As Date
     
     'Y si es simulacion, enonces borramos las cuentas de perdidas ganancias
     If Opcion = 4 Then
-        Sql = "Delete from tmpcierre where cta like '" & vParam.grupogto & "%'"
-        Sql = Sql & " OR  cta like '" & vParam.grupovta & "%'"
+        Sql = "Delete from tmpcierre where cta like '" & vParam.GrupoGto & "%'"
+        Sql = Sql & " OR  cta like '" & vParam.GrupoVta & "%'"
         Conn.Execute Sql
         
             
-        If vParam.grupoord <> "" Then
-            Sql = "Delete from tmpcierre where cta like '" & vParam.grupoord & "%'"
+        If vParam.GrupoOrd <> "" Then
+            Sql = "Delete from tmpcierre where cta like '" & vParam.GrupoOrd & "%'"
             'Excepcion
             If Text1(10).Text <> "" Then Sql = Sql & " AND not (cta like '" & Text1(10).Text & "%')"
             Conn.Execute Sql
@@ -4712,7 +4733,7 @@ Dim B As Boolean
         'Si tiene el otro grupo de perdidas y ganacias entonces
         'tenemos k solicitar la excepcion a digitos de tercer nivel
         'ofertando el de parametros
-        B = (vParam.grupoord <> "") And (vParam.Automocion <> "")
+        B = (vParam.GrupoOrd <> "") And (vParam.Automocion <> "")
         Label5(13).visible = B
         Text1(10).visible = B
         If B Then Text1(10).Text = vParam.Automocion
@@ -4953,8 +4974,8 @@ Dim CONT As Long
         Label3.Caption = Rs!Cta & " - " & Rs!nomcta
         Label3.Refresh
         CONT = CONT + 1
-        I = Int((CONT / NumeroRegistros) * pb1.Max)
-        pb1.Value = I
+        I = Int((CONT / NumeroRegistros) * Pb1.Max)
+        Pb1.Value = I
         
         
         

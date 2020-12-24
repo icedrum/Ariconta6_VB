@@ -282,6 +282,7 @@ Form=frmFVARInformes.frm
 Form=frmFVARReimpresion.frm
 Form=frmFVARFacturasPrev.frm
 Form=frmTESInfSituacionCta.frm
+Form=frmDesbloqueoMYSQL.frm
 IconForm="frmppal"
 Startup="Sub Main"
 HelpFile=""

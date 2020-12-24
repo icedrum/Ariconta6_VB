@@ -2188,10 +2188,8 @@ End Sub
 
 
 Private Sub frmBan_DatoSeleccionado(CadenaSeleccion As String)
-    If CadenaSeleccion <> "" Then
-        txtCuentas(2).Text = RecuperaValor(CadenaSeleccion, 1)
-        txtNCuentas(2).Text = RecuperaValor(CadenaSeleccion, 2)
-    End If
+    If CadenaSeleccion <> "" Then Sql = CadenaSeleccion
+        
 End Sub
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
@@ -2296,12 +2294,15 @@ End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
     
-    If Index = 2 Then
-            Set frmBan = New frmBasico2
-            AyudaBanco frmBan
-            Set frmBan = Nothing
-    
-    
+    If Index = 2 Or Index = 3 Then
+        Sql = ""
+        Set frmBan = New frmBasico2
+        AyudaBanco frmBan
+        Set frmBan = Nothing
+        If Sql <> "" Then
+            txtCuentas(Index).Text = RecuperaValor(Sql, 1)
+            txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
+        End If
     Else
         Sql = ""
         AbiertoOtroFormEnListado = True
@@ -2617,7 +2618,7 @@ Dim NumLinea As Integer
         Sql = Sql & ", siturem = " & ValorNulo
         Sql = Sql & ", situacion = 0 "
         Sql = Sql & " where numserie = " & DBSet(Rs!NUmSerie, "T") & " and "
-        Sql = Sql & " numfactu = " & DBSet(Rs!NumFactu, "N") & " and fecfactu = " & DBSet(Rs!FecFactu, "F") & " and "
+        Sql = Sql & " numfactu = " & DBSet(Rs!numfactu, "N") & " and fecfactu = " & DBSet(Rs!FecFactu, "F") & " and "
         Sql = Sql & " numorden = " & DBSet(Rs!numorden, "N")
                     
         Conn.Execute Sql
@@ -3210,7 +3211,7 @@ Dim Icono As Integer
         End If
         Set IT = lwCobros2.ListItems.Add()
         IT.Text = miRsAux!NUmSerie
-        IT.SubItems(1) = Format(miRsAux!NumFactu, "0000000")
+        IT.SubItems(1) = Format(miRsAux!numfactu, "0000000")
        
         IT.SubItems(2) = Format(miRsAux!FecFactu, "dd/mm/yyyy")
         IT.SubItems(3) = miRsAux!numorden
@@ -3325,7 +3326,7 @@ Dim Icono As Integer
         
         
         'Para las ordenaciones
-        Cad3 = Mid(miRsAux!NUmSerie & "  ", 1, 3) & Format(miRsAux!NumFactu, "0000000")
+        Cad3 = Mid(miRsAux!NUmSerie & "  ", 1, 3) & Format(miRsAux!numfactu, "0000000")
         IT.SubItems(8) = Cad3
         IT.SubItems(9) = Format(miRsAux!FecFactu, "yyyymmdd") & Cad3
         IT.SubItems(10) = Format(miRsAux!FecVenci, "yyyymmdd") & Cad3
@@ -3530,7 +3531,7 @@ End Function
 
 Private Sub NuevaRem()
 
-Dim Forpa As String
+Dim forpa As String
 Dim cad As String
 Dim Impor As Currency
 Dim colCtas As Collection
@@ -3695,7 +3696,7 @@ Dim Sql2 As String
             Set colCtas = New Collection
             While Not Rs.EOF
                 If I < 15 Then
-                    cad = cad & vbCrLf & Rs!codmacta & " " & Rs!Nommacta & "  " & Rs!NUmSerie & Format(Rs!NumFactu, "000000") & "   -> " & Format(Rs!ImpVenci, FormatoImporte)
+                    cad = cad & vbCrLf & Rs!codmacta & " " & Rs!Nommacta & "  " & Rs!NUmSerie & Format(Rs!numfactu, "000000") & "   -> " & Format(Rs!ImpVenci, FormatoImporte)
                 End If
                 I = I + 1
                 colCtas.Add CStr(Rs!codmacta)
@@ -3952,14 +3953,27 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
         Case 0, 1, 2, 3 'cuentas
             Cta = (txtCuentas(Index).Text)
                                    '********
-            If Index = 2 Then
+            If Index = 2 Or Index = 3 Then
                  B = CuentaCorrectaUltimoNivel(Cta, Sql)
             Else
                  B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
             End If
            
+            If B And (Index = 2 Or Index = 3) Then
+                'Bancos
+                Cta = DevuelveDesdeBD("codmacta", "bancos", "codmacta", Cta, "T")
+                If Cta = "" Then
+                   Sql = "No es una cuenta en bancos: " & txtCuentas(Index).Text & "  - " & Sql
+                   B = False
+                End If
+            End If
+           
+           
+           
+           
+           
             If Not B Then
-                MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
+                MsgBox Sql, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
                 PonleFoco txtCuentas(Index)

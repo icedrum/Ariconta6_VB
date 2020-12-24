@@ -30,6 +30,24 @@ Begin VB.Form frmInmoEltoList
       TabIndex        =   21
       Top             =   0
       Width           =   4455
+      Begin VB.CheckBox CheckCc 
+         Caption         =   "Centro coste"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   2400
+         TabIndex        =   49
+         Top             =   3360
+         Visible         =   0   'False
+         Width           =   1845
+      End
       Begin VB.CheckBox Check2 
          Caption         =   "Agrupa sección"
          BeginProperty Font 
@@ -45,7 +63,7 @@ Begin VB.Form frmInmoEltoList
          Left            =   240
          TabIndex        =   41
          Top             =   3360
-         Width           =   3405
+         Width           =   1965
       End
       Begin VB.ComboBox cboSubvencion 
          BeginProperty Font 
@@ -993,7 +1011,7 @@ Attribute frmEle.VB_VarHelpID = -1
 Private WithEvents frmSec As frmInmoSeccion
 Attribute frmSec.VB_VarHelpID = -1
 
-Private sql As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
 Dim I As Integer
@@ -1019,6 +1037,15 @@ Public Sub InicializarVbles(AñadireElDeEmpresa As Boolean)
 End Sub
 
 
+
+Private Sub Check2_Click()
+    CheckCc.Value = IIf(Check2.Value = 1, 0, 1)
+End Sub
+
+Private Sub CheckCc_Click()
+   
+    Check2.Value = IIf(CheckCc.Value = 1, 0, 1)
+End Sub
 
 Private Sub chkSaltoPag_Click()
     Me.Check1.Enabled = (chkSaltoPag.Value = 0)
@@ -1099,16 +1126,17 @@ Private Sub Form_Load()
     cad = "select codubiin,nomubiin FROM inmovubicacion ORDER BY 1"
     CargaListviewCodigoDescripcion Me.ListView1(1), cad, True, 20
 
+    If vParam.autocoste Then CheckCc.visible = True
     
     
 End Sub
 
 Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
-    sql = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub frmSec_DatoSeleccionado(CadenaSeleccion As String)
-    sql = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
@@ -1117,15 +1145,15 @@ End Sub
 
 Private Sub imgConcepto_Click(Index As Integer)
     
-    sql = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     Set frmCon = New frmInmoConceptos
     frmCon.DatosADevolverBusqueda = True
     frmCon.Show vbModal
     Set frmCon = Nothing
-    If sql <> "" Then
-        Me.txtConcepto(Index).Text = RecuperaValor(sql, 1)
-        Me.txtNConcepto(Index).Text = RecuperaValor(sql, 2)
+    If Sql <> "" Then
+        Me.txtConcepto(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNConcepto(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtConcepto(Index)
     End If
@@ -1136,12 +1164,12 @@ Private Sub imgConcepto_Click(Index As Integer)
 End Sub
 
 Private Sub frmEle_DatoSeleccionado(CadenaSeleccion As String)
-    sql = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub imgElemento_Click(Index As Integer)
     
-    sql = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     
     
@@ -1161,9 +1189,9 @@ Private Sub imgElemento_Click(Index As Integer)
     
     End If
     
-    If sql <> "" Then
-        Me.txtElemento(Index).Text = RecuperaValor(sql, 1)
-        Me.txtNElemento(Index).Text = RecuperaValor(sql, 2)
+    If Sql <> "" Then
+        Me.txtElemento(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNElemento(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtElemento(Index)
     End If
@@ -1260,7 +1288,7 @@ Private Sub txtElemento_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim sql As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtElemento(Index).Text = Trim(txtElemento(Index).Text)
@@ -1282,15 +1310,15 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    sql = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta,inmovele.valoradq ValorAdquisicion ,inmovele.fechaadq FechaAdquisicion, inmovele_his.fechainm FechaAmortizacion, inmovele_his.imporinm ImporteAmortizacion, inmovele_his.porcinm PorcentajeAmortizacion "
-    sql = sql & " FROM (inmovele inner join inmovele_his on inmovele.codinmov = inmovele_his.codinmov) "
+    Sql = "Select inmovele.codinmov Código,inmovele.nominmov Descripcion,inmovele.codmact1 Cuenta,inmovele.valoradq ValorAdquisicion ,inmovele.fechaadq FechaAdquisicion, inmovele_his.fechainm FechaAmortizacion, inmovele_his.imporinm ImporteAmortizacion, inmovele_his.porcinm PorcentajeAmortizacion "
+    Sql = Sql & " FROM (inmovele inner join inmovele_his on inmovele.codinmov = inmovele_his.codinmov) "
     
-    If cadselect <> "" Then sql = sql & " WHERE " & cadselect
+    If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
     
-    sql = sql & " ORDER BY 1,2,5" ' ordenado por codigo y por fecha de inmovilizado
+    Sql = Sql & " ORDER BY 1,2,5" ' ordenado por codigo y por fecha de inmovilizado
         
     'LLamos a la funcion
-    GeneraFicheroCSV sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1298,17 +1326,23 @@ End Sub
 Private Sub AccionesCrystal()
 Dim indRPT As String
 Dim nomDocu As String
-Dim CADENA As String
+Dim Cadena As String
 
     vMostrarTree = False
     conSubRPT = False
         
-    
-    'indRPT = "0503-00"
-    'If Check1.Value Then indRPT = "0503-01" ' resumido
-    indRPT = IIf(Check2.Value = 1, "0503-02", "0503-00")
-    If Check1.Value Then indRPT = IIf(Check2.Value = 1, "0503-03", "0503-01")
-    
+    If Check2.Value Then
+        indRPT = "0503-02"
+        If Check1.Value Then indRPT = "0503-03"
+    ElseIf Me.CheckCc.Value Then
+        'Coste
+        indRPT = "0503-04"
+        If Check1.Value Then indRPT = "0503-05"
+    Else
+        'por defecto
+        indRPT = "0503-00"
+        If Check1.Value Then indRPT = "0503-01"
+    End If
     
     
     
@@ -1323,25 +1357,22 @@ Dim CADENA As String
     End If
 
     ' tipos de elementos
-    CADENA = ""
-    If Me.ChkTipo(1).Value = 1 Then CADENA = CADENA & "Activo,"
-    If Me.ChkTipo(2).Value = 1 Then CADENA = CADENA & "Baja,"
-    If Me.ChkTipo(3).Value = 1 Then CADENA = CADENA & "Vendido,"
-    If Me.ChkTipo(4).Value = 1 Then CADENA = CADENA & "Amort.,"
+    Cadena = ""
+    If Me.ChkTipo(1).Value = 1 Then Cadena = Cadena & "Activo,"
+    If Me.ChkTipo(2).Value = 1 Then Cadena = Cadena & "Baja,"
+    If Me.ChkTipo(3).Value = 1 Then Cadena = Cadena & "Vendido,"
+    If Me.ChkTipo(4).Value = 1 Then Cadena = Cadena & "Amort.,"
     
     
-    
-    
-    
-    If CADENA <> "" Then
-        CADENA = Mid(CADENA, 1, Len(CADENA) - 1)
-        If CADENA <> "" Then CADENA = "Situacion: " & CADENA
+    If Cadena <> "" Then
+        Cadena = Mid(Cadena, 1, Len(Cadena) - 1)
+        If Cadena <> "" Then Cadena = "Situacion: " & Cadena
     End If
     If Me.cboSubvencion.ListIndex > 0 Then
-        If CADENA <> "" Then CADENA = CADENA & "       "
-        CADENA = CADENA & "       " & Me.lblSubnvecnion.Caption & ": " & cboSubvencion.Text
+        If Cadena <> "" Then Cadena = Cadena & "       "
+        Cadena = Cadena & "       " & Me.lblSubnvecnion.Caption & ": " & cboSubvencion.Text
     End If
-    cadParam = cadParam & "pTipo=""" & CADENA & """|"
+    cadParam = cadParam & "pTipo=""" & Cadena & """|"
     numParam = numParam + 1
 
     ImprimeGeneral
@@ -1356,7 +1387,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim sql As String
+Dim Sql As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -1437,19 +1468,29 @@ End Sub
 
 Private Function DatosOK() As Boolean
 Dim I As Integer
-Dim CADENA As String
+Dim Cadena As String
 
     DatosOK = False
     
-    CADENA = ""
+    Cadena = ""
     For I = 1 To 4
-        If ChkTipo(I).Value Then CADENA = CADENA & I
+        If ChkTipo(I).Value Then Cadena = Cadena & I
     Next I
     
-    If CADENA = "" Then
+    
+    If Cadena = "" Then
         MsgBox "Debe de introducir algún tipo de elemento. Revise.", vbExclamation
         DatosOK = False
         Exit Function
+    End If
+    
+    If vParam.autocoste Then
+        
+        If Check2.Value = 1 And CheckCc.Value = 1 Then
+            MsgBox "Seleccion o seccion o centro de coste. Revise.", vbExclamation
+            DatosOK = False
+            Exit Function
+        End If
     End If
     
     DatosOK = True

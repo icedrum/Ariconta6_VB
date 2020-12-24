@@ -6,8 +6,8 @@ Option Explicit
 
 '********************************************************
 '  0 No tiene     1 Clientes     2 Proveedores   3 Ambos
-' HayQueReaalizarComprobacionesEnviadas
-'   .> para que vuelva a comproabar por si alguna no logro saber su estado en el ultimo reenvio
+''
+'
 Private Function TieneFacturasPendientesSubirSII() As Byte
 Dim cad As String
 Dim F As Date
@@ -30,10 +30,11 @@ Dim FIncio As Date
     FIncio = vParam.SIIFechaInicio
     If vParam.fechaini > FIncio Then FIncio = vParam.fechaini
         
-    'incio fecha sii
+    Aux = "0"
     
-    C2 = "select count(*) From factcli  left join aswsii.envio_facturas_emitidas"
-    C2 = C2 & " on factcli.SII_ID = envio_facturas_emitidas.IDEnvioFacturasEmitidas where "
+    'Dividimos el proceso en ir a FACTCLI, y a FACTPRO con NULL
+    ' y luego ir a buscar erroers
+    C2 = "select count(*) From factcli  WHERE "
     If vParam.SII_Periodo_DesdeLiq Then
         C2 = C2 & " fecliqcl >=" & DBSet(FIncio, "F")
         C2 = C2 & " AND fecliqcl <= " & DBSet(F, "F")
@@ -41,23 +42,76 @@ Dim FIncio As Date
         C2 = C2 & " fecfactu >=" & DBSet(FIncio, "F")
         C2 = C2 & " AND fecfactu <= " & DBSet(F, "F")
     End If
-    
-    'Noviembre 2020
-    C2 = C2 & " AND REG_FE_FA_IDFA_FechaExpedicionFacturaEmisor>=" & DBSet(vParam.fechaini, "F")
-    
-    
-    C2 = C2 & " and (csv is null or resultado='AceptadoConErrores')"
-    
-    Aux = ""
+    C2 = C2 & " AND sii_id is null"
     RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not RN.EOF Then
         If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
     End If
     RN.Close
-    If Val(Aux) > 0 Then TieneFacturasPendientesSubirSII = TieneFacturasPendientesSubirSII + 1
+    If Val(Aux) > 0 Then TieneFacturasPendientesSubirSII = 1
+    
+    
     
     If TieneFacturasPendientesSubirSII = 0 Then
-        Aux = "0"
+        C2 = "Select count(*) From factpro WHERE "
+        If vParam.SII_Periodo_DesdeLiq Then
+            C2 = C2 & " fecliqpr >=" & DBSet(FIncio, "F")
+            C2 = C2 & " AND fecliqpr <= " & DBSet(F, "F")
+        Else
+            If vParam.SII_ProvDesdeFechaRecepcion Then
+                C2 = C2 & " fecharec >=" & DBSet(FIncio, "F")
+                C2 = C2 & " AND fecharec <= " & DBSet(F, "F")
+            
+            Else
+                'Enero 2020
+                C2 = C2 & " DATE(fecregcontable) >=" & DBSet(FIncio, "F")
+                C2 = C2 & " AND DATE(fecregcontable) <= " & DBSet(F, "F")
+            End If
+        End If
+        C2 = C2 & " AND sii_id is null"
+        RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        If Not RN.EOF Then
+            If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
+        End If
+        RN.Close
+        If Val(Aux) > 0 Then TieneFacturasPendientesSubirSII = 2
+    
+    End If
+    
+    If TieneFacturasPendientesSubirSII = 0 Then
+    
+        'incio fecha sii
+        C2 = "select count(*) From factcli  left join aswsii.envio_facturas_emitidas"
+        C2 = C2 & " on factcli.SII_ID = envio_facturas_emitidas.IDEnvioFacturasEmitidas where "
+        If vParam.SII_Periodo_DesdeLiq Then
+            C2 = C2 & " fecliqcl >=" & DBSet(FIncio, "F")
+            C2 = C2 & " AND fecliqcl <= " & DBSet(F, "F")
+        Else
+            C2 = C2 & " fecfactu >=" & DBSet(FIncio, "F")
+            C2 = C2 & " AND fecfactu <= " & DBSet(F, "F")
+        End If
+        
+        'Noviembre 2020
+        C2 = C2 & " AND REG_FE_FA_IDFA_FechaExpedicionFacturaEmisor>=" & DBSet(vParam.fechaini, "F")
+        
+        
+        
+        C2 = C2 & " and (csv is null or resultado='AceptadoConErrores')"
+        
+        
+        RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        If Not RN.EOF Then
+            If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
+        End If
+        RN.Close
+        If Val(Aux) > 0 Then TieneFacturasPendientesSubirSII = 1
+        
+        
+    End If
+        
+        
+    If TieneFacturasPendientesSubirSII = 0 Then
+        
         C2 = "Select count(*) From factpro left join aswsii.envio_facturas_recibidas"
         C2 = C2 & " on factpro.SII_ID = envio_facturas_recibidas.IDEnvioFacturasRecibidas WHERE "
         If vParam.SII_Periodo_DesdeLiq Then
@@ -85,10 +139,11 @@ Dim FIncio As Date
         If Not RN.EOF Then
             If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
         End If
-        If Val(Aux) > 0 Then TieneFacturasPendientesSubirSII = TieneFacturasPendientesSubirSII + 2
+        RN.Close
+        If Val(Aux) > 0 Then TieneFacturasPendientesSubirSII = 2
     End If
 
-
+    Set RN = Nothing
     
 End Function
 

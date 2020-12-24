@@ -45,6 +45,8 @@ Dim FFinPeriodo As Date
 Dim VarConsolidado(2) As String
 
 Dim EsBalancePerdidas_y_ganancias As Boolean
+Dim AcelerarProcesoBalanceSituacion As Boolean
+
 
 'Para la precarga de datos del balance de sumas y saldos
 Dim RsBalPerGan As ADODB.Recordset
@@ -813,7 +815,7 @@ Dim Rs2 As ADODB.Recordset
 Dim ImporteTot As Currency
 Dim ImporteLinea As Currency
 Dim UltSubCC As String
-Dim NRegs As Long
+Dim Nregs As Long
 
     On Error GoTo eHacerRepartoSubcentrosCoste
 
@@ -3789,6 +3791,7 @@ Public Function GeneraDatosBalanConfigImpresion(NumBalan As Integer, ImportesDeS
         
         Contabilidad = -1
 
+
        
         CargaArbol 0, 0, -1, "", Month(vParam.fechaini), Year(vParam.fechaini), Month(vParam.fechafin), Year(vParam.fechafin), "", True, Nothing, False, ImportesDeSoloUnMes
  
@@ -3807,10 +3810,11 @@ Public Function GeneraDatosBalanConfigImpresion(NumBalan As Integer, ImportesDeS
 End Function
 
 
-Public Function GeneraDatosBalanceConfigurable(NumBalan As Integer, Mes1 As Integer, Anyo1 As Integer, Mes2 As Integer, Anyo2 As Integer, LibroCD As Boolean, vContabilidad As String, Optional PB As ProgressBar, Optional ImportesDeSoloUnMes As Boolean)
+Public Function GeneraDatosBalanceConfigurable_(NumBalan As Integer, Mes1 As Integer, Anyo1 As Integer, Mes2 As Integer, Anyo2 As Integer, LibroCD As Boolean, vContabilidad As String, Optional PB As ProgressBar, Optional ImportesDeSoloUnMes As Boolean, Optional Lb As Label)
 Dim QuitarUno As Boolean
 Dim EsPyGNoAbreviado As Boolean
 Dim AuxPyG As String
+Dim txtAcelera As String
 
     If vContabilidad = "-1" Then vContabilidad = "-1|"
     
@@ -3825,11 +3829,27 @@ Dim AuxPyG As String
     d = vContabilidad
     VarConsolidado(0) = "": VarConsolidado(1) = "": VarConsolidado(2) = ""
     
+        
+    'Vemos si es de perdidas y ganacias
+    Sql = DevuelveDesdeBD("perdidas", "balances", "numbalan", CStr(NumBalan), "N")
+    EsBalancePerdidas_y_ganancias = (Val(Sql) = 1)
+    
+    'Acelerar proceso
+    AcelerarProcesoBalanceSituacion = False
+    If Not EsBalancePerdidas_y_ganancias Then
+        AcelerarProcesoBalanceSituacion = True
+        'FALTA###
+        AcelerarProcesoBalanceSituacion = False
+    End If
+    
     
     
     M2 = 1 'PRUEBA
     
     While d <> ""
+            
+            
+    
             'Vemos cual es
             M1 = InStr(1, d, "|")
             A1 = CInt(Mid(d, 1, M1 - 1))
@@ -3885,6 +3905,132 @@ Dim AuxPyG As String
             VarConsolidado(2) = VarConsolidado(2) & Abs(QuitarUno) & "|"
     
             
+                    
+                
+            If AcelerarProcesoBalanceSituacion Then
+                txtAcelera = ""
+                If Contabilidad > 0 Then txtAcelera = "ariconta" & Contabilidad & "."
+                txtAcelera = "DELETE FROM " & txtAcelera & "tmphistoapu WHERE codusu = " & vUsu.Codigo
+                Conn.Execute txtAcelera
+                           
+                           
+                vFecha1 = DateAdd("yyyy", 1, vParam.fechaini)
+                vFecha2 = DateAdd("yyyy", 1, vParam.fechafin)
+                VFecha3 = CDate("01/" & Right("00" & Mes1, 2) & "/" & Anyo1)
+                I = 1
+                Do
+                   If VFecha3 >= vFecha1 And VFecha3 <= vFecha2 Then
+                        'Este es el ejercicio
+                        I = 0
+                    Else
+                        vFecha1 = DateAdd("yyyy", -1, vFecha1)
+                        vFecha2 = DateAdd("yyyy", -1, vFecha2)
+                
+                
+                        If vFecha1 < "01/01/2000" Then I = -1
+                    End If
+                Loop Until I <= 0
+                If I < 0 Then Err.Raise 513, , "Error situando ejercicio"
+                txtAcelera = ""
+                'Mes1, Anyo1, Mes2, Anyo2
+                Codigo = ""
+                If Contabilidad > 0 Then Codigo = "ariconta" & Contabilidad & "."
+                
+                Codigo = "INSERT INTO " & Codigo & "tmphistoapu (codusu ,numdiari ,desdiari ,codmacta ,fechaent ,numasien ,linliapu ,timporteD ,timporteH) "
+                Codigo = Codigo & "SELECT " & vUsu.Codigo & ",1,''," & " substring(codmacta,1,5),date_format(fechaent,""%Y-%m-01"")"
+                Codigo = Codigo & ",1,1,sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) FROM "
+                If Contabilidad > 0 Then Codigo = Codigo & "ariconta" & Contabilidad & "."
+                Codigo = Codigo & "hlinapu where fechaent between #f1# and #f2# AND codmacta < '" & vParam.GrupoGto & "'"
+                Codigo = Codigo & " group by 4,5"  'CUIDADO!!!!
+                
+                
+                Do
+                    
+                    VFecha3 = DateAdd("m", 3, vFecha1)
+                    VFecha3 = DateAdd("d", -1, VFecha3)
+                    If VFecha3 > vFecha2 Then VFecha3 = vFecha2
+                    
+                    If Not Lb Is Nothing Then
+                        Lb.Caption = "Em: " & IIf(Contabilidad > 0, Contabilidad, "") & "  " & vFecha1 & "  " & VFecha3
+                        Lb.Refresh
+                    End If
+                    
+                    txtAcelera = Replace(Codigo, "#f1#", DBSet(vFecha1, "F"))
+                    txtAcelera = Replace(txtAcelera, "#f2#", DBSet(VFecha3, "F"))
+                    
+                    Conn.Execute txtAcelera
+                   
+                
+                    vFecha1 = DateAdd("d", 1, VFecha3)
+                
+                
+                Loop Until vFecha2 = VFecha3
+                
+                
+                
+                If Mes2 > 0 Then
+                
+                    'Si acelera proceso en comparativo
+                    vFecha1 = DateAdd("yyyy", 1, vParam.fechaini)
+                    vFecha2 = DateAdd("yyyy", 1, vParam.fechafin)
+                    VFecha3 = CDate("01/" & Right("00" & Mes2, 2) & "/" & Anyo2)
+                    I = 1
+                    Do
+                       If VFecha3 >= vFecha1 And VFecha3 <= vFecha2 Then
+                            'Este es el ejercicio
+                            I = 0
+                        Else
+                            vFecha1 = DateAdd("yyyy", -1, vFecha1)
+                            vFecha2 = DateAdd("yyyy", -1, vFecha2)
+                    
+                    
+                            If vFecha1 < "01/01/2000" Then I = -1
+                        End If
+                    Loop Until I <= 0
+                    If I < 0 Then Err.Raise 513, , "Error situando ejercicio"
+                    txtAcelera = ""
+                    'Mes1, Anyo1, Mes2, Anyo2
+                    Codigo = ""
+                    If Contabilidad > 0 Then Codigo = "ariconta" & Contabilidad & "."
+                    
+                    Codigo = "INSERT INTO " & Codigo & "tmphistoapu (codusu ,numdiari ,desdiari ,codmacta ,fechaent ,numasien ,linliapu ,timporteD ,timporteH) "
+                    Codigo = Codigo & "SELECT " & vUsu.Codigo & ",1,''," & " substring(codmacta,1,5),date_format(fechaent,""%Y-%m-01"")"
+                    Codigo = Codigo & ",1,1,sum(coalesce(timported,0)), sum(coalesce(timporteh,0)) FROM "
+                    If Contabilidad > 0 Then Codigo = Codigo & "ariconta" & Contabilidad & "."
+                    Codigo = Codigo & "hlinapu where fechaent between #f1# and #f2# AND codmacta < '" & vParam.GrupoGto & "'"
+                    Codigo = Codigo & " group by 4,5"  'CUIDADO!!!!
+                    
+                    
+                    Do
+                        
+                        VFecha3 = DateAdd("m", 3, vFecha1)
+                        VFecha3 = DateAdd("d", -1, VFecha3)
+                        If VFecha3 > vFecha2 Then VFecha3 = vFecha2
+                        
+                        If Not Lb Is Nothing Then
+                            Lb.Caption = "Em: " & IIf(Contabilidad > 0, Contabilidad, "") & "  " & vFecha1 & "  " & VFecha3
+                            Lb.Refresh
+                        End If
+                        
+                        txtAcelera = Replace(Codigo, "#f1#", DBSet(vFecha1, "F"))
+                        txtAcelera = Replace(txtAcelera, "#f2#", DBSet(VFecha3, "F"))
+                        
+                        Conn.Execute txtAcelera
+                       
+                    
+                        vFecha1 = DateAdd("d", 1, VFecha3)
+                    
+                    
+                    Loop Until vFecha2 = VFecha3
+                
+                End If  'De acelerar en comparativo
+            End If
+            
+            If Not Lb Is Nothing Then
+                Lb.Caption = "Leyendo datos"
+                Lb.Refresh
+            End If
+            
         Wend
     
     
@@ -3910,9 +4056,6 @@ Dim AuxPyG As String
         NumAsiento = NumBalan
         
         
-        'Vemos si es de perdidas y ganacias
-        Sql = DevuelveDesdeBD("perdidas", "balances", "numbalan", CStr(NumBalan), "N")
-        EsBalancePerdidas_y_ganancias = (Val(Sql) = 1)
         
         
         
@@ -3921,6 +4064,18 @@ Dim AuxPyG As String
         Conn.Execute Sql
         
         Contabilidad = -1
+        
+        
+        
+
+    
+
+
+
+        
+        
+        
+        
         
         
         
@@ -4017,7 +4172,7 @@ Dim MiAux As String
 Dim OtroImporte As Currency
 Dim OtroImporte2 As Currency
 Dim QueCuentas As String
-Dim NRegs As Long
+Dim Nregs As Long
 
 'Nuevo PGC.  Puede ser que UN nodo raiz sea la SUMA , con lo cual pasan dos cosas:
 '   .- 1: Puede que tenga nodos colgando, que habra que calcular
@@ -4041,11 +4196,11 @@ Dim Tipo As Integer
         If Padre < 0 Then
             
         
-            NRegs = TotalRegistrosConsulta("Select codigo from balances_texto WHERE numbalan =" & NumAsiento)
-            NRegs = NRegs + 2
+            Nregs = TotalRegistrosConsulta("Select codigo from balances_texto WHERE numbalan =" & NumAsiento)
+            Nregs = Nregs + 2
             PrB_.Value = 0
-            PrB_.Max = NRegs
-            PrB_.Tag = NRegs
+            PrB_.Max = Nregs
+            PrB_.Tag = Nregs
             PrB_.visible = True
         
             
@@ -4091,12 +4246,12 @@ Dim Tipo As Integer
                     QueCuentas = PonerCuentasBalances(Rs!Pasivo, Rs!Codigo)
                 Else
                     'IMPORTES
-                    OtroImporte = CalculaImporteCtas_(Rs!Pasivo, Rs!Codigo, Mes1, Anyo1, True, Contabilidades, EsPerdidasyGanancias, ElImporteDeSoloUnMes)
+                    OtroImporte = CalculaImporteCtas(Rs!Pasivo, Rs!Codigo, Mes1, Anyo1, True, Contabilidades, EsPerdidasyGanancias, ElImporteDeSoloUnMes)
                 
                     'Debug.Print Rs!Pasivo & Rs!Codigo & " " & OtroImporte
                 
                 
-                    If Mes2 > 0 Then OtroImporte2 = CalculaImporteCtas_(Rs!Pasivo, Rs!Codigo, Mes2, Anyo2, False, Contabilidades, EsPerdidasyGanancias, ElImporteDeSoloUnMes)
+                    If Mes2 > 0 Then OtroImporte2 = CalculaImporteCtas(Rs!Pasivo, Rs!Codigo, Mes2, Anyo2, False, Contabilidades, EsPerdidasyGanancias, ElImporteDeSoloUnMes)
                 End If
             Else
                 CargaArbol OtroImporte, OtroImporte2, Rs!Codigo, Rs!Pasivo, Mes1, Anyo1, Mes2, Anyo2, Contabilidades, EsListado, PrB_, EsPerdidasyGanancias, ElImporteDeSoloUnMes
@@ -4139,7 +4294,7 @@ End Sub
 
 
 
-Private Function CalculaImporteCtas_(Pasivo As String, Codigo As Integer, ByRef mess1 As Integer, ByRef anyos1 As Integer, Año1_o2 As Boolean, ByRef Contabilidades As String, EsPerdidasyGanancias As Boolean, ImporteSoloUnMes As Boolean) As Currency
+Private Function CalculaImporteCtas(Pasivo As String, Codigo As Integer, ByRef mess1 As Integer, ByRef anyos1 As Integer, Año1_o2 As Boolean, ByRef Contabilidades As String, EsPerdidasyGanancias As Boolean, ImporteSoloUnMes As Boolean) As Currency
 Dim RT As ADODB.Recordset
 Dim X As Integer
 Dim Y As Integer
@@ -4156,7 +4311,7 @@ Dim ContaX As String
             ContaX = Contabilidades
         End If
         Set RT = New ADODB.Recordset
-        CalculaImporteCtas_ = 0
+        CalculaImporteCtas = 0
         vI2 = 0
         Contador = 0
         'para cada contbilida
@@ -4190,7 +4345,7 @@ Dim ContaX As String
     Wend
     Set RT = Nothing
     Contabilidad = -1
-    CalculaImporteCtas_ = vI2
+    CalculaImporteCtas = vI2
 End Function
 
 
@@ -4209,6 +4364,8 @@ Dim ColImportes As Collection
 Dim RN As ADODB.Recordset
 Dim cad As String
 Dim CalculoPyG As Boolean
+
+Dim DesdeTempo As Boolean
 
     Set RC = New ADODB.Recordset
         
@@ -4261,22 +4418,41 @@ Dim CalculoPyG As Boolean
     Set RN = New ADODB.Recordset
     While Not RC.EOF
                                                                                                             
+                                                                                                                      
+            DesdeTempo = False
+            If AcelerarProcesoBalanceSituacion Then
+                  If Len(RC!codmacta) < 6 Then DesdeTempo = True
+            End If
                                                                                                             
-                                                           
                                                                                                             
-                                                                                                            
-                                                                                                            
-            cad = "SELECT substring(line.codmacta,1," & Len(RC!codmacta)
-            cad = cad & ") as codmacta,'' nommacta ,   year(fechaent) anyo,month(fechaent) mes,"
-            cad = cad & " sum(coalesce(timported,0)) debe, sum(coalesce(timporteh,0)) haber FROM "
-            If Contabilidad >= 0 Then cad = cad & "ariconta" & Contabilidad & "."
-            cad = cad & "hlinapu"
-            cad = cad & " as line "
-            cad = cad & " WHERE codmacta like '" & Trim(RC!codmacta) & "%'"
-            cad = cad & " AND fechaent between " & DBSet(F1, "F") & " AND " & DBSet(F2, "F")
-            cad = cad & " GROUP BY 1,anyo,mes "
-            cad = cad & " ORDER By 1 ,anyo,mes"
-
+            If Not DesdeTempo Then
+                'LO QUE HABIA
+                cad = "SELECT substring(line.codmacta,1," & Len(RC!codmacta)
+                cad = cad & ") as codmacta,'' nommacta ,   year(fechaent) anyo,month(fechaent) mes,"
+                cad = cad & " sum(coalesce(timported,0)) debe, sum(coalesce(timporteh,0)) haber FROM "
+                If Contabilidad >= 0 Then cad = cad & "ariconta" & Contabilidad & "."
+                cad = cad & "hlinapu"
+                cad = cad & " as line "
+                cad = cad & " WHERE codmacta like '" & Trim(RC!codmacta) & "%'"
+                cad = cad & " AND fechaent between " & DBSet(F1, "F") & " AND " & DBSet(F2, "F")
+                cad = cad & " GROUP BY 1,anyo,mes "
+                cad = cad & " ORDER By 1 ,anyo,mes"
+            Else
+                'nuevo
+                cad = "SELECT substring(line.codmacta,1," & Len(RC!codmacta)
+                cad = cad & ") as codmacta,'' nommacta ,   year(fechaent) anyo,month(fechaent) mes,"
+                cad = cad & " sum(coalesce(timported,0)) debe, sum(coalesce(timporteh,0)) haber FROM "
+                If Contabilidad >= 0 Then cad = cad & "ariconta" & Contabilidad & "."
+                cad = cad & "tmphistoapu"
+                cad = cad & " as line "
+                cad = cad & " WHERE codmacta like '" & Trim(RC!codmacta) & "%'"
+                cad = cad & " AND fechaent between " & DBSet(F1, "F") & " AND " & DBSet(F2, "F")
+                cad = cad & " GROUP BY 1,anyo,mes "
+                cad = cad & " ORDER By 1 ,anyo,mes"
+                
+                
+                
+            End If
             Set ColImportes = Nothing
             Set ColImportes = New Collection
             RN.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -4303,7 +4479,7 @@ Dim CalculoPyG As Boolean
             
          'FALTA:   en ejercicicos cerrados tambien debe quitar 6 y 7 si lo solicita, pero hasta el mes selecionado
 
-         If RC!codmacta = Mid(vParam.ctaperga, 1, 3) Then Stop
+        ' If RC!codmacta = Mid(vParam.ctaperga, 1, 3) Then Stop
          
         'Balance de situacion. Tratar cta perdidas y ganancias
         If Not EsBalancePerdidas_y_ganancias And RC!codmacta = Mid(vParam.ctaperga, 1, 3) Then

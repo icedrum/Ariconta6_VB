@@ -592,7 +592,7 @@ Attribute statusBar.VB_VarHelpID = -1
 Dim FontSizes(4) As Integer
 Dim RibbonSeHaCreado As Boolean
 Dim Pane As Pane
-Dim cad As String
+Dim Cad As String
 
 'Variables comunes para todos los procedimientos de carga menus en el ribbon
 'Codejock
@@ -734,7 +734,7 @@ Dim N_Skin As Integer
 End Sub
 
 Public Sub SetBackstageTheme()
-Dim I As Integer
+Dim i As Integer
     Dim nTheme As XtremeCommandBars.XTPBackstageButtonControlAppearanceStyle
     nTheme = xtpAppearanceResource
 
@@ -746,8 +746,8 @@ Dim I As Integer
    ' End If
     
     If Not (pageBackstageHelp Is Nothing) Then
-        For I = 0 To 4
-            pageBackstageHelp.btnAcciones(I).Appearance = nTheme
+        For i = 0 To 4
+            pageBackstageHelp.btnAcciones(i).Appearance = nTheme
         Next
         
     End If
@@ -1146,13 +1146,11 @@ Private Sub DockingPaneManager_AttachPane(ByVal Item As XtremeDockingPane.IPane)
 End Sub
 
 Private Sub Form_Activate()
-Dim res
+
 
     If PrimeraVez Then
         PrimeraVez = False
-        
-        
-    
+     
         DoEvent2
         AccionesIncioAbrirProgramaEmpresa
         'DoEvents
@@ -1319,15 +1317,15 @@ Private Sub Form_Load()
     frmIdentifica2.pLabel "Carga skin"
     Screen.MousePointer = vbHourglass
     If vUsu.Skin = 3 Then
-        cad = ID_OPTIONS_STYLEBLACK2010
+        Cad = ID_OPTIONS_STYLEBLACK2010
     Else
         If vUsu.Skin = 2 Then
-            cad = ID_OPTIONS_STYLESILVER2010
+            Cad = ID_OPTIONS_STYLESILVER2010
         Else
-            cad = ID_OPTIONS_STYLEBLUE2010
+            Cad = ID_OPTIONS_STYLEBLUE2010
         End If
     End If
-    CommandBars.FindControl(, cad, , True).Execute
+    CommandBars.FindControl(, Cad, , True).Execute
     
     PrimeraVez = True
 
@@ -1391,7 +1389,7 @@ Dim TamanyoImgComun As Integer
 End Sub
 
 Public Sub GetIconsFromLibrary(ByVal sLibraryFilePath As String, ByVal op As Integer, ByVal tam As Integer)
-    Dim I As Integer
+    Dim i As Integer
     Dim tRes As ResType, iCount As Integer
         
     opcio = op
@@ -1453,10 +1451,10 @@ Private Sub Form_Unload(Cancel As Integer)
     
     'close all sub forms
     On Error Resume Next
-    Dim I As Long
-    For I = Forms.Count - 1 To 1 Step -1
+    Dim i As Long
+    For i = Forms.Count - 1 To 1 Step -1
         
-        Unload Forms(I)
+        Unload Forms(i)
     Next
     
     
@@ -1467,10 +1465,10 @@ End Sub
 
 
 Private Sub GuardarDatosUltimaTab()
-    I = RibbonBar.SelectedTab.Id
-    If I = ID_TAB_CALENDAR_HOME Then Exit Sub 'no guardo este tab
-    If I <> vUsu.TabPorDefecto Then
-        vUsu.TabPorDefecto = I
+    i = RibbonBar.SelectedTab.Id
+    If i = ID_TAB_CALENDAR_HOME Then Exit Sub 'no guardo este tab
+    If i <> vUsu.TabPorDefecto Then
+        vUsu.TabPorDefecto = i
         vUsu.GuardarTabPorDefecto
     End If
 End Sub
@@ -1553,7 +1551,7 @@ Private Sub LoadIcons()
         ID_ImportarFacturasCliente, 1, 1, ID_Compensarcliente, ID_SumasySaldos, ID_CuentadeExplotación, ID_BalancedeSituación, ID_PérdidasyGanancias, 1, 1, 1, 1, 1, ID_CarteradeCobros, ID_InformeCobrosPendientes, _
         ID_Renumeracióndeasientos, ID_CierredeEjercicio, ID_Deshacercierre, ID_DiarioOficial, ID_PresentaciónTelemáticadeLibros, ID_Traspasodecuentasenapuntes, ID_Renumerarregistrosproveedor, ID_TraspasocodigosdeIVA, 1, 1, 1, 1, 1, 1, 1, _
         ID_Traspasodecuentasenapuntes, ID_Aumentardígitoscontables, 1, 1, 1, 1, 1, ID_LibroFacturasEmitidas, 1, 1, ID_Remesas, 1, ID_Consolidado, 1, ID_GraficosChart, _
-        ID_RecepcionTalónPagare, ID_RemesasTalenPagare, ID_Accionesrealizadas, 1, ID_LiquidacionIVA, 1, 1, 1, ID_AsientosPredefinidos, 1, 1, 1, 1, ID_FrasConso, 1, _
+        ID_RecepcionTalónPagare, ID_RemesasTalenPagare, ID_Accionesrealizadas, ID_BloqBD, ID_LiquidacionIVA, 1, 1, 1, ID_AsientosPredefinidos, 1, 1, 1, 1, ID_FrasConso, 1, _
         ID_Renumerarregistrosproveedor, ID_GROUP_SHARE_SHARE, 1, ID_ConsoSumasSaldos, ID_ConsoCtaExplota, ID_Asientos, ID_TraspasocodigosdeIVA, 1)
     
      
@@ -1651,10 +1649,10 @@ Private Sub LoadIcons()
         CommandBarsGlobalSettings.Icons.LoadBitmap App.Path & "\styles\suministro-inmediato-informacion.bmp", ID_SII, xtpImageNormal
             
             
-        Dim I As Integer
-        For I = 1 To 17
-            SuiteControlsGlobalSettings.Icons.LoadIcon App.Path & "\styles\TreeView\icon" & I & ".ico", I, xtpImageNormal
-        Next I
+        Dim i As Integer
+        For i = 1 To 17
+            SuiteControlsGlobalSettings.Icons.LoadIcon App.Path & "\styles\TreeView\icon" & i & ".ico", i, xtpImageNormal
+        Next i
 End Sub
 
 Private Sub SaveRibbonBarToXML()
@@ -1933,23 +1931,23 @@ Dim RN As ADODB.Recordset
     If RibbonSeHaCreado Then RibbonBar.RemoveAllTabs
     
     Set RsMenusUsuarios = New ADODB.Recordset
-    cad = "select codigo,ver from menus_usuarios where aplicacion = " & DBSet("ariconta", "T")
-    cad = cad & " and codusu = " & DBSet(vUsu.Id, "N")
-    If Not vEmpresa.TieneTesoreria Then cad = cad & " and not codigo in (select codigo from menus where aplicacion = " & DBSet("ariconta", "T") & " and tipo = 1)"
+    Cad = "select codigo,ver from menus_usuarios where aplicacion = " & DBSet("ariconta", "T")
+    Cad = Cad & " and codusu = " & DBSet(vUsu.Id, "N")
+    If Not vEmpresa.TieneTesoreria Then Cad = Cad & " and not codigo in (select codigo from menus where aplicacion = " & DBSet("ariconta", "T") & " and tipo = 1)"
     If Not vEmpresa.TieneContabilidad Then
-        cad = cad & " and not codigo in (select codigo from menus where aplicacion = " & DBSet("ariconta", "T") & " and tipo = 0"
+        Cad = Cad & " and not codigo in (select codigo from menus where aplicacion = " & DBSet("ariconta", "T") & " and tipo = 0"
         'El 2 debe mostrarse ya que son datos generales, y necestiamos ver Cuentas y bancos
-        cad = cad & " and codigo <>2)"
+        Cad = Cad & " and codigo <>2)"
     End If
-    cad = cad & " ORDER by codigo"
-    RsMenusUsuarios.Open cad, Conn, adOpenKeyset, adLockOptimistic, adCmdText
+    Cad = Cad & " ORDER by codigo"
+    RsMenusUsuarios.Open Cad, Conn, adOpenKeyset, adLockOptimistic, adCmdText
     
     
     
     
     
-    cad = "Select * from menus where aplicacion = 'ariconta' and padre =0 ORDER BY padre,orden "
-    RN.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "Select * from menus where aplicacion = 'ariconta' and padre =0 ORDER BY padre,orden "
+    RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not RN.EOF
     
         
@@ -2055,20 +2053,20 @@ Dim Anterior As Integer
         Anterior = AntiguoTabSeleccionado
     End If
     
-    cad = ""
-    For I = 0 To RibbonBar.TabCount - 1
-        J = RibbonBar.Tab(I).Id
+    Cad = ""
+    For i = 0 To RibbonBar.TabCount - 1
+        J = RibbonBar.Tab(i).Id
         'Debug.Print J & " " & RibbonBar.Tab(i).Caption
         If J = Anterior Then
             
-            RibbonBar.Tab(I).visible = True
-            RibbonBar.Tab(I).Selected = True
-            Set RibbonBar.SelectedTab = RibbonBar.Tab(I)
-            cad = "OK"
+            RibbonBar.Tab(i).visible = True
+            RibbonBar.Tab(i).Selected = True
+            Set RibbonBar.SelectedTab = RibbonBar.Tab(i)
+            Cad = "OK"
             Exit For
         End If
     Next
-    If cad = "" Then
+    If Cad = "" Then
         
         For J = RibbonBar.TabCount To 1 Step -1
             RibbonBar.Tab(J - 1).visible = True
@@ -2089,9 +2087,9 @@ Private Sub CargaMenuConfiguracion(IdMenu As Integer)
        
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         While Not Rn2.EOF
          
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2144,25 +2142,25 @@ Dim B As Boolean
         
         
         'En este llevaremos dos solapas, tesoreria y contabilidad (no le ponemos nombres)
-        cad = CStr(IdMenu * 100000)
+        Cad = CStr(IdMenu * 100000)
         'If vEmpresa.TieneContabilidad Then Set GroupNew = TabNuevo.Groups.AddGroup("", Cad & "0")
-        Set GroupNew = TabNuevo.Groups.AddGroup("", cad & "0")
-        If vEmpresa.TieneTesoreria Then Set SegundoGrupo = TabNuevo.Groups.AddGroup("", cad & "1")
+        Set GroupNew = TabNuevo.Groups.AddGroup("", Cad & "0")
+        If vEmpresa.TieneTesoreria Then Set SegundoGrupo = TabNuevo.Groups.AddGroup("", Cad & "1")
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu
         If Not vEmpresa.TieneTesoreria Then
             'SOLO CONTA
-            cad = cad & " AND tipo <> 1"  '=0
+            Cad = Cad & " AND tipo <> 1"  '=0
         Else
                                                             'solo tesoreria
             If Not vEmpresa.TieneContabilidad Then
-                cad = cad & " AND  tipo <> 0 "                  '=1
+                Cad = Cad & " AND  tipo <> 0 "                  '=1
             End If
         End If
-        cad = cad & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = Cad & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         While Not Rn2.EOF
          
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2219,16 +2217,16 @@ Dim OtroCon
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Diario")
         TabNuevo.Id = CLng(IdMenu)
         
-        cad = CStr(IdMenu * 100000)
-        Set GroupNew = TabNuevo.Groups.AddGroup("ASIENTOS", cad & "0")
-        Set GrupSald = TabNuevo.Groups.AddGroup("BALANCES", cad & "1")
-        Set GrOtro = TabNuevo.Groups.AddGroup("", cad & "2")
+        Cad = CStr(IdMenu * 100000)
+        Set GroupNew = TabNuevo.Groups.AddGroup("ASIENTOS", Cad & "0")
+        Set GrupSald = TabNuevo.Groups.AddGroup("BALANCES", Cad & "1")
+        Set GrOtro = TabNuevo.Groups.AddGroup("", Cad & "2")
         
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         While Not Rn2.EOF
         
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2250,7 +2248,7 @@ Dim OtroCon
                     
                 'Consolidado
                 Case 315
-                    Set GrConsoli = TabNuevo.Groups.AddGroup("CONSOLIDADO", cad & "4")
+                    Set GrConsoli = TabNuevo.Groups.AddGroup("CONSOLIDADO", Cad & "4")
                     
                     Set ControlNew_NewItems = GrConsoli.Add(xtpControlButtonPopup, Rn2!Codigo, "Informes") 'Rn2!Descripcion
                     'Set Control = GrConsoli.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
@@ -2299,11 +2297,11 @@ Dim B As Boolean
         Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Facturas")
         TabNuevo.Id = CLng(IdMenu)
         
-        cad = CStr(IdMenu * 100000)
-        Set GropCli = TabNuevo.Groups.AddGroup("EMITIDAS", cad & "0")
-        Set GrupPag = TabNuevo.Groups.AddGroup("RECIBIDAS", cad & "1")
-        Set GroupNew = TabNuevo.Groups.AddGroup("I.V.A.", cad & "2")
-        Set FraVarias = TabNuevo.Groups.AddGroup("FACTURAS VARIAS", cad & "3")
+        Cad = CStr(IdMenu * 100000)
+        Set GropCli = TabNuevo.Groups.AddGroup("EMITIDAS", Cad & "0")
+        Set GrupPag = TabNuevo.Groups.AddGroup("RECIBIDAS", Cad & "1")
+        Set GroupNew = TabNuevo.Groups.AddGroup("I.V.A.", Cad & "2")
+        Set FraVarias = TabNuevo.Groups.AddGroup("FACTURAS VARIAS", Cad & "3")
     
 '
 '        401 "Facturas Emitidas" 14
@@ -2329,11 +2327,11 @@ Dim B As Boolean
 
 
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
         
         
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         While Not Rn2.EOF
         
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2391,7 +2389,7 @@ Dim B As Boolean
             End Select
             
             
-            cad = "NO"
+            Cad = "NO"
             If Insertado Then Control.Enabled = Habilitado
            
             Rn2.MoveNext
@@ -2416,9 +2414,9 @@ Private Sub CargaMenuInmovilizado(IdMenu As Integer)
         
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         While Not Rn2.EOF
         
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2431,8 +2429,8 @@ Private Sub CargaMenuInmovilizado(IdMenu As Integer)
                 End If
             End If
             
-            If cad = "" Then Set GroupNew = TabNuevo.Groups.AddGroup("", CStr(IdMenu * 100000) & "0")
-            cad = "NO"
+            If Cad = "" Then Set GroupNew = TabNuevo.Groups.AddGroup("", CStr(IdMenu * 100000) & "0")
+            Cad = "NO"
             'Set Control = GroupNew.Add(xtpControlButton, ID_GROUP_NEW_APPOINTMENT, "&New Appointment")
             Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
             Control.Enabled = Habilitado
@@ -2481,16 +2479,16 @@ Dim GrupRem As RibbonGroup
         
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         
         
         'Creamos los tres grupos
-        cad = CStr(IdMenu * 100000)
-        Set GrupCob = TabNuevo.Groups.AddGroup("COBROS", cad & "0")
-        Set GrupRem = TabNuevo.Groups.AddGroup("REMESAS", cad & "1")
-        Set GroupNew = TabNuevo.Groups.AddGroup("COMPENSACIONES", cad & "2")
+        Cad = CStr(IdMenu * 100000)
+        Set GrupCob = TabNuevo.Groups.AddGroup("COBROS", Cad & "0")
+        Set GrupRem = TabNuevo.Groups.AddGroup("REMESAS", Cad & "1")
+        Set GroupNew = TabNuevo.Groups.AddGroup("COMPENSACIONES", Cad & "2")
         
         
         While Not Rn2.EOF
@@ -2546,9 +2544,9 @@ Private Sub CargaMenuTesoreriaPagos(IdMenu As Integer)
         
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         
         
         'Los pagos se gargan sobre la solapa de TESORERIA
@@ -2600,12 +2598,12 @@ Private Sub CargaMenuTesoreriaInformes(IdMenu As Integer)
         
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu
         'De momento NO cargamos el 904
-        cad = cad & " AND codigo <>904  ORDER BY padre,orden"
+        Cad = Cad & " AND codigo <>904  ORDER BY padre,orden"
             
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         
         
         'Los informes se gargan sobre la solapa de TESORERIA
@@ -2653,9 +2651,9 @@ Private Sub CargaMenuAnaliticaPResupuestaria(IdMenu As Integer)
         
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         
         
         'Los pagos se gargan sobre la solapa de diario
@@ -2669,8 +2667,8 @@ Private Sub CargaMenuAnaliticaPResupuestaria(IdMenu As Integer)
                 
             End If
         End If
-        cad = CStr(IdMenu * 100000) & "0"
-        Set GroupNew = TabNuevo.Groups.AddGroup(IIf(IdMenu = 10, "ANALITICA", "PRESUPUESTOS"), cad)
+        Cad = CStr(IdMenu * 100000) & "0"
+        Set GroupNew = TabNuevo.Groups.AddGroup(IIf(IdMenu = 10, "ANALITICA", "PRESUPUESTOS"), Cad)
         
         
         While Not Rn2.EOF
@@ -2728,9 +2726,9 @@ Dim GrupPag As RibbonGroup
     
 
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         While Not Rn2.EOF
         
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
@@ -2772,6 +2770,7 @@ Private Function DevulevePosicionUtilidades(Id As Integer) As Integer
         DevulevePosicionUtilidades = 3
     Case ID_TraspasocodigosdeIVA
         DevulevePosicionUtilidades = 4
+            
     Case Else
         'ID_Accionesrealizadas
         DevulevePosicionUtilidades = 5
@@ -2789,12 +2788,12 @@ Dim Col As Collection
         
         
         'todos los hijos que cuelgan en la tab
-        cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        cad = ""
+        Cad = "Select * from menus where aplicacion = 'ariconta' and padre =" & IdMenu & " ORDER BY padre,orden"
+        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Cad = ""
         Set Col = New Collection
         While Not Rn2.EOF
-           I = I + 1
+           i = i + 1
            If Not BloqueaPuntoMenu(Rn2!Codigo, "ariconta") Then
                 Habilitado = True
     
@@ -2814,7 +2813,7 @@ Dim Col As Collection
             End If
             
             Col.Add Abs(Habilitado) & "|" & Rn2!Codigo & "|" & Rn2!Descripcion & "|"
-            If Habilitado Then cad = "S"
+            If Habilitado Then Cad = "S"
             
             Rn2.MoveNext
         Wend
@@ -2830,7 +2829,7 @@ Dim Col As Collection
             '1416    ID_AVNICS
             
         'Ya puedo utilizar numregelim
-        If cad <> "" Then
+        If Cad <> "" Then
             'OK creamos solapa y demas
             'Creamos la TAB
             Set TabNuevo = RibbonBar.InsertTab(CLng(IdMenu), "Utilidades")
@@ -2891,12 +2890,12 @@ Private Sub AbrirFormularios(Accion As Long)
             frmCentroControl.Show vbModal
             If CadenaDesdeOtroForm <> "" Then
                 If Val(CadenaDesdeOtroForm) > 0 Then
-                    cad = "update ariconta" & CadenaDesdeOtroForm & ".tiposdiario set numdiari=numdiari where numdiari<0"
-                    If EjecutaSQL(cad) Then
-                        cad = ""
+                    Cad = "update ariconta" & CadenaDesdeOtroForm & ".tiposdiario set numdiari=numdiari where numdiari<0"
+                    If EjecutaSQL(Cad) Then
+                        Cad = ""
                         CambiarEmpresa CInt(CadenaDesdeOtroForm)
                     End If
-                    cad = ""
+                    Cad = ""
                 End If
             End If
             
@@ -3323,6 +3322,10 @@ Private Sub AbrirFormularios(Accion As Long)
             
         Case ID_AVNICS
              frmAVNAvnics.Show vbModal
+            
+            
+        Case ID_BloqBD
+            frmDesbloqueoMYSQL.Show vbModal
             
         Case Else
   

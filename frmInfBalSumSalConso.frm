@@ -2279,7 +2279,7 @@ Dim NivelCalculo As Integer
         pb9.visible = False
         FechaIncioEjercicio = DateAdd("yyyy", 1, vParam.fechaini)
         I = cmbFecha(0).ListIndex + 1
-        I = DiasMes(CByte(I), CInt(cmbFecha(0).ListIndex))
+        I = DiasMes(CByte(I), CInt(cmbFecha(2).Text))
         FechaFinEjercicio = CDate(I & "/" & Format(cmbFecha(0).ListIndex + 1, "00") & "/" & cmbFecha(2).Text)
         
             
@@ -2517,7 +2517,7 @@ Dim importesL(3) As Currency   '0 anteriro d   anterior h     periodo d     peri
     Sql = "select substring(codmacta,1," & CONT & ") cta"
     Sql = Sql & " ,if(fechaent<" & DBSet(F, "F") & ",0,1) periodo,sum(coalesce(timported,0)),sum(coalesce(timporteh,0))"
     Sql = Sql & " from ariconta" & Contabilidad & ".hlinapu where fechaent between " & DBSet(FechaIncioEjercicio, "F") & " and " & DBSet(FechaFinEjercicio, "F")
-    Sql = Sql & " AND codconce<>960 AND mid(hlinapu.codmacta,1,1) IN (" & DBSet(vParam.grupogto, "T") & "," & DBSet(vParam.grupovta, "T") & ")" ''6','7']"
+    Sql = Sql & " AND codconce<>960 AND mid(hlinapu.codmacta,1,1) IN (" & DBSet(vParam.GrupoGto, "T") & "," & DBSet(vParam.GrupoVta, "T") & ")" ''6','7']"
     If txtCta(6).Text <> "" Then Sql = Sql & " AND codmacta >=" & DBSet(txtCta(6).Text, "T")
     If txtCta(7).Text <> "" Then Sql = Sql & " AND codmacta <=" & DBSet(txtCta(7).Text, "T")
        

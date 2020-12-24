@@ -999,6 +999,10 @@ Public Const ID_TraspasocodigosdeIVA = 1411
 Public Const ID_Accionesrealizadas = 1412
 Public Const ID_ImportarFacturasCliente = 1413
 Public Const ID_AVNICS = 1416
+Public Const ID_BloqBD = 1417
+
+
+
 
 Public Const ID_Licencia_Usuario_Final_txt = 2001
 Public Const ID_Licencia_Usuario_Final_web = 2002

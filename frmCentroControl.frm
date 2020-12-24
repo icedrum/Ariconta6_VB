@@ -2028,12 +2028,12 @@ Dim B As Boolean
     If Comprobar_Ok() Then
         Label3(2).Caption = ""
         Label3(2).visible = True
-        pb1.Value = 0
-        Me.pb1.Max = 1000
-        Me.pb1.visible = True
+        Pb1.Value = 0
+        Me.Pb1.Max = 1000
+        Me.Pb1.visible = True
                
         B = HacerInsercionDigitoContable
-        pb1.visible = False
+        Pb1.visible = False
         Label3(2).visible = False
         
         'Insertamos el LOG
@@ -2288,11 +2288,7 @@ Dim Ok As Boolean
     Me.LabelIndF(0).Caption = ""
     Me.LabelIndF(1).Caption = ""
     
-    'Falta revisar la fecha registro contable
-    If vParam.SIITiene Then
-        MsgBox "Error . Llame soporte tecnico", vbCritical
-        Exit Sub
-    End If
+
     If MsgBox("Debería hacer una copia de seguridad." & vbCrLf & vbCrLf & vbCrLf & "El proceso puede durar MUCHO tiempo. ¿Desea continuar igualmente?", vbQuestion + vbYesNo) <> vbYes Then Exit Sub
         
     If UsuariosConectados("Renumerar nºReg. en factura proveedor" & vbCrLf, True) Then Exit Sub
@@ -2326,7 +2322,7 @@ Dim Ok As Boolean
         
         ParaElLog = String(40, "*") & vbCrLf
         ParaElLog = ParaElLog & ParaElLog & ParaElLog
-        ParaElLog = ParaElLog & vbCrLf & vbCrLf & "Compruebe el contador de facturas de proveedor" & vbCrLf & vbCrLf & vbCrLf & ParaElLog
+        ParaElLog = ParaElLog & vbCrLf & vbCrLf & "Compruebe el contador " & vbCrLf & " Facturas de proveedor" & vbCrLf & vbCrLf & vbCrLf & ParaElLog
         MsgBox ParaElLog, vbExclamation
         
 
@@ -2529,7 +2525,7 @@ Dim I As Integer
     Case 3
             IdPrograma = 1410
             PonerFrameVisible FrameCeros, H, W
-            pb1.visible = False
+            Pb1.visible = False
             Me.Caption = "Aumentar dígitos contables"
     Case 4
             IdPrograma = 1411
@@ -2554,7 +2550,7 @@ Dim I As Integer
                 Else
                     I = vParam.perfactu * 3
                 End If
-                NumTablas = DiasMes(CByte(I), vParam.anofactu)
+                NumTablas = DiasMes(CByte(I), vParam.Anofactu)
                 
             End If
     End Select
@@ -3092,7 +3088,12 @@ Private Function EjecutaSQLCambio(Campo As String, CampoFecha As String) As Bool
     Tam2 = Tam2 + 1
     Label16.Caption = Campo & " - " & TablaAnt & "    (" & Tam2 & " / " & Tamanyo & ")"
     Label16.Refresh
-    Sql = "UPDATE " & TablaAnt & " SET " & Campo & " = " & txtCta(1).Text & " WHERE "
+    Sql = "UPDATE " & TablaAnt & " SET " & Campo & " = " & txtCta(1).Text
+    
+    
+    If LCase(TablaAnt) = "factpro" Then Sql = Sql & " ,fecregcontable=fecregcontable"
+    
+    Sql = Sql & " WHERE "
     Sql = Sql & Campo & " = " & txtCta(0).Text
     'Si tiene fechas
     If CampoFecha <> "" Then
@@ -3733,7 +3734,7 @@ Dim Der As String
     BACKUP_TablaIzquierda miRsAux, Izda
     Izda = "INSERT INTO cuentas " & Izda & " VALUES "
     Tamanyo = 0
-    pb1.Value = 0
+    Pb1.Value = 0
     While Not miRsAux.EOF
            Tamanyo = Tamanyo + 1
            PonerProgressBar (CLng(Tamanyo / NumRegElim * 1000))
@@ -3746,7 +3747,7 @@ Dim Der As String
     Wend
     miRsAux.Close
     AgregarCuentasNuevas = True
-    pb1.Value = 0
+    Pb1.Value = 0
 End Function
 
 
@@ -3905,7 +3906,7 @@ Private Function HacerInsercionDigitoContable() As Boolean
        'Creamos las cuentas de subnivel
        'estudiando esto
        'CrearSubNivel
-       pb1.Value = 0
+       Pb1.Value = 0
        Label3(2).Caption = ""
        Label3(2).Refresh
        vEmpresa.Leer vEmpresa.codempre
@@ -3935,9 +3936,9 @@ Dim I As Integer
     
     Label3(2).Caption = tabla
     Label3(2).Refresh
-     pb1.Value = pb1.Value + 40
-    PonerProgressBar pb1.Value
-    pb1.Refresh
+     Pb1.Value = Pb1.Value + 40
+    PonerProgressBar Pb1.Value
+    Pb1.Refresh
     'CambiaValores tabla, NCampos
     ActualizaTabla tabla, NCampos
     Me.Refresh
@@ -3970,7 +3971,7 @@ Dim I As Integer
     For I = 1 To numCta
         'Para bonito
         Label3(2).Caption = tabla & " (" & I & " de " & numCta & ")"
-        pb1.Value = 0
+        Pb1.Value = 0
         Me.Refresh
         Tamanyo = 0
         'Contador  COUNT(distinct(codmacta))
@@ -4021,7 +4022,7 @@ End Sub
 
 
 Private Sub PonerProgressBar(Valor As Long)
-    If Valor <= 1000 Then pb1.Value = Valor
+    If Valor <= 1000 Then Pb1.Value = Valor
 End Sub
 
 'No utilizado. Borrar
@@ -4030,7 +4031,7 @@ Dim Col As Collection
 
     Label3(2).Caption = "Subniveles a crear (leyendo)"
     Label3(2).Refresh
-    pb1.Value = 0
+    Pb1.Value = 0
     I = CInt(Text2(5).Text) + 1
     Sql = "select substring(codmacta,1," & I & "),nommacta from cuentas where apudirec='S' group by 1"
     miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -4412,7 +4413,7 @@ Dim Bucles As Byte
                         'Es posible ya que hay frapro que no se contabilizan
                     
                     Else
-                        Insert = Insert & miRsAux!Numregis & " / " & miRsAux!anofactu & ": " & Format(miRsAux!NumAsien, "00000") & ";"
+                        Insert = Insert & miRsAux!Numregis & " / " & miRsAux!Anofactu & ": " & Format(miRsAux!NumAsien, "00000") & ";"
                     End If
                 End If
             End If
@@ -4508,7 +4509,7 @@ Private Function RenumeracionReal(Fec As Date) As Boolean
     Tam2 = Val(Me.txtRenumFrapro(2).Text)
     While Not miRsAux.EOF
             
-            LabelIndF(1).Caption = miRsAux!NUmSerie & " " & miRsAux!Numregis & " / " & miRsAux!anofactu & " --> " & Tam2
+            LabelIndF(1).Caption = miRsAux!NUmSerie & " " & miRsAux!Numregis & " / " & miRsAux!Anofactu & " --> " & Tam2
             LabelIndF(1).Refresh
             NumRegElim = NumRegElim + 1
             If NumRegElim > 60 Then
@@ -4518,25 +4519,26 @@ Private Function RenumeracionReal(Fec As Date) As Boolean
             End If
             
             'Updateo las lineas a la 0/1
-            Sql = "UPDATE factpro_lineas set numregis = 0 , anofactu=1 where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis =" & miRsAux!Numregis & " AND anofactu =" & miRsAux!anofactu
+            Sql = "UPDATE factpro_lineas set numregis = 0 , anofactu=1 where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis =" & miRsAux!Numregis & " AND anofactu =" & miRsAux!Anofactu
             Conn.Execute Sql
-            Sql = "UPDATE factpro_totales set numregis = 0 , anofactu=1 where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis =" & miRsAux!Numregis & " AND anofactu =" & miRsAux!anofactu
+            Sql = "UPDATE factpro_totales set numregis = 0 , anofactu=1 where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis =" & miRsAux!Numregis & " AND anofactu =" & miRsAux!Anofactu
             Conn.Execute Sql
-            Sql = "UPDATE factpro_fichdocs set numregis = 0 , anofactu=1 where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis =" & miRsAux!Numregis & " AND anofactu =" & miRsAux!anofactu
+            Sql = "UPDATE factpro_fichdocs set numregis = 0 , anofactu=1 where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis =" & miRsAux!Numregis & " AND anofactu =" & miRsAux!Anofactu
             Conn.Execute Sql
             
             
             
             'Updateo la factura
-            Sql = "UPDATE factpro set numregis = " & Tam2 & " where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis =" & miRsAux!Numregis & " AND anofactu =" & miRsAux!anofactu
+            Sql = "UPDATE factpro set numregis = " & Tam2 & "   , fecregcontable = fecregcontable"
+            Sql = Sql & " where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis =" & miRsAux!Numregis & " AND anofactu =" & miRsAux!Anofactu
             Conn.Execute Sql
             
             'Reestablezco las lineas
-            Sql = "UPDATE factpro_lineas set numregis = " & Tam2 & ", anofactu =" & miRsAux!anofactu & " where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis = 0 AND anofactu = 1"
+            Sql = "UPDATE factpro_lineas set numregis = " & Tam2 & ", anofactu =" & miRsAux!Anofactu & " where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis = 0 AND anofactu = 1"
             Conn.Execute Sql
-            Sql = "UPDATE factpro_totales set numregis = " & Tam2 & ", anofactu =" & miRsAux!anofactu & " where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis = 0 AND anofactu = 1"
+            Sql = "UPDATE factpro_totales set numregis = " & Tam2 & ", anofactu =" & miRsAux!Anofactu & " where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis = 0 AND anofactu = 1"
             Conn.Execute Sql
-            Sql = "UPDATE factpro_fichdocs set numregis = " & Tam2 & ", anofactu =" & miRsAux!anofactu & " where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis = 0 AND anofactu = 1"
+            Sql = "UPDATE factpro_fichdocs set numregis = " & Tam2 & ", anofactu =" & miRsAux!Anofactu & " where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numregis = 0 AND anofactu = 1"
             Conn.Execute Sql
             
             

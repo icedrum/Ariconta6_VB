@@ -23,7 +23,7 @@ Public Function LeerBinary(ADOField As ADODB.Field, NombreArchivo As String) As 
     Dim nChunks As Long
     Dim nSize As Long
     Dim Fragment As Long
-    Dim i As Long
+    Dim I As Long
     
     
     On Error GoTo ELeerBinary
@@ -43,7 +43,7 @@ Public Function LeerBinary(ADOField As ADODB.Field, NombreArchivo As String) As 
     Fragment = nSize Mod mBuffer
     Chunk() = ADOField.GetChunk(Fragment)
     Put nFile, , Chunk()
-    For i = 1 To nChunks
+    For I = 1 To nChunks
         Chunk() = ADOField.GetChunk(mBuffer)
         Put nFile, , Chunk()
     Next
@@ -62,7 +62,7 @@ End Function
 
 Public Sub GuardarBinary(ADOField As ADODB.Field, kImagen As String)   ' unImage As Image)
     ' Guardar el contenido del Picture en el campo de la base
-    Dim i As Long
+    Dim I As Long
     Dim Fragment As Long
     Dim nSize As Long
     Dim nChunks As Long
@@ -89,10 +89,10 @@ Public Sub GuardarBinary(ADOField As ADODB.Field, kImagen As String)   ' unImage
     Get nFile, , Chunk()
     ADOField.AppendChunk Chunk()
     ReDim Chunk(mBuffer)
-    For i = 1 To nChunks
+    For I = 1 To nChunks
         Get nFile, , Chunk()
         ADOField.AppendChunk Chunk()
-    Next i
+    Next I
     Close nFile
     
     
@@ -121,7 +121,7 @@ Public Sub LeerBinaryEnString(ADOField As ADODB.Field, CadenaFinal As String)
     Dim nChunks As Long
     Dim nSize As Long
     Dim Fragment As Long
-    Dim i As Long
+    Dim I As Long
     '
     
     
@@ -158,7 +158,7 @@ End Sub
 Public Sub AbrirImagenDesdeForm(ByRef ElForm As Form, ByRef AdodcIMG As Adodc, NombreFichero As String, Id As Long)
 Dim C As String
 
-    C = App.path & "\TEMP\" & NombreFichero
+    C = App.Path & "\TEMP\" & NombreFichero
 
 
     If Dir(C, vbArchive) <> "" Then Kill C
@@ -175,7 +175,7 @@ Dim C As String
     Else
         'LEEMOS LAS IMAGENES
    
-        If LeerBinary(AdodcIMG.Recordset!Campo, C) Then LanzaVisorMimeDocumento ElForm.hWnd, C
+        If LeerBinary(AdodcIMG.Recordset!Status, C) Then LanzaVisorMimeDocumento ElForm.hwnd, C
         
     End If
     

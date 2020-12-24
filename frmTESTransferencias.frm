@@ -1538,7 +1538,7 @@ Begin VB.Form frmTESTransferencias
          Begin VB.Image imgCuentas 
             Height          =   240
             Index           =   3
-            Left            =   2340
+            Left            =   1200
             Top             =   1860
             Width           =   240
          End
@@ -1558,7 +1558,7 @@ Begin VB.Form frmTESTransferencias
             Left            =   360
             TabIndex        =   70
             Top             =   1860
-            Width           =   1845
+            Width           =   1005
          End
       End
       Begin VB.Label Label2 
@@ -1841,7 +1841,7 @@ Dim PrimeraVez As Boolean
 
 Dim cad As String
 Dim CONT As Long
-Dim i As Integer
+Dim I As Integer
 Dim TotalReg As Long
 
 Dim Importe As Currency
@@ -1926,7 +1926,7 @@ KEYpress KeyAscii
 End Sub
 
 Private Sub cmdCancelar_Click(Index As Integer)
-Dim i As Integer
+Dim I As Integer
 Dim PantallaPpal As Boolean
     If Index = 0 Then
         
@@ -1952,7 +1952,7 @@ Dim PantallaPpal As Boolean
             
             FrameCreacionRemesa.visible = False
             FrameCreacionRemesa.Enabled = False
-            If i >= 0 Then lw1.SetFocus
+            If I >= 0 Then lw1.SetFocus
     
         Else
             Me.lwCobros.ListItems.Clear
@@ -2146,12 +2146,12 @@ Dim J As Integer
             If B Then 'ha habido algun abonno
                 RC = ""
                 Do
-                    i = InStr(1, C, "|")
-                    If i = 0 Then
+                    I = InStr(1, C, "|")
+                    If I = 0 Then
                         C = 0
                     Else
-                        Msg = Mid(C, 1, i - 1)
-                        C = Mid(C, i + 1)
+                        Msg = Mid(C, 1, I - 1)
+                        C = Mid(C, I + 1)
                         Importe = 0
                         For J = 1 To Me.lwCobros.ListItems.Count
                             If lwCobros.ListItems(J).Checked Then
@@ -2221,16 +2221,16 @@ Dim Img As Image
     Limpiar Me
     Me.Icon = frmppal.Icon
     
-    For i = 0 To 1
-        Me.imgSerie(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 0 To 1
+        Me.imgSerie(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+        Me.imgCuentas(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
     Me.imgCuentas(2).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     Me.imgCuentas(3).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
-    For i = 0 To 5
-        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
-    Next i
+    For I = 0 To 5
+        Me.ImgFec(I).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+    Next I
 
     ' Botonera Principal
     With Me.Toolbar1
@@ -2446,15 +2446,15 @@ Dim Img As Image
         'Numero factura normal
         'Cliente mas grande
         J = 1200
-        i = 5300
+        I = 5300
     Else
         'Numero factura normal
         'Cliente mas grande
         J = 1800
-        i = 4800
+        I = 4800
         
     End If
-    i = i - 250 'de las observaciones
+    I = I - 250 'de las observaciones
     
     lwCobros.ColumnHeaders.Clear
     lwCobros.ColumnHeaders.Add , , "Serie", 800
@@ -2464,11 +2464,11 @@ Dim Img As Image
     If TipoTrans2 = 0 Or TipoTrans2 = 4 Then
         lwCobros.ColumnHeaders.Add , , "Vto", 699
         lwCobros.ColumnHeaders.Add , , "Fecha Vto", 1350
-        lwCobros.ColumnHeaders.Add , , "Cliente", i
+        lwCobros.ColumnHeaders.Add , , "Cliente", I
     Else
         lwCobros.ColumnHeaders.Add , , "Efec", 699
         lwCobros.ColumnHeaders.Add , , "Fecha Efec", 1350
-        lwCobros.ColumnHeaders.Add , , "Proveedor", i
+        lwCobros.ColumnHeaders.Add , , "Proveedor", I
     End If
     
     
@@ -2500,10 +2500,8 @@ End Sub
 
 
 Private Sub frmBan_DatoSeleccionado(CadenaSeleccion As String)
-    If CadenaSeleccion <> "" Then
-        txtCuentas(2).Text = RecuperaValor(CadenaSeleccion, 1)
-        txtNCuentas(2).Text = RecuperaValor(CadenaSeleccion, 2)
-    End If
+    If CadenaSeleccion <> "" Then Sql = CadenaSeleccion
+        
 End Sub
 
 Private Sub frmConta_DatoSeleccionado(CadenaSeleccion As String)
@@ -2534,56 +2532,56 @@ End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
 Dim IT
-Dim i As Integer
+Dim I As Integer
 Dim Im2 As Currency
 
     Screen.MousePointer = vbHourglass
     
     cad = ""
     Im2 = 0
-    For i = 1 To Me.lwCobros.ListItems.Count
-        If lwCobros.ListItems(i).Selected Then
+    For I = 1 To Me.lwCobros.ListItems.Count
+        If lwCobros.ListItems(I).Selected Then
             cad = cad & "X"
-            Im2 = Im2 + lwCobros.ListItems(i).SubItems(7)
+            Im2 = Im2 + lwCobros.ListItems(I).SubItems(7)
         End If
-    Next i
+    Next I
     If Len(cad) > 1 Then
         'Va a realizar la accion sobre  len(cad) vencimientos
         Sql = "Va a " & IIf(Index = 1, "seleccionar", "quitar la seleccion") & ":"
         Sql = Sql & vbCrLf & "Vencimientos: " & Len(cad) & vbCrLf & ""
         'msgbox
-        For i = 1 To Me.lwCobros.ListItems.Count
-            If lwCobros.ListItems(i).Selected Then
+        For I = 1 To Me.lwCobros.ListItems.Count
+            If lwCobros.ListItems(I).Selected Then
                 If Index = 1 Then
-                    If lwCobros.ListItems(i).ListSubItems(3).Tag <> "EMB" Then lwCobros.ListItems(i).Checked = True
+                    If lwCobros.ListItems(I).ListSubItems(3).Tag <> "EMB" Then lwCobros.ListItems(I).Checked = True
                 Else
-                    lwCobros.ListItems(i).Checked = False
+                    lwCobros.ListItems(I).Checked = False
                 End If
             End If
-        Next i
+        Next I
     
     
     Else
         
-        For i = 1 To Me.lwCobros.ListItems.Count
+        For I = 1 To Me.lwCobros.ListItems.Count
             If Index = 1 Then
-                If lwCobros.ListItems(i).ListSubItems(3).Tag <> "EMB" Then lwCobros.ListItems(i).Checked = True
+                If lwCobros.ListItems(I).ListSubItems(3).Tag <> "EMB" Then lwCobros.ListItems(I).Checked = True
             Else
-                lwCobros.ListItems(i).Checked = False
+                lwCobros.ListItems(I).Checked = False
             End If
-        Next i
+        Next I
     End If
     
     
     
     'El importe
     Importe = 0
-    For i = 1 To Me.lwCobros.ListItems.Count
+    For I = 1 To Me.lwCobros.ListItems.Count
         'lwCobros2.ListItems(I).Checked = (Index = 1)
-        If lwCobros.ListItems(i).Checked Then Importe = Importe + lwCobros.ListItems(i).SubItems(7)
+        If lwCobros.ListItems(I).Checked Then Importe = Importe + lwCobros.ListItems(I).SubItems(7)
         
         'If Index = 1 Then Importe = Importe + lwCobros2.ListItems(I).SubItems(6)
-    Next i
+    Next I
     Text1(4).Tag = Importe
     If Importe <> 0 Then
         Text1(4).Text = Format(Importe, "###,###,##0.00")
@@ -2617,11 +2615,16 @@ End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
     
-    If Index = 2 Then
-            Set frmBan = New frmBasico2
-            AyudaBanco frmBan
-            Set frmBan = Nothing
+    If Index = 2 Or Index = 3 Then
     
+        Sql = ""
+        Set frmBan = New frmBasico2
+        AyudaBanco frmBan
+        Set frmBan = Nothing
+        If Sql <> "" Then
+            txtCuentas(Index).Text = RecuperaValor(Sql, 1)
+            txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
+        End If
     
     Else
         Sql = ""
@@ -2797,9 +2800,9 @@ Private Sub lwCobros_ItemCheck(ByVal Item As MSComctlLib.ListItem)
     
     
     Importe = 0
-    For i = 1 To lwCobros.ListItems.Count
-        If lwCobros.ListItems(i).Checked Then Importe = Importe + lwCobros.ListItems(i).SubItems(7)
-    Next i
+    For I = 1 To lwCobros.ListItems.Count
+        If lwCobros.ListItems(I).Checked Then Importe = Importe + lwCobros.ListItems(I).SubItems(7)
+    Next I
     Text1(4).Text = Format(Importe, "###,###,##0.00")
     
     If ComprobarCero(Text1(4).Text) = 0 Then Text1(4).Text = ""
@@ -3106,7 +3109,7 @@ Private Sub BotonAnyadir()
 End Sub
 
 Private Sub LimpiarCampos()
-Dim i As Integer
+Dim I As Integer
 
     On Error Resume Next
     
@@ -4066,7 +4069,7 @@ Dim Icono As Integer
     If InStr(1, LCase(vSql), "tipofpago") = 0 Then cad = " '' "
     
     
-    cad = "Select pagos.*," & cad & " siglas " & ", embargo " & vSql
+    cad = "Select pagos.*," & cad & " siglas " & ",  embargo " & vSql
     cad = cad & " ORDER BY fecefect"
     
     miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -4485,7 +4488,7 @@ Dim Sql2 As String
         
     
     'Que la cuenta NO este bloqueada
-    i = 0
+    I = 0
     
     cad = " FROM cobros,formapago,cuentas WHERE cobros.codforpa = formapago.codforpa AND transfer is null AND situacion = 0 and "
     cad = cad & " cobros.codmacta=cuentas.codmacta AND (not (fecbloq is null) and fecbloq < '" & Format(CDate(txtFecha(4).Text), FormatoFecha) & "') AND "
@@ -4496,7 +4499,7 @@ Dim Sql2 As String
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
         cad = ""
-        i = 1
+        I = 1
         While Not Rs.EOF
             cad = cad & Rs!codmacta & " - " & Rs!Nommacta & " : " & Rs!FecBloq & vbCrLf
             Rs.MoveNext
@@ -4505,7 +4508,7 @@ Dim Sql2 As String
 
     Rs.Close
     
-    If i > 0 Then
+    If I > 0 Then
         cad = "Las siguientes cuentas estan bloqueadas." & vbCrLf & String(60, "-") & vbCrLf & cad
         MsgBox cad, vbExclamation
         Screen.MousePointer = vbDefault
@@ -4523,33 +4526,33 @@ Dim Sql2 As String
     'Hacemos un conteo
     Rs.Open "SELECT Count(*) " & cad & Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
-        i = DBLet(Rs.Fields(0), "N")
+        I = DBLet(Rs.Fields(0), "N")
     End If
     Rs.Close
     cad = cad & Sql
     
     
     
-    If i > 0 Then
-        i = 1  'Para que siga por abajo
+    If I > 0 Then
+        I = 1  'Para que siga por abajo
     End If
     
     
 
     'La suma
-    If i > 0 Then
+    If I > 0 Then
         Sql = "select sum(impvenci),sum(impcobro),sum(gastos) " & cad
         Impor = 0
         Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not Rs.EOF Then Impor = DBLet(Rs.Fields(0), "N") - DBLet(Rs.Fields(1), "N") + DBLet(Rs.Fields(2), "N")
         Rs.Close
-        If Impor = 0 Then i = 0
+        If Impor = 0 Then I = 0
     End If
         
 
     Set Rs = Nothing
     
-    If i = 0 Then
+    If I = 0 Then
         MsgBox "Ningun dato para generera con esos valores", vbExclamation
         
         ModoInsertar = False
@@ -4701,7 +4704,7 @@ Dim colCtas As Collection
         
     
     'Que la cuenta NO este bloqueada
-    i = 0
+    I = 0
     
     cad = " FROM pagos,formapago,cuentas,tipofpago WHERE pagos.codforpa = formapago.codforpa  AND tipofpago.tipoformapago = formapago.tipforpa  AND nrodocum is null AND situacion = 0 and "
     cad = cad & " pagos.codmacta=cuentas.codmacta AND (not (fecbloq is null) and fecbloq < '" & Format(CDate(txtFecha(4).Text), FormatoFecha) & "') AND "
@@ -4712,7 +4715,7 @@ Dim colCtas As Collection
     Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
         cad = ""
-        i = 1
+        I = 1
         While Not Rs.EOF
             cad = cad & Rs!codmacta & " - " & Rs!Nommacta & " : " & Rs!FecBloq & vbCrLf
             Rs.MoveNext
@@ -4721,7 +4724,7 @@ Dim colCtas As Collection
 
     Rs.Close
     
-    If i > 0 Then
+    If I > 0 Then
         cad = "Las siguientes cuentas estan bloqueadas." & vbCrLf & String(60, "-") & vbCrLf & cad
         MsgBox cad, vbExclamation
         Screen.MousePointer = vbDefault
@@ -4765,9 +4768,9 @@ Dim colCtas As Collection
     
     If colCtas.Count > 0 Then
         cad = cad & " AND pagos.codmacta IN ("
-        For i = 1 To colCtas.Count
-            If i > 1 Then cad = cad & ","
-            cad = cad & "'" & colCtas.Item(i) & "'"
+        For I = 1 To colCtas.Count
+            If I > 1 Then cad = cad & ","
+            cad = cad & "'" & colCtas.Item(I) & "'"
         Next
         cad = cad & ") ORDER BY codmacta,numfactu"
     
@@ -4776,13 +4779,13 @@ Dim colCtas As Collection
         Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         
         cad = ""
-        i = 0
+        I = 0
         Set colCtas = New Collection
         While Not Rs.EOF
-            If i < 8 Then
+            If I < 8 Then
                 cad = cad & vbCrLf & Rs!codmacta & " " & Rs!Nommacta & "  " & Rs!NUmSerie & Format(Rs!numfactu, "000000") & "   -> " & Format(Rs!ImpEfect, FormatoImporte)
             End If
-            i = i + 1
+            I = I + 1
             colCtas.Add CStr(Rs!codmacta)
             Rs.MoveNext
         Wend
@@ -4791,7 +4794,7 @@ Dim colCtas As Collection
         If cad <> "" Then
             If chkCompensarAbonos.Value = 0 Then
             
-                If i >= 9 Then cad = cad & vbCrLf & "....  y " & i & " vencimientos más"
+                If I >= 9 Then cad = cad & vbCrLf & "....  y " & I & " vencimientos más"
                 cad = "Proveedores con abonos. " & vbCrLf & cad & vbCrLf & " ¿Continuar?"
                 If MsgBoxA(cad, vbQuestion + vbYesNoCancel) <> vbYes Then
                     Set Rs = Nothing
@@ -4804,8 +4807,8 @@ Dim colCtas As Collection
             Else
                 '-------------------------------------------------------------------------
                 CadenaDesdeOtroForm = ""
-                For i = 1 To colCtas.Count
-                    CadenaDesdeOtroForm = CadenaDesdeOtroForm & "'" & colCtas.Item(i) & "',"
+                For I = 1 To colCtas.Count
+                    CadenaDesdeOtroForm = CadenaDesdeOtroForm & "'" & colCtas.Item(I) & "',"
                 Next
                 frmTESCompensaAboPro.Show vbModal
                 
@@ -4856,33 +4859,33 @@ Dim colCtas As Collection
     'Hacemos un conteo
     Rs.Open "SELECT Count(*) " & cad & Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
-        i = DBLet(Rs.Fields(0), "N")
+        I = DBLet(Rs.Fields(0), "N")
     End If
     Rs.Close
     cad = cad & Sql
     
     
     
-    If i > 0 Then
-        i = 1  'Para que siga por abajo
+    If I > 0 Then
+        I = 1  'Para que siga por abajo
     End If
     
     
 
     'La suma
-    If i > 0 Then
+    If I > 0 Then
         Sql = "select sum(impefect),sum(imppagad) " & cad
         Impor = 0
         Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not Rs.EOF Then Impor = DBLet(Rs.Fields(0), "N") - DBLet(Rs.Fields(1), "N")
         Rs.Close
-        If Impor = 0 Then i = 0
+        If Impor = 0 Then I = 0
     End If
         
 
     Set Rs = Nothing
     
-    If i = 0 Then
+    If I = 0 Then
         MsgBox "Ningun dato  con esos valores", vbExclamation
         
         ModoInsertar = False
@@ -4984,12 +4987,24 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
             
             B = CuentaCorrectaUltimoNivel(Cta, Sql)
             
+            
+            If B And (Index = 2 Or Index = 3) Then
+                'Bancos
+                Cta = DevuelveDesdeBD("codmacta", "bancos", "codmacta", Cta, "T")
+                If Cta = "" Then
+                   Sql = "No es una cuenta en bancos: " & txtCuentas(Index).Text & "  - " & Sql
+                   B = False
+                End If
+            End If
+            
             If Not B Then
                 MsgBox Sql, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
                 PonleFoco txtCuentas(Index)
             Else
+            
+            
                 txtCuentas(Index).Text = Cta
                 txtNCuentas(Index).Text = Sql
                 If B = 1 Then
@@ -5179,7 +5194,7 @@ Dim C As String
 Dim NumeroRemesa As Long
 Dim Rs As ADODB.Recordset
 Dim J As Integer
-Dim i As Integer
+Dim I As Integer
 Dim ImporteQueda As Currency
 
     On Error GoTo eGenerarTransferencia
@@ -5189,13 +5204,13 @@ Dim ImporteQueda As Currency
     
     'EMBARGO
     cad = ""
-    For i = 1 To Me.lwCobros.ListItems.Count
-        If lwCobros.ListItems(i).Checked Then
-            If InStr(1, cad, lwCobros.ListItems(i).SubItems(14)) = 0 Then
-                cad = cad & ", " & DBSet(lwCobros.ListItems(i).SubItems(14), "T")
+    For I = 1 To Me.lwCobros.ListItems.Count
+        If lwCobros.ListItems(I).Checked Then
+            If InStr(1, cad, lwCobros.ListItems(I).SubItems(14)) = 0 Then
+                cad = cad & ", " & DBSet(lwCobros.ListItems(I).SubItems(14), "T")
             End If
         End If
-    Next i
+    Next I
 
     If cad <> "" Then
         'No deberia ser ""
@@ -5228,14 +5243,14 @@ Dim ImporteQueda As Currency
         End If
     End If
     
-    i = 0
+    I = 0
     For J = 1 To lwCobros.ListItems.Count
         If lwCobros.ListItems(J).Checked Then
-            i = J
+            I = J
             Exit For
         End If
     Next J
-    If i = 0 Then
+    If I = 0 Then
         If TipoTrans2 = 0 Or TipoTrans2 = 4 Then
             MsgBox "No se ha seleccionado cobros. Revise.", vbExclamation
         Else
@@ -5552,16 +5567,16 @@ Dim C As String
      miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Msg = ""
     RC = ""
-    i = 0
+    I = 0
     While Not miRsAux.EOF
-        i = i + 1
+        I = I + 1
         Msg = Msg & miRsAux!codmacta & "|"
         miRsAux.MoveNext
         
     Wend
     miRsAux.Close
     
-    If i = 0 Then
+    If I = 0 Then
         ComprobacionesAgrupaFicheroTransfer = 0
         Exit Function
     End If
@@ -5570,7 +5585,7 @@ Dim C As String
     MsgErr = ""
     K = 0
     NumRegElim = 0
-    For J = 1 To i
+    For J = 1 To I
         Sql = " AND codmacta = '" & RecuperaValor(Msg, CInt(J)) & "' GROUP BY iban "
         If Abonos Then
             Sql = " transfer = " & lw1.ListItems(lw1.SelectedItem.Index).Text & " and anyorem = " & lw1.ListItems(lw1.SelectedItem.Index).SubItems(1) & Sql
@@ -5614,7 +5629,7 @@ Dim C As String
         RC = IIf(TipoTrans2 = 0, "Clientes", "Proveedores") & " agrupados: " & Len(RC) & vbCrLf
         RC = RC & "Total vencimientos agrupados: " & NumRegElim & vbCrLf
         Sql = Sql & RC & " ¿Continuar?"
-        If MsgBox(Sql, vbQuestion + vbYesNoCancel) = vbYes Then ComprobacionesAgrupaFicheroTransfer = i
+        If MsgBox(Sql, vbQuestion + vbYesNoCancel) = vbYes Then ComprobacionesAgrupaFicheroTransfer = I
     End If
 eComrpobacionesAgrupacionFichero:
     If Err.Number <> 0 Then MuestraError Err.Number, , Err.Description
