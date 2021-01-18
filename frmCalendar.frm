@@ -48,7 +48,7 @@ Attribute VB_Exposed = False
 
 Public Event Selec(vFecha As Date)
 
-Private Declare Function PostMessage Lib "user32" Alias "PostMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal Wparam As Long, ByVal lParam As Long) As Long
+'Private Declare Function PostMessage Lib "user32" Alias "PostMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal Wparam As Long, ByVal lParam As Long) As Long
 Const CB_SHOWDROPDOWN = &H14F
 
 Dim g_sDPpopUpCBValue As String

@@ -144,7 +144,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Dim Cad As String
+Dim cad As String
 Dim NF As Integer
 
 Private Sub cmdKill_Click()
@@ -153,11 +153,17 @@ Private Sub cmdKill_Click()
 
     If Me.lw1.SelectedItem Is Nothing Then Exit Sub
     
-    Cad = vbCrLf & lw1.ColumnHeaders(1).Text & ": " & lw1.SelectedItem.Text
-    For i = 1 To Me.lw1.SelectedItem.ListSubItems.Count
-        Cad = Cad & vbCrLf & lw1.ColumnHeaders(i + 1).Text & ": " & lw1.SelectedItem.ListSubItems(i)
+    
+    If InStr(1, Me.lw1.SelectedItem.Key, "KPN") > 0 Then
+        MsgBox "Informacion de proceso incompleta. No se puede eliminar", vbExclamation
+        Exit Sub
+    End If
+    
+    cad = vbCrLf & lw1.ColumnHeaders(1).Text & ": " & lw1.SelectedItem.Text
+    For I = 1 To Me.lw1.SelectedItem.ListSubItems.Count
+        cad = cad & vbCrLf & lw1.ColumnHeaders(I + 1).Text & ": " & lw1.SelectedItem.ListSubItems(I)
     Next
-    Msg = "Va a eliminar el proceso:" & vbCrLf & vbCrLf & Cad
+    Msg = "Va a eliminar el proceso:" & vbCrLf & vbCrLf & cad
     If MsgBox(Msg, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     
 '''''    Cad = ""
@@ -177,9 +183,9 @@ Private Sub cmdKill_Click()
     End If
     
     If Ejecuta(Msg, False) Then
-        If lw1.SelectedItem.Tag = 1 Then Cad = "zbloqueos" & vbCrLf & Cad
-        Cad = "[KILL]" & vbCrLf & Cad
-        vLog.Insertar 32, vUsu, Cad
+        If lw1.SelectedItem.Tag = 1 Then cad = "zbloqueos" & vbCrLf & cad
+        cad = "[KILL]" & vbCrLf & cad
+        vLog.Insertar 32, vUsu, cad
         
         imgMysql_Click 0
         
@@ -230,29 +236,216 @@ Dim ColBDs As Collection
 Dim CuantasAplicaciones As Integer
 Dim N As Integer
 Dim K As Integer
+Dim m As Integer
 Dim TablaBloqueos As String
+Dim VersionAntiguaMysql As Boolean
+Dim ColProcessList As Collection
+Dim DelShowProcess As Long
 
 
 On Error GoTo eLeerInnodb
     
-    Msg = "SELECT ps.id, trx.trx_started,ps.user,ps.host,ps.DB,ps.command,ps.time,ps.state,ps.info,trx.trx_id"
-    Msg = Msg & " FROM INFORMATION_SCHEMA.INNODB_TRX trx"
-    Msg = Msg & " JOIN INFORMATION_SCHEMA.PROCESSLIST ps ON trx.trx_mysql_thread_id = ps.id"
-    Msg = Msg & " WHERE trx.trx_started < CURRENT_TIMESTAMP - INTERVAL 60 SECOND"
-    Msg = Msg & " AND ps.user != 'system_user'"
+    VersionAntiguaMysql = False
+    Msg = "Select * from INFORMATION_SCHEMA.INNODB_TRX trx "
+    If Not Ejecuta(Msg, True) Then VersionAntiguaMysql = True
     
-    miRsAux.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    While Not miRsAux.EOF
-        Set IT = lw1.ListItems.Add(, "K" & miRsAux!trx_id)
-        IT.Text = miRsAux!Id
-        For J = 1 To 5
-            IT.SubItems(J) = DBLet(miRsAux.Fields(J), "T")
-        Next
-        IT.Tag = 0 '0 eliminar con KILL
-        miRsAux.MoveNext
-    Wend
-    miRsAux.Close
     
+    
+    If VersionAntiguaMysql Then
+    
+        'Processlist
+        Label1(1).Caption = "show processlist"
+        Label1(1).Refresh
+        Set ColProcessList = New Collection
+        Msg = "SHOW PROCESSLIST"
+        miRsAux.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        While Not miRsAux.EOF
+            Msg = miRsAux.Fields(0) & "|" & miRsAux.Fields(2) & "|" & DBLet(miRsAux.Fields(3), "T") & "|" & miRsAux.Fields(5) & "|"
+            ColProcessList.Add Msg
+            miRsAux.MoveNext
+        Wend
+        miRsAux.Close
+    
+        Msg = "SHOW INNODB STATUS"
+        miRsAux.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Msg = ""
+        If Not miRsAux.EOF Then
+            If Not IsNull(miRsAux.Fields(0)) Then Msg = miRsAux.Fields(0)
+        End If
+        miRsAux.Close
+        'CreaCAdena
+        If Msg <> "" Then
+            Label1(1).Caption = "show innodb"
+            'Si no tiene saltos de linea, se los pongo
+            If InStr(1, Msg, vbCrLf) = 0 Then Msg = Replace(Msg, vbLf, vbCrLf)
+                
+            N = 1
+            TablaBloqueos = "------------" & vbCrLf & "TRANSACTIONS"
+            K = InStr(N, Msg, TablaBloqueos)
+            If K > 0 Then
+                TablaBloqueos = "--------" & vbCrLf & "FILE I/O"
+                N = InStr(K, Msg, TablaBloqueos)
+            End If
+            
+            Label1(1).Caption = "Buscando tramo " & K & " - " & N
+            
+            
+            If K = 0 Or N = 0 Then
+                
+                
+                
+                frmZoom.pValor = Msg
+                frmZoom.pModo = 3
+                frmZoom.Caption = "Show innodb "
+                frmZoom.Show vbModal
+                
+                
+            Else
+                
+                Msg = Mid(Msg, K, N - K)  'las transacciones ---TRANSACTION
+                
+                Set ColBDs = New Collection
+                
+                'Aqui ahora vamos a buscar los lockst ruc
+                'lock struct(s), linea a linea
+                N = 1
+                Do
+                    Label1(1).Caption = "lock strut: " & N
+                    K = InStr(N, Msg, "lock struct(s),")
+                    If K = 0 Then
+                        'FIN
+                        N = 0
+                    Else
+                        
+                        m = InStr(K, Msg, "---TRANSAC")
+                        If m > 0 Then
+                            'Aun hay mas
+                            TablaBloqueos = Mid(Msg, K, m - K - 1)
+                            N = m + 1
+                        Else
+                            TablaBloqueos = Mid(Msg, K)
+                            N = 0
+                        End If
+                        
+                        ColBDs.Add TablaBloqueos
+                    End If
+                Loop Until N = 0
+                
+                Label1(1).Caption = "Bloqueados " & ColBDs.Count
+                
+                For N = 1 To ColBDs.Count
+                    Msg = ColBDs.Item(N)
+                    TablaBloqueos = "MySQL thread id "
+                    K = InStr(1, Msg, TablaBloqueos)
+                    
+                    If K > 0 Then
+                        Label1(1).Caption = "Bloqueados " & ColBDs.Count & " //" & Msg
+                        Msg = Mid(Msg, K + Len(TablaBloqueos))
+                        K = InStr(2, Msg, ",")
+                        If K > 0 Then
+                            TablaBloqueos = Val(Mid(Msg, 1, K - 1))
+                            idZbloq = Val(TablaBloqueos)
+                            
+                            DelShowProcess = 0
+                            For NumRegElim = 1 To ColProcessList.Count
+                                TablaBloqueos = RecuperaValor(ColProcessList.Item(NumRegElim), 1)
+                                If idZbloq = CLng(TablaBloqueos) Then
+                                    'Este es
+                                    DelShowProcess = NumRegElim
+                                    Exit For
+                                End If
+                            Next
+                            
+                            If DelShowProcess = 0 Then
+                                'No he encontrado el process list . RARO. pero inserto sin mas
+                                K = 1 'para que inserte el nodo
+                                
+                            Else
+                                TablaBloqueos = RecuperaValor(ColProcessList.Item(DelShowProcess), 4)
+                                NumRegElim = Val(TablaBloqueos)
+                                K = IIf(NumRegElim > 70, 1, 0) 'Si han ppasdo mas de 60 segundos
+                            End If
+                            
+                            If K > 0 Then
+                            
+                                Set IT = lw1.ListItems.Add(, "K" & idZbloq)
+                                IT.Tag = 0
+                                IT.Text = idZbloq
+                                For K = 1 To 5
+                                    IT.SubItems(K) = " "
+                                Next
+                                IT.SubItems(2) = "root"
+                                
+                                K = InStr(1, Msg, vbCrLf)
+                                If K = 0 Then K = InStr(1, Msg, "root")
+                                
+                                If K = 0 Then
+                                    'No disponible
+                                    
+                                Else
+                                    Msg = Mid(Msg, 1, K - 1)
+                                    IT.SubItems(6) = CStr(Msg)
+                                    Msg = Trim(Replace(Msg, "root", ""))
+                                    
+                                    'Por IP
+                                    K = InStrRev(Msg, " ")
+                                    If K > 0 Then
+                                        IT.SubItems(3) = Trim(Mid(Msg, K))
+                                    Else
+                                        IT.SubItems(3) = "N/D"
+                                        K = 1
+                                    End If
+                                End If
+                                    
+                                If DelShowProcess > 0 Then
+                                    Msg = DateAdd("s", -NumRegElim, Now)
+                                    IT.SubItems(1) = Msg
+                                    IT.SubItems(3) = RecuperaValor(ColProcessList.Item(DelShowProcess), 2)
+                                    IT.SubItems(4) = RecuperaValor(ColProcessList.Item(DelShowProcess), 3)
+                                    IT.SubItems(5) = "N/D"
+                                End If
+                            Else
+                                K = 1 'para que no lo inserte aqui abajo
+                            End If
+                            
+                        Else
+                            K = 0
+                        End If
+                    End If
+                    If K = 0 Then
+                    
+                        'No lo ubico. Ponemos texto lo que podamos
+                        Set IT = lw1.ListItems.Add(, "KPN" & N)  '-->No podra hacer kill
+                        For K = 1 To 5
+                             IT.SubItems(K) = "N/D"
+                        Next
+                        IT.SubItems(6) = Msg
+                    End If
+                Next
+                Set ColBDs = Nothing
+                TablaBloqueos = ""
+            End If
+        
+        End If  'msg<>''
+    Else
+        Msg = "SELECT ps.id, trx.trx_started,ps.user,ps.host,ps.DB,ps.command,ps.time,ps.state,ps.info,trx.trx_id"
+        Msg = Msg & " FROM INFORMATION_SCHEMA.INNODB_TRX trx"
+        Msg = Msg & " JOIN INFORMATION_SCHEMA.PROCESSLIST ps ON trx.trx_mysql_thread_id = ps.id"
+        Msg = Msg & " WHERE trx.trx_started < CURRENT_TIMESTAMP - INTERVAL 60 SECOND"
+        Msg = Msg & " AND ps.user != 'system_user'"
+    
+        miRsAux.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        While Not miRsAux.EOF
+            Set IT = lw1.ListItems.Add(, "K" & miRsAux!trx_id)
+            IT.Text = miRsAux!Id
+            For J = 1 To 5
+                IT.SubItems(J) = DBLet(miRsAux.Fields(J), "T")
+            Next
+            IT.Tag = 0 '0 eliminar con KILL
+            miRsAux.MoveNext
+        Wend
+        miRsAux.Close
+    End If
     
     'Bloqueos producios desde ARICONTA/ARIGES
     CuantasAplicaciones = 4  'ariconta -  ariges  -arigasol  - ariagro
@@ -298,19 +491,19 @@ On Error GoTo eLeerInnodb
             
             While Not miRsAux.EOF
                 
-                i = lw1.ListItems.Count + 1
-                Label1(1).Caption = miRsAux!tabla & " " & i
+                I = lw1.ListItems.Count + 1
+                Label1(1).Caption = miRsAux!tabla & " " & I
                 Label1(1).Refresh
-                Set IT = lw1.ListItems.Add(, "B" & Format(i, "0000"))
-                IT.Text = i
+                Set IT = lw1.ListItems.Add(, "B" & Format(I, "0000"))
+                IT.Text = I
                 
                 IT.SubItems(1) = " - "
                         
                 
                 idZbloq = miRsAux!CodUsu \ 1000
-                i = miRsAux!CodUsu Mod 1000
+                I = miRsAux!CodUsu Mod 1000
                 
-                Msg = DevuelveDesdeBD("login", "usuarios.usuarios", "codusu", CStr(i))
+                Msg = DevuelveDesdeBD("login", "usuarios.usuarios", "codusu", CStr(I))
                 If Msg = "" Then Msg = "N/D"
                 IT.SubItems(2) = Msg
                 
@@ -335,7 +528,7 @@ On Error GoTo eLeerInnodb
     
     Exit Sub
 eLeerInnodb:
-    Label1(1).Caption = "ERROR   ***************" & vbCrLf & Err.Description
+    Label1(1).Caption = "ERROR   ***************" & Label1(1).Caption & vbCrLf & Err.Description
     MsgBox Label1(1).Caption, vbExclamation
     Err.Clear
     Set miRsAux = Nothing
@@ -345,7 +538,7 @@ End Sub
 'Llvara el codempre
 Private Sub CargaEmpresasApliacionAriadna(NombreTabla_En_Sql As String, ByRef ColEmpreas As Collection)
 Dim rsEmpresas As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
 
     On Error GoTo eCargaEmpresasApliacionAriadna
     Set ColEmpreas = New Collection
@@ -354,9 +547,9 @@ Dim Cad As String
     
     rsEmpresas.Open NombreTabla_En_Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not rsEmpresas.EOF
-        Cad = rsEmpresas!queBD
+        cad = rsEmpresas!queBD
         
-        ColEmpreas.Add Cad
+        ColEmpreas.Add cad
     
         rsEmpresas.MoveNext
     Wend
@@ -370,16 +563,64 @@ eCargaEmpresasApliacionAriadna:
 End Sub
 
 
-Private Sub AbrirRs(sql As String)
+Private Sub AbrirRs(Sql As String)
     On Error Resume Next
     
-    miRsAux.Open sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Err.Number <> 0 Then
         Err.Clear
         Conn.Errors.Clear
-        sql = "Select * from zbloqueos WHERE false" 'eof
+        Sql = "Select * from zbloqueos WHERE false" 'eof
         miRsAux.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         'NO PUEDE DAR ERROR
     End If
+End Sub
+
+Private Sub lw1_DblClick()
+    If lw1.ListItems.Count = 0 Then Exit Sub
+    If lw1.SelectedItem Is Nothing Then Exit Sub
+    
+    MsgBox lw1.SelectedItem.Key & vbCrLf & lw1.SelectedItem.SubItems(6), vbInformation
+End Sub
+
+
+
+
+
+Private Sub CreaCAdena()
+
+'
+'
+Msg = ""
+Msg = Msg & vbCrLf & "====================================="
+Msg = Msg & vbCrLf & "----------"
+Msg = Msg & vbCrLf & "SEMAPHORES"
+Msg = Msg & vbCrLf & "----------"
+Msg = Msg & vbCrLf & "OS WAIT ARRAY INFO: reservation count 483, signal count 477"
+Msg = Msg & vbCrLf & "Mutex spin waits 71, rounds 321, OS waits 1"
+Msg = Msg & vbCrLf & "RW-shared spins 678, rounds 18518, OS waits 474"
+Msg = Msg & vbCrLf & "RW-excl spins 11, rounds 10, OS waits 0"
+Msg = Msg & vbCrLf & "Spin rounds per wait: 4.52 mutex, 27.31 RW-shared, 0.91 RW-excl"
+Msg = Msg & vbCrLf & "------------"
+Msg = Msg & vbCrLf & "TRANSACTIONS"
+Msg = Msg & vbCrLf & "------------"
+Msg = Msg & vbCrLf & "Trx id counter 7BD2135"
+Msg = Msg & vbCrLf & "Purge done for trx's n:o < 7BD1E9C undo n:o < 0"
+Msg = Msg & vbCrLf & "History list length 905"
+Msg = Msg & vbCrLf & "LIST OF TRANSACTIONS FOR EACH SESSION:"
+Msg = Msg & vbCrLf & "---TRANSACTION 0, not started"
+Msg = Msg & vbCrLf & "MySQL thread id 1, OS thread handle 0x22c0, query id 3146 PCDAVID 192.100.100.231 root"
+Msg = Msg & vbCrLf & "show engine innodb  status"
+Msg = Msg & vbCrLf & "---TRANSACTION 7BD2069, not started"
+Msg = Msg & vbCrLf & "MySQL thread id 8, OS thread handle 0x2644, query id 2936 localhost 127.0.0.1 root"
+Msg = Msg & vbCrLf & "---TRANSACTION 7BD212C, ACTIVE 536 sec"
+Msg = Msg & vbCrLf & "5 lock struct(s), heap size 1248, 3 row lock(s)"
+Msg = Msg & vbCrLf & "MySQL thread id 33, OS thread handle 0x1eb8, query id 3124 localhost 127.0.0.1 root"
+Msg = Msg & vbCrLf & "Trx read view will not see trx with id >= 7BD212D, sees < 7BD212D"
+Msg = Msg & vbCrLf & "--------"
+Msg = Msg & vbCrLf & "FILE I/O"
+Msg = Msg & vbCrLf & "--------"
+Msg = Msg & vbCrLf & ""
+
 End Sub
 

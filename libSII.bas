@@ -708,8 +708,10 @@ Dim InversionSujetoPasivo As Boolean
 Dim FechaPeriodo2 As Date
 Dim NoDeducible As Boolean  '2019 Septiembre
 
-
-
+Dim GrabaTotalFactura As Boolean
+    'Total factura es cun campo "opcional".
+    'Modificacion de Ene-2021 SII hace una comprobacion de Totalbases + IVAS.
+    ' Porblema: las facturas de retencion que no son ARRENDAMIENTOS, (rea con retencion) esa suma no es correcta, con lo cual da error
 
     On Error GoTo eSii_FraCLI
     Sii_FraPRO = False
@@ -800,12 +802,17 @@ Dim NoDeducible As Boolean  '2019 Septiembre
  '   End If
     
     
+    GrabaTotalFactura = True
+    If DBLet(RN!trefacpr, "N") <> 0 Then GrabaTotalFactura = False
+    
     
 '#5
      
     'REG_FE_ClaveRegimenEspecialOTrascendencia,REG_FE_ImporteTotal,REG_FE_BaseImponibleACoste,REG_FE_DescripcionOperacion
     Clave = DevuelveClaveTranscendenciaRecibida(RN)
-    Sql = Sql & DBSet(Clave, "T") & "," & DBSet(RN!totfacpr, "N") & ",NULL,"
+    Sql = Sql & DBSet(Clave, "T") & ","
+    Sql = Sql & IIf(GrabaTotalFactura, DBSet(RN!totfacpr, "N"), "NULL")
+    Sql = Sql & ",NULL," 'REG_FE_DescripcionOperacion
     
     If vParam.TipoIntegracionSeleccionable = 1 Then
         Aux = "numserie =" & DBSet(RN!NUmSerie, "T") & " AND numregis =" & RN!Numregis & " AND anofactu "

@@ -1143,10 +1143,10 @@ Private Sub cmdAux_Click(Index As Integer)
         Case 0 ' cuenta base
             cmdAux(0).Tag = 0
             LlamaContraPar
-            If txtaux(4).Text <> "" Then
-                PonFoco txtaux(5)
+            If txtAux(4).Text <> "" Then
+                PonFoco txtAux(5)
             Else
-                PonFoco txtaux(4)
+                PonFoco txtAux(4)
             End If
         Case 1 'tipo de iva
             cmdAux(0).Tag = 1
@@ -1155,9 +1155,9 @@ Private Sub cmdAux_Click(Index As Integer)
             AyudaTiposIva frmTIva
             Set frmTIva = Nothing
             
-            PonFoco txtaux(7)
+            PonFoco txtAux(7)
         Case 2 'cento de coste
-            If txtaux(12).Enabled Then
+            If txtAux(12).Enabled Then
                 Set frmCC = New frmBasico
                 AyudaCC frmCC
                 Set frmCC = Nothing
@@ -1267,7 +1267,7 @@ Private Sub Form_Load()
         Text1(2).Text = miRsAux!codmacta
         Text1(2).Tag = miRsAux!codmacta
         Text4(1).Text = miRsAux!Nommacta
-        Text4(1).Tag = miRsAux!nifdatos  'si esta subida al SII, el NIF no puede ser nulo
+        Text4(1).Tag = DBLet(miRsAux!nifdatos, "T") 'si esta subida al SII, el NIF no puede ser nulo
     End If
     miRsAux.Close
     Set miRsAux = Nothing
@@ -1353,11 +1353,11 @@ Dim Limpiar As Boolean
 End Sub
 
 Private Sub txtaux_GotFocus(Index As Integer)
-    AntiguoText1 = txtaux(Index).Text
-    ConseguirFoco txtaux(Index), Modo2
+    AntiguoText1 = txtAux(Index).Text
+    ConseguirFoco txtAux(Index), Modo2
     
     If Index = 11 Then
-        If ComprobarCero(txtaux(9).Text) = 0 Then
+        If ComprobarCero(txtAux(9).Text) = 0 Then
             PonerFocoChk Me.chkAux(0)
         End If
     End If
@@ -1392,9 +1392,9 @@ Private Sub txtAux_LostFocus(Index As Integer)
     Dim RC As String
     Dim Importe As Currency
     Dim CalcularElIva As Boolean
-        If Not PerderFocoGnral(txtaux(Index), Modo2) Then Exit Sub
+        If Not PerderFocoGnral(txtAux(Index), Modo2) Then Exit Sub
         
-        If txtaux(Index).Text = AntiguoText1 Then
+        If txtAux(Index).Text = AntiguoText1 Then
              If Index = 12 And vParam.autocoste Then cmdAceptar.SetFocus
              Exit Sub
         End If
@@ -1402,20 +1402,20 @@ Private Sub txtAux_LostFocus(Index As Integer)
         CalcularElIva = True
         Select Case Index
         Case 5
-            RC = txtaux(5).Text
+            RC = txtAux(5).Text
             If CuentaCorrectaUltimoNivel(RC, Sql) Then
-                txtaux(5).Text = RC
+                txtAux(5).Text = RC
     
                 If EstaLaCuentaBloqueada2(RC, Fecha) Then
                     MsgBox "Cuenta bloqueada: " & RC, vbExclamation
-                    txtaux(5).Text = ""
+                    txtAux(5).Text = ""
                 Else
                     txtAux2(5).Text = Sql
                     ' traemos el tipo de iva de la cuenta
                     If ModoLineas = 1 Then
-                        txtaux(7).Text = DevuelveDesdeBD("codigiva", "cuentas", "codmacta", txtaux(5).Text, "N")
+                        txtAux(7).Text = DevuelveDesdeBD("codigiva", "cuentas", "codmacta", txtAux(5).Text, "N")
                        
-                        If txtaux(7).Text <> "" Then txtAux_LostFocus (7)
+                        If txtAux(7).Text <> "" Then txtAux_LostFocus (7)
                     Else
                         CalcularElIva = False
                     End If
@@ -1431,44 +1431,44 @@ Private Sub txtAux_LostFocus(Index As Integer)
                 End If
                     
                 If Sql <> "" Then
-                  txtaux(5).Text = ""
+                  txtAux(5).Text = ""
                   txtAux2(5).Text = ""
                   RC = "NO"
                 End If
             End If
             HabilitarCentroCoste
-            If RC <> "" Then PonFoco txtaux(5)
+            If RC <> "" Then PonFoco txtAux(5)
                 
-            If Modo2 = 5 And ModoLineas = 1 Then MostrarObservaciones txtaux(Index)
+            If Modo2 = 5 And ModoLineas = 1 Then MostrarObservaciones txtAux(Index)
             
         Case 6
-            If Not PonerFormatoDecimal(txtaux(Index), 1) Then
-                txtaux(Index).Text = ""
+            If Not PonerFormatoDecimal(txtAux(Index), 1) Then
+                txtAux(Index).Text = ""
             Else
                 'Si modificando lienas, no cambia el importe NO recalculo iVA
                 If Modo2 = 5 And ModoLineas = 2 Then
-                    If ImporteFormateado(txtaux(Index).Text) = CCur(DBLet(AdoAux(1).Recordset!Imponible, "N")) Then CalcularElIva = False
+                    If ImporteFormateado(txtAux(Index).Text) = CCur(DBLet(AdoAux(1).Recordset!Imponible, "N")) Then CalcularElIva = False
                     
                 End If
             End If
             
         Case 7 ' iva
             RC = "porcerec"
-            txtaux(8).Text = DevuelveDesdeBD("porceiva", "tiposiva", "codigiva", txtaux(7), "N", RC)
-            If txtaux(8).Text = "" Then
+            txtAux(8).Text = DevuelveDesdeBD("porceiva", "tiposiva", "codigiva", txtAux(7), "N", RC)
+            If txtAux(8).Text = "" Then
                 MsgBox "No existe el Tipo de Iva. Reintroduzca.", vbExclamation
-                PonFoco txtaux(7)
+                PonFoco txtAux(7)
             Else
                 If RC = 0 Then
-                    txtaux(9).Text = ""
+                    txtAux(9).Text = ""
                 Else
-                    txtaux(9).Text = RC
+                    txtAux(9).Text = RC
                 End If
             End If
             
              If Modo2 = 5 And ModoLineas = 2 Then
-                If txtaux(7).Text <> "" Then
-                    If Val(txtaux(Index).Text) = Val(DBLet(AdoAux(1).Recordset!TipoIva, "N")) Then CalcularElIva = False
+                If txtAux(7).Text <> "" Then
+                    If Val(txtAux(Index).Text) = Val(DBLet(AdoAux(1).Recordset!TipoIva, "N")) Then CalcularElIva = False
                 End If
             End If
             
@@ -1476,20 +1476,20 @@ Private Sub txtAux_LostFocus(Index As Integer)
             
         Case 10, 11
            'LOS IMPORTES
-            If PonerFormatoDecimal(txtaux(Index), 1) Then
+            If PonerFormatoDecimal(txtAux(Index), 1) Then
                 If Not vParam.autocoste Then cmdAceptar.SetFocus
             End If
                 
         Case 12
 '            If txtAux(Index).Text = "" Then Exit Sub
             
-            txtaux(12).Text = UCase(txtaux(12).Text)
-            Sql = DevuelveDesdeBD("nomccost", "ccoste", "codccost", txtaux(12).Text, "T")
+            txtAux(12).Text = UCase(txtAux(12).Text)
+            Sql = DevuelveDesdeBD("nomccost", "ccoste", "codccost", txtAux(12).Text, "T")
             txtAux2(12).Text = ""
             If Sql = "" Then
-                MsgBox "Concepto NO encontrado: " & txtaux(12).Text, vbExclamation
-                txtaux(12).Text = ""
-                PonFoco txtaux(12)
+                MsgBox "Concepto NO encontrado: " & txtAux(12).Text, vbExclamation
+                txtAux(12).Text = ""
+                PonFoco txtAux(12)
                 Exit Sub
             Else
                 txtAux2(12).Text = Sql
@@ -1511,19 +1511,19 @@ Dim hab As Boolean
 
     hab = False
     If vParam.autocoste Then
-        If txtaux(5).Text <> "" Then
-            hab = HayKHabilitarCentroCoste(txtaux(5).Text)
+        If txtAux(5).Text <> "" Then
+            hab = HayKHabilitarCentroCoste(txtAux(5).Text)
         Else
-            txtaux(12).Text = ""
+            txtAux(12).Text = ""
         End If
         If hab Then
-            txtaux(12).BackColor = &H80000005
+            txtAux(12).BackColor = &H80000005
             Else
-            txtaux(12).BackColor = &H80000018
-            txtaux(12).Text = ""
+            txtAux(12).BackColor = &H80000018
+            txtAux(12).Text = ""
         End If
     End If
-    txtaux(12).Enabled = hab
+    txtAux(12).Enabled = hab
 End Sub
 
 '1.-Debe    2.-Haber   3.-Decide en asiento
@@ -1547,18 +1547,18 @@ Private Sub HabilitarImportes(tipoConcepto As Byte)
         bHaber = True
     End Select
     
-    txtaux(9).Enabled = Not bDebe
-    txtaux(10).Enabled = Not bHaber
+    txtAux(9).Enabled = Not bDebe
+    txtAux(10).Enabled = Not bHaber
     
     If bDebe Then
-        txtaux(9).BackColor = &H80000018
+        txtAux(9).BackColor = &H80000018
     Else
-        txtaux(9).BackColor = &H80000005
+        txtAux(9).BackColor = &H80000005
     End If
     If bHaber Then
-        txtaux(10).BackColor = &H80000018
+        txtAux(10).BackColor = &H80000018
     Else
-        txtaux(10).BackColor = &H80000005
+        txtAux(10).BackColor = &H80000005
     End If
 End Sub
 
@@ -1582,26 +1582,26 @@ Dim J As Integer
 Dim Base As Currency
 Dim Aux As Currency
 
-    Base = ImporteFormateado(txtaux(6).Text)
+    Base = ImporteFormateado(txtAux(6).Text)
     
     'EL iva
-    Aux = ImporteFormateado(txtaux(8).Text) / 100
+    Aux = ImporteFormateado(txtAux(8).Text) / 100
     If Aux = 0 Then
-        If txtaux(10).Text = "" Then
-            txtaux(10).Text = ""
+        If txtAux(10).Text = "" Then
+            txtAux(10).Text = ""
         Else
-            txtaux(10).Text = "0,00"
+            txtAux(10).Text = "0,00"
         End If
     Else
-        txtaux(10).Text = Format(Round((Aux * Base), 2), FormatoImporte)
+        txtAux(10).Text = Format(Round((Aux * Base), 2), FormatoImporte)
     End If
     
     'Recargo
-    Aux = ImporteFormateado(txtaux(9).Text) / 100
+    Aux = ImporteFormateado(txtAux(9).Text) / 100
     If Aux = 0 Then
-        txtaux(11).Text = ""
+        txtAux(11).Text = ""
     Else
-        txtaux(11).Text = Format(Round((Aux * Base), 2), FormatoImporte)
+        txtAux(11).Text = Format(Round((Aux * Base), 2), FormatoImporte)
     End If
 
 End Sub
@@ -1672,17 +1672,17 @@ Dim I As Integer
                 ' *** valor per defecte a l'insertar i formateig de tots els camps ***
                 Case 1 'lineas de factura
                     If Limpia Then
-                        For I = 0 To txtaux.Count - 1
-                            txtaux(I).Text = ""
+                        For I = 0 To txtAux.Count - 1
+                            txtAux(I).Text = ""
                         Next I
                     End If
                     
                     'Para que no de errrores
-                    txtaux(0).Text = "2"
-                    txtaux(1).Text = "2"
-                    txtaux(2).Text = Fecha
-                    txtaux(3).Text = "2"
-                    txtaux(4).Text = NumF
+                    txtAux(0).Text = "2"
+                    txtAux(1).Text = "2"
+                    txtAux(2).Text = Fecha
+                    txtAux(3).Text = "2"
+                    txtAux(4).Text = NumF
                     
                     
                     If Limpia Then
@@ -1696,24 +1696,24 @@ Dim I As Integer
                    
                     
                     If Limpia Then
-                        PonFoco txtaux(5)
+                        PonFoco txtAux(5)
                     Else
-                        PonFoco txtaux(5)
+                        PonFoco txtAux(5)
                     End If
             
                     ' traemos la cuenta de contrapartida habitual
-                    PonFoco txtaux(5)
+                    PonFoco txtAux(5)
 
                     
-                    If txtaux(5).Text <> "" Then
-                        If EstaLaCuentaBloqueada2(txtaux(5).Text, CDate(txtaux(5).Text)) Then
-                            txtaux(5).Text = ""
+                    If txtAux(5).Text <> "" Then
+                        If EstaLaCuentaBloqueada2(txtAux(5).Text, CDate(txtAux(5).Text)) Then
+                            txtAux(5).Text = ""
                         Else
                             
                                 txtAux_LostFocus (5)
-                                PonFoco txtaux(7)
+                                PonFoco txtAux(7)
                                 txtAux_LostFocus (7)
-                                PonFoco txtaux(6)
+                                PonFoco txtAux(6)
                             
                         End If
                         
@@ -1758,22 +1758,22 @@ Private Sub BotonModificarLinea(Index As Integer)
     Select Case Index
         ' *** valor per defecte al modificar dels camps del grid ***
         Case 1 'lineas de facturas
-            txtaux(0).Text = DataGridAux(Index).Columns(0).Text
-            txtaux(1).Text = DataGridAux(Index).Columns(1).Text
-            txtaux(2).Text = DataGridAux(Index).Columns(2).Text
-            txtaux(3).Text = DataGridAux(Index).Columns(3).Text
-            txtaux(4).Text = DataGridAux(Index).Columns(4).Text
+            txtAux(0).Text = DataGridAux(Index).Columns(0).Text
+            txtAux(1).Text = DataGridAux(Index).Columns(1).Text
+            txtAux(2).Text = DataGridAux(Index).Columns(2).Text
+            txtAux(3).Text = DataGridAux(Index).Columns(3).Text
+            txtAux(4).Text = DataGridAux(Index).Columns(4).Text
             
-            txtaux(5).Text = DataGridAux(Index).Columns(5).Text 'cuenta
+            txtAux(5).Text = DataGridAux(Index).Columns(5).Text 'cuenta
             txtAux2(5).Text = DataGridAux(Index).Columns(6).Text 'denominacion
-            txtaux(6).Text = DataGridAux(Index).Columns(7).Text 'baseimpo
-            txtaux(7).Text = DataGridAux(Index).Columns(8).Text 'codigiva
-            txtaux(8).Text = DataGridAux(Index).Columns(9).Text '%iva
-            txtaux(9).Text = DataGridAux(Index).Columns(10).Text '%recargo
-            txtaux(10).Text = DataGridAux(Index).Columns(11).Text 'importe iva
-            txtaux(11).Text = DataGridAux(Index).Columns(12).Text 'importe recargo eq
+            txtAux(6).Text = DataGridAux(Index).Columns(7).Text 'baseimpo
+            txtAux(7).Text = DataGridAux(Index).Columns(8).Text 'codigiva
+            txtAux(8).Text = DataGridAux(Index).Columns(9).Text '%iva
+            txtAux(9).Text = DataGridAux(Index).Columns(10).Text '%recargo
+            txtAux(10).Text = DataGridAux(Index).Columns(11).Text 'importe iva
+            txtAux(11).Text = DataGridAux(Index).Columns(12).Text 'importe recargo eq
             
-            txtaux(12).Text = DataGridAux(Index).Columns(13).Text 'centro de coste
+            txtAux(12).Text = DataGridAux(Index).Columns(13).Text 'centro de coste
             txtAux2(12).Text = DataGridAux(Index).Columns(14).Text 'nombre centro de coste
             
             If DBLet(Me.AdoAux(1).Recordset!ret, "T") = "*" Then
@@ -1786,7 +1786,7 @@ Private Sub BotonModificarLinea(Index As Integer)
     LLamaLineas Index, ModoLineas, anc
     
     HabilitarCentroCoste
-    PonFoco txtaux(5)
+    PonFoco txtAux(5)
     
     ' ***************************************************************************************
 End Sub
@@ -1907,9 +1907,9 @@ Dim B As Boolean
     cmdCancelar.Cancel = True
     Select Case Index
         Case 1 'lineas de factura
-            For jj = 5 To txtaux.Count - 1
-                txtaux(jj).visible = B
-                txtaux(jj).top = alto
+            For jj = 5 To txtAux.Count - 1
+                txtAux(jj).visible = B
+                txtAux(jj).top = alto
             Next jj
             
             txtAux2(5).visible = B
@@ -1922,22 +1922,22 @@ Dim B As Boolean
             
             For jj = 0 To 2
                 cmdAux(jj).visible = B
-                cmdAux(jj).top = txtaux(5).top
-                cmdAux(jj).Height = txtaux(5).Height
+                cmdAux(jj).top = txtAux(5).top
+                cmdAux(jj).Height = txtAux(5).Height
             Next jj
             
             If Not vParam.autocoste Then
                 cmdAux(2).visible = False
                 cmdAux(2).Enabled = False
-                txtaux(12).visible = False
-                txtaux(12).Enabled = False
+                txtAux(12).visible = False
+                txtAux(12).Enabled = False
                 txtAux2(12).visible = False
                 txtAux2(12).Enabled = False
             End If
             
             'Porcentaje de IVA
-            BloqueaTXT txtaux(8), True
-            BloqueaTXT txtaux(9), True
+            BloqueaTXT txtAux(8), True
+            BloqueaTXT txtAux(9), True
             
             'Los campos importes de IVA siempre bloqueados excepto que el parametro indique lo contrario
             If B Then
@@ -1952,8 +1952,8 @@ Dim B As Boolean
                 B = False
             End If
             B = Not B
-            BloqueaTXT txtaux(10), B
-            BloqueaTXT txtaux(11), B
+            BloqueaTXT txtAux(10), B
+            BloqueaTXT txtAux(11), B
         
     End Select
     
@@ -2057,7 +2057,7 @@ Dim tots As String
             
             Else
                 For I = 0 To 4
-                    txtaux(I).Text = ""
+                    txtAux(I).Text = ""
                 Next I
                 txtAux2(5).Text = ""
                 txtAux2(12).Text = ""
@@ -2157,14 +2157,14 @@ Private Sub frmTIva_DatoSeleccionado(CadenaSeleccion As String)
 Dim RC As String
 
     'Tipos de Iva
-    txtaux(7).Text = RecuperaValor(CadenaSeleccion, 1)
+    txtAux(7).Text = RecuperaValor(CadenaSeleccion, 1)
     RC = "porcerec"
-    txtaux(8).Text = DevuelveDesdeBD("porceiva", "tiposiva", "codigiva", txtaux(7), "N", RC)
-    PonerFormatoDecimal txtaux(8), 4
+    txtAux(8).Text = DevuelveDesdeBD("porceiva", "tiposiva", "codigiva", txtAux(7), "N", RC)
+    PonerFormatoDecimal txtAux(8), 4
     If RC = 0 Then
-        txtaux(9).Text = ""
+        txtAux(9).Text = ""
     Else
-        txtaux(9).Text = RC
+        txtAux(9).Text = RC
     End If
 End Sub
 
@@ -2177,7 +2177,7 @@ Dim vFe As String
 
     If cmdAux(0).Tag = 0 Then
         'Cuenta normal
-        txtaux(5).Text = RecuperaValor(CadenaSeleccion, 1)
+        txtAux(5).Text = RecuperaValor(CadenaSeleccion, 1)
         txtAux2(5).Text = RecuperaValor(CadenaSeleccion, 2)
         
         'Habilitaremos el ccoste
@@ -2190,14 +2190,14 @@ Dim vFe As String
         Sql = CadenaSeleccion
     Else
         'contrapartida
-        txtaux(6).Text = RecuperaValor(CadenaSeleccion, 1)
+        txtAux(6).Text = RecuperaValor(CadenaSeleccion, 1)
     End If
 
 End Sub
 
 Private Sub frmCC_DatoSeleccionado(CadenaSeleccion As String)
     'Centro de coste
-    txtaux(12).Text = RecuperaValor(CadenaSeleccion, 1)
+    txtAux(12).Text = RecuperaValor(CadenaSeleccion, 1)
     txtAux2(12).Text = RecuperaValor(CadenaSeleccion, 2)
 End Sub
 
@@ -2243,13 +2243,13 @@ Private Function InsertarLinea() As Boolean
     If DatosOkLlin("FrameAux1") Then
         Sql = "INSERT INTO tmpfaclin(codusu,numfac,numserie,codigo,Fecha,cta,Imponible,IVA,ImpIVA,tipoiva,porcrec,recargo,tipoopera,numfactura) VALUES ("
         '                                  numlinea                serie                         fac/reg             frec,fecfac
-        Sql = Sql & vUsu.Codigo & "," & txtaux(4).Text & "," & DBSet(NUmSerie, "T") & "," & Codigo & "," & DBSet(Fecha, "F") & ","
+        Sql = Sql & vUsu.Codigo & "," & txtAux(4).Text & "," & DBSet(NUmSerie, "T") & "," & Codigo & "," & DBSet(Fecha, "F") & ","
         '                   cta                             impo                              iva
-        Sql = Sql & DBSet(txtaux(5).Text, "T") & "," & DBSet(txtaux(6).Text, "N") & "," & DBSet(txtaux(8).Text, "N") & ","
+        Sql = Sql & DBSet(txtAux(5).Text, "T") & "," & DBSet(txtAux(6).Text, "N") & "," & DBSet(txtAux(8).Text, "N") & ","
         '                   importeiva                   tipoiva                            porrec
-        Sql = Sql & DBSet(txtaux(10).Text, "N") & "," & DBSet(txtaux(7).Text, "N") & "," & DBSet(txtaux(9).Text, "T", "S") & ","
+        Sql = Sql & DBSet(txtAux(10).Text, "N") & "," & DBSet(txtAux(7).Text, "N") & "," & DBSet(txtAux(9).Text, "T", "S") & ","
         '               recargo                               tiene ret                     codccost
-        Sql = Sql & DBSet(txtaux(11).Text, "N", "S") & "," & Abs(Me.chkAux(0).Value) & "," & DBSet(txtaux(12).Text, "T", "S") & ")"
+        Sql = Sql & DBSet(txtAux(11).Text, "N", "S") & "," & Abs(Me.chkAux(0).Value) & "," & DBSet(txtAux(12).Text, "T", "S") & ")"
         
         
         If Ejecuta(Sql) Then InsertarLinea = True
@@ -2283,31 +2283,31 @@ Dim Importe As Currency
     
     If B And Modo2 = 5 Then ' tanto si insertamos como si modificamos en lineas
         'Cuenta
-        If txtaux(5).Text = "" Then
+        If txtAux(5).Text = "" Then
             MsgBox "Cuenta no puede estar vacia.", vbExclamation
             DatosOkLlin = False
-            PonFoco txtaux(5)
+            PonFoco txtAux(5)
             Exit Function
         End If
         
-        If Not IsNumeric(txtaux(5).Text) Then
+        If Not IsNumeric(txtAux(5).Text) Then
             MsgBox "Cuenta debe ser numrica", vbExclamation
             DatosOkLlin = False
-            PonFoco txtaux(5)
+            PonFoco txtAux(5)
             Exit Function
         End If
         
-        If txtaux(5).Text = "NO" Then
+        If txtAux(5).Text = "NO" Then
             MsgBox "La cuenta debe estar dada de alta en el sistema", vbExclamation
             DatosOkLlin = False
-            PonFoco txtaux(5)
+            PonFoco txtAux(5)
             Exit Function
         End If
         
-        If Not EsCuentaUltimoNivel(txtaux(5).Text) Then
+        If Not EsCuentaUltimoNivel(txtAux(5).Text) Then
             MsgBox "La cuenta no es de último nivel", vbExclamation
             DatosOkLlin = False
-            PonFoco txtaux(5)
+            PonFoco txtAux(5)
             Exit Function
         End If
         
@@ -2316,11 +2316,11 @@ Dim Importe As Currency
 
         
         'Centro de coste
-        If txtaux(12).visible Then
-            If txtaux(12).Enabled Then
-                If txtaux(12).Text = "" Then
+        If txtAux(12).visible Then
+            If txtAux(12).Enabled Then
+                If txtAux(12).Text = "" Then
                     MsgBox "Centro de coste no puede ser nulo", vbExclamation
-                    PonFoco txtaux(12)
+                    PonFoco txtAux(12)
                     Exit Function
                 End If
             End If
@@ -2336,28 +2336,28 @@ Dim Importe As Currency
     'Como puede modificar los IVA, hay que comprobar
     If B And vParam.ModificarIvaLineasFraCli Then
         
-        Importe = ImporteFormateado(txtaux(8).Text) / 100
-        Importe = ImporteFormateado(txtaux(6).Text) * Importe
+        Importe = ImporteFormateado(txtAux(8).Text) / 100
+        Importe = ImporteFormateado(txtAux(6).Text) * Importe
         
         
         
-        If Abs(Importe - ImporteFormateado(txtaux(10).Text)) >= 0.1 Then
+        If Abs(Importe - ImporteFormateado(txtAux(10).Text)) >= 0.1 Then
             Mens = "Iva calculado: " & Format(Importe, FormatoImporte) & vbCrLf
-            Mens = Mens & "Iva introducido: " & txtaux(10).Text & vbCrLf
+            Mens = Mens & "Iva introducido: " & txtAux(10).Text & vbCrLf
             Mens = "DIFERENCIAS EN IVA" & vbCrLf & vbCrLf & Mens & vbCrLf & "¿Desea continuar igualmente?"
             
             If MsgBox(Mens, vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then B = False
         End If
         
         If B Then
-            If Me.txtaux(9).Text <> "" Then
+            If Me.txtAux(9).Text <> "" Then
                 'REGARCO
                 
-                Importe = ImporteFormateado(txtaux(9).Text) / 100
-                Importe = ImporteFormateado(txtaux(6).Text) * Importe
-                If Abs(Importe - ImporteFormateado(txtaux(11).Text)) >= 0.05 Then
+                Importe = ImporteFormateado(txtAux(9).Text) / 100
+                Importe = ImporteFormateado(txtAux(6).Text) * Importe
+                If Abs(Importe - ImporteFormateado(txtAux(11).Text)) >= 0.05 Then
                     Mens = "Iva calculado: " & Format(Importe, FormatoImporte) & vbCrLf
-                    Mens = Mens & "Iva introducido: " & txtaux(11).Text & vbCrLf
+                    Mens = Mens & "Iva introducido: " & txtAux(11).Text & vbCrLf
                     Mens = "DIFERENCIAS EN RECARGO EQUIVALENCIA" & vbCrLf & vbCrLf & Mens & vbCrLf & "¿Desea continuar igualmente?"
                     
                     If MsgBox(Mens, vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then B = False
@@ -2393,12 +2393,12 @@ Private Function UpdateLinea() As Boolean
     Sql = "UPDATE tmpfaclin SET "
    
     '                   cta                             impo                              iva
-    Sql = Sql & "cta = " & DBSet(txtaux(5).Text, "T") & ", Imponible = " & DBSet(txtaux(6).Text, "N") & ","
-    Sql = Sql & "IVA = " & DBSet(txtaux(8).Text, "N") & ", ImpIVA = "
+    Sql = Sql & "cta = " & DBSet(txtAux(5).Text, "T") & ", Imponible = " & DBSet(txtAux(6).Text, "N") & ","
+    Sql = Sql & "IVA = " & DBSet(txtAux(8).Text, "N") & ", ImpIVA = "
     '                   importeiva                   tipoiva                            porrec
-    Sql = Sql & DBSet(txtaux(10).Text, "N") & ", tipoiva = " & DBSet(txtaux(7).Text, "N") & ", porcrec=" & DBSet(txtaux(9).Text, "T", "S") & ", recargo ="
+    Sql = Sql & DBSet(txtAux(10).Text, "N") & ", tipoiva = " & DBSet(txtAux(7).Text, "N") & ", porcrec=" & DBSet(txtAux(9).Text, "T", "S") & ", recargo ="
     '               recargo                               tiene ret                     codccost
-    Sql = Sql & DBSet(txtaux(11).Text, "N", "S") & ", tipoopera= " & Abs(Me.chkAux(0).Value) & ",numfactura =" & DBSet(txtaux(12).Text, "T", "S")
+    Sql = Sql & DBSet(txtAux(11).Text, "N", "S") & ", tipoopera= " & Abs(Me.chkAux(0).Value) & ",numfactura =" & DBSet(txtAux(12).Text, "T", "S")
         
     
     
