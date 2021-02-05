@@ -624,14 +624,14 @@ Begin VB.Form frmFacturasPro
       Left            =   3330
       TabIndex        =   67
       Top             =   90
-      Width           =   3285
+      Width           =   3645
       Begin MSComctlLib.Toolbar Toolbar2 
          Height          =   330
          Left            =   210
          TabIndex        =   68
          Top             =   180
-         Width           =   2925
-         _ExtentX        =   5159
+         Width           =   3405
+         _ExtentX        =   6006
          _ExtentY        =   582
          ButtonWidth     =   609
          ButtonHeight    =   582
@@ -639,7 +639,7 @@ Begin VB.Form frmFacturasPro
          Style           =   1
          _Version        =   393216
          BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-            NumButtons      =   7
+            NumButtons      =   8
             BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
                Object.ToolTipText     =   "Datos Fiscales"
             EndProperty
@@ -653,12 +653,15 @@ Begin VB.Form frmFacturasPro
                Object.ToolTipText     =   "Facturas sin Asiento"
             EndProperty
             BeginProperty Button5 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Style           =   3
+               Object.ToolTipText     =   "Sii. Modificar factura presentada"
             EndProperty
             BeginProperty Button6 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Object.ToolTipText     =   "Albaranes"
+               Style           =   3
             EndProperty
             BeginProperty Button7 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Albaranes"
+            EndProperty
+            BeginProperty Button8 {66833FEA-8583-11D1-B16A-00C0F0283628} 
                Object.ToolTipText     =   "Entrada factura"
             EndProperty
          EndProperty
@@ -973,7 +976,7 @@ Begin VB.Form frmFacturasPro
    End
    Begin VB.Frame FrameDesplazamiento 
       Height          =   705
-      Left            =   6720
+      Left            =   7110
       TabIndex        =   54
       Top             =   90
       Width           =   2415
@@ -4241,6 +4244,9 @@ Dim I As Integer
         .Buttons(2).Image = 44
         .Buttons(3).Image = 42
         .Buttons(4).Image = 36
+        .Buttons(5).Image = 45
+        .Buttons(5).visible = vParam.SIITiene
+        
         
         .Buttons(6).Image = 31
         .Buttons(7).Image = 28
@@ -4397,7 +4403,11 @@ Dim I As Integer
     Me.chkAux(0).Value = 0
 
     lw1.ListItems.Clear
-    If vParam.SIITiene Then Text1(28).BackColor = vbWhite
+    If vParam.SIITiene Then
+        Text1(28).BackColor = vbWhite
+        Text1(21).ToolTipText = ""
+    End If
+
    
     If Err.Number <> 0 Then Err.Clear
 End Sub
@@ -6279,7 +6289,7 @@ End Sub
 Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
 Dim CarpetaAlbar As String
 Dim CadFiltro_OLD As String
-
+Dim Sigo As Byte
     Select Case Button.Index
     
         Case 1 'Datos Fiscales
@@ -6318,10 +6328,55 @@ Dim CadFiltro_OLD As String
             ComprobarFrasSinAsiento
 
             
+        Case 5
+            'Modificar factura presentada SII
+            If Modo <> 2 Then Exit Sub
+            If vUsu.Nivel > 1 Then Exit Sub
+            
+            'Comprobamos la fecha pertenece al ejercicio
+            varFecOk = FechaCorrecta2(CDate(Text1(1).Text))
+            If varFecOk >= 2 Then
+                If varFecOk = 2 Then
+                    Sql = varTxtFec
+                Else
+                    Sql = "La factura pertenece a un ejercicio cerrado."
+                End If
+                MsgBox Sql, vbExclamation
+                Exit Sub
+            End If
+
+            Sigo = 0
+            If Text1(28).BackColor = vbSiiMofificando Then
+                'Dejo pasar pq va a cerrar el proceso y volver a subir al SII
+                Sigo = 2
+            Else
+                If Text1(28).BackColor = vbSiiOK Then Sigo = 1
+                If Text1(28).BackColor = vbSiiAceptadaConErr Then Sigo = 1
+            End If
+            
+            If Sigo = 0 Then Exit Sub
             
             
             
-        Case 6, 7
+            
+            
+            BuscaChekc = "numserie = " & DBSet(Data1.Recordset!NUmSerie, "T") & " AND numregis =" & Data1.Recordset!Numregis & " AND anofactu=" & Data1.Recordset!Anofactu
+            
+            frmSiiPreparaModificar.EsCliente = False
+            frmSiiPreparaModificar.where = BuscaChekc
+            frmSiiPreparaModificar.AbrirProceso = Sigo = 1
+            CadenaDesdeOtroForm = ""
+            frmSiiPreparaModificar.Show vbModal
+            
+            If CadenaDesdeOtroForm <> "" Then
+                'OK Se han modificado cosas. Modificamos y volvemos a cargar
+                Screen.MousePointer = vbHourglass
+                PosicionarData
+                Screen.MousePointer = vbDefault
+            End If
+                
+                    
+        Case 7, 8
             If Not (Modo = 2 Or Modo = 0) Then Exit Sub
             
             
@@ -7801,11 +7856,12 @@ Dim B As Boolean
         
         Me.Toolbar2.Buttons(3).Enabled = DBLet(Rs!Especial, "N") And (Modo = 2 Or Modo = 0)
         Me.Toolbar2.Buttons(4).Enabled = DBLet(Rs!Especial, "N") And (Modo = 2 Or Modo = 0)
+        Me.Toolbar2.Buttons(5).Enabled = DBLet(Rs!Especial, "N") And (Modo = 2)
         
         B = False
         If vParam.PathAlbaranesProv <> "" Then B = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2)
-        Me.Toolbar2.Buttons(6).Enabled = B
         Me.Toolbar2.Buttons(7).Enabled = B
+        Me.Toolbar2.Buttons(8).Enabled = B
         
         
         
@@ -8621,51 +8677,61 @@ Dim ModEspecial As Boolean
         If vParam.SIITiene Then
             'SI esta presentada...
             If Modo <> 3 And Modo <> 1 Then
-                If DBLet(Data1.Recordset!sii_id, "N") > 0 Then
-                    'If Val(DBLet(data1.Recordset!sii _status, "N")) > 2 Then
-                    If Text1(28).BackColor = &HC0FFC0 Or Text1(28).BackColor = &H80FF& Then
+                If DBLet(Data1.Recordset!SII_ID, "N") > 0 Then
+                
+                     If Text1(28).BackColor = vbSiiMofificando Then
+                        'Esta modificando la factura YA presentada.
+                        'Con lo cual le deja pasar
+                        'ok
+                            
+                    Else
                     
-                        'Si fecha >= fechaini
-                        ModEspecial = False
-                        If vUsu.Nivel <= 1 Then
-                            If Data1.Recordset!fecharec >= vParam.fechaini Then
-                            
-                                If Val(DBLet(Data1.Recordset!no_modifica_apunte, "N")) = 0 Then ModEspecial = True
-                            End If
-                        End If
+                    
+                        'If Val(DBLet(data1.Recordset!sii _status, "N")) > 2 Then
+                        If Text1(28).BackColor = vbSiiOK Or Text1(28).BackColor = vbSiiEnProceso Or Text1(28).BackColor = vbSiiAceptadaConErr Then
                         
-                        If ModEspecial Then
-                        
-                            'Bloqueamos el registro
-                            CadenaDesdeOtroForm = ""
-                            Ampliacion = ""
-                            Conn.Execute "DELETE from tmpfaclin WHERE codusu = " & vUsu.Codigo
-                            With frmFacturaModificar
-                                .Cliente = False
-                                .Anyo = Data1.Recordset!Anofactu
-                                .Codigo = Data1.Recordset!Numregis
-                                .NUmSerie = Data1.Recordset!NUmSerie
-                                .Fecha = Data1.Recordset!fecharec
-                                .Show vbModal
-                            End With
-                            
-                            
-                            'Si que ha modificado
-                            Screen.MousePointer = vbHourglass
-                            If CadenaDesdeOtroForm <> "" Or Ampliacion <> "" Then
+                            'Si fecha >= fechaini
+                            ModEspecial = False
+                            If vUsu.Nivel <= 1 Then
+                                If Data1.Recordset!fecharec >= vParam.fechaini Then
                                 
-                                If ModificaFacturaSiiPresentada Then
-                                    'CargaGrid 1, True
-                                    PosicionarData
-                                    PonerCampos
+                                    If Val(DBLet(Data1.Recordset!no_modifica_apunte, "N")) = 0 Then ModEspecial = True
                                 End If
                             End If
-                            Screen.MousePointer = vbDefault
-                        Else
-                            MsgBox "La factura ya esta presentada en el sistema de SII de la AEAT.", vbExclamation
                             
+                            If ModEspecial Then
+                            
+                                'Bloqueamos el registro
+                                CadenaDesdeOtroForm = ""
+                                Ampliacion = ""
+                                Conn.Execute "DELETE from tmpfaclin WHERE codusu = " & vUsu.Codigo
+                                With frmFacturaModificar
+                                    .Cliente = False
+                                    .Anyo = Data1.Recordset!Anofactu
+                                    .Codigo = Data1.Recordset!Numregis
+                                    .NUmSerie = Data1.Recordset!NUmSerie
+                                    .Fecha = Data1.Recordset!fecharec
+                                    .Show vbModal
+                                End With
+                                
+                                
+                                'Si que ha modificado
+                                Screen.MousePointer = vbHourglass
+                                If CadenaDesdeOtroForm <> "" Or Ampliacion <> "" Then
+                                    
+                                    If ModificaFacturaSiiPresentada Then
+                                        'CargaGrid 1, True
+                                        PosicionarData
+                                        PonerCampos
+                                    End If
+                                End If
+                                Screen.MousePointer = vbDefault
+                            Else
+                                MsgBox "La factura ya esta presentada en el sistema de SII de la AEAT.", vbExclamation
+                                
+                            End If
+                            Exit Function
                         End If
-                        Exit Function
                     End If
                 End If
             End If
@@ -9543,24 +9609,66 @@ End Sub
 Private Sub Color_CampoSII()
 Dim Color As Byte
 Dim Aux As String
+Dim CaptToolText As String
+    
+    'Ene 2021
+    'Columna status_ID
+    '  De momento si es <5  sigue como estaba ya que seria pdte, incorrecta, aceptada con errores
+    '
+    ' Si es mayor :     8. Modificandose y luego la modifican primero en el SII
+    '                   9.  TODO OK
+    CaptToolText = ""
 
-    If DBLet(Data1.Recordset!sii_id, "N") = 0 Then
+    If DBLet(Data1.Recordset!SII_ID, "N") = 0 Then
         Color = 0
     Else
-        Aux = "concat(enviada,'|',coalesce(csv,''),'|',coalesce(resultado,''))"
-        Aux = DevuelveDesdeBD(Aux, "aswsii.envio_facturas_recibidas", "IDEnvioFacturasRecibidas", CStr(Data1.Recordset!sii_id))
-        If Aux = "" Then
-            Color = 2
+    
+    
+        If Val(Data1.Recordset!SII_estado) > 4 Then
+            'NUEVO
+            
+            If Val(Data1.Recordset!SII_estado) = 8 Then
+                'Modificandose para poder rectificarla en PORTAL
+                Color = 6
+                CaptToolText = "Moficándose para SII"
+            Else
+                'OK
+                Color = 4
+            End If
         Else
+    
+            Aux = "concat(enviada,'|',coalesce(csv,''),'|',coalesce(resultado,''),'|')"
+            Aux = DevuelveDesdeBD(Aux, "aswsii.envio_facturas_recibidas", "IDEnvioFacturasRecibidas", CStr(Data1.Recordset!SII_ID))
+            
+            If Aux = "" Then Aux = "1|||"
             If RecuperaValor(Aux, 1) = 1 Then
                 If RecuperaValor(Aux, 2) = "" Then
+                    'Erronea
                     Color = 2
+                    CaptToolText = "Erronea "
                 Else
-                    Color = 4
+                    If RecuperaValor(Aux, 3) = "Correcto" Then
+                        Color = 4
+                    Else
+                        If RecuperaValor(Aux, 3) = "AceptadoConErrores" Then
+                            Color = 5
+                            CaptToolText = "Aceptada con erroeres"
+                        Else
+                            MsgBox "Situcion SII    no definida. Llame a soporte técnico", vbExclamation
+                            Color = 2
+                        End If
+                        
+                    End If
                 End If
             Else
+                'En proceso de carga
                 Color = 3
+                CaptToolText = "Subiendo"
             End If
+            
+            
+            
+            
         End If
     End If
     
@@ -9573,13 +9681,23 @@ Dim Aux As String
         Text1(28).ForeColor = vbBlack
         If Color = 4 Then
             'OK
-            Text1(28).BackColor = &HC0FFC0
+            Text1(28).BackColor = vbSiiOK
         ElseIf Color = 3 Then
-            Text1(28).BackColor = &H80FF&
-        Else
-            Text1(28).BackColor = &HFF&
+            'en proceso
+            Text1(28).BackColor = vbSiiEnProceso
+        ElseIf Color = 2 Then
+            'Erronea
+            Text1(28).BackColor = vbSiiError
+        ElseIf Color = 5 Then
+            'Aceptada con errores
+            Text1(28).BackColor = vbSiiAceptadaConErr
+            
+        ElseIf Color = 6 Then
+            'Modificando
+            Text1(28).BackColor = vbSiiMofificando
         End If
     End If
+    Text1(28).ToolTipText = CaptToolText
 End Sub
 
 

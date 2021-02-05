@@ -1087,7 +1087,8 @@ Private Sub PonerPeriodoPresentacion303()
     
     'Leeremos ultimo valor liquidado
     
-    txtAno(0).Text = vParam.anofactu
+    txtAno(0).Text = vParam.Anofactu
+
     I = vParam.perfactu + 1
     If vParam.periodos = 0 Then
         NumRegElim = 4
@@ -1096,8 +1097,12 @@ Private Sub PonerPeriodoPresentacion303()
     End If
         
     If I > NumRegElim Then
-            I = 1
-            txtAno(0).Text = vParam.anofactu + 1
+        I = 1
+        If OpcionListado = 1 Then
+              If Now > CDate("21/02/" & vParam.Anofactu + 1) Then txtAno(0).Text = vParam.Anofactu + 1
+        Else
+            txtAno(0).Text = vParam.Anofactu + 1
+        End If
     End If
     Me.cmbPeriodo(0).ListIndex = I '- 1
      
@@ -1413,7 +1418,7 @@ Dim Rs As ADODB.Recordset
     ' Tipo 2:   1 entero y 2 decimales
     ' tipo 3:   3 enetero y dos decimales
     
-    'Enero 2020     El 390, tiene que hacer sumatoriso de iva
+    
     
     Sql = "select iva ,  sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 0 "
     If vParam.RectificativasSeparadas303 Then Sql = Sql & " AND iva<100"
@@ -1457,6 +1462,7 @@ Dim Rs As ADODB.Recordset
         If K <> J Then
             Sql = "Error en IVAS regimen general. " & vbCrLf & " Existen " & Msg
             MsgBox Sql, vbQuestion
+            
         End If
         
     Else
@@ -1483,7 +1489,7 @@ Dim Rs As ADODB.Recordset
     
     HayReg = False
     
-    While Not Rs.EOF
+    If Not Rs.EOF Then
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
         DevuelveImporte DBLet(Rs!Ivas, "N"), 0
@@ -1491,7 +1497,7 @@ Dim Rs As ADODB.Recordset
         TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
-    Wend
+    End If
     If Not HayReg Then
         DevuelveImporte 0, 0
         DevuelveImporte 0, 0
@@ -1504,15 +1510,14 @@ Dim Rs As ADODB.Recordset
     Set Rs = New ADODB.Recordset
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     HayReg = False
-    While Not Rs.EOF
+    If Not Rs.EOF Then
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
         DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
         TotalClien = TotalClien + DBLet(Rs!Ivas, "N")
         
-        Rs.MoveNext
-    Wend
+    End If
     If Not HayReg Then
         DevuelveImporte 0, 0
         DevuelveImporte 0, 0
@@ -1869,7 +1874,7 @@ End Sub
 
 
 'Ahora desde un importe, antes Desde un text box
-Private Sub DevuelveImporte(Importe As Currency, Tipo As Byte)
+Private Sub DevuelveImporte(ByVal Importe As Currency, Tipo As Byte)
 Dim J As Integer
 Dim Aux As String
 Dim Resul As String
@@ -2558,8 +2563,12 @@ Dim I As String
 Dim Es_A_Compensar As Byte
 Dim CadenaImportes As String
 Dim B As Boolean
+    
+'Hojas de la EXCEL
     Dim Pagina2 As String
     Dim Pagina3 As String
+    Dim Pagina4 As String
+    Dim Pagina6 As String
 
     'Generamos la cadena con los importes a mostrar
     ImpTotal = 0
@@ -2567,42 +2576,11 @@ Dim B As Boolean
     GeneraCadenaImportes390_Pagina2
     Pagina2 = CStr(cad)
 
-     cad = ""
-    GeneraCadenaImportes390_Pagina3
-    Pagina3 = CStr(cad)
+    cad = ""
+    GeneraCadenaImportes390_Pagina3 Pagina3, Pagina4, Pagina6
+    
 
-    If False Then
-                            'Si el importe es negativo tendriamos que preguntar si quiere realizar
-                            'compensacion o ingreso/devolucion
-                            If CCur(ImpTotal) < 0 Then
-                                'NEGATIVO
-                                cad = "Importe a devolver / compensar." & vbCrLf & vbCrLf & _
-                                    "¿ Desea que sea a compensar ?"
-                                I = MsgBox(cad, vbQuestion + vbYesNoCancel)
-                                If I = vbCancel Then Exit Sub
-                                
-                                Es_A_Compensar = 0
-                                If I = vbYes Then Es_A_Compensar = 1
-                                
-                                
-                                If Es_A_Compensar = 0 Then
-                                    cad = DevuelveDesdeBD("iban1", "empresa2", "1", "1")
-                                    If cad = "" Then
-                                        MsgBox "Falta configurar IBAN para la devolucion", vbExclamation
-                                        Exit Sub
-                                    End If
-                                End If
-                                
-                            Else
-                                cad = "Ingreso por cta banco?" & vbCrLf & vbCrLf
-                                '
-                                I = MsgBox(cad, vbQuestion + vbYesNoCancel)
-                                If I = vbCancel Then Exit Sub
-                                Es_A_Compensar = 2
-                                If I = vbYes Then Es_A_Compensar = 3
-                            End If
-    End If
-
+    
     'Generamos la cadena para el ultimo registro de la presentacion
     'Registro <T30303>
     cad = ""
@@ -2619,7 +2597,7 @@ Dim B As Boolean
 
     
     
-    B = GenerarFicheroIVA_390_2020(CDate(txtFecha(2).Text), Periodo, Es_A_Compensar, Pagina2, Pagina3)
+    B = GenerarFicheroIVA_390_2020(CDate(txtFecha(2).Text), Periodo, Es_A_Compensar, Pagina2, Pagina3, Pagina4, Pagina6)
         
     If B Then GuardarComo
     
@@ -2680,13 +2658,13 @@ Dim Rs As ADODB.Recordset
             
             If Rs.EOF Then
                 DevuelveImporte 0, 0
-                DevuelveImporte 0, 3
+                'DevuelveImporte 0, 3   no lleva el %
                 DevuelveImporte 0, 0
             Else
                 Msg = Msg & "  " & Format(Rs!IVA, FormatoImporte) & "%"
                 K = K + 1
                 DevuelveImporte DBLet(Rs!Bases, "N"), 0
-                DevuelveImporte DBLet(Rs!IVA, "N"), 3
+                'DevuelveImporte DBLet(Rs!IVA, "N"), 3    'no lleva el %
                 DevuelveImporte DBLet(Rs!Ivas, "N"), 0
             
                 TotBases = TotBases + DBLet(Rs!Bases, "N")
@@ -2717,6 +2695,7 @@ Dim Rs As ADODB.Recordset
     'pos    Descripcion
     '115    5. Operaciones Reg. Gral. - Base imponible y cuota - operaciones intragrupo - Base imponible [500]
     '   6 campos de
+    Debug.Print Len(cad)
     For J = 1 To 6
         DevuelveImporte 0, 0
     Next
@@ -2725,7 +2704,7 @@ Dim Rs As ADODB.Recordset
         DevuelveImporte 0, 0
     Next
     '319    5. Operaciones Reg. Gral. - Base Imponible y cuota - Reg. espec. bienes usados - Base imponible [07]
-    For J = 1 To 5
+    For J = 1 To 6
         DevuelveImporte 0, 0
     Next
     '421   5. Operaciones Reg. Gral. - Base Imponible y cuota - Reg. espec. agencias viajes - Base imponible [13]
@@ -2734,28 +2713,36 @@ Dim Rs As ADODB.Recordset
     Next
     
     
-    'Adquisiciones intra
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 10 "
+    'Adquisiciones intra. Igual hay que separar por %IVA
+    Sql = "select iva,sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 10 GROUP BY 1"
     
     Set Rs = New ADODB.Recordset
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     HayReg = False
-    
+    K = 1
     While Not Rs.EOF
-        HayReg = True
-        DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
-        TotBases = TotBases + DBLet(Rs!Bases, "N")
-        TotCuotas = TotCuotas + DBLet(Rs!Ivas, "N")
+        If K > 3 Then
+            MsgBox "mas de 3 IVAS intracomunitarios/cliente", vbExclamation
         
+        Else
+        
+            DevuelveImporte DBLet(Rs!Bases, "N"), 0
+            DevuelveImporte DBLet(Rs!Ivas, "N"), 0
+            
+            TotBases = TotBases + DBLet(Rs!Bases, "N")
+            TotCuotas = TotCuotas + DBLet(Rs!Ivas, "N")
+        End If
+        K = K + 1
         Rs.MoveNext
     Wend
-    If Not HayReg Then
+    
+    For J = K To 3
+    
         DevuelveImporte 0, 0
         DevuelveImporte 0, 0
-    End If
+    Next
     Set Rs = Nothing
     
     '557    5. Operaciones Reg. Gral. - Base Imponible y cuota - Adquis. intracomunit. servicios - Base Imponible [545]
@@ -2770,26 +2757,25 @@ Dim Rs As ADODB.Recordset
     Set Rs = New ADODB.Recordset
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     HayReg = False
-    While Not Rs.EOF
+    If Not Rs.EOF Then
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
         DevuelveImporte DBLet(Rs!Ivas, "N"), 0
         
         TotBases = TotBases + DBLet(Rs!Bases, "N")
         TotCuotas = TotCuotas + DBLet(Rs!Ivas, "N")
-        
-        Rs.MoveNext
-    Wend
-    If Not HayReg Then
+            
+    Else
         DevuelveImporte 0, 0
         DevuelveImporte 0, 0
     End If
+    Rs.Close
     
 
     HayReg = False
     If vParam.RectificativasSeparadas303 Then
         Set Rs = New ADODB.Recordset
-        Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 0 AND iva=100"
+        Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 0 AND iva=100 "
         Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         Sql = ""
         While Not Rs.EOF
@@ -2862,7 +2848,7 @@ Dim Rs As ADODB.Recordset
         Msg = "IVAs en contabilidad:  " & Msg & vbCrLf & vbCrLf & "Procesados: "
     
     
-        For I = 1 To 3
+        For I = 1 To 4
             
             
             'primero el 4  despues el 10 despues el 21
@@ -2890,7 +2876,7 @@ Dim Rs As ADODB.Recordset
     
     Else
     
-        For J = 1 To 3
+        For J = 1 To 4
             DevuelveImporte 0, 0
             DevuelveImporte 0, 0
         Next J
@@ -2901,7 +2887,7 @@ Dim Rs As ADODB.Recordset
     
     
     
-    'modificacion bases y cuotas del recargo de equivalencia
+    '965 modificacion bases y cuotas del recargo de equivalencia
     HayReg = False
     If vParam.RectificativasSeparadas303 Then
         Set Rs = New ADODB.Recordset
@@ -2936,6 +2922,12 @@ Dim Rs As ADODB.Recordset
     End If
     
     
+    '999- Base Imponible y cuota - Modific. recargo equiv. Concurso acreedores - Base imponible [45]
+    DevuelveImporte 0, 0
+    DevuelveImporte 0, 0
+    
+    
+    
     '1033 5. Operaciones Reg. Gral. - Base Imponible y cuota - Total cuotas IVA y recargo equivalencia [47]
     TotCuotasYRecargo = TotCuotasYRecargo + TotCuotas
     
@@ -2947,12 +2939,12 @@ Dim Rs As ADODB.Recordset
 End Sub
 
 
-Private Sub GeneraCadenaImportes390_Pagina3()
+Private Sub GeneraCadenaImportes390_Pagina3(Pagina3 As String, Pagina4 As String, Pagina6 As String)
 Dim TotalProve  As Currency
 Dim HayReg As Boolean
 Dim Rs As ADODB.Recordset
-    
-    
+Dim ImpAux As Currency
+
     '------------------------------------------------------------------------
     '------------------------------------------------------------------------
     'DEDUCIBLE
@@ -2961,121 +2953,107 @@ Dim Rs As ADODB.Recordset
 '    'operaciones interiores
 
     '[Monica]24/06/2016: en las facturas de proveedores faltaba añadir las fras de ISP, he añadido el 12
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente in ( 2, 12 )  "
+    Sql = "select iva,sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and iva>0 and cliente in ( 2, 12 ) GROUP BY 1  ORDER BY 1"
 
     
-    
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    HayReg = False
-    While Not Rs.EOF
-        HayReg = True
-        DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
-        
-        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
-        
-        Rs.MoveNext
-    Wend
-    If Not HayReg Then
+    Rs.Open Sql, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+     
+    'Iva en orperaciones corrientes
+    DividiCasillasIvaProoveedor "Opraciones corrientes", Rs, TotalProve
+    
+    
+    'Instragrupo
+    ' intragrupo corrientes - Base imponible [512]
+    For I = 1 To 8
         DevuelveImporte 0, 0
-        DevuelveImporte 0, 0
-    End If
-    Set Rs = Nothing
+    Next
+    
     
     'operaciones interiores BIENES INVERSION
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 30 "
-    
+    Sql = "select iva,sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 30 GROUP BY 1 "
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    HayReg = False
-    While Not Rs.EOF
-        HayReg = True
-        DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
-        
-        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
-        
-        Rs.MoveNext
-    Wend
-    If Not HayReg Then
+    Rs.Open Sql, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    'Iva en orperaciones corrientes
+    DividiCasillasIvaProoveedor "Internas de bienes de inversion", Rs, TotalProve
+
+    
+    '
+    ' intracomunitarias bienes inversion
+    For I = 1 To 8
         DevuelveImporte 0, 0
-        DevuelveImporte 0, 0
-    End If
-    Set Rs = Nothing
+    Next
+    
     
     'importaciones
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 32 "
-    
-    Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    HayReg = False
-    While Not Rs.EOF
-        HayReg = True
-        DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
+    If True Then
+        For I = 1 To 16
+            DevuelveImporte 0, 0
+        Next
         
-        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
-        
-        Rs.MoveNext
-    Wend
-    If Not HayReg Then
-        DevuelveImporte 0, 0
-        DevuelveImporte 0, 0
+    Else
+        Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 32 "
+        Set Rs = New ADODB.Recordset
+        Rs.Open Sql, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+        HayReg = False
+        If Not Rs.EOF Then
+            DevuelveImporte DBLet(Rs!Bases, "N"), 0
+            DevuelveImporte DBLet(Rs!Ivas, "N"), 0
+            
+            TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
+        Else
+            DevuelveImporte 0, 0
+            DevuelveImporte 0, 0
+        End If
+        Rs.Close
+        Set Rs = Nothing
     End If
-    Set Rs = Nothing
     
     'importaciones BIEN INVERSION
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 34 "
-    
+    Sql = "select iva,sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 34 group by 1"
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    HayReg = False
-    While Not Rs.EOF
-        HayReg = True
-        DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
-        
-        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
-        
-        Rs.MoveNext
-    Wend
-    If Not HayReg Then
-        DevuelveImporte 0, 0
-        DevuelveImporte 0, 0
-    End If
-    Set Rs = Nothing
+    Rs.Open Sql, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    DividiCasillasIvaProoveedor "IMPORTACIONES bienes de inversion", Rs, TotalProve
     
     
     
     'adqisiciones intracom
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 36 "
+    Sql = "select iva,sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 36 GROUP BY 1"
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    HayReg = False
-    While Not Rs.EOF
-        HayReg = True
-        DevuelveImporte DBLet(Rs!Bases, "N"), 0
-        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
-        
-        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
-        
-        Rs.MoveNext
-    Wend
-    If Not HayReg Then
-        DevuelveImporte 0, 0
-        DevuelveImporte 0, 0
-    End If
-    Set Rs = Nothing
+    Rs.Open Sql, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    DividiCasillasIvaProoveedor "Adquisiciones intracomunitarias corrientes", Rs, TotalProve
+    
+    
+    
     
     'adqisiciones intracom BIEN INVERSION
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 38 "
+    Sql = "select iva,sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 38  GROUP BY 1"
+    Set Rs = New ADODB.Recordset
+    Rs.Open Sql, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    DividiCasillasIvaProoveedor "Adquisiciones intracomunitarias bien inversion", Rs, TotalProve
+
+
+
+
+    Pagina3 = CStr(cad)   'ahi esta los datos de la pagina 3
+
+    '********************************************************************************************************************
+    '********************************************************************************************************************
+    '   Pagina 4
+    '********************************************************************************************************************
+    '********************************************************************************************************************
+    'Vamos con la pagina 4
+    cad = ""
+    
+    
+    '    DevuelveImporte 28, 0  'Regimen especial
+    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 42 "
     
     Set Rs = New ADODB.Recordset
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     HayReg = False
-    While Not Rs.EOF
+    If Not Rs.EOF Then
         HayReg = True
         DevuelveImporte DBLet(Rs!Bases, "N"), 0
         DevuelveImporte DBLet(Rs!Ivas, "N"), 0
@@ -3083,14 +3061,16 @@ Dim Rs As ADODB.Recordset
         TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
         
         Rs.MoveNext
-    Wend
-    If Not HayReg Then
+    Else
         DevuelveImporte 0, 0
         DevuelveImporte 0, 0
     End If
-    Set Rs = Nothing
-
-
+    
+    
+    DevuelveImporte 0, 0  'Cuotas deducibles en virtud de resolución administrativa o sentencia firmes con tipos no vigentes - Base impon.  [660]
+    DevuelveImporte 0, 0  'Cuotas deducibles en virtud de resolución administrativa o sentencia firmes con tipos no vigentes - Base impon.  [660]
+    
+    
     ' rectificacion de deducciones
     HayReg = False
     If vParam.RectificativasSeparadas303 Then
@@ -3112,47 +3092,276 @@ Dim Rs As ADODB.Recordset
         If Len(Sql) > 1 Then MsgBox "Error en facturas rectificativas DECUCIBLE .  Mas de una linea devuelta", vbExclamation
 
     End If
-
     If Not HayReg Then
         DevuelveImporte 0, 0
         DevuelveImporte 0, 0
     End If
     
     
-
-'    DevuelveImporte 28, 0  'Regimen especial
-    Sql = "select sum(bases) bases, sum(ivas) ivas from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 42 "
-    
-    Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    HayReg = False
-    While Not Rs.EOF
-        HayReg = True
-        DevuelveImporte DBLet(Rs!Ivas, "N"), 0
-        
-        TotalProve = TotalProve + DBLet(Rs!Ivas, "N")
-        
-        Rs.MoveNext
-    Wend
-    If Not HayReg Then
-        DevuelveImporte 0, 0
-    End If
-    
-    Set Rs = Nothing
-    
+    ' Deducion
+    DevuelveImporte 0, 0  '5. Operaciones Reg. Gral. - Base IVA deducible - Rectificación de deducciones intragrupo
+    DevuelveImporte 0, 0  ' """                         cuota
     DevuelveImporte 0, 0  'Regularizacion inversiones
     DevuelveImporte 0, 0  'Regularizacion por aplicacion del porcentaje def de prorrata
-
     
-    'total a deducir
+    
+    'total a deducir    'Suma de deducciones
     DevuelveImporte 1 * TotalProve, 0
     
+    ImpTotal = ImpTotal - (TotalProve)
+    
+    'resultado regimen general
+    DevuelveImporte ImpTotal, 0
+    
+    cad = cad & Space(150)  'RESERVADO AEAT
+    Pagina4 = cad
     
     
-    
-    ImpTotal = ImpTotal - TotalProve
-    
+    '********************************************************************************************************************
+    '********************************************************************************************************************
+    '   Pagina 6
+    '********************************************************************************************************************
+    '********************************************************************************************************************
+    cad = ""
+    '7-regularizacion cuotas [658]
+    DevuelveImporte 0, 0
+    'Resultado    [84]
+    DevuelveImporte ImpTotal, 0
+    'Liquidado aduana [659]
+    DevuelveImporte 0, 0
      
+    'Compensacion anterior y resultado liquidaciion
+    DevuelveImporte 0, 0         '[85]
+    DevuelveImporte ImpTotal, 0  '[86]
+    
+    'Territorio
+    For I = 1 To 5
+        DevuelveImporte 0, 3
+    Next
+    'Regularizacion cutoas y resultado  [658]
+    DevuelveImporte 0, 0
+    DevuelveImporte 0, 0     '[84]
+    DevuelveImporte 0, 0     '[92]
+    
+    '174 Iva en aduanas con opcion detrimento pasivo   [659]
+    '191 compensacion anteriores                      [524]
+    '208 Resultado anual                                [94]
+    DevuelveImporte 0, 0
+    DevuelveImporte 0, 0
+    DevuelveImporte 0, 0
+    
+    'Si es iva trimestral son periodos 1-2-3-4  que en BD: 13 14 15 16
+    '           mensual                1,2,3..12           1..12
+    If vParam.periodos = 0 Then
+        Sql = "16"
+    Else
+        Sql = "12"
+    End If
+    
+    Sql = "select sum(if(periodo<" & Sql & ",importe,0)) sumante, sum(if(periodo=" & Sql & ",importe,0)) periodo"
+    Sql = Sql & " from liqiva where anoliqui=" & RecuperaValor(Periodo, 3)
+    Set Rs = New ADODB.Recordset
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    'No puede ser EOF
+        
+    ImpAux = DBLet(Rs!sumante, "N")
+    DevuelveImporte ImpAux, 0   'Total resultados a ingresar autoliquidaciones de IVA del ejercicio [95]
+    
+    
+    DevuelveImporte 0, 0   'Total devoluc. mensuales IVA suj. pasivos Regtro. de devolución mensual [96]
+    DevuelveImporte 0, 0   ' Total devoluc. Por cuotas en la adquisicion de elementos de transporte [524]
+    
+    'Resultado ult periodo
+    ' Resultado declaración-liquidación último periodo - A compensar [97]
+    ' Resultado declaración-liquidación último periodo - A devolver [98]
+    ImpAux = DBLet(Rs!Periodo, "N")
+    Rs.Close
+    If ImpAux >= 0 Then
+        'ACompensar
+        DevuelveImporte ImpAux, 0  '97
+        DevuelveImporte 0, 0        '98
+    Else
+        DevuelveImporte 0, 0  '97
+        DevuelveImporte Abs(ImpAux), 0        '98
+    End If
+    
+    DevuelveImporte Abs(ImpAux), 0  '662 Cuotas pendientes de compensación generadas en el ejercicio y distintas de las incluidas en la casilla 97 [662]
+    
+    'Total resultados positivos del ejercicio (modelo 322) [525]  GRUPO
+    'Total resultados negativos del ejercicio (modelo 322) [526]
+    DevuelveImporte 0, 0        '525
+    DevuelveImporte 0, 0        '526
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    'Opereaciones de regimen especial[99]
+    DevuelveImporte 0, 0
+    
+    'Operaciones régimen especial del criterio de caja [653]
+    DevuelveImporte 0, 0
+    
+    'Entregas intracomunitarias exentas [103]
+    DevuelveImporte 0, 0
+    
+    'Exportaciones y otras operaciones exentas con derecho a deducción [104]
+    DevuelveImporte 0, 0
+    
+    'Operaciones exentas sin derecho a deducción [105]
+    DevuelveImporte 0, 0
+        
+    'Operaciones no sujetas o con inversion de suj. Pasivo [110]
+    DevuelveImporte 0, 0
+    
+    'Entregas de bienes objeto de instalación o montaje en otros Estados miembros [112]
+    DevuelveImporte 0, 0
+
+    'Operaciones en régimen simplificado [100]
+    DevuelveImporte 0, 0
+        
+    'Operaciones en régimen especias de la agricultura, ganadería y pesca [101]
+    DevuelveImporte 0, 0
+    
+    'Operaciones en régimen especial del recargo de equivalencia [102].
+    DevuelveImporte 0, 0
+
+    'Operaciones en régimen especias de bienes usados, objetos de arte, antigüedades y objetos de colección [227].
+    DevuelveImporte 0, 0
+    
+    'Operaciones en régimen especial de agencias de viajes [228].
+    'Entrega de bienes inmuebles y operaciones financieras no habituales [106]
+    'Entrega de bienes de inversion [107]
+    'Total volumen de operaciones [108]
+    For I = 1 To 4
+        DevuelveImporte 0, 0
+    Next
+
+
+    cad = cad & Space(150)  'RESERVADO AEAT
+    
+    Pagina6 = CStr(cad)
+
+
+
+
+
+    
+    
+End Sub
+
+
+'Dado un recorset grabara
+'  base 4    iva 4
+'  base 10   iva 10
+'  base 21   iva 21
+Private Sub DividiCasillasIvaProoveedor(Descrip As String, ByRef Rs As ADODB.Recordset, ByRef TotalIvaProv As Currency)
+Dim SubTotalBases As Currency
+Dim SubTotalIvas As Currency
+Dim IB As Currency
+Dim ii As Currency
+
+
+    SubTotalBases = 0: SubTotalIvas = 0
+    
+    If Rs.EOF Then
+        
+        For I = 1 To 4
+            DevuelveImporte 0, 0
+            DevuelveImporte 0, 0
+        Next
+        Rs.Close
+        Set Rs = Nothing
+        Exit Sub
+    End If
+    
+    
+    'IVA 4%
+    'Rs.Find ("IVA=4")
+    EncuentraPorPoceIva Rs, 4
+    If Rs.EOF Then
+        ii = 0: IB = 0
+    Else
+        ii = DBLet(Rs!Ivas, "N")
+        IB = Rs!Bases
+        SubTotalBases = SubTotalBases + IB
+        SubTotalIvas = SubTotalIvas + ii
+        TotalIvaProv = TotalIvaProv + ii
+    End If
+    DevuelveImporte IB, 0
+    DevuelveImporte ii, 0
+    
+    'IVA 10%
+    'Rs.Find ("IVA=10")
+    EncuentraPorPoceIva Rs, 10
+    If Rs.EOF Then
+        ii = 0: IB = 0
+    Else
+        ii = DBLet(Rs!Ivas, "N")
+        IB = Rs!Bases
+        SubTotalBases = SubTotalBases + IB
+        SubTotalIvas = SubTotalIvas + ii
+        TotalIvaProv = TotalIvaProv + ii
+    End If
+    DevuelveImporte IB, 0
+    DevuelveImporte ii, 0
+    'IVA 21%
+    'Rs.Find ("IVA=21")
+    EncuentraPorPoceIva Rs, 21
+    If Rs.EOF Then
+        ii = 0: IB = 0
+    Else
+        ii = DBLet(Rs!Ivas, "N")
+        IB = Rs!Bases
+        SubTotalBases = SubTotalBases + IB
+        SubTotalIvas = SubTotalIvas + ii
+        TotalIvaProv = TotalIvaProv + ii
+    End If
+    DevuelveImporte IB, 0
+    DevuelveImporte ii, 0
+    'totales
+    DevuelveImporte SubTotalBases, 0
+    DevuelveImporte SubTotalIvas, 0
+    
+    
+    
+    'Compruebos si hay alguno que no sea 4,10,21
+    If DBLet(Rs.RecordCount, "N") > 0 Then
+        Rs.MoveFirst
+        While Not Rs.EOF
+            If Rs!IVA <> 4 Then
+                If Rs!IVA <> 10 Then
+                    If Rs!IVA <> 21 Then MsgBox Descrip & vbCrLf & "Iva proveedor no procesable: " & Rs!IVA, vbExclamation
+                End If
+            End If
+            Rs.MoveNext
+        Wend
+    End If
+
+    Rs.Close
+    Set Rs = Nothing
+
+
+End Sub
+
+Private Sub EncuentraPorPoceIva(ByRef RsI As ADODB.Recordset, Valor As Currency)
+Dim Fin As Boolean
+
+    RsI.MoveFirst
+    Fin = False
+    Do
+        If RsI!IVA = Valor Then
+            Fin = True
+        Else
+            RsI.MoveNext
+            If RsI.EOF Then Fin = True
+        End If
+    Loop Until Fin
+        
 End Sub
 
 

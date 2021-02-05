@@ -25,13 +25,13 @@ Begin VB.Form frmInfBalances
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   5715
+      Height          =   5775
       Left            =   7110
-      TabIndex        =   22
+      TabIndex        =   21
       Top             =   0
       Width           =   4485
-      Begin VB.CheckBox chkSoloMes 
-         Caption         =   "Saldos sólo del mes seleccionado"
+      Begin VB.OptionButton optPeriodo 
+         Caption         =   "Semestral"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -41,11 +41,67 @@ Begin VB.Form frmInfBalances
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   495
-         Left            =   120
-         TabIndex        =   7
-         Top             =   1320
-         Width           =   4035
+         Height          =   255
+         Index           =   3
+         Left            =   240
+         TabIndex        =   40
+         Top             =   4440
+         Width           =   3975
+      End
+      Begin VB.OptionButton optPeriodo 
+         Caption         =   "Trimestral"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   2
+         Left            =   240
+         TabIndex        =   39
+         Top             =   3960
+         Width           =   3975
+      End
+      Begin VB.OptionButton optPeriodo 
+         Caption         =   "Mensual"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   1
+         Left            =   240
+         TabIndex        =   38
+         Top             =   3480
+         Width           =   3975
+      End
+      Begin VB.OptionButton optPeriodo 
+         Caption         =   "Acumulado"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   0
+         Left            =   240
+         TabIndex        =   37
+         Top             =   3000
+         Value           =   -1  'True
+         Width           =   3975
       End
       Begin VB.TextBox txtFecha 
          Alignment       =   2  'Center
@@ -78,8 +134,8 @@ Begin VB.Form frmInfBalances
          EndProperty
          Height          =   240
          Left            =   120
-         TabIndex        =   8
-         Top             =   1950
+         TabIndex        =   7
+         Top             =   1440
          Width           =   4155
       End
       Begin VB.CheckBox chk2 
@@ -95,15 +151,15 @@ Begin VB.Form frmInfBalances
          EndProperty
          Height          =   495
          Left            =   120
-         TabIndex        =   9
-         Top             =   2400
+         TabIndex        =   8
+         Top             =   1800
          Value           =   1  'Checked
          Width           =   4035
       End
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   3750
-         TabIndex        =   29
+         TabIndex        =   28
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -118,6 +174,23 @@ Begin VB.Form frmInfBalances
             EndProperty
          EndProperty
       End
+      Begin VB.Label lblPeriodo 
+         Caption         =   "xxxx"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   120
+         TabIndex        =   36
+         Top             =   5040
+         Width           =   4095
+      End
       Begin VB.Label lblInd 
          Caption         =   "indicador"
          BeginProperty Font 
@@ -131,7 +204,7 @@ Begin VB.Form frmInfBalances
          EndProperty
          Height          =   195
          Left            =   120
-         TabIndex        =   36
+         TabIndex        =   35
          Top             =   5400
          Width           =   4095
       End
@@ -149,7 +222,7 @@ Begin VB.Form frmInfBalances
          Height          =   195
          Index           =   9
          Left            =   270
-         TabIndex        =   30
+         TabIndex        =   29
          Top             =   780
          Width           =   690
       End
@@ -175,7 +248,7 @@ Begin VB.Form frmInfBalances
       EndProperty
       Height          =   3045
       Left            =   120
-      TabIndex        =   21
+      TabIndex        =   20
       Top             =   0
       Width           =   6915
       Begin VB.ComboBox cmbFecha 
@@ -202,7 +275,7 @@ Begin VB.Form frmInfBalances
          BorderStyle     =   0  'None
          Height          =   630
          Left            =   120
-         TabIndex        =   34
+         TabIndex        =   33
          Top             =   2250
          Width           =   4665
          Begin VB.ComboBox cmbFecha 
@@ -259,7 +332,7 @@ Begin VB.Form frmInfBalances
             Height          =   195
             Index           =   0
             Left            =   210
-            TabIndex        =   35
+            TabIndex        =   34
             Top             =   210
             Width           =   615
          End
@@ -296,7 +369,7 @@ Begin VB.Form frmInfBalances
          Index           =   0
          Left            =   2520
          Locked          =   -1  'True
-         TabIndex        =   33
+         TabIndex        =   32
          Top             =   930
          Width           =   4185
       End
@@ -360,7 +433,7 @@ Begin VB.Form frmInfBalances
          Height          =   195
          Index           =   4
          Left            =   330
-         TabIndex        =   28
+         TabIndex        =   27
          Top             =   1950
          Width           =   615
       End
@@ -379,7 +452,7 @@ Begin VB.Form frmInfBalances
          Height          =   195
          Index           =   7
          Left            =   240
-         TabIndex        =   27
+         TabIndex        =   26
          Top             =   570
          Width           =   1200
       End
@@ -398,7 +471,7 @@ Begin VB.Form frmInfBalances
          Height          =   195
          Index           =   8
          Left            =   240
-         TabIndex        =   26
+         TabIndex        =   25
          Top             =   1560
          Width           =   1410
       End
@@ -417,7 +490,7 @@ Begin VB.Form frmInfBalances
       EndProperty
       Height          =   375
       Left            =   10320
-      TabIndex        =   12
+      TabIndex        =   11
       Top             =   5910
       Width           =   1215
    End
@@ -434,7 +507,7 @@ Begin VB.Form frmInfBalances
       Height          =   375
       Index           =   1
       Left            =   8730
-      TabIndex        =   10
+      TabIndex        =   9
       Top             =   5910
       Width           =   1455
    End
@@ -452,7 +525,7 @@ Begin VB.Form frmInfBalances
       Height          =   375
       Index           =   0
       Left            =   120
-      TabIndex        =   11
+      TabIndex        =   10
       Top             =   5850
       Width           =   1335
    End
@@ -469,7 +542,7 @@ Begin VB.Form frmInfBalances
       EndProperty
       Height          =   2655
       Left            =   120
-      TabIndex        =   13
+      TabIndex        =   12
       Top             =   3120
       Width           =   6915
       Begin VB.CommandButton PushButtonImpr 
@@ -485,7 +558,7 @@ Begin VB.Form frmInfBalances
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   25
+         TabIndex        =   24
          Top             =   720
          Width           =   1515
       End
@@ -494,7 +567,7 @@ Begin VB.Form frmInfBalances
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   24
+         TabIndex        =   23
          Top             =   1680
          Width           =   255
       End
@@ -503,7 +576,7 @@ Begin VB.Form frmInfBalances
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   23
+         TabIndex        =   22
          Top             =   1200
          Width           =   255
       End
@@ -521,7 +594,7 @@ Begin VB.Form frmInfBalances
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   20
+         TabIndex        =   19
          Top             =   1680
          Width           =   4665
       End
@@ -539,7 +612,7 @@ Begin VB.Form frmInfBalances
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   19
+         TabIndex        =   18
          Top             =   1200
          Width           =   4665
       End
@@ -557,7 +630,7 @@ Begin VB.Form frmInfBalances
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   18
+         TabIndex        =   17
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -576,7 +649,7 @@ Begin VB.Form frmInfBalances
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   17
+         TabIndex        =   16
          Top             =   2160
          Width           =   975
       End
@@ -594,7 +667,7 @@ Begin VB.Form frmInfBalances
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   16
+         TabIndex        =   15
          Top             =   1680
          Width           =   975
       End
@@ -612,7 +685,7 @@ Begin VB.Form frmInfBalances
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   15
+         TabIndex        =   14
          Top             =   1200
          Width           =   1515
       End
@@ -630,7 +703,7 @@ Begin VB.Form frmInfBalances
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   14
+         TabIndex        =   13
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -639,7 +712,7 @@ Begin VB.Form frmInfBalances
    Begin MSComctlLib.ProgressBar pb2 
       Height          =   405
       Left            =   1830
-      TabIndex        =   31
+      TabIndex        =   30
       Top             =   5880
       Visible         =   0   'False
       Width           =   6405
@@ -662,7 +735,7 @@ Begin VB.Form frmInfBalances
       EndProperty
       Height          =   375
       Left            =   10320
-      TabIndex        =   32
+      TabIndex        =   31
       Top             =   5910
       Width           =   1215
    End
@@ -765,8 +838,13 @@ Private Sub chkSoloMes_KeyPress(KeyAscii As Integer)
     KEYpressGnral KeyAscii, 3, False
 End Sub
 
+Private Sub cmbFecha_Click(Index As Integer)
+    PonlblPeriodo
+End Sub
+
 Private Sub cmdAccion_Click(Index As Integer)
 Dim F As Date
+
 
     If Not DatosOK Then Exit Sub
     
@@ -840,6 +918,19 @@ Dim F As Date
 
 
     Screen.MousePointer = vbHourglass
+    
+    
+    
+    Dim TipoPeriodo As Byte '       0 .  NORMAL Lo de siempre
+                            '       1 . Solo UN MES  . Lo que antes era: SoloDatosUnMes
+                            '       2 . Trimestre.
+                            '       3 . Semestre
+    TipoPeriodo = 0
+    For I = 1 To 3
+        If optPeriodo(I).Value Then TipoPeriodo = I
+    Next
+    
+    
     I = -1
     If chkBalPerCompa.Value = 1 Then
         I = Val(cmbFecha(1).ListIndex)
@@ -849,11 +940,9 @@ Dim F As Date
     
     
     
+    GeneraDatosBalanceConfigurable_ CInt(txtBalan(0).Text), Me.cmbFecha(0).ListIndex + 1, CInt(cmbFecha(2).Text), I, Val(cmbFecha(3).Text), False, -1, pb2, TipoPeriodo, lblInd
+
     
-    
-    
-    
-    GeneraDatosBalanceConfigurable_ CInt(txtBalan(0).Text), Me.cmbFecha(0).ListIndex + 1, CInt(cmbFecha(2).Text), I, Val(cmbFecha(3).Text), False, -1, pb2, chkSoloMes.Value = 1, lblInd
 
 '
 
@@ -1023,6 +1112,7 @@ Private Sub Form_Load()
     cmdCancelarAccion.Enabled = False
     cmdCancelarAccion.visible = False
     
+    Me.optPeriodo(0).Value = True
     If Legalizacion <> "" Then
         PonerBalancePredeterminado
         
@@ -1033,7 +1123,13 @@ Private Sub Form_Load()
         
         cmbFecha(0).ListIndex = Month(CDate(RecuperaValor(Legalizacion, 3))) - 1
     End If
+    
+    'De momento lo quito porque lleva lo de poner resultado ejecrcio ...
+    optPeriodo(2).visible = Opcion = 1
+    optPeriodo(3).visible = Opcion = 1
+    
     lblInd.Caption = ""
+    PonlblPeriodo
 End Sub
 
 Private Sub PonerBalancePredeterminado()
@@ -1108,6 +1204,10 @@ End Sub
 
 
 
+
+Private Sub optPeriodo_Click(Index As Integer)
+    PonlblPeriodo
+End Sub
 
 Private Sub optTipoSal_Click(Index As Integer)
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), Index
@@ -1331,10 +1431,11 @@ Dim mesFinEjercicio As Boolean
         'Si es comparativo entonces idncaremos el mes y solo el mes, lo idnicaremos
                 
         If chkBalPerCompa.Value = 1 Then
-            If Me.chkSoloMes.Value = 1 Then
-                RC = Mid(cmbFecha(0).List(cmbFecha(0).ListIndex), 1, 3) & " "
-            Else
+            
+            If Me.optPeriodo(0).Value Then
                 If Month(vParam.fechafin) <> (cmbFecha(0).ListIndex + 1) Then RC = Mid(cmbFecha(0).List(cmbFecha(0).ListIndex), 1, 3) & " "
+            Else
+                RC = Mid(cmbFecha(0).List(cmbFecha(0).ListIndex), 1, 3) & " "
             End If
         End If
     Else
@@ -1360,12 +1461,13 @@ Dim mesFinEjercicio As Boolean
             'PGC 2008 SOlo pone el año, NO el mes
             If vParam.NuevoPlanContable Then
                 RC = ""
-                If Me.chkSoloMes.Value = 1 Then
-                    RC = Mid(cmbFecha(1).List(cmbFecha(1).ListIndex), 1, 3) & " "
-                Else
-                
+                If Me.optPeriodo(0).Value Then
                     'NO ha pedido el mes de fin
                     If Month(vParam.fechafin) <> (cmbFecha(1).ListIndex + 1) Then RC = Mid(cmbFecha(1).List(cmbFecha(1).ListIndex), 1, 3) & " "
+                    
+                Else
+                    RC = Mid(cmbFecha(1).List(cmbFecha(1).ListIndex), 1, 3) & " "
+                    
                 End If
                 
                 
@@ -1390,7 +1492,23 @@ Dim mesFinEjercicio As Boolean
         Sql = Sql & RC
     End If
     Sql = Sql & "Titulo= """ & Me.txtNBalan(0).Text & """|"
-    Sql = Sql & "SoloMes= " & Me.chkSoloMes.Value & "|"
+    
+    RC = ""
+    If Me.chkBalPerCompa.Value = 1 Then
+        'Comparativo
+        If Me.optPeriodo(1).Value Then RC = "Mensual"
+        If Me.optPeriodo(2).Value Then RC = "Trimestral"
+        If Me.optPeriodo(3).Value Then RC = "Semestral"
+        
+    Else
+        
+        If Me.optPeriodo(1).Value Then RC = "Mes : " & MonthName(Me.cmbFecha(0).ListIndex + 1, True)
+        If Me.optPeriodo(2).Value Then RC = "Trimestre   : " & ((cmbFecha(0).ListIndex) \ 3) + 1 & "º"
+        If Me.optPeriodo(3).Value Then RC = "Semestre : " & ((cmbFecha(0).ListIndex) \ 6) + 1 & "º"
+        If RC <> "" Then RC = RC & " " & cmbFecha(2).List(cmbFecha(2).ListIndex)
+        
+    End If
+    Sql = Sql & "SoloMes= """ & RC & "  .""|"
 
 
     cadParam = cadParam & Sql
@@ -1533,4 +1651,63 @@ Dim J As Integer
         cmbFecha(3).AddItem "20" & Format(I, "00")
     Next I
 
+End Sub
+
+Private Sub PonlblPeriodo()
+Dim FI As Date
+Dim FF As Date
+Dim J As Integer
+Dim MEsCombo As Integer
+
+    lblPeriodo.Caption = ""
+    lblPeriodo.Refresh
+    
+    If cmbFecha(2).ListIndex < 0 Then Exit Sub
+    
+    'Dado todas las variables que pueden haber veremos que datos vamos a sacar
+    MEsCombo = cmbFecha(0).ListIndex + 1
+    
+    If Me.optPeriodo(1).Value Then
+        'MEs actual
+        FI = "01/" & MEsCombo & "/" & CInt(cmbFecha(2).Text)
+        J = DiasMes(CByte(MEsCombo), CInt(cmbFecha(2).Text))
+        FF = Format(J, "00") & "/" & MEsCombo & "/" & CInt(cmbFecha(2).Text)
+        
+        
+    ElseIf Me.optPeriodo(2).Value Then
+        'trimestre actual
+        J = MEsCombo
+        J = (J - 1) \ 3
+        J = (J * 3) + 1 'mes inicio periodo
+        FI = "01/" & Format(J, "00") & "/" & CInt(cmbFecha(2).Text)
+        J = J + 2
+        FF = Format(DiasMes(CByte(J), CInt(cmbFecha(2).Text)), "00") & "/" & Format(J, "00") & "/" & CInt(cmbFecha(2).Text)
+        
+        
+    ElseIf Me.optPeriodo(3).Value Then
+        '//Semestre actual
+        J = MEsCombo
+        If J < 7 Then
+            J = 1
+        Else
+            J = 7
+        End If
+        FI = "01/" & Format(J, "00") & "/" & CInt(cmbFecha(2).Text)
+        J = J + 5
+        FF = Format(DiasMes(CByte(J), CInt(cmbFecha(2).Text)), "00") & "/" & Format(J, "00") & "/" & CInt(cmbFecha(2).Text)
+        
+    Else
+        'Lo que habia
+        J = DiasMes(CByte(MEsCombo), CInt(cmbFecha(2).Text))
+        FF = Format(J, "00") & "/" & MEsCombo & "/" & CInt(cmbFecha(2).Text)
+        If Year(vParam.fechafin) <> Year(vParam.fechaini) Then
+            FI = "01/" & Month(vParam.fechaini) & "/" & CInt(cmbFecha(2).Text) - 1
+        Else
+            FI = "01/" & Month(vParam.fechaini) & "/" & CInt(cmbFecha(2).Text)
+        End If
+    End If
+    
+    lblPeriodo.Caption = "Periodo: " & Format(FI, "dd/mm/yyyy") & " - " & Format(FF, "dd/mm/yyyy")
+    lblPeriodo.Refresh
+    
 End Sub

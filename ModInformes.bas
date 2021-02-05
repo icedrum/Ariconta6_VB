@@ -494,7 +494,7 @@ Dim Lanza As String
     If Dir(NombrePDF, vbArchive) <> "" Then Kill NombrePDF
     FileCopy App.Path & "\docum.pdf", NombrePDF
     
-    Aux = FijaDireccionEmail(outTipoDocumento)
+    Aux = ""  'FijaDireccionEmail(outTipoDocumento)
     If Aux = "" And emailDestinatario <> "" Then Aux = emailDestinatario
     Lanza = Aux & "|"
     Aux = ""
@@ -587,40 +587,41 @@ ELanzaProgramaAbrirOutlook:
     MuestraError Err.Number, Err.Description
 End Sub
 
-Private Function FijaDireccionEmail(outTipoDocumento As Integer) As String
-Dim campoemail As String
-Dim otromail As String
-
-
-    FijaDireccionEmail = ""
-    campoemail = ""
-    
-'    If outTipoDocumento < 50 Then
-''            'Para provedores
-''            If outTipoDocumento = 51 Or outTipoDocumento = 52 Or outTipoDocumento = 53 Then
-''                campoemail = "maiprov1"
-''                otromail = "maiprov2"
+'Private Function FijaDireccionEmail(outTipoDocumento As Integer) As String
+'Dim campoemail As String
+'Dim otromail As String
+'
+'
+'    FijaDireccionEmail = ""
+'    campoemail = ""
+''    If outTipoDocumento < 50 Then
+'''            'Para provedores
+'''            If outTipoDocumento = 51 Or outTipoDocumento = 52 Or outTipoDocumento = 53 Then
+'''                campoemail = "maiprov1"
+'''                otromail = "maiprov2"
+'''            Else
+'''                campoemail = "maiprov2"
+'''                otromail = "maiprov1"
+'''            End If
+'''            campoemail = DevuelveDesdeBDNew(cpconta, "proveedor", campoemail, "codprove", Me.outCodigoCliProv, "N", otromail)
+''            If campoemail = "" Then campoemail = otromail
+''        Else
+''            'Para Socios
+''            If outTipoDocumento >= 100 Then
+''                campoemail = "maisocio"
+''                otromail = "maisocio"
 ''            Else
-''                campoemail = "maiprov2"
-''                otromail = "maiprov1"
+''                campoemail = "maisocio"
+''                otromail = "maisocio"
 ''            End If
-''            campoemail = DevuelveDesdeBDNew(cpconta, "proveedor", campoemail, "codprove", Me.outCodigoCliProv, "N", otromail)
-'            If campoemail = "" Then campoemail = otromail
-'        Else
-'            'Para Socios
-'            If outTipoDocumento >= 100 Then
-'                campoemail = "maisocio"
-'                otromail = "maisocio"
-'            Else
-'                campoemail = "maisocio"
-'                otromail = "maisocio"
-'            End If
-''            campoemail = DevuelveDesdeBDNew(cAgro, "rsocios", campoemail, "codsocio", Me.outCodigoCliProv, "N") ' , otromail)
-'            If campoemail = "" Then campoemail = otromail
-'        End If
-'    End If
-    FijaDireccionEmail = campoemail
-End Function
+'''            campoemail = DevuelveDesdeBDNew(cAgro, "rsocios", campoemail, "codsocio", Me.outCodigoCliProv, "N") ' , otromail)
+''            If campoemail = "" Then campoemail = otromail
+''        End If
+''    End If
+'    campoemail = CStr(eMail)
+'    eMail = ""
+'    FijaDireccionEmail = campoemail
+'End Function
 
 
 
@@ -752,29 +753,64 @@ Dim Encontrado As Boolean
 
 End Function
 
-Public Sub LanzaProgramaAbrirOutlookMasivo(outTipoDocumento As Integer, Cuerpo As String)
+'CopiaRemitente : Solo AWS
+Public Sub LanzaProgramaAbrirOutlookMasivo(outTipoDocumento As Integer, Cuerpo As String, ViaAWS As Boolean, CopiaRemitente As Boolean, Optional lbInd As Label)
+
+
+    If ViaAWS Then
+        'Febrero 2021. Via cuentas amazon WEB SERICE
+        LanzaExeAWS outTipoDocumento, Cuerpo, CopiaRemitente, lbInd
+    Else
+        'Lo que habia
+        LanzaProgramaAbrirOutlookAntes outTipoDocumento, Cuerpo, lbInd
+    End If
+End Sub
+
+
+Private Sub LanzaProgramaAbrirOutlookAntes(outTipoDocumento As Integer, Cuerpo As String, Optional lbInd As Label)
 Dim NombrePDF As String
 Dim Aux As String
 Dim Lanza As String
+Dim Contador As Integer
 
     On Error GoTo ELanzaProgramaAbrirOutlook
 
     
     If Not ExisteARIMAILGES Then Exit Sub
 
+
+
+
+
     'Primer tema. Copiar el docum.pdf con otro nombre mas significatiov
     Select Case outTipoDocumento
     Case 1
         'Reclamacion
         Aux = "Reclamacion.pdf"
+        Sql = "select tmp347.*, cuentas.razosoci, cuentas.maidatos from tmp347, cuentas "
+        Sql = Sql & " where codusu = " & vUsu.Codigo & " and importe <> 0 and tmp347.cta = cuentas.codmacta"
+    Case 2
+        'Ene21. 347
+        lbInd.Caption = "Leyendo cartas a enviar"
+        lbInd.Refresh
+        Sql = "select nif as documento, despobla as NIF, dirdatos maidatos,PAIS,cliprov,razosoci from tmp347tot  "
+        Sql = Sql & " where codusu = " & vUsu.Codigo & " AND PAIS ='XXXXXXXX' ORDER by nif desc"
+        
+        
     End Select
     
-    Sql = "select tmp347.*, cuentas.razosoci, cuentas.maidatos from tmp347, cuentas "
-    Sql = Sql & " where codusu = " & vUsu.Codigo & " and importe <> 0 and tmp347.cta = cuentas.codmacta"
+    
     Set Rs = New ADODB.Recordset
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Contador = 0
     While Not Rs.EOF
-    
+        
+        Contador = Contador + 1
+        If Not lbInd Is Nothing Then
+            lbInd.Caption = "Doc: " & Rs!NIF & "    -" & Contador
+            lbInd.Refresh
+        End If
+        
         NombrePDF = App.Path & "\temp\" & Rs!NIF
         
         'direccion email
@@ -786,76 +822,76 @@ Dim Lanza As String
         Select Case outTipoDocumento
         Case 1 ' reclamaciones
             Aux = RecuperaValor(Cuerpo, 1)
+        Case 2
+            Aux = "Modelo 347. " & vEmpresa.nomempre & ".  ID:" & Rs!documento
         End Select
-        
+       
         Lanza = Lanza & Aux & "|"
         
         
         
-    If LCase(Mid(cadNomRPT, 1, 3)) = "esc" Then
-    ' para el caso de escalona
-    
-        cad = "<!DOCTYPE HTML PUBLIC " & Chr(34) & "-//W3C//DTD HTML 4.0 Transitional//EN" & Chr(34) & ">"
-        cad = cad & "<HTML><HEAD><TITLE>Mensaje</TITLE></HEAD>"
-        cad = cad & "<TR><TD VALIGN=""TOP""><P><FONT FACE=""Tahoma""><FONT SIZE=3>"
-        cad = cad & RecuperaValor(Cuerpo, 2)
-        'FijarTextoMensaje
+        If LCase(Mid(cadNomRPT, 1, 3)) = "esc" Then
+        ' para el caso de escalona
         
-        cad = cad & "</FONT></FONT></P></TD></TR><TR><TD VALIGN=""TOP"">"
-        cad = cad & "<p class=""MsoNormal""><b><i>"
-        cad = cad & "<span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">C."
-        cad = cad & "R. Reial Séquia Escalona</span></i></b></p>"
-        cad = cad & "<p class=""MsoNormal""><em><b>"
-        cad = cad & "<span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">"
-        cad = cad & "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; La Junta</span></b></em><span style=""font-size: 10.0pt; font-family: Arial,sans-serif; color: black"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">&nbsp;</span></p>"
-        cad = cad & "<p class=""MsoNormal"">"
-        cad = cad & "<span style=""font-size: 13.5pt; font-family: Arial,sans-serif; color: #9999FF"">"
-        cad = cad & "********************</span></p>"
-        cad = cad & "<p class=MsoNormal><b>"
-         cad = cad & "<span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>Confidencialidad"
-         cad = cad & "</span></b><span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'><br>"
-         cad = cad & "Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario, "
-         cad = cad & "pudiendo contener información confidencial sometida a secreto profesional. No está permitida su reproducción o "
-         cad = cad & "distribución sin la autorización expresa de Real Acequia Escalona. Si usted no es el destinatario final por favor "
-         cad = cad & "elimínelo e infórmenos por esta vía.<o:p></o:p></span></p><p class=MsoNormal style='mso-margin-top-alt:6.0pt;"
-         cad = cad & "margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;text-align:justify'><span style='font-size:8.0pt;"
-         cad = cad & "font-family:""Comic Sans MS"";color:black'>De acuerdo con la Ley 34/2002 (LSSI) y la Ley 15/1999 (LOPD), "
-         cad = cad & "usted tiene derecho al acceso, rectificación y cancelación de sus datos personales informados en el fichero del que es "
-         cad = cad & "titular Real Acequia Escalona. Si desea modificar sus datos o darse de baja en el sistema de comunicación electrónica "
-         cad = cad & "envíe un correo a</span> <span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>"
-         cad = cad & "<a href=""mailto:escalona@acequiaescalona.org"">escalona@acequiaescalona.org</a> </span><span style='font-size:8.0pt;"
-         cad = cad & "font-family:""Comic Sans MS""'>, <span style='color:black'>indicando en la línea de <b>&#8220;Asunto&#8221;</b> el derecho "
-         cad = cad & "que desea ejercitar. <o:p></o:p></span></span></p><p class=MsoNormal><o:p>&nbsp;</o> "
-         
-         'ahora en valenciano
-         cad = cad & ""
-         cad = cad & "<p class=MsoNormal><b>"
-         cad = cad & "<span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>Confidencialitat"
-         cad = cad & "</span></b><span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'><br>"
-         cad = cad & "Aquest missatge i els seus arxius adjunts van dirigits exclusivamente al seu destinatari, "
-         cad = cad & "podent contindre informació confidencial sotmesa a secret professional. No està permesa la seua reproducció o "
-         cad = cad & "distribució sense la autorització expressa de Reial Séquia Escalona. Si vosté no és el destinatari final per favor "
-         cad = cad & "elimíneu-lo e informe-nos per aquesta via.<o:p></o:p></span></p><p class=MsoNormal style='mso-margin-top-alt:6.0pt;"
-         cad = cad & "margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;text-align:justify'><span style='font-size:8.0pt;"
-         cad = cad & "font-family:""Comic Sans MS"";color:black'>D'acord amb la Llei 34/2002 (LSSI) i la Llei 15/1999 (LOPD), "
-         cad = cad & "vosté té dret a l'accés, rectificació i cancelació de les seues dades personals informats en el ficher del qué és "
-         cad = cad & "titolar Reial Séquia Escalona. Si vol modificar les seues dades o donar-se de baixa en el sistema de comunicació electrònica "
-         cad = cad & "envíe un correu a</span> <span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>"
-         cad = cad & "<a href=""mailto:escalona@acequiaescalona.org"">escalona@acequiaescalona.org</a> </span><span style='font-size:8.0pt;"
-         cad = cad & "font-family:""Comic Sans MS""'>, <span style='color:black'>indicant en la línea de <b>&#8220;Asumpte&#8221;</b> el dret "
-         cad = cad & "que desitja exercitar. <o:p></o:p></span></span></p><p class=MsoNormal><o:p>&nbsp;</o:p></p> "
+            cad = "<!DOCTYPE HTML PUBLIC " & Chr(34) & "-//W3C//DTD HTML 4.0 Transitional//EN" & Chr(34) & ">"
+            cad = cad & "<HTML><HEAD><TITLE>Mensaje</TITLE></HEAD>"
+            cad = cad & "<TR><TD VALIGN=""TOP""><P><FONT FACE=""Tahoma""><FONT SIZE=3>"
+            cad = cad & RecuperaValor(Cuerpo, 2)
+            'FijarTextoMensaje
+            
+            cad = cad & "</FONT></FONT></P></TD></TR><TR><TD VALIGN=""TOP"">"
+            cad = cad & "<p class=""MsoNormal""><b><i>"
+            cad = cad & "<span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">C."
+            cad = cad & "R. Reial Séquia Escalona</span></i></b></p>"
+            cad = cad & "<p class=""MsoNormal""><em><b>"
+            cad = cad & "<span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">"
+            cad = cad & "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; La Junta</span></b></em><span style=""font-size: 10.0pt; font-family: Arial,sans-serif; color: black"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">&nbsp;</span></p>"
+            cad = cad & "<p class=""MsoNormal"">"
+            cad = cad & "<span style=""font-size: 13.5pt; font-family: Arial,sans-serif; color: #9999FF"">"
+            cad = cad & "********************</span></p>"
+            cad = cad & "<p class=MsoNormal><b>"
+             cad = cad & "<span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>Confidencialidad"
+             cad = cad & "</span></b><span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'><br>"
+             cad = cad & "Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario, "
+             cad = cad & "pudiendo contener información confidencial sometida a secreto profesional. No está permitida su reproducción o "
+             cad = cad & "distribución sin la autorización expresa de Real Acequia Escalona. Si usted no es el destinatario final por favor "
+             cad = cad & "elimínelo e infórmenos por esta vía.<o:p></o:p></span></p><p class=MsoNormal style='mso-margin-top-alt:6.0pt;"
+             cad = cad & "margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;text-align:justify'><span style='font-size:8.0pt;"
+             cad = cad & "font-family:""Comic Sans MS"";color:black'>De acuerdo con la Ley 34/2002 (LSSI) y la Ley 15/1999 (LOPD), "
+             cad = cad & "usted tiene derecho al acceso, rectificación y cancelación de sus datos personales informados en el fichero del que es "
+             cad = cad & "titular Real Acequia Escalona. Si desea modificar sus datos o darse de baja en el sistema de comunicación electrónica "
+             cad = cad & "envíe un correo a</span> <span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>"
+             cad = cad & "<a href=""mailto:escalona@acequiaescalona.org"">escalona@acequiaescalona.org</a> </span><span style='font-size:8.0pt;"
+             cad = cad & "font-family:""Comic Sans MS""'>, <span style='color:black'>indicando en la línea de <b>&#8220;Asunto&#8221;</b> el derecho "
+             cad = cad & "que desea ejercitar. <o:p></o:p></span></span></p><p class=MsoNormal><o:p>&nbsp;</o> "
+             
+             'ahora en valenciano
+             cad = cad & ""
+             cad = cad & "<p class=MsoNormal><b>"
+             cad = cad & "<span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>Confidencialitat"
+             cad = cad & "</span></b><span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'><br>"
+             cad = cad & "Aquest missatge i els seus arxius adjunts van dirigits exclusivamente al seu destinatari, "
+             cad = cad & "podent contindre informació confidencial sotmesa a secret professional. No està permesa la seua reproducció o "
+             cad = cad & "distribució sense la autorització expressa de Reial Séquia Escalona. Si vosté no és el destinatari final per favor "
+             cad = cad & "elimíneu-lo e informe-nos per aquesta via.<o:p></o:p></span></p><p class=MsoNormal style='mso-margin-top-alt:6.0pt;"
+             cad = cad & "margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;text-align:justify'><span style='font-size:8.0pt;"
+             cad = cad & "font-family:""Comic Sans MS"";color:black'>D'acord amb la Llei 34/2002 (LSSI) i la Llei 15/1999 (LOPD), "
+             cad = cad & "vosté té dret a l'accés, rectificació i cancelació de les seues dades personals informats en el ficher del qué és "
+             cad = cad & "titolar Reial Séquia Escalona. Si vol modificar les seues dades o donar-se de baixa en el sistema de comunicació electrònica "
+             cad = cad & "envíe un correu a</span> <span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>"
+             cad = cad & "<a href=""mailto:escalona@acequiaescalona.org"">escalona@acequiaescalona.org</a> </span><span style='font-size:8.0pt;"
+             cad = cad & "font-family:""Comic Sans MS""'>, <span style='color:black'>indicant en la línea de <b>&#8220;Asumpte&#8221;</b> el dret "
+             cad = cad & "que desitja exercitar. <o:p></o:p></span></span></p><p class=MsoNormal><o:p>&nbsp;</o:p></p> "
+            
+            
+            cad = cad & "</TR></BODY></HTML>"
+            
+            
+        Else
         
-        
-        cad = cad & "</TR></BODY></HTML>"
-        
-        
-    Else
-    
-        cad = RecuperaValor(cad, 2)
-        
-    End If
-        
-    ' end
+            cad = RecuperaValor(cad, 2)
+            
+        End If
         
         
         'Aqui pondremos lo del texto del BODY
@@ -864,6 +900,11 @@ Dim Lanza As String
         Select Case outTipoDocumento
         Case 1 ' reclamaciones
             Aux = cad
+            
+        Case 2
+            Aux = "Datos 347: " & Rs!razosoci & vbCrLf & Cuerpo
+            Sql = "DELETE from tmp347tot where codusu = " & vUsu.Codigo
+            Sql = Sql & " AND cliprov =" & Rs!cliprov & " AND nif = " & DBSet(Rs!documento, "T")
         End Select
         Lanza = Lanza & Aux & "|"
         
@@ -876,17 +917,166 @@ Dim Lanza As String
         'El/los adjuntos
         Lanza = Lanza & NombrePDF & "|"
         
+        
+        'Lanza = "icedrum@hotmail.com|Recuerde: En el archivo adjunto le enviamos información de su interés.|Datos 347: BONACASA FRUIT E.T.T., S.L.|1||||C:\Programas\Ariconta6\temp\B12770483_.pdf|"
+        
+        
         Aux = App.Path & "\ARIMAILGES.EXE" & " " & Lanza  '& vParamAplic.ExeEnvioMail & " " & Lanza
+        
         Shell Aux, vbNormalFocus
+        
+        If outTipoDocumento = 2 Then Conn.Execute Sql
+        espera 0.5
+        
+        If (Contador Mod 4) = 0 Then
+            If Not lbInd Is Nothing Then
+                lbInd.Caption = "Leyendo datos " & Contador
+                lbInd.Refresh
+                espera 1
+            End If
+        End If
+        
         
         Rs.MoveNext
     Wend
     
     Set Rs = Nothing
     
+    'Borramos de tmp enivar
     
+        
     Exit Sub
 ELanzaProgramaAbrirOutlook:
     MuestraError Err.Number, Err.Description
 End Sub
+
+
+Private Sub LanzaExeAWS(outTipoDocumento As Integer, Cuerpo As String, CopiaRemitente As Boolean, lbInd As Label)
+Dim Aux As String
+Dim EstaFlag As Integer
+            
+         
+    
+    'Metemos los registros en la BD
+    
+    Conn.Execute "DELETE FROM usuarios.wenvioemail WHERE codusu = " & vUsu.Codigo
+    
+    'wenvioemail(codusu,Orden,ctaAWS,destino,nombre,asunto,cuerpohtml,cuerpo,adjuntos)
+    If Not lbInd Is Nothing Then
+        lbInd.Caption = "Leyendo/cargando datos a enviar"
+        lbInd.Refresh
+    End If
+    
+    If outTipoDocumento = 2 Then
+    
+    
+        Sql = "select nif as documento, despobla as NIF, dirdatos maidatos,if(cliprov=48,'Cliente','Proveedor'),razosoci,cliprov"
+        Sql = Sql & "  from tmp347tot where codusu = " & vUsu.Codigo & " AND PAIS ='XXXXXXXX' ORDER by nif desc"
+        
+    End If
+    
+    Set Rs = New ADODB.Recordset
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    TotalReg = 0
+    cad = "INSERT INTO usuarios.wenvioemail(codusu,Orden,ctaAWS,destino,nombre,asunto,cuerpohtml,cuerpo,adjuntos,copiaRemitente) VALUES "
+    Sql = ""
+    While Not Rs.EOF
+            
+        'codusu,Orden,ctaAWS,destino,nombre,asunto,cuerpohtml,cuerpo,adjuntos)
+            
+        TotalReg = TotalReg + 1
+        If Not lbInd Is Nothing Then
+            lbInd.Caption = "Doc: " & Rs!NIF & "    -" & TotalReg
+            lbInd.Refresh
+        End If
+        
+        
+        
+        'direccion email
+        
+        Sql = Sql & ", (" & vUsu.Codigo & "," & TotalReg & ",''," & DBSet(Rs!maidatos, "T") & "," & DBSet(Rs!razosoci, "T")
+        
+        'asunto
+        Aux = ""
+        Select Case outTipoDocumento
+        Case 1 ' reclamaciones
+            Aux = RecuperaValor(Cuerpo, 1)
+        Case 2
+            Aux = "Modelo 347. " & vEmpresa.nomempre & ".  ID:" & Rs!documento
+        End Select
+        
+        'asunto cuerpohtml,cuerpo,adjuntos  .nif Nifdato,cliprov
+        Sql = Sql & "," & DBSet(Aux, "T")
+        
+        'Cuerpo mensaje
+        If outTipoDocumento = 2 Then
+            Aux = Rs.Fields(3)
+            
+            Aux = "Datos presentacion modelo anual 347 " & vbCrLf & UCase(Aux) & ": " & Rs!razosoci & "   (" & Rs!documento & ")"
+            
+        End If
+        
+        Sql = Sql & "," & DBSet(Aux, "T") & "," & DBSet(Aux, "T") & ","
+        
+                
+        Aux = App.Path & "\temp\" & Rs!NIF
+        Aux = Replace(Aux, "\", "?")
+        Aux = Replace(Aux, "?", "\\")
+        
+        
+        Sql = Sql & "'" & Aux & "|'," & IIf(CopiaRemitente, 1, 0) & ")" '0: Copia remitente
+    
+        
+        If Len(Sql) > 3000 Then
+            Sql = Mid(Sql, 2)
+            Sql = cad & Sql
+            Conn.Execute Sql
+            Sql = ""
+        End If
+        Rs.MoveNext
+    Wend
+    Rs.Close
+    
+    
+    If Sql <> "" Then
+        Sql = Mid(Sql, 2)
+        
+        
+        Sql = cad & Sql
+        Conn.Execute Sql
+    End If
+    
+    
+    If Not lbInd Is Nothing Then
+        lbInd.Caption = "Actualizando datos AWS"
+        lbInd.Refresh
+    End If
+    
+    espera 0.5
+    Sql = DevuelveDesdeBD("emailAWS", "parametros", "1", "1")
+    If Sql = "" Then Err.Raise 513, , "No existe emailAWS"
+    
+    cad = "UPDATE usuarios.wenvioemail  SET ctaAWS =" & DBSet(Sql, "T") & " WHERE codusu =" & vUsu.Codigo
+    Conn.Execute cad
+    TotalReg = 0
+    
+    
+    
+    espera 0.5
+    
+    Screen.MousePointer = vbHourglass
+    If Not lbInd Is Nothing Then
+        lbInd.Caption = "Lanza enviar"
+        lbInd.Refresh
+    End If
+    
+    cad = "Ariconta6|" & vUsu.Codigo & "|"
+    Sql = App.Path & "\CreamailCDO.exe " & cad
+    Shell Sql, vbNormalFocus
+    
+    espera 2
+    
+    Screen.MousePointer = vbDefault
+End Sub
+
 

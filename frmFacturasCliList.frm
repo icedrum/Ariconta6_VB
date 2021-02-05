@@ -634,7 +634,7 @@ Option Explicit
 ' ***********************************************************************************************************
 
 Public NUmSerie As String
-Public NumFactu As String
+Public numfactu As String
 Public FecFactu As String
 
 Private WithEvents frmF As frmCal
@@ -642,10 +642,10 @@ Attribute frmF.VB_VarHelpID = -1
 Private WithEvents frmCont As frmContadores
 Attribute frmCont.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim i As Integer
+Dim I As Integer
 Dim IndCodigo As Integer
 Dim PrimeraVez As Boolean
 
@@ -738,18 +738,18 @@ Private Sub Form_Load()
     Me.txtTipoSalida(1).Enabled = False
     Me.PushButton2(0).Enabled = False
 
-    For i = 0 To 1
-        Me.imgSerie(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 0 To 1
+        Me.imgSerie(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
      
     If NUmSerie <> "" Then
         txtSerie(0).Text = NUmSerie
         txtSerie(1).Text = NUmSerie
         txtSerie_LostFocus (0)
         txtSerie_LostFocus (1)
-        txtNumFactu(0).Text = NumFactu
+        txtNumFactu(0).Text = numfactu
         txtNumFactu_LostFocus (0)
-        txtNumFactu(1).Text = NumFactu
+        txtNumFactu(1).Text = numfactu
         txtNumFactu_LostFocus (1)
         txtFecha(0).Text = FecFactu
         txtFecha(1).Text = FecFactu
@@ -761,7 +761,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub frmDia_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
@@ -769,15 +769,15 @@ Private Sub frmF_Selec(vFecha As Date)
 End Sub
 
 Private Sub imgSerie_Click(Index As Integer)
-    SQL = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     Set frmCont = New frmContadores
     frmCont.DatosADevolverBusqueda = "0|1|"
     frmCont.Show vbModal
     Set frmCont = Nothing
-    If SQL <> "" Then
-        Me.txtSerie(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNSerie(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtSerie(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNSerie(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtSerie(Index)
     End If
@@ -904,7 +904,7 @@ Private Sub txtSerie_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtSerie(Index).Text = Trim(txtSerie(Index).Text)
@@ -934,16 +934,16 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    SQL = "Select  hcabapu.NumFactu Diario, hcabapu.NumSerie Asiento, hcabapu.FecFactu Fecha, hlinapu.linliapu Linea, hlinapu.codmacta Cuenta, nommacta Descripcion, numdocum Documento, ampconce Ampliacion, timporteD Debe, timporteH Haber"
-    SQL = SQL & " FROM (hcabapu inner join hlinapu on hcabapu.NumFactu = hlinapu.NumFactu and hcabapu.NumSerie = hlinapu.NumSerie and hcabapu.FecFactu = hlinapu.FecFactu)"
-    SQL = SQL & " inner join cuentas on hlinapu.codmacta = cuentas.codmacta "
+    Sql = "Select  hcabapu.NumFactu Diario, hcabapu.NumSerie Asiento, hcabapu.FecFactu Fecha, hlinapu.linliapu Linea, hlinapu.codmacta Cuenta, nommacta Descripcion, numdocum Documento, ampconce Ampliacion, timporteD Debe, timporteH Haber"
+    Sql = Sql & " FROM (hcabapu inner join hlinapu on hcabapu.NumFactu = hlinapu.NumFactu and hcabapu.NumSerie = hlinapu.NumSerie and hcabapu.FecFactu = hlinapu.FecFactu)"
+    Sql = Sql & " inner join cuentas on hlinapu.codmacta = cuentas.codmacta "
     
-    If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
+    If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
     
-    SQL = SQL & " ORDER BY 1,2,3,4"
+    Sql = Sql & " ORDER BY 1,2,3,4"
         
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -951,7 +951,8 @@ End Sub
 Private Sub AccionesCrystal()
 Dim indRPT As String
 Dim nomDocu As String
-    
+Dim Email As String
+
     vMostrarTree = False
     conSubRPT = False
         
@@ -968,15 +969,31 @@ Dim nomDocu As String
     If optTipoSal(2).Value Then
         If Not CopiarFicheroASalida(False, txtTipoSalida(2).Text) Then ExportarPDF = False
     End If
-    If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 23
+    If optTipoSal(3).Value Then
+        Email = "N"
         
+        If Me.txtFecha(0).Text <> txtFecha(1).Text Then Email = ""
+        If Me.txtNumFactu(0).Text <> txtNumFactu(1).Text Then Email = ""
+        If Me.txtNSerie(0).Text <> txtNSerie(1).Text Then Email = ""
+        If Me.txtNumFactu(0).Text = "" Then Email = ""
+        
+        If Email <> "" Then
+            'OK. Una unica factura. Vamos a ver si la cuenta tien
+            Email = "numserie = " & DBSet(Me.txtSerie(1).Text, "T") & " AND fecfactu=" & DBSet(txtFecha(1).Text, "F") & " AND numfactu"
+            Email = DevuelveDesdeBD("codmacta", "factcli", Email, txtNumFactu(1).Text)
+            If Email <> "" Then Email = DevuelveDesdeBD("maidatos", "cuentas", "codmacta", Email, "T")
+        End If
+        
+        
+        LanzaProgramaAbrirOutlook 23, Email
+    End If
     If SoloImprimir Or ExportarPDF Then Unload Me
     Screen.MousePointer = vbDefault
 End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String

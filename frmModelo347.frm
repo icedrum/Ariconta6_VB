@@ -7,15 +7,167 @@ Begin VB.Form frmModelo347
    ClientHeight    =   6810
    ClientLeft      =   45
    ClientTop       =   435
-   ClientWidth     =   11655
+   ClientWidth     =   11640
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   6810
-   ScaleWidth      =   11655
+   ScaleWidth      =   11640
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.CommandButton cmdMasivo 
+      Caption         =   "Enviar"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   8760
+      TabIndex        =   46
+      Top             =   6210
+      Visible         =   0   'False
+      Width           =   1455
+   End
+   Begin VB.Frame FrameEnvioMasivo 
+      Height          =   6015
+      Left            =   0
+      TabIndex        =   42
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   11535
+      Begin VB.CheckBox chkAmazonCopia 
+         Caption         =   "Copia destinatario"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   6.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   4320
+         TabIndex        =   48
+         Top             =   360
+         Value           =   1  'Checked
+         Visible         =   0   'False
+         Width           =   2415
+      End
+      Begin MSComctlLib.ListView ListView2 
+         Height          =   5175
+         Left            =   240
+         TabIndex        =   45
+         Top             =   720
+         Width           =   10935
+         _ExtentX        =   19288
+         _ExtentY        =   9128
+         View            =   3
+         LabelEdit       =   1
+         Sorted          =   -1  'True
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         Checkboxes      =   -1  'True
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483643
+         BorderStyle     =   1
+         Appearance      =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Verdana"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         NumItems        =   4
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Text            =   "NIF"
+            Object.Width           =   3175
+         EndProperty
+         BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   1
+            Text            =   "Nombre"
+            Object.Width           =   6244
+         EndProperty
+         BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   2
+            Text            =   "eMail"
+            Object.Width           =   6068
+         EndProperty
+         BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Alignment       =   1
+            SubItemIndex    =   3
+            Text            =   "Importe"
+            Object.Width           =   2893
+         EndProperty
+      End
+      Begin VB.Image imgCheck 
+         Height          =   240
+         Index           =   3
+         Left            =   3480
+         Picture         =   "frmModelo347.frx":0000
+         ToolTipText     =   "Puntear al Debe"
+         Top             =   360
+         Width           =   240
+      End
+      Begin VB.Image imgCheck 
+         Height          =   240
+         Index           =   2
+         Left            =   3120
+         Picture         =   "frmModelo347.frx":014A
+         ToolTipText     =   "Quitar al Debe"
+         Top             =   360
+         Width           =   240
+      End
+      Begin VB.Label Label3 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Máximo numero de mensajes 40"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Index           =   7
+         Left            =   7680
+         TabIndex        =   44
+         Top             =   360
+         Width           =   3420
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Envios email disponibles"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   240
+         Index           =   6
+         Left            =   240
+         TabIndex        =   43
+         Top             =   360
+         Width           =   2670
+      End
+   End
    Begin VB.Frame FrameConcepto 
       Caption         =   "Selección"
       BeginProperty Font 
@@ -167,7 +319,7 @@ Begin VB.Form frmModelo347
          Height          =   240
          Index           =   0
          Left            =   1170
-         Picture         =   "frmModelo347.frx":0000
+         Picture         =   "frmModelo347.frx":0294
          Top             =   840
          Width           =   240
       End
@@ -175,7 +327,7 @@ Begin VB.Form frmModelo347
          Height          =   240
          Index           =   1
          Left            =   1170
-         Picture         =   "frmModelo347.frx":008B
+         Picture         =   "frmModelo347.frx":031F
          Top             =   1230
          Width           =   240
       End
@@ -230,22 +382,40 @@ Begin VB.Form frmModelo347
       TabIndex        =   22
       Top             =   0
       Width           =   4455
+      Begin VB.CheckBox chkMasivo 
+         Caption         =   "Email masivo"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   1920
+         TabIndex        =   47
+         Top             =   4320
+         Visible         =   0   'False
+         Width           =   1815
+      End
       Begin VB.Frame FrameSeccion 
          BorderStyle     =   0  'None
-         Height          =   2865
+         Height          =   2505
          Left            =   180
          TabIndex        =   35
          Top             =   1170
          Width           =   4215
          Begin MSComctlLib.ListView ListView1 
-            Height          =   2250
+            Height          =   2085
             Index           =   1
             Left            =   60
             TabIndex        =   36
-            Top             =   510
+            Top             =   360
             Width           =   4035
             _ExtentX        =   7117
-            _ExtentY        =   3969
+            _ExtentY        =   3678
             View            =   3
             LabelEdit       =   1
             LabelWrap       =   -1  'True
@@ -271,19 +441,19 @@ Begin VB.Form frmModelo347
          Begin VB.Image imgCheck 
             Height          =   240
             Index           =   0
-            Left            =   3390
-            Picture         =   "frmModelo347.frx":0116
+            Left            =   3360
+            Picture         =   "frmModelo347.frx":03AA
             ToolTipText     =   "Quitar al Debe"
-            Top             =   120
+            Top             =   0
             Width           =   240
          End
          Begin VB.Image imgCheck 
             Height          =   240
             Index           =   1
             Left            =   3750
-            Picture         =   "frmModelo347.frx":0260
+            Picture         =   "frmModelo347.frx":04F4
             ToolTipText     =   "Puntear al Debe"
-            Top             =   120
+            Top             =   0
             Width           =   240
          End
          Begin VB.Label Label3 
@@ -299,9 +469,9 @@ Begin VB.Form frmModelo347
             EndProperty
             Height          =   255
             Index           =   15
-            Left            =   30
+            Left            =   0
             TabIndex        =   37
-            Top             =   180
+            Top             =   0
             Width           =   1110
          End
       End
@@ -316,15 +486,16 @@ Begin VB.Form frmModelo347
             Strikethrough   =   0   'False
          EndProperty
          Height          =   360
-         ItemData        =   "frmModelo347.frx":03AA
+         ItemData        =   "frmModelo347.frx":063E
          Left            =   1920
-         List            =   "frmModelo347.frx":03B4
+         List            =   "frmModelo347.frx":0648
          Style           =   2  'Dropdown List
          TabIndex        =   3
-         Top             =   4170
+         Top             =   3840
          Width           =   1635
       End
       Begin VB.Frame Frame1 
+         BorderStyle     =   0  'None
          Caption         =   "Proveedores"
          BeginProperty Font 
             Name            =   "Verdana"
@@ -336,9 +507,9 @@ Begin VB.Form frmModelo347
             Strikethrough   =   0   'False
          EndProperty
          Height          =   765
-         Left            =   90
+         Left            =   120
          TabIndex        =   29
-         Top             =   5070
+         Top             =   5160
          Width           =   4245
          Begin VB.OptionButton OptProv 
             Caption         =   "Fecha recepción"
@@ -355,7 +526,7 @@ Begin VB.Form frmModelo347
             Index           =   0
             Left            =   180
             TabIndex        =   32
-            Top             =   330
+            Top             =   360
             Value           =   -1  'True
             Width           =   1995
          End
@@ -374,8 +545,26 @@ Begin VB.Form frmModelo347
             Index           =   1
             Left            =   2370
             TabIndex        =   31
-            Top             =   330
+            Top             =   360
             Width           =   1755
+         End
+         Begin VB.Label Label3 
+            Caption         =   "Proveedores"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   345
+            Index           =   3
+            Left            =   120
+            TabIndex        =   41
+            Top             =   0
+            Width           =   1800
          End
       End
       Begin VB.TextBox Text347 
@@ -394,7 +583,7 @@ Begin VB.Form frmModelo347
          Left            =   1920
          TabIndex        =   4
          Text            =   "Text4"
-         Top             =   4650
+         Top             =   4680
          Width           =   1275
       End
       Begin VB.TextBox Text347 
@@ -411,7 +600,7 @@ Begin VB.Form frmModelo347
          Index           =   0
          Left            =   210
          TabIndex        =   2
-         Top             =   750
+         Top             =   600
          Width           =   4065
       End
       Begin MSComctlLib.Toolbar ToolbarAyuda 
@@ -434,9 +623,9 @@ Begin VB.Form frmModelo347
       End
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   390
-         Left            =   3840
+         Left            =   3720
          TabIndex        =   38
-         Top             =   4110
+         Top             =   3840
          Width           =   405
          _ExtentX        =   714
          _ExtentY        =   688
@@ -463,9 +652,9 @@ Begin VB.Form frmModelo347
          EndProperty
          Height          =   345
          Index           =   1
-         Left            =   270
+         Left            =   240
          TabIndex        =   30
-         Top             =   4200
+         Top             =   3960
          Width           =   1800
       End
       Begin VB.Label Label3 
@@ -481,7 +670,7 @@ Begin VB.Form frmModelo347
          EndProperty
          Height          =   345
          Index           =   0
-         Left            =   270
+         Left            =   240
          TabIndex        =   28
          Top             =   4680
          Width           =   1800
@@ -501,7 +690,7 @@ Begin VB.Form frmModelo347
          Index           =   13
          Left            =   210
          TabIndex        =   24
-         Top             =   450
+         Top             =   360
          Width           =   1260
       End
    End
@@ -792,6 +981,18 @@ Option Explicit
 Private Const IdPrograma = 410
 
 
+'Febrero 2021
+' Hemos creado un arimailCDO
+'       Envia a traves de Aamazon WEB Service
+'       Para ello, si esta el programa en la carpeta haremos el envio por el programa.
+'       En caso contrario seguira haciendolo via OUTLOOK
+'       OUTLOOK.   Como estaba hasta ahora
+'       arimailCDO Graba en la tabla wenvioemail
+'           Una vez grabaado los registros, llamamos al exe
+'               arimailCDO odbc|codus|
+Private TieneArimaiCDO As Boolean
+Private EslaPrimeraEmpresa As Boolean  'Cuando SOLO hay una empresa, no hace falta que comprueba si existe ya el NIF de una empresa anterior
+
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
@@ -889,7 +1090,7 @@ Dim nomDocu As String
     Set miRsAux = New ADODB.Recordset
     
     'El de siempre
-    B = ComprobarCuentas347_
+    B = ComprobarCuentas347
     Label2(30).Caption = ""
     Label2(31).Caption = ""
     If Not B Then Exit Sub
@@ -977,12 +1178,17 @@ Dim nomDocu As String
                 'La carta
                 cad = "¿ Desea imprimir también los proveedores ?"
                 If MsgBox(cad, vbQuestion + vbYesNo) = vbNo Then
-                    cad = " AND {tmp347tot.cliprov} = " & Asc(0)
+                    cad = " {tmp347tot.cliprov} = " & Asc(0)
                     cadFormula = cadFormula & cad
-                Else
-                    cad = ""
+                    
+                    If ExportarPDF And Me.chkMasivo.Value Then
+                        'Hay que borrar de temp los asc 49
+                        cad = "DELETE from tmp347tot WHERE codusu =" & vUsu.Codigo & " AND cliprov= " & Asc(1)
+                        Conn.Execute cad
+                    End If
+                    
                 End If
-
+                cad = ""
                 cadFormula = cadFormula & "{tmp347tot.codusu} = " & vUsu.Codigo
                 cadFormula = cadFormula & " and {cartas.codcarta} = 999 "
                 
@@ -994,9 +1200,12 @@ Dim nomDocu As String
                 
                 cadNomRPT = nomDocu '"Carta.rpt"
                 
-                
-                ImprimeGeneral
-                
+                If ExportarPDF And Me.chkMasivo.Value Then
+                    'No genero el rpt
+                    
+                Else
+                    ImprimeGeneral
+                End If
             Case Else
             
                 'LISTADO
@@ -1021,9 +1230,11 @@ Dim nomDocu As String
             End Select
             
             If optTipoSal(2).Value Then CopiarFicheroASalida False, txtTipoSalida(2).Text
-            If optTipoSal(3).Value Then LanzaProgramaAbrirOutlook 21
+            If optTipoSal(3).Value Then EnviarPorEmail  ' LanzaProgramaAbrirOutlook 21
                 
-            If SoloImprimir Or ExportarPDF Then Unload Me
+            If Not optTipoSal(3).Value Then
+                If SoloImprimir Or ExportarPDF Then Unload Me
+            End If
             Screen.MousePointer = vbDefault
             
             
@@ -1039,14 +1250,225 @@ Dim nomDocu As String
 End Sub
 
 Private Sub cmdCancelar_Click()
-    Unload Me
+    If FrameEnvioMasivo.visible Then
+        PonerFrameEnvioMasivo False
+        
+    Else
+        Unload Me
+    End If
 End Sub
 
 
 
+Private Sub cmdMasivo_Click()
+Dim MaximoNumeroEmails As Integer
+Dim Archivo As String
+
+    
+    MaximoNumeroEmails = 40
+    If TieneArimaiCDO Then MaximoNumeroEmails = 10000
+
+    'Varias cosas
+    ' Primero ver que hay seleccionados y no exceden de 40
+    Sql = ""
+    For I = 1 To Me.ListView2.ListItems.Count
+        If ListView2.ListItems(I).Checked Then Sql = Sql & "X"
+    Next I
+    
+    If Len(Sql) = 0 Then
+        Sql = "Seleccione algun envio"
+    Else
+        If Len(Sql) > MaximoNumeroEmails Then
+            Sql = "Por problemas de reglas de envio no debe enviar los " & MaximoNumeroEmails & " emails al mismo tiempo"
+        Else
+            IndCodigo = Len(Sql)
+            Sql = ""
+        End If
+    End If
+    If Sql <> "" Then
+        MsgBox Sql, vbExclamation
+        Exit Sub
+    End If
+    
+    If MsgBox("Va a enviar " & IndCodigo & " correo" & IIf(IndCodigo > 1, "s", "") & " por email.  ¿Continuar?", vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+    
+    
+    If TieneArimaiCDO Then
+        If Dir(App.Path & "\flagEnv.txt", vbArchive) <> "" Then
+            MsgBox "Imposible lanzar programa envio." & vbCrLf & "Ultimo envio no finalizado (FLAGenv)", vbExclamation
+            Exit Sub
+        End If
+        
+    End If
+    
+    
+    
+    
+    
+    
+    'Los primero. Generar TODOS los pdfs
+    InicializarVbles True
+    ExportarPDF = True
+    If Not PonerParamRPT("0410-01", cadNomRPT) Then Exit Sub
+        
+    
+    cadParam = cadParam & "Responsable=""" & Me.Text347(0).Text & """|"
+    numParam = numParam + 1
+    
+   
+    
+    
+    If Not EliminaDocum Then Exit Sub
+    
+    Screen.MousePointer = vbHourglass
+    Label2(31).Caption = "Prepara carpeta temporal"
+    Label2(31).Refresh
+    C2 = "" 'Para saber si ha generado alguno
+    If PreparaCarpeta Then
+            
+        
+        
+        
+        'De atras a delante
+        For I = Me.ListView2.ListItems.Count To 1 Step -1
+            If ListView2.ListItems(I).Checked Then
+            
+                
+                cadFormula = ListView2.ListItems(I).Tag
+                cadFormula = cadFormula & " and {cartas.codcarta} = 999 "
+                
+                Label2(31).Caption = "Generando PDF " & ListView2.ListItems(I).Text
+                Label2(31).Refresh
+                ImprimeGeneral
+                
+                K = 0
+                Do
+                    K = K + 1
+                    cadFormula = Dir(App.Path & "\docum.pdf", vbArchive)
+                    If cadFormula <> "" Then
+                        K = 100
+                    Else
+                        espera 0.5
+                    End If
+                Loop Until K > 3
+                
+                'Si esta generado el docum.pdf lo copiamos
+                If K = 100 Then
+                    If Not CopiaEnTemporal Then
+                        Sql = "Error copiando en carpeta temporal     "
+                                
+                    Else
+                                
+                                
+                                
+                        'Ok ya esta generado el RPT. AHora updateo en la BD dirdatos y pongo el email
+                        cad = ListView2.ListItems(I).Tag
+                        cad = Replace(cad, "{", "")
+                        cad = Replace(cad, "}", "")
+                        Sql = " SET despobla = " & DBSet(Sql, "T") & " ,dirdatos = " & DBSet(ListView2.ListItems(I).SubItems(2), "T") & ", PAIS='XXXXXXXX' "
+                        cad = "UPDATE tmp347tot " & Sql & " WHERE " & cad
+                        Conn.Execute cad
+                    
+                        'QUito el item
+                        ListView2.ListItems.Remove ListView2.ListItems(I).Index
+                        C2 = "OK"
+                    End If
+                Else
+                    Sql = "Error generando PDF"
+                End If
+                
+                If K < 100 Then
+                    ListView2.ListItems(I).Bold = True
+                    ListView2.ListItems(I).ForeColor = vbRed
+                    ListView2.ListItems(I).ToolTipText = Sql
+                End If
+            End If
+        Next I
+    
+    
+    
+    End If
+    
+    If C2 = "OK" Then
+        'Alguno se ha generado
+        'XXXXXXXX
+            
+        Sql = "Recuerde: En el archivo adjunto le enviamos información de su interés."
+
+        LanzaProgramaAbrirOutlookMasivo 2, Sql, TieneArimaiCDO, Me.chkAmazonCopia.Value = 1, Label2(31)
+    
+    End If
+    Screen.MousePointer = vbDefault
+    Label2(31).Caption = ""
+    Label2(31).Refresh
+End Sub
+
+Private Function PreparaCarpeta() As Boolean
+
+    PreparaCarpeta = False
+    
+    If Dir(App.Path & "\temp\*.pdf", vbArchive) <> "" Then
+        Kill App.Path & "\temp\*.pdf"
+        If Err.Number <> 0 Then
+            MuestraError Err.Number, "Preparando carpeta temporal"
+        Else
+            PreparaCarpeta = True
+        End If
+
+    Else
+        PreparaCarpeta = True
+    End If
+End Function
+
+Private Function EliminaDocum() As Boolean
+
+    EliminaDocum = False
+    If Dir(App.Path & "\docum.pdf", vbArchive) <> "" Then
+        Kill App.Path & "\docum.pdf"
+        If Err.Number <> 0 Then
+            MuestraError Err.Number, "Eliminando docum temporal"
+        Else
+            EliminaDocum = True
+        End If
+    Else
+        EliminaDocum = True
+    End If
+End Function
+
+
+'Copia EN temporal
+Private Function CopiaEnTemporal() As Boolean
+
+    CopiaEnTemporal = False
+    
+    If InStr(ListView2.ListItems(I).Tag, "=48") Then
+        Sql = ""
+    Else
+        Sql = "_"
+    End If
+    Sql = ListView2.ListItems(I).Text & Sql & ".pdf"
+    
+    
+    FileCopy App.Path & "\docum.pdf", App.Path & "\temp\" & Sql
+    If Err.Number <> 0 Then
+        MuestraError Err.Number, "Eliminando docum temporal"
+    Else
+        CopiaEnTemporal = True
+    End If
+        
+End Function
+
+
+
+
+
+Private Sub Combo5_Click()
+    VisibleMasivo
+End Sub
+
 Private Sub Combo5_Validate(Cancel As Boolean)
-    optTipoSal(3).Enabled = (Combo5.ListIndex = 1)
-    If Not optTipoSal(3).Enabled Then optTipoSal(0).Value = True
+   ' optTipoSal(3).Enabled = (Combo5.ListIndex = 1)
+   ' If Not optTipoSal(3).Enabled Then optTipoSal(0).Value = True
     
     Me.Toolbar1.Buttons(1).Enabled = (Combo5.ListIndex = 0)
     
@@ -1110,6 +1532,18 @@ Private Sub Form_Load()
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
     PonerDatosFicheroSalida
+    
+    
+    TieneArimaiCDO = False
+    Sql = DevuelveDesdeBD("emailAWS", "parametros", "1", "1")
+    If Sql <> "" Then
+        If Dir(App.Path & "\CreamailCDO.exe", vbArchive) <> "" Then
+            TieneArimaiCDO = True
+            Label3(7).Caption = "Envio por Amazon Web Service"
+        End If
+        chkAmazonCopia.visible = True
+    End If
+    
 End Sub
 
 Private Sub PonerDatosFicheroSalida()
@@ -1119,28 +1553,46 @@ Private Sub PonerDatosFicheroSalida()
 End Sub
 
 
+Private Sub PonerFrameEnvioMasivo(visible As Boolean)
+    
+    cmdMasivo.visible = visible
+    cmdAccion(0).visible = Not visible
+    cmdAccion(1).visible = Not visible
+    If visible Then
+        Me.FrameEnvioMasivo.top = 0
+        FrameEnvioMasivo.Left = 60
+    Else
+        ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 3
+    End If
+    FrameEnvioMasivo.visible = visible
+    
+    
+End Sub
+
+
 Private Sub frmF_Selec(vFecha As Date)
     txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
 Dim I As Integer
-Dim TotalCant As Currency
-Dim TotalImporte As Currency
-
+Dim B As Boolean
     Screen.MousePointer = vbHourglass
     
-    Select Case Index
-        ' tabla de codigos de iva
-        Case 0
+    If Index < 2 Then
+    
             For I = 1 To ListView1(1).ListItems.Count
-                ListView1(1).ListItems(I).Checked = False
+                ListView1(1).ListItems(I).Checked = Index = 1
             Next I
-        Case 1
-            For I = 1 To ListView1(1).ListItems.Count
-                ListView1(1).ListItems(I).Checked = True
+    Else
+            For I = 1 To ListView2.ListItems.Count
+                B = False
+                If Index = 3 Then
+                    If Trim(ListView2.ListItems(I).SubItems(2)) <> "" Then B = True
+                End If
+                Me.ListView2.ListItems(I).Checked = B
             Next I
-    End Select
+    End If
     
     Screen.MousePointer = vbDefault
 
@@ -1171,8 +1623,29 @@ Private Sub imgFec_Click(Index As Integer)
 End Sub
 
 
+Private Sub ListView2_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
+    If ListView2.SortKey = ColumnHeader.Index - 1 Then
+        'misma columna
+        If ListView2.SortOrder = lvwAscending Then
+            ListView2.SortOrder = lvwDescending
+        Else
+            ListView2.SortOrder = lvwAscending
+        End If
+    Else
+        ListView2.SortKey = ColumnHeader.Index - 1
+        ListView2.SortOrder = lvwAscending
+    End If
+End Sub
+
+Private Sub ListView2_ItemCheck(ByVal Item As MSComctlLib.ListItem)
+    If Trim(Item.SubItems(2)) = "" Then Item.Checked = False
+    
+End Sub
+
 Private Sub optTipoSal_Click(Index As Integer)
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), Index
+    
+    VisibleMasivo
 End Sub
 
 
@@ -1469,9 +1942,9 @@ Dim CadResul As String
                 CadResul = Me.ListView1(1).ListItems(I).SubItems(1) & vbCrLf & vbCrLf & "Hay facturas de proveedor sin nif de las cuentas: " & vbCrLf & vbCrLf & CadResul
                                 
                 MsgBox CadResul, vbExclamation
-                
-                Set Rs = Nothing
-                Exit Function
+'
+'                Set Rs = Nothing
+'                Exit Function
             End If
             Set Rs = Nothing
         
@@ -1646,7 +2119,7 @@ ECargarList:
     End If
 End Sub
 
-Private Function ComprobarCuentas347_() As Boolean
+Private Function ComprobarCuentas347() As Boolean
 Dim I As Integer
 Dim I1 As Currency
 Dim I2 As Currency
@@ -1654,22 +2127,36 @@ Dim i3 As Currency
 Dim i4 As Currency
 Dim I5 As Currency
 Dim PAIS As String
+Dim Cadena2 As String
 Dim SoloUnaEmpresa347 As Boolean
-
-    ComprobarCuentas347_ = False
+Dim EsLaPrimera As Byte '0 empieza proc   1- Esta es la primera     2.Hay mas de una
+    
+    ComprobarCuentas347 = False
     
     'Esto sera para las inserciones de despues
     Tablas = "INSERT INTO tmp347tot (codusu, cliprov, nif, importe, razosoci, dirdatos, codposta, despobla,Provincia,pais) "
-    Tablas = Tablas & " VALUES (" & vUsu.Codigo
+    
         
     Sql = ""
     For I = 1 To Me.ListView1(1).ListItems.Count
         If Me.ListView1(1).ListItems(I).Checked Then Sql = Sql & "X"
     Next
     SoloUnaEmpresa347 = Len(Sql) = 1  'Para no hacer inserts que no sirvan ,y retrasen el proceso
-
+    Cadena2 = ""
+    EslaPrimeraEmpresa = False
+    EsLaPrimera = 0
+    
     For I = 1 To Me.ListView1(1).ListItems.Count
         If Me.ListView1(1).ListItems(I).Checked Then
+            If EsLaPrimera = 0 Then
+                EsLaPrimera = 1
+                EslaPrimeraEmpresa = True
+            Else
+                EsLaPrimera = 2
+                EslaPrimeraEmpresa = False
+            End If
+                
+        
             Label2(30).Caption = Me.ListView1(1).ListItems(I).SubItems(1)
             Label2(31).Caption = "Comprobar Cuentas"
             Me.Refresh
@@ -1693,7 +2180,7 @@ Dim SoloUnaEmpresa347 As Boolean
               While Not Rs.EOF
 
               
-                   Label2(31).Caption = Rs!NIF
+                   Label2(31).Caption = Rs!NIF & " (Ins.)"
                    Label2(31).Refresh
                    If ExisteEntrada Then
                         Importe = Importe + Rs!Suma
@@ -1701,6 +2188,7 @@ Dim SoloUnaEmpresa347 As Boolean
                         Sql = "UPDATE tmp347tot SET importe= " & TransformaComasPuntos(CStr(Importe))
                         Sql = Sql & " WHERE codusu =" & vUsu.Codigo & " AND cliprov =" & Rs!cliprov
                         Sql = Sql & " AND nif = '" & Rs!NIF & "';"
+                        Conn.Execute Sql
                    Else
                         'Nuevo para lo de las agencias de viajes
                         Sql = "," & Rs!cliprov & ",'" & Rs!NIF & "'," & TransformaComasPuntos(CStr(Rs!Suma))
@@ -1712,17 +2200,38 @@ Dim SoloUnaEmpresa347 As Boolean
                             PAIS = Rs!PAIS
                         End If
                         Sql = Sql & "','" & DevNombreSQL(DBLet(PAIS, "T")) & "')"
-                        Sql = Tablas & Sql
+                        Cadena2 = Cadena2 & ", (" & vUsu.Codigo & Sql
+                        If Len(Cadena2) > 80000 Then
+                            Sql = ""
+                            Label2(31).Caption = "Actualiza BD"
+                            Label2(31).Refresh
+                            Sql = Mid(Cadena2, 2)
+                            Sql = Tablas & " VALUES " & Sql
+                            Conn.Execute Sql
+                            Cadena2 = ""
+                        End If
                    End If
-                   Conn.Execute Sql
+                   
                    Rs.MoveNext
               Wend
               Rs.Close
+              If Len(Cadena2) > 0 Then
+              
+                    Label2(31).Caption = "Actualiza BD(2)"
+                    Label2(31).Refresh
+                    Sql = Mid(Cadena2, 2)
+                    Sql = Tablas & " VALUES " & Sql
+                    Conn.Execute Sql
+                    Cadena2 = ""
+              End If
+              
+              
               
               
               'trimestral
-              Label2(31).Caption = "Insertando datos tmp(II)"
+              Label2(31).Caption = "Insertando datos trimest(II)"
               Label2(31).Refresh
+              Cadena2 = ""
               Sql = "SELECT  tmp347trimestre.cliprov,tmp347.nif,tmp347.codposta, sum(trim1) as t1, sum(trim2) as t2,"
               Sql = Sql & " sum(trim3) as t3, sum(trim4) as t4,sum(metalico) as metalico"
               Sql = Sql & " from ariconta" & Me.ListView1(1).ListItems(I).Text & ".tmp347,ariconta" & Me.ListView1(1).ListItems(I).Text & ".tmp347trimestre where tmp347.codusu=" & vUsu.Codigo
@@ -1740,7 +2249,7 @@ Dim SoloUnaEmpresa347 As Boolean
               
               Set Rs = New ADODB.Recordset
               Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-              
+              Cadena2 = ""
               While Not Rs.EOF
               
            
@@ -1754,11 +2263,7 @@ Dim SoloUnaEmpresa347 As Boolean
                         i4 = i4 + Rs!T4
                         I5 = I5 + Rs!metalico
                         Sql = "UPDATE tmp347trimestral SET "
-                        'SQL = SQL & " trim1=trim1+" & TransformaComasPuntos(CStr(Rs!T1))
-                        'SQL = SQL & ", trim2=trim2+" & TransformaComasPuntos(CStr(Rs!t2))
-                        'SQL = SQL & ", trim3=trim3+" & TransformaComasPuntos(CStr(Rs!T3))
-                        'SQL = SQL & ", trim4=trim4+" & TransformaComasPuntos(CStr(Rs!T4))
-                        'SQL = SQL & ", metalico=metalico+" & TransformaComasPuntos(CStr(Rs!metalico))
+                        
                         
                         Sql = Sql & " trim1=" & TransformaComasPuntos(CStr(I1))
                         Sql = Sql & ", trim2=" & TransformaComasPuntos(CStr(I2))
@@ -1767,22 +2272,42 @@ Dim SoloUnaEmpresa347 As Boolean
                         Sql = Sql & ", metalico=" & TransformaComasPuntos(CStr(I5))
                         Sql = Sql & " WHERE codusu =" & vUsu.Codigo & " AND cliprov =" & Rs!cliprov
                         Sql = Sql & " AND nif = '" & Rs!NIF & "';"
+                        Conn.Execute Sql
                    Else
                         
-                        Sql = "insert into tmp347trimestral (`codusu`,`cliprov`,`nif`,`trim1`,`trim2`"
-                        Sql = Sql & ",`trim3`,`trim4`,`codposta`,metalico) values ( " & vUsu.Codigo
-                        Sql = Sql & "," & Rs!cliprov & ",'" & Rs!NIF & "',"
+                        
+                        Sql = ", (" & vUsu.Codigo & "," & Rs!cliprov & ",'" & Rs!NIF & "',"
                         Sql = Sql & TransformaComasPuntos(CStr(Rs!T1)) & "," & TransformaComasPuntos(CStr(Rs!t2)) & ","
                         Sql = Sql & TransformaComasPuntos(CStr(Rs!T3)) & "," & TransformaComasPuntos(CStr(Rs!T4))
                         Sql = Sql & ",0," '& DBSet(Rs!codposta, "T") & ","
                         Sql = Sql & TransformaComasPuntos(CStr(Rs!metalico)) & ")"
-    
+                        Cadena2 = Cadena2 & Sql
+                    
+                        If Len(Cadena2) > 80000 Then
+                            Label2(31).Caption = "Actualiza BD(3)"
+                            Label2(31).Refresh
+                            Sql = "insert into tmp347trimestral (`codusu`,`cliprov`,`nif`,`trim1`,`trim2`"
+                            Sql = Sql & ",`trim3`,`trim4`,`codposta`,metalico) VALUES "
+                            Cadena2 = Mid(Cadena2, 2)
+                            Sql = Sql & Cadena2
+                            Conn.Execute Sql
+                            Cadena2 = ""
+                        End If
                    End If
-                   Conn.Execute Sql
+                   
                    Rs.MoveNext
               Wend
               Rs.Close
-              
+              If Len(Cadena2) > 4000 Then
+                    Label2(31).Caption = "Actualiza BD(4)"
+                    Label2(31).Refresh
+                    Sql = "insert into tmp347trimestral (`codusu`,`cliprov`,`nif`,`trim1`,`trim2`"
+                    Sql = Sql & ",`trim3`,`trim4`,`codposta`,metalico) VALUES "
+                    Cadena2 = Mid(Cadena2, 2)
+                    Sql = Sql & Cadena2
+                    Conn.Execute Sql
+                    Cadena2 = ""
+                End If
               
               
               
@@ -1790,7 +2315,7 @@ Dim SoloUnaEmpresa347 As Boolean
               espera 0.5
          End If
     Next I
-    ComprobarCuentas347_ = True
+    ComprobarCuentas347 = True
     
 End Function
 
@@ -1866,6 +2391,10 @@ Dim VectorFacturasISP As String
 
 Dim IvasSuplidos As String
 
+Dim CadenaInsercion As String
+Dim CadenaInsercionCob As String
+
+
 On Error GoTo EComprobarCuentas347
     
     ComprobarCuentas347_DOS = False
@@ -1922,6 +2451,8 @@ On Error GoTo EComprobarCuentas347
     Label2(31).Caption = "Leyendo cta/CIF"
     Label2(31).Refresh
     Rs.Open Sql, Conn, adOpenKeyset, adLockPessimistic, adCmdText
+    CadenaInsercion = ""
+    CadenaInsercionCob = ""
     While Not Rs.EOF
         
         
@@ -1930,6 +2461,7 @@ On Error GoTo EComprobarCuentas347
         RestoValoresInsert = ""
         FinBucle = False
         Label2(31).Caption = "CLI "
+        
         While Not FinBucle
             If Rs.EOF Then
                 FinBucle = True
@@ -2026,23 +2558,38 @@ On Error GoTo EComprobarCuentas347
                         CadenaCifs = Mid(CadenaCifs, 1, KK - 1)
                     
                     
-                        Sql = "INSERT INTO " & Contabilidad & ".tmp347 (codusu, cliprov, cta, nif, codposta, importe, razosoci, dirdatos, despobla, provincia, pais )  "
-                        Sql = Sql & " VALUES (" & vUsu.Codigo & "," & Asc("0") & ",'" & CodmactaTratando & "','"
-                        'SQL = SQL & DBLet(Rs!nifdatos) & "'," & DBSet(Rs!CodPobla, "T") & "," & TransformaComasPuntos(CStr(I1))
-                        'SQL = SQL & "," & DBSet(Rs!Nommacta, "T") & "," & DBSet(Rs!dirdatos, "T") & "," & DBSet(Rs!desPobla, "T") & "," & DBSet(Rs!desProvi, "T") & "," & DBSet(Rs!codpais, "T") & ")"
+                        
+                        Sql = ", (" & vUsu.Codigo & "," & Asc("0") & ",'" & CodmactaTratando & "','"
                         Sql = Sql & CIFTratando & "'," & DBSet(RecuperaValor(CadenaCifs, 1), "T") & "," & TransformaComasPuntos(CStr(I1))
                         Sql = Sql & "," & DBSet(RecuperaValor(CadenaCifs, 2), "T") & "," & DBSet(RecuperaValor(CadenaCifs, 3), "T") & "," & DBSet(RecuperaValor(CadenaCifs, 4), "T") & "," & DBSet(RecuperaValor(CadenaCifs, 5), "T") & "," & DBSet(RecuperaValor(CadenaCifs, 6), "T") & ")"
-                        Conn.Execute Sql
+                        CadenaInsercion = CadenaInsercion & Sql
+                                               
                          
                         
                         'El del trimestre
-                        Sql = "insert into " & Contabilidad & ".`tmp347trimestre` (`codusu`,`cliprov`,`cta`,`nif`,`codposta`,`trim1`,`trim2`,`trim3`,`trim4`)"
-                        'SQL = SQL & " VALUES (" & vUsu.Codigo & "," & Asc("0") & ",'" & Rs!codmacta & "'," & DBSet(Rs!nifdatos, "T") & "," & DBSet(Rs!CodPobla, "T")
-                        Sql = Sql & " VALUES (" & vUsu.Codigo & "," & Asc("0") & ",'" & CodmactaTratando & "'," & DBSet(CIFTratando, "T") & "," & DBSet(RecuperaValor(CadenaCifs, 1), "T")
+                        'esta bajo
+                        Sql = ", (" & vUsu.Codigo & "," & Asc("0") & ",'" & CodmactaTratando & "'," & DBSet(CIFTratando, "T") & "," & DBSet(RecuperaValor(CadenaCifs, 1), "T")
                         Sql = Sql & "," & TransformaComasPuntos(CStr(Trimestre(0))) & "," & TransformaComasPuntos(CStr(Trimestre(1)))
                         Sql = Sql & "," & TransformaComasPuntos(CStr(Trimestre(2))) & "," & TransformaComasPuntos(CStr(Trimestre(3))) & ")"
-                        Conn.Execute Sql
+                        CadenaInsercionCob = CadenaInsercionCob & Sql
                     
+                    
+                        If Len(CadenaInsercion) > 50000 Then
+                            Label2(31).Caption = "Insert cta-nif BD"
+                            Label2(31).Refresh
+                            'Este es la insercion
+                            Sql = "INSERT INTO " & Contabilidad & ".tmp347 (codusu, cliprov, cta, nif, codposta, importe, razosoci, dirdatos, despobla, provincia, pais )  VALUES "
+                            CadenaInsercion = Mid(CadenaInsercion, 2)
+                            Sql = Sql & CadenaInsercion
+                            Conn.Execute Sql
+                            CadenaInsercion = ""
+                            
+                            Sql = "insert into " & Contabilidad & ".`tmp347trimestre` (`codusu`,`cliprov`,`cta`,`nif`,`codposta`,`trim1`,`trim2`,`trim3`,`trim4`) VALUES "
+                            CadenaInsercionCob = Mid(CadenaInsercionCob, 2)
+                            Sql = Sql & CadenaInsercionCob
+                            Conn.Execute Sql
+                            CadenaInsercionCob = ""
+                          End If
                     End If
                     If Not FinBucle Then
                         'If InStr(1, RT!nifdatos, "20405409Q") > 0 Then S top
@@ -2080,6 +2627,25 @@ On Error GoTo EComprobarCuentas347
         
     Wend
     Rs.Close
+    
+    If Len(CadenaInsercion) > 0 Then
+        Label2(31).Caption = "Insert cta-nif BD"
+        Label2(31).Refresh
+        'Este es la insercion
+        Sql = "INSERT INTO " & Contabilidad & ".tmp347 (codusu, cliprov, cta, nif, codposta, importe, razosoci, dirdatos, despobla, provincia, pais )  VALUES "
+        CadenaInsercion = Mid(CadenaInsercion, 2)
+        Sql = Sql & CadenaInsercion
+        Conn.Execute Sql
+        
+        
+        Sql = "insert into " & Contabilidad & ".`tmp347trimestre` (`codusu`,`cliprov`,`cta`,`nif`,`codposta`,`trim1`,`trim2`,`trim3`,`trim4`) VALUES "
+        CadenaInsercionCob = Mid(CadenaInsercionCob, 2)
+        Sql = Sql & CadenaInsercionCob
+        Conn.Execute Sql
+    End If
+    
+    
+    
     If OptProv(0).Value Then
         cad = "fecharec"
     Else
@@ -2093,7 +2659,7 @@ On Error GoTo EComprobarCuentas347
     espera 0.2
     
     
-    Sql = "SELECT factpro.codmacta,factpro.nifdatos, factpro.codpobla, factpro.dirdatos, factpro.nommacta,factpro.despobla,factpro.desprovi,"
+    Sql = "SELECT factpro.codmacta,coalesce(factpro.nifdatos,'ERROR') nifdatos, factpro.codpobla, factpro.dirdatos, factpro.nommacta,factpro.despobla,factpro.desprovi,"
     Sql = Sql & " factpro.codpais from " & Contabilidad & ".factpro," & Contabilidad & ".cuentas  where "
     Sql = Sql & Contabilidad & ".cuentas.codmacta=" & Contabilidad & ".factpro.codmacta and model347=1 "
     Sql = Sql & " AND " & cad & " >='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
@@ -2114,7 +2680,7 @@ On Error GoTo EComprobarCuentas347
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     While Not Rs.EOF
-        Label2(31).Caption = "PRO " & Rs!nifdatos
+        Label2(31).Caption = "PRO " & Rs!nifdatos & " " & Rs!codmacta
         Label2(31).Refresh
         DoEvent2
         'SQL = "Select factpro.*," & cad & " fecha from " & Contabilidad & ".factpro factpro where codmacta = '" & Rs.Fields(0) & "' AND "
@@ -2132,9 +2698,9 @@ On Error GoTo EComprobarCuentas347
         While Not RT.EOF
             If RT!CodOpera = 4 Then
                 'St op
-                VectorFacturasISP = VectorFacturasISP & ", (" & DBSet(RT!NUmSerie, "T") & "," & RT!Numregis & "," & RT!anofactu & ")"
+                VectorFacturasISP = VectorFacturasISP & ", (" & DBSet(RT!NUmSerie, "T") & "," & RT!Numregis & "," & RT!Anofactu & ")"
             Else
-                VectorFacturas = VectorFacturas & ", (" & DBSet(RT!NUmSerie, "T") & "," & RT!Numregis & "," & RT!anofactu & ")"
+                VectorFacturas = VectorFacturas & ", (" & DBSet(RT!NUmSerie, "T") & "," & RT!Numregis & "," & RT!Anofactu & ")"
             End If
             RT.MoveNext
         Wend
@@ -2368,6 +2934,13 @@ EComprobarCuentas347:
 End Function
 
 Private Function ExisteEntrada() As Boolean
+Dim B As Boolean
+    
+    If EslaPrimeraEmpresa Then
+        ExisteEntrada = False
+        Exit Function
+    End If
+        
     Sql = "Select importe from tmp347tot  where codusu = " & vUsu.Codigo & " and cliprov =" & Rs!cliprov & " AND nif ='" & Rs!NIF & "'"
     'SQL = SQL & " and codposta = " & DBSet(Rs!codposta, "T") & ";"
     miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -2383,7 +2956,11 @@ End Function
 
 Private Function ExisteEntradaTrimestral(ByRef I1 As Currency, ByRef I2 As Currency, ByRef i3 As Currency, ByRef i4 As Currency, ByRef I5 As Currency) As Boolean
     
-   
+    If EslaPrimeraEmpresa Then
+        ExisteEntradaTrimestral = False
+        I1 = 0: I2 = 0: i3 = 0: i4 = 0: I5 = 0
+        Exit Function
+    End If
 
     'SQL = "Select trim1,trim2,trim3,trim4,metalico from tmp347trimestral  where codusu = " & vUsu.Codigo & " and cliprov =" & Rs!cliprov & " AND nif ='" & Rs!NIF & "' and codposta = " & DBSet(Rs!codposta, "T") & ";"
     Sql = "Select trim1,trim2,trim3,trim4,metalico from tmp347trimestral  where codusu = " & vUsu.Codigo & " and cliprov =" & Rs!cliprov & " AND nif ='" & Rs!NIF & "';"
@@ -2419,404 +2996,165 @@ Dim C As Byte
     
 End Function
 
+Private Sub VisibleMasivo()
+    
+    Me.chkMasivo.visible = False
+
+    If Me.optTipoSal(3).Value Then
+        If Combo5.ListIndex = 0 Then chkMasivo.visible = True
+    End If
+    
+
+End Sub
+
+
+Private Sub EnviarPorEmail()
+Dim B As Boolean
+Dim Email As String
+        
+    If Me.chkMasivo.Value = 1 Then
+    
+        ListView2.ListItems.Clear
+    
+        'Frame de envio email
+        B = CargaDatosEnvioMasivo
+        
+        If B Then
+            PonerFrameEnvioMasivo True
+            Me.Refresh
+            Screen.MousePointer = vbHourglass
+            PonEmails
+            
+            
+            
+            
+        End If
+        Set miRsAux = Nothing
+        Label2(31).Caption = ""
+    Else
+        
+        
+        If Text347(2).Text <> "" Then Email = DevuelveEmail(Me.Text347(2).Text, False)
+        LanzaProgramaAbrirOutlook 21, Email
+    End If
+    
+End Sub
 
 
 
 
-
-'-----------------------------------------------------------------------------------------------------------------------------
-'-----------------------------------------------------------------------------------------------------------------------------
-'-----------------------------------------------------------------------------------------------------------------------------
-'-----------------------------------------------------------------------------------------------------------------------------
-'-----------------------------------------------------------------------------------------------------------------------------
-'-----------------------------------------------------------------------------------------------------------------------------
-'-----------------------------------------------------------------------------------------------------------------------------
-'-----------------------------------------------------------------------------------------------------------------------------
-'-----------------------------------------------------------------------------------------------------------------------------
-'-----------------------------------------------------------------------------------------------------------------------------
-'-----------------------------------------------------------------------------------------------------------------------------
-'-----------------------------------------------------------------------------------------------------------------------------
-'-----------------------------------------------------------------------------------------------------------------------------
-
-'Abril 2018
-'ANTIGUO ComprobarCuentas347_DOS
-'Private Function ComprobarCuentas347_DOS(Contabilidad As String, Empresa As String) As Boolean
-'Dim Sql2 As String
-'Dim SqlTot As String
-'Dim Rs As ADODB.Recordset
-'Dim RT As ADODB.Recordset
-'Dim I1 As Currency
-'Dim I2 As Currency
-'Dim i3 As Currency
-'Dim Trimestre(3) As Currency
-'Dim Impor As Currency
-'Dim Tri As Byte
-'Dim VectorFacturas As String
-'
-'
-'On Error GoTo EComprobarCuentas347
-'    ComprobarCuentas347_DOS = False
-'
-'    SQL = "DELETE FROM " & Contabilidad & ".tmp347 where codusu = " & vUsu.Codigo
-'    Conn.Execute SQL
-'
-'    SQL = "DELETE FROM " & Contabilidad & ".tmp347trimestre where codusu = " & vUsu.Codigo
-'    Conn.Execute SQL
-'
-'    Set Rs = New ADODB.Recordset
-'    Set RT = New ADODB.Recordset
-'    'Para lo nuevo. Iremos codmacta a codmacta
-'
-'
-'    SQL = " Select factcli.codmacta,factcli.nifdatos,factcli.dirdatos,coalesce(factcli.codpobla,0) codpobla,factcli.nommacta,factcli.despobla,factcli.desprovi,factcli.codpais from "
-'    SQL = SQL & Contabilidad & ".factcli, " & Contabilidad & ".cuentas  where "
-'    SQL = SQL & " cuentas.codmacta=factcli.codmacta and model347=1 "
-'    SQL = SQL & " AND fecfactu >='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-'    SQL = SQL & " AND fecfactu <='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
-'
-'    ' Para debug
-'    'SQL = SQL & " AND factcli.nifdatos IN ('X19455039Y','X19844591F','X20164371H','24367501J','724367501J')"
-'
-'    If Text347(2).Text <> "" Then
-'        SQL = SQL & " AND factcli.nifdatos IN ("
-'        If InStr(1, Text347(2).Text, ",") = 0 Then
-'            SQL = SQL & DBSet(Text347(2).Text, "T")
-'        Else
-'            SQL = SQL & Text347(2).Text
-'        End If
-'        SQL = SQL & " )"
-'    End If
-'    SQL = SQL & " group by  factcli.codmacta,factcli.nifdatos "
-'
-'    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-'    While Not Rs.EOF
-'
-'        Label2(31).Caption = "CLI " & Rs!nifdatos & " (" & Rs!codmacta & ")"
-'        Label2(31).Refresh
-'
-'        Trimestre(0) = 0: Trimestre(1) = 0: Trimestre(2) = 0: Trimestre(3) = 0
-'
-'        'VAMOS por NIF, no por NIF y cuenta
-'        'SQL = "Select * from " & Contabilidad & ".factcli where codmacta = '" & Rs.Fields(0) & "' AND "
-'        SQL = "Select * from " & Contabilidad & ".factcli  "
-'
-'
-'        SQL = SQL & " WHERE factcli.nifdatos = " & DBSet(Rs.Fields(1).Value, "T")
-'        SQL = SQL & " AND fecfactu >='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-'        SQL = SQL & " AND fecfactu <='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
-'        RT.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-'        I1 = 0
-'        I2 = 0
-'        VectorFacturas = ""
-'        While Not RT.EOF
-'            VectorFacturas = VectorFacturas & ", (" & DBSet(RT!NUmSerie, "T") & "," & RT!NumFactu & "," & RT!anofactu & ")"
-'            RT.MoveNext
-'        Wend
-'        RT.Close
-'
-'
-'        If VectorFacturas <> "" Then
-'            VectorFacturas = Mid(VectorFacturas, 2)
-'
-'
-'            SqlTot = "select (month(fecfactu)-1) div 3  trimestre ,sum(coalesce(baseimpo,0)) base, sum(coalesce(impoiva,0)) iva, sum(coalesce(imporec,0)) recargo "
-'            SqlTot = SqlTot & " from " & Contabilidad & ".factcli_totales "
-'            'SqlTot = SqlTot & " where numserie = " & DBSet(RT!NUmSerie, "T")
-'            'SqlTot = SqlTot & " and numfactu = " & DBSet(RT!NumFactu, "N")
-'            'SqlTot = SqlTot & " and fecfactu = " & DBSet(RT!FecFactu, "F")
-'            SqlTot = SqlTot & " where (numserie,numfactu,anofactu) IN (" & VectorFacturas & ") GROUP BY 1"
-'
-'
-'
-'            RT.Open SqlTot, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-'
-'            While Not RT.EOF
-'
-'                I1 = I1 + DBLet(RT!Base, "N")
-'                I2 = I2 + DBLet(RT!IVA, "N") + DBLet(RT!recargo, "N")
-'                Impor = DBLet(RT!Base, "N") + DBLet(RT!IVA, "N") + DBLet(RT!recargo, "N")
-'
-'
-'
-'                'El trimestre
-'
-'                'Tri = QueTrimestre(RT!fecliqcl)
-'                Tri = RT!Trimestre
-'                'Tri = Tri - 1
-'
-'                Trimestre(Tri) = Trimestre(Tri) + Impor
-'                RT.MoveNext
-'            Wend
-'            RT.Close
-'        End If
-'
-'
-'        'El importe final es la suma de las bases mas los ivas
-'        I1 = I1 + I2
-'        SQL = "INSERT INTO " & Contabilidad & ".tmp347 (codusu, cliprov, cta, nif, codposta, importe, razosoci, dirdatos, despobla, provincia, pais )  "
-'        SQL = SQL & " VALUES (" & vUsu.Codigo & "," & Asc("0") & ",'" & Rs!codmacta & "','"
-'        SQL = SQL & DBLet(Rs!nifdatos) & "'," & DBSet(Rs!CodPobla, "T") & "," & TransformaComasPuntos(CStr(I1))
-'        SQL = SQL & "," & DBSet(Rs!Nommacta, "T") & "," & DBSet(Rs!dirdatos, "T") & "," & DBSet(Rs!desPobla, "T") & "," & DBSet(Rs!desProvi, "T") & "," & DBSet(Rs!codpais, "T") & ")"
-'        Conn.Execute SQL
-'
-'
-'        'El del trimestre
-'        SQL = "insert into " & Contabilidad & ".`tmp347trimestre` (`codusu`,`cliprov`,`cta`,`nif`,`codposta`,`trim1`,`trim2`,`trim3`,`trim4`)"
-'        SQL = SQL & " VALUES (" & vUsu.Codigo & "," & Asc("0") & ",'" & Rs!codmacta & "'," & DBSet(Rs!nifdatos, "T") & "," & DBSet(Rs!CodPobla, "T")
-'        SQL = SQL & "," & TransformaComasPuntos(CStr(Trimestre(0))) & "," & TransformaComasPuntos(CStr(Trimestre(1)))
-'        SQL = SQL & "," & TransformaComasPuntos(CStr(Trimestre(2))) & "," & TransformaComasPuntos(CStr(Trimestre(3))) & ")"
-'        Conn.Execute SQL
-'
-'
-'
-'        Rs.MoveNext
-'    Wend
-'    Rs.Close
-'    If OptProv(0).Value Then
-'        Cad = "fecharec"
-'    Else
-'
-'        Cad = "fecfactu"
-'
-'    End If
-'
-'    Label2(31).Caption = "Comprobando datos facturas proveedor"
-'    DoEvents
-'    espera 0.2
-'
-'
-'    SQL = "SELECT factpro.codmacta,factpro.nifdatos, factpro.codpobla, factpro.dirdatos, factpro.nommacta,factpro.despobla,factpro.desprovi,"
-'    SQL = SQL & " factpro.codpais from " & Contabilidad & ".factpro," & Contabilidad & ".cuentas  where "
-'    SQL = SQL & Contabilidad & ".cuentas.codmacta=" & Contabilidad & ".factpro.codmacta and model347=1 "
-'    SQL = SQL & " AND " & Cad & " >='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-'    SQL = SQL & " AND " & Cad & " <='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
-'    'Para debug
-'    'SQL = SQL & " AND factpro.nifdatos IN ('19455039Y','19844591F','20164371H','24367501J','724367501J')"
-'    If Text347(2).Text <> "" Then
-'        SQL = SQL & " AND factpro.nifdatos IN ("
-'        If InStr(1, Text347(2).Text, ",") = 0 Then
-'            SQL = SQL & DBSet(Text347(2).Text, "T")
-'        Else
-'            SQL = SQL & Text347(2).Text
-'        End If
-'        SQL = SQL & " )"
-'    End If
-'
-'    SQL = SQL & " group by factpro.codmacta, factpro.nifdatos "
-'    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-'
-'    While Not Rs.EOF
-'        Label2(31).Caption = "PRO " & Rs!nifdatos
-'        Label2(31).Refresh
-'        DoEvents
-'        'SQL = "Select factpro.*," & cad & " fecha from " & Contabilidad & ".factpro factpro where codmacta = '" & Rs.Fields(0) & "' AND "
-'        SQL = "Select factpro.*," & Cad & " fecha from " & Contabilidad & ".factpro factpro where "
-'        SQL = SQL & " nifdatos = " & DBSet(Rs!nifdatos, "T")
-'        SQL = SQL & " AND codmacta = " & DBSet(Rs!codmacta, "T")
-'        SQL = SQL & " AND " & Cad & " >='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-'        SQL = SQL & " AND " & Cad & " <='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
-'        RT.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-'        I1 = 0
-'        I2 = 0
-'        VectorFacturas = ""
-'        Trimestre(0) = 0: Trimestre(1) = 0: Trimestre(2) = 0: Trimestre(3) = 0
-'        While Not RT.EOF
-'
-'            VectorFacturas = VectorFacturas & ", (" & DBSet(RT!NUmSerie, "T") & "," & RT!Numregis & "," & RT!anofactu & ")"
-'            RT.MoveNext
-'        Wend
-'        RT.Close
-'
-'
-'
-'        If VectorFacturas <> "" Then
-'            Impor = 0
-'            VectorFacturas = Mid(VectorFacturas, 2)
-'            SqlTot = "select (month(fecharec)-1) div 3  trimestre ,sum(coalesce(baseimpo,0)) base, sum(coalesce(impoiva,0)) iva, sum(coalesce(imporec,0)) recargo "
-'            SqlTot = SqlTot & " from " & Contabilidad & ".factpro_totales  WHERE "
-'            'SqlTot = SqlTot & " numserie = " & DBSet(RT!NUmSerie, "T")
-'            'SqlTot = SqlTot & " and numregis = " & DBSet(RT!Numregis, "N")
-'            'SqlTot = SqlTot & " and anofactu = " & DBSet(RT!anofactu, "N")
-'            SqlTot = SqlTot & " (numserie,numregis,anofactu) IN (" & VectorFacturas & ") GROUP BY 1"
-'
-'
-'            RT.Open SqlTot, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-'            While Not RT.EOF
-'                I1 = I1 + DBLet(RT!Base, "N")
-'                'Si
-'                'If RT!CodOpera = 4 Then
-'                '    'Las inversiones de sujeto pasivo NO suman iva
-'                '    Impor = DBLet(RT!Base, "N")
-'                'Else
-'                    I2 = I2 + DBLet(RT!IVA, "N") + DBLet(RT!recargo, "N")
-'                    Impor = DBLet(RT!Base, "N") + DBLet(RT!IVA, "N") + DBLet(RT!recargo, "N")
-'                'End If
-'
-'
-'
-'                'El trimestre
-'                'Tri = QueTrimestre(RT!Fecha)
-'                Tri = RT!Trimestre
-'                'Tri = Tri - 1
-'                Trimestre(Tri) = Trimestre(Tri) + Impor
-'
-'
-'                RT.MoveNext
-'            Wend
-'            RT.Close
-'        End If 'VectorFacturas
-'
-'        'El importe final es la suma de las bases mas los ivas
-'        I1 = I1 + I2
-'        SQL = "INSERT INTO " & Contabilidad & ".tmp347 (codusu, cliprov, cta, nif, codposta, importe, razosoci, dirdatos, despobla, provincia, pais)  "
-'        'SQL = SQL & " VALUES (" & vUsu.Codigo & ",1,'" & RS!Codmacta & "','"
-'        SQL = SQL & " VALUES (" & vUsu.Codigo & "," & Asc("1") & ",'" & Rs!codmacta & "','" & DBLet(Rs!nifdatos) & "',"
-'        If IsNull(Rs!CodPobla) Then
-'            SQL = SQL & "'00000'"
-'        Else
-'            SQL = SQL & DBSet(Rs!CodPobla, "T")
-'        End If
-'        SQL = SQL & "," & TransformaComasPuntos(CStr(I1))
-'        SQL = SQL & "," & DBSet(Rs!Nommacta, "T") & "," & DBSet(Rs!dirdatos, "T") & "," & DBSet(Rs!desPobla, "T") & "," & DBSet(Rs!desProvi, "T") & "," & DBSet(Rs!codpais, "T") & ")"
-'        Conn.Execute SQL
-'
-'
-'        'El del trimestre
-'        SQL = "insert into " & Contabilidad & ".`tmp347trimestre` (`codusu`,`cliprov`,`cta`,`nif`,`codposta`,`trim1`,`trim2`,`trim3`,`trim4`)"
-'        SQL = SQL & " VALUES (" & vUsu.Codigo & "," & Asc("1") & ",'" & Rs!codmacta & "'," & DBSet(Rs!nifdatos, "T") & "," & DBSet(IIf(IsNull(Rs!CodPobla), "0000", Rs!CodPobla), "T")
-'        SQL = SQL & "," & TransformaComasPuntos(CStr(Trimestre(0))) & "," & TransformaComasPuntos(CStr(Trimestre(1)))
-'        SQL = SQL & "," & TransformaComasPuntos(CStr(Trimestre(2))) & "," & TransformaComasPuntos(CStr(Trimestre(3))) & ")"
-'        Conn.Execute SQL
-'
-'
-'        Rs.MoveNext
-'
-'    Wend
-'    Rs.Close
-'
-'    ' CObros en metalico superiores a 6000
-'    Label2(31).Caption = "Cobros metalico"
+Private Function CargaDatosEnvioMasivo() As Boolean
+Dim IT As ListItem
+    CargaDatosEnvioMasivo = False
+    
+'    'Guardare en tmp347tot.direcion  el email
+'    Label2(31).Caption = "Leyendo emails"
 '    Label2(31).Refresh
-'    DoEvents
-'    SQL = "Select ImporteMaxEfec340 from " & Contabilidad & ".parametros "
-'    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-'    'NO pues ser eof
-'    I1 = DBLet(Rs!ImporteMaxEfec340, "N")
-'    Rs.Close
-'    If I1 > 0 Then
-'        'SI que lleva control de cobros en efectivo
-'        'Veremos si hay conceptos de efectivo
-'        SQL = "Select codconce from " & Contabilidad & ".conceptos where EsEfectivo340 = 1"
-'        Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-'        SQL = ""
-'        While Not Rs.EOF
-'            SQL = SQL & ", " & Rs!CodConce
-'            Rs.MoveNext
-'        Wend
-'        Rs.Close
-'        Sql2 = "" 'Errores en Datos en efectivo sin ventas
-'        If SQL <> "" Then
-'            SQL = Mid(SQL, 2) 'quit la coma
-'
-'            Cad = "Select * from " & Contabilidad & ".tmp347trimestre WHERE codusu = " & vUsu.Codigo & " ORDER BY cta"
-'            RT.Open Cad, Conn, adOpenKeyset, adCmdText
-'
-'            'HABER -DEBE"
-'            Cad = "Select hlinapu.codmacta,sum(if(timporteh is null,0,timporteh))-sum(if(timported is null,0,timported)) importe, cuentas.nifdatos, cuentas.codposta"
-'            Cad = Cad & " from " & Contabilidad & ".hlinapu,cuentas WHERE hlinapu.codmacta =cuentas.codmacta "
-'            Cad = Cad & " AND model347=1 AND fechaent >='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-'            Cad = Cad & " AND fechaent <='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
-'            Cad = Cad & " AND codconce IN (" & SQL & ")"
-'            Cad = Cad & " group by 1 order by 1"
-'
-'            Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-'
-'            While Not Rs.EOF
-'                Label2(31).Caption = Rs!codmacta
-'                Label2(31).Refresh
-'
-'                If Rs!Importe <> 0 Then
-'                    SQL = "cta  = '" & Rs!codmacta & "'"
-'                    RT.Find SQL, , adSearchForward, 1
-'
-'                    If RT.EOF Then
-'                        Sql2 = Sql2 & Rs!codmacta & " (" & Rs!Importe & ") " & vbCrLf
-'                    Else
-'                        SQL = "UPDATE " & Contabilidad & ".tmp347trimestre SET metalico = " & TransformaComasPuntos(CStr(Rs!Importe))
-'                        SQL = SQL & " WHERE codusu = " & vUsu.Codigo & " AND cta = '" & RT!Cta & "'"
-'                        '++
-'                        SQL = SQL & " and nif = " & DBSet(Rs!nifdatos, "T")
-'                        Conn.Execute SQL
-'                    End If
-'                End If
-'                Rs.MoveNext
-'            Wend
-'            Rs.Close
-'            RT.Close
-'
-'            If Sql2 <> "" Then
-'                Sql2 = "Cobros en efectivo sin asociar a ventas" & vbCrLf & Sql2
-'                MsgBox Sql2, vbExclamation
-'            End If
-'        End If
-'    End If
-'
-'    Set RT = Nothing
-'    RC = ""
-'    Cad = ""
-'    Sql2 = ""
-'    'Comprobaremos k el nif no es nulo, ni el codppos de las cuentas a tratar
-'    SQL = "Select cta from " & Contabilidad & ".tmp347 where (nif is null or nif = '') and codusu = " & vUsu.Codigo
-'    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-'    i = 0
-'    While Not Rs.EOF
-'        i = i + 1
-'        Cad = Cad & Rs.Fields(0) & "       "
-'        If i = 3 Then
-'            Cad = Cad & vbCrLf
-'            i = 0
-'        End If
-'        Rs.MoveNext
-'    Wend
-'    Rs.Close
-'
-'    If Cad <> "" Then
-'        RC = "Cuentas con NIF sin valor: " & vbCrLf & vbCrLf & Cad
-'        Cad = ""
-'    End If
-'
-'    'Comprobamos el codpos
-'    SQL = "Select cta,razosoci,codposta from " & Contabilidad & ".tmp347 where codusu = " & vUsu.Codigo
-'    SQL = SQL & " AND (codposta is null or codposta='')"
-'
-'    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-'    i = 0
-'    While Not Rs.EOF
-'        i = i + 1
-'        Cad = Cad & Rs.Fields(0) & "       "
-'        If i = 3 Then
-'            Cad = Cad & vbCrLf
-'            i = 0
-'        End If
-'        Rs.MoveNext
-'    Wend
-'    Rs.Close
-'
-'    If Cad <> "" Then
-'        If RC <> "" Then RC = RC & vbCrLf & vbCrLf & vbCrLf
-'        RC = RC & "Cuentas con codigo postal sin valor: " & vbCrLf & vbCrLf & Cad
-'    End If
-'
-'    If RC <> "" Then
-'        RC = "Empresa: " & Empresa & vbCrLf & vbCrLf & RC & vbCrLf & " Desea continuar igualmente?"
-'        If MsgBox(RC, vbQuestion + vbYesNoCancel + vbDefaultButton2) <> vbYes Then Exit Function
-'    End If
-'
-'    Set Rs = Nothing
-'
-'    ComprobarCuentas347_DOS = True
-'    Exit Function
-'EComprobarCuentas347:
-'    MuestraError Err.Number, "Comprobar Cuentas 347" & vbCrLf & vbCrLf & SQL & vbCrLf
-'End Function
+'    Sql = "DELETE FROM tmp347tot where codusu=" & vUsu.Codigo & " and not nif  in ("
+'    Sql = Sql & "select nifdatos from cuentas where nifdatos<>'' and apudirec='S' and codmacta like '4%' and codmacta <'47' and maidatos<>'')"
+'    Conn.Execute Sql
+    
+    
+    'Los que quedan tienen nif
+    Label2(31).Caption = "Cargando desde cuentas"
+    Label2(31).Refresh
+    
+    Set miRsAux = New ADODB.Recordset
+    
+    Sql = "Select * from tmp347tot where codusu=" & vUsu.Codigo & " ORDER BY nif,cliprov"
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If miRsAux.EOF Then
+        MsgBox "Ningun registro con email disponible para su envio", vbExclamation
+        miRsAux.Close
+    End If
+        
+        
+    While Not miRsAux.EOF
+        Label2(31).Caption = "Cargando desde cuentas"
+        Label2(31).Refresh
+        Set IT = ListView2.ListItems.Add()
+        IT.Checked = True
+        IT.Text = miRsAux!NIF
+        IT.SubItems(1) = miRsAux!razosoci
+        IT.SubItems(2) = " " 'email
+        IT.SubItems(3) = Right(Space(15) & Format(miRsAux!Importe, FormatoImporte), 15)
+        
+        
+        Sql = "{tmp347tot.codusu} =" & vUsu.Codigo & " AND  {tmp347tot.cliprov} =" & miRsAux!cliprov & " AND {tmp347tot.nif} = " & DBSet(miRsAux!NIF, "F")
+        IT.Tag = CStr(Sql)
+        
+        
+        miRsAux.MoveNext
+    Wend
+    miRsAux.Close
+        
+    CargaDatosEnvioMasivo = True
+End Function
+
+
+Private Sub PonEmails()
+
+    
+    'De tres en tres
+    RC = "N"
+    
+    I = 0
+    Do
+        I = I + 1
+        Label2(31).Caption = "Leyendo email " & ListView2.ListItems(I).Text
+        Label2(31).Refresh
+        cad = "Select maidatos FROM cuentas where apudirec='S' and maidatos<>'' and nifdatos=" & DBSet(ListView2.ListItems(I).Text, "T")
+        miRsAux.Open cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+        cad = " "
+        If Not miRsAux.EOF Then If Not IsNull(miRsAux.Fields(0)) Then cad = miRsAux.Fields(0)
+        miRsAux.Close
+        
+       
+        
+        ListView2.ListItems(I).SubItems(2) = cad
+        If cad = " " Then
+            ListView2.ListItems(I).ForeColor = vbRed
+            ListView2.ListItems(I).Checked = False
+        End If
+        If I >= ListView2.ListItems.Count Then RC = ""
+    Loop Until RC = ""
+End Sub
+
+
+
+
+'Genera uno a uno los rpts
+Private Sub GenerarRpt()
+
+    'En I tenemos el indice del lw2
+
+                With frmVisReport
+                    .Informe = App.Path & "\Informes\"
+                    If ExportarPDF Then
+                        'PDF
+                        .Informe = .Informe & cadPDFrpt
+                    Else
+                        'IMPRIMIR
+                        .Informe = .Informe & cadNomRPT
+                    End If
+                    .FormulaSeleccion = "{tmpentrefechas.codusu}=" & vUsu.Codigo & " AND {tmpentrefechas.nomconam}= """ & Rs.Fields(0) & """"
+                    .SoloImprimir = False
+                    .OtrosParametros = cadParam
+                    .NumeroParametros = numParam
+                    .ConSubInforme = True
+            
+                    .NumCopias2 = 1
+            
+                    .SoloImprimir = SoloImprimir
+                    .ExportarPDF = True
+                    .MostrarTree = vMostrarTree
+                    .Show vbModal
+                    'HaPulsadoImprimir = .EstaImpreso
+                 
+                 End With
+
+
+
+End Sub
+
 

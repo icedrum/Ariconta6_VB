@@ -96,7 +96,7 @@ Dim cad As String
 Dim Aux As String
 Dim Ch As String
 Dim Fin As Boolean
-Dim I, J As String
+Dim I, j As String
 
 On Error GoTo ErrSepara
 SeparaCampoBusqueda = 1
@@ -3765,7 +3765,7 @@ End Function
 '
 
 'Imprime el listado para que vena las cuentas que entran dentro de k punto etc etc
-Public Function GeneraDatosBalanConfigImpresion(NumBalan As Integer, ImportesDeSoloUnMes As Boolean)
+Public Function GeneraDatosBalanConfigImpresion(NumBalan As Integer, TipoDatosPeriodo As Byte)
 
         Sql = "Delete from "
         Sql = Sql & "tmpimpbalance where codusu = " & vUsu.Codigo
@@ -3793,7 +3793,7 @@ Public Function GeneraDatosBalanConfigImpresion(NumBalan As Integer, ImportesDeS
 
 
        
-        CargaArbol 0, 0, -1, "", Month(vParam.fechaini), Year(vParam.fechaini), Month(vParam.fechafin), Year(vParam.fechafin), "", True, Nothing, False, ImportesDeSoloUnMes
+        CargaArbol 0, 0, -1, "", Month(vParam.fechaini), Year(vParam.fechaini), Month(vParam.fechafin), Year(vParam.fechafin), "", True, Nothing, False, TipoDatosPeriodo
  
  
         Sql = "Select * from "
@@ -3810,7 +3810,7 @@ Public Function GeneraDatosBalanConfigImpresion(NumBalan As Integer, ImportesDeS
 End Function
 
 
-Public Function GeneraDatosBalanceConfigurable_(NumBalan As Integer, Mes1 As Integer, Anyo1 As Integer, Mes2 As Integer, Anyo2 As Integer, LibroCD As Boolean, vContabilidad As String, Optional PB As ProgressBar, Optional ImportesDeSoloUnMes As Boolean, Optional Lb As Label)
+Public Function GeneraDatosBalanceConfigurable_(NumBalan As Integer, Mes1 As Integer, Anyo1 As Integer, Mes2 As Integer, Anyo2 As Integer, LibroCD As Boolean, vContabilidad As String, Optional PB As ProgressBar, Optional TipoDatosPeriodo As Byte, Optional Lb As Label)
 Dim QuitarUno As Boolean
 Dim EsPyGNoAbreviado As Boolean
 Dim AuxPyG As String
@@ -4081,7 +4081,7 @@ Dim txtAcelera As String
         
         PB.Tag = -1
         
-        CargaArbol 0, 0, -1, "", Mes1, Anyo1, Mes2, Anyo2, vContabilidad, False, PB, EsBalancePerdidas_y_ganancias, ImportesDeSoloUnMes
+        CargaArbol 0, 0, -1, "", Mes1, Anyo1, Mes2, Anyo2, vContabilidad, False, PB, EsBalancePerdidas_y_ganancias, TipoDatosPeriodo
         
     
             
@@ -4165,7 +4165,12 @@ Dim txtAcelera As String
     Set RT = Nothing
 End Function
 
-Private Sub CargaArbol(ByRef vImporte As Currency, ByRef vimporte2 As Currency, Padre As Integer, Pasivo As String, ByRef Mes1 As Integer, ByRef Anyo1 As Integer, ByRef Mes2 As Integer, ByRef Anyo2 As Integer, ByRef Contabilidades As String, EsListado As Boolean, ByRef PrB_ As ProgressBar, EsPerdidasyGanancias As Boolean, ElImporteDeSoloUnMes As Boolean)
+
+'TipoDatosPeriodo
+'       0 .  NORMAL Lo de siempre
+'       1 . Solo UN MES  . Lo que antes era: ElImporteDeSoloUnMes
+'       2 . Trimestre.
+Private Sub CargaArbol(ByRef vImporte As Currency, ByRef vimporte2 As Currency, Padre As Integer, Pasivo As String, ByRef Mes1 As Integer, ByRef Anyo1 As Integer, ByRef Mes2 As Integer, ByRef Anyo2 As Integer, ByRef Contabilidades As String, EsListado As Boolean, ByRef PrB_ As ProgressBar, EsPerdidasyGanancias As Boolean, TipoDatosPeriodo As Byte)
 Dim Rs As ADODB.Recordset
 Dim nodImporte As Currency
 Dim MiAux As String
@@ -4246,15 +4251,15 @@ Dim Tipo As Integer
                     QueCuentas = PonerCuentasBalances(Rs!Pasivo, Rs!Codigo)
                 Else
                     'IMPORTES
-                    OtroImporte = CalculaImporteCtas(Rs!Pasivo, Rs!Codigo, Mes1, Anyo1, True, Contabilidades, EsPerdidasyGanancias, ElImporteDeSoloUnMes)
+                    OtroImporte = CalculaImporteCtas(Rs!Pasivo, Rs!Codigo, Mes1, Anyo1, True, Contabilidades, EsPerdidasyGanancias, TipoDatosPeriodo)
                 
                     'Debug.Print Rs!Pasivo & Rs!Codigo & " " & OtroImporte
                 
                 
-                    If Mes2 > 0 Then OtroImporte2 = CalculaImporteCtas(Rs!Pasivo, Rs!Codigo, Mes2, Anyo2, False, Contabilidades, EsPerdidasyGanancias, ElImporteDeSoloUnMes)
+                    If Mes2 > 0 Then OtroImporte2 = CalculaImporteCtas(Rs!Pasivo, Rs!Codigo, Mes2, Anyo2, False, Contabilidades, EsPerdidasyGanancias, TipoDatosPeriodo)
                 End If
             Else
-                CargaArbol OtroImporte, OtroImporte2, Rs!Codigo, Rs!Pasivo, Mes1, Anyo1, Mes2, Anyo2, Contabilidades, EsListado, PrB_, EsPerdidasyGanancias, ElImporteDeSoloUnMes
+                CargaArbol OtroImporte, OtroImporte2, Rs!Codigo, Rs!Pasivo, Mes1, Anyo1, Mes2, Anyo2, Contabilidades, EsListado, PrB_, EsPerdidasyGanancias, TipoDatosPeriodo
                 QueCuentas = ""
                 
             End If
@@ -4293,8 +4298,12 @@ Dim Tipo As Integer
 End Sub
 
 
-
-Private Function CalculaImporteCtas(Pasivo As String, Codigo As Integer, ByRef mess1 As Integer, ByRef anyos1 As Integer, Año1_o2 As Boolean, ByRef Contabilidades As String, EsPerdidasyGanancias As Boolean, ImporteSoloUnMes As Boolean) As Currency
+'TipoDatosPeriodo
+'       0 .  NORMAL Lo de siempre
+'       1 . Solo UN MES  . Lo que antes era: SoloDatosUnMes
+'       2 . Trimestre.
+'       3 . Semestre
+Private Function CalculaImporteCtas(Pasivo As String, Codigo As Integer, ByRef mess1 As Integer, ByRef anyos1 As Integer, Año1_o2 As Boolean, ByRef Contabilidades As String, EsPerdidasyGanancias As Boolean, TipoPeriodo As Byte) As Currency
 Dim RT As ADODB.Recordset
 Dim X As Integer
 Dim Y As Integer
@@ -4334,8 +4343,8 @@ Dim ContaX As String
                 QuitarUno = Mid(VarConsolidado(2), (Contador * 2) + 1, 1)
             End If
             
-            EjerciciosCerrados = (CDate("15/" & mess1 & "/" & anyos1) < VFecha3)
-            vI1 = CalculaImporteCtas1Contabilidad(Pasivo, Codigo, mess1, anyos1, QuitarUno, EsPerdidasyGanancias, ImporteSoloUnMes)
+            EjerciciosCerrados = (CDate("15/" & mess1 & "/" & anyos1) < VFecha3)                        'ImporteSoloUnMes  ahora
+            vI1 = CalculaImporteCtas1Contabilidad(Pasivo, Codigo, mess1, anyos1, QuitarUno, EsPerdidasyGanancias, TipoPeriodo)
         
 
         
@@ -4352,8 +4361,12 @@ End Function
 
 
 
-
-Private Function CalculaImporteCtas1Contabilidad(Pasivo As String, Codigo As Integer, ByRef mess1 As Integer, ByRef anyos1 As Integer, QuitarSaldos As Boolean, EsPerdidasyGanancias As Boolean, SoloDatosUnMes As Boolean) As Currency
+'TipoDatosPeriodo
+'       0 .  NORMAL Lo de siempre
+'       1 . Solo UN MES  . Lo que antes era: SoloDatosUnMes
+'       2 . Trimestre.
+'       3 . Semestre
+Private Function CalculaImporteCtas1Contabilidad(Pasivo As String, Codigo As Integer, ByRef mess1 As Integer, ByRef anyos1 As Integer, QuitarSaldos As Boolean, EsPerdidasyGanancias As Boolean, TipoDatosDelPeriodo As Byte) As Currency
 Dim RC As ADODB.Recordset
 Dim F1 As Date
 Dim F2 As Date
@@ -4364,6 +4377,9 @@ Dim ColImportes As Collection
 Dim RN As ADODB.Recordset
 Dim cad As String
 Dim CalculoPyG As Boolean
+Dim MesIni As Integer
+Dim MesFin As Integer
+
 
 Dim DesdeTempo As Boolean
 
@@ -4375,8 +4391,8 @@ Dim DesdeTempo As Boolean
     vCta = vCta & "balances_ctas WHERE pasivo ='" & Pasivo & "' AND codigo = " & Codigo & " AND numbalan = " & NumAsiento
     RC.Open vCta, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
-    'Primer mes
-    If Not SoloDatosUnMes Then
+    'Lo que habia SIEMPRE
+    If TipoDatosDelPeriodo = 0 Then
     
         
         If mess1 < Month(vParam.fechaini) Then
@@ -4400,17 +4416,53 @@ Dim DesdeTempo As Boolean
                 End If
         
         End If
+        
+        F2 = CDate(DiasMes(CInt(mess1), anyos1) & "/" & mess1 & "/" & anyos1)
+        
     Else
-        F1 = "01/" & Format(mess1, "00") & "/" & anyos1   'mes slicitado
+        '1 . Solo UN MES  . Lo que antes era: SoloDatosUnMes
+        '2 . Trimestre.
+        '3 . Semestre
+        If TipoDatosDelPeriodo = 1 Then
+            F1 = "01/" & Format(mess1, "00") & "/" & anyos1   'mes slicitado
+            F2 = CDate(DiasMes(CInt(mess1), anyos1) & "/" & mess1 & "/" & anyos1)
+        Else
+            
+            
+            
+            If TipoDatosDelPeriodo = 2 Then
+                'Trimestre
+                MesIni = ((mess1 - 1) \ 3) + 1
+                MesIni = ((MesIni - 1) * 3) + 1  'trimestre
+                MesFin = MesIni + 2
+            Else
+                'Semestre
+                If mess1 < 7 Then
+                    MesIni = 1:                MesFin = 6
+                Else
+                    MesIni = 7:                MesFin = 12
+                End If
+            End If
+            
+            F1 = "01/" & Format(MesIni, "00") & "/" & anyos1   'mes slicitado
+            F2 = CDate(DiasMes(CInt(MesFin), anyos1) & "/" & MesFin & "/" & anyos1)
+
+            
+            
+            
+            
+            
+        End If
+        
     End If
     
     'Debug.Assert Not (F1 <> "01/10/2018")
-    F2 = CDate(DiasMes(CInt(mess1), anyos1) & "/" & mess1 & "/" & anyos1)
+    
     I1 = 0
     EjerciciosCerrados = F1 < VFecha3
     
     B1 = 0
-    If Not SoloDatosUnMes Then
+    If TipoDatosDelPeriodo = 0 Then
         'Lo que hacia
         If QuitarSaldos Then B1 = 1             'Ambos, pyg y cierr
     End If

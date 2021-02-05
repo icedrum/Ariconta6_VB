@@ -152,10 +152,8 @@ Dim Exonerados390 As Boolean
 
 On Error GoTo Salida '
 
-    GenerarFicheroIVA_303_2017 = False
-    Linea = ""
-    Linea = Linea & "<T3030"
-    Linea = Linea & RecuperaValor(vPeriodo, 3)  'AÑO
+
+
     I = CInt(RecuperaValor(vPeriodo, 1)) 'El periodo
     UltimoPeridod = False
     If vParam.periodos = 0 Then
@@ -166,6 +164,21 @@ On Error GoTo Salida '
         Periodo = Format(I, "00")
         If I = 12 Then UltimoPeridod = True
     End If
+
+
+
+    
+    Exonerados390 = False
+    If UltimoPeridod Then
+        If vParam.SIITiene Then Exonerados390 = True
+    End If
+
+
+
+    GenerarFicheroIVA_303_2017 = False
+    Linea = ""
+    Linea = Linea & "<T3030"
+    Linea = Linea & RecuperaValor(vPeriodo, 3)  'AÑO
     Linea = Linea & Periodo & "0000><AUX>"
     
     'Blancos
@@ -190,7 +203,7 @@ On Error GoTo Salida '
     
     
     
-   
+   Debug.Assert False
     
     Linea = Linea & "<T30301000> "   'una pos en blanco
     
@@ -218,59 +231,68 @@ On Error GoTo Salida '
     
     If Not Generaidentificacion(False) Then GoTo Salida
     Linea = Linea & RecuperaValor(vPeriodo, 3) & Periodo
+    
+    
+    'Tribua solo foral
+    'Linea = Linea & "H"
+    
     'Inscrito en el registro de devol mensual  1.Si   2:NO
     Aux = DevuelveDesdeBD("letraseti", "empresa2", "1", "1")
     If Aux = "S" Then
-        Linea = Linea & "1"
+        Aux = "1"
     Else
-        Linea = Linea & "2"  'Inscrito en el registro de devol mensual  1.Si   2:NO
+        Aux = "2" 'Inscrito en el registro de devol mensual  1.Si   2:NO
     End If
-    Linea = Linea & "3"  'tributa exclusiva  1.Si   2:NO (Regimen gnral + simplifa)    3: Sol Reg Gnral
-    Linea = Linea & "2"  'autoliquidacion conjunta  1.Si   2:NO
-    Linea = Linea & "2"  'declarado concurso acreedores 1.Si   2:NO
-    Linea = Linea & Space(8)  'Fecha que entra el ERE
-    Linea = Linea & " "
-    Linea = Linea & "2"  'Criterio de caja 1.Si   2:NO
-    Linea = Linea & "222"  'resto opciones critero caja
     
- 
+    Dim dav As Boolean
+    dav = False
+    If dav Then
+    
+            Linea = Linea & Aux
+            Linea = Linea & "2"  'tributa exclusiva  1.Si   2:NO (Regimen gnral + simplifa)    3: Sol Reg Gnral
+            Linea = Linea & "2"  'autoliquidacion conjunta  1.Si   2:NO
+            Linea = Linea & "2"  'Criterio de caja 1.Si   2:NO
+            
+            Linea = Linea & "2"  'Sujeto pasivo destinatario de operaciones acogidas al régimen especial del criterio de caja 1.Si   2:NO
+            Linea = Linea & "2"  'Opción por la aplicación de la prorrata especial (art. 103.Dos.1º LIVA)
+            Linea = Linea & " "  'reocacion de la prorrata especial (art. 103.Dos.1º LIVA)
+            Linea = Linea & "2"  'declarado concurso acreedores 1.Si   2:NO
+            Aux = Space(8)
+            Linea = Linea & Aux  'Fecha en que se dictó el auto de declaración de concurso
+            Linea = Linea & " " 'Auto de declaración de concurso dictado en el períod
+            Linea = Linea & "2"  'Sujeto acogido volumnaramente
+            Linea = Linea & IIf(Exonerados390, "1", "2") 'exonerado 30
+            Aux = "0"
+            If UltimoPeridod Then
+                If Exonerados390 Then
+                    Aux = "1"
+                Else
+                    Aux = "0"
+                End If
+               
+            End If
+            Linea = Linea & Aux
+     
+           Linea = Linea & "2"
+    Else
+        Aux = "222222222222222222222"
+        Aux = "2222        222222222"
+        Linea = Linea & Aux
+        
+    End If
     
     'Cadena importes ivas deducible y devengado
     Linea = Linea & CadenaImportes
     
-    
-    'ENERo 2019
-    '68 Num Identificación (1) - ¿Existe volumen de operaciones (art. 121 LIVA)?        Nota 3
-    '69 Sujeto pasivo que tributa exclusivamente a una Administración tributaria Foral con IVA a la importación liquidado por la Aduana pendiente de ingreso
-    '70 ¿Ha llevado voluntariamente los Libros registro del IVA a través de la Sede electrónica de la AEAT durante el ejercicio?
-    Linea = Linea & "022"
-    
-    'Exonerados del 390
-    'Solo admite 1 y 2 en ultimo peridod año.  4T o 12
-    '- Inscritos en el REDEME (Registro de Devolución Mensual del IVA)
-    '- Grandes Empresas (facturación a efectos del IVA superior a 6.010.121,04 €).
-    '- Grupos de IVA.
-    '- Sujetos pasivos que hubieran optado por llevar los Libros registro del IVA  través de la Sede electrónica de la AEAT.
-    Aux = "0"
-    
-    Exonerados390 = False
-    If UltimoPeridod And Exonerados390 Then
-        If vParam.SIITiene Then
-            Aux = "1"
-        Else
-            Aux = "2"
-        End If
-        Aux = "0" 'FALTA###         un parametro
-    End If
-    Linea = Linea & Aux
+
    
     
     'Final IVA
-    Linea = Linea & Space(578)  'reservado para la AEAT
+    Linea = Linea & Space(600)  'reservado para la AEAT
     Linea = Linea & Space(13)  'reservado para el sello de la AEAT
     
     Linea = Linea & "</T30301000>"
-    'Linea = Linea & Chr(13) & Chr(10)
+    
     
 
        
@@ -361,7 +383,10 @@ On Error GoTo Salida '
                         AñadeImporteClaveUltimoPerido303 14
                         
                         'Operaciones exentas sin derecho a deducción [83]
-                        AñadeImporteClaveUltimoPerido303 16
+                        ' ENER0 2021 FRUTAS INMA. Dice que esta casulla, la 83 el importe que ponemos va a la 94
+                        'AñadeImporteClaveUltimoPerido303 16
+                        Linea = Linea & String(17, "0")
+                            
                             
                         'Operaciones no sujetas por reglas de localización o con inversión del sujeto pasivo [84]
                         AñadeImporteClaveUltimoPerido303 61
@@ -696,7 +721,7 @@ Private Function Generaidentificacion(Modelo300 As Boolean) As Boolean
             Linea = Linea & DatosTexto(DBLet(Rs!nifempre), 9)
             Linea = Linea & DatosTexto(vEmpresa.NombreEmpresaOficial, 60)
             Linea = Linea & DatosTexto(DBLet(Rs!apoderado), 20)
-           End If
+        End If
         Generaidentificacion = True
     End If
     Rs.Close
@@ -1028,7 +1053,7 @@ Dim ErroresRegistros As String
     
     Linea = Linea & DatosTexto(vEmpresa.NombreEmpresaOficial, 40)
     Linea = Linea & "T"  'tipo presentcion C- cinta   D- diskette T.- TElematica
-    Linea = Linea & DatosTexto(DBLet(Rs!telefono), 9)
+    Linea = Linea & DatosTexto(DBLet(Rs!Telefono), 9)
     Linea = Linea & DatosTexto(DBLet(Rs!contacto), 40)
     
     'Linea = Linea & "3470000000000"   'Numero justificante la declaracion. Empieza por 347
@@ -1407,7 +1432,7 @@ Dim cad As String
     cad = "T"
        
     Linea = Linea & cad
-    Linea = Linea & DatosTexto(DBLet(Rs!telefono), 9)
+    Linea = Linea & DatosTexto(DBLet(Rs!Telefono), 9)
     Linea = Linea & DatosTexto(DBLet(Rs!contacto), 40)
     'Feb 2020.  No puede ser 3490000000000 Tiene que ser un secuencial
     'Linea = Linea & "3490000000000"   'Numero justificante la declaracion. Empieza por 343. ENERO> 349
@@ -1814,8 +1839,8 @@ Dim aux2 As String
 '            If Not IsNull(Rs!tp2faccl) Then NF = NF + 1
 '            If Not IsNull(Rs!tp3faccl) Then NF = NF + 1
             SqlNew = "select count(*) from " & "ariconta" & NumeroEmpresa & ".factcli_totales where numserie = " & DBSet(Rs!NUmSerie, "T")
-            SqlNew = SqlNew & " and numfactu = " & DBSet(Rs!NumFactu, "N")
-            SqlNew = SqlNew & " and anofactu = " & DBSet(Rs!anofactu, "N")
+            SqlNew = SqlNew & " and numfactu = " & DBSet(Rs!numfactu, "N")
+            SqlNew = SqlNew & " and anofactu = " & DBSet(Rs!Anofactu, "N")
             
             NF = TotalRegistros(SqlNew)
             
@@ -1849,13 +1874,13 @@ Dim aux2 As String
                 'COJE LO QUE HAYA EN confaccl
                 PAIS = DBLet(Rs!observa, "T") ' antes confaccl
                 If PAIS = "" Then
-                    PAIS = Rs!NUmSerie & Format(Rs!NumFactu, "00000000")
+                    PAIS = Rs!NUmSerie & Format(Rs!numfactu, "00000000")
                     ErroresCtaAjena = ErroresCtaAjena & "   - " & PAIS & vbCrLf
                 End If
                     
             Else
                 'LO NORMAL, es decir codfaccl
-                PAIS = Rs!NUmSerie & Format(Rs!NumFactu, "00000000")
+                PAIS = Rs!NUmSerie & Format(Rs!numfactu, "00000000")
                 
             End If
             Linea = Linea & ",'" & PAIS & "',"
@@ -1875,7 +1900,7 @@ Dim aux2 As String
            'Base UNO. SIEMPRE EXISTE    EN NF llevaremos cuantos registros (detalle) hay
            If NF = 0 Then NF = 1
            TotalLin = Rs!Impoiva + Rs!Baseimpo + DBLet(Rs!ImpoRec, "N")
-           PAIS = "NULL," & NF & "," & TransformaComasPuntos(CStr(Rs!porciva)) & "," & TransformaComasPuntos(CStr(Rs!Baseimpo)) _
+           PAIS = "NULL," & NF & "," & TransformaComasPuntos(CStr(Rs!PorcIva)) & "," & TransformaComasPuntos(CStr(Rs!Baseimpo)) _
                 & "," & TransformaComasPuntos(CStr(Rs!Impoiva)) & "," & TransformaComasPuntos(CStr(TotalLin))
            PAIS = PAIS & "," & TransformaComasPuntos(CStr(DBLet(Rs!porcrec, "N"))) & "," & TransformaComasPuntos(CStr(DBLet(Rs!ImpoRec, "N"))) & ")"
             
@@ -2023,7 +2048,7 @@ Dim SqlNew As String
             SqlNew = "select count(*) from  ariconta" & NumeroEmpresa & ".factpro_totales "
             SqlNew = SqlNew & " where numserie = " & DBSet(Rs!NUmSerie, "T")
             SqlNew = SqlNew & " and numregis = " & DBSet(Rs!Numregis, "N")
-            SqlNew = SqlNew & " and anofactu = " & DBSet(Rs!anofactu, "N")
+            SqlNew = SqlNew & " and anofactu = " & DBSet(Rs!Anofactu, "N")
             
             NF = TotalRegistros(SqlNew)
 
@@ -2054,7 +2079,7 @@ Dim SqlNew As String
             Linea = Linea & "'" & Format(Rs!fecharec, FormatoFecha) & "','" & Format(Rs!fecharec, FormatoFecha) & "'"
            
             '`idfactura`
-            Linea = Linea & ",'" & Rs!NumFactu & "'"
+            Linea = Linea & ",'" & Rs!numfactu & "'"
            
            
            'Numero registro
@@ -2088,7 +2113,7 @@ Dim SqlNew As String
            Else
                     'Base UNO. SIEMPRE EXISTE
                     TotalLin = Rs!Impoiva + Rs!Baseimpo + DBLet(Rs!ImpoRec, "N")
-                    PAIS = NF & "," & TransformaComasPuntos(CStr(Rs!porciva)) & "," & TransformaComasPuntos(CStr(Rs!Baseimpo)) _
+                    PAIS = NF & "," & TransformaComasPuntos(CStr(Rs!PorcIva)) & "," & TransformaComasPuntos(CStr(Rs!Baseimpo)) _
                          & "," & TransformaComasPuntos(CStr(Rs!Impoiva)) & "," & TransformaComasPuntos(CStr(TotalLin))
                     PAIS = PAIS & "," & TransformaComasPuntos(CStr(DBLet(Rs!porcrec, "N"))) & "," & TransformaComasPuntos(CStr(DBLet(Rs!ImpoRec, "N"))) & ")"
                      
@@ -2243,7 +2268,7 @@ Dim SqlNew As String
 '            If Not IsNull(Rs!tp3facpr) Then NF = NF + 1
             SqlNew = "select count(*) from factpro_totales where numserie = " & DBSet(Rs!NUmSerie, "T")
             SqlNew = SqlNew & " and numregis = " & DBSet(Rs!Numregis, "N")
-            SqlNew = SqlNew & " and anofactu = " & DBSet(Rs!anofactu, "N")
+            SqlNew = SqlNew & " and anofactu = " & DBSet(Rs!Anofactu, "N")
             
             NF = TotalRegistros(SqlNew)
 
@@ -2266,7 +2291,7 @@ Dim SqlNew As String
             'Graba en los dos campos la misma fecha m es decir, la de RECEPCION
             Linea = Linea & "'" & Format(Rs!fecharec, FormatoFecha) & "','" & Format(Rs!fecharec, FormatoFecha) & "'"
             '`idfactura`
-            Linea = Linea & ",'" & Rs!NumFactu & "'"
+            Linea = Linea & ",'" & Rs!numfactu & "'"
            
            
            'Numero registro
@@ -2294,7 +2319,7 @@ Dim SqlNew As String
            
            'Base UNO. SIEMPRE EXISTE
            TotalLin = Rs!Impoiva + Rs!Baseimpo + DBLet(Rs!ImpoRec, "N")
-           PAIS = NF & "," & TransformaComasPuntos(CStr(Rs!porciva)) & "," & TransformaComasPuntos(CStr(Rs!Baseimpo)) _
+           PAIS = NF & "," & TransformaComasPuntos(CStr(Rs!PorcIva)) & "," & TransformaComasPuntos(CStr(Rs!Baseimpo)) _
                 & "," & TransformaComasPuntos(CStr(Rs!Impoiva)) & "," & TransformaComasPuntos(CStr(TotalLin))
            PAIS = PAIS & "," & TransformaComasPuntos(CStr(DBLet(Rs!porcrec, "N"))) & "," & TransformaComasPuntos(CStr(DBLet(Rs!ImpoRec, "N"))) & ")"
             
@@ -2410,7 +2435,7 @@ Private Function DevuelveInsertTmp340(Tipo As Byte) As String
 End Function
 
 
-Private Function Devnombresql340(CADENA As String) As String
+Private Function Devnombresql340(Cadena As String) As String
     'QUitaremos algunos caracteres NO validos para el modelo 340
     'Ejmplo: ª º
     
@@ -2419,8 +2444,8 @@ Private Function Devnombresql340(CADENA As String) As String
     Dim C As String
     
     Aux = ""
-    For I = 1 To Len(CADENA)
-        C = Mid(CADENA, I, 1)
+    For I = 1 To Len(Cadena)
+        C = Mid(Cadena, I, 1)
         
         If C = "º" Or C = "ª" Then
             C = "."
@@ -2507,7 +2532,7 @@ Dim vAux As String
     Else
         Linea = Linea & "C"  'CD
     End If
-    Linea = Linea & DatosTexto(DBLet(Rs!telefono, "T"), 9)
+    Linea = Linea & DatosTexto(DBLet(Rs!Telefono, "T"), 9)
     Linea = Linea & DatosTexto(DBLet(Rs!contacto, "T"), 40)
     
     
@@ -3061,7 +3086,7 @@ End Sub
 
 
 Private Sub AgrupaPagosEfectivo(ByRef L As Label, MaximoImporteMetalico As Currency, EsAlFichero As Boolean)
-Dim CADENA As String
+Dim Cadena As String
 
     L.Caption = "Agrupando efectivo x nif"
     L.Refresh
@@ -3077,7 +3102,7 @@ Dim CADENA As String
     Linea = Linea & " AND clavelibro = 'D' group by nifdeclarado"
     
     Rs.Open Linea, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    CADENA = ""
+    Cadena = ""
     While Not Rs.EOF
         If DBLet(Rs!Anterior, "N") + DBLet(Rs!Periodo, "N") >= MaximoImporteMetalico Then
             L.Caption = Rs!nifdeclarado
@@ -3108,14 +3133,14 @@ Dim CADENA As String
             
             Linea = Linea & ",0,0,0)"
             
-            CADENA = CADENA & Linea
+            Cadena = Cadena & Linea
             
             'Insertar
             NumRegElim = NumRegElim + 1
             
-            If Len(CADENA) > 50000 Then
-                InsertaMultipleTMP340 CADENA
-                CADENA = ""
+            If Len(Cadena) > 50000 Then
+                InsertaMultipleTMP340 Cadena
+                Cadena = ""
             End If
         
         End If
@@ -3124,7 +3149,7 @@ Dim CADENA As String
     Wend
     Rs.Close
     
-    InsertaMultipleTMP340 CADENA
+    InsertaMultipleTMP340 Cadena
     
     
     
@@ -3145,17 +3170,17 @@ Dim CADENA As String
         
 End Sub
 
-Public Sub FormatearTextoParaInformativas(ByRef CADENA As String)
+Public Sub FormatearTextoParaInformativas(ByRef Cadena As String)
 
     
     'º , ª
-    CADENA = Replace(CADENA, "º", " ")
-    CADENA = Replace(CADENA, "ª", " ")
-    CADENA = Replace(CADENA, "´", " ")
-    CADENA = Replace(CADENA, "`", " ", 1)
-    CADENA = Replace(CADENA, "(", " ", 1)
-    CADENA = Replace(CADENA, ")", " ", 1)
-    CADENA = Replace(CADENA, "  ", " ", 1)
+    Cadena = Replace(Cadena, "º", " ")
+    Cadena = Replace(Cadena, "ª", " ")
+    Cadena = Replace(Cadena, "´", " ")
+    Cadena = Replace(Cadena, "`", " ", 1)
+    Cadena = Replace(Cadena, "(", " ", 1)
+    Cadena = Replace(Cadena, ")", " ", 1)
+    Cadena = Replace(Cadena, "  ", " ", 1)
 End Sub
 
 
@@ -3620,7 +3645,7 @@ End Sub
 '
 '
 'Public Function GenerarFicheroIVA_390_2020(ByRef CadenaImportes As String, Importe As Currency, vFecha As Date, vPeriodo As String, EsACompensar As Byte, CadRegistroAdicional03 As String, ConInformacionUltimoPeriodo As Boolean) As Boolean
-Public Function GenerarFicheroIVA_390_2020(vFecha As Date, vPeriodo As String, EsACompensar As Byte, Pagina1 As String, Pagina2 As String) As Boolean
+Public Function GenerarFicheroIVA_390_2020(vFecha As Date, vPeriodo As String, EsACompensar As Byte, Pagina1 As String, Pagina2 As String, Pagina4 As String, Pagina6 As String) As Boolean
 Dim Aux As String
 Dim Periodo As String
 Dim K As Integer
@@ -3664,34 +3689,32 @@ On Error GoTo Salida '
     Linea = Linea & "</AUX>"
     
     
-    MsgBox "Falta revisar datos"
-    Linea = ""
+    ' Debug.Assert False              --->>>> Produce un STOP en desarrollo
+    
    
     '********** PAGINA 1 *****************************************
     Linea = Linea & "<T39001000>  "   'dos pos en blanco
     
     If Not Generaidentificacion(False) Then GoTo Salida
-    Linea = Linea & RecuperaValor(vPeriodo, 3)
+     Linea = Linea & RecuperaValor(vPeriodo, 3)
     
     'registro devolucion mensual
     Aux = "0"
     If UltimoPeridod Then
         If vParam.SIITiene Then Aux = "1"
     End If
-    Linea = Linea & Aux
-    
-    
+   
     Linea = Linea & "  " '     107 2   An  RESERVADO PARA LA A.E.A.T. (Dejar en blanco)
     Linea = Linea & Aux '      109 1   An  1. Sujeto pasivo - Registro de devolución mensual.      "0" ó "1"
     Linea = Linea & "0" '      110 1   An  1. Sujeto pasivo - Regimen especial del grupo de entidades      "0" ó "1"
-    Linea = Linea & " " '      111 7   An  1. Sujeto pasivo - Número de grupo
+    Linea = Linea & Space(7) '      111 7   An  1. Sujeto pasivo - Número de grupo
     Linea = Linea & "0" '      118 1   An  1. Sujeto pasivo - dominante?       "0" ó "1"
     Linea = Linea & "0" '      119 1   An  1. Sujeto pasivo - dependiente?     "0" ó "1"
     Linea = Linea & " " '      120 1   An  1. Sujeto pasivo - Tipo régimen especial aplicable. Art 163 sexies.cinco. Si o No       "0" - blanco, "1" - Si, "2" .- No
     Linea = Linea & Space(9) ' 121 9   An  1. Sujeto pasivo - NIF entidad dominante
-    Linea = Linea & " " '      130 1   An  1. Sujeto pasivo - Concurso acreedores en este ejercicio        "0" - blanco, "1" - Si, "2" .- No
-    Linea = Linea & " " '      131 1   An  1. Sujeto pasivo - Regimen especial del criterio de caja        "0" - blanco, "1" - Si, "2" .- No
-    Linea = Linea & " " '      132 1   An  1. Sujeto pasivo - Ha sido destinatario del régimen especial del criterio de caja       "0" - blanco, "1" - Si, "2" .- No
+    Linea = Linea & "2" '      130 1   An  1. Sujeto pasivo - Concurso acreedores en este ejercicio        "0" - blanco, "1" - Si, "2" .- No
+    Linea = Linea & "2" '      131 1   An  1. Sujeto pasivo - Regimen especial del criterio de caja        "0" - blanco, "1" - Si, "2" .- No
+    Linea = Linea & "2" '      132 1   An  1. Sujeto pasivo - Ha sido destinatario del régimen especial del criterio de caja       "0" - blanco, "1" - Si, "2" .- No
     Linea = Linea & "0" '      133 1   Num 2. Devengo - Sustitutiva?       "0" ó "1"
     Linea = Linea & "0" '      134 1   Num 2. Devengo - Sustitutiva por rectificación de cuotas?       "0" ó "1"
     Linea = Linea & Space(13) '      135 13  An  2. Devengo - Nº justificante declaración anterior
@@ -3705,13 +3728,21 @@ On Error GoTo Salida '
     '4   An  3. Datos estadísticos - C -Epígrafe I.A.E. - Principal
 
     K = 0
-    Aux = "select * from empresaactiv WHERE false "
+    Aux = " select * from empresaactiv left join usuarios.wepigrafeiae on empresaactiv.id=wepigrafeiae.id "      'WHERE false "
     Aux = Aux & " ORDER BY ppal desc, codigo"
     miRsAux.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         K = K + 1
         If K < 7 Then   'SOLO ACEPTAN 6
-            Aux = miRsAux!Id & Mid(DBLet(miRsAux!epigrafe, "T") & "    ", 1, 4)
+            '  Space(40) & "0" & Space(4)
+            
+            'Si la clave de la actividad principal es 4, 5 ó 6, el epígrafe no puede tener contenido.
+            If Val(miRsAux!Clave) >= 4 And Val(miRsAux!Clave) <= 6 Then
+                Aux = ""
+            Else
+                Aux = DBLet(miRsAux!epigrafe, "T")
+            End If
+            Aux = DatosTexto(miRsAux!Descripcion, 40) & Mid(miRsAux!Clave, 1) & DatosTexto(Aux, 4)
             Linea = Linea & Aux
         End If
         miRsAux.MoveNext
@@ -3728,9 +3759,26 @@ On Error GoTo Salida '
     '43  418 1   An  3. Datos estadísticos - D - Declaración anual operac. con terceras personas.        "0" ó "1"
     Linea = Linea & "0"
     
-    'Desde el campo 44(posicon 419, hasta 79 (posicion 960 + 21longitud). Es decir 575 espacios en blanco
-    Linea = Linea & Space(575)
+    'Desde 419   3-Datos estad. declara conjunta hasta
+    '      628   4 Representante personjas fisicas
+    '            TOTAL 303
+    Linea = Linea & Space(214)
     
+    'Representatens personas juricias
+    Linea = Linea & Space(80) & DatosTexto(vEmpresa.NIF, 9) & "00000000" & Space(12)
+    
+    For K = 1 To 2
+        'Representatens personas juricias
+        ' Nombre apell +  NIF(89 posic)   - fecha poder (00000000)  Notaria
+        Linea = Linea & Space(89) & "00000000" & Space(12)
+    Next
+    
+    
+    'RESERVADO PARA LA A.E.A.T. (Dejar en blanco) Incluye Nº Referencia PADRE's
+    Linea = Linea & Space(21)
+    
+    'RESERVADO PARA LA A.E.A.T. (Dejar en blanco) Sello electrónico
+    Linea = Linea & Space(13)
     
     'Identificador cliente EEDD. RESERVADO PARA LAS EEDD.
     Linea = Linea & Space(20)
@@ -3739,84 +3787,40 @@ On Error GoTo Salida '
     'Fin registro
     Linea = Linea & "</T39001000>"
     
-    
-    
-    
-    
+        
     
     '********** PAGINA 2 *****************************************
     Linea = Linea & "<T39002000> "   'una pos en blanco
-    
-    
-    
-    'Cadena importes ivas deducible y devengado
+           
+    'Cadena importes ivas deducible
     Linea = Linea & Pagina1
+    Linea = Linea & Space(150)  'reservado para la AEAT
+    Linea = Linea & "</T39002000>"
     
     
-    'ENERo 2019
-    '68 Num Identificación (1) - ¿Existe volumen de operaciones (art. 121 LIVA)?        Nota 3
-    '69 Sujeto pasivo que tributa exclusivamente a una Administración tributaria Foral con IVA a la importación liquidado por la Aduana pendiente de ingreso
-    '70 ¿Ha llevado voluntariamente los Libros registro del IVA a través de la Sede electrónica de la AEAT durante el ejercicio?
-    Linea = Linea & "022"
-    
-    
-    
-    
-    
-    'Exonerados del 390
-    'Solo admite 1 y 2 en ultimo peridod año.  4T o 12
-    '- Inscritos en el REDEME (Registro de Devolución Mensual del IVA)
-    '- Grandes Empresas (facturación a efectos del IVA superior a 6.010.121,04 €).
-    '- Grupos de IVA.
-    '- Sujetos pasivos que hubieran optado por llevar los Libros registro del IVA  través de la Sede electrónica de la AEAT.
-    Aux = "0"
-    If UltimoPeridod Then
-        If vParam.SIITiene Then
-            Aux = "1"
-        Else
-            Aux = "2"
-        End If
-    End If
-    Linea = Linea & Aux
-   
-    
-    'Final IVA
-    Linea = Linea & Space(578)  'reservado para la AEAT
-    Linea = Linea & Space(13)  'reservado para el sello de la AEAT
-    
-    Linea = Linea & "</T30301000>"
-    'Linea = Linea & Chr(13) & Chr(10)
-    
+    '********** PAGINA 3 ******************************* n**********
+    Linea = Linea & "<T39003000> "   'una pos en blanco
+           
+    'Cadena importes ivas deducible
+    Linea = Linea & Pagina2
+    Linea = Linea & Space(150)  'reservado para la AEAT
+    Linea = Linea & "</T39003000>"
 
-       
-    '***************************************************
-    'Registro adicional 303_03    el que lleva los totales
-    If True Then
-        Linea = Linea & "<T30303000>"
-        
-        
-        Linea = Linea & CadRegistroAdicional03
-        
-        
-        'Campo 22. Declaracion complementaria y numero justificante anterior
-        Linea = Linea & " " & Space(13)
-        'Sin actividad
-        Linea = Linea & " "
-        
-        
-        'Domiciliacion devolucion . bic IBAN
-        If EsACompensar = 0 Then
-            Aux = DevuelveDesdeBD("iban1", "empresa2", "1", "1")
-            
-            Linea = Linea & String(11, " ")
-            Linea = Linea & DatosTexto(Aux, 34)
-            
-        Else
-            Linea = Linea & String(11, " ")
-            Linea = Linea & String(34, " ")
-        End If
-        
-        
+
+    '********** PAGINA 4 *****************************************
+    Linea = Linea & "<T39004000> "   'una pos en blanco
+    Linea = Linea & Pagina4
+    Linea = Linea & "</T39004000>"
+
+
+    '********** PAGINA 6 *****************************************
+    Linea = Linea & "<T39006000> "   'una pos en blanco
+    Linea = Linea & Pagina6
+    Linea = Linea & "</T39006000>"
+
+    
+    If False Then
+
         
         Set miRsAux = New ADODB.Recordset
         If ConInformacionUltimoPeriodo Then

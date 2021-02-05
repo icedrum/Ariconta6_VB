@@ -4,6 +4,7 @@ Option Explicit
 
 
 
+
 '********************************************************
 '  0 No tiene     1 Clientes     2 Proveedores   3 Ambos
 ''
@@ -42,7 +43,15 @@ Dim FIncio As Date
         C2 = C2 & " fecfactu >=" & DBSet(FIncio, "F")
         C2 = C2 & " AND fecfactu <= " & DBSet(F, "F")
     End If
-    C2 = C2 & " AND sii_id is null"
+    
+    'Enero 2012. Sii_estado
+    ' SII_estado 0.  Pendiente grabar aswi  1.  Insertada en aswii- pdte subir por daemon
+    '            2.  Subida con errores     3.  Aceptada con errores
+    '            8. Modificando factura presentada     9. Todo OK.
+    
+    'C2 = C2 & " AND sii_id is null"
+    C2 = C2 & " AND sii_estado <9 "  'pendientes de subir o con error , o MODIFICANDOSE (8)
+    
     RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not RN.EOF Then
         If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
@@ -68,7 +77,13 @@ Dim FIncio As Date
                 C2 = C2 & " AND DATE(fecregcontable) <= " & DBSet(F, "F")
             End If
         End If
-        C2 = C2 & " AND sii_id is null"
+        'Enero 2012. Sii_estado
+        ' SII_estado 0.  Pendiente grabar aswi  1.  Insertada en aswii- pdte subir por daemon
+        '            2.  Subida con errores     3.  Aceptada con errores
+        '            8. Modificando factura presentada     9. Todo OK.
+        
+        'C2 = C2 & " AND sii_id is null"
+        C2 = C2 & " AND sii_estado <9 "  'pendientes de subir o con error
         RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not RN.EOF Then
             If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
@@ -77,77 +92,89 @@ Dim FIncio As Date
         If Val(Aux) > 0 Then TieneFacturasPendientesSubirSII = 2
     
     End If
-    
-    If TieneFacturasPendientesSubirSII = 0 Then
-    
-        'incio fecha sii
-        C2 = "select count(*) From factcli  left join aswsii.envio_facturas_emitidas"
-        C2 = C2 & " on factcli.SII_ID = envio_facturas_emitidas.IDEnvioFacturasEmitidas where "
-        If vParam.SII_Periodo_DesdeLiq Then
-            C2 = C2 & " fecliqcl >=" & DBSet(FIncio, "F")
-            C2 = C2 & " AND fecliqcl <= " & DBSet(F, "F")
-        Else
-            C2 = C2 & " fecfactu >=" & DBSet(FIncio, "F")
-            C2 = C2 & " AND fecfactu <= " & DBSet(F, "F")
-        End If
-        
-        'Noviembre 2020
-        C2 = C2 & " AND REG_FE_FA_IDFA_FechaExpedicionFacturaEmisor>=" & DBSet(vParam.fechaini, "F")
         
         
         
-        C2 = C2 & " and (csv is null or resultado='AceptadoConErrores')"
-        
-        
-        RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        If Not RN.EOF Then
-            If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
-        End If
-        RN.Close
-        If Val(Aux) > 0 Then TieneFacturasPendientesSubirSII = 1
-        
-        
-    End If
-        
-        
-    If TieneFacturasPendientesSubirSII = 0 Then
-        
-        C2 = "Select count(*) From factpro left join aswsii.envio_facturas_recibidas"
-        C2 = C2 & " on factpro.SII_ID = envio_facturas_recibidas.IDEnvioFacturasRecibidas WHERE "
-        If vParam.SII_Periodo_DesdeLiq Then
-            C2 = C2 & " fecliqpr >=" & DBSet(FIncio, "F")
-            C2 = C2 & " AND fecliqpr <= " & DBSet(F, "F")
-        Else
-            If vParam.SII_ProvDesdeFechaRecepcion Then
-                C2 = C2 & " fecharec >=" & DBSet(FIncio, "F")
-                C2 = C2 & " AND fecharec <= " & DBSet(F, "F")
-            
-            Else
-                'Enero 2020
-                C2 = C2 & " DATE(fecregcontable) >=" & DBSet(FIncio, "F")
-                C2 = C2 & " AND DATE(fecregcontable) <= " & DBSet(F, "F")
-            End If
-        End If
-        
-        'Noviembre 2020
-        C2 = C2 & " AND REG_FR_FechaRegContable>=" & DBSet(vParam.fechaini, "F")
-    
-        
-        
-        C2 = C2 & " and (csv is null or resultado='AceptadoConErrores')"
-        RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        If Not RN.EOF Then
-            If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
-        End If
-        RN.Close
-        If Val(Aux) > 0 Then TieneFacturasPendientesSubirSII = 2
-    End If
-
+    '******************************    ****************************** ******************************
+    ' YA NO linkamos con aswwi
+    ' lo que habia aqui lo he copiado fuera de la funcion.
+    'Si queremos verlo:   **Antiguo link**
     Set RN = Nothing
     
 End Function
 
-
+'******************************    ****************************** ******************************
+'
+'                   **Antiguo link**
+'
+'
+'''''''
+'''''''
+'''''''    If TieneFacturasPendientesSubirSII = 0 Then
+'''''''
+'''''''        'incio fecha sii
+'''''''        C2 = "select count(*) From factcli  left join aswsii.envio_facturas_emitidas"
+'''''''        C2 = C2 & " on factcli.SII_ID = envio_facturas_emitidas.IDEnvioFacturasEmitidas where "
+'''''''        If vParam.SII_Periodo_DesdeLiq Then
+'''''''            C2 = C2 & " fecliqcl >=" & DBSet(FIncio, "F")
+'''''''            C2 = C2 & " AND fecliqcl <= " & DBSet(F, "F")
+'''''''        Else
+'''''''            C2 = C2 & " fecfactu >=" & DBSet(FIncio, "F")
+'''''''            C2 = C2 & " AND fecfactu <= " & DBSet(F, "F")
+'''''''        End If
+'''''''
+'''''''        'Noviembre 2020
+'''''''        C2 = C2 & " AND REG_FE_FA_IDFA_FechaExpedicionFacturaEmisor>=" & DBSet(vParam.fechaini, "F")
+'''''''
+'''''''
+'''''''
+'''''''        C2 = C2 & " and (csv is null or resultado='AceptadoConErrores')"
+'''''''
+'''''''
+'''''''        RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+'''''''        If Not RN.EOF Then
+'''''''            If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
+'''''''        End If
+'''''''        RN.Close
+'''''''        If Val(Aux) > 0 Then TieneFacturasPendientesSubirSII = 1
+'''''''
+'''''''
+'''''''    End If
+'''''''
+'''''''
+'''''''    If TieneFacturasPendientesSubirSII = 0 Then
+'''''''
+'''''''        C2 = "Select count(*) From factpro left join aswsii.envio_facturas_recibidas"
+'''''''        C2 = C2 & " on factpro.SII_ID = envio_facturas_recibidas.IDEnvioFacturasRecibidas WHERE "
+'''''''        If vParam.SII_Periodo_DesdeLiq Then
+'''''''            C2 = C2 & " fecliqpr >=" & DBSet(FIncio, "F")
+'''''''            C2 = C2 & " AND fecliqpr <= " & DBSet(F, "F")
+'''''''        Else
+'''''''            If vParam.SII_ProvDesdeFechaRecepcion Then
+'''''''                C2 = C2 & " fecharec >=" & DBSet(FIncio, "F")
+'''''''                C2 = C2 & " AND fecharec <= " & DBSet(F, "F")
+'''''''
+'''''''            Else
+'''''''                'Enero 2020
+'''''''                C2 = C2 & " DATE(fecregcontable) >=" & DBSet(FIncio, "F")
+'''''''                C2 = C2 & " AND DATE(fecregcontable) <= " & DBSet(F, "F")
+'''''''            End If
+'''''''        End If
+'''''''
+'''''''        'Noviembre 2020
+'''''''        C2 = C2 & " AND REG_FR_FechaRegContable>=" & DBSet(vParam.fechaini, "F")
+'''''''
+'''''''
+'''''''
+'''''''        C2 = C2 & " and (csv is null or resultado='AceptadoConErrores')"
+'''''''        RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+'''''''        If Not RN.EOF Then
+'''''''            If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
+'''''''        End If
+'''''''        RN.Close
+'''''''        If Val(Aux) > 0 Then TieneFacturasPendientesSubirSII = 2
+'''''''    End If
+'''''''
 
 
 
@@ -173,7 +200,9 @@ End Sub
 '************************************************************************************************
 '************************************************************************************************
 '************************************************************************************************
-Public Function Sii_FraCLI(Serie As String, NumFac As Long, Anofac As Integer, IDEnvioFacturasEmitidas As Long, ByRef SQL_Insert As String) As Boolean
+' si lleva numeroSII_ID_paraModificar : significa que estamos MODIFICANDO el registro.
+' es mucho mas comodo poner REPLACE INTO
+Public Function Sii_FraCLI(Serie As String, NumFac As Long, Anofac As Integer, IDEnvioFacturasEmitidas As Long, ByRef SQL_Insert As String, EsModificando As Boolean) As Boolean
 Dim Sql As String
 Dim RN As ADODB.Recordset
 Dim Clave As String
@@ -190,12 +219,10 @@ Dim BloqueIVA As Byte
 Dim FechaPeriodo2 As Date
 Dim NumFactura As String
 Dim FacturaResumenTicket As Boolean
-
 Dim ImporteIvaCero As Currency
 Dim LlevaIvasCero As Boolean
-
 Dim B As Boolean
-
+Dim GrabaTotalFactura_ As Boolean  'ene21
 
     On Error GoTo eSii_FraCLI
     Sii_FraCLI = False
@@ -215,8 +242,16 @@ Dim B As Boolean
     If vParam.SII_Periodo_DesdeLiq Then FechaPeriodo2 = RN!fecliqcl
     
     'CAB_IDVersionSii , CAB_Titular_NombreRazon, CAB_Titular_NIFRepresentante, CAB_Titular_NIF, REG_PI_Ejercicio, REG_PI_Periodo
-    Sql = Sql & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'A0'," & Year(FechaPeriodo2) & ","
-    Sql = Sql & "'" & Format(Month(FechaPeriodo2), "00") & "',"
+    Sql = Sql & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'"
+    
+    
+    If EsModificando Then
+        Sql = Sql & "A1"
+    Else
+        'Lo que habia
+        Sql = Sql & "A0"
+    End If
+    Sql = Sql & "','" & Year(FechaPeriodo2) & "','" & Format(Month(FechaPeriodo2), "00") & "',"
     
 '#3
     'REG_IDF_IDEF_NIF,REG_IDF_NumSerieFacturaEmisor,REG_IDF_NumSerieFacturaEmisorResumenFin,REG_IDF_FechaExpedicionFacturaEmisor,REG_FE_TipoFactura
@@ -288,9 +323,17 @@ Dim B As Boolean
     End If
     
 '#4
+
+    GrabaTotalFactura_ = True
+    If DBLet(RN!trefaccl, "N") <> 0 Then GrabaTotalFactura_ = False
+    If DBLet(RN!Suplidos, "N") <> 0 Then GrabaTotalFactura_ = False
+
     'REG_FE_ClaveRegimenEspecialOTrascendencia,REG_FE_ImporteTotal,REG_FE_BaseImponibleACoste,REG_FE_DescripcionOperacion
     Clave = DevuelveClaveTranscendenciaEmitida(RN)
-    Sql = Sql & DBSet(Clave, "T") & "," & DBSet(RN!totfaccl, "N") & ",NULL,"
+    Sql = Sql & DBSet(Clave, "T") & ","
+    Sql = Sql & IIf(GrabaTotalFactura_, DBSet(RN!totfaccl, "N"), "NULL")
+    Sql = Sql & ",NULL,"
+    
     If FacturaResumenTicket Then
         Aux = "Factura " & RN!NUmSerie & RN!numfactu
     Else
@@ -493,7 +536,7 @@ Dim B As Boolean
     
     
     'Montamos el SQL
-    SQL_Insert = Sii_FraCLI_SQL(BloqueIVA) & ") VALUES (" & Sql & ")"
+    SQL_Insert = Sii_FraCLI_SQL(BloqueIVA, EsModificando) & ") VALUES (" & Sql & ")"
     
     Sii_FraCLI = True
     
@@ -505,11 +548,18 @@ End Function
 
 '  0.- Facturas normales                ->  REG_FE_TD_DF_SU
 '  1.- Intracomunitarias // Extranjera  ->  REG_FE_TD_DTE_SU
-Private Function Sii_FraCLI_SQL(BloquesIVA As Byte) As String
+' Si modifica hara un REPLACE INTO
+Private Function Sii_FraCLI_SQL(BloquesIVA As Byte, EsModificando As Boolean) As String
 Dim cad As String
 Dim H As Integer
-
-    Sii_FraCLI_SQL = "INSERT INTO aswsii.envio_facturas_emitidas("
+    
+    If EsModificando Then
+        Sii_FraCLI_SQL = "REPLACE INTO"
+    Else
+        Sii_FraCLI_SQL = "INSERT  INTO"
+    End If
+    
+    Sii_FraCLI_SQL = Sii_FraCLI_SQL & " aswsii.envio_facturas_emitidas("
     '#1
     'IDEnvioFacturasEmitidas,Origen,FechaHoraCreacion,EnvioInmediato,Enviada,Resultado,
     Sii_FraCLI_SQL = Sii_FraCLI_SQL & "IDEnvioFacturasEmitidas,Origen,FechaHoraCreacion,EnvioInmediato,"       'Enviada,Resultado,"
@@ -691,7 +741,7 @@ End Function
 '
 '****************************************************************************
 '****************************************************************************
-Public Function Sii_FraPRO(Serie As String, Numregis As Long, Anofac As Integer, IDEnvioFacturasRecibidas As Long, ByRef SQL_Insert As String) As Boolean
+Public Function Sii_FraPRO(Serie As String, Numregis As Long, Anofac As Integer, IDEnvioFacturasRecibidas As Long, ByRef SQL_Insert As String, EsModificando As Boolean) As Boolean
 Dim Sql As String
 Dim RN As ADODB.Recordset
 Dim Clave As String
@@ -730,9 +780,14 @@ Dim GrabaTotalFactura As Boolean
     FechaPeriodo2 = RN!fecharec
     If vParam.SII_Periodo_DesdeLiq Then FechaPeriodo2 = RN!fecliqpr
     
-    Sql = Sql & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'A0'," & Year(FechaPeriodo2) & "," & "'" & Format(Month(FechaPeriodo2), "00") & "',"
-    
-    
+    Sql = Sql & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'"
+     If EsModificando Then
+        Sql = Sql & "A1"
+    Else
+        'Lo que habia
+        Sql = Sql & "A0"
+    End If
+    Sql = Sql & "'," & Year(FechaPeriodo2) & "," & "'" & Format(Month(FechaPeriodo2), "00") & "',"
 '#3
     'REG_IDF_IDEF_NIF,REG_IDF_IDEF_IDOtro_CodigoPais,REG_IDF_IDEF_IDOtro_IDType,REG_IDF_IDEF_IDOtro_ID
     If RN!CodOpera = 1 Or RN!CodOpera = 2 Then
@@ -804,7 +859,7 @@ Dim GrabaTotalFactura As Boolean
     
     GrabaTotalFactura = True
     If DBLet(RN!trefacpr, "N") <> 0 Then GrabaTotalFactura = False
-    
+    If DBLet(RN!Suplidos, "N") <> 0 Then GrabaTotalFactura = False
     
 '#5
      
@@ -1007,7 +1062,7 @@ Dim GrabaTotalFactura As Boolean
     
     
     'Montamos el SQL
-    SQL_Insert = Sii_FraPRO_SQL & ") VALUES (" & Sql & ")"
+    SQL_Insert = Sii_FraPRO_SQL(EsModificando) & ") VALUES (" & Sql & ")"
     
     Sii_FraPRO = True
     
@@ -1017,11 +1072,18 @@ eSii_FraCLI:
 End Function
 
 
-Private Function Sii_FraPRO_SQL() As String
+Private Function Sii_FraPRO_SQL(EsModificando As Boolean) As String
 Dim cad As String
 Dim H As Integer
 
-    Sii_FraPRO_SQL = "INSERT INTO aswsii.envio_facturas_recibidas("
+    If EsModificando Then
+        Sii_FraPRO_SQL = "REPLACE INTO"
+    Else
+        Sii_FraPRO_SQL = "INSERT  INTO"
+    End If
+
+
+    Sii_FraPRO_SQL = Sii_FraPRO_SQL & " aswsii.envio_facturas_recibidas("
     '#1
     'IDEnvioFacturasEmitidas,Origen,FechaHoraCreacion,EnvioInmediato,Enviada,Resultado,
     Sii_FraPRO_SQL = Sii_FraPRO_SQL & "IDEnvioFacturasRecibidas,Origen,FechaHoraCreacion,EnvioInmediato,"       'Enviada,Resultado,"
