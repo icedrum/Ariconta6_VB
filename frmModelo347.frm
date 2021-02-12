@@ -1178,13 +1178,16 @@ Dim nomDocu As String
                 'La carta
                 cad = "¿ Desea imprimir también los proveedores ?"
                 If MsgBox(cad, vbQuestion + vbYesNo) = vbNo Then
-                    cad = " {tmp347tot.cliprov} = " & Asc(0)
-                    cadFormula = cadFormula & cad
+               
                     
-                    If ExportarPDF And Me.chkMasivo.Value Then
+                    If ExportarPDF And Me.chkMasivo.Value = 1 Then
                         'Hay que borrar de temp los asc 49
                         cad = "DELETE from tmp347tot WHERE codusu =" & vUsu.Codigo & " AND cliprov= " & Asc(1)
                         Conn.Execute cad
+                        
+                    Else
+                        cad = " {tmp347tot.cliprov} = " & Asc(0) & " AND "
+                        cadFormula = cadFormula & cad
                     End If
                     
                 End If
@@ -2127,7 +2130,7 @@ Dim i3 As Currency
 Dim i4 As Currency
 Dim I5 As Currency
 Dim PAIS As String
-Dim Cadena2 As String
+Dim cadena2 As String
 Dim SoloUnaEmpresa347 As Boolean
 Dim EsLaPrimera As Byte '0 empieza proc   1- Esta es la primera     2.Hay mas de una
     
@@ -2142,7 +2145,7 @@ Dim EsLaPrimera As Byte '0 empieza proc   1- Esta es la primera     2.Hay mas de
         If Me.ListView1(1).ListItems(I).Checked Then Sql = Sql & "X"
     Next
     SoloUnaEmpresa347 = Len(Sql) = 1  'Para no hacer inserts que no sirvan ,y retrasen el proceso
-    Cadena2 = ""
+    cadena2 = ""
     EslaPrimeraEmpresa = False
     EsLaPrimera = 0
     
@@ -2200,29 +2203,29 @@ Dim EsLaPrimera As Byte '0 empieza proc   1- Esta es la primera     2.Hay mas de
                             PAIS = Rs!PAIS
                         End If
                         Sql = Sql & "','" & DevNombreSQL(DBLet(PAIS, "T")) & "')"
-                        Cadena2 = Cadena2 & ", (" & vUsu.Codigo & Sql
-                        If Len(Cadena2) > 80000 Then
+                        cadena2 = cadena2 & ", (" & vUsu.Codigo & Sql
+                        If Len(cadena2) > 80000 Then
                             Sql = ""
                             Label2(31).Caption = "Actualiza BD"
                             Label2(31).Refresh
-                            Sql = Mid(Cadena2, 2)
+                            Sql = Mid(cadena2, 2)
                             Sql = Tablas & " VALUES " & Sql
                             Conn.Execute Sql
-                            Cadena2 = ""
+                            cadena2 = ""
                         End If
                    End If
                    
                    Rs.MoveNext
               Wend
               Rs.Close
-              If Len(Cadena2) > 0 Then
+              If Len(cadena2) > 0 Then
               
                     Label2(31).Caption = "Actualiza BD(2)"
                     Label2(31).Refresh
-                    Sql = Mid(Cadena2, 2)
+                    Sql = Mid(cadena2, 2)
                     Sql = Tablas & " VALUES " & Sql
                     Conn.Execute Sql
-                    Cadena2 = ""
+                    cadena2 = ""
               End If
               
               
@@ -2231,7 +2234,7 @@ Dim EsLaPrimera As Byte '0 empieza proc   1- Esta es la primera     2.Hay mas de
               'trimestral
               Label2(31).Caption = "Insertando datos trimest(II)"
               Label2(31).Refresh
-              Cadena2 = ""
+              cadena2 = ""
               Sql = "SELECT  tmp347trimestre.cliprov,tmp347.nif,tmp347.codposta, sum(trim1) as t1, sum(trim2) as t2,"
               Sql = Sql & " sum(trim3) as t3, sum(trim4) as t4,sum(metalico) as metalico"
               Sql = Sql & " from ariconta" & Me.ListView1(1).ListItems(I).Text & ".tmp347,ariconta" & Me.ListView1(1).ListItems(I).Text & ".tmp347trimestre where tmp347.codusu=" & vUsu.Codigo
@@ -2249,7 +2252,7 @@ Dim EsLaPrimera As Byte '0 empieza proc   1- Esta es la primera     2.Hay mas de
               
               Set Rs = New ADODB.Recordset
               Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-              Cadena2 = ""
+              cadena2 = ""
               While Not Rs.EOF
               
            
@@ -2281,32 +2284,32 @@ Dim EsLaPrimera As Byte '0 empieza proc   1- Esta es la primera     2.Hay mas de
                         Sql = Sql & TransformaComasPuntos(CStr(Rs!T3)) & "," & TransformaComasPuntos(CStr(Rs!T4))
                         Sql = Sql & ",0," '& DBSet(Rs!codposta, "T") & ","
                         Sql = Sql & TransformaComasPuntos(CStr(Rs!metalico)) & ")"
-                        Cadena2 = Cadena2 & Sql
+                        cadena2 = cadena2 & Sql
                     
-                        If Len(Cadena2) > 80000 Then
+                        If Len(cadena2) > 80000 Then
                             Label2(31).Caption = "Actualiza BD(3)"
                             Label2(31).Refresh
                             Sql = "insert into tmp347trimestral (`codusu`,`cliprov`,`nif`,`trim1`,`trim2`"
                             Sql = Sql & ",`trim3`,`trim4`,`codposta`,metalico) VALUES "
-                            Cadena2 = Mid(Cadena2, 2)
-                            Sql = Sql & Cadena2
+                            cadena2 = Mid(cadena2, 2)
+                            Sql = Sql & cadena2
                             Conn.Execute Sql
-                            Cadena2 = ""
+                            cadena2 = ""
                         End If
                    End If
                    
                    Rs.MoveNext
               Wend
               Rs.Close
-              If Len(Cadena2) > 4000 Then
+              If Len(cadena2) > 0 Then
                     Label2(31).Caption = "Actualiza BD(4)"
                     Label2(31).Refresh
                     Sql = "insert into tmp347trimestral (`codusu`,`cliprov`,`nif`,`trim1`,`trim2`"
                     Sql = Sql & ",`trim3`,`trim4`,`codposta`,metalico) VALUES "
-                    Cadena2 = Mid(Cadena2, 2)
-                    Sql = Sql & Cadena2
+                    cadena2 = Mid(cadena2, 2)
+                    Sql = Sql & cadena2
                     Conn.Execute Sql
-                    Cadena2 = ""
+                    cadena2 = ""
                 End If
               
               

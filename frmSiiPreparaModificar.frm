@@ -784,9 +784,9 @@ Dim Resultado As String
             B = False
             Do
                 I = I + 1
-                lblInd.Caption = "Intento " & I
+                lblInd.Caption = "Comunicando: " & I
                 lblInd.Refresh
-                espera 1.5
+                espera 1 + I
                 
                 Resultado = "resultado"
                 If Escliente Then
@@ -807,7 +807,8 @@ Dim Resultado As String
                     'No se ha enviado todavia
                    Cadena = "No se ha enviado todavia. "
                 End If
-            Loop Until I > 5
+                DoEvent2
+            Loop Until I > 7
             
             If B Then
                 'Todo ok

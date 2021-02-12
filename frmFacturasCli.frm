@@ -5526,6 +5526,23 @@ Dim cad As String
             End If
         End If
     End If
+    
+    
+    If B And vParam.SIITiene And Modo = 4 Then
+        ' modificando una FACTURA que hubiera sido presentada NO puede cambiar el Tipo De operacion Si est; es
+        ' Factura resumen de ticket. Ya que cuando sube una factura esumen, el numero de factura realmente es el
+        ' de ticket inicial
+        
+        cad = Chr(Combo1(0).ItemData(Combo1(0).ListIndex))
+        
+        
+        If Data1.Recordset!codconce340 <> cad Then
+            If Data1.Recordset!codconce340 = "B" Then
+                MsgBox "La factura era una FACTURA RESUMEN DE TICKETS." & vbCrLf & "No puede cambiarse", vbExclamation
+                B = False
+            End If
+        End If
+    End If
     DatosOK = B
 
 EDatosOK:
@@ -5976,7 +5993,7 @@ Dim Sigo As Byte ' 0 salir   1. Modificar   2 Subir de nuevo
             
             BuscaChekc = "numserie = " & DBSet(Data1.Recordset!NUmSerie, "T") & " AND numfactu =" & Data1.Recordset!numfactu & " AND anofactu=" & Data1.Recordset!Anofactu
             
-            frmSiiPreparaModificar.EsCliente = True
+            frmSiiPreparaModificar.Escliente = True
             frmSiiPreparaModificar.where = BuscaChekc
             frmSiiPreparaModificar.AbrirProceso = Sigo = 1
             CadenaDesdeOtroForm = ""

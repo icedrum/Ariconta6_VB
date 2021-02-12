@@ -886,6 +886,7 @@ Dim AbiertoFormulario  As Boolean
             RibbonBar.RedrawBar
             
         Case ID_OPTIONS_STYLEBLUE2010:
+        
             LoadResources "Office2010.dll", "Office2010Blue.ini"
             CommandBars.VisualTheme = xtpThemeRibbon
             DockingPaneManager.VisualTheme = ThemeResource
