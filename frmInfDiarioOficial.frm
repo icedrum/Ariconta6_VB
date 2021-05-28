@@ -344,6 +344,27 @@ Begin VB.Form frmInfDiarioOficial
             EndProperty
          EndProperty
       End
+      Begin VB.CheckBox chkInfApuntes 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Inf. extendida"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   120
+         TabIndex        =   49
+         ToolTipText     =   "Datos creacion. usuario-Aplicacion"
+         Top             =   3840
+         Value           =   1  'Checked
+         Visible         =   0   'False
+         Width           =   1965
+      End
       Begin VB.Label Label3 
          Caption         =   "Acumulado Haber"
          BeginProperty Font 
@@ -913,7 +934,7 @@ Attribute frmF.VB_VarHelpID = -1
 Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim i As Integer
+Dim I As Integer
 Dim IndCodigo As Integer
 Dim PrimeraVez As String
 Dim Rs As ADODB.Recordset
@@ -948,16 +969,16 @@ End Sub
 
 Private Sub Check1_Click(Index As Integer)
 Dim Valor As Byte
-Dim i As Integer
+Dim I As Integer
     
     Valor = Check1(Index).Value
     
     If Valor = 1 Then
-        For i = 1 To Check1.Count
-            If Check1(i).visible Then
-                If i <> Index Then Check1(i).Value = 0
+        For I = 1 To Check1.Count
+            If Check1(I).visible Then
+                If I <> Index Then Check1(I).Value = 0
             End If
-        Next i
+        Next I
 '        Check1(Index).Value = Valor
     End If
 
@@ -1122,9 +1143,9 @@ Private Sub Form_Load()
         cmbFecha(2).Text = Year(RecuperaValor(Legalizacion, 2))
         cmbFecha(3).Text = Year(RecuperaValor(Legalizacion, 3))
             
-        For i = 1 To 10
-            If RecuperaValor(Legalizacion, 4) = Check1(i).Tag Then Check1(i).Value = 1
-        Next i
+        For I = 1 To 10
+            If RecuperaValor(Legalizacion, 4) = Check1(I).Tag Then Check1(I).Value = 1
+        Next I
     
     Else
         'Fecha informe
@@ -1195,6 +1216,9 @@ End Sub
 
 Private Sub optTipoSal_Click(Index As Integer)
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), Index
+    
+    chkInfApuntes.visible = Index = 1
+    
 End Sub
 
 
@@ -1250,6 +1274,8 @@ Private Sub AccionesCSV()
         Sql = Sql & " order by clave "
     Else
         Sql = "select  fecha1 fecha,texto1 asiento,texto2 linea ,texto3,observa1,observa2 ampliacion,coalesce(importe1,0) debe,coalesce(importe2,0) haber"
+        'Febrero 2016
+        If Me.chkInfApuntes.Value = 1 Then Sql = Sql & " ,fecha2 FechaCreacion,trim(substring(texto,1,15)) usuario,substring(texto,16) Origen"
         Sql = Sql & " From tmptesoreriacomun WHERE codusu =" & vUsu.Codigo
         Sql = Sql & " order by codigo "
     
@@ -1279,22 +1305,22 @@ Dim nomDocu As String
         cadParam = cadParam & "FechaImp= """ & txtFecha(7).Text & """|"
         'Numero de hoja
         If txtNumRes(1).Text <> "" Then
-            i = Val(txtNumRes(1).Text)
+            I = Val(txtNumRes(1).Text)
         Else
-            i = 0
+            I = 0
         End If
-        cadParam = cadParam & "Numhoja= " & i & "|"
+        cadParam = cadParam & "Numhoja= " & I & "|"
     
     
         'Acumulados anteriores
         If txtNumRes(3).Text <> "" Or txtNumRes(4).Text <> "" Then
-            i = 0  'En el informe diremos k si se muestra
+            I = 0  'En el informe diremos k si se muestra
         Else
-            i = 1
+            I = 1
         End If
-        cadParam = cadParam & "TieneAcumulados= " & i & "|"
+        cadParam = cadParam & "TieneAcumulados= " & I & "|"
     
-        If i = 1 Then
+        If I = 1 Then
             cadParam = cadParam & "AntD= 0|"
             cadParam = cadParam & "AntH= 0|"
         Else
@@ -1424,8 +1450,8 @@ Private Function DatosOK() As Boolean
     'Si el mes es mayor o igual k el de inicio, significa k la feha
     'de inicio de aquel ejercicio fue la misma k ahora pero de aquel año
     'si no significa k fue la misma de ahora pero del año anterior
-    i = cmbFecha(0).ListIndex + 1
-    If i >= Month(vParam.fechaini) Then
+    I = cmbFecha(0).ListIndex + 1
+    If I >= Month(vParam.fechaini) Then
         CONT = Val(cmbFecha(2).Text)
     Else
         CONT = Val(cmbFecha(2).Text) - 1
@@ -1433,8 +1459,8 @@ Private Function DatosOK() As Boolean
     cad = Day(vParam.fechaini) & "/" & Month(vParam.fechaini) & "/" & CONT
     FechaIncioEjercicio = CDate(cad)
     
-    i = cmbFecha(1).ListIndex + 1
-    If i <= Month(vParam.fechafin) Then
+    I = cmbFecha(1).ListIndex + 1
+    If I <= Month(vParam.fechafin) Then
         CONT = Val(cmbFecha(3).Text)
     Else
         CONT = Val(cmbFecha(3).Text) + 1
@@ -1469,11 +1495,11 @@ Private Function DatosOK() As Boolean
     'Solo un nivel seleccionado
     If Me.chkDiarioOficial.Value = 1 Then
         CONT = 0
-        For i = 1 To 10
-            If Check1(i).visible = True Then
-                If Check1(i).Value Then CONT = CONT + 1
+        For I = 1 To 10
+            If Check1(I).visible = True Then
+                If Check1(I).Value Then CONT = CONT + 1
             End If
-        Next i
+        Next I
         If CONT <> 1 Then
             MsgBox "Seleccione uno, y solo uno, de los niveles para mostrar el informe", vbExclamation
             Exit Function
@@ -1504,19 +1530,19 @@ Dim J As Integer
 
 QueCombosFechaCargar "0|1|"
 
-For i = 1 To vEmpresa.numnivel - 1
-    J = DigitosNivel(i)
-    Check1(i).visible = True
-    Check1(i).Caption = "Digitos:" & J
-Next i
+For I = 1 To vEmpresa.numnivel - 1
+    J = DigitosNivel(I)
+    Check1(I).visible = True
+    Check1(I).Caption = "Digitos:" & J
+Next I
 
     cmbFecha(2).Clear
     cmbFecha(3).Clear
     
-    For i = 1 To 50
-        cmbFecha(2).AddItem "20" & Format(i, "00")
-        cmbFecha(3).AddItem "20" & Format(i, "00")
-    Next i
+    For I = 1 To 50
+        cmbFecha(2).AddItem "20" & Format(I, "00")
+        cmbFecha(3).AddItem "20" & Format(I, "00")
+    Next I
 
 
 End Sub
@@ -1531,8 +1557,8 @@ L = 1
 Do
     cad = RecuperaValor(Lista, L)
     If cad <> "" Then
-        i = Val(cad)
-        With cmbFecha(i)
+        I = Val(cad)
+        With cmbFecha(I)
             .Clear
             For CONT = 1 To 12
                 RC = "25/" & CONT & "/2002"
@@ -1568,25 +1594,25 @@ End Function
 
 
 Private Sub PonerNiveles()
-Dim i As Integer
+Dim I As Integer
 Dim J As Integer
 
 
     FrameDigitos.visible = True
-    For i = 1 To vEmpresa.numnivel - 1
-        J = DigitosNivel(i)
+    For I = 1 To vEmpresa.numnivel - 1
+        J = DigitosNivel(I)
         cad = "Digitos: " & J
-        Check1(i).visible = True
-        Check1(i).Tag = J
-        Me.Check1(i).Caption = cad
-        Me.Check1(i).Value = 0
-    Next i
+        Check1(I).visible = True
+        Check1(I).Tag = J
+        Me.Check1(I).Caption = cad
+        Me.Check1(I).Value = 0
+    Next I
     Check1(10).Tag = vEmpresa.DigitosUltimoNivel
     Check1(10).visible = True
     Me.Check1(10).Value = 0
-    For i = vEmpresa.numnivel To 9
-        Check1(i).visible = False
-    Next i
+    For I = vEmpresa.numnivel To 9
+        Check1(I).visible = False
+    Next I
     
     
 End Sub
@@ -1637,25 +1663,25 @@ Dim I2 As Currency
     
         
     'Comprobamos k nivel
-    For i = 1 To Me.Check1.Count
-        If Check1(i).visible Then
-            If Check1(i).Value Then
-                CONT = i
+    For I = 1 To Me.Check1.Count
+        If Check1(I).visible Then
+            If Check1(I).Value Then
+                CONT = I
                 Exit For
             End If
         End If
-    Next i
+    Next I
     
     
-    i = CONT
-    FijaValoresLibroResumen FechaIncioEjercicio, FechaFinEjercicio, i, False, txtNumRes(0).Text
+    I = CONT
+    FijaValoresLibroResumen FechaIncioEjercicio, FechaFinEjercicio, I, False, txtNumRes(0).Text
     
     Importe = 0
     I2 = 0
     If cmbFecha(2).Text = cmbFecha(3).Text Then
-        i = CInt(Val(cmbFecha(2).Text))
+        I = CInt(Val(cmbFecha(2).Text))
         For CONT = cmbFecha(0).ListIndex + 1 To cmbFecha(1).ListIndex + 1
-           Label2(25).Caption = "Fecha: " & CONT & " / " & i
+           Label2(25).Caption = "Fecha: " & CONT & " / " & I
            Label2(25).Refresh
            
            DoEvent2
@@ -1667,16 +1693,16 @@ Dim I2 As Currency
                 If txtNumRes(3).Text <> "" Then Importe = CCur(TransformaPuntosComas(txtNumRes(3).Text))
                 If txtNumRes(4).Text <> "" Then I2 = CCur(TransformaPuntosComas(txtNumRes(4).Text))
            End If
-           ProcesaLibroResumen CONT, i, Importe, I2
+           ProcesaLibroResumen CONT, I, Importe, I2
            Importe = 0
            I2 = 0
         Next CONT
     Else
         'Años partidos
         'El primer tramo de hasta fin de años
-        i = CInt(Val(cmbFecha(2).Text))
+        I = CInt(Val(cmbFecha(2).Text))
         For CONT = cmbFecha(0).ListIndex + 1 To 12
-           Label2(25).Caption = "Fecha: " & CONT & " / " & i
+           Label2(25).Caption = "Fecha: " & CONT & " / " & I
            Label2(25).Refresh
            
            DoEvent2
@@ -1686,19 +1712,19 @@ Dim I2 As Currency
                 If txtNumRes(3).Text <> "" Then Importe = CCur(txtNumRes(3).Text)
                 If txtNumRes(4).Text <> "" Then I2 = CCur(txtNumRes(4).Text)
            End If
-           ProcesaLibroResumen CONT, i, Importe, I2
+           ProcesaLibroResumen CONT, I, Importe, I2
            Importe = 0: I2 = 0
         Next CONT
         'Años siguiente
-        i = CInt(Val(cmbFecha(3).Text))
+        I = CInt(Val(cmbFecha(3).Text))
         For CONT = 1 To cmbFecha(1).ListIndex + 1
-           Label2(25).Caption = "Fecha: " & CONT & " / " & i
+           Label2(25).Caption = "Fecha: " & CONT & " / " & I
            Label2(25).Refresh
            
            DoEvent2
            If PulsadoCancelar Then Exit Function
            
-           ProcesaLibroResumen CONT, i, Importe, I2
+           ProcesaLibroResumen CONT, I, Importe, I2
         Next CONT
     End If
     
@@ -1742,6 +1768,7 @@ Dim Cadena As String
 Dim F1 As Date
 Dim F2 As Date
 Dim FFin As Date
+Dim Aux As String
 
 
     On Error GoTo EGeneraDiarioOficial
@@ -1763,8 +1790,8 @@ Dim FFin As Date
     NumRegElim = 0
     
     F1 = CDate("01/" & Format(cmbFecha(0).ListIndex + 1, "00") & "/" & cmbFecha(2).Text)
-    i = DiasMes(Me.cmbFecha(1).ListIndex + 1, CInt(cmbFecha(3).Text))
-    FFin = CDate(Format(i, "00") & "/" & Format(cmbFecha(1).ListIndex + 1, "00") & "/" & cmbFecha(3).Text)
+    I = DiasMes(Me.cmbFecha(1).ListIndex + 1, CInt(cmbFecha(3).Text))
+    FFin = CDate(Format(I, "00") & "/" & Format(cmbFecha(1).ListIndex + 1, "00") & "/" & cmbFecha(3).Text)
     
     
     Do
@@ -1778,18 +1805,30 @@ Dim FFin As Date
         Label2(25).Caption = Format(F1, "mm/yy")
         Label2(25).Refresh
         
-        cad = " from hlinapu,cuentas"
-        cad = cad & " WHERE hlinapu.codmacta = cuentas.codmacta"
+        cad = ""
+        Sql = ""
+        If Me.chkInfApuntes.Value = 1 Then cad = "hcabapu,": Sql = "hcabapu."
+        cad = " FROM " & cad & " hlinapu,cuentas WHERE "
+        If Me.chkInfApuntes.Value = 1 Then cad = cad & " hcabapu.numdiari = hlinapu.numdiari AND hcabapu.numasien= hlinapu.numasien  AND hcabapu.fechaent  = hlinapu.fechaent AND "
+        cad = cad & " hlinapu.codmacta = cuentas.codmacta"
+        cad = cad & " AND " & Sql & "fechaent >=" & DBSet(F1, "F")
+        cad = cad & " AND " & Sql & "fechaent <=" & DBSet(F2, "F")
+    
+    
+        Sql = "select hlinapu.fechaent,hlinapu.numasien,linliapu,cuentas.codmacta, cuentas.nommacta,numdocum,"
+        Sql = Sql & "ampconce,timported,timporteh, "
+        If Me.chkInfApuntes.Value = 0 Then
+            Sql = Sql & " null texto, null fecha2"
+        Else
+            ' el usuario, como solo queda un campo, pondremos 15 carcateres(FIJOS) para el usuario. El resto texto obsfac
+            'feccreacion usucreacion desdeaplicacion
+            RC = "usucreacion,desdeaplicacion texto ,feccreacion fecha2"
+            
+            Sql = Sql & RC
+        End If
+        Sql = Sql & "" & cad
+        Sql = Sql & " ORDER BY hlinapu.fechaent,hlinapu.numasien,linliapu"
         
-        cad = cad & " AND fechaent >=" & DBSet(F1, "F")
-        cad = cad & " AND fechaent <=" & DBSet(F2, "F")
-    
-    
-    
-    
-        Sql = "select fechaent,numasien,linliapu,cuentas.codmacta, cuentas.nommacta,numdocum,"
-        Sql = Sql & "ampconce,timported,timporteh " & cad
-        Sql = Sql & " ORDER BY fechaent,numasien"
         Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
         
         DoEvent2
@@ -1801,7 +1840,7 @@ Dim FFin As Date
     
         'Construimos la mitad de cadena de insercion
         Cadena = "INSERT INTO tmptesoreriacomun(codusu,codigo,fecha1,texto1,texto2,"
-        Cadena = Cadena & "texto3,observa1,texto4,observa2,importe1,importe2) VALUES "
+        Cadena = Cadena & "texto3,observa1,texto4,observa2,importe1,importe2,Texto,fecha2) VALUES "
         Sql = ""
      
         
@@ -1827,14 +1866,67 @@ Dim FFin As Date
             cad = Rs!Nommacta
             NombreSQL cad
             cad = ", (" & vUsu.Codigo & "," & NumRegElim & ",'" & Format(Rs!FechaEnt, FormatoFecha) & "','" & Format(CONT, "000000") & "','" & Format(Rs!Linliapu, "0000") & "','" & Rs!codmacta & "','" & cad & "','"
-            cad = cad & DevNombreSQL(DBLet(Rs!numdocum)) & "','" & DevNombreSQL(DBLet(Rs!Ampconce)) & "',"
+            cad = cad & DevNombreSQL(DBLet(Rs!Numdocum)) & "','" & DevNombreSQL(DBLet(Rs!Ampconce)) & "',"
             If Not IsNull(Rs!timported) Then
                 RC = TransformaComasPuntos(CStr(Rs!timported))
-                cad = cad & RC & ",NULL)"
+                cad = cad & RC & ",NULL"
             Else
                 RC = TransformaComasPuntos(CStr(Rs!timporteH))
-                cad = cad & "NULL," & RC & ")"
+                cad = cad & "NULL," & RC
             End If
+            
+            'Febrero 2021. Castelduc
+            ' feccreacion usucreacion desdeaplicacion
+            If IsNull(Rs!TEXTO) Then
+                If Me.chkInfApuntes.Value = 0 Then
+                    RC = "null"
+                Else
+                    RC = Space(20)
+                End If
+            Else
+                'Varios supuetos
+                
+                RC = DBLet(Rs!TEXTO, "T")
+                If UCase(Mid(RC, 1, 8)) = "ARICONTA" Then
+                    'Dentro ariconta
+                    RC = LCase(Mid(RC, 13))
+                    
+                    'Casos
+                    If InStr(1, RC, "introducción de asientos") > 0 Then
+                        RC = "Introducción de manual asientos"
+                    
+                    ElseIf InStr(1, RC, "inmoviliz") > 0 Then
+                        RC = "Amortizacion"
+                    ElseIf InStr(1, RC, "fra.pro reg:") > 0 Then
+                        RC = "Fra. proveedor"
+                    ElseIf InStr(1, RC, "contab. fra cli") > 0 Then
+                        RC = "Fra. cliente"
+                    ElseIf InStr(1, RC, "cancelacion cliente nºrecepcio") > 0 Then
+                        RC = "Tesoreria. Cancelacion recepcion doc."
+                    ElseIf InStr(1, RC, "abono remesa:") > 0 Then
+                        RC = "Tesoreria. Abono remesa"
+                    ElseIf InStr(1, RC, "compensa:") > 0 Then
+                        RC = "Tesoreria. Compensacion"
+                    ElseIf InStr(1, RC, "devolución remesa") > 0 Then
+                        RC = "Tesoreria. Devolucion remesa"
+                    Else
+                        RC = RC 'NO hacemos nada
+                    End If
+                Else
+                    'AOPlicacion externa. Ariges, aritaxi.....
+                    
+                    RC = RC
+                    
+                End If
+                Aux = DBLet(Rs!usucreacion, "T")
+                If Aux = "" Then Aux = "N/D"
+                RC = Mid(Aux & Space(15), 1, 15) & RC
+                RC = DBSet(RC, "T")
+                
+            End If
+            cad = cad & "," & RC
+            cad = cad & "," & DBSet(Rs!Fecha2, "F", "S") & ")"
+            
             Sql = Sql & cad
            
             'Siguiente
@@ -1845,7 +1937,7 @@ Dim FFin As Date
                 Exit Function
             End If
             
-            If Len(Sql) > 8000 Then
+            If Len(Sql) > 20000 Then
                 Sql = Mid(Sql, 2)
                 Sql = Cadena & Sql
                 Conn.Execute Sql
@@ -1867,8 +1959,8 @@ Dim FFin As Date
         End If
          
         F1 = DateAdd("d", 1, F2)
-        If F1 > FFin Then i = 1
-    Loop Until i = 1
+        If F1 > FFin Then I = 1
+    Loop Until I = 1
     GeneraDiarioOficial = True
     
 EGeneraDiarioOficial:

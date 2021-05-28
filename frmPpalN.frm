@@ -822,7 +822,7 @@ Private Sub DockBarRightOf(BarToDock As CommandBar, BarOnLeft As CommandBar)
 End Sub
 
 Private Sub CommandBars_CommandBarKeyDown(CommandBar As XtremeCommandBars.ICommandBar, KeyCode As Long, Shift As Integer)
-    Debug.Print CommandBar.BarID
+    'Debug.Print CommandBar.BarID
 End Sub
 
 Public Sub CommandBars_Execute(ByVal Control As XtremeCommandBars.ICommandBarControl)
@@ -830,7 +830,7 @@ Dim AbiertoFormulario  As Boolean
     AbiertoFormulario = False
     
     
-    
+    Debug.Print Now & ": " & Control.Id
     Select Case Control.Id
         Case XTPCommandBarsSpecialCommands.XTP_ID_RIBBONCONTROLTAB:
             'If PrimeraVez Then S top
@@ -1080,7 +1080,7 @@ Private Sub CommandBars_SpecialColorChanged()
 End Sub
 
 Private Sub CommandBars_ToolBarVisibleChanged(ByVal ToolBar As XtremeCommandBars.ICommandBar)
-     Debug.Print ToolBar.BarID
+     'Debug.Print ToolBar.BarID
 End Sub
 
 Private Sub CommandBars_Update(ByVal Control As XtremeCommandBars.ICommandBarControl)
@@ -1130,7 +1130,7 @@ Private Sub DockingPaneManager_Action(ByVal Action As XtremeDockingPane.DockingP
         
         ' Save MRUShortcutBarWidth
         If (frmShortBar.ScaleWidth > MinimizedShortcutBarWidth And Container.Container.Type = PaneTypeSplitterContainer) Then
-            Debug.Print frmShortBar.ScaleWidth
+            'Debug.Print frmShortBar.ScaleWidth
             MRUShortcutBarWidth = frmShortBar.ScaleWidth
         End If
     Else
@@ -1148,10 +1148,10 @@ End Sub
 
 Private Sub Form_Activate()
 
-
+    
     If PrimeraVez Then
         PrimeraVez = False
-     
+        Screen.MousePointer = vbHourglass
         DoEvent2
         AccionesIncioAbrirProgramaEmpresa
         'DoEvents
@@ -2979,8 +2979,10 @@ Private Sub AbrirFormularios(Accion As Long)
             Screen.MousePointer = vbHourglass
             frmPuntear.EjerciciosCerrados = False
             frmPuntear.Show vbModal
+        
         Case 305 ' reemision de diarios
 '            AbrirListado 6, False
+        
         Case 306 ' sumas y saldos
             frmInfBalSumSal.Show vbModal
             
@@ -3584,6 +3586,10 @@ Dim C As String
         
         
         B = DarAvisoPendientesSII()
+        
+        B = 0
+        
+        
         If B > 0 Then
             
             'MostrarMensaje 9, "A.E.A.T.", "Facturas pendientes de comunicar al SII", False

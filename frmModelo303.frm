@@ -1300,6 +1300,9 @@ Dim Sql As String
 Dim Rs As ADODB.Recordset
 Dim DUA As Currency
     'REGISTRO T30303>
+    cad = "<T30303000>"
+    
+    'HOJA DP30303
     
     
     'Entregas intracomunitarias
@@ -1342,23 +1345,33 @@ Dim DUA As Currency
     End If
     Rs.Close
     
+    
+    'Ene21
+    'Reservaod aEAT.
+    '5 bloques de 17 posiciones
+    ' dede 63 a 131
+    cad = cad & String(85, "0")
+    
+    
+    
+    
     'Adiconal criterio de caja.
     cad = cad & String(17, "0")
     cad = cad & String(17, "0")
     cad = cad & String(17, "0")
     cad = cad & String(17, "0")
     
-    'Reegularizacion cuotas
+    'Reegularizacion cuotas art. 80.cinco.5ª LIVA  [76]
     cad = cad & String(17, "0")
     
-    'Diferencia antes de aplicar las
+    'Sum resultados
     DevuelveImporte ImpTotal * 1, 0
     
     
     'Atribuible a la admon del estado
-    'DevuelveImporte 31, 0   '%  PONIA 31 antes de ene 18
+    
     cad = cad & "10000" '100%
-    cad = cad & "0000"
+    
     DevuelveImporte ImpTotal * 1, 0
 
 
@@ -1379,23 +1392,31 @@ Dim DUA As Currency
         cad = cad & String(17, "0")
     End If
 
-    'A compensar de otros periodos
+    'A compensar de otros periods   {110]
     ImpCompensa = ImporteSinFormato(ComprobarCero(txtCuota(0).Text))
     DevuelveImporte ImpCompensa * 1, 0  'base
     
-    'DE estos dos NO hay text
-    'Diputacion foral
+    'Enero 2021
+    'Cuotas a compensar anteriores aplicadas en este peridodo. La mims que arriba  [78]
+    DevuelveImporte ImpCompensa * 1, 0
+    
+    'Cuotas a compensar periodos previos que se compensaran mas adelante      [87]
     cad = cad & String(17, "0")
     
-    'Campo19. Resultado
-    DevuelveImporte ImpTotal - ImpCompensa - DUA, 0
+    
+    'DE estos dos NO hay text
+    'Diputacion foral[68]
+    cad = cad & String(17, "0")
+    
+    'Campo19. Resultado    [69]
+    ImpTotal = ImpTotal - ImpCompensa + DUA
+    DevuelveImporte ImpTotal, 0
 
-    'Campo20. A deducor
-    'DevuelveImporte ImpTotal - ImpCompensa, 0
+    'Campo20. A deducir  [70]
     DevuelveImporte 0, 0
 
-    'Campo21. Resultado de la liquidacion
-    DevuelveImporte ImpTotal - ImpCompensa - DUA, 0
+    'Campo21. Resultado de la liquidacion [71]
+    DevuelveImporte ImpTotal, 0
 
 End Sub
 

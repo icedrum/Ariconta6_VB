@@ -3169,7 +3169,7 @@ Dim Sql As String
     
         PonerVtosTransferencia Sql, True
     Else
-        Sql = "from pagos where nrodocum = " & DBSet(lw1.SelectedItem.Text, "N") & " and anyodocum = " & lw1.SelectedItem.SubItems(1)
+        Sql = "from pagos left join cuentas on pagos.codmacta=cuentas.codmacta where nrodocum = " & DBSet(lw1.SelectedItem.Text, "N") & " and anyodocum = " & lw1.SelectedItem.SubItems(1)
     
         PonerVtosTransferenciaPagos Sql, True
     End If

@@ -223,6 +223,9 @@ On Error GoTo Salida '
     Case 3
         'ing rso
         Linea = Linea & "I"
+    Case Else
+        'Sin definir
+        Err.Raise 513, , "Valor compensar/devolve/ingresar incorrecto: " & EsACompensar
     End Select
     '?????
     ' FALTA N=SIN ACTIVIDAD RESULTADO 0
@@ -233,9 +236,6 @@ On Error GoTo Salida '
     Linea = Linea & RecuperaValor(vPeriodo, 3) & Periodo
     
     
-    'Tribua solo foral
-    'Linea = Linea & "H"
-    
     'Inscrito en el registro de devol mensual  1.Si   2:NO
     Aux = DevuelveDesdeBD("letraseti", "empresa2", "1", "1")
     If Aux = "S" Then
@@ -245,35 +245,41 @@ On Error GoTo Salida '
     End If
     
     Dim dav As Boolean
-    dav = False
+    dav = True
     If dav Then
+            
+            Linea = Linea & "2"  'tributa exclusivamente foral
     
-            Linea = Linea & Aux
-            Linea = Linea & "2"  'tributa exclusiva  1.Si   2:NO (Regimen gnral + simplifa)    3: Sol Reg Gnral
+            Linea = Linea & Aux  'Sujeto pasivo inscrito en el devo mensual
+            Linea = Linea & "3"  'Sujeto pasiv tributa exclusiva  1.Si   2:NO (Regimen gnral + simplifa)    3: Sol Reg Gnral
             Linea = Linea & "2"  'autoliquidacion conjunta  1.Si   2:NO
             Linea = Linea & "2"  'Criterio de caja 1.Si   2:NO
-            
             Linea = Linea & "2"  'Sujeto pasivo destinatario de operaciones acogidas al régimen especial del criterio de caja 1.Si   2:NO
             Linea = Linea & "2"  'Opción por la aplicación de la prorrata especial (art. 103.Dos.1º LIVA)
-            Linea = Linea & " "  'reocacion de la prorrata especial (art. 103.Dos.1º LIVA)
+            Linea = Linea & "2"  'revocacion de la prorrata especial (art. 103.Dos.1º LIVA)
             Linea = Linea & "2"  'declarado concurso acreedores 1.Si   2:NO
             Aux = Space(8)
             Linea = Linea & Aux  'Fecha en que se dictó el auto de declaración de concurso
             Linea = Linea & " " 'Auto de declaración de concurso dictado en el períod
-            Linea = Linea & "2"  'Sujeto acogido volumnaramente
-            Linea = Linea & IIf(Exonerados390, "1", "2") 'exonerado 30
+            Linea = Linea & "2"  'Sujeto acogido volumnaramente SII
+            'EXONERADO 390
             Aux = "0"
             If UltimoPeridod Then
                 If Exonerados390 Then
                     Aux = "1"
                 Else
-                    Aux = "0"
+                    Aux = "2"
                 End If
                
             End If
             Linea = Linea & Aux
+            'Sujeto pasivo con volumen anual de operaciones distinto de cero (art. 121 LIVA)
+            Aux = "0"
+            If UltimoPeridod Then Aux = "2"
+            Linea = Linea & Aux
      
-           Linea = Linea & "2"
+     
+         
     Else
         Aux = "222222222222222222222"
         Aux = "2222        222222222"
@@ -299,7 +305,7 @@ On Error GoTo Salida '
     '***************************************************
     'Registro adicional 303_03    el que lleva los totales
     If True Then
-        Linea = Linea & "<T30303000>"
+        '  Linea = Linea & "<T30303000>"  lo añadimos en la funciona que genera los importes: CadenaAdicional303_Nuevo
         
         
         Linea = Linea & CadRegistroAdicional03
@@ -325,196 +331,17 @@ On Error GoTo Salida '
         
         
         
-        Set miRsAux = New ADODB.Recordset
-        If ConInformacionUltimoPeriodo Then
-            'Informacion aadicional unicamente a cumplimentar en el utlimo trimestre
-            K = 0
-            Aux = "select * from empresaactiv order by ppal desc, codigo"
-            miRsAux.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-            While Not miRsAux.EOF
-                K = K + 1
-                If K < 7 Then   'SOLO ACEPTAN 6
-                    Aux = miRsAux!Id & Mid(DBLet(miRsAux!epigrafe, "T") & "    ", 1, 4)
-                    Linea = Linea & Aux
-                End If
-                miRsAux.MoveNext
-            Wend
-            miRsAux.Close
-        
-            'El resto hasta 6
-            While K < 6
-                Linea = Linea & "0    "
-                K = K + 1
-            Wend
-            
-            
-            
-            'Información adicional - Exclusivamente a cumplimentar en el último periodo exonerados de la Declaración-re
-            Linea = Linea & " "  'ponia una X
-            
-            'Este RS estara abierto en el IF de abjo
-            Aux = "select opcion,sum(importe1) base from tmptesoreriacomun where codusu =2000 group by opcion order by opcion"
-            
-            Aux = "select opcion,sum(importe1-coalesce(importe2,0)) base from tmptesoreriacomun where codusu =2000 group by opcion order by opcion"
-            miRsAux.Open Aux, Conn, adOpenKeyset, adLockOptimistic, adCmdText
-            SumatotalOperacionesPresntacionUltimoTrimestre = 0
-            
-            If Not miRsAux.EOF Then
-                While Not miRsAux.EOF
-                    SumatotalOperacionesPresntacionUltimoTrimestre = SumatotalOperacionesPresntacionUltimoTrimestre + miRsAux!Base
-                    miRsAux.MoveNext
-                Wend
-                miRsAux.MoveFirst
-            End If
-            
-            
-            
-            
-            K = 0
-            If K = 1 Then
-                        
-                        ' Operaciones en régimen general [80]
-                        AñadeImporteClaveUltimoPerido303 1
-                        
-                        ' Operaciones en régimen especial del criterio de caja conform
-                        Linea = Linea & String(17, "0")
-                        
-                        'Entregas intracomunitarias exentas [93]
-                        AñadeImporteClaveUltimoPerido303 14
-                        
-                        'Operaciones exentas sin derecho a deducción [83]
-                        ' ENER0 2021 FRUTAS INMA. Dice que esta casulla, la 83 el importe que ponemos va a la 94
-                        'AñadeImporteClaveUltimoPerido303 16
-                        Linea = Linea & String(17, "0")
-                            
-                            
-                        'Operaciones no sujetas por reglas de localización o con inversión del sujeto pasivo [84]
-                        AñadeImporteClaveUltimoPerido303 61
-                                    
-                        'Entregas de bienes objeto de instalación o montaje en otros Estados miembros [85]
-                        Linea = Linea & String(17, "0")
-                        
-                        'Operaciones en régimen simplificado [86]
-                        Linea = Linea & String(17, "0")
-                        
-                        ' Entregas de bienes inmuebles no habituales, operaciones financieras y relativas al oro de inversión no habituales [79]
-                        Linea = Linea & String(17, "0")
-                        
-                        
-                        'Total volumen de operaciones ([80]+[81]+[93]+[94]+[83]+[84]+[85]+[86]+[95]+[96]+[97]+[98]-[79]-[99]) [88]
-                        Aux = DatosNumeroDec(SumatotalOperacionesPresntacionUltimoTrimestre, 17)
-                        Linea = Linea & Aux
-                Else
-                        ' Operaciones en régimen general [80]
-                        Importe = 0
-                        Linea = Linea & DatosNumeroDec(Importe, 17)
-                        
-                        ' Operaciones en régimen especial del criterio de caja conform
-                        Linea = Linea & DatosNumeroDec(Importe, 17)
-                        
-                        'Entregas intracomunitarias exentas [93]
-                        Linea = Linea & DatosNumeroDec(Importe, 17)
-                        
-                        'Operaciones exentas sin derecho a deducción [83]
-                        Linea = Linea & DatosNumeroDec(Importe, 17)
-                            
-                        'Operaciones no sujetas por reglas de localización o con inversión del sujeto pasivo [84]
-                        Linea = Linea & DatosNumeroDec(Importe, 17)
-                                    
-                        'Entregas de bienes objeto de instalación o montaje en otros Estados miembros [85]
-                        Linea = Linea & DatosNumeroDec(Importe, 17)
-                        
-                        'Operaciones en régimen simplificado [86]
-                        Linea = Linea & DatosNumeroDec(Importe, 17)
-                        
-                        ' Entregas de bienes inmuebles no habituales, operaciones financieras y relativas al oro de inversión no habituales [79]
-                        Linea = Linea & DatosNumeroDec(Importe, 17)
-                        
-                        
-                        'Total volumen de operaciones ([80]+[81]+[93]+[94]+[83]+[84]+[85]+[86]+[95]+[96]+[97]+[98]-[79]-[99]) [88]
-                        Linea = Linea & DatosNumeroDec(Importe, 17)
-                        
-                
-                
-                End If
-            
-        Else
-            'Informacion aadicional unicamente a cumplimentar en el utlimo trimestre
-            ' 6 parejas de "0" +  "    "  '4pos
-            For K = 1 To 6
-                Linea = Linea & "0    "
-            Next K
-            
-            'Información adicional - Exclusivamente a cumplimentar en el último periodo exonerados de la Declaración-re
-            Linea = Linea & " "
-            
-            'Campos del 40-48
-            'Decimales
-            For K = 1 To 9
-                Linea = Linea & String(17, "0")
-            Next K
-            
-        End If
-        
-        'Campo 49. Reservado AEAT
-        Linea = Linea & "0"
-        
-        'TRIBUTACIONES ALVA.-GIPUZCU... NAVARRA
-        For K = 1 To 4
-            Linea = Linea & String(5, "0")
-        Next K
-        
-        
-        
-        If ConInformacionUltimoPeriodo Then
-            'Campos del 54-59  Información adicional - Exclusivamente a cumplimentar en el último period....
-            
-            ' Exportaciones y otras operaciones exentas con derecho a deducción [94]
-            If Exonerados390 Then
-                AñadeImporteClaveUltimoPerido303 16
-            Else
-                Linea = Linea & String(17, "0")
-            End If
-            ' Operaciones en régimen especial de la agricultura, ganadería y pesca [95]
-            Linea = Linea & String(17, "0")
-        
-            ' Operaciones realizadas por sujetos pasivos acogidos al régimen especial del recargo de equivalencia [96]
-            Linea = Linea & String(17, "0")
-            
-            'Operaciones en Régimen especial de bienes usados, objetos de arte, antigüedades y objetos de colección [97]
-            Linea = Linea & String(17, "0")
-                
-            ' Operaciones en régimen especial de Agencias de Viajes [98]
-            Linea = Linea & String(17, "0")
-            
-            'Entregas de bienes de inversión [99]
-            Linea = Linea & String(17, "0")
-            
-        Else
-            'Campos del 54-59  Información adicional - Exclusivamente a cumplimentar en el último period....
-            For K = 1 To 6
-                Linea = Linea & String(17, "0")
-            Next K
-            
-        End If
-        Set miRsAux = Nothing
-        
-        
-        'Enero 2019
-        'Información de la tributación por razón de territorio: Territorio común [107]   5,2
-         Linea = Linea & "00000"
-        
-        'rESERVADO aeat 61,62
-        'Linea = Linea & Space(463)  'aunque este separado en dos, trozos, ambos dos son texto. Perobien. por si acso
-        Linea = Linea & Space(17)
-        Linea = Linea & Space(446)
-        
+        'Enero 2021
+        'Bajo de esta funcion esta otra, que no hace nada. Esta todo comentado, pero lleva el codigo fuente que estaba aqui abajo
+        FuncionVacia303
+    
+    
+        Linea = Linea & String(17, " ")
+        Linea = Linea & String(583, " ")
         Linea = Linea & "</T30303000>"
-       
+        
+        
     End If
-    
-   
-    
     'Final GENERAL
     Linea = Linea & "</T3030"
     Linea = Linea & RecuperaValor(vPeriodo, 3)  'AÑO
@@ -524,8 +351,7 @@ On Error GoTo Salida '
     Else
         Linea = Linea & Format(I, "00")
     End If
-   ' Linea = Linea & "0000>" & Chr(13) & Chr(10)
-    Linea = Linea & "0000>" '  Quitamos los saltos de linea   2019-04-17
+    Linea = Linea & "0000>"
     
     
     If Not ImprimeFichero Then GoTo Salida
@@ -535,6 +361,200 @@ Salida:
     If Err.Number <> 0 Then MuestraError Err.Number
     Set miRsAux = Nothing
 End Function
+
+
+Private Sub FuncionVacia303()
+        
+''''''''        'Este trozo creo que es el fichero 30304, hoja excel
+''''''''        Set miRsAux = New ADODB.Recordset
+''''''''        ConInformacionUltimoPeriodo = False  'Comprobar si puedo borrarlo ¿¿!!!!!!!!!!!!!!!
+''''''''        If ConInformacionUltimoPeriodo Then
+''''''''            'Informacion aadicional unicamente a cumplimentar en el utlimo trimestre
+''''''''            K = 0
+''''''''            Aux = "select * from empresaactiv order by ppal desc, codigo"
+''''''''            miRsAux.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+''''''''            While Not miRsAux.EOF
+''''''''                K = K + 1
+''''''''                If K < 7 Then   'SOLO ACEPTAN 6
+''''''''                    Aux = miRsAux!Id & Mid(DBLet(miRsAux!epigrafe, "T") & "    ", 1, 4)
+''''''''                    Linea = Linea & Aux
+''''''''                End If
+''''''''                miRsAux.MoveNext
+''''''''            Wend
+''''''''            miRsAux.Close
+''''''''
+''''''''            'El resto hasta 6
+''''''''            While K < 6
+''''''''                Linea = Linea & "0    "
+''''''''                K = K + 1
+''''''''            Wend
+''''''''
+''''''''
+''''''''
+''''''''            'Información adicional - Exclusivamente a cumplimentar en el último periodo exonerados de la Declaración-re
+''''''''            Linea = Linea & " "  'ponia una X
+''''''''
+''''''''            'Este RS estara abierto en el IF de abjo
+''''''''            Aux = "select opcion,sum(importe1) base from tmptesoreriacomun where codusu =2000 group by opcion order by opcion"
+''''''''
+''''''''            Aux = "select opcion,sum(importe1-coalesce(importe2,0)) base from tmptesoreriacomun where codusu =2000 group by opcion order by opcion"
+''''''''            miRsAux.Open Aux, Conn, adOpenKeyset, adLockOptimistic, adCmdText
+''''''''            SumatotalOperacionesPresntacionUltimoTrimestre = 0
+''''''''
+''''''''            If Not miRsAux.EOF Then
+''''''''                While Not miRsAux.EOF
+''''''''                    SumatotalOperacionesPresntacionUltimoTrimestre = SumatotalOperacionesPresntacionUltimoTrimestre + miRsAux!Base
+''''''''                    miRsAux.MoveNext
+''''''''                Wend
+''''''''                miRsAux.MoveFirst
+''''''''            End If
+''''''''
+''''''''
+''''''''
+''''''''
+''''''''            K = 0
+''''''''            If K = 1 Then
+''''''''
+''''''''                        ' Operaciones en régimen general [80]
+''''''''                        AñadeImporteClaveUltimoPerido303 1
+''''''''
+''''''''                        ' Operaciones en régimen especial del criterio de caja conform
+''''''''                        Linea = Linea & String(17, "0")
+''''''''
+''''''''                        'Entregas intracomunitarias exentas [93]
+''''''''                        AñadeImporteClaveUltimoPerido303 14
+''''''''
+''''''''                        'Operaciones exentas sin derecho a deducción [83]
+''''''''                        ' ENER0 2021 FRUTAS INMA. Dice que esta casulla, la 83 el importe que ponemos va a la 94
+''''''''                        'AñadeImporteClaveUltimoPerido303 16
+''''''''                        Linea = Linea & String(17, "0")
+''''''''
+''''''''
+''''''''                        'Operaciones no sujetas por reglas de localización o con inversión del sujeto pasivo [84]
+''''''''                        AñadeImporteClaveUltimoPerido303 61
+''''''''
+''''''''                        'Entregas de bienes objeto de instalación o montaje en otros Estados miembros [85]
+''''''''                        Linea = Linea & String(17, "0")
+''''''''
+''''''''                        'Operaciones en régimen simplificado [86]
+''''''''                        Linea = Linea & String(17, "0")
+''''''''
+''''''''                        ' Entregas de bienes inmuebles no habituales, operaciones financieras y relativas al oro de inversión no habituales [79]
+''''''''                        Linea = Linea & String(17, "0")
+''''''''
+''''''''
+''''''''                        'Total volumen de operaciones ([80]+[81]+[93]+[94]+[83]+[84]+[85]+[86]+[95]+[96]+[97]+[98]-[79]-[99]) [88]
+''''''''                        Aux = DatosNumeroDec(SumatotalOperacionesPresntacionUltimoTrimestre, 17)
+''''''''                        Linea = Linea & Aux
+''''''''                Else
+''''''''                        ' Operaciones en régimen general [80]
+''''''''                        Importe = 0
+''''''''                        Linea = Linea & DatosNumeroDec(Importe, 17)
+''''''''
+''''''''                        ' Operaciones en régimen especial del criterio de caja conform
+''''''''                        Linea = Linea & DatosNumeroDec(Importe, 17)
+''''''''
+''''''''                        'Entregas intracomunitarias exentas [93]
+''''''''                        Linea = Linea & DatosNumeroDec(Importe, 17)
+''''''''
+''''''''                        'Operaciones exentas sin derecho a deducción [83]
+''''''''                        Linea = Linea & DatosNumeroDec(Importe, 17)
+''''''''
+''''''''                        'Operaciones no sujetas por reglas de localización o con inversión del sujeto pasivo [84]
+''''''''                        Linea = Linea & DatosNumeroDec(Importe, 17)
+''''''''
+''''''''                        'Entregas de bienes objeto de instalación o montaje en otros Estados miembros [85]
+''''''''                        Linea = Linea & DatosNumeroDec(Importe, 17)
+''''''''
+''''''''                        'Operaciones en régimen simplificado [86]
+''''''''                        Linea = Linea & DatosNumeroDec(Importe, 17)
+''''''''
+''''''''                        ' Entregas de bienes inmuebles no habituales, operaciones financieras y relativas al oro de inversión no habituales [79]
+''''''''                        Linea = Linea & DatosNumeroDec(Importe, 17)
+''''''''
+''''''''
+''''''''                        'Total volumen de operaciones ([80]+[81]+[93]+[94]+[83]+[84]+[85]+[86]+[95]+[96]+[97]+[98]-[79]-[99]) [88]
+''''''''                        Linea = Linea & DatosNumeroDec(Importe, 17)
+''''''''
+''''''''
+''''''''
+''''''''                End If
+''''''''
+''''''''        Else
+''''''''            'Informacion aadicional unicamente a cumplimentar en el utlimo trimestre
+''''''''            ' 6 parejas de "0" +  "    "  '4pos
+''''''''            For K = 1 To 6
+''''''''                Linea = Linea & "0    "
+''''''''            Next K
+''''''''
+''''''''            'Información adicional - Exclusivamente a cumplimentar en el último periodo exonerados de la Declaración-re
+''''''''            Linea = Linea & " "
+''''''''
+''''''''            'Campos del 40-48
+''''''''            'Decimales
+''''''''            For K = 1 To 9
+''''''''                Linea = Linea & String(17, "0")
+''''''''            Next K
+''''''''
+''''''''        End If
+''''''''
+''''''''        'Campo 49. Reservado AEAT
+''''''''        Linea = Linea & "0"
+''''''''
+''''''''        'TRIBUTACIONES ALVA.-GIPUZCU... NAVARRA
+''''''''        For K = 1 To 4
+''''''''            Linea = Linea & String(5, "0")
+''''''''        Next K
+''''''''
+''''''''
+''''''''
+''''''''        If ConInformacionUltimoPeriodo Then
+''''''''            'Campos del 54-59  Información adicional - Exclusivamente a cumplimentar en el último period....
+''''''''
+''''''''            ' Exportaciones y otras operaciones exentas con derecho a deducción [94]
+''''''''            If Exonerados390 Then
+''''''''                AñadeImporteClaveUltimoPerido303 16
+''''''''            Else
+''''''''                Linea = Linea & String(17, "0")
+''''''''            End If
+''''''''            ' Operaciones en régimen especial de la agricultura, ganadería y pesca [95]
+''''''''            Linea = Linea & String(17, "0")
+''''''''
+''''''''            ' Operaciones realizadas por sujetos pasivos acogidos al régimen especial del recargo de equivalencia [96]
+''''''''            Linea = Linea & String(17, "0")
+''''''''
+''''''''            'Operaciones en Régimen especial de bienes usados, objetos de arte, antigüedades y objetos de colección [97]
+''''''''            Linea = Linea & String(17, "0")
+''''''''
+''''''''            ' Operaciones en régimen especial de Agencias de Viajes [98]
+''''''''            Linea = Linea & String(17, "0")
+''''''''
+''''''''            'Entregas de bienes de inversión [99]
+''''''''            Linea = Linea & String(17, "0")
+''''''''
+''''''''        Else
+''''''''            'Campos del 54-59  Información adicional - Exclusivamente a cumplimentar en el último period....
+''''''''            For K = 1 To 6
+''''''''                Linea = Linea & String(17, "0")
+''''''''            Next K
+''''''''
+''''''''        End If
+''''''''        Set miRsAux = Nothing
+''''''''
+''''''''
+''''''''        'Enero 2019
+''''''''        'Información de la tributación por razón de territorio: Territorio común [107]   5,2
+''''''''         Linea = Linea & "00000"
+''''''''
+''''''''        'rESERVADO aeat 61,62
+''''''''        'Linea = Linea & Space(463)  'aunque este separado en dos, trozos, ambos dos son texto. Perobien. por si acso
+''''''''        Linea = Linea & Space(17)
+''''''''        Linea = Linea & Space(446)
+''''''''
+''''''''        Linea = Linea & "</T30303000>"
+''''''''
+''''''''    End If
+End Sub
 
 
 
@@ -718,9 +738,11 @@ Private Function Generaidentificacion(Modelo300 As Boolean) As Boolean
             Linea = Linea & DatosTexto("", 15)   'es el nombre, pero va vacio puesto k aqui son empresas
             
         Else
+            
+            '303
             Linea = Linea & DatosTexto(DBLet(Rs!nifempre), 9)
-            Linea = Linea & DatosTexto(vEmpresa.NombreEmpresaOficial, 60)
-            Linea = Linea & DatosTexto(DBLet(Rs!apoderado), 20)
+            Linea = Linea & DatosTexto(vEmpresa.NombreEmpresaOficial, 80)
+            
         End If
         Generaidentificacion = True
     End If
@@ -1100,7 +1122,7 @@ Dim ErroresRegistros As String
         
         Linea = Linea & DatosTexto(NombreFormateado, 40)
         Linea = Linea & "D"
-        Linea = Linea & Mid(Rs!codposta, 1, 2)
+        Linea = Linea & Mid(Rs!codposta & "00", 1, 2)
         Linea = Linea & "  "   'PAIS
         Linea = Linea & " "   'BLANCO psocion 81
         

@@ -359,7 +359,7 @@ Private Sub ImportarFraCLI()
         
         Else
             If ListView1.ListItems.Count > 0 Then
-                If MsgBox("¿Continuar con el proceso de importacion?", vbQuestion + vbYesNoCancel) = vbYes Then CadenaDesdeOtroForm = "OK"
+                If MsgBox("¿Continuar con el proceso de importación?", vbQuestion + vbYesNoCancel) = vbYes Then CadenaDesdeOtroForm = "OK"
             End If
         End If
         If CadenaDesdeOtroForm = "" Then Exit Sub
@@ -646,7 +646,7 @@ Dim RC As Byte
             
             
             ListView1.ListItems(I).SubItems(5) = " "
-            If DBLet(miRsAux!impret, "N") <> 0 Then ListView1.ListItems(I).SubItems(5) = Format(miRsAux!impret, FormatoImporte) 'DBLet(miRsAux!calculoimponible, "N")
+            If DBLet(miRsAux!ImpRet, "N") <> 0 Then ListView1.ListItems(I).SubItems(5) = Format(miRsAux!ImpRet, FormatoImporte) 'DBLet(miRsAux!calculoimponible, "N")
             
             ListView1.ListItems(I).SubItems(6) = " " & Format(miRsAux!calculoimponible, FormatoImporte) 'DBLet(miRsAux!calculoimponible, "N")
             ListView1.ListItems(I).SubItems(7) = Format(miRsAux!impventa, FormatoImporte) 'DBLet(miRsAux!impventa, "N")
@@ -1002,10 +1002,11 @@ Dim K As Integer
             K = UBound(strArray) - (NumeroCamposTratarFraCli - 1)
             'If UBound(strArray) = NumeroCamposTratarFraCli - 1 Then
             
-            If K = 0 Or K = -1 Then
+            If K = 0 Or K = -1 Or K = -2 Then
                 'Falta el ultimo, o los dos ul punto y coma
                 cad = cad & ";"
                 If K = -1 Then cad = cad & ";"
+                If K = -2 Then cad = cad & ";"
                 strArray = Split(cad, ";")
             End If
             
@@ -1489,7 +1490,7 @@ On Error GoTo eComprobacionDatosBD
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         While Not miRsAux.EOF
             cad = miRsAux!FACTURA
-            AnyadeEnErrores "No existe centro de coste: " & miRsAux!cCoste
+            AnyadeEnErrores "No existe centro de coste: " & miRsAux!CCoste
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -1687,7 +1688,7 @@ Dim EsMismaFactura As Boolean
                 'Factura NUEVA. Reseteamos importes...
                 TipoRetencion = DBLet(miRsAux!tipo_ret, "N")
                 ImporteRetencion = 0
-                If TipoRetencion <> 0 Then ImporteRetencion = DBLet(miRsAux!impret, "N")
+                If TipoRetencion <> 0 Then ImporteRetencion = DBLet(miRsAux!ImpRet, "N")
                 'NumRegElim = miRsAux!FACTURA
                 BaseImponible = 0
                 IVA = 0
@@ -1969,18 +1970,18 @@ Dim Tipointegracion As Byte
                 TotalFac = 0
                 If Not IsNull(miRsAux!TotalFactura) Then TotalFac = miRsAux!TotalFactura
 
-                IVA = TotalFac - BaseImponible + DBLet(miRsAux!impret, "N")
+                IVA = TotalFac - BaseImponible + DBLet(miRsAux!ImpRet, "N")
                 Msg$ = "(" & DBSet(miRsAux!codpais, "T", "S") & "," & DBSet(miRsAux!nifdatos, "T", "S") & "," & DBSet(miRsAux!desProvi, "T", "S") & ","
                 Msg$ = Msg$ & DBSet(miRsAux!desPobla, "T", "S") & "," & DBSet(miRsAux!codposta, "T", "S") & "," & DBSet(miRsAux!dirdatos, "T", "S") & ","
                 'nommacta totfaccl,trefaccl,totbasesret,totivas,totbases,codagente,dpto,numasien,
-                Msg$ = Msg$ & DBSet(miRsAux!Nommacta, "T") & "," & DBSet(miRsAux!TotalFactura, "N") & "," & DBSet(miRsAux!impret, "N") & "," & DBSet(BaseImponible, "N")
+                Msg$ = Msg$ & DBSet(miRsAux!Nommacta, "T") & "," & DBSet(miRsAux!TotalFactura, "N") & "," & DBSet(miRsAux!ImpRet, "N") & "," & DBSet(BaseImponible, "N")
                 Msg$ = Msg$ & "," & DBSet(IVA, "N") & "," & DBSet(BaseImponible, "N") & ","
                 Msg$ = Msg$ & RecuperaValor(CadenaDesdeOtroForm, 1) & ",NULL,NULL," & DBSet(miRsAux!Fecha, "F") & ","
                 If DBLet(DBLet(miRsAux!tipo_ret, "N"), "N") = 0 Then
                     'No lleva retencion
                     Msg$ = Msg$ & "NULL,NULL,0"
                 Else
-                    Msg$ = Msg$ & DBSet(miRsAux!impret, "N", "S") & ",'" & miRsAux!ctaret & "'," & DBLet(miRsAux!tipo_ret, "N")   'tiporeten=numfactura
+                    Msg$ = Msg$ & DBSet(miRsAux!ImpRet, "N", "S") & ",'" & miRsAux!ctaret & "'," & DBLet(miRsAux!tipo_ret, "N")   'tiporeten=numfactura
                 End If
                 Msg$ = Msg$ & "," & DBLet(miRsAux!tipo_operacion, "N") & ","
                 Msg$ = Msg$ & "'Importacion datos externos. " & Chr(13) & "Usuario: " & DevNombreSQL(vUsu.Nombre) & Chr(13) & "Fecha: " & Now
@@ -2028,7 +2029,7 @@ Dim Tipointegracion As Byte
                         End If
                     End If
                     tCobro = tCobro & Aux
-                    Aux = IIf(IsNull(miRsAux!Fecvto), "", CStr(miRsAux!Fecvto))
+                    Aux = IIf(IsNull(miRsAux!FecVto), "", CStr(miRsAux!FecVto))
                     CargarCobrosSobreCollectionConSQLInsert ColCob, CStr(K), miRsAux!Fecha, TotalFac, Aux, tCobro
                 End If
                 
@@ -2052,7 +2053,7 @@ Dim Tipointegracion As Byte
         'INSERT INTO factcli_lineas (aplicret,imporec,anofactu,codccost,
         'impoiva,porcrec,porciva,baseimpo,codigiva,codmacta,numlinea,fecfactu,numserie,numfactu
         I = I + 1
-        cad = "(0," & DBSet(miRsAux!recargo, "T") & "," & Year(Fecha) & "," & DBSet(miRsAux!cCoste, "T", "S") & ","
+        cad = "(0," & DBSet(miRsAux!recargo, "T") & "," & Year(Fecha) & "," & DBSet(miRsAux!CCoste, "T", "S") & ","
         cad = cad & DBSet(miRsAux!ImpIva, "N") & "," & DBSet(miRsAux!recargo, "N", "S") & "," & DBSet(miRsAux!IVA, "N")
         cad = cad & "," & DBSet(miRsAux!impventa, "N", "N") & "," & DBSet(miRsAux!TipoIva, "N") & "," & DBSet(miRsAux!ctaventas, "T") & "," & I
         cad = cad & "," & DBSet(Fecha, "F", "N") & "," & DBSet(Trim(Mid(FACTURA, 1, 3)), "T") & "," & DBSet(Mid(FACTURA, 4), "N") & ")"
@@ -2153,7 +2154,7 @@ Dim B As Boolean
             Else
                 cad = cad & ", (" & DBSet(Trim(Mid(FacturaC, 1, 3)), "T") & "," & DBSet(Mid(FacturaC, 4), "N") & "," & DBSet(Fecha, "F") & "," & Year(Fecha)
             End If
-            cad = cad & "," & I & "," & DBSet(RT!Baseimpo, "N") & "," & RT!codigiva & "," & DBSet(RT!porciva, "N", "S")
+            cad = cad & "," & I & "," & DBSet(RT!Baseimpo, "N") & "," & RT!codigiva & "," & DBSet(RT!PorcIva, "N", "S")
             cad = cad & "," & DBSet(RT!porcrec, "N") & "," & DBSet(RT!Imporiva, "N") & "," & DBSet(RT!imporrec, "N") & ")"
             RT.MoveNext  'rT!
         Wend
@@ -2617,7 +2618,7 @@ Dim B As Boolean
             If B Then
                 ListView1.ListItems(I).SubItems(8) = Format(miRsAux!calculoimponible, FormatoImporte)
             Else
-                ListView1.ListItems(I).SubItems(8) = Format(DBLet(miRsAux!impret, "N"), FormatoImporte)
+                ListView1.ListItems(I).SubItems(8) = Format(DBLet(miRsAux!ImpRet, "N"), FormatoImporte)
             End If
             ListView1.ListItems(I).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!calculoimponible, FormatoImporte)
             ListView1.ListItems(I).SubItems(10) = Format(miRsAux!TotalFactura, FormatoImporte)
@@ -2950,7 +2951,7 @@ Dim Actual As Boolean
                 'No lleva retencion
                 Msg$ = Msg$ & "NULL,NULL,NULL,0"
             Else
-                Msg$ = Msg$ & DBSet(Round2((miRsAux!impret / (miRsAux!impventa + IVA)), 2) * 100, "N", "S") & "," & DBSet(miRsAux!impret, "N", "N")
+                Msg$ = Msg$ & DBSet(Round2((miRsAux!ImpRet / (miRsAux!impventa + IVA)), 2) * 100, "N", "S") & "," & DBSet(miRsAux!ImpRet, "N", "N")
                 Msg$ = Msg$ & ",'" & RecuperaValor(CadenaDesdeOtroForm, 1) & "'," & DBLet(miRsAux!tipo_ret, "N")    'tiporeten
             End If
             ',observa NUmSerie , Numregis, fecharec, NumFactu, FecFactu,fecliqpr
@@ -3022,7 +3023,7 @@ Dim Actual As Boolean
         'INSERT INTO factpro_lineas (aplicret,imporec,anofactu,codccost,
         'impoiva,porcrec,porciva,baseimpo,codigiva,codmacta,numlinea,fecfactu,numserie,numfactu
         I = I + 1
-        cad = "(1," & DBSet(miRsAux!recargo, "T") & "," & Year(fRecep) & "," & DBSet(miRsAux!cCoste, "T", "S") & ","
+        cad = "(1," & DBSet(miRsAux!recargo, "T") & "," & Year(fRecep) & "," & DBSet(miRsAux!CCoste, "T", "S") & ","
         cad = cad & DBSet(miRsAux!ImpIva, "N") & "," & DBSet(miRsAux!recargo, "N", "S") & "," & DBSet(miRsAux!IVA, "N")
         cad = cad & "," & DBSet(miRsAux!impventa, "N", "N") & "," & DBSet(miRsAux!TipoIva, "N") & "," & DBSet(miRsAux!ctaventas, "T") & "," & I
         cad = cad & "," & DBSet(fRecep, "F", "N") & "," & DBSet(miRsAux!Serie, "T") & "," & NumRegElim & ")"
@@ -3476,7 +3477,7 @@ On Error GoTo eComprobacionDatosBDAsientos
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         While Not miRsAux.EOF
             cad = miRsAux!FACTURA
-            AnyadeEnErrores "No existe centro de coste asiento: " & miRsAux!cCoste
+            AnyadeEnErrores "No existe centro de coste asiento: " & miRsAux!CCoste
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -3629,7 +3630,7 @@ Dim ACtuala As Boolean
                 FacturaAnterior = FacturaAnterior & RecuperaValor(CadenaDesdeOtroForm, 2) & "," & DBSet(Mid(Trim(strArray(1) & " " & miRsAux!txtcsb), 1, 50), "T", "N")
                 FacturaAnterior = FacturaAnterior & ",NULL," & DBSet(miRsAux!impventa, "N")
             End If
-            FacturaAnterior = FacturaAnterior & "," & DBSet(miRsAux!cCoste, "T", "S") & "," & DBSet(miRsAux!ctaventas, "T", "S") & ",'contab')"
+            FacturaAnterior = FacturaAnterior & "," & DBSet(miRsAux!CCoste, "T", "S") & "," & DBSet(miRsAux!ctaventas, "T", "S") & ",'contab')"
             cad = cad & ", " & FacturaAnterior
             miRsAux.MoveNext
         Wend
@@ -3806,7 +3807,7 @@ Dim MismaFactura As Boolean
             If B Then
                 ListView1.ListItems(I).SubItems(8) = Format(miRsAux!calculoimponible, FormatoImporte)
             Else
-                ListView1.ListItems(I).SubItems(8) = Format(DBLet(miRsAux!impret, "N"), FormatoImporte)
+                ListView1.ListItems(I).SubItems(8) = Format(DBLet(miRsAux!ImpRet, "N"), FormatoImporte)
             End If
             ListView1.ListItems(I).SubItems(9) = Format(miRsAux!TotalFactura - miRsAux!calculoimponible, FormatoImporte)
             ListView1.ListItems(I).SubItems(10) = Format(miRsAux!TotalFactura, FormatoImporte)
@@ -4339,7 +4340,7 @@ On Error GoTo eComprobacionDatosBD
         miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         While Not miRsAux.EOF
             cad = miRsAux!FACTURA
-            AnyadeEnErrores "No existe centro de coste: " & miRsAux!cCoste
+            AnyadeEnErrores "No existe centro de coste: " & miRsAux!CCoste
             miRsAux.MoveNext
         Wend
         miRsAux.Close
@@ -4522,7 +4523,7 @@ Dim Tipointegracion As Byte
                     'No lleva retencion
                     Msg$ = Msg$ & "NULL,NULL,NULL,0"
                 Else
-                    Msg$ = Msg$ & DBSet(Round2((miRsAux!impret / (miRsAux!impventa + IVA)), 2) * 100, "N", "S") & "," & DBSet(miRsAux!impret, "N", "N")
+                    Msg$ = Msg$ & DBSet(Round2((miRsAux!ImpRet / (miRsAux!impventa + IVA)), 2) * 100, "N", "S") & "," & DBSet(miRsAux!ImpRet, "N", "N")
                     Msg$ = Msg$ & ",'" & RecuperaValor(CadenaDesdeOtroForm, 1) & "'," & DBLet(miRsAux!tipo_ret, "N")    'tiporeten
                 End If
                 ',observa NUmSerie , Numregis, fecharec, NumFactu, FecFactu,fecliqpr
@@ -4675,7 +4676,7 @@ Dim B As Boolean
         While Not RT.EOF
             I = I + 1
                 cad = cad & ", (" & DBSet(Serie_, "T") & "," & NumRegElim & "," & DBSet(Fecha, "F") & "," & Year(Fecha)
-            cad = cad & "," & I & "," & DBSet(RT!Baseimpo, "N") & "," & RT!codigiva & "," & DBSet(RT!porciva, "N", "S")
+            cad = cad & "," & I & "," & DBSet(RT!Baseimpo, "N") & "," & RT!codigiva & "," & DBSet(RT!PorcIva, "N", "S")
             cad = cad & "," & DBSet(RT!porcrec, "N") & "," & DBSet(RT!Imporiva, "N") & "," & DBSet(RT!imporrec, "N") & ")"
             RT.MoveNext  'rT!
         Wend
@@ -4867,11 +4868,11 @@ Dim paraDoEvents As Byte
         cad = DBSet(cad, "T")
         If Me.optVarios(1).Value Then
             cad = "UPDATE factpro set set nommacta = " & cad & "  WHERE numserie ='" & miRsAux!NUmSerie & "' AND numregis =" & miRsAux!Numregis
-            cad = cad & " AND anofactu = " & miRsAux!anofactu
+            cad = cad & " AND anofactu = " & miRsAux!Anofactu
         Else
             
-            cad = "UPDATE factcli set nommacta = " & cad & " WHERE numserie ='" & miRsAux!NUmSerie & "' AND numfactu =" & miRsAux!NumFactu
-            cad = cad & " AND anofactu = " & miRsAux!anofactu
+            cad = "UPDATE factcli set nommacta = " & cad & " WHERE numserie ='" & miRsAux!NUmSerie & "' AND numfactu =" & miRsAux!numfactu
+            cad = cad & " AND anofactu = " & miRsAux!Anofactu
         End If
         Conn.Execute cad
         miRsAux.MoveNext

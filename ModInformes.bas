@@ -111,7 +111,8 @@ Public Sub ponerLabelBotonImpresion(ByRef BotonAcept As CommandButton, ByRef Bot
         BotonAcept.Caption = "&Aceptar"
     End If
     BotonImpr.visible = SelectorImpresion = 0
-    
+        
+        
 eponerLabelBotonImpresion:
     If Err.Number <> 0 Then Err.Clear
 End Sub
@@ -759,6 +760,8 @@ Public Sub LanzaProgramaAbrirOutlookMasivo(outTipoDocumento As Integer, Cuerpo A
 
     If ViaAWS Then
         'Febrero 2021. Via cuentas amazon WEB SERICE
+        ' Creamos las entradas en usuarios.infinercambi con estado a 1
+        'El programa de RAFA sen ecarga de gererar emai
         LanzaExeAWS outTipoDocumento, Cuerpo, CopiaRemitente, lbInd
     Else
         'Lo que habia
@@ -958,8 +961,17 @@ Dim EstaFlag As Integer
          
     
     'Metemos los registros en la BD
+    Set Rs = New ADODB.Recordset
     
+    CopiaRemitente = False
     Conn.Execute "DELETE FROM usuarios.wenvioemail WHERE codusu = " & vUsu.Codigo
+    
+    TotalReg = 0
+    Sql = "select max(infoIntercambioId) from usuarios.info_intercambio"
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Not Rs.EOF Then TotalReg = DBLet(Rs.Fields(0), "N")
+    TotalReg = TotalReg + 1
+    Rs.Close
     
     'wenvioemail(codusu,Orden,ctaAWS,destino,nombre,asunto,cuerpohtml,cuerpo,adjuntos)
     If Not lbInd Is Nothing Then
@@ -975,16 +987,16 @@ Dim EstaFlag As Integer
         
     End If
     
-    Set Rs = New ADODB.Recordset
+   
     Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    TotalReg = 0
+    
     cad = "INSERT INTO usuarios.wenvioemail(codusu,Orden,ctaAWS,destino,nombre,asunto,cuerpohtml,cuerpo,adjuntos,copiaRemitente) VALUES "
     Sql = ""
     While Not Rs.EOF
             
         'codusu,Orden,ctaAWS,destino,nombre,asunto,cuerpohtml,cuerpo,adjuntos)
             
-        TotalReg = TotalReg + 1
+        
         If Not lbInd Is Nothing Then
             lbInd.Caption = "Doc: " & Rs!NIF & "    -" & TotalReg
             lbInd.Refresh
@@ -1002,7 +1014,7 @@ Dim EstaFlag As Integer
         Case 1 ' reclamaciones
             Aux = RecuperaValor(Cuerpo, 1)
         Case 2
-            Aux = "Modelo 347. " & vEmpresa.nomempre & ".  ID:" & Rs!documento
+            Aux = Rs!razosoci & " (" & Rs!documento & ")"
         End Select
         
         'asunto cuerpohtml,cuerpo,adjuntos  .nif Nifdato,cliprov
@@ -1019,12 +1031,10 @@ Dim EstaFlag As Integer
         Sql = Sql & "," & DBSet(Aux, "T") & "," & DBSet(Aux, "T") & ","
         
                 
-        Aux = App.Path & "\temp\" & Rs!NIF
-        Aux = Replace(Aux, "\", "?")
-        Aux = Replace(Aux, "?", "\\")
+        Aux = Rs!NIF
+       
         
-        
-        Sql = Sql & "'" & Aux & "|'," & IIf(CopiaRemitente, 1, 0) & ")" '0: Copia remitente
+        Sql = Sql & "'" & Aux & "'," & IIf(CopiaRemitente, 1, 0) & ")" '0: Copia remitente
     
         
         If Len(Sql) > 3000 Then
@@ -1033,6 +1043,8 @@ Dim EstaFlag As Integer
             Conn.Execute Sql
             Sql = ""
         End If
+        
+        TotalReg = TotalReg + 1
         Rs.MoveNext
     Wend
     Rs.Close
@@ -1046,7 +1058,7 @@ Dim EstaFlag As Integer
         Conn.Execute Sql
     End If
     
-    
+    DoEvent2
     If Not lbInd Is Nothing Then
         lbInd.Caption = "Actualizando datos AWS"
         lbInd.Refresh
@@ -1062,7 +1074,6 @@ Dim EstaFlag As Integer
     
     
     
-    espera 0.5
     
     Screen.MousePointer = vbHourglass
     If Not lbInd Is Nothing Then
@@ -1070,12 +1081,87 @@ Dim EstaFlag As Integer
         lbInd.Refresh
     End If
     
-    cad = "Ariconta6|" & vUsu.Codigo & "|"
-    Sql = App.Path & "\CreamailCDO.exe " & cad
-    Shell Sql, vbNormalFocus
+    'RAFA.
+    'Insertamos en intercambio
+    Sql = "INSERT INTO usuarios.info_intercambio(infoIntercambioId,sistema,tipo,clave,email,fichero,estado) "
     
-    espera 2
+    Sql = Sql & " SELECT orden,'ariconta" & vEmpresa.codempre & "',' 347',asunto,destino,adjuntos,1 "
+    Sql = Sql & " FROM  usuarios.wenvioemail where codusu = " & vUsu.Codigo
+    Conn.Execute Sql
+
+
+
     
+    'Vamos a ver si esta enviendo
+    Sql = ""
+    NumRegElim = -1
+    TotalReg = 0
+    Aux = ""
+    I = 0
+    Do
+    
+        espera 1
+        DoEvent2
+        
+        Sql = "select sum(if(estado=1,1,0)) pendientes, sum(if(estado=3,1,0)) errores   from usuarios.info_intercambio where estado in (1,3)"
+        Sql = Sql & " and  infoIntercambioId IN (select orden from usuarios.wenvioemail where codusu=" & vUsu.Codigo & ")"
+        
+        Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Sql = ""
+        If Rs.EOF Then
+              Aux = "SAL"
+        Else
+            If Not lbInd Is Nothing Then
+                lbInd.Caption = "Int: " & I + 1 & "   Pdte: " & DBLet(Rs!pendientes, "N") & "   Err: " & DBLet(Rs!Errores, "N")
+                lbInd.Refresh
+            End If
+        
+        
+            TotalReg = DBLet(Rs!Errores, "N")  'ERRORES
+            If NumRegElim < 0 Then
+                'Primera vez
+                NumRegElim = DBLet(Rs!pendientes, "N")
+                If NumRegElim = 0 Then Aux = "FIN"
+            Else
+                'No es la primera vez.
+                'Veamos ai avanza
+                If DBLet(Rs!pendientes, "N") = 0 Then
+                    'Proceso finalizado
+                    Aux = "FIN"
+                Else
+                    
+                    I = I + 1
+                    If I > 30 Then
+                        'Despues de 30 segundos daremos por cerrado el proceso
+                        NumRegElim = DBLet(Rs!pendientes, "N")
+                        Sql = "Pendientes " & NumRegElim
+                        Sql = Sql & vbCrLf & "Errores " & TotalReg
+                        Aux = "MAL"
+                    End If
+                End If
+            End If
+        End If
+        Rs.Close
+        
+        Loop Until Aux <> ""
+        
+        If Not lbInd Is Nothing Then
+            lbInd.Caption = "Finalizado"
+            lbInd.Refresh
+        End If
+        
+        
+        
+        If Sql <> "" Then
+            
+            MsgBox Sql, vbExclamation
+        Else
+            If TotalReg > 0 Then
+                MsgBox "Error en envio facturas:" & TotalReg, vbExclamation
+            Else
+                MsgBox "Proceso finalizado", vbExclamation
+            End If
+        End If
     Screen.MousePointer = vbDefault
 End Sub
 

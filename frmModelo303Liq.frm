@@ -746,7 +746,7 @@ Dim I As Integer
     Conn.Execute Sql
 
     If codempre = 0 Then
-        vParam.anofactu = txtAno(0).Text
+        vParam.Anofactu = txtAno(0).Text
         vParam.perfactu = I
 
         If vParam.periodos = 0 Then
@@ -798,11 +798,16 @@ Dim NumAsien As Long
     
     Conn.BeginTrans
     
-    I = FechaCorrecta2(CDate(txtFecha(2).Text))
-    If Mc.ConseguirContador("0", (I = 0), False) = 0 Then
-        NumAsien = Mc.Contador
+    I = FechaCorrecta2(CDate(txtFecha(2).Text), True)
+    If I > 1 Then
+        Err.Raise 513, , "Fecha incorrecta"
+    Else
+        If Mc.ConseguirContador("0", (I = 0), False) = 0 Then
+            NumAsien = Mc.Contador
+        Else
+            Err.Raise 513, , "Conseguir contador"
+        End If
     End If
-    
     ' insertamos en cabecera
     Sql = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari, feccreacion, usucreacion, desdeaplicacion ) SELECT " & vParam.numdia303 & "," & DBSet(txtFecha(2).Text, "F") & "," & DBSet(NumAsien, "N")
     Sql = Sql & ",'Liquidación de " & Me.cmbPeriodo(0).Text & " de " & txtAno(0).Text & "'," & DBSet(Now, "F") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Liquidación'"
@@ -1356,7 +1361,7 @@ Private Sub PonerPeriodoPresentacion303()
     
     'Leeremos ultimo valor liquidado
     
-    txtAno(0).Text = vParam.anofactu
+    txtAno(0).Text = vParam.Anofactu
     I = vParam.perfactu + 1
     If vParam.periodos = 0 Then
         NumRegElim = 4
@@ -1366,7 +1371,7 @@ Private Sub PonerPeriodoPresentacion303()
         
     If I > NumRegElim Then
             I = 1
-            txtAno(0).Text = vParam.anofactu + 1
+            txtAno(0).Text = vParam.Anofactu + 1
     End If
     Me.cmbPeriodo(0).ListIndex = I - 1
      

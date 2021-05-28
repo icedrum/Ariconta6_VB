@@ -400,7 +400,7 @@ Begin VB.Form frmFacturaModificar
          Height          =   350
          Index           =   6
          Left            =   8370
-         MaxLength       =   10
+         MaxLength       =   12
          TabIndex        =   6
          Tag             =   "Importe Base|N|N|||factcli_lineas|baseimpo|###,###,##0.00||"
          Text            =   "Importe"

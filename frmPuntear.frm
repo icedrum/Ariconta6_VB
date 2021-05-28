@@ -1308,8 +1308,8 @@ On Error GoTo ECargarDatos
         
         ItmX.SubItems(1) = Rs!NumAsien
         ItmX.SubItems(2) = DBLet(Rs!Numdocum, "T")
-        ItmX.SubItems(3) = Rs!Ampconce
-        ItmX.ListSubItems(3).ToolTipText = Rs!Ampconce
+        ItmX.SubItems(3) = DBLet(Rs!Ampconce, "T")
+        ItmX.ListSubItems(3).ToolTipText = DBLet(Rs!Ampconce, "T")
         
         'En el tag, para actualizaciones i demas pondremos
         'Separado por pipes los valores de numdiari y linliapu

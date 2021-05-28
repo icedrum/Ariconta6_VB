@@ -1098,6 +1098,7 @@ Dim nomDocu As String
     
     'Cobros efectivo
     'Updatearemos a cero los metalicos que no llegen al minimo
+    Set miRsAux = New ADODB.Recordset
     Sql = "Select ImporteMaxEfec340 from parametros "
     miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Sql = DBLet(miRsAux!ImporteMaxEfec340, "N")
@@ -1368,6 +1369,11 @@ Dim Archivo As String
                         cad = ListView2.ListItems(I).Tag
                         cad = Replace(cad, "{", "")
                         cad = Replace(cad, "}", "")
+                        
+                        'El nombre lleva \  con lo cual, hay que "escaparlos para MYSQL
+                        Sql = Replace(Sql, "\", "?")
+                        Sql = Replace(Sql, "?", "\\")
+                        
                         Sql = " SET despobla = " & DBSet(Sql, "T") & " ,dirdatos = " & DBSet(ListView2.ListItems(I).SubItems(2), "T") & ", PAIS='XXXXXXXX' "
                         cad = "UPDATE tmp347tot " & Sql & " WHERE " & cad
                         Conn.Execute cad
@@ -1397,8 +1403,10 @@ Dim Archivo As String
         'XXXXXXXX
             
         Sql = "Recuerde: En el archivo adjunto le enviamos información de su interés."
-
-        LanzaProgramaAbrirOutlookMasivo 2, Sql, TieneArimaiCDO, Me.chkAmazonCopia.Value = 1, Label2(31)
+        Dim CopiaRemite As Boolean
+        CopiaRemite = Me.chkAmazonCopia.Value = 1
+        CopiaRemite = False
+        LanzaProgramaAbrirOutlookMasivo 2, Sql, TieneArimaiCDO, CopiaRemite, Label2(31)
     
     End If
     Screen.MousePointer = vbDefault
@@ -1409,9 +1417,9 @@ End Sub
 Private Function PreparaCarpeta() As Boolean
 
     PreparaCarpeta = False
-    
-    If Dir(App.Path & "\temp\*.pdf", vbArchive) <> "" Then
-        Kill App.Path & "\temp\*.pdf"
+        
+    If Dir(vParam.PathFicherosInteg & "\*.pdf", vbArchive) <> "" Then
+        Kill vParam.PathFicherosInteg & "\*.pdf"
         If Err.Number <> 0 Then
             MuestraError Err.Number, "Preparando carpeta temporal"
         Else
@@ -1441,7 +1449,7 @@ End Function
 
 'Copia EN temporal
 Private Function CopiaEnTemporal() As Boolean
-
+Dim C As String
     CopiaEnTemporal = False
     
     If InStr(ListView2.ListItems(I).Tag, "=48") Then
@@ -1451,8 +1459,12 @@ Private Function CopiaEnTemporal() As Boolean
     End If
     Sql = ListView2.ListItems(I).Text & Sql & ".pdf"
     
-    
-    FileCopy App.Path & "\docum.pdf", App.Path & "\temp\" & Sql
+    If vParam.PathFicherosInteg = "" Then
+        C = App.Path & "\temp\" & Sql
+    Else
+        C = vParam.PathFicherosInteg & "\" & Sql
+    End If
+    FileCopy App.Path & "\docum.pdf", C
     If Err.Number <> 0 Then
         MuestraError Err.Number, "Eliminando docum temporal"
     Else
@@ -1540,11 +1552,11 @@ Private Sub Form_Load()
     TieneArimaiCDO = False
     Sql = DevuelveDesdeBD("emailAWS", "parametros", "1", "1")
     If Sql <> "" Then
-        If Dir(App.Path & "\CreamailCDO.exe", vbArchive) <> "" Then
-            TieneArimaiCDO = True
+        'If Dir(App.Path & "\CreamailCDO.exe", vbArchive) <> "" Then
+           TieneArimaiCDO = True
             Label3(7).Caption = "Envio por Amazon Web Service"
-        End If
-        chkAmazonCopia.visible = True
+        'End If
+        chkAmazonCopia.visible = False
     End If
     
 End Sub
@@ -2224,7 +2236,8 @@ Dim EsLaPrimera As Byte '0 empieza proc   1- Esta es la primera     2.Hay mas de
                     Label2(31).Refresh
                     Sql = Mid(cadena2, 2)
                     Sql = Tablas & " VALUES " & Sql
-                    Conn.Execute Sql
+                    Ejecuta Sql
+                    
                     cadena2 = ""
               End If
               
@@ -2649,17 +2662,18 @@ On Error GoTo EComprobarCuentas347
     
     
     
-    If OptProv(0).Value Then
-        cad = "fecharec"
-    Else
-        
-        cad = "fecfactu"
-        
-    End If
+   
     
     Label2(31).Caption = "Comprobando datos facturas proveedor"
     DoEvent2
     espera 0.2
+    
+     If OptProv(0).Value Then
+        cad = "fecharec"
+    Else
+        cad = "fecfactu"
+        
+    End If
     
     
     Sql = "SELECT factpro.codmacta,coalesce(factpro.nifdatos,'ERROR') nifdatos, factpro.codpobla, factpro.dirdatos, factpro.nommacta,factpro.despobla,factpro.desprovi,"

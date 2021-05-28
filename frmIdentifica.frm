@@ -352,11 +352,11 @@ Private Sub Form_Load()
     PrimeraVez = True
     CargaImagen
     Me.BackColor = vbWhite
-    i = 9705
-    If Screen.TwipsPerPixelX = 12 Then i = 7715
+    I = 9705
+    If Screen.TwipsPerPixelX = 12 Then I = 7715
         
     Me.Height = 5625 '5535
-    Me.Width = i ' 7935
+    Me.Width = I ' 7935
     
     
 '    '?????????????? QUITAR ESTO

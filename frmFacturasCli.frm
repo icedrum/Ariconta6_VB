@@ -4095,7 +4095,7 @@ Dim CaptToolText As String
     ' Si es mayor :     8. Modificandose y luego la modifican primero en el SII
     '                   9.  TODO OK
     CaptToolText = ""
-    If DBLet(Data1.Recordset!SII_ID, "N") = 0 Then
+    If DBLet(Data1.Recordset!sii_id, "N") = 0 Then
         Color = 0
     Else
         
@@ -4114,7 +4114,7 @@ Dim CaptToolText As String
     
             'Lo que habia
             Aux = "concat(enviada,'|',coalesce(csv,''),'|',coalesce(resultado,''),'|')"
-            Aux = DevuelveDesdeBD(Aux, "aswsii.envio_facturas_emitidas", "IDEnvioFacturasEmitidas", CStr(Data1.Recordset!SII_ID))
+            Aux = DevuelveDesdeBD(Aux, "aswsii.envio_facturas_emitidas", "IDEnvioFacturasEmitidas", CStr(Data1.Recordset!sii_id))
             If Aux = "" Then Aux = "1|||"
             If RecuperaValor(Aux, 1) = 1 Then
                 If RecuperaValor(Aux, 2) = "" Then
@@ -5011,6 +5011,11 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
     Dim Mc As Contadores
     Dim SqlLog As String
 
+    Dim CSV_SII As String
+    Dim Id_ModifSII As Long
+
+
+
     'Ciertas comprobaciones
     If Data1.Recordset Is Nothing Then Exit Sub
     If Data1.Recordset.EOF Then Exit Sub
@@ -5031,6 +5036,39 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
     'Comprobamos si esta liquidado
     If Not ComprobarPeriodo2(23) Then Exit Sub
     
+    
+    'Si esta en SII
+    'Si esta eliminado una factura presentada, singnifica que YA le ha dado a MODIFICAR
+    CSV_SII = ""
+    If vParam.SIITiene Then
+        'SI esta presentada...
+     
+            If DBLet(Data1.Recordset!sii_id, "N") > 0 Then
+                If Text1(28).BackColor = vbSiiMofificando Then
+                    CadenaDesdeOtroForm = ""
+                    BuscaChekc = "numserie = " & DBSet(Data1.Recordset!NUmSerie, "T") & " AND factura_regis =" & Data1.Recordset!numfactu & " AND anofactu=" & Data1.Recordset!Anofactu & " AND estado=0 AND esfacturacliente" '=1 cliente
+                    BuscaChekc = DevuelveDesdeBD("ID", "modificarsii", BuscaChekc, "1")
+                    Id_ModifSII = Val(BuscaChekc)
+                    If Id_ModifSII = 0 Then
+                        MsgBoxA "No se encuetra registro en la tabla de modificacion de facturas SII(" & Id_ModifSII & ")", vbExclamation
+                        
+                    Else
+                        frmMensajes.Opcion = 70
+                        frmMensajes.Show vbModal
+                    End If
+                    If CadenaDesdeOtroForm = "" Then Exit Sub
+                    CSV_SII = CStr(CadenaDesdeOtroForm)
+                    CadenaDesdeOtroForm = ""
+                End If
+            End If
+
+    End If
+    
+
+    
+    
+    
+    
     'Comprobamos que no esta actualizada ya
     Sql = ""
     If Not IsNull(Data1.Recordset!NumAsien) Then
@@ -5044,7 +5082,9 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
     Sql = Sql & vbCrLf & "          ¿Desea continuar ?" & vbCrLf
     
     If Not EliminarDesdeActualizar Then
-        If MsgBoxA(Sql, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+        If CSV_SII = "" Then
+            If MsgBoxA(Sql, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+        End If
     End If
     
     NumRegElim = Data1.Recordset.AbsolutePosition
@@ -5085,6 +5125,48 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
                 Set Mc = New Contadores
             Mc.DevolverContador "0", Fec <= vParam.fechafin, I
             Set Mc = Nothing
+        
+        
+                    
+                    
+             If Id_ModifSII > 0 And CSV_SII <> "" Then
+                'Cierro el proceso de eliminacion de facturas
+                Sql = "UPDATE modificarsii SET estado=1, FechaHoraCierreProceso =" & DBSet(Now, "FH")
+                Sql = Sql & ", Observaciones=concat(coalesce(observaciones,''),'  ','Eliminada en portal SII-AEAT')"
+                Sql = Sql & " WHERE ID = " & Id_ModifSII
+                I = 0
+                If Not Ejecuta(Sql, False) Then I = 1
+                
+                
+                BuscaChekc = DevuelveDesdeBD("SII_ID", "modificarsii", "ID", CStr(Id_ModifSII))
+                If BuscaChekc = "" Then
+                    I = 20
+                Else
+                    'ACtualizo SII
+                    Sql = "UPDATE aswsii.envio_facturas_emitidas SET "
+                    Sql = Sql & " Resultado = 'Eliminado', CSV =" & DBSet(CSV_SII, "T")
+                    Sql = Sql & " , Mensaje =concat('Eliminado en portal-Ariconta('," & Id_ModifSII & ",')    ',coalesce(mensaje,''))"
+                    Sql = Sql & " WHERE IDEnvioFacturasEmitidas =" & BuscaChekc
+                    If Not Ejecuta(Sql, False) Then I = I + 30
+                End If
+                
+                
+                If I > 0 Then MsgBoxA "Error actualizando tablas auxiliar SII. Llame a soporte. Codigo:  " & I, vbExclamation
+                    
+            End If
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
     Else
         'La borrara desde este mismo form
@@ -8026,11 +8108,11 @@ Dim Contador As Integer
     Else
         Set IT = lw1.ListItems.Add()
 
-        IT.Text = Me.adodc1.Recordset!Orden '"Nuevo " & Contador
+        IT.Text = Me.Adodc1.Recordset!Orden '"Nuevo " & Contador
         
-        IT.SubItems(1) = Me.adodc1.Recordset.Fields(5)  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
+        IT.SubItems(1) = Me.Adodc1.Recordset.Fields(5)  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
         IT.SubItems(2) = vpaz
-        IT.SubItems(3) = Me.adodc1.Recordset.Fields(0)
+        IT.SubItems(3) = Me.Adodc1.Recordset.Fields(0)
         
         Set IT = Nothing
     End If
@@ -8218,7 +8300,7 @@ Dim ModEspecial As Boolean
     If vParam.SIITiene Then
             'SI esta presentada...
         If Modo <> 3 And Modo <> 1 Then
-            If DBLet(Data1.Recordset!SII_ID, "N") > 0 Then
+            If DBLet(Data1.Recordset!sii_id, "N") > 0 Then
                 If Text1(28).BackColor = vbSiiMofificando Then
                     'Esta modificando la factura YA presentada.
                     'Con lo cual le deja pasar

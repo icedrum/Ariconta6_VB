@@ -210,30 +210,30 @@ Begin VB.Form frmCuentas
          TabCaption(1)   =   "Tesorería"
          TabPicture(1)   =   "frmCuentas2.frx":687A
          Tab(1).ControlEnabled=   0   'False
-         Tab(1).Control(0)=   "Label1(28)"
-         Tab(1).Control(1)=   "Label1(21)"
-         Tab(1).Control(2)=   "Label1(24)"
-         Tab(1).Control(3)=   "Image1(1)"
-         Tab(1).Control(4)=   "Image1(0)"
-         Tab(1).Control(5)=   "Label1(26)"
-         Tab(1).Control(6)=   "Label1(27)"
-         Tab(1).Control(7)=   "imgppal(4)"
-         Tab(1).Control(8)=   "Text1(29)"
-         Tab(1).Control(9)=   "Text1(25)"
-         Tab(1).Control(10)=   "Text1(26)"
-         Tab(1).Control(11)=   "Text2(0)"
-         Tab(1).Control(12)=   "Text2(1)"
-         Tab(1).Control(13)=   "Text1(13)"
-         Tab(1).Control(14)=   "Text1(14)"
-         Tab(1).Control(15)=   "Text1(15)"
-         Tab(1).Control(16)=   "Text1(16)"
-         Tab(1).Control(17)=   "Frame4"
-         Tab(1).Control(18)=   "Text1(31)"
-         Tab(1).Control(19)=   "Text1(32)"
-         Tab(1).Control(20)=   "Text1(33)"
-         Tab(1).Control(21)=   "Text1(34)"
-         Tab(1).Control(22)=   "cmdSepa"
-         Tab(1).Control(23)=   "Check4"
+         Tab(1).Control(0)=   "Check4"
+         Tab(1).Control(1)=   "cmdSepa"
+         Tab(1).Control(2)=   "Text1(34)"
+         Tab(1).Control(3)=   "Text1(33)"
+         Tab(1).Control(4)=   "Text1(32)"
+         Tab(1).Control(5)=   "Text1(31)"
+         Tab(1).Control(6)=   "Frame4"
+         Tab(1).Control(7)=   "Text1(16)"
+         Tab(1).Control(8)=   "Text1(15)"
+         Tab(1).Control(9)=   "Text1(14)"
+         Tab(1).Control(10)=   "Text1(13)"
+         Tab(1).Control(11)=   "Text2(1)"
+         Tab(1).Control(12)=   "Text2(0)"
+         Tab(1).Control(13)=   "Text1(26)"
+         Tab(1).Control(14)=   "Text1(25)"
+         Tab(1).Control(15)=   "Text1(29)"
+         Tab(1).Control(16)=   "imgppal(4)"
+         Tab(1).Control(17)=   "Label1(27)"
+         Tab(1).Control(18)=   "Label1(26)"
+         Tab(1).Control(19)=   "Image1(0)"
+         Tab(1).Control(20)=   "Image1(1)"
+         Tab(1).Control(21)=   "Label1(24)"
+         Tab(1).Control(22)=   "Label1(21)"
+         Tab(1).Control(23)=   "Label1(28)"
          Tab(1).ControlCount=   24
          TabCaption(2)   =   "Departamentos"
          TabPicture(2)   =   "frmCuentas2.frx":6896
@@ -2513,7 +2513,7 @@ Private Sub Check4_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub cmdAceptar_Click()
-    Dim i As Integer
+    Dim I As Integer
     Dim B As Boolean
     Dim v As Long
     
@@ -2858,9 +2858,9 @@ Private Sub Form_Load()
     cmdCopiarDatos(1).visible = vModo = 1 Or vModo = 2
     cmdSepa.visible = vModo = 0
     
-    For i = 0 To Me.imgppal.Count - 1
-        Me.imgppal(i).visible = vModo > 0
-    Next i
+    For I = 0 To Me.imgppal.Count - 1
+        Me.imgppal(I).visible = vModo > 0
+    Next I
     
     FrGranEmpresa.visible = False
     
@@ -2879,9 +2879,9 @@ Private Sub Form_Load()
         .Buttons(3).Image = 5
     End With
     
-    For i = 0 To Image1.Count - 1
-        Image1(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 0 To Image1.Count - 1
+        Image1(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
     
     CargaCombo
     Select Case vModo
@@ -2994,18 +2994,18 @@ Private Sub Form_Load()
     If B Then
         Me.Text1(12).Enabled = True
         Me.Text1(30).Enabled = True
-        For i = 2 To 3
-            Me.Image1(i).Enabled = True
-            Me.Image1(i).visible = True
-        Next i
+        For I = 2 To 3
+            Me.Image1(I).Enabled = True
+            Me.Image1(I).visible = True
+        Next I
         
     Else
         Me.Text1(12).Enabled = False
         Me.Text1(30).Enabled = False
-        For i = 2 To 3
-            Me.Image1(i).Enabled = False
-            Me.Image1(i).visible = False
-        Next i
+        For I = 2 To 3
+            Me.Image1(I).Enabled = False
+            Me.Image1(I).visible = False
+        Next I
     End If
     
     Me.Image1(8).visible = Modo = 3 Or Modo = 4
@@ -3050,7 +3050,7 @@ End Sub
 Private Sub PonerCampos(QueEmpresa As String)
 Dim Rs As ADODB.Recordset
 Dim mTag As CTag
-Dim i  As Integer
+Dim I  As Integer
 Dim T As Object
 Dim Valor
 
@@ -3066,8 +3066,8 @@ Dim Valor
     Else
         Set mTag = New CTag
         
-        For i = 0 To Text1.Count - 1
-            Set T = Text1(i)
+        For I = 0 To Text1.Count - 1
+            Set T = Text1(I)
             mTag.Cargar T
             If mTag.Cargado Then
                 'Columna en la BD
@@ -3079,11 +3079,11 @@ Dim Valor
                 End If
                 If mTag.Formato <> "" Then Valor = Format(Valor, mTag.Formato)
                 
-                Text1(i).Text = Valor
+                Text1(I).Text = Valor
             Else
-                Text1(i).Text = ""
+                Text1(I).Text = ""
             End If
-        Next i
+        Next I
         varBloqCta = ""
         If Rs.Fields!apudirec = "S" Then
             chkUltimo.Value = 1
@@ -3387,7 +3387,7 @@ End Sub
 '----------------------------------------------------------------
 '----------------------------------------------------------------
 Private Sub Text1_LostFocus(Index As Integer)
-    Dim i As Integer
+    Dim I As Integer
     Dim Sql2 As String, Sql3 As String
     Dim mTag As CTag
     Dim Im As Currency
@@ -3598,11 +3598,11 @@ Dim vFact As Byte, vDocum As Byte
     
     If B And ModoLineas = 1 Then
         Sql = ""
-        Sql = DevuelveDesdeBDNew(cConta, "departamentos", "dpto", "codmacta", txtaux3(0).Text, "T", , "dpto", txtaux3(1).Text, "N")
+        Sql = DevuelveDesdeBDNew(cConta, "departamentos", "dpto", "codmacta", txtAux3(0).Text, "T", , "dpto", txtAux3(1).Text, "N")
         If Sql <> "" Then
             MsgBox "El código de departamento ya existe. Reintroduzca.", vbExclamation
             B = False
-            PonFoco txtaux3(1)
+            PonFoco txtAux3(1)
         End If
     End If
     
@@ -3827,7 +3827,7 @@ Dim RC2 As String
                     PonleFoco Text1(13)
                     B = False
                 Else
-                    If MsgBox("IBAN paraece incorrecto. ¿Continuar?", vbQuestion + vbYesNoCancel) <> vbYes Then B = False
+                    If MsgBox("IBAN parece incorrecto. ¿Continuar?", vbQuestion + vbYesNoCancel) <> vbYes Then B = False
                 End If
             End If
             Text1(29).Text = RC2
@@ -4126,7 +4126,7 @@ End Function
 
 Private Sub CargaGrid(Index As Integer, Enlaza As Boolean)
 Dim B As Boolean
-Dim i As Byte
+Dim I As Byte
 Dim tots As String
 
     On Error GoTo ECarga
@@ -4198,14 +4198,14 @@ Dim tabla As String
 End Function
 
 Private Sub LimpiarCamposFrame(Index As Integer)
-Dim i As Integer
+Dim I As Integer
     On Error Resume Next
 
     Select Case Index
         Case 2 'departamentos
-            For i = 0 To txtaux3.Count - 1
-                txtaux3(i).Text = ""
-            Next i
+            For I = 0 To txtAux3.Count - 1
+                txtAux3(I).Text = ""
+            Next I
     End Select
     
     If Err.Number <> 0 Then Err.Clear
@@ -4304,7 +4304,7 @@ Private Sub BotonAnyadirLinea(Index As Integer)
 Dim NumF As String
 Dim vWhere As String, vTabla As String
 Dim anc As Single
-Dim i As Integer
+Dim I As Integer
     
     ModoLineas = 1 'Posem Modo Afegir Llínia
     
@@ -4331,13 +4331,13 @@ Dim i As Integer
             
             LLamaLineas Index, ModoLineas, anc
         
-            For i = 0 To txtaux3.Count - 1
-                txtaux3(i).Text = ""
-            Next i
+            For I = 0 To txtAux3.Count - 1
+                txtAux3(I).Text = ""
+            Next I
             
-            txtaux3(0).Text = Text1(0).Text 'cuenta
-            txtaux3(1).Text = NumF 'departamento
-            PonFoco txtaux3(1)
+            txtAux3(0).Text = Text1(0).Text 'cuenta
+            txtAux3(1).Text = NumF 'departamento
+            PonFoco txtAux3(1)
          
     End Select
 End Sub
@@ -4345,7 +4345,7 @@ End Sub
 
 Private Sub BotonModificarLinea(Index As Integer)
     Dim anc As Single
-    Dim i As Integer
+    Dim I As Integer
     Dim J As Integer
     
     If AdoAux(Index).Recordset.EOF Then Exit Sub
@@ -4358,8 +4358,8 @@ Private Sub BotonModificarLinea(Index As Integer)
     Select Case Index
         Case 0, 1, 2 ' *** pose els index de llínies que tenen datagrid (en o sense tab) ***
             If DataGridAux(Index).Bookmark < DataGridAux(Index).FirstRow Or DataGridAux(Index).Bookmark > (DataGridAux(Index).FirstRow + DataGridAux(Index).VisibleRows - 1) Then
-                i = DataGridAux(Index).Bookmark - DataGridAux(Index).FirstRow
-                DataGridAux(Index).Scroll 0, i
+                I = DataGridAux(Index).Bookmark - DataGridAux(Index).FirstRow
+                DataGridAux(Index).Scroll 0, I
                 DataGridAux(Index).Refresh
             End If
               
@@ -4374,9 +4374,9 @@ Private Sub BotonModificarLinea(Index As Integer)
     
     Select Case Index
         Case 2 'departamentos
-            For i = 0 To 2
-                txtaux3(i).Text = DataGridAux(Index).Columns(i).Text
-            Next i
+            For I = 0 To 2
+                txtAux3(I).Text = DataGridAux(Index).Columns(I).Text
+            Next I
         
             CargarValoresAnteriores Me, 2, "FrameAux2"
         
@@ -4387,13 +4387,13 @@ Private Sub BotonModificarLinea(Index As Integer)
     ' *** foco al 1r camp visible de les llinies en grids que no siga PK (en o sense tab) ***
     Select Case Index
         Case 2 ' departamentos
-            PonFoco txtaux3(2)
+            PonFoco txtAux3(2)
     End Select
     ' ***************************************************************************************
 End Sub
 
 Private Sub PonerModo(Kmodo As Byte, Optional indFrame As Integer)
-Dim i As Integer, NumReg As Byte
+Dim I As Integer, NumReg As Byte
 Dim B As Boolean
 
     On Error GoTo EPonerModo
@@ -4403,9 +4403,9 @@ Dim B As Boolean
     Modo = Kmodo
     PonerIndicador lblIndicador, Modo, ModoLineas
        
-    For i = 0 To Text1.Count - 1
-        Text1(i).BackColor = vbWhite
-    Next i
+    For I = 0 To Text1.Count - 1
+        Text1(I).BackColor = vbWhite
+    Next I
        
     '---------------------------------------------
     B = Modo <> 0 And Modo <> 2
@@ -4422,11 +4422,11 @@ Dim B As Boolean
     
     'departamentos
     B = (Modo = 5 Or Modo = 1)
-    For i = 1 To 2
-        txtaux3(i).Enabled = B
-    Next i
+    For I = 1 To 2
+        txtAux3(I).Enabled = B
+    Next I
     B = (Modo = 5 Or Modo = 1) And ModoLineas = 1
-    txtaux3(1).Enabled = B
+    txtAux3(1).Enabled = B
     
 EPonerModo:
     If Err.Number <> 0 Then MsgBox Err.Number & ": " & Err.Description, vbExclamation
@@ -4445,8 +4445,8 @@ Dim B As Boolean
     Select Case Index
         Case 2 ' departamentos
             For jj = 1 To 2
-                txtaux3(jj).visible = B
-                txtaux3(jj).top = alto
+                txtAux3(jj).visible = B
+                txtAux3(jj).top = alto
             Next jj
     End Select
 End Sub
@@ -4482,7 +4482,7 @@ Dim cad As String
 End Sub
 
 Private Sub TxtAux3_GotFocus(Index As Integer)
-    If Not txtaux3(Index).MultiLine Then ConseguirFoco txtaux3(Index), Modo
+    If Not txtAux3(Index).MultiLine Then ConseguirFoco txtAux3(Index), Modo
 End Sub
 
 Private Sub TxtAux3_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -4499,7 +4499,7 @@ Dim cadMen As String
 Dim Nuevo As Boolean
 Dim Cadena As String
     
-    If Not PerderFocoGnral(txtaux3(Index), Modo) Then Exit Sub
+    If Not PerderFocoGnral(txtAux3(Index), Modo) Then Exit Sub
 
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
@@ -4509,7 +4509,7 @@ Dim Cadena As String
     ' ******* configurar el LostFocus dels camps de llínies (dins i fora grid) ********
     Select Case Index
         Case 1 ' departamento
-            PonerFormatoEntero txtaux3(Index)
+            PonerFormatoEntero txtAux3(Index)
             
     End Select
     
@@ -4541,9 +4541,9 @@ Private Sub CargaCombo()
 
  
     'Tipo de retencion
-    i = RecuperaValor(CadenaTipoRetencion, 1)
+    I = RecuperaValor(CadenaTipoRetencion, 1)
     Combo1.Clear
-    For J = 1 To i
+    For J = 1 To I
         'Cada cadena llevara las 3 primeras el codigo, de la 4 la descipcion
         Sql = RecuperaValor(CadenaTipoRetencion, J + 1)
         Combo1.AddItem Trim(Mid(Sql, 4))

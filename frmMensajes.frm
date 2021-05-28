@@ -26,6 +26,85 @@ Begin VB.Form frmMensajes
    ScaleWidth      =   16440
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame frameCSV_SII_Eliminar 
+      Height          =   3495
+      Left            =   1440
+      TabIndex        =   246
+      Top             =   4440
+      Width           =   7455
+      Begin VB.CommandButton cmdEliminarFraCSV 
+         Caption         =   "Cancelar"
+         Height          =   375
+         Index           =   1
+         Left            =   5640
+         TabIndex        =   252
+         Top             =   2880
+         Width           =   1455
+      End
+      Begin VB.CommandButton cmdEliminarFraCSV 
+         Caption         =   "Eliminar"
+         Height          =   375
+         Index           =   0
+         Left            =   4080
+         TabIndex        =   251
+         Top             =   2880
+         Width           =   1455
+      End
+      Begin VB.TextBox txtCSV 
+         Height          =   360
+         Left            =   2280
+         TabIndex        =   248
+         Top             =   1920
+         Width           =   2895
+      End
+      Begin VB.Label Label21 
+         AutoSize        =   -1  'True
+         Caption         =   "CSV"
+         Height          =   240
+         Index           =   6
+         Left            =   1800
+         TabIndex        =   250
+         Top             =   1920
+         Width           =   405
+      End
+      Begin VB.Label Label21 
+         Caption         =   $"frmMensajes.frx":000C
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   840
+         Index           =   5
+         Left            =   240
+         TabIndex        =   249
+         Top             =   720
+         Width           =   7095
+      End
+      Begin VB.Label Label7 
+         Caption         =   "Eliminar factura presentada en SII"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   15.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000080&
+         Height          =   495
+         Index           =   9
+         Left            =   240
+         TabIndex        =   247
+         Top             =   240
+         Width           =   6255
+      End
+   End
    Begin VB.Frame FrameObservacionesLinFrapro 
       Height          =   660
       Left            =   240
@@ -217,9 +296,9 @@ Begin VB.Form frmMensajes
       End
       Begin VB.ComboBox cboPais 
          Height          =   360
-         ItemData        =   "frmMensajes.frx":000C
+         ItemData        =   "frmMensajes.frx":00A0
          Left            =   1080
-         List            =   "frmMensajes.frx":0013
+         List            =   "frmMensajes.frx":00A7
          Style           =   2  'Dropdown List
          TabIndex        =   197
          Top             =   960
@@ -360,7 +439,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   2280
-         Picture         =   "frmMensajes.frx":001F
+         Picture         =   "frmMensajes.frx":00B3
          Top             =   1200
          Width           =   240
       End
@@ -378,7 +457,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   1
          Left            =   2280
-         Picture         =   "frmMensajes.frx":0A21
+         Picture         =   "frmMensajes.frx":0AB5
          Top             =   2160
          Width           =   240
       End
@@ -405,7 +484,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   2280
-         Picture         =   "frmMensajes.frx":1423
+         Picture         =   "frmMensajes.frx":14B7
          Top             =   1680
          Width           =   240
       End
@@ -487,7 +566,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   1800
-         Picture         =   "frmMensajes.frx":1E25
+         Picture         =   "frmMensajes.frx":1EB9
          Top             =   1200
          Width           =   240
       End
@@ -532,7 +611,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   1920
-         Picture         =   "frmMensajes.frx":1EB0
+         Picture         =   "frmMensajes.frx":1F44
          Top             =   2280
          Width           =   240
       End
@@ -685,15 +764,15 @@ Begin VB.Form frmMensajes
          BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
             NumListImages   =   3
             BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":28B2
+               Picture         =   "frmMensajes.frx":2946
                Key             =   ""
             EndProperty
             BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":80A4
+               Picture         =   "frmMensajes.frx":8138
                Key             =   ""
             EndProperty
             BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":8AB6
+               Picture         =   "frmMensajes.frx":8B4A
                Key             =   ""
             EndProperty
          EndProperty
@@ -857,7 +936,7 @@ Begin VB.Form frmMensajes
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   55
-         Text            =   "frmMensajes.frx":8F08
+         Text            =   "frmMensajes.frx":8F9C
          Top             =   900
          Width           =   4365
       End
@@ -868,7 +947,7 @@ Begin VB.Form frmMensajes
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   54
-         Text            =   "frmMensajes.frx":8F0E
+         Text            =   "frmMensajes.frx":8FA2
          Top             =   900
          Width           =   4125
       End
@@ -948,15 +1027,15 @@ Begin VB.Form frmMensajes
          BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
             NumListImages   =   3
             BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":8F14
+               Picture         =   "frmMensajes.frx":8FA8
                Key             =   ""
             EndProperty
             BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":E706
+               Picture         =   "frmMensajes.frx":E79A
                Key             =   ""
             EndProperty
             BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":F118
+               Picture         =   "frmMensajes.frx":F1AC
                Key             =   ""
             EndProperty
          EndProperty
@@ -1139,15 +1218,15 @@ Begin VB.Form frmMensajes
          BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
             NumListImages   =   3
             BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":F56A
+               Picture         =   "frmMensajes.frx":F5FE
                Key             =   ""
             EndProperty
             BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":14D5C
+               Picture         =   "frmMensajes.frx":14DF0
                Key             =   ""
             EndProperty
             BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmMensajes.frx":1576E
+               Picture         =   "frmMensajes.frx":15802
                Key             =   ""
             EndProperty
          EndProperty
@@ -1300,7 +1379,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   2
          Left            =   6480
-         Picture         =   "frmMensajes.frx":15BC0
+         Picture         =   "frmMensajes.frx":15C54
          Top             =   330
          Width           =   240
       End
@@ -1308,7 +1387,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   3
          Left            =   6120
-         Picture         =   "frmMensajes.frx":15D0A
+         Picture         =   "frmMensajes.frx":15D9E
          Top             =   330
          Width           =   240
       End
@@ -1854,7 +1933,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   5820
-         Picture         =   "frmMensajes.frx":15E54
+         Picture         =   "frmMensajes.frx":15EE8
          Top             =   1605
          Width           =   240
       End
@@ -1862,7 +1941,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   1
          Left            =   5820
-         Picture         =   "frmMensajes.frx":16856
+         Picture         =   "frmMensajes.frx":168EA
          Top             =   2070
          Width           =   240
       End
@@ -2012,7 +2091,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   4920
-         Picture         =   "frmMensajes.frx":17258
+         Picture         =   "frmMensajes.frx":172EC
          ToolTipText     =   "Quitar seleccion"
          Top             =   720
          Width           =   240
@@ -2021,7 +2100,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   1
          Left            =   4920
-         Picture         =   "frmMensajes.frx":173A2
+         Picture         =   "frmMensajes.frx":17436
          ToolTipText     =   "Todos"
          Top             =   1080
          Width           =   240
@@ -2386,7 +2465,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   6
          Left            =   13440
-         Picture         =   "frmMensajes.frx":174EC
+         Picture         =   "frmMensajes.frx":17580
          ToolTipText     =   "Puntear al Debe"
          Top             =   690
          Width           =   240
@@ -2395,7 +2474,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   7
          Left            =   13080
-         Picture         =   "frmMensajes.frx":17636
+         Picture         =   "frmMensajes.frx":176CA
          ToolTipText     =   "Quitar al Debe"
          Top             =   690
          Width           =   240
@@ -2467,7 +2546,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   1
          Left            =   1680
-         Picture         =   "frmMensajes.frx":17780
+         Picture         =   "frmMensajes.frx":17814
          Top             =   1200
          Width           =   240
       End
@@ -2548,7 +2627,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   3
          Left            =   1800
-         Picture         =   "frmMensajes.frx":1780B
+         Picture         =   "frmMensajes.frx":1789F
          Top             =   1380
          Width           =   240
       End
@@ -2729,7 +2808,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   5
          Left            =   7620
-         Picture         =   "frmMensajes.frx":17896
+         Picture         =   "frmMensajes.frx":1792A
          ToolTipText     =   "Quitar al Debe"
          Top             =   720
          Width           =   240
@@ -2738,7 +2817,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   4
          Left            =   7980
-         Picture         =   "frmMensajes.frx":179E0
+         Picture         =   "frmMensajes.frx":17A74
          ToolTipText     =   "Puntear al Debe"
          Top             =   720
          Width           =   240
@@ -2845,7 +2924,7 @@ Begin VB.Form frmMensajes
          MultiLine       =   -1  'True
          TabIndex        =   94
          Tag             =   "Observaciones|T|S|||cuentas|obsdatos|||"
-         Text            =   "frmMensajes.frx":17B2A
+         Text            =   "frmMensajes.frx":17BBE
          Top             =   720
          Width           =   7665
       End
@@ -2857,7 +2936,7 @@ Begin VB.Form frmMensajes
          MultiLine       =   -1  'True
          TabIndex        =   93
          Tag             =   "Observaciones|T|S|||cuentas|obsdatos|||"
-         Text            =   "frmMensajes.frx":17B30
+         Text            =   "frmMensajes.frx":17BC4
          Top             =   720
          Width           =   1005
       End
@@ -2878,7 +2957,7 @@ Begin VB.Form frmMensajes
          ScrollBars      =   2  'Vertical
          TabIndex        =   90
          Tag             =   "Observaciones|T|S|||cuentas|obsdatos|||"
-         Text            =   "frmMensajes.frx":17B36
+         Text            =   "frmMensajes.frx":17BCA
          Top             =   1320
          Width           =   8775
       End
@@ -3218,7 +3297,7 @@ Begin VB.Form frmMensajes
       Begin VB.Image Image3 
          Height          =   240
          Left            =   1290
-         Picture         =   "frmMensajes.frx":17B3C
+         Picture         =   "frmMensajes.frx":17BD0
          Top             =   1920
          Width           =   240
       End
@@ -3267,9 +3346,9 @@ Begin VB.Form frmMensajes
       Width           =   12375
       Begin VB.ComboBox cboRiesgoYelConfirming 
          Height          =   360
-         ItemData        =   "frmMensajes.frx":1853E
+         ItemData        =   "frmMensajes.frx":185D2
          Left            =   7320
-         List            =   "frmMensajes.frx":18540
+         List            =   "frmMensajes.frx":185D4
          Style           =   2  'Dropdown List
          TabIndex        =   241
          Top             =   360
@@ -3390,7 +3469,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   2
          Left            =   1680
-         Picture         =   "frmMensajes.frx":18542
+         Picture         =   "frmMensajes.frx":185D6
          Top             =   6060
          Width           =   240
       End
@@ -3713,7 +3792,7 @@ Public Opcion As Byte
      
      '69 Observaciones lineas facturas proveedor
      
-     
+     '70  Eliminar factura presentada al SII.  Pedir CSV
      
 Public Parametros As String
     '1.- Vendran empipados: Cuenta, PunteadoD, punteadoH, pdteD,PdteH
@@ -4295,6 +4374,25 @@ Private Sub cmdCtaBalan_Click(Index As Integer)
     Unload Me
 End Sub
 
+Private Sub cmdEliminarFraCSV_Click(Index As Integer)
+    CadenaDesdeOtroForm = ""
+    If Index = 0 Then
+
+        txtCSV.Text = Trim(txtCSV.Text)
+        I = 0
+        If Len(txtCSV.Text) < 16 Then I = 1
+        If Len(txtCSV.Text) > 16 Then I = 2
+        
+        If I > 0 Then
+            Sql = "Longitud del CSV es de 16 caracteres alfanumericos"
+            If I = 2 Then Sql = Sql & vbCrLf & vbCrLf & "¿Continuar?"
+            If MsgBox(Sql, vbQuestion + IIf(I = 1, vbOKOnly, vbYesNoCancel)) <> vbYes Then Exit Sub
+        End If
+        CadenaDesdeOtroForm = txtCSV.Text
+    End If
+    Unload Me
+End Sub
+
 Private Sub cmdEliminarRiesgoT_Click(Index As Integer)
     CadenaDesdeOtroForm = ""
     If Index = 0 Then
@@ -4792,6 +4890,7 @@ Dim W As Integer, H As Integer
     FrameGeneraTransfer.visible = False
     FrameAmentoDigito.visible = False
     FrameObservacionesLinFrapro.visible = False
+    frameCSV_SII_Eliminar.visible = False
     'YA ESTA DISPONIBLE  PonerFrameVisible
     
     ' botón de dividir vencimiento cuando estamos en talones/pagares pendientes
@@ -5153,6 +5252,14 @@ Dim W As Integer, H As Integer
         cmdObservaLin(1).Cancel = True
         txtObservalin.MaxLength = IIf(vParam.AnyadeNumFaproAmpliacApunte, 40, 50)
         txtObservalin.Text = CadenaDesdeOtroForm
+    Case 70
+        
+        Me.Caption = "SII"
+        PonerFrameVisible frameCSV_SII_Eliminar, H, W
+        Me.cmdEliminarFraCSV(1).Cancel = True
+        Me.txtCSV.Text = ""
+        CadenaDesdeOtroForm = ""
+        H = H + 240
     End Select
     
     Me.Width = W + 120
@@ -7745,7 +7852,7 @@ Dim Visi As Boolean
     Label52(1).Refresh
     cmdElimRiesgoTalPag(1).visible = Visi
     lblFecha(2).visible = Visi
-    ImgFec(2).visible = Visi
+    imgFec(2).visible = Visi
     txtFecha(2).visible = Visi
     chkVarios(1).visible = Visi
     If PrimeraVez Then Exit Sub

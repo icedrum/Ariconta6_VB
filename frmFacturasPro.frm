@@ -624,14 +624,14 @@ Begin VB.Form frmFacturasPro
       Left            =   3330
       TabIndex        =   67
       Top             =   90
-      Width           =   3645
+      Width           =   3765
       Begin MSComctlLib.Toolbar Toolbar2 
          Height          =   330
          Left            =   210
          TabIndex        =   68
          Top             =   180
-         Width           =   3405
-         _ExtentX        =   6006
+         Width           =   3525
+         _ExtentX        =   6218
          _ExtentY        =   582
          ButtonWidth     =   609
          ButtonHeight    =   582
@@ -4244,12 +4244,13 @@ Dim I As Integer
         .Buttons(2).Image = 44
         .Buttons(3).Image = 42
         .Buttons(4).Image = 36
+        
         .Buttons(5).Image = 45
         .Buttons(5).visible = vParam.SIITiene
         
         
-        .Buttons(6).Image = 31
-        .Buttons(7).Image = 28
+        .Buttons(7).Image = 31
+        .Buttons(8).Image = 28
     End With
 
 
@@ -5354,6 +5355,9 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
     Dim Mc As Contadores
     Dim SqlLog As String
     
+    Dim CSV_SII As String
+    Dim Id_ModifSII As Long
+    
     'Ciertas comprobaciones
     If Data1.Recordset Is Nothing Then Exit Sub
     If Data1.Recordset.EOF Then Exit Sub
@@ -5375,6 +5379,36 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
     If Not ComprobarPeriodo2(23, 1) Then Exit Sub
     If Not ComprobarPeriodo2(1, 2) Then Exit Sub
     
+    'Si esta eliminado una factura presentada, singnifica que YA le ha dado a MODIFICAR
+    CSV_SII = ""
+    If vParam.SIITiene Then
+        'SI esta presentada...
+     
+            If DBLet(Data1.Recordset!sii_id, "N") > 0 Then
+                If Text1(28).BackColor = vbSiiMofificando Then
+                    CadenaDesdeOtroForm = ""
+                    BuscaChekc = "numserie = " & DBSet(Data1.Recordset!NUmSerie, "T") & " AND factura_regis =" & Data1.Recordset!Numregis & " AND anofactu=" & Data1.Recordset!Anofactu & " AND estado=0 AND esfacturacliente" '=0
+                    BuscaChekc = DevuelveDesdeBD("ID", "modificarsii", BuscaChekc, "0")
+                    Id_ModifSII = Val(BuscaChekc)
+                    If Id_ModifSII = 0 Then
+                        MsgBoxA "No se encuetra registro en la tabla de modificacion de facturas SII(" & Id_ModifSII & ")", vbExclamation
+                    
+                    Else
+                        frmMensajes.Opcion = 70
+                        frmMensajes.Show vbModal
+                    End If
+                    If CadenaDesdeOtroForm = "" Then Exit Sub
+                    CSV_SII = CStr(CadenaDesdeOtroForm)
+                    CadenaDesdeOtroForm = ""
+                End If
+            End If
+
+    End If
+    
+    
+    
+    
+    
     'Comprobamos que no esta actualizada ya
     Sql = ""
     If Not IsNull(Data1.Recordset!NumAsien) Then
@@ -5388,7 +5422,9 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
     Sql = Sql & vbCrLf & "          ¿Desea continuar ?" & vbCrLf
     
     If Not EliminarDesdeActualizar Then
-        If MsgBoxA(Sql, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+        If CSV_SII = "" Then   'si ha abierto el FORM para pedir el CSV del SII, YA no hace falta preguntar
+            If MsgBoxA(Sql, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+        End If
     End If
     
     NumRegElim = Data1.Recordset.AbsolutePosition
@@ -5433,6 +5469,32 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
             Mc.DevolverContador "0", Fec <= vParam.fechafin, I
             Set Mc = Nothing
         
+        
+            If Id_ModifSII > 0 And CSV_SII <> "" Then
+                'Cierro el proceso de eliminacion de facturas
+                Sql = "UPDATE modificarsii SET estado=1, FechaHoraCierreProceso =" & DBSet(Now, "FH")
+                Sql = Sql & ", Observaciones=concat(coalesce(observaciones,''),'  ','Eliminada en portal SII-AEAT')"
+                Sql = Sql & " WHERE ID = " & Id_ModifSII
+                I = 0
+                If Not Ejecuta(Sql, False) Then I = 1
+                
+                
+                BuscaChekc = DevuelveDesdeBD("SII_ID", "modificarsii", "ID", CStr(Id_ModifSII))
+                If BuscaChekc = "" Then
+                    I = 20
+                Else
+                    'ACtualizo SII
+                    Sql = "UPDATE aswsii.envio_facturas_recibidas SET "
+                    Sql = Sql & " Resultado = 'Eliminado', CSV =" & DBSet(CSV_SII, "T")
+                    Sql = Sql & " , Mensaje =concat('Eliminado en portal-Ariconta('," & Id_ModifSII & ",')    ',coalesce(mensaje,''))"
+                    Sql = Sql & " WHERE IDEnvioFacturasRecibidas =" & BuscaChekc
+                    If Not Ejecuta(Sql, False) Then I = I + 30
+                End If
+                
+                
+                If I > 0 Then MsgBoxA "Error actualizando tablas auxiliar SII. Llame a soporte. Codigo:  " & I, vbExclamation
+                    
+            End If
     Else
         'La borrara desde este mismo form
         Conn.BeginTrans
@@ -5462,7 +5524,7 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
             If TotalRegistros(Sql) <> 0 Then
                 MsgBox "Hay pagos que ya se han efectuado. Revise cartera y contabilidad.", vbExclamation
             Else
-              
+                
                 Sql = "DELETE from pagos where numserie = " & DBSet(Data1.Recordset!NUmSerie, "T") & " and codmacta = " & DBSet(Data1.Recordset!codmacta, "T")
                 Sql = Sql & " and numfactu = " & DBSet(Data1.Recordset!numfactu, "T") & " and fecfactu = " & DBSet(Data1.Recordset!FecFactu, "F") & " and imppagad <> 0 and not imppagad is null "
         
@@ -6362,7 +6424,7 @@ Dim Sigo As Byte
             
             BuscaChekc = "numserie = " & DBSet(Data1.Recordset!NUmSerie, "T") & " AND numregis =" & Data1.Recordset!Numregis & " AND anofactu=" & Data1.Recordset!Anofactu
             
-            frmSiiPreparaModificar.EsCliente = False
+            frmSiiPreparaModificar.Escliente = False
             frmSiiPreparaModificar.where = BuscaChekc
             frmSiiPreparaModificar.AbrirProceso = Sigo = 1
             CadenaDesdeOtroForm = ""
@@ -6381,7 +6443,7 @@ Dim Sigo As Byte
             
             
             
-            If Button.Index = 6 Then
+            If Button.Index = 7 Then
                 'Albaranes
                 If FijarCarpetaDestinoPendientes(False) Then
                     frmProAlbaranres.Carpeta = Sql
@@ -8677,7 +8739,7 @@ Dim ModEspecial As Boolean
         If vParam.SIITiene Then
             'SI esta presentada...
             If Modo <> 3 And Modo <> 1 Then
-                If DBLet(Data1.Recordset!SII_ID, "N") > 0 Then
+                If DBLet(Data1.Recordset!sii_id, "N") > 0 Then
                 
                      If Text1(28).BackColor = vbSiiMofificando Then
                         'Esta modificando la factura YA presentada.
@@ -9619,7 +9681,7 @@ Dim CaptToolText As String
     '                   9.  TODO OK
     CaptToolText = ""
 
-    If DBLet(Data1.Recordset!SII_ID, "N") = 0 Then
+    If DBLet(Data1.Recordset!sii_id, "N") = 0 Then
         Color = 0
     Else
     
@@ -9638,7 +9700,7 @@ Dim CaptToolText As String
         Else
     
             Aux = "concat(enviada,'|',coalesce(csv,''),'|',coalesce(resultado,''),'|')"
-            Aux = DevuelveDesdeBD(Aux, "aswsii.envio_facturas_recibidas", "IDEnvioFacturasRecibidas", CStr(Data1.Recordset!SII_ID))
+            Aux = DevuelveDesdeBD(Aux, "aswsii.envio_facturas_recibidas", "IDEnvioFacturasRecibidas", CStr(Data1.Recordset!sii_id))
             
             If Aux = "" Then Aux = "1|||"
             If RecuperaValor(Aux, 1) = 1 Then
@@ -9818,21 +9880,21 @@ Private Sub txtPDF_DblClick()
     Sql = ObtenerWhereCP(True) & " AND orden =1"
     Sql = "Select campo,docum from factpro_fichdocs " & Sql
     
-    adodc1.ConnectionString = Conn
-    adodc1.RecordSource = Sql
-    adodc1.Refresh
+    Adodc1.ConnectionString = Conn
+    Adodc1.RecordSource = Sql
+    Adodc1.Refresh
 
-    If adodc1.Recordset.EOF Then
+    If Adodc1.Recordset.EOF Then
         'NO HAY NINGUNA
         MsgBoxA "Ningun documento asociado a la factura", vbExclamation
     Else
         'LEEMOS LA IMAGEN
 
         
-        Sql = App.Path & "\Temp\" & adodc1.Recordset!DOCUM
-        LeerBinary adodc1.Recordset!Campo, Sql
-        adodc1.RecordSource = "Select codigo from factpro_fichdocs WHERE false "
-        adodc1.Refresh
+        Sql = App.Path & "\Temp\" & Adodc1.Recordset!DOCUM
+        LeerBinary Adodc1.Recordset!Campo, Sql
+        Adodc1.RecordSource = "Select codigo from factpro_fichdocs WHERE false "
+        Adodc1.Refresh
         
         
         Call ShellExecute(Me.hwnd, "Open", Sql, "", "", 1)
@@ -9926,20 +9988,20 @@ Dim Fichero  As String
     
     'Abro parar guardar el binary
     C = "Select * from factpro_fichdocs where codigo =" & L
-    adodc1.ConnectionString = Conn
-    adodc1.RecordSource = C
-    adodc1.Refresh
+    Adodc1.ConnectionString = Conn
+    Adodc1.RecordSource = C
+    Adodc1.Refresh
 '
-    If adodc1.Recordset.EOF Then
+    If Adodc1.Recordset.EOF Then
         'MAAAAAAAAAAAAL
 
     Else
         'Guardar
-        GuardarBinary adodc1.Recordset!Campo, Fichero
-        adodc1.Recordset.Update
+        GuardarBinary Adodc1.Recordset!Campo, Fichero
+        Adodc1.Recordset.Update
         
-        adodc1.RecordSource = "Select * from factpro_fichdocs where false"
-        adodc1.Refresh
+        Adodc1.RecordSource = "Select * from factpro_fichdocs where false"
+        Adodc1.Refresh
     End If
     InsertarDesdeFichero = True
 End Function

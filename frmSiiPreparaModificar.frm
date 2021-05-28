@@ -544,14 +544,13 @@ Dim B As Boolean
         'Factura aceptada con errores. Dar por buena tal y como está
         B = AceptarFacturaAceptadaConErrores
     ElseIf Index = 1 Then
-            If AbrirProceso Then
-                B = InciarProcesoModificacion(False)
-            
-            Else
-                B = SubirFacturaDenuevo
-            End If
-            lblInd.Caption = ""
-            
+        If AbrirProceso Then
+            B = InciarProcesoModificacion(False)
+        
+        Else
+            B = SubirFacturaDenuevo
+        End If
+        lblInd.Caption = ""
     Else
         B = True
     End If
@@ -587,7 +586,7 @@ Private Sub Form_Load()
     Text1(5).Text = miRsAux!Nommacta
     Text1(6).Text = miRsAux!TotalFac
     Text1(7).Text = miRsAux!Anofactu
-    Text1(8).Text = miRsAux!SII_ID
+    Text1(8).Text = miRsAux!sii_id
     miRsAux.Close
     
     Text1(3).visible = Not Escliente
@@ -650,7 +649,7 @@ Private Sub LeerDatosAswii()
     If Escliente Then
         Cadena = "Select Enviada ,Resultado ,CSV ,Mensaje from aswsii.envio_facturas_emitidas WHERE  IDEnvioFacturasEmitidas = " & Text1(8).Text
     Else
-        Cadena = "Select Enviada, Resultado ,CSV ,Mensaje,REG_IDF_IDEF_NIF from aswsii.envio_facturas_recibidas  WHERE  IDEnvioFacturasRecibidas = " & Text1(8).Text
+        Cadena = "Select Enviada, Resultado ,CSV ,Mensaje,REG_IDF_IDEF_NIF,REG_FR_CNT_IDOtro_ID from aswsii.envio_facturas_recibidas  WHERE  IDEnvioFacturasRecibidas = " & Text1(8).Text
     End If
     miRsAux.Open Cadena, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
@@ -679,8 +678,11 @@ Private Sub LeerDatosAswii()
         
         Cadena = DevuelveDesdeBD("nifdatos", "factpro", where & " AND 1", "1")
         
-        If Cadena <> miRsAux!REG_IDF_IDEF_NIF Then Err.Raise 513, , "Nifs diferentes: " & Cadena & "    Sii:" & miRsAux!REG_IDF_IDEF_NIF
-        
+        If DBLet(miRsAux!REG_IDF_IDEF_NIF, "T") <> "" Then
+            If Cadena <> miRsAux!REG_IDF_IDEF_NIF Then Err.Raise 513, , "Nifs diferentes: " & Cadena & "    Sii:" & miRsAux!REG_IDF_IDEF_NIF
+        Else
+            If Cadena <> DBLet(miRsAux!REG_FR_CNT_IDOtro_ID, "T") Then Err.Raise 513, , "Nifs-IdOtro diferentes: " & Cadena & "    Sii(otro):" & miRsAux!REG_FR_CNT_IDOtro_ID
+        End If
     End If
     'ok
     ValorDesdeAswii = miRsAux!csv
@@ -836,7 +838,10 @@ Private Function ACtualizaFacturaEstado()
         Cadena = IIf(Me.Escliente, "factcli", "factpro")
         lblInd.Caption = "Actualiza tabla " & Cadena
         lblInd.Refresh
-        Cadena = "UPDATE " & Cadena & " SET sii_estado=9 WHERE " & Me.where
+        Cadena = "UPDATE " & Cadena & " SET sii_estado=9 "
+        If Not Me.Escliente Then Cadena = Cadena & ", fecregcontable = fecregcontable "
+        Cadena = Cadena & " WHERE " & Me.where
+        
         If Not Ejecuta(Cadena) Then
             MsgBox "Avise a soporte técnico", vbCritical
       
@@ -899,7 +904,12 @@ Dim Sql As String
         Sql = IIf(Me.Escliente, "factcli", "factpro")
         lblInd.Caption = "Actualiza tabla " & Sql
         lblInd.Refresh
-        Sql = "UPDATE " & Sql & " SET sii_estado= " & IIf(DeAceptadaConErres, "9", "8") & " WHERE " & Me.where
+        Sql = "UPDATE " & Sql & " SET sii_estado= " & IIf(DeAceptadaConErres, "9", "8")
+        If Not Me.Escliente Then Sql = Sql & ", fecregcontable = fecregcontable "
+        Sql = Sql & "  WHERE " & Me.where
+
+        
+        
         If Not Ejecuta(Sql) Then
             MsgBox "Avise a soporte técnico", vbCritical
         Else

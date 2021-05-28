@@ -503,14 +503,14 @@ Dim Todo As Boolean
     
     Sql = SQL_
     'Solo esta factura
-    I = InStr(1, Sql, " ORDER BY ")
+    I = InStr(1, Sql, " WHERE ")
     Msg = Mid(Sql, I)
     Sql = Mid(Sql, 1, I - 1)
-    Sql = Sql & " AND numserie = " & DBSet(RecuperaValor(Me.wndReportControl.SelectedRows(0).Record.Tag, 1), "T")
+    Sql = Sql & " WHERE numserie = " & DBSet(RecuperaValor(Me.wndReportControl.SelectedRows(0).Record.Tag, 1), "T")
     Sql = Sql & " AND " & IIf(cboTipo.ListIndex = 0, "numfactu", "numregis") & " = "
     Sql = Sql & RecuperaValor(Me.wndReportControl.SelectedRows(0).Record.Tag, 2)
     Sql = Sql & " AND  anofactu = " & RecuperaValor(Me.wndReportControl.SelectedRows(0).Record.Tag, 3)
-    Sql = Sql & Msg
+    
     Set miRsAux = New ADODB.Recordset
     miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If miRsAux.EOF Then
