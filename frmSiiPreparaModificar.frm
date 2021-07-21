@@ -24,6 +24,17 @@ Begin VB.Form frmSiiPreparaModificar
    StartUpPosition =   2  'CenterScreen
    Begin VB.CommandButton cmdProceo 
       Cancel          =   -1  'True
+      Caption         =   "Borrada portal"
+      Height          =   555
+      Index           =   3
+      Left            =   120
+      TabIndex        =   27
+      ToolTipText     =   "dar por buena la factura"
+      Top             =   5520
+      Visible         =   0   'False
+      Width           =   1305
+   End
+   Begin VB.CommandButton cmdProceo 
       Caption         =   "Correcta"
       Height          =   435
       Index           =   2
@@ -543,6 +554,11 @@ Dim B As Boolean
     If Index = 2 Then
         'Factura aceptada con errores. Dar por buena tal y como está
         B = AceptarFacturaAceptadaConErrores
+        
+    ElseIf Index = 3 Then
+        'Factura de proveedor borrada en portal
+        B = FacturaPRoveedorBorradaEnPortal
+        
     ElseIf Index = 1 Then
         If AbrirProceso Then
             B = InciarProcesoModificacion(False)
@@ -586,7 +602,7 @@ Private Sub Form_Load()
     Text1(5).Text = miRsAux!Nommacta
     Text1(6).Text = miRsAux!TotalFac
     Text1(7).Text = miRsAux!Anofactu
-    Text1(8).Text = miRsAux!sii_id
+    Text1(8).Text = miRsAux!SII_ID
     miRsAux.Close
     
     Text1(3).visible = Not Escliente
@@ -597,6 +613,8 @@ Private Sub Form_Load()
     
     Me.FrameInicio.visible = Not AbrirProceso
     Me.cmdProceo(2).visible = False
+    cmdProceo(3).visible = False
+    cmdProceo(3).Enabled = False
     If AbrirProceso Then
         Text1(9).Text = ""
         'Voy a ver el CSV y si el estado era correcto
@@ -616,6 +634,15 @@ Private Sub Form_Load()
         'Voy a ir a mirar la tabla de modificacion
         Me.Caption = "Permitir modificar factura SII. "
         cmdProceo(1).Caption = "Modificar"
+        
+        'Si no es aceptada con errores , permito boton de borrar
+        If Not EsAceptadaConErrores Then
+            If Not Escliente Then
+                cmdProceo(3).visible = True
+                cmdProceo(3).Enabled = True
+            End If
+        End If
+        
         
         Text1(9).Locked = False
     Else
@@ -953,4 +980,87 @@ Private Function AceptarFacturaAceptadaConErrores() As Boolean
         
     If InciarProcesoModificacion(True) Then AceptarFacturaAceptadaConErrores = True
         
+End Function
+
+Private Function FacturaPRoveedorBorradaEnPortal() As Boolean
+Dim Aux As String
+    
+    On Error GoTo eFacturaPRoveedorBorradaEnPortal
+    
+    FacturaPRoveedorBorradaEnPortal = False
+    
+    
+    'NO deberia.
+    'Por si las moscas
+    If Escliente Then Exit Function
+    
+    
+    
+    
+    'MEnsaje de confirmacion
+    
+    Cadena = InputBox("Password de seguiridad para continuar", "SII", "")
+    If UCase(Cadena) <> "ARIADNA" Then
+        If Cadena <> "" Then MsgBox "Password incorrecto", vbExclamation
+        Exit Function
+    End If
+            
+    
+    
+    'PEDIMOS EL CSV
+    Cadena = ""
+    Do
+        Cadena = InputBox("CSV asignado al eliminar factura en portal SII", "CSV SII", "")
+        If Cadena = "" Then
+            NumRegElim = 0
+        Else
+            'Ejemplo CSV F33MUSMWJX4ZK4GY
+            
+            If Len(Cadena) <> 16 Then Cadena = ""
+            If InStr(1, Cadena, " ") > 0 Then Cadena = ""
+            If Cadena = "" Then
+                MsgBox "CSV incorrecto", vbExclamation
+                
+            Else
+                NumRegElim = 0
+            End If
+        End If
+    Loop Until NumRegElim = 0
+    
+    
+    If Cadena = "" Then Exit Function
+    
+    
+    Cadena = UCase(Cadena)
+    'Dos pasos.
+    'Updatear en aswsii la factura a anulado, con el CSV y observaciones
+    Cadena = " UPDATE aswsii.envio_facturas_recibidas SET CSV = " & DBSet(Cadena, "T")
+    Cadena = Cadena & ", Resultado= 'Eliminado', mensaje =concat('[Eliminada en portal] ',coalesce(mensaje,''))"
+    Cadena = Cadena & "  WHERE  IDEnvioFacturasRecibidas = " & Text1(8).Text
+    
+    Conn.Execute Cadena
+    
+    'Updatear factpro poneiendo el SII_ID a NULL
+    Cadena = "INSERT INTO modificarsii (FechaHoraProceso,usuario,PC,estado,SII_ID,CSV_anterior,EsFacturaCliente,numserie,factura_regis,fecfactu,anofactu,nif,Observaciones"
+    Cadena = Cadena & ",FechaHoraCierreProceso) VALUES ("
+    Cadena = Cadena & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & "," & DBSet(vUsu.PC, "T") & ",1"
+    Cadena = Cadena & "," & Text1(8).Text & "," & DBSet(ValorDesdeAswii, "T") & ","
+    'EsFacturaCliente,numserie,factura_regis,fecfactu,
+    Cadena = Cadena & IIf(Escliente, 1, 0) & ",'" & Text1(0).Text & "'," & Text1(1).Text & "," & DBSet(Text1(2).Text, "F") & ","
+    ' anofactu,nif,Observaciones
+    Cadena = Cadena & Text1(7).Text & "," & DBSet(Text1(4).Text, "T") & "," & DBSet("Eliminada en portal " & vbCrLf & Text1(9).Text, "T")
+    Cadena = Cadena & "," & DBSet(Now, "FH")
+    Cadena = Cadena & ")"
+    Conn.Execute Cadena
+    
+    Cadena = "UPDATE factpro set SII_ID  =NULL, SII_estado =0,  fecregcontable =fecregcontable "
+    Cadena = Cadena & " WHERE " & Me.where
+    Conn.Execute Cadena
+    
+    espera 0.75
+    
+    FacturaPRoveedorBorradaEnPortal = True
+    Exit Function
+eFacturaPRoveedorBorradaEnPortal:
+    MuestraError Err.Number, Err.Description
 End Function

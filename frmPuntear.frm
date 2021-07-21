@@ -870,7 +870,7 @@ Private Sub Form_Load()
         .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
-    
+    imgCuentas.Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
     FramePorImportes.visible = False
     FrameDatos.Enabled = True

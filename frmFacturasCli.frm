@@ -4095,7 +4095,7 @@ Dim CaptToolText As String
     ' Si es mayor :     8. Modificandose y luego la modifican primero en el SII
     '                   9.  TODO OK
     CaptToolText = ""
-    If DBLet(Data1.Recordset!sii_id, "N") = 0 Then
+    If DBLet(Data1.Recordset!SII_ID, "N") = 0 Then
         Color = 0
     Else
         
@@ -4114,7 +4114,7 @@ Dim CaptToolText As String
     
             'Lo que habia
             Aux = "concat(enviada,'|',coalesce(csv,''),'|',coalesce(resultado,''),'|')"
-            Aux = DevuelveDesdeBD(Aux, "aswsii.envio_facturas_emitidas", "IDEnvioFacturasEmitidas", CStr(Data1.Recordset!sii_id))
+            Aux = DevuelveDesdeBD(Aux, "aswsii.envio_facturas_emitidas", "IDEnvioFacturasEmitidas", CStr(Data1.Recordset!SII_ID))
             If Aux = "" Then Aux = "1|||"
             If RecuperaValor(Aux, 1) = 1 Then
                 If RecuperaValor(Aux, 2) = "" Then
@@ -5043,7 +5043,7 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
     If vParam.SIITiene Then
         'SI esta presentada...
      
-            If DBLet(Data1.Recordset!sii_id, "N") > 0 Then
+            If DBLet(Data1.Recordset!SII_ID, "N") > 0 Then
                 If Text1(28).BackColor = vbSiiMofificando Then
                     CadenaDesdeOtroForm = ""
                     BuscaChekc = "numserie = " & DBSet(Data1.Recordset!NUmSerie, "T") & " AND factura_regis =" & Data1.Recordset!numfactu & " AND anofactu=" & Data1.Recordset!Anofactu & " AND estado=0 AND esfacturacliente" '=1 cliente
@@ -8051,6 +8051,8 @@ Dim C As String
         cad = "select h.numlinea,  h.codigiva, tt.nombriva,  h.baseimpo, h.impoiva, h.imporec from factcli_totales h inner join tiposiva tt on h.codigiva = tt.codigiva  WHERE "
         cad = cad & " numserie=" & DBSet(Data1.Recordset!NUmSerie, "T")
         cad = cad & " and numfactu=" & Data1.Recordset!numfactu
+        
+        'Julio2021    No deberia linkar por fecha.  Con el año SOBRA
         cad = cad & " and fecfactu=" & DBSet(Data1.Recordset!FecFactu, "F")
         cad = cad & " and anofactu=" & Data1.Recordset!Anofactu
         GroupBy = ""
@@ -8108,11 +8110,11 @@ Dim Contador As Integer
     Else
         Set IT = lw1.ListItems.Add()
 
-        IT.Text = Me.Adodc1.Recordset!Orden '"Nuevo " & Contador
+        IT.Text = Me.adodc1.Recordset!Orden '"Nuevo " & Contador
         
-        IT.SubItems(1) = Me.Adodc1.Recordset.Fields(5)  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
+        IT.SubItems(1) = Me.adodc1.Recordset.Fields(5)  'Abs(DesdeBD)   'DesdeBD 0:NO  numero: el codigo en la BD
         IT.SubItems(2) = vpaz
-        IT.SubItems(3) = Me.Adodc1.Recordset.Fields(0)
+        IT.SubItems(3) = Me.adodc1.Recordset.Fields(0)
         
         Set IT = Nothing
     End If
@@ -8300,7 +8302,7 @@ Dim ModEspecial As Boolean
     If vParam.SIITiene Then
             'SI esta presentada...
         If Modo <> 3 And Modo <> 1 Then
-            If DBLet(Data1.Recordset!sii_id, "N") > 0 Then
+            If DBLet(Data1.Recordset!SII_ID, "N") > 0 Then
                 If Text1(28).BackColor = vbSiiMofificando Then
                     'Esta modificando la factura YA presentada.
                     'Con lo cual le deja pasar

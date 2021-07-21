@@ -3,24 +3,24 @@ Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form frmTESRemesasGrab 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "1"
-   ClientHeight    =   5520
+   ClientHeight    =   5835
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   7860
+   ClientWidth     =   7965
    Icon            =   "frmTESRemesasGrab.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   5520
-   ScaleWidth      =   7860
+   ScaleHeight     =   5835
+   ScaleWidth      =   7965
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin VB.Frame FrameCambioRemesa 
-      Height          =   5355
+      Height          =   5595
       Left            =   60
       TabIndex        =   0
       Top             =   60
-      Width           =   7725
+      Width           =   7845
       Begin VB.CommandButton cmdRemeTipo1 
          Caption         =   "Crear Soporte"
          BeginProperty Font 
@@ -36,15 +36,52 @@ Begin VB.Form frmTESRemesasGrab
          Index           =   1
          Left            =   4320
          TabIndex        =   20
-         Top             =   4800
+         Top             =   5040
          Width           =   1515
       End
       Begin VB.Frame FrameTipo1_2 
-         Height          =   3375
+         Height          =   3615
          Left            =   120
          TabIndex        =   9
          Top             =   1320
-         Width           =   7425
+         Width           =   7545
+         Begin VB.CheckBox chkB2B 
+            Caption         =   "SEPA B2B"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Left            =   3960
+            TabIndex        =   32
+            Top             =   2400
+            Visible         =   0   'False
+            Width           =   2505
+         End
+         Begin VB.ComboBox ComboSufijos 
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   360
+            ItemData        =   "frmTESRemesasGrab.frx":000C
+            Left            =   240
+            List            =   "frmTESRemesasGrab.frx":0019
+            Style           =   2  'Dropdown List
+            TabIndex        =   31
+            Top             =   2760
+            Width           =   3315
+         End
          Begin VB.CheckBox chkAgrupaVtosFichero 
             Caption         =   "Agrupar vencimientos cliente"
             BeginProperty Font 
@@ -57,10 +94,10 @@ Begin VB.Form frmTESRemesasGrab
                Strikethrough   =   0   'False
             EndProperty
             Height          =   255
-            Left            =   3690
+            Left            =   3960
             TabIndex        =   19
-            Top             =   2850
-            Width           =   3585
+            Top             =   3120
+            Width           =   3345
          End
          Begin VB.CheckBox chkAnticipoCredito 
             Caption         =   "Anticipo Crédito"
@@ -74,13 +111,13 @@ Begin VB.Form frmTESRemesasGrab
                Strikethrough   =   0   'False
             EndProperty
             Height          =   255
-            Left            =   3690
+            Left            =   3960
             TabIndex        =   18
-            Top             =   2460
-            Width           =   2745
+            Top             =   2760
+            Width           =   2505
          End
          Begin VB.OptionButton optSepaXML 
-            Caption         =   "Fecha vencimiento del recibo"
+            Caption         =   "Fecha vto del recibo"
             BeginProperty Font 
                Name            =   "Verdana"
                Size            =   9.75
@@ -92,10 +129,10 @@ Begin VB.Form frmTESRemesasGrab
             EndProperty
             Height          =   240
             Index           =   1
-            Left            =   3660
+            Left            =   4800
             TabIndex        =   17
-            Top             =   2040
-            Width           =   3315
+            Top             =   1920
+            Width           =   2595
          End
          Begin VB.OptionButton optSepaXML 
             Caption         =   "Fecha de cobro digitada"
@@ -110,9 +147,9 @@ Begin VB.Form frmTESRemesasGrab
             EndProperty
             Height          =   240
             Index           =   0
-            Left            =   3660
+            Left            =   1680
             TabIndex        =   16
-            Top             =   1680
+            Top             =   1920
             Width           =   3075
          End
          Begin VB.CheckBox chkSEPA_GraboNIF 
@@ -149,7 +186,7 @@ Begin VB.Form frmTESRemesasGrab
             EndProperty
             Height          =   360
             Index           =   18
-            Left            =   1470
+            Left            =   210
             TabIndex        =   15
             Text            =   "Text1"
             Top             =   1860
@@ -167,11 +204,11 @@ Begin VB.Form frmTESRemesasGrab
             EndProperty
             Height          =   360
             Index           =   1
-            Left            =   270
+            Left            =   120
             MaxLength       =   3
             TabIndex        =   14
-            Top             =   1860
-            Width           =   885
+            Top             =   2760
+            Width           =   765
          End
          Begin VB.TextBox Text7 
             BeginProperty Font 
@@ -202,13 +239,13 @@ Begin VB.Form frmTESRemesasGrab
                Strikethrough   =   0   'False
             EndProperty
             Height          =   360
-            ItemData        =   "frmTESRemesasGrab.frx":000C
+            ItemData        =   "frmTESRemesasGrab.frx":003F
             Left            =   4980
-            List            =   "frmTESRemesasGrab.frx":0019
+            List            =   "frmTESRemesasGrab.frx":004C
             Style           =   2  'Dropdown List
             TabIndex        =   12
             Top             =   480
-            Width           =   2235
+            Width           =   2355
          End
          Begin VB.TextBox Text1 
             BeginProperty Font 
@@ -239,26 +276,33 @@ Begin VB.Form frmTESRemesasGrab
                Strikethrough   =   0   'False
             EndProperty
             Height          =   360
-            ItemData        =   "frmTESRemesasGrab.frx":003F
+            ItemData        =   "frmTESRemesasGrab.frx":0072
             Left            =   1740
-            List            =   "frmTESRemesasGrab.frx":0041
+            List            =   "frmTESRemesasGrab.frx":0074
             Style           =   2  'Dropdown List
             TabIndex        =   11
             Top             =   480
             Width           =   3105
          End
+         Begin VB.Image Image2 
+            Height          =   240
+            Index           =   0
+            Left            =   1200
+            Top             =   2520
+            Width           =   240
+         End
          Begin VB.Image ImageAyuda 
             Height          =   240
             Index           =   0
-            Left            =   3330
-            Top             =   1950
+            Left            =   6960
+            Top             =   1560
             Width           =   240
          End
          Begin VB.Image Image1 
             Height          =   240
             Index           =   18
-            Left            =   2550
-            Top             =   1590
+            Left            =   1320
+            Top             =   1560
             Width           =   240
          End
          Begin VB.Label Label7 
@@ -274,9 +318,9 @@ Begin VB.Form frmTESRemesasGrab
             EndProperty
             Height          =   195
             Index           =   3
-            Left            =   1500
+            Left            =   240
             TabIndex        =   27
-            Top             =   1620
+            Top             =   1560
             Width           =   1260
          End
          Begin VB.Label Label8 
@@ -292,9 +336,9 @@ Begin VB.Form frmTESRemesasGrab
             EndProperty
             Height          =   315
             Index           =   1
-            Left            =   300
+            Left            =   240
             TabIndex        =   26
-            Top             =   1620
+            Top             =   2520
             Width           =   915
          End
          Begin VB.Label Label8 
@@ -310,7 +354,7 @@ Begin VB.Form frmTESRemesasGrab
             EndProperty
             Height          =   315
             Index           =   0
-            Left            =   270
+            Left            =   240
             TabIndex        =   25
             Top             =   870
             Width           =   1905
@@ -349,7 +393,7 @@ Begin VB.Form frmTESRemesasGrab
             Left            =   1740
             TabIndex        =   23
             Top             =   210
-            Width           =   1155
+            Width           =   1635
          End
          Begin VB.Label Label7 
             Caption         =   "F. COBRO"
@@ -530,7 +574,7 @@ Begin VB.Form frmTESRemesasGrab
          Index           =   6
          Left            =   6090
          TabIndex        =   22
-         Top             =   4800
+         Top             =   5040
          Width           =   1425
       End
       Begin VB.Label Label5 
@@ -568,69 +612,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Public Opcion As Byte
-    '
-    '0 .- Pedir datos para ordenar cobros
-    
-    '3.- Reclamaciones
-    '4.- Remesas
-    
-    
-    '5.- Pregunta numero TALON pagare
-    
-    'Cambio situacion remesa
-    '----------------------------
-    '6.-  De A a B.   Generar banco
-            
-    '8.- Contabilizar remesa
-        
-    '9.- Devolucion remesa
-        
-    '10.- Mostrar vencimientos impagdos
-
-    '11.- ACERCA DE
-        
-    '12  - Eliminar vtos
-    
-    '13.- Deuda total consolidada
-    '14.-   "         ""      pero desde hasta
-        
-        
-    '15.- Realizar transferencias
-        
-    '16.- Devolucion remesa desde fichero del banco
-    '--------------------------------
-    
-    
-    '17.- Eliminar informacion HCO remesas
-    
-    '18.- Selección de gastos para el listado de tesoreria
-    
-    '19.- Contabilizar gastos
-    
-    '20.- Seleccion de empresas disponibles, para el usuario
-    
-    
-    '21- Listado pagos (cobros donde se indican las cuentas que quiero que apar
-    
-    
-    'Mas sobre remesas.
-    '22.- Cancelacion cliente
-    '23.- Confirmacion remesa
-    
-    
-    
-    '24.- Impresion de todos los tipos de recibos
-    
-    '25.- Cambiar banco y/o fecha vto para la remesa de talon pagare
-    
-    '28 .- Devolucion remesa desde un vto
-    
-    
-    '29 .- Recaudacion ejecutiva
-    
-    
-    '31 .- Reclamaciones por email.
-            'Tendra los que tienen email
     
     
 Public SubTipo As Byte
@@ -728,6 +709,8 @@ Dim HaceAgr As Integer
             If optSepaXML(0).Value Then MsgBox "Ha seleccionado fecha de cobro digitada: " & Text1(9).Text, vbInformation
         End If
         
+        
+            
                 
         
         B = False
@@ -735,13 +718,20 @@ Dim HaceAgr As Integer
             FCobro = Text1(9).Text
             If optSepaXML(1).Value Then FCobro = ""  'Ha selccionado por vencimiento
         
+
+        
             SQL = Mid(Text7(1).Text & "   ", 1, 3) & "|" & Mid(Text7(0).Text & Space(40), 1, 40) & "|"
-            If GrabarDisketteNorma19(App.Path & "\tmpRem.ari", Text3(0).Text & "|" & Text3(1).Text & "|", Text1(18).Text, SQL, Me.cmbReferencia.ListIndex, FCobro, True, chkSEPA_GraboNIF(0).Value = 1, chkSEPA_GraboNIF(1).Value = 1, cboTipoRemesa.ListIndex = 0, chkAnticipoCredito.Value = 1, IdFicheroGenerado, AgruparVtos) Then
+            If GrabarDisketteNorma19(App.Path & "\tmpRem.ari", Text3(0).Text & "|" & Text3(1).Text & "|", Text1(18).Text, SQL, Me.cmbReferencia.ListIndex, FCobro, True, chkSEPA_GraboNIF(0).Value = 1, chkSEPA_GraboNIF(1).Value = 1, cboTipoRemesa.ListIndex = 0, chkAnticipoCredito.Value = 1, IdFicheroGenerado, AgruparVtos, chkB2B.Value = 1) Then
                 SQL = App.Path & "\tmpRem.ari"
                 'Copio el disquete
                 B = CopiarArchivo
             End If
         End If
+        
+        
+        
+        
+        
         
         
         
@@ -829,7 +819,7 @@ Dim Im As Currency
                 
                 'WHERE
                 SQL = SQL & " WHERE numserie='" & miRsAux!NUmSerie
-                SQL = SQL & "' AND  numfactu =  " & miRsAux!NumFactu
+                SQL = SQL & "' AND  numfactu =  " & miRsAux!numfactu
                 SQL = SQL & "  AND  fecfactu =  '" & Format(miRsAux!FecFactu, FormatoFecha)
                 SQL = SQL & "' AND  numorden =  " & miRsAux!numorden
                 'Muevo siguiente
@@ -868,9 +858,16 @@ Dim B As Boolean
 End Sub
 
 
+Private Sub ComboSufijos_Click()
+    
+    If ComboSufijos.Text <> "" Then Text7(1).Text = Mid(ComboSufijos.Text, 1, 3)
+    Caption = Text7(1).Text
+End Sub
+
 Private Sub Form_Activate()
     If PrimeraVez Then
         PrimeraVez = False
+        FrameTipo1_2.Refresh
     End If
     Screen.MousePointer = vbDefault
 End Sub
@@ -887,6 +884,7 @@ Dim W As Integer
     'Cago los iconos
     CargaImagenesAyudas Me.Image1, 2
     CargaImagenesAyudas ImageAyuda, 3
+    CargaImagenesAyudas Image2, 1
     
     FrameCambioRemesa.visible = False
     
@@ -902,21 +900,25 @@ Dim W As Integer
     Text3(7).Text = DevuelveDesdeBD("descsituacion", "usuarios.wtiposituacionrem", "situacio", Text3(2).Text, "T")  ' RecuperaValor(CadenaDesdeOtroForm, 6)
     H = Val(RecuperaValor(CadenaDesdeOtroForm, 7))
     Text3(7).Tag = H
+    
+    
     'Por defecto
     chkSEPA_GraboNIF(0).visible = False
     chkSEPA_GraboNIF(1).visible = False
     chkSEPA_GraboNIF(0).Value = 0
     
     ImageAyuda(0).visible = vParamT.NuevasNormasSEPA
-    
+    Text7(1).Left = ComboSufijos.Left
+    ComboSufijos.visible = False
     If H = 2 Then
         SubTipo = vbPagare
     ElseIf H = 3 Then
         SubTipo = vbTalon
     Else
         SubTipo = vbTipoPagoRemesa
-            
+        ComboSufijos.visible = True
         cboTipoRemesa.Clear
+        
         If vParamT.NuevasNormasSEPA Then
             chkSEPA_GraboNIF(0).visible = True
             chkSEPA_GraboNIF(1).visible = True
@@ -931,9 +933,18 @@ Dim W As Integer
                 'Añadimos el XML
                 Me.cboTipoRemesa.AddItem "Adeudos directos SEPA XML"
                 Me.cboTipoRemesa.ListIndex = 0
+                
+                
             End If
+            
+            Me.chkB2B.visible = vParamT.SEPA_b2b
+            
         End If
     End If
+    
+
+
+
 
     'El cuarto valor sera la fecha remesa
     'CadenaDesdeOtroForm
@@ -948,6 +959,7 @@ Dim W As Integer
     
     Set miRsAux = New ADODB.Recordset
     SQL = RecuperaValor(CadenaDesdeOtroForm, 5)
+    Frame1.Tag = SQL
     
     'Aun no he puesto esto en paramaetros del banco. De momento lo hago por nombre de empresa
     SQL = " from bancos where codmacta = '" & SQL & "'"
@@ -955,17 +967,17 @@ Dim W As Integer
     SQL = "Select N1914GrabaNifDeudor,sufijoem " & SQL
     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Text7(1).Text = DBLet(miRsAux!sufijoem, "T")
+    Text7(1).Tag = Text7(1).Text  'guardamos el ppal para el futuro
     
-   
     If vParamT.NuevasNormasSEPA Then
         chkSEPA_GraboNIF(0).Value = DBLet(miRsAux!N1914GrabaNifDeudor, "N")
         'chkAnticipoCredito.Value = DBLet(miRsAux!anticipoCredito, "N")
-        
     End If
-    
-    
     miRsAux.Close
     Set miRsAux = Nothing
+        
+    'Abre mirsaux y lo cierra a nothing
+    PonComboSufijos
         
     H = FrameCambioRemesa.Height + 240
     W = FrameCambioRemesa.Width
@@ -1003,13 +1015,16 @@ Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub Image1_Click(Index As Integer)
-    Set frmC = New frmCal
-    frmC.Fecha = Now
-    If Text1(Index).Text <> "" Then frmC.Fecha = CDate(Text1(Index).Text)
-    Image1(9).Tag = Index
-    frmC.Show vbModal
-    Set frmC = Nothing
-    If Text1(Index).Text <> "" Then PonerFoco Text1(Index)
+
+   
+        Set frmC = New frmCal
+        frmC.Fecha = Now
+        If Text1(Index).Text <> "" Then frmC.Fecha = CDate(Text1(Index).Text)
+        Image1(9).Tag = Index
+        frmC.Show vbModal
+        Set frmC = Nothing
+        If Text1(Index).Text <> "" Then PonerFoco Text1(Index)
+   
 End Sub
 
 Private Sub PonerFoco(ByRef o As Object)
@@ -1030,6 +1045,21 @@ Private Sub KEYpress(ByRef Tecla As Integer)
     End If
 End Sub
 
+
+Private Sub Image2_Click(Index As Integer)
+
+    If Frame1.Tag = "" Then
+        MsgBox "Cuenta banco incorrecta", vbExclamation
+        Exit Sub
+    End If
+
+    SQL = Frame1.Tag
+    CuentasCC = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", SQL, "T")
+    SQL = SQL & "|" & CuentasCC & "|"
+    frmBancoSufijos.Banco = SQL    '"57200034|CAIXA POPULAR|"
+    frmBancoSufijos.Show vbModal
+    PonComboSufijos
+End Sub
 
 Private Sub ImageAyuda_Click(Index As Integer)
     
@@ -1108,16 +1138,16 @@ End Sub
 
 
 Private Function NombreRemesaFich() As String
-Dim cad As String
+Dim Cad As String
 
     NombreRemesaFich = ""
-    cad = "codigo = " & Me.Text3(0).Text & " AND anyo=" & Text3(1).Text & " AND 1"
-    cad = DevuelveDesdeBD("descripcion", "remesas", cad, "1")
-    If cad <> "" Then
-        cad = Replace(cad, "/", " ")
-        cad = Replace(cad, "\", " ")
+    Cad = "codigo = " & Me.Text3(0).Text & " AND anyo=" & Text3(1).Text & " AND 1"
+    Cad = DevuelveDesdeBD("descripcion", "remesas", Cad, "1")
+    If Cad <> "" Then
+        Cad = Replace(Cad, "/", " ")
+        Cad = Replace(Cad, "\", " ")
         
-        NombreRemesaFich = cad & ".xml"
+        NombreRemesaFich = Cad & ".xml"
     End If
 End Function
 
@@ -1403,3 +1433,15 @@ eComrpobacionesAgrupacionFichero:
     Set miRsAux = Nothing
     CuentasCC = ""
 End Function
+
+
+Private Sub PonComboSufijos()
+    CuentasCC = ""
+    If Text7(1).Tag <> "" Then CuentasCC = Text7(1).Tag & "  Sufijo principal"
+        
+    SQL = Frame1.Tag
+    CargaSufijos Me.ComboSufijos, SQL, CuentasCC
+    If Me.ComboSufijos.ListCount > 0 Then ComboSufijos.ListIndex = 0
+    CuentasCC = ""
+    SQL = ""
+End Sub

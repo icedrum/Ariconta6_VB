@@ -377,12 +377,11 @@ Dim LaCtaPuente As String
             miRsAux.Close
             
             J = Len(LaCtaPuente)   'Empezara a recortar ahi
-            If J = 5 Then
-                LaCtaPuente = Mid(LaCtaPuente, 1, 4)
-                J = vEmpresa.DigitosUltimoNivel - 4
+            If J = 5 Then LaCtaPuente = Mid(LaCtaPuente, 1, 4)
                 
-                
-            End If
+            'Julio 21
+            J = vEmpresa.DigitosUltimoNivel - 4
+            
                 
             If SQL <> "" Then
                 SQL = Mid(SQL, 2)
@@ -900,7 +899,7 @@ Private Sub PonerCuentasCC()
         Set miRsAux = New ADODB.Recordset
         miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         'NO PUEDE SER EOF
-        CuentasCC = "|" & miRsAux!grupogto & "|" & miRsAux!grupovta & "|"
+        CuentasCC = "|" & miRsAux!GrupoGto & "|" & miRsAux!GrupoVta & "|"
         miRsAux.Close
         Set miRsAux = Nothing
     End If

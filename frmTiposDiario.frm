@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Object = "{CDE57A40-8B86-11D0-B3C6-00A0C90AEA82}#1.0#0"; "MSDATGRD.OCX"
 Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
 Begin VB.Form frmTiposDiario 
@@ -370,6 +370,9 @@ Dim CadAncho As String 'Para cuando llamemos al al form de lineas
 
 
 
+Private FormularioHijoModificado As Boolean  'HABRIA QUE QUITARLO
+
+
 Private Sub BotonAnyadir()
     Dim NumF As String
     Dim anc As Single
@@ -466,9 +469,9 @@ Private Sub LLamaLineas(DatosAPoner As String, alto As Single, xModo As Byte, Ca
         .vBotonesVisibles = "N|N|N|"
         .vCamposHabilitados = CamposHabil
         .vModo = xModo
-        .vTIPO = 1
+        .vTipo = 1
         .vLeft = Me.Left + DataGrid1.Left + 60
-        .vTop = Me.Top + DataGrid1.Top + alto
+        .vTop = Me.top + DataGrid1.top + alto
         FormularioHijoModificado = False
         .Show vbModal
     End With
@@ -487,7 +490,7 @@ Dim Sql As String
     Sql = Sql & vbCrLf & "Denominación: " & Adodc1.Recordset.Fields(1)
     If MsgBox(Sql, vbQuestion + vbYesNoCancel) = vbYes Then
         'Hay que eliminar
-        Sql = "Delete from tiposdiario where numdiari=" & Adodc1.Recordset!numdiari
+        Sql = "Delete from tiposdiario where numdiari=" & Adodc1.Recordset!NumDiari
         Conn.Execute Sql
     End If
     CargaGrid ""
@@ -521,7 +524,7 @@ End Sub
 
 
 Private Sub DataGrid1_DblClick()
-If cmdRegresar.Visible = True Then cmdRegresar_Click
+If cmdRegresar.visible = True Then cmdRegresar_Click
 End Sub
 
 Private Sub Form_Activate()
@@ -536,7 +539,7 @@ Private Sub Form_Load()
     'Bloqueo de tabla, cursor type
     Adodc1.Password = vUsu.Passwd
     
-    cmdRegresar.Visible = (DatosADevolverBusqueda <> "")
+    cmdRegresar.visible = (DatosADevolverBusqueda <> "")
     
     DespalzamientoVisible False
     CadAncho = ""
@@ -606,27 +609,27 @@ Private Function SugerirCodigoSiguiente() As String
 End Function
 
 Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
-Select Case Button.Index
-Case 1
-        BotonBuscar
-Case 2
-        BotonVerTodos
-Case 6
-        BotonAnyadir
-Case 7
-        BotonModificar
-Case 8
-        BotonEliminar
-Case Else
-
-End Select
+    Select Case Button.Index
+    Case 1
+            BotonBuscar
+    Case 2
+            BotonVerTodos
+    Case 6
+            BotonAnyadir
+    Case 7
+            BotonModificar
+    Case 8
+            BotonEliminar
+    Case Else
+    
+    End Select
 End Sub
 
 
 Private Sub DespalzamientoVisible(bol As Boolean)
     Dim i
     For i = 14 To 17
-        Toolbar1.Buttons(i).Visible = bol
+        Toolbar1.Buttons(i).visible = bol
     Next i
 End Sub
 
@@ -665,7 +668,7 @@ Private Sub CargaGrid(Optional Sql As String)
     'Fiajamos el cadancho
     If CadAncho = "" Then
         For i = 0 To DataGrid1.Columns.Count - 1
-            If DataGrid1.Columns(i).Visible Then
+            If DataGrid1.Columns(i).visible Then
                 CadAncho = CadAncho & DataGrid1.Columns(i).Width & "|"
             End If
         Next i

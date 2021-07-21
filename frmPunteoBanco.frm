@@ -4,23 +4,23 @@ Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form frmPunteoBanco 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Punteo bancario"
-   ClientHeight    =   9870
+   ClientHeight    =   10020
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   17250
+   ClientWidth     =   18315
    Icon            =   "frmPunteoBanco.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   9870
-   ScaleWidth      =   17250
+   ScaleHeight     =   10020
+   ScaleWidth      =   18315
    StartUpPosition =   2  'CenterScreen
    Begin VB.Frame Frame1 
       Height          =   675
       Left            =   1590
       TabIndex        =   44
       Top             =   120
-      Width           =   13065
+      Width           =   14145
       Begin VB.CommandButton cmdImportar 
          Caption         =   "Importar"
          BeginProperty Font 
@@ -34,7 +34,7 @@ Begin VB.Form frmPunteoBanco
          EndProperty
          Height          =   375
          Index           =   0
-         Left            =   11640
+         Left            =   12600
          TabIndex        =   47
          Top             =   180
          Width           =   1035
@@ -53,7 +53,7 @@ Begin VB.Form frmPunteoBanco
          Left            =   1500
          TabIndex        =   46
          Top             =   240
-         Width           =   7815
+         Width           =   8895
       End
       Begin VB.CheckBox chkElimmFich 
          Caption         =   "Eliminar fichero "
@@ -67,7 +67,7 @@ Begin VB.Form frmPunteoBanco
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   9510
+         Left            =   10560
          TabIndex        =   45
          Top             =   240
          Value           =   1  'Checked
@@ -83,7 +83,6 @@ Begin VB.Form frmPunteoBanco
       Begin VB.Image Image4 
          Height          =   240
          Left            =   1200
-         Picture         =   "frmPunteoBanco.frx":000C
          Top             =   240
          Width           =   240
       End
@@ -107,15 +106,51 @@ Begin VB.Form frmPunteoBanco
       End
    End
    Begin VB.Frame Frame2 
-      Height          =   6735
-      Left            =   3180
+      Height          =   7575
+      Left            =   3480
       TabIndex        =   49
-      Top             =   2100
-      Width           =   11535
+      Top             =   1560
+      Width           =   12135
+      Begin VB.TextBox txtSald 
+         BackColor       =   &H80000018&
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   1
+         Left            =   10560
+         TabIndex        =   56
+         Top             =   307
+         Width           =   1275
+      End
+      Begin VB.TextBox txtSald 
+         BackColor       =   &H80000018&
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   0
+         Left            =   2160
+         TabIndex        =   54
+         Top             =   307
+         Width           =   1275
+      End
       Begin VB.TextBox txtDatos 
          BeginProperty Font 
             Name            =   "Courier New"
-            Size            =   8.25
+            Size            =   9
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
@@ -123,13 +158,13 @@ Begin VB.Form frmPunteoBanco
             Strikethrough   =   0   'False
          EndProperty
          Height          =   5955
-         Left            =   120
+         Left            =   240
          MultiLine       =   -1  'True
          ScrollBars      =   3  'Both
          TabIndex        =   52
-         Text            =   "frmPunteoBanco.frx":685E
-         Top             =   180
-         Width           =   11235
+         Text            =   "frmPunteoBanco.frx":000C
+         Top             =   840
+         Width           =   11715
       End
       Begin VB.CommandButton Command2 
          Caption         =   "Integrar"
@@ -146,7 +181,7 @@ Begin VB.Form frmPunteoBanco
          Index           =   0
          Left            =   9120
          TabIndex        =   51
-         Top             =   6240
+         Top             =   6960
          Width           =   1095
       End
       Begin VB.CommandButton Command2 
@@ -162,17 +197,54 @@ Begin VB.Form frmPunteoBanco
          EndProperty
          Height          =   375
          Index           =   1
-         Left            =   10320
+         Left            =   10560
          TabIndex        =   50
-         Top             =   6240
+         Top             =   6960
          Width           =   1095
+      End
+      Begin VB.Label Label1 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Saldo inicial fichero:"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   9
+         Left            =   7560
+         TabIndex        =   55
+         Top             =   360
+         Width           =   2835
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Saldo final BBDD:"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   8
+         Left            =   240
+         TabIndex        =   53
+         Top             =   360
+         Width           =   1875
       End
    End
    Begin VB.Frame FrameGenera 
       Height          =   4935
-      Left            =   4620
+      Left            =   6000
       TabIndex        =   20
-      Top             =   2040
+      Top             =   2760
       Width           =   7665
       Begin VB.TextBox Text11 
          BeginProperty Font 
@@ -393,21 +465,18 @@ Begin VB.Form frmPunteoBanco
       Begin VB.Image Image3 
          Height          =   240
          Left            =   1680
-         Picture         =   "frmPunteoBanco.frx":6864
          Top             =   3330
          Width           =   240
       End
       Begin VB.Image Image2 
          Height          =   240
          Left            =   1230
-         Picture         =   "frmPunteoBanco.frx":D0B6
          Top             =   1920
          Width           =   240
       End
       Begin VB.Image Image1 
          Height          =   240
          Left            =   900
-         Picture         =   "frmPunteoBanco.frx":13908
          Top             =   1200
          Width           =   240
       End
@@ -450,7 +519,7 @@ Begin VB.Form frmPunteoBanco
          Height          =   240
          Index           =   2
          Left            =   1200
-         Picture         =   "frmPunteoBanco.frx":1A15A
+         Picture         =   "frmPunteoBanco.frx":0012
          Top             =   540
          Width           =   240
       End
@@ -547,14 +616,14 @@ Begin VB.Form frmPunteoBanco
       Left            =   150
       TabIndex        =   41
       Top             =   120
-      Width           =   1095
+      Width           =   1335
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   330
          Left            =   240
          TabIndex        =   42
          Top             =   180
-         Width           =   465
-         _ExtentX        =   820
+         Width           =   945
+         _ExtentX        =   1667
          _ExtentY        =   582
          ButtonWidth     =   609
          ButtonHeight    =   582
@@ -562,9 +631,13 @@ Begin VB.Form frmPunteoBanco
          Style           =   1
          _Version        =   393216
          BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-            NumButtons      =   1
+            NumButtons      =   2
             BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
                Object.ToolTipText     =   "Crear Asiento"
+               Object.Tag             =   "2"
+            EndProperty
+            BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Ver asiento"
                Object.Tag             =   "2"
             EndProperty
          EndProperty
@@ -575,7 +648,7 @@ Begin VB.Form frmPunteoBanco
       Left            =   150
       TabIndex        =   4
       Top             =   1080
-      Width           =   16935
+      Width           =   18075
       Begin VB.CheckBox Check1 
          Caption         =   "Mostrar punteados"
          BeginProperty Font 
@@ -588,11 +661,11 @@ Begin VB.Form frmPunteoBanco
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   14400
+         Left            =   14760
          TabIndex        =   3
          Top             =   360
          Value           =   1  'Checked
-         Width           =   2325
+         Width           =   2340
       End
       Begin VB.TextBox Text1 
          Alignment       =   1  'Right Justify
@@ -672,7 +745,7 @@ Begin VB.Form frmPunteoBanco
          Height          =   240
          Index           =   1
          Left            =   12630
-         Picture         =   "frmPunteoBanco.frx":1A1E5
+         Picture         =   "frmPunteoBanco.frx":009D
          Top             =   360
          Width           =   240
       End
@@ -680,14 +753,13 @@ Begin VB.Form frmPunteoBanco
          Height          =   240
          Index           =   0
          Left            =   9870
-         Picture         =   "frmPunteoBanco.frx":1A270
+         Picture         =   "frmPunteoBanco.frx":0128
          Top             =   360
          Width           =   240
       End
       Begin VB.Image imgCuentas 
          Height          =   240
          Left            =   1140
-         Picture         =   "frmPunteoBanco.frx":1A2FB
          Top             =   330
          Width           =   240
       End
@@ -747,11 +819,11 @@ Begin VB.Form frmPunteoBanco
       End
    End
    Begin VB.Frame FrameDatos 
-      Height          =   7515
+      Height          =   7875
       Left            =   180
       TabIndex        =   9
       Top             =   2040
-      Width           =   16905
+      Width           =   18105
       Begin VB.TextBox Text3 
          Alignment       =   1  'Right Justify
          Enabled         =   0   'False
@@ -766,9 +838,9 @@ Begin VB.Form frmPunteoBanco
          EndProperty
          Height          =   360
          Index           =   2
-         Left            =   14550
+         Left            =   15390
          TabIndex        =   16
-         Top             =   7050
+         Top             =   7290
          Width           =   2200
       End
       Begin VB.TextBox Text3 
@@ -784,10 +856,10 @@ Begin VB.Form frmPunteoBanco
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   12210
+         Left            =   13050
          Locked          =   -1  'True
          TabIndex        =   15
-         Top             =   7050
+         Top             =   7290
          Width           =   2200
       End
       Begin VB.TextBox Text3 
@@ -803,20 +875,20 @@ Begin VB.Form frmPunteoBanco
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   9930
+         Left            =   10770
          Locked          =   -1  'True
          TabIndex        =   14
-         Top             =   7050
+         Top             =   7290
          Width           =   2200
       End
       Begin MSComctlLib.ListView ListView1 
-         Height          =   6255
+         Height          =   6300
          Left            =   120
          TabIndex        =   10
-         Top             =   540
-         Width           =   8345
+         Top             =   600
+         Width           =   8340
          _ExtentX        =   14711
-         _ExtentY        =   11033
+         _ExtentY        =   11113
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -867,13 +939,13 @@ Begin VB.Form frmPunteoBanco
          EndProperty
       End
       Begin MSComctlLib.ListView ListView2 
-         Height          =   6255
+         Height          =   6300
          Left            =   8490
          TabIndex        =   11
-         Top             =   540
-         Width           =   8355
-         _ExtentX        =   14737
-         _ExtentY        =   11033
+         Top             =   600
+         Width           =   9465
+         _ExtentX        =   16695
+         _ExtentY        =   11113
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -894,7 +966,7 @@ Begin VB.Form frmPunteoBanco
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         NumItems        =   5
+         NumItems        =   6
          BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
             Text            =   "Fecha"
             Object.Width           =   2646
@@ -902,29 +974,71 @@ Begin VB.Form frmPunteoBanco
          BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
             Alignment       =   1
             SubItemIndex    =   1
-            Text            =   "Importe"
-            Object.Width           =   2471
+            Text            =   "Asiento"
+            Object.Width           =   1872
          EndProperty
          BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
             Alignment       =   1
             SubItemIndex    =   2
-            Text            =   "D/H"
-            Object.Width           =   1059
+            Text            =   "Importe"
+            Object.Width           =   2540
          EndProperty
          BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
             Alignment       =   1
             SubItemIndex    =   3
+            Text            =   "D/H"
+            Object.Width           =   1059
+         EndProperty
+         BeginProperty ColumnHeader(5) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Alignment       =   1
+            SubItemIndex    =   4
             Text            =   "Saldo"
             Object.Width           =   2647
          EndProperty
-         BeginProperty ColumnHeader(5) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            SubItemIndex    =   4
+         BeginProperty ColumnHeader(6) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   5
             Text            =   "Ampliacion"
             Object.Width           =   5292
          EndProperty
       End
+      Begin VB.Image imgCheck 
+         Height          =   240
+         Index           =   1
+         Left            =   17100
+         Picture         =   "frmPunteoBanco.frx":01B3
+         ToolTipText     =   "Quitar punteados"
+         Top             =   240
+         Width           =   240
+      End
+      Begin VB.Image imgCheck 
+         Height          =   240
+         Index           =   0
+         Left            =   17550
+         Picture         =   "frmPunteoBanco.frx":02FD
+         ToolTipText     =   "Puntear"
+         Top             =   240
+         Width           =   240
+      End
+      Begin VB.Image imgCheck 
+         Height          =   240
+         Index           =   3
+         Left            =   7680
+         Picture         =   "frmPunteoBanco.frx":0447
+         ToolTipText     =   "Quitar punteados"
+         Top             =   240
+         Width           =   240
+      End
+      Begin VB.Image imgCheck 
+         Height          =   240
+         Index           =   2
+         Left            =   8130
+         Picture         =   "frmPunteoBanco.frx":0591
+         ToolTipText     =   "Puntear"
+         Top             =   240
+         Width           =   240
+      End
       Begin VB.Label Label11 
-         Caption         =   "Doble click busca el importe en el otro lado"
+         Caption         =   "z"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -937,8 +1051,9 @@ Begin VB.Form frmPunteoBanco
          Height          =   255
          Left            =   330
          TabIndex        =   40
-         Top             =   7020
-         Width           =   4455
+         Tag             =   "Doble click busca el importe en el otro lado"
+         Top             =   7320
+         Width           =   4815
       End
       Begin VB.Label Label4 
          Caption         =   "DIFERENCIA"
@@ -952,9 +1067,9 @@ Begin VB.Form frmPunteoBanco
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   14550
+         Left            =   15390
          TabIndex        =   19
-         Top             =   6780
+         Top             =   7020
          Width           =   1845
       End
       Begin VB.Label Label3 
@@ -969,9 +1084,9 @@ Begin VB.Form frmPunteoBanco
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   12210
+         Left            =   13050
          TabIndex        =   18
-         Top             =   6780
+         Top             =   7020
          Width           =   1635
       End
       Begin VB.Label Label2 
@@ -986,9 +1101,9 @@ Begin VB.Form frmPunteoBanco
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   9930
+         Left            =   10770
          TabIndex        =   17
-         Top             =   6780
+         Top             =   7020
          Width           =   1185
       End
       Begin VB.Label Label1 
@@ -1070,11 +1185,11 @@ Attribute frmCC.VB_VarHelpID = -1
 
 
 
-Dim Sql As String
+Dim SQL As String
 Dim Rs As ADODB.Recordset
 Dim ItmX As ListItem
 Dim Importe As Currency
-Dim I As Long
+Dim i As Long
 Dim PrimeraSeleccion As Boolean
 Dim ClickAnterior As Byte '0 Empezar 1.-Debe 2.-Haber
     
@@ -1092,7 +1207,7 @@ Dim NF As Integer
 Dim FicheroPpal As String
 Dim Cta As String
 Dim Saldo As Currency
-Dim cad As String
+Dim Cad As String
 
 
 Private Sub Check1_Click()
@@ -1113,8 +1228,8 @@ Private Sub ConfirmarDatos(DesdeCuenta As Boolean)
     
         'Tiene cta.
         'Veamos si la cuenta esta definida en ctas bancarias o no
-        Sql = DevuelveDesdeBD("codmacta", "bancos", "codmacta", Text1.Text, "T")
-        If Sql <> "" Then
+        SQL = DevuelveDesdeBD("codmacta", "bancos", "codmacta", Text1.Text, "T")
+        If SQL <> "" Then
             'Bloqueamos manualamente la tabla, con esa cuenta
             If Not BloqueoManual(True, "PUNTEOB", Text1.Text) Then
                 MsgBox "Imposible acceder a puntear la cuenta. Esta bloqueada", vbExclamation
@@ -1151,16 +1266,16 @@ Private Sub CargarDatosLw(BorrarImportes As Boolean)
         PrimeraSeleccion = True
                     
         'Cargamos los datos
-        Sql = "DELETE from tmpconextcab where codusu= " & vUsu.Codigo
-        Conn.Execute Sql
+        SQL = "DELETE from tmpconextcab where codusu= " & vUsu.Codigo
+        Conn.Execute SQL
             
-        Sql = "DELETE from tmpconext where codusu= " & vUsu.Codigo
-        Conn.Execute Sql
+        SQL = "DELETE from tmpconext where codusu= " & vUsu.Codigo
+        Conn.Execute SQL
         
-        Sql = "fechaent >= '" & Format(txtFec(0).Text, FormatoFecha)
-        Sql = Sql & "' AND fechaent <= '" & Format(txtFec(1).Text, FormatoFecha) & "'"
+        SQL = "fechaent >= '" & Format(txtFec(0).Text, FormatoFecha)
+        SQL = SQL & "' AND fechaent <= '" & Format(txtFec(1).Text, FormatoFecha) & "'"
         
-        CargaDatosConExt Text1.Text, txtFec(0).Text, txtFec(1).Text, Sql, Text2.Text
+        CargaDatosConExt Text1.Text, txtFec(0).Text, txtFec(1).Text, SQL, Text2.Text
 
                     
                     
@@ -1179,7 +1294,7 @@ End Sub
 
 Private Sub cmdAstoAceptar_Click()
 Dim NA As Long
-Dim Sql As String
+Dim SQL As String
 Dim Sql1 As String
 
 
@@ -1198,11 +1313,11 @@ Dim Sql1 As String
     varFecOk = FechaCorrecta2(CDate(txtFec(2).Text))
     If varFecOk > 1 Then
         If varFecOk = 2 Then
-            Sql = varTxtFec
+            SQL = varTxtFec
         Else
-            Sql = "Fechas fuera de ejercicio actual/siguiente"
+            SQL = "Fechas fuera de ejercicio actual/siguiente"
         End If
-        MsgBox Sql, vbExclamation
+        MsgBox SQL, vbExclamation
         Exit Sub
     End If
     
@@ -1228,20 +1343,20 @@ Dim Sql1 As String
         Else
             frmAsientosHco.DesdeNorma43 = 1
         End If
-        frmAsientosHco.ASIENTO = Text9.Text & "|" & txtFec(2).Text & "|" & NA & "|"
+        frmAsientosHco.Asiento = Text9.Text & "|" & txtFec(2).Text & "|" & NA & "|"
         frmAsientosHco.Show vbModal
     End If
     
     ' si el asiento está descuadrado hemos de eliminarlo
-    Sql = "select sum(coalesce(timported,0) - coalesce(timporteh,0)) from hlinapu where numasien = " & DBSet(NA, "N") & " and numdiari = " & DBSet(Text9.Text, "N") & " and fechaent = " & DBSet(txtFec(2).Text, "F")
+    SQL = "select sum(coalesce(timported,0) - coalesce(timporteh,0)) from hlinapu where numasien = " & DBSet(NA, "N") & " and numdiari = " & DBSet(Text9.Text, "N") & " and fechaent = " & DBSet(txtFec(2).Text, "F")
     Sql1 = "select count(*) from hlinapu where numasien = " & NA & " and numdiari = " & DBSet(Text9.Text, "N") & " and fechaent = " & DBSet(txtFec(2).Text, "F")
-    If DevuelveValor(Sql) <> 0 Or DevuelveValor(Sql1) = 0 Then
+    If DevuelveValor(SQL) <> 0 Or DevuelveValor(Sql1) = 0 Then
         'Borramos las lineas del apunte
         Screen.MousePointer = vbHourglass
-        Sql = "Delete from hlinapu where numasien = " & NA & " and numdiari = " & DBSet(Text9.Text, "N") & " and fechaent = " & DBSet(txtFec(2).Text, "F")
-        Conn.Execute Sql
-        Sql = "Delete from hcabapu where numasien = " & NA & " and numdiari = " & DBSet(Text9.Text, "N") & " and fechaent = " & DBSet(txtFec(2).Text, "F")
-        Conn.Execute Sql
+        SQL = "Delete from hlinapu where numasien = " & NA & " and numdiari = " & DBSet(Text9.Text, "N") & " and fechaent = " & DBSet(txtFec(2).Text, "F")
+        Conn.Execute SQL
+        SQL = "Delete from hcabapu where numasien = " & NA & " and numdiari = " & DBSet(Text9.Text, "N") & " and fechaent = " & DBSet(txtFec(2).Text, "F")
+        Conn.Execute SQL
     
         'devolvemos el contador
         Set Mc = New Contadores
@@ -1258,31 +1373,37 @@ Dim Sql1 As String
         PonerImportes
     
         'Puntemos el extracto
-        Sql = "UPDATE norma43 SET punteada= 1 WHERE codigo=" & ListView1.SelectedItem.Tag
-        Conn.Execute Sql
+        SQL = "UPDATE norma43 SET punteada= 1 WHERE codigo=" & ListView1.SelectedItem.Tag
+        Conn.Execute SQL
     
         'Para buscarlo
         NA = ListView1.SelectedItem.Tag
         'Volvemos a cargar todo
         CargarDatosLw False
         'Volvemos a siutar el select item
-        For I = 1 To ListView1.ListItems.Count
-            If ListView1.ListItems(I).Tag = NA Then
-                Set ListView1.SelectedItem = ListView1.ListItems(I)
+        For i = 1 To ListView1.ListItems.Count
+            If ListView1.ListItems(i).Tag = NA Then
+                Set ListView1.SelectedItem = ListView1.ListItems(i)
                 ListView1.SelectedItem.EnsureVisible
                 ListView1_DblClick
                 Exit For
             End If
-        Next I
+        Next i
     End If
     Me.FrameGenera.visible = False
     Me.FrameDatos.Enabled = True
+    Frame1.Enabled = True
+    Me.FrameIntro.Enabled = True
+    
     Screen.MousePointer = vbDefault
 End Sub
 
 Private Sub cmdAtoCancelar_Click()
     Me.FrameGenera.visible = False
     Me.FrameDatos.Enabled = True
+    Frame1.Enabled = True
+    Me.FrameIntro.Enabled = True
+    
 End Sub
 
 Private Sub cmdCancelar_Click()
@@ -1340,21 +1461,24 @@ Private Sub CrearAsiento()
     
     'Deshabilitamos
     Me.FrameDatos.Enabled = False
+    Frame1.Enabled = False
+    Me.FrameIntro.Enabled = False
+    
     'Limpiamos y ponemos datos
     Me.txtFec(2).Text = Format(ListView1.SelectedItem.Text, "dd/mm/yyyy")
     
     'dIARIO POR DEFECTO DE PARAMETROS
     'Veremos si hay parametros
-    Sql = DevuelveDesdeBD("diario43", "parametros", "fechaini", Format(vParam.fechaini, FormatoFecha), "F")
-    Text9.Text = Sql
-    If Text9.Text <> "" Then Sql = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", Text9.Text, "N")
-    Text10.Text = Sql
+    SQL = DevuelveDesdeBD("diario43", "parametros", "fechaini", Format(vParam.fechaini, FormatoFecha), "F")
+    Text9.Text = SQL
+    If Text9.Text <> "" Then SQL = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", Text9.Text, "N")
+    Text10.Text = SQL
     
     'Concepto por defecto desde parametros
-    Sql = DevuelveDesdeBD("conce43", "parametros", "fechaini", Format(vParam.fechaini, FormatoFecha), "F")
-    Text6.Text = Sql
-    If Text6.Text <> "" Then Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", Text6.Text, "N")
-    Text7.Text = Sql
+    SQL = DevuelveDesdeBD("conce43", "parametros", "fechaini", Format(vParam.fechaini, FormatoFecha), "F")
+    Text6.Text = SQL
+    If Text6.Text <> "" Then SQL = DevuelveDesdeBD("nomconce", "conceptos", "codconce", Text6.Text, "N")
+    Text7.Text = SQL
     
     'La ampliacion del concepto viene del extracto bancario
     Text8.Text = ListView1.SelectedItem.SubItems(4)
@@ -1397,8 +1521,8 @@ Private Sub cmdImportar_Click(Index As Integer)
         Exit Sub
     End If
     'Borramos los temporales
-    Sql = "Delete from tmpnorma43 where codusu = " & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = "Delete from tmpnorma43 where codusu = " & vUsu.Codigo
+    Conn.Execute SQL
     Screen.MousePointer = vbHourglass
     If ProcesarFichero Then
         NumRegElim = 1
@@ -1419,6 +1543,7 @@ Private Sub Form_Load()
         .DisabledImageList = frmppal.imgListComun_BN
         .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 44
+        .Buttons(2).Image = 1
     End With
     
     ' La Ayuda
@@ -1426,6 +1551,12 @@ Private Sub Form_Load()
         .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
+    
+    imgCuentas.Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Image1.Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Image2.Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Image3.Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Image4.Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
 
     FrameGenera.visible = False
@@ -1439,14 +1570,20 @@ Private Sub Form_Load()
     Text2.Text = ""
     txtFec(0).Text = ""
     txtFec(1).Text = ""
-    
+    Label11.Caption = Label11.Tag
 End Sub
 
 Private Sub KEYpress(KeyAscii As Integer)
 Dim cerrar As Boolean
 
     KEYpressGnral KeyAscii, 0, cerrar
-    If cerrar Then Unload Me
+    If cerrar Then
+        If FrameGenera.visible Then
+            cmdAtoCancelar_Click
+        Else
+            Unload Me
+        End If
+    End If
 End Sub
 
 
@@ -1515,6 +1652,98 @@ Private Sub Image4_Click()
     
 End Sub
 
+Private Sub imgCheck_Click(Index As Integer)
+Dim Puntear As Boolean
+
+    Cad = ""
+    If Index < 2 Then
+        'En apuntes
+        If Me.ListView2.ListItems.Count = 0 Then Cad = "No hay apuntes para realizar la accion"
+    
+    Else
+        If Me.ListView1.ListItems.Count = 0 Then Cad = "No hay datos en el extracto de banco para realizar la accion"
+    End If
+    If Cad <> "" Then
+        MsgBox Cad, vbExclamation
+        Exit Sub
+    End If
+    
+    Puntear = (Index = 0 Or Index = 2)
+    Cad = IIf(Puntear, "puntear", "quitar el punteo a")
+    
+    If Index < 2 Then
+        Cad = "¿Desaea  " & Cad & " las lineas de apuntes visualizadas?"
+    Else
+        Cad = "¿Desaea  " & Cad & " los extractos del banco visualizados?"
+    End If
+    
+    NF = CInt(MsgBox(Cad, vbQuestion + vbYesNoCancel))
+    If NF <> vbYes Then Exit Sub
+    
+    
+    
+    'AUQI empieza la fiesta
+    Screen.MousePointer = vbHourglass
+    If Index >= 2 Then
+        'En extracto bancario
+        HacerPunteoAutomatico Me.ListView1, True, Puntear
+    Else
+        HacerPunteoAutomatico Me.ListView2, False, Puntear
+    End If
+    
+    Label11.Caption = "Cargando datos"
+    Label11.Refresh
+    
+    CargarDatosLw True
+        
+    FicheroPpal = ""
+    Label11.Caption = Label11.Tag
+    
+    
+    
+    Screen.MousePointer = vbDefault
+End Sub
+
+
+Private Sub HacerPunteoAutomatico(ByRef Lw As ListView, N43 As Boolean, Puntear As Boolean)
+
+    NF = IIf(Puntear, 1, 0)
+
+    For i = 1 To Lw.ListItems.Count
+        Label11.Caption = Lw.ListItems(i).SubItems(4)
+        Label11.Refresh
+        Cad = ""
+        If Puntear Then
+            'Si ya esta punteado no hago nada
+            If Lw.ListItems(i).Checked Then Cad = "N"
+        Else
+            'Si NO esta punteado no hago nada
+            If Not Lw.ListItems(i).Checked Then Cad = "N"
+        End If
+        
+        If Cad = "" Then
+            If N43 Then
+            
+                Cad = "UPDATE norma43 SET punteada= " & NF & " WHERE codigo=" & Lw.ListItems(i).Tag
+            
+            
+            Else
+                Cad = "UPDATE hlinapu SET "
+                Cad = Cad & " punteada = " & NF
+                Cad = Cad & " WHERE fechaent='" & Format(Lw.ListItems(i).Text, FormatoFecha) & "'"
+                Cad = Cad & " AND numasien=" & RecuperaValor(Lw.ListItems(i).Tag, 1)
+                Cad = Cad & " AND numdiari =" & RecuperaValor(Lw.ListItems(i).Tag, 2)
+                Cad = Cad & " AND linliapu =" & RecuperaValor(Lw.ListItems(i).Tag, 3)
+            End If
+            
+            Ejecuta Cad, False
+            
+        End If
+        
+    Next
+End Sub
+
+
 Private Sub imgCuentas_Click()
     
     Set frmCta = New frmBasico2
@@ -1554,17 +1783,17 @@ Dim Fin As Long
     Find = False
     Fin = ListView2.ListItems.Count
     Do
-        For I = J To Fin
-            If ListView2.ListItems(I).SubItems(1) = ListView1.SelectedItem.SubItems(1) Then
-                If ListView2.ListItems(I).SubItems(2) <> ListView1.SelectedItem.SubItems(2) Then
+        For i = J To Fin
+            If ListView2.ListItems(i).SubItems(2) = ListView1.SelectedItem.SubItems(1) Then
+                If ListView2.ListItems(i).SubItems(3) <> ListView1.SelectedItem.SubItems(2) Then
                     'Ha encontrado con el mismo importe y signos distintos D-H
-                    Set ListView2.SelectedItem = ListView2.ListItems(I)
+                    Set ListView2.SelectedItem = ListView2.ListItems(i)
                     ListView2.SelectedItem.EnsureVisible
                     Find = True
                     Exit For
                 End If
             End If
-        Next I
+        Next i
         If Not Find Then
             If J > 1 Then
                 Fin = J
@@ -1598,17 +1827,17 @@ Dim Fin As Long
     Find = False
     Fin = ListView1.ListItems.Count
     Do
-        For I = J To Fin
-            If ListView1.ListItems(I).SubItems(1) = ListView2.SelectedItem.SubItems(1) Then
-                If ListView1.ListItems(I).SubItems(2) <> ListView2.SelectedItem.SubItems(2) Then
+        For i = J To Fin
+            If ListView1.ListItems(i).SubItems(1) = ListView2.SelectedItem.SubItems(2) Then
+                If ListView1.ListItems(i).SubItems(2) <> ListView2.SelectedItem.SubItems(3) Then
                     'Ha encontrado con el mismo importe y signos distintos D-H
-                    Set ListView1.SelectedItem = ListView1.ListItems(I)
+                    Set ListView1.SelectedItem = ListView1.ListItems(i)
                     ListView1.SelectedItem.EnsureVisible
                     Find = True
                     Exit For
                 End If
             End If
-        Next I
+        Next i
         If Not Find Then
             If J > 1 Then
                 Fin = J
@@ -1643,8 +1872,8 @@ End Sub
 
 Private Sub Text1_LostFocus()
 Dim RC As String
-
-
+    
+    If FrameGenera.visible Then Exit Sub
     Text1.Text = Trim(Text1.Text)
     If Text1.Text = "+" Then Text1.Text = ""
     If Text1.Text = "" Then
@@ -1652,14 +1881,14 @@ Dim RC As String
         Exit Sub
     Else
          RC = Text1.Text
-         If CuentaCorrectaUltimoNivel(RC, Sql) Then
+         If CuentaCorrectaUltimoNivel(RC, SQL) Then
              Text1.Text = RC
-             Text2.Text = Sql
+             Text2.Text = SQL
              
              ConfirmarDatos True
              CuentaAnterior = Text1.Text
          Else
-             MsgBox Sql, vbExclamation
+             MsgBox SQL, vbExclamation
              Text2.Text = ""
          End If
          If Text2.Text = "" Then PonerFoco Text1
@@ -1721,11 +1950,11 @@ Dim RC As String
         Text5.Text = ""
     Else
         RC = Text4.Text
-        If CuentaCorrectaUltimoNivel(RC, Sql) Then
+        If CuentaCorrectaUltimoNivel(RC, SQL) Then
             Text4.Text = RC
-            Text5.Text = Sql
+            Text5.Text = SQL
         Else
-            MsgBox Sql, vbExclamation
+            MsgBox SQL, vbExclamation
             Text5.Text = ""
             Text4.Text = ""
             Text4.SetFocus
@@ -1750,7 +1979,7 @@ End Sub
 Private Sub Text6_LostFocus()
    With Text6
         .Text = Trim(.Text)
-        I = 1
+        i = 1
         If .Text <> "" Then
             If Not IsNumeric(.Text) Then
                 MsgBox "El valor debe ser numérico: " & .Text, vbExclamation
@@ -1758,23 +1987,23 @@ Private Sub Text6_LostFocus()
                  If Val(.Text) >= 900 Then
                     MsgBox "Los conceptos superiores a 900 se los reserva la aplicación.", vbExclamation
                 Else
-                    Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", .Text, "N")
-                    If Sql = "" Then
+                    SQL = DevuelveDesdeBD("nomconce", "conceptos", "codconce", .Text, "N")
+                    If SQL = "" Then
                         MsgBox "Concepto NO encontrado: " & .Text, vbExclamation
                     Else
-                        Text7.Text = Sql
-                        I = 0
+                        Text7.Text = SQL
+                        i = 0
                     End If
                 End If
             End If
         Else
             'Igual a "" luego pasamos a otro campo en la tabulacion
-            I = 2
+            i = 2
         End If
-        If I > 0 Then
+        If i > 0 Then
             .Text = ""
             Text7.Text = ""
-            If I = 1 Then Text6.SetFocus
+            If i = 1 Then Text6.SetFocus
         End If
     End With
 End Sub
@@ -1806,33 +2035,39 @@ End Sub
 Private Sub Text9_LostFocus()
     With Text9
         .Text = Trim(.Text)
-        I = 1
+        i = 1
         If .Text <> "" Then
             If Not IsNumeric(.Text) Then
                 MsgBox "El valor debe ser numérico: " & .Text, vbExclamation
             Else
-                Sql = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", .Text, "N")
-                If Sql = "" Then
+                SQL = DevuelveDesdeBD("desdiari", "tiposdiario", "numdiari", .Text, "N")
+                If SQL = "" Then
                     MsgBox "Concepto NO encontrado: " & .Text, vbExclamation
                 Else
-                    Text10.Text = Sql
-                    I = 0
+                    Text10.Text = SQL
+                    i = 0
                 End If
             End If
         Else
             'Igual a "" luego pasamos a otro campo
-            I = 2
+            i = 2
         End If
-        If I > 0 Then
+        If i > 0 Then
             .Text = ""
             Text10.Text = ""
-            If I = 1 Then Text9.SetFocus
+            If i = 1 Then Text9.SetFocus
         End If
     End With
 End Sub
 
 Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
-    CrearAsiento
+
+    If Button.Index = 1 Then
+    
+        CrearAsiento
+    Else
+        VerAsiento
+    End If
 End Sub
 
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
@@ -1891,37 +2126,37 @@ End Sub
 Private Sub CargaBancario()
 
     ListView1.ListItems.Clear
-    Sql = "Select * from norma43 where"
-    Sql = Sql & " codmacta ='" & Text1.Text & "'"
-    Sql = Sql & " AND fecopera >='" & Format(txtFec(0).Text, FormatoFecha) & "'"
-    Sql = Sql & " AND fecopera <='" & Format(txtFec(1).Text, FormatoFecha) & "'"
+    SQL = "Select * from norma43 where"
+    SQL = SQL & " codmacta ='" & Text1.Text & "'"
+    SQL = SQL & " AND fecopera >='" & Format(txtFec(0).Text, FormatoFecha) & "'"
+    SQL = SQL & " AND fecopera <='" & Format(txtFec(1).Text, FormatoFecha) & "'"
     'OCultar/mostrar punteados
     If Check1.Value = 0 Then
         'Ocultar los ya puntedos
-        Sql = Sql & " AND Punteada = 0 "
+        SQL = SQL & " AND Punteada = 0 "
     End If
-    Sql = Sql & " ORDER BY fecopera,codigo"
+    SQL = SQL & " ORDER BY fecopera,codigo"
 
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     While Not Rs.EOF
         Set ItmX = ListView1.ListItems.Add()
         ItmX.Text = Format(Rs!fecopera, "dd/mm/yyyy")
         'Importe Debe
         If Not IsNull(Rs!ImporteD) Then
             Importe = Rs!ImporteD
-            Sql = "D"
+            SQL = "D"
         Else
             'Importe HABER
             If Not IsNull(Rs!ImporteH) Then
                 Importe = Rs!ImporteH
-                Sql = "H"
+                SQL = "H"
             Else
-                Sql = "XX"
+                SQL = "XX"
             End If
         End If
         ItmX.SubItems(1) = Format(Importe, FormatoImporte)
-        ItmX.SubItems(2) = Sql
+        ItmX.SubItems(2) = SQL
         ItmX.SubItems(3) = Format(Rs!Saldo, FormatoImporte)
         ItmX.SubItems(4) = Rs!Concepto
         ItmX.ListSubItems(4).ToolTipText = DBLet(Rs!Concepto, "T")
@@ -1940,40 +2175,41 @@ End Sub
 Private Sub CargaLineaApuntes()
 
     ListView2.ListItems.Clear
-    Sql = "Select numasien,fechaent,numdiari,linliapu,ampconce,timported,timporteh,punteada,saldo FROM tmpconext"
-    Sql = Sql & " WHERE codusu = " & vUsu.Codigo
+    SQL = "Select numasien,fechaent,numdiari,linliapu,ampconce,timported,timporteh,punteada,saldo FROM tmpconext"
+    SQL = SQL & " WHERE codusu = " & vUsu.Codigo
     
     If Check1.Value = 0 Then
         'Ocultar los ya puntedos
-        Sql = Sql & " AND Punteada = '' "
+        SQL = SQL & " AND Punteada = '' "
     End If
-    Sql = Sql & " ORDER BY pos"
+    SQL = SQL & " ORDER BY pos"
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     While Not Rs.EOF
         Set ItmX = ListView2.ListItems.Add()
         ItmX.Text = Format(Rs!FechaEnt, "dd/mm/yyyy")
         'Importe Debe
-        Sql = " "
+        SQL = " "
         If Not IsNull(Rs!timported) Then
             Importe = Format(Rs!timported, FormatoImporte)
-            Sql = "D"
+            SQL = "D"
         Else
             'Importe HABER
             If Not IsNull(Rs!timporteH) Then
                 Importe = Rs!timporteH
-                Sql = "H"
+                SQL = "H"
             Else
                 Importe = 0
-                Sql = "XX"
+                SQL = "XX"
             End If
         End If
-        ItmX.SubItems(1) = Format(Importe, FormatoImporte)
-        ItmX.SubItems(2) = Sql
-        ItmX.SubItems(3) = Format(Rs!Saldo, FormatoImporte)
-        ItmX.SubItems(4) = DBLet(Rs!Ampconce, "T")
-        ItmX.ListSubItems(4).ToolTipText = DBLet(Rs!Ampconce, "T")
+        ItmX.SubItems(1) = Format(Rs!NumAsien, "0000")
+        ItmX.SubItems(2) = Format(Importe, FormatoImporte)
+        ItmX.SubItems(3) = SQL
+        ItmX.SubItems(4) = Format(Rs!Saldo, FormatoImporte)
+        ItmX.SubItems(5) = DBLet(Rs!Ampconce, "T")
+        ItmX.ListSubItems(5).ToolTipText = DBLet(Rs!Ampconce, "T")
 
         
         ItmX.Tag = Rs!NumAsien & "|" & Rs!NumDiari & "|" & Rs!Linliapu & "|"
@@ -2055,18 +2291,18 @@ Private Sub BusquedaEnHaber()
     ContadorBus = 1
     Checkear = False
     Do
-        I = 1
-        While I <= ListView2.ListItems.Count
+        i = 1
+        While i <= ListView2.ListItems.Count
             'Comprobamos k no esta chekeado
-            If Not ListView2.ListItems(I).Checked Then
+            If Not ListView2.ListItems(i).Checked Then
                 'K tiene el mismo importe
-                If ListView1.SelectedItem.SubItems(1) = ListView2.ListItems(I).SubItems(1) Then
+                If ListView1.SelectedItem.SubItems(1) = ListView2.ListItems(i).SubItems(2) Then
                     'K no sean DEBE o HABER los dos
-                    Checkear = (ListView1.SelectedItem.SubItems(2) <> ListView2.ListItems(I).SubItems(2))
+                    Checkear = (ListView1.SelectedItem.SubItems(2) <> ListView2.ListItems(i).SubItems(3))
 
                     If Checkear Then
                         'Tiene el mismo importe y no esta chequeado
-                        Set ListView2.SelectedItem = ListView2.ListItems(I)
+                        Set ListView2.SelectedItem = ListView2.ListItems(i)
                         ListView2.SelectedItem.EnsureVisible
                         ListView2.SetFocus
                         Beep
@@ -2074,7 +2310,7 @@ Private Sub BusquedaEnHaber()
                     End If
                 End If
             End If
-            I = I + 1
+            i = i + 1
         Wend
         ContadorBus = ContadorBus + 1
         Loop Until ContadorBus > 2
@@ -2086,16 +2322,16 @@ Private Sub BusquedaEnDebe()
     ContadorBus = 1
     Checkear = False
     Do
-        I = 1
-        While I <= ListView1.ListItems.Count
-            If ListView2.SelectedItem.SubItems(1) = ListView1.ListItems(I).SubItems(1) Then
+        i = 1
+        While i <= ListView1.ListItems.Count
+            If ListView2.SelectedItem.SubItems(2) = ListView1.ListItems(i).SubItems(1) Then
                 'Lo hemos encontrado. Comprobamos que no esta chequeado
-                If Not ListView1.ListItems(I).Checked Then
+                If Not ListView1.ListItems(i).Checked Then
                     'Tiene el mismo importe y no son debe o haber
-                    Checkear = (ListView2.SelectedItem.SubItems(2) <> ListView1.ListItems(I).SubItems(2))
+                    Checkear = (ListView2.SelectedItem.SubItems(3) <> ListView1.ListItems(i).SubItems(2))
 
                     If Checkear Then
-                        Set ListView1.SelectedItem = ListView1.ListItems(I)
+                        Set ListView1.SelectedItem = ListView1.ListItems(i)
                         ListView1.SelectedItem.EnsureVisible
                         ListView1.SetFocus
                         Beep
@@ -2103,7 +2339,7 @@ Private Sub BusquedaEnDebe()
                     End If
                 End If
             End If
-            I = I + 1
+            i = i + 1
         Wend
         ContadorBus = ContadorBus + 1
     Loop Until ContadorBus > 2
@@ -2119,7 +2355,7 @@ On Error GoTo EPuntea
     If Not EnDEBE Then
         'ASientos
         'Actualizamos en DOS tablas, en la tmp y en la hcoapuntes
-        Sql = "UPDATE hlinapu SET "
+        SQL = "UPDATE hlinapu SET "
         If IT.Checked Then
             RC = "1"
             Importe = 1
@@ -2127,21 +2363,21 @@ On Error GoTo EPuntea
             RC = "0"
             Importe = -1
         End If
-        Importe = Importe * CSng(IT.SubItems(1))
+        Importe = Importe * CSng(IT.SubItems(2))
         If EnDEBE Then
             De = De + Importe
         Else
             Ha = Ha + Importe
         End If
-        Sql = Sql & " punteada = " & RC
-        Sql = Sql & " WHERE fechaent='" & Format(IT.Text, FormatoFecha) & "'"
-        Sql = Sql & " AND numasien="
+        SQL = SQL & " punteada = " & RC
+        SQL = SQL & " WHERE fechaent='" & Format(IT.Text, FormatoFecha) & "'"
+        SQL = SQL & " AND numasien="
         RC = RecuperaValor(IT.Tag, 1)
-        Sql = Sql & RC & " AND numdiari ="
+        SQL = SQL & RC & " AND numdiari ="
         RC = RecuperaValor(IT.Tag, 2)
-        Sql = Sql & RC & " AND linliapu ="
+        SQL = SQL & RC & " AND linliapu ="
         RC = RecuperaValor(IT.Tag, 3)
-        Sql = Sql & RC
+        SQL = SQL & RC
         
         
         
@@ -2162,11 +2398,11 @@ On Error GoTo EPuntea
         Else
             Ha = Ha + Importe
         End If
-        Sql = "UPDATE norma43 SET punteada= " & RC & " WHERE codigo=" & IT.Tag
+        SQL = "UPDATE norma43 SET punteada= " & RC & " WHERE codigo=" & IT.Tag
         
     End If
     
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     'Ponemos los importes
     PonerImportes
@@ -2183,83 +2419,83 @@ Private Sub PonFoco(ByRef T As TextBox)
 End Sub
 
 Private Function GenerarCabecera(NumAsi As Long) As Boolean
-Dim cad As String
+Dim Cad As String
 
     On Error GoTo EGenerarCabecera
     GenerarCabecera = False
     
     '-------------------------------------------------------------------------
     'Insertamos cabecera
-    Sql = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari,feccreacion,usucreacion,desdeaplicacion) VALUES ("
+    SQL = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari,feccreacion,usucreacion,desdeaplicacion) VALUES ("
     'Ejemplo
     ' 1, '2003-11-25', 1, 1, NULL, 'misobs')
-    Sql = Sql & Text9.Text & ",'" & Format(CDate(txtFec(2).Text), FormatoFecha) & "'," & NumAsi & ","
+    SQL = SQL & Text9.Text & ",'" & Format(CDate(txtFec(2).Text), FormatoFecha) & "'," & NumAsi & ","
     'Observaciones
-    Sql = Sql & "'Asiento generado desde punteo bancario por " & vUsu.Nombre & " el " & Format(Now, "dd/mm/yyyy") & "',"
+    SQL = SQL & "'Asiento generado desde punteo bancario por " & vUsu.Nombre & " el " & Format(Now, "dd/mm/yyyy") & "',"
     '
-    Sql = Sql & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Punteo Bancario')"
-    Conn.Execute Sql
+    SQL = SQL & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Punteo Bancario')"
+    Conn.Execute SQL
     
     '-----------------------------------------------------------------------------
     'La linea del asiento
     'Hemos puesto hlinapu mas atras para poder cambiarla
-    Sql = "INSERT INTO hlinapu (numdiari, fechaent, numasien, numdocum,"
-    Sql = Sql & " ampconce, codconce, linliapu, codmacta, timporteD, timporteH, ctacontr, codccost, idcontab, punteada) VALUES ("
+    SQL = "INSERT INTO hlinapu (numdiari, fechaent, numasien, numdocum,"
+    SQL = SQL & " ampconce, codconce, linliapu, codmacta, timporteD, timporteH, ctacontr, codccost, idcontab, punteada) VALUES ("
     
     'Ejemplo valores
     '1, '2001-01-20', 0, 0, '0', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0)"
-    Sql = Sql & Text9.Text & ",'" & Format(CDate(txtFec(2).Text), FormatoFecha) & "'," & NumAsi & ","
+    SQL = SQL & Text9.Text & ",'" & Format(CDate(txtFec(2).Text), FormatoFecha) & "'," & NumAsi & ","
     '          dcumento
-    Sql = Sql & DBSet(Text11.Text, "T") & ","
+    SQL = SQL & DBSet(Text11.Text, "T") & ","
     
     'Ampliacion concepto
-    cad = Mid(Text7.Text & " " & Text8.Text, 1, 30)
-    Sql = Sql & DBSet(cad, "T") & ","
+    Cad = Mid(Text7.Text & " " & Text8.Text, 1, 30)
+    SQL = SQL & DBSet(Cad, "T") & ","
     
     'Concepto
-    Sql = Sql & Text6.Text & ","
+    SQL = SQL & Text6.Text & ","
     
     'El importe
     Importe = CCur(ListView1.SelectedItem.SubItems(1))
-    cad = "1,'" & Text1.Text & "',"
+    Cad = "1,'" & Text1.Text & "',"
     If ListView1.SelectedItem.SubItems(2) = "H" Then
         'Va al debe
-        cad = cad & TransformaComasPuntos(CStr(Importe)) & ",NULL"
+        Cad = Cad & TransformaComasPuntos(CStr(Importe)) & ",NULL"
     Else
-        cad = cad & "NULL," & TransformaComasPuntos(CStr(Importe))
+        Cad = Cad & "NULL," & TransformaComasPuntos(CStr(Importe))
     End If
     
     'Contrapartida
     If Text4.Text <> "" Then
-        cad = cad & ",'" & Text4.Text & "'"
+        Cad = Cad & ",'" & Text4.Text & "'"
     Else
-        cad = cad & ",NULL"
+        Cad = Cad & ",NULL"
     End If
     
     'y la punteamos
-    cad = Sql & cad & ",NULL,'CONTAB',1)"
-    Conn.Execute cad
+    Cad = SQL & Cad & ",NULL,'CONTAB',1)"
+    Conn.Execute Cad
     
     'Si tiene contrapartida entonces genero la segunda linea de apuntes
     ' k sera la de la contrapartida, con el importe el mismo al lado contrario
     ' el mismo concepto
     If Text4.Text <> "" Then
         'SI TIENE
-            cad = "2,'" & Text4.Text & "',"
+            Cad = "2,'" & Text4.Text & "',"
             'En la de arriba es igual a H
             If ListView1.SelectedItem.SubItems(2) = "D" Then
                 'Va al debe
-                cad = cad & TransformaComasPuntos(CStr(Importe)) & ",NULL"
+                Cad = Cad & TransformaComasPuntos(CStr(Importe)) & ",NULL"
             Else
-                cad = cad & "NULL," & TransformaComasPuntos(CStr(Importe))
+                Cad = Cad & "NULL," & TransformaComasPuntos(CStr(Importe))
             End If
             
             'Contrapartida es la del banco
-            cad = cad & ",'" & Text1.Text & "'"
+            Cad = Cad & ",'" & Text1.Text & "'"
             
             'y NO la punteamos
-            cad = Sql & cad & ",NULL,'CONTAB',0)"
-            Conn.Execute cad
+            Cad = SQL & Cad & ",NULL,'CONTAB',0)"
+            Conn.Execute Cad
     End If
     GenerarCabecera = True
     Exit Function
@@ -2295,7 +2531,7 @@ End Sub
 
 Private Function ProcesarFichero() As Boolean
 Dim Fin As Boolean
-Dim cad As String
+Dim Cad As String
 
 On Error GoTo EProcesarFichero
     'Abrimos el fichero para lectura
@@ -2304,45 +2540,45 @@ On Error GoTo EProcesarFichero
     FicheroPpal = "|"
     Open Text12.Text For Input As #NF
     While Not EOF(NF)
-        Line Input #NF, Sql
+        Line Input #NF, SQL
         
         If Len(FicheroPpal) = 1 Then
             'Primera linea.
             'A veces, el fichhero esta grabado en UTF8
             'Par ello quitaremos los tres primeros caracteres, o hasta llegar a un NUMERO
             K = 0
-            cad = "OK"
-            For I = 1 To Len(Sql)
-                J = Asc(Mid(Sql, I, 1))
+            Cad = "OK"
+            For i = 1 To Len(SQL)
+                J = Asc(Mid(SQL, i, 1))
                 If J > 90 Then
                     'nada
-                    cad = "N"
+                    Cad = "N"
                 Else
-                    cad = ""
-                    K = I
+                    Cad = ""
+                    K = i
                     Exit For
                 End If
                 
             Next
             
-            If K > 1 Then Sql = Mid(Sql, K)
+            If K > 1 Then SQL = Mid(SQL, K)
                 
    
         End If
         
-        If InStr(1, Sql, vbCrLf) = 0 Then
+        If InStr(1, SQL, vbCrLf) = 0 Then
             'No hay salto de linea y return
-            If InStr(1, Sql, vbLf) > 0 Then
+            If InStr(1, SQL, vbLf) > 0 Then
                 If K = 1 Then
                     'Solo tiene una linea, y viene con saltos de linea vbLF
-                    Sql = Replace(Sql, vbLf, "|")
+                    SQL = Replace(SQL, vbLf, "|")
                 End If
             End If
         End If
         
-        If Sql <> "" Then
+        If SQL <> "" Then
                                         'Separador de lineas
-            FicheroPpal = FicheroPpal & Sql & "|"
+            FicheroPpal = FicheroPpal & SQL & "|"
         End If
     Wend
     Close #NF
@@ -2354,7 +2590,7 @@ End Function
 
 
 Private Sub ProcesarDatos()
-Dim I As Long
+Dim i As Long
 Dim CONT As Long
 Dim NF As Long
 Dim Linea As String
@@ -2370,13 +2606,13 @@ Dim ContadorMYSQL As Integer
 Dim ContadorRegistrosBanco As Integer
 
     'Vemos cuantas cuentas trae el extracto
-    I = 0
+    i = 0
     CONT = 0
     Do
-        NF = I + 1
-        I = InStr(NF, FicheroPpal, "|11")  'los registros empiezan por 11 para las cuentas
-        If I > 0 Then CONT = CONT + 1
-    Loop Until I = 0
+        NF = i + 1
+        i = InStr(NF, FicheroPpal, "|11")  'los registros empiezan por 11 para las cuentas
+        If i > 0 Then CONT = CONT + 1
+    Loop Until i = 0
         
     If CONT = 0 Then
         MsgBox "Error en el fichero. No se ha encontrado registro 11", vbExclamation
@@ -2386,13 +2622,16 @@ Dim ContadorRegistrosBanco As Integer
     
     
     txtDatos.Text = ""
+    txtSald(0).Text = ""
+    txtSald(1).Text = ""
+    txtSald(1).BackColor = Me.txtSald(0).BackColor
     Comienzo = 2
     ContadorMYSQL = 1
     ContadorRegistrosBanco = 0
     Cta = ""
     'Ya sabemos cuantas cont hay k tratar
-    For I = 1 To CONT
-        If I <> CONT Then
+    For i = 1 To CONT
+        If i <> CONT Then
             Linea = "|11"
             'Hay mas de un |11 o cuenta bancaria
         Else
@@ -2441,24 +2680,24 @@ Dim ContadorRegistrosBanco As Integer
             MsgBox "Error obteniendo la cuenta contable asociada. Linea: " & Linea, vbExclamation
             Exit Sub
         Else
-            Sql = ""
+            SQL = ""
             If ContadorRegistrosBanco = 0 Then
-                If txtDatos.Text <> "" Then txtDatos.Text = txtDatos.Text & Sql & vbCrLf
+                If txtDatos.Text <> "" Then txtDatos.Text = txtDatos.Text & SQL & vbCrLf
                 For NF = 1 To 98
-                    Sql = Sql & "="
+                    SQL = SQL & "="
                 Next NF
-                txtDatos.Text = txtDatos.Text & Sql & vbCrLf
-                Sql = Mid(Linea, 3, 4) & " " & Mid(Linea, 7, 4) & " ** " & Mid(Linea, 11, 10)
-                txtDatos.Text = txtDatos.Text & "Cuenta bancaria: " & Sql & vbCrLf
-                Fecha = Fecha & "Cuenta bancaria:   " & Sql & vbCrLf
+                txtDatos.Text = txtDatos.Text & SQL & vbCrLf
+                SQL = Mid(Linea, 3, 4) & " " & Mid(Linea, 7, 4) & " ** " & Mid(Linea, 11, 10)
+                txtDatos.Text = txtDatos.Text & "Cuenta bancaria: " & SQL & vbCrLf
+                Fecha = Fecha & "Cuenta bancaria:   " & SQL & vbCrLf
                 txtDatos.Text = txtDatos.Text & "Cuenta contable:   " & Cta & vbCrLf
                 Fecha = Fecha & "Cuenta contable:    " & Cta & vbCrLf
                 txtDatos.Text = txtDatos.Text & "Linea  F.Opercion   F.Valor         Debe            Haber          Concepto" & vbCrLf
-                Sql = ""
+                SQL = ""
                 For NF = 1 To 98
-                    Sql = Sql & "-"
+                    SQL = SQL & "-"
                 Next NF
-                txtDatos.Text = txtDatos.Text & Sql & vbCrLf
+                txtDatos.Text = txtDatos.Text & SQL & vbCrLf
             Else
                 'Es otro trozo de fichero 11| pero de la misma cuenta
                 txtDatos.Text = txtDatos.Text & String(98, "=") & vbCrLf
@@ -2466,12 +2705,14 @@ Dim ContadorRegistrosBanco As Integer
         End If
         
         'Fijaremos el saldo incial
-        Sql = Mid(Linea, 34, 14)
-        If Not IsNumeric(Sql) Then
-            MsgBox "Error. Se esperaba un importe: " & Sql, vbExclamation
+        SQL = Mid(Linea, 34, 14)
+        If Not IsNumeric(SQL) Then
+            MsgBox "Error. Se esperaba un importe: " & SQL, vbExclamation
             Exit Sub
         End If
-        Saldo = Val(Sql) / 100
+        Saldo = Val(SQL) / 100
+        txtSald(1).Text = Format(Saldo, FormatoImporte)
+        
         
         'ANTES 25 Noviembre
         'Se trabaja al reves
@@ -2490,10 +2731,10 @@ Dim ContadorRegistrosBanco As Integer
             Linea = Mid(Fichero, 1, NF - 1)
             Fichero = Mid(Fichero, NF + 1)
             
-            Sql = Mid(Linea, 1, 2)
+            SQL = Mid(Linea, 1, 2)
           
             
-            If Sql = "22" Then
+            If SQL = "22" Then
                 If Num22 > 0 Then
                     If Not RegistroInsertado Then
                         If Not InsertarRegistro(Ampliacion, ContadorMYSQL, ContadorRegistrosBanco) Then Exit Sub
@@ -2506,7 +2747,7 @@ Dim ContadorRegistrosBanco As Integer
                 Primer23 = True
                 Num22 = Num22 + 1
             Else
-                If Sql = "23" Then
+                If SQL = "23" Then
                     If Primer23 Then
                         Primer23 = False
                         'Insertaremos
@@ -2517,7 +2758,7 @@ Dim ContadorRegistrosBanco As Integer
                     
                     
                 Else
-                    If Sql = "33" Then
+                    If SQL = "33" Then
                         If Not RegistroInsertado Then
                             If Num22 > 0 Then
                                 If Not InsertarRegistro(Ampliacion, ContadorMYSQL, ContadorRegistrosBanco) Then Exit Sub
@@ -2538,19 +2779,36 @@ Dim ContadorRegistrosBanco As Integer
             End If
         Loop Until Fichero = ""
         'Kitamos de ppal el valor
-    Next I
+    Next i
     
     'Si llega aqui es k ha ido bien.Si no inserta nada, NO muestro los datos
-    If ContadorMYSQL > 1 Then PonerModo 1
+    If ContadorMYSQL > 1 Then
+        DoEvents
+        Screen.MousePointer = vbHourglass
+        
+        SQL = "codmacta='" & Me.Text1.Text & "' and 1"
+        SQL = DevuelveDesdeBD("saldo", "norma43", SQL, "1 order by codigo desc")
+        If SQL <> "" Then
+            txtSald(0).Text = Format(CCur(SQL), FormatoImporte)
+            
+            
+            If txtSald(0).Text <> txtSald(1).Text Then Me.txtSald(1).BackColor = &HD6D9FE
+            
+        End If
+        PonerModo 1
+        Screen.MousePointer = vbHourglass
+    End If
+        
+        
 End Sub
 
 Private Sub FijarCtaContable(ByRef Lin As String)
-    Sql = "Select codmacta from bancos"
-    Sql = Sql & " where mid(iban,5,4) = " & Mid(Lin, 3, 4) ' entidad
-    Sql = Sql & " AND mid(iban,9,4) = " & Mid(Lin, 7, 4) ' oficina
-    Sql = Sql & " AND mid(iban,15,10) = '" & Mid(Lin, 11, 10) & "'" ' cuentaba
+    SQL = "Select codmacta from bancos"
+    SQL = SQL & " where mid(iban,5,4) = " & Mid(Lin, 3, 4) ' entidad
+    SQL = SQL & " AND mid(iban,9,4) = " & Mid(Lin, 7, 4) ' oficina
+    SQL = SQL & " AND mid(iban,15,10) = '" & Mid(Lin, 11, 10) & "'" ' cuentaba
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     Cta = ""
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then Cta = Rs.Fields(0)
@@ -2558,9 +2816,9 @@ Private Sub FijarCtaContable(ByRef Lin As String)
     Rs.Close
     Set Rs = Nothing
     If Cta = "" Then
-        Sql = "Fichero pertenece a la cuenta bancaria:  " & Mid(Lin, 3, 4) & "  " & Mid(Lin, 7, 4) & " ** " & Mid(Lin, 11, 10) & vbCrLf
-        Sql = Sql & vbCrLf & "No esta asociada a ninguna cuenta contable."
-        MsgBox Sql, vbExclamation
+        SQL = "Fichero pertenece a la cuenta bancaria:  " & Mid(Lin, 3, 4) & "  " & Mid(Lin, 7, 4) & " ** " & Mid(Lin, 11, 10) & vbCrLf
+        SQL = SQL & vbCrLf & "No esta asociada a ninguna cuenta contable."
+        MsgBox SQL, vbExclamation
     End If
 End Sub
 
@@ -2602,20 +2860,20 @@ Dim SQ As String
     Screen.MousePointer = vbHourglass
     SQ = ""
     Set Rs = New ADODB.Recordset
-    Sql = "Select min(fecopera) from tmpnorma43 where codusu = " & vUsu.Codigo
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "Select min(fecopera) from tmpnorma43 where codusu = " & vUsu.Codigo
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then SQ = " fecopera >='" & Format(Rs.Fields(0), FormatoFecha) & "'"
     End If
     Rs.Close
-    Sql = "Select max(fecopera) from tmpnorma43 where codusu = " & vUsu.Codigo
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "Select max(fecopera) from tmpnorma43 where codusu = " & vUsu.Codigo
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then SQ = SQ & " and fecopera <='" & Format(Rs.Fields(0), FormatoFecha) & "'"
     End If
     Rs.Close
-    Sql = "Select count(*) from norma43 where " & SQ
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "Select count(*) from norma43 where " & SQ
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NF = 0
     If Not Rs.EOF Then
         NF = DBLet(Rs.Fields(0), "N")
@@ -2624,10 +2882,10 @@ Dim SQ As String
     Set Rs = Nothing
     
     If NF > 0 Then
-        Sql = "Se han encontrado datos entre las fechas importadas." & vbCrLf
-        Sql = Sql & "( " & SQ & " )" & vbCrLf & vbCrLf
-        Sql = Sql & "Puede duplicar los datos. ¿ Desea continuar ? " & vbCrLf
-        If MsgBox(Sql, vbQuestion + vbYesNoCancel + vbDefaultButton2) <> vbYes Then
+        SQL = "Se han encontrado datos entre las fechas importadas." & vbCrLf
+        SQL = SQL & "( " & SQ & " )" & vbCrLf & vbCrLf
+        SQL = SQL & "Puede duplicar los datos. ¿ Desea continuar ? " & vbCrLf
+        If MsgBox(SQL, vbQuestion + vbYesNoCancel + vbDefaultButton2) <> vbYes Then
             Screen.MousePointer = vbDefault
             Exit Sub
         End If
@@ -2684,25 +2942,25 @@ Dim L As String
     
     L = TransformaPuntosComas(L)
     L = Format(L, FormatoImporte)
-    cad = "              "
+    Cad = "              "
     If NF = 0 Then
         'Debe
-        txtDatos.Text = txtDatos.Text & "  " & Right("              " & L, 14) & "    " & cad
+        txtDatos.Text = txtDatos.Text & "  " & Right("              " & L, 14) & "    " & Cad
     Else
-        txtDatos.Text = txtDatos.Text & "  " & cad & "    " & Right("              " & L, 14)
+        txtDatos.Text = txtDatos.Text & "  " & Cad & "    " & Right("              " & L, 14)
     End If
     vSql = vSql & "," & RecuperaValor(CadenaDesdeOtroForm, 4)
     
     'El concepto lo saco de la linea de aqui
-    cad = DevNombreSQL(Trim(Ampliacion))  '30 como mucho
-    vSql = vSql & ",'" & cad & "',"
+    Cad = DevNombreSQL(Trim(Ampliacion))  '30 como mucho
+    vSql = vSql & ",'" & Cad & "',"
     txtDatos.Text = txtDatos.Text & "    " & Ampliacion & vbCrLf
         
     'NumDocum
     vSql = vSql & "'" & RecuperaValor(CadenaDesdeOtroForm, 5) & "'"
     Saldo = Saldo - Importe
-    cad = TransformaComasPuntos(CStr(Saldo))
-    vSql = vSql & "," & cad & ")"
+    Cad = TransformaComasPuntos(CStr(Saldo))
+    vSql = vSql & "," & Cad & ")"
     'Para la BD
     ContadorMYSQL = ContadorMYSQL + 1
     
@@ -2728,40 +2986,40 @@ Dim Debe As Boolean
     ProcesaLineaASiento = False
     CadenaDesdeOtroForm = ""
     'Fecha operacion
-    cad = Mid(Lin, 11, 6)
-    cad = "20" & Mid(cad, 1, 2) & "/" & Mid(cad, 3, 2) & "/" & Mid(cad, 5, 2)
-    If Not IsDate(cad) Then
+    Cad = Mid(Lin, 11, 6)
+    Cad = "20" & Mid(Cad, 1, 2) & "/" & Mid(Cad, 3, 2) & "/" & Mid(Cad, 5, 2)
+    If Not IsDate(Cad) Then
         MsgBox "Formato fecha incorrecto", vbExclamation
         Exit Function
     End If
-    CadenaDesdeOtroForm = Format(cad, FormatoFecha) & "|"
+    CadenaDesdeOtroForm = Format(Cad, FormatoFecha) & "|"
     
     'Fecha valor
-    cad = Mid(Lin, 17, 6)
-    cad = "20" & Mid(cad, 1, 2) & "/" & Mid(cad, 3, 2) & "/" & Mid(cad, 5, 2)
-    If Not IsDate(cad) Then
+    Cad = Mid(Lin, 17, 6)
+    Cad = "20" & Mid(Cad, 1, 2) & "/" & Mid(Cad, 3, 2) & "/" & Mid(Cad, 5, 2)
+    If Not IsDate(Cad) Then
         MsgBox "Formato fecha incorrecto", vbExclamation
         Exit Function
     End If
-    CadenaDesdeOtroForm = CadenaDesdeOtroForm & Format(cad, FormatoFecha) & "|"
+    CadenaDesdeOtroForm = CadenaDesdeOtroForm & Format(Cad, FormatoFecha) & "|"
     
     
     'Importe
-    cad = Mid(Lin, 28, 1)
-    Debe = cad = "1"
-    cad = Mid(Lin, 29, 14)
-    If Not IsNumeric(cad) Then
-        MsgBox "Importe registro 22 incorrecto: " & cad, vbExclamation
+    Cad = Mid(Lin, 28, 1)
+    Debe = Cad = "1"
+    Cad = Mid(Lin, 29, 14)
+    If Not IsNumeric(Cad) Then
+        MsgBox "Importe registro 22 incorrecto: " & Cad, vbExclamation
         Exit Function
     End If
-    Importe = Val(cad) / 100
-    cad = TransformaComasPuntos(CStr(Importe))
+    Importe = Val(Cad) / 100
+    Cad = TransformaComasPuntos(CStr(Importe))
     
     'Importe debe / haber
     If Debe Then
-        CadenaDesdeOtroForm = CadenaDesdeOtroForm & cad & "|NULL|"
+        CadenaDesdeOtroForm = CadenaDesdeOtroForm & Cad & "|NULL|"
     Else
-        CadenaDesdeOtroForm = CadenaDesdeOtroForm & "NULL|" & cad & "|"
+        CadenaDesdeOtroForm = CadenaDesdeOtroForm & "NULL|" & Cad & "|"
     End If
     
     
@@ -2784,27 +3042,27 @@ Dim Debe As Boolean
 End Function
 
 Private Function ProcesaAmpliacion2(miLinea As String) As String
-Dim CADENA As String
+Dim Cadena As String
 Dim C2 As String
 Dim Blanco As Boolean
-Dim I As Integer
+Dim i As Integer
 
-    CADENA = ""
+    Cadena = ""
     Blanco = False
-    For I = 5 To Len(miLinea)
-        C2 = Mid(miLinea, I, 1)
+    For i = 5 To Len(miLinea)
+        C2 = Mid(miLinea, i, 1)
         If C2 = " " Then
              If Not Blanco Then
-                CADENA = CADENA & C2
+                Cadena = Cadena & C2
                 Blanco = True
             End If
         Else
             Blanco = False
-            CADENA = CADENA & C2
+            Cadena = Cadena & C2
         End If
-    Next I
-    If Len(CADENA) > 30 Then CADENA = Mid(CADENA, 1, 30)
-    ProcesaAmpliacion2 = CADENA
+    Next i
+    If Len(Cadena) > 30 Then Cadena = Mid(Cadena, 1, 30)
+    ProcesaAmpliacion2 = Cadena
 End Function
 
 Private Function HacerComprobaciones(ByRef Lin As String, ContadorRegistrosBanco As Integer, TotalRegistrosInsertados As Integer) As Boolean
@@ -2813,9 +3071,9 @@ Dim InsercionesActuales As Integer
     Set Rs = New ADODB.Recordset
     HacerComprobaciones = False
     InsercionesActuales = NumRegElim - 1
-    cad = "Select max(orden) from tmpnorma43 where codusu =" & vUsu.Codigo
-    cad = cad & " AND codmacta ='" & Cta & "'"
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "Select max(orden) from tmpnorma43 where codusu =" & vUsu.Codigo
+    Cad = Cad & " AND codmacta ='" & Cta & "'"
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NF = 0
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then NF = Rs.Fields(0)
@@ -2841,32 +3099,32 @@ Dim InsercionesActuales As Integer
     
     If NumRegElim > 0 Then
         'Obtengo la suma de importes
-        cad = "Select sum(importeD)as debe,sum(importeH) as haber,sum(importeD)-sum(importeH) from tmpnorma43 where codusu = " & vUsu.Codigo
-        cad = cad & " AND codmacta ='" & Cta & "'"
+        Cad = "Select sum(importeD)as debe,sum(importeH) as haber,sum(importeD)-sum(importeH) from tmpnorma43 where codusu = " & vUsu.Codigo
+        Cad = Cad & " AND codmacta ='" & Cta & "'"
         'Enero 2009.
         'Estamos admitiendo ficheros que , aun siendo de la misma cuenta, tran mas de una entrada 11| (cabecera de cuenta
         NF = ContadorRegistrosBanco - InsercionesActuales
-        cad = cad & " AND orden >" & NF
-        Rs.Open cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+        Cad = Cad & " AND orden >" & NF
+        Rs.Open Cad, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
         If Not Rs.EOF Then
-            cad = CStr(Val(Mid(Lin, 26, 14)) / 100)
+            Cad = CStr(Val(Mid(Lin, 26, 14)) / 100)
             CadenaDesdeOtroForm = DBLet(Rs.Fields(0), "N")
-            Ok = (cad = CadenaDesdeOtroForm)
+            Ok = (Cad = CadenaDesdeOtroForm)
             If Ok Then
-                cad = CStr(Val(Mid(Lin, 45, 14)) / 100)
+                Cad = CStr(Val(Mid(Lin, 45, 14)) / 100)
                 CadenaDesdeOtroForm = DBLet(Rs.Fields(1), "N")
-                Ok = (cad = CadenaDesdeOtroForm)
+                Ok = (Cad = CadenaDesdeOtroForm)
             End If
             If Ok Then
                 Importe = Val(Mid(Lin, 60, 14)) / 100
                 If Mid(Lin, 59, 1) = "2" Then Importe = Importe * -1
                 
                 If ContadorRegistrosBanco = 0 Then
-                    cad = "Fichero de comprobación de saldos: " & vbCrLf & vbCrLf
-                    cad = cad & "Saldo: " & CStr(Importe)
-                    cad = cad & vbCrLf & vbCrLf & vbCrLf
-                    cad = cad & "¿Desea eliminar el archivo?"
-                    If MsgBox(cad, vbQuestion + vbYesNo) = vbYes Then
+                    Cad = "Fichero de comprobación de saldos: " & vbCrLf & vbCrLf
+                    Cad = Cad & "Saldo: " & CStr(Importe)
+                    Cad = Cad & vbCrLf & vbCrLf & vbCrLf
+                    Cad = Cad & "¿Desea eliminar el archivo?"
+                    If MsgBox(Cad, vbQuestion + vbYesNo) = vbYes Then
                         If Dir(Text12.Text, vbArchive) <> "" Then
                             Kill Text12.Text
                             Text12.Text = ""
@@ -2912,32 +3170,32 @@ Dim Codigo As Long
     
     Set Rs = New ADODB.Recordset
     Codigo = 0
-    Sql = "Select max(codigo) from norma43"
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "Select max(codigo) from norma43"
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
         Codigo = DBLet(Rs.Fields(0), "N")
     End If
     Rs.Close
-    Codigo = Codigo + 1
+    Codigo = Codigo + 2   'Dejare un salto con el objetivo de poder cuadrar mas adelante
     
-    Sql = "Select * from tmpnorma43 where codusu = " & vUsu.Codigo & " ORDER By Orden"
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "Select * from tmpnorma43 where codusu = " & vUsu.Codigo & " ORDER By Orden"
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     'Cadena de insercion
-    Sql = "INSERT INTO norma43 (codigo, codmacta, fecopera, fecvalor, importeD,"
-    Sql = Sql & "importeH, concepto, numdocum, saldo, punteada) VALUES ("
+    SQL = "INSERT INTO norma43 (codigo, codmacta, fecopera, fecvalor, importeD,"
+    SQL = SQL & "importeH, concepto, numdocum, saldo, punteada) VALUES ("
     While Not Rs.EOF
-        cad = Codigo & ",'" & Rs!codmacta & "','" & Format(Rs!fecopera, FormatoFecha)
-        cad = cad & "','" & Format(Rs!fecvalor, FormatoFecha) & "',"
+        Cad = Codigo & ",'" & Rs!codmacta & "','" & Format(Rs!fecopera, FormatoFecha)
+        Cad = Cad & "','" & Format(Rs!fecvalor, FormatoFecha) & "',"
         If IsNull(Rs!ImporteD) Then
-            cad = cad & "NULL," & TransformaComasPuntos(CStr(Rs!ImporteH))
+            Cad = Cad & "NULL," & TransformaComasPuntos(CStr(Rs!ImporteH))
         Else
-            cad = cad & TransformaComasPuntos(CStr(Rs!ImporteD)) & ",NULL"
+            Cad = Cad & TransformaComasPuntos(CStr(Rs!ImporteD)) & ",NULL"
         End If
-        cad = cad & ",'" & DevNombreSQL(DBLet(Rs!Concepto)) & "','" & Rs!Numdocum & "',"
-        cad = cad & TransformaComasPuntos(CStr(Rs!Saldo)) & ",0);"
-        cad = Sql & cad
+        Cad = Cad & ",'" & DevNombreSQL(DBLet(Rs!Concepto)) & "','" & Rs!Numdocum & "',"
+        Cad = Cad & TransformaComasPuntos(CStr(Rs!Saldo)) & ",0);"
+        Cad = SQL & Cad
         'Ejecutamos SQL
-        Conn.Execute cad
+        Conn.Execute Cad
         Codigo = Codigo + 1
         Rs.MoveNext
     Wend
@@ -2955,3 +3213,21 @@ End Sub
 
 
 
+
+
+
+Private Sub VerAsiento()
+
+    If Me.ListView2.ListItems.Count = 0 Then Exit Sub
+    If ListView2.SelectedItem Is Nothing Then Exit Sub
+    
+    'Rs!NumAsien & "|" & Rs!NumDiari & "|" & Rs!Linliapu & "|"
+    
+    frmAsientosHco.Asiento = DBLet(RecuperaValor(ListView2.SelectedItem.Tag, 2), "N") & "|" & ListView2.SelectedItem.Text & "|" & ListView2.SelectedItem.SubItems(1) & "|"
+    frmAsientosHco.SoloImprimir = True
+    frmAsientosHco.Show vbModal
+            
+    
+    
+
+End Sub

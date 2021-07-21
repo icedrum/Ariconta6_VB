@@ -727,7 +727,7 @@ End Sub
 
 
 Private Sub PonerDatosFicheroSalida()
-Dim CADENA As String
+Dim Cadena As String
 
     txtTipoSalida(1).Text = App.Path & "\Exportar\Mod349_" & Format(Mid(Me.txtAno(0), 3, 2), "00") & cmbPeriodo(0).Text & ".txt"
 
@@ -782,7 +782,7 @@ Private Sub CargarCombo()
     
     'Leeremos ultimo valor liquidaco
     
-    txtAno(0).Text = vParam.anofactu
+    txtAno(0).Text = vParam.Anofactu
     I = vParam.perfactu + 1
     If vParam.periodos = 0 Then
         NumRegElim = 4
@@ -792,7 +792,7 @@ Private Sub CargarCombo()
         
     If I > NumRegElim Then
             I = 1
-            txtAno(0).Text = vParam.anofactu + 1
+            txtAno(0).Text = vParam.Anofactu + 1
     End If
     If vParam.periodos = 0 Then
         Me.cmbPeriodo(0).ListIndex = I + 12 - 1
@@ -1252,7 +1252,7 @@ On Error GoTo EComprobarCuentas349
     
     'Cargamos la tabla con los valores
     Sql = "SELECT "
-    Sql = Sql & " factcli.codmacta,factcli.nifdatos,coalesce(factcli.codintra,'E') tipo,factcli.nommacta,factcli.dirdatos,factcli.codpobla,sum(baseimpo)as s1"
+    Sql = Sql & " factcli.codmacta,factcli.nifdatos,coalesce(factcli.codintra,'E') tipo,factcli.nommacta,factcli.dirdatos,coalesce(factcli.codpobla,0) codpobla,sum(baseimpo)as s1"
     Sql = Sql & " from " & Contabilidad & ".factcli," & Contabilidad & ".factcli_totales  where "
     Sql = Sql & " factcli.numserie = factcli_totales.numserie and factcli.numfactu = factcli_totales.numfactu and factcli.fecfactu = factcli_totales.fecfactu "
     Sql = Sql & " AND factcli.fecfactu >='" & Format(FechaI, FormatoFecha) & "'"
@@ -1378,7 +1378,7 @@ On Error GoTo EComprobarCuentas349
     While Not Rs.EOF
         ContadorCli = ContadorCli + 1
         
-        Sql = ContadorCli & ",'" & Rs!NUmSerie & Format(Rs!NumFactu, "0000000000") & "','" & Format(Rs!FecFactu, FormatoFecha) & "','"
+        Sql = ContadorCli & ",'" & Rs!NUmSerie & Format(Rs!numfactu, "0000000000") & "','" & Format(Rs!FecFactu, FormatoFecha) & "','"
         ', cta,  NIF, IVA,  Total   .- IVA= numero empresa
         Importe = Rs!Baseimpo
         Sql = Sql & Rs!codmacta & "','" & Rs!NIF & "'," & I & "," & TransformaComasPuntos(CStr(Importe))
@@ -1432,7 +1432,7 @@ On Error GoTo EComprobarCuentas349
         
         'Abril 2006. Busco la base, no el total factura
         Importe = Rs!Baseimpo
-        Sql = Sql & Mid(Rs!NumFactu, 1, 10) & "','" & Rs!NIF & "'," & I & "," & TransformaComasPuntos(CStr(Importe))
+        Sql = Sql & Mid(Rs!numfactu, 1, 10) & "','" & Rs!NIF & "'," & I & "," & TransformaComasPuntos(CStr(Importe))
         
         
         

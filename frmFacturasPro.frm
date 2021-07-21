@@ -5384,7 +5384,7 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
     If vParam.SIITiene Then
         'SI esta presentada...
      
-            If DBLet(Data1.Recordset!sii_id, "N") > 0 Then
+            If DBLet(Data1.Recordset!SII_ID, "N") > 0 Then
                 If Text1(28).BackColor = vbSiiMofificando Then
                     CadenaDesdeOtroForm = ""
                     BuscaChekc = "numserie = " & DBSet(Data1.Recordset!NUmSerie, "T") & " AND factura_regis =" & Data1.Recordset!Numregis & " AND anofactu=" & Data1.Recordset!Anofactu & " AND estado=0 AND esfacturacliente" '=0
@@ -5824,17 +5824,44 @@ Dim cad As String
     If Not B Then Exit Function
     
     
+    
+    'Modificando, tiene SII, y la factura esta presentada
+    'Significa que esta en el proceso de cambio de datos para volverla a subir
+    ' NO puede cambiar ni numero de factura ni nif ni fecha factura
+    
+    
+    cad = ""  'errores no puede seguir
+    Sql = ""
+    If vParam.SIITiene And Modo = 4 Then
+        If DBLet(Data1.Recordset!SII_ID, "N") > 0 Then
+            'OK OK OK. Comprobamos diferencias en datos
+            
+            If Text1(20).Text <> DBLet(Data1.Recordset!nifdatos, "T") Then Sql = Sql & "NIF:    " & Text1(20).Text & "  //  " & DBLet(Data1.Recordset!nifdatos, "T") & vbCrLf
+            If Text1(26).Text <> DBLet(Data1.Recordset!FecFactu, "T") Then Sql = Sql & "F. factura:    " & Text1(26).Text & "  //  " & DBLet(Data1.Recordset!FecFactu, "T") & vbCrLf
+            If Text1(25).Text <> DBLet(Data1.Recordset!numfactu, "T") Then Sql = Sql & "Nº factura:    " & Text1(25).Text & "  //  " & DBLet(Data1.Recordset!numfactu, "T") & vbCrLf
+            If Sql <> "" Then Sql = "Errores SII. " & vbCrLf & Sql & vbCrLf
+        End If
+    End If
+    
     'Fecha recepcion y liquidacion NO puede ser menor a fecha emision factura
-    cad = ""
     If CDate(Text1(1).Text) < CDate(Text1(26).Text) Then cad = cad & vbCrLf & " - Fecha recepción"
     If CDate(Text1(23).Text) < CDate(Text1(26).Text) Then cad = cad & vbCrLf & " - Fecha liquidación"
        
     If cad <> "" Then
-        cad = "Error en fechas factura proveedor. " & vbCrLf & cad & vbCrLf & vbCrLf
+        cad = "Error en fechas factura proveedor. " & vbCrLf & cad
         cad = cad & "No puede ser inferior a fecha emisión factura."
+    End If
+    
+    If Sql <> "" Then cad = cad & vbCrLf & vbCrLf & Sql
+    
+    If cad <> "" Then
         MsgBox cad, vbExclamation
         Exit Function
     End If
+    
+    
+    
+    
     
     If CDate(Text1(26).Text) < "01/01/2000" Or CDate(Text1(26).Text) > CDate("01/01/" & Year(vParam.fechafin) + 5) Then
         MsgBoxA "Fecha emisión factura incorrecta *****", vbExclamation
@@ -6434,6 +6461,7 @@ Dim Sigo As Byte
                 'OK Se han modificado cosas. Modificamos y volvemos a cargar
                 Screen.MousePointer = vbHourglass
                 PosicionarData
+                If Not Data1.Recordset.EOF Then PonerCampos
                 Screen.MousePointer = vbDefault
             End If
                 
@@ -8739,7 +8767,7 @@ Dim ModEspecial As Boolean
         If vParam.SIITiene Then
             'SI esta presentada...
             If Modo <> 3 And Modo <> 1 Then
-                If DBLet(Data1.Recordset!sii_id, "N") > 0 Then
+                If DBLet(Data1.Recordset!SII_ID, "N") > 0 Then
                 
                      If Text1(28).BackColor = vbSiiMofificando Then
                         'Esta modificando la factura YA presentada.
@@ -9681,7 +9709,7 @@ Dim CaptToolText As String
     '                   9.  TODO OK
     CaptToolText = ""
 
-    If DBLet(Data1.Recordset!sii_id, "N") = 0 Then
+    If DBLet(Data1.Recordset!SII_ID, "N") = 0 Then
         Color = 0
     Else
     
@@ -9700,7 +9728,7 @@ Dim CaptToolText As String
         Else
     
             Aux = "concat(enviada,'|',coalesce(csv,''),'|',coalesce(resultado,''),'|')"
-            Aux = DevuelveDesdeBD(Aux, "aswsii.envio_facturas_recibidas", "IDEnvioFacturasRecibidas", CStr(Data1.Recordset!sii_id))
+            Aux = DevuelveDesdeBD(Aux, "aswsii.envio_facturas_recibidas", "IDEnvioFacturasRecibidas", CStr(Data1.Recordset!SII_ID))
             
             If Aux = "" Then Aux = "1|||"
             If RecuperaValor(Aux, 1) = 1 Then
@@ -9880,21 +9908,21 @@ Private Sub txtPDF_DblClick()
     Sql = ObtenerWhereCP(True) & " AND orden =1"
     Sql = "Select campo,docum from factpro_fichdocs " & Sql
     
-    Adodc1.ConnectionString = Conn
-    Adodc1.RecordSource = Sql
-    Adodc1.Refresh
+    adodc1.ConnectionString = Conn
+    adodc1.RecordSource = Sql
+    adodc1.Refresh
 
-    If Adodc1.Recordset.EOF Then
+    If adodc1.Recordset.EOF Then
         'NO HAY NINGUNA
         MsgBoxA "Ningun documento asociado a la factura", vbExclamation
     Else
         'LEEMOS LA IMAGEN
 
         
-        Sql = App.Path & "\Temp\" & Adodc1.Recordset!DOCUM
-        LeerBinary Adodc1.Recordset!Campo, Sql
-        Adodc1.RecordSource = "Select codigo from factpro_fichdocs WHERE false "
-        Adodc1.Refresh
+        Sql = App.Path & "\Temp\" & adodc1.Recordset!DOCUM
+        LeerBinary adodc1.Recordset!Campo, Sql
+        adodc1.RecordSource = "Select codigo from factpro_fichdocs WHERE false "
+        adodc1.Refresh
         
         
         Call ShellExecute(Me.hwnd, "Open", Sql, "", "", 1)
@@ -9988,20 +10016,20 @@ Dim Fichero  As String
     
     'Abro parar guardar el binary
     C = "Select * from factpro_fichdocs where codigo =" & L
-    Adodc1.ConnectionString = Conn
-    Adodc1.RecordSource = C
-    Adodc1.Refresh
+    adodc1.ConnectionString = Conn
+    adodc1.RecordSource = C
+    adodc1.Refresh
 '
-    If Adodc1.Recordset.EOF Then
+    If adodc1.Recordset.EOF Then
         'MAAAAAAAAAAAAL
 
     Else
         'Guardar
-        GuardarBinary Adodc1.Recordset!Campo, Fichero
-        Adodc1.Recordset.Update
+        GuardarBinary adodc1.Recordset!Campo, Fichero
+        adodc1.Recordset.Update
         
-        Adodc1.RecordSource = "Select * from factpro_fichdocs where false"
-        Adodc1.Refresh
+        adodc1.RecordSource = "Select * from factpro_fichdocs where false"
+        adodc1.Refresh
     End If
     InsertarDesdeFichero = True
 End Function

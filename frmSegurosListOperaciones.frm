@@ -770,8 +770,8 @@ Private Sub Form_Load()
     
      
     CargarListViewEmpresas 1
-    If numero = 1 Then Me.txtfecha(0).Text = "01" & Format(Now, "/mm/yyyy")
-    Me.txtfecha(1).Text = Format(DateAdd("d", 0, Now), "dd/mm/yyyy")
+    If numero = 1 Then Me.txtFecha(0).Text = "01" & Format(Now, "/mm/yyyy")
+    Me.txtFecha(1).Text = Format(DateAdd("d", 0, Now), "dd/mm/yyyy")
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     
@@ -864,7 +864,7 @@ End Sub
 
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtfecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
+    txtFecha(IndCodigo).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
@@ -917,10 +917,10 @@ Private Sub imgFec_Click(Index As Integer)
         'FECHA
         Set frmF = New frmCal
         frmF.Fecha = Now
-        If txtfecha(Index).Text <> "" Then frmF.Fecha = CDate(txtfecha(Index).Text)
+        If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
         frmF.Show vbModal
         Set frmF = Nothing
-        PonFoco txtfecha(Index)
+        PonFoco txtFecha(Index)
     End Select
     
     Screen.MousePointer = vbDefault
@@ -990,19 +990,17 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim Sql2 As String
 
-    'Monto el SQL
-    'FALTA###
-'
-'    Sql = "SELECT `tmptesoreriacomun`.`texto1` Nif , `tmptesoreriacomun`.`texto2` Conta, `tmptesoreriacomun`.`opcion` BD, `tmptesoreriacomun`.`texto5` Nombre, `tmptesoreriacomun`.`texto3` NroFra, `tmptesoreriacomun`.`fecha1` FecFra, `tmptesoreriacomun`.`fecha2` FecVto, `tmptesoreriacomun`.`importe1` Gasto, `tmptesoreriacomun`.`importe2` Recibo"
-'    Sql = Sql & " FROM   `tmptesoreriacomun` `tmptesoreriacomun`"
-'    Sql = Sql & " WHERE `tmptesoreriacomun`.codusu = " & vUsu.Codigo
-'    Sql = Sql & " ORDER BY `tmptesoreriacomun`.`texto1`, `tmptesoreriacomun`.`texto2`, `tmptesoreriacomun`.`opcion`, `tmptesoreriacomun`.`fecha1`"
-'
-'    'LLamos a la funcion
-'    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
-'
+
+
+    SQL = "SELECT texto1 poliza,importe2 creditosol ,texto2 nif,texto4 nomclien, texto3 factura,importe1 factura    "
+    SQL = SQL & " FROM   `tmptesoreriacomun` `tmptesoreriacomun`"
+    SQL = SQL & " WHERE `tmptesoreriacomun`.codusu = " & vUsu.Codigo
+    SQL = SQL & " ORDER BY `texto2`, texto2,texto3"
+
+    'LLamos a la funcion
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+
 End Sub
 
 
@@ -1056,24 +1054,24 @@ End Function
 
 
 Private Sub txtfecha_LostFocus(Index As Integer)
-    txtfecha(Index).Text = Trim(txtfecha(Index).Text)
+    txtFecha(Index).Text = Trim(txtFecha(Index).Text)
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
     'mostrar mensajes ni hacer nada
     If Screen.ActiveForm.Name <> Me.Name Then Exit Sub
 
-    PonerFormatoFecha txtfecha(Index)
+    PonerFormatoFecha txtFecha(Index)
 End Sub
 
 Private Sub txtFecha_GotFocus(Index As Integer)
-    ConseguirFoco txtfecha(Index), 3
+    ConseguirFoco txtFecha(Index), 3
 End Sub
 
 Private Sub txtFecha_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyAdd Then
         KeyCode = 0
         
-        LanzaFormAyuda txtfecha(Index).Tag, Index
+        LanzaFormAyuda txtFecha(Index).Tag, Index
     Else
         KEYdown KeyCode
     End If
@@ -1085,7 +1083,7 @@ Private Function DatosOK() As Boolean
     
 
     
-    If txtfecha(1).Text = "" Then
+    If txtFecha(1).Text = "" Then
        
             SQL = "Fecha 'hasta' es campo obligado para considerar la fecha de baja de los asegurados." & vbCrLf
             SQL = SQL & "En el listado saldrán aquellos que si tienen fecha de baja , es superior al hasta solicitado "
@@ -1211,14 +1209,14 @@ Dim B As Boolean
         RC = RC & " WHERE factcli.codmacta=cuentas.codmacta  and numpoliz<>''  and  (fecbajcre  is null or fecbajcre>'') and fecfactu>= fecconce"
         
         
-        RC = RC & " AND (fecbajcre  is null or fecbajcre>'" & Format(txtfecha(1).Text, FormatoFecha) & "')"
+        RC = RC & " AND (fecbajcre  is null or fecbajcre>'" & Format(txtFecha(1).Text, FormatoFecha) & "')"
         
         'Contemplamos facturas desde la fecha de concesion
         RC = RC & " and fecfactu>= fecconce"
          
         'D/H fecha
-        If Me.txtfecha(0).Text <> "" Then RC = RC & " AND fecfactu >='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-        If Me.txtfecha(1).Text <> "" Then RC = RC & " AND fecfactu <='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
+        If Me.txtFecha(0).Text <> "" Then RC = RC & " AND fecfactu >='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+        If Me.txtFecha(1).Text <> "" Then RC = RC & " AND fecfactu <='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
     
         
         
@@ -1243,13 +1241,13 @@ Dim B As Boolean
         End If
         RC = ""
         Msg = ""
-        If Me.txtfecha(0).Text <> "" Then
-            RC = RC & " AND " & Cad & ">='" & Format(txtfecha(0).Text, FormatoFecha) & "'"
-            Msg = Msg & " desde " & txtfecha(0).Text
+        If Me.txtFecha(0).Text <> "" Then
+            RC = RC & " AND " & Cad & ">='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+            Msg = Msg & " desde " & txtFecha(0).Text
         End If
-        If Me.txtfecha(1).Text <> "" Then
-            RC = RC & " AND " & Cad & "<='" & Format(txtfecha(1).Text, FormatoFecha) & "'"
-            Msg = Msg & " hasta " & txtfecha(1).Text
+        If Me.txtFecha(1).Text <> "" Then
+            RC = RC & " AND " & Cad & "<='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
+            Msg = Msg & " hasta " & txtFecha(1).Text
         End If
         If RC = "" Then RC = " AND " & Cad & ">='1900-01-01'"
         SQL = RC
@@ -1308,7 +1306,7 @@ Dim B As Boolean
             CONT = CONT + 1
             SQL = ", (" & vUsu.Codigo & "," & CONT & ",'" & miRsAux!codmacta & "','" & DevNombreSQL(miRsAux!Nommacta) & "','"
             SQL = SQL & DevNombreSQL(miRsAux!numpoliz) & "'"
-            SQL = SQL & ",'" & miRsAux!NUmSerie & Format(miRsAux!NumFactu, "00000000") & "',"  'texto4
+            SQL = SQL & ",'" & miRsAux!NUmSerie & Format(miRsAux!numfactu, "00000000") & "',"  'texto4
             'Fecha fac
             SQL = SQL & DBSet(miRsAux!FecFactu, "F") & ","
             'Fecha aviso

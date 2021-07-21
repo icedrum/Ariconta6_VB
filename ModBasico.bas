@@ -533,7 +533,7 @@ ETipoCamp:
 End Function
 
 
-Public Function ContieneCaracterBusqueda(CADENA As String) As Boolean
+Public Function ContieneCaracterBusqueda(Cadena As String) As Boolean
 'Comprueba si la cadena contiene algun caracter especial de busqueda
 ' >,>,>=,: , ....
 'si encuentra algun caracter de busqueda devuelve TRUE y sale
@@ -545,7 +545,7 @@ Dim Ch As String
     I = 1
     B = False
     Do
-        Ch = Mid(CADENA, I, 1)
+        Ch = Mid(Cadena, I, 1)
         Select Case Ch
             Case "<", ">", ":", "="
                 B = True
@@ -556,7 +556,7 @@ Dim Ch As String
         End Select
     'Next i
         I = I + 1
-    Loop Until (B = True) Or (I > Len(CADENA))
+    Loop Until (B = True) Or (I > Len(Cadena))
     ContieneCaracterBusqueda = B
 End Function
 
@@ -1197,6 +1197,34 @@ Public Sub AyudaImporNavarresCentro(frmBas As frmBasico2, Optional CodActual As 
     frmBas.DatosADevolverBusqueda = "0|1|"
     frmBas.CodigoActual = 0
     If CodActual <> "" Then frmBas.CodigoActual = CodActual
+    frmBas.Show vbModal
+    
+End Sub
+
+
+
+Public Sub AyudaSufijosBanco(frmBas As frmBasico, CampoClaveOculto_ As String)
+
+    frmBas.CadenaTots = "S|txtAux(0)|T|Código|870|;S|txtAux(1)|T|Nombre|5230|;"
+    frmBas.CadenaConsulta = "SELECT bancos_sufijos.sufijoem, bancos_sufijos.descripcion"
+    frmBas.CadenaConsulta = frmBas.CadenaConsulta & " FROM bancos_sufijos "
+    frmBas.CadenaConsulta = frmBas.CadenaConsulta & " WHERE true "
+    frmBas.CadenaConsulta = frmBas.CadenaConsulta & " and codmacta = '" & CampoClaveOculto_ & "'"
+    frmBas.Tag1 = "sufijoem|T|N|||bancos_sufijos|sufijoem||S|"
+    frmBas.Tag2 = "descripcion|T|N|||bancos_sufijos|descripcion|||"
+    
+    frmBas.Maxlen1 = 4
+    frmBas.Maxlen2 = 30
+    
+    frmBas.tabla = "bancos_sufijos"
+    frmBas.CampoCP = "sufijoem"
+    frmBas.Caption = "Sufijos banco"
+    
+    
+    frmBas.DeConsulta = True
+    frmBas.DatosADevolverBusqueda = "0|1|"
+    frmBas.CodigoActual = 0
+    
     frmBas.Show vbModal
     
 End Sub

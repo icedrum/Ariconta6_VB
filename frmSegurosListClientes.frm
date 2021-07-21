@@ -487,7 +487,7 @@ Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
 
-Private Sql As String
+Private SQL As String
 
 
 Public Sub InicializarVbles(AñadireElDeEmpresa As Boolean)
@@ -587,11 +587,11 @@ End Sub
 
 
 Private Sub frmCon_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 Private Sub optTipoSal_Click(Index As Integer)
@@ -633,15 +633,14 @@ End Sub
 
 Private Sub AccionesCSV()
     
-    'Monto el SQL
-'    SQL = "Select  codigiva as codigo ,nombriva as descripcion, porceiva as porcentaje, porcerec as recargo,  CASE tipodiva WHEN 0 THEN 'IVA' WHEN 1 THEN 'IGIC' WHEN 2 THEN 'BIEN DE INVERSION' WHEN 3 THEN 'R.E.A' WHEN 4 THEN 'NO DEDUCIBLE' END as TipoIva FROM tiposiva "
-'    If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
-'    i = 1
-'    If optVarios(1).Value Then i = 2 'nombre
-'    SQL = SQL & " ORDER BY " & i
+    
+    
+    SQL = "select codigo orden ,texto1 cuenta ,texto2 nombre ,texto3 nif ,texto4 poliza"
+    SQL = SQL & " ,coalesce(fecha1 ,'') fecSol ,coalesce(importe1,'') ImporSol ,coalesce(fecha2 ,'') fecConce ,coalesce(importe2,'') ImporConce"
+    SQL = SQL & " From tmptesoreriacomun WHERE codusu = " & vUsu.Codigo & " ORDER BY codigo"
         
     'LLamoa a la funcion
-'    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -709,10 +708,10 @@ Private Sub txtCuentas_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuentas_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 
     txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
     
@@ -738,18 +737,18 @@ Dim Sql As String
         Case 0, 1 'cuentas
             Cta = (txtCuentas(Index).Text)
                                     '********
-            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
             If B = 0 Then
                 MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
             Else
                 txtCuentas(Index).Text = Cta
-                txtNCuentas(Index).Text = Sql
+                txtNCuentas(Index).Text = SQL
                 If B = 1 Then
                     txtNCuentas(Index).Tag = ""
                 Else
-                    txtNCuentas(Index).Tag = Sql
+                    txtNCuentas(Index).Tag = SQL
                 End If
            End If
     
@@ -760,15 +759,15 @@ End Sub
 
 
 Private Sub imgCuentas_Click(Index As Integer)
-    Sql = ""
+    SQL = ""
     AbiertoOtroFormEnListado = True
     Set frmCtas = New frmColCtas
     frmCtas.DatosADevolverBusqueda = True
     frmCtas.Show vbModal
     Set frmCtas = Nothing
-    If Sql <> "" Then
-        Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
+    If SQL <> "" Then
+        Me.txtCuentas(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(SQL, 2)
     Else
         QuitarPulsacionMas Me.txtCuentas(Index)
     End If
@@ -781,7 +780,7 @@ End Sub
 
 
 Private Function ListAseguBasico() As Boolean
-Dim cad As String
+Dim Cad As String
 Dim RC As String
 
     On Error GoTo EListAseguBasico
@@ -789,11 +788,11 @@ Dim RC As String
     
     Set miRsAux = New ADODB.Recordset
     
-    cad = "DELETE FROM tmptesoreriacomun  where codusu =" & vUsu.Codigo
-    Conn.Execute cad
+    Cad = "DELETE FROM tmptesoreriacomun  where codusu =" & vUsu.Codigo
+    Conn.Execute Cad
     
-    cad = "Select * from cuentas where numpoliz<>"""""
-    If cadselect <> "" Then cad = cad & " AND " & cadselect
+    Cad = "Select * from cuentas where numpoliz<>"""""
+    If cadselect <> "" Then Cad = Cad & " AND " & cadselect
     
     
     
@@ -819,38 +818,38 @@ Dim RC As String
             RC = "codmacta"
         End If
     End If
-    cad = cad & " ORDER BY " & RC
+    Cad = Cad & " ORDER BY " & RC
     
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     i = 0
-    cad = "INSERT INTO tmptesoreriacomun (codusu, codigo,texto1,texto2,texto3,texto4,fecha1,fecha2,importe1,"
-    cad = cad & "importe2,observa1,observa2) VALUES (" & vUsu.Codigo & ","
+    Cad = "INSERT INTO tmptesoreriacomun (codusu, codigo,texto1,texto2,texto3,texto4,fecha1,fecha2,importe1,"
+    Cad = Cad & "importe2,observa1,observa2) VALUES (" & vUsu.Codigo & ","
         
     While Not miRsAux.EOF
         i = i + 1
-        Sql = i & ",'" & miRsAux!codmacta & "','" & DevNombreSQL(miRsAux!Nommacta) & "','" & DBLet(miRsAux!nifdatos, "T") & "','"
-        Sql = Sql & DevNombreSQL(miRsAux!numpoliz) & "',"
+        SQL = i & ",'" & miRsAux!codmacta & "','" & DevNombreSQL(miRsAux!Nommacta) & "','" & DBLet(miRsAux!nifdatos, "T") & "','"
+        SQL = SQL & DevNombreSQL(miRsAux!numpoliz) & "',"
         'Fecha sol y concesion
-        Sql = Sql & DBSet(miRsAux!fecsolic, "F", "T") & "," & DBSet(miRsAux!fecconce, "F", "T") & ","
+        SQL = SQL & DBSet(miRsAux!fecsolic, "F", "T") & "," & DBSet(miRsAux!fecconce, "F", "T") & ","
         'Importes sol y concesion
-        Sql = Sql & DBSet(miRsAux!credisol, "N", "T") & "," & DBSet(miRsAux!credicon, "N", "T") & ","
+        SQL = SQL & DBSet(miRsAux!credisol, "N", "T") & "," & DBSet(miRsAux!credicon, "N", "T") & ","
         'Observaciones
         RC = Memo_Leer(miRsAux!observa)
         If Len(RC) = 0 Then
             'Los dos campos NULL
-            Sql = Sql & "NULL,NULL"
+            SQL = SQL & "NULL,NULL"
         Else
             If Len(RC) < 255 Then
-                Sql = Sql & "'" & DevNombreSQL(RC) & "',NULL"
+                SQL = SQL & "'" & DevNombreSQL(RC) & "',NULL"
             Else
-                Sql = Sql & "'" & DevNombreSQL(Mid(RC, 1, 255))
+                SQL = SQL & "'" & DevNombreSQL(Mid(RC, 1, 255))
                 RC = Mid(RC, 256)
-                Sql = Sql & "','" & DevNombreSQL(Mid(RC, 1, 255)) & "'"
+                SQL = SQL & "','" & DevNombreSQL(Mid(RC, 1, 255)) & "'"
             End If
         End If
         
-        Sql = Sql & ")"
-        Conn.Execute cad & Sql
+        SQL = SQL & ")"
+        Conn.Execute Cad & SQL
         miRsAux.MoveNext
     Wend
     miRsAux.Close

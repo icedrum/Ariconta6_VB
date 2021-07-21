@@ -136,7 +136,7 @@ End Sub
 
 
 Private Sub wndDatePicker_MonthChanged()
-  '  Stop
+  '  St op
 End Sub
 
 Private Sub wndDatePicker_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -202,7 +202,7 @@ Dim J As Integer
         TiempoClick = Timer
     Else
         CreateObject("WScript.Shell").SendKeys "{F16}"
-        'Stop
+        'St op
     End If
     
     

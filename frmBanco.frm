@@ -24,6 +24,14 @@ Begin VB.Form frmBanco
    ScaleWidth      =   12030
    StartUpPosition =   2  'CenterScreen
    Tag             =   "Digitos 1er nivel|N|N|||empresa|numdigi1|||"
+   Begin VB.ComboBox cboSufijos 
+      Height          =   360
+      Left            =   8040
+      Style           =   2  'Dropdown List
+      TabIndex        =   92
+      Top             =   2640
+      Width           =   3735
+   End
    Begin VB.TextBox Text1 
       Height          =   360
       Index           =   32
@@ -73,12 +81,12 @@ Begin VB.Form frmBanco
       Alignment       =   2  'Center
       Height          =   360
       Index           =   30
-      Left            =   10560
+      Left            =   10680
       MaxLength       =   3
       TabIndex        =   12
       Tag             =   "Cedante|T|S|||bancos|sufijoconfirming|||"
       Text            =   "Tex"
-      Top             =   2640
+      Top             =   2010
       Width           =   1005
    End
    Begin VB.ComboBox Combo1 
@@ -291,12 +299,12 @@ Begin VB.Form frmBanco
       Alignment       =   2  'Center
       Height          =   360
       Index           =   23
-      Left            =   9240
+      Left            =   9360
       MaxLength       =   3
       TabIndex        =   11
       Tag             =   "Cedante|T|S|||bancos|Sufijo3414|||"
       Text            =   "Tex"
-      Top             =   2640
+      Top             =   2010
       Width           =   1005
    End
    Begin VB.CheckBox chkBanco 
@@ -328,6 +336,7 @@ Begin VB.Form frmBanco
    End
    Begin VB.CheckBox chkBanco 
       Caption         =   "Gastos bancarios en cobros separados de apunte banco"
+      ForeColor       =   &H00000000&
       Height          =   255
       Index           =   0
       Left            =   120
@@ -642,12 +651,12 @@ Begin VB.Form frmBanco
       Alignment       =   2  'Center
       Height          =   360
       Index           =   9
-      Left            =   7920
+      Left            =   8040
       MaxLength       =   3
       TabIndex        =   10
       Tag             =   "Sufijo OEM|T|S|||bancos|sufijoem|||"
       Text            =   "Tex"
-      Top             =   2640
+      Top             =   2010
       Width           =   1005
    End
    Begin VB.TextBox Text2 
@@ -693,10 +702,10 @@ Begin VB.Form frmBanco
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   915
+      Height          =   885
       Left            =   6000
       TabIndex        =   47
-      Top             =   750
+      Top             =   780
       Width           =   5715
       Begin VB.TextBox Text1 
          Alignment       =   2  'Center
@@ -706,7 +715,7 @@ Begin VB.Form frmBanco
          MaxLength       =   4
          TabIndex        =   7
          Text            =   "Text1"
-         Top             =   420
+         Top             =   390
          Width           =   825
       End
       Begin VB.TextBox Text1 
@@ -717,7 +726,7 @@ Begin VB.Form frmBanco
          MaxLength       =   4
          TabIndex        =   6
          Text            =   "Text1"
-         Top             =   420
+         Top             =   390
          Width           =   825
       End
       Begin VB.TextBox Text1 
@@ -728,7 +737,7 @@ Begin VB.Form frmBanco
          MaxLength       =   4
          TabIndex        =   3
          Text            =   "Text1"
-         Top             =   420
+         Top             =   390
          Width           =   825
       End
       Begin VB.TextBox Text1 
@@ -739,7 +748,7 @@ Begin VB.Form frmBanco
          MaxLength       =   4
          TabIndex        =   2
          Text            =   "Text1"
-         Top             =   420
+         Top             =   390
          Width           =   825
       End
       Begin VB.TextBox Text1 
@@ -750,7 +759,7 @@ Begin VB.Form frmBanco
          MaxLength       =   4
          TabIndex        =   4
          Text            =   "Text1"
-         Top             =   420
+         Top             =   390
          Width           =   825
       End
       Begin VB.TextBox Text1 
@@ -761,7 +770,7 @@ Begin VB.Form frmBanco
          MaxLength       =   4
          TabIndex        =   5
          Text            =   "Text1"
-         Top             =   420
+         Top             =   390
          Width           =   825
       End
       Begin VB.Label Label1 
@@ -770,7 +779,7 @@ Begin VB.Form frmBanco
          Index           =   24
          Left            =   120
          TabIndex        =   70
-         Top             =   180
+         Top             =   120
          Width           =   540
       End
    End
@@ -968,6 +977,32 @@ Begin VB.Form frmBanco
       Top             =   930
       Width           =   4290
    End
+   Begin VB.Image imgCuentas 
+      Height          =   240
+      Index           =   0
+      Left            =   7800
+      ToolTipText     =   "Cuenta ingresos"
+      Top             =   2640
+      Width           =   240
+   End
+   Begin VB.Label Label1 
+      Caption         =   "Auxiliares"
+      Height          =   255
+      Index           =   30
+      Left            =   6480
+      TabIndex        =   94
+      Top             =   2640
+      Width           =   1185
+   End
+   Begin VB.Label Label1 
+      Caption         =   "Principales"
+      Height          =   255
+      Index           =   29
+      Left            =   6480
+      TabIndex        =   93
+      Top             =   2040
+      Width           =   2025
+   End
    Begin VB.Label Label1 
       Caption         =   "Dias de cadencia recibo anticipado"
       Height          =   315
@@ -1015,27 +1050,27 @@ Begin VB.Form frmBanco
       Caption         =   "Confirm."
       Height          =   255
       Index           =   25
-      Left            =   10680
+      Left            =   10800
       TabIndex        =   86
-      Top             =   2400
+      Top             =   1770
       Width           =   855
    End
    Begin VB.Label Label1 
       Caption         =   "Transfe."
       Height          =   255
       Index           =   23
-      Left            =   9240
+      Left            =   9360
       TabIndex        =   85
-      Top             =   2400
+      Top             =   1770
       Width           =   855
    End
    Begin VB.Label Label1 
       Caption         =   "Adeudos"
       Height          =   255
       Index           =   20
-      Left            =   7920
+      Left            =   8040
       TabIndex        =   84
-      Top             =   2400
+      Top             =   1770
       Width           =   855
    End
    Begin VB.Label Label1 
@@ -1149,7 +1184,7 @@ Begin VB.Form frmBanco
       Width           =   240
    End
    Begin VB.Label Label1 
-      Caption         =   "SUFIJO BANCO:"
+      Caption         =   "SUFIJOS BANCO"
       BeginProperty Font 
          Name            =   "Verdana"
          Size            =   9.75
@@ -1163,7 +1198,7 @@ Begin VB.Form frmBanco
       Index           =   9
       Left            =   6030
       TabIndex        =   51
-      Top             =   2430
+      Top             =   1800
       Width           =   1785
    End
    Begin VB.Label Label1 
@@ -1342,7 +1377,7 @@ End Sub
 
 
 Private Sub cmdAceptar_Click()
-    Dim cad As String
+    Dim Cad As String
     Dim i As Integer
     
     Screen.MousePointer = vbHourglass
@@ -1404,14 +1439,14 @@ End Sub
 ' Buscamos por el codigo, que estara en un text u  otro
 ' Normalmente el text(0)
 Private Function SituarData1() As Boolean
-    Dim Sql As String
+    Dim SQL As String
     On Error GoTo ESituarData1
             'Actualizamos el recordset
             Data1.Refresh
             '#### A mano.
             'El sql para que se situe en el registro en especial es el siguiente
-            Sql = " codmacta = " & Text1(4).Text & ""
-            Data1.Recordset.Find Sql
+            SQL = " codmacta = " & Text1(4).Text & ""
+            Data1.Recordset.Find SQL
             If Data1.Recordset.EOF Then GoTo ESituarData1
             SituarData1 = True
         Exit Function
@@ -1500,7 +1535,7 @@ End Sub
 Private Sub BotonEliminar()
 
 '
-    Dim cad As String
+    Dim Cad As String
     Dim i As Integer
 
     'Ciertas comprobaciones
@@ -1517,10 +1552,10 @@ Private Sub BotonEliminar()
     End If
 
     '### a mano
-    cad = "Seguro que desea eliminar de la BD el registro:"
-    cad = cad & vbCrLf & "Cta banco: " & Data1.Recordset.Fields(0)
-    cad = cad & vbCrLf & "Decripcion: " & Me.Text2(4).Text
-    i = MsgBox(cad, vbQuestion + vbYesNo)
+    Cad = "Seguro que desea eliminar de la BD el registro:"
+    Cad = Cad & vbCrLf & "Cta banco: " & Data1.Recordset.Fields(0)
+    Cad = Cad & vbCrLf & "Decripcion: " & Me.Text2(4).Text
+    i = MsgBox(Cad, vbQuestion + vbYesNo)
     'Borramos
     If i = vbYes Then
         'Hay que eliminar
@@ -1629,6 +1664,9 @@ Dim i As Integer
         .Buttons(1).Image = 26
     End With
     
+    
+        
+    imgCuentas(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCuentas(4).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCuentas(5).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     imgCuentas(10).Picture = frmppal.imgIcoForms.ListImages(1).Picture
@@ -1677,6 +1715,7 @@ Private Sub LimpiarCampos()
     '### a mano
     Combo1.ListIndex = -1
     Combo2.ListIndex = -1
+    cboSufijos.ListIndex = -1
     'Check1.Value = 0
     For kCampo = 0 To 3
         If kCampo <> 2 Then Me.chkBanco(kCampo).Value = 0
@@ -1724,16 +1763,29 @@ Private Sub imgCC_Click()
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
+
+
  Screen.MousePointer = vbHourglass
- Set frmCCtas = New frmColCtas
- DevfrmCCtas = ""
- frmCCtas.DatosADevolverBusqueda = "0"
- frmCCtas.Show vbModal
- Set frmCCtas = Nothing
- If DevfrmCCtas <> "" Then
-        Text1(Index).Text = RecuperaValor(DevfrmCCtas, 1)
-        Text2(Index).Text = RecuperaValor(DevfrmCCtas, 2)
-End If
+ 
+ 
+ If Index = 0 Then
+    'Sufijos banco
+    'Por si metemos mantenimiento
+    
+ Else
+ 
+     Set frmCCtas = New frmColCtas
+     DevfrmCCtas = ""
+     frmCCtas.DatosADevolverBusqueda = "0"
+     frmCCtas.Show vbModal
+     Set frmCCtas = Nothing
+     If DevfrmCCtas <> "" Then
+            Text1(Index).Text = RecuperaValor(DevfrmCCtas, 1)
+            Text2(Index).Text = RecuperaValor(DevfrmCCtas, 2)
+    End If
+
+ End If
+Screen.MousePointer = vbDefault
 End Sub
 
 
@@ -1806,7 +1858,7 @@ End Sub
 '----------------------------------------------------------------
 Private Sub Text1_LostFocus(Index As Integer)
     Dim Valor As Currency
-    Dim Sql As String
+    Dim SQL As String
     Dim mTag As CTag
     Dim i As Integer
     Dim Sql2 As String
@@ -1842,7 +1894,7 @@ Private Sub Text1_LostFocus(Index As Integer)
             
                 If Text1(3).Text <> "" And Text1(6).Text <> "" And Text1(0).Text <> "" And Text1(24).Text <> "" And Text1(25).Text <> "" Then
                     ' comprobamos si es correcto
-                    Sql = Format(Text1(3).Text, "0000") & Format(Text1(6).Text, "0000") & Format(Text1(0).Text, "0000") & Format(Text1(24).Text, "0000") & Format(Text1(25).Text, "0000")
+                    SQL = Format(Text1(3).Text, "0000") & Format(Text1(6).Text, "0000") & Format(Text1(0).Text, "0000") & Format(Text1(24).Text, "0000") & Format(Text1(25).Text, "0000")
                 End If
             Else
                 If Mid(Text1(Index).Text, 1, 2) = "ES" Then
@@ -1851,12 +1903,12 @@ Private Sub Text1_LostFocus(Index As Integer)
             End If
             
             If Text1(2).Text <> "" And Text1(3).Text <> "" And Text1(6).Text <> "" And Text1(0).Text <> "" And Text1(24).Text <> "" And Text1(25).Text <> "" Then
-                Sql = Format(Text1(3).Text, "0000") & Format(Text1(6).Text, "0000") & Format(Text1(0).Text, "0000") & Format(Text1(24).Text, "0000") & Format(Text1(25).Text, "0000")
+                SQL = Format(Text1(3).Text, "0000") & Format(Text1(6).Text, "0000") & Format(Text1(0).Text, "0000") & Format(Text1(24).Text, "0000") & Format(Text1(25).Text, "0000")
         
                 Sql2 = CStr(Mid(Text1(2).Text, 1, 2))
-                If DevuelveIBAN2(CStr(Sql2), Sql, Sql) Then
-                    If Mid(Text1(2).Text, 3, 2) <> Sql Then
-                        MsgBox "Codigo IBAN distinto del calculado [" & Sql2 & Sql & "]", vbExclamation
+                If DevuelveIBAN2(CStr(Sql2), SQL, SQL) Then
+                    If Mid(Text1(2).Text, 3, 2) <> SQL Then
+                        MsgBox "Codigo IBAN distinto del calculado [" & Sql2 & SQL & "]", vbExclamation
                     End If
                 End If
             End If
@@ -1871,16 +1923,16 @@ Private Sub Text1_LostFocus(Index As Integer)
             
             If Modo >= 2 Or Modo <= 4 Then
                 If Text1(Index).Text = "" Then
-                     Text2(Index).Text = Sql
+                     Text2(Index).Text = SQL
                      Exit Sub
                 End If
 
                 DevfrmCCtas = Text1(Index).Text
-                If CuentaCorrectaUltimoNivel(DevfrmCCtas, Sql) Then
+                If CuentaCorrectaUltimoNivel(DevfrmCCtas, SQL) Then
                     Text1(Index).Text = DevfrmCCtas
-                    Text2(Index).Text = Sql
+                    Text2(Index).Text = SQL
                 Else
-                    MsgBox Sql, vbExclamation
+                    MsgBox SQL, vbExclamation
                     Text1(Index).Text = ""
                     Text2(Index).Text = ""
                     PonerFoco Text1(Index)
@@ -1938,7 +1990,7 @@ Private Sub Text1_LostFocus(Index As Integer)
 End Sub
 
 Private Sub HacerBusqueda()
-Dim cad As String
+Dim Cad As String
 Dim CadB As String
 
 CadB = ObtenerBusqueda2(Me, BuscaChekc, 1)
@@ -2023,7 +2075,7 @@ End Sub
 Private Sub PonerCampos()
     Dim i As Integer
     Dim mTag As CTag
-    Dim Sql As String
+    Dim SQL As String
     If Data1.Recordset.EOF Then Exit Sub
     
     Combo1.ListIndex = -1
@@ -2065,10 +2117,21 @@ Private Sub PonerCampos()
         Text1(25).ToolTipText = CCC
     End If
     
+    
+    
+    
+    CargaSufijos Me.cboSufijos, Text1(4).Text, ""    ' Text1(9).Text & " - Principal"
+    If cboSufijos.ListCount > 0 Then cboSufijos.ListIndex = 0
+    
+    
     '-- Esto permanece para saber donde estamos
     lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
 
 End Sub
+
+
+
+
 
 '----------------------------------------------------------------
 '----------------------------------------------------------------
@@ -2110,6 +2173,8 @@ Private Sub PonerModo(Kmodo As Integer)
     cmdAceptar.visible = B Or Modo = 1
     cmdCancelar.visible = B Or Modo = 1
     mnOpciones.Enabled = Not B
+    imgCuentas(0).visible = B
+    
     
     If cmdCancelar.visible Then
         cmdCancelar.Cancel = True
@@ -2140,11 +2205,12 @@ Private Sub PonerModo(Kmodo As Integer)
     Text1(29).Locked = B
     Combo1.Locked = B
     Combo2.Locked = B
-    
+    cboSufijos.Locked = B
     For Each Obj In imgCuentas
         Obj.Enabled = Not B
     Next
     Me.imgCC.Enabled = Not B
+    imgCuentas(0).visible = False  'sufijos sin visualizar
     
     PonerModoUsuarioGnral Modo, "ariconta"
 
@@ -2169,7 +2235,7 @@ End Sub
 
 Private Function DatosOK() As Boolean
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim RC2 As String
 
 
@@ -2196,24 +2262,24 @@ Dim RC2 As String
     
     'Comprobamos el CCC
     If Text1(2).Text <> "" Then
-         Sql = Text1(3).Text & Text1(6).Text & Text1(0).Text & Text1(24).Text & Text1(25).Text
-         If Len(Sql) <> 20 Then
+         SQL = Text1(3).Text & Text1(6).Text & Text1(0).Text & Text1(24).Text & Text1(25).Text
+         If Len(SQL) <> 20 Then
              MsgBox "Longitud cuenta bancaria incorrecta", vbExclamation
              Exit Function
          End If
 
         'Compruebo EL IBAN
         'Meto el CC
-        RC2 = Sql
-        Sql = ""
-        If Me.Text1(2).Text <> "" Then Sql = Mid(Text1(2).Text, 1, 2)
+        RC2 = SQL
+        SQL = ""
+        If Me.Text1(2).Text <> "" Then SQL = Mid(Text1(2).Text, 1, 2)
 
-        If DevuelveIBAN2(Sql, RC2, RC2) Then
+        If DevuelveIBAN2(SQL, RC2, RC2) Then
             If Me.Text1(2).Text = "" Then
                 If MsgBox("Poner IBAN ?", vbQuestion + vbYesNo) = vbYes Then Me.Text1(2).Text = RC2
             Else
                 If Mid(Text1(2).Text, 3, 2) <> RC2 Then
-                    RC2 = "Calculado : " & Sql & RC2
+                    RC2 = "Calculado : " & SQL & RC2
                     RC2 = "Introducido: " & Me.Text1(2).Text & vbCrLf & RC2 & vbCrLf
                     RC2 = "Error en codigo IBAN" & vbCrLf & RC2 & "Continuar?"
                     If MsgBox(RC2, vbQuestion + vbYesNo) = vbNo Then Exit Function
@@ -2259,13 +2325,13 @@ Dim RC2 As String
     If Trim(Text1(11).Text) = "" Then Text1(11).Text = ""
     
     If Modo = 3 Or Modo = 4 Then
-        Sql = "select count(*) from bancos where codmacta <> " & DBSet(Text1(4).Text, "T") & " and ctatransfercli = 1"
-        If TotalRegistros(Sql) <> 0 Then
+        SQL = "select count(*) from bancos where codmacta <> " & DBSet(Text1(4).Text, "T") & " and ctatransfercli = 1"
+        If TotalRegistros(SQL) <> 0 Then
         ' comprobamos que ya existe un registro marcado, si lo quieren cambiar
             If chkBanco(3).Value = 1 Then
                 If MsgBox("Ya existe otro registro marcado como Cuenta de Transferencia Clientes. " & vbCrLf & " ¿ Desea que sea ésta ? " & vbCrLf, vbQuestion + vbYesNo + vbDefaultButton1) = vbYes Then
-                    Sql = "update bancos set ctatransfercli = 0 where codmacta <> " & DBSet(Text1(4).Text, "T")
-                    Conn.Execute Sql
+                    SQL = "update bancos set ctatransfercli = 0 where codmacta <> " & DBSet(Text1(4).Text, "T")
+                    Conn.Execute SQL
                 Else
                     ' no hacemos nada
                     chkBanco(3).Value = 0
@@ -2351,7 +2417,7 @@ End Sub
 
 Private Function SePuedeEliminar() As Boolean
 Dim B As Boolean
-Dim cad As String
+Dim Cad As String
 
     Screen.MousePointer = vbHourglass
     Set miRsAux = New ADODB.Recordset
@@ -2359,8 +2425,8 @@ Dim cad As String
     SePuedeEliminar = False
     
     'Veamos cobros asociados
-    cad = "Select count(*) from cobros where (ctabanc1 = '" & Data1.Recordset.Fields(0) & "')"
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "Select count(*) from cobros where (ctabanc1 = '" & Data1.Recordset.Fields(0) & "')"
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NumRegElim = 0
     If Not miRsAux.EOF Then NumRegElim = DBLet(miRsAux.Fields(0), "N")
     miRsAux.Close
@@ -2372,8 +2438,8 @@ Dim cad As String
     
     
     
-    cad = "Select count(*) from pagos where (ctabanc1 = '" & Data1.Recordset.Fields(0) & "')"
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "Select count(*) from pagos where (ctabanc1 = '" & Data1.Recordset.Fields(0) & "')"
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NumRegElim = 0
     If Not miRsAux.EOF Then NumRegElim = DBLet(miRsAux.Fields(0), "N")
     miRsAux.Close
@@ -2384,8 +2450,8 @@ Dim cad As String
     End If
     
     'Remesas
-    cad = "Select count(*) from remesas where (codmacta = '" & Data1.Recordset.Fields(0) & "')"
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "Select count(*) from remesas where (codmacta = '" & Data1.Recordset.Fields(0) & "')"
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NumRegElim = 0
     If Not miRsAux.EOF Then NumRegElim = DBLet(miRsAux.Fields(0), "N")
     miRsAux.Close
@@ -2396,8 +2462,8 @@ Dim cad As String
     End If
     
     
-    cad = "Select count(*) from gastosfijos where (ctaprevista = '" & Data1.Recordset.Fields(0) & "')"
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "Select count(*) from gastosfijos where (ctaprevista = '" & Data1.Recordset.Fields(0) & "')"
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NumRegElim = 0
     If Not miRsAux.EOF Then NumRegElim = DBLet(miRsAux.Fields(0), "N")
     miRsAux.Close
@@ -2409,8 +2475,8 @@ Dim cad As String
     
     
     
-    cad = "Select count(*) from transferencias where (codmacta= '" & Data1.Recordset.Fields(0) & "')"
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "Select count(*) from transferencias where (codmacta= '" & Data1.Recordset.Fields(0) & "')"
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NumRegElim = 0
     If Not miRsAux.EOF Then NumRegElim = DBLet(miRsAux.Fields(0), "N")
     miRsAux.Close
@@ -2422,8 +2488,8 @@ Dim cad As String
     
     'cOMPROBAMOS ai tiene moovimientos en
     'la NORMA 43
-    cad = "Select count(*) from norma43 where (codmacta= '" & Data1.Recordset.Fields(0) & "')"
-    miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "Select count(*) from norma43 where (codmacta= '" & Data1.Recordset.Fields(0) & "')"
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     NumRegElim = 0
     If Not miRsAux.EOF Then NumRegElim = DBLet(miRsAux.Fields(0), "N")
     miRsAux.Close
@@ -2446,15 +2512,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2)

@@ -144,7 +144,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Dim cad As String
+Dim Cad As String
 Dim NF As Integer
 
 Private Sub cmdKill_Click()
@@ -159,11 +159,11 @@ Private Sub cmdKill_Click()
         Exit Sub
     End If
     
-    cad = vbCrLf & lw1.ColumnHeaders(1).Text & ": " & lw1.SelectedItem.Text
-    For I = 1 To Me.lw1.SelectedItem.ListSubItems.Count
-        cad = cad & vbCrLf & lw1.ColumnHeaders(I + 1).Text & ": " & lw1.SelectedItem.ListSubItems(I)
+    Cad = vbCrLf & lw1.ColumnHeaders(1).Text & ": " & lw1.SelectedItem.Text
+    For i = 1 To Me.lw1.SelectedItem.ListSubItems.Count
+        Cad = Cad & vbCrLf & lw1.ColumnHeaders(i + 1).Text & ": " & lw1.SelectedItem.ListSubItems(i)
     Next
-    Msg = "Va a eliminar el proceso:" & vbCrLf & vbCrLf & cad
+    Msg = "Va a eliminar el proceso:" & vbCrLf & vbCrLf & Cad
     If MsgBox(Msg, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     
 '''''    Cad = ""
@@ -171,7 +171,7 @@ Private Sub cmdKill_Click()
 '''''        Cad = Cad & vbCrLf & lw1.ColumnHeaders(i).Text & ": " & lw1.ColumnHeaders(i).Width
 '''''    Next
 '''''
-'''''    Stop
+'''''    St op
 '''''    Exit Sub
     
     If lw1.SelectedItem.Tag = 0 Then
@@ -183,9 +183,9 @@ Private Sub cmdKill_Click()
     End If
     
     If Ejecuta(Msg, False) Then
-        If lw1.SelectedItem.Tag = 1 Then cad = "zbloqueos" & vbCrLf & cad
-        cad = "[KILL]" & vbCrLf & cad
-        vLog.Insertar 32, vUsu, cad
+        If lw1.SelectedItem.Tag = 1 Then Cad = "zbloqueos" & vbCrLf & Cad
+        Cad = "[KILL]" & vbCrLf & Cad
+        vLog.Insertar 32, vUsu, Cad
         
         imgMysql_Click 0
         
@@ -491,19 +491,19 @@ On Error GoTo eLeerInnodb
             
             While Not miRsAux.EOF
                 
-                I = lw1.ListItems.Count + 1
-                Label1(1).Caption = miRsAux!tabla & " " & I
+                i = lw1.ListItems.Count + 1
+                Label1(1).Caption = miRsAux!tabla & " " & i
                 Label1(1).Refresh
-                Set IT = lw1.ListItems.Add(, "B" & Format(I, "0000"))
-                IT.Text = I
+                Set IT = lw1.ListItems.Add(, "B" & Format(i, "0000"))
+                IT.Text = i
                 
                 IT.SubItems(1) = " - "
                         
                 
                 idZbloq = miRsAux!CodUsu \ 1000
-                I = miRsAux!CodUsu Mod 1000
+                i = miRsAux!CodUsu Mod 1000
                 
-                Msg = DevuelveDesdeBD("login", "usuarios.usuarios", "codusu", CStr(I))
+                Msg = DevuelveDesdeBD("login", "usuarios.usuarios", "codusu", CStr(i))
                 If Msg = "" Then Msg = "N/D"
                 IT.SubItems(2) = Msg
                 
@@ -538,7 +538,7 @@ End Sub
 'Llvara el codempre
 Private Sub CargaEmpresasApliacionAriadna(NombreTabla_En_Sql As String, ByRef ColEmpreas As Collection)
 Dim rsEmpresas As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
 
     On Error GoTo eCargaEmpresasApliacionAriadna
     Set ColEmpreas = New Collection
@@ -547,9 +547,9 @@ Dim cad As String
     
     rsEmpresas.Open NombreTabla_En_Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not rsEmpresas.EOF
-        cad = rsEmpresas!queBD
+        Cad = rsEmpresas!queBD
         
-        ColEmpreas.Add cad
+        ColEmpreas.Add Cad
     
         rsEmpresas.MoveNext
     Wend
@@ -563,14 +563,14 @@ eCargaEmpresasApliacionAriadna:
 End Sub
 
 
-Private Sub AbrirRs(Sql As String)
+Private Sub AbrirRs(SQL As String)
     On Error Resume Next
     
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Err.Number <> 0 Then
         Err.Clear
         Conn.Errors.Clear
-        Sql = "Select * from zbloqueos WHERE false" 'eof
+        SQL = "Select * from zbloqueos WHERE false" 'eof
         miRsAux.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         'NO PUEDE DAR ERROR
     End If

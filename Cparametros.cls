@@ -1384,7 +1384,7 @@ Dim Nuevos As String
             
             
         If Err.Number <> 0 Then Err.Clear
-        If Nuevos <> "" Then MsgBox "Faltan parametros. El programa continuara. Avise soporte tecnico" & vbCrLf & vbCrLf & Nuevos, vbExclamation
+        If Nuevos <> "" Then MsgBox "Faltan parámetros. El programa continuará. Avise soporte técnico" & vbCrLf & vbCrLf & Nuevos, vbExclamation
     
 End Sub
 
