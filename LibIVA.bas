@@ -1511,7 +1511,7 @@ Dim Cad As String
         Linea = Linea & IdentificacionPresentador
         Linea = Linea & DatosTexto(" ", 58)
      
-        
+          
         Cad = DBLet(Rs!desPobla) & "  "   'Llevara el pais
         Cad = Trim(Mid(Cad, 1, 2)) & Rs!NIF
         

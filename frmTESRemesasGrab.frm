@@ -16,29 +16,11 @@ Begin VB.Form frmTESRemesasGrab
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin VB.Frame FrameCambioRemesa 
-      Height          =   5595
+      Height          =   5715
       Left            =   60
       TabIndex        =   0
       Top             =   60
       Width           =   7845
-      Begin VB.CommandButton cmdRemeTipo1 
-         Caption         =   "Crear Soporte"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   495
-         Index           =   1
-         Left            =   4320
-         TabIndex        =   20
-         Top             =   5040
-         Width           =   1515
-      End
       Begin VB.Frame FrameTipo1_2 
          Height          =   3615
          Left            =   120
@@ -158,7 +140,7 @@ Begin VB.Form frmTESRemesasGrab
             Index           =   1
             Left            =   2400
             TabIndex        =   30
-            Top             =   3600
+            Top             =   3840
             Value           =   1  'Checked
             Visible         =   0   'False
             Width           =   975
@@ -169,7 +151,7 @@ Begin VB.Form frmTESRemesasGrab
             Index           =   0
             Left            =   240
             TabIndex        =   29
-            Top             =   3600
+            Top             =   3840
             Value           =   1  'Checked
             Visible         =   0   'False
             Width           =   2295
@@ -283,6 +265,25 @@ Begin VB.Form frmTESRemesasGrab
             TabIndex        =   11
             Top             =   480
             Width           =   3105
+         End
+         Begin VB.Label Label8 
+            Caption         =   "Aqui bajo hay dos checks"
+            BeginProperty Font 
+               Name            =   "Comic Sans MS"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   -1  'True
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   315
+            Index           =   2
+            Left            =   720
+            TabIndex        =   33
+            Top             =   3240
+            Visible         =   0   'False
+            Width           =   2715
          End
          Begin VB.Image Image2 
             Height          =   240
@@ -420,6 +421,24 @@ Begin VB.Form frmTESRemesasGrab
             Top             =   210
             Width           =   240
          End
+      End
+      Begin VB.CommandButton cmdRemeTipo1 
+         Caption         =   "Crear Soporte"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   495
+         Index           =   1
+         Left            =   4320
+         TabIndex        =   20
+         Top             =   5040
+         Width           =   1515
       End
       Begin VB.Frame Frame1 
          Enabled         =   0   'False
@@ -842,6 +861,9 @@ End Function
 
 Private Sub cmdRemeTipo1_Click(Index As Integer)
 Dim B As Boolean
+    
+ 
+    
     Select Case Index
     Case 0
     Case 1
@@ -867,6 +889,7 @@ End Sub
 Private Sub Form_Activate()
     If PrimeraVez Then
         PrimeraVez = False
+        FrameTipo1_2.BorderStyle = 1
         FrameTipo1_2.Refresh
     End If
     Screen.MousePointer = vbDefault
@@ -888,12 +911,12 @@ Dim W As Integer
     
     FrameCambioRemesa.visible = False
     
-    Label5(1).Caption = "Generar soporte magnético"
+    Label5(1).Caption = "Generar soporte "
 
     Caption = "Situacion remesas"
     
     FrameCambioRemesa.visible = True
-    
+    FrameTipo1_2.BorderStyle = 0
     For H = 1 To 3
             Text3(H - 1).Text = RecuperaValor(CadenaDesdeOtroForm, H)
     Next H
