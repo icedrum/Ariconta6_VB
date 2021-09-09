@@ -995,12 +995,16 @@ Dim EtiquetaBuscar As String
             If Not Rs.EOF Then
                 Itm.SubItems(4) = DBLet(Rs!nomclien, "T")    'miRsAux!nomclien
                 If Rs!Devuelto = 1 Then
-                    Itm.Bold = True
-                    Itm.ForeColor = vbRed
+                    Itm.Bold = False
+                    Itm.ListSubItems(3).ForeColor = vbRed
+                    Itm.ToolTipText = "Ya devuelto"
+                    Itm.ListSubItems(3).ToolTipText = Itm.ToolTipText
+                    
                 End If
                 VtoEncontrado = True
             Else
                 Itm.SubItems(4) = " "    'miRsAux!nomclien    'AVISAR A MONICA--> Si no pones espacio en blanco cuando lo selecciona sale raro
+                Itm.ToolTipText = "Vencimiento NO encontrado"
             End If
             
             posicion = PosicionEnFichero(1, DatosXMLVto, "<InstdAmt Ccy=""EUR"">")
