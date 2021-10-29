@@ -4903,7 +4903,11 @@ Private Sub BotonAnyadir()
     Combo1(1).ListIndex = 0
     Combo1(2).ListIndex = 0
     
-    If Now <= DateAdd("yyyy", 1, vParam.fechafin) Then Text1(1).Text = Format(Now, "dd/mm/yyyy")
+    If Now <= DateAdd("yyyy", 1, vParam.fechafin) Then
+        Text1(1).Text = Format(Now, "dd/mm/yyyy")
+    Else
+        Text1(1).Text = Format(vParam.fechafin - 1, "dd/mm/yyyy")
+    End If
     Text1(9).Text = "0,00"
     
     FrameDatosFiscales.visible = False
@@ -5367,7 +5371,9 @@ Dim v
             If Modo = 3 Then
                 'Intentetamos devolver el contador
                 If Text1(0).Text <> "" Then
-                    i = FechaCorrecta2(CDate(Text1(1).Text))
+                    i = 0
+                    If Text1(1).Text <> "" Then i = FechaCorrecta2(CDate(Text1(1).Text))
+                    
                     Mc.DevolverContador Mc.TipoContador, i = 0, Mc.Contador
                 End If
             End If

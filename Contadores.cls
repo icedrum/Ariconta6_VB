@@ -19,7 +19,7 @@ Private mvarNombreRegistro As String 'copia local
 Private mvarContador As Long  'copia local
 
 Private Rs As ADODB.Recordset
-Private Sql As String
+Private SQL As String
 Private Mens As String
 
 
@@ -94,16 +94,16 @@ Dim C1 As Long
 Dim C2 As Long
     On Error GoTo Err1
     'Abrimos bloqueando
-    Sql = "Select * from contadores WHERE TipoRegi = '" & LEtra & "' FOR UPDATE"
+    SQL = "Select * from contadores WHERE TipoRegi = '" & LEtra & "' FOR UPDATE"
     ConseguirContador = 1
     Ok = False
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If Not Rs.EOF Then
         mvarTipoContador = LEtra
         mvarNombreRegistro = Rs!nomregis
-        C1 = Rs!Contado1
-        C2 = Rs!Contado2
+        C1 = Rs!contado1
+        C2 = Rs!contado2
         Ok = True
     End If
     Rs.Close
@@ -113,19 +113,19 @@ Dim C2 As Long
     End If
     
     'Actualizamos el contador
-    Sql = "UPDATE contadores set "
+    SQL = "UPDATE contadores set "
     If EjercicioActual Then
         C1 = C1 + 1
         mvarContador = C1
         'c1 = c1 + 1 'ANTES
-        Sql = Sql & " contado1=" & C1
+        SQL = SQL & " contado1=" & C1
     Else
         C2 = C2 + 1
         mvarContador = C2
-        Sql = Sql & " contado2=" & C2
+        SQL = SQL & " contado2=" & C2
     End If
-    Sql = Sql & " WHERE TipoRegi = '" & LEtra & "'"
-    Conn.Execute Sql
+    SQL = SQL & " WHERE TipoRegi = '" & LEtra & "'"
+    Conn.Execute SQL
     
     'Desbloqueamos
     If Not DentroBeginTrans Then Conn.Execute "commit"
@@ -147,18 +147,18 @@ Dim C1 As Long
 Dim C2 As Long
     On Error GoTo Err1
     'Abrimos bloqueando
-    Sql = "Select * from contadores WHERE TipoRegi = '" & LEtra & "' FOR UPDATE"
+    SQL = "Select * from contadores WHERE TipoRegi = '" & LEtra & "' FOR UPDATE"
     'Esto esba asi antes, sin comentar
     'Conn.Execute "Set autocommit = 0"
     DevolverContador = 1
     Ok = False
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If Not Rs.EOF Then
         mvarTipoContador = LEtra
         mvarNombreRegistro = Rs!nomregis
-        C1 = Rs!Contado1
-        C2 = Rs!Contado2
+        C1 = Rs!contado1
+        C2 = Rs!contado2
         Ok = True
     End If
     Rs.Close
@@ -177,16 +177,16 @@ Dim C2 As Long
 
     If Ok Then
         'Actualizamos el contador
-        Sql = "UPDATE contadores set "
+        SQL = "UPDATE contadores set "
         If EjercicioActual Then
             C1 = C1 - 1
-            Sql = Sql & " contado1=" & C1
+            SQL = SQL & " contado1=" & C1
         Else
             C2 = C2 - 1
-            Sql = Sql & " contado2=" & C2
+            SQL = SQL & " contado2=" & C2
         End If
-        Sql = Sql & " WHERE TipoRegi = '" & LEtra & "'"
-        Conn.Execute Sql
+        SQL = SQL & " WHERE TipoRegi = '" & LEtra & "'"
+        Conn.Execute SQL
     End If
 
     'Desbloqueamos
@@ -207,23 +207,23 @@ Dim F1 As Date
     YaExisteContador = False
 
     Set Rs = New ADODB.Recordset
-    Sql = "select fechaent,numdiari from hlinapu where numasien= " & mvarContador
+    SQL = "select fechaent,numdiari from hlinapu where numasien= " & mvarContador
     If EjercicioActual Then
         F1 = DateAdd("yyyy", -1, FechaFinEjercicio)
-        Sql = Sql & " AND fechaent > '" & Format(F1, FormatoFecha) & "'"    'mayor estricto
-        Sql = Sql & " AND fechaent <= '" & Format(FechaFinEjercicio, FormatoFecha) & "'"
+        SQL = SQL & " AND fechaent > '" & Format(F1, FormatoFecha) & "'"    'mayor estricto
+        SQL = SQL & " AND fechaent <= '" & Format(FechaFinEjercicio, FormatoFecha) & "'"
     Else
         F1 = DateAdd("yyyy", 1, FechaFinEjercicio)
-        Sql = Sql & " AND fechaent > '" & Format(FechaFinEjercicio, FormatoFecha) & "'"    'mayor estricto
-        Sql = Sql & " AND fechaent <= '" & Format(F1, FormatoFecha) & "'"
+        SQL = SQL & " AND fechaent > '" & Format(FechaFinEjercicio, FormatoFecha) & "'"    'mayor estricto
+        SQL = SQL & " AND fechaent <= '" & Format(F1, FormatoFecha) & "'"
     End If
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Rs.EOF Then
         YaExisteContador = True
     Else
         'YA existe.
-        Sql = mvarContador & " -  " & Rs!FechaEnt & " - " & Rs!NumDiari & vbCrLf & vbCrLf & "Error contadores"
-        If MostrarError Then MsgBox "Ya existe numero de asiento:" & Sql, vbExclamation
+        SQL = mvarContador & " -  " & Rs!FechaEnt & " - " & Rs!NumDiari & vbCrLf & vbCrLf & "Error contadores"
+        If MostrarError Then MsgBox "Ya existe numero de asiento:" & SQL, vbExclamation
     End If
     Rs.Close
     Set Rs = Nothing
@@ -249,4 +249,29 @@ Public Function Siguiente() As Long
 
 End Function
 
+
+
+'---------------------------------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------------------------------
+'  directamente. Updatea contadores a lo que queremos
+' Sin comprobaciones, sin nada de na
+Public Function EstableceContador(EjercicioActual As Boolean, Contador As Long) As Boolean
+
+    On Error GoTo Err1
+        'Actualizamos el contador
+        
+        SQL = "contado" & IIf(EjercicioActual, "1", "2") & " = "
+        
+        SQL = "UPDATE contadores set " & SQL
+        SQL = SQL & Contador
+        SQL = SQL & " WHERE TipoRegi = '" & Me.TipoContador & "'"
+        Conn.Execute SQL
+        EstableceContador = True
+    Exit Function
+Err1:
+        Mens = "Error: " & Err.Number & " : " & Err.Description
+        MsgBox Mens, vbExclamation
+    
+    
+End Function
 

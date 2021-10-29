@@ -390,6 +390,7 @@ Case "T"
             Case "#", "@", "$"
             Case "<", ">"
             Case "Ñ", "ñ"
+            Case "[", "]"
             Case Else
                 Error = True
                 Exit For
@@ -615,7 +616,7 @@ While Not RT.EOF
     Else
         Aux = DBLet(RT!timporteH, "N")
         ImporteD = "Null"
-        ImporteH = TransformaComasPuntos(RT!timporteH)
+        ImporteH = TransformaComasPuntos(CStr(Aux))
         ImpH = ImpH + Aux
         Aux = -1 * Aux
     End If

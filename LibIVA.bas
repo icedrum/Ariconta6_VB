@@ -74,6 +74,21 @@ Public Function GenerarFicheroIVA_303_(ByRef CadenaImportes As String, Importe A
 
 On Error GoTo Salida '
 
+    '------------------------------------------------------------------------------------------------------------------------
+    '------------------------------------------------------------------------------------------------------------------------
+    '------------------------------------------------------------------------------------------------------------------------
+    
+    'ESte NO deberia SER
+    'Comprobar si podemos borrar esta function
+    
+    '------------------------------------------------------------------------------------------------------------------------
+    '------------------------------------------------------------------------------------------------------------------------
+    '------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
     GenerarFicheroIVA_303_ = False
     Linea = ""
     Linea = Linea & "<T30301000> "
@@ -141,13 +156,14 @@ Salida:
 End Function
 
 
-Public Function GenerarFicheroIVA_303_2017(ByRef CadenaImportes As String, Importe As Currency, vFecha As Date, vPeriodo As String, EsACompensar As Byte, CadRegistroAdicional03 As String, ConInformacionUltimoPeriodo As Boolean) As Boolean
+Public Function GenerarFicheroIVA_303_Revisado(ByRef CadenaImportes As String, Importe As Currency, vFecha As Date, vPeriodo As String, EsACompensar As Byte, CadRegistroAdicional03 As String, ConInformacionUltimoPeriodo As Boolean) As Boolean
 Dim Aux As String
 Dim Periodo As String
 Dim K As Integer
 Dim UltimoPeridod As Boolean
 Dim SumatotalOperacionesPresntacionUltimoTrimestre As Currency
 Dim Exonerados390 As Boolean
+
 
 
 On Error GoTo Salida '
@@ -175,7 +191,7 @@ On Error GoTo Salida '
 
 
 
-    GenerarFicheroIVA_303_2017 = False
+    GenerarFicheroIVA_303_Revisado = False
     Linea = ""
     Linea = Linea & "<T3030"
     Linea = Linea & RecuperaValor(vPeriodo, 3)  'AÑO
@@ -205,7 +221,7 @@ On Error GoTo Salida '
     
    Debug.Assert False
     
-    Linea = Linea & "<T30301000> "   'una pos en blanco
+    Linea = Linea & "<T30301000> "   'una pos en blanco=Indicador de página complementaria.
     
     Select Case EsACompensar
     Case 0
@@ -253,7 +269,7 @@ On Error GoTo Salida '
             Linea = Linea & Aux  'Sujeto pasivo inscrito en el devo mensual
             Linea = Linea & "3"  'Sujeto pasiv tributa exclusiva  1.Si   2:NO (Regimen gnral + simplifa)    3: Sol Reg Gnral
             Linea = Linea & "2"  'autoliquidacion conjunta  1.Si   2:NO
-            Linea = Linea & "2"  'Criterio de caja 1.Si   2:NO
+            Linea = Linea & "2"  ' Sujeto pasivo acogido al régimen especial del criterio de Caja (art. 163 undecies LIVA)
             Linea = Linea & "2"  'Sujeto pasivo destinatario de operaciones acogidas al régimen especial del criterio de caja 1.Si   2:NO
             Linea = Linea & "2"  'Opción por la aplicación de la prorrata especial (art. 103.Dos.1º LIVA)
             Linea = Linea & "2"  'revocacion de la prorrata especial (art. 103.Dos.1º LIVA)
@@ -314,7 +330,7 @@ On Error GoTo Salida '
         'Campo 22. Declaracion complementaria y numero justificante anterior
         Linea = Linea & " " & Space(13)
         'Sin actividad
-        Linea = Linea & " "
+        Linea = Linea & "X"
         
         
         'Domiciliacion devolucion . bic IBAN
@@ -356,7 +372,7 @@ On Error GoTo Salida '
     
     If Not ImprimeFichero Then GoTo Salida
     
-    GenerarFicheroIVA_303_2017 = True
+    GenerarFicheroIVA_303_Revisado = True
 Salida:
     If Err.Number <> 0 Then MuestraError Err.Number
     Set miRsAux = Nothing

@@ -448,6 +448,24 @@ Begin VB.Form frmColCtasList
       TabIndex        =   13
       Top             =   0
       Width           =   6915
+      Begin VB.CheckBox ChkBusAvanzada 
+         Caption         =   "Impresión búsqueda avanzada "
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   1320
+         TabIndex        =   46
+         Top             =   1680
+         Visible         =   0   'False
+         Width           =   4455
+      End
       Begin VB.TextBox txtNCuentas 
          BackColor       =   &H80000018&
          BeginProperty Font 
@@ -816,6 +834,9 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Public BusquedaAvanzada As String
+
+
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
@@ -832,8 +853,8 @@ Option Explicit
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private Sql As String
-Dim cad As String
+Private SQL As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 
@@ -925,22 +946,26 @@ Private Sub Form_Load()
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
     FrameDatosFiscales.BorderStyle = 0
     PonerNiveles
+    
+    
+    ChkBusAvanzada.visible = False
+    
 End Sub
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
-    Sql = ""
+    SQL = ""
     AbiertoOtroFormEnListado = True
     Set frmCtas = New frmColCtas
     frmCtas.DatosADevolverBusqueda = True
     frmCtas.Show vbModal
     Set frmCtas = Nothing
-    If Sql <> "" Then
-        Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
+    If SQL <> "" Then
+        Me.txtCuentas(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(SQL, 2)
     Else
         QuitarPulsacionMas Me.txtCuentas(Index)
     End If
@@ -954,11 +979,20 @@ Private Sub Option1_Click(Index As Integer)
     If Index < 2 Then
         Me.Frame2.visible = Option1(0).Value
         FrameDatosFiscales.visible = Not Option1(0).Value
+        
+        PonBusquedaAvanzada
+        
     End If
 End Sub
 
+Private Sub PonBusquedaAvanzada()
+    ChkBusAvanzada.visible = vUsu.Nivel = 0 And optTipoSal(1).Value And BusquedaAvanzada <> "" And Option1(0).Value
+End Sub
+
+
 Private Sub optTipoSal_Click(Index As Integer)
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), Index
+    PonBusquedaAvanzada
 End Sub
 
 Private Sub optVarios_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -1016,10 +1050,10 @@ Private Sub txtCuentas_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuentas_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
@@ -1046,18 +1080,18 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
         Case 0, 1 'cuentas
             Cta = (txtCuentas(Index).Text)
                                     '********
-            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
             If B = 0 Then
                 MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
             Else
                 txtCuentas(Index).Text = Cta
-                txtNCuentas(Index).Text = Sql
+                txtNCuentas(Index).Text = SQL
                 If B = 1 Then
                     txtNCuentas(Index).Tag = ""
                 Else
-                    txtNCuentas(Index).Tag = Sql
+                    txtNCuentas(Index).Tag = SQL
                 End If
                 Hasta = -1
                 If Index = 6 Then
@@ -1093,27 +1127,31 @@ Dim Sql2 As String
 
     'Monto el SQL
     If Option1(0).Value Then
-        Sql = "Select  codmacta as Código ,nommacta as Denominación, apudirec as Apu_Directos FROM cuentas "
+        SQL = "Select  codmacta as Código ,nommacta as Denominación, apudirec as Apu_Directos  "
+        SQL = SQL & ", model347 ,razosoci,dirdatos direccion,codposta ,despobla poblacion,desprovi provincia ,nifdatos nif,telefonocta tfno,movilcta movil"
+        SQL = SQL & ", forpa formapago,iban,codcontrhab contrapartida,maidatos email, webdatos "
+        If vParamT.TieneOperacionesAseguradas Then SQL = SQL & " ,numpoliz poliza,fecsolic solicitud,credisol ,fecconce concesion,credicon  concedido"
+        SQL = SQL & " FROM cuentas "
     Else
         If Option1(3).Value Then
-            Sql = "Select  codmacta as Código ,nommacta as Denominación, coalesce(cuentas.iban,'') IBAN, coalesce(nomforpa,'') as 'Forma pago' "
-            Sql = Sql & " ,SEPA_Refere 'Ref. Sepa', If (embargo=1,'Si','') Embargo , if (coalesce(tiporetencion,0)>0,'Si','')  Retencion  , coalesce(numpoliz,'') 'Póliza' "
-            Sql = Sql & " FROM cuentas left join formapago on forpa=codforpa"
+            SQL = "Select  codmacta as Código ,nommacta as Denominación, coalesce(cuentas.iban,'') IBAN, coalesce(nomforpa,'') as 'Forma pago' "
+            SQL = SQL & " ,SEPA_Refere 'Ref. Sepa', If (embargo=1,'Si','') Embargo , if (coalesce(tiporetencion,0)>0,'Si','')  Retencion  , coalesce(numpoliz,'') 'Póliza' "
+            SQL = SQL & " FROM cuentas left join formapago on forpa=codforpa"
         Else
-            Sql = "Select  codmacta as Código ,nommacta as Denominación, nifdatos as NIF, model347, dirdatos as Dirección, codposta as CP, despobla as Población  FROM cuentas "
+            SQL = "Select  codmacta as Código ,nommacta as Denominación, nifdatos as NIF, model347, dirdatos as Dirección, codposta as CP, despobla as Población  FROM cuentas "
         End If
         
     End If
     
     
-    If cadselect <> "" Then Sql = Sql & " WHERE " & cadselect
+    If cadselect <> "" Then SQL = SQL & " WHERE " & cadselect
     
     i = 1
     If optVarios(1).Value Then i = 2 'nombre
-    Sql = Sql & " ORDER BY " & i
+    SQL = SQL & " ORDER BY " & i
         
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1171,7 +1209,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -1183,7 +1221,7 @@ Dim RC2 As String
     If cadFormula <> "" Then cadFormula = "(" & cadFormula & ")"
     If cadselect <> "" Then cadselect = "(" & cadselect & ")"
             
-    Sql = ""
+    SQL = ""
     Sql2 = ""
     RC = ""
     RC2 = ""
@@ -1191,15 +1229,15 @@ Dim RC2 As String
         For i = 1 To Check1.Count - 2  'El 10 k es el ultimo nivel no lo quiero
             If Check1(i).visible Then
                 If Check1(i).Value = 1 Then
-                    Sql = ""
+                    SQL = ""
                     Sql2 = ""
                     J = DigitosNivel(i)
                     For CONT = 1 To J
-                        Sql = Sql & "?"
+                        SQL = SQL & "?"
                         Sql2 = Sql2 & "_"
                     Next CONT
                     If RC <> "" Then RC = RC & " OR "
-                    RC = RC & " ({cuentas.codmacta} like '" & Sql & "')"
+                    RC = RC & " ({cuentas.codmacta} like '" & SQL & "')"
                     If RC2 <> "" Then RC2 = RC2 & " OR "
                     RC2 = RC2 & " (cuentas.codmacta like '" & Sql2 & "')"
                 End If
@@ -1238,6 +1276,16 @@ Dim RC2 As String
         End If
     End If
     
+    If Me.optTipoSal(1).Value And Me.ChkBusAvanzada.visible Then
+        If ChkBusAvanzada.Value = 1 And BusquedaAvanzada <> "" Then
+            If cadselect <> "" Then cadselect = cadselect & " AND "
+            cadselect = cadselect & BusquedaAvanzada
+        End If
+    End If
+    
+    
+    
+    
     MontaSQL = True
 End Function
 
@@ -1251,9 +1299,9 @@ Dim J As Integer
     Check1(10).visible = True
     For i = 1 To vEmpresa.numnivel - 1
         J = DigitosNivel(i)
-        cad = "Digitos: " & J
+        Cad = "Digitos: " & J
         Check1(i).visible = True
-        Me.Check1(i).Caption = cad
+        Me.Check1(i).Caption = Cad
         
         
         Combo2.AddItem "Nivel :   " & i
