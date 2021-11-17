@@ -88,6 +88,10 @@ Dim RepeticionBucle As Byte
 Dim nR As Byte
 Dim cLineas As Collection
 Dim LineaInsecionSumatorios As Byte
+Dim SubtotalesEnLineas As Integer  '-1 NO inserta linea    >0 DONDE va insertado. Si teine la marca en BD ponemos un 0 , y finalmente la posicion de insercion
+
+
+
     On Error GoTo EGen3
     GeneraFicheroNorma34SEPA_XML = False
     
@@ -108,6 +112,8 @@ Dim LineaInsecionSumatorios As Byte
             Cad = miRsAux!IBAN
             If DBLet(miRsAux!Sufijo3414, "T") <> "" Then SufijoOEM = Right("000" & miRsAux!Sufijo3414, 3)
             CuentaPropia2 = Cad
+            SubtotalesEnLineas = -1
+            If DBLet(miRsAux!FichTransSubtotales, "N") = 1 Then SubtotalesEnLineas = 0
         End If
         
         
@@ -162,12 +168,16 @@ Dim LineaInsecionSumatorios As Byte
     
     cLineas.Add "      <PmtInfId>" & Format(Now, "yyyymmddhhnnss") & CIF & "</PmtInfId>"
     cLineas.Add "      <PmtMtd>TRF</PmtMtd>"
+    
+    'Noviembre 2021  SubtotalesEnLineas
+    If SubtotalesEnLineas >= 0 Then SubtotalesEnLineas = cLineas.Count
+    
+    
     cLineas.Add "      <ReqdExctnDt>" & Format(Fecha, "yyyy-mm-dd") & "</ReqdExctnDt>"
     cLineas.Add "      <Dbtr>"
     
      'Nombre
     miRsAux.Open "Select siglasvia ,direccion ,numero ,codpobla,pobempre,provempre,provincia from empresa2"
-    Cad = Cad & FrmtStr(vEmpresa.nomempre, 70)
     If miRsAux.EOF Then Err.Raise 513, , "Error obteniendo datos empresa(empresa2)"
     
     cLineas.Add "         <Nm>" & XML(vEmpresa.nomempre) & "</Nm>"
@@ -496,7 +506,20 @@ Dim LineaInsecionSumatorios As Byte
     Aux = Format(Importe, "###0.00")
     Print #NFic, "      <CtrlSum>" & TransformaComasPuntos(Aux) & "</CtrlSum>"
         
+    'Noviembre 21
+    'Si lleva el subtotal(proasis) hacemios un segundo bucle
+    If SubtotalesEnLineas > 0 Then
+        For J = LineaInsecionSumatorios + 1 To SubtotalesEnLineas
+            Print #NFic, cLineas.Item(J)
+        Next
+        Print #NFic, "      <NbOfTxs>" & Regs & "</NbOfTxs>"
+        Aux = Format(Importe, "###0.00")
+        Print #NFic, "      <CtrlSum>" & TransformaComasPuntos(Aux) & "</CtrlSum>"
     
+        LineaInsecionSumatorios = SubtotalesEnLineas 'para que siga
+    End If
+    
+    'Bucle final
     For J = LineaInsecionSumatorios + 1 To cLineas.Count
         Print #NFic, cLineas.Item(J)
     Next J

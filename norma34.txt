@@ -2,86 +2,126 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
 <CstmrCdtTrfInitn>
    <GrpHdr>
-      <MsgId>TRANPAG000087F20191105T175138</MsgId>
-      <CreDtTm>2019-11-05T17:51:38</CreDtTm>
-      <NbOfTxs>1</NbOfTxs>
-      <CtrlSum>4.51</CtrlSum>
+      <MsgId>TRANPAG000104F20211117T165331</MsgId>
+      <CreDtTm>2021-11-17T16:53:31</CreDtTm>
+      <NbOfTxs>2</NbOfTxs>
+      <CtrlSum>1318.90</CtrlSum>
       <InitgPty>
-         <Nm>Herbelca S.L.</Nm>
+         <Nm>REABITA OBRAS DE REHABILITACION,SL</Nm>
          <Id>
            <OrgId>
                <Othr>
-                  <Id>B46135372000</Id>
+                  <Id>B85983054001</Id>
                </Othr>
            </OrgId>
          </Id>
       </InitgPty>
    </GrpHdr>
    <PmtInf>
-      <PmtInfId>20191105175138B46135372</PmtInfId>
+      <PmtInfId>20211117165331B85983054</PmtInfId>
       <PmtMtd>TRF</PmtMtd>
-      <ReqdExctnDt>2019-11-05</ReqdExctnDt>
+      <NbOfTxs>2</NbOfTxs>
+      <CtrlSum>1318.90</CtrlSum>
+      <ReqdExctnDt>2021-11-17</ReqdExctnDt>
       <Dbtr>
-         <Nm>Herbelca S.L.</Nm>
+         <Nm>REABITA OBRAS DE REHABILITACION,SL</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-            <AdrLine>CL Azagador de la Torre 93  VALENCIA</AdrLine>
+            <AdrLine>C REAL, 1   Madrid</AdrLine>
          </PstlAdr>
          <Id>
             <OrgId>
                <Othr>
-                  <Id>B46135372000</Id>
+                  <Id>B85983054001</Id>
                </Othr>
             </OrgId>
          </Id>
     </Dbtr>
     <DbtrAcct>
        <Id>
-          <IBAN>ES2800810693600002093621</IBAN>
+          <IBAN>ES1220800611003040039418</IBAN>
        </Id>
        <Ccy>EUR</Ccy>
     </DbtrAcct>
     <DbtrAgt>
        <FinInstnId>
-          <BIC>BSABESBBXXX</BIC>
+          <BIC>CAGLESMMVIG</BIC>
        </FinInstnId>
     </DbtrAgt>
    <CdtTrfTxInf>
       <PmtId>
-         <EndToEndId>4667      20190415001</EndToEndId>
+         <EndToEndId>486-2021  20211112001</EndToEndId>
       </PmtId>
       <PmtTpInf>
           <SvcLvl><Cd>SEPA</Cd></SvcLvl>
           <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
        </PmtTpInf>
        <Amt>
-          <InstdAmt Ccy="EUR">4.51</InstdAmt>
+          <InstdAmt Ccy="EUR">527.08</InstdAmt>
        </Amt>
        <CdtrAgt>
           <FinInstnId>
-             <BIC>BSABESBBXXX</BIC>
+             <BIC>BBVAESMMXXX</BIC>
           </FinInstnId>
        </CdtrAgt>
        <Cdtr>
-          <Nm>SIME HISPANIA, S.A.</Nm>
+          <Nm>ANDAMIOS Y ESCALERAS JMONEO,S.L.</Nm>
            <Id>
                <OrgId>
                   <Othr>
-                     <Id>A18550137</Id>
+                     <Id>B88369087</Id>
                   </Othr>
                </OrgId>
            </Id>
         </Cdtr>
         <CdtrAcct>
            <Id>
-              <IBAN>ES1600810659440001103720</IBAN>
+              <IBAN>ES9501825739610201606274</IBAN>
            </Id>
         </CdtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>4667        de 15/04/2019 N 001</Ustrd>
+         <Ustrd>486-2021              de 12/11/2021 N 001</Ustrd>
+      </RmtInf>
+   </CdtTrfTxInf>
+   <CdtTrfTxInf>
+      <PmtId>
+         <EndToEndId>487-2021  20211112001</EndToEndId>
+      </PmtId>
+      <PmtTpInf>
+          <SvcLvl><Cd>SEPA</Cd></SvcLvl>
+          <CtgyPurp><Cd>TRAD</Cd></CtgyPurp>
+       </PmtTpInf>
+       <Amt>
+          <InstdAmt Ccy="EUR">791.82</InstdAmt>
+       </Amt>
+       <CdtrAgt>
+          <FinInstnId>
+             <BIC>BBVAESMMXXX</BIC>
+          </FinInstnId>
+       </CdtrAgt>
+       <Cdtr>
+          <Nm>ANDAMIOS Y ESCALERAS JMONEO,S.L.</Nm>
+           <Id>
+               <OrgId>
+                  <Othr>
+                     <Id>B88369087</Id>
+                  </Othr>
+               </OrgId>
+           </Id>
+        </Cdtr>
+        <CdtrAcct>
+           <Id>
+              <IBAN>ES9501825739610201606274</IBAN>
+           </Id>
+        </CdtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>487-2021              de 12/11/2021 N 001</Ustrd>
       </RmtInf>
    </CdtTrfTxInf>
    </PmtInf>

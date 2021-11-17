@@ -28,8 +28,8 @@ Begin VB.Form frmTESInfTesoreria
       EndProperty
       Height          =   2655
       Left            =   7110
-      TabIndex        =   34
-      Top             =   3090
+      TabIndex        =   36
+      Top             =   3240
       Width           =   4365
       Begin VB.OptionButton optVarios 
          Caption         =   "Fecha vencimiento"
@@ -45,7 +45,7 @@ Begin VB.Form frmTESInfTesoreria
          Height          =   240
          Index           =   0
          Left            =   480
-         TabIndex        =   36
+         TabIndex        =   6
          Top             =   840
          Value           =   -1  'True
          Width           =   2775
@@ -64,7 +64,7 @@ Begin VB.Form frmTESInfTesoreria
          Height          =   240
          Index           =   1
          Left            =   480
-         TabIndex        =   35
+         TabIndex        =   7
          Top             =   1320
          Width           =   1455
       End
@@ -80,9 +80,9 @@ Begin VB.Form frmTESInfTesoreria
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   3015
+      Height          =   3135
       Left            =   120
-      TabIndex        =   18
+      TabIndex        =   23
       Top             =   0
       Width           =   6945
       Begin VB.TextBox txtFecha 
@@ -98,11 +98,11 @@ Begin VB.Form frmTESInfTesoreria
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   5520
+         Left            =   3360
          MaxLength       =   10
-         TabIndex        =   37
+         TabIndex        =   3
          Tag             =   "imgFecha"
-         Top             =   2040
+         Top             =   2160
          Visible         =   0   'False
          Width           =   1305
       End
@@ -121,7 +121,7 @@ Begin VB.Form frmTESInfTesoreria
          Index           =   1
          Left            =   2580
          Locked          =   -1  'True
-         TabIndex        =   30
+         TabIndex        =   32
          Top             =   1200
          Width           =   4155
       End
@@ -140,7 +140,7 @@ Begin VB.Form frmTESInfTesoreria
          Index           =   0
          Left            =   2580
          Locked          =   -1  'True
-         TabIndex        =   29
+         TabIndex        =   31
          Top             =   780
          Width           =   4155
       End
@@ -195,15 +195,15 @@ Begin VB.Form frmTESInfTesoreria
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   1230
+         Left            =   3360
          MaxLength       =   10
          TabIndex        =   2
          Tag             =   "imgFecha"
-         Top             =   2400
+         Top             =   2640
          Width           =   1305
       End
       Begin VB.Label Label3 
-         Caption         =   "Hasta"
+         Caption         =   "Inicio periodo"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9
@@ -213,19 +213,19 @@ Begin VB.Form frmTESInfTesoreria
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   195
+         Height          =   210
          Index           =   2
-         Left            =   4560
-         TabIndex        =   38
-         Top             =   2040
+         Left            =   1680
+         TabIndex        =   37
+         Top             =   2280
          Visible         =   0   'False
-         Width           =   615
+         Width           =   1275
       End
       Begin VB.Image ImgFec 
          Height          =   240
          Index           =   0
-         Left            =   5250
-         Top             =   2040
+         Left            =   3000
+         Top             =   2280
          Visible         =   0   'False
          Width           =   240
       End
@@ -244,7 +244,7 @@ Begin VB.Form frmTESInfTesoreria
          Height          =   195
          Index           =   1
          Left            =   270
-         TabIndex        =   33
+         TabIndex        =   35
          Top             =   480
          Width           =   2370
       End
@@ -262,7 +262,7 @@ Begin VB.Form frmTESInfTesoreria
          Height          =   195
          Index           =   10
          Left            =   270
-         TabIndex        =   32
+         TabIndex        =   34
          Top             =   810
          Width           =   690
       End
@@ -280,7 +280,7 @@ Begin VB.Form frmTESInfTesoreria
          Height          =   195
          Index           =   9
          Left            =   270
-         TabIndex        =   31
+         TabIndex        =   33
          Top             =   1170
          Width           =   615
       End
@@ -311,7 +311,7 @@ Begin VB.Form frmTESInfTesoreria
          Height          =   255
          Index           =   0
          Left            =   2580
-         TabIndex        =   24
+         TabIndex        =   28
          Top             =   3630
          Width           =   4095
       End
@@ -328,25 +328,9 @@ Begin VB.Form frmTESInfTesoreria
          Height          =   255
          Index           =   4
          Left            =   2580
-         TabIndex        =   23
+         TabIndex        =   27
          Top             =   3990
          Width           =   4095
-      End
-      Begin VB.Label lblPrevInd 
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Left            =   2640
-         TabIndex        =   22
-         Top             =   2520
-         Width           =   4035
       End
       Begin VB.Label lblNumFactu 
          BeginProperty Font 
@@ -361,15 +345,15 @@ Begin VB.Form frmTESInfTesoreria
          Height          =   255
          Index           =   1
          Left            =   2580
-         TabIndex        =   21
-         Top             =   2700
+         TabIndex        =   26
+         Top             =   1800
          Width           =   4035
       End
       Begin VB.Image ImgFec 
          Height          =   240
          Index           =   1
-         Left            =   960
-         Top             =   2400
+         Left            =   3000
+         Top             =   2640
          Width           =   240
       End
       Begin VB.Label Label3 
@@ -385,13 +369,13 @@ Begin VB.Form frmTESInfTesoreria
          EndProperty
          Height          =   195
          Index           =   16
-         Left            =   270
-         TabIndex        =   20
-         Top             =   2400
+         Left            =   1680
+         TabIndex        =   25
+         Top             =   2640
          Width           =   615
       End
       Begin VB.Label Label3 
-         Caption         =   "Fecha Vencimiento"
+         Caption         =   "Vencimiento"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -404,8 +388,8 @@ Begin VB.Form frmTESInfTesoreria
          ForeColor       =   &H00800000&
          Height          =   195
          Index           =   18
-         Left            =   270
-         TabIndex        =   19
+         Left            =   240
+         TabIndex        =   24
          Top             =   1920
          Width           =   2280
       End
@@ -423,8 +407,8 @@ Begin VB.Form frmTESInfTesoreria
       EndProperty
       Height          =   2655
       Left            =   150
-      TabIndex        =   7
-      Top             =   3090
+      TabIndex        =   12
+      Top             =   3240
       Width           =   6915
       Begin VB.OptionButton optTipoSal 
          Caption         =   "Impresora"
@@ -440,7 +424,7 @@ Begin VB.Form frmTESInfTesoreria
          Height          =   255
          Index           =   0
          Left            =   240
-         TabIndex        =   17
+         TabIndex        =   22
          Top             =   720
          Value           =   -1  'True
          Width           =   1335
@@ -459,7 +443,7 @@ Begin VB.Form frmTESInfTesoreria
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   16
+         TabIndex        =   21
          Top             =   1200
          Width           =   1515
       End
@@ -477,7 +461,7 @@ Begin VB.Form frmTESInfTesoreria
          Height          =   255
          Index           =   2
          Left            =   240
-         TabIndex        =   15
+         TabIndex        =   20
          Top             =   1680
          Width           =   975
       End
@@ -495,7 +479,7 @@ Begin VB.Form frmTESInfTesoreria
          Height          =   255
          Index           =   3
          Left            =   240
-         TabIndex        =   14
+         TabIndex        =   19
          Top             =   2160
          Width           =   975
       End
@@ -513,7 +497,7 @@ Begin VB.Form frmTESInfTesoreria
          Index           =   0
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   13
+         TabIndex        =   18
          Text            =   "Text1"
          Top             =   720
          Width           =   3345
@@ -532,7 +516,7 @@ Begin VB.Form frmTESInfTesoreria
          Index           =   1
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   12
+         TabIndex        =   17
          Top             =   1200
          Width           =   4665
       End
@@ -550,7 +534,7 @@ Begin VB.Form frmTESInfTesoreria
          Index           =   2
          Left            =   1770
          Locked          =   -1  'True
-         TabIndex        =   11
+         TabIndex        =   16
          Top             =   1680
          Width           =   4665
       End
@@ -559,7 +543,7 @@ Begin VB.Form frmTESInfTesoreria
          Height          =   315
          Index           =   0
          Left            =   6450
-         TabIndex        =   10
+         TabIndex        =   15
          Top             =   1200
          Width           =   255
       End
@@ -568,7 +552,7 @@ Begin VB.Form frmTESInfTesoreria
          Height          =   315
          Index           =   1
          Left            =   6450
-         TabIndex        =   9
+         TabIndex        =   14
          Top             =   1680
          Width           =   255
       End
@@ -585,7 +569,7 @@ Begin VB.Form frmTESInfTesoreria
          EndProperty
          Height          =   375
          Left            =   5190
-         TabIndex        =   8
+         TabIndex        =   13
          Top             =   720
          Width           =   1515
       End
@@ -601,20 +585,37 @@ Begin VB.Form frmTESInfTesoreria
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   2985
+      Height          =   3105
       Left            =   7110
-      TabIndex        =   6
+      TabIndex        =   11
       Top             =   0
       Width           =   4305
+      Begin VB.CheckBox chkPerido 
+         Caption         =   "Indicar periodo"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   240
+         TabIndex        =   4
+         Top             =   480
+         Width           =   2775
+      End
       Begin MSComctlLib.ListView ListView1 
-         Height          =   1890
+         Height          =   1410
          Index           =   1
          Left            =   240
-         TabIndex        =   25
-         Top             =   960
+         TabIndex        =   5
+         Top             =   1440
          Width           =   3825
          _ExtentX        =   6747
-         _ExtentY        =   3334
+         _ExtentY        =   2487
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
@@ -639,7 +640,7 @@ Begin VB.Form frmTESInfTesoreria
       Begin MSComctlLib.Toolbar ToolbarAyuda 
          Height          =   390
          Left            =   3660
-         TabIndex        =   28
+         TabIndex        =   30
          Top             =   210
          Width           =   405
          _ExtentX        =   714
@@ -657,19 +658,19 @@ Begin VB.Form frmTESInfTesoreria
       Begin VB.Image imgCheck 
          Height          =   240
          Index           =   2
-         Left            =   3420
+         Left            =   3300
          Picture         =   "frmTESInfTesoreria.frx":000C
          ToolTipText     =   "Quitar al Debe"
-         Top             =   660
+         Top             =   1080
          Width           =   240
       End
       Begin VB.Image imgCheck 
          Height          =   240
          Index           =   3
-         Left            =   3780
+         Left            =   3660
          Picture         =   "frmTESInfTesoreria.frx":0156
          ToolTipText     =   "Puntear al Debe"
-         Top             =   660
+         Top             =   1080
          Width           =   240
       End
       Begin VB.Label Label3 
@@ -685,9 +686,9 @@ Begin VB.Form frmTESInfTesoreria
          EndProperty
          Height          =   255
          Index           =   0
-         Left            =   210
-         TabIndex        =   26
-         Top             =   660
+         Left            =   240
+         TabIndex        =   29
+         Top             =   1200
          Width           =   1920
       End
    End
@@ -705,7 +706,7 @@ Begin VB.Form frmTESInfTesoreria
       EndProperty
       Height          =   375
       Left            =   10200
-      TabIndex        =   4
+      TabIndex        =   9
       Top             =   5940
       Width           =   1215
    End
@@ -722,7 +723,7 @@ Begin VB.Form frmTESInfTesoreria
       Height          =   375
       Index           =   1
       Left            =   8640
-      TabIndex        =   3
+      TabIndex        =   8
       Top             =   5940
       Width           =   1455
    End
@@ -740,15 +741,23 @@ Begin VB.Form frmTESInfTesoreria
       Height          =   375
       Index           =   0
       Left            =   150
-      TabIndex        =   5
-      Top             =   5910
+      TabIndex        =   10
+      Top             =   6000
       Width           =   1335
    End
-   Begin VB.Label Label9 
-      Alignment       =   2  'Center
+   Begin VB.Label Label1 
+      Caption         =   "Si indica periodo NO sumara el banco  y no resumir movimiento no detallados"
+      Height          =   735
+      Left            =   3240
+      TabIndex        =   39
+      Top             =   5880
+      Visible         =   0   'False
+      Width           =   4815
+   End
+   Begin VB.Label lblPrevInd 
       BeginProperty Font 
          Name            =   "Verdana"
-         Size            =   9
+         Size            =   9.75
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -756,10 +765,10 @@ Begin VB.Form frmTESInfTesoreria
          Strikethrough   =   0   'False
       EndProperty
       Height          =   255
-      Left            =   1980
-      TabIndex        =   27
-      Top             =   6000
-      Width           =   6270
+      Left            =   2400
+      TabIndex        =   38
+      Top             =   5880
+      Width           =   4035
    End
 End
 Attribute VB_Name = "frmTESInfTesoreria"
@@ -791,10 +800,10 @@ Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
 'Private WithEvents frmGas As frmBasico
 
-Private Sql As String
-Dim cad As String
+Private SQL As String
+Dim Cad As String
 Dim RC As String
-Dim I As Integer
+Dim i As Integer
 
 
 Dim PrimeraVez As Boolean
@@ -830,6 +839,18 @@ Private Function MontaSQL() As Boolean
 End Function
 
 
+Private Sub chkPerido_Click()
+    Label3(2).visible = chkPerido.Value = 1
+    Me.txtFecha(0).visible = chkPerido.Value = 1
+    Me.ImgFec(0).visible = chkPerido.Value = 1
+    
+    Label3(16).top = IIf(chkPerido.Value = 1, 2640, 2280)
+    Me.txtFecha(1).top = IIf(chkPerido.Value = 1, 2640, 2160)
+    Me.ImgFec(1).top = IIf(chkPerido.Value = 1, 2640, 2280)
+
+    
+End Sub
+
 Private Sub cmdAccion_Click(Index As Integer)
 
     If Not DatosOK Then Exit Sub
@@ -842,6 +863,10 @@ Private Sub cmdAccion_Click(Index As Integer)
     
     
     InicializarVbles True
+    
+    
+    
+        
     
     
     
@@ -900,13 +925,13 @@ Private Sub Form_Load()
     'Otras opciones
     Me.Caption = "Informe de Situación por Cuenta"
 
-    For I = 1 To 1
-        Me.ImgFec(I).Picture = frmppal.imgIcoForms.ListImages(2).Picture
-    Next I
+    For i = 0 To 1
+        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+    Next i
      
-    For I = 0 To 1
-        Me.imgCuentas(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next I
+    For i = 0 To 1
+        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next i
     
     ' La Ayuda
     With Me.ToolbarAyuda
@@ -937,19 +962,21 @@ Private Sub CargarListtipos()
     ListView1(NumRegElim).ListItems.Clear
     
     
-    For I = 1 To 3
+    For i = 1 To 3
             Set IT = ListView1(NumRegElim).ListItems.Add
-            IT.Key = "C" & I
+            IT.Key = "C" & i
             IT.Checked = True
-            IT.Text = RecuperaValor("Cobros|Pagos|Gastos|", I)
+            IT.Text = RecuperaValor("Cobros|Pagos|Gastos|", i)
     Next
 
+
+    chkPerido_Click
 ECargarList:
     
 End Sub
 
 Private Function DevuelveProhibidas() As String
-Dim I As Integer
+Dim i As Integer
 
 
     On Error GoTo EDevuelveProhibidas
@@ -958,8 +985,8 @@ Dim I As Integer
 
     Set miRsAux = New ADODB.Recordset
 
-    I = vUsu.Codigo Mod 100
-    miRsAux.Open "Select * from usuarios.usuarioempresasariconta WHERE codusu =" & I, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    i = vUsu.Codigo Mod 100
+    miRsAux.Open "Select * from usuarios.usuarioempresasariconta WHERE codusu =" & i, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     DevuelveProhibidas = ""
     While Not miRsAux.EOF
         DevuelveProhibidas = DevuelveProhibidas & miRsAux.Fields(1) & "|"
@@ -976,21 +1003,21 @@ End Function
 
 
 Private Sub frmCCtas_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 
 Private Sub frmBan_DatoSeleccionado(CadenaSeleccion As String)
-    Sql = CadenaSeleccion
+    SQL = CadenaSeleccion
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    Sql = Format(vFecha, "dd/mm/yyyy")
+    SQL = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
 Private Sub imgCheck_Click(Index As Integer)
-Dim I As Integer
+Dim i As Integer
 Dim TotalCant As Currency
 Dim TotalImporte As Currency
 
@@ -999,23 +1026,23 @@ Dim TotalImporte As Currency
     Select Case Index
         ' empresas de usuarios
         Case 0
-            For I = 1 To ListView1(1).ListItems.Count
-                ListView1(1).ListItems(I).Checked = False
-            Next I
+            For i = 1 To ListView1(1).ListItems.Count
+                ListView1(1).ListItems(i).Checked = False
+            Next i
         Case 1
-            For I = 1 To ListView1(1).ListItems.Count
-                ListView1(1).ListItems(I).Checked = True
-            Next I
+            For i = 1 To ListView1(1).ListItems.Count
+                ListView1(1).ListItems(i).Checked = True
+            Next i
     
         ' tipos de forma de pago
         Case 2
-            For I = 1 To ListView1(0).ListItems.Count
-                ListView1(0).ListItems(I).Checked = False
-            Next I
+            For i = 1 To ListView1(0).ListItems.Count
+                ListView1(0).ListItems(i).Checked = False
+            Next i
         Case 3
-            For I = 1 To ListView1(0).ListItems.Count
-                ListView1(0).ListItems(I).Checked = True
-            Next I
+            For i = 1 To ListView1(0).ListItems.Count
+                ListView1(0).ListItems(i).Checked = True
+            Next i
     
     End Select
     
@@ -1025,15 +1052,15 @@ End Sub
 
 
 Private Sub imgCuentas_Click(Index As Integer)
-    Sql = ""
+    SQL = ""
     AbiertoOtroFormEnListado = True
     Set frmBan = New frmBasico2
     AyudaBanco frmBan
     Set frmBan = Nothing
-    If Sql <> "" Then
+    If SQL <> "" Then
         
-        txtCuentas(Index).Text = RecuperaValor(Sql, 1)
-        Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
+        txtCuentas(Index).Text = RecuperaValor(SQL, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(SQL, 2)
         PonFoco Me.txtCuentas(Index)
     End If
     AbiertoOtroFormEnListado = False
@@ -1051,10 +1078,10 @@ Private Sub imgFec_Click(Index As Integer)
         Set frmF = New frmCal
         frmF.Fecha = Now
         If txtFecha(Index).Text <> "" Then frmF.Fecha = CDate(txtFecha(Index).Text)
-        Sql = ""
+        SQL = ""
         frmF.Show vbModal
         Set frmF = Nothing
-        If Sql <> "" Then txtFecha(Index).Text = Sql
+        If SQL <> "" Then txtFecha(Index).Text = SQL
         PonFoco txtFecha(Index)
     End Select
     
@@ -1126,10 +1153,10 @@ Private Sub txtCuentas_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtCuentas_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
@@ -1156,7 +1183,7 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
         Case 0, 1 'cuentas
             Cta = (txtCuentas(Index).Text)
                                     '********
-            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
             If Not B Then
                 MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
                 txtCuentas(Index).Text = ""
@@ -1164,14 +1191,14 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
                 PonFoco txtCuentas(Index)
             Else
             
-                cad = DevuelveDesdeBD("codmacta", "bancos", "codmacta", Cta, "T")
-                If cad = "" Then
-                    MsgBox "No existe banco: " & Cta & " - " & Sql, vbExclamation
+                Cad = DevuelveDesdeBD("codmacta", "bancos", "codmacta", Cta, "T")
+                If Cad = "" Then
+                    MsgBox "No existe banco: " & Cta & " - " & SQL, vbExclamation
                     
-                    Sql = ""
+                    SQL = ""
                 End If
                 txtCuentas(Index).Text = Cta
-                txtNCuentas(Index).Text = Sql
+                txtNCuentas(Index).Text = SQL
             
             End If
     
@@ -1201,23 +1228,23 @@ Private Sub AccionesCSV()
 
     'Monto el SQL
     
-    Sql = "SELECT `tmptesoreriacomun`.`texto1` cuenta , `tmptesoreriacomun`.`texto2` Conta, `tmptesoreriacomun`.`opcion` BD, `tmptesoreriacomun`.`texto5` Nombre, `tmptesoreriacomun`.`texto3` NroFra, `tmptesoreriacomun`.`fecha1` FecFra, `tmptesoreriacomun`.`fecha2` FecVto, `tmptesoreriacomun`.`importe1` Gasto, `tmptesoreriacomun`.`importe2` Recibo"
-    Sql = Sql & " FROM   `tmptesoreriacomun` `tmptesoreriacomun`"
-    Sql = Sql & " WHERE `tmptesoreriacomun`.codusu = " & vUsu.Codigo
-    Sql = Sql & " ORDER BY `tmptesoreriacomun`.`texto1`, `tmptesoreriacomun`.`texto2`, `tmptesoreriacomun`.`opcion`, `tmptesoreriacomun`.`fecha1`"
+    SQL = "SELECT `tmptesoreriacomun`.`texto1` cuenta , `tmptesoreriacomun`.`texto2` Conta, `tmptesoreriacomun`.`opcion` BD, `tmptesoreriacomun`.`texto5` Nombre, `tmptesoreriacomun`.`texto3` NroFra, `tmptesoreriacomun`.`fecha1` FecFra, `tmptesoreriacomun`.`fecha2` FecVto, `tmptesoreriacomun`.`importe1` Gasto, `tmptesoreriacomun`.`importe2` Recibo"
+    SQL = SQL & " FROM   `tmptesoreriacomun` `tmptesoreriacomun`"
+    SQL = SQL & " WHERE `tmptesoreriacomun`.codusu = " & vUsu.Codigo
+    SQL = SQL & " ORDER BY `tmptesoreriacomun`.`texto1`, `tmptesoreriacomun`.`texto2`, `tmptesoreriacomun`.`opcion`, `tmptesoreriacomun`.`fecha1`"
     
     
-    Sql = " select tmpconextcab.cta Cta, tmpconextcab.cuenta descripcion,"
+    SQL = " select tmpconextcab.cta Cta, tmpconextcab.cuenta descripcion,"
     If Me.optVarios(0).Value Then
-        Sql = Sql & " FechaEnt fechaVto  , contra tipo"
+        SQL = SQL & " FechaEnt fechaVto  , contra tipo"
         RC = " fechaent,tipo"
     Else
-        Sql = Sql & "  contra tipo,FechaEnt fechaVto  "
+        SQL = SQL & "  contra tipo,FechaEnt fechaVto  "
         RC = " tipo,fechaent"
     End If
-    Sql = Sql & " ,ampconce,nomdocum,acumtotD SumDebe,acumtotH SumHaber, acumtotT SaldoInicial, timporteD debe ,timporteH  haber"
-    Sql = Sql & " from tmpconextcab, tmpconext where tmpconextcab.codusu= tmpconext.codusu and  tmpconextcab.cta= tmpconext.cta"
-    Sql = Sql & " and tmpconextcab.codusu=" & vUsu.Codigo & " ORDER BY tmpconextcab.cta," & RC & ",ampconce"
+    SQL = SQL & " ,ampconce,nomdocum,acumtotD SumDebe,acumtotH SumHaber, acumtotT SaldoInicial, timporteD debe ,timporteH  haber"
+    SQL = SQL & " from tmpconextcab, tmpconext where tmpconextcab.codusu= tmpconext.codusu and  tmpconextcab.cta= tmpconext.cta"
+    SQL = SQL & " and tmpconextcab.codusu=" & vUsu.Codigo & " ORDER BY tmpconextcab.cta," & RC & ",ampconce"
 
 
 
@@ -1225,7 +1252,7 @@ Private Sub AccionesCSV()
     
     
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -1249,25 +1276,28 @@ Dim nomDocu As String
     cadFormula = "{tmpconextcab.codusu} = " & vUsu.Codigo
     
     
-    Sql = IIf(Me.optVarios(0).Value, "Fecha vto.", "tipo")
-    Sql = "Titulo= ""Informe tesorería (" & Sql & ")""|"
-    'Fechas intervalor
-    Sql = Sql & "Fechas= ""Fecha hasta " & txtFecha(1).Text & """|"
+    SQL = IIf(Me.optVarios(0).Value, "Fecha vto.", "tipo")
+    SQL = "Titulo= ""Informe tesorería (" & SQL & ")"
+    If Me.chkPerido.Value = 1 Then SQL = SQL & "PER."
+    SQL = SQL & """|"
     
-    Sql = Sql & "Cuenta= """ & RC & """|"
-    Sql = Sql & "pFecha= """ & Format(Now, "dd/mm/yyyy") & """|"
-    Sql = Sql & "NumPag= 0|"
-    Sql = Sql & "Salto= 2|"
-    cadParam = cadParam & Sql
+    'Fechas intervalor
+    SQL = SQL & "Fechas= """ & IIf(Me.chkPerido.Value = 1, "Periodo.   ", "") & "Fecha hasta " & txtFecha(1).Text & """|"
+    RC = ""
+    SQL = SQL & "Cuenta= """ & RC & """|"
+    SQL = SQL & "pFecha= """ & Format(Now, "dd/mm/yyyy") & """|"
+    SQL = SQL & "NumPag= 0|"
+    SQL = SQL & "Salto= 2|"
+    cadParam = cadParam & SQL
     numParam = 8
     
     
     If Me.optVarios(0).Value Then
-        Sql = "orden1= {tmpconext.fechaent} |" & "orden2= {tmpconext.contra}|"
+        SQL = "orden1= {tmpconext.fechaent} |" & "orden2= {tmpconext.contra}|"
     Else
-         Sql = "orden1= {tmpconext.contra} |" & "orden2= {tmpconext.fechaent}|"
+         SQL = "orden1= {tmpconext.contra} |" & "orden2= {tmpconext.fechaent}|"
     End If
-    cadParam = cadParam & Sql
+    cadParam = cadParam & SQL
     numParam = numParam + 2
     
     
@@ -1316,14 +1346,25 @@ End Sub
 
 Private Function DatosOK() As Boolean
     
-    DatosOK = False
+    DatosOK = True
     
     If Me.txtFecha(1).Text = "" Then
         MsgBox "Seleccione fecha", vbExclamation
         PonFoco txtFecha(1)
-        
+        DatosOK = False
     Else
-        DatosOK = True
+        If Me.txtFecha(0).Text <> "" Then
+            If CDate(Me.txtFecha(1).Text) < CDate(Me.txtFecha(0).Text) Then
+                MsgBoxA "Fecha fin menor que fecha inicio periodo", vbExclamation
+                DatosOK = False
+            End If
+        Else
+            If Me.chkPerido.Value = 1 Then
+                MsgBoxA "Debe indicar fecha inicio periodo", vbExclamation
+                DatosOK = False
+            End If
+        End If
+        
     End If
 
 End Function
@@ -1352,24 +1393,24 @@ Dim Rs As ADODB.Recordset
 
 
 
-    'Hacemos el selecet
-    Sql = "select cuentas.codmacta,nommacta from bancos,cuentas where cuentas.codmacta=bancos.codmacta"
-    If txtCuentas(0).Text <> "" Then Sql = Sql & " AND bancos.codmacta >= " & DBSet(txtCuentas(0), "T")
-    If txtCuentas(1).Text <> "" Then Sql = Sql & " AND bancos.codmacta <= " & DBSet(txtCuentas(1), "T")
+    'Hacemos el select
+    SQL = "select cuentas.codmacta,nommacta from bancos,cuentas where cuentas.codmacta=bancos.codmacta"
+    If txtCuentas(0).Text <> "" Then SQL = SQL & " AND bancos.codmacta >= " & DBSet(txtCuentas(0), "T")
+    If txtCuentas(1).Text <> "" Then SQL = SQL & " AND bancos.codmacta <= " & DBSet(txtCuentas(1), "T")
     
     
     
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     NumRegElim = 0
     While Not Rs.EOF
         '---
         If Not HacerPrevisionCuenta(Rs!codmacta, Rs!Nommacta) Then
         '---
-            Sql = "DELETE FROM tmpconextcab WHERE codusu =" & vUsu.Codigo
-            Sql = Sql & " AND cta ='" & Rs!codmacta & "'"
-            Conn.Execute Sql
+            SQL = "DELETE FROM tmpconextcab WHERE codusu =" & vUsu.Codigo
+            SQL = SQL & " AND cta ='" & Rs!codmacta & "'"
+            Conn.Execute SQL
         Else
             NumRegElim = NumRegElim + 1
         End If
@@ -1412,11 +1453,16 @@ Dim Importe As Currency
     ' Las fechas son del periodo, luego me importa una mierda las fechas desde hasta
     '
     '
-    cad = "INSERT INTO tmpconextcab (codusu,cta,fechini,fechfin,cuenta,acumtotD,acumtotH,acumtotT) VALUES (" & vUsu.Codigo & ", '" & Cta & "','" & Format(vParam.fechaini, "dd/mm/yyyy") & "','" & Format(Me.txtFecha(1).Text, "dd/mm/yyyy") & "','" & Nommacta & "',"
+    Cad = "INSERT INTO tmpconextcab (codusu,cta,fechini,fechfin,cuenta,acumtotD,acumtotH,acumtotT) VALUES (" & vUsu.Codigo & ", '" & Cta & "','" & Format(vParam.fechaini, "dd/mm/yyyy") & "','" & Format(Me.txtFecha(1).Text, "dd/mm/yyyy") & "','" & Nommacta & "',"
     
+        
     RC = "SELECT Sum(timporteD) AS SumaDetimporteD, Sum(timporteH) AS SumaDetimporteH from hlinapu where codmacta=" & DBSet(Cta, "T")
     RC = RC & " AND fechaent >=  " & DBSet(vParam.fechaini, "F")
     RC = RC & " AND fechaent <=  " & DBSet(Now, "F")  'Hasta el dia de hoy
+    'Si va por peridodos NO indicamos saldo banco
+    If Me.chkPerido.Value = 1 Then RC = RC & " AND false "
+    
+    
     miRsAux.Open RC, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If miRsAux.EOF Then
         RC = "0,0,0"
@@ -1426,7 +1472,7 @@ Dim Importe As Currency
     End If
     miRsAux.Close
     
-    RC = cad & RC & ")"
+    RC = Cad & RC & ")"
     Conn.Execute RC
     
     
@@ -1457,15 +1503,18 @@ Dim Importe As Currency
     'DETALLAR COBROS
     lblPrevInd.Caption = Cta & " - Cobros"
     lblPrevInd.Refresh
-    Sql = " WHERE fecvenci<='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
-    Sql = Sql & " AND ctabanc1 ='" & Cta & "'"
-    Sql = Sql & "  and ((impvenci +coalesce(gastos,0)) - coalesce(impcobro,0))<>0 " 'pendiente
-    cad = ""
+    SQL = " WHERE fecvenci<='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
+    If Me.chkPerido.Value = 1 Then SQL = SQL & " AND fecvenci>='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+    SQL = SQL & " AND ctabanc1 ='" & Cta & "'"
+    SQL = SQL & "  and ((impvenci +coalesce(gastos,0)) - coalesce(impcobro,0))<>0 " 'pendiente
+    Cad = ""
     If Not ListView1(1).ListItems(1).Checked Then
         'NO DETALLA COBROS
-        Sql = "select sum(impvenci),sum(impcobro),fecvenci from cobros " & Sql
-        Sql = Sql & " GROUP BY fecvenci"
-        miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        SQL = "select sum(impvenci),sum(impcobro),fecvenci from cobros " & SQL
+        'Si no esta seleccionado el check y va solo por peridod NO muestro nada
+        If Me.chkPerido.Value = 1 Then SQL = SQL & " AND FALSE "
+        SQL = SQL & " GROUP BY fecvenci"
+        miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         While Not miRsAux.EOF
         
             Id = DBLet(miRsAux.Fields(0), "N")
@@ -1474,15 +1523,15 @@ Dim Importe As Currency
 
             
             CONT = CONT + 1
-            cad = cad & ", (" & vUsu.Codigo & ",'" & Cta & "','COBRO'," & CONT & ",'" & Format(miRsAux!FecVenci, FormatoFecha) & "',NULL,'COBROS PENDIENTES',"
+            Cad = Cad & ", (" & vUsu.Codigo & ",'" & Cta & "','COBRO'," & CONT & ",'" & Format(miRsAux!FecVenci, FormatoFecha) & "',NULL,'COBROS PENDIENTES',"
             
             'HAY COBROS
             If Importe < 0 Then
-                cad = cad & "0," & TransformaComasPuntos(CStr(Abs(Importe)))
+                Cad = Cad & "0," & TransformaComasPuntos(CStr(Abs(Importe)))
             Else
-                cad = cad & TransformaComasPuntos(CStr(Importe)) & ",0"
+                Cad = Cad & TransformaComasPuntos(CStr(Importe)) & ",0"
             End If
-            cad = cad & ")"
+            Cad = Cad & ")"
                 
                 
             miRsAux.MoveNext
@@ -1497,26 +1546,26 @@ Dim Importe As Currency
         'SQL = "select scobro.*,nommacta from scobro,cuentas where scobro.codmacta=cuentas.codmacta"
         'SQL = SQL & " AND fecvenci<='2006-01-01'"
          
-        Sql = "select cobros.* from cobros " & Sql
-        miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        SQL = "select cobros.* from cobros " & SQL
+        miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         
         While Not miRsAux.EOF
             CONT = CONT + 1
-            cad = cad & ", (" & vUsu.Codigo & ",'" & Cta & "','COBRO'," & CONT & ",'" & Format(miRsAux!FecVenci, FormatoFecha) & "','"
+            Cad = Cad & ", (" & vUsu.Codigo & ",'" & Cta & "','COBRO'," & CONT & ",'" & Format(miRsAux!FecVenci, FormatoFecha) & "','"
             'NUmero factura
-            cad = cad & miRsAux!NUmSerie & miRsAux!numfactu & IIf(miRsAux!numorden > 1, "/" & miRsAux!numorden, "") & "',"
+            Cad = Cad & miRsAux!NUmSerie & miRsAux!numfactu & IIf(miRsAux!numorden > 1, "/" & miRsAux!numorden, "") & "',"
             
-            cad = cad & DBSet(Trim(miRsAux!codmacta & " " & DBLet(miRsAux!nomclien, "T")), "T") & ","
+            Cad = Cad & DBSet(Trim(miRsAux!codmacta & " " & DBLet(miRsAux!nomclien, "T")), "T") & ","
             Importe = miRsAux!ImpVenci + DBLet(miRsAux!Gastos, "N") - DBLet(miRsAux!impcobro, "N")
             If Importe <> 0 Then
                 If Importe < 0 Then
-                    cad = cad & "0," & TransformaComasPuntos(CStr(Abs(Importe)))
+                    Cad = Cad & "0," & TransformaComasPuntos(CStr(Abs(Importe)))
                 Else
-                    cad = cad & TransformaComasPuntos(CStr(Importe)) & ",0"
+                    Cad = Cad & TransformaComasPuntos(CStr(Importe)) & ",0"
                 End If
-                cad = cad & ")"
+                Cad = Cad & ")"
                 
-                HacerInsertTmp RC, cad, False
+                HacerInsertTmp RC, Cad, False
             End If
             miRsAux.MoveNext
             
@@ -1525,7 +1574,7 @@ Dim Importe As Currency
         
     End If
     miRsAux.Close
-    If Len(cad) > 0 Then HacerInsertTmp RC, cad, True
+    If Len(Cad) > 0 Then HacerInsertTmp RC, Cad, True
     
     '--------------------
     '--------------------
@@ -1535,13 +1584,16 @@ Dim Importe As Currency
     '--------------------
     lblPrevInd.Caption = Cta & " - pagos"
     lblPrevInd.Refresh
-    Sql = " WHERE fecefect<='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
-    Sql = Sql & " AND ctabanc1 ='" & Cta & "' and (ImpEfect - coalesce(imppagad,0)) <>0"
+    SQL = " WHERE fecefect<='" & Format(txtFecha(1).Text, FormatoFecha) & "'"
+    If Me.chkPerido.Value = 1 Then SQL = SQL & " AND fecefect>='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+    SQL = SQL & " AND ctabanc1 ='" & Cta & "' and (ImpEfect - coalesce(imppagad,0)) <>0"
     
-    cad = ""
+    Cad = ""
     If Not ListView1(1).ListItems(2).Checked Then
-        Sql = "select sum(impefect),sum(imppagad),fecefect from pagos " & Sql & " GROUP BY fecefect"
-        miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        SQL = "select sum(impefect),sum(imppagad),fecefect from pagos " & SQL
+        If Me.chkPerido.Value = 1 Then SQL = SQL & " AND false"
+        SQL = SQL & " GROUP BY fecefect"
+        miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         Importe = 0
         While Not miRsAux.EOF
 
@@ -1551,15 +1603,15 @@ Dim Importe As Currency
             
             
             CONT = CONT + 1
-            cad = cad & ", (" & vUsu.Codigo & ",'" & Cta & "','PAGO'," & CONT & ",'" & Format(miRsAux!fecefect, FormatoFecha) & "',NULL,'PAGOS PENDIENTES',"
+            Cad = Cad & ", (" & vUsu.Codigo & ",'" & Cta & "','PAGO'," & CONT & ",'" & Format(miRsAux!fecefect, FormatoFecha) & "',NULL,'PAGOS PENDIENTES',"
             
             'HAY COBROS
             If Importe > 0 Then
-              cad = cad & "0," & TransformaComasPuntos(CStr(Importe))
+              Cad = Cad & "0," & TransformaComasPuntos(CStr(Importe))
             Else
-              cad = cad & TransformaComasPuntos(CStr(Abs(Importe))) & ",0"
+              Cad = Cad & TransformaComasPuntos(CStr(Abs(Importe))) & ",0"
             End If
-            cad = cad & ")"
+            Cad = Cad & ")"
             miRsAux.MoveNext
         Wend
         
@@ -1567,25 +1619,25 @@ Dim Importe As Currency
          'DETALLAR PAGOS
         
         
-        Sql = "select pagos.* from pagos " & Sql
-        miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        SQL = "select pagos.* from pagos " & SQL
+        miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         While Not miRsAux.EOF
             CONT = CONT + 1
-            cad = cad & ", (" & vUsu.Codigo & ",'" & Cta & "','PAGO'," & CONT & ",'" & Format(miRsAux!fecefect, FormatoFecha) & "','"
+            Cad = Cad & ", (" & vUsu.Codigo & ",'" & Cta & "','PAGO'," & CONT & ",'" & Format(miRsAux!fecefect, FormatoFecha) & "','"
             'NUmero factura
-            cad = cad & DevNombreSQL(miRsAux!numfactu) & IIf(miRsAux!numorden = 1, "", "/" & miRsAux!numorden) & "',"
+            Cad = Cad & DevNombreSQL(miRsAux!numfactu) & IIf(miRsAux!numorden = 1, "", "/" & miRsAux!numorden) & "',"
             
-            cad = cad & DBSet(Trim(miRsAux!codmacta & " " & DBLet(miRsAux!nomprove, "T")), "T") & ","
+            Cad = Cad & DBSet(Trim(miRsAux!codmacta & " " & DBLet(miRsAux!nomprove, "T")), "T") & ","
             Importe = miRsAux!ImpEfect - DBLet(miRsAux!imppagad, "N")
             If Importe <> 0 Then
                 If Importe > 0 Then
-                    cad = cad & "0," & TransformaComasPuntos(CStr(Importe))
+                    Cad = Cad & "0," & TransformaComasPuntos(CStr(Importe))
                 Else
-                    cad = cad & TransformaComasPuntos(CStr(Abs(Importe))) & ",0"
+                    Cad = Cad & TransformaComasPuntos(CStr(Abs(Importe))) & ",0"
                 End If
-                cad = cad & ")"
+                Cad = Cad & ")"
                 
-                HacerInsertTmp RC, cad, False
+                HacerInsertTmp RC, Cad, False
             End If
             miRsAux.MoveNext
         Wend
@@ -1594,7 +1646,7 @@ Dim Importe As Currency
     End If
     miRsAux.Close
     
-    If Len(cad) > 0 Then HacerInsertTmp RC, cad, True
+    If Len(Cad) > 0 Then HacerInsertTmp RC, Cad, True
     
     
     
@@ -1605,46 +1657,50 @@ Dim Importe As Currency
     '--------------------
     '--------------------
     
-    Sql = " from gastosfijos,gastosfijos_recibos where gastosfijos.codigo= gastosfijos_recibos.codigo"
-    Sql = Sql & " and fecha >='" & Format(Now, FormatoFecha)
-    Sql = Sql & "' AND fecha <='" & Format(Format(txtFecha(1).Text, FormatoFecha), FormatoFecha) & "'"
-    Sql = Sql & " and ctaprevista='" & Cta & "'"
-    Sql = Sql & " and contabilizado=0"
+    SQL = " from gastosfijos,gastosfijos_recibos where gastosfijos.codigo= gastosfijos_recibos.codigo"
+    SQL = SQL & " and fecha >= " & DBSet(Now, "T")
+    If Me.chkPerido.Value = 1 Then SQL = SQL & " AND fecha>='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+    
+    SQL = SQL & " AND fecha <='" & Format(Format(txtFecha(1).Text, FormatoFecha), FormatoFecha) & "'"
+    SQL = SQL & " and ctaprevista='" & Cta & "'"
+    SQL = SQL & " and contabilizado=0"
     
     'recorro el recodset
     If Not ListView1(1).ListItems(3).Checked Then
-        cad = "SELECT gastosfijos.codigo,concat('Nº: ',count(*), '-', descripcion) descripcion, max(fecha) fecha ,sum(importe) importe "
+        Cad = "SELECT gastosfijos.codigo,concat('Nº: ',count(*), '-', descripcion) descripcion, max(fecha) fecha ,sum(importe) importe "
+        If Me.chkPerido.Value = 1 Then SQL = SQL & " AND false" 'NO DEtallo
     Else
-        cad = " select gastosfijos.codigo,descripcion,fecha,importe "
+        Cad = " select gastosfijos.codigo,descripcion,fecha,importe "
     End If
-    Sql = cad & Sql
-    If Not ListView1(1).ListItems(3).Checked Then Sql = Sql & " GROUP BY gastosfijos.codigo"
+    SQL = Cad & SQL
     
-    cad = ""
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Not ListView1(1).ListItems(3).Checked Then SQL = SQL & " GROUP BY gastosfijos.codigo"
+    
+    Cad = ""
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         CONT = CONT + 1
-        cad = cad & ", (" & vUsu.Codigo & ",'" & Cta & "','GASTO'," & CONT & ",'" & Format(miRsAux!Fecha, FormatoFecha) & "','"
+        Cad = Cad & ", (" & vUsu.Codigo & ",'" & Cta & "','GASTO'," & CONT & ",'" & Format(miRsAux!Fecha, FormatoFecha) & "','"
         'NUmero factura
-        cad = cad & "ID " & Format(miRsAux!Codigo, "0000") & "'," & DBSet(miRsAux!Descripcion, "T") & ","
+        Cad = Cad & "ID " & Format(miRsAux!Codigo, "0000") & "'," & DBSet(miRsAux!Descripcion, "T") & ","
         
         'cad = cad & DBSet(Trim(miRsAux!codmacta & " " & DBLet(miRsAux!nomprove, "T")), "T") & ","
         
         Importe = miRsAux!Importe
         If Importe <> 0 Then
             If Importe > 0 Then
-                cad = cad & "0," & TransformaComasPuntos(CStr(Importe))
+                Cad = Cad & "0," & TransformaComasPuntos(CStr(Importe))
             Else
-                cad = cad & TransformaComasPuntos(CStr(Abs(Importe))) & ",0"
+                Cad = Cad & TransformaComasPuntos(CStr(Abs(Importe))) & ",0"
             End If
-            cad = cad & ")"
+            Cad = Cad & ")"
             
-            HacerInsertTmp RC, cad, False
+            HacerInsertTmp RC, Cad, False
         End If
         miRsAux.MoveNext
     Wend
     miRsAux.Close
-    If Len(cad) > 0 Then HacerInsertTmp RC, cad, True
+    If Len(Cad) > 0 Then HacerInsertTmp RC, Cad, True
     
     If CONT > 0 Then HacerPrevisionCuenta = True
     

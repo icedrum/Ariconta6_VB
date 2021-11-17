@@ -730,18 +730,18 @@ Dim Cad As String
     Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N")
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N")
         Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (lw1.ListItems.Count > 0)
-        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (lw1.ListItems.Count > 0)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And (lw1.ListItems.Count > 0)
         
         Toolbar1.Buttons(5).Enabled = False 'DBLet(RS!Ver, "N") And (Modo = 0 Or Modo = 2) And DesdeNorma43 = 0
         Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N")
         
         Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N")
         
-        ToolbarAux.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Not lw1.SelectedItem Is Nothing)
+        ToolbarAux.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Not lw1.SelectedItem Is Nothing)
         ToolbarAux.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And lw2.ListItems.Count > 0
-        ToolbarAux.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And lw2.ListItems.Count > 0
+        ToolbarAux.Buttons(3).Enabled = DBLet(Rs!CrearEliminar, "N") And lw2.ListItems.Count > 0
    
     End If
     
@@ -759,8 +759,8 @@ Dim IT
     Set miRsAux = New ADODB.Recordset
     
     Cad = "Select gastosfijos.codigo, gastosfijos.descripcion, gastosfijos.ctaprevista,  gastosfijos.contrapar, cuentas1.nommacta, cuentas2.nommacta "
-    Cad = Cad & " from gastosfijos, cuentas cuentas1, cuentas cuentas2 "
-    Cad = Cad & " where cuentas1.codmacta = gastosfijos.ctaprevista and cuentas2.codmacta = gastosfijos.contrapar "
+    Cad = Cad & " from gastosfijos left join cuentas cuentas2  on cuentas2.codmacta = gastosfijos.contrapar  ,cuentas cuentas1"
+    Cad = Cad & " where cuentas1.codmacta = gastosfijos.ctaprevista  "
     
     If CampoOrden = "" Then CampoOrden = "gastosfijos.codigo " 'gastos fijos
     Cad = Cad & " ORDER BY " & CampoOrden ' remesas.anyo desc,

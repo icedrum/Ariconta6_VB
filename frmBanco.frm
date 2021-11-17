@@ -3,7 +3,7 @@ Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
 Begin VB.Form frmBanco 
    Caption         =   "Bancos"
-   ClientHeight    =   10515
+   ClientHeight    =   10785
    ClientLeft      =   60
    ClientTop       =   45
    ClientWidth     =   12030
@@ -20,10 +20,20 @@ Begin VB.Form frmBanco
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   10515
+   ScaleHeight     =   10785
    ScaleWidth      =   12030
    StartUpPosition =   2  'CenterScreen
    Tag             =   "Digitos 1er nivel|N|N|||empresa|numdigi1|||"
+   Begin VB.CheckBox chkBanco 
+      Caption         =   "Fich. transferencia. Añadir subtotales por fecha"
+      Height          =   255
+      Index           =   2
+      Left            =   120
+      TabIndex        =   95
+      Tag             =   "Cta Transferencia Clientes|N|N|0|1|bancos|FichTransSubtotales|||"
+      Top             =   9840
+      Width           =   5685
+   End
    Begin VB.ComboBox cboSufijos 
       Height          =   360
       Left            =   8040
@@ -328,7 +338,7 @@ Begin VB.Form frmBanco
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   825
+      Height          =   705
       Left            =   6240
       TabIndex        =   69
       Top             =   8760
@@ -852,7 +862,7 @@ Begin VB.Form frmBanco
       Height          =   540
       Left            =   90
       TabIndex        =   40
-      Top             =   9840
+      Top             =   10200
       Width           =   3495
       Begin VB.Label lblIndicador 
          Alignment       =   2  'Center
@@ -870,7 +880,7 @@ Begin VB.Form frmBanco
       Height          =   375
       Left            =   10800
       TabIndex        =   37
-      Top             =   9945
+      Top             =   10185
       Width           =   1035
    End
    Begin VB.CommandButton cmdAceptar 
@@ -878,13 +888,13 @@ Begin VB.Form frmBanco
       Height          =   375
       Left            =   9600
       TabIndex        =   36
-      Top             =   9945
+      Top             =   10185
       Width           =   1035
    End
    Begin MSAdodcLib.Adodc Data1 
       Height          =   375
       Left            =   240
-      Top             =   9960
+      Top             =   10320
       Visible         =   0   'False
       Width           =   2055
       _ExtentX        =   3625
@@ -933,7 +943,7 @@ Begin VB.Form frmBanco
       Height          =   375
       Left            =   10800
       TabIndex        =   39
-      Top             =   9960
+      Top             =   10200
       Visible         =   0   'False
       Width           =   1035
    End
