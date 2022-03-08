@@ -10,11 +10,11 @@ Option Explicit
 ''
 '
 Private Function TieneFacturasPendientesSubirSII() As Byte
-Dim cad As String
+Dim Cad As String
 Dim F As Date
 Dim Aux As String
 Dim RN As ADODB.Recordset
-Dim C2 As String
+Dim c2 As String
 Dim RaizSQL As String
 Dim FIncio As Date
 
@@ -35,17 +35,17 @@ Dim FIncio As Date
     
     'Dividimos el proceso en ir a FACTCLI, y a FACTPRO con NULL
     ' y luego ir a buscar erroers
-    C2 = "select count(*) From factcli  WHERE "
+    c2 = "select count(*) From factcli  WHERE "
     If vParam.SII_Periodo_DesdeLiq Then
-        C2 = C2 & " fecliqcl >=" & DBSet(FIncio, "F")
-        C2 = C2 & " AND fecliqcl <= " & DBSet(F, "F")
+        c2 = c2 & " fecliqcl >=" & DBSet(FIncio, "F")
+        c2 = c2 & " AND fecliqcl <= " & DBSet(F, "F")
     Else
-        C2 = C2 & " fecfactu >=" & DBSet(FIncio, "F")
-        C2 = C2 & " AND fecfactu <= " & DBSet(F, "F")
+        c2 = c2 & " fecfactu >=" & DBSet(FIncio, "F")
+        c2 = c2 & " AND fecfactu <= " & DBSet(F, "F")
     End If
-    RaizSQL = C2
-    C2 = RaizSQL & " AND sii_id is null "
-    RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    RaizSQL = c2
+    c2 = RaizSQL & " AND sii_id is null "
+    RN.Open c2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not RN.EOF Then
         If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
     End If
@@ -53,8 +53,8 @@ Dim FIncio As Date
     If Val(Aux) > 0 Then TieneFacturasPendientesSubirSII = 1
     
     If TieneFacturasPendientesSubirSII = 0 Then
-        C2 = RaizSQL & " AND sii_estado=8 "
-        RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        c2 = RaizSQL & " AND sii_estado=8 "
+        RN.Open c2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not RN.EOF Then
             If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
         End If
@@ -66,24 +66,24 @@ Dim FIncio As Date
     
     
     If TieneFacturasPendientesSubirSII = 0 Then
-        C2 = "Select count(*) From factpro WHERE "
+        c2 = "Select count(*) From factpro WHERE "
         If vParam.SII_Periodo_DesdeLiq Then
-            C2 = C2 & " fecliqpr >=" & DBSet(FIncio, "F")
-            C2 = C2 & " AND fecliqpr <= " & DBSet(F, "F")
+            c2 = c2 & " fecliqpr >=" & DBSet(FIncio, "F")
+            c2 = c2 & " AND fecliqpr <= " & DBSet(F, "F")
         Else
             If vParam.SII_ProvDesdeFechaRecepcion Then
-                C2 = C2 & " fecharec >=" & DBSet(FIncio, "F")
-                C2 = C2 & " AND fecharec <= " & DBSet(F, "F")
+                c2 = c2 & " fecharec >=" & DBSet(FIncio, "F")
+                c2 = c2 & " AND fecharec <= " & DBSet(F, "F")
             
             Else
                 'Enero 2020
-                C2 = C2 & " DATE(fecregcontable) >=" & DBSet(FIncio, "F")
-                C2 = C2 & " AND DATE(fecregcontable) <= " & DBSet(F, "F")
+                c2 = c2 & " DATE(fecregcontable) >=" & DBSet(FIncio, "F")
+                c2 = c2 & " AND DATE(fecregcontable) <= " & DBSet(F, "F")
             End If
         End If
-        RaizSQL = C2
-        C2 = RaizSQL & " AND sii_id is null"
-        RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        RaizSQL = c2
+        c2 = RaizSQL & " AND sii_id is null"
+        RN.Open c2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not RN.EOF Then
             If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
         End If
@@ -94,8 +94,8 @@ Dim FIncio As Date
         
         
     If TieneFacturasPendientesSubirSII = 0 Then
-        C2 = RaizSQL & " AND sii_estado=8"
-        RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        c2 = RaizSQL & " AND sii_estado=8"
+        RN.Open c2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not RN.EOF Then
             If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
         End If
@@ -107,8 +107,8 @@ Dim FIncio As Date
         
     'Si llga aqui veremos posibles ERRORES
     If TieneFacturasPendientesSubirSII = 0 Then
-        C2 = DevSQLLinkada(True)
-        RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        c2 = DevSQLLinkada(True)
+        RN.Open c2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not RN.EOF Then
             If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
         End If
@@ -118,8 +118,8 @@ Dim FIncio As Date
     End If
     
     If TieneFacturasPendientesSubirSII = 0 Then
-        C2 = DevSQLLinkada(False)
-        RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        c2 = DevSQLLinkada(False)
+        RN.Open c2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Not RN.EOF Then
             If DBLet(RN.Fields(0), "N") > 0 Then Aux = "1"
         End If
@@ -142,22 +142,22 @@ End Function
 
 
 Private Function DevSQLLinkada(Clientes As Boolean) As String
-Dim Sql As String
+Dim SQL As String
 Dim Aux As String
     If Clientes Then
         'EMITIDAS
-        Sql = "select count(*)"
-        Sql = Sql & " from factcli left join aswsii.envio_facturas_emitidas "
-        Sql = Sql & " on factcli.SII_ID = envio_facturas_emitidas.IDEnvioFacturasEmitidas"
+        SQL = "select count(*)"
+        SQL = SQL & " from factcli left join aswsii.envio_facturas_emitidas "
+        SQL = SQL & " on factcli.SII_ID = envio_facturas_emitidas.IDEnvioFacturasEmitidas"
        
         Aux = "fecfactu"
         If vParam.SII_Periodo_DesdeLiq Then Aux = "fecliqcl"
         
     Else
         'RECIBIDAS
-        Sql = " select count(*)"
-        Sql = Sql & " from factpro left join aswsii.envio_facturas_recibidas "
-        Sql = Sql & " on factpro.SII_ID = envio_facturas_recibidas.IDEnvioFacturasRecibidas"
+        SQL = " select count(*)"
+        SQL = SQL & " from factpro left join aswsii.envio_facturas_recibidas "
+        SQL = SQL & " on factpro.SII_ID = envio_facturas_recibidas.IDEnvioFacturasRecibidas"
        
         
         'Enero 2020
@@ -171,15 +171,15 @@ Dim Aux As String
         If vParam.SII_Periodo_DesdeLiq Then Aux = "fecliqpr"
         
     End If
-    Sql = Sql & " WHERE " & Aux & " >=" & DBSet(vParam.SIIFechaInicio, "F")
-    Sql = Sql & " and " & Aux & " >=" & DBSet(vParam.fechaini, "F")
+    SQL = SQL & " WHERE " & Aux & " >=" & DBSet(vParam.SIIFechaInicio, "F")
+    SQL = SQL & " and " & Aux & " >=" & DBSet(vParam.fechaini, "F")
     'Sql = Sql & " AND " & Aux & " <= " & DBSet(Now, "F")
-    Sql = Sql & " AND " & Aux & " <= " & DBSet(Now - 1, "F")
+    SQL = SQL & " AND " & Aux & " <= " & DBSet(Now - 1, "F")
     
     'Enero 2021
-    Sql = Sql & " AND SII_estado<8 "
-    Sql = Sql & " and (csv is null or resultado='AceptadoConErrores')"
-    DevSQLLinkada = Sql
+    SQL = SQL & " AND SII_estado<8 "
+    SQL = SQL & " and (csv is null or resultado='AceptadoConErrores')"
+    DevSQLLinkada = SQL
 
 End Function
 
@@ -285,7 +285,7 @@ End Sub
 ' si lleva numeroSII_ID_paraModificar : significa que estamos MODIFICANDO el registro.
 ' es mucho mas comodo poner REPLACE INTO
 Public Function Sii_FraCLI(Serie As String, NumFac As Long, Anofac As Integer, IDEnvioFacturasEmitidas As Long, ByRef SQL_Insert As String, EsModificando As Boolean) As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim RN As ADODB.Recordset
 Dim Clave As String
 Dim Aux As String
@@ -295,7 +295,7 @@ Dim CadenaIVAS As String
 Dim LlevaIVAs As Boolean
 Dim H As Integer
 Dim C1 As String
-Dim C2 As String
+Dim c2 As String
 Dim c3 As String
 Dim BloqueIVA As Byte
 Dim FechaPeriodo2 As Date
@@ -305,39 +305,40 @@ Dim ImporteIvaCero As Currency
 Dim LlevaIvasCero As Boolean
 Dim B As Boolean
 Dim GrabaTotalFactura_ As Boolean  'ene21
+Dim DeAlgunModoEsTicket As Boolean
 
     On Error GoTo eSii_FraCLI
     Sii_FraCLI = False
     
-    Sql = "Select factcli.*,Sii_SoloNUmeroFra from factcli left join contadores on factcli.numserie=contadores.tiporegi"
-    Sql = Sql & " where factcli.numserie =" & DBSet(Serie, "T") & " AND factcli.numfactu =" & NumFac & " AND factcli.anofactu =" & Anofac
+    SQL = "Select factcli.*,Sii_SoloNUmeroFra,FuerzaTipoSII from factcli left join contadores on factcli.numserie=contadores.tiporegi"
+    SQL = SQL & " where factcli.numserie =" & DBSet(Serie, "T") & " AND factcli.numfactu =" & NumFac & " AND factcli.anofactu =" & Anofac
     Set RN = New ADODB.Recordset
-    RN.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    Sql = ""
+    RN.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    SQL = ""
 
 '#1
     'IDEnvioFacturasEmitidas,Origen,FechaHoraCreacion,EnvioInmediato,          'Enviada,Resultado: NO los pongo en el insert
-    Sql = IDEnvioFacturasEmitidas & ",'ARICONTA'," & DBSet(Now, "FH") & ",1,"
+    SQL = IDEnvioFacturasEmitidas & ",'ARICONTA'," & DBSet(Now, "FH") & ",1,"
 
 '#2
     FechaPeriodo2 = RN!FecFactu
     If vParam.SII_Periodo_DesdeLiq Then FechaPeriodo2 = RN!fecliqcl
     
     'CAB_IDVersionSii , CAB_Titular_NombreRazon, CAB_Titular_NIFRepresentante, CAB_Titular_NIF, REG_PI_Ejercicio, REG_PI_Periodo
-    Sql = Sql & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'"
+    SQL = SQL & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'"
     
     
     If EsModificando Then
-        Sql = Sql & "A1"
+        SQL = SQL & "A1"
     Else
         'Lo que habia
-        Sql = Sql & "A0"
+        SQL = SQL & "A0"
     End If
-    Sql = Sql & "','" & Year(FechaPeriodo2) & "','" & Format(Month(FechaPeriodo2), "00") & "',"
+    SQL = SQL & "','" & Year(FechaPeriodo2) & "','" & Format(Month(FechaPeriodo2), "00") & "',"
     
 '#3
     'REG_IDF_IDEF_NIF,REG_IDF_NumSerieFacturaEmisor,REG_IDF_NumSerieFacturaEmisorResumenFin,REG_IDF_FechaExpedicionFacturaEmisor,REG_FE_TipoFactura
-    Sql = Sql & DBSet(vEmpresa.NIF, "T") & ","
+    SQL = SQL & DBSet(vEmpresa.NIF, "T") & ","
 
     FacturaResumenTicket = False
     If RN!codconce340 = "B" Then  'asiento resumen de factura (tickets agrupados indicando desde hasta
@@ -366,7 +367,7 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
     End If
     
     'REG_IDF_NumSerieFacturaEmisor
-    Sql = Sql & DBSet(NumFactura, "T") & ","
+    SQL = SQL & DBSet(NumFactura, "T") & ","
     
     
     'Si son de tickets agrupados deberiamos poner primera y ultima.
@@ -377,30 +378,30 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
         
         'Si no hay nada, dejo lo que haciamos antes
         If Aux = "" Then Aux = "FTI" & Format(RN!numfactu, "0000000")
-        Sql = Sql & DBSet(Aux, "T")
+        SQL = SQL & DBSet(Aux, "T")
     Else
-        Sql = Sql & "null"
+        SQL = SQL & "null"
     End If
     'REG_IDF_FechaExpedicionFacturaEmisor,REG_FE_TipoFactura
-    Sql = Sql & "," & DBSet(FechaPeriodo2, "F") & ","
+    SQL = SQL & "," & DBSet(FechaPeriodo2, "F") & ","
     
     
     
     '#3.1
     ',REG_FE_TipoRectificativa,REG_FE_IR_BaseRectificada,REG_FE_IR_CuotaRectificada,REG_FE_IR_CuotaRecargoRectificado,
-    Clave = DevuelveTipoFacturaEmitida(RN)   'Ver hoja. Hay tipos:    f1 factura   f2 tiket    r1 rectificativas
+    Clave = DevuelveTipoFacturaEmitida(RN)   'Ver hoja. Hay tipos:    f1 factura   f2 tiket    r1 rectificativas      r5 rectificativa ticket
     Aux = ""
-    Sql = Sql & DBSet(Clave, "T") & ","
+    SQL = SQL & DBSet(Clave, "T") & ","
   
-    If Clave = "R1" Then
+    If Clave = "R1" Or Clave = "R5" Then
         Aux = "I"  'factura rectificativa por DIFERENCIAS
-        Sql = Sql & DBSet(Aux, "T", "S") & ","
+        SQL = SQL & DBSet(Aux, "T", "S") & ","
         'Opcionales. Numafac retificada
-        Sql = Sql & "null,null,null,"
+        SQL = SQL & "null,null,null,"
 
     Else
         'Los cuatro campos de la rectificativa a NULL
-        Sql = Sql & "null,null,null,null,"
+        SQL = SQL & "null,null,null,null,"
 
     End If
     
@@ -412,9 +413,9 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
 
     'REG_FE_ClaveRegimenEspecialOTrascendencia,REG_FE_ImporteTotal,REG_FE_BaseImponibleACoste,REG_FE_DescripcionOperacion
     Clave = DevuelveClaveTranscendenciaEmitida(RN)
-    Sql = Sql & DBSet(Clave, "T") & ","
-    Sql = Sql & IIf(GrabaTotalFactura_, DBSet(RN!totfaccl, "N"), "NULL")
-    Sql = Sql & ",NULL,"
+    SQL = SQL & DBSet(Clave, "T") & ","
+    SQL = SQL & IIf(GrabaTotalFactura_, DBSet(RN!totfaccl, "N"), "NULL")
+    SQL = SQL & ",NULL,"
     
     If FacturaResumenTicket Then
         Aux = "Factura " & RN!NUmSerie & RN!numfactu
@@ -426,7 +427,7 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
             Aux = "Factura " & RN!NUmSerie & RN!numfactu
         End If
     End If
-    Sql = Sql & DBSet(Aux, "T") & ","
+    SQL = SQL & DBSet(Aux, "T") & ","
 
 '#4.1
     'REG_FE_DI_DT_ReferenciaCatastral,REG_FE_DI_DT_ReferenciaCatastral
@@ -434,7 +435,7 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
         'ARRENDAMIENTO
         Aux = DBLet(RN!CatastralREF, "T")
         If Aux = "" Then
-            Sql = Sql & "NULL,NULL,"
+            SQL = SQL & "NULL,NULL,"
         Else
             Aux = DBLet(RN!CatastralSitu, "N")
             If Val(Aux) = "0" Then
@@ -446,10 +447,10 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
                     Aux = Val(Aux) - 48
                 End If
             End If
-            Sql = Sql & DBSet(RN!CatastralREF, "T") & "," & Aux & ","
+            SQL = SQL & DBSet(RN!CatastralREF, "T") & "," & Aux & ","
         End If
     Else
-        Sql = Sql & "NULL,NULL,"
+        SQL = SQL & "NULL,NULL,"
     End If
     
     
@@ -457,14 +458,20 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
     
 '#5
     'REG_FE_EmitidaPorTercero,REG_FE_CNT_NombreRazon,REG_FE_CNT_NIF,REG_FE_CNT_IDOtro_CodigoPais,REG_FE_CNT_IDOtro_IDType,REG_FE_CNT_IDOtro_ID,
+    DeAlgunModoEsTicket = False
     If RN!codconce340 = "J" Or RN!codconce340 = "B" Then
+        DeAlgunModoEsTicket = True
+    Else
+        If DBLet(RN!FuerzaTipoSII, "T") = "R5" Then DeAlgunModoEsTicket = True
+    End If
+    If DeAlgunModoEsTicket Then
         Aux = "null"
     Else
         Aux = DBSet(DBLet(RN!Nommacta, "T"), "T")
     End If
 
     
-    Sql = Sql & "NULL," & Aux & ","
+    SQL = SQL & "NULL," & Aux & ","
     
     'NIF. Para las intracoms el NIF debe llevar las letras
     BloqueIVA = 0 'NORMAL
@@ -472,7 +479,7 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
         'INTRACOMUNITARIAS    EXTRANJERO
         'PAIS doc
             
-        C2 = DBSet(DBLet(RN!codpais, "T"), "T", "S")
+        c2 = DBSet(DBLet(RN!codpais, "T"), "T", "S")
         If RN!CodOpera = 1 Then
             Aux = DBLet(RN!nifdatos, "T")   'DBLet(RN!codPAIS, "T") & DBLet(RN!nifdatos, "T")
             C1 = "'02'"
@@ -480,15 +487,16 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
             Aux = DBLet(RN!nifdatos, "T")
             C1 = "'03'"
         End If
-        Sql = Sql & "''" & "," & C2 & "," & C1 & "," & DBSet(Aux, "T", "N") & ","
+        SQL = SQL & "''" & "," & c2 & "," & C1 & "," & DBSet(Aux, "T", "N") & ","
         BloqueIVA = 1 'Intracom y Exportacion
     Else
         'EL NIF
         'NO hacemos nada  AUX y c1 ya teiene los valores que toca
         C1 = "null"
-        C2 = "null"
+        c2 = "null"
         c3 = "NULL"
-        If RN!codconce340 = "J" Or RN!codconce340 = "B" Then
+        'If RN!codconce340 = "J" Or RN!codconce340 = "B" Then
+        If DeAlgunModoEsTicket Then
             'TICKETS NO `presentmaos NIFS
             Aux = "null"
         Else
@@ -509,7 +517,7 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
                 'Enero 2020
                 'Si el pais, en codpais, NO es españa, pero es una factura normal normal
                 'REG_FE_CNT_NIF,REG_FE_CNT_IDOtro_CodigoPais,REG_FE_CNT_IDOtro_IDType,REG_FE_CNT_IDOtro_ID
-                C2 = DBSet(Aux, "T")
+                c2 = DBSet(Aux, "T")
                 C1 = "'02'"
                 Aux = "''"
                 c3 = DBSet(RN!nifdatos, "T")
@@ -517,7 +525,7 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
             End If
         End If
         
-        Sql = Sql & Aux & "," & C2 & "," & C1 & "," & c3 & ","
+        SQL = SQL & Aux & "," & c2 & "," & C1 & "," & c3 & ","
     End If
     
    
@@ -546,7 +554,7 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
         'Aux = "NULL,NULL,'S1'"
         Aux = "#@CAUSA#,#@IMPOR#,#MotExen#"   '--> despues de ver los ivas, si alguno es cero replace esto, si no, replace por NULL
     End If
-    Sql = Sql & Aux
+    SQL = SQL & Aux
     
     RN.Close
     
@@ -589,20 +597,20 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
         
         
         If LlevaIvasCero Then
-            Sql = Replace(Sql, "#@CAUSA#", "'E1'")
-            Sql = Replace(Sql, "#@IMPOR#", DBSet(ImporteIvaCero, "N"))
+            SQL = Replace(SQL, "#@CAUSA#", "'E1'")
+            SQL = Replace(SQL, "#@IMPOR#", DBSet(ImporteIvaCero, "N"))
             If NumIVas > 0 Then
                 'AParte del exteno lleva otro mas
-                Sql = Replace(Sql, "#MotExen#", "'S1'")
+                SQL = Replace(SQL, "#MotExen#", "'S1'")
             Else
-                Sql = Replace(Sql, "#MotExen#", "NULL")
+                SQL = Replace(SQL, "#MotExen#", "NULL")
             End If
         
         Else
             'Aux = "NULL,NULL,'S1'"
-            Sql = Replace(Sql, "#@CAUSA#", "NULL")
-            Sql = Replace(Sql, "#@IMPOR#", "NULL")
-            Sql = Replace(Sql, "#MotExen#", "'S1'")
+            SQL = Replace(SQL, "#@CAUSA#", "NULL")
+            SQL = Replace(SQL, "#@IMPOR#", "NULL")
+            SQL = Replace(SQL, "#MotExen#", "'S1'")
         End If
     End If
     
@@ -614,11 +622,11 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
             CadenaIVAS = CadenaIVAS & ",NULL,NULL,NULL"
         End If
     Next
-    Sql = Sql & CadenaIVAS
+    SQL = SQL & CadenaIVAS
     
     
     'Montamos el SQL
-    SQL_Insert = Sii_FraCLI_SQL(BloqueIVA, EsModificando) & ") VALUES (" & Sql & ")"
+    SQL_Insert = Sii_FraCLI_SQL(BloqueIVA, EsModificando) & ") VALUES (" & SQL & ")"
     
     Sii_FraCLI = True
     
@@ -632,7 +640,7 @@ End Function
 '  1.- Intracomunitarias // Extranjera  ->  REG_FE_TD_DTE_SU
 ' Si modifica hara un REPLACE INTO
 Private Function Sii_FraCLI_SQL(BloquesIVA As Byte, EsModificando As Boolean) As String
-Dim cad As String
+Dim Cad As String
 Dim H As Integer
     
     If EsModificando Then
@@ -678,8 +686,8 @@ Dim H As Integer
         
                     'REG_FE_TD_DF_SU_NEX_DI_DT1_TipoImpositivo,REG_FE_TD_DF_SU_NEX_DI_DT1_BaseImponible,REG_FE_TD_DF_SU_NEX_DI_DT1_CuotaRepercutida,REG_FE_TD_DF_SU_NEX_DI_DT1_TipoREquivalencia,REG_FE_TD_DF_SU_NEX_DI_DT1_CuotaREquivalencia,
         For H = 1 To 6
-            cad = ",REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_TipoImpositivo,REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_BaseImponible,REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_CuotaRepercutida,REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_TipoREquivalencia,REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_CuotaREquivalencia"
-            Sii_FraCLI_SQL = Sii_FraCLI_SQL & cad
+            Cad = ",REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_TipoImpositivo,REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_BaseImponible,REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_CuotaRepercutida,REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_TipoREquivalencia,REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_CuotaREquivalencia"
+            Sii_FraCLI_SQL = Sii_FraCLI_SQL & Cad
         Next
         
     Else
@@ -688,8 +696,8 @@ Dim H As Integer
         
                     'REG_FE_TD_DTE_SU 1_TipoImpositivo, _BaseImponible,R _CuotaRepercutida, TipoREquivalencia, _CuotaREquivalencia,
         For H = 1 To 6
-            cad = ",REG_FE_TD_DTE_SU_NEX_DI_DT" & H & "_TipoImpositivo,REG_FE_TD_DTE_SU_NEX_DI_DT" & H & "_BaseImponible,REG_FE_TD_DTE_SU_NEX_DI_DT" & H & "_CuotaRepercutida"
-            Sii_FraCLI_SQL = Sii_FraCLI_SQL & cad
+            Cad = ",REG_FE_TD_DTE_SU_NEX_DI_DT" & H & "_TipoImpositivo,REG_FE_TD_DTE_SU_NEX_DI_DT" & H & "_BaseImponible,REG_FE_TD_DTE_SU_NEX_DI_DT" & H & "_CuotaRepercutida"
+            Sii_FraCLI_SQL = Sii_FraCLI_SQL & Cad
         Next
     
     
@@ -705,7 +713,7 @@ Private Function DevuelveTipoFacturaEmitida(ByRef R As ADODB.Recordset) As Strin
     If R!codconce340 = "D" Then
         'Rectificativa
         DevuelveTipoFacturaEmitida = "R1"
-
+        
     ElseIf R!codconce340 = "J" Then
         DevuelveTipoFacturaEmitida = "F2"
         
@@ -715,7 +723,7 @@ Private Function DevuelveTipoFacturaEmitida(ByRef R As ADODB.Recordset) As Strin
         'NORMAL
         DevuelveTipoFacturaEmitida = "F1"
     End If
-    
+    If DBLet(R!FuerzaTipoSII, "T") <> "" Then DevuelveTipoFacturaEmitida = R!FuerzaTipoSII
 End Function
 Private Function DevuelveClaveTranscendenciaEmitida(ByRef R As ADODB.Recordset) As String
     'Valores de codopera
@@ -824,7 +832,7 @@ End Function
 '****************************************************************************
 '****************************************************************************
 Public Function Sii_FraPRO(Serie As String, Numregis As Long, Anofac As Integer, IDEnvioFacturasRecibidas As Long, ByRef SQL_Insert As String, EsModificando As Boolean) As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim RN As ADODB.Recordset
 Dim Clave As String
 Dim Aux As String
@@ -833,7 +841,7 @@ Dim NumIVas As Integer
 Dim CadenaIVAS As String
 Dim H As Integer
 Dim C1 As String
-Dim C2 As String
+Dim c2 As String
 Dim TotalDecucible As Currency
 Dim CodOpera As Byte
 Dim InversionSujetoPasivo As Boolean
@@ -848,34 +856,34 @@ Dim GrabaTotalFactura As Boolean
     On Error GoTo eSii_FraCLI
     Sii_FraPRO = False
     
-    Sql = "Select * from factpro where numserie =" & DBSet(Serie, "T") & " AND numregis =" & Numregis & " AND anofactu =" & Anofac
+    SQL = "Select * from factpro where numserie =" & DBSet(Serie, "T") & " AND numregis =" & Numregis & " AND anofactu =" & Anofac
     Set RN = New ADODB.Recordset
-    RN.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    Sql = ""
+    RN.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    SQL = ""
 
 '#1
     'IDEnvioFacturasEmitidas,Origen,FechaHoraCreacion,EnvioInmediato,          'Enviada,Resultado: NO los pongo en el insert
-    Sql = IDEnvioFacturasRecibidas & ",'ARICONTA'," & DBSet(Now, "FH") & ",1,"
+    SQL = IDEnvioFacturasRecibidas & ",'ARICONTA'," & DBSet(Now, "FH") & ",1,"
 
 '#2
     'CAB_IDVersionSii , CAB_Titular_NombreRazon, CAB_Titular_NIFRepresentante, CAB_Titular_NIF, REG_PI_Ejercicio, REG_PI_Periodo
     FechaPeriodo2 = RN!fecharec
     If vParam.SII_Periodo_DesdeLiq Then FechaPeriodo2 = RN!fecliqpr
     
-    Sql = Sql & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'"
+    SQL = SQL & "'" & vParam.SII_Version & "'," & DBSet(vEmpresa.NombreEmpresaOficial, "T") & ",NULL," & DBSet(vEmpresa.NIF, "T") & ",'"
      If EsModificando Then
-        Sql = Sql & "A1"
+        SQL = SQL & "A1"
     Else
         'Lo que habia
-        Sql = Sql & "A0"
+        SQL = SQL & "A0"
     End If
-    Sql = Sql & "'," & Year(FechaPeriodo2) & "," & "'" & Format(Month(FechaPeriodo2), "00") & "',"
+    SQL = SQL & "'," & Year(FechaPeriodo2) & "," & "'" & Format(Month(FechaPeriodo2), "00") & "',"
 '#3
     'REG_IDF_IDEF_NIF,REG_IDF_IDEF_IDOtro_CodigoPais,REG_IDF_IDEF_IDOtro_IDType,REG_IDF_IDEF_IDOtro_ID
     If RN!CodOpera = 1 Or RN!CodOpera = 2 Then
         'INTRACOMUNITARIAS    EXTRANJERO
         'PAIS doc
-        C2 = DBSet(DBLet(RN!codpais, "T"), "T", "S")
+        c2 = DBSet(DBLet(RN!codpais, "T"), "T", "S")
         If RN!CodOpera = 1 Then
             Aux = DBLet(RN!nifdatos, "T")  'DBLet(RN!codPAIS, "T") & DBLet(RN!nifdatos, "T")
             C1 = "'02'"
@@ -883,7 +891,7 @@ Dim GrabaTotalFactura As Boolean
             Aux = DBLet(RN!nifdatos, "T")
             C1 = "'03'"
         End If
-        Sql = Sql & "''" & "," & C2 & "," & C1 & "," & DBSet(Aux, "T", "N") & ","
+        SQL = SQL & "''" & "," & c2 & "," & C1 & "," & DBSet(Aux, "T", "N") & ","
     Else
     
         'Abril 2020   DUA
@@ -891,26 +899,26 @@ Dim GrabaTotalFactura As Boolean
             
             C1 = "null"
             Aux = DBLet(vEmpresa.NIF, "T")   'DUAS presentamos como NIF el de la empresa
-            C2 = "null"
+            c2 = "null"
         Else
             'EL NIF
             'NO hacemos nada  AUX y c1 ya teiene los valores que toca
             C1 = "null"
             Aux = DBLet(RN!nifdatos, "T")
-            C2 = "null"
+            c2 = "null"
         End If
-        Sql = Sql & DBSet(Aux, "T", "N") & "," & C2 & "," & C1 & ",NULL,"
+        SQL = SQL & DBSet(Aux, "T", "N") & "," & c2 & "," & C1 & ",NULL,"
     End If
     
     
 '#4
     'REG_IDF_NumSerieFacturaEmisor,REG_IDF_NumSerieFacturaEmisorResumenFin,REG_IDF_FechaExpedicionFacturaEmisor,REG_FE_TipoFactura,REG_FE_TipoRectificativa
     'Si son de tickets agrupados deberiamos poner primera y ultima. De momento null
-    Sql = Sql & DBSet(RN!numfactu, "T") & "," & "NULL," & DBSet(RN!FecFactu, "F") & ","
+    SQL = SQL & DBSet(RN!numfactu, "T") & "," & "NULL," & DBSet(RN!FecFactu, "F") & ","
     Clave = DevuelveTipoFacturaRecibida(RN)
     Aux = ""
     If Clave = "R1" Then Aux = "I"  'factura rectificativa por diferencias
-    Sql = Sql & DBSet(Clave, "T") & "," & DBSet(Aux, "T", "S") & ","
+    SQL = SQL & DBSet(Clave, "T") & "," & DBSet(Aux, "T", "S") & ","
     
     
     
@@ -947,9 +955,9 @@ Dim GrabaTotalFactura As Boolean
      
     'REG_FE_ClaveRegimenEspecialOTrascendencia,REG_FE_ImporteTotal,REG_FE_BaseImponibleACoste,REG_FE_DescripcionOperacion
     Clave = DevuelveClaveTranscendenciaRecibida(RN)
-    Sql = Sql & DBSet(Clave, "T") & ","
-    Sql = Sql & IIf(GrabaTotalFactura, DBSet(RN!totfacpr, "N"), "NULL")
-    Sql = Sql & ",NULL," 'REG_FE_DescripcionOperacion
+    SQL = SQL & DBSet(Clave, "T") & ","
+    SQL = SQL & IIf(GrabaTotalFactura, DBSet(RN!totfacpr, "N"), "NULL")
+    SQL = SQL & ",NULL," 'REG_FE_DescripcionOperacion
     
     If vParam.TipoIntegracionSeleccionable = 1 Then
         Aux = "numserie =" & DBSet(RN!NUmSerie, "T") & " AND numregis =" & RN!Numregis & " AND anofactu "
@@ -965,11 +973,11 @@ Dim GrabaTotalFactura As Boolean
             Aux = "COMPRAS"
         End If
         
-        Sql = Sql & "'" & Aux & "',"
+        SQL = SQL & "'" & Aux & "',"
         
     Else
         'SQL = SQL & "'Factura" & IIf(RN!NUmSerie = 1, "", " ser: " & RN!NUmSerie) & " " & RN!NumFactu & "',"
-        Sql = Sql & "'Factura" & RN!numfactu & "',"
+        SQL = SQL & "'Factura" & RN!numfactu & "',"
     End If
     
     
@@ -978,13 +986,13 @@ Dim GrabaTotalFactura As Boolean
     'REG_FE_EmitidaPorTercero,REG_FE_CNT_NombreRazon,REG_FE_CNT_NIF,REG_FE_CNT_IDOtro_CodigoPais,REG_FE_CNT_IDOtro_IDType,REG_FE_CNT_IDOtro_ID,
     Aux = DBLet(RN!Nommacta, "T")
     'If RN!CodOpera = 6 Then Aux = vEmpresa.NombreEmpresaOficial
-    Sql = Sql & DBSet(Aux, "T") & ","
+    SQL = SQL & DBSet(Aux, "T") & ","
     
     'NIF. Para las intracoms el NIF debe llevar las letras
     If RN!CodOpera = 1 Or RN!CodOpera = 2 Then
         'INTRACOMUNITARIAS    EXTRANJERO
         'PAIS doc
-        C2 = DBSet(DBLet(RN!codpais, "T"), "T", "S")
+        c2 = DBSet(DBLet(RN!codpais, "T"), "T", "S")
         If RN!CodOpera = 1 Then
             Aux = DBLet(RN!nifdatos, "T")   ' DBLet(RN!codPAIS, "T") & DBLet(RN!nifdatos, "T")
             C1 = "'02'"
@@ -992,7 +1000,7 @@ Dim GrabaTotalFactura As Boolean
             Aux = DBLet(RN!nifdatos, "T")
             C1 = "'03'"
         End If
-        Sql = Sql & "''" & "," & C2 & "," & C1 & "," & DBSet(Aux, "T", "N") & ","
+        SQL = SQL & "''" & "," & c2 & "," & C1 & "," & DBSet(Aux, "T", "N") & ","
     Else
         'EL NIF
         'NO hacemos nada  AUX y c1 ya teiene los valores que toca
@@ -1001,13 +1009,13 @@ Dim GrabaTotalFactura As Boolean
             'DUAs
             C1 = "null"
             Aux = DBLet(vEmpresa.NIF, "T")
-            C2 = "null"
+            c2 = "null"
         Else
             C1 = "null"
             Aux = DBLet(RN!nifdatos, "T")
-            C2 = "null"
+            c2 = "null"
         End If
-        Sql = Sql & DBSet(Aux, "T", "N") & "," & C2 & "," & C1 & ",NULL,"
+        SQL = SQL & DBSet(Aux, "T", "N") & "," & c2 & "," & C1 & ",NULL,"
     End If
     
     
@@ -1026,7 +1034,7 @@ Dim GrabaTotalFactura As Boolean
     End If
     If vParam.SII_Periodo_DesdeLiq Then FechaPeriodo2 = RN!fecliqpr
     
-    Sql = Sql & DBSet(RN!FecFactu, "F") & "," & DBSet(FechaPeriodo2, "F") & ",#@#@#@$$$$"   'Sumaremos el total de cuotas deducibles y luego haremos un replace
+    SQL = SQL & DBSet(RN!FecFactu, "F") & "," & DBSet(FechaPeriodo2, "F") & ",#@#@#@$$$$"   'Sumaremos el total de cuotas deducibles y luego haremos un replace
 
     
     
@@ -1038,13 +1046,13 @@ Dim GrabaTotalFactura As Boolean
     
     
 '#8 Inversion sujeto apsivo   ***ISP^^^^
-    'hasta 6 ivas. Cambia el numerito ...DT1   DT2..   REG_FR_DF_ISP_DI_DT6_CuotaREquivalencia
+    'hasta 6 ivas. Cambia el numerito ...DT1   DT2..   REG_FR_DF_ISP_DI_DT6_CuotaREquivalencia,`REG_FR_DF_ISP_DI_DT1_BienInversion`
     
     CadenaIVAS = ""
     NumIVas = 0
     If InversionSujetoPasivo Then
         
-        Aux = "Select * from factpro_totales where numserie =" & DBSet(Serie, "T") & " AND numregis =" & Numregis & " AND anofactu =" & Anofac
+        Aux = "Select factpro_totales.*,tipodiva from factpro_totales left join tiposiva on  factpro_totales.codigiva=tiposiva.codigiva   where numserie =" & DBSet(Serie, "T") & " AND numregis =" & Numregis & " AND anofactu =" & Anofac
         RN.Open Aux, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
         
         'TipoImpositivo,BaseImponible,CuotaRepercutida,TipoREquivalencia,CuotaREquivalencia,"
@@ -1056,6 +1064,9 @@ Dim GrabaTotalFactura As Boolean
             Else
                 Aux = Aux & DBSet(RN!porcrec, "N") & "," & DBSet(RN!ImpoRec, "N")
             End If
+            'Febrero 2022. BNien inversion
+            Aux = Aux & ",'" & IIf(DBLet(RN!TipoDIva, "N") = 2, "S", "N") & "'"
+            
             CadenaIVAS = CadenaIVAS & Aux
             NumIVas = NumIVas + 1
             
@@ -1067,9 +1078,9 @@ Dim GrabaTotalFactura As Boolean
     End If
     
     For H = NumIVas + 1 To 6
-        CadenaIVAS = CadenaIVAS & ",NULL,NULL,NULL,NULL,NULL"
+        CadenaIVAS = CadenaIVAS & ",NULL,NULL,NULL,NULL,NULL,NULL"
     Next
-    Sql = Sql & CadenaIVAS
+    SQL = SQL & CadenaIVAS
     
     
 
@@ -1096,6 +1107,9 @@ Dim GrabaTotalFactura As Boolean
                 Aux = ",null," & DBSet(RN!Baseimpo, "N") & ",null,null,null,"
                 '% REA impor REA
                 Aux = Aux & DBSet(RN!PorcIva, "N") & "," & DBSet(RN!Impoiva, "N")
+                'Febrero 2022. BNien inversion
+                Aux = Aux & ",'N'"
+            
             
                 
             Else
@@ -1110,7 +1124,11 @@ Dim GrabaTotalFactura As Boolean
                         Aux = Aux & DBSet(RN!porcrec, "N") & "," & DBSet(RN!ImpoRec, "N")
                     End If
                     Aux = Aux & ",NULL,NULL"             'REA A null
-                    
+                    'Febrero 2022. BNien inversion
+                    Aux = Aux & ",'" & IIf(DBLet(RN!TipoDIva, "N") = 2, "S", "N") & "'"
+              
+              
+              
                     
                     If RN!TipoDIva = 3 Then NoDeducible = True
                     
@@ -1134,17 +1152,17 @@ Dim GrabaTotalFactura As Boolean
     End If
     
     For H = NumIVas + 1 To 6
-        CadenaIVAS = CadenaIVAS & ",NULL,NULL,NULL,NULL,NULL,NULL,NULL"
+        CadenaIVAS = CadenaIVAS & ",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL"
     Next
-    Sql = Sql & CadenaIVAS
+    SQL = SQL & CadenaIVAS
     
     'Total deducciones
-    Sql = Replace(Sql, "#@#@#@$$$$", DBSet(TotalDecucible, "N"))
+    SQL = Replace(SQL, "#@#@#@$$$$", DBSet(TotalDecucible, "N"))
     
     
     
     'Montamos el SQL
-    SQL_Insert = Sii_FraPRO_SQL(EsModificando) & ") VALUES (" & Sql & ")"
+    SQL_Insert = Sii_FraPRO_SQL(EsModificando) & ") VALUES (" & SQL & ")"
     
     Sii_FraPRO = True
     
@@ -1155,7 +1173,7 @@ End Function
 
 
 Private Function Sii_FraPRO_SQL(EsModificando As Boolean) As String
-Dim cad As String
+Dim Cad As String
 Dim H As Integer
 
     If EsModificando Then
@@ -1203,27 +1221,29 @@ Dim H As Integer
     
     'ISP
     For H = 1 To 6
-        'REG_FR_DF_ISP_DI_DT1_TipoImpositivo
-        'REG_FR_DF_ISP_DI_DT1_TipoImpositivo  REG_FR_DF_ISP_DI_DT1_BaseImponible
+        'REG_FR_DF_ISP_DI_DT1_TipoImpositivo  REG_FR_DF_ISP_DI_DT1_TipoImpositivo  REG_FR_DF_ISP_DI_DT1_BaseImponible
         'REG_FR_DF_ISP_DI_DT1_CuotaSoportada  REG_FR_DF_ISP_DI_DT1_TipoREquivalencia REG_FR_DF_ISP_DI_DT1_CuotaREquivalencia
-        cad = ",REG_FR_DF_ISP_DI_DT" & H & "_TipoImpositivo,REG_FR_DF_ISP_DI_DT" & H & "_BaseImponible,REG_FR_DF_ISP_DI_DT" & H & "_CuotaSoportada,REG_FR_DF_ISP_DI_DT" & H & "_TipoREquivalencia,"
-        cad = cad & "REG_FR_DF_ISP_DI_DT" & H & "_CuotaREquivalencia"
-        Sii_FraPRO_SQL = Sii_FraPRO_SQL & cad
+        'REG_FR_DF_ISP_DI_DT1_BienInversion
+        Cad = ",REG_FR_DF_ISP_DI_DT" & H & "_TipoImpositivo,REG_FR_DF_ISP_DI_DT" & H & "_BaseImponible,REG_FR_DF_ISP_DI_DT" & H & "_CuotaSoportada,REG_FR_DF_ISP_DI_DT" & H & "_TipoREquivalencia,"
+        Cad = Cad & "REG_FR_DF_ISP_DI_DT" & H & "_CuotaREquivalencia, REG_FR_DF_ISP_DI_DT" & H & "_BienInversion   "
+        
+        Sii_FraPRO_SQL = Sii_FraPRO_SQL & Cad
     Next
     
     
     'Resto
-    'REG_FR_DF_DGI_DI_DT1_TipoImpositivo REG_FR_DF_DGI_DI_DT1_BaseImponible REG_FR_DF_DGI_DI_DT1_CuotaSoportada
-    'REG_FR_DF_DGI_DI_DT1_TipoREquivalencia REG_FR_DF_DGI_DI_DT1_CuotaREquivalencia REG_FR_DF_DGI_DI_DT1_PorcentCompensacionREAGYP REG_FR_DF_DGI_DI_DT1_ImporteCompensacionREAGYP
+    'REG_FR_DF_DGI_DI_DT1_TipoImpositivo                REG_FR_DF_DGI_DI_DT1_BaseImponible      REG_FR_DF_DGI_DI_DT1_CuotaSoportada
+    'REG_FR_DF_DGI_DI_DT1_TipoREquivalencia             REG_FR_DF_DGI_DI_DT1_CuotaREquivalencia REG_FR_DF_DGI_DI_DT1_PorcentCompensacionREAGYP
+    'REG_FR_DF_DGI_DI_DT1_ImporteCompensacionREAGYP    REG_FR_DF_DGI_DI_DT1_BienInversion
     For H = 1 To 6
         'REG_FR_DF_DGI_DI_DT1
         '_TipoImpositivo _BaseImponible _DT1_CuotaSoportada _TipoREquivalencia
         '_CuotaREquivalencia _PorcentCompensacionREAGYP _ImporteCompensacionREAGYP
-        cad = ",REG_FR_DF_DGI_DI_DT" & H & "_TipoImpositivo,REG_FR_DF_DGI_DI_DT" & H & "_BaseImponible"
-        cad = cad & ",REG_FR_DF_DGI_DI_DT" & H & "_CuotaSoportada,REG_FR_DF_DGI_DI_DT" & H & "_TipoREquivalencia"
-        cad = cad & ",REG_FR_DF_DGI_DI_DT" & H & "_CuotaREquivalencia,REG_FR_DF_DGI_DI_DT" & H & "_PorcentCompensacionREAGYP"
-        cad = cad & ",REG_FR_DF_DGI_DI_DT" & H & "_ImporteCompensacionREAGYP "
-        Sii_FraPRO_SQL = Sii_FraPRO_SQL & cad
+        Cad = ",REG_FR_DF_DGI_DI_DT" & H & "_TipoImpositivo,REG_FR_DF_DGI_DI_DT" & H & "_BaseImponible"
+        Cad = Cad & ",REG_FR_DF_DGI_DI_DT" & H & "_CuotaSoportada,REG_FR_DF_DGI_DI_DT" & H & "_TipoREquivalencia"
+        Cad = Cad & ",REG_FR_DF_DGI_DI_DT" & H & "_CuotaREquivalencia,REG_FR_DF_DGI_DI_DT" & H & "_PorcentCompensacionREAGYP"
+        Cad = Cad & ",REG_FR_DF_DGI_DI_DT" & H & "_ImporteCompensacionREAGYP , REG_FR_DF_DGI_DI_DT" & H & "_BienInversion "
+        Sii_FraPRO_SQL = Sii_FraPRO_SQL & Cad
     Next
 
     
@@ -1308,7 +1328,7 @@ End Function
 
 
 Public Function DarAvisoPendientesSII() As Byte
-Dim cad As String
+Dim Cad As String
 Dim FecUltAviso As Date
 Dim Horas As Long
 Dim VerSiDamosAviso As Boolean

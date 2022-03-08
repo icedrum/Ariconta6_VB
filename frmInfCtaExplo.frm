@@ -981,16 +981,18 @@ End Sub
 
 
 Private Sub chkComparativo_Click()
-    chkExplotacion.Enabled = (chkComparativo.Value = 0)
+    'Febrero 2022
+    'Puede hacer de todo
+    'chkExplotacion.Enabled = (chkComparativo.Value = 0)
     Frame1.Enabled = (chkComparativo.Value = 0)
-    chkPorcentajes.Enabled = (chkComparativo.Value = 1)
+    'chkPorcentajes.Enabled = (chkComparativo.Value = 1)
     If Not Frame1.Enabled Then
         For i = 0 To txtExplo.Count - 1
             txtExplo(i).Text = ""
         Next i
-        chkExplotacion.Value = 0
+        'chkExplotacion.Value = 0
     Else
-        chkPorcentajes.Value = 0
+        'chkPorcentajes.Value = 0
     End If
 End Sub
 
@@ -1003,15 +1005,17 @@ Private Sub chkCtaExplo_Click(Index As Integer)
 End Sub
 
 Private Sub chkExplotacion_Click()
-    If chkExplotacion.Value = 1 Then
-        chkComparativo.Enabled = False
-        chkComparativo.Value = 0
-        chkPorcentajes.Enabled = False
-        chkPorcentajes.Value = 0
-    Else
-        chkComparativo.Enabled = True
-        chkPorcentajes.Enabled = (chkComparativo.Value = 1)
-    End If
+
+    'Febrero 2022.  Puede hacer de todo
+    'If chkExplotacion.Value = 1 Then
+    '    chkComparativo.Enabled = False
+    '    chkComparativo.Value = 0
+    '    chkPorcentajes.Enabled = False
+    '    chkPorcentajes.Value = 0
+    'Else
+    '    chkComparativo.Enabled = True
+    '    chkPorcentajes.Enabled = (chkComparativo.Value = 1)
+    'End If
 End Sub
 
 Private Sub cmbFecha_Change(Index As Integer)
@@ -1127,7 +1131,7 @@ Private Sub Form_Load()
      
     txtFecha(7).Text = Format(Now, "dd/mm/yyyy")
     
-    chkPorcentajes.Enabled = (chkComparativo.Value = 1)
+    'chkPorcentajes.Enabled = (chkComparativo.Value = 1)
     
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
@@ -1230,6 +1234,9 @@ Dim Cad As String
     ' cuenta de explotacion normal
     If chkComparativo.Value = 0 Then
 
+
+        'Sin comparativo
+        'NORMAL
         pb2.visible = True
         CargarProgres pb2, 8
         
@@ -1422,25 +1429,17 @@ Dim Cad As String
         pb2.visible = False
     
     
-    Else ' cuenta de explotacion comparativa
-            If SQL = "" Then Err.Raise 513, , "Error falta proceso"
+    Else
+        
                 
-        If CargarTablaTemporal(vFecha) Then
-            SQL = "select aaaaa.cta CtaPasivo, aaaaa.nomcta Titulo, aaaaa.totald '" & Format(CInt(txtAno(4).Text) - 1, "0000") & "', aaaaa.totalh '" & Format(CInt(txtAno(4).Text), "0000") & "'"
-            SQL = SQL & ", bbbbb.cta CtaPasivo, bbbbb.nomcta Titulo, bbbbb.totald '" & Format(CInt(txtAno(4).Text) - 1, "0000") & "', bbbbb.totalh '" & Format(CInt(txtAno(4).Text), "0000") & "'"
-            SQL = SQL & " from tmpbalancesumas aaaaa, tmpbalancesumas bbbbb "
-            SQL = SQL & " where aaaaa.codusu = " & vUsu.Codigo & " and bbbbb.codusu = " & vUsu.Codigo
-            SQL = SQL & " order by aaaaa.cta, bbbbb.cta "
+            i = CInt(txtAno(4).Text)
+            cadParam = ""
+            If Me.chkExplotacion.Value = 0 Then cadParam = "hasta_"
+            cadParam = cadParam & Format(cmbFecha(2).ListIndex + 1, "00") & "_"
+            SQL = "select cta,nomcta,totald " & cadParam & CStr(i - 1) & ", totalh " & cadParam & i
+            If Me.chkPorcentajes.Value = 1 Then SQL = SQL & ", if(totald =0,0, round((((totalh-totald) / totald))*100,2) )    porcen"
+            SQL = SQL & " FROM tmpbalancesumas WHERE codusu=" & vUsu.Codigo & " ORDER BY cta"
             
-            If Me.chkPorcentajes.Value = 0 Then
-                SQL = "select aaaaa.cta Cuenta, aaaaa.nomcta Titulo, aaaaa.totald '" & Format(CInt(txtAno(4).Text) - 1, "0000") & "', aaaaa.totalh '" & Format(CInt(txtAno(4).Text), "0000") & "'"
-            Else
-                SQL = "select aaaaa.cta Cuenta, aaaaa.nomcta Titulo, aaaaa.totald '" & Format(CInt(txtAno(4).Text) - 1, "0000") & "', aaaaa.totalh '" & Format(CInt(txtAno(4).Text), "0000") & "', round2(aaaaa.totalh / aaaaa.totald * 100,2) -100 Porcentaje"
-            End If
-            SQL = SQL & " from tmpbalancesumas aaaaa "
-            SQL = SQL & " where aaaaa.codusu = " & vUsu.Codigo
-            SQL = SQL & " order by 1"
-        End If
     End If
     
         
@@ -1481,6 +1480,9 @@ Dim nomDocu As String
     numParam = numParam + 4
     
     
+    
+    
+    
     cadParam = cadParam & "pTipo=" & chkExplotacion.Value & "|"
     numParam = numParam + 1
     cadParam = cadParam & "pPeriodo=""Mes cálculo: " & UCase(Mid(cmbFecha(2).Text, 1, 1)) & Mid(cmbFecha(2).Text, 2, Len(cmbFecha(2).Text)) & "     Año: " & txtAno(4).Text & """|"
@@ -1499,6 +1501,12 @@ Dim nomDocu As String
         If Me.chkPorcentajes.Value = 1 Then indRPT = "0307-02" ' "CtaExplotacionComp1.rpt"
         
         cadFormula = "{tmpbalancesumas.codusu} = " & vUsu.Codigo
+        
+        
+        cadParam = cadParam & "SoloPeriodo=" & chkExplotacion.Value & "|"
+        numParam = numParam + 4
+        
+        
     Else
         indRPT = "0307-00" '"CtaExplotacion.rpt"
     End If
@@ -1557,6 +1565,9 @@ Dim Anyo As String
     i = DiasMes(cmbFecha(2).ListIndex + 1, CInt(txtAno(4).Text))
     cadFormula = cadFormula & " AND {hlinapu.fechaent} <= Date (" & Me.txtAno(4).Text & ", " & cmbFecha(2).ListIndex + 1 & "," & i & ")  "
     cadselect = cadselect & " AND hlinapu.fechaent <= '" & Format(Me.txtAno(4).Text, "0000") & "-" & Format(cmbFecha(2).ListIndex + 1, "00") & "-" & Format(i, "00") & "'"
+    
+    
+    
     
     If chkComparativo.Value = 1 Then
        Screen.MousePointer = vbHourglass
@@ -1749,7 +1760,15 @@ Dim col7 As Collection
 
 
     'Cargamos las fechas de calculo
-    FechaI = CDate(Fecha)
+    
+    If chkExplotacion.Value = 1 Then
+        'Febrero 2022
+        ' QUiere los datos solo del mes.
+        FechaI = CDate("01/" & Format(cmbFecha(2).ListIndex + 1, "00") & "/" & Me.txtAno(4).Text)
+    Else
+        'Lo que habia
+        FechaI = CDate(Fecha)
+    End If
     i = DiasMes(cmbFecha(2).ListIndex + 1, CInt(txtAno(4).Text))
     FechaF = CDate(i & "/" & cmbFecha(2).ListIndex + 1 & "/" & Me.txtAno(4).Text)
     
@@ -1785,7 +1804,7 @@ Dim col7 As Collection
     
     
     'Octubre 2021
-    lblCuentas(7).Caption = "Preparando datos"
+    lblCuentas(7).Caption = "Preparando datos 6%"
     lblCuentas(7).Refresh
     'Iremos desde fhaianterior a fecf
     SQL = "select codmacta from hlinapu where codmacta like '6%' "
@@ -1813,6 +1832,8 @@ Dim col7 As Collection
     'Falta paremtro
     If vEmpresa.NIF = "F46221503" Then DeTantosEnTantos = 5  'teletaxi
     
+    lblCuentas(7).Caption = "Preparando datos 7%"
+    lblCuentas(7).Refresh
     
     SQL = "select codmacta from hlinapu where codmacta like '7%' "
     SQL = SQL & " and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaF, "F") & " GROUP BY codmacta"
@@ -1847,8 +1868,10 @@ Dim col7 As Collection
         IncrementarProgres pb2, 1
         lblCuentas(7).Caption = "Cuentas 6 ant (" & i & "/" & col6.Count & ")"
         lblCuentas(7).Refresh
-        SQL = "insert into tmpevolsal(codusu,codmacta,apertura,importemes1) "
+        SQL = "insert into tmpevolsal(codusu,codmacta,apertura,importemes1 ,importemes2, importemes3  ) "
         SQL = SQL & "select " & vUsu.Codigo & ", codmacta , 1, sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) "
+        'Feb2022
+        SQL = SQL & ", sum(coalesce(timported,0)) , sum(coalesce(timporteh,0)) "
         SQL = SQL & " from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
         SQL = SQL & "  AND hlinapu.codmacta in (" & col6.Item(i) & ")"
         SQL = SQL & " and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaFAnt, "F") & " GROUP BY codmacta"
@@ -1876,6 +1899,7 @@ Dim col7 As Collection
         IncrementarProgres pb2, 1
         SQL = "insert into tmpevolsal(codusu,codmacta,apertura,importemes1) "
         SQL = SQL & "select " & vUsu.Codigo & ", codmacta , 1, sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) "
+        'SQL = SQL & ", sum(coalesce(timported,0)) , sum(coalesce(timporteh,0)) "
         SQL = SQL & " from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
         SQL = SQL & "  AND hlinapu.codmacta in (" & col7.Item(i) & ")"
         SQL = SQL & " and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaFAnt, "F") & " GROUP BY codmacta"
@@ -1885,8 +1909,9 @@ Dim col7 As Collection
         lblCuentas(7).Caption = "Cuentas 7 act(" & i & "/" & col7.Count & ")"
         lblCuentas(7).Refresh
         IncrementarProgres pb2, 1
-        SQL = "insert into tmpevolsal(codusu,codmacta,apertura,importemes1) "
+        SQL = "insert into tmpevolsal(codusu,codmacta,apertura,importemes1)"   'importemes2, importemes3) "
         SQL = SQL & "select " & vUsu.Codigo & ", codmacta , 2, sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) "
+        'SQL = SQL & ", sum(coalesce(timported,0)) , sum(coalesce(timporteh,0)) "
         SQL = SQL & " from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
         SQL = SQL & "  AND hlinapu.codmacta in (" & col7.Item(i) & ")"
         SQL = SQL & " and fechaent between " & DBSet(FechaI, "F") & " and " & DBSet(FechaF, "F") & " GROUP BY codmacta"
@@ -1922,15 +1947,56 @@ Dim col7 As Collection
         Conn.Execute SQL
     End If
     
+        
+        
+    
+    
+    
+   
+    lblCuentas(7).Caption = "Insertar para comparativo"
+    lblCuentas(7).Refresh
+    
+    If chkExplotacion.Value = 1 Then
+        'Febrero 2022
+        ' Ha pedido comparativo movimientos mes. Para que las cuentas sean las mismas en todo los informes, sacaremos incluso las que tenga CERO
+        
+        ' Para que salgan todas en el orden que toca, siempre las mismas,haremos lo siguiente
+        '  insertaremos desde cuenta, todas las codmacta del grupo, haciendo los IGNORES
+        SQL = "insert IGNORE into tmpevolsal(codmacta,apertura,codusu,importemes1) "
+        SQL = SQL & " select substring(codmacta,1," & Digitos & "),1 apertura," & vUsu.Codigo & " codusu, 0 from cuentas  where apudirec='S' and codmacta like '6%'"
+        Conn.Execute SQL
+        SQL = "insert IGNORE into tmpevolsal(codmacta,apertura,codusu,importemes1) "
+        SQL = SQL & " select substring(codmacta,1," & Digitos & "),2 apertura," & vUsu.Codigo & " codusu, 0 from cuentas  where apudirec='S' and codmacta like '6%'"
+        Conn.Execute SQL
+    
+    
+        SQL = "insert IGNORE into tmpevolsal(codmacta,apertura,codusu,importemes1) "
+        SQL = SQL & " select substring(codmacta,1," & Digitos & "),1 apertura," & vUsu.Codigo & " codusu, 0 from cuentas  where apudirec='S' and codmacta like '7%'"
+        Conn.Execute SQL
+        
+        
+        SQL = "insert IGNORE into tmpevolsal(codmacta,apertura,codusu,importemes1) "
+        SQL = SQL & " select substring(codmacta,1," & Digitos & "),2 apertura," & vUsu.Codigo & " codusu, 0 from cuentas  where apudirec='S' and codmacta like '7%'"
+        Conn.Execute SQL
+    
+    End If
     
     
     'Metemos en la tabla del informe
     lblCuentas(7).Caption = "Insertar tmp impresion"
     lblCuentas(7).Refresh
     IncrementarProgres pb2, 1
-    SQL = "INSERT INTO tmpbalancesumas(codusu,cta,nomcta,TotalD,TotalH)"
+    SQL = "INSERT INTO tmpbalancesumas(codusu,cta,nomcta,TotalD,TotalH)"   'acumperd,acumperh,acumantd,acumanth)"
     SQL = SQL & "SELECT codusu,tmpevolsal.codmacta,if(cuentas.nommacta is null,'ERROR',cuentas.nommacta),sum(if(apertura<2,importemes1,0)),"
-    SQL = SQL & " sum(if(apertura>=2,importemes1,0)) from tmpevolsal left join cuentas on tmpevolsal.codmacta=cuentas.codmacta"
+    SQL = SQL & " sum(if(apertura>=2,importemes1,0)) "
+'    If chkExplotacion.Value = 1 Then
+'        SQL = SQL & " ,sum(if(apertura<2,importemes2,0)), sum(if(apertura>=2,importemes2,0))"
+'        SQL = SQL & " ,sum(if(apertura<2,importemes3,0)), sum(if(apertura>=2,importemes3,0))"
+'    Else
+'        SQL = SQL & " ,0,0,0,0"
+'    End If
+'
+    SQL = SQL & " from tmpevolsal left join cuentas on tmpevolsal.codmacta=cuentas.codmacta"
     SQL = SQL & " where codusu =" & vUsu.Codigo & " group by tmpevolsal.codmacta"
     Conn.Execute SQL
     
@@ -1939,9 +2005,12 @@ Dim col7 As Collection
     IncrementarProgres pb2, 1
     
     'borramos las cuentas que no tienen movimientos en ese periodo
-    SQL = "delete from tmpbalancesumas where codusu = " & vUsu.Codigo & " and totald is null and totalh is null"
-    Conn.Execute SQL
-    
+    'Febrero 2022   Solo si no selecciona movimientos mes
+    If chkExplotacion.Value = 0 Then
+        SQL = "delete from tmpbalancesumas where codusu = " & vUsu.Codigo & " and totald is null and totalh is null"
+        Conn.Execute SQL
+        
+    End If
     IncrementarProgres pb2, 1
     lblCuentas(7).Caption = "Abriendo"
     
@@ -2073,6 +2142,14 @@ Private Function DatosOK() As Boolean
             If chkCtaExplo(1).Value = 1 Or chkCtaExplo(2).Value = 1 Then
                 MsgBox "La cuenta de exclusión del grupoord de la analítica no esta incluída en el balance", vbExclamation
             End If
+        End If
+    End If
+
+
+    If chkPorcentajes.Value = 1 Then
+        If chkComparativo.Value = 0 Then
+            MsgBox "Porcentajes sólo válidos para comparativo", vbExclamation
+            Exit Function
         End If
     End If
 

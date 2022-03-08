@@ -559,7 +559,7 @@ Private WithEvents frmC As frmCal
 Attribute frmC.VB_VarHelpID = -1
 
 Private SQL As String
-Dim cad As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -696,6 +696,10 @@ End Sub
 
 
 
+Private Sub frmC_Selec(vFecha As Date)
+    SQL = vFecha
+End Sub
+
 Private Sub optTipoSal_Click(Index As Integer)
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), Index
 End Sub
@@ -807,10 +811,10 @@ Private Function DatosOK() As Boolean
                 Exit Function
             End If
             
-            If FechaCorrecta2(CDate(Text3(0).Text)) > 2 Then
-                MsgBox "Fecha mayor que ejercicios abiertos.", vbExclamation
-                Exit Function
-            End If
+            'If FechaCorrecta2(CDate(Text3(0).Text)) > 2 Then
+            '    MsgBox "Fecha mayor que ejercicios abiertos.", vbExclamation
+            '    Exit Function
+            'End If
             
             If chkRatio(0).Value = 0 And chkRatio(1).Value = 0 And chkRatio(2).Value = 0 Then
                 MsgBox "Debe de seleccionar un tipo de ratio. Revise.", vbExclamation
@@ -962,6 +966,16 @@ Dim Sql8 As String
 Dim Sql9 As String
 Dim Sql10 As String
     
+Dim FechaInicio As Date
+
+    FechaInicio = vParam.fechaini
+        
+    
+    While CDate(Text3(0).Text) <= FechaInicio
+        FechaInicio = DateAdd("yyyy", -1, FechaInicio)
+    Wend
+    
+    
     Set Lin = New Collection
     Set miRsAux = New ADODB.Recordset
     SQL = "Select * from balances_texto where numbalan=" & Cual
@@ -1069,68 +1083,69 @@ Dim Sql10 As String
             Me.lblInd.Refresh
                 
             SQL = "SELECT sum(coalesce(timported,0)-coalesce(timporteh,0)) FROM hlinapu WHERE "
-            SQL = SQL & " fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(Text3(0).Text, "F")
+            SQL = SQL & " not codconce in (960,961,980)"   'per y gana  regularzion y cierre
+            SQL = SQL & " AND fechaent between " & DBSet(FechaInicio, "F") & " and " & DBSet(Text3(0).Text, "F")
             
             Select Case J
                 Case 1
                     If Sql1 <> "" Then
                         SQL = SQL & " and mid(codmacta,1,1) in (" & Sql1 & ")"
                     Else
-                        SQL = SQL & " and codmacta is null"
+                        SQL = SQL & " and false"
                     End If
                 Case 2
                     If Sql2 <> "" Then
                         SQL = SQL & " and mid(codmacta,1,2) in (" & Sql2 & ")"
                     Else
-                        SQL = SQL & " and codmacta is null"
+                        SQL = SQL & " and false" 'codmacta is null"
                     End If
                 Case 3
                     If Sql3 <> "" Then
                         SQL = SQL & " and mid(codmacta,1,3) in (" & Sql3 & ")"
                     Else
-                        SQL = SQL & " and codmacta is null"
+                        SQL = SQL & " and false" 'codmacta is null"
                     End If
                 Case 4
                     If Sql4 <> "" Then
                         SQL = SQL & " and mid(codmacta,1,4) in (" & Sql4 & ")"
                     Else
-                        SQL = SQL & " and codmacta is null"
+                        SQL = SQL & " and false" 'codmacta is null"
                     End If
                 Case 5
                     If Sql5 <> "" Then
                         SQL = SQL & " and mid(codmacta,1,5) in (" & Sql5 & ")"
                     Else
-                        SQL = SQL & " and codmacta is null"
+                        SQL = SQL & " and false" 'codmacta is null"
                     End If
                 Case 6
                     If Sql6 <> "" Then
                         SQL = SQL & " and mid(codmacta,1,6) in (" & Sql6 & ")"
                     Else
-                        SQL = SQL & " and codmacta is null"
+                        SQL = SQL & " and false" 'codmacta is null"
                     End If
                 Case 7
                     If Sql7 <> "" Then
                         SQL = SQL & " and mid(codmacta,1,7) in (" & Sql7 & ")"
                     Else
-                        SQL = SQL & " and codmacta is null"
+                        SQL = SQL & " and false" 'codmacta is null"
                     End If
                 Case 8
                     If Sql8 <> "" Then
                         SQL = SQL & " and mid(codmacta,1,8) in (" & Sql8 & ")"
                     Else
-                        SQL = SQL & " and codmacta is null"
+                        SQL = SQL & " and false" 'codmacta is null"
                     End If
                 Case 9
                     If Sql9 <> "" Then
                         SQL = SQL & " and mid(codmacta,1,9) in (" & Sql9 & ")"
                     Else
-                        SQL = SQL & " and codmacta is null"
+                        SQL = SQL & " and false" 'codmacta is null"
                     End If
                 Case 10
                     If Sql10 <> "" Then
                         SQL = SQL & " and codmacta in (" & Sql10 & ")"
                     Else
-                        SQL = SQL & " and codmacta is null"
+                        SQL = SQL & " and false" '
                     End If
             End Select
                 
@@ -1228,9 +1243,9 @@ Private Sub Text3_LostFocus(Index As Integer)
         Text3(Index).SetFocus
     Else
         If FechaCorrecta2(CDate(Text3(Index).Text)) > 2 Then
-            MsgBox "Fecha mayor que ejercicios abiertos.", vbExclamation
-            Text3(Index).Text = ""
-            Text3(Index).SetFocus
+           ' MsgBox "Fecha mayor que ejercicios abiertos.", vbExclamation
+           ' Text3(Index).Text = ""
+           ' Text3(Index).SetFocus
         End If
     End If
 End Sub

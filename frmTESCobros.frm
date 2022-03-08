@@ -4316,6 +4316,8 @@ Private Sub Form_Unload(Cancel As Integer)
     CheckValueGuardar Me.Name, Me.chkVistaPrevia.Value
 End Sub
 
+
+
 Private Sub frmA_DatoSeleccionado(CadenaSeleccion As String)
     Text1(34).Text = RecuperaValor(CadenaSeleccion, 1)
     Text2(5).Text = RecuperaValor(CadenaSeleccion, 2)

@@ -730,16 +730,16 @@ Private Sub cmdCancelar_Click()
 End Sub
 
 Private Sub cmdRegresar_Click()
-Dim cad As String
+Dim Cad As String
 
 If adodc1.Recordset.EOF Then
     MsgBox "Ningún registro a devolver.", vbExclamation
     Exit Sub
 End If
 
-cad = adodc1.Recordset.Fields(0) & "|"
-cad = cad & adodc1.Recordset.Fields(1) & "|"
-RaiseEvent DatoSeleccionado(cad)
+Cad = adodc1.Recordset.Fields(0) & "|"
+Cad = Cad & adodc1.Recordset.Fields(1) & "|"
+RaiseEvent DatoSeleccionado(Cad)
 Unload Me
 End Sub
 
@@ -853,21 +853,21 @@ End Sub
 'Se puede comentar todo y asi no hace nada ni da error
 'El SQL es propio de cada tabla
 Private Function SugerirCodigoSiguiente() As String
-    Dim Sql As String
+    Dim SQL As String
     Dim Rs As ADODB.Recordset
     
-    Sql = "Select Max(codigo) from agentes"
+    SQL = "Select Max(codigo) from agentes"
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, , , adCmdText
-    Sql = "1"
+    Rs.Open SQL, Conn, , , adCmdText
+    SQL = "1"
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then
-            Sql = CStr(Rs.Fields(0) + 1)
+            SQL = CStr(Rs.Fields(0) + 1)
         End If
     End If
     Rs.Close
-    SugerirCodigoSiguiente = Sql
+    SugerirCodigoSiguiente = SQL
 End Function
 
 
@@ -896,7 +896,7 @@ End Sub
 
 
 
-Private Sub CargaGrid(Optional Sql As String)
+Private Sub CargaGrid(Optional SQL As String)
     Dim J As Integer
     Dim TotalAncho As Integer
     Dim i As Integer
@@ -907,11 +907,11 @@ Private Sub CargaGrid(Optional Sql As String)
     
     
 
-    AplicaFitros Sql
-    Sql = "Select codigo,fecha,codmacta,nommacta,login,if(autom=1,'*','') autom,resultado from compensaclipro " & Sql
-    Sql = Sql & " ORDER BY fecha desc,codigo"
+    AplicaFitros SQL
+    SQL = "Select codigo,fecha,codmacta,nommacta,login,if(autom=1,'*','') autom,resultado from compensaclipro " & SQL
+    SQL = SQL & " ORDER BY fecha desc,codigo"
     
-    adodc1.RecordSource = Sql
+    adodc1.RecordSource = SQL
     adodc1.CursorType = adOpenDynamic
     adodc1.LockType = adLockOptimistic
     adodc1.Refresh
@@ -920,7 +920,7 @@ Private Sub CargaGrid(Optional Sql As String)
     DataGrid1.RowHeight = 350
     
     
-    CargaGridGnral Me.DataGrid1, Me.adodc1, Sql, True
+    CargaGridGnral Me.DataGrid1, Me.adodc1, SQL, True
     
     ' *******************canviar els noms i si fa falta la cantitat********************
     tots = "S|txtAux(0)|T|Codigo|1205|;S|txtAux(1)|T|Fecha|1495|;"
@@ -1031,15 +1031,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And Modo = 0 And vParam.NroAriges = 0
@@ -1085,8 +1085,7 @@ Dim Aux As String
     cboFiltro2.ItemData(cboFiltro2.NewIndex) = 2
 
 
-    vUsu.LeerFiltros "ariconta", IdPrograma
-    vUsu.LeerFiltros "ariconta", IdPrograma - 1
+    vUsu.LeerFiltros "ariconta", IdPrograma & "," & IdPrograma - 1
 
 
 End Sub

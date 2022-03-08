@@ -1851,7 +1851,7 @@ End Function
 '  ResumidoIDFichero : en la etiqueta del XML ID grabamos texto corto
 Private Function GrabarFicheroNorma19SEPA(NomFichero As String, Remesa As String, FecPre As String, TipoReferenciaCliente As Byte, Sufijo As String, FechaCobro As String, SEPA_EmpresasGraboNIF As Boolean, Norma19_15 As Boolean, FormatoXML As Boolean, esAnticipoCredito As Boolean, IdGrabadoEnFichero As String, AgruparVtos As Boolean, EsB2B As Boolean) As Boolean
 Dim B As Boolean
-
+Dim GrabaSubTotalPorFecha As Boolean
 
     '-- Genera_Remesa: Esta función genera la remesa indicada, en el fichero correspondiente
 
@@ -1861,6 +1861,9 @@ Dim B As Boolean
     '-- Primero comprobamos que la remesa no haya sido enviada ya
     SQL = "SELECT * FROM remesas,bancos WHERE codigo = " & RecuperaValor(Remesa, 1)
     SQL = SQL & " AND anyo = " & RecuperaValor(Remesa, 2) & " AND remesas.codmacta = bancos.codmacta "
+    
+    
+    GrabaSubTotalPorFecha = False
     
     Set miRsAux = New ADODB.Recordset
     DatosBanco = ""
@@ -1872,6 +1875,8 @@ Dim B As Boolean
         Else
             'Cargo algunos de los datos de la remesa
             DatosBanco = miRsAux!IBAN
+            
+            If DBLet(miRsAux!FichTransSubtotales, "N") = "1" Then GrabaSubTotalPorFecha = True
             
              'En datos extra dejo el CONCEPTO PPAL
              'DatosExtra = RecuperaValor(DatosExtra, 2)
@@ -1913,7 +1918,7 @@ Dim B As Boolean
     If FormatoXML Then
         
         'El que habia
-        B = GrabarDisketteNorma19_SEPA_XML(NomFichero, Remesa, FecPre, TipoReferenciaCliente, Sufijo, FechaCobro, SEPA_EmpresasGraboNIF, Norma19_15, DatosBanco, NifEmpresa_, esAnticipoCredito, IdGrabadoEnFichero, AgruparVtos, EsB2B)
+        B = GrabarDisketteNorma19_SEPA_XML(NomFichero, Remesa, FecPre, TipoReferenciaCliente, Sufijo, FechaCobro, SEPA_EmpresasGraboNIF, Norma19_15, DatosBanco, NifEmpresa_, esAnticipoCredito, IdGrabadoEnFichero, AgruparVtos, EsB2B, GrabaSubTotalPorFecha)
         
     End If
     GrabarFicheroNorma19SEPA = B

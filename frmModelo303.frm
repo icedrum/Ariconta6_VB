@@ -1332,12 +1332,12 @@ Dim DUA As Currency
     End If
     Rs.Close
     
-    'Op no sujetas o con conversion del sujeto pasivo       Pos:46
-    ' Sólo se cumplimenta para periodos 1T, 2T y 01 a 06.
+    'Operaciones no sujetas por reglas de localización (excepto las incluidas en la casilla 123) [120]       Pos:46
     'Segun MC, el punto en la liquidacion de esto solo afecta a aquellas ventas extentas de IVA.
-    ' Sep 2019. Añadimos el tipo 61
-    'Segundo semestre 2021 en adelante  NO se declaran aqui
     Cad = Cad & String(17, "0")
+    
+    
+    Debug.Assert False
     
     'Octubre 21
     '--------------------------------------------------------------------------------------------------
@@ -1346,11 +1346,6 @@ Dim DUA As Currency
     'Esto antes iba en la casilla 61. Ahora habra que desdoblar metiendo mas opciones en la factura
     'para separar
     '       -Operaciones no sujetas por reglas de localización (excepto las incluidas en la casilla 123) [120]         Pos:63
-    
-    '       -Operaciones sujetas con inversión del sujeto pasivo [122]         Pos:97
-    
-    
-    'Operaciones no sujetas por reglas de localización (excepto las incluidas en la casilla 123) [120]         Pos:63
     SQL = "select  sum(bases) base from tmpliquidaiva where codusu = " & DBSet(vUsu.Codigo, "N") & " and cliente = 61"
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
@@ -1360,39 +1355,61 @@ Dim DUA As Currency
     End If
     Rs.Close
     
-    'Reservado para la AEAT   Pos: 80
-    Cad = Cad & String(17, "0")
-    
-    'Operaciones sujetas con inversión del sujeto pasivo [122]         Pos:97
-    Cad = Cad & String(17, "0")
-    
-    'OSS. Operaciones no sujetas por reglas de localización acogidas a la OSS [123]        Pos:114
-    Cad = Cad & String(17, "0")
-    
-    'OSS. Operaciones sujetas y acogidas a la OSS [124]          Pos:114
-    Cad = Cad & String(17, "0")
     
     
-    'Adiconal criterio de caja. Pos    148    168   182  199
-    Cad = Cad & String(17, "0")
-    Cad = Cad & String(17, "0")
-    Cad = Cad & String(17, "0")
+    
+    'OSS. Operaciones no sujetas por reglas de localización acogidas a la OSS [123]  Pos: 80
     Cad = Cad & String(17, "0")
     
-    'Reegularizacion cuotas art. 80.cinco.5ª LIVA  [76]         Pos:216
+    'OSS. Operaciones sujetas y acogidas a la OSS [124]        Pos:97
     Cad = Cad & String(17, "0")
     
-    'Sum resultados           Pos:233
+    'Pos:114
+    'Información adicional - Exclusivamente para operaciones de entrega de bienes y prestaciones de servicios
+    'a las que resulte de aplicación el régimen especial del criterio de Caja.
+    'Importes devengados en período de liquidación según art. 75 LIVA. - Base Imponible [62]
+    Cad = Cad & String(17, "0")
+    
+    'Pos: 131
+    'información adicional - Exclusivamente para operaciones de entrega de bienes y prestaciones de servicios
+    'a las que resulte de aplicación el régimen especial del criterio de Caja.
+    'Importes devengados en período de liquidación según art. 75 LIVA. - Cuota [63]
+    Cad = Cad & String(17, "0")
+    
+    'Pos: 148
+    'Información adicional - Exclusivamente para operaciones de entrega de bienes y prestaciones de servicios
+    'a las que resulte de aplicación el régimen especial del criterio de Caja.
+    'Cuotas de IVA soportados en operaciones que tributen por el régimen especial del criterio de caja
+    'conforme a la regla general de devengo contenida en el artículo 75 LIVA. - Base Imponible [74]
+    Cad = Cad & String(17, "0")
+    
+    'Pos: 165
+    'Información adicional - Exclusivamente para operaciones de entrega de bienes y prestaciones de servicios
+    'a las que resulte de aplicación el régimen especial del criterio de Caja.
+    'Cuotas totales de IVA soportados en operaciones que tributen por el régimen especial del criterio de caja
+    'conforme a la regla general de devengo contenida en el artículo 75 de LIVA. - Cuota [75]
+    Cad = Cad & String(17, "0")
+    
+    'Pos 182
+    'Resultado - Regularización cuotas art. 80.cinco.5ª LIVA  [76]
+    Cad = Cad & String(17, "0")
+    
+    'Pos:199
+    'Sum resultados
     DevuelveImporte ImpTotal * 1, 0
     
-    
+    'Pos:216
     'Atribuible a la admon del estado
-    
     Cad = Cad & "10000" '100%
-    
+    'Pos:221
+    'Resultado - Atribuible a la Administración del Estado [66]
     DevuelveImporte ImpTotal * 1, 0
 
+    
+    
 
+
+    'Pos 238
     'IVA a la importación liquidado por la Aduana pendiente de ingreso  [77]
     ' Abril 2020
     DUA = 0
@@ -1410,29 +1427,33 @@ Dim DUA As Currency
         Cad = Cad & String(17, "0")
     End If
 
-    'A compensar de otros periods   {110]        Pos:289
+    'A compensar de otros periods   {110]        Pos:255
     ImpCompensa = ImporteSinFormato(ComprobarCero(txtCuota(0).Text))
     DevuelveImporte ImpCompensa * 1, 0  'base
     
     'Enero 2021
-    'Cuotas a compensar anteriores aplicadas en este peridodo. La mims que arriba  [78]          Pos:306
+    'Cuotas a compensar anteriores aplicadas en este peridodo. La mims que arriba  [78]          Pos:272
     DevuelveImporte ImpCompensa * 1, 0
     
-    'Cuotas a compensar periodos previos que se compensaran mas adelante      [87]            Pos:323
+    'Cuotas a compensar periodos previos que se compensaran mas adelante      [87]            Pos:289
     Cad = Cad & String(17, "0")
     
     
-    'DE estos dos NO hay text
-    'Diputacion foral[68]
+    'Pos 306
+    'Resultado - Exclusivamente para sujetos pasivos que tributan conjuntamente a la Administración del Estado y a las Diputaciones Forales
+    'Resultado de la regularización anual [68]
     Cad = Cad & String(17, "0")
     
+    '323
     'Campo19. Resultado    [69]
     ImpTotal = ImpTotal - ImpCompensa + DUA
     DevuelveImporte ImpTotal, 0
  
+    '340
     'Campo20. A deducir  [70]
     DevuelveImporte 0, 0
-
+    
+    '357
     'Campo21. Resultado de la liquidacion [71]
     DevuelveImporte ImpTotal, 0
 
@@ -2370,6 +2391,7 @@ Private Function GeneraLasLiquidaciones() As Boolean
     
     
     
+    
     'aqui aqui    Falta insertar la  opcion "reglas localizacion". Ver emails maricarmen'
     Debug.Assert False
     
@@ -2422,9 +2444,11 @@ Private Function GeneraLasLiquidaciones() As Boolean
     For i = 1 To Me.ListView1(1).ListItems.Count  'List2.ListCount - 1
         If Me.ListView1(1).ListItems(i).Checked Then
             For CONT = CInt(txtperiodo(0).Text) To CInt(txtperiodo(1).Text)
-                Label13.Caption = Mid(ListView1(1).ListItems(i).SubItems(1), 1, 20) & ".  " & CONT
+                Label13.Tag = Mid(ListView1(1).ListItems(i).SubItems(1), 1, 11) & ".  " & CONT
+                Label13.Caption = Label13.Tag
+                
                 Label13.Refresh
-                If Not LiquidacionIVANew(CByte(CONT), CInt(txtAno(0).Text), Me.ListView1(1).ListItems(i).Text, True) Then       '(chkIVAdetallado.Value = 1)
+                If Not LiquidacionIVANew(CByte(CONT), CInt(txtAno(0).Text), Me.ListView1(1).ListItems(i).Text, True, Label13) Then      '(chkIVAdetallado.Value = 1)
                     GeneraLasLiquidaciones = False
                     Exit Function
                 End If

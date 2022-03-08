@@ -61,21 +61,21 @@ Begin VB.Form frmTESGastosFijos
          Left            =   240
          TabIndex        =   8
          Top             =   3810
-         Width           =   2175
+         Width           =   2415
          Begin MSComctlLib.Toolbar ToolbarAux 
             Height          =   330
             Left            =   180
             TabIndex        =   9
             Top             =   150
-            Width           =   1665
-            _ExtentX        =   2937
+            Width           =   2145
+            _ExtentX        =   3784
             _ExtentY        =   582
             ButtonWidth     =   609
             ButtonHeight    =   582
             Style           =   1
             _Version        =   393216
             BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-               NumButtons      =   4
+               NumButtons      =   7
                BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
                   Object.ToolTipText     =   "Insertar"
                EndProperty
@@ -86,6 +86,15 @@ Begin VB.Form frmTESGastosFijos
                   Object.ToolTipText     =   "Eliminar"
                EndProperty
                BeginProperty Button4 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Style           =   3
+               EndProperty
+               BeginProperty Button5 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Object.ToolTipText     =   "Generar gastos fijos"
+               EndProperty
+               BeginProperty Button6 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+                  Style           =   3
+               EndProperty
+               BeginProperty Button7 {66833FEA-8583-11D1-B16A-00C0F0283628} 
                   Object.ToolTipText     =   "Contabilizar"
                EndProperty
             EndProperty
@@ -237,7 +246,7 @@ Begin VB.Form frmTESGastosFijos
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
-         HideSelection   =   -1  'True
+         HideSelection   =   0   'False
          FullRowSelect   =   -1  'True
          _Version        =   393217
          ForeColor       =   -2147483640
@@ -425,7 +434,8 @@ Dim Img As Image
         .Buttons(1).Image = 3
         .Buttons(2).Image = 4
         .Buttons(3).Image = 5
-        .Buttons(4).Image = 37
+        .Buttons(5).Image = 31
+        .Buttons(7).Image = 37
     End With
     
     ' La Ayuda
@@ -634,10 +644,12 @@ Private Sub ToolbarAux_ButtonClick(ByVal Button As MSComctlLib.Button)
             BotonModificarLinea
         Case 3
             BotonEliminarLinea
-        Case 4
+        Case 5
+            BotonGeneraGastos
+        Case 7
             BotonContabilizarLinea
     End Select
-    If CadenaDesdeOtroForm = "OK" Then CargaList
+    If CadenaDesdeOtroForm = "OK" Then CargaList2
 End Sub
 
 Private Sub BotonAnyadirLinea()
@@ -678,6 +690,9 @@ Private Sub BotonEliminarLinea()
         SQL = SQL & " where codigo = " & lw1.SelectedItem.Text & " and fecha = " & DBSet(lw2.SelectedItem.Text, "F")
         
         Conn.Execute SQL
+        
+        lw2.ListItems.Remove lw2.SelectedItem.Index
+        
     End If
 
 End Sub
@@ -699,6 +714,19 @@ Private Sub BotonContabilizarLinea()
 
 End Sub
 
+Private Sub BotonGeneraGastos()
+
+    If lw1.SelectedItem Is Nothing Then Exit Sub
+    
+    Set frmAux = New frmTESGastosFijos2
+    
+    frmAux.Opcion = 6
+    frmAux.Parametros = lw1.SelectedItem.Text & "|" & lw1.SelectedItem.SubItems(1) & "|"
+    frmAux.Show vbModal
+    
+    Set frmAux = Nothing
+
+End Sub
 
 
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)

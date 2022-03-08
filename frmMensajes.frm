@@ -26,6 +26,111 @@ Begin VB.Form frmMensajes
    ScaleWidth      =   16440
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame FramePagoBanco 
+      Height          =   3855
+      Left            =   8280
+      TabIndex        =   253
+      Top             =   4680
+      Width           =   6975
+      Begin VB.TextBox txtObserva 
+         BackColor       =   &H00FFFFFF&
+         Height          =   375
+         Index           =   2
+         Left            =   480
+         TabIndex        =   254
+         Top             =   2400
+         Width           =   6135
+      End
+      Begin VB.TextBox txtObserva 
+         Alignment       =   2  'Center
+         BackColor       =   &H80000018&
+         Height          =   375
+         Index           =   1
+         Left            =   2040
+         Locked          =   -1  'True
+         TabIndex        =   260
+         Top             =   1560
+         Width           =   1695
+      End
+      Begin VB.CommandButton cmdPagoBancoGenerar 
+         Caption         =   "&Aceptar"
+         Height          =   495
+         Index           =   0
+         Left            =   3600
+         TabIndex        =   255
+         Top             =   3120
+         Width           =   1455
+      End
+      Begin VB.TextBox txtObserva 
+         Alignment       =   2  'Center
+         BackColor       =   &H80000018&
+         Height          =   375
+         Index           =   0
+         Left            =   480
+         Locked          =   -1  'True
+         TabIndex        =   259
+         Top             =   1560
+         Width           =   975
+      End
+      Begin VB.CommandButton cmdPagoBancoGenerar 
+         Caption         =   "Cancelar"
+         Height          =   495
+         Index           =   1
+         Left            =   5160
+         TabIndex        =   256
+         Top             =   3120
+         Width           =   1455
+      End
+      Begin VB.Label Label21 
+         AutoSize        =   -1  'True
+         Caption         =   "Observaciones apunte banco"
+         Height          =   240
+         Index           =   9
+         Left            =   480
+         TabIndex        =   262
+         Top             =   2160
+         Width           =   2880
+      End
+      Begin VB.Label Label21 
+         AutoSize        =   -1  'True
+         Caption         =   "Importe"
+         Height          =   240
+         Index           =   8
+         Left            =   2040
+         TabIndex        =   261
+         Top             =   1200
+         Width           =   765
+      End
+      Begin VB.Label Label21 
+         AutoSize        =   -1  'True
+         Caption         =   "Vencimientos"
+         Height          =   240
+         Index           =   7
+         Left            =   360
+         TabIndex        =   258
+         Top             =   1200
+         Width           =   1305
+      End
+      Begin VB.Label Label7 
+         Caption         =   "x"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   15.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000080&
+         Height          =   495
+         Index           =   10
+         Left            =   240
+         TabIndex        =   257
+         Top             =   360
+         Width           =   6135
+      End
+   End
    Begin VB.Frame frameCSV_SII_Eliminar 
       Height          =   3495
       Left            =   1440
@@ -3794,6 +3899,10 @@ Public Opcion As Byte
      
      '70  Eliminar factura presentada al SII.  Pedir CSV
      
+     
+     '71 Observaciones BANCO PAgos
+     '72       "        "    Cobros
+     
 Public Parametros As String
     '1.- Vendran empipados: Cuenta, PunteadoD, punteadoH, pdteD,PdteH
 
@@ -4718,6 +4827,13 @@ Private Sub cmdObservaLin_Click(Index As Integer)
     Unload Me
 End Sub
 
+Private Sub cmdPagoBancoGenerar_Click(Index As Integer)
+    If Index = 0 Then
+        CadenaDesdeOtroForm = "-" & Me.txtObserva(2).Text
+    End If
+    Unload Me
+End Sub
+
 Private Sub cmdPunteo_Click()
     Unload Me
 End Sub
@@ -4840,6 +4956,8 @@ Private Sub Form_Activate()
             CargarFacturasTransfPagos 0
         Case 69
             PonFoco txtObservalin
+        Case 71
+            PonFoco txtObserva(2)
         End Select
     End If
     Screen.MousePointer = vbDefault
@@ -4891,6 +5009,7 @@ Dim W As Integer, H As Integer
     FrameAmentoDigito.visible = False
     FrameObservacionesLinFrapro.visible = False
     frameCSV_SII_Eliminar.visible = False
+    FramePagoBanco.visible = False
     'YA ESTA DISPONIBLE  PonerFrameVisible
     
     ' botón de dividir vencimiento cuando estamos en talones/pagares pendientes
@@ -5256,8 +5375,24 @@ Dim W As Integer, H As Integer
         
         Me.Caption = "SII"
         PonerFrameVisible frameCSV_SII_Eliminar, H, W
-        Me.cmdEliminarFraCSV(1).Cancel = True
+        Me.cmdPagoBancoGenerar(1).Cancel = True
         Me.txtCSV.Text = ""
+        CadenaDesdeOtroForm = ""
+        H = H + 240
+        
+        
+    Case 71, 72
+        
+        Me.Caption = "Generar " & IIf(Opcion = 71, "pago", "cobro") & "-apunte"
+        Label7(10).Caption = "Contabilizar " & IIf(Opcion = 71, "pago", "cobro") & " banco"
+        If Opcion = 72 Then Label7(10).ForeColor = Label8.ForeColor
+        PonerFrameVisible FramePagoBanco, H, W
+        cmdPagoBancoGenerar(1).Cancel = True
+                
+        For i = 0 To 2
+            txtObserva(i).Text = RecuperaValor(CadenaDesdeOtroForm, i + 1)    'CadenaDesdeOtroForm="2|12.23|tex|
+        Next
+        
         CadenaDesdeOtroForm = ""
         H = H + 240
     End Select
@@ -8018,6 +8153,15 @@ Private Sub CargaResultadoCuentasIncrementar()
 eCargaResultadoCuentasIncrementar:
     If Err.Number <> 0 Then Err.Clear
     Set Rs = Nothing
+End Sub
+
+    
+Private Sub txtObserva_GotFocus(Index As Integer)
+    ConseguirFoco txtObserva(Index), 3
+End Sub
+
+Private Sub txtObserva_KeyPress(Index As Integer, KeyAscii As Integer)
+     KEYpressGnral KeyAscii, 3, False
 End Sub
 
 Private Sub txtObservalin_KeyPress(KeyAscii As Integer)

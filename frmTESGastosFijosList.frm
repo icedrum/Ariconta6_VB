@@ -654,8 +654,8 @@ Attribute frmF.VB_VarHelpID = -1
 Private WithEvents frmGas As frmBasico
 Attribute frmGas.VB_VarHelpID = -1
 
-Private Sql As String
-Dim cad As String
+Private SQL As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -891,10 +891,10 @@ Private Sub txtGastos_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtGastos_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtGastos(Index).Text = Trim(txtGastos(Index).Text)
@@ -926,17 +926,17 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    Sql = "SELECT gastosfijos.codigo Codigo, gastosfijos.descripcion, gastosfijos.ctaprevista, cuentas1.nommacta Nombre, gastosfijos.contrapar Contrapar, cuentas2.nommacta NombreContr, "
-    Sql = Sql & " gastosfijos_recibos.fecha, gastosfijos_recibos.importe, gastosfijos_recibos.contabilizado Contab"
-    Sql = Sql & " FROM  ((gastosfijos INNER JOIN gastosfijos_recibos ON gastosfijos.codigo = gastosfijos_recibos.codigo) INNER JOIN cuentas cuentas1 ON gastosfijos.ctaprevista = cuentas1.codmacta) "
-    Sql = Sql & " INNER JOIN cuentas cuentas2 ON gastosfijos.contrapar = cuentas2.codmacta"
+    SQL = "SELECT gastosfijos.codigo Codigo, gastosfijos.descripcion, gastosfijos.ctaprevista, cuentas1.nommacta Nombre, gastosfijos.contrapar Contrapar, cuentas2.nommacta NombreContr, "
+    SQL = SQL & " gastosfijos_recibos.fecha, gastosfijos_recibos.importe, gastosfijos_recibos.contabilizado Contab"
+    SQL = SQL & " FROM  ((gastosfijos INNER JOIN gastosfijos_recibos ON gastosfijos.codigo = gastosfijos_recibos.codigo) INNER JOIN cuentas cuentas1 ON gastosfijos.ctaprevista = cuentas1.codmacta) "
+    SQL = SQL & " INNER JOIN cuentas cuentas2 ON gastosfijos.contrapar = cuentas2.codmacta"
     
-    If cadselect <> "" Then Sql = Sql & " where " & cadselect
+    If cadselect <> "" Then SQL = SQL & " where " & cadselect
     
-    Sql = Sql & " ORDER BY 1,7 "
+    SQL = SQL & " ORDER BY 1,7 "
 
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -949,14 +949,17 @@ Dim nomDocu As String
     conSubRPT = False
         
     
-    indRPT = "0807-00"
+    
     
 
-        
-    If check1(0).Value Then cadParam = cadParam & "pResumen=1|"
+    indRPT = 1
+    If Check1(0).Value Then indRPT = 0
+    cadParam = cadParam & "pResumen=" & indRPT & "|"
     numParam = numParam + 1
         
     
+    
+    indRPT = "0807-00"
     If Not PonerParamRPT(indRPT, nomDocu) Then Exit Sub
     
     cadNomRPT = nomDocu ' "GastosFijos.rpt"
@@ -975,7 +978,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim Sql As String
+Dim SQL As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String

@@ -1134,7 +1134,7 @@ End Sub
 
 
 
-Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As String, FecPre As String, TipoReferenciaCliente As Byte, Sufijo As String, FechaCobro As String, SEPA_EmpresasGraboNIF As Boolean, Norma19_15 As Boolean, DatosBanco As String, NifEmpresa As String, esAnticipoCredito As Boolean, ByRef IdGrabadoEnFichero As String, AgruparVtos As Boolean, B2B As Boolean) As Boolean
+Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As String, FecPre As String, TipoReferenciaCliente As Byte, Sufijo As String, FechaCobro As String, SEPA_EmpresasGraboNIF As Boolean, Norma19_15 As Boolean, DatosBanco As String, NifEmpresa As String, esAnticipoCredito As Boolean, ByRef IdGrabadoEnFichero As String, AgruparVtos As Boolean, B2B As Boolean, GrabaElSubtotalPorFecha As Boolean) As Boolean
     Dim ValorEnOpcionales As Boolean
     '-- Genera_Remesa: Esta función genera la remesa indicada, en el fichero correspondiente
     
@@ -1157,8 +1157,15 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
     Dim rp As Byte
     Dim CuentasAgrupadas As String
     Dim cLineas As Collection
-    
+    Dim cTotales As Collection 'fecha | numero registros | total|
     Dim Secuencial_PmtInf As Integer
+    Dim K As Integer
+    
+    
+    Dim RsDirec As ADODB.Recordset
+    Dim SqlDirec As String
+    Dim Direccion As String
+    
     
     
     On Error GoTo Err_Remesa19sepa
@@ -1277,7 +1284,7 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
         
         
         
-        miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+        miRsAux.Open SQL, Conn, adOpenKeyset, adLockOptimistic, adCmdText
         
         
         
@@ -1293,11 +1300,46 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
         SQL = ""
         Secuencial_PmtInf = 0
         If Not miRsAux.EOF Then
-            
                 
+                
+                If GrabaElSubtotalPorFecha Then
+                    Fecha2 = "01/01/1900"
+                    Set cTotales = New Collection
+                    While Not miRsAux.EOF
+                    
+                        If Fecha2 <> miRsAux!FecVenci Then
+                            If Fecha2 <> "01/01/1900" Then
+                                SQL = Replace(Format(TotalRem, "0.00"), ",", ".")
+                                SQL = Fecha2 & "|" & J & "|" & SQL & "|"
+                                cTotales.Add SQL
+                            End If
+                            J = 0
+                            Fecha2 = miRsAux!FecVenci
+                            TotalRem = 0
+                        End If
+                        ImpEf = DBLet(miRsAux!Gastos, "N")
+                        ImpEf = miRsAux!ImpVenci + ImpEf
+                        TotalRem = TotalRem + ImpEf
+                        J = J + 1
+                        miRsAux.MoveNext
+                    Wend
+                    'Un vto seguro que hay
+                    SQL = Replace(Format(TotalRem, "0.00"), ",", ".")
+                    SQL = Fecha2 & "|" & J & "|" & SQL & "|"
+                    cTotales.Add SQL
+                    
+                    'Volvemos al primero
+                    miRsAux.MoveFirst
+                End If
+                J = 0
+                TotalRem = 0
+                ImpEf = 0
+                SQL = ""
                 Fecha2 = "01/01/1900"
                 FinFecha = False
                 While Not miRsAux.EOF
+                
+                
                 
                     'Informacion del PAGO.
                     ' Se imprime una vez cada FECHA
@@ -1324,6 +1366,28 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
                             cLineas.Add "   <PmtInfId>" & SQL & "</PmtInfId>"
                             cLineas.Add "   <PmtMtd>DD</PmtMtd>"             'DirectDebit
                             cLineas.Add "   <BtchBookg>false</BtchBookg>"    'True: un apunte por cada recib   False: Por el total
+                            'Febrero 2022 Proas
+                            If GrabaElSubtotalPorFecha Then
+                                
+                                For K = 1 To cTotales.Count
+                                    Direccion = RecuperaValor(cTotales.Item(K), 1)
+                                    If Direccion = Fecha2 Then
+                                        'ok. Estamos aqui, pintamos y salimos del FOR
+                                        Direccion = "   <NbOfTxs>" & RecuperaValor(cTotales.Item(K), 2) & "</NbOfTxs>"
+                                        cLineas.Add Direccion
+                                        Direccion = RecuperaValor(cTotales.Item(K), 3)
+                                        
+                                        Direccion = "   <CtrlSum>" & Direccion & "</CtrlSum>"
+                                        cLineas.Add Direccion
+                                        
+                                        Exit For
+                                     End If
+                                Next K
+                                
+                                'Error. No ha encontrado el subtotal
+                                If K > cTotales.Count Then Err.Raise 513, , "No encuentra el subtotal para fecha: " & Fecha2
+                                
+                            End If
                             cLineas.Add "   <PmtTpInf>"
                             cLineas.Add "      <SvcLvl>"
                             cLineas.Add "          <Cd>SEPA</Cd>"
@@ -1350,9 +1414,6 @@ Public Function GrabarDisketteNorma19_SEPA_XML(NomFichero As String, Remesa_ As 
                             cLineas.Add "      <PstlAdr>"
                             cLineas.Add "          <Ctry>ES</Ctry>"
                             
-                            Dim RsDirec As ADODB.Recordset
-                            Dim SqlDirec As String
-                            Dim Direccion As String
                             
                             Direccion = ""
                             

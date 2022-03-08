@@ -25,7 +25,7 @@ Begin VB.Form frmBanco
    StartUpPosition =   2  'CenterScreen
    Tag             =   "Digitos 1er nivel|N|N|||empresa|numdigi1|||"
    Begin VB.CheckBox chkBanco 
-      Caption         =   "Fich. transferencia. Añadir subtotales por fecha"
+      Caption         =   "Ficheros SEPA. Añadir subtotales por fecha"
       Height          =   255
       Index           =   2
       Left            =   120

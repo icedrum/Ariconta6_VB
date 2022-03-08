@@ -100,7 +100,7 @@ Begin VB.Form frmTESInfTesoreria
          Index           =   0
          Left            =   3360
          MaxLength       =   10
-         TabIndex        =   3
+         TabIndex        =   2
          Tag             =   "imgFecha"
          Top             =   2160
          Visible         =   0   'False
@@ -197,7 +197,7 @@ Begin VB.Form frmTESInfTesoreria
          Index           =   1
          Left            =   3360
          MaxLength       =   10
-         TabIndex        =   2
+         TabIndex        =   3
          Tag             =   "imgFecha"
          Top             =   2640
          Width           =   1305
@@ -1265,7 +1265,7 @@ Dim nomDocu As String
     conSubRPT = False
         
     
-    indRPT = "0903-00"
+    indRPT = "0903-0" & IIf(chkPerido.Value = 1, "1", "0")
     
         
     
@@ -1658,9 +1658,12 @@ Dim Importe As Currency
     '--------------------
     
     SQL = " from gastosfijos,gastosfijos_recibos where gastosfijos.codigo= gastosfijos_recibos.codigo"
-    SQL = SQL & " and fecha >= " & DBSet(Now, "T")
-    If Me.chkPerido.Value = 1 Then SQL = SQL & " AND fecha>='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
     
+    If Me.chkPerido.Value = 1 Then
+        SQL = SQL & " AND fecha>='" & Format(txtFecha(0).Text, FormatoFecha) & "'"
+    Else
+        SQL = SQL & " and fecha >= " & DBSet(Now, "F")
+    End If
     SQL = SQL & " AND fecha <='" & Format(Format(txtFecha(1).Text, FormatoFecha), FormatoFecha) & "'"
     SQL = SQL & " and ctaprevista='" & Cta & "'"
     SQL = SQL & " and contabilizado=0"
@@ -1679,15 +1682,15 @@ Dim Importe As Currency
     Cad = ""
     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
-        CONT = CONT + 1
-        Cad = Cad & ", (" & vUsu.Codigo & ",'" & Cta & "','GASTO'," & CONT & ",'" & Format(miRsAux!Fecha, FormatoFecha) & "','"
-        'NUmero factura
-        Cad = Cad & "ID " & Format(miRsAux!Codigo, "0000") & "'," & DBSet(miRsAux!Descripcion, "T") & ","
-        
-        'cad = cad & DBSet(Trim(miRsAux!codmacta & " " & DBLet(miRsAux!nomprove, "T")), "T") & ","
-        
         Importe = miRsAux!Importe
         If Importe <> 0 Then
+            CONT = CONT + 1
+            Cad = Cad & ", (" & vUsu.Codigo & ",'" & Cta & "','GASTO'," & CONT & ",'" & Format(miRsAux!Fecha, FormatoFecha) & "','"
+            'NUmero factura
+            Cad = Cad & "ID " & Format(miRsAux!Codigo, "0000") & "'," & DBSet(miRsAux!Descripcion, "T") & ","
+            
+            'cad = cad & DBSet(Trim(miRsAux!codmacta & " " & DBLet(miRsAux!nomprove, "T")), "T") & ","
+        
             If Importe > 0 Then
                 Cad = Cad & "0," & TransformaComasPuntos(CStr(Importe))
             Else

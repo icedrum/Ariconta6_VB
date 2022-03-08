@@ -10,7 +10,7 @@ Public Sub arregla(ByRef tots As String, ByRef grid As DataGrid, ByRef formu As 
     Dim camp As String
     Dim Mens As String
     Dim difer As Integer
-    Dim I As Integer
+    Dim i As Integer
     Dim K As Integer
     Dim posi As Integer
     Dim posi2 As Integer
@@ -310,9 +310,9 @@ Public Sub arregla(ByRef tots As String, ByRef grid As DataGrid, ByRef formu As 
     Wend
 
     'No permitir canviar tamany de columnes
-    For I = 0 To grid.Columns.Count - 1
-         grid.Columns(I).AllowSizing = False
-    Next I
+    For i = 0 To grid.Columns.Count - 1
+         grid.Columns(i).AllowSizing = False
+    Next i
 
 '    If grid.Width - TotalAncho <> difer Then
 '        mens = "Es recomana que el total d'amples de les columnes per a este DataGrid siga de "
@@ -409,7 +409,7 @@ End Function
 Public Function PonerFormatoEntero(ByRef T As TextBox) As Boolean
 'Comprueba que el valor del textbox es un entero y le pone el formato
 Dim mTag As CTag
-Dim cad As String
+Dim Cad As String
 Dim Formato As String
 On Error GoTo EPonerFormato
 
@@ -420,14 +420,14 @@ On Error GoTo EPonerFormato
     Set mTag = New CTag
     mTag.Cargar T
     If mTag.Cargado Then
-       cad = mTag.Nombre 'descripcion del campo
+       Cad = mTag.Nombre 'descripcion del campo
        Formato = mTag.Formato
     End If
     Set mTag = Nothing
 
     If Not EsEntero(T.Text) Then
         PonerFormatoEntero = False
-        MsgBox "El campo " & cad & " tiene que ser numérico.", vbExclamation
+        MsgBox "El campo " & Cad & " tiene que ser numérico.", vbExclamation
         PonFoco T
     Else
          'T.Text = Format(T.Text, Formato)
@@ -500,7 +500,7 @@ End Function
 Public Function FormatoCampo2(ByRef objec As Object) As String
 'Devuelve el formato del campo en el TAg: "0000"
 Dim mTag As CTag
-Dim cad As String
+Dim Cad As String
 
     On Error GoTo EFormatoCampo2
 
@@ -517,7 +517,7 @@ End Function
 
 Public Function TipoCamp(ByRef objec As Object) As String
 Dim mTag As CTag
-Dim cad As String
+Dim Cad As String
 
     On Error GoTo ETipoCamp
 
@@ -538,14 +538,14 @@ Public Function ContieneCaracterBusqueda(Cadena As String) As Boolean
 ' >,>,>=,: , ....
 'si encuentra algun caracter de busqueda devuelve TRUE y sale
 Dim B As Boolean
-Dim I As Integer
+Dim i As Integer
 Dim Ch As String
 
     'For i = 1 To Len(cadena)
-    I = 1
+    i = 1
     B = False
     Do
-        Ch = Mid(Cadena, I, 1)
+        Ch = Mid(Cadena, i, 1)
         Select Case Ch
             Case "<", ">", ":", "="
                 B = True
@@ -555,8 +555,8 @@ Dim Ch As String
                 B = False
         End Select
     'Next i
-        I = I + 1
-    Loop Until (B = True) Or (I > Len(Cadena))
+        i = i + 1
+    Loop Until (B = True) Or (i > Len(Cadena))
     ContieneCaracterBusqueda = B
 End Function
 
@@ -1228,5 +1228,9 @@ Public Sub AyudaSufijosBanco(frmBas As frmBasico, CampoClaveOculto_ As String)
     frmBas.Show vbModal
     
 End Sub
+
+
+
+
 
 

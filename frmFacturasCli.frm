@@ -3008,7 +3008,7 @@ Dim Linliapu As Long
 Dim FicheroAEliminar As String
 
 Dim NumAsien As Long
-Dim NumDiario As Integer
+Dim NumDiario_ As Integer
 Dim ContabilizaApunte As Boolean
 
 
@@ -3201,7 +3201,7 @@ Private Sub cmdAceptar_Click()
                         If IntegrarFactura(False) Then
                             Text1(8).Text = Format(NumAsien, "0000000")
                             NumAsien = -1
-                            NumDiario = 0
+                            NumDiario_ = 0
                             
                         Else
                             B = False
@@ -3258,7 +3258,7 @@ Private Sub cmdAceptar_Click()
                                 If IntegrarFactura(False) Then
                                     Text1(8).Text = Format(NumAsien, "0000000")
                                     NumAsien = -1
-                                    NumDiario = 0
+                                    NumDiario_ = 0
                                 Else
                                     B = False
                                 End If
@@ -4951,7 +4951,7 @@ Private Sub BotonModificar()
     
     
     
-    NumDiario = 0
+    NumDiario_ = 0
     ContabilizaApunte = True
     'Comprobamos que no esta actualizada ya
     If Not IsNull(Data1.Recordset!NumAsien) Then
@@ -4968,7 +4968,7 @@ Private Sub BotonModificar()
             
         Else
             NumAsien = Data1.Recordset!NumAsien
-            NumDiario = Data1.Recordset!NumDiari
+            NumDiario_ = Data1.Recordset!NumDiari
         End If
     Else
         NumAsien = -1
@@ -6126,6 +6126,7 @@ Dim SqlLog As String
 
     vCadena = ""
     vCadena2 = ""
+    NumDiario_ = 0
     If TotalRegistrosConsulta(SQL) <> 0 Then
         
         Set Rs = New ADODB.Recordset
@@ -6180,8 +6181,8 @@ Dim SqlLog As String
                         .FechaAnterior = DBLet(Rs!FecFactu, "F")
                         .SqlLog = "" 'SqlLog
                         
-                        If NumDiario <= 0 Then NumDiario = vParam.numdiacl
-                        .DiarioFacturas = NumDiario
+                        If NumDiario_ <= 0 Then NumDiario_ = vParam.numdiacl
+                        .DiarioFacturas = NumDiario_
                         .NumAsiento = NumAsien
                         .Show vbModal
                         
@@ -6192,7 +6193,7 @@ Dim SqlLog As String
                     End With
                 
                     If IntegrarFactura Then
-                        SQL = "update factcli set numdiari = " & DBSet(NumDiario, "N") & ", fechaent = " & DBSet(Rs!FecFactu, "F") & ", "
+                        SQL = "update factcli set numdiari = " & DBSet(NumDiario_, "N") & ", fechaent = " & DBSet(Rs!FecFactu, "F") & ", "
                         SQL = SQL & " numasien = " & DBSet(NumAsien, "N") & " where numserie = " & DBSet(Rs!NUmSerie, "T") & " and anofactu = year("
                         SQL = SQL & DBSet(Rs!FecFactu, "F") & ") and numfactu = " & DBSet(Rs!numfactu, "N")
                     
@@ -6248,7 +6249,7 @@ Dim Ampliacion As String
     End If
     
     '**** parte correspondiente por si la factura está contabilizada
-    NumDiario = 0
+    NumDiario_ = 0
     'Comprobamos que no esta actualizada ya
     If Not IsNull(Data1.Recordset!NumAsien) Then
         NumAsien = Data1.Recordset!NumAsien
@@ -6261,7 +6262,7 @@ Dim Ampliacion As String
         If Val(DBLet(Data1.Recordset!no_modifica_apunte, "N")) = 1 Then ContabilizaApunte = False
         
         NumAsien = Data1.Recordset!NumAsien
-        NumDiario = DBLet(Data1.Recordset!NumDiari, "N")
+        NumDiario_ = DBLet(Data1.Recordset!NumDiari, "N")
     Else
         NumAsien = -1
     End If
@@ -6462,7 +6463,7 @@ Dim SqlLog As String
             If IntegrarFactura(False) Then
                 Text1(8).Text = Format(NumAsien, "0000000")
                 NumAsien = -1
-                NumDiario = 0
+                NumDiario_ = 0
             Else
                 B = False
             End If
@@ -8893,8 +8894,8 @@ Dim SqlLog As String
             End If
             
         End If
-        If NumDiario <= 0 Then NumDiario = vParam.numdiacl
-        .DiarioFacturas = NumDiario
+        If NumDiario_ <= 0 Then NumDiario_ = vParam.numdiacl
+        .DiarioFacturas = NumDiario_
         .NumAsiento = NumAsien
         .Show vbModal
         
@@ -8934,7 +8935,7 @@ On Error Resume Next
     SQL = SQL & " AND numserie = '" & Data1.Recordset!NUmSerie & "'"
     SQL = SQL & " AND anofactu =" & Data1.Recordset!Anofactu
     NumAsien = Data1.Recordset!NumAsien
-    NumDiario = Data1.Recordset!NumDiari
+    NumDiario_ = Data1.Recordset!NumDiari
     Conn.Execute SQL
     If Err.Number <> 0 Then
         DesvincularFactura = False
@@ -9348,10 +9349,10 @@ On Error GoTo eModificaDesdeFormAux
     C = Val(DBSet(Data1.Recordset!no_modifica_apunte, "N"))
     If Val(C) = 0 Then
         NumAsien = Data1.Recordset!NumAsien
-        NumDiario = Data1.Recordset!NumDiari
+        NumDiario_ = Data1.Recordset!NumDiari
         FecFactuAnt = Data1.Recordset!FecFactu
         If NumAsien > 0 Then
-            C = " WHERE (numasien=" & NumAsien & " and fechaent = " & DBSet(FecFactuAnt, "F") & " and numdiari = " & DBSet(NumDiario, "N") & ") "
+            C = " WHERE (numasien=" & NumAsien & " and fechaent = " & DBSet(FecFactuAnt, "F") & " and numdiari = " & DBSet(NumDiario_, "N") & ") "
             Conn.Execute "DELETE FROM hlinapu " & C
             
             IntegrarFactura (True)

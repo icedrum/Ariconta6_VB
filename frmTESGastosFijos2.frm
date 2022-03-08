@@ -24,6 +24,446 @@ Begin VB.Form frmTESGastosFijos2
    ScaleWidth      =   10500
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame FrameCopiaGastos 
+      Height          =   4695
+      Left            =   0
+      TabIndex        =   65
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   7215
+      Begin VB.Frame FrameGenerarNuevos 
+         BorderStyle     =   0  'None
+         Height          =   1575
+         Left            =   1080
+         TabIndex        =   74
+         Top             =   2160
+         Visible         =   0   'False
+         Width           =   5295
+         Begin VB.TextBox Text1 
+            Alignment       =   2  'Center
+            Height          =   360
+            Index           =   2
+            Left            =   2430
+            TabIndex        =   69
+            Top             =   1080
+            Width           =   1365
+         End
+         Begin VB.ComboBox Combo1 
+            Height          =   360
+            Index           =   1
+            ItemData        =   "frmTESGastosFijos2.frx":000C
+            Left            =   2430
+            List            =   "frmTESGastosFijos2.frx":000E
+            Style           =   2  'Dropdown List
+            TabIndex        =   68
+            Top             =   600
+            Width           =   2100
+         End
+         Begin VB.TextBox txtFecha 
+            Alignment       =   2  'Center
+            Height          =   360
+            Index           =   1
+            Left            =   2430
+            TabIndex        =   67
+            Top             =   120
+            Width           =   1245
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Importe"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   -1  'True
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00800000&
+            Height          =   255
+            Index           =   7
+            Left            =   0
+            TabIndex        =   77
+            Top             =   1140
+            Width           =   945
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Periodicidad"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   -1  'True
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00800000&
+            Height          =   255
+            Index           =   6
+            Left            =   0
+            TabIndex        =   76
+            Top             =   630
+            Width           =   1935
+         End
+         Begin VB.Label Label1 
+            Caption         =   "Fecha de gasto"
+            BeginProperty Font 
+               Name            =   "Verdana"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   -1  'True
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00800000&
+            Height          =   255
+            Index           =   5
+            Left            =   0
+            TabIndex        =   75
+            Top             =   180
+            Width           =   1935
+         End
+         Begin VB.Image imgFec 
+            Height          =   240
+            Index           =   1
+            Left            =   2070
+            Top             =   150
+            Width           =   240
+         End
+      End
+      Begin VB.OptionButton optCopiar 
+         Caption         =   "Generar nuevos"
+         Height          =   375
+         Index           =   1
+         Left            =   480
+         TabIndex        =   66
+         Top             =   1800
+         Width           =   2415
+      End
+      Begin VB.OptionButton optCopiar 
+         Caption         =   "Copiar ejercicio anterior"
+         Height          =   375
+         Index           =   0
+         Left            =   480
+         TabIndex        =   72
+         Top             =   1320
+         Value           =   -1  'True
+         Width           =   2775
+      End
+      Begin VB.CommandButton cmdCopiarGastos 
+         Caption         =   "&Aceptar"
+         Height          =   375
+         Left            =   4200
+         TabIndex        =   70
+         Top             =   4080
+         Width           =   1155
+      End
+      Begin VB.CommandButton cmdCancelar 
+         Caption         =   "&Cancelar"
+         Height          =   375
+         Index           =   6
+         Left            =   5640
+         TabIndex        =   71
+         Top             =   4080
+         Width           =   1095
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Copiar / generar gastos fijos"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   14.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   480
+         Index           =   7
+         Left            =   240
+         TabIndex        =   73
+         Top             =   480
+         Width           =   6105
+      End
+   End
+   Begin VB.Frame FrameAltaGastoFijo 
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   11.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   4545
+      Left            =   0
+      TabIndex        =   9
+      Top             =   0
+      Width           =   10395
+      Begin VB.TextBox Text1 
+         Alignment       =   1  'Right Justify
+         Height          =   360
+         Index           =   0
+         Left            =   1260
+         MaxLength       =   10
+         TabIndex        =   32
+         Tag             =   "imgConcepto"
+         Top             =   450
+         Width           =   1305
+      End
+      Begin VB.TextBox Text1 
+         Alignment       =   2  'Center
+         Height          =   360
+         Index           =   5
+         Left            =   2670
+         TabIndex        =   39
+         Top             =   3300
+         Width           =   1365
+      End
+      Begin VB.TextBox txtFecha 
+         Alignment       =   2  'Center
+         Height          =   360
+         Index           =   5
+         Left            =   2670
+         TabIndex        =   37
+         Top             =   2130
+         Width           =   1245
+      End
+      Begin VB.TextBox Text1 
+         Height          =   360
+         Index           =   1
+         Left            =   4020
+         MaxLength       =   50
+         TabIndex        =   34
+         Tag             =   "Descripción|T|N|||remesas|descripción|||"
+         Top             =   450
+         Width           =   6045
+      End
+      Begin VB.TextBox txtCuentas 
+         Alignment       =   1  'Right Justify
+         Height          =   360
+         Index           =   0
+         Left            =   2670
+         TabIndex        =   35
+         Top             =   1020
+         Width           =   1275
+      End
+      Begin VB.TextBox txtCuentas 
+         Alignment       =   1  'Right Justify
+         Height          =   360
+         Index           =   1
+         Left            =   2700
+         TabIndex        =   36
+         Top             =   1560
+         Width           =   1275
+      End
+      Begin VB.TextBox txtNCuentas 
+         BackColor       =   &H80000018&
+         Height          =   360
+         Index           =   0
+         Left            =   4020
+         Locked          =   -1  'True
+         TabIndex        =   13
+         Top             =   1020
+         Width           =   6015
+      End
+      Begin VB.TextBox txtNCuentas 
+         BackColor       =   &H80000018&
+         Height          =   360
+         Index           =   1
+         Left            =   4020
+         Locked          =   -1  'True
+         TabIndex        =   12
+         Top             =   1560
+         Width           =   5985
+      End
+      Begin VB.CommandButton cmdCancelar 
+         Caption         =   "&Cancelar"
+         Height          =   375
+         Index           =   1
+         Left            =   8820
+         TabIndex        =   11
+         Top             =   3840
+         Width           =   1095
+      End
+      Begin VB.CommandButton cmdAceptarAltaCab 
+         Caption         =   "&Aceptar"
+         Height          =   375
+         Left            =   7530
+         TabIndex        =   10
+         Top             =   3840
+         Width           =   1155
+      End
+      Begin VB.ComboBox Combo1 
+         Height          =   360
+         Index           =   0
+         ItemData        =   "frmTESGastosFijos2.frx":0010
+         Left            =   2670
+         List            =   "frmTESGastosFijos2.frx":0012
+         Style           =   2  'Dropdown List
+         TabIndex        =   38
+         Top             =   2730
+         Width           =   2100
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Código"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   315
+         Index           =   4
+         Left            =   210
+         TabIndex        =   33
+         Top             =   480
+         Width           =   930
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Importe"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Index           =   3
+         Left            =   300
+         TabIndex        =   19
+         Top             =   3360
+         Width           =   945
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Periodicidad"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Index           =   0
+         Left            =   240
+         TabIndex        =   18
+         Top             =   2760
+         Width           =   1935
+      End
+      Begin VB.Image imgFec 
+         Height          =   240
+         Index           =   5
+         Left            =   2310
+         Top             =   2160
+         Width           =   240
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Fecha de gasto"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Index           =   4
+         Left            =   240
+         TabIndex        =   17
+         Top             =   2190
+         Width           =   1935
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Cuenta Prevista"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   285
+         Index           =   6
+         Left            =   210
+         TabIndex        =   16
+         Top             =   1020
+         Width           =   1860
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Descripción"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   315
+         Index           =   8
+         Left            =   2730
+         TabIndex        =   15
+         Top             =   450
+         Width           =   1380
+      End
+      Begin VB.Image imgCuentas 
+         Height          =   255
+         Index           =   0
+         Left            =   2310
+         Top             =   1050
+         Width           =   255
+      End
+      Begin VB.Image imgCuentas 
+         Height          =   255
+         Index           =   1
+         Left            =   2310
+         Top             =   1590
+         Width           =   255
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Contrapartida"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   -1  'True
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   285
+         Index           =   11
+         Left            =   210
+         TabIndex        =   14
+         Top             =   1620
+         Width           =   1890
+      End
+   End
    Begin VB.Frame FrameContabilizarGasto 
       Height          =   4485
       Left            =   0
@@ -603,281 +1043,6 @@ Begin VB.Form frmTESGastosFijos2
          Width           =   1935
       End
    End
-   Begin VB.Frame FrameAltaGastoFijo 
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   11.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   4545
-      Left            =   0
-      TabIndex        =   9
-      Top             =   0
-      Width           =   10395
-      Begin VB.TextBox Text1 
-         Alignment       =   1  'Right Justify
-         Height          =   360
-         Index           =   0
-         Left            =   1260
-         MaxLength       =   10
-         TabIndex        =   32
-         Tag             =   "imgConcepto"
-         Top             =   450
-         Width           =   1305
-      End
-      Begin VB.TextBox Text1 
-         Alignment       =   2  'Center
-         Height          =   360
-         Index           =   5
-         Left            =   2670
-         TabIndex        =   39
-         Top             =   3300
-         Width           =   1365
-      End
-      Begin VB.TextBox txtFecha 
-         Alignment       =   2  'Center
-         Height          =   360
-         Index           =   5
-         Left            =   2670
-         TabIndex        =   37
-         Top             =   2130
-         Width           =   1245
-      End
-      Begin VB.TextBox Text1 
-         Height          =   360
-         Index           =   1
-         Left            =   4020
-         MaxLength       =   50
-         TabIndex        =   34
-         Tag             =   "Descripción|T|N|||remesas|descripción|||"
-         Top             =   450
-         Width           =   6045
-      End
-      Begin VB.TextBox txtCuentas 
-         Alignment       =   1  'Right Justify
-         Height          =   360
-         Index           =   0
-         Left            =   2670
-         TabIndex        =   35
-         Top             =   1020
-         Width           =   1275
-      End
-      Begin VB.TextBox txtCuentas 
-         Alignment       =   1  'Right Justify
-         Height          =   360
-         Index           =   1
-         Left            =   2700
-         TabIndex        =   36
-         Top             =   1560
-         Width           =   1275
-      End
-      Begin VB.TextBox txtNCuentas 
-         BackColor       =   &H80000018&
-         Height          =   360
-         Index           =   0
-         Left            =   4020
-         Locked          =   -1  'True
-         TabIndex        =   13
-         Top             =   1020
-         Width           =   6015
-      End
-      Begin VB.TextBox txtNCuentas 
-         BackColor       =   &H80000018&
-         Height          =   360
-         Index           =   1
-         Left            =   4020
-         Locked          =   -1  'True
-         TabIndex        =   12
-         Top             =   1560
-         Width           =   5985
-      End
-      Begin VB.CommandButton cmdCancelar 
-         Caption         =   "&Cancelar"
-         Height          =   375
-         Index           =   1
-         Left            =   8820
-         TabIndex        =   11
-         Top             =   3840
-         Width           =   1095
-      End
-      Begin VB.CommandButton cmdAceptarAltaCab 
-         Caption         =   "&Aceptar"
-         Height          =   375
-         Left            =   7530
-         TabIndex        =   10
-         Top             =   3840
-         Width           =   1155
-      End
-      Begin VB.ComboBox Combo1 
-         Height          =   360
-         Index           =   0
-         ItemData        =   "frmTESGastosFijos2.frx":000C
-         Left            =   2670
-         List            =   "frmTESGastosFijos2.frx":000E
-         Style           =   2  'Dropdown List
-         TabIndex        =   38
-         Top             =   2730
-         Width           =   2100
-      End
-      Begin VB.Label Label3 
-         Caption         =   "Código"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   315
-         Index           =   4
-         Left            =   210
-         TabIndex        =   33
-         Top             =   480
-         Width           =   930
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Importe"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   255
-         Index           =   3
-         Left            =   300
-         TabIndex        =   19
-         Top             =   3360
-         Width           =   945
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Periodicidad"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   255
-         Index           =   0
-         Left            =   240
-         TabIndex        =   18
-         Top             =   2760
-         Width           =   1935
-      End
-      Begin VB.Image imgFec 
-         Height          =   240
-         Index           =   5
-         Left            =   2310
-         Top             =   2160
-         Width           =   240
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Fecha de gasto"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   255
-         Index           =   4
-         Left            =   240
-         TabIndex        =   17
-         Top             =   2190
-         Width           =   1935
-      End
-      Begin VB.Label Label3 
-         Caption         =   "Cuenta Prevista"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   285
-         Index           =   6
-         Left            =   210
-         TabIndex        =   16
-         Top             =   1020
-         Width           =   1860
-      End
-      Begin VB.Label Label3 
-         Caption         =   "Descripción"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   315
-         Index           =   8
-         Left            =   2730
-         TabIndex        =   15
-         Top             =   450
-         Width           =   1380
-      End
-      Begin VB.Image imgCuentas 
-         Height          =   255
-         Index           =   0
-         Left            =   2310
-         Top             =   1050
-         Width           =   255
-      End
-      Begin VB.Image imgCuentas 
-         Height          =   255
-         Index           =   1
-         Left            =   2310
-         Top             =   1590
-         Width           =   255
-      End
-      Begin VB.Label Label3 
-         Caption         =   "Contrapartida"
-         BeginProperty Font 
-            Name            =   "Verdana"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   -1  'True
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00800000&
-         Height          =   285
-         Index           =   11
-         Left            =   210
-         TabIndex        =   14
-         Top             =   1620
-         Width           =   1890
-      End
-   End
 End
 Attribute VB_Name = "frmTESGastosFijos2"
 Attribute VB_GlobalNameSpace = False
@@ -892,7 +1057,8 @@ Public Opcion As Byte
     '3.- Alta linea gasto fijo
     '4.- Modificacion linea gasto fijo
     '5.- Contabilizacion del gasto
-    
+        
+    '6.- Copiar o generar nuevos gastos ejercicio siguiente
     
 Public Parametros As String
     '1.- Vendran empipados: Cuenta, PunteadoD, punteadoH, pdteD,PdteH
@@ -1036,7 +1202,7 @@ Private Sub cmdAceptarAltaCab_Click()
 
     If Not DatosOK Then Exit Sub
     
-    If GenerarGasto Then
+    If GenerarGasto(True) Then
         MsgBox "Proceso realizado correctamente", vbInformation
         CadenaDesdeOtroForm = "OK"
         Unload Me
@@ -1103,7 +1269,7 @@ eModificarGasto:
 End Function
 
 
-Private Function GenerarGasto() As Boolean
+Private Function GenerarGasto(Nuevo As Boolean) As Boolean
 Dim Perio As Integer
 Dim nVeces As Integer
 Dim SqlValues As String
@@ -1117,14 +1283,21 @@ Dim NumGasto As Long
     
     Conn.BeginTrans
     
-    NumGasto = SugerirCodigoSiguiente
+    If Nuevo Then
+        NumGasto = SugerirCodigoSiguiente
     
-    SQL = "insert into gastosfijos (codigo, descripcion ,ctaprevista,contrapar) values ( " & DBSet(NumGasto, "N") & ","
-    SQL = SQL & DBSet(Text1(1), "T") & "," & DBSet(txtCuentas(0).Text, "T") & "," & DBSet(txtCuentas(1).Text, "T") & ")"
+        SQL = "insert into gastosfijos (codigo, descripcion ,ctaprevista,contrapar) values ( " & DBSet(NumGasto, "N") & ","
+        SQL = SQL & DBSet(Text1(1), "T") & "," & DBSet(txtCuentas(0).Text, "T") & "," & DBSet(txtCuentas(1).Text, "T") & ")"
+        Conn.Execute SQL
+        NumRegElim = Combo1(0).ListIndex
+    Else
+        txtFecha(5).Text = txtFecha(1).Text
+        Text1(5).Text = Text1(2).Text
+        NumGasto = RecuperaValor(Parametros, 1)
+        NumRegElim = Combo1(1).ListIndex
+    End If
     
-    Conn.Execute SQL
-    
-    Select Case Combo1(0).ListIndex
+    Select Case NumRegElim
         Case 0 ' mensual
             Perio = 1
             nVeces = 12
@@ -1165,7 +1338,10 @@ Dim NumGasto As Long
     Conn.CommitTrans
     GenerarGasto = True
     
-    
+    If Not Nuevo Then
+        txtFecha(5).Text = ""
+        Text1(2).Text = ""
+    End If
     Exit Function
 
 eGenerarGasto:
@@ -1184,6 +1360,13 @@ Private Sub cmdContabiliGasto_Click()
             MsgBox "Campos vacios. Todos los campos son obligatorios", vbExclamation
             Exit Sub
     End If
+    
+    
+    If Not EsFechaOK(txtFecha(19)) Then Exit Sub
+    If FechaCorrecta2(CDate(txtFecha(19).Text), True) > 1 Then Exit Sub
+    
+    
+    
     
     If txtCC(0).visible Then
         If txtCC(0).Text = "" Then
@@ -1307,6 +1490,119 @@ End Function
 
 
 
+
+Private Sub cmdCopiarGastos_Click()
+Dim F1 As Date
+Dim F2 As Date
+Dim Actual As Boolean
+
+    SQL = ""
+    If Me.optCopiar(1).Value Then
+        If Me.txtFecha(1).Text = "" Then SQL = "Fecha"
+        If Me.Combo1(1).ListIndex < 0 Then SQL = "Periodicidad"
+        If Text1(2).Text = "" Then SQL = "Importe"
+    End If
+    If SQL <> "" Then
+        MsgBoxA "Campo requeridos: " & SQL, vbExclamation
+        Exit Sub
+    End If
+    
+    Codigo = RecuperaValor(Parametros, 1)
+    
+    If Me.optCopiar(0).Value Then
+        SQL = DevuelveDesdeBD("max(fecha)", "gastosfijos_recibos", "codigo", Codigo)
+        If SQL = "" Then
+            'No hay ningun dato para copiar"
+            MsgBoxA "Ningún dato a copiar", vbExclamation
+            Exit Sub
+        End If
+        If CDate(SQL) < vParam.fechaini Then
+            Actual = True
+        Else
+            Actual = False
+        End If
+        F1 = CDate(SQL)
+        
+        If Year(vParam.fechaini) <> Year(vParam.fechafin) Then
+            MsgBoxA "Error obteniendo registros años distintos", vbExclamation
+            Exit Sub
+        Else
+            F1 = Format(vParam.fechaini, "dd/mm/") & Year(CDate(SQL))
+        End If
+    Else
+        F1 = CDate(txtFecha(1).Text)
+        Actual = True
+    End If
+        
+    
+    NE = 0
+    If Not Actual Then NE = 1
+        
+    F2 = DateAdd("yyyy", 1, F1 + NE)
+    F2 = DateAdd("d", -1, F2)
+    vWhere = "fecha >='" & Format(F1 + NE, FormatoFecha) & "' AND fecha <= '" & Format(F2, FormatoFecha) & "'"
+    SQL = DevuelveDesdeBD("count(*)", "gastosfijos_recibos", vWhere & " AND codigo ", Codigo)
+    NE = 0
+    If Val(SQL) > 0 Then NE = Val(SQL)  'registros a insertar
+    Referencia = ""
+    If NE > 0 Then
+        'Veré si esta el 29 de diciembre
+        vWhere = "fecha >='" & Format(F1 + NE, FormatoFecha) & "' AND fecha <= '" & Format(F2, FormatoFecha) & "'"
+        SQL = vWhere & " AND DATE_FORMAT(fecha,'%m-%d') = '02-29' AND codigo"
+        SQL = DevuelveDesdeBD("count(*)", "gastosfijos_recibos", SQL, Codigo)
+        If Val(SQL) > 0 Then Referencia = "Gasto en 29/Febrero"
+    End If
+    
+    
+    Ok = 0
+    If Me.optCopiar(0).Value Then
+        If Not Actual Then Ok = 1
+            
+        vWhere = "fecha >='" & Format(vParam.fechaini + Ok, FormatoFecha) & "' AND fecha <= '" & Format(vParam.fechafin + Ok, FormatoFecha) & "'"
+        SQL = DevuelveDesdeBD("count(*)", "gastosfijos_recibos", vWhere & " AND codigo ", Codigo)
+        Ok = 0
+        If Val(SQL) > 0 Then Ok = Val(SQL)  'registros a insertar
+        
+      
+    End If
+    
+    SQL = ""
+    If NE > 0 Then
+        SQL = "Existen " & NE & " registros  a insertar en  ejercicio " & IIf(Actual, "actual", "siguiente")
+        If Referencia <> "" Then SQL = SQL & vbCrLf & Referencia
+    Else
+        SQL = "Generar nuevos registros."
+    End If
+    If Ok > 0 Then SQL = SQL & vbCrLf & vbCrLf & "Ya existen " & Ok & " registros   en el ejercicio " & IIf(Actual, "actual", "siguiente") & vbCrLf & vbCrLf
+    
+    SQL = SQL & vbCrLf & vbCrLf & "¿Continuar?"
+        
+    
+    If MsgBoxA(SQL, vbYesNoCancel) <> vbYes Then Exit Sub
+    NE = 0
+    If Me.optCopiar(0).Value Then
+        'Copiar
+        
+        
+        
+        Referencia = Year(vParam.fechaini) + IIf(Actual, 0, 1)
+        Referencia = "concat('" & Referencia & "-', DATE_FORMAT(fecha,'%m-%d'))"
+        SQL = " SELECT  codigo ," & Referencia & " as fecha ,importe ,0 contabilizado FROM gastosfijos_recibos WHERE "
+        SQL = SQL & "fecha >='" & Format(F1, FormatoFecha) & "' AND fecha <= '" & Format(F2, FormatoFecha) & "'And Codigo = " & Codigo
+        SQL = "INSERT IGNORE INTO  gastosfijos_recibos( codigo ,fecha ,importe ,contabilizado) " & SQL
+        
+        If Ejecuta(SQL, False) Then NE = 1
+    Else
+        If GenerarGasto(False) Then NE = 1
+    End If
+    Referencia = ""
+    vWhere = ""
+    If NE = 1 Then
+        CadenaDesdeOtroForm = "OK"
+        Unload Me
+    End If
+    
+End Sub
 
 Private Sub Form_Activate()
     If PrimeraVez Then
@@ -1439,6 +1735,7 @@ Dim W, H
     Me.imgConcepto(0).Picture = frmppal.imgIcoForms.ListImages(1).Picture
     
     Me.ImgFec(0).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+    Me.ImgFec(1).Picture = frmppal.imgIcoForms.ListImages(2).Picture
     Me.ImgFec(5).Picture = frmppal.imgIcoForms.ListImages(2).Picture
     Me.ImgFec(19).Picture = frmppal.imgIcoForms.ListImages(2).Picture
     
@@ -1448,7 +1745,7 @@ Dim W, H
     Me.FrameModGastoFijo.visible = False
     Me.FrameAltaModLineaGasto.visible = False
     Me.FrameContabilizarGasto.visible = False
-    
+    FrameCopiaGastos.visible = False
     
     Select Case Opcion
     Case 1
@@ -1457,7 +1754,7 @@ Dim W, H
         H = Me.FrameAltaGastoFijo.Height
         Me.FrameAltaGastoFijo.visible = True
         
-        CargarCombo
+        CargarCombo 0
 
     Case 2
         Me.Caption = "Modificación Gasto Fijo"
@@ -1482,7 +1779,13 @@ Dim W, H
         H = Me.FrameContabilizarGasto.Height + 150
         Me.FrameContabilizarGasto.visible = True
     
-    
+    Case 6
+        
+        Me.Caption = "Generar - copiar Gasto Fijo"
+        W = Me.FrameCopiaGastos.Width
+        H = Me.FrameCopiaGastos.Height + 150
+        Me.FrameCopiaGastos.visible = True
+        CargarCombo 1
     End Select
     
     Me.Width = W + 320
@@ -1583,6 +1886,10 @@ Private Sub imgFec_Click(Index As Integer)
 End Sub
 
 
+
+Private Sub optCopiar_Click(Index As Integer)
+    FrameGenerarNuevos.visible = optCopiar(1).Value
+End Sub
 
 Private Sub Text1_KeyPress(Index As Integer, KeyAscii As Integer)
     KEYpress KeyAscii
@@ -1866,23 +2173,23 @@ Private Sub frmF_Selec(vFecha As Date)
 End Sub
 
 
-Private Sub CargarCombo()
+Private Sub CargarCombo(Cual As Integer)
 Dim Rs As ADODB.Recordset
 Dim SQL As String
 Dim J As Long
     
-    Combo1(0).Clear
+    Combo1(Cual).Clear
 
-    Combo1(0).AddItem "Mensual "
-    Combo1(0).ItemData(Combo1(0).NewIndex) = 1
-    Combo1(0).AddItem "Bimensual "
-    Combo1(0).ItemData(Combo1(0).NewIndex) = 2
-    Combo1(0).AddItem "Trimestral "
-    Combo1(0).ItemData(Combo1(0).NewIndex) = 3
-    Combo1(0).AddItem "Semestral "
-    Combo1(0).ItemData(Combo1(0).NewIndex) = 4
-    Combo1(0).AddItem "Anual "
-    Combo1(0).ItemData(Combo1(0).NewIndex) = 5
+    Combo1(Cual).AddItem "Mensual "
+    Combo1(Cual).ItemData(Combo1(Cual).NewIndex) = 1
+    Combo1(Cual).AddItem "Bimensual "
+    Combo1(Cual).ItemData(Combo1(Cual).NewIndex) = 2
+    Combo1(Cual).AddItem "Trimestral "
+    Combo1(Cual).ItemData(Combo1(Cual).NewIndex) = 3
+    Combo1(Cual).AddItem "Semestral "
+    Combo1(Cual).ItemData(Combo1(Cual).NewIndex) = 4
+    Combo1(Cual).AddItem "Anual "
+    Combo1(Cual).ItemData(Combo1(Cual).NewIndex) = 5
 
 
 

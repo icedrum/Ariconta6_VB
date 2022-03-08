@@ -3265,6 +3265,30 @@ Dim Periodo As Byte   'Pondre un 100 para saber que es el resumen anual
 Dim RectificativasSeparadas303  As Boolean
 
 
+'Febrero 2022
+'       El parametro RectificativasSeparadas303 implica:
+'TAREA: https://ariadna.atlassian.net/browse/ARC6-247
+
+'Cuando se tiene marcado el check de "facturas rectificativas separadas"
+'
+'IVA DEVENGADO:
+'  --En la casilla de Modificación base de cuotas del modelo 303 (Casillas 14 y 15) hay que poner:
+'       .Facturas rectificativas normales (las que van con serie)
+'       .Facturas rectificativas por inversión de sujeto pasivo
+'       .Facturas rectificativas intracomunitaria
+'   .Todas aquellas facturas que aunque no lleven serie de rectificativa el total sea un importe negativo.
+'
+'IVA DEDUCIBLE:
+'  --En la casilla Rectificación de deducciones del modelo 303 (Casillas 40 y 41) hay que poner:
+'   .Facturas rectificativas normales
+'   .Facturas rectificativas por inversión de sujeto pasivo
+'   .Facturas rectificativas intracomunitaria
+
+
+
+
+
+
     '       cliente     0- Facturas clientes
     '                   1- RECARGO EQUIVALENCIA
     '                   10- Intracomunitarias
@@ -3313,8 +3337,10 @@ Dim RectificativasSeparadas303  As Boolean
     
     'Junio2019
     'Rectificativas SEPRADAS
-    If RectificativasSeparadas303 Then SQL = SQL & " and factcli.codconce340<>'D'"
-    
+    If RectificativasSeparadas303 Then
+        SQL = SQL & " and factcli.codconce340<>'D'"
+        
+    End If
     SQL = SQL & " group by 1,2,3"
     Conn.Execute SQL
     
@@ -3340,54 +3366,6 @@ Dim RectificativasSeparadas303  As Boolean
             Conn.Execute SQL
     End If
         
-    
-    'Sep2019
-    'Como comunicamos BASES, no entra otra vez- Ademas del IF false, lo comento el codigo
-    ' recargo de equivalencia
-    ' La cuot a de IVA ya la hemos sumado arriba. Ahora no la volvemos a poner
-    If False Then
-        
-'''        SQL = "insert into tmpliquidaiva(codusu,iva,bases,ivas,codempre,periodo,ano,cliente,porcrec)"
-'''
-'''        SQL = SQL & " select " & vUsu.Codigo & ",porciva,sum(baseimpo),sum(coalesce(imporec,0)),"
-'''        SQL = SQL & Empresa & "," & periodo & "," & Anyo & ",1 "
-'''        SQL = SQL & " ,coalesce(porcrec,0)"
-'''        SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
-'''        SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
-'''        SQL = SQL & " and tipodiva in (0,1) " 'solo iva e igic
-'''        SQL = SQL & " and factcli.codopera = 0 " ' tipo de operacion general
-'''        SQL = SQL & " and factcli_totales.codigiva = tiposiva.codigiva "
-'''        SQL = SQL & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
-'''        SQL = SQL & " and coalesce(porcerec,0)>0"
-'''         'Junio2019
-'''        'Rectificativas SEPRADAS
-'''        If RectificativasSeparadas303 Then SQL = SQL & " and factcli.codconce340<>'D'"
-'''        SQL = SQL & " group by 1,2"
-'''        Conn.Execute SQL
-'''
-'''        If RectificativasSeparadas303 Then
-'''
-'''                SQL = "insert into tmpliquidaiva(codusu,iva,bases,ivas,codempre,periodo,ano,cliente,porcrec)"
-'''
-'''                'GRABAMOS EN IVA un 100. En el report sabremos que son facturas normales, sin recargo equivalencia peeeero, rectificativas
-'''                SQL = SQL & " select " & vUsu.Codigo & ",101 porciva,sum(baseimpo),sum(coalesce(imporec,0)),"
-'''                SQL = SQL & Empresa & "," & periodo & "," & Anyo & ",1 "
-'''                SQL = SQL & " ,coalesce(porcrec,0)"
-'''                SQL = SQL & " from " & vCta & ".tiposiva," & vCta & ".factcli_totales," & vCta & ".factcli"
-'''                SQL = SQL & " where fecliqcl >= '" & Format(vFecha1, FormatoFecha) & "'  AND fecliqcl <= '" & Format(vFecha2, FormatoFecha) & "'"
-'''                SQL = SQL & " and tipodiva in (0,1) " 'solo iva e igic
-'''                SQL = SQL & " and factcli.codopera = 0 " ' tipo de operacion general
-'''                SQL = SQL & " and factcli_totales.codigiva = tiposiva.codigiva "
-'''                SQL = SQL & " and factcli_totales.numserie = factcli.numserie and factcli_totales.numfactu = factcli.numfactu and factcli_totales.anofactu = factcli.anofactu "
-'''                SQL = SQL & " and coalesce(porcerec,0)>0"
-'''                 'Junio2019
-'''                SQL = SQL & " and factcli.codconce340='D'"
-'''                SQL = SQL & " group by 1,2"
-'''                Conn.Execute SQL
-'''        End If
-'''
-    End If
-    
     
     
     ' intracomunitarias

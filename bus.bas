@@ -233,7 +233,14 @@ Public Function LeerEmpresaParametros2()
                 End If
             End If
         End If
+        vUsu.LeerFiltros "ariconta", ""
         vParam.FijarAplicarFiltrosEnCuentas vEmpresa.nomempre
+        
+        
+        vUsu.LeerFiltros "ariconta", "301,401" ' asientos facturas de cliente
+        vUsu.LeerFiltros "ariconta", "601 ,801   ,807   ,616 ,617"
+        
+        
         'incializamos el objeto
         Set vLog = New cLOG
         

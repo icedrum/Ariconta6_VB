@@ -714,7 +714,7 @@ Private WithEvents frmCC As frmBasico 'centros de coste de contabilidad
 Attribute frmCC.VB_VarHelpID = -1
 
 
-Private Sql As String
+Private SQL As String
 
 
 
@@ -799,15 +799,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
 Dim B As Boolean
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!CrearEliminar, "N") And (Modo = 0 Or Modo = 2)
@@ -1019,7 +1019,7 @@ Dim i As Integer
 End Sub
 
 Private Sub BotonEliminar()
-Dim Sql As String
+Dim SQL As String
 Dim temp As Boolean
 
     On Error GoTo Error2
@@ -1033,17 +1033,17 @@ Dim temp As Boolean
     ' ***************************************************************************
     
     '*** canviar la pregunta, els noms dels camps i el DELETE; repasar codEmpre ***
-    Sql = "¿Seguro que desea eliminar el Concepto?"
+    SQL = "¿Seguro que desea eliminar el Concepto?"
     'SQL = SQL & vbCrLf & "Código: " & Format(adodc1.Recordset.Fields(0), "000")
-    Sql = Sql & vbCrLf & "Código: " & adodc1.Recordset.Fields(0)
-    Sql = Sql & vbCrLf & "Nombre: " & adodc1.Recordset.Fields(1)
+    SQL = SQL & vbCrLf & "Código: " & adodc1.Recordset.Fields(0)
+    SQL = SQL & vbCrLf & "Nombre: " & adodc1.Recordset.Fields(1)
     
-    If MsgBoxA(Sql, vbQuestion + vbYesNo) = vbYes Then
+    If MsgBoxA(SQL, vbQuestion + vbYesNo) = vbYes Then
         'N'hi ha que eliminar
         NumRegElim = adodc1.Recordset.AbsolutePosition
-        Sql = "Delete from fvarconceptos where codconce = " & adodc1.Recordset!CodConce
+        SQL = "Delete from fvarconceptos where codconce = " & adodc1.Recordset!CodConce
         
-        Conn.Execute Sql
+        Conn.Execute SQL
         CargaGrid CadB
         
         temp = SituarDataTrasEliminar(adodc1, NumRegElim, True)
@@ -1126,7 +1126,7 @@ Dim i As Long
                         If Not adodc1.Recordset.EOF Then
                             ' *** filtrar per tota la PK; repasar codEmpre **
                             'adodc1.Recordset.Filter = "codempre = " & txtAux(0).Text & " AND codsupdt = " & txtAux(1).Text
-                            adodc1.Recordset.Filter = "codsecci = " & txtAux(0).Text
+                            adodc1.Recordset.Filter = "codconce = " & txtAux(0).Text
                             ' ****************************************************
                         End If
                         cmdRegresar_Click
@@ -1193,7 +1193,7 @@ Private Sub cmdCancelar_Click()
 End Sub
 
 Private Sub cmdRegresar_Click()
-Dim cad As String
+Dim Cad As String
 Dim i As Integer
 Dim J As Integer
 Dim Aux As String
@@ -1202,7 +1202,7 @@ Dim Aux As String
         MsgBox "Ningún registro devuelto.", vbExclamation
         Exit Sub
     End If
-    cad = ""
+    Cad = ""
     i = 0
     Do
         J = i + 1
@@ -1210,13 +1210,13 @@ Dim Aux As String
         If i > 0 Then
             Aux = Mid(DatosADevolverBusqueda, J, i - J)
             J = Val(Aux)
-            cad = cad & adodc1.Recordset.Fields(J) & "|"
+            Cad = Cad & adodc1.Recordset.Fields(J) & "|"
         End If
     Loop Until i = 0
     ' *** adrede: per a tornar el TipoSuplem ***
     ' cad = cad & TipoSuplem & "|"
     ' ******************************************
-    RaiseEvent DatoSeleccionado(cad)
+    RaiseEvent DatoSeleccionado(Cad)
     Unload Me
 End Sub
 
@@ -1392,17 +1392,17 @@ End Sub
 
 Private Sub CargaGrid(Optional vSql As String)
     Dim i As Integer
-    Dim Sql As String
+    Dim SQL As String
     Dim tots As String
     
     If vSql <> "" Then
-        Sql = CadenaConsulta & " WHERE " & vSql  ' ### [Monica] 08/09/2006: antes habia AND
+        SQL = CadenaConsulta & " WHERE " & vSql  ' ### [Monica] 08/09/2006: antes habia AND
     Else
-        Sql = CadenaConsulta
+        SQL = CadenaConsulta
     End If
     '********************* canviar el ORDER BY *********************++
     'SQL = SQL & " ORDER BY codempre, codsupdt"
-    Sql = Sql & " ORDER BY codconce"
+    SQL = SQL & " ORDER BY codconce"
     '**************************************************************++
     
 '    adodc1.RecordSource = SQL
@@ -1412,7 +1412,7 @@ Private Sub CargaGrid(Optional vSql As String)
 '    adodc1.Refresh
 '    Set DataGrid1.DataSource = adodc1 ' per a que no ixca l'error de "la fila actual no está disponible"
        
-    CargaGridGnral Me.DataGrid1, Me.adodc1, Sql, False
+    CargaGridGnral Me.DataGrid1, Me.adodc1, SQL, False
        
        
     ' *** posar només els controls del grid ***
@@ -1500,19 +1500,19 @@ Dim RC As String
         
         Case 3 'cuenta contable
             RC = txtAux(3).Text
-            If CuentaCorrectaUltimoNivel(RC, Sql) Then
+            If CuentaCorrectaUltimoNivel(RC, SQL) Then
                 txtAux(3).Text = RC
                 If Modo = 1 Then Exit Sub
                 
-                txtAux2(3).Text = Sql
+                txtAux2(3).Text = SQL
                 
                 RC = ""
             Else
-                If InStr(1, Sql, "No existe la cuenta :") > 0 Then
+                If InStr(1, SQL, "No existe la cuenta :") > 0 Then
                     'NO EXISTE LA CUENTA, añado que debe de tener permiso de creacion de cuentas
                     If vUsu.PermiteOpcion("ariconta", 201, vbOpcionCrearEliminar) Then
-                        Sql = Sql & " ¿Desea crearla?"
-                        If MsgBoxA(Sql, vbQuestion + vbYesNoCancel + vbDefaultButton2) = vbYes Then
+                        SQL = SQL & " ¿Desea crearla?"
+                        If MsgBoxA(SQL, vbQuestion + vbYesNoCancel + vbDefaultButton2) = vbYes Then
                             CadenaDesdeOtroForm = RC
                             Set frmCtas = New frmColCtas
                             frmCtas.DatosADevolverBusqueda = "0|1|"
@@ -1520,20 +1520,20 @@ Dim RC As String
                             frmCtas.Show vbModal
                             Set frmCtas = Nothing
                             If txtAux(3).Text = RC Then
-                                Sql = "" 'Para k no los borre
+                                SQL = "" 'Para k no los borre
                                 ' traemos el tipo de iva de la cuenta
                                 txtAux(4).Text = DevuelveDesdeBD("codigiva", "cuentas", "codmacta", txtAux(3).Text, "N")
                                 txtAux_LostFocus (4)
                             End If
                         End If
                     Else
-                        MsgBoxA Sql, vbExclamation
+                        MsgBoxA SQL, vbExclamation
                     End If
                 Else
                     'MsgBoxA Sql, vbExclamation
                 End If
                     
-                If Sql <> "" Then
+                If SQL <> "" Then
                   txtAux(3).Text = ""
                   txtAux2(3).Text = ""
                   RC = "NO"
@@ -1603,7 +1603,7 @@ Dim Datos As String
 Dim B As Boolean
 ' *** només per ad este manteniment ***
 Dim Rs As Recordset
-Dim cad As String
+Dim Cad As String
 'Dim exped As String
 ' *************************************
 

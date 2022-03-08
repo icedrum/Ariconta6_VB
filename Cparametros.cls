@@ -117,7 +117,7 @@ Private mvarconce303 As Integer 'copia local
 
 
 
-Private Sql As String  'Para la sentencia
+Private SQL As String  'Para la sentencia
 Private Mens As String    'Para los mensajes
 Private Rs As Recordset
 Private RC As Byte
@@ -185,6 +185,9 @@ Private mvarcolCtasConSaldos As Boolean
 Private mvarAnyadeNumFaproAmpliacApunte As Boolean
 
 Private mvarObsrvacionesLineasFrapro As Boolean
+
+Private mvarNumeroFacturasVariasPorAnyo  As Boolean
+
 
 
 
@@ -1129,6 +1132,10 @@ Public Property Get ObsrvacionesLineasFrapro() As Boolean
 End Property
 
 
+Public Property Get NumeroFacturasVariasPorAnyo() As Boolean
+    NumeroFacturasVariasPorAnyo = mvarNumeroFacturasVariasPorAnyo
+End Property
+
 
 '------------------------------------------------
 'FUNCIONES del modulo Cparametros
@@ -1139,9 +1146,9 @@ End Property
 '****   LEER  ***
 Public Function Leer() As Byte
     On Error GoTo Err3
-    Sql = "SELECT * FROM parametros"
+    SQL = "SELECT * FROM parametros"
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic
     If Rs.EOF Then
         Leer = 1
         'ELSE
@@ -1259,7 +1266,7 @@ Dim Nuevos As String
             mvarAnyadeNumFaproAmpliacApunte = False
             mvarObsrvacionesLineasFrapro = False
 
-
+            mvarNumeroFacturasVariasPorAnyo = False
             
             Nuevos = ""
             
@@ -1379,8 +1386,10 @@ Dim Nuevos As String
             If Err.Number <> 0 Then AgregarMsg Nuevos, "Observaciones lineas factura proveedor"
             
             
-
-
+            
+            mvarNumeroFacturasVariasPorAnyo = (DBLet(Rs!NumeroFacturasVariasPorAnyoSecuencial, "N") = 1)
+            If Err.Number <> 0 Then AgregarMsg Nuevos, "Numero de factura varias secuencial por año"
+                
             
             
         If Err.Number <> 0 Then Err.Clear
@@ -1411,25 +1420,25 @@ Dim Aux As String
     
     'FACTURAS PROVEEDORES
     Aux = "tipoconce"
-    Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconcefpr), "N", Aux)
-    If Sql = "" And Aux = "tipoconce" Then Exit Function
-    mvarAmpliacionFacurasPro = Sql & "|"
+    SQL = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconcefpr), "N", Aux)
+    If SQL = "" And Aux = "tipoconce" Then Exit Function
+    mvarAmpliacionFacurasPro = SQL & "|"
         
     Aux = "tipoconce"
-    Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconceapr), "N", Aux)
-    If Sql = "" And Aux = "tipoconce" Then Exit Function
-    mvarAmpliacionFacurasPro = mvarAmpliacionFacurasPro & Sql & "|"
+    SQL = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconceapr), "N", Aux)
+    If SQL = "" And Aux = "tipoconce" Then Exit Function
+    mvarAmpliacionFacurasPro = mvarAmpliacionFacurasPro & SQL & "|"
     
     'FACTURAS CLIENTES
     Aux = "tipoconce"
-    Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconcefcl), "N", Aux)
-    If Sql = "" And Aux = "tipoconce" Then Exit Function
-    mvarAmpliacionFacurasCli = Sql & "|"
+    SQL = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconcefcl), "N", Aux)
+    If SQL = "" And Aux = "tipoconce" Then Exit Function
+    mvarAmpliacionFacurasCli = SQL & "|"
         
     Aux = "tipoconce"
-    Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconceacl), "N", Aux)
-    If Sql = "" And Aux = "tipoconce" Then Exit Function
-    mvarAmpliacionFacurasCli = mvarAmpliacionFacurasCli & Sql & "|"
+    SQL = DevuelveDesdeBD("nomconce", "conceptos", "codconce", CStr(mvarconceacl), "N", Aux)
+    If SQL = "" And Aux = "tipoconce" Then Exit Function
+    mvarAmpliacionFacurasCli = mvarAmpliacionFacurasCli & SQL & "|"
     
     
     
@@ -1452,8 +1461,8 @@ Private Sub MinimaFechaEnApuntes()
     mvarFechaMinimaEnHlinapu = mvarfechaini
     Set Rs = Nothing
     Set Rs = New ADODB.Recordset
-    Sql = "Select min(fechaent) from hlinapu WHERE fechaent<'" & Format(mvarfechaini, "yyyy-mm-dd") & "'"
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "Select min(fechaent) from hlinapu WHERE fechaent<'" & Format(mvarfechaini, "yyyy-mm-dd") & "'"
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then mvarFechaMinimaEnHlinapu = Rs.Fields(0)
     End If

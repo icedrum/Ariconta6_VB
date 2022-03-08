@@ -1225,7 +1225,7 @@ Dim RB As RibbonBar
     vUsu.Leer RecuperaValor(CadenaDesdeOtroForm, 1)
     
     vUsu.CadenaConexion = "ariconta" & QueEmpresa
-    
+    vUsu.LeerFiltros "ariconta", ""
     vUsu.LeerFiltros "ariconta", 301 ' asientos
     vUsu.LeerFiltros "ariconta", 401 ' facturas de cliente
     
@@ -1237,7 +1237,10 @@ Dim RB As RibbonBar
     'NO DEBERIAN DAR ERROR
     vEmpresa.Leer
     vParam.Leer
-    If vEmpresa.TieneTesoreria Then vParamT.Leer
+    If vEmpresa.TieneTesoreria Then
+        vParamT.Leer
+        vUsu.LeerFiltros "ariconta", "601 ,801   ,807   ,616 ,617"
+    End If
     
     PonerCaption
     
@@ -2375,9 +2378,9 @@ Dim B As Boolean
             Case Else
                 B = True
                 If Rn2!Codigo = ID_SII Then
-                    
+                     
                     If vParam.SIITiene Then
-                        If vUsu.Nivel > 0 Then B = False
+                        If vUsu.Nivel > 1 Then B = False
                     Else
                         B = False
                         
@@ -3005,6 +3008,7 @@ Private Sub AbrirFormularios(Accion As Long)
         Case 312 ' ratios y graficas
             frmInfRatios.Show vbModal
         Case 314 ' puntero extracto bancario
+            frmPunteoBanco.VerCobrosPagos = VerCobrosPagosPunteo
             frmPunteoBanco.Show vbModal
         
         Case 315
@@ -3723,4 +3727,15 @@ Private Sub ComprobarOperacionesAseguradas(AlInicio As Boolean)
 End Sub
 
 
+
+Private Function VerCobrosPagosPunteo() As Boolean
+    On Error GoTo eVerCobrosPagosPunteo
+    VerCobrosPagosPunteo = False
+    
+    If Dir(App.Path & "\n43cobrospagos.dat", vbArchive) <> "" Then VerCobrosPagosPunteo = True
+    
+    Exit Function
+eVerCobrosPagosPunteo:
+    Err.Clear
+End Function
 

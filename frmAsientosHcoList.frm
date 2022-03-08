@@ -776,7 +776,7 @@ Private WithEvents frmDia As frmTiposDiario
 Attribute frmDia.VB_VarHelpID = -1
 
 Private SQL As String
-Dim cad As String
+Dim Cad As String
 Dim RC As String
 Dim i As Integer
 Dim IndCodigo As Integer
@@ -1032,7 +1032,7 @@ Private Sub txtDiario_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtDiario_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 
     txtDiario(Index).Text = Trim(txtDiario(Index).Text)
     
@@ -1056,7 +1056,7 @@ Private Sub txtAsiento_KeyPress(Index As Integer, KeyAscii As Integer)
 End Sub
 
 Private Sub txtAsiento_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
 Dim SQL As String
@@ -1087,7 +1087,10 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    SQL = "Select  hcabapu.numdiari Diario, hcabapu.numasien Asiento, hcabapu.fechaent Fecha, hlinapu.linliapu Linea, hlinapu.codmacta Cuenta, nommacta Descripcion, numdocum Documento, ampconce Ampliacion, timporteD Debe, timporteH Haber"
+    Screen.MousePointer = vbHourglass
+    SQL = "Select  hcabapu.numdiari Diario, hcabapu.numasien Asiento, hcabapu.fechaent Fecha, hlinapu.linliapu Linea, hlinapu.codmacta Cuenta "
+    SQL = SQL & " , nommacta Descripcion, numdocum Documento, ampconce Ampliacion, timporteD Debe, timporteH Haber"
+    SQL = SQL & " , hcabapu.feccreacion fechaCrea,usucreacion usuario ,desdeaplicacion Programa"
     SQL = SQL & " FROM (hcabapu inner join hlinapu on hcabapu.numdiari = hlinapu.numdiari and hcabapu.numasien = hlinapu.numasien and hcabapu.fechaent = hlinapu.fechaent)"
     SQL = SQL & " inner join cuentas on hlinapu.codmacta = cuentas.codmacta "
     
@@ -1098,6 +1101,7 @@ Dim Sql2 As String
     'LLamos a la funcion
     GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
+    Screen.MousePointer = vbDefault
 End Sub
 
 

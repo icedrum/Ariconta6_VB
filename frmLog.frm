@@ -512,9 +512,9 @@ Dim B As Boolean
     B = (Modo = 2)
     Me.lblIndicador.Caption = ""
     
-    txtaux(0).visible = Not B
-    txtaux(1).visible = Not B
-    txtaux(2).visible = Not B
+    txtAux(0).visible = Not B
+    txtAux(1).visible = Not B
+    txtAux(2).visible = Not B
     
     CboTipoSitu.visible = Not B
     cmdAceptar.visible = Not B
@@ -528,9 +528,9 @@ Dim B As Boolean
     
     'Si estamos insertando o busqueda
     
-    txtaux(0).Locked = (Modo <> 3 And Modo <> 1)
-    txtaux(1).Locked = (Modo <> 3 And Modo <> 1)
-    txtaux(2).Locked = (Modo <> 3 And Modo <> 1)
+    txtAux(0).Locked = (Modo <> 3 And Modo <> 1)
+    txtAux(1).Locked = (Modo <> 3 And Modo <> 1)
+    txtAux(2).Locked = (Modo <> 3 And Modo <> 1)
     Text2(0).Locked = (Modo <> 3 And Modo <> 1)
     
     'Poner el tamaño de los campos. Si es modo Busqueda el MaxLength del campo
@@ -580,7 +580,7 @@ Private Sub BotonBuscar()
     Limpiar Me
     Me.CboTipoSitu.ListIndex = -1
     LLamaLineas DataGrid1.top + 230, 1
-    PonerFoco txtaux(0)
+    PonerFoco txtAux(0)
 End Sub
 
 Private Sub PonerFoco(ByRef o As Object)
@@ -592,7 +592,7 @@ Private Sub BotonVerTodos()
 On Error Resume Next
 
     CargaGrid ""
-    If Adodc1.Recordset.RecordCount <= 0 Then
+    If adodc1.Recordset.RecordCount <= 0 Then
          MsgBox "No hay ningún registro en la tabla LOG", vbInformation
          Screen.MousePointer = vbDefault
           Exit Sub
@@ -609,22 +609,22 @@ Private Sub LLamaLineas(alto As Single, xModo As Byte)
     DeseleccionaGrid Me.DataGrid1
     PonerModo xModo
     'Fijamos el ancho
-    txtaux(0).top = alto
-    txtaux(1).top = alto
-    txtaux(2).top = alto
+    txtAux(0).top = alto
+    txtAux(1).top = alto
+    txtAux(2).top = alto
     CboTipoSitu.top = alto - 15
     
     'REultilo alto
     alto = 120
     
-    txtaux(0).Left = DataGrid1.Columns(0).Left + alto
-    txtaux(0).Width = DataGrid1.Columns(0).Width
+    txtAux(0).Left = DataGrid1.Columns(0).Left + alto
+    txtAux(0).Width = DataGrid1.Columns(0).Width
     CboTipoSitu.Left = DataGrid1.Columns(1).Left + alto
     CboTipoSitu.Width = DataGrid1.Columns(1).Width
-    txtaux(1).Left = DataGrid1.Columns(2).Left + alto
-    txtaux(1).Width = DataGrid1.Columns(2).Width
-    txtaux(2).Left = DataGrid1.Columns(3).Left + alto
-    txtaux(2).Width = DataGrid1.Columns(3).Width
+    txtAux(1).Left = DataGrid1.Columns(2).Left + alto
+    txtAux(1).Width = DataGrid1.Columns(2).Width
+    txtAux(2).Left = DataGrid1.Columns(3).Left + alto
+    txtAux(2).Width = DataGrid1.Columns(3).Width
 End Sub
 
 
@@ -700,13 +700,13 @@ On Error Resume Next
         Case 1 'HacerBusqueda
             'COMO ES UN CAMPO FECHA HORA LO TRATARE DE FORMA ESPECIAL
             Aux = ""
-            If txtaux(0).Text <> "" Then
+            If txtAux(0).Text <> "" Then
                 'SI lo que han puesto es una fecha
-                Aux = txtaux(0).Text
+                Aux = txtAux(0).Text
                 If EsFechaOKString(Aux) Then
                    Aux = Format(Aux, FormatoFecha)
                    Aux = "slog.fecha  >=  '" & Aux & "' AND slog.fecha <= '" & Aux & " 23:59:59'"
-                   txtaux(0).Text = ""
+                   txtAux(0).Text = ""
                 Else
                     Aux = ""
                 End If
@@ -734,10 +734,10 @@ On Error GoTo ECancelar
         Case 3
             DataGrid1.AllowAddNew = False
             'CargaGrid
-            If Not Adodc1.Recordset.EOF Then Adodc1.Recordset.MoveFirst
+            If Not adodc1.Recordset.EOF Then adodc1.Recordset.MoveFirst
         Case 4 'Modificar
             TerminaBloquear
-            Me.lblIndicador.Caption = Adodc1.Recordset.AbsolutePosition & " de " & Adodc1.Recordset.RecordCount
+            Me.lblIndicador.Caption = adodc1.Recordset.AbsolutePosition & " de " & adodc1.Recordset.RecordCount
     End Select
     PonerModo 2
     DataGrid1.SetFocus
@@ -749,13 +749,13 @@ End Sub
 Private Sub DataGrid1_DblClick()
     If cmdRegresar.visible = True Then
     Else
-        If Not (Adodc1.Recordset Is Nothing) Then
-            If Not Adodc1.Recordset.EOF Then
-                CadenaDesdeOtroForm = "Fecha: " & Adodc1.Recordset!Fecha & vbCrLf
-                CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Usuario / PC : " & Adodc1.Recordset!Usuario & " - " & Adodc1.Recordset!PC & vbCrLf
-                CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Accion: " & Adodc1.Recordset!Titulo & vbCrLf & vbCrLf
+        If Not (adodc1.Recordset Is Nothing) Then
+            If Not adodc1.Recordset.EOF Then
+                CadenaDesdeOtroForm = "Fecha: " & adodc1.Recordset!Fecha & vbCrLf
+                CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Usuario / PC : " & adodc1.Recordset!Usuario & " - " & adodc1.Recordset!PC & vbCrLf
+                CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Accion: " & adodc1.Recordset!Titulo & vbCrLf & vbCrLf
                 CadenaDesdeOtroForm = CadenaDesdeOtroForm & Replace(Space(70), " ", "-") & vbCrLf
-                CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Descripción:" & vbCrLf & Adodc1.Recordset!Descripcion
+                CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Descripción:" & vbCrLf & adodc1.Recordset!Descripcion
                 MsgBox CadenaDesdeOtroForm, vbInformation
                 CadenaDesdeOtroForm = ""
             End If
@@ -770,10 +770,10 @@ End Sub
 
 Private Sub DataGrid1_RowColChange(LastRow As Variant, ByVal LastCol As Integer)
     If PrimeraVez Then Exit Sub
-    If Not Adodc1.Recordset.EOF Then 'And Modo = 0 Then
-        lblIndicador.Caption = Adodc1.Recordset.AbsolutePosition & " de " & Adodc1.Recordset.RecordCount
+    If Not adodc1.Recordset.EOF Then 'And Modo = 0 Then
+        lblIndicador.Caption = adodc1.Recordset.AbsolutePosition & " de " & adodc1.Recordset.RecordCount
         
-        Text2(0).Text = Adodc1.Recordset!Descripcion
+        Text2(0).Text = adodc1.Recordset!Descripcion
     End If
 End Sub
 
@@ -901,11 +901,11 @@ Dim tots As String
         SQL = CadenaConsulta
     End If
     SQL = SQL & " ORDER BY fecha desc"
-    Adodc1.ConnectionString = Conn
-    Adodc1.RecordSource = SQL
-    Adodc1.CursorType = adOpenDynamic
-    Adodc1.LockType = adLockPessimistic
-    Adodc1.Refresh
+    adodc1.ConnectionString = Conn
+    adodc1.RecordSource = SQL
+    adodc1.CursorType = adOpenDynamic
+    adodc1.LockType = adLockPessimistic
+    adodc1.Refresh
     DataGrid1.Enabled = B
 
     DataGrid1.ScrollBars = dbgAutomatic
@@ -913,9 +913,9 @@ Dim tots As String
 
    DataGrid1.Columns(1).Caption = "Accion"
    'Actualizar indicador
-   If Not Adodc1.Recordset.EOF And (Modo = 2) Then
-        lblIndicador.Caption = Adodc1.Recordset.AbsolutePosition & " de " & Adodc1.Recordset.RecordCount
-        Text2(0).Text = Adodc1.Recordset.Fields(4)
+   If Not adodc1.Recordset.EOF And (Modo = 2) Then
+        lblIndicador.Caption = adodc1.Recordset.AbsolutePosition & " de " & adodc1.Recordset.RecordCount
+        Text2(0).Text = adodc1.Recordset.Fields(4)
    Else
         Me.lblIndicador.Caption = ""
    End If
@@ -967,15 +967,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = False

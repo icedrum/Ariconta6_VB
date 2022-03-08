@@ -660,7 +660,7 @@ ecmdDivVto:
     Else
         Conn.CommitTrans
         CadenaDesdeOtroForm = CadenaDesdeOtroForm & K & "|"
-        MsgBox "Proceso realizado correctamente", vbExclamation
+        MsgBox "Proceso realizado correctamente", vbInformation
         Unload Me
     End If
     

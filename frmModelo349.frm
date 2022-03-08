@@ -705,7 +705,7 @@ Private Sub Form_Load()
      
     ' La Ayuda
     With Me.ToolbarAyuda
-        .ImageList = frmppal.imgListComun
+        .ImageList = frmppal.ImgListComun
         .Buttons(1).Image = 26
     End With
      
@@ -796,7 +796,7 @@ Private Sub CargarCombo()
             txtAno(0).Text = vParam.Anofactu + 1
     End If
     If vParam.periodos = 0 Then
-        Me.cmbPeriodo(0).ListIndex = i + 12 - 1
+        Me.cmbPeriodo(0).ListIndex = i + 12 ' - 1
     Else
         Me.cmbPeriodo(0).ListIndex = i
     End If
@@ -1380,7 +1380,7 @@ On Error GoTo EComprobarCuentas349
     While Not Rs.EOF
         ContadorCli = ContadorCli + 1
         
-        SQL = ContadorCli & ",'" & Rs!NUmSerie & Format(Rs!numfactu, "0000000000") & "','" & Format(Rs!FecFactu, FormatoFecha) & "','"
+        SQL = ContadorCli & ",'" & Rs!NUmSerie & Format(Rs!numfactu, "0000000000") & "','" & Format(Rs!Fecfactu, FormatoFecha) & "','"
         ', cta,  NIF, IVA,  Total   .- IVA= numero empresa
         Importe = Rs!Baseimpo
         SQL = SQL & Rs!codmacta & "','" & Rs!NIF & "'," & i & "," & TransformaComasPuntos(CStr(Importe))
@@ -1441,7 +1441,7 @@ On Error GoTo EComprobarCuentas349
         
         
         
-        SQL = SQL & ",'" & Format(Rs!FecFactu, FormatoFecha) & "','" & DevNombreSQL(Rs!Nommacta)
+        SQL = SQL & ",'" & Format(Rs!Fecfactu, FormatoFecha) & "','" & DevNombreSQL(Rs!Nommacta)
         SQL = RC & SQL & "')"
     
         

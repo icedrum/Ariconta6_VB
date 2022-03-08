@@ -275,3 +275,52 @@ Err1:
     
 End Function
 
+
+
+
+'Simplemente lee codtipom, y el contador. Pero  podria NO utlizarlo
+Public Function LeerTipoDocumento(LEtra As String, EjercicioActual As Boolean, Fecfactu As Date) As Boolean
+Dim Ok As Boolean
+Dim C1 As Long
+Dim C2 As Long
+    On Error GoTo Err1
+    'Abrimos bloqueando
+    SQL = "Select * from contadores WHERE TipoRegi = '" & LEtra & "' "
+    LeerTipoDocumento = False
+    Ok = False
+    Set Rs = New ADODB.Recordset
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    If Not Rs.EOF Then
+        mvarTipoContador = LEtra
+        mvarNombreRegistro = Rs!nomregis
+        
+        
+        C1 = Rs!contado1
+        C2 = Rs!contado2
+        If EjercicioActual Then
+           mvarContador = C1
+        Else
+           mvarContador = C2
+        End If
+        Ok = True
+    End If
+    Rs.Close
+    
+        
+    SQL = "Select max(numfactu) Contador from fvarfactura where numserie=" & DBSet(LEtra, "T") & " AND fecfactu>='" & Year(Fecfactu) & "-01-01' AND year(fecfactu)= " & Year(Fecfactu)
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Not Rs.EOF Then
+        If Not IsNull(Rs!Contador) Then mvarContador = Rs!Contador
+    End If
+    Rs.Close
+    mvarContador = mvarContador + 1
+    Set Rs = Nothing
+    LeerTipoDocumento = True
+    Exit Function
+Err1:
+    Mens = "Error: " & Err.Number & " : " & Err.Description
+    MsgBox Mens, vbExclamation
+    Set Rs = Nothing
+End Function
+
+
