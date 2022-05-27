@@ -404,7 +404,7 @@ Public CodmactaUnica As String
 Private WithEvents frmC As frmCal
 Attribute frmC.VB_VarHelpID = -1
 
-Dim Cad As String
+Dim cad As String
 Dim Rs As ADODB.Recordset
 Dim ItmX As ListItem
 Dim Fecha As Date
@@ -414,7 +414,7 @@ Dim impo As Currency
 Dim riesgo As Currency
 
 Dim ImpSeleccionado As Currency
-Dim i As Integer
+Dim I As Integer
 Private PrimeraVez As Boolean
 Private SeVeRiesgo As Boolean
 Dim RiesTalPag As Currency
@@ -496,9 +496,9 @@ Private Sub Form_Load()
     PrimeraVez = True
     Limpiar Me
     Me.Icon = frmppal.Icon
-    For i = 1 To imgFecha.Count - 1
-        Me.imgFecha(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
-    Next i
+    For I = 1 To imgFecha.Count - 1
+        Me.imgFecha(I).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+    Next I
     
     
     CargaIconoListview Me.ListView1
@@ -525,10 +525,10 @@ Private Sub Form_Load()
     End If
     
     
-    i = 0
-    If Cobros And (Tipo = 2 Or Tipo = 3) Then i = 1
-    Me.mnBarra1.visible = i = 1
-    Me.mnNumero.visible = i = 1
+    I = 0
+    If Cobros And (Tipo = 2 Or Tipo = 3) Then I = 1
+    Me.mnBarra1.visible = I = 1
+    Me.mnNumero.visible = I = 1
     'Efectuar cobros
     Me.cmdRegresar.visible = Regresar
     ListView1.SmallIcons = Me.ImageList1
@@ -547,7 +547,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub Form_Resize()
-Dim i As Integer
+Dim I As Integer
 Dim H As Integer
     If Me.WindowState = 1 Then Exit Sub  'Minimizar
     If Me.Height < 2700 Then Me.Height = 2700
@@ -565,15 +565,15 @@ Dim H As Integer
     'Las columnas
     H = ListView1.Tag
     ListView1.Tag = ListView1.Width - ListView1.Tag - 320 'Del margen
-    For i = 1 To Me.ListView1.ColumnHeaders.Count
-        If InStr(1, ListView1.ColumnHeaders(i).Tag, "%") Then
-            Cad = (Val(ListView1.ColumnHeaders(i).Tag) * (Val(ListView1.Tag)) / 100)
+    For I = 1 To Me.ListView1.ColumnHeaders.Count
+        If InStr(1, ListView1.ColumnHeaders(I).Tag, "%") Then
+            cad = (Val(ListView1.ColumnHeaders(I).Tag) * (Val(ListView1.Tag)) / 100)
         Else
             'Si no es de % es valor fijo
-            Cad = Val(ListView1.ColumnHeaders(i).Tag)
+            cad = Val(ListView1.ColumnHeaders(I).Tag)
         End If
-        Me.ListView1.ColumnHeaders(i).Width = Val(Cad)
-    Next i
+        Me.ListView1.ColumnHeaders(I).Width = Val(cad)
+    Next I
     ListView1.Tag = H
 End Sub
 
@@ -584,7 +584,7 @@ Dim Columnas As String
 Dim Ancho As String
 Dim ALIGN As String
 Dim NCols As Integer
-Dim i As Integer
+Dim I As Integer
 
     ListView1.ColumnHeaders.Clear
    If Cobros Then
@@ -611,20 +611,20 @@ Dim i As Integer
         ListView1.Tag = 1600  'La suma de los valores fijos. Para k ajuste los campos k pueden crecer
     End If
         
-   For i = 1 To NCols
-        Cad = RecuperaValor(Columnas, i)
-        If Cad <> "" Then
+   For I = 1 To NCols
+        cad = RecuperaValor(Columnas, I)
+        If cad <> "" Then
             Set ColX = ListView1.ColumnHeaders.Add()
-            ColX.Text = Cad
+            ColX.Text = cad
             'ANCHO
-            Cad = RecuperaValor(Ancho, i)
-            ColX.Tag = Cad
+            cad = RecuperaValor(Ancho, I)
+            ColX.Tag = cad
             'align
-            Cad = Mid(ALIGN, i, 1)
-            If Cad = "L" Then
+            cad = Mid(ALIGN, I, 1)
+            If cad = "L" Then
                 'NADA. Es valor x defecto
             Else
-                If Cad = "D" Then
+                If cad = "D" Then
                     ColX.Alignment = lvwColumnRight
                 Else
                     'CENTER
@@ -632,7 +632,7 @@ Dim i As Integer
                 End If
             End If
         End If
-    Next i
+    Next I
 
 End Sub
 
@@ -699,16 +699,16 @@ Private Sub CargaCobros()
 Dim Inserta As Boolean
 
     RiesTalPag = 0
-    Cad = DevSQL
+    cad = DevSQL
     
     'ORDENACION
     If CampoOrden = "" Then CampoOrden = "cobros.fecvenci"
-    Cad = Cad & " ORDER BY " & CampoOrden
+    cad = cad & " ORDER BY " & CampoOrden
     'If Orden Then Cad = Cad & " DESC"
-    If CampoOrden <> "cobros.fecvenci" Then Cad = Cad & ", cobros.fecvenci"
+    If CampoOrden <> "cobros.fecvenci" Then cad = cad & ", cobros.fecvenci"
     
     
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
         Inserta = True
         '[Monica]16/08/2016: solo en el caso de pendientes de cobro no lo veo todo,  situacion = 0
@@ -756,8 +756,8 @@ Dim ImpAux As Currency
     Set ItmX = ListView1.ListItems.Add()
     
     ItmX.Text = Rs!NUmSerie
-    ItmX.SubItems(1) = Rs!NumFactu
-    ItmX.SubItems(2) = Format(Rs!FecFactu, "dd/mm/yyyy")
+    ItmX.SubItems(1) = Rs!numfactu
+    ItmX.SubItems(2) = Format(Rs!Fecfactu, "dd/mm/yyyy")
     ItmX.SubItems(3) = Format(Rs!FecVenci, "dd/mm/yyyy")
     ItmX.SubItems(4) = Rs!numorden
     ItmX.SubItems(5) = DBLet(Rs!Nommacta, "T")
@@ -844,40 +844,40 @@ End Sub
 
 
 Private Function DevSQL() As String
-Dim Cad As String
+Dim cad As String
 
     If Not Cobros Then
-        Cad = "SELECT pagos.*, pagos.nomprove nommacta, tipofpago.siglas,pagos.codmacta,ImpEfect-coalesce(imppagad,0) as imppdte  FROM"
-        Cad = Cad & " pagos, formapago, tipofpago"
-        Cad = Cad & " Where formapago.tipforpa = tipofpago.tipoformapago"
-        Cad = Cad & " AND pagos.codforpa = formapago.codforpa"
-        If vSql <> "" Then Cad = Cad & " AND " & vSql
+        cad = "SELECT pagos.*, pagos.nomprove nommacta, tipofpago.siglas,pagos.codmacta,ImpEfect-coalesce(imppagad,0) as imppdte  FROM"
+        cad = cad & " pagos, formapago, tipofpago"
+        cad = cad & " Where formapago.tipforpa = tipofpago.tipoformapago"
+        cad = cad & " AND pagos.codforpa = formapago.codforpa"
+        If vSql <> "" Then cad = cad & " AND " & vSql
     
     Else
         'cobros
-        Cad = "SELECT cobros.*, formapago.nomforpa, tipofpago.descformapago, tipofpago.siglas, "
-        Cad = Cad & " cobros.nomclien nommacta,cobros.codmacta,tipofpago.tipoformapago, "
-        Cad = Cad & " coalesce(impvenci,0) + coalesce(gastos,0) - coalesce(impcobro,0) imppdte "
-        Cad = Cad & " FROM (cobros INNER JOIN formapago ON cobros.codforpa = formapago.codforpa) INNER JOIN tipofpago ON formapago.tipforpa = tipofpago.tipoformapago "
-        If vSql <> "" Then Cad = Cad & " WHERE " & vSql
+        cad = "SELECT cobros.*, formapago.nomforpa, tipofpago.descformapago, tipofpago.siglas, "
+        cad = cad & " cobros.nomclien nommacta,cobros.codmacta,tipofpago.tipoformapago, "
+        cad = cad & " coalesce(impvenci,0) + coalesce(gastos,0) - coalesce(impcobro,0) imppdte "
+        cad = cad & " FROM (cobros INNER JOIN formapago ON cobros.codforpa = formapago.codforpa) INNER JOIN tipofpago ON formapago.tipforpa = tipofpago.tipoformapago "
+        If vSql <> "" Then cad = cad & " WHERE " & vSql
     End If
     'SQL pedido
-    DevSQL = Cad
+    DevSQL = cad
 End Function
 
 
 Private Sub CargaPagos()
 
-    Cad = DevSQL
+    cad = DevSQL
     
     'ORDENACION
     If CampoOrden = "" Then CampoOrden = "pagos.fecefect"
-    Cad = Cad & " ORDER BY " & CampoOrden
-    If Orden Then Cad = Cad & " DESC"
-    If CampoOrden <> "pagos.fecefect" Then Cad = Cad & ", pagos.fecefect"
+    cad = cad & " ORDER BY " & CampoOrden
+    If Orden Then cad = cad & " DESC"
+    If CampoOrden <> "pagos.fecefect" Then cad = cad & ", pagos.fecefect"
 
 
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not Rs.EOF
         InsertaItemPago
         Rs.MoveNext
@@ -893,8 +893,8 @@ Dim J As Byte
     Set ItmX = ListView1.ListItems.Add()
     
     ItmX.Text = Rs!NUmSerie
-    ItmX.SubItems(1) = Rs!NumFactu
-    ItmX.SubItems(2) = Format(Rs!FecFactu, "dd/mm/yyyy")
+    ItmX.SubItems(1) = Rs!numfactu
+    ItmX.SubItems(2) = Format(Rs!Fecfactu, "dd/mm/yyyy")
     ItmX.SubItems(3) = Format(Rs!fecefect, "dd/mm/yyyy")
     ItmX.SubItems(4) = Rs!numorden
     ItmX.SubItems(5) = DBLet(Rs!Nommacta, "T")
@@ -961,7 +961,7 @@ End Sub
 
 
 Private Sub frmC_Selec(vFecha As Date)
-    Cad = Format(vFecha, "dd/mm/yyyy")
+    cad = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
@@ -973,15 +973,15 @@ Private Sub imgFecha_Click(Index As Integer)
             If IsDate(Text1.Text) Then Fecha = CDate(Text1.Text)
         End If
     End Select
-    Cad = ""
+    cad = ""
     Set frmC = New frmCal
     frmC.Fecha = Fecha
     frmC.Show vbModal
     Set frmC = Nothing
-    If Cad <> "" Then
+    If cad <> "" Then
         Select Case Index
         Case 1
-            Text1.Text = Cad
+            Text1.Text = cad
         End Select
     End If
 End Sub
@@ -1064,18 +1064,24 @@ Private Sub ListView1_DblClick()
 End Sub
 
 Private Sub ListView1_ItemCheck(ByVal Item As MSComctlLib.ListItem)
-    i = ColD(0)
-    impo = ImporteFormateado(Item.SubItems(i))
+    I = ColD(0)
+    impo = ImporteFormateado(Item.SubItems(I))
     
     If Item.Checked Then
         Set ListView1.SelectedItem = Item
-        i = 1
+        I = 1
     Else
-        i = -1
+        I = -1
     End If
-    ImpSeleccionado = ImpSeleccionado + (i * impo)
+    ImpSeleccionado = ImpSeleccionado + (I * impo)
     Text2(2).Text = Format(ImpSeleccionado, FormatoImporte)
     
+End Sub
+
+Private Sub ListView1_KeyPress(KeyAscii As Integer)
+    If KeyAscii = vbKeyEscape Then
+        If Not ContabTransfer And Situacion = 1 And SegundoParametro = "" And Tipo = 0 And Cobros Then Unload Me
+    End If
 End Sub
 
 Private Sub ListView1_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -1088,11 +1094,11 @@ Private Sub SeleccionarTodos(Seleccionar As Boolean)
 Dim J As Integer
     J = ColD(0)
     ImpSeleccionado = 0
-    For i = 1 To Me.ListView1.ListItems.Count
-        ListView1.ListItems(i).Checked = Seleccionar
-        impo = ImporteFormateado(ListView1.ListItems(i).SubItems(J))
+    For I = 1 To Me.ListView1.ListItems.Count
+        ListView1.ListItems(I).Checked = Seleccionar
+        impo = ImporteFormateado(ListView1.ListItems(I).SubItems(J))
         ImpSeleccionado = ImpSeleccionado + impo
-    Next i
+    Next I
     If Not Seleccionar Then ImpSeleccionado = 0
     Text2(2).Text = Format(ImpSeleccionado, FormatoImporte)
 End Sub

@@ -957,7 +957,7 @@ Dim FechaFinEjercicio As Date
 Dim PulsadoCancelar As Boolean
 
 Public Legalizacion As String   'Datos para la legalizacion
-
+Dim DeTantosEnTantos As Integer
 Dim HanPulsadoSalir As Boolean
 
 Public Sub InicializarVbles(AñadireElDeEmpresa As Boolean)
@@ -1122,7 +1122,7 @@ Private Sub Form_Load()
     PrimeraVez = True
      
     CargarComboFecha
-     
+    DeTantosEnTantos = -1 'La primera vez que lance un informe
     CargarComboAño cmbFecha(0)
     PosicionarCombo cmbFecha(0), Year(DateAdd("yyyy", 0, Now))
     i = 0
@@ -1735,7 +1735,6 @@ Dim FechaF As Date
 Dim FechaIAnt As Date
 Dim FechaFAnt As Date
 Dim i As Integer
-Dim DeTantosEnTantos As Integer
 Dim Cadena As String
 Dim Digitos As Integer
 Dim ConceptoPerdidasyGanancias As Integer
@@ -1796,12 +1795,38 @@ Dim col7 As Collection
     SQL = "DELETE from tmpevolsal where codusu= " & vUsu.Codigo
     Conn.Execute SQL
     
-
+    Set miRsAux = New ADODB.Recordset
 
 
     
-    DeTantosEnTantos = 10
     
+    If DeTantosEnTantos < 0 Then
+        DeTantosEnTantos = 10
+        
+        'Falta paremtro
+        'Falta paremtro  FALTA#########################################################
+        If vEmpresa.NIF = "F46221503" Or vEmpresa.NIF = "B98877806" Then
+            DeTantosEnTantos = 1 'teletaxi
+        Else
+            DeTantosEnTantos = 10
+            lblCuentas(7).Caption = "Establecer valores iniciales"
+            lblCuentas(7).Refresh
+            SQL = "select count(*)  from hlinapu WHERE hlinapu.codconce<>960 AND "
+            SQL = SQL & " fechaent >=" & DBSet(vParam.fechaini, "F") & " and " & DBSet(FechaF, "F")
+            miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            If Not miRsAux.EOF Then
+                NumRegElim = DBLet(miRsAux.Fields(0), "N")
+                If NumRegElim > 100000 Then
+                    DeTantosEnTantos = 1
+                ElseIf NumRegElim > 75000 Then
+                        DeTantosEnTantos = 3
+                ElseIf NumRegElim > 50000 Then
+                    DeTantosEnTantos = 5
+                End If
+            End If
+            miRsAux.Close
+        End If
+    End If
     
     'Octubre 2021
     lblCuentas(7).Caption = "Preparando datos 6%"
@@ -1809,10 +1834,10 @@ Dim col7 As Collection
     'Iremos desde fhaianterior a fecf
     SQL = "select codmacta from hlinapu where codmacta like '6%' "
     SQL = SQL & " and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaF, "F") & " GROUP BY codmacta"
-    Set miRsAux = New ADODB.Recordset
+    
     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Set col6 = New Collection
-    i = 0
+    i = 1
     SQL = ""
     While Not miRsAux.EOF
         SQL = SQL & ", " & DBSet(miRsAux!codmacta, "T")
@@ -1823,14 +1848,12 @@ Dim col7 As Collection
         If i > DeTantosEnTantos Then
             col6.Add Mid(SQL, 2)
             SQL = ""
-            i = 0
+            i = 1
         End If
     Wend
     miRsAux.Close
     
     
-    'Falta paremtro
-    If vEmpresa.NIF = "F46221503" Then DeTantosEnTantos = 5  'teletaxi
     
     lblCuentas(7).Caption = "Preparando datos 7%"
     lblCuentas(7).Refresh
@@ -1840,7 +1863,7 @@ Dim col7 As Collection
     Set miRsAux = New ADODB.Recordset
     miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Set col7 = New Collection
-    i = 0
+    i = 1
     SQL = ""
     While Not miRsAux.EOF
         SQL = SQL & ", " & DBSet(miRsAux!codmacta, "T")
@@ -1851,7 +1874,7 @@ Dim col7 As Collection
         If i > DeTantosEnTantos Then
             col7.Add Mid(SQL, 2)
             SQL = ""
-            i = 0
+            i = 1
         End If
     Wend
     miRsAux.Close
@@ -1873,8 +1896,9 @@ Dim col7 As Collection
         'Feb2022
         SQL = SQL & ", sum(coalesce(timported,0)) , sum(coalesce(timporteh,0)) "
         SQL = SQL & " from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
+        SQL = SQL & " and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaFAnt, "F")
         SQL = SQL & "  AND hlinapu.codmacta in (" & col6.Item(i) & ")"
-        SQL = SQL & " and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaFAnt, "F") & " GROUP BY codmacta"
+        SQL = SQL & " GROUP BY codmacta"
         Conn.Execute SQL
 
         IncrementarProgres pb2, 1
@@ -1883,11 +1907,15 @@ Dim col7 As Collection
         SQL = "insert into tmpevolsal(codusu,codmacta,apertura,importemes1) "
         SQL = SQL & "select " & vUsu.Codigo & ", codmacta , 2, sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) "
         SQL = SQL & " from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
+        SQL = SQL & " and fechaent between " & DBSet(FechaI, "F") & " and " & DBSet(FechaF, "F")
         SQL = SQL & "  AND hlinapu.codmacta in (" & col6.Item(i) & ")"
-        SQL = SQL & " and fechaent between " & DBSet(FechaI, "F") & " and " & DBSet(FechaF, "F") & " GROUP BY codmacta"
+        SQL = SQL & " GROUP BY codmacta"
         Conn.Execute SQL
 
         espera 0.1
+    
+    
+        If (i Mod 25) = 0 Then DoEvents
     
     Next
 
@@ -1901,10 +1929,11 @@ Dim col7 As Collection
         SQL = SQL & "select " & vUsu.Codigo & ", codmacta , 1, sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) "
         'SQL = SQL & ", sum(coalesce(timported,0)) , sum(coalesce(timporteh,0)) "
         SQL = SQL & " from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
+        SQL = SQL & " AND fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaFAnt, "F")
         SQL = SQL & "  AND hlinapu.codmacta in (" & col7.Item(i) & ")"
-        SQL = SQL & " and fechaent between " & DBSet(FechaIAnt, "F") & " and " & DBSet(FechaFAnt, "F") & " GROUP BY codmacta"
+        SQL = SQL & " GROUP BY codmacta"
         Conn.Execute SQL
-        DoEvents
+     
         
         lblCuentas(7).Caption = "Cuentas 7 act(" & i & "/" & col7.Count & ")"
         lblCuentas(7).Refresh
@@ -1913,10 +1942,12 @@ Dim col7 As Collection
         SQL = SQL & "select " & vUsu.Codigo & ", codmacta , 2, sum(coalesce(timported,0)) - sum(coalesce(timporteh,0)) "
         'SQL = SQL & ", sum(coalesce(timported,0)) , sum(coalesce(timporteh,0)) "
         SQL = SQL & " from hlinapu where hlinapu.codconce<>" & ConceptoPerdidasyGanancias
+        SQL = SQL & " AND fechaent between " & DBSet(FechaI, "F") & " and " & DBSet(FechaF, "F")
         SQL = SQL & "  AND hlinapu.codmacta in (" & col7.Item(i) & ")"
-        SQL = SQL & " and fechaent between " & DBSet(FechaI, "F") & " and " & DBSet(FechaF, "F") & " GROUP BY codmacta"
+        SQL = SQL & " GROUP BY codmacta"
         Conn.Execute SQL
-    
+        
+        If (i Mod 25) = 0 Then DoEvents
     
     Next i
     

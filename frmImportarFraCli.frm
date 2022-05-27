@@ -334,6 +334,15 @@ Dim NumeroCamposTratarFraPro As Integer
 Dim numProgres As Long
 Dim TotProgres As Long
 
+
+
+Dim CodigoEnTMP As String 'Para saber que codigos son de tmp para borrar. De momento solo en fracli std
+
+
+
+
+
+
 Private Sub cmdAceptar_Click()
     
     ImportarFraCLI
@@ -346,7 +355,7 @@ Private Sub ImportarFraCLI()
         If ListView1.ListItems.Count > 0 Then
             CadenaTexto = ""
             If Me.cboTipo.ListIndex = 1 Then CadenaTexto = DatosFacturaSAGE
-            CadenaTexto = "¿Continuar con el proceso de importacion?   Facturas: " & Me.ListView1.ListItems.Count & vbCrLf & CadenaTexto
+            CadenaTexto = "¿Continuar con el proceso de importacion?   Lineas facturas: " & Me.ListView1.ListItems.Count & vbCrLf & CadenaTexto
             If MsgBox(CadenaTexto, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
         End If
         
@@ -377,6 +386,7 @@ Private Sub ImportarFraCLI()
     
     'Proceso realmente dicho
     Screen.MousePointer = vbHourglass
+    CodigoEnTMP = ""
     If Me.optVarios(0).Value Then
         If Me.cboTipo.ListIndex = 0 Then
             InsertarEnContabilidadFraCliStd
@@ -421,8 +431,8 @@ Private Sub ImportarFraCLI()
             i = 2
             If Me.optVarios(0).Value Then
                 Set miRsAux = New ADODB.Recordset
-                Cad = " select   serie,max(fecha) fecha,max(factura) factura  From tmpintefrafracli"
-                Cad = Cad & " where codusu =" & vUsu.Codigo & " GROUP BY codigo"
+                Cad = " select   serie,max(fecha) fecha,max(factura) factura  From tmpintefrafracli "
+                Cad = Cad & " where serie <> ''  AND codusu =" & vUsu.Codigo & " GROUP BY serie"
                 miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
                 Cad = ""
                 i = 0
@@ -435,6 +445,7 @@ Private Sub ImportarFraCLI()
                 Wend
                 miRsAux.Close
                 Set miRsAux = Nothing
+                
                 
             End If
             
@@ -584,7 +595,7 @@ Private Sub Form_Load()
         
         Cad = CStr(CheckValueLeer("intetipodoc1"))
         If Cad <> "1" Then Cad = 0
-        Me.Check1.Value = Val(Cad)
+        Me.check1.Value = Val(Cad)
         
         Cad = CStr(CheckValueLeer("intetipodoc2"))
         If Cad <> "1" Then Cad = 0
@@ -592,7 +603,7 @@ Private Sub Form_Load()
         
     Else
         Check2.Value = 1
-        Check1.Value = 0
+        check1.Value = 0
     End If
 End Sub
 
@@ -619,7 +630,7 @@ Dim RC As Byte
     PonerLabel "Leyendo fichero"
     If Me.cboTipo.ListIndex = 1 Then
         'SAGE
-        RC = ProcesaFicheroClientesSAGE(Text1.Text, Label1, Check1.Value = 1, True)
+        RC = ProcesaFicheroClientesSAGE(Text1.Text, Label1, check1.Value = 1, True)
         
         
         
@@ -1034,7 +1045,7 @@ Dim K As Integer
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.Check1.Value = 1 Then Cad = ""
+            If Me.check1.Value = 1 Then Cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraCli, ";"), Cad) > 0 Then Cad = "" 'todo puntos y comas
         End If
@@ -1119,7 +1130,7 @@ Dim NuevaLinea As Boolean
     
     'Precomprobacion primera linea
     If NumRegElim = 1 Then
-       If Me.Check1.Value = 0 Then
+       If Me.check1.Value = 0 Then
             
             'Si numero factura- codmacta y forma de pago no son numericos, p
             If Not IsNumeric(strArray(1)) Then
@@ -1936,6 +1947,8 @@ Dim tCobro As String
 '        2 = TESORERIA
 Dim Tipointegracion As Byte
 
+
+
     Set miRsAux = New ADODB.Recordset
     
     Label1.Caption = "Insertando contabilidad"
@@ -1981,6 +1994,8 @@ Dim Tipointegracion As Byte
     
     miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     FACTURA = ""
+    CodigoEnTMP = ""
+    numProgres = 0
     While Not miRsAux.EOF
     
         numProgres = numProgres + 1
@@ -2002,6 +2017,8 @@ Dim Tipointegracion As Byte
                     
                     'Suma correcta
                     Cad = Left(miRsAux!Serie & "   ", 3) & Format(miRsAux!FACTURA, "000000")
+                    
+                    
                 End If
                 'Factura NUEVA.
                 
@@ -2031,7 +2048,7 @@ Dim Tipointegracion As Byte
                     Msg$ = Msg$ & DBSet(miRsAux!ImpRet, "N", "S") & ",'" & miRsAux!ctaret & "'," & DBLet(miRsAux!tipo_ret, "N")   'tiporeten=numfactura
                 End If
                 Msg$ = Msg$ & "," & DBLet(miRsAux!tipo_operacion, "N") & ","
-                Msg$ = Msg$ & "'Importacion datos externos. " & Chr(13) & "Usuario: " & DevNombreSQL(vUsu.Nombre) & Chr(13) & "Fecha: " & Now
+                Msg$ = Msg$ & "'Importacion datos externos. " & Chr(13) & "    Usuario: " & DevNombreSQL(vUsu.Nombre) & Chr(13) & "   Fecha: " & Now
                 Msg$ = Msg$ & "'," & DBSet(miRsAux!Serie, "T") & "," & miRsAux!FACTURA & "," & DBSet(miRsAux!Fecha, "F") & "," & DBSet(miRsAux!cta_cli, "T") & ","
                 If DBLet(miRsAux!fpago, "T") = "" Then
                     'No viene forma de pago
@@ -2092,7 +2109,7 @@ Dim Tipointegracion As Byte
                 FACTURA = Cad
                 Set ColBases = Nothing
                 Set ColBases = New Collection
-                
+                CodigoEnTMP = ""
             End If
         End If
         
@@ -2106,6 +2123,8 @@ Dim Tipointegracion As Byte
         Cad = Cad & "," & DBSet(Fecha, "F", "N") & "," & DBSet(Trim(Mid(FACTURA, 1, 3)), "T") & "," & DBSet(Mid(FACTURA, 4), "N") & ")"
         
         ColBases.Add Cad
+        CodigoEnTMP = CodigoEnTMP & ", " & miRsAux!Codigo
+            
             
         'Siguiente
         miRsAux.MoveNext
@@ -2251,11 +2270,19 @@ Dim B As Boolean
         Conn.Execute Cad
     End If
     
+    
+    'Borramos de la tabla temporal
+    If CodigoEnTMP <> "" Then
+        
+        CodigoEnTMP = Mid(CodigoEnTMP, 2)
+        CodigoEnTMP = "DELETE from tmpintefrafracli WHERE codusu =" & vUsu.Codigo & " AND codigo IN (" & CodigoEnTMP & ")"
+        'Conn.Execute CodigoEnTMP
+        CodigoEnTMP = ""
+    End If
+    
     'Adelante transaccion
     Conn.CommitTrans
     InsertarFACTURA = True
-    'Borramos de la tabla temporal
-    
     
     Exit Function
 eInsertarFACTURA:
@@ -2320,7 +2347,7 @@ Private Sub Form_Unload(Cancel As Integer)
     If vParam.PathFicherosInteg = "" Then
         CheckValueGuardar "intetipodoc", CByte(Me.cboTipo.ListIndex)
         
-        CheckValueGuardar "intetipodoc1", CByte(Me.Check1.Value)
+        CheckValueGuardar "intetipodoc1", CByte(Me.check1.Value)
         
         CheckValueGuardar "intetipodoc2", CByte(Me.Check2.Value)
     End If
@@ -2451,7 +2478,7 @@ Dim RC As Byte
     Case 1
         ImportacionFacturasProveedor
     Case 2
-        RC = ProcesaFicheroClientesSAGE(Text1.Text, Label1, Check1.Value = 1, False)
+        RC = ProcesaFicheroClientesSAGE(Text1.Text, Label1, check1.Value = 1, False)
     
     Case Else
         ImportacionNavarresFraPro
@@ -2739,7 +2766,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.Check1.Value = 1 Then Cad = ""
+            If Me.check1.Value = 1 Then Cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraPro, ";"), Cad) > 0 Then Cad = "" 'todo puntos y comas
         End If
@@ -3268,7 +3295,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.Check1.Value = 1 Then Cad = ""
+            If Me.check1.Value = 1 Then Cad = ""
         Else
             '10 campos a tratar
             If InStr(1, String(10, ";"), Cad) > 0 Then Cad = "" 'todo puntos y comas
@@ -3932,7 +3959,7 @@ Dim Aux As String
         
         If NumRegElim = 1 Then
             'Primera linea encabezado?
-            If Me.Check1.Value = 1 Then Cad = ""
+            If Me.check1.Value = 1 Then Cad = ""
         Else
             If InStr(1, String(NumeroCamposTratarFraPro, ";"), Cad) > 0 Then Cad = "" 'todo puntos y comas
         End If

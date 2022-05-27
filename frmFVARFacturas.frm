@@ -2530,6 +2530,7 @@ Dim Cad As String
         Case 3 'INSERTAR
             If DatosOK Then
                 Set Mc = New Contadores
+                i = 0
                 If Text1(2).Text <> "" Then i = FechaCorrecta2(CDate(Text1(2).Text))
                 
                 Text1(0).Text = Trim(Text1(0).Text)
@@ -2933,8 +2934,8 @@ On Error GoTo EPonerModo
     
     'Imagen Calendario fechas
     B = (Modo = 3 Or Modo = 4 Or Modo = 1 Or (Modo = 5 And (ModoLineas = 1 Or ModoLineas = 2)))
-    Me.ImgFec(2).Enabled = (Modo = 3 Or Modo = 1) 'es clave, solo al insertar o buscar
-    Me.ImgFec(2).visible = (Modo = 3 Or Modo = 1) 'es clave, solo al insertar o buscar
+    Me.imgFec(2).Enabled = (Modo = 3 Or Modo = 1) 'es clave, solo al insertar o buscar
+    Me.imgFec(2).visible = (Modo = 3 Or Modo = 1) 'es clave, solo al insertar o buscar
             
     chkVistaPrevia(0).Enabled = (Modo <= 2)
     
@@ -5227,7 +5228,7 @@ Dim Rs As ADODB.Recordset
         Text1(34).Text = DBLet(Rs!codpais, "T")
         If Text1(34).Text <> "" Then Text2(34).Text = DevuelveDesdeBD("nompais", "paises", "codpais", Text1(34).Text, "T")
         
-        Text1(25).Text = DBLet(Rs!forpa, "T")
+        Text1(25).Text = DBLet(Rs!Forpa, "T")
         If Text1(25).Text <> "" Then Text2(25).Text = DevuelveDesdeBD("nomforpa", "formapago", "codforpa", Text1(25).Text, "N")
             
     End If

@@ -2426,18 +2426,6 @@ Private Function GeneraLasLiquidaciones() As Boolean
     Conn.Execute SQL
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     NumRegElim = 0
     'Para cada empresa
     'Para cada periodo

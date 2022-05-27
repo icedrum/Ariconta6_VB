@@ -12,8 +12,8 @@ Option Explicit
     Private NumeroTransferencia As Integer
 
 
-Public Function FrmtStr(Campo As String, Longitud As Integer) As String
-    FrmtStr = Mid(Trim(Campo) & Space(Longitud), 1, Longitud)
+Public Function FrmtStr(campo As String, Longitud As Integer) As String
+    FrmtStr = Mid(Trim(campo) & Space(Longitud), 1, Longitud)
 End Function
 
 
@@ -1136,7 +1136,7 @@ Dim Cad As String
             'Guardare el numero de contrato de CAIXACONFIRMING
             ' Sera, un char de 14
             ' Si no pone nada sera oficnacuenta  Total 14 posiciones
-            ConceptoTr_ = Trim(DBLet(Rs!CaixaConfirming, "T"))
+            ConceptoTr_ = Trim(DBLet(Rs!caixaconfirming, "T"))
             If ConceptoTr_ = "" Then ConceptoTr_ = Mid(CodigoOrdenante, 5, 4) & Mid(CodigoOrdenante, 11, 10)
             
             '                ENTIDAD
@@ -1337,7 +1337,7 @@ Dim Cad As String
             '                ENTIDAD
             'ConceptoTr_ = Mid(CodigoOrdenante, 1, 4) & ConceptoTr_
        
-            CodigoOrdenante = Mid(DBLet(Rs!CaixaConfirming, "T") & Space(16), 1, 16)
+            CodigoOrdenante = Mid(DBLet(Rs!caixaconfirming, "T") & Space(16), 1, 16)
         
     End If
     Rs.Close
@@ -1496,7 +1496,7 @@ Dim Cad As String
         Cad = ""
     Else
        
-            CodigoOrdenante = Mid(DBLet(Rs!CaixaConfirming, "T") & Space(3), 1, 3)
+            CodigoOrdenante = Mid(DBLet(Rs!caixaconfirming, "T") & Space(3), 1, 3)
     End If
     Rs.Close
     Set Rs = Nothing
@@ -1644,7 +1644,7 @@ Dim Cad As String
 
         miBanco = Mid(Rs!IBAN, 5)
        
-        CodigoOrdenante = Mid(DBLet(Rs!CaixaConfirming, "T") & Space(12), 1, 12)
+        CodigoOrdenante = Mid(DBLet(Rs!caixaconfirming, "T") & Space(12), 1, 12)
         
     End If
     Rs.Close
@@ -2932,7 +2932,7 @@ Dim NumeroDePago As Long
     RefereProve = ""
     If Rs.EOF Then
         'No hayningun registro
-        
+
     Else
         
         While Not Rs.EOF
@@ -3008,10 +3008,9 @@ Dim NumeroDePago As Long
                     Impor2 = Impor2 + Im
                     Importe = Importe + Im
                     Aux = "0659" & CodigoOrdenante & RefereProve & "015" & Format(NumeroDePago, "00000000")
-                    
                     Aux = Aux & RellenaABlancos(Right(Rs!codmacta, 5) & Rs!numfactu & Rs!numorden, False, 12)
                     Aux = Aux & Format(Rs!FecFactu, "ddmmyyyy")
-                    Aux = Aux & RellenaAceros(Replace(CStr(Abs(Im)), ",", ""), False, 12)
+                    Aux = Aux & RellenaAceros(Replace(CStr(Abs(Im * 100)), ",", ""), False, 12)
                     Aux = Aux & IIf(Im < 0, "D", "H")
                     Cad = Mid(Rs!numfactu & " " & Rs!FecFactu & " " & Rs!numorden, 1, 26)
                     Aux = Aux & RellenaABlancos(Cad, True, 28)
@@ -3048,8 +3047,7 @@ Dim NumeroDePago As Long
                 Aux = Aux & RellenaABlancos(Rs!IBAN, True, 34)
                 Cad = Mid(Rs!IBAN, 5, 4)
                 Cad = DevuelveDesdeBD("bic", "bics", "entidad", Cad)
-                If Cad = "" Then Err.Raise 513, , "IBAN entidad: " & Mid(IBAN, 5, 4) & " Banco: " & IBAN
-                Aux = Aux & RellenaABlancos(Cad, True, 35)
+                If Cad = "" Then Err.Raise 513, , "IBAN entidad: " & Mid(Rs!IBAN, 5, 4) & " Banco: " & Rs!IBAN
                 Print #NFich, Aux
                 Regs = Regs + 1
                 
@@ -3135,7 +3133,7 @@ Dim Cad As String
         Cad = ""
     Else
         'Enpipados:   contrato confirming | sufijoconfirming
-        CodigoOrdenante = DBLet(Rs!CaixaConfirming, "T") & "|" & Mid(DBLet(Rs!sufijoconfirming, "T") & Space(2), 1, 2) & "|" & Rs!IBAN & "|"
+        CodigoOrdenante = DBLet(Rs!caixaconfirming, "T") & "|" & Mid(DBLet(Rs!sufijoconfirming, "T") & Space(2), 1, 2) & "|" & Rs!IBAN & "|"
         
     End If
     Rs.Close
@@ -3301,7 +3299,7 @@ Dim K As Byte
         Cad = ""
     Else
         'Enpipados:   contrato confirming | sufijoconfirming
-        CodigoOrdenante = DBLet(Rs!CaixaConfirming, "T") & "|" & Mid(DBLet(Rs!sufijoconfirming, "T") & Space(2), 1, 2) & "|" & Rs!IBAN & "|"
+        CodigoOrdenante = DBLet(Rs!caixaconfirming, "T") & "|" & Mid(DBLet(Rs!sufijoconfirming, "T") & Space(2), 1, 2) & "|" & Rs!IBAN & "|"
         
     End If
     Rs.Close

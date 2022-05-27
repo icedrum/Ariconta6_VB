@@ -328,7 +328,7 @@ Dim RC As String
 Dim Rs As Recordset
 Dim PrimeraVez As Boolean
 
-Dim cad As String
+Dim Cad As String
 Dim CONT As Long
 Dim i As Integer
 Dim TotalRegistros As Long
@@ -513,8 +513,8 @@ Dim EsReciboAnticipado As Boolean
             FV2 = DateAdd("m", 1, FV2)
             If FinalMes Then
                 K = DiasMes(Month(FV2), Year(FV2))
-                cad = K & "/" & Format(Month(FV2), "00") & "/" & Year(FV2)
-                FV2 = CDate(cad)
+                Cad = K & "/" & Format(Month(FV2), "00") & "/" & Year(FV2)
+                FV2 = CDate(Cad)
             End If
         End If
         
@@ -530,9 +530,9 @@ Dim EsReciboAnticipado As Boolean
     Set Rs = New ADODB.Recordset
     
     'Si el vencimiento origen tiene gastos, el resultado del vencimiento NO puede ser menor que el gasto EsReciboAnticipado
-    cad = "Select coalesce(gastos,0), coalesce(impcobro,0),reciboanticipado  from cobros WHERE "
-    cad = cad & RecuperaValor(CadenaDesdeOtroForm, 1) & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = "Select coalesce(gastos,0), coalesce(impcobro,0),reciboanticipado  from cobros WHERE "
+    Cad = Cad & RecuperaValor(CadenaDesdeOtroForm, 1) & " AND numorden = " & RecuperaValor(CadenaDesdeOtroForm, 2)
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Rs.EOF Then
         Set Rs = Nothing
         MsgBox "Vencimiento no encontrado: " & vbCrLf & RecuperaValor(CadenaDesdeOtroForm, 1), vbExclamation
@@ -572,7 +572,7 @@ Dim EsReciboAnticipado As Boolean
         SQL = Format(FecVenci, "dd/mm/yyyy") & Format(vTotal, FormatoImporte) & "|" & SQL
     End If
     MensajeVtos = SQL
-    cad = ""
+    Cad = ""
     
     SQL = ""
     If SQL = "" Then
@@ -638,8 +638,8 @@ Dim EsReciboAnticipado As Boolean
             vFecVenci = DateAdd("m", 1, vFecVenci)
             If FinalMes Then
                 EnteroAux = DiasMes(Month(vFecVenci), Year(vFecVenci))
-                cad = EnteroAux & "/" & Format(Month(vFecVenci), "00") & "/" & Year(vFecVenci)
-                vFecVenci = CDate(cad)
+                Cad = EnteroAux & "/" & Format(Month(vFecVenci), "00") & "/" & Year(vFecVenci)
+                vFecVenci = CDate(Cad)
             End If
         End If
     
@@ -720,7 +720,7 @@ ecmdDivVto:
     Else
         Conn.CommitTrans
         CadenaDesdeOtroForm = CadenaDesdeOtroForm & K & "|"
-        MsgBox "Proceso realizado correctamente", vbExclamation
+        MsgBox "Proceso realizado correctamente", vbInformation
         Unload Me
     End If
     Set Rs = Nothing
@@ -820,7 +820,7 @@ Dim cerrar As Boolean
 End Sub
 
 Private Sub txtcodigo_LostFocus(Index As Integer)
-Dim cad As String, cadTipo As String 'tipo cliente
+Dim Cad As String, cadTipo As String 'tipo cliente
 Dim B As Boolean
 
     'Quitar espacios en blanco por los lados

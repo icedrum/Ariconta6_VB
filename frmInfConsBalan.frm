@@ -792,15 +792,15 @@ Dim Contabilidades As String
     
     InicializarVbles True
     
-    Saldo473en470 = False
+    Saldo473en_470 = False
     Saldo6y7en129 = False
     If Opcion = 0 Then
         
-        Saldo473en470 = (chk1.Value = 1)
+        Saldo473en_470 = (chk1.Value = 1)
         Saldo6y7en129 = (chk2.Value = 1)
     
     
-        If Saldo473en470 Then
+        If Saldo473en_470 Then
             'Deberiamos indicar si esta configurado para leer de la 470
             cad = "codmacta = '4' or codmacta='47' or codmacta like '473%' AND numbalan"
             RC = DevuelveDesdeBD("concat(pasivo,' ',codigo,': ',codmacta)", "balances_ctas", cad, txtBalan(0).Text & " ORDER BY codmacta")

@@ -306,8 +306,8 @@ Dim C2 As Long
     End If
     Rs.Close
     
-        
-    SQL = "Select max(numfactu) Contador from fvarfactura where numserie=" & DBSet(LEtra, "T") & " AND fecfactu>='" & Year(Fecfactu) & "-01-01' AND year(fecfactu)= " & Year(Fecfactu)
+    
+    SQL = "Select max(numfactu) Contador from fvarfactura where numserie=" & DBSet(LEtra, "T") & " AND fecfactu>=" & DBSet(vParam.fechaini, "F") & ""
     Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
         If Not IsNull(Rs!Contador) Then mvarContador = Rs!Contador
