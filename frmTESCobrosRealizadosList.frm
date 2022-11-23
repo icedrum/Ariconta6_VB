@@ -1297,6 +1297,25 @@ Begin VB.Form frmTESCobrosRealizadosList
       Top             =   0
       Width           =   6135
       Begin VB.CheckBox Check2 
+         Caption         =   "Incluir pendientes"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   240
+         Index           =   1
+         Left            =   240
+         TabIndex        =   73
+         Top             =   5880
+         Visible         =   0   'False
+         Width           =   4155
+      End
+      Begin VB.CheckBox Check2 
          Caption         =   "Exportación e intracomunitarias"
          BeginProperty Font 
             Name            =   "Verdana"
@@ -1461,6 +1480,7 @@ Option Explicit
 
 Private Const IdPrograma = 616
 
+Public VerCobradosYpagados As Boolean    'David !!!! Octubre 2022. Ver cobrados o no
 
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
@@ -1488,10 +1508,10 @@ Attribute frmDpto.VB_VarHelpID = -1
 Private WithEvents frmCtas As frmColCtas
 Attribute frmCtas.VB_VarHelpID = -1
 
-Private SQL As String
+Private Sql As String
 Dim cad As String
 Dim RC As String
-Dim i As Integer
+Dim I As Integer
 Dim IndCodigo As Integer
 Dim tabla As String
 
@@ -1605,16 +1625,16 @@ Private Sub Form_Load()
     'Otras opciones
     Me.Caption = "Listado de Cobros realizados"
 
-    For i = 0 To 1
-        Me.imgSerie(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-        Me.imgCuentas(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-        Me.imgDpto(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-        Me.imgAgente(i).Picture = frmppal.imgIcoForms.ListImages(1).Picture
-    Next i
+    For I = 0 To 1
+        Me.imgSerie(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+        Me.imgCuentas(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+        Me.imgDpto(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+        Me.imgAgente(I).Picture = frmppal.imgIcoForms.ListImages(1).Picture
+    Next I
     
-    For i = 0 To 5
-        Me.ImgFec(i).Picture = frmppal.imgIcoForms.ListImages(2).Picture
-    Next i
+    For I = 0 To 5
+        Me.ImgFec(I).Picture = frmppal.imgIcoForms.ListImages(2).Picture
+    Next I
      
     ' La Ayuda
     With Me.ToolbarAyuda
@@ -1631,8 +1651,8 @@ Private Sub Form_Load()
      
     PonerDatosPorDefectoImpresion Me, False, Me.Caption 'Siempre tiene que tener el frame con txtTipoSalida
     ponerLabelBotonImpresion cmdAccion(1), cmdAccion(0), 0
-
-    
+    Check2(1).Value = 0
+    Check2(1).visible = Me.VerCobradosYpagados
     optVarios(0).Value = True
     optVarios(3).Value = True
     
@@ -1656,7 +1676,7 @@ Private Sub frmConta_DatoSeleccionado(CadenaSeleccion As String)
 End Sub
 
 Private Sub frmCtas_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 Private Sub frmDpto_DatoSeleccionado(CadenaSeleccion As String)
@@ -1671,7 +1691,7 @@ Private Sub frmF_Selec(vFecha As Date)
 End Sub
 
 Private Sub imgCheck_Click(Index As Integer)
-Dim i As Integer
+Dim I As Integer
 Dim TotalCant As Currency
 Dim TotalImporte As Currency
 
@@ -1680,13 +1700,13 @@ Dim TotalImporte As Currency
     Select Case Index
         ' tipos de forma de pago
         Case 0
-            For i = 1 To ListView1(1).ListItems.Count
-                ListView1(1).ListItems(i).Checked = False
-            Next i
+            For I = 1 To ListView1(1).ListItems.Count
+                ListView1(1).ListItems(I).Checked = False
+            Next I
         Case 1
-            For i = 1 To ListView1(1).ListItems.Count
-                ListView1(1).ListItems(i).Checked = True
-            Next i
+            For I = 1 To ListView1(1).ListItems.Count
+                ListView1(1).ListItems(I).Checked = True
+            Next I
     End Select
     
     Screen.MousePointer = vbDefault
@@ -1750,15 +1770,15 @@ Private Sub imgFec_Click(Index As Integer)
 End Sub
 
 Private Sub imgCuentas_Click(Index As Integer)
-    SQL = ""
+    Sql = ""
     AbiertoOtroFormEnListado = True
     Set frmCtas = New frmColCtas
     frmCtas.DatosADevolverBusqueda = True
     frmCtas.Show vbModal
     Set frmCtas = Nothing
-    If SQL <> "" Then
-        Me.txtCuentas(Index).Text = RecuperaValor(SQL, 1)
-        Me.txtNCuentas(Index).Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Me.txtCuentas(Index).Text = RecuperaValor(Sql, 1)
+        Me.txtNCuentas(Index).Text = RecuperaValor(Sql, 2)
     Else
         QuitarPulsacionMas Me.txtCuentas(Index)
     End If
@@ -1846,7 +1866,7 @@ Private Sub txtCuentas_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtCuentas(Index).Text = Trim(txtCuentas(Index).Text)
@@ -1872,18 +1892,18 @@ Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
     Select Case Index
         Case 0, 1 'cuentas
             Cta = (txtCuentas(Index).Text)
-            B = CuentaCorrectaUltimoNivelSIN(Cta, SQL)
+            B = CuentaCorrectaUltimoNivelSIN(Cta, Sql)
             If B = 0 Then
                 MsgBox "NO existe la cuenta: " & txtCuentas(Index).Text, vbExclamation
                 txtCuentas(Index).Text = ""
                 txtNCuentas(Index).Text = ""
             Else
                 txtCuentas(Index).Text = Cta
-                txtNCuentas(Index).Text = SQL
+                txtNCuentas(Index).Text = Sql
                 If B = 1 Then
                     txtNCuentas(Index).Tag = ""
                 Else
-                    txtNCuentas(Index).Tag = SQL
+                    txtNCuentas(Index).Tag = Sql
                 End If
                 Hasta = -1
                 If Index = 6 Then
@@ -1974,7 +1994,7 @@ Private Sub txtSerie_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer   'Cuando en cuenta pongo un desde, para poner el hasta
 
     txtSerie(Index).Text = UCase(Trim(txtSerie(Index).Text))
@@ -2024,7 +2044,7 @@ Private Sub txtDpto_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String 'tipo cliente
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer
 
     txtDpto(Index).Text = Trim(txtDpto(Index).Text)
@@ -2067,7 +2087,7 @@ Private Sub txtAgente_LostFocus(Index As Integer)
 Dim cad As String, cadTipo As String
 Dim Cta As String
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Hasta As Integer
 
     txtAgente(Index).Text = Trim(txtAgente(Index).Text)
@@ -2091,29 +2111,29 @@ Dim Sql2 As String
     'Monto el SQL
     
         If Me.Check2(0).Value = 0 Then
-            SQL = " SELECT `cobros`.`codmacta`, `cobros`.`fecfactu`, `cobros`.`fecvenci`, `cobros`.`numorden`, `cobros`.`gastos`, `cobros`.`impcobro`, "
-            SQL = SQL & " `cobros`.`impvenci`, `cobros`.`numserie`, `cobros`.`numfactu`, `cobros`.`nomclien`, `formapago`.`tipforpa`, "
-            SQL = SQL & " `cobros`.`situacion`, `cobros`.`anyorem`, `cobros`.`ctabanc1`, `tipofpago`.`siglas`, `bancos`.`descripcion`, `cobros`.`fecultco`"
-            SQL = SQL & " FROM   {oj ((`ariconta2`.`cobros` `cobros` INNER JOIN `ariconta2`.`formapago` `formapago`"
-            SQL = SQL & " ON `cobros`.`codforpa`=`formapago`.`codforpa`) LEFT JOIN `bancos` `bancos` ON `cobros`.`ctabanc1`=`bancos`.`codmacta`) "
-            SQL = SQL & " INNER JOIN `tipofpago` `tipofpago` ON `formapago`.`tipforpa`=`tipofpago`.`tipoformapago`}"
-            SQL = SQL & " WHERE " & cadselect
-            SQL = SQL & " ORDER BY `cobros`.`codmacta`, `cobros`.`fecultco`, `cobros`.`fecfactu`, `cobros`.`numserie`, `cobros`.`numfactu`"
+            Sql = " SELECT `cobros`.`codmacta`, `cobros`.`fecfactu`, `cobros`.`fecvenci`, `cobros`.`numorden`, `cobros`.`gastos`, `cobros`.`impcobro`, "
+            Sql = Sql & " `cobros`.`impvenci`, `cobros`.`numserie`, `cobros`.`numfactu`, `cobros`.`nomclien`, `formapago`.`tipforpa`, "
+            Sql = Sql & " `cobros`.`situacion`, `cobros`.`anyorem`, `cobros`.`ctabanc1`, `tipofpago`.`siglas`, `bancos`.`descripcion`, `cobros`.`fecultco`"
+            Sql = Sql & " FROM   {oj ((`ariconta2`.`cobros` `cobros` INNER JOIN `ariconta2`.`formapago` `formapago`"
+            Sql = Sql & " ON `cobros`.`codforpa`=`formapago`.`codforpa`) LEFT JOIN `bancos` `bancos` ON `cobros`.`ctabanc1`=`bancos`.`codmacta`) "
+            Sql = Sql & " INNER JOIN `tipofpago` `tipofpago` ON `formapago`.`tipforpa`=`tipofpago`.`tipoformapago`}"
+            Sql = Sql & " WHERE " & cadselect
+            Sql = Sql & " ORDER BY `cobros`.`codmacta`, `cobros`.`fecultco`, `cobros`.`fecfactu`, `cobros`.`numserie`, `cobros`.`numfactu`"
         
         Else
-            SQL = " SELECT `tipofpago`.`siglas`, `tmpcobros2`.`numserie`, `tmpcobros2`.`numfactu`, `tmpcobros2`.`fecfactu`, `tmpcobros2`.`codmacta`, "
-            SQL = SQL & " `tmpcobros2`.`nomclien`, `tmpcobros2`.`fecvenci`, `tmpcobros2`.`impvenci`, `tmpcobros2`.`reftalonpag`,"
-            SQL = SQL & " `tmpcobros2`.`bancotalonpag`"
-            SQL = SQL & " FROM   (`tmpcobros2` `tmpcobros2` INNER JOIN `formapago` `formapago` ON `tmpcobros2`.`codforpa`=`formapago`.`codforpa`)"
-            SQL = SQL & " INNER JOIN `tipofpago` `tipofpago` ON `formapago`.`tipforpa`=`tipofpago`.`tipoformapago`"
-            SQL = SQL & " ORDER BY `tmpcobros2`.`fecvenci`, `tmpcobros2`.`numserie`, `tmpcobros2`.`numfactu`"
+            Sql = " SELECT `tipofpago`.`siglas`, `tmpcobros2`.`numserie`, `tmpcobros2`.`numfactu`, `tmpcobros2`.`fecfactu`, `tmpcobros2`.`codmacta`, "
+            Sql = Sql & " `tmpcobros2`.`nomclien`, `tmpcobros2`.`fecvenci`, `tmpcobros2`.`impvenci`, `tmpcobros2`.`reftalonpag`,"
+            Sql = Sql & " `tmpcobros2`.`bancotalonpag`"
+            Sql = Sql & " FROM   (`tmpcobros2` `tmpcobros2` INNER JOIN `formapago` `formapago` ON `tmpcobros2`.`codforpa`=`formapago`.`codforpa`)"
+            Sql = Sql & " INNER JOIN `tipofpago` `tipofpago` ON `formapago`.`tipforpa`=`tipofpago`.`tipoformapago`"
+            Sql = Sql & " ORDER BY `tmpcobros2`.`fecvenci`, `tmpcobros2`.`numserie`, `tmpcobros2`.`numfactu`"
         
         End If
                 
         
                 
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -2129,10 +2149,13 @@ Dim nomDocu As String
     indRPT_ = "0616-01"
     If Me.Check2(0).Value = 1 Then indRPT_ = "0616-02"
     
-
-        
-  
     If Not PonerParamRPT(indRPT_, nomDocu) Then Exit Sub
+    
+    
+    'Habria que parametrizarlo
+    If Me.Check2(1).visible Then
+        nomDocu = "CobrosrealizadosTodos.rpt"
+    End If
     
     cadNomRPT = nomDocu
 
@@ -2152,7 +2175,7 @@ Dim nomDocu As String
 End Sub
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String
@@ -2161,9 +2184,14 @@ Dim J As Integer
 
     MontaSQL = False
     
-    cadselect = " cobros.situacion= 1"
-    cadFormula = " {cobros.situacion} = 1"
     
+    If Me.Check2(1).Value = 0 Then
+        cadselect = " cobros.situacion= 1"
+        cadFormula = " {cobros.situacion} = 1"
+    Else
+        cadselect = " cobros.situacion>= 0"
+        cadFormula = " {cobros.situacion} >= 0"
+    End If
     
     If Not PonerDesdeHasta("cobros.NumSerie", "SER", Me.txtSerie(0), Me.txtNSerie(0), Me.txtSerie(1), Me.txtNSerie(1), "pDHSerie=""Serie ") Then Exit Function
     If Not PonerDesdeHasta("cobros.FecFactu", "F", Me.txtFecha(0), Me.txtFecha(0), Me.txtFecha(1), Me.txtFecha(1), "pDHFecha=""F. Factura ") Then Exit Function
@@ -2173,20 +2201,20 @@ Dim J As Integer
     If Not PonerDesdeHasta("cobros.agente", "AGE", Me.txtAgente(0), Me.txtNAgente(0), Me.txtAgente(1), Me.txtNAgente(1), "pDHAgente=""Agente ") Then Exit Function
     If Not PonerDesdeHasta("cobros.departamento", "DPTO", Me.txtDpto(0), Me.txtNDpto(0), Me.txtDpto(1), Me.txtNDpto(1), "pDHDpto=""") Then Exit Function
             
-    SQL = ""
+    Sql = ""
     For J = 1 To Me.ListView1(1).ListItems.Count
         If Me.ListView1(1).ListItems(J).Checked Then
-            SQL = SQL & Me.ListView1(1).ListItems(J).SubItems(2) & ","
+            Sql = Sql & Me.ListView1(1).ListItems(J).SubItems(2) & ","
         End If
     Next J
    
         
-    If SQL <> "" Then
+    If Sql <> "" Then
         ' quitamos la ultima coma
-        SQL = Mid(SQL, 1, Len(SQL) - 1)
+        Sql = Mid(Sql, 1, Len(Sql) - 1)
         
-        If Not AnyadirAFormula(cadselect, "formapago.tipforpa in (" & SQL & ")") Then Exit Function
-        If Not AnyadirAFormula(cadFormula, "{formapago.tipforpa} in [" & SQL & "]") Then Exit Function
+        If Not AnyadirAFormula(cadselect, "formapago.tipforpa in (" & Sql & ")") Then Exit Function
+        If Not AnyadirAFormula(cadFormula, "{formapago.tipforpa} in [" & Sql & "]") Then Exit Function
     Else
         If Not AnyadirAFormula(cadselect, "formapago.tipforpa is null") Then Exit Function
         If Not AnyadirAFormula(cadFormula, "isnull({formapago.tipforpa})") Then Exit Function
@@ -2195,21 +2223,21 @@ Dim J As Integer
     
     
     If RC <> "" Then
-        i = InStr(1, cadParam, "|pDHFecVto=""")
-        If i = 0 Then
+        I = InStr(1, cadParam, "|pDHFecVto=""")
+        If I = 0 Then
             cadParam = cadParam & "pDHFecVto=""" & RC & """|"
         Else
-            J = InStr(i + 10, cadParam, "|")
+            J = InStr(I + 10, cadParam, "|")
             If J = 0 Then
                 MsgBox "Imposible poner etiqueta en informe. El programa continuará. Avise soporte", vbExclamation
             Else
                 RC2 = Mid(cadParam, J + 1)
-                SQL = Mid(cadParam, i + 12, J - i - 13)
-                SQL = SQL & "       " & RC
-                SQL = "pDHFecVto=""Fecha vto. " & SQL & """|"
-                RC = Mid(cadParam, 1, i)
+                Sql = Mid(cadParam, I + 12, J - I - 13)
+                Sql = Sql & "       " & RC
+                Sql = "pDHFecVto=""Fecha vto. " & Sql & """|"
+                RC = Mid(cadParam, 1, I)
                 
-                cadParam = RC & SQL & RC2
+                cadParam = RC & Sql & RC2
                 
             End If
             
@@ -2277,7 +2305,7 @@ End Sub
 Private Sub CargarListView(Index As Integer)
 Dim Rs As ADODB.Recordset
 Dim ItmX As ListItem
-Dim SQL As String
+Dim Sql As String
 
     On Error GoTo ECargarList
  
@@ -2288,10 +2316,10 @@ Dim SQL As String
     ListView1(Index).ColumnHeaders.Add , , "Descripción", 3200
     ListView1(Index).ColumnHeaders.Add , , " ", 0
     
-    SQL = "Select * from tipofpago order by 1" 'descformapago"
+    Sql = "Select * from tipofpago order by 1" 'descformapago"
     
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     While Not Rs.EOF
         Set ItmX = ListView1(Index).ListItems.Add
@@ -2367,11 +2395,11 @@ Private Function InsertaTmp() As Boolean
 
     
     
-    SQL = "INSERT INTO tmpcobros2(codusu,numserie,numfactu,fecfactu,numorden,codmacta,codforpa,fecvenci,impvenci,nomclien,cpclien,reftalonpag  ) "
+    Sql = "INSERT INTO tmpcobros2(codusu,numserie,numfactu,fecfactu,numorden,codmacta,codforpa,fecvenci,impvenci,nomclien,cpclien,reftalonpag  ) "
     
-    SQL = SQL & " SELECT " & vUsu.Codigo & ", numserie,numfactu,fecfactu,numorden,codmacta,cobros.codforpa,fecultco fecvenci,impcobro impvenci,nomclien, DATE_FORMAT(fecvenci,  ""%d/%m/%Y""), ctabanc1"
-    SQL = SQL & " from cobros,formapago where  cobros.codforpa=formapago.codforpa AND " & cadselect
-    Conn.Execute SQL
+    Sql = Sql & " SELECT " & vUsu.Codigo & ", numserie,numfactu,fecfactu,numorden,codmacta,cobros.codforpa,fecultco fecvenci,impcobro impvenci,nomclien, DATE_FORMAT(fecvenci,  ""%d/%m/%Y""), ctabanc1"
+    Sql = Sql & " from cobros,formapago where  cobros.codforpa=formapago.codforpa AND " & cadselect
+    Conn.Execute Sql
     
     
     
@@ -2380,35 +2408,35 @@ Private Function InsertaTmp() As Boolean
     
     Set miRsAux = New ADODB.Recordset
     
-    SQL = "select min(fecfactu) m1,max(fecfactu) m2 from tmpcobros2 WHERE codusu = " & vUsu.Codigo
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = "select min(fecfactu) m1,max(fecfactu) m2 from tmpcobros2 WHERE codusu = " & vUsu.Codigo
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     'No puede ser eof
     If miRsAux.EOF Then Err.Raise 513, , "tmpcobros2 vacia"
     
-    SQL = "fecfactu >= " & DBSet(miRsAux!M1, "F") & " AND fecfactu <= " & DBSet(miRsAux!M2, "F")
+    Sql = "fecfactu >= " & DBSet(miRsAux!M1, "F") & " AND fecfactu <= " & DBSet(miRsAux!M2, "F")
     miRsAux.Close
     
-    SQL = "    FROM factcli where codopera in (1,2) AND " & SQL & ")"
-    SQL = " AND NOT ( numserie,numfactu,fecfactu) IN  ( SELECT    numserie,numfactu,fecfactu " & SQL
-    SQL = "where codusu = " & vUsu.Codigo & SQL
+    Sql = "    FROM factcli where codopera in (1,2) AND " & Sql & ")"
+    Sql = " AND NOT ( numserie,numfactu,fecfactu) IN  ( SELECT    numserie,numfactu,fecfactu " & Sql
+    Sql = "where codusu = " & vUsu.Codigo & Sql
     
     
-    SQL = "DELETE FROM tmpcobros2 " & SQL
-    Conn.Execute SQL
+    Sql = "DELETE FROM tmpcobros2 " & Sql
+    Conn.Execute Sql
     espera 0.2
     
     
     
     NumRegElim = 0
-    SQL = "SELECT distinct reftalonpag  from tmpcobros2  where codusu = " & vUsu.Codigo
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = "SELECT distinct reftalonpag  from tmpcobros2  where codusu = " & vUsu.Codigo
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         NumRegElim = NumRegElim + 1
         'bancotalonpag
-        SQL = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", DBLet(miRsAux!reftalonpag, "T"), "T")
-        SQL = "UPDATE tmpcobros2 SET bancotalonpag = " & DBSet(SQL, "T")
-        SQL = SQL & " WHERE codusu = " & vUsu.Codigo & " AND reftalonpag = " & DBSet(miRsAux!reftalonpag, "T")
-        Conn.Execute SQL
+        Sql = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", DBLet(miRsAux!reftalonpag, "T"), "T")
+        Sql = "UPDATE tmpcobros2 SET bancotalonpag = " & DBSet(Sql, "T")
+        Sql = Sql & " WHERE codusu = " & vUsu.Codigo & " AND reftalonpag = " & DBSet(miRsAux!reftalonpag, "T")
+        Conn.Execute Sql
         miRsAux.MoveNext
     Wend
     miRsAux.Close

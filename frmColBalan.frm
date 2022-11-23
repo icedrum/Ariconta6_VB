@@ -325,13 +325,13 @@ Public TipoVista As Byte
     ' 1 .-    Ratios
 
     ' 3 .-    Agrupar cuentas para sacar un informe de Auditoria (MANO de OBRA, ...)  Ejemplo picassent
-        ' 2 .-    Flujo de caja...
+    ' 2 .-    Flujo de caja...
     
 Dim PrimeraVez As Boolean
 
 Private Const IdPrograma = 108
 
-
+Dim UltimoBalanceComprobado As Integer
 
 Private Sub cboFiltro_Click()
     CargaGrid
@@ -557,19 +557,37 @@ Dim cad As String
     
     
     'Haremos una segunda comprobacion
-    Label1.Caption = "Obteniendo cuentas ejercicio actual"
+    NumRegElim = Year(vParam.fechaini)
+    If UltimoBalanceComprobado = Val(NumBal) Then
+        cad = InputBox("Año de inicio: ", "Fecha inicio ejercicio: " & vParam.fechaini, Year(vParam.fechaini))
+        If cad <> "" Then
+            If IsNumeric(cad) Then
+                If Val(cad) > 2000 And Val(cad) < 2040 Then NumRegElim = Val(cad)
+            End If
+        End If
+        
+        cad = "desde " & Format(vParam.fechaini, "dd/mm/") & NumRegElim
+        
+    Else
+        cad = "ejercicio actual"
+    End If
+    Label1.Caption = "Obteniendo cuentas " & cad
+    
+    
+    UltimoBalanceComprobado = NumBal
     Me.Refresh
     DoEvent2
             
             Conn.Execute "DELETE FROM tmpcierre1 where codusu =" & vUsu.Codigo
             cad = "INSERT INTO tmpcierre1(codusu,cta) "
             cad = cad & "Select " & vUsu.Codigo & ",codmacta from hlinapu where "
-            cad = cad & " fechaent>='" & Format(vParam.fechaini, FormatoFecha)
+            cad = cad & " fechaent>='" & NumRegElim & Format(vParam.fechaini, "-mm-dd")
+            
             cad = cad & "' AND fechaent<='" & Format(vParam.fechafin, FormatoFecha) & "' AND "
 
             If Not EsPerdidas Then cad = cad & " NOT "
-            cad = cad & "(codmacta like '" & vParam.grupogto & "%' OR "
-            cad = cad & "codmacta like '" & vParam.grupovta & "%'"
+            cad = cad & "(codmacta like '" & vParam.GrupoGto & "%' OR "
+            cad = cad & "codmacta like '" & vParam.GrupoVta & "%'"
             If vParam.Subgrupo1 <> "" Then cad = cad & " OR " & "codmacta like '" & vParam.Subgrupo1 & "%'"
             cad = cad & ") GROUP BY codmacta"
             Conn.Execute cad
@@ -587,6 +605,7 @@ Dim cad As String
             miRsAux.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             cad = "DELETE FROM tmpcierre1 where codusu =" & vUsu.Codigo & " AND cta like '"
             While Not miRsAux.EOF
+               
                 Conn.Execute cad & miRsAux!codmacta & "%'"
                 miRsAux.MoveNext
             Wend

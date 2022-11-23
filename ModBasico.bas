@@ -60,14 +60,14 @@ Public Sub arregla(ByRef tots As String, ByRef grid As DataGrid, ByRef formu As 
         If A(2, fil) <> "B" Then C = C + 1
         
         If A(0, fil) = "N" Then 'no visible
-            grid.Columns(C).visible = False
+            grid.Columns(C).Visible = False
             grid.Columns(C).Width = 0 'si no es visible, pose a 0 l'ample
         ElseIf A(0, fil) = "S" Then 'visible
             ' ********* CAPTION I WIDTH DE L'OBJECTE ************
             
             Select Case A(2, fil) 'tipo (T, C o B) (o CB=CheckBox ) (DT=DTPicker)
                 Case "T"
-                    grid.Columns(C).visible = True
+                    grid.Columns(C).Visible = True
                     If A(3, fil) <> "" Then grid.Columns(C).Caption = A(3, fil)
                     If A(4, fil) <> "" Then grid.Columns(C).Width = CInt(A(4, fil))
 '                    If A(5, fil) <> "" Then
@@ -77,7 +77,7 @@ Public Sub arregla(ByRef tots As String, ByRef grid As DataGrid, ByRef formu As 
 '                    End If
                     TotalAncho = TotalAncho + CInt(A(4, fil))
                 Case "C"
-                    grid.Columns(C).visible = True
+                    grid.Columns(C).Visible = True
                     If A(3, fil) <> "" Then grid.Columns(C).Caption = A(3, fil)
                     If A(4, fil) <> "" Then grid.Columns(C).Width = CInt(A(4, fil)) - 10
 '                    If A(5, fil) <> "" Then
@@ -90,14 +90,14 @@ Public Sub arregla(ByRef tots As String, ByRef grid As DataGrid, ByRef formu As 
                 
                '=== LAURA (07/04/06): añadir tipo CB=CheckBox
                 Case "CB"
-                    grid.Columns(C).visible = True
+                    grid.Columns(C).Visible = True
                     If A(3, fil) <> "" Then grid.Columns(C).Caption = A(3, fil)
                     If A(4, fil) <> "" Then grid.Columns(C).Width = CInt(A(4, fil))
                     TotalAncho = TotalAncho + CInt(A(4, fil))
                '===============================================
                '=== LAURA (14/07/06): añadir tipo DT=DTPicker
                 Case "DT"
-                    grid.Columns(C).visible = True
+                    grid.Columns(C).Visible = True
                     If A(3, fil) <> "" Then grid.Columns(C).Caption = A(3, fil)
                     If A(4, fil) <> "" Then grid.Columns(C).Width = CInt(A(4, fil))
                     TotalAncho = TotalAncho + CInt(A(4, fil))
@@ -533,7 +533,7 @@ ETipoCamp:
 End Function
 
 
-Public Function ContieneCaracterBusqueda(Cadena As String) As Boolean
+Public Function ContieneCaracterBusqueda(CADENA As String) As Boolean
 'Comprueba si la cadena contiene algun caracter especial de busqueda
 ' >,>,>=,: , ....
 'si encuentra algun caracter de busqueda devuelve TRUE y sale
@@ -545,7 +545,7 @@ Dim Ch As String
     i = 1
     B = False
     Do
-        Ch = Mid(Cadena, i, 1)
+        Ch = Mid(CADENA, i, 1)
         Select Case Ch
             Case "<", ">", ":", "="
                 B = True
@@ -556,7 +556,7 @@ Dim Ch As String
         End Select
     'Next i
         i = i + 1
-    Loop Until (B = True) Or (i > Len(Cadena))
+    Loop Until (B = True) Or (i > Len(CADENA))
     ContieneCaracterBusqueda = B
 End Function
 
@@ -1016,7 +1016,7 @@ Public Sub AyudaCuentas(frmBas As frmBasico2, Optional CodActual As String, Opti
     
     frmBas.tabla = "cuentas"
     frmBas.CampoCP = "codmacta"
-    frmBas.Caption = "Cuentas Contables"
+    frmBas.Caption = "ASignacion cta."
     frmBas.DeConsulta = True
     frmBas.DatosADevolverBusqueda = "0|1|2|"
     frmBas.CodigoActual = 0

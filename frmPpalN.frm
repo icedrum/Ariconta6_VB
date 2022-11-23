@@ -3163,6 +3163,7 @@ Private Sub AbrirFormularios(Accion As Long)
             frmTESTransferencias.Show vbModal
             
         Case ID_InformeCobrosRealizados
+            frmTESCobrosRealizadosList.VerCobradosYpagados = VerCobrosPagosPunteo
             frmTESCobrosRealizadosList.Show vbModal  '616
             
         Case ID_HcoCompensa
@@ -3516,13 +3517,15 @@ Dim Tiene_A_cancelar As Byte    '0: NO    1:  Cobros      2 : Pagos     3 Los do
                 
                 If Tiene_A_cancelar > 0 Then
                     
-                   ' If HayQueMostrarEliminarRiesgoTalPag Then
+                   
                         Screen.MousePointer = vbHourglass
                         frmMensajes.Banco = IIf(Tiene_A_cancelar < 10, "", "N")
                         frmMensajes.Tipo = IIf(Tiene_A_cancelar < 10, CStr(Tiene_A_cancelar), "1")
                         frmMensajes.Opcion = 63
                         frmMensajes.Show vbModal
-                   ' End If
+                   
+                   
+                      '  Debug.Assert False
                 End If
                 
             End If

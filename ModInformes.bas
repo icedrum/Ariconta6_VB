@@ -2,6 +2,9 @@ Attribute VB_Name = "ModInformes"
  Option Explicit
 
 
+
+
+
 Public AbiertoOtroFormEnListado As Boolean  'Para saber si ha abieto un from desde el forms de listados
 
 
@@ -24,9 +27,9 @@ Public HaPulsadoImprimir As Boolean
 
 
 Dim Rs As Recordset
-Dim Cad As String
-Dim SQL As String
-Dim i As Integer
+Dim cad As String
+Dim Sql As String
+Dim I As Integer
 
 
 'Esto sera para el pb general
@@ -38,19 +41,19 @@ Dim Actual As Long
 'El campo lo coge del recordset, luego sera field(i), y el tipo es para añadirle
 'las coimllas, o quitarlas comas
 '  Si es numero viene un 1 si no nada
-Private Function ParaBD(ByRef campo As ADODB.Field, Optional EsNumerico As Byte) As String
+Private Function ParaBD(ByRef Campo As ADODB.Field, Optional EsNumerico As Byte) As String
     
-    If IsNull(campo) Then
+    If IsNull(Campo) Then
         ParaBD = "NULL"
     Else
         Select Case EsNumerico
         Case 1
-            ParaBD = TransformaComasPuntos(CStr(campo))
+            ParaBD = TransformaComasPuntos(CStr(Campo))
         Case 2
             'Fechas
-            ParaBD = "'" & Format(CStr(campo), "dd/mm/yyyy") & "'"
+            ParaBD = "'" & Format(CStr(Campo), "dd/mm/yyyy") & "'"
         Case Else
-            ParaBD = "'" & campo & "'"
+            ParaBD = "'" & Campo & "'"
 
             
         End Select
@@ -110,16 +113,16 @@ Public Sub ponerLabelBotonImpresion(ByRef BotonAcept As CommandButton, ByRef Bot
     Else
         BotonAcept.Caption = "&Aceptar"
     End If
-    BotonImpr.visible = SelectorImpresion = 0
+    BotonImpr.Visible = SelectorImpresion = 0
         
         
 eponerLabelBotonImpresion:
     If Err.Number <> 0 Then Err.Clear
 End Sub
 
-Public Function PonerDesdeHasta(campo As String, Tipo As String, ByRef Desde As TextBox, ByRef DesD As TextBox, ByRef Hasta As TextBox, ByRef DesH As TextBox, param As String) As Boolean
+Public Function PonerDesdeHasta(Campo As String, Tipo As String, ByRef Desde As TextBox, ByRef DesD As TextBox, ByRef Hasta As TextBox, ByRef DesH As TextBox, param As String) As Boolean
 Dim Devuelve As String
-Dim Cad As String
+Dim cad As String
 Dim SubTipo As String 'F: fecha   N: numero   T: texto  H: HORA
 
 
@@ -150,7 +153,7 @@ Dim SubTipo As String 'F: fecha   N: numero   T: texto  H: HORA
    
     End Select
     
-    Devuelve = CadenaDesdeHasta(Desde, Hasta, campo, SubTipo)
+    Devuelve = CadenaDesdeHasta(Desde, Hasta, Campo, SubTipo)
     If Devuelve = "Error" Then
         PonFoco Desde
         Exit Function
@@ -172,10 +175,10 @@ Dim SubTipo As String 'F: fecha   N: numero   T: texto  H: HORA
         If Not AnyadirAFormula(cadselect, Devuelve) Then Exit Function
     Else
         'Fecha para la Base de Datos
-        Cad = CadenaDesdeHastaBD(Desde.Text, Hasta.Text, campo, SubTipo)
-        Cad = Replace(Cad, "{", "")
-        Cad = Replace(Cad, "}", "")
-        If Not AnyadirAFormula(cadselect, Cad) Then Exit Function
+        cad = CadenaDesdeHastaBD(Desde.Text, Hasta.Text, Campo, SubTipo)
+        cad = Replace(cad, "{", "")
+        cad = Replace(cad, "}", "")
+        If Not AnyadirAFormula(cadselect, cad) Then Exit Function
     End If
     
     If Devuelve <> "" Then
@@ -206,31 +209,31 @@ End Function
 
 
 
-Private Function AnyadirParametroDH(Cad As String, ByRef TextoDESDE As TextBox, TextoHasta As TextBox, ByRef TD As TextBox, ByRef TH As TextBox) As String
+Private Function AnyadirParametroDH(cad As String, ByRef TextoDESDE As TextBox, TextoHasta As TextBox, ByRef TD As TextBox, ByRef TH As TextBox) As String
 On Error Resume Next
     
     
     If Not TextoDESDE Is Nothing Then
          If TextoDESDE.Text <> "" Then
-            Cad = Cad & "desde " & TextoDESDE.Text
+            cad = cad & "desde " & TextoDESDE.Text
 '            If TD.Caption <> "" Then Cad = Cad & " - " & TD.Caption
         End If
     End If
     If Not TextoHasta Is Nothing Then
         If TextoHasta.Text <> "" Then
-            Cad = Cad & "  hasta " & TextoHasta.Text
+            cad = cad & "  hasta " & TextoHasta.Text
 '            If TH.Caption <> "" Then Cad = Cad & " - " & TH.Caption
         End If
     End If
     
-    AnyadirParametroDH = Cad
+    AnyadirParametroDH = cad
     If Err.Number <> 0 Then Err.Clear
 End Function
 
 
 Public Function GeneraFicheroCSV(cadSQL As String, Salida As String, Optional OcultarMensajeCreacionCorrecta As Boolean) As Boolean
 Dim NF As Integer
-Dim i  As Integer
+Dim I  As Integer
 
     On Error GoTo eGeneraFicheroCSV
     GeneraFicheroCSV = False
@@ -250,18 +253,18 @@ Dim i  As Integer
         Open App.Path & "\docum.csv" For Output As #NF
         'Cabecera
         cadSQL = ""
-        For i = 0 To miRsAux.Fields.Count - 1
-            cadSQL = cadSQL & ";""" & miRsAux.Fields(i).Name & """"
-        Next i
+        For I = 0 To miRsAux.Fields.Count - 1
+            cadSQL = cadSQL & ";""" & miRsAux.Fields(I).Name & """"
+        Next I
         Print #NF, Mid(cadSQL, 2)
     
     
         'Lineas
         While Not miRsAux.EOF
             cadSQL = ""
-            For i = 0 To miRsAux.Fields.Count - 1
-                cadSQL = cadSQL & ";""" & DBLet(miRsAux.Fields(i).Value, "T") & """"
-            Next i
+            For I = 0 To miRsAux.Fields.Count - 1
+                cadSQL = cadSQL & ";""" & DBLet(miRsAux.Fields(I).Value, "T") & """"
+            Next I
             Print #NF, Mid(cadSQL, 2)
             
             
@@ -315,8 +318,7 @@ Public Function ImprimeGeneral() As Boolean
     Screen.MousePointer = vbHourglass
 
 
-
-    
+  
 
     frmppal.SkinFramework1.AutoApplyNewWindows = False
     frmppal.SkinFramework1.AutoApplyNewThreads = False
@@ -359,12 +361,12 @@ End Function
 
 
 Public Sub QuitarPulsacionMas(ByRef T As TextBox)
-Dim i As Integer
+Dim I As Integer
 
     Do
-        i = InStr(1, T.Text, "+")
-        If i > 0 Then T.Text = Mid(T.Text, 1, i - 1) & Mid(T.Text, i + 1)
-    Loop Until i = 0
+        I = InStr(1, T.Text, "+")
+        If I > 0 Then T.Text = Mid(T.Text, 1, I - 1) & Mid(T.Text, I + 1)
+    Loop Until I = 0
         
 End Sub
 
@@ -694,7 +696,7 @@ End Function
 
 
 Public Function ExisteARIMAILGES()
-Dim SQL As String
+Dim Sql As String
 
     If Dir(App.Path & "\ArimailGes.exe") = "" Then
         MsgBox "No existe el programa ArimailGes.exe. Llame a Ariadna.", vbExclamation
@@ -708,14 +710,14 @@ End Function
 
 Public Function HayRegParaInforme(cTabla As String, cWhere As String) As Boolean
 'Comprobar si hay registros a Mostrar antes de abrir el Informe
-Dim SQL As String
+Dim Sql As String
     
-    SQL = "Select count(*) FROM " & cTabla
+    Sql = "Select count(*) FROM " & cTabla
     If cWhere <> "" Then
-        SQL = SQL & " WHERE " & cWhere
+        Sql = Sql & " WHERE " & cWhere
     End If
     
-    If TotalRegistros(SQL) = 0 Then
+    If TotalRegistros(Sql) = 0 Then
         MsgBox "No hay datos para mostrar en el Informe.", vbInformation
         HayRegParaInforme = False
     Else
@@ -724,17 +726,17 @@ Dim SQL As String
 End Function
 
 Public Function PonerParamRPT(Indice As String, nomDocu As String) As Boolean
-Dim Cad As String
+Dim cad As String
 Dim Encontrado As Boolean
 
         
         Encontrado = False
         PonerParamRPT = False
         
-        Cad = "select informe from scryst where codigo = " & DBSet(Indice, "T")
+        cad = "select informe from scryst where codigo = " & DBSet(Indice, "T")
         nomDocu = ""
         Set Rs = New ADODB.Recordset
-        Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         
         If Not Rs.EOF Then
             nomDocu = DBLet(Rs!Informe, "T")
@@ -742,8 +744,8 @@ Dim Encontrado As Boolean
         End If
         
         If Encontrado = False Or nomDocu = "" Then
-            Cad = "No se han podido cargar los Parámetros de Tipos de Documentos." & vbCrLf
-            MsgBox Cad & "Debe configurar la aplicación.", vbExclamation
+            cad = "No se han podido cargar los Parámetros de Tipos de Documentos." & vbCrLf
+            MsgBox cad & "Debe configurar la aplicación.", vbExclamation
             PonerParamRPT = False
             Exit Function
         End If
@@ -789,21 +791,21 @@ Dim Contador As Integer
     Case 1
         'Reclamacion
         Aux = "Reclamacion.pdf"
-        SQL = "select tmp347.*, cuentas.razosoci, cuentas.maidatos from tmp347, cuentas "
-        SQL = SQL & " where codusu = " & vUsu.Codigo & " and importe <> 0 and tmp347.cta = cuentas.codmacta"
+        Sql = "select tmp347.*, cuentas.razosoci, cuentas.maidatos from tmp347, cuentas "
+        Sql = Sql & " where codusu = " & vUsu.Codigo & " and importe <> 0 and tmp347.cta = cuentas.codmacta"
     Case 2
         'Ene21. 347
         lbInd.Caption = "Leyendo cartas a enviar"
         lbInd.Refresh
-        SQL = "select nif as documento, despobla as NIF, dirdatos maidatos,PAIS,cliprov,razosoci from tmp347tot  "
-        SQL = SQL & " where codusu = " & vUsu.Codigo & " AND PAIS ='XXXXXXXX' ORDER by nif desc"
+        Sql = "select nif as documento, despobla as NIF, dirdatos maidatos,PAIS,cliprov,razosoci from tmp347tot  "
+        Sql = Sql & " where codusu = " & vUsu.Codigo & " AND PAIS ='XXXXXXXX' ORDER by nif desc"
         
         
     End Select
     
     
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Contador = 0
     While Not Rs.EOF
         
@@ -835,63 +837,63 @@ Dim Contador As Integer
         If LCase(Mid(cadNomRPT, 1, 3)) = "esc" Then
         ' para el caso de escalona
         
-            Cad = "<!DOCTYPE HTML PUBLIC " & Chr(34) & "-//W3C//DTD HTML 4.0 Transitional//EN" & Chr(34) & ">"
-            Cad = Cad & "<HTML><HEAD><TITLE>Mensaje</TITLE></HEAD>"
-            Cad = Cad & "<TR><TD VALIGN=""TOP""><P><FONT FACE=""Tahoma""><FONT SIZE=3>"
-            Cad = Cad & RecuperaValor(Cuerpo, 2)
+            cad = "<!DOCTYPE HTML PUBLIC " & Chr(34) & "-//W3C//DTD HTML 4.0 Transitional//EN" & Chr(34) & ">"
+            cad = cad & "<HTML><HEAD><TITLE>Mensaje</TITLE></HEAD>"
+            cad = cad & "<TR><TD VALIGN=""TOP""><P><FONT FACE=""Tahoma""><FONT SIZE=3>"
+            cad = cad & RecuperaValor(Cuerpo, 2)
             'FijarTextoMensaje
             
-            Cad = Cad & "</FONT></FONT></P></TD></TR><TR><TD VALIGN=""TOP"">"
-            Cad = Cad & "<p class=""MsoNormal""><b><i>"
-            Cad = Cad & "<span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">C."
-            Cad = Cad & "R. Reial Séquia Escalona</span></i></b></p>"
-            Cad = Cad & "<p class=""MsoNormal""><em><b>"
-            Cad = Cad & "<span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">"
-            Cad = Cad & "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; La Junta</span></b></em><span style=""font-size: 10.0pt; font-family: Arial,sans-serif; color: black"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">&nbsp;</span></p>"
-            Cad = Cad & "<p class=""MsoNormal"">"
-            Cad = Cad & "<span style=""font-size: 13.5pt; font-family: Arial,sans-serif; color: #9999FF"">"
-            Cad = Cad & "********************</span></p>"
-            Cad = Cad & "<p class=MsoNormal><b>"
-             Cad = Cad & "<span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>Confidencialidad"
-             Cad = Cad & "</span></b><span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'><br>"
-             Cad = Cad & "Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario, "
-             Cad = Cad & "pudiendo contener información confidencial sometida a secreto profesional. No está permitida su reproducción o "
-             Cad = Cad & "distribución sin la autorización expresa de Real Acequia Escalona. Si usted no es el destinatario final por favor "
-             Cad = Cad & "elimínelo e infórmenos por esta vía.<o:p></o:p></span></p><p class=MsoNormal style='mso-margin-top-alt:6.0pt;"
-             Cad = Cad & "margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;text-align:justify'><span style='font-size:8.0pt;"
-             Cad = Cad & "font-family:""Comic Sans MS"";color:black'>De acuerdo con la Ley 34/2002 (LSSI) y la Ley 15/1999 (LOPD), "
-             Cad = Cad & "usted tiene derecho al acceso, rectificación y cancelación de sus datos personales informados en el fichero del que es "
-             Cad = Cad & "titular Real Acequia Escalona. Si desea modificar sus datos o darse de baja en el sistema de comunicación electrónica "
-             Cad = Cad & "envíe un correo a</span> <span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>"
-             Cad = Cad & "<a href=""mailto:escalona@acequiaescalona.org"">escalona@acequiaescalona.org</a> </span><span style='font-size:8.0pt;"
-             Cad = Cad & "font-family:""Comic Sans MS""'>, <span style='color:black'>indicando en la línea de <b>&#8220;Asunto&#8221;</b> el derecho "
-             Cad = Cad & "que desea ejercitar. <o:p></o:p></span></span></p><p class=MsoNormal><o:p>&nbsp;</o> "
+            cad = cad & "</FONT></FONT></P></TD></TR><TR><TD VALIGN=""TOP"">"
+            cad = cad & "<p class=""MsoNormal""><b><i>"
+            cad = cad & "<span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">C."
+            cad = cad & "R. Reial Séquia Escalona</span></i></b></p>"
+            cad = cad & "<p class=""MsoNormal""><em><b>"
+            cad = cad & "<span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">"
+            cad = cad & "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; La Junta</span></b></em><span style=""font-size: 10.0pt; font-family: Arial,sans-serif; color: black"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style=""font-size: 7.5pt; font-family: Arial,sans-serif; color: #9999FF"">&nbsp;</span></p>"
+            cad = cad & "<p class=""MsoNormal"">"
+            cad = cad & "<span style=""font-size: 13.5pt; font-family: Arial,sans-serif; color: #9999FF"">"
+            cad = cad & "********************</span></p>"
+            cad = cad & "<p class=MsoNormal><b>"
+             cad = cad & "<span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>Confidencialidad"
+             cad = cad & "</span></b><span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'><br>"
+             cad = cad & "Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario, "
+             cad = cad & "pudiendo contener información confidencial sometida a secreto profesional. No está permitida su reproducción o "
+             cad = cad & "distribución sin la autorización expresa de Real Acequia Escalona. Si usted no es el destinatario final por favor "
+             cad = cad & "elimínelo e infórmenos por esta vía.<o:p></o:p></span></p><p class=MsoNormal style='mso-margin-top-alt:6.0pt;"
+             cad = cad & "margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;text-align:justify'><span style='font-size:8.0pt;"
+             cad = cad & "font-family:""Comic Sans MS"";color:black'>De acuerdo con la Ley 34/2002 (LSSI) y la Ley 15/1999 (LOPD), "
+             cad = cad & "usted tiene derecho al acceso, rectificación y cancelación de sus datos personales informados en el fichero del que es "
+             cad = cad & "titular Real Acequia Escalona. Si desea modificar sus datos o darse de baja en el sistema de comunicación electrónica "
+             cad = cad & "envíe un correo a</span> <span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>"
+             cad = cad & "<a href=""mailto:escalona@acequiaescalona.org"">escalona@acequiaescalona.org</a> </span><span style='font-size:8.0pt;"
+             cad = cad & "font-family:""Comic Sans MS""'>, <span style='color:black'>indicando en la línea de <b>&#8220;Asunto&#8221;</b> el derecho "
+             cad = cad & "que desea ejercitar. <o:p></o:p></span></span></p><p class=MsoNormal><o:p>&nbsp;</o> "
              
              'ahora en valenciano
-             Cad = Cad & ""
-             Cad = Cad & "<p class=MsoNormal><b>"
-             Cad = Cad & "<span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>Confidencialitat"
-             Cad = Cad & "</span></b><span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'><br>"
-             Cad = Cad & "Aquest missatge i els seus arxius adjunts van dirigits exclusivamente al seu destinatari, "
-             Cad = Cad & "podent contindre informació confidencial sotmesa a secret professional. No està permesa la seua reproducció o "
-             Cad = Cad & "distribució sense la autorització expressa de Reial Séquia Escalona. Si vosté no és el destinatari final per favor "
-             Cad = Cad & "elimíneu-lo e informe-nos per aquesta via.<o:p></o:p></span></p><p class=MsoNormal style='mso-margin-top-alt:6.0pt;"
-             Cad = Cad & "margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;text-align:justify'><span style='font-size:8.0pt;"
-             Cad = Cad & "font-family:""Comic Sans MS"";color:black'>D'acord amb la Llei 34/2002 (LSSI) i la Llei 15/1999 (LOPD), "
-             Cad = Cad & "vosté té dret a l'accés, rectificació i cancelació de les seues dades personals informats en el ficher del qué és "
-             Cad = Cad & "titolar Reial Séquia Escalona. Si vol modificar les seues dades o donar-se de baixa en el sistema de comunicació electrònica "
-             Cad = Cad & "envíe un correu a</span> <span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>"
-             Cad = Cad & "<a href=""mailto:escalona@acequiaescalona.org"">escalona@acequiaescalona.org</a> </span><span style='font-size:8.0pt;"
-             Cad = Cad & "font-family:""Comic Sans MS""'>, <span style='color:black'>indicant en la línea de <b>&#8220;Asumpte&#8221;</b> el dret "
-             Cad = Cad & "que desitja exercitar. <o:p></o:p></span></span></p><p class=MsoNormal><o:p>&nbsp;</o:p></p> "
+             cad = cad & ""
+             cad = cad & "<p class=MsoNormal><b>"
+             cad = cad & "<span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>Confidencialitat"
+             cad = cad & "</span></b><span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'><br>"
+             cad = cad & "Aquest missatge i els seus arxius adjunts van dirigits exclusivamente al seu destinatari, "
+             cad = cad & "podent contindre informació confidencial sotmesa a secret professional. No està permesa la seua reproducció o "
+             cad = cad & "distribució sense la autorització expressa de Reial Séquia Escalona. Si vosté no és el destinatari final per favor "
+             cad = cad & "elimíneu-lo e informe-nos per aquesta via.<o:p></o:p></span></p><p class=MsoNormal style='mso-margin-top-alt:6.0pt;"
+             cad = cad & "margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;text-align:justify'><span style='font-size:8.0pt;"
+             cad = cad & "font-family:""Comic Sans MS"";color:black'>D'acord amb la Llei 34/2002 (LSSI) i la Llei 15/1999 (LOPD), "
+             cad = cad & "vosté té dret a l'accés, rectificació i cancelació de les seues dades personals informats en el ficher del qué és "
+             cad = cad & "titolar Reial Séquia Escalona. Si vol modificar les seues dades o donar-se de baixa en el sistema de comunicació electrònica "
+             cad = cad & "envíe un correu a</span> <span style='font-size:8.0pt;font-family:""Comic Sans MS"";color:black'>"
+             cad = cad & "<a href=""mailto:escalona@acequiaescalona.org"">escalona@acequiaescalona.org</a> </span><span style='font-size:8.0pt;"
+             cad = cad & "font-family:""Comic Sans MS""'>, <span style='color:black'>indicant en la línea de <b>&#8220;Asumpte&#8221;</b> el dret "
+             cad = cad & "que desitja exercitar. <o:p></o:p></span></span></p><p class=MsoNormal><o:p>&nbsp;</o:p></p> "
             
             
-            Cad = Cad & "</TR></BODY></HTML>"
+            cad = cad & "</TR></BODY></HTML>"
             
             
         Else
         
-            Cad = RecuperaValor(Cad, 2)
+            cad = RecuperaValor(cad, 2)
             
         End If
         
@@ -901,12 +903,12 @@ Dim Contador As Integer
         Aux = ""
         Select Case outTipoDocumento
         Case 1 ' reclamaciones
-            Aux = Cad
+            Aux = cad
             
         Case 2
             Aux = "Datos 347: " & Rs!razosoci & vbCrLf & Cuerpo
-            SQL = "DELETE from tmp347tot where codusu = " & vUsu.Codigo
-            SQL = SQL & " AND cliprov =" & Rs!cliprov & " AND nif = " & DBSet(Rs!documento, "T")
+            Sql = "DELETE from tmp347tot where codusu = " & vUsu.Codigo
+            Sql = Sql & " AND cliprov =" & Rs!cliprov & " AND nif = " & DBSet(Rs!documento, "T")
         End Select
         Lanza = Lanza & Aux & "|"
         
@@ -927,7 +929,7 @@ Dim Contador As Integer
         
         Shell Aux, vbNormalFocus
         
-        If outTipoDocumento = 2 Then Conn.Execute SQL
+        If outTipoDocumento = 2 Then Conn.Execute Sql
         espera 0.5
         
         If (Contador Mod 4) = 0 Then
@@ -966,8 +968,8 @@ Dim EstaFlag As Integer
     Conn.Execute "DELETE FROM usuarios.wenvioemail WHERE codusu = " & vUsu.Codigo
     
     TotalReg = 0
-    SQL = "select max(infoIntercambioId) from usuarios.info_intercambio"
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = "select max(infoIntercambioId) from usuarios.info_intercambio"
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then TotalReg = DBLet(Rs.Fields(0), "N")
     TotalReg = TotalReg + 1
     Rs.Close
@@ -981,16 +983,16 @@ Dim EstaFlag As Integer
     If outTipoDocumento = 2 Then
     
     
-        SQL = "select nif as documento, despobla as NIF, dirdatos maidatos,if(cliprov=48,'Cliente','Proveedor'),razosoci,cliprov"
-        SQL = SQL & "  from tmp347tot where codusu = " & vUsu.Codigo & " AND PAIS ='XXXXXXXX' ORDER by nif desc"
+        Sql = "select nif as documento, despobla as NIF, dirdatos maidatos,if(cliprov=48,'Cliente','Proveedor'),razosoci,cliprov"
+        Sql = Sql & "  from tmp347tot where codusu = " & vUsu.Codigo & " AND PAIS ='XXXXXXXX' ORDER by nif desc"
         
     End If
     
    
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
-    Cad = "INSERT INTO usuarios.wenvioemail(codusu,Orden,ctaAWS,destino,nombre,asunto,cuerpohtml,cuerpo,adjuntos,copiaRemitente) VALUES "
-    SQL = ""
+    cad = "INSERT INTO usuarios.wenvioemail(codusu,Orden,ctaAWS,destino,nombre,asunto,cuerpohtml,cuerpo,adjuntos,copiaRemitente) VALUES "
+    Sql = ""
     While Not Rs.EOF
             
         'codusu,Orden,ctaAWS,destino,nombre,asunto,cuerpohtml,cuerpo,adjuntos)
@@ -1005,7 +1007,7 @@ Dim EstaFlag As Integer
         
         'direccion email
         
-        SQL = SQL & ", (" & vUsu.Codigo & "," & TotalReg & ",''," & DBSet(Rs!maidatos, "T") & "," & DBSet(Rs!razosoci, "T")
+        Sql = Sql & ", (" & vUsu.Codigo & "," & TotalReg & ",''," & DBSet(Rs!maidatos, "T") & "," & DBSet(Rs!razosoci, "T")
         
         'asunto
         Aux = ""
@@ -1017,7 +1019,7 @@ Dim EstaFlag As Integer
         End Select
         
         'asunto cuerpohtml,cuerpo,adjuntos  .nif Nifdato,cliprov
-        SQL = SQL & "," & DBSet(Aux, "T")
+        Sql = Sql & "," & DBSet(Aux, "T")
         
         'Cuerpo mensaje
         If outTipoDocumento = 2 Then
@@ -1027,20 +1029,20 @@ Dim EstaFlag As Integer
             
         End If
         
-        SQL = SQL & "," & DBSet(Aux, "T") & "," & DBSet(Aux, "T") & ","
+        Sql = Sql & "," & DBSet(Aux, "T") & "," & DBSet(Aux, "T") & ","
         
                 
         Aux = Rs!NIF
        
         
-        SQL = SQL & "'" & Aux & "'," & IIf(CopiaRemitente, 1, 0) & ")" '0: Copia remitente
+        Sql = Sql & "'" & Aux & "'," & IIf(CopiaRemitente, 1, 0) & ")" '0: Copia remitente
     
         
-        If Len(SQL) > 3000 Then
-            SQL = Mid(SQL, 2)
-            SQL = Cad & SQL
-            Conn.Execute SQL
-            SQL = ""
+        If Len(Sql) > 3000 Then
+            Sql = Mid(Sql, 2)
+            Sql = cad & Sql
+            Conn.Execute Sql
+            Sql = ""
         End If
         
         TotalReg = TotalReg + 1
@@ -1049,12 +1051,12 @@ Dim EstaFlag As Integer
     Rs.Close
     
     
-    If SQL <> "" Then
-        SQL = Mid(SQL, 2)
+    If Sql <> "" Then
+        Sql = Mid(Sql, 2)
         
         
-        SQL = Cad & SQL
-        Conn.Execute SQL
+        Sql = cad & Sql
+        Conn.Execute Sql
     End If
     
     DoEvent2
@@ -1064,11 +1066,11 @@ Dim EstaFlag As Integer
     End If
     
     espera 0.5
-    SQL = DevuelveDesdeBD("emailAWS", "parametros", "1", "1")
-    If SQL = "" Then Err.Raise 513, , "No existe emailAWS"
+    Sql = DevuelveDesdeBD("emailAWS", "parametros", "1", "1")
+    If Sql = "" Then Err.Raise 513, , "No existe emailAWS"
     
-    Cad = "UPDATE usuarios.wenvioemail  SET ctaAWS =" & DBSet(SQL, "T") & " WHERE codusu =" & vUsu.Codigo
-    Conn.Execute Cad
+    cad = "UPDATE usuarios.wenvioemail  SET ctaAWS =" & DBSet(Sql, "T") & " WHERE codusu =" & vUsu.Codigo
+    Conn.Execute cad
     TotalReg = 0
     
     
@@ -1082,36 +1084,36 @@ Dim EstaFlag As Integer
     
     'RAFA.
     'Insertamos en intercambio
-    SQL = "INSERT INTO usuarios.info_intercambio(infoIntercambioId,sistema,tipo,clave,email,fichero,estado) "
+    Sql = "INSERT INTO usuarios.info_intercambio(infoIntercambioId,sistema,tipo,clave,email,fichero,estado) "
     
-    SQL = SQL & " SELECT orden,'ariconta" & vEmpresa.codempre & "',' 347',asunto,destino,adjuntos,1 "
-    SQL = SQL & " FROM  usuarios.wenvioemail where codusu = " & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = Sql & " SELECT orden,'ariconta" & vEmpresa.codempre & "',' 347',asunto,destino,adjuntos,1 "
+    Sql = Sql & " FROM  usuarios.wenvioemail where codusu = " & vUsu.Codigo
+    Conn.Execute Sql
 
 
 
     
     'Vamos a ver si esta enviendo
-    SQL = ""
+    Sql = ""
     NumRegElim = -1
     TotalReg = 0
     Aux = ""
-    i = 0
+    I = 0
     Do
     
         espera 1
         DoEvent2
         
-        SQL = "select sum(if(estado=1,1,0)) pendientes, sum(if(estado=3,1,0)) errores   from usuarios.info_intercambio where estado in (1,3)"
-        SQL = SQL & " and  infoIntercambioId IN (select orden from usuarios.wenvioemail where codusu=" & vUsu.Codigo & ")"
+        Sql = "select sum(if(estado=1,1,0)) pendientes, sum(if(estado=3,1,0)) errores   from usuarios.info_intercambio where estado in (1,3)"
+        Sql = Sql & " and  infoIntercambioId IN (select orden from usuarios.wenvioemail where codusu=" & vUsu.Codigo & ")"
         
-        Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        SQL = ""
+        Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Sql = ""
         If Rs.EOF Then
               Aux = "SAL"
         Else
             If Not lbInd Is Nothing Then
-                lbInd.Caption = "Int: " & i + 1 & "   Pdte: " & DBLet(Rs!pendientes, "N") & "   Err: " & DBLet(Rs!Errores, "N")
+                lbInd.Caption = "Int: " & I + 1 & "   Pdte: " & DBLet(Rs!pendientes, "N") & "   Err: " & DBLet(Rs!Errores, "N")
                 lbInd.Refresh
             End If
         
@@ -1129,12 +1131,12 @@ Dim EstaFlag As Integer
                     Aux = "FIN"
                 Else
                     
-                    i = i + 1
-                    If i > 30 Then
+                    I = I + 1
+                    If I > 30 Then
                         'Despues de 30 segundos daremos por cerrado el proceso
                         NumRegElim = DBLet(Rs!pendientes, "N")
-                        SQL = "Pendientes " & NumRegElim
-                        SQL = SQL & vbCrLf & "Errores " & TotalReg
+                        Sql = "Pendientes " & NumRegElim
+                        Sql = Sql & vbCrLf & "Errores " & TotalReg
                         Aux = "MAL"
                     End If
                 End If
@@ -1151,9 +1153,9 @@ Dim EstaFlag As Integer
         
         
         
-        If SQL <> "" Then
+        If Sql <> "" Then
             
-            MsgBox SQL, vbExclamation
+            MsgBox Sql, vbExclamation
         Else
             If TotalReg > 0 Then
                 MsgBox "Error en envio facturas:" & TotalReg, vbExclamation

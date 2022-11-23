@@ -3422,7 +3422,7 @@ Dim ImporteT As Currency
             'SQL = SQL & " and ccc.ctabanco = ddd.codmacta "
            
             Sql = "select ctabanco,cuentas.iban, bancos.descripcion  from cuentas left join  bancos on  ctabanco  = bancos.codmacta "
-            Sql = Sql & " Where Cuentas.codmacta = " & DBSet(Text1(4).Text, "T")
+            Sql = Sql & " Where cuentas.codmacta = " & DBSet(Text1(4).Text, "T")
             
             CtaBanco = ""
             IBAN = ""

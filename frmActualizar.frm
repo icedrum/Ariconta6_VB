@@ -122,10 +122,6 @@ Public DiarioFacturas As Integer
 
 Public SqlLog As String
 
-Private WithEvents frmD As frmTiposDiario
-Attribute frmD.VB_VarHelpID = -1
-Private WithEvents frmC As frmCal
-Attribute frmC.VB_VarHelpID = -1
 
 Private Cuenta As String
 Private ImporteD As Currency
@@ -626,7 +622,7 @@ Dim B As Boolean
         Cad2 = DevNombreSQL(DBLet(RF!Nommacta))
     
     Case Else
-        Cad2 = DBLet(RF!observa)
+        Cad2 = DevNombreSQL(DBLet(RF!observa))
     End Select
     
     
@@ -962,7 +958,7 @@ Dim TipoDIva As Byte
         End If
         Cad2 = Cad2 & " " & RF!numfactu
         
-        Cad2 = Cad2 & " (" & Format(RF!FecFactu, "ddmmyy") & ")"
+        Cad2 = Cad2 & " (" & Format(RF!Fecfactu, "ddmmyy") & ")"
     Case 2
         'Cad2 = DevNombreSQL(DBLet(RF!Nommacta))
         Cad2 = DBLet(RF!Nommacta)

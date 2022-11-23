@@ -218,7 +218,7 @@ Dim Aux As String
 Dim rIVAS As ADODB.Recordset
 Dim NumIVas As Integer
 Dim CadenaIVAS As String
-Dim LlevaIVAs As Boolean
+Dim Lleva_IVAs As Boolean
 Dim H As Integer
 Dim C1 As String
 Dim C2 As String
@@ -233,11 +233,16 @@ Dim B As Boolean
 Dim GrabaTotalFactura_ As Boolean  'ene21
 Dim DeAlgunModoEsTicket As Boolean
 Dim FuerzaTipoDumento As Byte '0 DEFAULT     1 NIF      2 nifintra   3 Pasapo    7 NO censado
-
+Dim DesglosePorTipoFacura As Boolean
+    'Cuando las facturas NORMALES, con IVA, pero que el documento no es un NIF y la factura NO es un ticket el desglose NO es por
+    ' tipo de factura , si no por tipo de operacion
+    '   Ejemplo. Gasloinera ALzira.   Uno de Rumania que viene , echa gasolina, y tiene un NIF/Passaporte extranjero
+    
+    
     On Error GoTo eSii_FraCLI
     Sii_FraCLI = False
 
-    Sql = "Select factcli.*,Sii_SoloNUmeroFra "
+    Sql = "Select factcli.*,Sii_SoloNUmeroFra,FuerzaTipoSII "
     Sql = Sql & " FROM factcli LEFT JOIN contadores on factcli.numserie=contadores.tiporegi"
     Sql = Sql & " where factcli.numserie =" & DBSet(Serie, "T") & " AND factcli.numfactu =" & NumFac & " AND factcli.anofactu =" & Anofac
     Set RN = New ADODB.Recordset
@@ -314,13 +319,31 @@ Dim FuerzaTipoDumento As Byte '0 DEFAULT     1 NIF      2 nifintra   3 Pasapo   
     Sql = Sql & "," & DBSet(FechaPeriodo2, "F") & ","
     
     
+    FuerzaTipoDumento = 0
+    If DBLet(RN!TipoDocumentoId, "N") > 1 Then
+        FuerzaTipoDumento = RN!TipoDocumentoId
+        'Sql = ""
+    End If
+    
+    
+    
     
     '#3.1
     ',REG_FE_TipoRectificativa,REG_FE_IR_BaseRectificada,REG_FE_IR_CuotaRectificada,REG_FE_IR_CuotaRecargoRectificado,
     Clave = DevuelveTipoFacturaEmitida(RN)   'Ver hoja. Hay tipos:    f1 factura   f2 tiket    r1 rectificativas      r5 rectificativa ticket
-    Aux = ""
+    
+    
+    'LO normal. El 99.99 % de las facturas son desglose TIPO FACTURA, no operacion
+    DesglosePorTipoFacura = True
+    
+    'Factura normal, con documento acretiativo passporte u otro
+    If Clave = "F1" And FuerzaTipoDumento > 2 Then DesglosePorTipoFacura = False
+    
+    
+    
+    
     Sql = Sql & DBSet(Clave, "T") & ","
-  
+    Aux = ""
     If Clave = "R1" Or Clave = "R5" Then
         Aux = "I"  'factura rectificativa por DIFERENCIAS
         Sql = Sql & DBSet(Aux, "T", "S") & ","
@@ -332,7 +355,7 @@ Dim FuerzaTipoDumento As Byte '0 DEFAULT     1 NIF      2 nifintra   3 Pasapo   
         Sql = Sql & "null,null,null,null,"
 
     End If
-    
+
 '#4
 
     GrabaTotalFactura_ = True
@@ -400,13 +423,7 @@ Dim FuerzaTipoDumento As Byte '0 DEFAULT     1 NIF      2 nifintra   3 Pasapo   
     End If
     Sql = Sql & "NULL," & Aux & ","
     
-    'NIF. Para las intracoms el NIF debe llevar las letras
-    '
-    FuerzaTipoDumento = 0
-    If DBLet(RN!TipoDocumentoId, "N") > 1 Then
-        FuerzaTipoDumento = RN!TipoDocumentoId
-        'Sql = ""
-    End If
+    
     
     BloqueIVA = 0 'NORMAL
     If FuerzaTipoDumento > 0 Then
@@ -486,8 +503,6 @@ Dim FuerzaTipoDumento As Byte '0 DEFAULT     1 NIF      2 nifintra   3 Pasapo   
         End If
     End If  'DE FuerzaTipoDumento
     
-    'Para las pruebas de documennto
-    Debug.Print FuerzaTipoDumento & ": " & Sql
 
     Debug.Assert False
     
@@ -501,7 +516,7 @@ Dim FuerzaTipoDumento As Byte '0 DEFAULT     1 NIF      2 nifintra   3 Pasapo   
     
     If RN!CodOpera = 1 Or RN!CodOpera = 2 Then
         'INTRACOM y exportacion
-        LlevaIVAs = False
+        Lleva_IVAs = False
         If RN!CodOpera = 1 Then
             Aux = "'E5'," 'intra
         Else
@@ -510,42 +525,48 @@ Dim FuerzaTipoDumento As Byte '0 DEFAULT     1 NIF      2 nifintra   3 Pasapo   
         
         Aux = Aux & DBSet(RN!TotBases, "N") & ",null"
     Else
-        LlevaIVAs = True
+        Lleva_IVAs = True
         'Aux = "NULL,NULL,'S1'"
         Aux = "#@CAUSA#,#@IMPOR#,#MotExen#"   '--> despues de ver los ivas, si alguno es cero replace esto, si no, replace por NULL
     End If
     Sql = Sql & Aux
-    
     RN.Close
     
 '7#
     'Bloque desglose IVAS hasta 6 ivas. Cambia el numerito ...DT1   DT2..
+    'FacturaExpedida - TipoDesglose - DesgloseFactura - Sujeta - NoExenta - DesgloseIVA - DetallaIVA? - TipoImpositivo
     CadenaIVAS = ""
     NumIVas = 0
-    If LlevaIVAs Then
+    If Lleva_IVAs Then
         
         Aux = "Select * from factcli_totales  left join tiposiva on  factcli_totales.codigiva=tiposiva.codigiva where numserie =" & DBSet(Serie, "T") & " AND numfactu =" & NumFac & " AND anofactu =" & Anofac
         RN.Open Aux, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-        
-        
         'TipoImpositivo,BaseImponible,CuotaRepercutida,TipoREquivalencia,CuotaREquivalencia,"
         While Not RN.EOF
             If RN!TipoDIva <> 4 Then
             
                 If RN!PorcIva = 0 Then
                     B = False
-                    
                     LlevaIvasCero = True
                     ImporteIvaCero = ImporteIvaCero + RN!Baseimpo
                 Else
                     B = True
                 End If
                 If B Then
-                    Aux = "," & DBSet(RN!PorcIva, "N") & "," & DBSet(RN!Baseimpo, "N") & "," & DBSet(RN!Impoiva, "N") & ","
-                    If IsNull(RN!porcrec) Then
-                        Aux = Aux & "NULL,NULL"
+                    
+                    
+                    'Cuando es IVA normal , pero con desglose por tipo operacion NO lleva recargo de equivalencia
+                    'BloqueIVA = 0 'NORMAL
+                    If DesglosePorTipoFacura Then
+                        Aux = "," & DBSet(RN!PorcIva, "N") & "," & DBSet(RN!Baseimpo, "N") & "," & DBSet(RN!Impoiva, "N") & ","
+                        'LO que hacia antes
+                        If IsNull(RN!porcrec) Then
+                            Aux = Aux & "NULL,NULL"
+                        Else
+                            Aux = Aux & DBSet(RN!porcrec, "N") & "," & DBSet(RN!ImpoRec, "N")
+                        End If
                     Else
-                        Aux = Aux & DBSet(RN!porcrec, "N") & "," & DBSet(RN!ImpoRec, "N")
+                       Aux = "," & DBSet(RN!PorcIva, "N") & "," & DBSet(RN!Baseimpo, "N") & "," & DBSet(RN!Impoiva, "N")
                     End If
                     CadenaIVAS = CadenaIVAS & Aux
                     NumIVas = NumIVas + 1
@@ -575,7 +596,15 @@ Dim FuerzaTipoDumento As Byte '0 DEFAULT     1 NIF      2 nifintra   3 Pasapo   
     End If
     
     For H = NumIVas + 1 To 6
-        If BloqueIVA = 0 Then
+        B = True
+        If DesglosePorTipoFacura Then
+            If BloqueIVA = 1 Then B = False
+        Else
+            B = False
+        End If
+    
+        If B Then
+            'IVAS con posibilidad de recargo equivalencia.   IVAs normales
             CadenaIVAS = CadenaIVAS & ",NULL,NULL,NULL,NULL,NULL"
         Else
             'En los IVAS de intracom/exportacion NO llevamos REcargo de equivalencia. Ni % ni cuota
@@ -584,8 +613,12 @@ Dim FuerzaTipoDumento As Byte '0 DEFAULT     1 NIF      2 nifintra   3 Pasapo   
     Next
     Sql = Sql & CadenaIVAS
     
+     
+    
+    
     
     'Montamos el SQL
+    If Not DesglosePorTipoFacura Then BloqueIVA = 2
     SQL_Insert = Sii_FraCLI_SQL(BloqueIVA, EsModificando) & ") VALUES (" & Sql & ")"
     
     Sii_FraCLI = True
@@ -596,10 +629,13 @@ eSii_FraCLI:
 End Function
 
 
-'  0.- Facturas normales                ->  REG_FE_TD_DF_SU
-'  1.- Intracomunitarias // Extranjera  ->  REG_FE_TD_DTE_SU
-' Si modifica hara un REPLACE INTO
-Private Function Sii_FraCLI_SQL(BloquesIVA As Byte, EsModificando As Boolean) As String
+'   0.- Facturas normales                ->  REG_FE_TD_DF_SU
+'   1.- Intracomunitarias // Extranjera  ->  REG_FE_TD_DTE_SU
+'   2.- Desglose por tipo OPERACION      ->  REG_FE_TD_DTE_SU_NEX_DI_DT1_TipoImpositivo
+'
+'   Si modifica hara un REPLACE INTO
+'   -
+Private Function Sii_FraCLI_SQL(Bloques_IVA As Byte, EsModificando As Boolean) As String
 Dim cad As String
 Dim H As Integer
     
@@ -641,7 +677,8 @@ Dim H As Integer
     '
     '6#  BLOQUE  facturas normales IVA
     '
-    If BloquesIVA = 0 Then
+    Select Case Bloques_IVA
+    Case 0   'If BloquesIVA = 0 Then
         Sii_FraCLI_SQL = Sii_FraCLI_SQL & "REG_FE_TD_DF_SU_EX_CausaExencion , REG_FE_TD_DF_SU_EX_BaseImponible, REG_FE_TD_DF_SU_NEX_TipoNoExenta"
         
                     'REG_FE_TD_DF_SU_NEX_DI_DT1_TipoImpositivo,REG_FE_TD_DF_SU_NEX_DI_DT1_BaseImponible,REG_FE_TD_DF_SU_NEX_DI_DT1_CuotaRepercutida,REG_FE_TD_DF_SU_NEX_DI_DT1_TipoREquivalencia,REG_FE_TD_DF_SU_NEX_DI_DT1_CuotaREquivalencia,
@@ -649,19 +686,24 @@ Dim H As Integer
             cad = ",REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_TipoImpositivo,REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_BaseImponible,REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_CuotaRepercutida,REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_TipoREquivalencia,REG_FE_TD_DF_SU_NEX_DI_DT" & H & "_CuotaREquivalencia"
             Sii_FraCLI_SQL = Sii_FraCLI_SQL & cad
         Next
-        
-    Else
+    
+    Case 1, 2
         'Facturas intracomunitarias e exportaciones
         Sii_FraCLI_SQL = Sii_FraCLI_SQL & "REG_FE_TD_DTE_SU_EX_CausaExencion , REG_FE_TD_DTE_SU_EX_BaseImponible, REG_FE_TD_DTE_SU_NEX_TipoNoExenta"
         
-                    'REG_FE_TD_DTE_SU 1_TipoImpositivo, _BaseImponible,R _CuotaRepercutida, TipoREquivalencia, _CuotaREquivalencia,
+        'REG_FE_TD_DTE_SU 1_TipoImpositivo, _BaseImponible,R _CuotaRepercutida, TipoREquivalencia, _CuotaREquivalencia,
         For H = 1 To 6
             cad = ",REG_FE_TD_DTE_SU_NEX_DI_DT" & H & "_TipoImpositivo,REG_FE_TD_DTE_SU_NEX_DI_DT" & H & "_BaseImponible,REG_FE_TD_DTE_SU_NEX_DI_DT" & H & "_CuotaRepercutida"
             Sii_FraCLI_SQL = Sii_FraCLI_SQL & cad
         Next
+                   'REG_FE_TD_DTE_SU_NEX_DI_DT1_TipoImpositivo
+    
+
     
     
-    End If
+    Case Else
+        Err.Raise 513, , "Montando cadena SQL. Bloques_IVA >2 .   Llame a soporte técnico"
+    End Select
     
     
 End Function
@@ -994,7 +1036,7 @@ Dim GrabaTotalFactura As Boolean
         C1 = "null"
         Aux = DBLet(vEmpresa.NIF, "T")
         C2 = "null"
-        
+        Sql = Sql & DBSet(Aux, "T", "N") & "," & C2 & "," & C1 & ",NULL,"
     Else
         If FuerzaTipoDumento <= 1 Then
             'LO QUE HABIA
@@ -1014,9 +1056,9 @@ Dim GrabaTotalFactura As Boolean
             Else
                 'EL NIF
                 'NO hacemos nada  AUX y c1 ya teiene los valores que toca
-                    C1 = "null"
-                    Aux = DBLet(RN!nifdatos, "T")
-                    C2 = "null"
+                C1 = "null"
+                Aux = DBLet(RN!nifdatos, "T")
+                C2 = "null"
                 Sql = Sql & DBSet(Aux, "T", "N") & "," & C2 & "," & C1 & ",NULL,"
             End If
         Else

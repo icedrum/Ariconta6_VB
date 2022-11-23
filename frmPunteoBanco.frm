@@ -4077,7 +4077,7 @@ Dim MaDeUnCobro As Boolean
             Sql = "update pagos set imppagad = " & DBSet(Im, "N")
             Sql = Sql & ", situacion=1, fecultpa = " & DBSet(Fecha, "F")
             Sql = Sql & " where numserie = " & DBSet(miRsAux!NUmSerie, "T") & " and numfactu = " & DBSet(miRsAux!numfactu, "T")
-            Sql = Sql & " and fecfactu = " & DBSet(miRsAux!Fecfactu, "F") & " and numorden = " & DBSet(miRsAux!numorde, "N")
+            Sql = Sql & " and fecfactu = " & DBSet(miRsAux!Fecfactu, "F") & " and numorden = " & DBSet(miRsAux!numorden, "N")
             Sql = Sql & " and codmacta = " & DBSet(miRsAux!codmacta, "T")
             
         End If
