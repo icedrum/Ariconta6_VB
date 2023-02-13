@@ -2,23 +2,23 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02">
 <CstmrDrctDbtInitn>
 <GrpHdr>
-<MsgId>PRE22022210100537890RE30000042021</MsgId>
-   <CreDtTm>2022-02-22T10:10:05</CreDtTm>
-   <NbOfTxs>8</NbOfTxs>
-   <CtrlSum>3032.94</CtrlSum>
+<MsgId>PRE23020918205614060RE30000202023</MsgId>
+   <CreDtTm>2023-02-09T18:20:56</CreDtTm>
+   <NbOfTxs>1</NbOfTxs>
+   <CtrlSum>95.55</CtrlSum>
    <InitgPty>
-     <Nm>Herbelca S.L.</Nm>
+     <Nm>Materna Servicios y Carburantes SLU</Nm>
      <Id>
         <OrgId>
            <Othr>
-              <Id>ES25000B46135372</Id>
+              <Id>ES74000B98734098</Id>
            </Othr>
         </OrgId>
       </Id>
    </InitgPty>
 </GrpHdr>
 <PmtInf>
-   <PmtInfId>RE000042021 22/02/22B46135372 0001</PmtInfId>
+   <PmtInfId>RE000202023 09/02/23B98734098 0001</PmtInfId>
    <PmtMtd>DD</PmtMtd>
    <BtchBookg>false</BtchBookg>
    <PmtTpInf>
@@ -33,29 +33,29 @@
          <Cd>TRAD</Cd>
       </CtgyPurp>
    </PmtTpInf>
-   <ReqdColltnDt>2022-02-22</ReqdColltnDt>
+   <ReqdColltnDt>2023-02-09</ReqdColltnDt>
    <Cdtr>
-      <Nm>Herbelca S.L.</Nm>
+      <Nm>Materna Servicios y Carburantes SLU</Nm>
       <PstlAdr>
           <Ctry>ES</Ctry>
-          <AdrLine>Azagador de la Torre 93   </AdrLine>
+          <AdrLine>PARTIDA MATERNA 17   </AdrLine>
       </PstlAdr>
    </Cdtr>
    <CdtrAcct>
       <Id>
-         <IBAN>ES0801822339630201507985</IBAN>
+         <IBAN>ES2531590054242557816325</IBAN>
       </Id>
    </CdtrAcct>
    <CdtrAgt>
       <FinInstnId>
-         <BIC>BBVAESMMXXX</BIC>
+         <BIC>BCOEESMM159</BIC>
       </FinInstnId>
    </CdtrAgt>
    <CdtrSchmeId>
        <Id>
           <PrvtId>
              <Othr>
-                 <Id>ES25000B46135372</Id>
+                 <Id>ES74000B98734098</Id>
                  <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
              </Othr>
           </PrvtId>
@@ -63,346 +63,45 @@
    </CdtrSchmeId>
    <DrctDbtTxInf>
       <PmtId>
-          <EndToEndId>43001257  A  0500138720200217001   </EndToEndId>
+          <EndToEndId>4300001440A  0308590920230131001   </EndToEndId>
       </PmtId>
-      <InstdAmt Ccy="EUR">850.74</InstdAmt>
+      <InstdAmt Ccy="EUR">95.55</InstdAmt>
       <DrctDbtTx>
          <MndtRltdInf>
-            <MndtId>ES0901827718010201587763</MndtId>
+            <MndtId>ES6120386584203000551376</MndtId>
             <DtOfSgntr>2009-10-31</DtOfSgntr>
          </MndtRltdInf>
       </DrctDbtTx>
       <DbtrAgt>
          <FinInstnId>
-            <BIC>BBVAESMMXXX</BIC>
+            <BIC>CAHMESMMXXX</BIC>
          </FinInstnId>
       </DbtrAgt>
       <Dbtr>
-         <Nm>VENTURA MARTINEZ DOMINGUEZ</Nm>
+         <Nm>SIFRE CASTANY, RICARDO</Nm>
          <PstlAdr>
             <Ctry>ES</Ctry>
-              <AdrLine>CTRA GRAO-ALMAZORA YZ 95</AdrLine>
-              <AdrLine>GRAO DE CASTELLON   12100     CASTELLON</AdrLine>
+              <AdrLine>PZ ALQUERIA NOVA    8 -1-1</AdrLine>
+              <AdrLine>XIRIVELLA   46014     Valencia</AdrLine>
          </PstlAdr>
          <Id>
             <PrvtId>
                <Othr>
-                   <Id>010201587763</Id>
+                   <Id>203000551376</Id>
                </Othr>
             </PrvtId>
          </Id>
       </Dbtr>
       <DbtrAcct>
          <Id>
-            <IBAN>ES0901827718010201587763</IBAN>
+            <IBAN>ES6120386584203000551376</IBAN>
          </Id>
       </DbtrAcct>
       <Purp>
          <Cd>TRAD</Cd>
       </Purp>
       <RmtInf>
-         <Ustrd>FACTURA  A-5001387 de Fecha 17 feb 2020</Ustrd>
-      </RmtInf>
-   </DrctDbtTxInf>
-   <DrctDbtTxInf>
-      <PmtId>
-          <EndToEndId>43002694  A  0500143020200217001   </EndToEndId>
-      </PmtId>
-      <InstdAmt Ccy="EUR">6.45</InstdAmt>
-      <DrctDbtTx>
-         <MndtRltdInf>
-            <MndtId>ES9401822327100011005708</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
-         </MndtRltdInf>
-      </DrctDbtTx>
-      <DbtrAgt>
-         <FinInstnId>
-            <BIC>BBVAESMMXXX</BIC>
-         </FinInstnId>
-      </DbtrAgt>
-      <Dbtr>
-         <Nm>ITACA, S.A.</Nm>
-         <PstlAdr>
-            <Ctry>ES</Ctry>
-              <AdrLine>PARTIDA LA RAMBLETA S/N</AdrLine>
-              <AdrLine>POBLA TORNESA   12191     CASTELLON</AdrLine>
-         </PstlAdr>
-         <Id>
-            <PrvtId>
-               <Othr>
-                   <Id>100011005708</Id>
-               </Othr>
-            </PrvtId>
-         </Id>
-      </Dbtr>
-      <DbtrAcct>
-         <Id>
-            <IBAN>ES9401822327100011005708</IBAN>
-         </Id>
-      </DbtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>FACTURA  A-5001430 de Fecha 17 feb 2020</Ustrd>
-      </RmtInf>
-   </DrctDbtTxInf>
-   <DrctDbtTxInf>
-      <PmtId>
-          <EndToEndId>43004139  A  0500148620200217001   </EndToEndId>
-      </PmtId>
-      <InstdAmt Ccy="EUR">1463.27</InstdAmt>
-      <DrctDbtTx>
-         <MndtRltdInf>
-            <MndtId>ES8301821900360208515072</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
-         </MndtRltdInf>
-      </DrctDbtTx>
-      <DbtrAgt>
-         <FinInstnId>
-            <BIC>BBVAESMMXXX</BIC>
-         </FinInstnId>
-      </DbtrAgt>
-      <Dbtr>
-         <Nm>SISTEMA Y MONTAJES CLIMATIZACION,S.L.</Nm>
-         <PstlAdr>
-            <Ctry>ES</Ctry>
-              <AdrLine>C/ SAN MATEO 120</AdrLine>
-              <AdrLine>12004   CASTELLON</AdrLine>
-         </PstlAdr>
-         <Id>
-            <PrvtId>
-               <Othr>
-                   <Id>360208515072</Id>
-               </Othr>
-            </PrvtId>
-         </Id>
-      </Dbtr>
-      <DbtrAcct>
-         <Id>
-            <IBAN>ES8301821900360208515072</IBAN>
-         </Id>
-      </DbtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>Compensa   A5001486 17/02/2020</Ustrd>
-      </RmtInf>
-   </DrctDbtTxInf>
-   <DrctDbtTxInf>
-      <PmtId>
-          <EndToEndId>43000932  A  0581057220181210005   </EndToEndId>
-      </PmtId>
-      <InstdAmt Ccy="EUR">173.12</InstdAmt>
-      <DrctDbtTx>
-         <MndtRltdInf>
-            <MndtId>ES3701822741100201549324</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
-         </MndtRltdInf>
-      </DrctDbtTx>
-      <DbtrAgt>
-         <FinInstnId>
-            <BIC>BBVAESMMXXX</BIC>
-         </FinInstnId>
-      </DbtrAgt>
-      <Dbtr>
-         <Nm>IATIS, C.B.</Nm>
-         <PstlAdr>
-            <Ctry>ES</Ctry>
-              <AdrLine>C/ TREVIJANO 11-E 1</AdrLine>
-              <AdrLine>GRAO DE GANDIA   46730     VALENCIA</AdrLine>
-         </PstlAdr>
-         <Id>
-            <PrvtId>
-               <Othr>
-                   <Id>100201549324</Id>
-               </Othr>
-            </PrvtId>
-         </Id>
-      </Dbtr>
-      <DbtrAcct>
-         <Id>
-            <IBAN>ES3701822741100201549324</IBAN>
-         </Id>
-      </DbtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>FACTURA  A-5810572 de Fecha 10 dic 2018</Ustrd>
-      </RmtInf>
-   </DrctDbtTxInf>
-   <DrctDbtTxInf>
-      <PmtId>
-          <EndToEndId>43000932  A  0581057220181210002   </EndToEndId>
-      </PmtId>
-      <InstdAmt Ccy="EUR">173.12</InstdAmt>
-      <DrctDbtTx>
-         <MndtRltdInf>
-            <MndtId>ES3701822741100201549324</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
-         </MndtRltdInf>
-      </DrctDbtTx>
-      <DbtrAgt>
-         <FinInstnId>
-            <BIC>BBVAESMMXXX</BIC>
-         </FinInstnId>
-      </DbtrAgt>
-      <Dbtr>
-         <Nm>IATIS, C.B.</Nm>
-         <PstlAdr>
-            <Ctry>ES</Ctry>
-              <AdrLine>C/ TREVIJANO 11-E 1</AdrLine>
-              <AdrLine>GRAO DE GANDIA   46730     VALENCIA</AdrLine>
-         </PstlAdr>
-         <Id>
-            <PrvtId>
-               <Othr>
-                   <Id>100201549324</Id>
-               </Othr>
-            </PrvtId>
-         </Id>
-      </Dbtr>
-      <DbtrAcct>
-         <Id>
-            <IBAN>ES3701822741100201549324</IBAN>
-         </Id>
-      </DbtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>FACTURA  A-5810572 de Fecha 10 dic 2018</Ustrd>
-      </RmtInf>
-   </DrctDbtTxInf>
-   <DrctDbtTxInf>
-      <PmtId>
-          <EndToEndId>43000932  A  0581057220181210004   </EndToEndId>
-      </PmtId>
-      <InstdAmt Ccy="EUR">173.12</InstdAmt>
-      <DrctDbtTx>
-         <MndtRltdInf>
-            <MndtId>ES3701822741100201549324</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
-         </MndtRltdInf>
-      </DrctDbtTx>
-      <DbtrAgt>
-         <FinInstnId>
-            <BIC>BBVAESMMXXX</BIC>
-         </FinInstnId>
-      </DbtrAgt>
-      <Dbtr>
-         <Nm>IATIS, C.B.</Nm>
-         <PstlAdr>
-            <Ctry>ES</Ctry>
-              <AdrLine>C/ TREVIJANO 11-E 1</AdrLine>
-              <AdrLine>GRAO DE GANDIA   46730     VALENCIA</AdrLine>
-         </PstlAdr>
-         <Id>
-            <PrvtId>
-               <Othr>
-                   <Id>100201549324</Id>
-               </Othr>
-            </PrvtId>
-         </Id>
-      </Dbtr>
-      <DbtrAcct>
-         <Id>
-            <IBAN>ES3701822741100201549324</IBAN>
-         </Id>
-      </DbtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>FACTURA  A-5810572 de Fecha 10 dic 2018</Ustrd>
-      </RmtInf>
-   </DrctDbtTxInf>
-   <DrctDbtTxInf>
-      <PmtId>
-          <EndToEndId>43000932  A  0480803220080925001   </EndToEndId>
-      </PmtId>
-      <InstdAmt Ccy="EUR">20.00</InstdAmt>
-      <DrctDbtTx>
-         <MndtRltdInf>
-            <MndtId>FR3701822741100201549324s</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
-         </MndtRltdInf>
-      </DrctDbtTx>
-      <DbtrAgt>
-         <FinInstnId>
-            <BIC>BBVAESMMXXX</BIC>
-         </FinInstnId>
-      </DbtrAgt>
-      <Dbtr>
-         <Nm>IATIS, C.B.</Nm>
-         <PstlAdr>
-            <Ctry>ES</Ctry>
-              <AdrLine>C/ TREVIJANO 11-E 1</AdrLine>
-              <AdrLine>GRAO DE GANDIA   46730     VALENCIA</AdrLine>
-         </PstlAdr>
-         <Id>
-            <PrvtId>
-               <Othr>
-                   <Id>100201549324</Id>
-               </Othr>
-            </PrvtId>
-         </Id>
-      </Dbtr>
-      <DbtrAcct>
-         <Id>
-            <IBAN>FR3701822741100201549324</IBAN>
-         </Id>
-      </DbtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>Factura  4808032 de Fecha  25/09/2008</Ustrd>
-      </RmtInf>
-   </DrctDbtTxInf>
-   <DrctDbtTxInf>
-      <PmtId>
-          <EndToEndId>43000932  A  0581057220181210003   </EndToEndId>
-      </PmtId>
-      <InstdAmt Ccy="EUR">173.12</InstdAmt>
-      <DrctDbtTx>
-         <MndtRltdInf>
-            <MndtId>ES3701822741100201549324</MndtId>
-            <DtOfSgntr>2009-10-31</DtOfSgntr>
-         </MndtRltdInf>
-      </DrctDbtTx>
-      <DbtrAgt>
-         <FinInstnId>
-            <BIC>BBVAESMMXXX</BIC>
-         </FinInstnId>
-      </DbtrAgt>
-      <Dbtr>
-         <Nm>IATIS, C.B.</Nm>
-         <PstlAdr>
-            <Ctry>ES</Ctry>
-              <AdrLine>C/ TREVIJANO 11-E 1</AdrLine>
-              <AdrLine>GRAO DE GANDIA   46730     VALENCIA</AdrLine>
-         </PstlAdr>
-         <Id>
-            <PrvtId>
-               <Othr>
-                   <Id>100201549324</Id>
-               </Othr>
-            </PrvtId>
-         </Id>
-      </Dbtr>
-      <DbtrAcct>
-         <Id>
-            <IBAN>ES3701822741100201549324</IBAN>
-         </Id>
-      </DbtrAcct>
-      <Purp>
-         <Cd>TRAD</Cd>
-      </Purp>
-      <RmtInf>
-         <Ustrd>FACTURA  A-5810572 de Fecha 10 dic 2018</Ustrd>
+         <Ustrd>FACT  A-3085909 31/01/23 de 95.55</Ustrd>
       </RmtInf>
    </DrctDbtTxInf>
 </PmtInf>

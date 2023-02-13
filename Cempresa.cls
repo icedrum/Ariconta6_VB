@@ -48,13 +48,13 @@ Private mvarGranEmpresa As Boolean
 'NIF empresa. Esta en la tabla empresa2
 Private mvarNIF As String
 Private mvarNombreEmpresaOficial As String
+Private mvarImagenFondo As Byte
 
 
 
 
 
-
-Private SQL As String  'Para la sentencia
+Private Sql As String  'Para la sentencia
 Private Mens As String    'Para los mensajes
 Private Rs As ADODB.Recordset
 Private RC As Byte
@@ -310,6 +310,19 @@ Public Property Get NombreEmpresaOficial() As String
     NombreEmpresaOficial = mvarNombreEmpresaOficial
 End Property
 
+
+
+Public Property Let ImagenFondo(ByVal vData As Byte)
+     mvarImagenFondo = vData
+End Property
+
+Public Property Get ImagenFondo() As Byte
+     ImagenFondo = mvarImagenFondo
+End Property
+
+
+
+
 '------------------------------------------------
 'FUNCIONES del modulo Cempresa
 '------------------------------------------------
@@ -320,27 +333,27 @@ End Property
 Public Function Agregar() As Byte
     On Error GoTo Err1
 
-    SQL = "INSERT INTO empresa (codempre, nomempre, nomresum, numnivel, numdigi1,"
-    SQL = SQL & "numdigi2, numdigi3, numdigi4, numdigi5, numdigi6, numdigi7,"
-    SQL = SQL & " numdigi8, numdigi9, numdigi10) VALUES ("
+    Sql = "INSERT INTO empresa (codempre, nomempre, nomresum, numnivel, numdigi1,"
+    Sql = Sql & "numdigi2, numdigi3, numdigi4, numdigi5, numdigi6, numdigi7,"
+    Sql = Sql & " numdigi8, numdigi9, numdigi10) VALUES ("
 
     'Datos
-    SQL = SQL & mvarcodempre
-    SQL = SQL & ",'" & mvarnomempre
-    SQL = SQL & "','" & mvarnomresum
-    SQL = SQL & "'," & mvarnumnivel
-    SQL = SQL & "," & mvarnumdigi1
-    SQL = SQL & "," & mvarnumdigi2
-    SQL = SQL & "," & mvarnumdigi3
-    SQL = SQL & "," & mvarnumdigi4
-    SQL = SQL & "," & mvarnumdigi5
-    SQL = SQL & "," & mvarnumdigi6
-    SQL = SQL & "," & mvarnumdigi7
-    SQL = SQL & "," & mvarnumdigi8
-    SQL = SQL & "," & mvarnumdigi9
-    SQL = SQL & "," & mvarnumdigi10 & ")"
+    Sql = Sql & mvarcodempre
+    Sql = Sql & ",'" & mvarnomempre
+    Sql = Sql & "','" & mvarnomresum
+    Sql = Sql & "'," & mvarnumnivel
+    Sql = Sql & "," & mvarnumdigi1
+    Sql = Sql & "," & mvarnumdigi2
+    Sql = Sql & "," & mvarnumdigi3
+    Sql = Sql & "," & mvarnumdigi4
+    Sql = Sql & "," & mvarnumdigi5
+    Sql = Sql & "," & mvarnumdigi6
+    Sql = Sql & "," & mvarnumdigi7
+    Sql = Sql & "," & mvarnumdigi8
+    Sql = Sql & "," & mvarnumdigi9
+    Sql = Sql & "," & mvarnumdigi10 & ")"
     
-    Conn.Execute SQL
+    Conn.Execute Sql
     
     Exit Function
 Err1:
@@ -358,13 +371,13 @@ End Function
 '****   LEER  ***
 Public Function Leer(Optional CONTA As String) As Byte
     On Error GoTo Err3
-    SQL = "SELECT * FROM "
+    Sql = "SELECT * FROM "
     If CONTA <> "" Then
-        SQL = SQL & "ariconta" & CONTA & "."
+        Sql = Sql & "ariconta" & CONTA & "."
     End If
-    SQL = SQL & "empresa "
+    Sql = Sql & "empresa "
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     Mens = ""
     If Rs.EOF Then
         Leer = 1
@@ -397,12 +410,9 @@ Public Function Leer(Optional CONTA As String) As Byte
             
             'Vemos si es gran empresa o no
             LeerGranEmpresa
-            
-            SQL = "NomEmpresaOficial"
-            mvarNIF = DevuelveDesdeBD("nifempre", "empresa2", "1", "1", "N", SQL)
-            If SQL = "" Then SQL = mvarnomempre
-            mvarNombreEmpresaOficial = SQL
-            
+                
+            'Valores en empres2   NIF, nombre oficial  fondo
+            ValoresEmpresa2
             
             Leer = 0
     End If
@@ -421,35 +431,57 @@ Err3:
 End Function
 
 
+Private Sub ValoresEmpresa2()
+    On Error GoTo eValoresEmpresa2
+    mvarNombreEmpresaOficial = ""
+    Set Rs = Nothing
+    Set Rs = New ADODB.Recordset
+
+            
+    Sql = "Select * from empresa2 "
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    'NO PUEDE SER EOF
+    mvarNIF = DBLet(Rs!nifempre, "T")
+    mvarNombreEmpresaOficial = DBLet(Rs!NomEmpresaOficial, "T")
+    mvarImagenFondo = 0
+    mvarImagenFondo = DBLet(Rs!ImagenFondo, "N")
+    Rs.Close
+    
+eValoresEmpresa2:
+    If Err.Number <> 0 Then MuestraError Err.Number, , Err.Description
+    Set Rs = Nothing
+End Sub
+
+
 '****   MODIFICAR  ***
 Public Function Modificar() As Byte
     On Error GoTo Err4
 
 
-    SQL = "UPDATE empresa SET "
-    SQL = SQL & " nomempre = '" & mvarnomempre
-    SQL = SQL & "', nomresum = '" & mvarnomresum
-    SQL = SQL & "', numnivel =" & mvarnumnivel
-    SQL = SQL & ", numdigi1 =" & mvarnumdigi1
-    SQL = SQL & ", numdigi2 =" & mvarnumdigi2
-    SQL = SQL & ", numdigi3 =" & mvarnumdigi3
-    SQL = SQL & ", numdigi4 =" & mvarnumdigi4
-    SQL = SQL & ", numdigi5 =" & mvarnumdigi5
-    SQL = SQL & ", numdigi6 =" & mvarnumdigi6
-    SQL = SQL & ", numdigi7 =" & mvarnumdigi7
-    SQL = SQL & ", numdigi8 =" & mvarnumdigi8
-    SQL = SQL & ", numdigi9 =" & mvarnumdigi9
-    SQL = SQL & ", numdigi10 =" & mvarnumdigi10
-    SQL = SQL & " WHERE codempre =" & mvarcodempre & ";"
+    Sql = "UPDATE empresa SET "
+    Sql = Sql & " nomempre = '" & mvarnomempre
+    Sql = Sql & "', nomresum = '" & mvarnomresum
+    Sql = Sql & "', numnivel =" & mvarnumnivel
+    Sql = Sql & ", numdigi1 =" & mvarnumdigi1
+    Sql = Sql & ", numdigi2 =" & mvarnumdigi2
+    Sql = Sql & ", numdigi3 =" & mvarnumdigi3
+    Sql = Sql & ", numdigi4 =" & mvarnumdigi4
+    Sql = Sql & ", numdigi5 =" & mvarnumdigi5
+    Sql = Sql & ", numdigi6 =" & mvarnumdigi6
+    Sql = Sql & ", numdigi7 =" & mvarnumdigi7
+    Sql = Sql & ", numdigi8 =" & mvarnumdigi8
+    Sql = Sql & ", numdigi9 =" & mvarnumdigi9
+    Sql = Sql & ", numdigi10 =" & mvarnumdigi10
+    Sql = Sql & " WHERE codempre =" & mvarcodempre & ";"
     
-    Conn.Execute SQL
+    Conn.Execute Sql
     
     
     'Modificamos en la tabla usuarios.empresa
-    SQL = "UPDATE usuarios.empresasariconta SET nomempre= '" & mvarnomempre
-    SQL = SQL & "', nomresum= '" & mvarnomresum
-    SQL = SQL & "' WHERE codempre=" & mvarcodempre
-    Conn.Execute SQL
+    Sql = "UPDATE usuarios.empresasariconta SET nomempre= '" & mvarnomempre
+    Sql = Sql & "', nomresum= '" & mvarnomresum
+    Sql = Sql & "' WHERE codempre=" & mvarcodempre
+    Conn.Execute Sql
     Exit Function
 
 Err4:
@@ -469,30 +501,30 @@ End Function
 
 
 Private Sub FijaLongitudMaxima()
-Dim i As Byte
+Dim I As Byte
         Select Case mvarnumnivel
         Case 1
-                i = mvarnumdigi1
+                I = mvarnumdigi1
         Case 2
-                i = mvarnumdigi2
+                I = mvarnumdigi2
         Case 3
-                i = mvarnumdigi3
+                I = mvarnumdigi3
         Case 4
-                i = mvarnumdigi4
+                I = mvarnumdigi4
         Case 5
-                i = mvarnumdigi5
+                I = mvarnumdigi5
         Case 6
-                i = mvarnumdigi6
+                I = mvarnumdigi6
         Case 7
-                i = mvarnumdigi7
+                I = mvarnumdigi7
         Case 8
-                i = mvarnumdigi8
+                I = mvarnumdigi8
         Case 9
-                i = mvarnumdigi9
+                I = mvarnumdigi9
         Case 10
-                i = mvarnumdigi10
+                I = mvarnumdigi10
         End Select
-        mvarDigitosUltimoNivel = i
+        mvarDigitosUltimoNivel = I
 End Sub
 
 
@@ -505,8 +537,8 @@ On Error GoTo EmvarTieneTesoreria
 
     mvarTieneTesoreria = False
     mvarTieneContabilidad = False
-    SQL = "Select tesor from usuarios.empresasariconta where codempre = " & DBSet(mvarcodempre, "N")
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = "Select tesor from usuarios.empresasariconta where codempre = " & DBSet(mvarcodempre, "N")
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then
             mvarTieneTesoreria = ((Rs.Fields(0) = 1) Or (Rs.Fields(0) = 2))
@@ -528,8 +560,8 @@ Private Sub LeerGranEmpresa()
     
     mvarGranEmpresa = False
     Set Rs = New ADODB.Recordset
-    SQL = "Select codmacta from cuentas where apudirec='S' and (codmacta like '8%' or codmacta like '9%') "
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = "Select codmacta from cuentas where apudirec='S' and (codmacta like '8%' or codmacta like '9%') "
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then mvarGranEmpresa = True
     End If

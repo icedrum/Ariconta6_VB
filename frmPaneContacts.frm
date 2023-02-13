@@ -95,7 +95,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
-Dim Cad As String
+Dim cad As String
 
 
     Set tree.Icons = frmShortBar.wndShortcutBar.Icons
@@ -103,13 +103,7 @@ Dim Cad As String
     
     tree.Font.SIZE = 10
     
-     
-    
-    
-
     BuscaEmpresas
-    
-    
     
     UpdateLayout
 End Sub
@@ -118,8 +112,8 @@ Public Sub BuscaEmpresas()
 Dim Prohibidas As String
 Dim Rs As ADODB.Recordset
 Dim Rs2 As ADODB.Recordset
-Dim Cad As String
-Dim SQL As String
+Dim cad As String
+Dim Sql As String
 
 Dim N
 
@@ -134,9 +128,9 @@ Prohibidas = DevuelveProhibidas
     tree.Nodes.Clear
     
     While Not Rs.EOF
-        Cad = "|" & Rs!codempre & "|"
-        If InStr(1, Prohibidas, Cad) = 0 Then
-            Cad = Rs!nomempre
+        cad = "|" & Rs!codempre & "|"
+        If InStr(1, Prohibidas, cad) = 0 Then
+            cad = Rs!nomempre
             Set N = tree.Nodes.Add(, , CStr("N" & Rs!codempre), Rs!nomresum)   'nomempre
         
             
@@ -153,7 +147,7 @@ Prohibidas = DevuelveProhibidas
             'Set Rs2 = Nothing
             
                 
-            Cad = Rs!CONTA & "|" & Rs!nomresum '& "|" & Rs!Usuario & "|" & Rs!Pass & "|"
+            cad = Rs!CONTA & "|" & Rs!nomresum '& "|" & Rs!Usuario & "|" & Rs!Pass & "|"
             
             If Rs!codempre = vEmpresa.codempre Then
                 N.Bold = True
@@ -172,21 +166,21 @@ End Sub
 
 Private Function DevuelveProhibidas() As String
 Dim Rs As ADODB.Recordset
-Dim Cad As String
-Dim i As Integer
+Dim cad As String
+Dim I As Integer
     On Error GoTo EDevuelveProhibidas
     DevuelveProhibidas = ""
     Set Rs = New ADODB.Recordset
-    i = vUsu.Codigo Mod 1000
-    Rs.Open "Select * from usuarios.usuarioempresasariconta WHERE codusu =" & i, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    Cad = ""
+    I = vUsu.Codigo Mod 1000
+    Rs.Open "Select * from usuarios.usuarioempresasariconta WHERE codusu =" & I, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    cad = ""
     While Not Rs.EOF
-        Cad = Cad & Rs.Fields(1) & "|"
+        cad = cad & Rs.Fields(1) & "|"
         Rs.MoveNext
     Wend
-    If Cad <> "" Then Cad = "|" & Cad
+    If cad <> "" Then cad = "|" & cad
     Rs.Close
-    DevuelveProhibidas = Cad
+    DevuelveProhibidas = cad
 EDevuelveProhibidas:
     Err.Clear
     Set Rs = Nothing
@@ -245,20 +239,20 @@ End Sub
 
 
 Public Sub SeleccionarNodoEmpresa(QueEmpresa As Integer)
-Dim i As Integer
-    For i = 1 To tree.Nodes.Count
-        If Val(Mid(tree.Nodes(i).Key, 2)) = QueEmpresa Then
-            Set tree.SelectedItem = tree.Nodes(i)
+Dim I As Integer
+    For I = 1 To tree.Nodes.Count
+        If Val(Mid(tree.Nodes(I).Key, 2)) = QueEmpresa Then
+            Set tree.SelectedItem = tree.Nodes(I)
             tree.SelectedItem.Bold = True
         Else
-            tree.Nodes(i).Bold = False
+            tree.Nodes(I).Bold = False
         End If
     Next
 End Sub
 
 
 Private Sub tree_NodeClick(ByVal Node As XtremeSuiteControls.TreeViewNode)
-Dim Cad  As String
+Dim cad  As String
    
     
     If Val(Mid(Node.Key, 2)) = vEmpresa.codempre Then Exit Sub

@@ -2177,3 +2177,9 @@ Public Sub CargaSufijos(ByRef cboSufijos As ComboBox, CtaBanco As String, Sufijo
 End Sub
 
 
+
+
+
+
+
+

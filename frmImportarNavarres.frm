@@ -1921,14 +1921,14 @@ Dim Fin As Boolean
     miRsAux.Close
     
     If TextoBusqueda = "" Then Err.Raise 513, , "No hay IVAS(1)" & vbCrLf & Sql
-    If jj > 3 Then Err.Raise 513, , "Mas de tres IVAS(2)" & vbCrLf & Sql
+    If jj > 5 Then Err.Raise 513, , "Mas de cinco IVAS(2)" & vbCrLf & Sql
 
     'Veo los IVAS de parametros
-    Sql = "select IVANormal ,IVAReducid ,IVASuperReducido from importnavparam "
+    Sql = "select IVANormal ,IVAReducid ,IVASuperReducido,IVAEnergia ,IVACero from importnavparam "
     miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Sql = ""
     Fin = False
-    For jj = 1 To 3
+    For jj = 1 To 5
         If IsNull(miRsAux.Fields(jj - 1)) Then
             Fin = True
         Else
@@ -2362,7 +2362,7 @@ Dim Ivas As Currency
     'Cosas importantes
     
     If rCta.EOF Then Err.Raise 513, , "Error leyendo cuenta contable"
-    If IsNull(rCta!Forpa) Then Err.Raise 513, , "Forma pago NULA"
+    If IsNull(rCta!forpa) Then Err.Raise 513, , "Forma pago NULA"
     If IsNull(rCta!CtaBanco) Then Err.Raise 513, , "Cuenta banco asociada cuenta"
 
     Sql = Sql & ",'" & rCta!codmacta & "','" & DevNombreSQL(RecuperaValor(CadenaDesdeOtroForm, 2)) & "',"
@@ -2381,7 +2381,7 @@ Dim Ivas As Currency
     While Not miRsAux.EOF
         If DBLet(miRsAux.Fields(1), "N") <> 0 Then
             jj = jj + 1
-            If jj > 3 Then Err.Raise 513, , "Mas de tres tipos de iva"
+            If jj > 5 Then Err.Raise 513, , "Mas de tres tipos de iva"
             Bases = Bases + DBLet(miRsAux!Base, "N")
             Ivas = Ivas + DBLet(miRsAux!IVA, "N")
             ImporteFacturaImportada = ImporteFacturaImportada + miRsAux.Fields(3)
@@ -2393,7 +2393,7 @@ Dim Ivas As Currency
    
     
     'codconce340, CodOpera,   codforpa,  totbases, totbasesret, totivas"
-    Sql = Sql & "0,0," & rCta!Forpa & "," & TransformaComasPuntos(CStr(Bases)) & ",0," & TransformaComasPuntos(CStr(Ivas)) & ","
+    Sql = Sql & "0,0," & rCta!forpa & "," & TransformaComasPuntos(CStr(Bases)) & ",0," & TransformaComasPuntos(CStr(Ivas)) & ","
     
     ',nommacta,dirdatos,codpobla,despobla,desprovi,,codpais"
     Sql = Sql & DBSet(rCta!Nommacta, "T") & "," & DBSet(rCta!dirdatos, "T") & "," & DBSet(rCta!codposta, "T") & ","
@@ -2550,11 +2550,11 @@ End Sub
 
 
 Private Function Truncar(numero As Single, Decimales) As Single
-Dim CADENA As String
+Dim Cadena As String
 
-    CADENA = Format(numero, "#0.00000")
-    CADENA = Mid(CADENA, 1, Len(CADENA) - (5 - Decimales))
-    Truncar = CSng(CADENA)
+    Cadena = Format(numero, "#0.00000")
+    Cadena = Mid(Cadena, 1, Len(Cadena) - (5 - Decimales))
+    Truncar = CSng(Cadena)
 End Function
 
 
@@ -2579,10 +2579,10 @@ On Error GoTo eInsertaPagos
     espera 0.1
     
     'NomBanco = DevuelveDesdeBD("nommacta", "cuentas", "codmacta", rCta!CtaBanco, "T")
-    TipForpa = DevuelveValor("select formapago.tipforpa from formapago where codforpa = " & DBSet(rCta!Forpa, "N"))
+    TipForpa = DevuelveValor("select formapago.tipforpa from formapago where codforpa = " & DBSet(rCta!forpa, "N"))
     
     
-    CargarPagosTemporal CStr(rCta!Forpa), CStr(FechaFraImportada), ImporteFacturaImportada
+    CargarPagosTemporal CStr(rCta!forpa), CStr(FechaFraImportada), ImporteFacturaImportada
     
 
         
@@ -2607,7 +2607,7 @@ On Error GoTo eInsertaPagos
         'numserie,codmacta,numfactu,fecfactu,numorden
         Sql = "1," & DBSet(rCta!codmacta, "T") & "," & DBSet(NumFacturaFichero, "T") & "," & DBSet(FechaFraImportada, "F") & "," & DBSet(I, "N") & ","
         'codforpa,fecefect,impefec
-        Sql = Sql & DBSet(rCta!Forpa, "N") & "," & DBSet(miRsAux!FecVenci, "F") & "," & DBSet(miRsAux!ImpVenci, "N") & ","
+        Sql = Sql & DBSet(rCta!forpa, "N") & "," & DBSet(miRsAux!FecVenci, "F") & "," & DBSet(miRsAux!ImpVenci, "N") & ","
         'ctabanc1,fecultpa,imppagad,emitdocum,"
         Sql = Sql & DBSet(rCta!CtaBanco, "T", "S") & ","
         Sql = Sql & ValorNulo & "," & ValorNulo & ",0,"
@@ -2649,7 +2649,7 @@ End Sub
 
 
 
-Private Function CargarPagosTemporal(Forpa As String, FecFactu As String, TotalFac As Currency) As Boolean
+Private Function CargarPagosTemporal(forpa As String, Fecfactu As String, TotalFac As Currency) As Boolean
 Dim Sql As String
 Dim CadValues As String
 Dim Rsvenci As ADODB.Recordset
@@ -2660,7 +2660,7 @@ Dim ImpVenci As Currency
 
     CargarPagosTemporal = False
 
-    Sql = "SELECT numerove, primerve, restoven FROM formapago WHERE codforpa=" & DBSet(Forpa, "N")
+    Sql = "SELECT numerove, primerve, restoven FROM formapago WHERE codforpa=" & DBSet(forpa, "N")
     
     Set Rsvenci = New ADODB.Recordset
     Rsvenci.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -2672,7 +2672,7 @@ Dim ImpVenci As Currency
             '-------- Primer Vencimiento
             I = 1
             'FECHA VTO
-            FecVenci = CDate(FecFactu)
+            FecVenci = CDate(Fecfactu)
             FecVenci = DateAdd("d", DBLet(Rsvenci!primerve, "N"), FecVenci)
             '===
             

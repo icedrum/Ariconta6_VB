@@ -139,7 +139,6 @@ Begin VB.Form frmempresa
       _ExtentX        =   16431
       _ExtentY        =   8070
       _Version        =   393216
-      Tab             =   2
       TabHeight       =   520
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Verdana"
@@ -152,103 +151,148 @@ Begin VB.Form frmempresa
       EndProperty
       TabCaption(0)   =   "Datos básicos"
       TabPicture(0)   =   "frmempresa.frx":000C
-      Tab(0).ControlEnabled=   0   'False
+      Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "Label1(0)"
+      Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Label1(1)"
+      Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "Label1(4)"
+      Tab(0).Control(2).Enabled=   0   'False
       Tab(0).Control(3)=   "Label1(7)"
+      Tab(0).Control(3).Enabled=   0   'False
       Tab(0).Control(4)=   "Label1(8)"
+      Tab(0).Control(4).Enabled=   0   'False
       Tab(0).Control(5)=   "Label1(9)"
+      Tab(0).Control(5).Enabled=   0   'False
       Tab(0).Control(6)=   "Label1(10)"
+      Tab(0).Control(6).Enabled=   0   'False
       Tab(0).Control(7)=   "Label1(11)"
+      Tab(0).Control(7).Enabled=   0   'False
       Tab(0).Control(8)=   "Label1(12)"
+      Tab(0).Control(8).Enabled=   0   'False
       Tab(0).Control(9)=   "Label1(13)"
+      Tab(0).Control(9).Enabled=   0   'False
       Tab(0).Control(10)=   "Label1(14)"
+      Tab(0).Control(10).Enabled=   0   'False
       Tab(0).Control(11)=   "Label1(15)"
+      Tab(0).Control(11).Enabled=   0   'False
       Tab(0).Control(12)=   "Label1(16)"
+      Tab(0).Control(12).Enabled=   0   'False
       Tab(0).Control(13)=   "Label1(17)"
+      Tab(0).Control(13).Enabled=   0   'False
       Tab(0).Control(14)=   "Label2"
-      Tab(0).Control(15)=   "Text1(0)"
-      Tab(0).Control(16)=   "Text1(1)"
-      Tab(0).Control(17)=   "Text1(2)"
-      Tab(0).Control(18)=   "Text1(7)"
-      Tab(0).Control(19)=   "Text1(8)"
-      Tab(0).Control(20)=   "Text1(9)"
-      Tab(0).Control(21)=   "Text1(10)"
-      Tab(0).Control(22)=   "Text1(11)"
-      Tab(0).Control(23)=   "Text1(12)"
-      Tab(0).Control(24)=   "Text1(13)"
-      Tab(0).Control(25)=   "Text1(14)"
-      Tab(0).Control(26)=   "Text1(15)"
-      Tab(0).Control(27)=   "Text1(16)"
-      Tab(0).Control(28)=   "Text1(17)"
-      Tab(0).ControlCount=   29
+      Tab(0).Control(14).Enabled=   0   'False
+      Tab(0).Control(15)=   "Line1"
+      Tab(0).Control(15).Enabled=   0   'False
+      Tab(0).Control(16)=   "Label1(33)"
+      Tab(0).Control(16).Enabled=   0   'False
+      Tab(0).Control(17)=   "Text1(0)"
+      Tab(0).Control(17).Enabled=   0   'False
+      Tab(0).Control(18)=   "Text1(1)"
+      Tab(0).Control(18).Enabled=   0   'False
+      Tab(0).Control(19)=   "Text1(2)"
+      Tab(0).Control(19).Enabled=   0   'False
+      Tab(0).Control(20)=   "Text1(7)"
+      Tab(0).Control(20).Enabled=   0   'False
+      Tab(0).Control(21)=   "Text1(8)"
+      Tab(0).Control(21).Enabled=   0   'False
+      Tab(0).Control(22)=   "Text1(9)"
+      Tab(0).Control(22).Enabled=   0   'False
+      Tab(0).Control(23)=   "Text1(10)"
+      Tab(0).Control(23).Enabled=   0   'False
+      Tab(0).Control(24)=   "Text1(11)"
+      Tab(0).Control(24).Enabled=   0   'False
+      Tab(0).Control(25)=   "Text1(12)"
+      Tab(0).Control(25).Enabled=   0   'False
+      Tab(0).Control(26)=   "Text1(13)"
+      Tab(0).Control(26).Enabled=   0   'False
+      Tab(0).Control(27)=   "Text1(14)"
+      Tab(0).Control(27).Enabled=   0   'False
+      Tab(0).Control(28)=   "Text1(15)"
+      Tab(0).Control(28).Enabled=   0   'False
+      Tab(0).Control(29)=   "Text1(16)"
+      Tab(0).Control(29).Enabled=   0   'False
+      Tab(0).Control(30)=   "Text1(17)"
+      Tab(0).Control(30).Enabled=   0   'False
+      Tab(0).Control(31)=   "Text1(35)"
+      Tab(0).Control(31).Enabled=   0   'False
+      Tab(0).ControlCount=   32
       TabCaption(1)   =   "Otros datos"
       TabPicture(1)   =   "frmempresa.frx":0028
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label1(18)"
-      Tab(1).Control(1)=   "Label1(6)"
-      Tab(1).Control(2)=   "Label1(5)"
-      Tab(1).Control(3)=   "Label1(3)"
-      Tab(1).Control(4)=   "Label1(2)"
-      Tab(1).Control(5)=   "Label1(19)"
-      Tab(1).Control(6)=   "Label1(21)"
-      Tab(1).Control(7)=   "Label1(22)"
-      Tab(1).Control(8)=   "Label1(23)"
-      Tab(1).Control(9)=   "Label1(24)"
-      Tab(1).Control(10)=   "Label1(25)"
-      Tab(1).Control(11)=   "Label1(26)"
-      Tab(1).Control(12)=   "Label1(28)"
-      Tab(1).Control(13)=   "Label1(30)"
-      Tab(1).Control(14)=   "Label1(20)"
-      Tab(1).Control(15)=   "Label1(31)"
+      Tab(1).Control(0)=   "Text1(34)"
+      Tab(1).Control(1)=   "Text1(33)"
+      Tab(1).Control(2)=   "Text1(32)"
+      Tab(1).Control(3)=   "Text1(31)"
+      Tab(1).Control(4)=   "Text1(20)"
+      Tab(1).Control(5)=   "Text1(26)"
+      Tab(1).Control(6)=   "Text1(25)"
+      Tab(1).Control(7)=   "Text1(24)"
+      Tab(1).Control(8)=   "Text1(23)"
+      Tab(1).Control(9)=   "Text1(22)"
+      Tab(1).Control(10)=   "Text1(21)"
+      Tab(1).Control(11)=   "Text1(19)"
+      Tab(1).Control(12)=   "Text1(3)"
+      Tab(1).Control(13)=   "Text1(4)"
+      Tab(1).Control(14)=   "Text1(5)"
+      Tab(1).Control(15)=   "Text1(6)"
       Tab(1).Control(16)=   "Text1(18)"
-      Tab(1).Control(17)=   "Text1(6)"
-      Tab(1).Control(18)=   "Text1(5)"
-      Tab(1).Control(19)=   "Text1(4)"
-      Tab(1).Control(20)=   "Text1(3)"
-      Tab(1).Control(21)=   "Text1(19)"
-      Tab(1).Control(22)=   "Text1(21)"
-      Tab(1).Control(23)=   "Text1(22)"
-      Tab(1).Control(24)=   "Text1(23)"
-      Tab(1).Control(25)=   "Text1(24)"
-      Tab(1).Control(26)=   "Text1(25)"
-      Tab(1).Control(27)=   "Text1(26)"
-      Tab(1).Control(28)=   "Text1(20)"
-      Tab(1).Control(29)=   "Text1(31)"
-      Tab(1).Control(30)=   "Text1(32)"
-      Tab(1).Control(31)=   "Text1(33)"
-      Tab(1).Control(32)=   "Text1(34)"
+      Tab(1).Control(17)=   "Label1(31)"
+      Tab(1).Control(18)=   "Label1(20)"
+      Tab(1).Control(19)=   "Label1(30)"
+      Tab(1).Control(20)=   "Label1(28)"
+      Tab(1).Control(21)=   "Label1(26)"
+      Tab(1).Control(22)=   "Label1(25)"
+      Tab(1).Control(23)=   "Label1(24)"
+      Tab(1).Control(24)=   "Label1(23)"
+      Tab(1).Control(25)=   "Label1(22)"
+      Tab(1).Control(26)=   "Label1(21)"
+      Tab(1).Control(27)=   "Label1(19)"
+      Tab(1).Control(28)=   "Label1(2)"
+      Tab(1).Control(29)=   "Label1(3)"
+      Tab(1).Control(30)=   "Label1(5)"
+      Tab(1).Control(31)=   "Label1(6)"
+      Tab(1).Control(32)=   "Label1(18)"
       Tab(1).ControlCount=   33
       TabCaption(2)   =   "Presentación IVA"
       TabPicture(2)   =   "frmempresa.frx":0044
-      Tab(2).ControlEnabled=   -1  'True
-      Tab(2).Control(0)=   "Label1(27)"
-      Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "Label4(0)"
-      Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "Label4(1)"
-      Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "Label1(29)"
-      Tab(2).Control(3).Enabled=   0   'False
-      Tab(2).Control(4)=   "AdoAux(0)"
-      Tab(2).Control(4).Enabled=   0   'False
-      Tab(2).Control(5)=   "Text1(27)"
-      Tab(2).Control(5).Enabled=   0   'False
-      Tab(2).Control(6)=   "Text1(28)"
-      Tab(2).Control(6).Enabled=   0   'False
-      Tab(2).Control(7)=   "Text1(29)"
-      Tab(2).Control(7).Enabled=   0   'False
-      Tab(2).Control(8)=   "Text1(30)"
-      Tab(2).Control(8).Enabled=   0   'False
-      Tab(2).Control(9)=   "Frame2"
-      Tab(2).Control(9).Enabled=   0   'False
+      Tab(2).ControlEnabled=   0   'False
+      Tab(2).Control(0)=   "Frame2"
+      Tab(2).Control(1)=   "Text1(30)"
+      Tab(2).Control(2)=   "Text1(29)"
+      Tab(2).Control(3)=   "Text1(28)"
+      Tab(2).Control(4)=   "Text1(27)"
+      Tab(2).Control(5)=   "AdoAux(0)"
+      Tab(2).Control(6)=   "Label1(29)"
+      Tab(2).Control(7)=   "Label4(1)"
+      Tab(2).Control(8)=   "Label4(0)"
+      Tab(2).Control(9)=   "Label1(27)"
       Tab(2).ControlCount=   10
+      Begin VB.TextBox Text1 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   35
+         Left            =   1560
+         MaxLength       =   5
+         TabIndex        =   86
+         Tag             =   "Imagen|N|N|0|5|empresa2|ImagenFondo|||"
+         Text            =   "Text1"
+         Top             =   3960
+         Width           =   615
+      End
       Begin VB.Frame Frame2 
          BorderStyle     =   0  'None
          Caption         =   "Frame"
          Height          =   2535
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   82
          Top             =   1920
          Width           =   9135
@@ -462,7 +506,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   30
-         Left            =   4440
+         Left            =   -70560
          MaxLength       =   40
          TabIndex        =   33
          Tag             =   "IBAN Ingreso|T|S|||empresa2|iban2|||"
@@ -482,7 +526,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   29
-         Left            =   240
+         Left            =   -74760
          MaxLength       =   40
          TabIndex        =   32
          Tag             =   "IBAN Devolución|T|S|||empresa2|iban1|||"
@@ -523,12 +567,12 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   17
-         Left            =   -67860
+         Left            =   7140
          MaxLength       =   8
          TabIndex        =   13
          Tag             =   "Digitos 10º nivel|N|S|||||||"
          Text            =   "Text1"
-         Top             =   3960
+         Top             =   3240
          Width           =   615
       End
       Begin VB.TextBox Text1 
@@ -543,12 +587,12 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   16
-         Left            =   -67860
+         Left            =   7140
          MaxLength       =   8
          TabIndex        =   12
          Tag             =   "Digitos 9º nivel|N|S|||||||"
          Text            =   "Text1"
-         Top             =   3510
+         Top             =   2790
          Width           =   615
       End
       Begin VB.TextBox Text1 
@@ -563,12 +607,12 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   15
-         Left            =   -67860
+         Left            =   7140
          MaxLength       =   8
          TabIndex        =   11
          Tag             =   "Digitos 8º nivel|N|S|||||||"
          Text            =   "Text1"
-         Top             =   3060
+         Top             =   2340
          Width           =   615
       End
       Begin VB.TextBox Text1 
@@ -583,12 +627,12 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   14
-         Left            =   -67860
+         Left            =   7140
          MaxLength       =   8
          TabIndex        =   10
          Tag             =   "Digitos 7º nivel|N|S|||||||"
          Text            =   "Text1"
-         Top             =   2625
+         Top             =   1905
          Width           =   615
       End
       Begin VB.TextBox Text1 
@@ -603,12 +647,12 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   13
-         Left            =   -67860
+         Left            =   7140
          MaxLength       =   8
          TabIndex        =   9
          Tag             =   "Digitos 6º nivel|N|S|||||||"
          Text            =   "Text1"
-         Top             =   2175
+         Top             =   1455
          Width           =   615
       End
       Begin VB.TextBox Text1 
@@ -623,12 +667,12 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   12
-         Left            =   -70200
+         Left            =   4800
          MaxLength       =   8
          TabIndex        =   8
          Tag             =   "Digitos 5º nivel|N|S|||||||"
          Text            =   "Text1"
-         Top             =   3960
+         Top             =   3240
          Width           =   615
       End
       Begin VB.TextBox Text1 
@@ -643,12 +687,12 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   11
-         Left            =   -70200
+         Left            =   4800
          MaxLength       =   8
          TabIndex        =   7
          Tag             =   "Digitos 4º nivel|N|S|||||||"
          Text            =   "Text1"
-         Top             =   3510
+         Top             =   2790
          Width           =   615
       End
       Begin VB.TextBox Text1 
@@ -663,12 +707,12 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   10
-         Left            =   -70200
+         Left            =   4800
          MaxLength       =   8
          TabIndex        =   6
          Tag             =   "Digitos 3er nivel|N|S|||||||"
          Text            =   "Text1"
-         Top             =   3060
+         Top             =   2340
          Width           =   615
       End
       Begin VB.TextBox Text1 
@@ -683,12 +727,12 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   9
-         Left            =   -70200
+         Left            =   4800
          MaxLength       =   8
          TabIndex        =   5
          Tag             =   "Digitos 2º nivel|N|S|||||||"
          Text            =   "Text1"
-         Top             =   2625
+         Top             =   1905
          Width           =   615
       End
       Begin VB.TextBox Text1 
@@ -703,12 +747,12 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   8
-         Left            =   -70200
+         Left            =   4800
          MaxLength       =   2
          TabIndex        =   4
          Tag             =   "Digitos 1er nivel|N|N|||||||"
          Text            =   "Text1"
-         Top             =   2175
+         Top             =   1455
          Width           =   615
       End
       Begin VB.TextBox Text1 
@@ -723,12 +767,12 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   7
-         Left            =   -73200
+         Left            =   1800
          MaxLength       =   1
          TabIndex        =   3
          Tag             =   "Numero niveles|N|N|||||||"
          Text            =   "Text1"
-         Top             =   2160
+         Top             =   1440
          Width           =   480
       End
       Begin VB.TextBox Text1 
@@ -743,7 +787,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   2
-         Left            =   -69045
+         Left            =   5955
          MaxLength       =   30
          TabIndex        =   2
          Text            =   "Text1"
@@ -762,7 +806,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   1
-         Left            =   -73680
+         Left            =   1320
          MaxLength       =   40
          TabIndex        =   1
          Text            =   "Text1"
@@ -781,7 +825,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   0
-         Left            =   -74760
+         Left            =   240
          MaxLength       =   8
          TabIndex        =   0
          Text            =   "Text1"
@@ -821,7 +865,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   28
-         Left            =   8280
+         Left            =   -66720
          MaxLength       =   1
          TabIndex        =   31
          Tag             =   "Letras|T|S|||empresa2|letraseti|||"
@@ -881,7 +925,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   360
          Index           =   27
-         Left            =   2400
+         Left            =   -72600
          MaxLength       =   5
          TabIndex        =   30
          Tag             =   "Admon|T|S|||empresa2|administracion|||"
@@ -1131,7 +1175,7 @@ Begin VB.Form frmempresa
       Begin MSAdodcLib.Adodc AdoAux 
          Height          =   375
          Index           =   0
-         Left            =   6720
+         Left            =   -68280
          Top             =   960
          Visible         =   0   'False
          Width           =   2055
@@ -1175,6 +1219,30 @@ Begin VB.Form frmempresa
             Strikethrough   =   0   'False
          EndProperty
          _Version        =   393216
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Img. Fondo "
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   33
+         Left            =   240
+         TabIndex        =   87
+         Top             =   3960
+         Width           =   1410
+      End
+      Begin VB.Line Line1 
+         X1              =   240
+         X2              =   8640
+         Y1              =   3720
+         Y2              =   3720
       End
       Begin VB.Label Label1 
          Caption         =   "Nombre empresa Oficial"
@@ -1242,9 +1310,9 @@ Begin VB.Form frmempresa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   285
-         Left            =   -72465
+         Left            =   2535
          TabIndex        =   73
-         Top             =   2160
+         Top             =   1440
          Width           =   975
       End
       Begin VB.Label Label1 
@@ -1260,9 +1328,9 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   17
-         Left            =   -68850
+         Left            =   6150
          TabIndex        =   72
-         Top             =   3945
+         Top             =   3225
          Width           =   915
       End
       Begin VB.Label Label1 
@@ -1278,9 +1346,9 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   16
-         Left            =   -68820
+         Left            =   6180
          TabIndex        =   71
-         Top             =   3510
+         Top             =   2790
          Width           =   945
       End
       Begin VB.Label Label1 
@@ -1296,9 +1364,9 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   15
-         Left            =   -68820
+         Left            =   6180
          TabIndex        =   70
-         Top             =   3060
+         Top             =   2340
          Width           =   885
       End
       Begin VB.Label Label1 
@@ -1314,9 +1382,9 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   14
-         Left            =   -68850
+         Left            =   6150
          TabIndex        =   69
-         Top             =   2655
+         Top             =   1935
          Width           =   855
       End
       Begin VB.Label Label1 
@@ -1332,9 +1400,9 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   13
-         Left            =   -68850
+         Left            =   6150
          TabIndex        =   68
-         Top             =   2190
+         Top             =   1470
          Width           =   945
       End
       Begin VB.Label Label1 
@@ -1350,9 +1418,9 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   12
-         Left            =   -71250
+         Left            =   3750
          TabIndex        =   67
-         Top             =   3960
+         Top             =   3240
          Width           =   885
       End
       Begin VB.Label Label1 
@@ -1368,9 +1436,9 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   11
-         Left            =   -71250
+         Left            =   3750
          TabIndex        =   66
-         Top             =   3510
+         Top             =   2790
          Width           =   1005
       End
       Begin VB.Label Label1 
@@ -1386,9 +1454,9 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   10
-         Left            =   -71250
+         Left            =   3750
          TabIndex        =   65
-         Top             =   3075
+         Top             =   2355
          Width           =   960
       End
       Begin VB.Label Label1 
@@ -1404,9 +1472,9 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   9
-         Left            =   -71250
+         Left            =   3750
          TabIndex        =   64
-         Top             =   2655
+         Top             =   1935
          Width           =   915
       End
       Begin VB.Label Label1 
@@ -1422,9 +1490,9 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   195
          Index           =   8
-         Left            =   -71250
+         Left            =   3750
          TabIndex        =   63
-         Top             =   2190
+         Top             =   1470
          Width           =   960
       End
       Begin VB.Label Label1 
@@ -1440,9 +1508,9 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   7
-         Left            =   -74595
+         Left            =   405
          TabIndex        =   62
-         Top             =   2160
+         Top             =   1440
          Width           =   1410
       End
       Begin VB.Label Label1 
@@ -1458,7 +1526,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   4
-         Left            =   -69045
+         Left            =   5955
          TabIndex        =   61
          Top             =   600
          Width           =   1215
@@ -1476,7 +1544,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   1
-         Left            =   -73680
+         Left            =   1320
          TabIndex        =   60
          Top             =   600
          Width           =   2655
@@ -1494,7 +1562,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   0
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   59
          Top             =   600
          Width           =   1215
@@ -1513,7 +1581,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   240
          Index           =   29
-         Left            =   3600
+         Left            =   -71400
          TabIndex        =   57
          Top             =   600
          Width           =   4545
@@ -1549,7 +1617,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   1
-         Left            =   4440
+         Left            =   -70560
          TabIndex        =   54
          Top             =   1200
          Width           =   1905
@@ -1567,7 +1635,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   255
          Index           =   0
-         Left            =   240
+         Left            =   -74760
          TabIndex        =   53
          Top             =   1200
          Width           =   1815
@@ -1585,7 +1653,7 @@ Begin VB.Form frmempresa
          EndProperty
          Height          =   240
          Index           =   27
-         Left            =   210
+         Left            =   -74790
          TabIndex        =   52
          Top             =   600
          Width           =   2055
@@ -1966,9 +2034,9 @@ Private Sub cmdAceptar_Click()
         cad = ""
         If Combo2(0).ListIndex < 0 Then cad = cad & "Tipo actividad" & vbCrLf
         If Combo2(1).ListIndex < 0 Then cad = cad & "Principal: SI - NO" & vbCrLf
-        txtaux(1).Text = Trim(txtaux(1).Text)
-        If txtaux(1).Text <> "" Then
-            If Len(txtaux(1).Text) <> 4 Then cad = "Epigrafe, si se indica, de cuatro caracteres"
+        txtAux(1).Text = Trim(txtAux(1).Text)
+        If txtAux(1).Text <> "" Then
+            If Len(txtAux(1).Text) <> 4 Then cad = "Epigrafe, si se indica, de cuatro caracteres"
         End If
        ' If txtaux(1).Text = "" Then Cad = Cad & "Epigrafe "
         If cad <> "" Then
@@ -1986,13 +2054,13 @@ Private Sub cmdAceptar_Click()
             cad = DevuelveDesdeBD("max(codigo)", "empresaactiv", "1", "1")
             NumRegElim = Val(cad) + 1
             cad = "INSERT INTO empresaactiv(codigo,id,Epigrafe,ppal)  VALUES   (" & NumRegElim & "," & Combo2(0).ItemData(Combo2(0).ListIndex) & ","
-            cad = cad & DBSet(txtaux(1).Text, "T", "S") & "," & Combo2(1).ListIndex & ")"
+            cad = cad & DBSet(txtAux(1).Text, "T", "S") & "," & Combo2(1).ListIndex & ")"
             If Combo2(1).ListIndex = 1 Then Aux = "UPDATE empresaactiv SET ppal=0 "
         Else
             'modificad
             NumRegElim = Me.AdoAux(0).Recordset!Codigo
             cad = "REPLACE INTO empresaactiv (codigo,id,Epigrafe,ppal)  VALUES   (" & NumRegElim & "," & Combo2(0).ItemData(Combo2(0).ListIndex) & ","
-            cad = cad & DBSet(txtaux(1).Text, "T", "S") & "," & Combo2(1).ListIndex & ")"
+            cad = cad & DBSet(txtAux(1).Text, "T", "S") & "," & Combo2(1).ListIndex & ")"
             
             If Me.AdoAux(0).Recordset!Ppal = "*" Then
                 
@@ -2557,7 +2625,7 @@ Dim B As Boolean
             
             Me.Combo2(0).top = anc
             Me.Combo2(1).top = anc
-            txtaux(1).top = anc
+            txtAux(1).top = anc
                 
                 
             If Insertar = 1 Then
@@ -2566,10 +2634,10 @@ Dim B As Boolean
                 ModoLineas = 0
                 Combo2(0).ListIndex = -1
                 Combo2(1).ListIndex = 0
-                txtaux(1).Text = ""
+                txtAux(1).Text = ""
             Else
                 ModoLineas = 1
-                txtaux(1).Text = AdoAux(0).Recordset!epigrafe
+                txtAux(1).Text = AdoAux(0).Recordset!epigrafe
                 For jj = 0 To Me.Combo2(0).ListCount - 1
                     If Combo2(0).ItemData(jj) = AdoAux(0).Recordset!Id Then
                         Combo2(0).ListIndex = jj
@@ -2589,7 +2657,7 @@ Dim B As Boolean
 
         Me.Combo2(0).visible = visible
         Me.Combo2(1).visible = visible
-        txtaux(1).visible = visible
+        txtAux(1).visible = visible
         
         
         If visible Then PonleFoco Combo2(0)

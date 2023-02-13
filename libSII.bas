@@ -106,6 +106,7 @@ Dim FIncio As Date
         
         
     'Si llga aqui veremos posibles ERRORES
+    
     If TieneFacturasPendientesSubirSII = 0 Then
         C2 = DevSQLLinkada(True)
         RN.Open C2, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -234,6 +235,7 @@ Dim GrabaTotalFactura_ As Boolean  'ene21
 Dim DeAlgunModoEsTicket As Boolean
 Dim FuerzaTipoDumento As Byte '0 DEFAULT     1 NIF      2 nifintra   3 Pasapo    7 NO censado
 Dim DesglosePorTipoFacura As Boolean
+Dim CausaExencion As String
     'Cuando las facturas NORMALES, con IVA, pero que el documento no es un NIF y la factura NO es un ticket el desglose NO es por
     ' tipo de factura , si no por tipo de operacion
     '   Ejemplo. Gasloinera ALzira.   Uno de Rumania que viene , echa gasolina, y tiene un NIF/Passaporte extranjero
@@ -544,11 +546,26 @@ Dim DesglosePorTipoFacura As Boolean
         'TipoImpositivo,BaseImponible,CuotaRepercutida,TipoREquivalencia,CuotaREquivalencia,"
         While Not RN.EOF
             If RN!TipoDIva <> 4 Then
-            
+                        
                 If RN!PorcIva = 0 Then
-                    B = False
-                    LlevaIvasCero = True
-                    ImporteIvaCero = ImporteIvaCero + RN!Baseimpo
+                    
+                    
+                    If RN!TipoDIva = 5 Then
+                        'IVA EXENTO
+                        B = False
+                        LlevaIvasCero = True
+                        ImporteIvaCero = ImporteIvaCero + RN!Baseimpo
+                        CausaExencion = "E1"
+                    Else
+                        B = True
+                        'para el iva 0% de Alimentacion (ENE 23) la causa de exencion  es E6
+                        ' El 9 de enero por fin la AEAT arregla el portal. Volvemos a comentarlo
+                        'B = False
+                        'LlevaIvasCero = True
+                        'ImporteIvaCero = ImporteIvaCero + RN!Baseimpo
+                        'CausaExencion = "E6"
+                        
+                    End If
                 Else
                     B = True
                 End If
@@ -578,7 +595,8 @@ Dim DesglosePorTipoFacura As Boolean
         
         
         If LlevaIvasCero Then
-            Sql = Replace(Sql, "#@CAUSA#", "'E1'")
+            If CausaExencion = "" Then CausaExencion = "E1"  'por si acaso en algun sitio no lo he grabado. NO deberia pasar
+            Sql = Replace(Sql, "#@CAUSA#", "'" & CausaExencion & "'")
             Sql = Replace(Sql, "#@IMPOR#", DBSet(ImporteIvaCero, "N"))
             If NumIVas > 0 Then
                 'AParte del exteno lleva otro mas
@@ -725,7 +743,8 @@ Private Function DevuelveTipoFacturaEmitida(ByRef R As ADODB.Recordset) As Strin
         'NORMAL
         DevuelveTipoFacturaEmitida = "F1"
     End If
-   
+    'No se por que se habia quitado. Lo vuelvo a poner el 30 Nv 22
+    If DBLet(R!FuerzaTipoSII, "T") <> "" Then DevuelveTipoFacturaEmitida = R!FuerzaTipoSII
 End Function
 Private Function DevuelveClaveTranscendenciaEmitida(ByRef R As ADODB.Recordset) As String
     'Valores de codopera
@@ -1208,7 +1227,7 @@ Dim GrabaTotalFactura As Boolean
     Next
     Sql = Sql & CadenaIVAS
     
-    'Total deducciones
+    'Total deduccible
     Sql = Replace(Sql, "#@#@#@$$$$", DBSet(TotalDecucible, "N"))
     
     

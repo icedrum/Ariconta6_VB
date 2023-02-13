@@ -1,5 +1,4 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form frmTESCobrosDivVto 
    Appearance      =   0  'Flat
    BorderStyle     =   1  'Fixed Single
@@ -15,13 +14,6 @@ Begin VB.Form frmTESCobrosDivVto
    ScaleHeight     =   3900
    ScaleWidth      =   5565
    StartUpPosition =   2  'CenterScreen
-   Begin MSComDlg.CommonDialog cd1 
-      Left            =   4800
-      Top             =   0
-      _ExtentX        =   847
-      _ExtentY        =   847
-      _Version        =   393216
-   End
    Begin VB.Frame FrameDividVto 
       Height          =   3855
       Left            =   60
@@ -306,7 +298,7 @@ Option Explicit
 
 Private Const SaltoLinea = """ + chr(13) + """
 
-Public Opcion As Byte
+Public opcion As Byte
     '27.-  Divide el vencimiento en dos vtos a partir del importe introducido en el text
     
 
@@ -314,14 +306,11 @@ Public OfertaImportePdte As Currency
 
 
 
-Private WithEvents frmCta As frmColCtas
-Attribute frmCta.VB_VarHelpID = -1
+'Private WithEvents frmCta As frmColCtas
 Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
-Private WithEvents frmA As frmAgentes
-Attribute frmA.VB_VarHelpID = -1
-Private WithEvents frmP As frmFormaPago
-Attribute frmP.VB_VarHelpID = -1
+'Private WithEvents frmA As frmAgentes
+'Private WithEvents frmP As frmFormaPago
 
 Dim SQL As String
 Dim RC As String
@@ -330,7 +319,7 @@ Dim PrimeraVez As Boolean
 
 Dim Cad As String
 Dim CONT As Long
-Dim i As Integer
+Dim I As Integer
 Dim TotalRegistros As Long
 
 Dim Importe As Currency
@@ -348,21 +337,21 @@ Private Sub PonFoco(ByRef T1 As TextBox)
     T1.SelLength = Len(T1.Text)
 End Sub
 
-Private Function ComprobarObjeto(ByRef T As TextBox) As Boolean
-    Set miTag = New CTag
-    ComprobarObjeto = False
-    If miTag.Cargar(T) Then
-        If miTag.Cargado Then
-            If miTag.Comprobar(T) Then ComprobarObjeto = True
-        End If
-    End If
-
-    Set miTag = Nothing
-End Function
+'Private Function ComprobarObjeto2(ByRef T As TextBox) As Boolean
+'    Set miTag = New CTag
+'    ComprobarObjeto2 = False
+'    If miTag.Cargar(T) Then
+'        If miTag.Cargado Then
+'            If miTag.Comprobar(T) Then ComprobarObjeto2 = True
+'        End If
+'    End If
+'
+'    Set miTag = Nothing
+'End Function
 
 Private Sub chkDiaFijo_Click()
-    If chkDiaFijo.Value = 1 Then txtCodigo(3).Text = ""
-    BloqueaTXT txtCodigo(3), chkDiaFijo.Value = 1
+    If chkDiaFijo.Value = 1 Then txtcodigo(3).Text = ""
+    BloqueaTXT txtcodigo(3), chkDiaFijo.Value = 1
 End Sub
 
 Private Sub chkDiaFijo_KeyPress(KeyAscii As Integer)
@@ -406,7 +395,7 @@ Dim EsReciboAnticipado As Boolean
     
     ' controles
     
-    If txtCodigo(0).Text = "1" Then
+    If txtcodigo(0).Text = "1" Then
         MsgBox "No puede dividir en 1 vencimiento", vbExclamation
         Exit Sub
     End If
@@ -417,24 +406,24 @@ Dim EsReciboAnticipado As Boolean
         
     vImpvto = 0
     vVtos = 0
-    If txtCodigo(1).Text <> "" Then vImpvto = ImporteSinFormato(ComprobarCero(txtCodigo(1).Text))
-    If txtCodigo(0).Text <> "" Then vVtos = CInt(ComprobarCero(txtCodigo(0).Text))
+    If txtcodigo(1).Text <> "" Then vImpvto = ImporteSinFormato(ComprobarCero(txtcodigo(1).Text))
+    If txtcodigo(0).Text <> "" Then vVtos = CInt(ComprobarCero(txtcodigo(0).Text))
         
     If vImpvto = 0 And vVtos = 0 Then
         MsgBox "Debe introducir el importe o el nro de vencimientos o ambos. Revise.", vbExclamation
-        PonFoco txtCodigo(0)
+        PonFoco txtcodigo(0)
         Exit Sub
     End If
     
     ' debe introducir la fecha del primer vto, viene cargada
-    If txtCodigo(2).Text = "" Then
+    If txtcodigo(2).Text = "" Then
         MsgBox "Debe introducir la fecha del primer vencimiento", vbExclamation
-        PonFoco txtCodigo(2)
+        PonFoco txtcodigo(2)
         Exit Sub
     End If
     
     
-    If txtCodigo(3).Text = "" Then
+    If txtcodigo(3).Text = "" Then
        ' If MsgBox("No ha puesto valor en el campo de días de resto de vencimientos. " & vbCrLf & vbCrLf & "¿ Desea continuar ?" & vbCrLf, vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
     End If
     
@@ -444,7 +433,7 @@ Dim EsReciboAnticipado As Boolean
     If vImpvto <> 0 Then
         If Importe < vImpvto Then
             MsgBox "El importe del vencimiento es inferior del importe a dividir. Revise", vbExclamation
-            PonFoco txtCodigo(0)
+            PonFoco txtcodigo(0)
             Exit Sub
         End If
         ' me ponen nro de vtos
@@ -452,12 +441,12 @@ Dim EsReciboAnticipado As Boolean
             'If Importe - Round(vImpvto * (vVtos - 1), 2) < 0 Then
             If Importe - Round(vImpvto * (vVtos - 1), 2) < 0 Then
                 MsgBox "Es imposible dividir el vencimiento en " & vVtos & " vencimientos de " & Format(vImpvto, "###,###,##0.00") & " euros.", vbExclamation
-                PonFoco txtCodigo(0)
+                PonFoco txtcodigo(0)
                 Exit Sub
             End If
             If vVtos = 1 And vImpvto <> Importe Then
                 MsgBox "No podemos dejar el vencimiento con menos importe del original. Revise.", vbExclamation
-                PonFoco txtCodigo(0)
+                PonFoco txtcodigo(0)
                 Exit Sub
             End If
         End If
@@ -470,18 +459,18 @@ Dim EsReciboAnticipado As Boolean
     If vVtos = 0 Then
         vVtos = Round(Importe / vImpvto, 0)
         
-        If txtCodigo(0).Text = "" Then vVtos = 2
+        If txtcodigo(0).Text = "" Then vVtos = 2
         
     End If
     
     'Para los calculos de los nuevos vencimientos
-    Dias = Val(txtCodigo(3).Text)
-    FecVenci = CDate(txtCodigo(2))
+    Dias = Val(txtcodigo(3).Text)
+    FecVenci = CDate(txtcodigo(2))
     
     
     FijadoIMporte = False
-    If txtCodigo(1).Text <> "" Then
-        If txtCodigo(0).Text = "" Then FijadoIMporte = True
+    If txtcodigo(1).Text <> "" Then
+        If txtcodigo(0).Text = "" Then FijadoIMporte = True
     End If
   
     Dim vVtos2 As Integer
@@ -583,13 +572,13 @@ Dim EsReciboAnticipado As Boolean
         '           1.- cadenaSQL numfac,numsere,fecfac
         '           2.- Numero vto
         '           3.- Importe maximo
-        i = -1
+        I = -1
         RC = "Select max(numorden) from cobros WHERE " & RecuperaValor(CadenaDesdeOtroForm, 1)
         Rs.Open RC, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         If Rs.EOF Then
             SQL = "Error. Vencimiento NO encontrado: " & CadenaDesdeOtroForm
         Else
-            i = Rs.Fields(0) '+ 1
+            I = Rs.Fields(0) '+ 1
         End If
         Rs.Close
         
@@ -600,7 +589,7 @@ Dim EsReciboAnticipado As Boolean
     
     If SQL <> "" Then
         MsgBox SQL, vbExclamation
-        PonFoco txtCodigo(1)
+        PonFoco txtcodigo(1)
         Exit Sub
         
     Else
@@ -609,7 +598,7 @@ Dim EsReciboAnticipado As Boolean
         'If MsgBox(MensajeVtos, vbQuestion + vbYesNoCancel + vbDefaultButton3) <> vbYes Then Exit Sub
         'Como cadenadesde otroform YA esta ocupada. Cojo otra
         Ampliacion = "" 'Varaiable GLOBAL
-        frmTesDividVtoResult.TIeneGastos = TIeneGastos
+        'frmTesDividVtoResult.TIeneGastos = TIeneGasto
         frmTesDividVtoResult.Vtos = MensajeVtos
         frmTesDividVtoResult.Show vbModal
         If Ampliacion = "" Then Exit Sub
@@ -623,7 +612,7 @@ Dim EsReciboAnticipado As Boolean
     vFecVenci = FecVenci
     'OK.  a desdoblar
     vTotal = 0
-    K = i + 1
+    K = I + 1
     For J = 1 To vVtos - 1
     
         vTotal = vTotal + vImpvto
@@ -703,11 +692,11 @@ Dim EsReciboAnticipado As Boolean
     'Insertamos el LOG
     ParaElLog = "Dividir Vto.Fra.: " & Me.Label4(57).Caption & vbCrLf
     ParaElLog = ParaElLog & "Cliente         : " & Me.Label4(56).Caption & vbCrLf
-    ParaElLog = ParaElLog & "Nro.Vencimientos: " & txtCodigo(0).Text & vbCrLf
-    ParaElLog = ParaElLog & "Importe Vto     : " & txtCodigo(1).Text & vbCrLf
-    ParaElLog = ParaElLog & "Fecha primer Vto: " & txtCodigo(2).Text
+    ParaElLog = ParaElLog & "Nro.Vencimientos: " & txtcodigo(0).Text & vbCrLf
+    ParaElLog = ParaElLog & "Importe Vto     : " & txtcodigo(1).Text & vbCrLf
+    ParaElLog = ParaElLog & "Fecha primer Vto: " & txtcodigo(2).Text
     If Me.chkDiaFijo.Value = 1 Then ParaElLog = ParaElLog & "   Dias fijos"
-    ParaElLog = ParaElLog & vbCrLf & "Día Resto Vtos  : " & txtCodigo(3).Text & vbCrLf
+    ParaElLog = ParaElLog & vbCrLf & "Día Resto Vtos  : " & txtcodigo(3).Text & vbCrLf
     
     vLog.Insertar 1, vUsu, ParaElLog
     ParaElLog = ""
@@ -733,7 +722,7 @@ Private Sub Form_Activate()
         
         If OfertaImportePdte > 0 Then
         
-            txtCodigo(1).Text = OfertaImportePdte
+            txtcodigo(1).Text = OfertaImportePdte
             txtcodigo_LostFocus 1
         End If
         
@@ -755,11 +744,11 @@ Dim Img As Image
     'Limpiamos el tag
     PrimeraVez = True
     
-    FrameDividVto.visible = False
+    FrameDividVto.Visible = False
     
     CommitConexion
     
-    Select Case Opcion
+    Select Case opcion
         Case 27
                     'CadenaDesdeOtroForm. Pipes
             '           1.- cadenaSQL numfac,numsere,fecfac
@@ -767,18 +756,18 @@ Dim Img As Image
             '           3.- Importe maximo
             H = FrameDividVto.Height + 120
             W = FrameDividVto.Width
-            FrameDividVto.visible = True
+            FrameDividVto.Visible = True
             Me.Caption = "Dividir Vencimiento"
     End Select
     
     Me.Width = W + 300
     Me.Height = H + 400
     
-    i = Opcion
-    If Opcion = 13 Or i = 43 Or i = 44 Then i = 11
+    I = opcion
+    If opcion = 13 Or I = 43 Or I = 44 Then I = 11
     
     'Aseguradas
-    Me.cmdCancelar(i).Cancel = True
+    Me.cmdCancelar(I).Cancel = True
     
 End Sub
 
@@ -788,7 +777,7 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub frmF_Selec(vFecha As Date)
-    txtCodigo(2).Text = Format(vFecha, "dd/mm/yyyy")
+    txtcodigo(2).Text = Format(vFecha, "dd/mm/yyyy")
 End Sub
 
 
@@ -797,15 +786,15 @@ Private Sub imgFecha_Click(Index As Integer)
     
     Set frmF = New frmCal
     frmF.Fecha = Now
-    If txtCodigo(2).Text <> "" Then frmF.Fecha = CDate(txtCodigo(2).Text)
+    If txtcodigo(2).Text <> "" Then frmF.Fecha = CDate(txtcodigo(2).Text)
     frmF.Show vbModal
     Set frmF = Nothing
-    PonFoco txtCodigo(2)
+    PonFoco txtcodigo(2)
 
 End Sub
 
 Private Sub txtcodigo_GotFocus(Index As Integer)
-    ConseguirFoco txtCodigo(Index), 3
+    ConseguirFoco txtcodigo(Index), 3
 End Sub
 
 Private Sub txtcodigo_KeyPress(Index As Integer, KeyAscii As Integer)
@@ -824,7 +813,7 @@ Dim Cad As String, cadTipo As String 'tipo cliente
 Dim B As Boolean
 
     'Quitar espacios en blanco por los lados
-    txtCodigo(Index).Text = Trim(txtCodigo(Index).Text)
+    txtcodigo(Index).Text = Trim(txtcodigo(Index).Text)
 '    If txtCodigo(Index).Text = "" Then Exit Sub
     
     'Si se ha abierto otro formulario, es que se ha pinchado en prismaticos y no
@@ -833,17 +822,17 @@ Dim B As Boolean
 
     Select Case Index
         Case 0 'nro de vtos
-            PonerFormatoEntero txtCodigo(Index)
+            PonerFormatoEntero txtcodigo(Index)
             
-            If txtCodigo(0).Text <> "" Then
-                txtCodigo(1).Text = Format(Round(ImporteSinFormato(ComprobarCero(txtCodigo(1).Text)) / txtCodigo(0), 2), "###,###,##0.00")
+            If txtcodigo(0).Text <> "" Then
+                txtcodigo(1).Text = Format(Round(ImporteSinFormato(ComprobarCero(txtcodigo(1).Text)) / txtcodigo(0), 2), "###,###,##0.00")
             End If
             
         Case 2 'FECHAS
-            If txtCodigo(Index).Text <> "" Then PonerFormatoFecha txtCodigo(Index)
+            If txtcodigo(Index).Text <> "" Then PonerFormatoFecha txtcodigo(Index)
             
         Case 1 'Importe
-            PonerFormatoDecimal txtCodigo(Index), 3
+            PonerFormatoDecimal txtcodigo(Index), 3
             
     End Select
 End Sub

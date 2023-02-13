@@ -2482,6 +2482,13 @@ On Error GoTo EComprobarCuentas347
             If Rs.EOF Then
                 FinBucle = True
             Else
+                
+'                Do
+'                    NuevoSelect = Mid(Rs!nifdatos, 1, 2)
+'                    Rs.MoveNext
+'                Loop Until Val(NuevoSelect) > 48
+'
+            
                 NuevoSelect = Rs!nifdatos
                 'If Rs.Fields(1) = "20342507L      " Then S top
             
@@ -2947,8 +2954,30 @@ On Error GoTo EComprobarCuentas347
     ComprobarCuentas347_DOS = True
     Exit Function
 EComprobarCuentas347:
-    MuestraError Err.Number, "Comprobar Cuentas 347" & vbCrLf & Sql & vbCrLf & Err.Description
+
+    RC = CStr(Sql)
+    If Len(RC) > 400 Then RC = Mid(RC, 1, 400)
+    cad = Err.Description
+    MuestraError Err.Number, "Comprobar Cuentas 347" & vbCrLf & RC & vbCrLf & Err.Description
+    CreaFichErrores347
+    
+    
 End Function
+
+Private Sub CreaFichErrores347()
+    On Error Resume Next
+    Dim NFF As Integer
+    NFF = FreeFile
+    Open App.Path & "\Err347.txt" For Output As #NFF
+    Print #NFF, Err.Description
+    Print #NFF, ""
+    Print #NFF, cad
+    Print #NFF, ""
+    Print #NFF, Sql
+    Close #NFF
+    Err.Clear
+    
+End Sub
 
 Private Function ExisteEntrada() As Boolean
 Dim B As Boolean

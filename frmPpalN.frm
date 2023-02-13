@@ -616,6 +616,7 @@ Dim T1 As Single
 
 
 Public Function RibbonBar() As RibbonBar
+    
     Set RibbonBar = CommandBars.ActiveMenuBar
     
 End Function
@@ -1244,7 +1245,7 @@ Dim RB As RibbonBar
     
     PonerCaption
     
-    Screen.MousePointer = vbHourglass
+   Screen.MousePointer = vbHourglass
    CargaDatosMenusDemas True
    frmPaneContacts.SeleccionarNodoEmpresa vEmpresa.codempre
    pageBackstageHelp.Label9.Caption = vEmpresa.nomempre
@@ -1256,7 +1257,7 @@ Dim RB As RibbonBar
    RB.RedrawBar
    
    
-  
+   frmInbox.CargaImagenFondoFrmPpal Nothing, frmInbox.Image2, vEmpresa.ImagenFondo
    
     vControl.UltEmpre = vUsu.CadenaConexion
     
@@ -1390,7 +1391,7 @@ Dim TamanyoImgComun As Integer
     GetIconsFromLibrary App.Path & "\styles\iconosconta_BN.dll", 6, 16
     GetIconsFromLibrary App.Path & "\styles\iconosconta_OM.dll", 7, 16
 
-
+    frmInbox.CrearArchivoFondo
 End Sub
 
 Public Sub GetIconsFromLibrary(ByVal sLibraryFilePath As String, ByVal op As Integer, ByVal tam As Integer)

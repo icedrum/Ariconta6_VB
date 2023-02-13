@@ -690,13 +690,13 @@ Attribute frmC.VB_VarHelpID = -1
 Private WithEvents frmCta As frmColCtas
 Attribute frmCta.VB_VarHelpID = -1
 
-Dim SQL As String
+Dim Sql As String
 Dim RC As String
 Dim Rs As Recordset
 
 Dim PrimeraSeleccion As Boolean
 Dim ClickAnterior As Byte '0 Empezar 1.-Debe 2.-Haber
-Dim i As Integer
+Dim I As Integer
 Dim De As Currency
 Dim Ha As Currency
     
@@ -709,7 +709,7 @@ Dim CtasQueHaPunteado As String
 'Con estas dos variables
 Dim ContadorBus As Integer
 Dim Checkear As Boolean
-
+Dim HanHabidoModifiaciones As Boolean
 Dim ValorAnt As String
 
 Private Sub chkImp_Click()
@@ -749,17 +749,17 @@ Private Sub ConfirmarDatos2()
         End If
     End If
     
-    SQL = ""
+    Sql = ""
     'Llegados aqui. Vemos la fecha y demas
     If Text3(0).Text <> "" Then
-        SQL = " fechaent >= '" & Format(Text3(0).Text, FormatoFecha) & "'"
+        Sql = " fechaent >= '" & Format(Text3(0).Text, FormatoFecha) & "'"
     End If
     
     If Text3(1).Text <> "" Then
-        If SQL <> "" Then SQL = SQL & " AND "
-        SQL = SQL & " fechaent <= '" & Format(Text3(1).Text, FormatoFecha) & "'"
+        If Sql <> "" Then Sql = Sql & " AND "
+        Sql = Sql & " fechaent <= '" & Format(Text3(1).Text, FormatoFecha) & "'"
     End If
-    Text3(0).Tag = SQL  'Para las fechas
+    Text3(0).Tag = Sql  'Para las fechas
     
     BloqueoManual False, "PUNTEO", ""
     If Not BloqueoManual(True, "PUNTEO", CStr(Abs(EjerciciosCerrados) & Text3(2).Text)) Then
@@ -794,23 +794,23 @@ Private Sub cmdPorIMportes_Click(Index As Integer)
         
         'UPDATEAMOS EN LA BD
         'Y volveremos a cargar los datos
-        For i = 1 To lwh.ListItems.Count
-            If lwh.ListItems(i).Checked Then PunteaEnBD lwh.ListItems(i), False
-        Next i
+        For I = 1 To lwh.ListItems.Count
+            If lwh.ListItems(I).Checked Then PunteaEnBD lwh.ListItems(I), False
+        Next I
         
-        For i = 1 To lwD.ListItems.Count
-            If lwD.ListItems(i).Checked Then PunteaEnBD lwD.ListItems(i), True
-        Next i
+        For I = 1 To lwD.ListItems.Count
+            If lwD.ListItems(I).Checked Then PunteaEnBD lwD.ListItems(I), True
+        Next I
         
         
     Else
         'Quit la seleccion
-        For i = 1 To lwD.ListItems.Count
-            If lwD.ListItems(i).Checked Then lwD.ListItems(i).Checked = False
-        Next i
-        For i = 1 To lwh.ListItems.Count
-            If lwh.ListItems(i).Checked Then lwh.ListItems(i).Checked = False
-        Next i
+        For I = 1 To lwD.ListItems.Count
+            If lwD.ListItems(I).Checked Then lwD.ListItems(I).Checked = False
+        Next I
+        For I = 1 To lwh.ListItems.Count
+            If lwh.ListItems(I).Checked Then lwh.ListItems(I).Checked = False
+        Next I
     End If
     'Limpiamos campos
     
@@ -876,10 +876,10 @@ Private Sub Form_Load()
     FrameDatos.Enabled = True
     FrameBotonGnral.Enabled = False
     
-    i = 0
-    Text3(0).Text = Format(DateAdd("yyyy", i, vParam.fechaini), "dd/mm/yyyy")
-    If Not vParam.FecEjerAct Then i = i + 1
-    Text3(1).Text = Format(DateAdd("yyyy", i, vParam.fechafin), "dd/mm/yyyy")
+    I = 0
+    Text3(0).Text = Format(DateAdd("yyyy", I, vParam.fechaini), "dd/mm/yyyy")
+    If Not vParam.FecEjerAct Then I = I + 1
+    Text3(1).Text = Format(DateAdd("yyyy", I, vParam.fechafin), "dd/mm/yyyy")
     
     
     CtasQueHaPunteado = ""   'Parar cuando haga el unload
@@ -913,10 +913,16 @@ Private Sub Form_Unload(Cancel As Integer)
                 Cancel = 1
                 Exit Sub
             End If
+            HanHabidoModifiaciones = False
         End If
     End If
-
-
+    
+    If HanHabidoModifiaciones Then
+        If MsgBox("Desea cerrar ?", vbQuestion + vbYesNoCancel) <> vbYes Then
+            Cancel = 1
+            Exit Sub
+        End If
+    End If
     BloqueoManual False, "PUNTEO", Text3(2).Text
 '    VerLogPunteado
 End Sub
@@ -926,7 +932,7 @@ Private Sub frmC_Selec(vFecha As Date)
 End Sub
 
 Private Sub frmCta_DatoSeleccionado(CadenaSeleccion As String)
-    SQL = CadenaSeleccion
+    Sql = CadenaSeleccion
 End Sub
 
 
@@ -976,14 +982,14 @@ Private Sub imgCheck_Click(Index As Integer)
         RC = "puntear los apuntes"
     End If
     
-    SQL = "Seguro que desea " & RC
+    Sql = "Seguro que desea " & RC
     If Index > 1 Then
         RC = "HABER"
     Else
         RC = "DEBE"
     End If
-    SQL = SQL & " al " & RC & "?"
-    If MsgBox(SQL, vbQuestion + vbYesNo) = vbNo Then Exit Sub
+    Sql = Sql & " al " & RC & "?"
+    If MsgBox(Sql, vbQuestion + vbYesNo) = vbNo Then Exit Sub
     
     'HA DICHO SI
     
@@ -992,13 +998,13 @@ Private Sub imgCheck_Click(Index As Integer)
         '---------------------------------
         Checkear = True
         If Index = 1 Then Checkear = False
-        For i = 1 To lwD.ListItems.Count
-            If lwD.ListItems(i).Checked = Checkear Then
+        For I = 1 To lwD.ListItems.Count
+            If lwD.ListItems(I).Checked = Checkear Then
                     
-                lwD.ListItems(i).Checked = Not lwD.ListItems(i).Checked
-                PunteaEnBD lwD.ListItems(i), True
+                lwD.ListItems(I).Checked = Not lwD.ListItems(I).Checked
+                PunteaEnBD lwD.ListItems(I), True
             End If
-        Next i
+        Next I
         If Index = 0 Then De = 0
     Else
     
@@ -1006,12 +1012,12 @@ Private Sub imgCheck_Click(Index As Integer)
         '---------------------------------
         Checkear = True
         If Index = 3 Then Checkear = False
-        For i = 1 To lwh.ListItems.Count
-            If lwh.ListItems(i).Checked = Checkear Then
-                lwh.ListItems(i).Checked = Not lwh.ListItems(i).Checked
-                PunteaEnBD lwh.ListItems(i), False
+        For I = 1 To lwh.ListItems.Count
+            If lwh.ListItems(I).Checked = Checkear Then
+                lwh.ListItems(I).Checked = Not lwh.ListItems(I).Checked
+                PunteaEnBD lwh.ListItems(I), False
             End If
-        Next i
+        Next I
         If Index = 2 Then Ha = 0
     End If
     ContadorBus = 0
@@ -1033,15 +1039,15 @@ Private Sub imgCuentas_Click()
             If MsgBox("Falta cuadrar punteo.  Salir?", vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
         End If
     End If
-    SQL = ""
+    Sql = ""
     Set frmCta = New frmColCtas
     frmCta.DatosADevolverBusqueda = "0|1"
     frmCta.ConfigurarBalances = 3  'NUEVO
     frmCta.Show vbModal
     Set frmCta = Nothing
-    If SQL <> "" Then
-        Text3(2).Text = RecuperaValor(SQL, 1)
-        txtDesCta.Text = RecuperaValor(SQL, 2)
+    If Sql <> "" Then
+        Text3(2).Text = RecuperaValor(Sql, 1)
+        txtDesCta.Text = RecuperaValor(Sql, 2)
         Text3_LostFocus 2
     End If
 End Sub
@@ -1233,13 +1239,13 @@ Private Sub Text3_LostFocus(Index As Integer)
                 Exit Sub
                 
             End If
-            If CuentaCorrectaUltimoNivel(RC, SQL) Then
+            If CuentaCorrectaUltimoNivel(RC, Sql) Then
                 Text3(Index).Text = RC
-                txtDesCta.Text = SQL
+                txtDesCta.Text = Sql
                 FrameBotonGnral.Enabled = True
                 'ConfirmarDatos True
             Else
-                MsgBox SQL, vbExclamation
+                MsgBox Sql, vbExclamation
                 Text3(Index).Text = ""
                 
                 lwD.ListItems.Clear
@@ -1285,6 +1291,7 @@ On Error GoTo ECargarDatos
     'Limpiamos listview
     lwD.ListItems.Clear
     lwh.ListItems.Clear
+    HanHabidoModifiaciones = False
     DoEvents
     
     lwD.ColumnHeaders(3).Text = "Documento"
@@ -1316,7 +1323,7 @@ On Error GoTo ECargarDatos
     End If
     
     Rs.Open RC, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    i = 0
+    I = 0
     While Not Rs.EOF
         
         If IsNull(Rs!timported) Then
@@ -1347,10 +1354,10 @@ On Error GoTo ECargarDatos
         
         'Siguiente
         Rs.MoveNext
-        i = i + 1
+        I = I + 1
         'Por si refrescamos
-        If i > 3000 Then
-            i = 0
+        If I > 3000 Then
+            I = 0
             DoEvents
         End If
     Wend
@@ -1371,23 +1378,23 @@ Private Sub BusquedaEnHaber()
     ContadorBus = 1
     Checkear = False
     Do
-        i = 1
-        While i <= lwh.ListItems.Count
+        I = 1
+        While I <= lwh.ListItems.Count
             'Comprobamos k no esta chekeado
-            If Not lwh.ListItems(i).Checked Then
+            If Not lwh.ListItems(I).Checked Then
                 'K tiene el mismo importe
-                If lwD.SelectedItem.SubItems(4) = lwh.ListItems(i).SubItems(4) Then
+                If lwD.SelectedItem.SubItems(4) = lwh.ListItems(I).SubItems(4) Then
                     'Comprobamos k tienen el mismo DOCUM
                     'Si no es el mismo, pero es la segunda busqueda, tb aceptamos
                     If ContadorBus > 1 Then
                         Checkear = True
                     Else
-                        Checkear = (lwD.SelectedItem.SubItems(2) = lwh.ListItems(i).SubItems(2))
+                        Checkear = (lwD.SelectedItem.SubItems(2) = lwh.ListItems(I).SubItems(2))
                     End If
                 
                     If Checkear Then
                         'Tiene el mismo importe y no esta chequeado
-                        Set lwh.SelectedItem = lwh.ListItems(i)
+                        Set lwh.SelectedItem = lwh.ListItems(I)
                         lwh.SelectedItem.EnsureVisible
                         lwh.SetFocus
                         Beep
@@ -1395,7 +1402,7 @@ Private Sub BusquedaEnHaber()
                     End If
                 End If
             End If
-            i = i + 1
+            I = I + 1
         Wend
         ContadorBus = ContadorBus + 1
         Loop Until ContadorBus > 2
@@ -1407,11 +1414,11 @@ Private Sub BusquedaEnDebe()
     ContadorBus = 1
     Checkear = False
     Do
-        i = 1
-        While i <= lwD.ListItems.Count
-            If lwh.SelectedItem.SubItems(4) = lwD.ListItems(i).SubItems(4) Then
+        I = 1
+        While I <= lwD.ListItems.Count
+            If lwh.SelectedItem.SubItems(4) = lwD.ListItems(I).SubItems(4) Then
                 'Lo hemos encontrado. Comprobamos que no esta chequeado
-                If Not lwD.ListItems(i).Checked Then
+                If Not lwD.ListItems(I).Checked Then
                     'Tiene el mismo importe y no esta chequeado
                     'Comprobamos k el docum es el mismo
                     'Si no es el mismo, pero es la segunda busqueda, tb aceptamos
@@ -1419,10 +1426,10 @@ Private Sub BusquedaEnDebe()
 
                         Checkear = True
                     Else
-                        Checkear = (lwh.SelectedItem.SubItems(2) = lwD.ListItems(i).SubItems(2))
+                        Checkear = (lwh.SelectedItem.SubItems(2) = lwD.ListItems(I).SubItems(2))
                     End If
                     If Checkear Then
-                        Set lwD.SelectedItem = lwD.ListItems(i)
+                        Set lwD.SelectedItem = lwD.ListItems(I)
                         lwD.SelectedItem.EnsureVisible
                         lwD.SetFocus
                         Beep
@@ -1430,7 +1437,7 @@ Private Sub BusquedaEnDebe()
                     End If
                 End If
             End If
-            i = i + 1
+            I = I + 1
         Wend
         ContadorBus = ContadorBus + 1
     Loop Until ContadorBus > 2
@@ -1442,10 +1449,10 @@ Private Sub PunteaEnBD(ByRef IT As ListItem, EnDEBE As Boolean)
 Dim Sng As Currency
 On Error GoTo EPuntea
     
-        
+    HanHabidoModifiaciones = True
     
-    SQL = "UPDATE hlinapu"
-    SQL = SQL & " SET "
+    Sql = "UPDATE hlinapu"
+    Sql = Sql & " SET "
     If IT.Checked Then
         RC = "1"
         Sng = 1
@@ -1463,15 +1470,15 @@ On Error GoTo EPuntea
 
 
 
-    SQL = SQL & " punteada = " & RC
-    SQL = SQL & " WHERE fechaent='" & Format(IT.Text, FormatoFecha) & "'"
-    SQL = SQL & " AND numasien=" & IT.SubItems(1) & " AND numdiari ="
+    Sql = Sql & " punteada = " & RC
+    Sql = Sql & " WHERE fechaent='" & Format(IT.Text, FormatoFecha) & "'"
+    Sql = Sql & " AND numasien=" & IT.SubItems(1) & " AND numdiari ="
     RC = RecuperaValor(IT.Tag, 1)
-    SQL = SQL & RC & " AND linliapu ="
+    Sql = Sql & RC & " AND linliapu ="
     RC = RecuperaValor(IT.Tag, 2)
-    SQL = SQL & RC & ";"
+    Sql = Sql & RC & ";"
     If ModoPunteo = 0 Then
-        Conn.Execute SQL
+        Conn.Execute Sql
         InsertarCtaCadenaPunteados
     End If
     
@@ -1503,40 +1510,40 @@ End Sub
 
 Private Function ObtenerCuenta(Siguiente As Boolean) As Boolean
 
-    SQL = "select distinct codmacta from hlinapu"
+    Sql = "select distinct codmacta from hlinapu"
     
-    SQL = SQL & " WHERE  fechaent >= '" & Format(Text3(0).Text, FormatoFecha) & "'"
-    SQL = SQL & " AND fechaent <= '" & Format(Text3(1).Text, FormatoFecha) & "'"
-    SQL = SQL & " AND codmacta "
+    Sql = Sql & " WHERE  fechaent >= '" & Format(Text3(0).Text, FormatoFecha) & "'"
+    Sql = Sql & " AND fechaent <= '" & Format(Text3(1).Text, FormatoFecha) & "'"
+    Sql = Sql & " AND codmacta "
     If Siguiente Then
-        SQL = SQL & ">"
+        Sql = Sql & ">"
     Else
-        SQL = SQL & "<"
+        Sql = Sql & "<"
     End If
-    SQL = SQL & " '" & Text3(2).Text & "'"
+    Sql = Sql & " '" & Text3(2).Text & "'"
     
-    If chkSin.Value = 1 Then SQL = SQL & " AND punteada =0 "
+    If chkSin.Value = 1 Then Sql = Sql & " AND punteada =0 "
     
-    SQL = SQL & "  ORDER BY codmacta"
+    Sql = Sql & "  ORDER BY codmacta"
     If Siguiente Then
-        SQL = SQL & " ASC"
+        Sql = Sql & " ASC"
     Else
-        SQL = SQL & " DESC"
+        Sql = Sql & " DESC"
     End If
     
     'Para optimizar la velocidad
-    SQL = SQL & " limit 0, 1"
+    Sql = Sql & " limit 0, 1"
     
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     If Rs.EOF Then
-        SQL = "No se ha obtenido la cuenta "
+        Sql = "No se ha obtenido la cuenta "
         If Siguiente Then
-            SQL = SQL & " siguiente."
+            Sql = Sql & " siguiente."
         Else
-            SQL = SQL & " anterior."
+            Sql = Sql & " anterior."
         End If
-        MsgBox SQL, vbExclamation
+        MsgBox Sql, vbExclamation
         ObtenerCuenta = False
     Else
         Text3(2).Text = Rs!codmacta
@@ -1605,40 +1612,40 @@ Dim H As Currency
     'Recorremos el debe
     With lwD
         If .ListItems.Count > 0 Then
-            For i = 1 To .ListItems.Count
-                Im = CCur(ImporteFormateado(.ListItems(i).SubItems(4)))
-                If Not .ListItems(i).Checked Then
+            For I = 1 To .ListItems.Count
+                Im = CCur(ImporteFormateado(.ListItems(I).SubItems(4)))
+                If Not .ListItems(I).Checked Then
                  
                     d = d + Im
                     
                 Else
                     PuntD = PuntD + Im
                 End If
-            Next i
+            Next I
         End If
     End With
     
     
     With lwh
         If .ListItems.Count > 0 Then
-            For i = 1 To .ListItems.Count
-                Im = CCur(ImporteFormateado(.ListItems(i).SubItems(4)))
-                If Not .ListItems(i).Checked Then
+            For I = 1 To .ListItems.Count
+                Im = CCur(ImporteFormateado(.ListItems(I).SubItems(4)))
+                If Not .ListItems(I).Checked Then
                     H = H + Im
                 Else
                     PuntH = PuntH + Im
                 End If
-            Next i
+            Next I
         End If
     End With
     
     
-    SQL = Format(PuntD, FormatoImporte) & "|" & Format(d, FormatoImporte) & "|" & Format(PuntD + d, FormatoImporte) & "|"
-    SQL = SQL & Format(PuntH, FormatoImporte) & "|" & Format(H, FormatoImporte) & "|" & Format(PuntH + H, FormatoImporte) & "|"
+    Sql = Format(PuntD, FormatoImporte) & "|" & Format(d, FormatoImporte) & "|" & Format(PuntD + d, FormatoImporte) & "|"
+    Sql = Sql & Format(PuntH, FormatoImporte) & "|" & Format(H, FormatoImporte) & "|" & Format(PuntH + H, FormatoImporte) & "|"
     'Las diferencias
-    SQL = SQL & Format(PuntD - PuntH, FormatoImporte) & "|" & Format(d - H, FormatoImporte) & "|" & Format((PuntD - PuntH) + (d - H), FormatoImporte) & "|"
+    Sql = Sql & Format(PuntD - PuntH, FormatoImporte) & "|" & Format(d - H, FormatoImporte) & "|" & Format((PuntD - PuntH) + (d - H), FormatoImporte) & "|"
     
-    frmMensajes.Parametros = SQL
+    frmMensajes.Parametros = Sql
     frmMensajes.Opcion = 18
     frmMensajes.Show vbModal
     
@@ -1651,19 +1658,19 @@ End Sub
 
 Private Sub DesmarcaTodo()
 
-    SQL = "Va a desmarcar todos los punteos para: " & vbCrLf & vbCrLf
-    SQL = SQL & "Cuenta: " & Text3(2).Text & " - " & txtDesCta.Text & vbCrLf
-    SQL = SQL & "Fecha inicio: " & Text3(0).Text & vbCrLf
-    SQL = SQL & "Fecha fin:     " & Text3(1).Text & vbCrLf & vbCrLf & vbCrLf
-    SQL = SQL & "          ¿Desea continuar?"
-    If MsgBox(SQL, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+    Sql = "Va a desmarcar todos los punteos para: " & vbCrLf & vbCrLf
+    Sql = Sql & "Cuenta: " & Text3(2).Text & " - " & txtDesCta.Text & vbCrLf
+    Sql = Sql & "Fecha inicio: " & Text3(0).Text & vbCrLf
+    Sql = Sql & "Fecha fin:     " & Text3(1).Text & vbCrLf & vbCrLf & vbCrLf
+    Sql = Sql & "          ¿Desea continuar?"
+    If MsgBox(Sql, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
     
     Screen.MousePointer = vbHourglass
-    SQL = "UPDATE hlinapu"
-    SQL = SQL & " SET punteada=0 WHERE codmacta = '" & Text3(2).Text & "'"
-    SQL = SQL & " AND fechaent>= '" & Format(Text3(0).Text, FormatoFecha) & "'"
-    SQL = SQL & " AND fechaent<= '" & Format(Text3(1).Text, FormatoFecha) & "'"
-    Conn.Execute SQL
+    Sql = "UPDATE hlinapu"
+    Sql = Sql & " SET punteada=0 WHERE codmacta = '" & Text3(2).Text & "'"
+    Sql = Sql & " AND fechaent>= '" & Format(Text3(0).Text, FormatoFecha) & "'"
+    Sql = Sql & " AND fechaent<= '" & Format(Text3(1).Text, FormatoFecha) & "'"
+    Conn.Execute Sql
     InsertarCtaCadenaPunteados
     CargarDatos
     Screen.MousePointer = vbDefault
@@ -1692,9 +1699,9 @@ Private Sub PonerModoPunteo(ModoImporte As Boolean)
     End With
     
     
-    For i = 0 To 3
-        imgCheck(i).visible = Not ModoImporte
-    Next i
+    For I = 0 To 3
+        imgCheck(I).visible = Not ModoImporte
+    Next I
 End Sub
 
 
@@ -1703,12 +1710,12 @@ Private Function AlgunNodoPunteado() As Boolean
 
     AlgunNodoPunteado = True
     
-    For i = 1 To lwD.ListItems.Count
-        If lwD.ListItems(i).Checked Then Exit Function
-    Next i
-    For i = 1 To lwh.ListItems.Count
-        If lwh.ListItems(i).Checked Then Exit Function
-    Next i
+    For I = 1 To lwD.ListItems.Count
+        If lwD.ListItems(I).Checked Then Exit Function
+    Next I
+    For I = 1 To lwh.ListItems.Count
+        If lwh.ListItems(I).Checked Then Exit Function
+    Next I
     'Si llega aqui es que NO hay ninguno punteado
     AlgunNodoPunteado = False
 End Function
@@ -1720,9 +1727,9 @@ Dim T1 As Single
 
 
     T1 = Timer - 1
-    For i = 1 To lwD.ListItems.Count
+    For I = 1 To lwD.ListItems.Count
         'Label
-        SQL = lwD.ListItems(i).SubItems(4) 'Cargo el importe
+        Sql = lwD.ListItems(I).SubItems(4) 'Cargo el importe
         
         If Timer - T1 > 1 Then
             Me.Label7(1).visible = Not Me.Label7(1).visible
@@ -1733,10 +1740,10 @@ Dim T1 As Single
         For J = 1 To lwh.ListItems.Count
             If Not lwh.ListItems(J).Checked Then
                 RC = lwh.ListItems(J).SubItems(4)
-                If SQL = RC Then
+                If Sql = RC Then
                     'EUREKA!!!!!! El mismo importe
-                    lwD.ListItems(i).Checked = True
-                    PunteaEnBD lwD.ListItems(i), True
+                    lwD.ListItems(I).Checked = True
+                    PunteaEnBD lwD.ListItems(I), True
                     lwh.ListItems(J).Checked = True
                     PunteaEnBD lwh.ListItems(J), False
                     'Nos salimos del for
@@ -1744,7 +1751,7 @@ Dim T1 As Single
                 End If
             End If
         Next J
-    Next i
+    Next I
     
     Me.Label7(1).visible = False
 End Sub

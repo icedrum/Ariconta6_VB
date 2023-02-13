@@ -1386,8 +1386,8 @@ Attribute VB_Exposed = False
 
 Private Sub BackstageButton1_Click()
     Msg = ""
-    For i = 0 To 2
-        If Trim(Text1(i).Text) = "" Then Msg = "Campos obligatorios"
+    For I = 0 To 2
+        If Trim(Text1(I).Text) = "" Then Msg = "Campos obligatorios"
     Next
     
     If Msg = "" Then
@@ -1447,14 +1447,14 @@ End Sub
 Private Sub Form_Resize()
 On Error Resume Next
     lblBackstageSeparator4.Height = Me.ScaleHeight
-    i = Me.Width - tabPage(4).Left - 240
-    If i < 300 Then i = 300
-    tabPage(4).Width = i
+    I = Me.Width - tabPage(4).Left - 240
+    If I < 300 Then I = 300
+    tabPage(4).Width = I
     
     
-    i = i - ListViewEmpresa.Left - 120
-    If i < 100 Then i = 100
-    ListViewEmpresa.Width = i
+    I = I - ListViewEmpresa.Left - 120
+    If I < 100 Then I = 100
+    ListViewEmpresa.Width = I
     
     
     Me.Image1.Left = Me.Width - Image1.Width - 120
@@ -1475,7 +1475,7 @@ Private Sub btnAcciones_Click(Index As Integer)
        
         Case 2
             'CAlendario del contribuyente
-            LanzaVisorMimeDocumento Me.hwnd, "http://www.agenciatributaria.es/AEAT.internet/Bibl_virtual/folletos/calendario_contribuyente.shtml"
+            LanzaVisorMimeDocumento Me.hwnd, "https://sede.agenciatributaria.gob.es/Sede/calendario-contribuyente.html"
             tabPage(3).visible = True
             
         Case 1 ' documentos
@@ -1535,7 +1535,7 @@ End Sub
 
 
 Private Function CargarInformacionBBDD() As String
-Dim SQL As String
+Dim Sql As String
 Dim Sql2 As String
 Dim CadValues As String
 Dim NroRegistros As Long
@@ -1552,8 +1552,8 @@ Dim Rs As ADODB.Recordset
     
     CargarInformacionBBDD = False
     
-    SQL = "delete from tmpinfbbdd where codusu = " & vUsu.Codigo
-    Conn.Execute SQL
+    Sql = "delete from tmpinfbbdd where codusu = " & vUsu.Codigo
+    Conn.Execute Sql
     
     FecIniSig = DateAdd("yyyy", 1, vParam.fechaini)
     FecFinSig = DateAdd("yyyy", 1, vParam.fechafin)
@@ -1561,19 +1561,19 @@ Dim Rs As ADODB.Recordset
     Sql2 = "insert into tmpinfbbdd (codusu,posicion,concepto,nactual,poractual,nsiguiente,porsiguiente) values "
     
     'asientos
-    SQL = "select count(*) from hcabapu where fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
-    NroRegistros = DevuelveValor(SQL)
-    SQL = "select count(*) from hcabapu where fechaent between " & DBSet(FecIniSig, "F") & " and " & DBSet(FecFinSig, "F")
-    NroRegistrosSig = DevuelveValor(SQL)
+    Sql = "select count(*) from hcabapu where fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
+    NroRegistros = DevuelveValor(Sql)
+    Sql = "select count(*) from hcabapu where fechaent between " & DBSet(FecIniSig, "F") & " and " & DBSet(FecFinSig, "F")
+    NroRegistrosSig = DevuelveValor(Sql)
     
     CadValues = "(" & vUsu.Codigo & ",1,'Asientos'," & DBSet(NroRegistros, "N") & ",0," & DBSet(NroRegistrosSig, "N") & ",0)"
     Conn.Execute Sql2 & CadValues
     
     'apuntes
-    SQL = "select count(*) from hlinapu where fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
-    NroRegistros = DevuelveValor(SQL)
-    SQL = "select count(*) from hlinapu where fechaent between " & DBSet(FecIniSig, "F") & " and " & DBSet(FecFinSig, "F")
-    NroRegistrosSig = DevuelveValor(SQL)
+    Sql = "select count(*) from hlinapu where fechaent between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
+    NroRegistros = DevuelveValor(Sql)
+    Sql = "select count(*) from hlinapu where fechaent between " & DBSet(FecIniSig, "F") & " and " & DBSet(FecFinSig, "F")
+    NroRegistrosSig = DevuelveValor(Sql)
     
     CadValues = "(" & vUsu.Codigo & ",2,'Apuntes'," & DBSet(NroRegistros, "N") & ",0," & DBSet(NroRegistrosSig, "N") & ",0)"
     Conn.Execute Sql2 & CadValues
@@ -1581,49 +1581,49 @@ Dim Rs As ADODB.Recordset
     
     If vEmpresa.TieneContabilidad Then
             'facturas de venta
-            SQL = "select count(*) from factcli where "
-            SQL = SQL & " fecfactu between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
+            Sql = "select count(*) from factcli where "
+            Sql = Sql & " fecfactu between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
             
-            NroRegistrosTot = DevuelveValor(SQL)
+            NroRegistrosTot = DevuelveValor(Sql)
             
             
-            SQL = "select count(*) from factcli where "
-            SQL = SQL & " fecfactu between " & DBSet(FecIniSig, "F") & " and " & DBSet(FecFinSig, "F")
+            Sql = "select count(*) from factcli where "
+            Sql = Sql & " fecfactu between " & DBSet(FecIniSig, "F") & " and " & DBSet(FecFinSig, "F")
             
-            NroRegistrosTotSig = DevuelveValor(SQL)
+            NroRegistrosTotSig = DevuelveValor(Sql)
             
-            i = 3
+            I = 3
             
-            SQL = "select * from contadores where not tiporegi in ('0','1')"
+            Sql = "select * from contadores where not tiporegi in ('0','1')"
             
             Set Rs = New ADODB.Recordset
-            Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             
             While Not Rs.EOF
             
-                SQL = "select count(*) from factcli where numserie = " & DBSet(Rs!tiporegi, "T")
-                SQL = SQL & " and fecfactu between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
+                Sql = "select count(*) from factcli where numserie = " & DBSet(Rs!tiporegi, "T")
+                Sql = Sql & " and fecfactu between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
             
-                NroRegistros = DevuelveValor(SQL)
+                NroRegistros = DevuelveValor(Sql)
                 Porcen1 = 0
                 If NroRegistrosTot <> 0 Then
                     Porcen1 = Round(NroRegistros * 100 / NroRegistrosTot, 2)
                 End If
                 
-                SQL = "select count(*) from factcli where numserie = " & DBSet(Rs!tiporegi, "T")
-                SQL = SQL & " and fecfactu between " & DBSet(FecIniSig, "F") & " and " & DBSet(FecFinSig, "F")
+                Sql = "select count(*) from factcli where numserie = " & DBSet(Rs!tiporegi, "T")
+                Sql = Sql & " and fecfactu between " & DBSet(FecIniSig, "F") & " and " & DBSet(FecFinSig, "F")
                 
-                NroRegistrosSig = DevuelveValor(SQL)
+                NroRegistrosSig = DevuelveValor(Sql)
                 Porcen2 = 0
                 If NroRegistrosTotSig <> 0 Then
                     Porcen2 = Round(NroRegistrosSig * 100 / NroRegistrosTotSig, 2)
                 End If
             
-                CadValues = "(" & vUsu.Codigo & "," & DBSet(i, "N") & "," & DBSet(Rs!nomregis, "T") & "," & DBSet(NroRegistros, "N") & "," & DBSet(Porcen1, "N") & ","
+                CadValues = "(" & vUsu.Codigo & "," & DBSet(I, "N") & "," & DBSet(Rs!nomregis, "T") & "," & DBSet(NroRegistros, "N") & "," & DBSet(Porcen1, "N") & ","
                 CadValues = CadValues & DBSet(NroRegistrosSig, "N") & "," & DBSet(Porcen2, "N") & ")"
                 Conn.Execute Sql2 & CadValues
                 
-                i = i + 1
+                I = I + 1
             
                 Rs.MoveNext
             Wend
@@ -1631,14 +1631,14 @@ Dim Rs As ADODB.Recordset
             Set Rs = Nothing
             
             'facturas de proveedor
-            i = i + 1
+            I = I + 1
             
-            SQL = "select count(*) from factpro where fecharec between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
-            NroRegistros = DevuelveValor(SQL)
-            SQL = "select count(*) from factpro where fecharec between " & DBSet(FecIniSig, "F") & " and " & DBSet(FecFinSig, "F")
-            NroRegistrosSig = DevuelveValor(SQL)
+            Sql = "select count(*) from factpro where fecharec between " & DBSet(vParam.fechaini, "F") & " and " & DBSet(vParam.fechafin, "F")
+            NroRegistros = DevuelveValor(Sql)
+            Sql = "select count(*) from factpro where fecharec between " & DBSet(FecIniSig, "F") & " and " & DBSet(FecFinSig, "F")
+            NroRegistrosSig = DevuelveValor(Sql)
             
-            CadValues = "(" & vUsu.Codigo & "," & DBSet(i, "N") & ",'Facturas Proveedores'," & DBSet(NroRegistros, "N") & ",0,"
+            CadValues = "(" & vUsu.Codigo & "," & DBSet(I, "N") & ",'Facturas Proveedores'," & DBSet(NroRegistros, "N") & ",0,"
             CadValues = CadValues & DBSet(NroRegistrosSig, "N") & ",0)"
             
             Conn.Execute Sql2 & CadValues
@@ -1667,10 +1667,10 @@ Dim TotalArray  As Long
     
     Set Rs = New ADODB.Recordset
     
-    SQL = "select * from tmpinfbbdd where codusu = " & vUsu.Codigo & " order by posicion "
+    Sql = "select * from tmpinfbbdd where codusu = " & vUsu.Codigo & " order by posicion "
     
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     ListView3.ListItems.Clear
     ListView3.ColumnHeaders.Clear
@@ -1720,7 +1720,7 @@ Dim IT As ListItem
 Dim TotalArray  As Long
 Dim SERVER As String
 Dim EquipoConBD As Boolean
-Dim Cad As String
+Dim cad As String
 Dim Equipo As String
 
     On Error GoTo ECargaShowProcessList
@@ -1743,9 +1743,9 @@ Dim Equipo As String
     
     EquipoConBD = (UCase(vUsu.PC) = UCase(SERVER)) Or (LCase(SERVER) = "localhost")
     
-    Cad = "show full processlist"
-    Rs.Open Cad, Conn, adOpenKeyset, adLockOptimistic, adCmdText
-    Cad = ""
+    cad = "show full processlist"
+    Rs.Open cad, Conn, adOpenKeyset, adLockOptimistic, adCmdText
+    cad = ""
     While Not Rs.EOF
         If Not IsNull(Rs.Fields(3)) Then
             If InStr(1, Rs.Fields(3), "ariconta") <> 0 Then
@@ -1795,14 +1795,14 @@ End Sub
 
 Private Sub Cargadocumentos()
 Dim RN As ADODB.Recordset
-Dim Cad As String
+Dim cad As String
 Dim IT As ListItem
 
     Set Me.ListView1.SmallIcons = frmppal.ImageList1 'frmPpal.ImageListDocumentos
     On Error GoTo eCargadocumentos
-    Cad = "select iddocumento,nombrearchi from usuarios.wfichdocs WHERE aplicacion='ariconta' order by orden "
+    cad = "select iddocumento,nombrearchi from usuarios.wfichdocs WHERE aplicacion='ariconta' order by orden "
     Set RN = New ADODB.Recordset
-    RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    RN.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not RN.EOF
         ListView1.ListItems.Add , "D" & Format(RN!iddocumento, "00000"), RN!nombrearchi, , 7   '1:PDF
        
@@ -1832,11 +1832,11 @@ Dim Abrir As Boolean
     
     Abrir = False 'antes \ImgFicFT
     If Dir(App.Path & "\temp\" & ListView1.SelectedItem & ".pdf", vbArchive) = "" Then
-        Adodc1.ConnectionString = Conn
-        Adodc1.RecordSource = "Select * from usuarios.wfichdocs where idDocumento=" & Mid(ListView1.SelectedItem.Key, 2)
-        Adodc1.Refresh
+        adodc1.ConnectionString = Conn
+        adodc1.RecordSource = "Select * from usuarios.wfichdocs where idDocumento=" & Mid(ListView1.SelectedItem.Key, 2)
+        adodc1.Refresh
 
-        If LeerBinary(Adodc1.Recordset!Campo, App.Path & "\temp\" & ListView1.SelectedItem.Text & ".pdf") Then Abrir = True
+        If LeerBinary(adodc1.Recordset!Campo, App.Path & "\temp\" & ListView1.SelectedItem.Text & ".pdf") Then Abrir = True
     Else
         Abrir = True
         
@@ -1852,13 +1852,13 @@ End Sub
 Private Sub BuscaEmpresas()
 Dim Prohibidas As String
 Dim Rs As ADODB.Recordset
-Dim Cad As String
-Dim SQL As String
+Dim cad As String
+Dim Sql As String
 Dim ItmX As ListItem
 
 ListView1.ListItems.Clear
 
-Dim i As Integer
+Dim I As Integer
 
 
     If Me.ListViewEmpresa.Tag = "1" Then Exit Sub
@@ -1869,11 +1869,11 @@ Dim i As Integer
     ListViewEmpresa.ColumnHeaders(4).Width = 1400
     ListViewEmpresa.ColumnHeaders(5).Width = 1400
     
-    i = ListViewEmpresa.Width - 3840
-    If i < 0 Then i = 180
-    i = CInt(i / 4)
-    ListViewEmpresa.ColumnHeaders(2).Width = i * 3
-    ListViewEmpresa.ColumnHeaders(3).Width = i
+    I = ListViewEmpresa.Width - 3840
+    If I < 0 Then I = 180
+    I = CInt(I / 4)
+    ListViewEmpresa.ColumnHeaders(2).Width = I * 3
+    ListViewEmpresa.ColumnHeaders(3).Width = I
         
  
     
@@ -1891,22 +1891,22 @@ Dim i As Integer
     Rs.Open "Select * from usuarios.empresasariconta where conta like 'ariconta%' ORDER BY Codempre", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     
     While Not Rs.EOF
-        Cad = "|" & Rs!codempre & "|"
-        If InStr(1, Prohibidas, Cad) = 0 Then
-            Cad = Rs!nomempre
+        cad = "|" & Rs!codempre & "|"
+        If InStr(1, Prohibidas, cad) = 0 Then
+            cad = Rs!nomempre
             Set ItmX = ListViewEmpresa.ListItems.Add()
             ItmX.Text = Rs!codempre
             
             
             ItmX.SubItems(1) = Rs!nomempre
             ItmX.SubItems(2) = Rs!nomresum
-            Cad = "fechafin"
-            SQL = DevuelveDesdeBD("fechaini", "ariconta" & Rs!codempre & ".parametros", "1", "1", "N", Cad)
-            ItmX.SubItems(3) = SQL
-            ItmX.SubItems(4) = Cad
+            cad = "fechafin"
+            Sql = DevuelveDesdeBD("fechaini", "ariconta" & Rs!codempre & ".parametros", "1", "1", "N", cad)
+            ItmX.SubItems(3) = Sql
+            ItmX.SubItems(4) = cad
             
                 
-            Cad = Rs!CONTA & "|" & Rs!nomresum '& "|" & Rs!Usuario & "|" & Rs!Pass & "|"
+            cad = Rs!CONTA & "|" & Rs!nomresum '& "|" & Rs!Usuario & "|" & Rs!Pass & "|"
             
             If Rs!codempre = vEmpresa.codempre Then
                 ItmX.Bold = True
@@ -1939,21 +1939,21 @@ End Sub
 
 Private Function DevuelveProhibidas() As String
 Dim Rs As ADODB.Recordset
-Dim Cad As String
-Dim i As Integer
+Dim cad As String
+Dim I As Integer
     On Error GoTo EDevuelveProhibidas
     DevuelveProhibidas = ""
     Set Rs = New ADODB.Recordset
-    i = vUsu.Codigo Mod 1000
-    Rs.Open "Select * from usuarios.usuarioempresasariconta WHERE codusu =" & i, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-    Cad = ""
+    I = vUsu.Codigo Mod 1000
+    Rs.Open "Select * from usuarios.usuarioempresasariconta WHERE codusu =" & I, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    cad = ""
     While Not Rs.EOF
-        Cad = Cad & Rs.Fields(1) & "|"
+        cad = cad & Rs.Fields(1) & "|"
         Rs.MoveNext
     Wend
-    If Cad <> "" Then Cad = "|" & Cad
+    If cad <> "" Then cad = "|" & cad
     Rs.Close
-    DevuelveProhibidas = Cad
+    DevuelveProhibidas = cad
 EDevuelveProhibidas:
     Err.Clear
     Set Rs = Nothing

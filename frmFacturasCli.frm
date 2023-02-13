@@ -7467,7 +7467,7 @@ Private Sub txtAux_LostFocus(Index As Integer)
             txtAux(8).Text = DevuelveDesdeBD("porceiva", "tiposiva", "codigiva", txtAux(7), "N", RC)
             If txtAux(8).Text = "" Then
                 MsgBoxA "No existe el Tipo de Iva. Reintroduzca.", vbExclamation
-                If txtAux(7).Text <> "" Then PonFoco txtAux(7)
+                If txtAux(7).Text <> "" Then txtAux(7) = "": PonFoco txtAux(7)
             Else
                 If RC = 0 Then
                     txtAux(9).Text = ""

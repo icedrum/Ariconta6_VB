@@ -377,13 +377,13 @@ Begin VB.Form frmImportacionNavFra
    End
    Begin MSDataGridLib.DataGrid DataGrid2 
       Bindings        =   "frmNavaImportacion.frx":0020
-      Height          =   1575
+      Height          =   1815
       Left            =   5160
       TabIndex        =   11
-      Top             =   360
+      Top             =   120
       Width           =   4335
       _ExtentX        =   7646
-      _ExtentY        =   2778
+      _ExtentY        =   3201
       _Version        =   393216
       AllowUpdate     =   0   'False
       HeadLines       =   1
@@ -681,11 +681,11 @@ Private Sub DataGrid1_RowColChange(LastRow As Variant, ByVal LastCol As Integer)
        CargaTxtAux True, False
        'txtAux.SelStart = Len(Me.txtAux.Text)
        
-       txtaux(0).SetFocus
+       txtAux(0).SetFocus
        
-       txtaux(0).SelStart = 0
-       txtaux(0).SelLength = Len(Me.txtaux(0).Text)
-       txtaux(0).Refresh
+       txtAux(0).SelStart = 0
+       txtAux(0).SelLength = Len(Me.txtAux(0).Text)
+       txtAux(0).Refresh
        PonIndicador
     End If
 End Sub
@@ -705,7 +705,7 @@ Private Sub Form_Activate()
          PrimeraVez = False
          CargaDatosFra
          CargaTxtAux True, False
-         PonFoco txtaux(0)
+         PonFoco txtAux(0)
     End If
 End Sub
 
@@ -829,9 +829,9 @@ Dim J As Byte
 
     If Not visible Then
         'Fijamos el alto (ponerlo en la parte inferior del form)
-        txtaux(0).top = 290
-        txtaux(0).visible = visible
-        txtaux(1).visible = visible
+        txtAux(0).top = 290
+        txtAux(0).visible = visible
+        txtAux(1).visible = visible
     Else
         DeseleccionaGrid Me.DataGrid1
         If DataGrid1.Row < 0 Then
@@ -842,16 +842,16 @@ Dim J As Byte
         
         For J = 0 To 3
             If Limpiar Then
-                txtaux(J).Text = ""
+                txtAux(J).Text = ""
             Else
-                txtaux(J).Text = Format(Data1.Recordset.Fields(J + 2), FormatoImporte)
+                txtAux(J).Text = Format(Data1.Recordset.Fields(J + 2), FormatoImporte)
             End If
-            txtaux(J).top = alto
-            txtaux(J).Locked = J > 0
-            txtaux(J).Height = DataGrid1.RowHeight
-            txtaux(J).Left = DataGrid1.Columns(J + 2).Left + 130
-            txtaux(J).Width = DataGrid1.Columns(J + 2).Width - 10
-            txtaux(J).visible = visible
+            txtAux(J).top = alto
+            txtAux(J).Locked = J > 0
+            txtAux(J).Height = DataGrid1.RowHeight
+            txtAux(J).Left = DataGrid1.Columns(J + 2).Left + 130
+            txtAux(J).Width = DataGrid1.Columns(J + 2).Width - 10
+            txtAux(J).visible = visible
         Next
         
 
@@ -889,8 +889,8 @@ End Sub
 
 
 Private Sub txtaux_GotFocus(Index As Integer)
-    txtaux(Index).SelStart = 0
-    txtaux(Index).SelLength = Len(txtaux(Index).Text)
+    txtAux(Index).SelStart = 0
+    txtAux(Index).SelLength = Len(txtAux(Index).Text)
 End Sub
 
 Private Sub txtAux_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
@@ -903,13 +903,13 @@ On Error GoTo EKeyD
         Case 38 'Desplazamieto Fecha Hacia Arriba
                 If DataGrid1.Bookmark > 0 Then
                     DataGrid1.Bookmark = DataGrid1.Bookmark - 1
-                    PonFoco txtaux(Index)
+                    PonFoco txtAux(Index)
                 End If
         
         Case 40 'Desplazamiento Flecha Hacia Abajo
                 PasarSigReg
-                Me.txtaux(Index).SelStart = 0
-                Me.txtaux(Index).SelLength = Len(Me.txtaux(Index).Text)
+                Me.txtAux(Index).SelStart = 0
+                Me.txtAux(Index).SelLength = Len(Me.txtAux(Index).Text)
                 'txtaux.Refresh
     End Select
 EKeyD:
@@ -936,7 +936,7 @@ End Sub
 Private Sub txtAux_LostFocus(Index As Integer)
 Dim Importe As Currency
     If Screen.ActiveControl.Name = "cmdCancelar" Then Exit Sub
-    With txtaux(Index)
+    With txtAux(Index)
         .Text = Trim(.Text)
         If .Text = "" Then
             .Text = "0,00"
@@ -945,7 +945,7 @@ Dim Importe As Currency
                     MsgBox "Importes deben ser numéricos.", vbExclamation
                     On Error Resume Next
                     .Text = "0,00"
-                    PonFoco txtaux
+                    PonFoco txtAux
                     Exit Sub
                 End If
                 
@@ -1018,16 +1018,16 @@ Private Sub BotonModificar()
     If Data1.Recordset.EOF Then Exit Sub
     PonerModo 4
     CargaTxtAux True, True
-    PonleFoco txtaux
+    PonleFoco txtAux
 End Sub
 
 
 Private Function DatosOK() As Boolean
 'Solo se actualiza el campo de Existencia Real
-    txtaux(0).Text = Trim(txtaux(0).Text)
+    txtAux(0).Text = Trim(txtAux(0).Text)
     DatosOK = False
-    If txtaux(0).Text <> "" Then
-        If EsNumerico(txtaux(0).Text) Then DatosOK = True
+    If txtAux(0).Text <> "" Then
+        If EsNumerico(txtAux(0).Text) Then DatosOK = True
     End If
 End Function
 
@@ -1051,7 +1051,7 @@ Private Sub PasarSigReg()
     If DataGrid1.Bookmark < Data1.Recordset.RecordCount Then
 '        DataGrid1.Row = DataGrid1.Row + 1
         DataGrid1.Bookmark = DataGrid1.Bookmark + 1
-        PonleFoco Me.txtaux(0)
+        PonleFoco Me.txtAux(0)
     ElseIf DataGrid1.Bookmark = Data1.Recordset.RecordCount Then
        PonleFoco cmdAceptar
     End If
@@ -1102,10 +1102,10 @@ Dim Cantidad As Currency
     
         
 
-    If InStr(1, txtaux(0).Text, ",") > 0 Then
-        cad = ImporteFormateado(txtaux(0).Text)
+    If InStr(1, txtAux(0).Text, ",") > 0 Then
+        cad = ImporteFormateado(txtAux(0).Text)
     Else
-        cad = TransformaPuntosComas(txtaux(0).Text)
+        cad = TransformaPuntosComas(txtAux(0).Text)
     End If
     Cantidad = TransformaPuntosComas(cad)
     
@@ -1225,10 +1225,10 @@ Private Function DatosCorrecto() As Boolean
         NumRegElim = Month(CDate((Text3.Text)))
     End If
     
-    If Year(CDate(Text3.Text)) < vParam.anofactu Then
+    If Year(CDate(Text3.Text)) < vParam.Anofactu Then
        NumRegElim = 0
     Else
-        If Year(CDate(Text3.Text)) = vParam.anofactu Then
+        If Year(CDate(Text3.Text)) = vParam.Anofactu Then
             'El mismo año. Comprobamos los periodos
             If vParam.perfactu >= NumRegElim Then NumRegElim = 0
         End If

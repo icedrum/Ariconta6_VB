@@ -28,8 +28,8 @@ Public HaPulsadoImprimir As Boolean
 
 Dim Rs As Recordset
 Dim cad As String
-Dim Sql As String
-Dim I As Integer
+Dim SQL As String
+Dim i As Integer
 
 
 'Esto sera para el pb general
@@ -41,19 +41,19 @@ Dim Actual As Long
 'El campo lo coge del recordset, luego sera field(i), y el tipo es para añadirle
 'las coimllas, o quitarlas comas
 '  Si es numero viene un 1 si no nada
-Private Function ParaBD(ByRef Campo As ADODB.Field, Optional EsNumerico As Byte) As String
+Private Function ParaBD(ByRef campo As ADODB.Field, Optional EsNumerico As Byte) As String
     
-    If IsNull(Campo) Then
+    If IsNull(campo) Then
         ParaBD = "NULL"
     Else
         Select Case EsNumerico
         Case 1
-            ParaBD = TransformaComasPuntos(CStr(Campo))
+            ParaBD = TransformaComasPuntos(CStr(campo))
         Case 2
             'Fechas
-            ParaBD = "'" & Format(CStr(Campo), "dd/mm/yyyy") & "'"
+            ParaBD = "'" & Format(CStr(campo), "dd/mm/yyyy") & "'"
         Case Else
-            ParaBD = "'" & Campo & "'"
+            ParaBD = "'" & campo & "'"
 
             
         End Select
@@ -120,7 +120,7 @@ eponerLabelBotonImpresion:
     If Err.Number <> 0 Then Err.Clear
 End Sub
 
-Public Function PonerDesdeHasta(Campo As String, Tipo As String, ByRef Desde As TextBox, ByRef DesD As TextBox, ByRef Hasta As TextBox, ByRef DesH As TextBox, param As String) As Boolean
+Public Function PonerDesdeHasta(campo As String, Tipo As String, ByRef Desde As TextBox, ByRef DesD As TextBox, ByRef Hasta As TextBox, ByRef DesH As TextBox, param As String) As Boolean
 Dim Devuelve As String
 Dim cad As String
 Dim SubTipo As String 'F: fecha   N: numero   T: texto  H: HORA
@@ -153,7 +153,7 @@ Dim SubTipo As String 'F: fecha   N: numero   T: texto  H: HORA
    
     End Select
     
-    Devuelve = CadenaDesdeHasta(Desde, Hasta, Campo, SubTipo)
+    Devuelve = CadenaDesdeHasta(Desde, Hasta, campo, SubTipo)
     If Devuelve = "Error" Then
         PonFoco Desde
         Exit Function
@@ -175,7 +175,7 @@ Dim SubTipo As String 'F: fecha   N: numero   T: texto  H: HORA
         If Not AnyadirAFormula(cadselect, Devuelve) Then Exit Function
     Else
         'Fecha para la Base de Datos
-        cad = CadenaDesdeHastaBD(Desde.Text, Hasta.Text, Campo, SubTipo)
+        cad = CadenaDesdeHastaBD(Desde.Text, Hasta.Text, campo, SubTipo)
         cad = Replace(cad, "{", "")
         cad = Replace(cad, "}", "")
         If Not AnyadirAFormula(cadselect, cad) Then Exit Function
@@ -233,7 +233,7 @@ End Function
 
 Public Function GeneraFicheroCSV(cadSQL As String, Salida As String, Optional OcultarMensajeCreacionCorrecta As Boolean) As Boolean
 Dim NF As Integer
-Dim I  As Integer
+Dim i  As Integer
 
     On Error GoTo eGeneraFicheroCSV
     GeneraFicheroCSV = False
@@ -253,18 +253,18 @@ Dim I  As Integer
         Open App.Path & "\docum.csv" For Output As #NF
         'Cabecera
         cadSQL = ""
-        For I = 0 To miRsAux.Fields.Count - 1
-            cadSQL = cadSQL & ";""" & miRsAux.Fields(I).Name & """"
-        Next I
+        For i = 0 To miRsAux.Fields.Count - 1
+            cadSQL = cadSQL & ";""" & miRsAux.Fields(i).Name & """"
+        Next i
         Print #NF, Mid(cadSQL, 2)
     
     
         'Lineas
         While Not miRsAux.EOF
             cadSQL = ""
-            For I = 0 To miRsAux.Fields.Count - 1
-                cadSQL = cadSQL & ";""" & DBLet(miRsAux.Fields(I).Value, "T") & """"
-            Next I
+            For i = 0 To miRsAux.Fields.Count - 1
+                cadSQL = cadSQL & ";""" & DBLet(miRsAux.Fields(i).Value, "T") & """"
+            Next i
             Print #NF, Mid(cadSQL, 2)
             
             
@@ -361,12 +361,12 @@ End Function
 
 
 Public Sub QuitarPulsacionMas(ByRef T As TextBox)
-Dim I As Integer
+Dim i As Integer
 
     Do
-        I = InStr(1, T.Text, "+")
-        If I > 0 Then T.Text = Mid(T.Text, 1, I - 1) & Mid(T.Text, I + 1)
-    Loop Until I = 0
+        i = InStr(1, T.Text, "+")
+        If i > 0 Then T.Text = Mid(T.Text, 1, i - 1) & Mid(T.Text, i + 1)
+    Loop Until i = 0
         
 End Sub
 
@@ -696,7 +696,7 @@ End Function
 
 
 Public Function ExisteARIMAILGES()
-Dim Sql As String
+Dim SQL As String
 
     If Dir(App.Path & "\ArimailGes.exe") = "" Then
         MsgBox "No existe el programa ArimailGes.exe. Llame a Ariadna.", vbExclamation
@@ -710,14 +710,14 @@ End Function
 
 Public Function HayRegParaInforme(cTabla As String, cWhere As String) As Boolean
 'Comprobar si hay registros a Mostrar antes de abrir el Informe
-Dim Sql As String
+Dim SQL As String
     
-    Sql = "Select count(*) FROM " & cTabla
+    SQL = "Select count(*) FROM " & cTabla
     If cWhere <> "" Then
-        Sql = Sql & " WHERE " & cWhere
+        SQL = SQL & " WHERE " & cWhere
     End If
     
-    If TotalRegistros(Sql) = 0 Then
+    If TotalRegistros(SQL) = 0 Then
         MsgBox "No hay datos para mostrar en el Informe.", vbInformation
         HayRegParaInforme = False
     Else
@@ -791,21 +791,21 @@ Dim Contador As Integer
     Case 1
         'Reclamacion
         Aux = "Reclamacion.pdf"
-        Sql = "select tmp347.*, cuentas.razosoci, cuentas.maidatos from tmp347, cuentas "
-        Sql = Sql & " where codusu = " & vUsu.Codigo & " and importe <> 0 and tmp347.cta = cuentas.codmacta"
+        SQL = "select tmp347.*, cuentas.razosoci, cuentas.maidatos from tmp347, cuentas "
+        SQL = SQL & " where codusu = " & vUsu.Codigo & " and importe <> 0 and tmp347.cta = cuentas.codmacta"
     Case 2
         'Ene21. 347
         lbInd.Caption = "Leyendo cartas a enviar"
         lbInd.Refresh
-        Sql = "select nif as documento, despobla as NIF, dirdatos maidatos,PAIS,cliprov,razosoci from tmp347tot  "
-        Sql = Sql & " where codusu = " & vUsu.Codigo & " AND PAIS ='XXXXXXXX' ORDER by nif desc"
+        SQL = "select nif as documento, despobla as NIF, dirdatos maidatos,PAIS,cliprov,razosoci from tmp347tot  "
+        SQL = SQL & " where codusu = " & vUsu.Codigo & " AND PAIS ='XXXXXXXX' ORDER by nif desc"
         
         
     End Select
     
     
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Contador = 0
     While Not Rs.EOF
         
@@ -907,8 +907,8 @@ Dim Contador As Integer
             
         Case 2
             Aux = "Datos 347: " & Rs!razosoci & vbCrLf & Cuerpo
-            Sql = "DELETE from tmp347tot where codusu = " & vUsu.Codigo
-            Sql = Sql & " AND cliprov =" & Rs!cliprov & " AND nif = " & DBSet(Rs!documento, "T")
+            SQL = "DELETE from tmp347tot where codusu = " & vUsu.Codigo
+            SQL = SQL & " AND cliprov =" & Rs!cliprov & " AND nif = " & DBSet(Rs!documento, "T")
         End Select
         Lanza = Lanza & Aux & "|"
         
@@ -929,7 +929,7 @@ Dim Contador As Integer
         
         Shell Aux, vbNormalFocus
         
-        If outTipoDocumento = 2 Then Conn.Execute Sql
+        If outTipoDocumento = 2 Then Conn.Execute SQL
         espera 0.5
         
         If (Contador Mod 4) = 0 Then
@@ -968,8 +968,8 @@ Dim EstaFlag As Integer
     Conn.Execute "DELETE FROM usuarios.wenvioemail WHERE codusu = " & vUsu.Codigo
     
     TotalReg = 0
-    Sql = "select max(infoIntercambioId) from usuarios.info_intercambio"
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "select max(infoIntercambioId) from usuarios.info_intercambio"
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not Rs.EOF Then TotalReg = DBLet(Rs.Fields(0), "N")
     TotalReg = TotalReg + 1
     Rs.Close
@@ -983,16 +983,16 @@ Dim EstaFlag As Integer
     If outTipoDocumento = 2 Then
     
     
-        Sql = "select nif as documento, despobla as NIF, dirdatos maidatos,if(cliprov=48,'Cliente','Proveedor'),razosoci,cliprov"
-        Sql = Sql & "  from tmp347tot where codusu = " & vUsu.Codigo & " AND PAIS ='XXXXXXXX' ORDER by nif desc"
+        SQL = "select nif as documento, despobla as NIF, dirdatos maidatos,if(cliprov=48,'Cliente','Proveedor'),razosoci,cliprov"
+        SQL = SQL & "  from tmp347tot where codusu = " & vUsu.Codigo & " AND PAIS ='XXXXXXXX' ORDER by nif desc"
         
     End If
     
    
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     cad = "INSERT INTO usuarios.wenvioemail(codusu,Orden,ctaAWS,destino,nombre,asunto,cuerpohtml,cuerpo,adjuntos,copiaRemitente) VALUES "
-    Sql = ""
+    SQL = ""
     While Not Rs.EOF
             
         'codusu,Orden,ctaAWS,destino,nombre,asunto,cuerpohtml,cuerpo,adjuntos)
@@ -1007,7 +1007,7 @@ Dim EstaFlag As Integer
         
         'direccion email
         
-        Sql = Sql & ", (" & vUsu.Codigo & "," & TotalReg & ",''," & DBSet(Rs!maidatos, "T") & "," & DBSet(Rs!razosoci, "T")
+        SQL = SQL & ", (" & vUsu.Codigo & "," & TotalReg & ",''," & DBSet(Rs!maidatos, "T") & "," & DBSet(Rs!razosoci, "T")
         
         'asunto
         Aux = ""
@@ -1019,7 +1019,7 @@ Dim EstaFlag As Integer
         End Select
         
         'asunto cuerpohtml,cuerpo,adjuntos  .nif Nifdato,cliprov
-        Sql = Sql & "," & DBSet(Aux, "T")
+        SQL = SQL & "," & DBSet(Aux, "T")
         
         'Cuerpo mensaje
         If outTipoDocumento = 2 Then
@@ -1029,20 +1029,20 @@ Dim EstaFlag As Integer
             
         End If
         
-        Sql = Sql & "," & DBSet(Aux, "T") & "," & DBSet(Aux, "T") & ","
+        SQL = SQL & "," & DBSet(Aux, "T") & "," & DBSet(Aux, "T") & ","
         
                 
         Aux = Rs!NIF
        
         
-        Sql = Sql & "'" & Aux & "'," & IIf(CopiaRemitente, 1, 0) & ")" '0: Copia remitente
+        SQL = SQL & "'" & Aux & "'," & IIf(CopiaRemitente, 1, 0) & ")" '0: Copia remitente
     
         
-        If Len(Sql) > 3000 Then
-            Sql = Mid(Sql, 2)
-            Sql = cad & Sql
-            Conn.Execute Sql
-            Sql = ""
+        If Len(SQL) > 3000 Then
+            SQL = Mid(SQL, 2)
+            SQL = cad & SQL
+            Conn.Execute SQL
+            SQL = ""
         End If
         
         TotalReg = TotalReg + 1
@@ -1051,12 +1051,12 @@ Dim EstaFlag As Integer
     Rs.Close
     
     
-    If Sql <> "" Then
-        Sql = Mid(Sql, 2)
+    If SQL <> "" Then
+        SQL = Mid(SQL, 2)
         
         
-        Sql = cad & Sql
-        Conn.Execute Sql
+        SQL = cad & SQL
+        Conn.Execute SQL
     End If
     
     DoEvent2
@@ -1066,10 +1066,10 @@ Dim EstaFlag As Integer
     End If
     
     espera 0.5
-    Sql = DevuelveDesdeBD("emailAWS", "parametros", "1", "1")
-    If Sql = "" Then Err.Raise 513, , "No existe emailAWS"
+    SQL = DevuelveDesdeBD("emailAWS", "parametros", "1", "1")
+    If SQL = "" Then Err.Raise 513, , "No existe emailAWS"
     
-    cad = "UPDATE usuarios.wenvioemail  SET ctaAWS =" & DBSet(Sql, "T") & " WHERE codusu =" & vUsu.Codigo
+    cad = "UPDATE usuarios.wenvioemail  SET ctaAWS =" & DBSet(SQL, "T") & " WHERE codusu =" & vUsu.Codigo
     Conn.Execute cad
     TotalReg = 0
     
@@ -1084,36 +1084,36 @@ Dim EstaFlag As Integer
     
     'RAFA.
     'Insertamos en intercambio
-    Sql = "INSERT INTO usuarios.info_intercambio(infoIntercambioId,sistema,tipo,clave,email,fichero,estado) "
+    SQL = "INSERT INTO usuarios.info_intercambio(infoIntercambioId,sistema,tipo,clave,email,fichero,estado) "
     
-    Sql = Sql & " SELECT orden,'ariconta" & vEmpresa.codempre & "',' 347',asunto,destino,adjuntos,1 "
-    Sql = Sql & " FROM  usuarios.wenvioemail where codusu = " & vUsu.Codigo
-    Conn.Execute Sql
+    SQL = SQL & " SELECT orden,'ariconta" & vEmpresa.codempre & "',' 347',asunto,destino,adjuntos,1 "
+    SQL = SQL & " FROM  usuarios.wenvioemail where codusu = " & vUsu.Codigo
+    Conn.Execute SQL
 
 
 
     
     'Vamos a ver si esta enviendo
-    Sql = ""
+    SQL = ""
     NumRegElim = -1
     TotalReg = 0
     Aux = ""
-    I = 0
+    i = 0
     Do
     
         espera 1
         DoEvent2
         
-        Sql = "select sum(if(estado=1,1,0)) pendientes, sum(if(estado=3,1,0)) errores   from usuarios.info_intercambio where estado in (1,3)"
-        Sql = Sql & " and  infoIntercambioId IN (select orden from usuarios.wenvioemail where codusu=" & vUsu.Codigo & ")"
+        SQL = "select sum(if(estado=1,1,0)) pendientes, sum(if(estado=3,1,0)) errores   from usuarios.info_intercambio where estado in (1,3)"
+        SQL = SQL & " and  infoIntercambioId IN (select orden from usuarios.wenvioemail where codusu=" & vUsu.Codigo & ")"
         
-        Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        Sql = ""
+        Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        SQL = ""
         If Rs.EOF Then
               Aux = "SAL"
         Else
             If Not lbInd Is Nothing Then
-                lbInd.Caption = "Int: " & I + 1 & "   Pdte: " & DBLet(Rs!pendientes, "N") & "   Err: " & DBLet(Rs!Errores, "N")
+                lbInd.Caption = "Int: " & i + 1 & "   Pdte: " & DBLet(Rs!pendientes, "N") & "   Err: " & DBLet(Rs!Errores, "N")
                 lbInd.Refresh
             End If
         
@@ -1131,12 +1131,12 @@ Dim EstaFlag As Integer
                     Aux = "FIN"
                 Else
                     
-                    I = I + 1
-                    If I > 30 Then
+                    i = i + 1
+                    If i > 30 Then
                         'Despues de 30 segundos daremos por cerrado el proceso
                         NumRegElim = DBLet(Rs!pendientes, "N")
-                        Sql = "Pendientes " & NumRegElim
-                        Sql = Sql & vbCrLf & "Errores " & TotalReg
+                        SQL = "Pendientes " & NumRegElim
+                        SQL = SQL & vbCrLf & "Errores " & TotalReg
                         Aux = "MAL"
                     End If
                 End If
@@ -1153,9 +1153,9 @@ Dim EstaFlag As Integer
         
         
         
-        If Sql <> "" Then
+        If SQL <> "" Then
             
-            MsgBox Sql, vbExclamation
+            MsgBox SQL, vbExclamation
         Else
             If TotalReg > 0 Then
                 MsgBox "Error en envio facturas:" & TotalReg, vbExclamation

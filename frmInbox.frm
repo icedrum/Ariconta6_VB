@@ -130,8 +130,11 @@ Private Sub Form_Load()
     
     
     CalendarControl.SetScrollBars 0, ScrollBarCalendar.hwnd
-    
+    CargaImagenFondoFrmPpal Nothing, Me.Image2, vEmpresa.ImagenFondo
 End Sub
+
+
+
 
 Private Sub CreateCalendar()
 
@@ -613,3 +616,55 @@ Public Sub OpenProvider()
 End Sub
 
 
+Public Sub CargaImagenFondoFrmPpal(ByRef EsForm As Form, ByRef EsImagen As Image, queNumeroImagen As Byte)
+Dim Nombre As String
+    
+    On Error GoTo eCargaImagenFondoFrmPpal
+    
+    
+    
+    Select Case queNumeroImagen
+        Case 1
+            Nombre = "\styles\fondo-ariconta I.jpg"
+        Case 2
+            Nombre = "\styles\fondo-ariconta II.jpg"
+        Case 3
+            Nombre = "\styles\fondo-ariconta III.jpg"
+        Case 4
+            Nombre = "\styles\fondo-ariconta IV.jpg"
+        Case 5
+            Nombre = "\styles\fondo-ariconta V.jpg"
+      
+        Case Else
+            Nombre = "\Arifon2.dat"
+            
+    End Select
+    Nombre = App.Path & Nombre
+    If EsForm Is Nothing Then
+        EsImagen.Picture = LoadPicture(Nombre)
+    Else
+        EsForm.Picture = LoadPicture(Nombre)
+    End If
+    Exit Sub
+eCargaImagenFondoFrmPpal:
+        
+    If Err.Number <> 0 Then
+        'ImagenFondo.Picture = LoadPicture()
+        
+        If EsForm Is Nothing Then
+            EsImagen.Picture = LoadPicture()
+        Else
+            EsForm.Picture = LoadPicture()
+        End If
+        
+        Err.Clear
+    End If
+End Sub
+
+Public Sub CrearArchivoFondo()
+    
+    On Error Resume Next
+    If Dir(App.Path & "\Arifon2.dat", vbArchive) = "" Then SavePicture Image2, App.Path & "\Arifon2.dat"
+    If Err.Number <> 0 Then Err.Clear
+    
+End Sub

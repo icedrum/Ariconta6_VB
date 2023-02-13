@@ -1907,15 +1907,19 @@ End Sub
 
 
 Private Sub cmdCierreEjercicio_Click()
+    cmdCierreEjercicio.Enabled = False
+    DoEvent2
     Screen.MousePointer = vbHourglass
     HazCierreEjercicio
     Label10.Caption = ""
     Screen.MousePointer = vbDefault
+    cmdCierreEjercicio.Enabled = True
 End Sub
 
 Private Sub HazCierreEjercicio()
 Dim Ok As Boolean
 
+    Screen.MousePointer = vbHourglass
     Ok = True
     If Ok Then
         'QUITAR EL COMETNARIO
@@ -2360,7 +2364,7 @@ Dim Ok As Boolean
         SQL = ""
         
         
-        Pb1.visible = True
+        pb1.visible = True
         Label2.Caption = ""
         'Ocultanmos el del fondo , para que no pegue pantallazos
         Me.Hide
@@ -2379,7 +2383,7 @@ Dim Ok As Boolean
         
         
         
-        Pb1.visible = False
+        pb1.visible = False
         Screen.MousePointer = vbDefault
     End If
     
@@ -2388,6 +2392,14 @@ Dim Ok As Boolean
 End Sub
 
 Private Sub cmdSimula_Click(Index As Integer)
+    Frame1.Enabled = False
+    Screen.MousePointer = vbHourglass
+    Simula Index
+    Frame1.Enabled = True
+    Screen.MousePointer = vbDefault
+End Sub
+
+Private Sub Simula(Index As Integer)
 Dim Ok As Boolean
 
     Ok = True
@@ -2610,7 +2622,7 @@ Case 0
     H = fRenumeracion.Height
     W = fRenumeracion.Width
     Label2.Caption = ""
-    Pb1.visible = False
+    pb1.visible = False
     Caption = "Renumeración de asientos"
     
     
@@ -2632,7 +2644,8 @@ Case 1, 4
     pb3.visible = False
     
     Me.Option2(0).Value = True
-    Option2_Click (0)
+    Option2_Click 0
+    Opcion = 4
 '    PonerGrandesEmpresas
     
     IdPrograma = 1303
@@ -2786,8 +2799,8 @@ Dim RA As Recordset
           'progressbar
           Label2.Caption = NumeroAntiguo & " / " & RA.Fields(1)
           Label2.Refresh
-          i = Int((MaxAsiento / NumeroRegistros) * Pb1.Max)
-          Pb1.Value = i
+          i = Int((MaxAsiento / NumeroRegistros) * pb1.Max)
+          pb1.Value = i
           DoEvent2
           
         
@@ -2837,7 +2850,7 @@ Private Function CambiaNumeroAsiento(Antiguo As Long, Nuevo As Long, Fecha As St
 On Error GoTo ECambia
     CambiaNumeroAsiento = False
     
-    'AUX
+    'AUX--> Cudiado. No taocar " SET numasien"
     Cad = " SET numasien = " & Nuevo & " WHERE numasien = " & Antiguo
     Cad = Cad & " AND fechaent = " & Fecha & " AND numdiari = " & NuDi
     
@@ -2850,7 +2863,8 @@ On Error GoTo ECambia
     
     
     'Actualizamos el registro de facturas
-    SQL = "UPDATE factpro" & Cad
+    SQL = " SET fecregcontable = fecregcontable , " & Mid(Cad, 5)
+    SQL = "UPDATE factpro" & SQL
     Conn.Execute SQL
     
     'lineas
@@ -2888,23 +2902,28 @@ On Error GoTo EPreparacionAsientos
     PreparacionAsientos = False
 
     SQL = CadenaFechasActuralSiguiente(Option1(0).Value)
-    Cad = " Set NumASien = NumASien + " & Suma
+    Cad = " Set NumASien = NumASien + " & Suma & " @@@@"   'para frapro pondra fecregcontable
     Cad = Cad & " WHERE numasien>0 AND " & SQL
     
-    Pb1.Max = 6
+    pb1.Max = 6
     
     'Facturas clientes
     Label2.Caption = "Facturas clientes"
     Label2.Refresh
-    Pb1.Value = 1
+    pb1.Value = 1
     SQL = "UPDATE factcli" & Cad
+    SQL = Replace(SQL, "@@@@", " ")
     Conn.Execute SQL
     
     'Facturas proveedores
     Label2.Caption = "Facturas proveedores"
     Label2.Refresh
-    Pb1.Value = 2
+    pb1.Value = 2
+    
     SQL = "UPDATE factpro" & Cad
+    SQL = Replace(SQL, "@@@@", " , fecregcontable = fecregcontable")
+    
+    
     Conn.Execute SQL
     
     Conn.Execute "set foreign_key_checks = 0"
@@ -2913,7 +2932,7 @@ On Error GoTo EPreparacionAsientos
     'Lineas hco asiento
     Label2.Caption = "Lineas asientos"
     Label2.Refresh
-    Pb1.Value = 3
+    pb1.Value = 3
     SQL = CadenaFechasActuralSiguiente(Option1(0).Value)
     SQL = "Select distinct(numasien) from hlinapu WHERE " & SQL
     Set Rs = New ADODB.Recordset
@@ -2930,27 +2949,27 @@ On Error GoTo EPreparacionAsientos
     'ASientos
     Label2.Caption = "Cabeceras asientos"
     Label2.Refresh
-    Pb1.Value = 4
+    pb1.Value = 4
     SQL = "UPDATE hcabapu " & Cad
     Conn.Execute SQL
     
     'asientos ficheros
     Label2.Caption = "Líneas asientos ficheros"
     Label2.Refresh
-    Pb1.Value = 5
+    pb1.Value = 5
     SQL = "UPDATE hcabapu_fichdocs " & Cad
     Conn.Execute SQL
     
     'Liquidaciones de Iva
     Label2.Caption = "Liquidaciones IVA"
     Label2.Refresh
-    Pb1.Value = 6
+    pb1.Value = 6
     SQL = "UPDATE liqiva " & Cad
     Conn.Execute SQL
     
     Conn.Execute "set foreign_key_checks = 1"
     
-    Pb1.Max = 1000
+    pb1.Max = 1000
     PreparacionAsientos = True
     Exit Function
 
@@ -3305,7 +3324,7 @@ Dim Cuantos As Long
     
     ASientoPyG = False
 
-    'Generamos los  apuntes, sobre hcabapu, y luego los actualizamos
+    'Generamos los  apuntes, sobre hcabapu
     If Opcion <> 4 Then
         SQL = "INSERT INTO hcabapu (numdiari, fechaent, numasien, obsdiari,feccreacion,usucreacion,desdeaplicacion) VALUES (" & txtDiario(0).Text
         Cad = SQL & ",'" & Format(vParam.fechafin, FormatoFecha) & "'," & Text1(3).Text & ",NULL," & DBSet(Now, "FH") & "," & DBSet(vUsu.Login, "T") & ",'ARICONTA 6: Asiento Pérdidas y Ganancias')"
@@ -3698,8 +3717,8 @@ Dim F As Date
     
         Label3.Caption = Rs.Fields(1)
         Label3.Refresh
-        i = Int((CONT / NumeroRegistros) * Pb1.Max)
-        Pb1.Value = i
+        i = Int((CONT / NumeroRegistros) * pb1.Max)
+        pb1.Value = i
         Importe = Rs.Fields(0)
         If Importe <> 0 Then
             If Opcion = 4 Then
@@ -4975,8 +4994,8 @@ Dim CONT As Long
         Label3.Caption = Rs!Cta & " - " & Rs!nomcta
         Label3.Refresh
         CONT = CONT + 1
-        i = Int((CONT / NumeroRegistros) * Pb1.Max)
-        Pb1.Value = i
+        i = Int((CONT / NumeroRegistros) * pb1.Max)
+        pb1.Value = i
         
         
         
